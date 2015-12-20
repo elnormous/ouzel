@@ -1,10 +1,5 @@
-//
-//  Renderer.h
-//  Ouzel
-//
-//  Created by Elviss Strazdins on 10/03/15.
-//  Copyright (c) 2015 Elviss. All rights reserved.
-//
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #pragma once
 
@@ -31,7 +26,7 @@ namespace ouzel
         {
             NONE = 0,
             OPENGL,
-            DIRECT3D9
+            DIRECT3D11
         };
         
         Renderer(Engine* engine);

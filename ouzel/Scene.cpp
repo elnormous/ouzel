@@ -1,10 +1,5 @@
-//
-//  Scene.cpp
-//  Ouzel
-//
-//  Created by Elviss Strazdins on 06/04/15.
-//  Copyright (c) 2015 Elviss. All rights reserved.
-//
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #include "Scene.h"
 #include "Engine.h"

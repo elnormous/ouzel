@@ -7,10 +7,10 @@
 
 namespace ouzel
 {
-    class RendererOGL: public Renderer
+    class TextureD3D11: public Renderer
     {
     public:
-        RendererOGL(Engine* engine);
+        TextureD3D11(Engine* engine);
         
         virtual void activateTexture(Texture* texture, uint32_t layer);
     };

@@ -1,10 +1,5 @@
-//
-//  Vector2.cpp
-//  Ouzel
-//
-//  Created by Elviss Strazdins on 10/07/15.
-//  Copyright (c) 2015 Elviss. All rights reserved.
-//
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #include "Vector2.h"
 #include "MathUtils.h"
@@ -16,8 +11,8 @@ namespace ouzel
     {
     }
 
-    Vector2::Vector2(float x, float y)
-        : x(x), y(y)
+    Vector2::Vector2(float x, float y):
+        x(x), y(y)
     {
     }
 

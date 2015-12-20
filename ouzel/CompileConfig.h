@@ -1,10 +1,5 @@
-//
-//  CompileConfig.h
-//  ouzel
-//
-//  Created by Elviss Strazdins on 18/12/15.
-//  Copyright © 2015 Bool Games. All rights reserved.
-//
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #pragma once
 

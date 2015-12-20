@@ -1,17 +1,17 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "TextureOGL.h"
+#include "RendererD3D11.h"
 
 namespace ouzel
 {
-    TextureOGL::TextureOGL(const std::string& filename, Renderer* renderer):
+    RendererD3D11::RendererD3D11(const std::string& filename, Renderer* renderer):
         Texture(filename, renderer)
     {
         
     }
     
-    TextureOGL::~TextureOGL()
+    RendererD3D11::~RendererD3D11()
     {
         
     }

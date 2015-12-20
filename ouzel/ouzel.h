@@ -1,10 +1,5 @@
-//
-//  ouzel.h
-//  Ouzel
-//
-//  Created by Elviss Strazdins on 19/03/15.
-//  Copyright (c) 2015 Elviss. All rights reserved.
-//
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #pragma once
 

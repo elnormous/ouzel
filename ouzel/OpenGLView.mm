@@ -1,10 +1,5 @@
-//
-//  CustomOpenGLView.m
-//  Ouzel
-//
-//  Created by Elviss Strazdins on 02/03/15.
-//  Copyright (c) 2015 Elviss. All rights reserved.
-//
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #import "OpenGLView.h"
 #include "Engine.h"

@@ -1,10 +1,5 @@
-//
-//  Engine.cpp
-//  Ouzel
-//
-//  Created by Elviss Strazdins on 06/04/15.
-//  Copyright (c) 2015 Elviss. All rights reserved.
-//
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #include "Engine.h"
 #include "CompileConfig.h"
@@ -14,7 +9,7 @@
 #endif
 
 #ifdef BB_PLATFORM_WINDOWS
-#include "RendererD3D9.h"
+#include "RendererD3D11.h"
 #endif
 
 #include "Renderer.h"
@@ -29,9 +24,9 @@ namespace ouzel
             case Renderer::Driver::OPENGL:
                 _renderer = new RendererOGL(this);
                 break;
-            case Renderer::Driver::DIRECT3D9:
+            case Renderer::Driver::DIRECT3D11:
 #ifdef BB_PLATFORM_WINDOWS
-                _renderer = new RendererD3D9(this);
+                _renderer = new RendererD3D11(this);
 #endif
                 break;
             default:
