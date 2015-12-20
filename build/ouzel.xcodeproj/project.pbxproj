@@ -61,6 +61,10 @@
 		304A8E8B1C2486C6008B1151 /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E891C2486C6008B1151 /* RenderTarget.h */; };
 		304A8E8E1C26EA8B008B1151 /* ShaderOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E8C1C26EA8B008B1151 /* ShaderOGL.cpp */; };
 		304A8E8F1C26EA8B008B1151 /* ShaderOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E8D1C26EA8B008B1151 /* ShaderOGL.h */; };
+		304A8E921C26ED32008B1151 /* MeshBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E901C26ED32008B1151 /* MeshBuffer.cpp */; };
+		304A8E931C26ED32008B1151 /* MeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E911C26ED32008B1151 /* MeshBuffer.h */; };
+		304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
+		304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E951C26EDFB008B1151 /* ParticleSystem.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,6 +128,10 @@
 		304A8E891C2486C6008B1151 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderTarget.h; sourceTree = "<group>"; };
 		304A8E8C1C26EA8B008B1151 /* ShaderOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderOGL.cpp; sourceTree = "<group>"; };
 		304A8E8D1C26EA8B008B1151 /* ShaderOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderOGL.h; sourceTree = "<group>"; };
+		304A8E901C26ED32008B1151 /* MeshBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshBuffer.cpp; sourceTree = "<group>"; };
+		304A8E911C26ED32008B1151 /* MeshBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshBuffer.h; sourceTree = "<group>"; };
+		304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
+		304A8E951C26EDFB008B1151 /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +247,10 @@
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
 				304A8E891C2486C6008B1151 /* RenderTarget.h */,
+				304A8E901C26ED32008B1151 /* MeshBuffer.cpp */,
+				304A8E911C26ED32008B1151 /* MeshBuffer.h */,
+				304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */,
+				304A8E951C26EDFB008B1151 /* ParticleSystem.h */,
 			);
 			name = ouzel;
 			path = ../ouzel;
@@ -261,6 +273,7 @@
 				304A8E501C237C70008B1151 /* ouzel.h in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.h in Headers */,
 				304A8E5D1C237C70008B1151 /* Node.h in Headers */,
+				304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */,
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
 				304A8E751C237C70008B1151 /* Vector4.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
@@ -270,6 +283,7 @@
 				304A8E591C237C70008B1151 /* Matrix3.h in Headers */,
 				304A8E571C237C70008B1151 /* MathUtils.h in Headers */,
 				304A8E691C237C70008B1151 /* Shader.h in Headers */,
+				304A8E931C26ED32008B1151 /* MeshBuffer.h in Headers */,
 				304A8E8B1C2486C6008B1151 /* RenderTarget.h in Headers */,
 				304A8E6F1C237C70008B1151 /* Utils.h in Headers */,
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
@@ -387,6 +401,7 @@
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
+				304A8E921C26ED32008B1151 /* MeshBuffer.cpp in Sources */,
 				304A8E851C24814F008B1151 /* TextureOGL.cpp in Sources */,
 				304A8E6C1C237C70008B1151 /* Texture.cpp in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
@@ -400,6 +415,7 @@
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,
 				304A8E741C237C70008B1151 /* Vector4.cpp in Sources */,
 				304A8E831C24814F008B1151 /* RenderTargetOGL.cpp in Sources */,
+				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,
 				304A8E661C237C70008B1151 /* Scene.cpp in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix4.cpp in Sources */,
 				304A8E811C24814F008B1151 /* RendererOGL.cpp in Sources */,
