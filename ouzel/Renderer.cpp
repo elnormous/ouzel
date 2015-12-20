@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "EventHander.h"
 #include "Scene.h"
+#include "View.h"
 
 namespace ouzel
 {
@@ -26,13 +27,19 @@ namespace ouzel
         {
             texture.second->release();
         }
+        
+        if (_view)
+        {
+            _view->release();
+        }
     }
     
-    void Renderer::resize(const Size2& size)
+    void Renderer::recalculateProjection()
     {
-        _size = size;
-        
-        Matrix4::createOrthographic(_size.width, _size.height, 1.0f, 1000.0f, &_projection);
+        if (_view)
+        {
+            Matrix4::createOrthographic(_view->getSize().width, _view->getSize().height, 1.0f, 1000.0f, &_projection);
+        }
     }
     
     void Renderer::clear()
@@ -130,10 +137,10 @@ namespace ouzel
     {
         Camera* camera = _engine->getScene()->getCamera();
         
-        if (camera)
+        if (camera && _view)
         {
-            float x = 2.0f * position.x / _size.width - 1.0f;
-            float y = 2.0f * position.y / _size.height - 1.0f;
+            float x = 2.0f * position.x / _view->getSize().width - 1.0f;
+            float y = 2.0f * position.y / _view->getSize().height - 1.0f;
             
             Matrix4 projViewMatrix = _projection * camera->getTransform();
             Matrix4 inverseViewMatrix = projViewMatrix;
@@ -154,15 +161,15 @@ namespace ouzel
     {
         Camera* camera = _engine->getScene()->getCamera();
         
-        if (camera)
+        if (camera && _view)
         {
             Matrix4 projViewMatrix = _projection * camera->getTransform();
             
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             projViewMatrix.transformPoint(&result);
             
-            float x = (result.x + 1.0f) / 2.0f * _size.width;
-            float y = (result.y + 1.0f) / 2.0f * _size.height;
+            float x = (result.x + 1.0f) / 2.0f * _view->getSize().width;
+            float y = (result.y + 1.0f) / 2.0f * _view->getSize().height;
             
             return Vector2(x, y);
         }
@@ -172,15 +179,15 @@ namespace ouzel
         }
     }
     
-    void drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform = Matrix4())
+    void Renderer::drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform)
     {
     }
     
-    void drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4())
+    void Renderer::drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform)
     {
     }
     
-    void drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4())
+    void Renderer::drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform)
     {
     }
 }

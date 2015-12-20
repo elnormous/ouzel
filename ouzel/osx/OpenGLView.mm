@@ -4,18 +4,20 @@
 #import "OpenGLView.h"
 #include "Engine.h"
 #include "RendererOGL.h"
+#include "View.h"
 
 using namespace ouzel;
 
 @implementation OpenGLView
 
--(id)initWithFrame:(NSRect)frameRect engine:(ouzel::Engine*)engine
+-(id)initWithFrame:(NSRect)frameRect view:(ouzel::View*)view
 {
     self = [super initWithFrame:frameRect];
     if (self != nil)
     {
-        _engine = engine;
-        _renderer = _engine->getRenderer();
+        _view = view;
+        _renderer = _view->getRenderer();
+        _engine = _renderer->getEngine();
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(surfaceNeedsUpdate:)
@@ -54,7 +56,7 @@ using namespace ouzel;
 
 -(void)update
 {
-    _renderer->resize(Size2(_frame.size.width, _frame.size.height));
+    _view->resize(Size2(_frame.size.width, _frame.size.height));
     
     [_openGLContext update];
 }

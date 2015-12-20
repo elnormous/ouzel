@@ -7,18 +7,20 @@ namespace ouzel
 {
     class Engine;
     class Renderer;
+    class View;
 }
 
 @interface OpenGLView : NSView
 {
 @private
+    ouzel::View* _view;
     ouzel::Engine* _engine;
     ouzel::Renderer* _renderer;
     NSOpenGLContext* _openGLContext;
     NSOpenGLPixelFormat* _pixelFormat;
 }
 
--(id)initWithFrame:(NSRect)frameRect engine:(ouzel::Engine*)engine;
+-(id)initWithFrame:(NSRect)frameRect view:(ouzel::View*)view;
 
 -(void)update;
 

@@ -14,7 +14,7 @@ namespace ouzel
         
         bool initOpenGL(uint32_t width, uint32_t height);
         
-        virtual void resize(const Size2& size) override;
+        virtual void recalculateProjection() override;
         
         virtual void clear() override;
         virtual void flush() override;

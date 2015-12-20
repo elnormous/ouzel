@@ -17,6 +17,7 @@ namespace ouzel
     const std::string SHADER_COLOR = "shaderColor";
     
     class Engine;
+    class View;
     class Texture;
     class Node;
     class Shader;
@@ -35,9 +36,11 @@ namespace ouzel
         Renderer(Engine* engine, Driver driver = Driver::NONE);
         virtual ~Renderer();
         
+        Engine* getEngine() const { return _engine; }
         Driver getDriver() const { return _driver; }
+        View* getView() const { return _view; }
         
-        virtual void resize(const Size2& size);
+        virtual void recalculateProjection();
         
         virtual void clear();
         virtual void flush();
@@ -64,10 +67,9 @@ namespace ouzel
     protected:
         Engine* _engine;
         Driver _driver;
+        View* _view = nullptr;
         
         Matrix4 _projection;
-        
-        Size2 _size;
         
         std::unordered_map<std::string, Texture*> _textures;
         

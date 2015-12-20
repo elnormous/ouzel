@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		304A8E0F1C237B96008B1151 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E0E1C237B96008B1151 /* AppDelegate.m */; };
+		304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E0E1C237B96008B1151 /* AppDelegate.mm */; };
 		304A8E151C237B96008B1151 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E141C237B96008B1151 /* ViewController.m */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E1A1C237B96008B1151 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E181C237B96008B1151 /* Main.storyboard */; };
@@ -72,12 +72,14 @@
 		304A8EA51C274183008B1151 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304A8E251C237C30008B1151 /* libouzel_osx.a */; };
 		304A8EA71C2741B8008B1151 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA61C2741B8008B1151 /* main.m */; };
 		304A8EAA1C27429A008B1151 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
+		304A8EAE1C274F7C008B1151 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EAC1C274F7C008B1151 /* View.cpp */; };
+		304A8EAF1C274F7C008B1151 /* View.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EAD1C274F7C008B1151 /* View.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		304A8E0A1C237B95008B1151 /* sprite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E0D1C237B96008B1151 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		304A8E0E1C237B96008B1151 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		304A8E0E1C237B96008B1151 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		304A8E131C237B96008B1151 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		304A8E141C237B96008B1151 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,6 +149,8 @@
 		304A8EA81C27429A008B1151 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		304A8EA91C27429A008B1151 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		304A8EAB1C2742D9008B1151 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		304A8EAC1C274F7C008B1151 /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
+		304A8EAD1C274F7C008B1151 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +263,8 @@
 				304A8E9D1C27081B008B1151 /* Color.h */,
 				304A8EA01C270833008B1151 /* Vertex3.cpp */,
 				304A8EA11C270833008B1151 /* Vertex3.h */,
+				304A8EAC1C274F7C008B1151 /* View.cpp */,
+				304A8EAD1C274F7C008B1151 /* View.h */,
 			);
 			name = ouzel;
 			path = ../ouzel;
@@ -268,7 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				304A8E0D1C237B96008B1151 /* AppDelegate.h */,
-				304A8E0E1C237B96008B1151 /* AppDelegate.m */,
+				304A8E0E1C237B96008B1151 /* AppDelegate.mm */,
 				304A8E161C237B96008B1151 /* Assets.xcassets */,
 				304A8E1B1C237B96008B1151 /* Info.plist */,
 				304A8E181C237B96008B1151 /* Main.storyboard */,
@@ -313,6 +319,7 @@
 				304A8E931C26ED32008B1151 /* MeshBuffer.h in Headers */,
 				304A8E8B1C2486C6008B1151 /* RenderTarget.h in Headers */,
 				304A8E6F1C237C70008B1151 /* Utils.h in Headers */,
+				304A8EAF1C274F7C008B1151 /* View.h in Headers */,
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
 				304A8E841C24814F008B1151 /* RenderTargetOGL.h in Headers */,
 				304A8E621C237C70008B1151 /* Rectangle.h in Headers */,
@@ -415,7 +422,7 @@
 				304A8EAA1C27429A008B1151 /* Application.cpp in Sources */,
 				304A8E151C237B96008B1151 /* ViewController.m in Sources */,
 				304A8EA71C2741B8008B1151 /* main.m in Sources */,
-				304A8E0F1C237B96008B1151 /* AppDelegate.m in Sources */,
+				304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				304A8EAE1C274F7C008B1151 /* View.cpp in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,

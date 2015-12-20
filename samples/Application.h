@@ -11,7 +11,12 @@ namespace ouzel
         Application();
         virtual ~Application();
         
+        Engine* getEngine() const { return _engine; }
+        
         virtual bool handleEvent(const Event& event) override;
         virtual void update(float delta) override;
+        
+    protected:
+        Engine* _engine;
     };
 }

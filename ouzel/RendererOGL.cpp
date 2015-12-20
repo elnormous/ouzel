@@ -9,11 +9,12 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Utils.h"
+#include "View.h"
 
 namespace ouzel
 {
     RendererOGL::RendererOGL(Engine* engine):
-    Renderer(engine, Driver::OPENGL)
+        Renderer(engine, Driver::OPENGL)
     {
         
     }
@@ -44,16 +45,19 @@ namespace ouzel
         Shader* colorShader = _engine->getRenderer()->loadShader("color.fsh", "color.vsh");
         _shaders[SHADER_COLOR] = colorShader;
         
-        resize(Size2(width, height));
+        _view = new View(Size2(width, height), this);
         
         return true;
     }
 
-    void RendererOGL::resize(const Size2& size)
+    void RendererOGL::recalculateProjection()
     {
-        Renderer::resize(size);
+        Renderer::recalculateProjection();
         
-        glViewport(0, 0, _size.width, _size.height);
+        if (_view)
+        {
+            glViewport(0, 0, _view->getSize().width, _view->getSize().height);
+        }
     }
     
     void RendererOGL::clear()
