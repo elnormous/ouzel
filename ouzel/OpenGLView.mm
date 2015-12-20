@@ -3,7 +3,7 @@
 
 #import "OpenGLView.h"
 #include "Engine.h"
-#include "Renderer.h"
+#include "RendererOGL.h"
 
 using namespace ouzel;
 
@@ -71,8 +71,9 @@ using namespace ouzel;
 }
 
 -(void)prepareOpenGL
-{    
-    _renderer->initOpenGL(_frame.size.width, _frame.size.height);
+{
+    RendererOGL* renderer = static_cast<RendererOGL*>(_renderer);
+    renderer->initOpenGL(_frame.size.width, _frame.size.height);
 }
 
 -(void)idle:(NSTimer*)timer

@@ -32,12 +32,10 @@ namespace ouzel
         Renderer(Engine* engine);
         virtual ~Renderer();
         
-        bool initOpenGL(uint32_t width, uint32_t height);
-        
         virtual void resize(uint32_t width, uint32_t height);
         
-        virtual void clear();
-        virtual void flush();
+        virtual void clear() = 0;
+        virtual void flush() = 0;
         
         void preloadTexture(const std::string& filename);
         Texture* getTexture(const std::string& filename);
@@ -53,9 +51,9 @@ namespace ouzel
         Vector2 absoluteToWorldLocation(const Vector2& position);
         Vector2 worldToAbsoluteLocation(const Vector2& position);
         
-        virtual void drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform = Matrix4());
-        virtual void drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4());
-        virtual void drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4());
+        virtual void drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform = Matrix4()) = 0;
+        virtual void drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4()) = 0;
+        virtual void drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4()) = 0;
         
     protected:
         Engine* _engine;

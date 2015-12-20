@@ -18,8 +18,8 @@ namespace ouzel
         CGImageSourceRef imageSourceRef = CGImageSourceCreateWithURL(url, NULL);
         CGImageRef imageRef = CGImageSourceCreateImageAtIndex (imageSourceRef, 0, NULL);
         
-        _width = (GLsizei)CGImageGetWidth(imageRef);
-        _height = (GLsizei)CGImageGetHeight(imageRef);
+        _width = static_cast<uint32_t>(CGImageGetWidth(imageRef));
+        _height = static_cast<uint32_t>(CGImageGetHeight(imageRef));
         CGRect rect = {{0, 0}, {static_cast<CGFloat>(_width), static_cast<CGFloat>(_height)}};
         void* data = calloc(_width * 4, _height);
         CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
