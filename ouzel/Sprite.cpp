@@ -87,15 +87,15 @@ namespace ouzel
 
     void Sprite::draw()
     {
-        glUseProgram(_shader->getProgram());
+        _engine->getRenderer()->activateShader(_shader);
         
-        GLint uniProj = glGetUniformLocation(_shader->getProgram(), "proj");
+        GLint uniProj = glGetUniformLocation(_shader->getProgramId(), "proj");
         glUniformMatrix4fv(uniProj, 1, GL_FALSE, _engine->getRenderer()->getProjection().m);
         
-        GLint uniView = glGetUniformLocation(_shader->getProgram(), "view");
+        GLint uniView = glGetUniformLocation(_shader->getProgramId(), "view");
         glUniformMatrix4fv(uniView, 1, GL_FALSE, _engine->getScene()->getCamera()->getTransform().m);
         
-        GLint uniModel = glGetUniformLocation(_shader->getProgram(), "model");
+        GLint uniModel = glGetUniformLocation(_shader->getProgramId(), "model");
         glUniformMatrix4fv(uniModel, 1, GL_FALSE, _transform.m);
         
         checkOpenGLErrors();

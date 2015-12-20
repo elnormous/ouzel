@@ -14,13 +14,8 @@ namespace ouzel
         Shader(const std::string& fragmentShader, const std::string& vertexShader);
         virtual ~Shader();
         
-        GLuint getProgram() const { return _program; }
-        
     protected:
-        void checkShaderError(GLuint shader);
-        
-        GLuint _vertexShader;
-        GLuint _fragmentShader;
-        GLuint _program;
+        std::string _fragmentShader;
+        std::string _vertexShader;
     };
 }

@@ -43,6 +43,7 @@ namespace ouzel
         Texture* getTexture(const std::string& filename);
         
         virtual void activateTexture(Texture* texture, uint32_t layer) = 0;
+        virtual void activateShader(Shader* shader) = 0;
         
         Shader* getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, Shader* shader);

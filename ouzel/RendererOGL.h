@@ -13,5 +13,6 @@ namespace ouzel
         RendererOGL(Engine* engine);
         
         virtual void activateTexture(Texture* texture, uint32_t layer);
+        virtual void activateShader(Shader* shader);
     };
 }

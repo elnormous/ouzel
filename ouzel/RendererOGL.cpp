@@ -4,6 +4,7 @@
 #include "RendererOGL.h"
 #include "TextureOGL.h"
 #include "RenderTargetOGL.h"
+#include "ShaderOGL.h"
 
 namespace ouzel
 {
@@ -19,5 +20,12 @@ namespace ouzel
         
         glActiveTexture(GL_TEXTURE0 + layer);
         glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
+    }
+    
+    void RendererOGL::activateShader(Shader* shader)
+    {
+        ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(shader);
+        
+        glUseProgram(shaderOGL->getProgramId());
     }
 }
