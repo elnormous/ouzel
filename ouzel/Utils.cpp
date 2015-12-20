@@ -1,0 +1,49 @@
+//
+//  Utils.cpp
+//  Ouzel
+//
+//  Created by Elviss Strazdins on 14/03/15.
+//  Copyright (c) 2015 Elviss. All rights reserved.
+//
+
+#include "Utils.h"
+
+bool checkOpenGLErrors()
+{
+    bool error = false;
+    
+    while (GLenum error = glGetError() != GL_NO_ERROR)
+    {
+        printf("OpenGL error: %d (%x)\n", error, error);
+        
+        error = true;
+    }
+    
+    return error;
+}
+
+std::string getResourcePath(const std::string& filename)
+{
+    CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    CFStringRef urlString = CFURLCopyPath(appUrlRef);
+    
+    char temporaryCString[1024] = "";
+    
+    CFStringGetCString(urlString, temporaryCString, sizeof(temporaryCString), kCFStringEncodingUTF8);
+    
+    CFRelease(appUrlRef);
+    CFRelease(urlString);
+    
+    return std::string(temporaryCString) + "Contents/Resources/" + filename;
+}
+
+void log(const char* format, ...)
+{
+    va_list list;
+    va_start(list, format);
+    
+    vprintf(format, list);
+    printf("\n");
+    
+    va_end(list);
+}

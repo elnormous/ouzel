@@ -1,0 +1,30 @@
+//
+//  Prefix.pch
+//  Ouzel
+//
+//  Created by Elviss Strazdins on 18/12/15.
+//  Copyright © 2015 Bool Games. All rights reserved.
+//
+
+#include <OpenGL/gl3.h>
+#include <CoreFoundation/CoreFoundation.h>
+#include <CoreGraphics/CoreGraphics.h>
+#include <CoreImage/CoreImage.h>
+#include <ImageIO/ImageIO.h>
+
+#ifdef __OBJC__
+    #include <Cocoa/Cocoa.h>
+#endif
+
+#ifdef __cplusplus
+    #include <cstdio>
+    #include <memory>
+    #include <cmath>
+    #include <cstdint>
+    #include <cassert>
+    #include <string>
+    #include <fstream>
+    #include <vector>
+    #include <set>
+    #include <unordered_map>
+#endif
