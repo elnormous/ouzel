@@ -14,9 +14,10 @@
 
 namespace ouzel
 {
-    Renderer::Renderer(Engine* engine)
+    Renderer::Renderer(Engine* engine, Driver driver)
     {
         _engine = engine;
+        _driver = driver;
     }
 
     Renderer::~Renderer()

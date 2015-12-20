@@ -13,7 +13,7 @@
 namespace ouzel
 {
     RendererOGL::RendererOGL(Engine* engine):
-        Renderer(engine)
+    Renderer(engine, Driver::OPENGL)
     {
         
     }

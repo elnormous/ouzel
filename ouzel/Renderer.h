@@ -30,8 +30,10 @@ namespace ouzel
             DIRECT3D11
         };
         
-        Renderer(Engine* engine);
+        Renderer(Engine* engine, Driver driver = Driver::NONE);
         virtual ~Renderer();
+        
+        Driver getDriver() const { return _driver; }
         
         virtual void resize(const Size2& size);
         
@@ -59,6 +61,7 @@ namespace ouzel
         
     protected:
         Engine* _engine;
+        Driver _driver;
         
         Matrix4 _projection;
         
