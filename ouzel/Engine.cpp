@@ -12,6 +12,7 @@
 #include "RendererD3D11.h"
 #endif
 
+#include "Utils.h"
 #include "Renderer.h"
 #include "Scene.h"
 
@@ -36,6 +37,8 @@ namespace ouzel
         
         _scene = new Scene(this);
         _scene->init();
+        
+        _previousFrameTime = getCurrentMicroSeconds();
     }
     
     Engine::~Engine()
@@ -52,7 +55,11 @@ namespace ouzel
         
         for (EventHandler* eventHandler : _eventHandlers)
         {
-            eventHandler->update();
+            long currentTime = getCurrentMicroSeconds();
+            long delta = currentTime - _previousFrameTime;
+            _previousFrameTime = currentTime;
+            
+            eventHandler->update(static_cast<float>(delta));
         }
     }
     

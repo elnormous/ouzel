@@ -15,4 +15,5 @@ namespace ouzel
     bool checkOpenGLErrors();
     std::string getResourcePath(const std::string& filename);
     void log(const char* format, ...);
+    long getCurrentMicroSeconds();
 }

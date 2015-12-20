@@ -37,6 +37,6 @@ namespace ouzel
     {
     public:
         virtual bool handleEvent(const Event& event) = 0;
-        virtual void update() = 0;
+        virtual void update(float delta) = 0;
     };
 }

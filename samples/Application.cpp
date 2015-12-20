@@ -7,3 +7,26 @@
 //
 
 #include "Application.h"
+
+namespace ouzel
+{
+    Application::Application()
+    {
+        
+    }
+    
+    Application::~Application()
+    {
+        
+    }
+    
+    bool Application::handleEvent(const Event& event)
+    {
+        return true;
+    }
+    
+    void Application::update(float delta)
+    {
+        
+    }
+}

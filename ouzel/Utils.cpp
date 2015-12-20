@@ -7,6 +7,7 @@
 #include <OpenGL/gl3.h>
 #endif
 
+#include <sys/time.h>
 #include <CoreGraphics/CoreGraphics.h>
 #include "Utils.h"
 
@@ -50,5 +51,17 @@ namespace ouzel
         printf("\n");
         
         va_end(list);
+    }
+    
+    long getCurrentMicroSeconds()
+    {
+#ifdef OUZEL_PLATFORM_OSX
+        struct timeval currentTime;
+        
+        gettimeofday(&currentTime, NULL);
+        return currentTime.tv_sec * 1000000L + currentTime.tv_usec;
+#else
+        return 0.0; // TODO: implement for Windows
+#endif
     }
 }

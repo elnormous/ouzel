@@ -34,6 +34,8 @@ namespace ouzel
         Renderer* _renderer = nullptr;
         Scene* _scene = nullptr;
         
+        long _previousFrameTime;
+        
         std::vector<EventHandler*> _eventHandlers;
     };
 }
