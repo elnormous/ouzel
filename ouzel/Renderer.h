@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <string>
+#include <unordered_map>
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Rectangle.h"

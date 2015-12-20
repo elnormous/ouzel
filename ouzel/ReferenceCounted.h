@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <cstdint>
+#include <cassert>
+
 namespace ouzel
 {
     class ReferenceCounted

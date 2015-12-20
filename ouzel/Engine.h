@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <vector>
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Renderer.h"

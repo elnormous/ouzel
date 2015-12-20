@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <string>
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Size2.h"

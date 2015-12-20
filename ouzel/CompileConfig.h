@@ -4,9 +4,9 @@
 #pragma once
 
 #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-#define BB_PLATFORM_WINDOWS
+#define OUZEL_PLATFORM_WINDOWS
 #endif
 
 #if defined(__APPLE__)
-#define BB_PLATFORM_OSX
+#define OUZEL_PLATFORM_OSX
 #endif

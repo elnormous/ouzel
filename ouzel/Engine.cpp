@@ -4,11 +4,11 @@
 #include "Engine.h"
 #include "CompileConfig.h"
 
-#ifdef BB_PLATFORM_OSX
+#ifdef OUZEL_PLATFORM_OSX
 #include "RendererOGL.h"
 #endif
 
-#ifdef BB_PLATFORM_WINDOWS
+#ifdef OUZEL_PLATFORM_WINDOWS
 #include "RendererD3D11.h"
 #endif
 
@@ -25,7 +25,7 @@ namespace ouzel
                 _renderer = new RendererOGL(this);
                 break;
             case Renderer::Driver::DIRECT3D11:
-#ifdef BB_PLATFORM_WINDOWS
+#ifdef OUZEL_PLATFORM_WINDOWS
                 _renderer = new RendererD3D11(this);
 #endif
                 break;

@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace ouzel
 {
     template <typename T> int sgn(T val)

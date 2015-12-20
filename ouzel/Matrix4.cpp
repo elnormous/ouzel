@@ -1,6 +1,9 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <memory>
+#include <cassert>
+#include <cmath>
 #include "Matrix4.h"
 #include "MathUtils.h"
 

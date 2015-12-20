@@ -1,6 +1,8 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <CoreGraphics/CoreGraphics.h>
+#include <ImageIO/ImageIO.h>
 #include "TextureOGL.h"
 #include "Utils.h"
 

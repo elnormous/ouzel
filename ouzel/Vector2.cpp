@@ -1,6 +1,8 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cmath>
+#include <cassert>
 #include "Vector2.h"
 #include "MathUtils.h"
 

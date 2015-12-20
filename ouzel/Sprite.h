@@ -3,6 +3,12 @@
 
 #pragma once
 
+#include "CompileConfig.h"
+
+#ifdef OUZEL_PLATFORM_OSX
+#include <OpenGL/gl3.h>
+#endif
+
 #include "Node.h"
 #include "Size2.h"
 

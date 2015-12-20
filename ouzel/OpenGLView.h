@@ -1,13 +1,13 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <Cocoa/Cocoa.h>
+
 namespace ouzel
 {
     class Engine;
     class Renderer;
 }
-
-@class NSOpenGLContext, NSOpenGLPixelFormat;
 
 @interface OpenGLView : NSView
 {

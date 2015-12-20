@@ -1,6 +1,13 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "CompileConfig.h"
+
+#ifdef OUZEL_PLATFORM_OSX
+#include <OpenGL/gl3.h>
+#endif
+
+#include <CoreGraphics/CoreGraphics.h>
 #include "Utils.h"
 
 namespace ouzel

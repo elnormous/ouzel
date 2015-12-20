@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <set>
+#include <vector>
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Vector2.h"
