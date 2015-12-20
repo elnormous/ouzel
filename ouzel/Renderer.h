@@ -56,7 +56,7 @@ namespace ouzel
         void drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4());
         void drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4());
         
-    private:
+    protected:
         Engine* _engine;
         
         Matrix4 _projection;

@@ -18,6 +18,6 @@ namespace ouzel
         TextureOGL* textureOGL = static_cast<TextureOGL*>(texture);
         
         glActiveTexture(GL_TEXTURE0 + layer);
-        glBindTexture(GL_TEXTURE_2D, textureOGL->getTexture());
+        glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
     }
 }

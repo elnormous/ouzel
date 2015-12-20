@@ -38,7 +38,7 @@ namespace ouzel
         
         void drawAll();
         
-    private:
+    protected:
         Engine* _engine;
         
         Node* _rootNode = nullptr;

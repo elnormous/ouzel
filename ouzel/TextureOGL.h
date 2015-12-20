@@ -12,5 +12,10 @@ namespace ouzel
     public:
         TextureOGL(const std::string& filename, Renderer* renderer);
         virtual ~TextureOGL();
+        
+        GLuint getTextureId() const { return _textureId; }
+        
+    protected:
+        GLuint _textureId = 0;
     };
 }

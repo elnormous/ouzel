@@ -16,7 +16,7 @@ namespace ouzel
         
         GLuint getProgram() const { return _program; }
         
-    private:
+    protected:
         void checkShaderError(GLuint shader);
         
         GLuint _vertexShader;

@@ -27,7 +27,7 @@ namespace ouzel
         
         virtual bool checkVisibility() const override;
         
-    private:
+    protected:
         Texture* _texture;
         Shader* _shader;
         

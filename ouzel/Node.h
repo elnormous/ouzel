@@ -81,7 +81,6 @@ namespace ouzel
         bool _flipX = false;
         bool _flipY = false;
         
-    private:
         bool _addedToRenderer = false;
     };
 }

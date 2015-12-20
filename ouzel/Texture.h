@@ -18,17 +18,14 @@ namespace ouzel
         
         const std::string& getFilename() const { return _filename; }
         
-        GLuint getTexture() const { return _texture; }
+        uint32_t getWidth() const { return _width; }
+        uint32_t getHeight() const { return _height; }
         
-        GLsizei getWidth() const { return _width; }
-        GLsizei getHeight() const { return _height; }
-        
-    private:
+    protected:
         Renderer* _renderer;
         std::string _filename;
         
-        GLuint _texture = 0;
-        GLsizei _width;
-        GLsizei _height;
+        uint32_t _width;
+        uint32_t _height;
     };
 }

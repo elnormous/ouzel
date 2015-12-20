@@ -29,7 +29,7 @@ namespace ouzel
         
         void handleEvent(const Event& event);
         
-    private:
+    protected:
         Renderer* _renderer = nullptr;
         Scene* _scene = nullptr;
         

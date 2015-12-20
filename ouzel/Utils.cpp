@@ -3,42 +3,45 @@
 
 #include "Utils.h"
 
-bool checkOpenGLErrors()
+namespace ouzel
 {
-    bool error = false;
-    
-    while (GLenum error = glGetError() != GL_NO_ERROR)
+    bool checkOpenGLErrors()
     {
-        printf("OpenGL error: %d (%x)\n", error, error);
+        bool error = false;
         
-        error = true;
+        while (GLenum error = glGetError() != GL_NO_ERROR)
+        {
+            printf("OpenGL error: %d (%x)\n", error, error);
+            
+            error = true;
+        }
+        
+        return error;
     }
-    
-    return error;
-}
 
-std::string getResourcePath(const std::string& filename)
-{
-    CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-    CFStringRef urlString = CFURLCopyPath(appUrlRef);
-    
-    char temporaryCString[1024] = "";
-    
-    CFStringGetCString(urlString, temporaryCString, sizeof(temporaryCString), kCFStringEncodingUTF8);
-    
-    CFRelease(appUrlRef);
-    CFRelease(urlString);
-    
-    return std::string(temporaryCString) + "Contents/Resources/" + filename;
-}
+    std::string getResourcePath(const std::string& filename)
+    {
+        CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+        CFStringRef urlString = CFURLCopyPath(appUrlRef);
+        
+        char temporaryCString[1024] = "";
+        
+        CFStringGetCString(urlString, temporaryCString, sizeof(temporaryCString), kCFStringEncodingUTF8);
+        
+        CFRelease(appUrlRef);
+        CFRelease(urlString);
+        
+        return std::string(temporaryCString) + "Contents/Resources/" + filename;
+    }
 
-void log(const char* format, ...)
-{
-    va_list list;
-    va_start(list, format);
-    
-    vprintf(format, list);
-    printf("\n");
-    
-    va_end(list);
+    void log(const char* format, ...)
+    {
+        va_list list;
+        va_start(list, format);
+        
+        vprintf(format, list);
+        printf("\n");
+        
+        va_end(list);
+    }
 }

@@ -100,8 +100,7 @@ namespace ouzel
         
         checkOpenGLErrors();
         
-        glActiveTexture(GL_TEXTURE0 + 0);
-        glBindTexture(GL_TEXTURE_2D, _texture->getTexture());
+        _engine->getRenderer()->activateTexture(_texture, 0);
         
         checkOpenGLErrors();
         
