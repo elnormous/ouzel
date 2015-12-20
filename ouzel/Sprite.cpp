@@ -89,13 +89,13 @@ namespace ouzel
     {
         _engine->getRenderer()->activateShader(_shader);
         
-        GLint uniProj = glGetUniformLocation(_shader->getProgramId(), "proj");
+        GLint uniProj = _shader->getVertexShaderConstantId("proj");
         glUniformMatrix4fv(uniProj, 1, GL_FALSE, _engine->getRenderer()->getProjection().m);
         
-        GLint uniView = glGetUniformLocation(_shader->getProgramId(), "view");
+        GLint uniView = _shader->getVertexShaderConstantId("view");
         glUniformMatrix4fv(uniView, 1, GL_FALSE, _engine->getScene()->getCamera()->getTransform().m);
         
-        GLint uniModel = glGetUniformLocation(_shader->getProgramId(), "model");
+        GLint uniModel = _shader->getVertexShaderConstantId("model");
         glUniformMatrix4fv(uniModel, 1, GL_FALSE, _transform.m);
         
         checkOpenGLErrors();

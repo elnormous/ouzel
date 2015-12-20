@@ -15,6 +15,9 @@ namespace ouzel
         
         GLuint getProgramId() const { return _programId; }
         
+        virtual uint32_t getPixelShaderConstantId(const std::string& name);
+        virtual uint32_t getVertexShaderConstantId(const std::string& name);
+        
     protected:
         void checkShaderError(GLuint shader);
         

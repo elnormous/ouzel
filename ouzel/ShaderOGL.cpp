@@ -83,4 +83,14 @@ namespace ouzel
             free(logMessage);
         }
     }
+    
+    uint32_t ShaderOGL::getPixelShaderConstantId(const std::string& name)
+    {
+        return glGetUniformLocation(_programId, name.c_str());
+    }
+    
+    uint32_t ShaderOGL::getVertexShaderConstantId(const std::string& name)
+    {
+        return glGetUniformLocation(_programId, name.c_str());
+    }
 }
