@@ -68,6 +68,7 @@ namespace ouzel
         Renderer(size, fullscreen, engine, Driver::OPENGL)
     {
         _view = new View(size, this);
+        recalculateProjection();
     }
     
     bool RendererOGL::initOpenGL(uint32_t width, uint32_t height)

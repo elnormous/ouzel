@@ -12,8 +12,6 @@ namespace ouzel
         _renderer = renderer;
         
         createNativeView();
-        
-        _renderer->recalculateProjection();
     }
     
     View::~View()
