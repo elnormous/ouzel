@@ -11,6 +11,57 @@
 #include "Utils.h"
 #include "View.h"
 
+static const char TEXTURE_PIXEL_SHADER[] =
+    "#version 400\n"
+    "uniform sampler2D tex;\n"
+    "in vec4 ex_Color;\n"
+    "in vec2 ex_TexCoord;\n"
+    "out vec4 out_Color;\n"
+    "void main(void)\n"
+    "{\n"
+    "    out_Color = texture(tex, ex_TexCoord) * ex_Color;\n"
+    "}";
+
+static const char TEXTURE_VERTEX_SHADER[] =
+    "#version 400\n"
+    "layout(location=0) in vec4 in_Position;\n"
+    "layout(location=1) in vec4 in_Color;\n"
+    "layout(location=2) in vec2 in_TexCoord;\n"
+    "uniform mat4 model;\n"
+    "uniform mat4 view;\n"
+    "uniform mat4 proj;\n"
+    "out vec4 ex_Color;\n"
+    "out vec2 ex_TexCoord;\n"
+    "void main(void)\n"
+    "{\n"
+    "    gl_Position = proj * view * model * in_Position;\n"
+    "    ex_Color = in_Color;\n"
+    "    ex_TexCoord = in_TexCoord;\n"
+    "}";
+
+static const char COLOR_PIXEL_SHADER[] =
+    "#version 400\n"
+    "in vec4 ex_Color;\n"
+    "out vec4 out_Color;\n"
+    "void main(void)\n"
+    "{\n"
+    "    out_Color = ex_Color;\n"
+    "}";
+
+static const char COLOR_VERTEX_SHADER[] =
+    "#version 400\n"
+    "layout(location=0) in vec4 in_Position;\n"
+    "layout(location=1) in vec4 in_Color;\n"
+    "uniform mat4 model;\n"
+    "uniform mat4 view;\n"
+    "uniform mat4 proj;\n"
+    "out vec4 ex_Color;\n"
+    "void main(void)\n"
+    "{\n"
+    "    gl_Position = proj * view * model * in_Position;\n"
+    "    ex_Color = in_Color;\n"
+    "}";
+
 namespace ouzel
 {
     RendererOGL::RendererOGL(const Size2& size, bool fullscreen, Engine* engine):
@@ -39,10 +90,10 @@ namespace ouzel
             return false;
         }
         
-        Shader* textureShader = loadShader("texture.fsh", "texture.vsh");
+        Shader* textureShader = loadShaderFromStrings(TEXTURE_PIXEL_SHADER, TEXTURE_VERTEX_SHADER);
         _shaders[SHADER_TEXTURE] = textureShader;
         
-        Shader* colorShader = loadShader("color.fsh", "color.vsh");
+        Shader* colorShader = loadShaderFromStrings(COLOR_PIXEL_SHADER, COLOR_VERTEX_SHADER);
         _shaders[SHADER_COLOR] = colorShader;
         
         return true;
@@ -70,9 +121,15 @@ namespace ouzel
         checkOpenGLErrors();
     }
     
-    Texture* RendererOGL::loadTexture(const std::string& filename)
+    Texture* RendererOGL::loadTextureFromFile(const std::string& filename)
     {
-        TextureOGL* texture = new TextureOGL(filename, this);
+        TextureOGL* texture = new TextureOGL(this);
+        
+        if (!texture->loadFromFile(filename))
+        {
+            delete texture;
+            texture = nullptr;
+        }
         
         return texture;
     }
@@ -85,9 +142,28 @@ namespace ouzel
         glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
     }
     
-    Shader* RendererOGL::loadShader(const std::string& fragmentShader, const std::string& vertexShader)
+    Shader* RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
         ShaderOGL* shader = new ShaderOGL(fragmentShader, vertexShader, this);
+        
+        if (!shader->loadFromFiles(fragmentShader, vertexShader))
+        {
+            delete shader;
+            shader = nullptr;
+        }
+        
+        return shader;
+    }
+    
+    Shader* RendererOGL::loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        ShaderOGL* shader = new ShaderOGL(fragmentShader, vertexShader, this);
+        
+        if (!shader->loadFromStrings(fragmentShader, vertexShader))
+        {
+            delete shader;
+            shader = nullptr;
+        }
         
         return shader;
     }

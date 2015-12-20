@@ -19,13 +19,16 @@ namespace ouzel
         ShaderOGL(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer);
         virtual ~ShaderOGL();
         
+        virtual bool loadFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
+        virtual bool loadFromStrings(const std::string& fragmentShader, const std::string& vertexShader) override;
+        
         GLuint getProgramId() const { return _programId; }
         
-        virtual uint32_t getPixelShaderConstantId(const std::string& name);
-        virtual uint32_t getVertexShaderConstantId(const std::string& name);
+        virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
+        virtual uint32_t getVertexShaderConstantId(const std::string& name) override;
         
     protected:
-        void checkShaderError(GLuint shader);
+        bool checkShaderError(GLuint shader);
         
         GLuint _vertexShader;
         GLuint _fragmentShader;

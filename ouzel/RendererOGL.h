@@ -19,10 +19,11 @@ namespace ouzel
         virtual void clear() override;
         virtual void flush() override;
         
-        virtual Texture* loadTexture(const std::string& filename) override;
+        virtual Texture* loadTextureFromFile(const std::string& filename) override;
         virtual void activateTexture(Texture* texture, uint32_t layer) override;
         
-        virtual Shader* loadShader(const std::string& fragmentShader, const std::string& vertexShader) override;
+        virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
+        virtual Shader* loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader) override;
         virtual void activateShader(Shader* shader) override;
         
         virtual void drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform = Matrix4()) override;

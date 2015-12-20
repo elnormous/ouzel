@@ -47,12 +47,13 @@ namespace ouzel
         
         void preloadTexture(const std::string& filename);
         Texture* getTexture(const std::string& filename);
-        virtual Texture* loadTexture(const std::string& filename);
+        virtual Texture* loadTextureFromFile(const std::string& filename);
         virtual void activateTexture(Texture* texture, uint32_t layer);
         
         Shader* getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, Shader* shader);
-        virtual Shader* loadShader(const std::string& fragmentShader, const std::string& vertexShader);
+        virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader);
+        virtual Shader* loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader);
         virtual void activateShader(Shader* shader);
         
         const Matrix4& getProjection() const { return _projection; }

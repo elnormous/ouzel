@@ -6,16 +6,27 @@
 
 namespace ouzel
 {
-    Shader::Shader(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer)
+    Shader::Shader(Renderer* renderer)
     {
-        _fragmentShader = fragmentShader;
-        _vertexShader = vertexShader;
         _renderer = renderer;
     }
 
     Shader::~Shader()
     {
         
+    }
+    
+    bool Shader::loadFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        _fragmentShaderFilename = fragmentShader;
+        _vertexShaderFilename = vertexShader;
+        
+        return  true;
+    }
+    
+    bool Shader::loadFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        return  true;
     }
     
     uint32_t Shader::getPixelShaderConstantId(const std::string& name)

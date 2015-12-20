@@ -5,14 +5,20 @@
 
 namespace ouzel
 {
-    Texture::Texture(const std::string& filename, Renderer* renderer)
+    Texture::Texture(Renderer* renderer)
     {
         _renderer = renderer;
-        _filename = filename;
     }
 
     Texture::~Texture()
     {
         
+    }
+    
+    bool Texture::loadFromFile(const std::string& filename)
+    {
+        _filename = filename;
+        
+        return true;
     }
 }

@@ -8,9 +8,27 @@
 
 namespace ouzel
 {
-    TextureOGL::TextureOGL(const std::string& filename, Renderer* renderer):
-        Texture(filename, renderer)
+    TextureOGL::TextureOGL(Renderer* renderer):
+        Texture(renderer)
     {
+        
+    }
+    
+    TextureOGL::~TextureOGL()
+    {
+        if (_textureId)
+        {
+            glDeleteTextures(1, &_textureId);
+        }
+    }
+    
+    bool TextureOGL::loadFromFile(const std::string& filename)
+    {
+        if (!Texture::loadFromFile(filename))
+        {
+            return false;
+        }
+        
         std::string path = std::string("file://") + getResourcePath(filename);
         
         CFStringRef pathStringRef = CFStringCreateWithCString(kCFAllocatorDefault, path.c_str(), kCFStringEncodingASCII);
@@ -63,13 +81,7 @@ namespace ouzel
         _size.height = static_cast<float>(height);
         
         printf("texture: %s (%d), width: %d, height: %d\n", filename.c_str(), _textureId, width, height);
-    }
-    
-    TextureOGL::~TextureOGL()
-    {
-        if (_textureId)
-        {
-            glDeleteTextures(1, &_textureId);
-        }
+        
+        return true;
     }
 }

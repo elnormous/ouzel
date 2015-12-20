@@ -8,8 +8,22 @@
 namespace ouzel
 {
     ShaderOGL::ShaderOGL(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer):
-        Shader(fragmentShader, vertexShader, renderer)
+        Shader(renderer)
     {
+    }
+
+    ShaderOGL::~ShaderOGL()
+    {
+        
+    }
+    
+    bool ShaderOGL::loadFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        if (!Shader::loadFromFiles(fragmentShader, vertexShader))
+        {
+            return false;
+        }
+        
         std::ifstream fragmentShaderFile(getResourcePath(fragmentShader));
         std::string fragmentShaderCode;
         
@@ -18,7 +32,7 @@ namespace ouzel
         fragmentShaderFile.seekg(0, std::ios::beg);
         
         fragmentShaderCode.assign((std::istreambuf_iterator<char>(fragmentShaderFile)),
-                   std::istreambuf_iterator<char>());
+                                  std::istreambuf_iterator<char>());
         
         std::ifstream vertexShaderFile(getResourcePath(vertexShader));
         std::string vertexShaderCode;
@@ -28,28 +42,51 @@ namespace ouzel
         vertexShaderFile.seekg(0, std::ios::beg);
         
         vertexShaderCode.assign((std::istreambuf_iterator<char>(vertexShaderFile)),
-                                  std::istreambuf_iterator<char>());
+                                std::istreambuf_iterator<char>());
+        
+        return loadFromStrings(fragmentShaderCode, vertexShaderCode);
+    }
+    
+    bool ShaderOGL::loadFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        if (!Shader::loadFromFiles(fragmentShader, vertexShader))
+        {
+            return false;
+        }
         
         GLboolean support;
         glGetBooleanv(GL_SHADER_COMPILER, &support);
         
-        assert(support && "Shader compiler must be present");
+        if (!support)
+        {
+            log("Shader compiler must be present");
+            return false;
+        }
         
-        checkOpenGLErrors();
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
         
         _vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        const char* vertexShaderCodeStr = vertexShaderCode.c_str();
+        const char* vertexShaderCodeStr = vertexShader.c_str();
         glShaderSource(_vertexShader, 1, &vertexShaderCodeStr, NULL);
         glCompileShader(_vertexShader);
         
-        checkShaderError(_vertexShader);
+        if (checkShaderError(_vertexShader))
+        {
+            return false;
+        }
         
         _fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        const char* fragmentShaderCodeStr = fragmentShaderCode.c_str();
+        const char* fragmentShaderCodeStr = fragmentShader.c_str();
         glShaderSource(_fragmentShader, 1, &fragmentShaderCodeStr, NULL);
         glCompileShader(_fragmentShader);
         
-        checkShaderError(_fragmentShader);
+        if (checkShaderError(_fragmentShader))
+        {
+            return false;
+        }
         
         _programId = glCreateProgram();
         glAttachShader(_programId, _vertexShader);
@@ -58,15 +95,15 @@ namespace ouzel
         
         glUseProgram(_programId);
         
-        checkOpenGLErrors();
-    }
-
-    ShaderOGL::~ShaderOGL()
-    {
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
         
+        return true;
     }
 
-    void ShaderOGL::checkShaderError(GLuint shader)
+    bool ShaderOGL::checkShaderError(GLuint shader)
     {
         GLint good;
         glGetShaderiv(shader, GL_COMPILE_STATUS, &good);
@@ -82,7 +119,11 @@ namespace ouzel
             log("Shader error: %s", logMessage);
             
             free(logMessage);
+            
+            return true;
         }
+        
+        return false;
     }
     
     uint32_t ShaderOGL::getPixelShaderConstantId(const std::string& name)

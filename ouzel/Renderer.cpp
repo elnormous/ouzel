@@ -56,8 +56,12 @@ namespace ouzel
         
         if (i == _textures.end())
         {
-            Texture* texture = new Texture(filename, this);
-            _textures[filename] = texture;
+            Texture* texture = loadTextureFromFile(filename);
+            
+            if (texture)
+            {
+                _textures[filename] = texture;
+            }
         }
     }
 
@@ -73,8 +77,12 @@ namespace ouzel
         }
         else
         {
-            result = loadTexture(filename);
-            _textures[filename] = result;
+            result = loadTextureFromFile(filename);
+            
+            if (result)
+            {
+                _textures[filename] = result;
+            }
         }
             
         return result;
@@ -84,9 +92,15 @@ namespace ouzel
     {
     }
     
-    Texture* Renderer::loadTexture(const std::string& filename)
+    Texture* Renderer::loadTextureFromFile(const std::string& filename)
     {
-        Texture* texture = new Texture(filename, this);
+        Texture* texture = new Texture(this);
+        
+        if (!texture->loadFromFile(filename))
+        {
+            delete texture;
+            texture = nullptr;
+        }
         
         return texture;
     }
@@ -122,9 +136,28 @@ namespace ouzel
         }
     }
     
-    Shader* Renderer::loadShader(const std::string& fragmentShader, const std::string& vertexShader)
+    Shader* Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        Shader* shader = new Shader(fragmentShader, vertexShader, this);
+        Shader* shader = new Shader(this);
+        
+        if (!shader->loadFromFiles(fragmentShader, vertexShader))
+        {
+            delete shader;
+            shader = nullptr;
+        }
+        
+        return shader;
+    }
+    
+    Shader* Renderer::loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        Shader* shader = new Shader(this);
+        
+        if (!shader->loadFromStrings(fragmentShader, vertexShader))
+        {
+            delete shader;
+            shader = nullptr;
+        }
         
         return shader;
     }
