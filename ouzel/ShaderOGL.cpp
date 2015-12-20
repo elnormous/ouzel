@@ -6,8 +6,8 @@
 
 namespace ouzel
 {
-    ShaderOGL::ShaderOGL(const std::string& fragmentShader, const std::string& vertexShader):
-        Shader(fragmentShader, vertexShader)
+    ShaderOGL::ShaderOGL(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer):
+        Shader(fragmentShader, vertexShader, renderer)
     {
         std::ifstream fragmentShaderFile(getResourcePath(fragmentShader));
         std::string fragmentShaderCode;

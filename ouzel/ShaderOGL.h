@@ -10,7 +10,7 @@ namespace ouzel
     class ShaderOGL: public Shader
     {
     public:
-        ShaderOGL(const std::string& fragmentShader, const std::string& vertexShader);
+        ShaderOGL(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer);
         virtual ~ShaderOGL();
         
         GLuint getProgramId() const { return _programId; }

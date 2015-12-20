@@ -35,26 +35,27 @@ namespace ouzel
         
         virtual void resize(const Size2& size);
         
-        virtual void clear() = 0;
-        virtual void flush() = 0;
+        virtual void clear();
+        virtual void flush();
         
         void preloadTexture(const std::string& filename);
         Texture* getTexture(const std::string& filename);
-        
-        virtual void activateTexture(Texture* texture, uint32_t layer) = 0;
-        virtual void activateShader(Shader* shader) = 0;
+        virtual Texture* loadTexture(const std::string& filename);
+        virtual void activateTexture(Texture* texture, uint32_t layer);
         
         Shader* getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, Shader* shader);
+        virtual Shader* loadShader(const std::string& fragmentShader, const std::string& vertexShader);
+        virtual void activateShader(Shader* shader);
         
         const Matrix4& getProjection() const { return _projection; }
         
         Vector2 absoluteToWorldLocation(const Vector2& position);
         Vector2 worldToAbsoluteLocation(const Vector2& position);
         
-        virtual void drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform = Matrix4()) = 0;
-        virtual void drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4()) = 0;
-        virtual void drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4()) = 0;
+        virtual void drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform = Matrix4());
+        virtual void drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4());
+        virtual void drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4());
         
     protected:
         Engine* _engine;

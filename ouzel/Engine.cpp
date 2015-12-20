@@ -30,6 +30,7 @@ namespace ouzel
 #endif
                 break;
             default:
+                _renderer = new Renderer(this);
                 break;
         }
         

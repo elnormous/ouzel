@@ -8,17 +8,20 @@
 
 namespace ouzel
 {
+    class Renderer;
+    
     class Shader: public Noncopyable, public ReferenceCounted
     {
     public:
-        Shader(const std::string& fragmentShader, const std::string& vertexShader);
+        Shader(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer);
         virtual ~Shader();
         
-        virtual uint32_t getPixelShaderConstantId(const std::string& name) = 0;
-        virtual uint32_t getVertexShaderConstantId(const std::string& name) = 0;
+        virtual uint32_t getPixelShaderConstantId(const std::string& name);
+        virtual uint32_t getVertexShaderConstantId(const std::string& name);
         
     protected:
         std::string _fragmentShader;
         std::string _vertexShader;
+        Renderer* _renderer;
     };
 }

@@ -38,10 +38,10 @@ namespace ouzel
             return false;
         }
         
-        Shader* textureShader = new ShaderOGL("texture.fsh", "texture.vsh");
+        Shader* textureShader = _engine->getRenderer()->loadShader("texture.fsh", "texture.vsh");
         _shaders[SHADER_TEXTURE] = textureShader;
         
-        Shader* colorShader = new ShaderOGL("color.fsh", "color.vsh");
+        Shader* colorShader = _engine->getRenderer()->loadShader("color.fsh", "color.vsh");
         _shaders[SHADER_COLOR] = colorShader;
         
         resize(Size2(width, height));
@@ -68,12 +68,26 @@ namespace ouzel
         checkOpenGLErrors();
     }
     
+    Texture* RendererOGL::loadTexture(const std::string& filename)
+    {
+        TextureOGL* texture = new TextureOGL(filename, this);
+        
+        return texture;
+    }
+    
     void RendererOGL::activateTexture(Texture* texture, uint32_t layer)
     {
         TextureOGL* textureOGL = static_cast<TextureOGL*>(texture);
         
         glActiveTexture(GL_TEXTURE0 + layer);
         glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
+    }
+    
+    Shader* RendererOGL::loadShader(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        ShaderOGL* shader = new ShaderOGL(fragmentShader, vertexShader, this);
+        
+        return shader;
     }
     
     void RendererOGL::activateShader(Shader* shader)

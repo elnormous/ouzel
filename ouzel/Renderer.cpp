@@ -34,6 +34,14 @@ namespace ouzel
         Matrix4::createOrthographic(_size.width, _size.height, 1.0f, 1000.0f, &_projection);
     }
     
+    void Renderer::clear()
+    {
+    }
+    
+    void Renderer::flush()
+    {
+    }
+    
     void Renderer::preloadTexture(const std::string& filename)
     {
         std::unordered_map<std::string, Texture*>::const_iterator i = _textures.find(filename);
@@ -57,11 +65,22 @@ namespace ouzel
         }
         else
         {
-            result = new Texture(filename, this);
+            result = loadTexture(filename);
             _textures[filename] = result;
         }
             
         return result;
+    }
+    
+    void Renderer::activateTexture(Texture* texture, uint32_t layer)
+    {
+    }
+    
+    Texture* Renderer::loadTexture(const std::string& filename)
+    {
+        Texture* texture = new Texture(filename, this);
+        
+        return texture;
     }
     
     Shader* Renderer::getShader(const std::string& shaderName) const
@@ -93,6 +112,17 @@ namespace ouzel
         {
             shader->retain();
         }
+    }
+    
+    Shader* Renderer::loadShader(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        Shader* shader = new Shader(fragmentShader, vertexShader, this);
+        
+        return shader;
+    }
+    
+    void Renderer::activateShader(Shader* shader)
+    {
     }
 
     Vector2 Renderer::absoluteToWorldLocation(const Vector2& position)
@@ -139,5 +169,17 @@ namespace ouzel
         {
             return Vector2();
         }
+    }
+    
+    void drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform = Matrix4())
+    {
+    }
+    
+    void drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4())
+    {
+    }
+    
+    void drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform = Matrix4())
+    {
     }
 }
