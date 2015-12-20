@@ -9,7 +9,10 @@
 {
     [super viewDidLoad];
 
-    // Do any additional setup after loading the view.
+    _application = new ouzel::Application();
+    NSView* nativeView = _application->getEngine()->getRenderer()->getView()->getNativeView();
+    
+    [self.view addSubview:nativeView];
 }
 
 - (void)setRepresentedObject:(id)representedObject

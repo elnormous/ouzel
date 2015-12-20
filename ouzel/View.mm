@@ -8,14 +8,11 @@ namespace ouzel
 {
     void View::createNativeView()
     {
-        OpenGLView* openGLView = [[OpenGLView alloc]initWithFrame:NSMakeRect(0, 0, _size.width, _size.height) view:this];
-        
-        _nativeView = (__bridge void*)openGLView;
+        _nativeView = [[OpenGLView alloc]initWithFrame:NSMakeRect(0, 0, _size.width, _size.height) view:this];
     }
     
     void View::destroyNativeView()
     {
-        OpenGLView* openGLView = (__bridge OpenGLView*)_nativeView;
-        [openGLView removeFromSuperview];
+        [_nativeView removeFromSuperview];
     }
 }

@@ -3,9 +3,18 @@
 
 #pragma once
 
+#include "CompileConfig.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Size2.h"
+
+#ifdef OUZEL_PLATFORM_OSX
+#ifdef __OBJC__
+@class NSView;
+#else
+class NSView;
+#endif
+#endif
 
 namespace ouzel
 {
@@ -22,7 +31,11 @@ namespace ouzel
         void resize(const Size2& size);
         const Size2& getSize() const { return _size; }
         
-        void* getNativeView() const { return _nativeView; }
+#if defined(OUZEL_PLATFORM_OSX)
+        NSView* getNativeView() const { return _nativeView; }
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        HWND getNativeView() const { return _nativeView; }
+#endif
         
     protected:
         void createNativeView();
@@ -31,6 +44,11 @@ namespace ouzel
         Renderer* _renderer;
         Size2 _size;
         
-        void* _nativeView = nullptr;
+#if defined(OUZEL_PLATFORM_OSX)
+        NSView* _nativeView = nullptr;
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        HWND _nativeView = 0;
+#endif
+        
     };
 }

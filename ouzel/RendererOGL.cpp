@@ -39,10 +39,10 @@ namespace ouzel
             return false;
         }
         
-        Shader* textureShader = _engine->getRenderer()->loadShader("texture.fsh", "texture.vsh");
+        Shader* textureShader = loadShader("texture.fsh", "texture.vsh");
         _shaders[SHADER_TEXTURE] = textureShader;
         
-        Shader* colorShader = _engine->getRenderer()->loadShader("color.fsh", "color.vsh");
+        Shader* colorShader = loadShader("color.fsh", "color.vsh");
         _shaders[SHADER_COLOR] = colorShader;
         
         return true;

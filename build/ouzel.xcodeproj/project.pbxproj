@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E0E1C237B96008B1151 /* AppDelegate.mm */; };
-		304A8E151C237B96008B1151 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E141C237B96008B1151 /* ViewController.m */; };
+		304A8E151C237B96008B1151 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E141C237B96008B1151 /* ViewController.mm */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E1A1C237B96008B1151 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E181C237B96008B1151 /* Main.storyboard */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
@@ -82,7 +82,7 @@
 		304A8E0D1C237B96008B1151 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		304A8E0E1C237B96008B1151 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		304A8E131C237B96008B1151 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		304A8E141C237B96008B1151 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		304A8E141C237B96008B1151 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E191C237B96008B1151 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -281,9 +281,9 @@
 				304A8E161C237B96008B1151 /* Assets.xcassets */,
 				304A8E1B1C237B96008B1151 /* Info.plist */,
 				304A8E181C237B96008B1151 /* Main.storyboard */,
-				304A8E131C237B96008B1151 /* ViewController.h */,
 				304A8EA61C2741B8008B1151 /* main.m */,
-				304A8E141C237B96008B1151 /* ViewController.m */,
+				304A8E131C237B96008B1151 /* ViewController.h */,
+				304A8E141C237B96008B1151 /* ViewController.mm */,
 				304A8EAB1C2742D9008B1151 /* Prefix.pch */,
 			);
 			name = osx;
@@ -423,7 +423,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				304A8EAA1C27429A008B1151 /* Application.cpp in Sources */,
-				304A8E151C237B96008B1151 /* ViewController.m in Sources */,
+				304A8E151C237B96008B1151 /* ViewController.mm in Sources */,
 				304A8EA71C2741B8008B1151 /* main.m in Sources */,
 				304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */,
 			);
