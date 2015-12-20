@@ -10,6 +10,9 @@ namespace ouzel
     {
         _size = size;
         _renderer = renderer;
+        
+        createNativeView();
+        
         _renderer->recalculateProjection();
     }
     

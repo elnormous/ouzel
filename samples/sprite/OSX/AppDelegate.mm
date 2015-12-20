@@ -12,6 +12,9 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     _application = new ouzel::Application();
+    void* nativeView = _application->getEngine()->getRenderer()->getView()->getNativeView();
+    
+    NSView* openGLView = (__bridge NSView*)nativeView;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification

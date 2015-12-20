@@ -20,11 +20,17 @@ namespace ouzel
         Renderer* getRenderer() const { return _renderer; }
         
         void resize(const Size2& size);
-        
         const Size2& getSize() const { return _size; }
         
+        void* getNativeView() const { return _nativeView; }
+        
     protected:
+        void createNativeView();
+        void destroyNativeView();
+        
         Renderer* _renderer;
         Size2 _size;
+        
+        void* _nativeView = nullptr;
     };
 }

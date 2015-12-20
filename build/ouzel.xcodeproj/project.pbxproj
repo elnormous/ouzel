@@ -74,6 +74,7 @@
 		304A8EAA1C27429A008B1151 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
 		304A8EAE1C274F7C008B1151 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EAC1C274F7C008B1151 /* View.cpp */; };
 		304A8EAF1C274F7C008B1151 /* View.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EAD1C274F7C008B1151 /* View.h */; };
+		304A8EB11C2754D1008B1151 /* View.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EB01C2754D1008B1151 /* View.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,6 +152,7 @@
 		304A8EAB1C2742D9008B1151 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		304A8EAC1C274F7C008B1151 /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		304A8EAD1C274F7C008B1151 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
+		304A8EB01C2754D1008B1151 /* View.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = View.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +267,7 @@
 				304A8EA11C270833008B1151 /* Vertex3.h */,
 				304A8EAC1C274F7C008B1151 /* View.cpp */,
 				304A8EAD1C274F7C008B1151 /* View.h */,
+				304A8EB01C2754D1008B1151 /* View.mm */,
 			);
 			name = ouzel;
 			path = ../ouzel;
@@ -431,6 +434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				304A8EAE1C274F7C008B1151 /* View.cpp in Sources */,
+				304A8EB11C2754D1008B1151 /* View.mm in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,

@@ -13,10 +13,10 @@
 
 namespace ouzel
 {
-    RendererOGL::RendererOGL(Engine* engine):
-        Renderer(engine, Driver::OPENGL)
+    RendererOGL::RendererOGL(const Size2& size, bool fullscreen, Engine* engine):
+        Renderer(size, fullscreen, engine, Driver::OPENGL)
     {
-        
+        _view = new View(size, this);
     }
     
     bool RendererOGL::initOpenGL(uint32_t width, uint32_t height)
@@ -44,8 +44,6 @@ namespace ouzel
         
         Shader* colorShader = _engine->getRenderer()->loadShader("color.fsh", "color.vsh");
         _shaders[SHADER_COLOR] = colorShader;
-        
-        _view = new View(Size2(width, height), this);
         
         return true;
     }

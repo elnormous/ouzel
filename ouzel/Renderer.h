@@ -33,7 +33,7 @@ namespace ouzel
             DIRECT3D11
         };
         
-        Renderer(Engine* engine, Driver driver = Driver::NONE);
+        Renderer(const Size2& size, bool fullscreen, Engine* engine, Driver driver = Driver::NONE);
         virtual ~Renderer();
         
         Engine* getEngine() const { return _engine; }

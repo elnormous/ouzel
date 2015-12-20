@@ -18,20 +18,20 @@
 
 namespace ouzel
 {
-    Engine::Engine(Renderer::Driver driver, uint32_t width, uint32_t height, bool fullscreen)
+    Engine::Engine(Renderer::Driver driver, const Size2& size, bool fullscreen)
     {
         switch (driver)
         {
             case Renderer::Driver::OPENGL:
-                _renderer = new RendererOGL(this);
+                _renderer = new RendererOGL(size, fullscreen, this);
                 break;
             case Renderer::Driver::DIRECT3D11:
 #ifdef OUZEL_PLATFORM_WINDOWS
-                _renderer = new RendererD3D11(this);
+                _renderer = new RendererD3D11(size, fullscreen, this);
 #endif
                 break;
             default:
-                _renderer = new Renderer(this);
+                _renderer = new Renderer(size, fullscreen, this);
                 break;
         }
         

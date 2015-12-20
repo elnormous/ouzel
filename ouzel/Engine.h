@@ -17,7 +17,7 @@ namespace ouzel
     class Engine: public Noncopyable, public ReferenceCounted
     {
     public:
-        Engine(Renderer::Driver driver, uint32_t width = 0, uint32_t height = 0, bool fullscreen = false);
+        Engine(Renderer::Driver driver, const Size2& size, bool fullscreen = false);
         virtual ~Engine();
         
         void run();
