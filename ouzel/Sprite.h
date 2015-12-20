@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Node.h"
+#include "Size2.h"
 
 namespace ouzel
 {
@@ -22,8 +23,7 @@ namespace ouzel
         
         Texture* getTexture() const { return _texture; }
         
-        float getWidth() const { return _width; }
-        float getHeight() const { return _height; }
+        const Size2& getSize() const { return _size; }
         
         virtual bool checkVisibility() const override;
         
@@ -33,8 +33,7 @@ namespace ouzel
         
         Engine* _engine;
         
-        float _width;
-        float _height;
+        Size2 _size;
         
         GLuint _vertexArray;
         GLuint _indexBuffer;

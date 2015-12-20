@@ -5,6 +5,7 @@
 
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
+#include "Size2.h"
 
 namespace ouzel
 {
@@ -18,14 +19,12 @@ namespace ouzel
         
         const std::string& getFilename() const { return _filename; }
         
-        uint32_t getWidth() const { return _width; }
-        uint32_t getHeight() const { return _height; }
+        const Size2& getSize() const { return _size; }
         
     protected:
         Renderer* _renderer;
         std::string _filename;
         
-        uint32_t _width;
-        uint32_t _height;
+        Size2 _size;
     };
 }

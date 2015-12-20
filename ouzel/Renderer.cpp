@@ -27,12 +27,11 @@ namespace ouzel
         }
     }
     
-    void Renderer::resize(uint32_t width, uint32_t height)
+    void Renderer::resize(const Size2& size)
     {
-        _width = width;
-        _height = height;
+        _size = size;
         
-        Matrix4::createOrthographic(_width, _height, 1.0f, 1000.0f, &_projection);
+        Matrix4::createOrthographic(_size.width, _size.height, 1.0f, 1000.0f, &_projection);
     }
     
     void Renderer::preloadTexture(const std::string& filename)
@@ -102,8 +101,8 @@ namespace ouzel
         
         if (camera)
         {
-            float x = 2.0f * position.x / _width - 1.0f;
-            float y = 2.0f * position.y / _height - 1.0f;
+            float x = 2.0f * position.x / _size.width - 1.0f;
+            float y = 2.0f * position.y / _size.height - 1.0f;
             
             Matrix4 projViewMatrix = _projection * camera->getTransform();
             Matrix4 inverseViewMatrix = projViewMatrix;
@@ -131,8 +130,8 @@ namespace ouzel
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             projViewMatrix.transformPoint(&result);
             
-            float x = (result.x + 1.0f) / 2.0f * _width;
-            float y = (result.y + 1.0f) / 2.0f * _height;
+            float x = (result.x + 1.0f) / 2.0f * _size.width;
+            float y = (result.y + 1.0f) / 2.0f * _size.height;
             
             return Vector2(x, y);
         }

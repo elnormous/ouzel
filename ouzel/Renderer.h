@@ -7,6 +7,7 @@
 #include "ReferenceCounted.h"
 #include "Rectangle.h"
 #include "Matrix4.h"
+#include "Size2.h"
 
 namespace ouzel
 {
@@ -32,7 +33,7 @@ namespace ouzel
         Renderer(Engine* engine);
         virtual ~Renderer();
         
-        virtual void resize(uint32_t width, uint32_t height);
+        virtual void resize(const Size2& size);
         
         virtual void clear() = 0;
         virtual void flush() = 0;
@@ -60,8 +61,7 @@ namespace ouzel
         
         Matrix4 _projection;
         
-        uint32_t _width;
-        uint32_t _height;
+        Size2 _size;
         
         std::unordered_map<std::string, Texture*> _textures;
         

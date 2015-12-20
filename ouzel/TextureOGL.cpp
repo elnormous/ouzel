@@ -18,14 +18,14 @@ namespace ouzel
         CGImageSourceRef imageSourceRef = CGImageSourceCreateWithURL(url, NULL);
         CGImageRef imageRef = CGImageSourceCreateImageAtIndex (imageSourceRef, 0, NULL);
         
-        _width = static_cast<uint32_t>(CGImageGetWidth(imageRef));
-        _height = static_cast<uint32_t>(CGImageGetHeight(imageRef));
-        CGRect rect = {{0, 0}, {static_cast<CGFloat>(_width), static_cast<CGFloat>(_height)}};
-        void* data = calloc(_width * 4, _height);
+        uint32_t width = static_cast<uint32_t>(CGImageGetWidth(imageRef));
+        uint32_t height = static_cast<uint32_t>(CGImageGetHeight(imageRef));
+        CGRect rect = {{0, 0}, {static_cast<CGFloat>(width), static_cast<CGFloat>(height)}};
+        void* data = calloc(width * 4, height);
         CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
         CGContextRef bitmapContext = CGBitmapContextCreate (data,
-                                                            _width, _height, 8,
-                                                            _width * 4, space,
+                                                            width, height, 8,
+                                                            width * 4, space,
                                                             kCGBitmapByteOrder32Host |
                                                             kCGImageAlphaPremultipliedFirst);
         CGContextSetBlendMode(bitmapContext, kCGBlendModeCopy);
@@ -41,7 +41,7 @@ namespace ouzel
         
         glBindTexture(GL_TEXTURE_2D, _textureId);
         
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height,
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height,
                      0, GL_BGRA, GL_UNSIGNED_BYTE, data);
         
         //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
@@ -57,7 +57,10 @@ namespace ouzel
         
         free(data);
         
-        printf("texture: %s (%d), width: %d, height: %d\n", filename.c_str(), _textureId, _width, _height);
+        _size.width = static_cast<float>(width);
+        _size.height = static_cast<float>(height);
+        
+        printf("texture: %s (%d), width: %d, height: %d\n", filename.c_str(), _textureId, width, height);
     }
     
     TextureOGL::~TextureOGL()

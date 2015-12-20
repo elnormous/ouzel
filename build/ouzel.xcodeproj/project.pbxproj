@@ -65,6 +65,8 @@
 		304A8E931C26ED32008B1151 /* MeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E911C26ED32008B1151 /* MeshBuffer.h */; };
 		304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
 		304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E951C26EDFB008B1151 /* ParticleSystem.h */; };
+		304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E981C26F5CF008B1151 /* Size2.cpp */; };
+		304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E991C26F5CF008B1151 /* Size2.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,6 +134,8 @@
 		304A8E911C26ED32008B1151 /* MeshBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshBuffer.h; sourceTree = "<group>"; };
 		304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
 		304A8E951C26EDFB008B1151 /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
+		304A8E981C26F5CF008B1151 /* Size2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Size2.cpp; sourceTree = "<group>"; };
+		304A8E991C26F5CF008B1151 /* Size2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Size2.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,9 +201,9 @@
 		304A8E291C237C51008B1151 /* ouzel */ = {
 			isa = PBXGroup;
 			children = (
-				304A8E2A1C237C70008B1151 /* ouzel.h */,
 				304A8E2B1C237C70008B1151 /* Camera.cpp */,
 				304A8E2C1C237C70008B1151 /* Camera.h */,
+				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
 				304A8E2F1C237C70008B1151 /* EventHander.h */,
@@ -209,11 +213,16 @@
 				304A8E331C237C70008B1151 /* Matrix3.h */,
 				304A8E341C237C70008B1151 /* Matrix4.cpp */,
 				304A8E351C237C70008B1151 /* Matrix4.h */,
+				304A8E901C26ED32008B1151 /* MeshBuffer.cpp */,
+				304A8E911C26ED32008B1151 /* MeshBuffer.h */,
 				304A8E361C237C70008B1151 /* Node.cpp */,
 				304A8E371C237C70008B1151 /* Node.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				304A8E391C237C70008B1151 /* OpenGLView.h */,
 				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
+				304A8E2A1C237C70008B1151 /* ouzel.h */,
+				304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */,
+				304A8E951C26EDFB008B1151 /* ParticleSystem.h */,
 				304A8E791C238146008B1151 /* Prefix.pch */,
 				304A8E3B1C237C70008B1151 /* Rectangle.cpp */,
 				304A8E3C1C237C70008B1151 /* Rectangle.h */,
@@ -222,6 +231,8 @@
 				304A8E3F1C237C70008B1151 /* Renderer.h */,
 				304A8E7B1C24814F008B1151 /* RendererOGL.cpp */,
 				304A8E7C1C24814F008B1151 /* RendererOGL.h */,
+				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
+				304A8E891C2486C6008B1151 /* RenderTarget.h */,
 				304A8E7D1C24814F008B1151 /* RenderTargetOGL.cpp */,
 				304A8E7E1C24814F008B1151 /* RenderTargetOGL.h */,
 				304A8E401C237C70008B1151 /* Scene.cpp */,
@@ -244,13 +255,8 @@
 				304A8E4D1C237C70008B1151 /* Vector3.h */,
 				304A8E4E1C237C70008B1151 /* Vector4.cpp */,
 				304A8E4F1C237C70008B1151 /* Vector4.h */,
-				304A8E871C248204008B1151 /* CompileConfig.h */,
-				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
-				304A8E891C2486C6008B1151 /* RenderTarget.h */,
-				304A8E901C26ED32008B1151 /* MeshBuffer.cpp */,
-				304A8E911C26ED32008B1151 /* MeshBuffer.h */,
-				304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */,
-				304A8E951C26EDFB008B1151 /* ParticleSystem.h */,
+				304A8E981C26F5CF008B1151 /* Size2.cpp */,
+				304A8E991C26F5CF008B1151 /* Size2.h */,
 			);
 			name = ouzel;
 			path = ../ouzel;
@@ -277,6 +283,7 @@
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
 				304A8E751C237C70008B1151 /* Vector4.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
+				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
 				304A8E631C237C70008B1151 /* ReferenceCounted.h in Headers */,
 				304A8E821C24814F008B1151 /* RendererOGL.h in Headers */,
@@ -399,6 +406,7 @@
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
+				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
 				304A8E921C26ED32008B1151 /* MeshBuffer.cpp in Sources */,

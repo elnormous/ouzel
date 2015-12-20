@@ -54,7 +54,7 @@ using namespace ouzel;
 
 -(void)update
 {
-    _renderer->resize(_frame.size.width, _frame.size.height);
+    _renderer->resize(Size2(_frame.size.width, _frame.size.height));
     
     [_openGLContext update];
 }

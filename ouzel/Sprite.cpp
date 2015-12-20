@@ -19,16 +19,15 @@ namespace ouzel
         
         _texture = _engine->getRenderer()->getTexture(filename);
         
-        _width = _texture->getWidth();
-        _height = _texture->getHeight();
+        _size = _texture->getSize();
         
         _shader = _engine->getRenderer()->getShader(SHADER_TEXTURE);
         
         glGenVertexArrays(1, &_vertexArray);
         glBindVertexArray(_vertexArray);
         
-        GLfloat width = static_cast<GLfloat>(_texture->getWidth());
-        GLfloat height = static_cast<GLfloat>(_texture->getHeight());
+        GLfloat width = static_cast<GLfloat>(_size.width);
+        GLfloat height = static_cast<GLfloat>(_size.height);
         
         GLfloat vertices[] = {
             -width / 2.0f, -height / 2.0f, -20.0f, 1.0f,
@@ -122,8 +121,8 @@ namespace ouzel
     {
         Matrix4 mvp = _engine->getRenderer()->getProjection() * _engine->getScene()->getCamera()->getTransform() * _transform;
         
-        Vector3 topRight(_width / 2.0f, _height / 2.0f, 0.0f);
-        Vector3 bottomLeft(-_width / 2.0f, -_height / 2.0f, 0.0f);
+        Vector3 topRight(_size.width / 2.0f, _size.height / 2.0f, 0.0f);
+        Vector3 bottomLeft(-_size.width / 2.0f, -_size.height / 2.0f, 0.0f);
         
         mvp.transformPoint(&topRight);
         mvp.transformPoint(&bottomLeft);

@@ -44,16 +44,16 @@ namespace ouzel
         Shader* colorShader = new ShaderOGL("color.fsh", "color.vsh");
         _shaders[SHADER_COLOR] = colorShader;
         
-        resize(width, height);
+        resize(Size2(width, height));
         
         return true;
     }
 
-    void RendererOGL::resize(uint32_t width, uint32_t height)
+    void RendererOGL::resize(const Size2& size)
     {
-        Renderer::resize(width, height);
+        Renderer::resize(size);
         
-        glViewport(0, 0, _width, _height);
+        glViewport(0, 0, _size.width, _size.height);
     }
     
     void RendererOGL::clear()
