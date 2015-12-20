@@ -96,6 +96,8 @@ namespace ouzel
         Shader* colorShader = loadShaderFromStrings(COLOR_PIXEL_SHADER, COLOR_VERTEX_SHADER);
         _shaders[SHADER_COLOR] = colorShader;
         
+        _engine->begin();
+        
         return true;
     }
 

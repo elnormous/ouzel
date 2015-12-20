@@ -47,6 +47,14 @@ namespace ouzel
         if (_scene) _scene->release();
     }
     
+    void Engine::begin()
+    {
+        for (EventHandler* eventHandler : _eventHandlers)
+        {
+            eventHandler->begin();
+        }
+    }
+    
     void Engine::run()
     {
         _renderer->clear();

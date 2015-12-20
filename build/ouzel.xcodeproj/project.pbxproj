@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		303B74E01C276E8100FEDE92 /* tim-from-braid.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B74DF1C276E8100FEDE92 /* tim-from-braid.png */; };
 		304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E0E1C237B96008B1151 /* AppDelegate.mm */; };
 		304A8E151C237B96008B1151 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E141C237B96008B1151 /* ViewController.mm */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
@@ -78,6 +79,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		303B74DF1C276E8100FEDE92 /* tim-from-braid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tim-from-braid.png"; path = "Resources/tim-from-braid.png"; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E0D1C237B96008B1151 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OSX/AppDelegate.h; sourceTree = "<group>"; };
 		304A8E0E1C237B96008B1151 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = OSX/AppDelegate.mm; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 		304A8EB21C2765C4008B1151 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				303B74DF1C276E8100FEDE92 /* tim-from-braid.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				304A8E171C237B96008B1151 /* Assets.xcassets in Resources */,
+				303B74E01C276E8100FEDE92 /* tim-from-braid.png in Resources */,
 				304A8E1A1C237B96008B1151 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

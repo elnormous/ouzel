@@ -11,6 +11,8 @@ namespace ouzel
         Application();
         virtual ~Application();
         
+        virtual void begin() override;
+        
         Engine* getEngine() const { return _engine; }
         
         virtual bool handleEvent(const Event& event) override;
