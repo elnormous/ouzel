@@ -13,6 +13,8 @@
 		303B74E81C27856D00FEDE92 /* SoundManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B74E61C27856D00FEDE92 /* SoundManager.h */; };
 		303B74EA1C27868A00FEDE92 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B74E91C27868A00FEDE92 /* Sound.h */; };
 		303B74EC1C27869800FEDE92 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74EB1C27869800FEDE92 /* Sound.cpp */; };
+		303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B74ED1C27F6A100FEDE92 /* OpenGL.framework */; };
+		303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B74F21C27F6EB00FEDE92 /* Cocoa.framework */; };
 		304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E0E1C237B96008B1151 /* AppDelegate.mm */; };
 		304A8E151C237B96008B1151 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E141C237B96008B1151 /* ViewController.mm */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
@@ -91,6 +93,9 @@
 		303B74E61C27856D00FEDE92 /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
 		303B74E91C27868A00FEDE92 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		303B74EB1C27869800FEDE92 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
+		303B74ED1C27F6A100FEDE92 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		303B74F01C27F6DD00FEDE92 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		303B74F21C27F6EB00FEDE92 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		304A8E0A1C237B95008B1151 /* sprite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E0D1C237B96008B1151 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OSX/AppDelegate.h; sourceTree = "<group>"; };
 		304A8E0E1C237B96008B1151 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = OSX/AppDelegate.mm; sourceTree = "<group>"; };
@@ -173,6 +178,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
+				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,
 				304A8EA51C274183008B1151 /* libouzel_osx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -187,9 +194,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				303B74ED1C27F6A100FEDE92 /* OpenGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
+				303B74F21C27F6EB00FEDE92 /* Cocoa.framework */,
+				303B74F01C27F6DD00FEDE92 /* AppKit.framework */,
 				304A8E291C237C51008B1151 /* ouzel */,
 				304A8E0C1C237B95008B1151 /* samples */,
 				304A8E0B1C237B95008B1151 /* Products */,
@@ -309,6 +326,7 @@
 		304A8EB31C2765DE008B1151 /* sprite */ = {
 			isa = PBXGroup;
 			children = (
+				303B74EF1C27F6B000FEDE92 /* Frameworks */,
 				304A8EB21C2765C4008B1151 /* Resources */,
 				304A8EA41C274113008B1151 /* osx */,
 				304A8E0D1C237B96008B1151 /* AppDelegate.h */,
@@ -528,7 +546,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -571,7 +588,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
