@@ -6,6 +6,13 @@
 
 namespace ouzel
 {
+    void View::lock()
+    {
+        OpenGLView* openGLView = (OpenGLView*)_nativeView;
+        
+        [openGLView makeOpenGLContextCurrent];
+    }
+    
     void View::createNativeView()
     {
         _nativeView = [[OpenGLView alloc]initWithFrame:NSMakeRect(0, 0, _size.width, _size.height) view:this];

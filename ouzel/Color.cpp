@@ -16,4 +16,24 @@ namespace ouzel
     {
         
     }
+    
+    float Color::getR() const
+    {
+        return r / 255.0f;
+    }
+    
+    float Color::getG() const
+    {
+        return g / 255.0f;
+    }
+    
+    float Color::getB() const
+    {
+        return b / 255.0f;
+    }
+    
+    float Color::getA() const
+    {
+        return a / 255.0f;
+    }
 }

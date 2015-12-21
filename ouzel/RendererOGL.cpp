@@ -74,7 +74,7 @@ namespace ouzel
     bool RendererOGL::initOpenGL(uint32_t width, uint32_t height)
     {
         //glEnable(GL_DEPTH_TEST);
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
         
         glEnable(GL_BLEND);
         //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

@@ -32,6 +32,8 @@ namespace ouzel
         
         Renderer* getRenderer() const { return _renderer; }
         
+        void lock();
+        
         void resize(const Size2& size);
         const Size2& getSize() const { return _size; }
         

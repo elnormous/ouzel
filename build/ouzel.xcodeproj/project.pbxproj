@@ -662,6 +662,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -675,6 +676,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

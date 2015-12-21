@@ -18,6 +18,13 @@ namespace ouzel
     {
     }
     
+#ifndef OUZEL_PLATFORM_OSX
+    void View::lock()
+    {
+        
+    }
+#endif
+    
     void View::resize(const Size2& size)
     {
         _size = size;

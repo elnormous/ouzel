@@ -63,6 +63,7 @@ namespace ouzel
     
     void Engine::run()
     {
+        _renderer->begin();
         _renderer->clear();
         _scene->drawAll();
         _renderer->flush();
