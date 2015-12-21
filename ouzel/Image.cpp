@@ -3,14 +3,16 @@
 
 #include "Image.h"
 #include "Utils.h"
+#include "Engine.h"
+#include "FileSystem.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 namespace ouzel
 {
-    Image::Image()
+    Image::Image(Engine* engine)
     {
-        
+        _engine = engine;
     }
     
     Image::~Image()
@@ -25,7 +27,7 @@ namespace ouzel
     {
         _filename = filename;
         
-        std::string path = getResourcePath(filename);
+        std::string path = _engine->getFileSystem()->getResourcePath(filename);
         
         int width;
         int height;

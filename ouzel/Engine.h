@@ -13,6 +13,7 @@ namespace ouzel
 {
     class Renderer;
     class Scene;
+    class FileSystem;
     
     class Engine: public Noncopyable, public ReferenceCounted
     {
@@ -25,6 +26,7 @@ namespace ouzel
         
         Renderer* getRenderer() const { return _renderer; }
         Scene* getScene() const { return _scene; }
+        FileSystem* getFileSystem() const { return _fileSystem; }
         
         void addEventHandler(EventHandler* eventHandler);
         void removeEventHandler(EventHandler* eventHandler);
@@ -34,6 +36,7 @@ namespace ouzel
     protected:
         Renderer* _renderer = nullptr;
         Scene* _scene = nullptr;
+        FileSystem* _fileSystem = nullptr;
         
         long _previousFrameTime;
         

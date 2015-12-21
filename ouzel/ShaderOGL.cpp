@@ -2,6 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include <fstream>
+#include "Engine.h"
+#include "Renderer.h"
+#include "FileSystem.h"
 #include "ShaderOGL.h"
 #include "Utils.h"
 
@@ -24,7 +27,7 @@ namespace ouzel
             return false;
         }
         
-        std::ifstream fragmentShaderFile(getResourcePath(fragmentShader));
+        std::ifstream fragmentShaderFile(_renderer->getEngine()->getFileSystem()->getResourcePath(fragmentShader));
         std::string fragmentShaderCode;
         
         fragmentShaderFile.seekg(0, std::ios::end);
@@ -34,7 +37,7 @@ namespace ouzel
         fragmentShaderCode.assign((std::istreambuf_iterator<char>(fragmentShaderFile)),
                                   std::istreambuf_iterator<char>());
         
-        std::ifstream vertexShaderFile(getResourcePath(vertexShader));
+        std::ifstream vertexShaderFile(_renderer->getEngine()->getFileSystem()->getResourcePath(vertexShader));
         std::string vertexShaderCode;
         
         vertexShaderFile.seekg(0, std::ios::end);

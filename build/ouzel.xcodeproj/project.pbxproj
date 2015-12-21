@@ -15,6 +15,8 @@
 		303B74EC1C27869800FEDE92 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74EB1C27869800FEDE92 /* Sound.cpp */; };
 		303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B74ED1C27F6A100FEDE92 /* OpenGL.framework */; };
 		303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B74F21C27F6EB00FEDE92 /* Cocoa.framework */; };
+		303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
+		303B75011C28208800FEDE92 /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B74FF1C28208800FEDE92 /* FileSystem.h */; };
 		304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E0E1C237B96008B1151 /* AppDelegate.mm */; };
 		304A8E151C237B96008B1151 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E141C237B96008B1151 /* ViewController.mm */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
@@ -96,6 +98,8 @@
 		303B74ED1C27F6A100FEDE92 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		303B74F01C27F6DD00FEDE92 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		303B74F21C27F6EB00FEDE92 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		303B74FE1C28208800FEDE92 /* FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
+		303B74FF1C28208800FEDE92 /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E0D1C237B96008B1151 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OSX/AppDelegate.h; sourceTree = "<group>"; };
 		304A8E0E1C237B96008B1151 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = OSX/AppDelegate.mm; sourceTree = "<group>"; };
@@ -197,6 +201,8 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				303B74F21C27F6EB00FEDE92 /* Cocoa.framework */,
+				303B74F01C27F6DD00FEDE92 /* AppKit.framework */,
 				303B74ED1C27F6A100FEDE92 /* OpenGL.framework */,
 			);
 			name = Frameworks;
@@ -205,8 +211,6 @@
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
-				303B74F21C27F6EB00FEDE92 /* Cocoa.framework */,
-				303B74F01C27F6DD00FEDE92 /* AppKit.framework */,
 				304A8E291C237C51008B1151 /* ouzel */,
 				304A8E0C1C237B95008B1151 /* samples */,
 				304A8E0B1C237B95008B1151 /* Products */,
@@ -242,6 +246,8 @@
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
 				304A8E2F1C237C70008B1151 /* EventHander.h */,
+				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
+				303B74FF1C28208800FEDE92 /* FileSystem.h */,
 				303B74E11C277A7500FEDE92 /* Image.cpp */,
 				303B74E21C277A7500FEDE92 /* Image.h */,
 				304A8E301C237C70008B1151 /* MathUtils.cpp */,
@@ -377,6 +383,7 @@
 				304A8E8B1C2486C6008B1151 /* RenderTarget.h in Headers */,
 				304A8E6F1C237C70008B1151 /* Utils.h in Headers */,
 				304A8EAF1C274F7C008B1151 /* View.h in Headers */,
+				303B75011C28208800FEDE92 /* FileSystem.h in Headers */,
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
 				304A8E841C24814F008B1151 /* RenderTargetOGL.h in Headers */,
 				303B74EA1C27868A00FEDE92 /* Sound.h in Headers */,
@@ -497,6 +504,7 @@
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
+				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				303B74E71C27856D00FEDE92 /* SoundManager.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,

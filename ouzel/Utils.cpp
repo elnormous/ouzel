@@ -5,10 +5,9 @@
 
 #ifdef OUZEL_PLATFORM_OSX
 #include <OpenGL/gl3.h>
+#include <sys/time.h>
 #endif
 
-#include <sys/time.h>
-#include <CoreGraphics/CoreGraphics.h>
 #include "Utils.h"
 
 namespace ouzel
@@ -25,21 +24,6 @@ namespace ouzel
         }
         
         return error;
-    }
-
-    std::string getResourcePath(const std::string& filename)
-    {
-        CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-        CFStringRef urlString = CFURLCopyPath(appUrlRef);
-        
-        char temporaryCString[1024] = "";
-        
-        CFStringGetCString(urlString, temporaryCString, sizeof(temporaryCString), kCFStringEncodingUTF8);
-        
-        CFRelease(appUrlRef);
-        CFRelease(urlString);
-        
-        return std::string(temporaryCString) + "Contents/Resources/" + filename;
     }
 
     void log(const char* format, ...)

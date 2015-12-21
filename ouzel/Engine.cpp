@@ -15,6 +15,7 @@
 #include "Utils.h"
 #include "Renderer.h"
 #include "Scene.h"
+#include "FileSystem.h"
 
 namespace ouzel
 {
@@ -40,6 +41,8 @@ namespace ouzel
         _scene = new Scene(this);
         _scene->init();
         
+        _fileSystem = new FileSystem();
+        
         _previousFrameTime = getCurrentMicroSeconds();
     }
     
@@ -47,6 +50,7 @@ namespace ouzel
     {
         if (_renderer) _renderer->release();
         if (_scene) _scene->release();
+        if (_fileSystem) _fileSystem->release();
     }
     
     void Engine::begin()

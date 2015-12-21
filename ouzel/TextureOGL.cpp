@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "TextureOGL.h"
+#include "Engine.h"
 #include "Image.h"
 #include "Utils.h"
 
@@ -28,7 +29,7 @@ namespace ouzel
             return false;
         }
         
-        Image* image = new Image();
+        Image* image = new Image(_renderer->getEngine());
         if (!image->loadFromFile(filename))
         {
             return false;

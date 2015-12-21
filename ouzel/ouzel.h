@@ -12,6 +12,7 @@
 #include "Vector3.h"
 #include "Rectangle.h"
 #include "Scene.h"
+#include "FileSystem.h"
 #include "Node.h"
 #include "Camera.h"
 #include "Sprite.h"
