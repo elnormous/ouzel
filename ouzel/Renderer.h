@@ -59,12 +59,14 @@ namespace ouzel
         Texture* getTexture(const std::string& filename);
         virtual Texture* loadTextureFromFile(const std::string& filename);
         virtual bool activateTexture(Texture* texture, uint32_t layer);
+        virtual Texture* getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
         
         Shader* getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, Shader* shader);
         virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader);
         virtual Shader* loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader);
         virtual bool activateShader(Shader* shader);
+        virtual Shader* getActiveShader() const { return _activeShader; }
         
         virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
         virtual bool drawMeshBuffer(MeshBuffer* meshBuffer, const Matrix4& transform = Matrix4());

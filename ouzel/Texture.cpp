@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Texture.h"
+#include "Renderer.h"
 
 namespace ouzel
 {
@@ -13,7 +14,13 @@ namespace ouzel
 
     Texture::~Texture()
     {
-        
+        for (int i = 0; i < TEXTURE_LAYERS; ++i)
+        {
+            if (_renderer->getActiveTexture(i) == this)
+            {
+                _renderer->activateTexture(nullptr, i);
+            }
+        }
     }
     
     bool Texture::initFromFile(const std::string& filename)

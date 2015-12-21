@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Shader.h"
-#include "Utils.h"
+#include "Renderer.h"
 
 namespace ouzel
 {
@@ -14,7 +14,10 @@ namespace ouzel
 
     Shader::~Shader()
     {
-        
+        if (_renderer->getActiveShader() == this)
+        {
+            _renderer->activateShader(nullptr);
+        }
     }
     
     bool Shader::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader)

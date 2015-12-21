@@ -145,14 +145,21 @@ namespace ouzel
             return false;
         }
         
-        TextureOGL* textureOGL = static_cast<TextureOGL*>(texture);
-        
-        glActiveTexture(GL_TEXTURE0 + layer);
-        glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
-        
-        if (checkOpenGLErrors())
+        if (texture)
         {
-            return false;
+            TextureOGL* textureOGL = static_cast<TextureOGL*>(texture);
+            
+            glActiveTexture(GL_TEXTURE0 + layer);
+            glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
+            
+            if (checkOpenGLErrors())
+            {
+                return false;
+            }
+        }
+        else
+        {
+            glBindTexture(GL_TEXTURE_2D, 0);
         }
         
         return true;
@@ -191,13 +198,20 @@ namespace ouzel
             return false;
         }
         
-        ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(shader);
-        
-        glUseProgram(shaderOGL->getProgramId());
-        
-        if (checkOpenGLErrors())
+        if (shader)
         {
-            return false;
+            ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(shader);
+            
+            glUseProgram(shaderOGL->getProgramId());
+            
+            if (checkOpenGLErrors())
+            {
+                return false;
+            }
+        }
+        else
+        {
+            glUseProgram(0);
         }
         
         return true;
