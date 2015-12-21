@@ -269,32 +269,25 @@ namespace ouzel
     {
         GLuint vertexArray = 0;
         GLuint vertexBuffer = 0;
-        GLuint colorBuffer = 0;
         GLuint indexBuffer = 0;
         
         glGenVertexArrays(1, &vertexArray);
         glBindVertexArray(vertexArray);
         
         GLfloat vertices[] = {
-            start.x, start.y, -10.0f, 1.0f,
-            finish.x, finish.y, -10.0f, 1.0f};
+            start.x, start.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            finish.x, finish.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA()
+        };
         
         glGenBuffers(1, &vertexBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+        
         glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
         
-        GLfloat colors[] = {
-            color.getR(), color.getG(), color.getB(), color.getA(),
-            color.getR(), color.getG(), color.getB(), color.getA()
-        };
-        
-        glGenBuffers(1, &colorBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
         glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(16));
         
         GLubyte indices[] = {0, 1};
         
@@ -333,7 +326,6 @@ namespace ouzel
         // delete buffers
         glDeleteVertexArrays(1, &vertexArray);
         glDeleteBuffers(1, &vertexBuffer);
-        glDeleteBuffers(1, &colorBuffer);
         glDeleteBuffers(1, &indexBuffer);
     }
     
@@ -341,36 +333,27 @@ namespace ouzel
     {
         GLuint vertexArray = 0;
         GLuint vertexBuffer = 0;
-        GLuint colorBuffer = 0;
         GLuint indexBuffer = 0;
         
         glGenVertexArrays(1, &vertexArray);
         glBindVertexArray(vertexArray);
         
         GLfloat vertices[] = {
-            rectangle.x, rectangle.y, -10.0f, 1.0f,
-            rectangle.x + rectangle.width, rectangle.y, -10.0f, 1.0f,
-            rectangle.x, rectangle.y + rectangle.height, -10.0f, 1.0f,
-            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, 1.0f};
+            rectangle.x, rectangle.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            rectangle.x + rectangle.width, rectangle.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            rectangle.x, rectangle.y + rectangle.height, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA()
+        };
         
         glGenBuffers(1, &vertexBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+        
         glEnableVertexAttribArray(0);
-        
-        GLfloat colors[] = {
-            color.getR(), color.getG(), color.getB(), color.getA(),
-            color.getR(), color.getG(), color.getB(), color.getA(),
-            color.getR(), color.getG(), color.getB(), color.getA(),
-            color.getR(), color.getG(), color.getB(), color.getA(),
-        };
-        
-        glGenBuffers(1, &colorBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
+
         glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(16));
         
         GLubyte indices[] = {0, 1, 3, 2, 0};
         
@@ -409,7 +392,6 @@ namespace ouzel
         // delete buffers
         glDeleteVertexArrays(1, &vertexArray);
         glDeleteBuffers(1, &vertexBuffer);
-        glDeleteBuffers(1, &colorBuffer);
         glDeleteBuffers(1, &indexBuffer);
     }
     
@@ -417,49 +399,30 @@ namespace ouzel
     {
         GLuint vertexArray = 0;
         GLuint vertexBuffer = 0;
-        GLuint colorBuffer = 0;
-        GLuint texcoordBuffer = 0;
         GLuint indexBuffer = 0;
         
         glGenVertexArrays(1, &vertexArray);
         glBindVertexArray(vertexArray);
         
         GLfloat vertices[] = {
-            rectangle.x, rectangle.y, -10.0f, 1.0f,
-            rectangle.x + rectangle.width, rectangle.y, -10.0f, 1.0f,
-            rectangle.x, rectangle.y + rectangle.height, -10.0f, 1.0f,
-            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, 1.0f};
+            rectangle.x, rectangle.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 1.0f,
+            rectangle.x + rectangle.width, rectangle.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 1.0f,
+            rectangle.x, rectangle.y + rectangle.height, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 0.0f,
+            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 0.0f
+        };
         
         glGenBuffers(1, &vertexBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+        
         glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
         
-        GLfloat colors[] = {
-            color.getR(), color.getG(), color.getB(), color.getA(),
-            color.getR(), color.getG(), color.getB(), color.getA(),
-            color.getR(), color.getG(), color.getB(), color.getA(),
-            color.getR(), color.getG(), color.getB(), color.getA(),
-        };
-        
-        glGenBuffers(1, &colorBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
         glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(16));
         
-        GLfloat texcoords[] = {
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 0.0f};
-        
-        glGenBuffers(1, &texcoordBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, texcoordBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(texcoords), texcoords, GL_STATIC_DRAW);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
         glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(32));
         
         GLubyte indices[] = {0, 1, 2, 1, 3, 2};
         
@@ -498,8 +461,6 @@ namespace ouzel
         // delete buffers
         glDeleteVertexArrays(1, &vertexArray);
         glDeleteBuffers(1, &vertexBuffer);
-        glDeleteBuffers(1, &colorBuffer);
-        glDeleteBuffers(1, &texcoordBuffer);
         glDeleteBuffers(1, &indexBuffer);
     }
     
