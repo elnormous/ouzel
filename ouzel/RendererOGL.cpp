@@ -178,7 +178,7 @@ namespace ouzel
         glUseProgram(shaderOGL->getProgramId());
     }
     
-    void RendererOGL::drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform)
+    void RendererOGL::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
     {
         GLuint vertexArray = 0;
         GLuint vertexBuffer = 0;
@@ -199,8 +199,8 @@ namespace ouzel
         glEnableVertexAttribArray(0);
         
         GLfloat colors[] = {
-            color.x, color.y, color.z, 1.0f,
-            color.x, color.y, color.z, 1.0f
+            color.getR(), color.getG(), color.getB(), color.getA(),
+            color.getR(), color.getG(), color.getB(), color.getA()
         };
         
         glGenBuffers(1, &colorBuffer);
@@ -250,7 +250,7 @@ namespace ouzel
         glDeleteBuffers(1, &indexBuffer);
     }
     
-    void RendererOGL::drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform)
+    void RendererOGL::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
         GLuint vertexArray = 0;
         GLuint vertexBuffer = 0;
@@ -273,10 +273,10 @@ namespace ouzel
         glEnableVertexAttribArray(0);
         
         GLfloat colors[] = {
-            color.x, color.y, color.z, 1.0f,
-            color.x, color.y, color.z, 1.0f,
-            color.x, color.y, color.z, 1.0f,
-            color.x, color.y, color.z, 1.0f,
+            color.getR(), color.getG(), color.getB(), color.getA(),
+            color.getR(), color.getG(), color.getB(), color.getA(),
+            color.getR(), color.getG(), color.getB(), color.getA(),
+            color.getR(), color.getG(), color.getB(), color.getA(),
         };
         
         glGenBuffers(1, &colorBuffer);
@@ -326,7 +326,7 @@ namespace ouzel
         glDeleteBuffers(1, &indexBuffer);
     }
     
-    void RendererOGL::drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform)
+    void RendererOGL::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
         GLuint vertexArray = 0;
         GLuint vertexBuffer = 0;
@@ -350,10 +350,10 @@ namespace ouzel
         glEnableVertexAttribArray(0);
         
         GLfloat colors[] = {
-            color.x, color.y, color.z, 1.0f,
-            color.x, color.y, color.z, 1.0f,
-            color.x, color.y, color.z, 1.0f,
-            color.x, color.y, color.z, 1.0f,
+            color.getR(), color.getG(), color.getB(), color.getA(),
+            color.getR(), color.getG(), color.getB(), color.getA(),
+            color.getR(), color.getG(), color.getB(), color.getA(),
+            color.getR(), color.getG(), color.getB(), color.getA(),
         };
         
         glGenBuffers(1, &colorBuffer);

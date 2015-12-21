@@ -220,15 +220,15 @@ namespace ouzel
         }
     }
     
-    void Renderer::drawLine(const Vector2& start, const Vector2& finish, const Vector3& color, const Matrix4& transform)
+    void Renderer::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
     {
     }
     
-    void Renderer::drawRectangle(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform)
+    void Renderer::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
     }
     
-    void Renderer::drawQuad(const Rectangle& rectangle, const Vector3& color, const Matrix4& transform)
+    void Renderer::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
     }
 }
