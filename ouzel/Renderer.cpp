@@ -19,7 +19,10 @@ namespace ouzel
     Renderer::Renderer(const Size2& size, bool fullscreen, Engine* engine, Driver driver):
         _engine(engine), _driver(driver)
     {
-        
+        for (int i = 0; i < TEXTURE_LAYERS; ++i)
+        {
+            _activeTextures[i] = nullptr;
+        }
     }
 
     Renderer::~Renderer()
@@ -99,6 +102,8 @@ namespace ouzel
     
     bool Renderer::activateTexture(Texture* texture, uint32_t layer)
     {
+        _activeTextures[layer] = texture;
+        
         return true;
     }
     
@@ -174,6 +179,8 @@ namespace ouzel
     
     bool Renderer::activateShader(Shader* shader)
     {
+        _activeShader = shader;
+        
         return true;
     }
     
@@ -190,9 +197,14 @@ namespace ouzel
         return meshBuffer;
     }
     
-    void Renderer::drawMeshBuffer(MeshBuffer* meshBuffer)
+    bool Renderer::drawMeshBuffer(MeshBuffer* meshBuffer, const Matrix4& transform)
     {
+        if (!_activeShader)
+        {
+            return false;
+        }
         
+        return true;
     }
 
     Vector2 Renderer::absoluteToWorldLocation(const Vector2& position)

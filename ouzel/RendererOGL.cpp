@@ -140,6 +140,11 @@ namespace ouzel
     
     bool RendererOGL::activateTexture(Texture* texture, uint32_t layer)
     {
+        if (!Renderer::activateTexture(texture, layer))
+        {
+            return false;
+        }
+        
         TextureOGL* textureOGL = static_cast<TextureOGL*>(texture);
         
         glActiveTexture(GL_TEXTURE0 + layer);
@@ -181,6 +186,11 @@ namespace ouzel
     
     bool RendererOGL::activateShader(Shader* shader)
     {
+        if (!Renderer::activateShader(shader))
+        {
+            return false;
+        }
+        
         ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(shader);
         
         glUseProgram(shaderOGL->getProgramId());
@@ -206,13 +216,39 @@ namespace ouzel
         return meshBuffer;
     }
     
-    void RendererOGL::drawMeshBuffer(MeshBuffer* meshBuffer)
+    bool RendererOGL::drawMeshBuffer(MeshBuffer* meshBuffer, const Matrix4& transform)
     {
+        if (!Renderer::drawMeshBuffer(meshBuffer, transform))
+        {
+            return false;
+        }
+        
         MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(meshBuffer);
+        
+        GLint uniProj = _activeShader->getVertexShaderConstantId("proj");
+        glUniformMatrix4fv(uniProj, 1, GL_FALSE, _engine->getRenderer()->getProjection().m);
+        
+        GLint uniView = _activeShader->getVertexShaderConstantId("view");
+        glUniformMatrix4fv(uniView, 1, GL_FALSE, _engine->getScene()->getCamera()->getTransform().m);
+        
+        GLint uniModel = _activeShader->getVertexShaderConstantId("model");
+        glUniformMatrix4fv(uniModel, 1, GL_FALSE, transform.m);
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
         
         glBindVertexArray(meshBufferOGL->getVertexArrayId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
         glDrawElements(GL_TRIANGLES, meshBufferOGL->getCount(), GL_UNSIGNED_SHORT, nullptr);
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        return true;
     }
     
     void RendererOGL::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)

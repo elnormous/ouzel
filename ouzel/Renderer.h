@@ -16,6 +16,8 @@
 
 namespace ouzel
 {
+    const uint32_t TEXTURE_LAYERS = 8;
+    
     const std::string SHADER_TEXTURE = "shaderTexture";
     const std::string SHADER_COLOR = "shaderColor";
     
@@ -65,7 +67,7 @@ namespace ouzel
         virtual bool activateShader(Shader* shader);
         
         virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
-        virtual void drawMeshBuffer(MeshBuffer* meshBuffer);
+        virtual bool drawMeshBuffer(MeshBuffer* meshBuffer, const Matrix4& transform = Matrix4());
         
         const Matrix4& getProjection() const { return _projection; }
         
@@ -86,7 +88,9 @@ namespace ouzel
         Matrix4 _projection;
         
         std::unordered_map<std::string, Texture*> _textures;
-        
         std::unordered_map<std::string, Shader*> _shaders;
+        
+        Texture* _activeTextures[TEXTURE_LAYERS];
+        Shader* _activeShader = nullptr;
     };
 }

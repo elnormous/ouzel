@@ -10,12 +10,6 @@
 #include "Camera.h"
 #include "Scene.h"
 
-// TODO: remove
-#include "CompileConfig.h"
-#ifdef OUZEL_PLATFORM_OSX
-#include <OpenGL/gl3.h>
-#endif
-
 namespace ouzel
 {
     Sprite::Sprite(const std::string& filename, Scene* scene):
@@ -50,24 +44,8 @@ namespace ouzel
     void Sprite::draw()
     {
         _engine->getRenderer()->activateShader(_shader);
-        
-        GLint uniProj = _shader->getVertexShaderConstantId("proj");
-        glUniformMatrix4fv(uniProj, 1, GL_FALSE, _engine->getRenderer()->getProjection().m);
-        
-        GLint uniView = _shader->getVertexShaderConstantId("view");
-        glUniformMatrix4fv(uniView, 1, GL_FALSE, _engine->getScene()->getCamera()->getTransform().m);
-        
-        GLint uniModel = _shader->getVertexShaderConstantId("model");
-        glUniformMatrix4fv(uniModel, 1, GL_FALSE, _transform.m);
-        
-        /*if (static_cast<RendererOGL*>(_engine->getRenderer())->checkOpenGLErrors())
-        {
-            return;
-        }*/
-        
         _engine->getRenderer()->activateTexture(_texture, 0);
-        
-        _engine->getRenderer()->drawMeshBuffer(_meshBuffer);
+        _engine->getRenderer()->drawMeshBuffer(_meshBuffer, _transform);
         
         /*_engine->getRenderer()->activateTexture(_texture, 0);
         _engine->getRenderer()->drawQuad(Rectangle(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height), Vector3(1.0f, 1.0f, 1.0f), _transform);*/
