@@ -5,6 +5,7 @@
 #include "TextureOGL.h"
 #include "RenderTargetOGL.h"
 #include "ShaderOGL.h"
+#include "MeshBufferOGL.h"
 #include "Engine.h"
 #include "Scene.h"
 #include "Camera.h"
@@ -128,7 +129,7 @@ namespace ouzel
     {
         TextureOGL* texture = new TextureOGL(this);
         
-        if (!texture->loadFromFile(filename))
+        if (!texture->initFromFile(filename))
         {
             delete texture;
             texture = nullptr;
@@ -137,19 +138,26 @@ namespace ouzel
         return texture;
     }
     
-    void RendererOGL::activateTexture(Texture* texture, uint32_t layer)
+    bool RendererOGL::activateTexture(Texture* texture, uint32_t layer)
     {
         TextureOGL* textureOGL = static_cast<TextureOGL*>(texture);
         
         glActiveTexture(GL_TEXTURE0 + layer);
         glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        return true;
     }
     
     Shader* RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
         ShaderOGL* shader = new ShaderOGL(fragmentShader, vertexShader, this);
         
-        if (!shader->loadFromFiles(fragmentShader, vertexShader))
+        if (!shader->initFromFiles(fragmentShader, vertexShader))
         {
             delete shader;
             shader = nullptr;
@@ -162,7 +170,7 @@ namespace ouzel
     {
         ShaderOGL* shader = new ShaderOGL(fragmentShader, vertexShader, this);
         
-        if (!shader->loadFromStrings(fragmentShader, vertexShader))
+        if (!shader->initFromStrings(fragmentShader, vertexShader))
         {
             delete shader;
             shader = nullptr;
@@ -171,11 +179,40 @@ namespace ouzel
         return shader;
     }
     
-    void RendererOGL::activateShader(Shader* shader)
+    bool RendererOGL::activateShader(Shader* shader)
     {
         ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(shader);
         
         glUseProgram(shaderOGL->getProgramId());
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    MeshBuffer* RendererOGL::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices)
+    {
+        MeshBufferOGL* meshBuffer = new MeshBufferOGL(this);
+        
+        if (!meshBuffer->initFromData(indices, vertices))
+        {
+            delete meshBuffer;
+            meshBuffer = nullptr;
+        }
+        
+        return meshBuffer;
+    }
+    
+    void RendererOGL::drawMeshBuffer(MeshBuffer* meshBuffer)
+    {
+        MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(meshBuffer);
+        
+        glBindVertexArray(meshBufferOGL->getVertexArrayId());
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
+        glDrawElements(GL_TRIANGLES, meshBufferOGL->getCount(), GL_UNSIGNED_SHORT, nullptr);
     }
     
     void RendererOGL::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)

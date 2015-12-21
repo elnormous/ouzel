@@ -80,8 +80,8 @@
 		304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E991C26F5CF008B1151 /* Size2.h */; };
 		304A8E9E1C27081B008B1151 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E9C1C27081B008B1151 /* Color.cpp */; };
 		304A8E9F1C27081B008B1151 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E9D1C27081B008B1151 /* Color.h */; };
-		304A8EA21C270833008B1151 /* Vertex3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex3.cpp */; };
-		304A8EA31C270833008B1151 /* Vertex3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex3.h */; };
+		304A8EA21C270833008B1151 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex.cpp */; };
+		304A8EA31C270833008B1151 /* Vertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.h */; };
 		304A8EA51C274183008B1151 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304A8E251C237C30008B1151 /* libouzel_osx.a */; };
 		304A8EA71C2741B8008B1151 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA61C2741B8008B1151 /* main.m */; };
 		304A8EAA1C27429A008B1151 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
@@ -172,8 +172,8 @@
 		304A8E991C26F5CF008B1151 /* Size2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Size2.h; sourceTree = "<group>"; };
 		304A8E9C1C27081B008B1151 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
 		304A8E9D1C27081B008B1151 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
-		304A8EA01C270833008B1151 /* Vertex3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vertex3.cpp; sourceTree = "<group>"; };
-		304A8EA11C270833008B1151 /* Vertex3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex3.h; sourceTree = "<group>"; };
+		304A8EA01C270833008B1151 /* Vertex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vertex.cpp; sourceTree = "<group>"; };
+		304A8EA11C270833008B1151 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
 		304A8EA61C2741B8008B1151 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		304A8EA81C27429A008B1151 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		304A8EA91C27429A008B1151 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
@@ -261,8 +261,8 @@
 				304A8E4D1C237C70008B1151 /* Vector3.h */,
 				304A8E4E1C237C70008B1151 /* Vector4.cpp */,
 				304A8E4F1C237C70008B1151 /* Vector4.h */,
-				304A8EA01C270833008B1151 /* Vertex3.cpp */,
-				304A8EA11C270833008B1151 /* Vertex3.h */,
+				304A8EA01C270833008B1151 /* Vertex.cpp */,
+				304A8EA11C270833008B1151 /* Vertex.h */,
 			);
 			name = math;
 			sourceTree = "<group>";
@@ -440,7 +440,7 @@
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
 				303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */,
 				304A8E631C237C70008B1151 /* ReferenceCounted.h in Headers */,
-				304A8EA31C270833008B1151 /* Vertex3.h in Headers */,
+				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
 				304A8E821C24814F008B1151 /* RendererOGL.h in Headers */,
 				304A8E591C237C70008B1151 /* Matrix3.h in Headers */,
 				304A8E571C237C70008B1151 /* MathUtils.h in Headers */,
@@ -597,7 +597,7 @@
 				304A8E661C237C70008B1151 /* Scene.cpp in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix4.cpp in Sources */,
 				304A8E811C24814F008B1151 /* RendererOGL.cpp in Sources */,
-				304A8EA21C270833008B1151 /* Vertex3.cpp in Sources */,
+				304A8EA21C270833008B1151 /* Vertex.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

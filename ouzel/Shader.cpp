@@ -17,7 +17,7 @@ namespace ouzel
         
     }
     
-    bool Shader::loadFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    bool Shader::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
         _fragmentShaderFilename = fragmentShader;
         _vertexShaderFilename = vertexShader;
@@ -25,7 +25,7 @@ namespace ouzel
         return  true;
     }
     
-    bool Shader::loadFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    bool Shader::initFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
     {
         return  true;
     }

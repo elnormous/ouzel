@@ -20,9 +20,9 @@ namespace ouzel
         
     }
     
-    bool ShaderOGL::loadFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    bool ShaderOGL::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        if (!Shader::loadFromFiles(fragmentShader, vertexShader))
+        if (!Shader::initFromFiles(fragmentShader, vertexShader))
         {
             return false;
         }
@@ -47,12 +47,12 @@ namespace ouzel
         vertexShaderCode.assign((std::istreambuf_iterator<char>(vertexShaderFile)),
                                 std::istreambuf_iterator<char>());
         
-        return loadFromStrings(fragmentShaderCode, vertexShaderCode);
+        return initFromStrings(fragmentShaderCode, vertexShaderCode);
     }
     
-    bool ShaderOGL::loadFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    bool ShaderOGL::initFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        if (!Shader::loadFromFiles(fragmentShader, vertexShader))
+        if (!Shader::initFromFiles(fragmentShader, vertexShader))
         {
             return false;
         }

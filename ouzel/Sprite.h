@@ -3,14 +3,9 @@
 
 #pragma once
 
-#include "CompileConfig.h"
-
-#ifdef OUZEL_PLATFORM_OSX
-#include <OpenGL/gl3.h>
-#endif
-
 #include "Node.h"
 #include "Size2.h"
+#include "MeshBuffer.h"
 
 namespace ouzel
 {
@@ -41,10 +36,6 @@ namespace ouzel
         
         Size2 _size;
         
-        GLuint _vertexArray;
-        GLuint _indexBuffer;
-        GLuint _vertexBuffer;
-        GLuint _colorBuffer;
-        GLuint _texcoordBuffer;
+        MeshBuffer* _meshBuffer;
     };
 }

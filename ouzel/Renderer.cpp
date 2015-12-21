@@ -12,6 +12,7 @@
 #include "EventHander.h"
 #include "Scene.h"
 #include "View.h"
+#include "MeshBuffer.h"
 
 namespace ouzel
 {
@@ -96,15 +97,16 @@ namespace ouzel
         return result;
     }
     
-    void Renderer::activateTexture(Texture* texture, uint32_t layer)
+    bool Renderer::activateTexture(Texture* texture, uint32_t layer)
     {
+        return true;
     }
     
     Texture* Renderer::loadTextureFromFile(const std::string& filename)
     {
         Texture* texture = new Texture(this);
         
-        if (!texture->loadFromFile(filename))
+        if (!texture->initFromFile(filename))
         {
             delete texture;
             texture = nullptr;
@@ -148,7 +150,7 @@ namespace ouzel
     {
         Shader* shader = new Shader(this);
         
-        if (!shader->loadFromFiles(fragmentShader, vertexShader))
+        if (!shader->initFromFiles(fragmentShader, vertexShader))
         {
             delete shader;
             shader = nullptr;
@@ -161,7 +163,7 @@ namespace ouzel
     {
         Shader* shader = new Shader(this);
         
-        if (!shader->loadFromStrings(fragmentShader, vertexShader))
+        if (!shader->initFromStrings(fragmentShader, vertexShader))
         {
             delete shader;
             shader = nullptr;
@@ -170,8 +172,27 @@ namespace ouzel
         return shader;
     }
     
-    void Renderer::activateShader(Shader* shader)
+    bool Renderer::activateShader(Shader* shader)
     {
+        return true;
+    }
+    
+    MeshBuffer* Renderer::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices)
+    {
+        MeshBuffer* meshBuffer = new MeshBuffer(this);
+        
+        if (!meshBuffer->initFromData(indices, vertices))
+        {
+            delete meshBuffer;
+            meshBuffer = nullptr;
+        }
+        
+        return meshBuffer;
+    }
+    
+    void Renderer::drawMeshBuffer(MeshBuffer* meshBuffer)
+    {
+        
     }
 
     Vector2 Renderer::absoluteToWorldLocation(const Vector2& position)

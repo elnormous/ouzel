@@ -15,4 +15,9 @@ namespace ouzel
     {
         
     }
+    
+    bool MeshBuffer::initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices)
+    {
+        return true;
+    }
 }

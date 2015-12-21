@@ -17,8 +17,8 @@ namespace ouzel
         Shader(Renderer* renderer);
         virtual ~Shader();
         
-        virtual bool loadFromFiles(const std::string& fragmentShader, const std::string& vertexShader);
-        virtual bool loadFromStrings(const std::string& fragmentShader, const std::string& vertexShader);
+        virtual bool initFromFiles(const std::string& fragmentShader, const std::string& vertexShader);
+        virtual bool initFromStrings(const std::string& fragmentShader, const std::string& vertexShader);
         
         virtual uint32_t getPixelShaderConstantId(const std::string& name);
         virtual uint32_t getVertexShaderConstantId(const std::string& name);

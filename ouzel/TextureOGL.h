@@ -19,7 +19,7 @@ namespace ouzel
         TextureOGL(Renderer* renderer);
         virtual ~TextureOGL();
         
-        virtual bool loadFromFile(const std::string& filename) override;
+        virtual bool initFromFile(const std::string& filename) override;
         
         GLuint getTextureId() const { return _textureId; }
         

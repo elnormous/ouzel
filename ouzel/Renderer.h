@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <vector>
 #include <string>
 #include <unordered_map>
 #include "Noncopyable.h"
@@ -11,6 +12,7 @@
 #include "Matrix4.h"
 #include "Size2.h"
 #include "Color.h"
+#include "Vertex.h"
 
 namespace ouzel
 {
@@ -23,6 +25,7 @@ namespace ouzel
     class Node;
     class Shader;
     class Sprite;
+    class MeshBuffer;
 
     class Renderer: public Noncopyable, public ReferenceCounted
     {
@@ -53,13 +56,16 @@ namespace ouzel
         void preloadTexture(const std::string& filename);
         Texture* getTexture(const std::string& filename);
         virtual Texture* loadTextureFromFile(const std::string& filename);
-        virtual void activateTexture(Texture* texture, uint32_t layer);
+        virtual bool activateTexture(Texture* texture, uint32_t layer);
         
         Shader* getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, Shader* shader);
         virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader);
         virtual Shader* loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader);
-        virtual void activateShader(Shader* shader);
+        virtual bool activateShader(Shader* shader);
+        
+        virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
+        virtual void drawMeshBuffer(MeshBuffer* meshBuffer);
         
         const Matrix4& getProjection() const { return _projection; }
         

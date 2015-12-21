@@ -16,7 +16,7 @@ namespace ouzel
         
     }
     
-    bool Texture::loadFromFile(const std::string& filename)
+    bool Texture::initFromFile(const std::string& filename)
     {
         _filename = filename;
         

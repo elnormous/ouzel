@@ -19,8 +19,8 @@ namespace ouzel
         ShaderOGL(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer);
         virtual ~ShaderOGL();
         
-        virtual bool loadFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
-        virtual bool loadFromStrings(const std::string& fragmentShader, const std::string& vertexShader) override;
+        virtual bool initFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
+        virtual bool initFromStrings(const std::string& fragmentShader, const std::string& vertexShader) override;
         
         GLuint getProgramId() const { return _programId; }
         

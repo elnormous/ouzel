@@ -3,8 +3,10 @@
 
 #pragma once
 
+#include <vector>
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
+#include "Vertex.h"
 
 namespace ouzel
 {
@@ -15,6 +17,8 @@ namespace ouzel
     public:
         MeshBuffer(Renderer* renderer);
         virtual ~MeshBuffer();
+        
+        virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
         
     protected:
         Renderer* _renderer;

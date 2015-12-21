@@ -23,9 +23,9 @@ namespace ouzel
         }
     }
     
-    bool TextureOGL::loadFromFile(const std::string& filename)
+    bool TextureOGL::initFromFile(const std::string& filename)
     {
-        if (!Texture::loadFromFile(filename))
+        if (!Texture::initFromFile(filename))
         {
             return false;
         }

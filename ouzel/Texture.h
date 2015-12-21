@@ -18,7 +18,7 @@ namespace ouzel
         Texture(Renderer* renderer);
         virtual ~Texture();
         
-        virtual bool loadFromFile(const std::string& filename);
+        virtual bool initFromFile(const std::string& filename);
         
         const std::string& getFilename() const { return _filename; }
         
