@@ -30,8 +30,6 @@ namespace ouzel
         GLuint _vertexArrayId = 0;
         GLuint _indexBufferId = 0;
         GLuint _vertexBufferId = 0;
-        GLuint _colorBufferId = 0;
-        GLuint _texcoordBufferId = 0;
         
         GLsizei _count;
     };
