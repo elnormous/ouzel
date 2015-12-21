@@ -77,14 +77,14 @@ namespace ouzel
         glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
         
         glEnable(GL_BLEND);
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         //glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
         //glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
         
         // precomputed alpha
-        glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-        glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+        //glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+        //glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
         
         if (checkOpenGLErrors())
         {
