@@ -27,7 +27,7 @@ namespace ouzel
             return false;
         }
         
-        std::ifstream fragmentShaderFile(_renderer->getEngine()->getFileSystem()->getResourcePath(fragmentShader));
+        std::ifstream fragmentShaderFile(_renderer->getEngine()->getFileSystem()->getPath(fragmentShader));
         std::string fragmentShaderCode;
         
         fragmentShaderFile.seekg(0, std::ios::end);
@@ -37,7 +37,7 @@ namespace ouzel
         fragmentShaderCode.assign((std::istreambuf_iterator<char>(fragmentShaderFile)),
                                   std::istreambuf_iterator<char>());
         
-        std::ifstream vertexShaderFile(_renderer->getEngine()->getFileSystem()->getResourcePath(vertexShader));
+        std::ifstream vertexShaderFile(_renderer->getEngine()->getFileSystem()->getPath(vertexShader));
         std::string vertexShaderCode;
         
         vertexShaderFile.seekg(0, std::ios::end);

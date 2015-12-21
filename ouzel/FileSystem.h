@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 
@@ -15,6 +16,13 @@ namespace ouzel
         FileSystem();
         virtual ~FileSystem();
         
-        std::string getResourcePath(const std::string& filename);
+        std::string getPath(const std::string& filename);
+        
+        void addResourcePath(const std::string& path);
+        
+    protected:
+        bool fileExists(const std::string& filename);
+        
+        std::vector<std::string> _resourcePaths;
     };
 }
