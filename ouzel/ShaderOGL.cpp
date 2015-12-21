@@ -3,7 +3,7 @@
 
 #include <fstream>
 #include "Engine.h"
-#include "Renderer.h"
+#include "RendererOGL.h"
 #include "FileSystem.h"
 #include "ShaderOGL.h"
 #include "Utils.h"
@@ -66,7 +66,7 @@ namespace ouzel
             return false;
         }
         
-        if (checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(_renderer)->checkOpenGLErrors())
         {
             return false;
         }
@@ -98,7 +98,7 @@ namespace ouzel
         
         glUseProgram(_programId);
         
-        if (checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(_renderer)->checkOpenGLErrors())
         {
             return false;
         }

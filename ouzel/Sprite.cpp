@@ -10,6 +10,9 @@
 #include "Camera.h"
 #include "Scene.h"
 
+//TODO: remove
+#include "RendererOGL.h"
+
 namespace ouzel
 {
     Sprite::Sprite(const std::string& filename, Scene* scene):
@@ -97,11 +100,17 @@ namespace ouzel
         GLint uniModel = _shader->getVertexShaderConstantId("model");
         glUniformMatrix4fv(uniModel, 1, GL_FALSE, _transform.m);
         
-        checkOpenGLErrors();
+        if (static_cast<RendererOGL*>(_engine->getRenderer())->checkOpenGLErrors())
+        {
+            return;
+        }
         
         _engine->getRenderer()->activateTexture(_texture, 0);
         
-        checkOpenGLErrors();
+        if (static_cast<RendererOGL*>(_engine->getRenderer())->checkOpenGLErrors())
+        {
+            return;
+        }
         
         glBindVertexArray(_vertexArray);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);

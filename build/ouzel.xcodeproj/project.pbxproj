@@ -210,6 +210,115 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		303B750D1C28828600FEDE92 /* scene */ = {
+			isa = PBXGroup;
+			children = (
+				304A8E2B1C237C70008B1151 /* Camera.cpp */,
+				304A8E2C1C237C70008B1151 /* Camera.h */,
+				304A8E361C237C70008B1151 /* Node.cpp */,
+				304A8E371C237C70008B1151 /* Node.h */,
+				304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */,
+				304A8E951C26EDFB008B1151 /* ParticleSystem.h */,
+				304A8E401C237C70008B1151 /* Scene.cpp */,
+				304A8E411C237C70008B1151 /* Scene.h */,
+				304A8E441C237C70008B1151 /* Sprite.cpp */,
+				304A8E451C237C70008B1151 /* Sprite.h */,
+			);
+			name = scene;
+			sourceTree = "<group>";
+		};
+		303B750E1C2882B500FEDE92 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				303B74EB1C27869800FEDE92 /* Sound.cpp */,
+				303B74E91C27868A00FEDE92 /* Sound.h */,
+				303B74E51C27856D00FEDE92 /* SoundManager.cpp */,
+				303B74E61C27856D00FEDE92 /* SoundManager.h */,
+			);
+			name = sound;
+			sourceTree = "<group>";
+		};
+		303B750F1C2882CA00FEDE92 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				304A8E301C237C70008B1151 /* MathUtils.cpp */,
+				304A8E311C237C70008B1151 /* MathUtils.h */,
+				304A8E321C237C70008B1151 /* Matrix3.cpp */,
+				304A8E331C237C70008B1151 /* Matrix3.h */,
+				304A8E341C237C70008B1151 /* Matrix4.cpp */,
+				304A8E351C237C70008B1151 /* Matrix4.h */,
+				304A8E3B1C237C70008B1151 /* Rectangle.cpp */,
+				304A8E3C1C237C70008B1151 /* Rectangle.h */,
+				304A8E981C26F5CF008B1151 /* Size2.cpp */,
+				304A8E991C26F5CF008B1151 /* Size2.h */,
+				304A8E4A1C237C70008B1151 /* Vector2.cpp */,
+				304A8E4B1C237C70008B1151 /* Vector2.h */,
+				304A8E4C1C237C70008B1151 /* Vector3.cpp */,
+				304A8E4D1C237C70008B1151 /* Vector3.h */,
+				304A8E4E1C237C70008B1151 /* Vector4.cpp */,
+				304A8E4F1C237C70008B1151 /* Vector4.h */,
+				304A8EA01C270833008B1151 /* Vertex3.cpp */,
+				304A8EA11C270833008B1151 /* Vertex3.h */,
+			);
+			name = math;
+			sourceTree = "<group>";
+		};
+		303B75101C28830A00FEDE92 /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				304A8E9C1C27081B008B1151 /* Color.cpp */,
+				304A8E9D1C27081B008B1151 /* Color.h */,
+				303B74E11C277A7500FEDE92 /* Image.cpp */,
+				303B74E21C277A7500FEDE92 /* Image.h */,
+				304A8E901C26ED32008B1151 /* MeshBuffer.cpp */,
+				304A8E911C26ED32008B1151 /* MeshBuffer.h */,
+				304A8E391C237C70008B1151 /* OpenGLView.h */,
+				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
+				304A8E3E1C237C70008B1151 /* Renderer.cpp */,
+				304A8E3F1C237C70008B1151 /* Renderer.h */,
+				304A8E7B1C24814F008B1151 /* RendererOGL.cpp */,
+				304A8E7C1C24814F008B1151 /* RendererOGL.h */,
+				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
+				304A8E891C2486C6008B1151 /* RenderTarget.h */,
+				304A8E7D1C24814F008B1151 /* RenderTargetOGL.cpp */,
+				304A8E7E1C24814F008B1151 /* RenderTargetOGL.h */,
+				304A8E421C237C70008B1151 /* Shader.cpp */,
+				304A8E431C237C70008B1151 /* Shader.h */,
+				304A8E8C1C26EA8B008B1151 /* ShaderOGL.cpp */,
+				304A8E8D1C26EA8B008B1151 /* ShaderOGL.h */,
+				304A8E461C237C70008B1151 /* Texture.cpp */,
+				304A8E471C237C70008B1151 /* Texture.h */,
+				304A8E7F1C24814F008B1151 /* TextureOGL.cpp */,
+				304A8E801C24814F008B1151 /* TextureOGL.h */,
+				304A8EAC1C274F7C008B1151 /* View.cpp */,
+				304A8EAD1C274F7C008B1151 /* View.h */,
+				304A8EB01C2754D1008B1151 /* View.mm */,
+			);
+			name = graphics;
+			sourceTree = "<group>";
+		};
+		303B75111C28838C00FEDE92 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				304A8E871C248204008B1151 /* CompileConfig.h */,
+				304A8E2D1C237C70008B1151 /* Engine.cpp */,
+				304A8E2E1C237C70008B1151 /* Engine.h */,
+				304A8E2F1C237C70008B1151 /* EventHander.h */,
+				304A8E381C237C70008B1151 /* Noncopyable.h */,
+				304A8E3D1C237C70008B1151 /* ReferenceCounted.h */,
+			);
+			name = core;
+			sourceTree = "<group>";
+		};
+		303B75121C2883C800FEDE92 /* files */ = {
+			isa = PBXGroup;
+			children = (
+				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
+				303B74FF1C28208800FEDE92 /* FileSystem.h */,
+			);
+			name = files;
+			sourceTree = "<group>";
+		};
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
@@ -240,76 +349,15 @@
 		304A8E291C237C51008B1151 /* ouzel */ = {
 			isa = PBXGroup;
 			children = (
-				304A8E2B1C237C70008B1151 /* Camera.cpp */,
-				304A8E2C1C237C70008B1151 /* Camera.h */,
-				304A8E9C1C27081B008B1151 /* Color.cpp */,
-				304A8E9D1C27081B008B1151 /* Color.h */,
-				304A8E871C248204008B1151 /* CompileConfig.h */,
-				304A8E2D1C237C70008B1151 /* Engine.cpp */,
-				304A8E2E1C237C70008B1151 /* Engine.h */,
-				304A8E2F1C237C70008B1151 /* EventHander.h */,
-				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
-				303B74FF1C28208800FEDE92 /* FileSystem.h */,
-				303B74E11C277A7500FEDE92 /* Image.cpp */,
-				303B74E21C277A7500FEDE92 /* Image.h */,
-				304A8E301C237C70008B1151 /* MathUtils.cpp */,
-				304A8E311C237C70008B1151 /* MathUtils.h */,
-				304A8E321C237C70008B1151 /* Matrix3.cpp */,
-				304A8E331C237C70008B1151 /* Matrix3.h */,
-				304A8E341C237C70008B1151 /* Matrix4.cpp */,
-				304A8E351C237C70008B1151 /* Matrix4.h */,
-				304A8E901C26ED32008B1151 /* MeshBuffer.cpp */,
-				304A8E911C26ED32008B1151 /* MeshBuffer.h */,
-				304A8E361C237C70008B1151 /* Node.cpp */,
-				304A8E371C237C70008B1151 /* Node.h */,
-				304A8E381C237C70008B1151 /* Noncopyable.h */,
-				304A8E391C237C70008B1151 /* OpenGLView.h */,
-				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
+				303B75111C28838C00FEDE92 /* core */,
+				303B75121C2883C800FEDE92 /* files */,
+				303B75101C28830A00FEDE92 /* graphics */,
+				303B750F1C2882CA00FEDE92 /* math */,
 				304A8E2A1C237C70008B1151 /* ouzel.h */,
-				304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */,
-				304A8E951C26EDFB008B1151 /* ParticleSystem.h */,
-				304A8E3B1C237C70008B1151 /* Rectangle.cpp */,
-				304A8E3C1C237C70008B1151 /* Rectangle.h */,
-				304A8E3D1C237C70008B1151 /* ReferenceCounted.h */,
-				304A8E3E1C237C70008B1151 /* Renderer.cpp */,
-				304A8E3F1C237C70008B1151 /* Renderer.h */,
-				304A8E7B1C24814F008B1151 /* RendererOGL.cpp */,
-				304A8E7C1C24814F008B1151 /* RendererOGL.h */,
-				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
-				304A8E891C2486C6008B1151 /* RenderTarget.h */,
-				304A8E7D1C24814F008B1151 /* RenderTargetOGL.cpp */,
-				304A8E7E1C24814F008B1151 /* RenderTargetOGL.h */,
-				304A8E401C237C70008B1151 /* Scene.cpp */,
-				304A8E411C237C70008B1151 /* Scene.h */,
-				304A8E421C237C70008B1151 /* Shader.cpp */,
-				304A8E431C237C70008B1151 /* Shader.h */,
-				304A8E8C1C26EA8B008B1151 /* ShaderOGL.cpp */,
-				304A8E8D1C26EA8B008B1151 /* ShaderOGL.h */,
-				304A8E981C26F5CF008B1151 /* Size2.cpp */,
-				304A8E991C26F5CF008B1151 /* Size2.h */,
-				303B74EB1C27869800FEDE92 /* Sound.cpp */,
-				303B74E91C27868A00FEDE92 /* Sound.h */,
-				303B74E51C27856D00FEDE92 /* SoundManager.cpp */,
-				303B74E61C27856D00FEDE92 /* SoundManager.h */,
-				304A8E441C237C70008B1151 /* Sprite.cpp */,
-				304A8E451C237C70008B1151 /* Sprite.h */,
-				304A8E461C237C70008B1151 /* Texture.cpp */,
-				304A8E471C237C70008B1151 /* Texture.h */,
-				304A8E7F1C24814F008B1151 /* TextureOGL.cpp */,
-				304A8E801C24814F008B1151 /* TextureOGL.h */,
+				303B750D1C28828600FEDE92 /* scene */,
+				303B750E1C2882B500FEDE92 /* sound */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.h */,
-				304A8E4A1C237C70008B1151 /* Vector2.cpp */,
-				304A8E4B1C237C70008B1151 /* Vector2.h */,
-				304A8E4C1C237C70008B1151 /* Vector3.cpp */,
-				304A8E4D1C237C70008B1151 /* Vector3.h */,
-				304A8E4E1C237C70008B1151 /* Vector4.cpp */,
-				304A8E4F1C237C70008B1151 /* Vector4.h */,
-				304A8EA01C270833008B1151 /* Vertex3.cpp */,
-				304A8EA11C270833008B1151 /* Vertex3.h */,
-				304A8EAC1C274F7C008B1151 /* View.cpp */,
-				304A8EAD1C274F7C008B1151 /* View.h */,
-				304A8EB01C2754D1008B1151 /* View.mm */,
 			);
 			name = ouzel;
 			path = ../ouzel;

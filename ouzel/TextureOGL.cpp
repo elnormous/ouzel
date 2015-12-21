@@ -3,6 +3,7 @@
 
 #include "TextureOGL.h"
 #include "Engine.h"
+#include "RendererOGL.h"
 #include "Image.h"
 #include "Utils.h"
 
@@ -56,7 +57,10 @@ namespace ouzel
         
         glBindTexture(GL_TEXTURE_2D, 0);
         
-        checkOpenGLErrors();
+        if (static_cast<RendererOGL*>(_renderer)->checkOpenGLErrors())
+        {
+            return false;
+        }
         
         _size = image->getSize();
         

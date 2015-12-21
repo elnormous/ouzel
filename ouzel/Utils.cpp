@@ -12,20 +12,6 @@
 
 namespace ouzel
 {
-    bool checkOpenGLErrors()
-    {
-        bool error = false;
-        
-        while (GLenum error = glGetError() != GL_NO_ERROR)
-        {
-            printf("OpenGL error: %d (%x)\n", error, error);
-            
-            error = true;
-        }
-        
-        return error;
-    }
-
     void log(const char* format, ...)
     {
         va_list list;

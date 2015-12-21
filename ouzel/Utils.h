@@ -12,7 +12,6 @@ namespace ouzel
         return (T(0) < val) - (val < T(0));
     }
 
-    bool checkOpenGLErrors();
     void log(const char* format, ...);
     long getCurrentMicroSeconds();
 }

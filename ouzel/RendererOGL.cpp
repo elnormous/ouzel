@@ -415,4 +415,18 @@ namespace ouzel
         glDeleteBuffers(1, &texcoordBuffer);
         glDeleteBuffers(1, &indexBuffer);
     }
+    
+    bool RendererOGL::checkOpenGLErrors()
+    {
+        bool error = false;
+        
+        while (GLenum error = glGetError() != GL_NO_ERROR)
+        {
+            printf("OpenGL error: %d (%x)\n", error, error);
+            
+            error = true;
+        }
+        
+        return error;
+    }
 }
