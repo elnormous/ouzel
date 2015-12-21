@@ -19,11 +19,6 @@ using namespace ouzel;
         _renderer = _view->getRenderer();
         _engine = _renderer->getEngine();
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(surfaceNeedsUpdate:)
-                                                     name:NSViewGlobalFrameDidChangeNotification
-                                                   object:self];
-        
         NSTimer *updateTimer = [NSTimer timerWithTimeInterval:1.0f/30.0f target:self selector:@selector(idle:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:updateTimer forMode:NSDefaultRunLoopMode];
         
@@ -49,8 +44,10 @@ using namespace ouzel;
     return self;
 }
 
--(void)surfaceNeedsUpdate:(NSNotification*)notification
+-(void)setFrameSize:(NSSize)newSize
 {
+    [super setFrameSize:newSize];
+    
     [self update];
 }
 
