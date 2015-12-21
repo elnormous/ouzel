@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		303B74E01C276E8100FEDE92 /* tim-from-braid.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B74DF1C276E8100FEDE92 /* tim-from-braid.png */; };
+		303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* Image.cpp */; };
 		304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E0E1C237B96008B1151 /* AppDelegate.mm */; };
 		304A8E151C237B96008B1151 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E141C237B96008B1151 /* ViewController.mm */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
@@ -80,6 +81,8 @@
 
 /* Begin PBXFileReference section */
 		303B74DF1C276E8100FEDE92 /* tim-from-braid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tim-from-braid.png"; path = "Resources/tim-from-braid.png"; sourceTree = "<group>"; };
+		303B74E11C277A7500FEDE92 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
+		303B74E21C277A7500FEDE92 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E0D1C237B96008B1151 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OSX/AppDelegate.h; sourceTree = "<group>"; };
 		304A8E0E1C237B96008B1151 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = OSX/AppDelegate.mm; sourceTree = "<group>"; };
@@ -208,10 +211,14 @@
 			children = (
 				304A8E2B1C237C70008B1151 /* Camera.cpp */,
 				304A8E2C1C237C70008B1151 /* Camera.h */,
+				304A8E9C1C27081B008B1151 /* Color.cpp */,
+				304A8E9D1C27081B008B1151 /* Color.h */,
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
 				304A8E2F1C237C70008B1151 /* EventHander.h */,
+				303B74E11C277A7500FEDE92 /* Image.cpp */,
+				303B74E21C277A7500FEDE92 /* Image.h */,
 				304A8E301C237C70008B1151 /* MathUtils.cpp */,
 				304A8E311C237C70008B1151 /* MathUtils.h */,
 				304A8E321C237C70008B1151 /* Matrix3.cpp */,
@@ -245,6 +252,8 @@
 				304A8E431C237C70008B1151 /* Shader.h */,
 				304A8E8C1C26EA8B008B1151 /* ShaderOGL.cpp */,
 				304A8E8D1C26EA8B008B1151 /* ShaderOGL.h */,
+				304A8E981C26F5CF008B1151 /* Size2.cpp */,
+				304A8E991C26F5CF008B1151 /* Size2.h */,
 				304A8E441C237C70008B1151 /* Sprite.cpp */,
 				304A8E451C237C70008B1151 /* Sprite.h */,
 				304A8E461C237C70008B1151 /* Texture.cpp */,
@@ -259,10 +268,6 @@
 				304A8E4D1C237C70008B1151 /* Vector3.h */,
 				304A8E4E1C237C70008B1151 /* Vector4.cpp */,
 				304A8E4F1C237C70008B1151 /* Vector4.h */,
-				304A8E981C26F5CF008B1151 /* Size2.cpp */,
-				304A8E991C26F5CF008B1151 /* Size2.h */,
-				304A8E9C1C27081B008B1151 /* Color.cpp */,
-				304A8E9D1C27081B008B1151 /* Color.h */,
 				304A8EA01C270833008B1151 /* Vertex3.cpp */,
 				304A8EA11C270833008B1151 /* Vertex3.h */,
 				304A8EAC1C274F7C008B1151 /* View.cpp */,
@@ -462,6 +467,7 @@
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,
+				303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
 				304A8E921C26ED32008B1151 /* MeshBuffer.cpp in Sources */,
 				304A8E851C24814F008B1151 /* TextureOGL.cpp in Sources */,
@@ -611,6 +617,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					../external/stb/,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -619,6 +629,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					../external/stb/,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

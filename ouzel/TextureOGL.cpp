@@ -1,9 +1,8 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <CoreGraphics/CoreGraphics.h>
-#include <ImageIO/ImageIO.h>
 #include "TextureOGL.h"
+#include "Image.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -29,40 +28,18 @@ namespace ouzel
             return false;
         }
         
-        std::string path = std::string("file://") + getResourcePath(filename);
-        
-        CFStringRef pathStringRef = CFStringCreateWithCString(kCFAllocatorDefault, path.c_str(), kCFStringEncodingASCII);
-        
-        CFURLRef url = CFURLCreateWithString(kCFAllocatorDefault, pathStringRef, nullptr);
-        
-        CGImageSourceRef imageSourceRef = CGImageSourceCreateWithURL(url, NULL);
-        CGImageRef imageRef = CGImageSourceCreateImageAtIndex (imageSourceRef, 0, NULL);
-        
-        uint32_t width = static_cast<uint32_t>(CGImageGetWidth(imageRef));
-        uint32_t height = static_cast<uint32_t>(CGImageGetHeight(imageRef));
-        CGRect rect = {{0, 0}, {static_cast<CGFloat>(width), static_cast<CGFloat>(height)}};
-        void* data = calloc(width * 4, height);
-        CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
-        CGContextRef bitmapContext = CGBitmapContextCreate (data,
-                                                            width, height, 8,
-                                                            width * 4, space,
-                                                            kCGBitmapByteOrder32Host |
-                                                            kCGImageAlphaPremultipliedFirst);
-        CGContextSetBlendMode(bitmapContext, kCGBlendModeCopy);
-        CGContextDrawImage(bitmapContext, rect, imageRef);
-        CGContextRelease(bitmapContext);
-        CFRelease(imageSourceRef);
-        CFRelease(imageRef);
-        
-        CFRelease(pathStringRef);
-        CFRelease(url);
+        Image* image = new Image();
+        if (!image->loadFromFile(filename))
+        {
+            return false;
+        }
         
         glGenTextures(1, &_textureId);
         
         glBindTexture(GL_TEXTURE_2D, _textureId);
         
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height,
-                     0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getSize().width, image->getSize().height,
+                     0, GL_RGBA, GL_UNSIGNED_BYTE, image->getData());
         
         //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
         //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -75,12 +52,9 @@ namespace ouzel
         
         checkOpenGLErrors();
         
-        free(data);
+        _size = image->getSize();
         
-        _size.width = static_cast<float>(width);
-        _size.height = static_cast<float>(height);
-        
-        printf("texture: %s (%d), width: %d, height: %d\n", filename.c_str(), _textureId, width, height);
+        image->release();
         
         return true;
     }
