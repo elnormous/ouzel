@@ -1,2 +1,6 @@
 build/ouzel.xcodeproj/xcuserdata
 build/ouzel.xcodeproj/project.xcworkspace
+build/ouzel.sdf
+build/ouzel.VC.opendb
+build/x64/
+build/ARM/
