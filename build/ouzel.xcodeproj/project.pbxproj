@@ -652,6 +652,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					../external/stb/,
+					../external/rapidjson/include/,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -664,6 +665,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					../external/stb/,
+					../external/rapidjson/include/,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
