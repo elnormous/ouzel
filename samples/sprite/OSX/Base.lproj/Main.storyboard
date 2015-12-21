@@ -670,13 +670,13 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="624" height="425"/>
+                        <rect key="frame" x="0.0" y="0.0" width="762" height="528"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="147" y="894.5"/>
+            <point key="canvasLocation" x="216" y="946"/>
         </scene>
     </scenes>
 </document>
