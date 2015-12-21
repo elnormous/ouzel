@@ -16,6 +16,10 @@ class NSView;
 #endif
 #endif
 
+#ifdef OUZEL_PLATFORM_WINDOWS
+#include <windows.h>
+#endif
+
 namespace ouzel
 {
     class Renderer;
