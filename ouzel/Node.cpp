@@ -141,7 +141,8 @@ namespace ouzel
     {
         Vector3 localPosition = Vector3(position.x, position.y, 0.0f);
         
-        _inverseTransform.transformPoint(&localPosition);
+        const Matrix4& inverseTransform = getInverseTransform();
+        inverseTransform.transformPoint(&localPosition);
         
         return _boundingBox.contains(localPosition.x, localPosition.y);
     }
@@ -155,11 +156,12 @@ namespace ouzel
         
         Vector3 localLeftBottom = Vector3(rectangle.x, rectangle.y, 0.0f);
         
-        _inverseTransform.transformPoint(&localLeftBottom);
+        const Matrix4& inverseTransform = getInverseTransform();
+        inverseTransform.transformPoint(&localLeftBottom);
         
         Vector3 localRightTop =  Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f);
         
-        _inverseTransform.transformPoint(&localRightTop);
+        inverseTransform.transformPoint(&localRightTop);
         
         if (localLeftBottom.x > _boundingBox.x + _boundingBox.width ||
             localLeftBottom.y > _boundingBox.y + _boundingBox.height ||
@@ -181,8 +183,8 @@ namespace ouzel
         rotation.rotate(Vector3(0.0f, 0.0f, -1.0f), _rotation);
         
         Vector3 realScale = Vector3(_scale.x * (_flipX ? -1.0f : 1.0f),
-                                        _scale.y * (_flipY ? -1.0f : 1.0f),
-                                        1.0f);
+                                    _scale.y * (_flipY ? -1.0f : 1.0f),
+                                    1.0f);
         
         Matrix4 scale;
         scale.scale(realScale);
@@ -194,8 +196,7 @@ namespace ouzel
             _transform = _parent->_transform * _transform;
         }
         
-        _inverseTransform = _transform;
-        _inverseTransform.invert();
+        markInverseTransformDirty();
         
         for (Node* child : _children)
         {
@@ -206,5 +207,22 @@ namespace ouzel
     bool Node::checkVisibility() const
     {
         return true;
+    }
+    
+    void Node::markInverseTransformDirty()
+    {
+        _inverseTransformDirty = true;
+    }
+    
+    const Matrix4& Node::getInverseTransform() const
+    {
+        if (_inverseTransformDirty)
+        {
+            _inverseTransform = _transform;
+            _inverseTransform.invert();
+            _inverseTransformDirty = false;
+        }
+        
+        return _inverseTransform;
     }
 }

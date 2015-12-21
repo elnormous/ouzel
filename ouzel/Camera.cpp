@@ -34,8 +34,7 @@ namespace ouzel
             _transform = _parent->getTransform() * _transform;
         }
         
-        _inverseTransform = _transform;
-        _inverseTransform.invert();
+        markInverseTransformDirty();
         
         for (Node* child : _children)
         {

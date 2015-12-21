@@ -48,6 +48,7 @@ namespace ouzel
         virtual bool getFlipY() const { return _flipY; }
         
         virtual const Matrix4& getTransform() const { return _transform; }
+        const Matrix4& getInverseTransform() const;
         
         virtual const Rectangle& getBoundingBox() const { return _boundingBox; }
         
@@ -64,10 +65,11 @@ namespace ouzel
         virtual bool checkVisibility() const;
         
     protected:
+        void markInverseTransformDirty();
+        
         Scene* _scene;
         
         Matrix4 _transform;
-        Matrix4 _inverseTransform;
         
         Vector2 _position;
         float _rotation = 0.0f;
@@ -83,5 +85,9 @@ namespace ouzel
         bool _flipY = false;
         
         bool _addedToRenderer = false;
+        
+    private:
+        mutable Matrix4 _inverseTransform;
+        mutable bool _inverseTransformDirty = false;
     };
 }
