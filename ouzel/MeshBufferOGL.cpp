@@ -73,6 +73,10 @@ namespace ouzel
         
         _count = static_cast<GLsizei>(indices.size());
         
+        delete [] verts;
+        delete [] colors;
+        delete [] texCoords;
+        
         return true;
     }
 }
