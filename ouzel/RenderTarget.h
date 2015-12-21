@@ -7,17 +7,19 @@
 
 namespace ouzel
 {
+    class Renderer;
     class Texture;
     
     class RenderTarget: public Noncopyable
     {
     public:
-        RenderTarget();
+        RenderTarget(Renderer* renderer);
         virtual ~RenderTarget();
         
         Texture* getTexture() const { return _texture; }
         
     protected:
+        Renderer* _renderer;
         Texture* _texture = nullptr;
     };
 }

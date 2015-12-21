@@ -8,9 +8,15 @@
 
 namespace ouzel
 {
+    class Engine;
+    
     class SoundManager: public Noncopyable, public ReferenceCounted
     {
-        SoundManager();
+    public:
+        SoundManager(Engine* engine);
         virtual ~SoundManager();
+        
+    protected:
+        Engine* _engine;
     };
 }

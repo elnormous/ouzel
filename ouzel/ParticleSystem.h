@@ -9,6 +9,7 @@ namespace ouzel
 {
     class ParticleSystem: public Node
     {
+    public:
         
     };
 }

@@ -5,7 +5,8 @@
 
 namespace ouzel
 {
-    RenderTargetOGL::RenderTargetOGL()
+    RenderTargetOGL::RenderTargetOGL(Renderer* renderer):
+        RenderTarget(renderer)
     {
         
     }

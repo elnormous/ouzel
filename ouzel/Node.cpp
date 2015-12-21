@@ -7,9 +7,10 @@
 
 namespace ouzel
 {
-    Node::Node(Scene* scene)
+    Node::Node(Scene* scene):
+        _scene(scene)
     {
-        _scene = scene;
+        
     }
 
     Node::~Node()

@@ -5,7 +5,8 @@
 
 namespace ouzel
 {
-    Sound::Sound()
+    Sound::Sound(SoundManager* soundManager):
+        _soundManager(soundManager)
     {
         
     }

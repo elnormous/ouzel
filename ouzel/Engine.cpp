@@ -15,6 +15,7 @@
 #include "Utils.h"
 #include "Renderer.h"
 #include "Scene.h"
+#include "SoundManager.h"
 #include "FileSystem.h"
 
 namespace ouzel
@@ -40,6 +41,8 @@ namespace ouzel
         
         _scene = new Scene(this);
         _scene->init();
+        
+        _soundManager = new SoundManager(this);
         
         _fileSystem = new FileSystem();
         

@@ -6,11 +6,9 @@
 
 namespace ouzel
 {
-    View::View(const Size2& size, Renderer* renderer)
+    View::View(const Size2& size, Renderer* renderer):
+        _size(size), _renderer(renderer)
     {
-        _size = size;
-        _renderer = renderer;
-        
         createNativeView();
     }
     

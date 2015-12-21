@@ -5,9 +5,10 @@
 
 namespace ouzel
 {
-    Texture::Texture(Renderer* renderer)
+    Texture::Texture(Renderer* renderer):
+        _renderer(renderer)
     {
-        _renderer = renderer;
+        
     }
 
     Texture::~Texture()

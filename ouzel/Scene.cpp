@@ -7,9 +7,10 @@
 
 namespace ouzel
 {
-    Scene::Scene(Engine* engine)
+    Scene::Scene(Engine* engine):
+        _engine(engine)
     {
-        _engine = engine;
+        
     }
     
     Scene::~Scene()

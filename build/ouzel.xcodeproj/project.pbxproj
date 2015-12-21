@@ -19,6 +19,8 @@
 		303B75011C28208800FEDE92 /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B74FF1C28208800FEDE92 /* FileSystem.h */; };
 		303B75091C286F8D00FEDE92 /* witch.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75081C286F8D00FEDE92 /* witch.png */; };
 		303B750C1C2870EA00FEDE92 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 303B750A1C2870EA00FEDE92 /* Main.storyboard */; };
+		303B75161C288CFB00FEDE92 /* MeshBufferOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */; };
+		303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75151C288CFB00FEDE92 /* MeshBufferOGL.h */; };
 		304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E0E1C237B96008B1151 /* AppDelegate.mm */; };
 		304A8E151C237B96008B1151 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E141C237B96008B1151 /* ViewController.mm */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
@@ -103,6 +105,8 @@
 		303B74FF1C28208800FEDE92 /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
 		303B75081C286F8D00FEDE92 /* witch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = witch.png; path = Resources/witch.png; sourceTree = "<group>"; };
 		303B750B1C2870EA00FEDE92 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshBufferOGL.cpp; sourceTree = "<group>"; };
+		303B75151C288CFB00FEDE92 /* MeshBufferOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshBufferOGL.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E0D1C237B96008B1151 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		304A8E0E1C237B96008B1151 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -266,30 +270,21 @@
 		303B75101C28830A00FEDE92 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				303B75131C288CCE00FEDE92 /* OpenGL */,
 				304A8E9C1C27081B008B1151 /* Color.cpp */,
 				304A8E9D1C27081B008B1151 /* Color.h */,
 				303B74E11C277A7500FEDE92 /* Image.cpp */,
 				303B74E21C277A7500FEDE92 /* Image.h */,
 				304A8E901C26ED32008B1151 /* MeshBuffer.cpp */,
 				304A8E911C26ED32008B1151 /* MeshBuffer.h */,
-				304A8E391C237C70008B1151 /* OpenGLView.h */,
-				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
 				304A8E3E1C237C70008B1151 /* Renderer.cpp */,
 				304A8E3F1C237C70008B1151 /* Renderer.h */,
-				304A8E7B1C24814F008B1151 /* RendererOGL.cpp */,
-				304A8E7C1C24814F008B1151 /* RendererOGL.h */,
 				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
 				304A8E891C2486C6008B1151 /* RenderTarget.h */,
-				304A8E7D1C24814F008B1151 /* RenderTargetOGL.cpp */,
-				304A8E7E1C24814F008B1151 /* RenderTargetOGL.h */,
 				304A8E421C237C70008B1151 /* Shader.cpp */,
 				304A8E431C237C70008B1151 /* Shader.h */,
-				304A8E8C1C26EA8B008B1151 /* ShaderOGL.cpp */,
-				304A8E8D1C26EA8B008B1151 /* ShaderOGL.h */,
 				304A8E461C237C70008B1151 /* Texture.cpp */,
 				304A8E471C237C70008B1151 /* Texture.h */,
-				304A8E7F1C24814F008B1151 /* TextureOGL.cpp */,
-				304A8E801C24814F008B1151 /* TextureOGL.h */,
 				304A8EAC1C274F7C008B1151 /* View.cpp */,
 				304A8EAD1C274F7C008B1151 /* View.h */,
 				304A8EB01C2754D1008B1151 /* View.mm */,
@@ -317,6 +312,25 @@
 				303B74FF1C28208800FEDE92 /* FileSystem.h */,
 			);
 			name = files;
+			sourceTree = "<group>";
+		};
+		303B75131C288CCE00FEDE92 /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				304A8E391C237C70008B1151 /* OpenGLView.h */,
+				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
+				304A8E7B1C24814F008B1151 /* RendererOGL.cpp */,
+				304A8E7C1C24814F008B1151 /* RendererOGL.h */,
+				304A8E7D1C24814F008B1151 /* RenderTargetOGL.cpp */,
+				304A8E7E1C24814F008B1151 /* RenderTargetOGL.h */,
+				304A8E8C1C26EA8B008B1151 /* ShaderOGL.cpp */,
+				304A8E8D1C26EA8B008B1151 /* ShaderOGL.h */,
+				304A8E7F1C24814F008B1151 /* TextureOGL.cpp */,
+				304A8E801C24814F008B1151 /* TextureOGL.h */,
+				303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */,
+				303B75151C288CFB00FEDE92 /* MeshBufferOGL.h */,
+			);
+			name = OpenGL;
 			sourceTree = "<group>";
 		};
 		304A8E011C237B95008B1151 = {
@@ -424,6 +438,7 @@
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
+				303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */,
 				304A8E631C237C70008B1151 /* ReferenceCounted.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex3.h in Headers */,
 				304A8E821C24814F008B1151 /* RendererOGL.h in Headers */,
@@ -556,6 +571,7 @@
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
+				303B75161C288CFB00FEDE92 /* MeshBufferOGL.cpp in Sources */,
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				303B74E71C27856D00FEDE92 /* SoundManager.cpp in Sources */,

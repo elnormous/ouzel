@@ -10,9 +10,10 @@
 
 namespace ouzel
 {
-    Image::Image(Engine* engine)
+    Image::Image(Engine* engine):
+        _engine(engine)
     {
-        _engine = engine;
+        
     }
     
     Image::~Image()

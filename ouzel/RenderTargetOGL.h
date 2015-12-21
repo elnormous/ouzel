@@ -9,7 +9,7 @@ namespace ouzel
 {
     class RenderTargetOGL: public RenderTarget
     {
-        RenderTargetOGL();
+        RenderTargetOGL(Renderer* renderer);
         virtual ~RenderTargetOGL();
     };
 }

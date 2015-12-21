@@ -8,8 +8,15 @@
 
 namespace ouzel
 {
+    class Renderer;
+    
     class MeshBuffer: public Noncopyable, public ReferenceCounted
     {
+    public:
+        MeshBuffer(Renderer* renderer);
+        virtual ~MeshBuffer();
         
+    protected:
+        Renderer* _renderer;
     };
 }

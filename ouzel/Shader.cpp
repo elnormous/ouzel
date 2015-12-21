@@ -6,9 +6,10 @@
 
 namespace ouzel
 {
-    Shader::Shader(Renderer* renderer)
+    Shader::Shader(Renderer* renderer):
+        _renderer(renderer)
     {
-        _renderer = renderer;
+        
     }
 
     Shader::~Shader()
