@@ -17,10 +17,11 @@
 		303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B74F21C27F6EB00FEDE92 /* Cocoa.framework */; };
 		303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
 		303B75011C28208800FEDE92 /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B74FF1C28208800FEDE92 /* FileSystem.h */; };
+		303B75091C286F8D00FEDE92 /* witch.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75081C286F8D00FEDE92 /* witch.png */; };
+		303B750C1C2870EA00FEDE92 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 303B750A1C2870EA00FEDE92 /* Main.storyboard */; };
 		304A8E0F1C237B96008B1151 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E0E1C237B96008B1151 /* AppDelegate.mm */; };
 		304A8E151C237B96008B1151 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E141C237B96008B1151 /* ViewController.mm */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
-		304A8E1A1C237B96008B1151 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E181C237B96008B1151 /* Main.storyboard */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
@@ -100,14 +101,15 @@
 		303B74F21C27F6EB00FEDE92 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		303B74FE1C28208800FEDE92 /* FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
 		303B74FF1C28208800FEDE92 /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
+		303B75081C286F8D00FEDE92 /* witch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = witch.png; path = Resources/witch.png; sourceTree = "<group>"; };
+		303B750B1C2870EA00FEDE92 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		304A8E0D1C237B96008B1151 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OSX/AppDelegate.h; sourceTree = "<group>"; };
-		304A8E0E1C237B96008B1151 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = OSX/AppDelegate.mm; sourceTree = "<group>"; };
-		304A8E131C237B96008B1151 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = OSX/ViewController.h; sourceTree = "<group>"; };
-		304A8E141C237B96008B1151 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ViewController.mm; path = OSX/ViewController.mm; sourceTree = "<group>"; };
-		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = OSX/Assets.xcassets; sourceTree = "<group>"; };
-		304A8E191C237B96008B1151 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = OSX/Info.plist; sourceTree = "<group>"; };
+		304A8E0D1C237B96008B1151 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		304A8E0E1C237B96008B1151 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		304A8E131C237B96008B1151 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		304A8E141C237B96008B1151 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		304A8E251C237C30008B1151 /* libouzel_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E2A1C237C70008B1151 /* ouzel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ouzel.h; sourceTree = "<group>"; };
 		304A8E2B1C237C70008B1151 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
@@ -168,10 +170,10 @@
 		304A8E9D1C27081B008B1151 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		304A8EA01C270833008B1151 /* Vertex3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vertex3.cpp; sourceTree = "<group>"; };
 		304A8EA11C270833008B1151 /* Vertex3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex3.h; sourceTree = "<group>"; };
-		304A8EA61C2741B8008B1151 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = OSX/main.m; sourceTree = "<group>"; };
+		304A8EA61C2741B8008B1151 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		304A8EA81C27429A008B1151 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		304A8EA91C27429A008B1151 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
-		304A8EAB1C2742D9008B1151 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = OSX/Prefix.pch; sourceTree = "<group>"; };
+		304A8EAB1C2742D9008B1151 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		304A8EAC1C274F7C008B1151 /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		304A8EAD1C274F7C008B1151 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
 		304A8EB01C2754D1008B1151 /* View.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = View.mm; path = osx/View.mm; sourceTree = "<group>"; };
@@ -316,14 +318,24 @@
 		304A8EA41C274113008B1151 /* osx */ = {
 			isa = PBXGroup;
 			children = (
+				304A8E0D1C237B96008B1151 /* AppDelegate.h */,
+				304A8E0E1C237B96008B1151 /* AppDelegate.mm */,
+				304A8E161C237B96008B1151 /* Assets.xcassets */,
+				304A8E1B1C237B96008B1151 /* Info.plist */,
+				304A8EA61C2741B8008B1151 /* main.m */,
+				303B750A1C2870EA00FEDE92 /* Main.storyboard */,
+				304A8EAB1C2742D9008B1151 /* Prefix.pch */,
+				304A8E131C237B96008B1151 /* ViewController.h */,
+				304A8E141C237B96008B1151 /* ViewController.mm */,
 			);
 			name = osx;
-			path = sprite/OSX;
+			path = OSX;
 			sourceTree = "<group>";
 		};
 		304A8EB21C2765C4008B1151 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				303B75081C286F8D00FEDE92 /* witch.png */,
 				303B74DF1C276E8100FEDE92 /* tim-from-braid.png */,
 			);
 			name = Resources;
@@ -335,15 +347,6 @@
 				303B74EF1C27F6B000FEDE92 /* Frameworks */,
 				304A8EB21C2765C4008B1151 /* Resources */,
 				304A8EA41C274113008B1151 /* osx */,
-				304A8E0D1C237B96008B1151 /* AppDelegate.h */,
-				304A8E0E1C237B96008B1151 /* AppDelegate.mm */,
-				304A8E161C237B96008B1151 /* Assets.xcassets */,
-				304A8E1B1C237B96008B1151 /* Info.plist */,
-				304A8E181C237B96008B1151 /* Main.storyboard */,
-				304A8EA61C2741B8008B1151 /* main.m */,
-				304A8E131C237B96008B1151 /* ViewController.h */,
-				304A8E141C237B96008B1151 /* ViewController.mm */,
-				304A8EAB1C2742D9008B1151 /* Prefix.pch */,
 				304A8EA81C27429A008B1151 /* Application.cpp */,
 				304A8EA91C27429A008B1151 /* Application.h */,
 			);
@@ -475,7 +478,8 @@
 			files = (
 				304A8E171C237B96008B1151 /* Assets.xcassets in Resources */,
 				303B74E01C276E8100FEDE92 /* tim-from-braid.png in Resources */,
-				304A8E1A1C237B96008B1151 /* Main.storyboard in Resources */,
+				303B75091C286F8D00FEDE92 /* witch.png in Resources */,
+				303B750C1C2870EA00FEDE92 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,13 +540,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		304A8E181C237B96008B1151 /* Main.storyboard */ = {
+		303B750A1C2870EA00FEDE92 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				304A8E191C237B96008B1151 /* Base */,
+				303B750B1C2870EA00FEDE92 /* Base */,
 			);
 			name = Main.storyboard;
-			path = OSX;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
