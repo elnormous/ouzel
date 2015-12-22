@@ -41,7 +41,7 @@ namespace ouzel
         SoundManager* _soundManager = nullptr;
         FileSystem* _fileSystem = nullptr;
         
-        long _previousFrameTime;
+        uint64_t _previousFrameTime;
         
         std::vector<EventHandler*> _eventHandlers;
     };

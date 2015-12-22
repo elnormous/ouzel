@@ -13,5 +13,5 @@ namespace ouzel
     }
 
     void log(const char* format, ...);
-    long getCurrentMicroSeconds();
+    uint64_t getCurrentMicroSeconds();
 }

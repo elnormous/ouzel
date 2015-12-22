@@ -73,8 +73,8 @@ namespace ouzel
         
         for (EventHandler* eventHandler : _eventHandlers)
         {
-            long currentTime = getCurrentMicroSeconds();
-            long delta = currentTime - _previousFrameTime;
+            uint64_t currentTime = getCurrentMicroSeconds();
+            uint64_t delta = currentTime - _previousFrameTime;
             _previousFrameTime = currentTime;
             
             eventHandler->update(static_cast<float>(delta));
