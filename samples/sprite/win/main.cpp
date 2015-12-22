@@ -1,7 +1,7 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <Windows.h>
+#include <windows.h>
 #include "Application.h"
 
 int WINAPI WinMain(HINSTANCE hInstance,
