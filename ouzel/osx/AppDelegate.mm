@@ -22,7 +22,8 @@
         _engine = new ouzel::Engine();
         ouzel::Size2 size = _engine->getRenderer()->getSize();
         
-        NSRect screenFrame = [NSScreen mainScreen].frame;
+        NSScreen* screen = [NSScreen mainScreen];
+        NSRect screenFrame = screen.frame;
         
         NSRect frame = NSMakeRect(screenFrame.size.width / 2 - size.width / 2,
                                   screenFrame.size.height / 2 - size.height / 2,
@@ -33,7 +34,8 @@
         _window  = [[NSWindow alloc] initWithContentRect:frame
                                                styleMask:windowStyleMask
                                                  backing:NSBackingStoreBuffered
-                                                   defer:NO];
+                                                   defer:NO
+                                                  screen:screen];
         
         [_window setBackgroundColor:[NSColor blueColor]];
         [_window makeKeyAndOrderFront:self];
