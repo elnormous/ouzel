@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "Application.h"
-#include <memory>
 
 class GameDelegate: public ouzel::AppDelegate
 {
