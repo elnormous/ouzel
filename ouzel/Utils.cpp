@@ -41,11 +41,11 @@ namespace ouzel
             log("Failed to query frequency");
             return 0;
         }
-        uint64_t frequency = li.QuadPart / 1000000L;
+        uint64_t frequency = li.QuadPart;
         
         QueryPerformanceCounter(&li);
         
-        return li.QuadPart / frequency;
+        return (li.QuadPart * 1000000) / frequency;
 #else
         return 0;
 #endif

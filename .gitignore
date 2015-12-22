@@ -5,3 +5,7 @@ build/ouzel.VC.opendb
 build/x64/
 build/ARM/
 build/ipch/
+*.suo
+*.opendb
+*.sdf
+*.user

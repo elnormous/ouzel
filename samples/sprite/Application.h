@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #pragma once
+#include "../../ouzel/ouzel.h"
 
 namespace ouzel
 {

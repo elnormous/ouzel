@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\ouzel\SoundManager.h" />
+    <ClInclude Include="..\ouzel\Texture.h" />
+    <ClInclude Include="..\ouzel\TextureD3D11.h" />
+    <ClInclude Include="..\ouzel\Utils.h" />
+    <ClInclude Include="..\ouzel\Vector2.h" />
+    <ClInclude Include="..\ouzel\Vector3.h" />
+    <ClInclude Include="..\ouzel\Vector4.h" />
+    <ClInclude Include="..\ouzel\View.h" />
+    <ClInclude Include="..\ouzel\Camera.h" />
+    <ClInclude Include="..\ouzel\Color.h" />
+    <ClInclude Include="..\ouzel\CompileConfig.h" />
+    <ClInclude Include="..\ouzel\Engine.h" />
+    <ClInclude Include="..\ouzel\EventHander.h" />
+    <ClInclude Include="..\ouzel\FileSystem.h" />
+    <ClInclude Include="..\ouzel\Image.h" />
+    <ClInclude Include="..\ouzel\MathUtils.h" />
+    <ClInclude Include="..\ouzel\Matrix3.h" />
+    <ClInclude Include="..\ouzel\Matrix4.h" />
+    <ClInclude Include="..\ouzel\MeshBuffer.h" />
+    <ClInclude Include="..\ouzel\Node.h" />
+    <ClInclude Include="..\ouzel\Noncopyable.h" />
+    <ClInclude Include="..\ouzel\ouzel.h" />
+    <ClInclude Include="..\ouzel\ParticleSystem.h" />
+    <ClInclude Include="..\ouzel\Rectangle.h" />
+    <ClInclude Include="..\ouzel\ReferenceCounted.h" />
+    <ClInclude Include="..\ouzel\Renderer.h" />
+    <ClInclude Include="..\ouzel\RendererD3D11.h" />
+    <ClInclude Include="..\ouzel\RenderTarget.h" />
+    <ClInclude Include="..\ouzel\RenderTargetD3D11.h" />
+    <ClInclude Include="..\ouzel\Scene.h" />
+    <ClInclude Include="..\ouzel\Shader.h" />
+    <ClInclude Include="..\ouzel\ShaderD3D11.h" />
+    <ClInclude Include="..\ouzel\Size2.h" />
+    <ClInclude Include="..\ouzel\Sound.h" />
+    <ClInclude Include="..\ouzel\Sprite.h" />
+    <ClInclude Include="..\ouzel\Vertex.h" />
+    <ClInclude Include="..\samples\sprite\Application.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\win32\Win32View.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ouzel\Texture.cpp" />
+    <ClCompile Include="..\ouzel\TextureD3D11.cpp" />
+    <ClCompile Include="..\ouzel\Utils.cpp" />
+    <ClCompile Include="..\ouzel\Vector2.cpp" />
+    <ClCompile Include="..\ouzel\Vector3.cpp" />
+    <ClCompile Include="..\ouzel\Vector4.cpp" />
+    <ClCompile Include="..\ouzel\View.cpp" />
+    <ClCompile Include="..\ouzel\Camera.cpp" />
+    <ClCompile Include="..\ouzel\Color.cpp" />
+    <ClCompile Include="..\ouzel\Engine.cpp" />
+    <ClCompile Include="..\ouzel\FileSystem.cpp" />
+    <ClCompile Include="..\ouzel\Image.cpp" />
+    <ClCompile Include="..\ouzel\MathUtils.cpp" />
+    <ClCompile Include="..\ouzel\Matrix3.cpp" />
+    <ClCompile Include="..\ouzel\Matrix4.cpp" />
+    <ClCompile Include="..\ouzel\MeshBuffer.cpp" />
+    <ClCompile Include="..\ouzel\Node.cpp" />
+    <ClCompile Include="..\ouzel\ParticleSystem.cpp" />
+    <ClCompile Include="..\ouzel\Rectangle.cpp" />
+    <ClCompile Include="..\ouzel\Renderer.cpp" />
+    <ClCompile Include="..\ouzel\RendererD3D11.cpp" />
+    <ClCompile Include="..\ouzel\RenderTarget.cpp" />
+    <ClCompile Include="..\ouzel\RenderTargetD3D11.cpp" />
+    <ClCompile Include="..\ouzel\Scene.cpp" />
+    <ClCompile Include="..\ouzel\Shader.cpp" />
+    <ClCompile Include="..\ouzel\ShaderD3D11.cpp" />
+    <ClCompile Include="..\ouzel\Size2.cpp" />
+    <ClCompile Include="..\ouzel\Sound.cpp" />
+    <ClCompile Include="..\ouzel\SoundManager.cpp" />
+    <ClCompile Include="..\ouzel\Sprite.cpp" />
+    <ClCompile Include="..\ouzel\Vertex.cpp" />
+    <ClCompile Include="..\samples\sprite\win\main.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\samples\sprite\Application.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\win32\Win32View.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="game">
+      <UniqueIdentifier>{8d6a9b9b-b2c7-436d-abb6-be4899934451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win32">
+      <UniqueIdentifier>{7e31a1da-8b7d-4100-97c8-4109091d3b05}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

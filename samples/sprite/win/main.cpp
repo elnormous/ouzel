@@ -2,17 +2,19 @@
 // This file is part of the Ouzel engine.
 
 #include <windows.h>
-#include "Application.h"
+#include "../Application.h"
 
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
-	ouzel::Application* application = new ouzel::Application();
-	//TODO: create main window
-	//TODO: attach Renderer's view to this window
-	//TODO: run main loop
-
+	ouzel::Application application;
+	
+	while (application.getEngine()->getRenderer()->getView()->processEvents())
+	{
+		application.getEngine()->run();
+	}
+	
 	return 0;
 }
