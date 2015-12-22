@@ -38,8 +38,38 @@ namespace ouzel
         return 0;
     }
     
+    bool Shader::setPixelShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    {
+        return true;
+    }
+    
+    bool Shader::setPixelShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    {
+        return true;
+    }
+    
+    bool Shader::setPixelShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count)
+    {
+        return true;
+    }
+    
     uint32_t Shader::getVertexShaderConstantId(const std::string& name)
     {
         return 0;
+    }
+    
+    bool Shader::setVertexShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    {
+        return true;
+    }
+    
+    bool Shader::setVertexShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    {
+        return true;
+    }
+    
+    bool Shader::setVertexShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count)
+    {
+        return true;
     }
 }

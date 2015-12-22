@@ -25,7 +25,14 @@ namespace ouzel
         GLuint getProgramId() const { return _programId; }
         
         virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
+        virtual bool setPixelShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count) override;
+        virtual bool setPixelShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count) override;
+        virtual bool setPixelShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count) override;
+        
         virtual uint32_t getVertexShaderConstantId(const std::string& name) override;
+        virtual bool setVertexShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count) override;
+        virtual bool setVertexShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count) override;
+        virtual bool setVertexShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count) override;
         
     protected:
         bool checkShaderError(GLuint shader);

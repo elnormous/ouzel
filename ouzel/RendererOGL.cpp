@@ -239,14 +239,14 @@ namespace ouzel
         
         MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(meshBuffer);
         
-        GLint uniProj = _activeShader->getVertexShaderConstantId("proj");
-        glUniformMatrix4fv(uniProj, 1, GL_FALSE, _engine->getRenderer()->getProjection().m);
+        uint32_t uniProj = _activeShader->getVertexShaderConstantId("proj");
+        _activeShader->setVertexShaderConstant(uniProj, &_engine->getRenderer()->getProjection(), 1);
         
-        GLint uniView = _activeShader->getVertexShaderConstantId("view");
-        glUniformMatrix4fv(uniView, 1, GL_FALSE, _engine->getScene()->getCamera()->getTransform().m);
+        uint32_t uniView = _activeShader->getVertexShaderConstantId("view");
+        _activeShader->setVertexShaderConstant(uniView, &_engine->getScene()->getCamera()->getTransform(), 1);
         
-        GLint uniModel = _activeShader->getVertexShaderConstantId("model");
-        glUniformMatrix4fv(uniModel, 1, GL_FALSE, transform.m);
+        uint32_t uniModel = _activeShader->getVertexShaderConstantId("model");
+        _activeShader->setVertexShaderConstant(uniModel, &transform, 1);
         
         if (checkOpenGLErrors())
         {

@@ -134,8 +134,44 @@ namespace ouzel
         return glGetUniformLocation(_programId, name.c_str());
     }
     
+    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    {
+        glUniform3fv(index, count, reinterpret_cast<const float*>(vectors));
+        return true;
+    }
+    
+    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    {
+        glUniform4fv(index, count, reinterpret_cast<const float*>(vectors));
+        return true;
+    }
+    
+    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count)
+    {
+        glUniformMatrix4fv(index, count, GL_FALSE, reinterpret_cast<const float*>(matrixes));
+        return true;
+    }
+    
     uint32_t ShaderOGL::getVertexShaderConstantId(const std::string& name)
     {
         return glGetUniformLocation(_programId, name.c_str());
+    }
+    
+    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    {
+        glUniform3fv(index, count, reinterpret_cast<const float*>(vectors));
+        return true;
+    }
+    
+    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    {
+        glUniform4fv(index, count, reinterpret_cast<const float*>(vectors));
+        return true;
+    }
+    
+    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count)
+    {
+        glUniformMatrix4fv(index, count, GL_FALSE, reinterpret_cast<const float*>(matrixes));
+        return true;
     }
 }
