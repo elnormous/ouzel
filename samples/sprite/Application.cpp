@@ -12,7 +12,7 @@ namespace ouzel
 {
     Application::Application()
     {
-        _engine = new Engine(Renderer::Driver::OPENGL, Size2(640.0f, 480.0f), false);
+        _engine = new Engine(Renderer::Driver::DIRECT3D11, Size2(640.0f, 480.0f), false);
         _engine->addEventHandler(this);
     }
     

@@ -24,16 +24,16 @@ namespace ouzel
     {
         switch (driver)
         {
-            case Renderer::Driver::OPENGL:
 #ifdef OUZEL_PLATFORM_OSX
+            case Renderer::Driver::OPENGL:
                 _renderer = new RendererOGL(size, fullscreen, this);
-#endif
 				break;
-            case Renderer::Driver::DIRECT3D11:
-#ifdef OUZEL_PLATFORM_WINDOWS
-                _renderer = new RendererD3D11(size, fullscreen, this);
 #endif
+#ifdef OUZEL_PLATFORM_WINDOWS
+            case Renderer::Driver::DIRECT3D11:
+                _renderer = new RendererD3D11(size, fullscreen, this);
                 break;
+#endif
             default:
                 _renderer = new Renderer(size, fullscreen, this);
                 break;

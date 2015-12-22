@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{237BDBDD-C6A8-40C9-AABB-2E8CA647E506}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ouzelwin32</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\external\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\external\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ouzel\Camera.h" />
+    <ClInclude Include="..\ouzel\Color.h" />
+    <ClInclude Include="..\ouzel\CompileConfig.h" />
+    <ClInclude Include="..\ouzel\Engine.h" />
+    <ClInclude Include="..\ouzel\EventHander.h" />
+    <ClInclude Include="..\ouzel\FileSystem.h" />
+    <ClInclude Include="..\ouzel\Image.h" />
+    <ClInclude Include="..\ouzel\MathUtils.h" />
+    <ClInclude Include="..\ouzel\Matrix3.h" />
+    <ClInclude Include="..\ouzel\Matrix4.h" />
+    <ClInclude Include="..\ouzel\MeshBuffer.h" />
+    <ClInclude Include="..\ouzel\Node.h" />
+    <ClInclude Include="..\ouzel\Noncopyable.h" />
+    <ClInclude Include="..\ouzel\ouzel.h" />
+    <ClInclude Include="..\ouzel\ParticleSystem.h" />
+    <ClInclude Include="..\ouzel\Rectangle.h" />
+    <ClInclude Include="..\ouzel\ReferenceCounted.h" />
+    <ClInclude Include="..\ouzel\Renderer.h" />
+    <ClInclude Include="..\ouzel\RendererD3D11.h" />
+    <ClInclude Include="..\ouzel\RenderTarget.h" />
+    <ClInclude Include="..\ouzel\RenderTargetD3D11.h" />
+    <ClInclude Include="..\ouzel\Scene.h" />
+    <ClInclude Include="..\ouzel\Shader.h" />
+    <ClInclude Include="..\ouzel\ShaderD3D11.h" />
+    <ClInclude Include="..\ouzel\Size2.h" />
+    <ClInclude Include="..\ouzel\Sound.h" />
+    <ClInclude Include="..\ouzel\SoundManager.h" />
+    <ClInclude Include="..\ouzel\Sprite.h" />
+    <ClInclude Include="..\ouzel\Texture.h" />
+    <ClInclude Include="..\ouzel\TextureD3D11.h" />
+    <ClInclude Include="..\ouzel\Utils.h" />
+    <ClInclude Include="..\ouzel\Vector2.h" />
+    <ClInclude Include="..\ouzel\Vector3.h" />
+    <ClInclude Include="..\ouzel\Vector4.h" />
+    <ClInclude Include="..\ouzel\Vertex.h" />
+    <ClInclude Include="..\ouzel\View.h" />
+    <ClInclude Include="..\ouzel\win32\Win32View.h" />
+    <ClInclude Include="..\samples\sprite\Application.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ouzel\Camera.cpp" />
+    <ClCompile Include="..\ouzel\Color.cpp" />
+    <ClCompile Include="..\ouzel\Engine.cpp" />
+    <ClCompile Include="..\ouzel\FileSystem.cpp" />
+    <ClCompile Include="..\ouzel\Image.cpp" />
+    <ClCompile Include="..\ouzel\MathUtils.cpp" />
+    <ClCompile Include="..\ouzel\Matrix3.cpp" />
+    <ClCompile Include="..\ouzel\Matrix4.cpp" />
+    <ClCompile Include="..\ouzel\MeshBuffer.cpp" />
+    <ClCompile Include="..\ouzel\Node.cpp" />
+    <ClCompile Include="..\ouzel\ParticleSystem.cpp" />
+    <ClCompile Include="..\ouzel\Rectangle.cpp" />
+    <ClCompile Include="..\ouzel\Renderer.cpp" />
+    <ClCompile Include="..\ouzel\RendererD3D11.cpp" />
+    <ClCompile Include="..\ouzel\RenderTarget.cpp" />
+    <ClCompile Include="..\ouzel\RenderTargetD3D11.cpp" />
+    <ClCompile Include="..\ouzel\Scene.cpp" />
+    <ClCompile Include="..\ouzel\Shader.cpp" />
+    <ClCompile Include="..\ouzel\ShaderD3D11.cpp" />
+    <ClCompile Include="..\ouzel\Size2.cpp" />
+    <ClCompile Include="..\ouzel\Sound.cpp" />
+    <ClCompile Include="..\ouzel\SoundManager.cpp" />
+    <ClCompile Include="..\ouzel\Sprite.cpp" />
+    <ClCompile Include="..\ouzel\Texture.cpp" />
+    <ClCompile Include="..\ouzel\TextureD3D11.cpp" />
+    <ClCompile Include="..\ouzel\Utils.cpp" />
+    <ClCompile Include="..\ouzel\Vector2.cpp" />
+    <ClCompile Include="..\ouzel\Vector3.cpp" />
+    <ClCompile Include="..\ouzel\Vector4.cpp" />
+    <ClCompile Include="..\ouzel\Vertex.cpp" />
+    <ClCompile Include="..\ouzel\View.cpp" />
+    <ClCompile Include="..\ouzel\win32\Win32View.cpp" />
+    <ClCompile Include="..\samples\sprite\Application.cpp" />
+    <ClCompile Include="..\samples\sprite\win\main.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
