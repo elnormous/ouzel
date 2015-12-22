@@ -10,7 +10,6 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Utils.h"
-#include "View.h"
 
 static const char TEXTURE_PIXEL_SHADER[] =
     "#version 400\n"
@@ -68,7 +67,6 @@ namespace ouzel
     RendererOGL::RendererOGL(const Size2& size, bool fullscreen, Engine* engine):
         Renderer(size, fullscreen, engine, Driver::OPENGL)
     {
-        _view = new View(size, this);
         recalculateProjection();
     }
     
@@ -132,7 +130,7 @@ namespace ouzel
         
         if (_ready)
         {
-            glViewport(0, 0, _view->getSize().width, _view->getSize().height);
+            glViewport(0, 0, _size.width, _size.height);
         }
     }
     

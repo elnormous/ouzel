@@ -22,7 +22,6 @@ namespace ouzel
     const std::string SHADER_COLOR = "shaderColor";
     
     class Engine;
-    class View;
     class Texture;
     class Node;
     class Shader;
@@ -44,7 +43,6 @@ namespace ouzel
         
         Engine* getEngine() const { return _engine; }
         Driver getDriver() const { return _driver; }
-        View* getView() const { return _view; }
         
         virtual void setClearColor(Color color) { _clearColor = color; }
         virtual Color getClearColor() const { return _clearColor; }
@@ -54,6 +52,8 @@ namespace ouzel
         virtual void begin();
         virtual void clear();
         virtual void flush();
+        
+        virtual void resize(const Size2& size);
         
         void preloadTexture(const std::string& filename);
         Texture* getTexture(const std::string& filename);
@@ -83,7 +83,6 @@ namespace ouzel
     protected:
         Engine* _engine;
         Driver _driver;
-        View* _view = nullptr;
         
         Color _clearColor;
         
@@ -94,5 +93,7 @@ namespace ouzel
         
         Texture* _activeTextures[TEXTURE_LAYERS];
         Shader* _activeShader = nullptr;
+        
+        Size2 _size;
     };
 }

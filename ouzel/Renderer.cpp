@@ -11,13 +11,12 @@
 #include "Camera.h"
 #include "EventHander.h"
 #include "Scene.h"
-#include "View.h"
 #include "MeshBuffer.h"
 
 namespace ouzel
 {
     Renderer::Renderer(const Size2& size, bool fullscreen, Engine* engine, Driver driver):
-        _engine(engine), _driver(driver)
+        _engine(engine), _driver(driver), _size(size)
     {
         for (int i = 0; i < TEXTURE_LAYERS; ++i)
         {
@@ -31,19 +30,11 @@ namespace ouzel
         {
             texture.second->release();
         }
-        
-        if (_view)
-        {
-            _view->release();
-        }
     }
     
     void Renderer::recalculateProjection()
     {
-        if (_view)
-        {
-            Matrix4::createOrthographic(_view->getSize().width, _view->getSize().height, 1.0f, 1000.0f, &_projection);
-        }
+        Matrix4::createOrthographic(_size.width, _size.height, 1.0f, 1000.0f, &_projection);
     }
     
     void Renderer::begin()
@@ -57,6 +48,12 @@ namespace ouzel
     
     void Renderer::flush()
     {
+    }
+    
+    void Renderer::resize(const Size2& size)
+    {
+        _size = size;
+        recalculateProjection();
     }
     
     void Renderer::preloadTexture(const std::string& filename)
@@ -208,10 +205,10 @@ namespace ouzel
     {
         Camera* camera = _engine->getScene()->getCamera();
         
-        if (camera && _view)
+        if (camera)
         {
-            float x = 2.0f * position.x / _view->getSize().width - 1.0f;
-            float y = 2.0f * position.y / _view->getSize().height - 1.0f;
+            float x = 2.0f * position.x / _size.width - 1.0f;
+            float y = 2.0f * position.y / _size.height - 1.0f;
             
             Matrix4 projViewMatrix = _projection * camera->getTransform();
             Matrix4 inverseViewMatrix = projViewMatrix;
@@ -232,15 +229,15 @@ namespace ouzel
     {
         Camera* camera = _engine->getScene()->getCamera();
         
-        if (camera && _view)
+        if (camera)
         {
             Matrix4 projViewMatrix = _projection * camera->getTransform();
             
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             projViewMatrix.transformPoint(&result);
             
-            float x = (result.x + 1.0f) / 2.0f * _view->getSize().width;
-            float y = (result.y + 1.0f) / 2.0f * _view->getSize().height;
+            float x = (result.x + 1.0f) / 2.0f * _size.width;
+            float y = (result.y + 1.0f) / 2.0f * _size.height;
             
             return Vector2(x, y);
         }

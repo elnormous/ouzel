@@ -4,7 +4,6 @@
 #import "OpenGLView.h"
 #include "Engine.h"
 #include "RendererOGL.h"
-#include "View.h"
 
 using namespace ouzel;
 
@@ -17,7 +16,6 @@ using namespace ouzel;
     {
         _engine = engine;
         _renderer = _engine->getRenderer();
-        _view = _renderer->getView();
         
         NSTimer *updateTimer = [NSTimer timerWithTimeInterval:1.0f/60.0f target:self selector:@selector(idle:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:updateTimer forMode:NSDefaultRunLoopMode];
@@ -53,7 +51,7 @@ using namespace ouzel;
 
 -(void)update
 {
-    _view->resize(Size2(_frame.size.width, _frame.size.height));
+    _renderer->resize(Size2(_frame.size.width, _frame.size.height));
     
     [_openGLContext update];
 }
