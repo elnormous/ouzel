@@ -4,3 +4,4 @@ build/ouzel.sdf
 build/ouzel.VC.opendb
 build/x64/
 build/ARM/
+build/ipch/
