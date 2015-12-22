@@ -48,10 +48,7 @@ namespace ouzel
     
     void Renderer::begin()
     {
-        if (_view)
-        {
-            _view->lock();
-        }
+
     }
     
     void Renderer::clear()

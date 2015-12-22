@@ -9,19 +9,12 @@ namespace ouzel
     View::View(const Size2& size, Renderer* renderer):
         _size(size), _renderer(renderer)
     {
-        createNativeView();
+        
     }
     
     View::~View()
     {
     }
-    
-#ifndef OUZEL_PLATFORM_OSX
-    void View::lock()
-    {
-        
-    }
-#endif
     
     void View::resize(const Size2& size)
     {

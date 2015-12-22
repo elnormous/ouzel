@@ -32,29 +32,11 @@ namespace ouzel
         
         Renderer* getRenderer() const { return _renderer; }
         
-        void lock();
-        
         void resize(const Size2& size);
         const Size2& getSize() const { return _size; }
         
-#if defined(OUZEL_PLATFORM_OSX)
-        NSView* getNativeView() const { return _nativeView; }
-#elif defined(OUZEL_PLATFORM_WINDOWS)
-        HWND getNativeView() const { return _nativeView; }
-#endif
-        
-    protected:
-        void createNativeView();
-        void destroyNativeView();
-        
+    protected:        
         Renderer* _renderer;
         Size2 _size;
-        
-#if defined(OUZEL_PLATFORM_OSX)
-        NSView* _nativeView = nullptr;
-#elif defined(OUZEL_PLATFORM_WINDOWS)
-        HWND _nativeView = 0;
-#endif
-        
     };
 }

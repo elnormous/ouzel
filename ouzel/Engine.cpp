@@ -19,7 +19,7 @@
 #include "SoundManager.h"
 #include "FileSystem.h"
 
-extern ouzel::AppDelegate* appDelegate;
+extern ouzel::AppDelegate appDelegate;
 
 namespace ouzel
 {
@@ -61,7 +61,7 @@ namespace ouzel
     
     void Engine::begin()
     {
-        appDelegate->begin(this);
+        (&appDelegate)->begin(this);
     }
     
     void Engine::run()

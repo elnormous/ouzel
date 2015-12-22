@@ -9,7 +9,6 @@ class GameDelegate: public ouzel::AppDelegate
 public:
     GameDelegate()
     {
-        
     }
     
     virtual ~GameDelegate()
@@ -17,7 +16,7 @@ public:
         delete _application;
     }
     
-    void begin(ouzel::Engine* engine)
+    virtual void begin(ouzel::Engine* engine) override
     {
         _application = new ouzel::Application(engine);
     }
@@ -26,5 +25,4 @@ private:
     ouzel::Application* _application;
 };
 
-GameDelegate* appDelegate = new GameDelegate();
-std::unique_ptr<GameDelegate> ptr(appDelegate);
+GameDelegate appDelegate;
