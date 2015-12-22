@@ -3,7 +3,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-int main(int argc, const char * argv[])
-{
-    return NSApplicationMain(argc, argv);
-}
+@interface AppDelegate : NSObject <NSApplicationDelegate>
+
+@property (strong) NSWindow* window;
+
+@end

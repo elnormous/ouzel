@@ -10,14 +10,14 @@ using namespace ouzel;
 
 @implementation OpenGLView
 
--(id)initWithFrame:(NSRect)frameRect view:(ouzel::View*)view
+-(id)initWithFrame:(NSRect)frameRect engine:(ouzel::Engine*)engine
 {
     self = [super initWithFrame:frameRect];
     if (self != nil)
     {
-        _view = view;
-        _renderer = _view->getRenderer();
-        _engine = _renderer->getEngine();
+        _engine = engine;
+        _renderer = _engine->getRenderer();
+        _view = _renderer->getView();
         
         NSTimer *updateTimer = [NSTimer timerWithTimeInterval:1.0f/30.0f target:self selector:@selector(idle:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:updateTimer forMode:NSDefaultRunLoopMode];
@@ -106,7 +106,7 @@ using namespace ouzel;
 {
     _pixelFormat = pixelFormat;
 }
-- (NSOpenGLPixelFormat*)pixelFormat
+-(NSOpenGLPixelFormat*)pixelFormat
 {
     return _pixelFormat;
 }

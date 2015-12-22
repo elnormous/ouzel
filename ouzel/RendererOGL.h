@@ -13,6 +13,9 @@ namespace ouzel
         RendererOGL(const Size2& size, bool fullscreen, Engine* engine);
         
         bool initOpenGL(uint32_t width, uint32_t height);
+        bool checkOpenGLErrors();
+        
+        virtual void setClearColor(Color color) override;
         
         virtual void recalculateProjection() override;
         
@@ -33,6 +36,7 @@ namespace ouzel
         virtual void drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4()) override;
         virtual void drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4()) override;
         
-        bool checkOpenGLErrors();
+    private:
+        bool _ready = false;
     };
 }

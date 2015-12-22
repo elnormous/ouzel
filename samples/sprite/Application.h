@@ -8,10 +8,8 @@ namespace ouzel
     class Application: public Noncopyable, public ReferenceCounted, public EventHandler
     {
     public:
-        Application();
+        Application(Engine* engine);
         virtual ~Application();
-        
-        virtual void begin() override;
         
         Engine* getEngine() const { return _engine; }
         

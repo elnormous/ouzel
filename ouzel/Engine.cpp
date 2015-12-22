@@ -12,11 +12,14 @@
 #include "RendererD3D11.h"
 #endif
 
+#include "AppDelegate.h"
 #include "Utils.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "SoundManager.h"
 #include "FileSystem.h"
+
+extern ouzel::AppDelegate* appDelegate;
 
 namespace ouzel
 {
@@ -58,10 +61,7 @@ namespace ouzel
     
     void Engine::begin()
     {
-        for (EventHandler* eventHandler : _eventHandlers)
-        {
-            eventHandler->begin();
-        }
+        appDelegate->begin(this);
     }
     
     void Engine::run()

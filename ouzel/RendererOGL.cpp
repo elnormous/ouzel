@@ -98,16 +98,39 @@ namespace ouzel
         Shader* colorShader = loadShaderFromStrings(COLOR_PIXEL_SHADER, COLOR_VERTEX_SHADER);
         _shaders[SHADER_COLOR] = colorShader;
         
+        _ready = true;
+        
         _engine->begin();
         
         return true;
+    }
+    
+    bool RendererOGL::checkOpenGLErrors()
+    {
+        bool error = false;
+        
+        while (GLenum error = glGetError() != GL_NO_ERROR)
+        {
+            printf("OpenGL error: %d (%x)\n", error, error);
+            
+            error = true;
+        }
+        
+        return error;
+    }
+    
+    void RendererOGL::setClearColor(Color color)
+    {
+        Renderer::setClearColor(color);
+        
+        glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
     }
 
     void RendererOGL::recalculateProjection()
     {
         Renderer::recalculateProjection();
         
-        if (_view)
+        if (_ready)
         {
             glViewport(0, 0, _view->getSize().width, _view->getSize().height);
         }
@@ -459,19 +482,5 @@ namespace ouzel
         glDeleteVertexArrays(1, &vertexArray);
         glDeleteBuffers(1, &vertexBuffer);
         glDeleteBuffers(1, &indexBuffer);
-    }
-    
-    bool RendererOGL::checkOpenGLErrors()
-    {
-        bool error = false;
-        
-        while (GLenum error = glGetError() != GL_NO_ERROR)
-        {
-            printf("OpenGL error: %d (%x)\n", error, error);
-            
-            error = true;
-        }
-        
-        return error;
     }
 }

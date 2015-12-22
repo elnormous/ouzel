@@ -46,8 +46,8 @@ namespace ouzel
         Driver getDriver() const { return _driver; }
         View* getView() const { return _view; }
         
-        void setClearColor(Color color) { _clearColor = color; }
-        Color getClearColor() const { return _clearColor; }
+        virtual void setClearColor(Color color) { _clearColor = color; }
+        virtual Color getClearColor() const { return _clearColor; }
         
         virtual void recalculateProjection();
         
