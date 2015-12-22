@@ -53,6 +53,7 @@ namespace ouzel
         virtual void clear();
         virtual void flush();
         
+        const Size2& getSize() const { return _size; }
         virtual void resize(const Size2& size);
         
         void preloadTexture(const std::string& filename);
