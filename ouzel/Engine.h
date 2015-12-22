@@ -16,10 +16,17 @@ namespace ouzel
     class SoundManager;
     class FileSystem;
     
+    struct Settings
+    {
+        Renderer::Driver driver = Renderer::Driver::OPENGL;
+        Size2 size;
+        bool fullscreen = false;
+    };
+    
     class Engine: public Noncopyable, public ReferenceCounted
     {
     public:
-        Engine(Renderer::Driver driver, const Size2& size, bool fullscreen = false);
+        Engine();
         virtual ~Engine();
         
         void begin();

@@ -12,33 +12,38 @@
 #include "RendererD3D11.h"
 #endif
 
-#include "AppDelegate.h"
 #include "Utils.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "SoundManager.h"
 #include "FileSystem.h"
 
-extern ouzel::AppDelegate appDelegate;
+void OuzelInit(ouzel::Settings&);
+void OuzelBegin(ouzel::Engine*);
+void OuzelEnd();
 
 namespace ouzel
 {
-    Engine::Engine(Renderer::Driver driver, const Size2& size, bool fullscreen)
+    Engine::Engine()
     {
-        switch (driver)
+        Settings settings;
+        
+        OuzelInit(settings);
+        
+        switch (settings.driver)
         {
             case Renderer::Driver::OPENGL:
 #ifdef OUZEL_PLATFORM_OSX
-                _renderer = new RendererOGL(size, fullscreen, this);
+                _renderer = new RendererOGL(settings.size, settings.fullscreen, this);
 #endif
 				break;
             case Renderer::Driver::DIRECT3D11:
 #ifdef OUZEL_PLATFORM_WINDOWS
-                _renderer = new RendererD3D11(size, fullscreen, this);
+                _renderer = new RendererD3D11(settings.size, settings.fullscreen, this);
 #endif
                 break;
             default:
-                _renderer = new Renderer(size, fullscreen, this);
+                _renderer = new Renderer(settings.size, settings.fullscreen, this);
                 break;
         }
         
@@ -54,6 +59,8 @@ namespace ouzel
     
     Engine::~Engine()
     {
+        OuzelEnd();
+        
         if (_renderer) _renderer->release();
         if (_scene) _scene->release();
         if (_fileSystem) _fileSystem->release();
@@ -61,7 +68,7 @@ namespace ouzel
     
     void Engine::begin()
     {
-        (&appDelegate)->begin(this);
+        OuzelBegin(this);
     }
     
     void Engine::run()

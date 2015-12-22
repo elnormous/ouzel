@@ -29,7 +29,7 @@
         [_window setBackgroundColor:[NSColor blueColor]];
         [_window makeKeyAndOrderFront:self];
         
-        _engine = new ouzel::Engine(ouzel::Renderer::Driver::OPENGL, ouzel::Size2(800, 600), false);
+        _engine = new ouzel::Engine();
     }
     
     return self;

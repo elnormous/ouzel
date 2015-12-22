@@ -3,25 +3,19 @@
 
 #include "Application.h"
 
-class GameDelegate: public ouzel::AppDelegate
-{
-public:
-    GameDelegate()
-    {
-    }
-    
-    virtual ~GameDelegate()
-    {
-        delete _application;
-    }
-    
-    virtual void begin(ouzel::Engine* engine) override
-    {
-        _application = new ouzel::Application(engine);
-    }
-    
-private:
-    ouzel::Application* _application;
-};
+ouzel::Application* application;
 
-GameDelegate appDelegate;
+void OuzelInit(ouzel::Settings& settings)
+{
+    settings.size = ouzel::Size2(640.0f, 480.0f);
+}
+
+void OuzelBegin(ouzel::Engine* engine)
+{
+    application = new ouzel::Application(engine);
+}
+
+void OuzelEnd()
+{
+    delete application;
+}

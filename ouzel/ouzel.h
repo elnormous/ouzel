@@ -4,7 +4,6 @@
 #pragma once
 
 #include "CompileConfig.h"
-#include "AppDelegate.h"
 #include "Engine.h"
 #include "Renderer.h"
 #include "Matrix3.h"
