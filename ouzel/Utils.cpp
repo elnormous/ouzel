@@ -16,6 +16,8 @@
 
 namespace ouzel
 {
+    char TEMP_BUFFER[65536];
+    
     void log(const char* format, ...)
     {
         va_list list;
