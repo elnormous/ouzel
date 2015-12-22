@@ -18,7 +18,6 @@
 		303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
 		303B75011C28208800FEDE92 /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B74FF1C28208800FEDE92 /* FileSystem.h */; };
 		303B75091C286F8D00FEDE92 /* witch.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75081C286F8D00FEDE92 /* witch.png */; };
-		303B750C1C2870EA00FEDE92 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 303B750A1C2870EA00FEDE92 /* Main.storyboard */; };
 		303B75161C288CFB00FEDE92 /* MeshBufferOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */; };
 		303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75151C288CFB00FEDE92 /* MeshBufferOGL.h */; };
 		303B751A1C29ED4200FEDE92 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75181C29EB8400FEDE92 /* main.cpp */; };
@@ -105,7 +104,6 @@
 		303B74FE1C28208800FEDE92 /* FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
 		303B74FF1C28208800FEDE92 /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
 		303B75081C286F8D00FEDE92 /* witch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = witch.png; path = Resources/witch.png; sourceTree = "<group>"; };
-		303B750B1C2870EA00FEDE92 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshBufferOGL.cpp; sourceTree = "<group>"; };
 		303B75151C288CFB00FEDE92 /* MeshBufferOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshBufferOGL.h; sourceTree = "<group>"; };
 		303B75181C29EB8400FEDE92 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -114,8 +112,6 @@
 		303B751F1C29EFEC00FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = osx/AppDelegate.mm; sourceTree = "<group>"; };
 		303B75221C29FFA600FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		304A8E131C237B96008B1151 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		304A8E141C237B96008B1151 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		304A8E251C237C30008B1151 /* libouzel_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -397,10 +393,7 @@
 			children = (
 				304A8E161C237B96008B1151 /* Assets.xcassets */,
 				304A8E1B1C237B96008B1151 /* Info.plist */,
-				303B750A1C2870EA00FEDE92 /* Main.storyboard */,
 				304A8EAB1C2742D9008B1151 /* Prefix.pch */,
-				304A8E131C237B96008B1151 /* ViewController.h */,
-				304A8E141C237B96008B1151 /* ViewController.mm */,
 			);
 			name = osx;
 			path = OSX;
@@ -556,7 +549,6 @@
 				304A8E171C237B96008B1151 /* Assets.xcassets in Resources */,
 				303B74E01C276E8100FEDE92 /* tim-from-braid.png in Resources */,
 				303B75091C286F8D00FEDE92 /* witch.png in Resources */,
-				303B750C1C2870EA00FEDE92 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,17 +608,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		303B750A1C2870EA00FEDE92 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				303B750B1C2870EA00FEDE92 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		304A8E1C1C237B96008B1151 /* Debug */ = {
