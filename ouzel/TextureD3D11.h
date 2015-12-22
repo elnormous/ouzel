@@ -3,15 +3,14 @@
 
 #pragma once
 
-#include "Renderer.h"
+#include "Texture.h"
 
 namespace ouzel
 {
-    class TextureD3D11: public Renderer
+    class TextureD3D11: public Texture
     {
     public:
-        TextureD3D11(Engine* engine);
-        
-        virtual void activateTexture(Texture* texture, uint32_t layer);
+        TextureD3D11(Renderer* renderer);
+		virtual ~TextureD3D11();
     };
 }

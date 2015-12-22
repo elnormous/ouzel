@@ -5,8 +5,8 @@
 
 namespace ouzel
 {
-    RenderTargetD3D11::RenderTargetD3D11(const std::string& filename, Renderer* renderer):
-        Texture(filename, renderer)
+    RenderTargetD3D11::RenderTargetD3D11(Renderer* renderer):
+        RenderTargetD3D11(renderer)
     {
         
     }

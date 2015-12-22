@@ -10,8 +10,9 @@ namespace ouzel
     class RendererD3D11: public Renderer
     {
     public:
-        RendererD3D11(Engine* engine);
-        
-        virtual void activateTexture(Texture* texture, uint32_t layer);
+        RendererD3D11(const Size2& size, bool fullscreen, Engine* engine);
+		virtual ~RendererD3D11();
+
+        virtual bool activateTexture(Texture* texture, uint32_t layer) override;
     };
 }

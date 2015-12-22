@@ -30,6 +30,7 @@
     <ClCompile Include="..\ouzel\Camera.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
     <ClCompile Include="..\ouzel\Engine.cpp" />
+    <ClCompile Include="..\ouzel\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\Image.cpp" />
     <ClCompile Include="..\ouzel\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\Matrix3.cpp" />
@@ -55,7 +56,7 @@
     <ClCompile Include="..\ouzel\Vector2.cpp" />
     <ClCompile Include="..\ouzel\Vector3.cpp" />
     <ClCompile Include="..\ouzel\Vector4.cpp" />
-    <ClCompile Include="..\ouzel\Vertex3.cpp" />
+    <ClCompile Include="..\ouzel\Vertex.cpp" />
     <ClCompile Include="..\ouzel\View.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +65,7 @@
     <ClInclude Include="..\ouzel\CompileConfig.h" />
     <ClInclude Include="..\ouzel\Engine.h" />
     <ClInclude Include="..\ouzel\EventHander.h" />
+    <ClInclude Include="..\ouzel\FileSystem.h" />
     <ClInclude Include="..\ouzel\Image.h" />
     <ClInclude Include="..\ouzel\MathUtils.h" />
     <ClInclude Include="..\ouzel\Matrix3.h" />
@@ -92,7 +94,7 @@
     <ClInclude Include="..\ouzel\Vector2.h" />
     <ClInclude Include="..\ouzel\Vector3.h" />
     <ClInclude Include="..\ouzel\Vector4.h" />
-    <ClInclude Include="..\ouzel\Vertex3.h" />
+    <ClInclude Include="..\ouzel\Vertex.h" />
     <ClInclude Include="..\ouzel\View.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -3,6 +3,9 @@
 
 #include <fstream>
 #include "ShaderD3D11.h"
+#include "Engine.h"
+#include "Renderer.h"
+#include "FileSystem.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -17,14 +20,14 @@ namespace ouzel
         
     }
     
-    bool ShaderD3D11::loadFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    bool ShaderD3D11::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        if (!Shader::loadFromFiles(fragmentShader, vertexShader))
+        if (!Shader::initFromFiles(fragmentShader, vertexShader))
         {
             return false;
         }
         
-        std::ifstream fragmentShaderFile(getResourcePath(fragmentShader));
+        std::ifstream fragmentShaderFile(_renderer->getEngine()->getFileSystem()->getPath(fragmentShader));
         std::string fragmentShaderCode;
         
         fragmentShaderFile.seekg(0, std::ios::end);
@@ -34,7 +37,7 @@ namespace ouzel
         fragmentShaderCode.assign((std::istreambuf_iterator<char>(fragmentShaderFile)),
                                   std::istreambuf_iterator<char>());
         
-        std::ifstream vertexShaderFile(getResourcePath(vertexShader));
+        std::ifstream vertexShaderFile(_renderer->getEngine()->getFileSystem()->getPath(vertexShader));
         std::string vertexShaderCode;
         
         vertexShaderFile.seekg(0, std::ios::end);
@@ -44,12 +47,12 @@ namespace ouzel
         vertexShaderCode.assign((std::istreambuf_iterator<char>(vertexShaderFile)),
                                 std::istreambuf_iterator<char>());
         
-        return loadFromStrings(fragmentShaderCode, vertexShaderCode);
+        return initFromStrings(fragmentShaderCode, vertexShaderCode);
     }
     
-    bool ShaderD3D11::loadFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    bool ShaderD3D11::initFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        if (!Shader::loadFromFiles(fragmentShader, vertexShader))
+        if (!Shader::initFromFiles(fragmentShader, vertexShader))
         {
             return false;
         }

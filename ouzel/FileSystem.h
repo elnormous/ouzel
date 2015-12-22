@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include "CompileConfig.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 
@@ -13,6 +14,8 @@ namespace ouzel
     class FileSystem: public Noncopyable, public ReferenceCounted
     {
     public:
+		static const std::string DIRECTORY_SEPARATOR;
+
         FileSystem();
         virtual ~FileSystem();
         

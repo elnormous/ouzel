@@ -11,7 +11,13 @@
 
 namespace ouzel
 {
-    FileSystem::FileSystem()
+#ifdef OUZEL_PLATFORM_WINDOWS
+	const std::string FileSystem::DIRECTORY_SEPARATOR = "\\";
+#else
+	const std::string FileSystem::DIRECTORY_SEPARATOR = "/";
+#endif
+    
+	FileSystem::FileSystem()
     {
         
     }
@@ -33,6 +39,9 @@ namespace ouzel
     
     std::string FileSystem::getPath(const std::string& filename)
     {
+		std::string appPath;
+
+#if defined(OUZEL_PLATFORM_OSX)
         CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
         CFStringRef urlString = CFURLCopyPath(appUrlRef);
         
@@ -42,8 +51,11 @@ namespace ouzel
         
         CFRelease(appUrlRef);
         CFRelease(urlString);
-        
-        std::string str = std::string(temporaryCString) + "Contents/Resources/" + filename;
+
+		appPath = std::string(temporaryCString) + "Contents/Resources/";
+#endif
+
+        std::string str = appPath + filename;
         
         if (fileExists(str))
         {
@@ -53,7 +65,7 @@ namespace ouzel
         {
             for (const std::string& path : _resourcePaths)
             {
-                str = std::string(temporaryCString) + "Contents/Resources/" + path + "/" + filename;
+                str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
                 
                 if (fileExists(str))
                 {

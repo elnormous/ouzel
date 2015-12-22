@@ -14,8 +14,8 @@ namespace ouzel
         ShaderD3D11(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer);
         virtual ~ShaderD3D11();
         
-        virtual bool loadFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
-        virtual bool loadFromStrings(const std::string& fragmentShader, const std::string& vertexShader) override;
+        virtual bool initFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
+        virtual bool initFromStrings(const std::string& fragmentShader, const std::string& vertexShader) override;
         
         virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
         virtual uint32_t getVertexShaderConstantId(const std::string& name) override;

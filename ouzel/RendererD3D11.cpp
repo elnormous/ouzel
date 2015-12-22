@@ -5,8 +5,8 @@
 
 namespace ouzel
 {
-    RendererD3D11::RendererD3D11(const std::string& filename, Renderer* renderer):
-        Texture(filename, renderer)
+    RendererD3D11::RendererD3D11(const Size2& size, bool fullscreen, Engine* engine):
+        Renderer(size, fullscreen, engine, Driver::DIRECT3D11)
     {
         
     }
@@ -15,4 +15,9 @@ namespace ouzel
     {
         
     }
+
+	bool RendererD3D11::activateTexture(Texture* texture, uint32_t layer)
+	{
+		return true;
+	}
 }
