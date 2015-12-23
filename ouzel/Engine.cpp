@@ -4,7 +4,7 @@
 #include "Engine.h"
 #include "CompileConfig.h"
 
-#ifdef OUZEL_PLATFORM_OSX
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
 #include "RendererOGL.h"
 #endif
 
@@ -32,16 +32,17 @@ namespace ouzel
         
         switch (settings.driver)
         {
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
             case Renderer::Driver::OPENGL:
-#ifdef OUZEL_PLATFORM_OSX
                 _renderer = new RendererOGL(settings.size, settings.fullscreen, this);
-#endif
 				break;
-            case Renderer::Driver::DIRECT3D11:
-#ifdef OUZEL_PLATFORM_WINDOWS
-                _renderer = new RendererD3D11(settings.size, settings.fullscreen, this);
 #endif
+#ifdef OUZEL_PLATFORM_WINDOWS
+            case Renderer::Driver::DIRECT3D11:
+
+                _renderer = new RendererD3D11(settings.size, settings.fullscreen, this);
                 break;
+#endif
             default:
                 _renderer = new Renderer(settings.size, settings.fullscreen, this);
                 break;
