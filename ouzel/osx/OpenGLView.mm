@@ -293,7 +293,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
         case kVK_Home: return KeyboardKey::HOME;
         case kVK_End: return KeyboardKey::END;
         case NSInsertFunctionKey: return KeyboardKey::INSERT;
-        case kVK_ForwardDelete: return KeyboardKey::DELETE;
+        case kVK_ForwardDelete: return KeyboardKey::DEL;
         case kVK_Help: return KeyboardKey::HELP;
         case NSSelectFunctionKey: return KeyboardKey::SELECT;
         case NSPrintFunctionKey: return KeyboardKey::PRINT;
@@ -405,7 +405,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
-    event.mouseEvent.button = MouseButton::LBUTTON;
+    event.mouseEvent.button = MouseButton::LEFT;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -418,7 +418,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_UP;
-    event.mouseEvent.button = MouseButton::LBUTTON;
+    event.mouseEvent.button = MouseButton::LEFT;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -431,7 +431,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
-    event.mouseEvent.button = MouseButton::RBUTTON;
+    event.mouseEvent.button = MouseButton::RIGHT;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -444,7 +444,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_UP;
-    event.mouseEvent.button = MouseButton::RBUTTON;
+    event.mouseEvent.button = MouseButton::RIGHT;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -457,7 +457,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
-    event.mouseEvent.button = MouseButton::MBUTTON;
+    event.mouseEvent.button = MouseButton::MIDDLE;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -470,7 +470,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_UP;
-    event.mouseEvent.button = MouseButton::MBUTTON;
+    event.mouseEvent.button = MouseButton::MIDDLE;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -495,7 +495,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
-    event.mouseEvent.button = MouseButton::LBUTTON;
+    event.mouseEvent.button = MouseButton::LEFT;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -508,7 +508,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
-    event.mouseEvent.button = MouseButton::RBUTTON;
+    event.mouseEvent.button = MouseButton::RIGHT;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -521,7 +521,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
-    event.mouseEvent.button = MouseButton::MBUTTON;
+    event.mouseEvent.button = MouseButton::MIDDLE;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
