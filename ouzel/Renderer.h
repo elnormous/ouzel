@@ -53,8 +53,11 @@ namespace ouzel
         virtual void clear();
         virtual void flush();
         
-        const Size2& getSize() const { return _size; }
+        virtual const Size2& getSize() const { return _size; }
         virtual void resize(const Size2& size);
+        
+        virtual const std::string& getTitle() const { return _title; }
+        virtual void setTitle(const std::string& title) { _title = title; }
         
         void preloadTexture(const std::string& filename);
         Texture* getTexture(const std::string& filename);
@@ -96,5 +99,7 @@ namespace ouzel
         Shader* _activeShader = nullptr;
         
         Size2 _size;
+        
+        std::string _title = "Ouzel";
     };
 }
