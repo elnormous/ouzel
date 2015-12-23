@@ -262,119 +262,119 @@ enum {
     kVK_JIS_Kana                  = 0x68
 };
 
-Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
+KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
 {
     switch (keyCode)
     {
-        case kVK_UpArrow: return Event::KeyboardEvent::Key::UP;
-        case kVK_DownArrow: return Event::KeyboardEvent::Key::DOWN;
-        case kVK_LeftArrow: return Event::KeyboardEvent::Key::LEFT;
-        case kVK_RightArrow: return Event::KeyboardEvent::Key::RIGHT;
-        case kVK_F1: return Event::KeyboardEvent::Key::F1;
-        case kVK_F2: return Event::KeyboardEvent::Key::F2;
-        case kVK_F3: return Event::KeyboardEvent::Key::F3;
-        case kVK_F4: return Event::KeyboardEvent::Key::F4;
-        case kVK_F5: return Event::KeyboardEvent::Key::F5;
-        case kVK_F6: return Event::KeyboardEvent::Key::F6;
-        case kVK_F7: return Event::KeyboardEvent::Key::F7;
-        case kVK_F8: return Event::KeyboardEvent::Key::F8;
-        case kVK_F9: return Event::KeyboardEvent::Key::F9;
-        case kVK_F10: return Event::KeyboardEvent::Key::F10;
-        case kVK_F11: return Event::KeyboardEvent::Key::F11;
-        case kVK_F12: return Event::KeyboardEvent::Key::F12;
-        case kVK_F13: return Event::KeyboardEvent::Key::F13;
-        case kVK_F14: return Event::KeyboardEvent::Key::F14;
-        case kVK_F15: return Event::KeyboardEvent::Key::F15;
-        case kVK_F16: return Event::KeyboardEvent::Key::F16;
-        case kVK_F17: return Event::KeyboardEvent::Key::F17;
-        case kVK_F18: return Event::KeyboardEvent::Key::F18;
-        case kVK_F19: return Event::KeyboardEvent::Key::F19;
-        case kVK_F20: return Event::KeyboardEvent::Key::F20;
-        case kVK_Home: return Event::KeyboardEvent::Key::HOME;
-        case kVK_End: return Event::KeyboardEvent::Key::END;
-        case NSInsertFunctionKey: return Event::KeyboardEvent::Key::INSERT;
-        case kVK_ForwardDelete: return Event::KeyboardEvent::Key::DELETE;
-        case kVK_Help: return Event::KeyboardEvent::Key::HELP;
-        case NSSelectFunctionKey: return Event::KeyboardEvent::Key::SELECT;
-        case NSPrintFunctionKey: return Event::KeyboardEvent::Key::PRINT;
-        case NSExecuteFunctionKey: return Event::KeyboardEvent::Key::EXECUT;
-        case NSPrintScreenFunctionKey: return Event::KeyboardEvent::Key::SNAPSHOT;
-        case NSPauseFunctionKey: return Event::KeyboardEvent::Key::PAUSE;
-        case NSScrollLockFunctionKey: return Event::KeyboardEvent::Key::SCROLL;
-        case kVK_Delete: return Event::KeyboardEvent::Key::BACK;
-        case kVK_Tab: return Event::KeyboardEvent::Key::TAB;
-        case kVK_Return: return Event::KeyboardEvent::Key::RETURN;
-        case kVK_Escape: return Event::KeyboardEvent::Key::ESCAPE;
-        case kVK_Control: return Event::KeyboardEvent::Key::CONTROL;
-        case kVK_RightControl: return Event::KeyboardEvent::Key::RCONTROL;
-        case kVK_Command: return Event::KeyboardEvent::Key::MENU;
-        case kVK_Shift: return Event::KeyboardEvent::Key::SHIFT;
-        case kVK_RightShift: return Event::KeyboardEvent::Key::RSHIFT;
-        case kVK_Space: return Event::KeyboardEvent::Key::SPACE;
+        case kVK_UpArrow: return KeyboardEvent::Key::UP;
+        case kVK_DownArrow: return KeyboardEvent::Key::DOWN;
+        case kVK_LeftArrow: return KeyboardEvent::Key::LEFT;
+        case kVK_RightArrow: return KeyboardEvent::Key::RIGHT;
+        case kVK_F1: return KeyboardEvent::Key::F1;
+        case kVK_F2: return KeyboardEvent::Key::F2;
+        case kVK_F3: return KeyboardEvent::Key::F3;
+        case kVK_F4: return KeyboardEvent::Key::F4;
+        case kVK_F5: return KeyboardEvent::Key::F5;
+        case kVK_F6: return KeyboardEvent::Key::F6;
+        case kVK_F7: return KeyboardEvent::Key::F7;
+        case kVK_F8: return KeyboardEvent::Key::F8;
+        case kVK_F9: return KeyboardEvent::Key::F9;
+        case kVK_F10: return KeyboardEvent::Key::F10;
+        case kVK_F11: return KeyboardEvent::Key::F11;
+        case kVK_F12: return KeyboardEvent::Key::F12;
+        case kVK_F13: return KeyboardEvent::Key::F13;
+        case kVK_F14: return KeyboardEvent::Key::F14;
+        case kVK_F15: return KeyboardEvent::Key::F15;
+        case kVK_F16: return KeyboardEvent::Key::F16;
+        case kVK_F17: return KeyboardEvent::Key::F17;
+        case kVK_F18: return KeyboardEvent::Key::F18;
+        case kVK_F19: return KeyboardEvent::Key::F19;
+        case kVK_F20: return KeyboardEvent::Key::F20;
+        case kVK_Home: return KeyboardEvent::Key::HOME;
+        case kVK_End: return KeyboardEvent::Key::END;
+        case NSInsertFunctionKey: return KeyboardEvent::Key::INSERT;
+        case kVK_ForwardDelete: return KeyboardEvent::Key::DELETE;
+        case kVK_Help: return KeyboardEvent::Key::HELP;
+        case NSSelectFunctionKey: return KeyboardEvent::Key::SELECT;
+        case NSPrintFunctionKey: return KeyboardEvent::Key::PRINT;
+        case NSExecuteFunctionKey: return KeyboardEvent::Key::EXECUT;
+        case NSPrintScreenFunctionKey: return KeyboardEvent::Key::SNAPSHOT;
+        case NSPauseFunctionKey: return KeyboardEvent::Key::PAUSE;
+        case NSScrollLockFunctionKey: return KeyboardEvent::Key::SCROLL;
+        case kVK_Delete: return KeyboardEvent::Key::BACKSPACE;
+        case kVK_Tab: return KeyboardEvent::Key::TAB;
+        case kVK_Return: return KeyboardEvent::Key::RETURN;
+        case kVK_Escape: return KeyboardEvent::Key::ESCAPE;
+        case kVK_Control: return KeyboardEvent::Key::CONTROL;
+        case kVK_RightControl: return KeyboardEvent::Key::RCONTROL;
+        case kVK_Command: return KeyboardEvent::Key::MENU;
+        case kVK_Shift: return KeyboardEvent::Key::SHIFT;
+        case kVK_RightShift: return KeyboardEvent::Key::RSHIFT;
+        case kVK_Space: return KeyboardEvent::Key::SPACE;
             
-        case kVK_ANSI_A: return Event::KeyboardEvent::Key::KEY_A;
-        case kVK_ANSI_B: return Event::KeyboardEvent::Key::KEY_B;
-        case kVK_ANSI_C: return Event::KeyboardEvent::Key::KEY_C;
-        case kVK_ANSI_D: return Event::KeyboardEvent::Key::KEY_D;
-        case kVK_ANSI_E: return Event::KeyboardEvent::Key::KEY_E;
-        case kVK_ANSI_F: return Event::KeyboardEvent::Key::KEY_F;
-        case kVK_ANSI_G: return Event::KeyboardEvent::Key::KEY_G;
-        case kVK_ANSI_H: return Event::KeyboardEvent::Key::KEY_H;
-        case kVK_ANSI_I: return Event::KeyboardEvent::Key::KEY_I;
-        case kVK_ANSI_J: return Event::KeyboardEvent::Key::KEY_J;
-        case kVK_ANSI_K: return Event::KeyboardEvent::Key::KEY_K;
-        case kVK_ANSI_L: return Event::KeyboardEvent::Key::KEY_L;
-        case kVK_ANSI_M: return Event::KeyboardEvent::Key::KEY_M;
-        case kVK_ANSI_N: return Event::KeyboardEvent::Key::KEY_N;
-        case kVK_ANSI_O: return Event::KeyboardEvent::Key::KEY_O;
-        case kVK_ANSI_P: return Event::KeyboardEvent::Key::KEY_P;
-        case kVK_ANSI_Q: return Event::KeyboardEvent::Key::KEY_Q;
-        case kVK_ANSI_R: return Event::KeyboardEvent::Key::KEY_R;
-        case kVK_ANSI_S: return Event::KeyboardEvent::Key::KEY_S;
-        case kVK_ANSI_T: return Event::KeyboardEvent::Key::KEY_T;
-        case kVK_ANSI_U: return Event::KeyboardEvent::Key::KEY_U;
-        case kVK_ANSI_V: return Event::KeyboardEvent::Key::KEY_V;
-        case kVK_ANSI_W: return Event::KeyboardEvent::Key::KEY_W;
-        case kVK_ANSI_X: return Event::KeyboardEvent::Key::KEY_X;
-        case kVK_ANSI_Y: return Event::KeyboardEvent::Key::KEY_Y;
-        case kVK_ANSI_Z: return Event::KeyboardEvent::Key::KEY_Z;
+        case kVK_ANSI_A: return KeyboardEvent::Key::KEY_A;
+        case kVK_ANSI_B: return KeyboardEvent::Key::KEY_B;
+        case kVK_ANSI_C: return KeyboardEvent::Key::KEY_C;
+        case kVK_ANSI_D: return KeyboardEvent::Key::KEY_D;
+        case kVK_ANSI_E: return KeyboardEvent::Key::KEY_E;
+        case kVK_ANSI_F: return KeyboardEvent::Key::KEY_F;
+        case kVK_ANSI_G: return KeyboardEvent::Key::KEY_G;
+        case kVK_ANSI_H: return KeyboardEvent::Key::KEY_H;
+        case kVK_ANSI_I: return KeyboardEvent::Key::KEY_I;
+        case kVK_ANSI_J: return KeyboardEvent::Key::KEY_J;
+        case kVK_ANSI_K: return KeyboardEvent::Key::KEY_K;
+        case kVK_ANSI_L: return KeyboardEvent::Key::KEY_L;
+        case kVK_ANSI_M: return KeyboardEvent::Key::KEY_M;
+        case kVK_ANSI_N: return KeyboardEvent::Key::KEY_N;
+        case kVK_ANSI_O: return KeyboardEvent::Key::KEY_O;
+        case kVK_ANSI_P: return KeyboardEvent::Key::KEY_P;
+        case kVK_ANSI_Q: return KeyboardEvent::Key::KEY_Q;
+        case kVK_ANSI_R: return KeyboardEvent::Key::KEY_R;
+        case kVK_ANSI_S: return KeyboardEvent::Key::KEY_S;
+        case kVK_ANSI_T: return KeyboardEvent::Key::KEY_T;
+        case kVK_ANSI_U: return KeyboardEvent::Key::KEY_U;
+        case kVK_ANSI_V: return KeyboardEvent::Key::KEY_V;
+        case kVK_ANSI_W: return KeyboardEvent::Key::KEY_W;
+        case kVK_ANSI_X: return KeyboardEvent::Key::KEY_X;
+        case kVK_ANSI_Y: return KeyboardEvent::Key::KEY_Y;
+        case kVK_ANSI_Z: return KeyboardEvent::Key::KEY_Z;
             
-        case kVK_ANSI_0: return Event::KeyboardEvent::Key::KEY_0;
-        case kVK_ANSI_1: return Event::KeyboardEvent::Key::KEY_1;
-        case kVK_ANSI_2: return Event::KeyboardEvent::Key::KEY_2;
-        case kVK_ANSI_3: return Event::KeyboardEvent::Key::KEY_3;
-        case kVK_ANSI_4: return Event::KeyboardEvent::Key::KEY_4;
-        case kVK_ANSI_5: return Event::KeyboardEvent::Key::KEY_5;
-        case kVK_ANSI_6: return Event::KeyboardEvent::Key::KEY_6;
-        case kVK_ANSI_7: return Event::KeyboardEvent::Key::KEY_7;
-        case kVK_ANSI_8: return Event::KeyboardEvent::Key::KEY_8;
-        case kVK_ANSI_9: return Event::KeyboardEvent::Key::KEY_9;
+        case kVK_ANSI_0: return KeyboardEvent::Key::KEY_0;
+        case kVK_ANSI_1: return KeyboardEvent::Key::KEY_1;
+        case kVK_ANSI_2: return KeyboardEvent::Key::KEY_2;
+        case kVK_ANSI_3: return KeyboardEvent::Key::KEY_3;
+        case kVK_ANSI_4: return KeyboardEvent::Key::KEY_4;
+        case kVK_ANSI_5: return KeyboardEvent::Key::KEY_5;
+        case kVK_ANSI_6: return KeyboardEvent::Key::KEY_6;
+        case kVK_ANSI_7: return KeyboardEvent::Key::KEY_7;
+        case kVK_ANSI_8: return KeyboardEvent::Key::KEY_8;
+        case kVK_ANSI_9: return KeyboardEvent::Key::KEY_9;
             
-        case kVK_ANSI_Slash: return Event::KeyboardEvent::Key::DIVIDE;
-        case kVK_ANSI_Comma: return Event::KeyboardEvent::Key::COMMA;
-        case kVK_ANSI_Period: return Event::KeyboardEvent::Key::PERIOD;
-        case kVK_PageUp: return Event::KeyboardEvent::Key::PRIOR;
-        case kVK_PageDown: return Event::KeyboardEvent::Key::NEXT;
+        case kVK_ANSI_Slash: return KeyboardEvent::Key::DIVIDE;
+        case kVK_ANSI_Comma: return KeyboardEvent::Key::COMMA;
+        case kVK_ANSI_Period: return KeyboardEvent::Key::PERIOD;
+        case kVK_PageUp: return KeyboardEvent::Key::PRIOR;
+        case kVK_PageDown: return KeyboardEvent::Key::NEXT;
             
-        case kVK_ANSI_Keypad0: return Event::KeyboardEvent::Key::NUMPAD0;
-        case kVK_ANSI_Keypad1: return Event::KeyboardEvent::Key::NUMPAD1;
-        case kVK_ANSI_Keypad2: return Event::KeyboardEvent::Key::NUMPAD2;
-        case kVK_ANSI_Keypad3: return Event::KeyboardEvent::Key::NUMPAD3;
-        case kVK_ANSI_Keypad4: return Event::KeyboardEvent::Key::NUMPAD4;
-        case kVK_ANSI_Keypad5: return Event::KeyboardEvent::Key::NUMPAD5;
-        case kVK_ANSI_Keypad6: return Event::KeyboardEvent::Key::NUMPAD6;
-        case kVK_ANSI_Keypad7: return Event::KeyboardEvent::Key::NUMPAD7;
-        case kVK_ANSI_Keypad8: return Event::KeyboardEvent::Key::NUMPAD8;
-        case kVK_ANSI_Keypad9: return Event::KeyboardEvent::Key::NUMPAD9;
+        case kVK_ANSI_Keypad0: return KeyboardEvent::Key::NUMPAD0;
+        case kVK_ANSI_Keypad1: return KeyboardEvent::Key::NUMPAD1;
+        case kVK_ANSI_Keypad2: return KeyboardEvent::Key::NUMPAD2;
+        case kVK_ANSI_Keypad3: return KeyboardEvent::Key::NUMPAD3;
+        case kVK_ANSI_Keypad4: return KeyboardEvent::Key::NUMPAD4;
+        case kVK_ANSI_Keypad5: return KeyboardEvent::Key::NUMPAD5;
+        case kVK_ANSI_Keypad6: return KeyboardEvent::Key::NUMPAD6;
+        case kVK_ANSI_Keypad7: return KeyboardEvent::Key::NUMPAD7;
+        case kVK_ANSI_Keypad8: return KeyboardEvent::Key::NUMPAD8;
+        case kVK_ANSI_Keypad9: return KeyboardEvent::Key::NUMPAD9;
             
-        case kVK_ANSI_KeypadDecimal: return Event::KeyboardEvent::Key::DECIMAL;
-        case kVK_ANSI_KeypadMultiply: return Event::KeyboardEvent::Key::MULTIPLY;
-        case kVK_ANSI_KeypadPlus: return Event::KeyboardEvent::Key::PLUS;
-        case kVK_ANSI_KeypadClear: return Event::KeyboardEvent::Key::OEM_CLEAR;
-        case kVK_ANSI_KeypadDivide: return Event::KeyboardEvent::Key::DIVIDE;
-        case kVK_ANSI_KeypadEnter: return Event::KeyboardEvent::Key::RETURN;
-        case kVK_ANSI_KeypadMinus: return Event::KeyboardEvent::Key::SUBTRACT;
-        default: return Event::KeyboardEvent::Key::NONE;
+        case kVK_ANSI_KeypadDecimal: return KeyboardEvent::Key::DECIMAL;
+        case kVK_ANSI_KeypadMultiply: return KeyboardEvent::Key::MULTIPLY;
+        case kVK_ANSI_KeypadPlus: return KeyboardEvent::Key::PLUS;
+        case kVK_ANSI_KeypadClear: return KeyboardEvent::Key::OEM_CLEAR;
+        case kVK_ANSI_KeypadDivide: return KeyboardEvent::Key::DIVIDE;
+        case kVK_ANSI_KeypadEnter: return KeyboardEvent::Key::RETURN;
+        case kVK_ANSI_KeypadMinus: return KeyboardEvent::Key::SUBTRACT;
+        default: return KeyboardEvent::Key::NONE;
     }
 }
 
@@ -405,7 +405,7 @@ Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
-    event.mouseEvent.button = Event::MouseEvent::Button::LBUTTON;
+    event.mouseEvent.button = MouseEvent::Button::LBUTTON;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -418,7 +418,7 @@ Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_UP;
-    event.mouseEvent.button = Event::MouseEvent::Button::LBUTTON;
+    event.mouseEvent.button = MouseEvent::Button::LBUTTON;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -431,7 +431,7 @@ Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
-    event.mouseEvent.button = Event::MouseEvent::Button::RBUTTON;
+    event.mouseEvent.button = MouseEvent::Button::RBUTTON;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -444,7 +444,7 @@ Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_UP;
-    event.mouseEvent.button = Event::MouseEvent::Button::RBUTTON;
+    event.mouseEvent.button = MouseEvent::Button::RBUTTON;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -457,7 +457,7 @@ Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
-    event.mouseEvent.button = Event::MouseEvent::Button::MBUTTON;
+    event.mouseEvent.button = MouseEvent::Button::MBUTTON;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -470,7 +470,7 @@ Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_UP;
-    event.mouseEvent.button = Event::MouseEvent::Button::MBUTTON;
+    event.mouseEvent.button = MouseEvent::Button::MBUTTON;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -495,7 +495,7 @@ Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
-    event.mouseEvent.button = Event::MouseEvent::Button::LBUTTON;
+    event.mouseEvent.button = MouseEvent::Button::LBUTTON;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -508,7 +508,7 @@ Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
-    event.mouseEvent.button = Event::MouseEvent::Button::RBUTTON;
+    event.mouseEvent.button = MouseEvent::Button::RBUTTON;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -521,7 +521,7 @@ Event::KeyboardEvent::Key convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
-    event.mouseEvent.button = Event::MouseEvent::Button::MBUTTON;
+    event.mouseEvent.button = MouseEvent::Button::MBUTTON;
     event.mouseEvent.position = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
