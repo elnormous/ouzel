@@ -10,11 +10,6 @@
 #elif defined(OUZEL_PLATFORM_IOS)
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
-
-#define glBindVertexArray glBindVertexArrayOES
-#define glGenVertexArrays glGenVertexArraysOES
-#define glDeleteVertexArrays glDeleteVertexArraysOES
-
 #endif
 
 #include "MeshBuffer.h"

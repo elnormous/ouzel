@@ -31,7 +31,7 @@ namespace ouzel
         std::string fragmentShaderCode;
         
         fragmentShaderFile.seekg(0, std::ios::end);
-        fragmentShaderCode.reserve(fragmentShaderFile.tellg());
+        fragmentShaderCode.reserve(static_cast<size_t>(fragmentShaderFile.tellg()));
         fragmentShaderFile.seekg(0, std::ios::beg);
         
         fragmentShaderCode.assign((std::istreambuf_iterator<char>(fragmentShaderFile)),
@@ -41,7 +41,7 @@ namespace ouzel
         std::string vertexShaderCode;
         
         vertexShaderFile.seekg(0, std::ios::end);
-        vertexShaderCode.reserve(vertexShaderFile.tellg());
+        vertexShaderCode.reserve(static_cast<size_t>(vertexShaderFile.tellg()));
         vertexShaderFile.seekg(0, std::ios::beg);
         
         vertexShaderCode.assign((std::istreambuf_iterator<char>(vertexShaderFile)),

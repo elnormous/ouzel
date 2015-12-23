@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBufferOGL.h"
+#include "RendererOGL.h"
 
 namespace ouzel
 {
