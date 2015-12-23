@@ -18,7 +18,7 @@ namespace ouzel
     
     struct Settings
     {
-        Renderer::Driver driver = Renderer::Driver::OPENGL;
+        Renderer::Driver driver = Renderer::Driver::NONE;
         Size2 size;
         bool fullscreen = false;
     };

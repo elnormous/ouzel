@@ -28,6 +28,12 @@ namespace ouzel
     {
         Settings settings;
         
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
+        settings.driver = Renderer::Driver::OPENGL;
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        settings.driver = Renderer::Driver::DIRECT3D11;
+#endif
+
         OuzelInit(settings);
         
         switch (settings.driver)
