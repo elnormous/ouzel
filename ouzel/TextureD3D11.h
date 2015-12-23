@@ -11,6 +11,6 @@ namespace ouzel
     {
     public:
         TextureD3D11(Renderer* renderer);
-		virtual ~TextureD3D11();
+        virtual ~TextureD3D11();
     };
 }

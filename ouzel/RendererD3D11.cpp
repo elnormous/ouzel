@@ -10,14 +10,14 @@ namespace ouzel
     {
         
     }
-    
+
     RendererD3D11::~RendererD3D11()
     {
         
     }
 
-	bool RendererD3D11::activateTexture(Texture* texture, uint32_t layer)
-	{
-		return true;
-	}
+    bool RendererD3D11::activateTexture(Texture* texture, uint32_t layer)
+    {
+        return true;
+    }
 }

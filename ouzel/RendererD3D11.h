@@ -11,7 +11,7 @@ namespace ouzel
     {
     public:
         RendererD3D11(const Size2& size, bool fullscreen, Engine* engine);
-		virtual ~RendererD3D11();
+        virtual ~RendererD3D11();
 
         virtual bool activateTexture(Texture* texture, uint32_t layer) override;
     };

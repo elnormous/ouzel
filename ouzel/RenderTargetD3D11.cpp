@@ -6,7 +6,7 @@
 namespace ouzel
 {
     RenderTargetD3D11::RenderTargetD3D11(Renderer* renderer):
-        RenderTargetD3D11(renderer)
+        RenderTarget(renderer)
     {
         
     }

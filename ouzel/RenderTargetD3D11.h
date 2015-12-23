@@ -3,14 +3,14 @@
 
 #pragma once
 
-#include "Renderer.h"
+#include "RenderTarget.h"
 
 namespace ouzel
 {
-    class RenderTargetD3D11: public Renderer
+    class RenderTargetD3D11: public RenderTarget
     {
     public:
         RenderTargetD3D11(Renderer* renderer);
-		virtual ~RenderTargetD3D11();
+        virtual ~RenderTargetD3D11();
     };
 }
