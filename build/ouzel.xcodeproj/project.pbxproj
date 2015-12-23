@@ -89,6 +89,8 @@
 		303B757B1C2A43D700FEDE92 /* ShaderOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E8C1C26EA8B008B1151 /* ShaderOGL.cpp */; };
 		303B757C1C2A43D900FEDE92 /* TextureOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E7F1C24814F008B1151 /* TextureOGL.cpp */; };
 		303B757D1C2A43DC00FEDE92 /* MeshBufferOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */; };
+		303B75811C2B17DC00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
+		303B75821C2B17DC00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -176,6 +178,7 @@
 		303B75701C2A3D7F00FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		303B75741C2A3E3000FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		303B75751C2A3E3000FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		303B75801C2B17DC00FEDE92 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -363,6 +366,7 @@
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
+				303B75801C2B17DC00FEDE92 /* Event.h */,
 				304A8E2F1C237C70008B1151 /* EventHander.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				304A8E3D1C237C70008B1151 /* ReferenceCounted.h */,
@@ -523,6 +527,7 @@
 				303B754E1C2A3CB700FEDE92 /* MathUtils.h in Headers */,
 				303B753C1C2A3C8200FEDE92 /* ReferenceCounted.h in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHander.h in Headers */,
+				303B75821C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.h in Headers */,
 				303B75451C2A3C9200FEDE92 /* Renderer.h in Headers */,
 				303B75561C2A3CB700FEDE92 /* Size2.h in Headers */,
@@ -563,6 +568,7 @@
 				303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */,
 				304A8E631C237C70008B1151 /* ReferenceCounted.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
+				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */,
 				304A8E821C24814F008B1151 /* RendererOGL.h in Headers */,
 				304A8E591C237C70008B1151 /* Matrix3.h in Headers */,
@@ -959,6 +965,7 @@
 				303B75361C2A3C5800FEDE92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		304A8E051C237B95008B1151 /* Build configuration list for PBXProject "ouzel" */ = {
 			isa = XCConfigurationList;
