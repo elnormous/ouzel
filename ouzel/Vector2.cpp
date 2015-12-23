@@ -214,8 +214,8 @@ namespace ouzel
 
     void Vector2::rotate(const Vector2& point, float angle)
     {
-        double sinAngle = sin(angle);
-        double cosAngle = cos(angle);
+        float sinAngle = sinf(angle);
+        float cosAngle = cosf(angle);
 
         if (point.isZero())
         {
