@@ -4,7 +4,7 @@
 #include "CompileConfig.h"
 #include "FileSystem.h"
 
-#ifdef OUZEL_PLATFORM_OSX
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/stat.h>
 #endif

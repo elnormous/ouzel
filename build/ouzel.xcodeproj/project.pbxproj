@@ -84,6 +84,7 @@
 		303B75731C2A3E1200FEDE92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B75721C2A3E1200FEDE92 /* UIKit.framework */; };
 		303B75761C2A3E3000FEDE92 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B75741C2A3E3000FEDE92 /* AppDelegate.mm */; };
 		303B75771C2A3E3000FEDE92 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75751C2A3E3000FEDE92 /* AppDelegate.h */; };
+		303B75781C2A419F00FEDE92 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* CompileConfig.h */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -542,6 +543,7 @@
 			files = (
 				304A8E5E1C237C70008B1151 /* Noncopyable.h in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix4.h in Headers */,
+				303B75781C2A419F00FEDE92 /* CompileConfig.h in Headers */,
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				304A8E861C24814F008B1151 /* TextureOGL.h in Headers */,
 				304A8E6D1C237C70008B1151 /* Texture.h in Headers */,
