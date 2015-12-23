@@ -130,7 +130,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
 -(void)keyDown:(NSEvent*)theEvent
 {
     Event event;
-    event.type = EventType::EVENT_TYPE_KEY_DOWN;
+    event.type = Event::Type::KEY_DOWN;
     event.key = theEvent.keyCode;
     updateModifiers(theEvent, event);
     
@@ -140,7 +140,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
 -(void)keyUp:(NSEvent*)theEvent
 {
     Event event;
-    event.type = EventType::EVENT_TYPE_KEY_UP;
+    event.type = Event::Type::KEY_UP;
     event.key = theEvent.keyCode;
     updateModifiers(theEvent, event);
     
@@ -152,7 +152,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_DOWN;
+    event.type = Event::Type::MOUSE_DOWN;
     event.mouseButton = 0;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
@@ -165,7 +165,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_UP;
+    event.type = Event::Type::MOUSE_UP;
     event.mouseButton = 0;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
@@ -178,7 +178,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_DOWN;
+    event.type = Event::Type::MOUSE_DOWN;
     event.mouseButton = 1;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
@@ -191,7 +191,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_UP;
+    event.type = Event::Type::MOUSE_UP;
     event.mouseButton = 1;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
@@ -204,7 +204,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_DOWN;
+    event.type = Event::Type::MOUSE_DOWN;
     event.mouseButton = 2;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
@@ -217,7 +217,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_UP;
+    event.type = Event::Type::MOUSE_UP;
     event.mouseButton = 2;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
@@ -230,7 +230,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_MOVE;
+    event.type = Event::Type::MOUSE_MOVE;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
@@ -242,7 +242,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_DRAG;
+    event.type = Event::Type::MOUSE_DRAG;
     event.mouseButton = 0;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
@@ -255,7 +255,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_DRAG;
+    event.type = Event::Type::MOUSE_DRAG;
     event.mouseButton = 1;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
@@ -268,7 +268,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_DRAG;
+    event.type = Event::Type::MOUSE_DRAG;
     event.mouseButton = 2;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
@@ -281,7 +281,7 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     NSPoint location = theEvent.locationInWindow;
     
     Event event;
-    event.type = EventType::EVENT_TYPE_MOUSE_SCROLL;
+    event.type = Event::Type::MOUSE_SCROLL;
     event.mousePosition = _renderer->absoluteToWorldLocation(Vector2(location.x, location.y));
     event.mouseScroll = Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY);
     updateModifiers(theEvent, event);
