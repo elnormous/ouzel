@@ -46,7 +46,7 @@ namespace ouzel
         EXECUT,         // EXECUTE key
         SNAPSHOT,       // PRINT SCREEN key
         INSERT,         // INS key
-        DELETE,         // DEL key
+        DEL,         // DEL key
         HELP,           // HELP key
         KEY_0,          // 0 key
         KEY_1,          // 1 key
@@ -165,11 +165,11 @@ namespace ouzel
     enum class MouseButton
     {
         NONE,
-        LBUTTON,        // Left mouse button
-        RBUTTON,        // Right mouse button
-        MBUTTON,        // Middle mouse button (three-button mouse)
-        XBUTTON1,       // Windows 2000/XP: X1 mouse button
-        XBUTTON2,       // Windows 2000/XP: X2 mouse button
+        LEFT,        // Left mouse button
+        RIGHT,        // Right mouse button
+        MIDDLE,        // Middle mouse button (three-button mouse)
+        X1,       // Windows 2000/XP: X1 mouse button
+        X2,       // Windows 2000/XP: X2 mouse button
     };
     
     struct KeyboardEvent

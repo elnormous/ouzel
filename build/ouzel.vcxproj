@@ -57,6 +57,7 @@
     <ClCompile Include="..\ouzel\Vector3.cpp" />
     <ClCompile Include="..\ouzel\Vector4.cpp" />
     <ClCompile Include="..\ouzel\Vertex.cpp" />
+    <ClCompile Include="..\ouzel\win\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\Camera.h" />
