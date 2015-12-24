@@ -14,12 +14,20 @@ namespace ouzel
     RendererD3D11::RendererD3D11(const Size2& size, bool fullscreen, Engine* engine):
         Renderer(size, fullscreen, engine, Driver::DIRECT3D11)
     {
-        
+        initWindow();
+        initD3D11();
+        recalculateProjection();
     }
 
     RendererD3D11::~RendererD3D11()
     {
-        
+        if (_depthStencilState) _depthStencilState->Release();
+        if (_blendState) _blendState->Release();
+        if (_rasterizerState) _rasterizerState->Release();
+        if (_samplerState) _samplerState->Release();
+        if (_rtView) _rtView->Release();
+        if (_backBuffer) _backBuffer->Release();
+        if (_swapChain) _swapChain->Release();
     }
 
     void RendererD3D11::initWindow()

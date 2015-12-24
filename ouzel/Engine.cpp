@@ -45,7 +45,6 @@ namespace ouzel
 #endif
 #ifdef OUZEL_PLATFORM_WINDOWS
             case Renderer::Driver::DIRECT3D11:
-
                 _renderer = new RendererD3D11(settings.size, settings.fullscreen, this);
                 break;
 #endif
@@ -76,6 +75,31 @@ namespace ouzel
     void Engine::begin()
     {
         OuzelBegin(this);
+
+#ifdef OUZEL_PLATFORM_WINDOWS
+        bool running = true;
+        while (running)
+        {
+            MSG msg;
+            while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+
+                if (msg.message == WM_QUIT)
+                {
+                    running = false;
+                    break;
+                }
+            }
+            if (running == false)
+            {
+                break;
+            }
+
+            run();
+        }
+#endif
     }
     
     void Engine::run()
