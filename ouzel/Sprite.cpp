@@ -40,7 +40,7 @@ namespace ouzel
 
     Sprite::~Sprite()
     {
-        if (_texture) _texture->retain();
+        if (_texture) _texture->release();
         if (_shader) _shader->release();
     }
 
