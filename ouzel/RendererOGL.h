@@ -44,7 +44,7 @@ namespace ouzel
         virtual bool activateShader(Shader* shader) override;
         
         virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices) override;
-        virtual bool drawMeshBuffer(MeshBuffer* meshBuffer, const Matrix4& transform = Matrix4()) override;
+        virtual bool drawMeshBuffer(MeshBuffer* meshBuffer) override;
         
         virtual void drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform = Matrix4()) override;
         virtual void drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4()) override;

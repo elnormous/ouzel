@@ -191,7 +191,7 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool Renderer::drawMeshBuffer(MeshBuffer* meshBuffer, const Matrix4& transform)
+    bool Renderer::drawMeshBuffer(MeshBuffer* meshBuffer)
     {
         if (!_activeShader)
         {

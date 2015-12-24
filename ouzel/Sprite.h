@@ -23,6 +23,10 @@ namespace ouzel
         virtual void draw() override;
         
         Texture* getTexture() const { return _texture; }
+        void setTexture(Texture* texture);
+        
+        Shader* getShader() const { return _shader; }
+        void setShader(Shader* shader);
         
         const Size2& getSize() const { return _size; }
         

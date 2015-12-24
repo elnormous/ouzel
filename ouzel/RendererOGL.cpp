@@ -251,28 +251,14 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool RendererOGL::drawMeshBuffer(MeshBuffer* meshBuffer, const Matrix4& transform)
+    bool RendererOGL::drawMeshBuffer(MeshBuffer* meshBuffer)
     {
-        if (!Renderer::drawMeshBuffer(meshBuffer, transform))
+        if (!Renderer::drawMeshBuffer(meshBuffer))
         {
             return false;
         }
         
         MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(meshBuffer);
-        
-        uint32_t uniProj = _activeShader->getVertexShaderConstantId("proj");
-        _activeShader->setVertexShaderConstant(uniProj, &_engine->getRenderer()->getProjection(), 1);
-        
-        uint32_t uniView = _activeShader->getVertexShaderConstantId("view");
-        _activeShader->setVertexShaderConstant(uniView, &_engine->getScene()->getCamera()->getTransform(), 1);
-        
-        uint32_t uniModel = _activeShader->getVertexShaderConstantId("model");
-        _activeShader->setVertexShaderConstant(uniModel, &transform, 1);
-        
-        if (checkOpenGLErrors())
-        {
-            return false;
-        }
         
         glBindVertexArray(meshBufferOGL->getVertexArrayId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
