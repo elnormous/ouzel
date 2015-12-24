@@ -77,22 +77,17 @@ namespace ouzel
         OuzelBegin(this);
 
 #ifdef OUZEL_PLATFORM_WINDOWS
-        bool running = true;
-        while (running)
+        MSG msg;
+
+        while (true)
         {
-            MSG msg;
             while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
             {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
-
-                if (msg.message == WM_QUIT)
-                {
-                    running = false;
-                    break;
-                }
             }
-            if (running == false)
+
+            if (msg.message == WM_QUIT)
             {
                 break;
             }
