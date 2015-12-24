@@ -23,6 +23,7 @@ namespace ouzel
         _engine->getScene()->getRootNode()->addChild(witch);
         
         sprite->release();
+        witch->release();
     }
     
     Application::~Application()
