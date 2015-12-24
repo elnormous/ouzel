@@ -4,7 +4,7 @@
 #include "RendererD3D11.h"
 #include "Utils.h"
 
-static LRESULT CALLBACK WindowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
     {
@@ -47,7 +47,7 @@ namespace ouzel
         memset(&wc, 0, sizeof(wc));
         wc.cbSize = sizeof(wc);
         wc.style = CS_HREDRAW | CS_VREDRAW;
-        wc.lpfnWndProc = WindowProc;
+        wc.lpfnWndProc = windowProc;
         wc.hInstance = hInstance;
         wc.hCursor = LoadCursor(NULL, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
