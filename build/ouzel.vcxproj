@@ -36,6 +36,7 @@
     <ClCompile Include="..\ouzel\Matrix3.cpp" />
     <ClCompile Include="..\ouzel\Matrix4.cpp" />
     <ClCompile Include="..\ouzel\MeshBuffer.cpp" />
+    <ClCompile Include="..\ouzel\MeshBufferD3D11.cpp" />
     <ClCompile Include="..\ouzel\Node.cpp" />
     <ClCompile Include="..\ouzel\ParticleSystem.cpp" />
     <ClCompile Include="..\ouzel\Rectangle.cpp" />
@@ -72,6 +73,7 @@
     <ClInclude Include="..\ouzel\Matrix3.h" />
     <ClInclude Include="..\ouzel\Matrix4.h" />
     <ClInclude Include="..\ouzel\MeshBuffer.h" />
+    <ClInclude Include="..\ouzel\MeshBufferD3D11.h" />
     <ClInclude Include="..\ouzel\Node.h" />
     <ClInclude Include="..\ouzel\Noncopyable.h" />
     <ClInclude Include="..\ouzel\ouzel.h" />
