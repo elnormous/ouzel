@@ -99,6 +99,7 @@ namespace ouzel
         Shader* _activeShader = nullptr;
         
         Size2 _size;
+        bool _fullscreen = false;
         
         std::string _title = "Ouzel";
     };

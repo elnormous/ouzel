@@ -70,21 +70,21 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\samples\sprite;..\ouzel;$(IncludePath)</IncludePath>
+    <IncludePath>..\samples\sprite\;..\ouzel\;$(IncludePath)</IncludePath>
     <IntDir>samples\sprite\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\samples\sprite;..\ouzel;$(IncludePath)</IncludePath>
+    <IncludePath>..\samples\sprite\;..\ouzel\;$(IncludePath)</IncludePath>
     <IntDir>samples\sprite\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\samples\sprite;..\ouzel;$(IncludePath)</IncludePath>
-    <LibraryPath>x64\Debug\ouzel;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\samples\sprite\;..\ouzel;$(IncludePath)</IncludePath>
+    <LibraryPath>x64\Debug;$(LibraryPath)</LibraryPath>
     <IntDir>samples\sprite\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\samples\sprite;..\ouzel;$(IncludePath)</IncludePath>
-    <LibraryPath>x64\Release\ouzel;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\samples\sprite\;..\ouzel\;$(IncludePath)</IncludePath>
+    <LibraryPath>x64\Release;$(LibraryPath)</LibraryPath>
     <IntDir>samples\sprite\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
