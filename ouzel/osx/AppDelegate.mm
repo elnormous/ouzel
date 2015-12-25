@@ -39,7 +39,6 @@
         
         _window.acceptsMouseMovedEvents = YES;
         [_window setBackgroundColor:[NSColor blueColor]];
-        [_window makeKeyAndOrderFront:self];
         
         [_window setTitle:[NSString stringWithUTF8String:_engine->getRenderer()->getTitle().c_str()]];
     }
