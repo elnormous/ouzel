@@ -109,7 +109,18 @@ namespace ouzel
         
         while (GLenum error = glGetError() != GL_NO_ERROR)
         {
-            printf("OpenGL error: %d (%x)\n", error, error);
+            printf("OpenGL error: ");
+            
+            switch (error)
+            {
+                case GL_INVALID_ENUM: printf("GL_INVALID_ENUM"); break;
+                case GL_INVALID_VALUE: printf("GL_INVALID_VALUE"); break;
+                case GL_INVALID_OPERATION: printf("GL_INVALID_OPERATION"); break;
+                case GL_OUT_OF_MEMORY: printf("GL_OUT_OF_MEMORY"); break;
+                default: printf("Unknown error");
+            }
+            
+            printf(" (%x)\n", error);
             
             error = true;
         }
