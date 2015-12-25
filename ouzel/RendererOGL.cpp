@@ -117,6 +117,7 @@ namespace ouzel
                 case GL_INVALID_VALUE: printf("GL_INVALID_VALUE"); break;
                 case GL_INVALID_OPERATION: printf("GL_INVALID_OPERATION"); break;
                 case GL_OUT_OF_MEMORY: printf("GL_OUT_OF_MEMORY"); break;
+                case GL_INVALID_FRAMEBUFFER_OPERATION: printf("GL_INVALID_FRAMEBUFFER_OPERATION"); break;
                 default: printf("Unknown error");
             }
             
