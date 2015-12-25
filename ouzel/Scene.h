@@ -5,6 +5,7 @@
 
 #include <set>
 #include <vector>
+#include "AutoPtr.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Vector2.h"
@@ -43,9 +44,9 @@ namespace ouzel
     protected:
         Engine* _engine;
         
-        Node* _rootNode = nullptr;
-        Camera* _camera = nullptr;
-        std::vector<Node*> _nodes;
+        AutoPtr<Node> _rootNode;
+        AutoPtr<Camera> _camera;
+        std::vector<AutoPtr<Node>> _nodes;
         bool _reorderNodes = false;
     };
 }

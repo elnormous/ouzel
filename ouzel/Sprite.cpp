@@ -18,13 +18,13 @@ namespace ouzel
         _engine = _scene->getEngine();
         
         _texture = _engine->getRenderer()->getTexture(filename);
-        _texture->retain();
+        
         
         _size = _texture->getSize();
         _boundingBox.set(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height);
         
         _shader = _engine->getRenderer()->getShader(SHADER_TEXTURE);
-        _shader->retain();
+        
         
         std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
         
@@ -36,12 +36,12 @@ namespace ouzel
         };
         
         _meshBuffer = _scene->getEngine()->getRenderer()->createMeshBuffer(indices, vertices);
+        
     }
 
     Sprite::~Sprite()
     {
-        if (_texture) _texture->release();
-        if (_shader) _shader->release();
+
     }
 
     void Sprite::draw()
@@ -69,32 +69,12 @@ namespace ouzel
     
     void Sprite::setTexture(Texture* texture)
     {
-        if (_texture)
-        {
-            _texture->release();
-        }
-        
         _texture = texture;
-        
-        if (_texture)
-        {
-            _texture->retain();
-        }
     }
     
     void Sprite::setShader(Shader* shader)
     {
-        if (_shader)
-        {
-            _shader->release();
-        }
-        
         _shader = shader;
-        
-        if (_shader)
-        {
-            _shader->retain();
-        }
     }
     
     bool Sprite::checkVisibility() const

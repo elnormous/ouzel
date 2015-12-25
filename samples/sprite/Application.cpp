@@ -15,15 +15,12 @@ namespace ouzel
     {
         _engine->addEventHandler(this);
         
-        Sprite* sprite = new Sprite("tim-from-braid.png", _engine->getScene());
+        AutoPtr<Sprite> sprite = new Sprite("tim-from-braid.png", _engine->getScene());
         _engine->getScene()->getRootNode()->addChild(sprite);
         
-        Sprite* witch = new Sprite("witch.png", _engine->getScene());
+        AutoPtr<Sprite> witch = new Sprite("witch.png", _engine->getScene());
         witch->setPosition(Vector2(100.0f, 100.0f));
         _engine->getScene()->getRootNode()->addChild(witch);
-        
-        sprite->release();
-        witch->release();
     }
     
     Application::~Application()

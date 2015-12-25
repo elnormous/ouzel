@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include "AutoPtr.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Rectangle.h"
@@ -13,6 +14,8 @@
 #include "Size2.h"
 #include "Color.h"
 #include "Vertex.h"
+#include "Shader.h"
+#include "Texture.h"
 
 namespace ouzel
 {
@@ -22,9 +25,7 @@ namespace ouzel
     const std::string SHADER_COLOR = "shaderColor";
     
     class Engine;
-    class Texture;
     class Node;
-    class Shader;
     class Sprite;
     class MeshBuffer;
 
@@ -92,11 +93,11 @@ namespace ouzel
         
         Matrix4 _projection;
         
-        std::unordered_map<std::string, Texture*> _textures;
-        std::unordered_map<std::string, Shader*> _shaders;
+        std::unordered_map<std::string, AutoPtr<Texture>> _textures;
+        std::unordered_map<std::string, AutoPtr<Shader>> _shaders;
         
-        Texture* _activeTextures[TEXTURE_LAYERS];
-        Shader* _activeShader = nullptr;
+        AutoPtr<Texture> _activeTextures[TEXTURE_LAYERS];
+        AutoPtr<Shader> _activeShader = nullptr;
         
         Size2 _size;
         bool _fullscreen = false;

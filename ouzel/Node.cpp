@@ -23,13 +23,14 @@ namespace ouzel
             }
             
             node->_parent = nullptr;
-            node->release();
         }
+        
+        _children.clear();
     }
 
     bool Node::hasChild(Node* node) const
     {
-        std::vector<Node*>::const_iterator i = std::find(_children.begin(), _children.end(), node);
+        std::vector<AutoPtr<Node>>::const_iterator i = std::find(_children.begin(), _children.end(), node);
         
         return i != _children.end();
     }
@@ -52,7 +53,7 @@ namespace ouzel
 
     void Node::removeChild(Node* node)
     {
-        std::vector<Node*>::iterator i = std::find(_children.begin(), _children.end(), node);
+        std::vector<AutoPtr<Node>>::iterator i = std::find(_children.begin(), _children.end(), node);
         
         if (i != _children.end())
         {
@@ -61,9 +62,8 @@ namespace ouzel
                 node->removeFromRenderer();
             }
             
-            _children.erase(i);
             node->_parent = nullptr;
-            node->release();
+            _children.erase(i);
         }
     }
 

@@ -16,8 +16,7 @@ namespace ouzel
     
     Scene::~Scene()
     {
-        if (!_camera) _camera->release();
-        if (!_rootNode) _rootNode->release();
+        
     }
     
     bool Scene::init()
@@ -32,7 +31,7 @@ namespace ouzel
     
     void Scene::addNode(Node* node)
     {
-        std::vector<Node*>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
+        std::vector<AutoPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
         
         if (i == _nodes.end())
         {
@@ -43,7 +42,7 @@ namespace ouzel
     
     void Scene::removeNode(Node* node)
     {
-        std::vector<Node*>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
+        std::vector<AutoPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
         
         if (i != _nodes.end())
         {
@@ -58,22 +57,12 @@ namespace ouzel
     
     void Scene::setCamera(Camera* camera)
     {
-        if (_camera)
-        {
-            _camera->release();
-        }
-        
         _camera = camera;
-        
-        if (_camera)
-        {
-            _camera->retain();
-        }
     }
     
     Node* Scene::pickNode(const Vector2& position)
     {
-        for (std::vector<Node*>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
             Node* node = *i;
             
@@ -90,7 +79,7 @@ namespace ouzel
     {
         std::set<Node*> result;
         
-        for (std::vector<Node*>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
             Node* node = *i;
             

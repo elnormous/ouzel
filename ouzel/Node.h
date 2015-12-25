@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include "AutoPtr.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Vector2.h"
@@ -25,7 +26,7 @@ namespace ouzel
         
         virtual Node* getParent() const { return _parent; }
         virtual bool hasChild(Node* node) const;
-        virtual const std::vector<Node*>& getChildren() const { return _children; }
+        virtual const std::vector<AutoPtr<Node>>& getChildren() const { return _children; }
         
         virtual void draw();
         
@@ -79,7 +80,7 @@ namespace ouzel
         Rectangle _boundingBox;
         
         Node* _parent = nullptr;
-        std::vector<Node*> _children;
+        std::vector<AutoPtr<Node>> _children;
         
         bool _flipX = false;
         bool _flipY = false;

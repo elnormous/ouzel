@@ -26,10 +26,7 @@ namespace ouzel
 
     Renderer::~Renderer()
     {
-        for (std::pair<std::string, Texture*> texture : _textures)
-        {
-            texture.second->release();
-        }
+
     }
     
     void Renderer::recalculateProjection()
@@ -58,7 +55,7 @@ namespace ouzel
     
     void Renderer::preloadTexture(const std::string& filename)
     {
-        std::unordered_map<std::string, Texture*>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, AutoPtr<Texture>>::const_iterator i = _textures.find(filename);
         
         if (i == _textures.end())
         {
@@ -75,7 +72,7 @@ namespace ouzel
     {
         Texture* result = nullptr;
         
-        std::unordered_map<std::string, Texture*>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, AutoPtr<Texture>>::const_iterator i = _textures.find(filename);
         
         if (i != _textures.end())
         {
@@ -116,7 +113,7 @@ namespace ouzel
     
     Shader* Renderer::getShader(const std::string& shaderName) const
     {
-        std::unordered_map<std::string, Shader*>::const_iterator i = _shaders.find(shaderName);
+        std::unordered_map<std::string, AutoPtr<Shader>>::const_iterator i = _shaders.find(shaderName);
         
         if (i != _shaders.end())
         {
@@ -130,19 +127,7 @@ namespace ouzel
     
     void Renderer::setShader(const std::string& shaderName, Shader* shader)
     {
-        std::unordered_map<std::string, Shader*>::iterator i = _shaders.find(shaderName);
-        
-        if (i != _shaders.end())
-        {
-            i->second->release();
-        }
-        
         _shaders[shaderName] = shader;
-        
-        if (shader)
-        {
-            shader->retain();
-        }
     }
     
     Shader* Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)

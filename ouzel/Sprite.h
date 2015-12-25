@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "AutoPtr.h"
 #include "Node.h"
 #include "Size2.h"
 #include "MeshBuffer.h"
@@ -33,13 +34,13 @@ namespace ouzel
         virtual bool checkVisibility() const override;
         
     protected:
-        Texture* _texture;
-        Shader* _shader;
+        AutoPtr<Texture> _texture;
+        AutoPtr<Shader> _shader;
         
         Engine* _engine;
         
         Size2 _size;
         
-        MeshBuffer* _meshBuffer;
+        AutoPtr<MeshBuffer> _meshBuffer;
     };
 }

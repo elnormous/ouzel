@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <cstdint>
 #include <cassert>
 
 namespace ouzel
@@ -54,6 +53,6 @@ namespace ouzel
 
     private:
         const char* _debugName = nullptr;
-        mutable int32_t _referenceCounter = 1;
+        mutable int32_t _referenceCounter = 0;
     };
 }

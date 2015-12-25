@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include "AutoPtr.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Renderer.h"
@@ -43,10 +44,10 @@ namespace ouzel
         void handleEvent(const Event& event);
         
     protected:
-        Renderer* _renderer = nullptr;
-        Scene* _scene = nullptr;
-        SoundManager* _soundManager = nullptr;
-        FileSystem* _fileSystem = nullptr;
+        AutoPtr<Renderer> _renderer;
+        AutoPtr<Scene> _scene;
+        AutoPtr<SoundManager> _soundManager;
+        AutoPtr<FileSystem> _fileSystem;
         
         uint64_t _previousFrameTime;
         

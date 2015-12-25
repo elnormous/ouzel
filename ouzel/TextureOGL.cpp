@@ -30,7 +30,7 @@ namespace ouzel
             return false;
         }
         
-        Image* image = new Image(_renderer->getEngine());
+        AutoPtr<Image> image = new Image(_renderer->getEngine());
         if (!image->loadFromFile(filename))
         {
             return false;
@@ -68,8 +68,6 @@ namespace ouzel
         }
         
         _size = image->getSize();
-        
-        image->release();
         
         return true;
     }
