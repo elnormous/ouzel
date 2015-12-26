@@ -24,7 +24,7 @@ namespace ouzel
         _camera = new Camera(this);
         
         _rootNode = new Node(this);
-        _rootNode->addToRenderer();
+        _rootNode->addToScene();
         
         return true;
     }

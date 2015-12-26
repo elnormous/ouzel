@@ -34,9 +34,9 @@ namespace ouzel
     {
         if (!hasChild(node) && node->getParent() == nullptr)
         {
-            if (_addedToRenderer)
+            if (_addedToScene)
             {
-                node->addToRenderer();
+                node->addToScene();
             }
             
             _children.push_back(node);
@@ -52,9 +52,9 @@ namespace ouzel
         
         if (i != _children.end())
         {
-            if (_addedToRenderer)
+            if (_addedToScene)
             {
-                node->removeFromRenderer();
+                node->removeFromScene();
             }
             
             node->_parent = nullptr;
@@ -110,25 +110,25 @@ namespace ouzel
         updateTransform();
     }
 
-    void Node::addToRenderer()
+    void Node::addToScene()
     {
         _scene->addNode(this);
-        _addedToRenderer = true;
+        _addedToScene = true;
         
         for (AutoPtr<Node> child : _children)
         {
-            child->addToRenderer();
+            child->addToScene();
         }
     }
 
-    void Node::removeFromRenderer()
+    void Node::removeFromScene()
     {
         _scene->removeNode(this);
-        _addedToRenderer = false;
+        _addedToScene = false;
         
         for (AutoPtr<Node> child : _children)
         {
-            child->removeFromRenderer();
+            child->removeFromScene();
         }
     }
 

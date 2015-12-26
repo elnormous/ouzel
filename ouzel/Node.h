@@ -17,6 +17,7 @@ namespace ouzel
 
     class Node: public Noncopyable, public ReferenceCounted
     {
+        friend Scene;
     public:
         Node(Scene* scene);
         virtual ~Node();
@@ -53,10 +54,7 @@ namespace ouzel
         
         virtual const Rectangle& getBoundingBox() const { return _boundingBox; }
         
-        virtual bool isAddedToRenderer() const { return _addedToRenderer; }
-        
-        virtual void addToRenderer();
-        virtual void removeFromRenderer();
+        virtual bool isAddedToScene() const { return _addedToScene; }
         
         virtual bool pointOn(const Vector2& position) const;
         virtual bool rectangleOverlaps(const Rectangle& rectangle) const;
@@ -66,6 +64,8 @@ namespace ouzel
         virtual bool checkVisibility() const;
         
     protected:
+        virtual void addToScene();
+        virtual void removeFromScene();
         void markInverseTransformDirty();
         
         Scene* _scene;
@@ -85,7 +85,7 @@ namespace ouzel
         bool _flipX = false;
         bool _flipY = false;
         
-        bool _addedToRenderer = false;
+        bool _addedToScene = false;
         
     private:
         mutable Matrix4 _inverseTransform;
