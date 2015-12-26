@@ -13,6 +13,7 @@
 
 #ifdef OUZEL_PLATFORM_WINDOWS
 #include <windows.h>
+#include <strsafe.h>
 #endif
 
 #include "Utils.h"
@@ -20,13 +21,15 @@
 namespace ouzel
 {
     char TEMP_BUFFER[65536];
-    
+
     void log(const char* format, ...)
     {
+        char strBuffer[256];
+
         va_list list;
         va_start(list, format);
         
-        vsprintf(TEMP_BUFFER, format, list);
+        vsprintf(strBuffer, format, list);
         
         va_end(list);
         
@@ -35,7 +38,10 @@ namespace ouzel
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         syslog(LOG_WARNING, "log string");
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-        OutputDebugString(TEMP_BUFFER);
+        wchar_t szBuffer[256];
+        MultiByteToWideChar(CP_ACP, 0, strBuffer, -1, szBuffer, sizeof(szBuffer));
+        StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
+        OutputDebugString(szBuffer);
 #endif
     }
     
