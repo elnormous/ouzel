@@ -9,6 +9,10 @@
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 
+#if defined(OUZEL_PLATFORM_WINDOWS)
+#include <Windows.h>
+#endif
+
 namespace ouzel
 {
 #ifdef OUZEL_PLATFORM_WINDOWS
@@ -45,7 +49,7 @@ namespace ouzel
         CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
         CFStringRef urlString = CFURLCopyPath(appUrlRef);
         
-        char temporaryCString[1024] = "";
+        char temporaryCString[256];
         
         CFStringGetCString(urlString, temporaryCString, sizeof(temporaryCString), kCFStringEncodingUTF8);
         
@@ -53,6 +57,17 @@ namespace ouzel
         CFRelease(urlString);
 
 		appPath = std::string(temporaryCString) + "Contents/Resources/";
+#endif
+
+#if defined(OUZEL_PLATFORM_WINDOWS)
+        wchar_t szBuffer[256];
+        GetCurrentDirectoryW(256, szBuffer);
+
+        char temporaryCString[256];
+
+        WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
+
+        appPath = std::string(temporaryCString) + DIRECTORY_SEPARATOR;
 #endif
 
         std::string str = appPath + filename;

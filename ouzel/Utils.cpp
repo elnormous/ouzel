@@ -39,7 +39,7 @@ namespace ouzel
         syslog(LOG_WARNING, "log string");
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         wchar_t szBuffer[256];
-        MultiByteToWideChar(CP_ACP, 0, strBuffer, -1, szBuffer, sizeof(szBuffer));
+        MultiByteToWideChar(CP_ACP, 0, strBuffer, -1, szBuffer, 256);
         StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
         OutputDebugString(szBuffer);
 #endif
