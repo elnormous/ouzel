@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    ShaderD3D11::ShaderD3D11(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer):
+    ShaderD3D11::ShaderD3D11(Renderer* renderer):
         Shader(renderer)
     {
     }

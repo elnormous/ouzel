@@ -2,6 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include "RendererD3D11.h"
+#include "TextureD3D11.h"
+#include "ShaderD3D11.h"
+#include "MeshBufferD3D11.h"
 #include "Utils.h"
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -232,7 +235,59 @@ namespace ouzel
         _swapChain->Present(1 /* TODO vsync off? */, 0);
     }
 
-    bool RendererD3D11::activateTexture(Texture* texture, uint32_t layer)
+    Shader* RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        ShaderD3D11* shader = new ShaderD3D11(this);
+
+        if (!shader->initFromFiles(fragmentShader, vertexShader))
+        {
+            delete shader;
+            shader = nullptr;
+        }
+
+        return shader;
+    }
+
+    Shader* RendererD3D11::loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    {
+        ShaderD3D11* shader = new ShaderD3D11(this);
+
+        if (!shader->initFromStrings(fragmentShader, vertexShader))
+        {
+            delete shader;
+            shader = nullptr;
+        }
+
+        return shader;
+    }
+
+    Texture* RendererD3D11::loadTextureFromFile(const std::string& filename)
+    {
+        TextureD3D11* texture = new TextureD3D11(this);
+
+        if (!texture->initFromFile(filename))
+        {
+            delete texture;
+            texture = nullptr;
+        }
+
+        return texture;
+    }
+
+    MeshBuffer* RendererD3D11::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices)
+    {
+        MeshBufferD3D11* meshBuffer = new MeshBufferD3D11(this);
+
+        if (!meshBuffer->initFromData(indices, vertices))
+        {
+            delete meshBuffer;
+            meshBuffer = nullptr;
+        }
+
+        return meshBuffer;
+    }
+
+    bool RendererD3D11::drawMeshBuffer(MeshBuffer* meshBuffer)
     {
         return true;
     }

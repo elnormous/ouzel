@@ -11,7 +11,7 @@ namespace ouzel
     class ShaderD3D11: public Shader
     {
     public:
-        ShaderD3D11(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer);
+        ShaderD3D11(Renderer* renderer);
         virtual ~ShaderD3D11();
         
         virtual bool initFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
