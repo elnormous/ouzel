@@ -18,10 +18,7 @@ namespace ouzel
     Renderer::Renderer(const Size2& size, bool fullscreen, Engine* engine, Driver driver):
         _engine(engine), _driver(driver), _size(size), _fullscreen(fullscreen)
     {
-        for (int i = 0; i < TEXTURE_LAYERS; ++i)
-        {
-            _activeTextures[i] = nullptr;
-        }
+
     }
 
     Renderer::~Renderer()
