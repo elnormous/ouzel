@@ -37,6 +37,7 @@ namespace ouzel
         
         if (!_data)
         {
+            log("Failed to open texture file %s", filename.c_str());
             return false;
         }
         
