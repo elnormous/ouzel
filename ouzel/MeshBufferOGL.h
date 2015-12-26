@@ -27,13 +27,13 @@ namespace ouzel
         GLuint getIndexBufferId() const { return _indexBufferId; }
         GLuint getVertexArrayId() const { return _vertexArrayId; }
         
-        GLsizei getCount() const { return _count; }
+        GLsizei getIndexCount() const { return _indexCount; }
         
     protected:
         GLuint _vertexArrayId = 0;
         GLuint _indexBufferId = 0;
         GLuint _vertexBufferId = 0;
         
-        GLsizei _count;
+        GLsizei _indexCount;
     };
 }

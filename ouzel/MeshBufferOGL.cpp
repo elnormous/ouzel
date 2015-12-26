@@ -51,7 +51,7 @@ namespace ouzel
             return false;
         }
         
-        _count = static_cast<GLsizei>(indices.size());
+        _indexCount = static_cast<GLsizei>(indices.size());
         
         return true;
     }

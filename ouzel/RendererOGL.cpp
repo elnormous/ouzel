@@ -274,7 +274,7 @@ namespace ouzel
         
         glBindVertexArray(meshBufferOGL->getVertexArrayId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-        glDrawElements(GL_TRIANGLES, meshBufferOGL->getCount(), GL_UNSIGNED_SHORT, nullptr);
+        glDrawElements(GL_TRIANGLES, meshBufferOGL->getIndexCount(), GL_UNSIGNED_SHORT, nullptr);
         
         if (checkOpenGLErrors())
         {
