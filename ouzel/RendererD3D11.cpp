@@ -216,8 +216,10 @@ namespace ouzel
         }
 
         Shader* textureShader = loadShaderFromFiles("ps_texture.cso", "vs_common.cso");
-        assert(textureShader && "Failed to load texture shader");
-        _shaders[SHADER_TEXTURE] = textureShader;
+        if (textureShader)
+        {
+            _shaders[SHADER_TEXTURE] = textureShader;
+        }
 
         D3D11_VIEWPORT viewport = { 0, 0, _size.width, _size.height, 0.0f, 1.0f };
         _context->RSSetViewports(1, &viewport);
