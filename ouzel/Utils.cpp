@@ -4,8 +4,11 @@
 #include "CompileConfig.h"
 
 #ifdef OUZEL_PLATFORM_OSX
-#include <OpenGL/gl3.h>
 #include <sys/time.h>
+#endif
+
+#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#include <sys/syslog.h>
 #endif
 
 #ifdef OUZEL_PLATFORM_WINDOWS
@@ -23,10 +26,17 @@ namespace ouzel
         va_list list;
         va_start(list, format);
         
-        vprintf(format, list);
-        printf("\n");
+        vsprintf(TEMP_BUFFER, format, list);
         
         va_end(list);
+        
+#if defined(OUZEL_PLATFORM_OSX)
+        printf("%s\n", TEMP_BUFFER);
+#elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+        syslog(LOG_WARNING, "log string");
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        OutputDebugString(TEMP_BUFFER);
+#endif
     }
     
     uint64_t getCurrentMicroSeconds()
