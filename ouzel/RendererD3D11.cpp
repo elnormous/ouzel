@@ -237,6 +237,19 @@ namespace ouzel
         _swapChain->Present(1 /* TODO vsync off? */, 0);
     }
 
+    Texture* RendererD3D11::loadTextureFromFile(const std::string& filename)
+    {
+        TextureD3D11* texture = new TextureD3D11(this);
+
+        if (!texture->initFromFile(filename))
+        {
+            delete texture;
+            texture = nullptr;
+        }
+
+        return texture;
+    }
+
     Shader* RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
         ShaderD3D11* shader = new ShaderD3D11(this);
@@ -263,17 +276,22 @@ namespace ouzel
         return shader;
     }
 
-    Texture* RendererD3D11::loadTextureFromFile(const std::string& filename)
+    bool RendererD3D11::activateShader(Shader* shader)
     {
-        TextureD3D11* texture = new TextureD3D11(this);
-
-        if (!texture->initFromFile(filename))
+        if (!Renderer::activateShader(shader))
         {
-            delete texture;
-            texture = nullptr;
+            return false;
         }
 
-        return texture;
+        if (shader)
+        {
+            ShaderD3D11* shaderD3D11 = static_cast<ShaderD3D11*>(shader);
+
+            _context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+            _context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+        }
+
+        return true;
     }
 
     MeshBuffer* RendererD3D11::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices)

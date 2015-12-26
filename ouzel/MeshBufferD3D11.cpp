@@ -26,7 +26,7 @@ namespace ouzel
             return false;
         }
 
-        RendererD3D11* rendererD3D11 = (RendererD3D11*)_renderer;
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(_renderer);
 
         D3D11_BUFFER_DESC indexBufferDesc;
         memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
@@ -34,7 +34,7 @@ namespace ouzel
         indexBufferDesc.ByteWidth = (UINT)indices.size() * sizeof(uint16_t);
         indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
         indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-        indexBufferDesc.CPUAccessFlags = 0;
+        indexBufferDesc.CPUAccessFlags = 0; // if write is needed, then set this to D3D11_CPU_ACCESS_WRITE
 
         D3D11_SUBRESOURCE_DATA indexBufferResourceData;
         memset(&indexBufferResourceData, 0, sizeof(indexBufferResourceData));
@@ -53,7 +53,7 @@ namespace ouzel
         vertexBufferDesc.ByteWidth = (UINT)vertices.size() * sizeof(Vertex);
         vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
         vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-        vertexBufferDesc.CPUAccessFlags = 0;
+        vertexBufferDesc.CPUAccessFlags = 0; // if write is needed, then set this to D3D11_CPU_ACCESS_WRITE
 
         D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
         memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));

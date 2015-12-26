@@ -21,9 +21,11 @@ namespace ouzel
         virtual void clear() override;
         virtual void flush() override;
 
+        virtual Texture* loadTextureFromFile(const std::string& filename) override;
+
         virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
         virtual Shader* loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader) override;
-        virtual Texture* loadTextureFromFile(const std::string& filename) override;
+        virtual bool activateShader(Shader* shader);
 
         virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
         virtual bool drawMeshBuffer(MeshBuffer* meshBuffer);

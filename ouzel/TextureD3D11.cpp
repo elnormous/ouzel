@@ -32,7 +32,7 @@ namespace ouzel
             return false;
         }
 
-        RendererD3D11* rendererD3D11 = (RendererD3D11*)_renderer;
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(_renderer);
         int width = (int)image->getSize().width;
         int height = (int)image->getSize().height;
 
