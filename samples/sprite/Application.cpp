@@ -15,6 +15,8 @@ namespace ouzel
     {
         _engine->addEventHandler(this);
         
+        _engine->getRenderer()->setClearColor(Color(64, 0, 0));
+
         AutoPtr<Sprite> sprite = new Sprite("tim-from-braid.png", _engine->getScene());
         _engine->getScene()->getRootNode()->addChild(sprite);
         
