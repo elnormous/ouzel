@@ -1,7 +1,6 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <fstream>
 #include "Engine.h"
 #include "RendererOGL.h"
 #include "FileSystem.h"
@@ -20,39 +19,9 @@ namespace ouzel
         
     }
     
-    bool ShaderOGL::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
-    {
-        if (!Shader::initFromFiles(fragmentShader, vertexShader))
-        {
-            return false;
-        }
-        
-        std::ifstream fragmentShaderFile(_renderer->getEngine()->getFileSystem()->getPath(fragmentShader));
-        std::string fragmentShaderCode;
-        
-        fragmentShaderFile.seekg(0, std::ios::end);
-        fragmentShaderCode.reserve(static_cast<size_t>(fragmentShaderFile.tellg()));
-        fragmentShaderFile.seekg(0, std::ios::beg);
-        
-        fragmentShaderCode.assign((std::istreambuf_iterator<char>(fragmentShaderFile)),
-                                  std::istreambuf_iterator<char>());
-        
-        std::ifstream vertexShaderFile(_renderer->getEngine()->getFileSystem()->getPath(vertexShader));
-        std::string vertexShaderCode;
-        
-        vertexShaderFile.seekg(0, std::ios::end);
-        vertexShaderCode.reserve(static_cast<size_t>(vertexShaderFile.tellg()));
-        vertexShaderFile.seekg(0, std::ios::beg);
-        
-        vertexShaderCode.assign((std::istreambuf_iterator<char>(vertexShaderFile)),
-                                std::istreambuf_iterator<char>());
-        
-        return initFromStrings(fragmentShaderCode, vertexShaderCode);
-    }
-    
     bool ShaderOGL::initFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        if (!Shader::initFromFiles(fragmentShader, vertexShader))
+        if (!Shader::initFromStrings(fragmentShader, vertexShader))
         {
             return false;
         }
