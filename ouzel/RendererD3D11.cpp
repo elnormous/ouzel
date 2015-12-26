@@ -42,7 +42,7 @@ namespace ouzel
         if (_swapChain) _swapChain->Release();
     }
 
-    void RendererD3D11::initWindow()
+    bool RendererD3D11::initWindow()
     {
         HINSTANCE hInstance = GetModuleHandle(nullptr);
 
@@ -55,7 +55,11 @@ namespace ouzel
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
         wc.lpszClassName = L"OuzelWindow";
-        RegisterClassExW(&wc);
+        
+        if (!RegisterClassExW(&wc))
+        {
+            return false;
+        }
 
         DWORD style = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
         int x = CW_USEDEFAULT;
@@ -83,11 +87,18 @@ namespace ouzel
             hInstance,
             nullptr);
 
+        if (!_window)
+        {
+            return false;
+        }
+
         SetWindowLongPtrW(_window, GWLP_USERDATA, (LONG_PTR)this);
         ShowWindow(_window, SW_SHOW);
+
+        return true;
     }
 
-    void RendererD3D11::initD3D11()
+    bool RendererD3D11::initD3D11()
     {
         DXGI_SWAP_CHAIN_DESC swapChainDesc;
         memset(&swapChainDesc, 0, sizeof(swapChainDesc));
@@ -129,7 +140,7 @@ namespace ouzel
         if (FAILED(hr))
         {
             log("Failed to create the D3D11 device");
-            return;
+            return false;
         }
 
         // Backbuffer
@@ -137,14 +148,14 @@ namespace ouzel
         if (FAILED(hr) || !_backBuffer)
         {
             log("Failed to retrieve D3D11 backbuffer");
-            return;
+            return false;
         }
 
         hr = _device->CreateRenderTargetView(_backBuffer, nullptr, &_rtView);
         if (FAILED(hr) || !_rtView)
         {
             log("Failed to create D3D11 render target view");
-            return;
+            return false;
         }
 
         // Sampler state
@@ -161,7 +172,7 @@ namespace ouzel
         if (FAILED(hr) || !_samplerState)
         {
             log("Failed to create D3D11 sampler state");
-            return;
+            return false;
         }
 
         // Rasterizer state
@@ -181,7 +192,7 @@ namespace ouzel
         if (FAILED(hr) || !_rasterizerState)
         {
             log("Failed to create D3D11 rasterizer state");
-            return;
+            return false;
         }
 
         // Blending state
@@ -199,7 +210,7 @@ namespace ouzel
         if (FAILED(hr) || !_blendState)
         {
             log("Failed to create D3D11 blend state");
-            return;
+            return false;
         }
 
         // Depth/stencil state
@@ -212,7 +223,7 @@ namespace ouzel
         if (FAILED(hr) || !_depthStencilState)
         {
             log("Failed to create D3D11 depth stencil state");
-            return;
+            return false;
         }
 
         Shader* textureShader = loadShaderFromFiles("ps_texture.cso", "vs_common.cso");
@@ -222,6 +233,8 @@ namespace ouzel
         D3D11_VIEWPORT viewport = { 0, 0, _size.width, _size.height, 0.0f, 1.0f };
         _context->RSSetViewports(1, &viewport);
         _context->OMSetRenderTargets(1, &_rtView, nullptr);
+
+        return true;
     }
 
     void RendererD3D11::clear()

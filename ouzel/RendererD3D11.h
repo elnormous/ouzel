@@ -15,8 +15,8 @@ namespace ouzel
         RendererD3D11(const Size2& size, bool fullscreen, Engine* engine);
         virtual ~RendererD3D11();
 
-        void initWindow();
-        void initD3D11();
+        bool initWindow();
+        bool initD3D11();
 
         virtual void clear() override;
         virtual void flush() override;
