@@ -17,11 +17,6 @@ namespace ouzel
     {
         for (AutoPtr<Node> node : _children)
         {
-            if (_addedToRenderer)
-            {
-                node->removeFromRenderer();
-            }
-            
             node->_parent = nullptr;
         }
         
