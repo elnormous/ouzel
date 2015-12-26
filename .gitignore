@@ -6,3 +6,4 @@ build/x64/
 build/ARM/
 build/ipch/
 build/samples/
+*.opensdf

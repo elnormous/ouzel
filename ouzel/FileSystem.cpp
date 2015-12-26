@@ -1,12 +1,12 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <sys/stat.h>
 #include "CompileConfig.h"
 #include "FileSystem.h"
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
 #include <CoreFoundation/CoreFoundation.h>
-#include <sys/stat.h>
 #endif
 
 namespace ouzel

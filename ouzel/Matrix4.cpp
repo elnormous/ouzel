@@ -129,7 +129,7 @@ namespace ouzel
         assert(divisor);
         float factor = 1.0f / divisor;
         
-        memset(dst, 0, sizeof(m));
+        memset(dst, 0, sizeof(dst));
         
         assert(aspectRatio);
         dst->m[0] = (1.0f / aspectRatio) * factor;
@@ -154,7 +154,7 @@ namespace ouzel
         assert(top != bottom);
         assert(zFarPlane != zNearPlane);
         
-        memset(dst, 0, sizeof(m));
+		memset(dst, 0, sizeof(dst));
         dst->m[0] = 2 / (right - left);
         dst->m[5] = 2 / (top - bottom);
         dst->m[12] = (left + right) / (left - right);
@@ -214,7 +214,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         dst->m[0] = scale.x;
         dst->m[5] = scale.y;
@@ -225,7 +225,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         dst->m[0] = xScale;
         dst->m[5] = yScale;
@@ -295,7 +295,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         float c = cos(angle);
         float s = sin(angle);
@@ -310,7 +310,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         float c = cos(angle);
         float s = sin(angle);
@@ -325,7 +325,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         float c = cos(angle);
         float s = sin(angle);
@@ -340,7 +340,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         dst->m[12] = translation.x;
         dst->m[13] = translation.y;
@@ -351,7 +351,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         dst->m[12] = xTranslation;
         dst->m[13] = yTranslation;

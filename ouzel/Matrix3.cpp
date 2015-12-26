@@ -63,7 +63,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+        memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         dst->m[0] = scale.x;
         dst->m[4] = scale.y;
@@ -73,7 +73,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         dst->m[0] = xScale;
         dst->m[4] = yScale;
@@ -103,7 +103,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+        memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         dst->m[6] = translation.x;
         dst->m[7] = translation.y;
@@ -113,7 +113,7 @@ namespace ouzel
     {
         assert(dst);
         
-        memcpy(dst, MATRIX_IDENTITY, sizeof(m));
+        memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
         
         dst->m[6] = xTranslation;
         dst->m[7] = yTranslation;
