@@ -103,7 +103,7 @@ namespace ouzel
             _reorderNodes = false;
         }
         
-        for (Node* node : _nodes)
+        for (AutoPtr<Node> node : _nodes)
         {
             if (node->checkVisibility())
             {

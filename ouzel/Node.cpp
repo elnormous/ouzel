@@ -15,7 +15,7 @@ namespace ouzel
 
     Node::~Node()
     {
-        for (Node* node : _children)
+        for (AutoPtr<Node> node : _children)
         {
             if (_addedToRenderer)
             {
@@ -120,7 +120,7 @@ namespace ouzel
         _scene->addNode(this);
         _addedToRenderer = true;
         
-        for (Node* child : _children)
+        for (AutoPtr<Node> child : _children)
         {
             child->addToRenderer();
         }
@@ -131,7 +131,7 @@ namespace ouzel
         _scene->removeNode(this);
         _addedToRenderer = false;
         
-        for (Node* child : _children)
+        for (AutoPtr<Node> child : _children)
         {
             child->removeFromRenderer();
         }
@@ -198,7 +198,7 @@ namespace ouzel
         
         markInverseTransformDirty();
         
-        for (Node* child : _children)
+        for (AutoPtr<Node> child : _children)
         {
             child->updateTransform();
         }

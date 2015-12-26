@@ -36,7 +36,7 @@ namespace ouzel
         
         markInverseTransformDirty();
         
-        for (Node* child : _children)
+        for (AutoPtr<Node> child : _children)
         {
             child->updateTransform();
         }
