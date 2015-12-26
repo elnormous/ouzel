@@ -35,6 +35,8 @@ namespace ouzel
 #endif
 
         OuzelInit(settings);
+
+        _fileSystem = new FileSystem();
         
         switch (settings.driver)
         {
@@ -57,8 +59,6 @@ namespace ouzel
         _scene->init();
         
         _soundManager = new SoundManager(this);
-        
-        _fileSystem = new FileSystem();
         
         _previousFrameTime = getCurrentMicroSeconds();
     }
