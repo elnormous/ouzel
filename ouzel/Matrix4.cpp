@@ -129,7 +129,7 @@ namespace ouzel
         assert(divisor);
         float factor = 1.0f / divisor;
         
-        memset(dst, 0, sizeof(dst));
+        memset(dst, 0, sizeof(*dst));
         
         assert(aspectRatio);
         dst->m[0] = (1.0f / aspectRatio) * factor;
@@ -154,7 +154,7 @@ namespace ouzel
         assert(top != bottom);
         assert(zFarPlane != zNearPlane);
         
-		memset(dst, 0, sizeof(dst));
+		memset(dst, 0, sizeof(*dst));
         dst->m[0] = 2 / (right - left);
         dst->m[5] = 2 / (top - bottom);
         dst->m[12] = (left + right) / (left - right);
