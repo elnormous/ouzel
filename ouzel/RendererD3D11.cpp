@@ -44,7 +44,7 @@ namespace ouzel
 
     void RendererD3D11::initWindow()
     {
-        HINSTANCE hInstance = GetModuleHandle(NULL);
+        HINSTANCE hInstance = GetModuleHandle(nullptr);
 
         WNDCLASSEXW wc;
         memset(&wc, 0, sizeof(wc));
@@ -52,7 +52,7 @@ namespace ouzel
         wc.style = CS_HREDRAW | CS_VREDRAW;
         wc.lpfnWndProc = windowProc;
         wc.hInstance = hInstance;
-        wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+        wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
         wc.lpszClassName = L"OuzelWindow";
         RegisterClassExW(&wc);
@@ -70,7 +70,7 @@ namespace ouzel
         AdjustWindowRect(&windowRect, style, FALSE);
 
         _window = CreateWindowExW(
-            NULL,
+            0,
             L"OuzelWindow",
             L"Ouzel",
             style,
@@ -78,10 +78,10 @@ namespace ouzel
             y,
             windowRect.right - windowRect.left,
             windowRect.bottom - windowRect.top,
-            NULL,
-            NULL,
+            nullptr,
+            nullptr,
             hInstance,
-            NULL);
+            nullptr);
 
         SetWindowLongPtrW(_window, GWLP_USERDATA, (LONG_PTR)this);
         ShowWindow(_window, SW_SHOW);
@@ -113,17 +113,17 @@ namespace ouzel
         deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
         HRESULT hr = D3D11CreateDeviceAndSwapChain(
-            NULL, // adapter
+            nullptr, // adapter
             D3D_DRIVER_TYPE_HARDWARE,
-            NULL, // software rasterizer (unused)
+            nullptr, // software rasterizer (unused)
             deviceCreationFlags,
-            NULL, // feature levels
+            nullptr, // feature levels
             0, // ^^
             D3D11_SDK_VERSION,
             &swapChainDesc,
             &_swapChain,
             &_device,
-            NULL,
+            nullptr,
             &_context
             );
         if (FAILED(hr))
@@ -134,14 +134,14 @@ namespace ouzel
 
         // Backbuffer
         hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&_backBuffer);
-        if (FAILED(hr) || _backBuffer == NULL)
+        if (FAILED(hr) || !_backBuffer)
         {
             log("Failed to retrieve D3D11 backbuffer");
             return;
         }
 
-        hr = _device->CreateRenderTargetView(_backBuffer, NULL, &_rtView);
-        if (FAILED(hr) || _rtView == NULL)
+        hr = _device->CreateRenderTargetView(_backBuffer, nullptr, &_rtView);
+        if (FAILED(hr) || !_rtView)
         {
             log("Failed to create D3D11 render target view");
             return;

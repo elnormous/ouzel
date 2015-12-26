@@ -19,12 +19,13 @@ namespace ouzel
         
         _texture = _engine->getRenderer()->getTexture(filename);
         
-        
-        _size = _texture->getSize();
-        _boundingBox.set(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height);
-        
+        if (_texture)
+        {
+            _size = _texture->getSize();
+            _boundingBox.set(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height);
+        }
+
         _shader = _engine->getRenderer()->getShader(SHADER_TEXTURE);
-        
         
         std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
         
