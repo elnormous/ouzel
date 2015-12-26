@@ -91,10 +91,16 @@ namespace ouzel
         }
         
         Shader* textureShader = loadShaderFromStrings(TEXTURE_PIXEL_SHADER, TEXTURE_VERTEX_SHADER);
-        _shaders[SHADER_TEXTURE] = textureShader;
+        if (textureShader)
+        {
+            _shaders[SHADER_TEXTURE] = textureShader;
+        }
         
         Shader* colorShader = loadShaderFromStrings(COLOR_PIXEL_SHADER, COLOR_VERTEX_SHADER);
-        _shaders[SHADER_COLOR] = colorShader;
+        if (colorShader)
+        {
+            _shaders[SHADER_COLOR] = colorShader;
+        }
         
         _ready = true;
         
