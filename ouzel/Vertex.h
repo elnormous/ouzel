@@ -4,7 +4,7 @@
 #pragma once
 
 #include "Vector2.h"
-#include "Vector4.h"
+#include "Vector3.h"
 #include "Color.h"
 
 namespace ouzel
@@ -12,11 +12,11 @@ namespace ouzel
     class Vertex
     {
     public:
-        Vector4 position;
+        Vector3 position;
         Color color;
         Vector2 texCoord;
         
         Vertex();
-        Vertex(Vector4 position, Color color, Vector2 texCoord);
+        Vertex(Vector3 position, Color color, Vector2 texCoord);
     };
 }

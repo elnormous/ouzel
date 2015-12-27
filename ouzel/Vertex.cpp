@@ -10,7 +10,7 @@ namespace ouzel
         
     }
     
-    Vertex::Vertex(Vector4 position, Color color, Vector2 texCoord):
+    Vertex::Vertex(Vector3 position, Color color, Vector2 texCoord):
         position(position), color(color), texCoord(texCoord)
     {
         
