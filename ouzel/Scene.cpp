@@ -103,11 +103,15 @@ namespace ouzel
             _reorderNodes = false;
         }
         
-        for (AutoPtr<Node> node : _nodes)
+        // render only if there is an active camera
+        if (_camera)
         {
-            if (node->checkVisibility())
+            for (AutoPtr<Node> node : _nodes)
             {
-                node->draw();
+                if (node->checkVisibility())
+                {
+                    node->draw();
+                }
             }
         }
     }

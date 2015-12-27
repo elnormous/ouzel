@@ -54,14 +54,10 @@ namespace ouzel
             _engine->getRenderer()->activateTexture(_texture, 0);
             _engine->getRenderer()->activateShader(_shader);
             
-            uint32_t uniProj = _shader->getVertexShaderConstantId("proj");
-            _shader->setVertexShaderConstant(uniProj, &_engine->getRenderer()->getProjection(), 1);
+            Matrix4 projViewModel = _engine->getRenderer()->getProjection() * _engine->getScene()->getCamera()->getTransform() * _transform;
             
-            uint32_t uniView = _shader->getVertexShaderConstantId("view");
-            _shader->setVertexShaderConstant(uniView, &_engine->getScene()->getCamera()->getTransform(), 1);
-            
-            uint32_t uniModel = _shader->getVertexShaderConstantId("model");
-            _shader->setVertexShaderConstant(uniModel, &_transform, 1);
+            uint32_t uniProjViewModel = _shader->getVertexShaderConstantId("projViewModel");
+            _shader->setVertexShaderConstant(uniProjViewModel, &projViewModel, 1);
             
             _engine->getRenderer()->drawMeshBuffer(_meshBuffer);
         }
