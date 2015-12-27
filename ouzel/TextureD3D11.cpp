@@ -56,8 +56,8 @@ namespace ouzel
             return false;
         }
 
-        hr = rendererD3D11->getDevice()->CreateShaderResourceView(_texture, NULL, &_rsrcView);
-        if (FAILED(hr) || !_rsrcView)
+        hr = rendererD3D11->getDevice()->CreateShaderResourceView(_texture, NULL, &_resourceView);
+        if (FAILED(hr) || !_resourceView)
         {
             log("Could not create D3D11 shader resource view (type=2D, width=%d, height=%d, name=%s)", width, height, filename.c_str());
             return false;

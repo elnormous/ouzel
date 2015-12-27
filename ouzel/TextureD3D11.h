@@ -16,8 +16,11 @@ namespace ouzel
 
         virtual bool initFromFile(const std::string& filename) override;
 
+        ID3D11Texture2D* getTexture() const { return _texture; }
+        ID3D11ShaderResourceView* getResourceView() const { return _resourceView; }
+
     protected:
         ID3D11Texture2D* _texture;
-        ID3D11ShaderResourceView* _rsrcView;
+        ID3D11ShaderResourceView* _resourceView;
     };
 }

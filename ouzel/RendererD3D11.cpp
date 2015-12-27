@@ -313,6 +313,32 @@ namespace ouzel
 
     bool RendererD3D11::drawMeshBuffer(MeshBuffer* meshBuffer)
     {
+        if (!Renderer::drawMeshBuffer(meshBuffer))
+        {
+            return false;
+        }
+
+        MeshBufferD3D11* meshBufferD3D11 = static_cast<MeshBufferD3D11*>(meshBuffer);
+
+        ID3D11ShaderResourceView* resourceViews[TEXTURE_LAYERS];
+        ID3D11SamplerState* samplerStates[TEXTURE_LAYERS];
+        for (int i = 0; i < TEXTURE_LAYERS; ++i)
+        {
+            TextureD3D11* textureD3D11 = static_cast<TextureD3D11*>(_activeTextures[i].item);
+            resourceViews[i] = textureD3D11 ? textureD3D11->getResourceView() : nullptr;
+            samplerStates[i] = textureD3D11 ? _samplerState : nullptr;
+        }
+        _context->PSSetShaderResources(0, TEXTURE_LAYERS, resourceViews);
+        _context->PSSetSamplers(0, TEXTURE_LAYERS, samplerStates);
+
+        ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
+        UINT stride = sizeof(Vertex);
+        UINT offset = 0;
+        _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
+        _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), DXGI_FORMAT_R16_UINT, 0);
+
+        _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
+
         return true;
     }
 }
