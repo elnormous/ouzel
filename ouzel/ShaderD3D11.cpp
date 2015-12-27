@@ -54,7 +54,7 @@ namespace ouzel
 
         hr = rendererD3D11->getDevice()->CreateInputLayout(
             VERTEX_INPUT_ELEMENTS,
-            (UINT)sizeof(VERTEX_INPUT_ELEMENTS) / sizeof(D3D11_INPUT_ELEMENT_DESC),
+            static_cast<UINT>(sizeof(VERTEX_INPUT_ELEMENTS) / sizeof(D3D11_INPUT_ELEMENT_DESC)),
             vertexShader,
             vertexShaderSize,
             &_inputLayout);
