@@ -31,7 +31,7 @@ namespace ouzel
         
         if (!support)
         {
-            log("Shader compiler must be present");
+            log("No shader compiler present");
             return false;
         }
         

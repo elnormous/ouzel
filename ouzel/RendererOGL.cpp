@@ -316,10 +316,10 @@ namespace ouzel
         glBindVertexArray(vertexArray);
         
         GLfloat vertices[] = {
-            rectangle.x, rectangle.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(),
-            rectangle.x + rectangle.width, rectangle.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(),
-            rectangle.x, rectangle.y + rectangle.height, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(),
-            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA()
+            rectangle.x, rectangle.y, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            rectangle.x + rectangle.width, rectangle.y, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            rectangle.x, rectangle.y + rectangle.height, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, color.getR(), color.getG(), color.getB(), color.getA()
         };
         
         glGenBuffers(1, &vertexBuffer);
@@ -327,10 +327,10 @@ namespace ouzel
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
         
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
 
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(16));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(12));
         
         GLubyte indices[] = {0, 1, 3, 2, 0};
         
@@ -366,10 +366,10 @@ namespace ouzel
         glBindVertexArray(vertexArray);
         
         GLfloat vertices[] = {
-            rectangle.x, rectangle.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 1.0f,
-            rectangle.x + rectangle.width, rectangle.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 1.0f,
-            rectangle.x, rectangle.y + rectangle.height, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 0.0f,
-            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 0.0f
+            rectangle.x, rectangle.y, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 1.0f,
+            rectangle.x + rectangle.width, rectangle.y, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 1.0f,
+            rectangle.x, rectangle.y + rectangle.height, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 0.0f,
+            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 0.0f
         };
         
         glGenBuffers(1, &vertexBuffer);
@@ -377,13 +377,13 @@ namespace ouzel
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
         
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
         
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(16));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(12));
         
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(32));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(16));
         
         GLubyte indices[] = {0, 1, 2, 1, 3, 2};
         
