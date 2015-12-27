@@ -1,7 +1,7 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-static const char TEXTURE_VERTEX_SHADER_OGL[] =
+const char TEXTURE_VERTEX_SHADER_OGL[] =
     "#version 400\n"
     "layout(location=0) in vec4 in_Position;\n"
     "layout(location=1) in vec4 in_Color;\n"
