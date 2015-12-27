@@ -6,6 +6,8 @@
 #include "ShaderD3D11.h"
 #include "MeshBufferD3D11.h"
 #include "Utils.h"
+#include "TexturePSD3D11.h"
+#include "TextureVSD3D11.h"
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -215,7 +217,9 @@ namespace ouzel
             return;
         }
 
-        Shader* textureShader = loadShaderFromFiles("ps_texture.cso", "vs_common.cso");
+        Shader* textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
+                                                      TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11));
+
         if (textureShader)
         {
             _shaders[SHADER_TEXTURE] = textureShader;
@@ -263,11 +267,11 @@ namespace ouzel
         return shader;
     }
 
-    Shader* RendererD3D11::loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    Shader* RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
     {
         ShaderD3D11* shader = new ShaderD3D11(this);
 
-        if (!shader->initFromStrings(fragmentShader, vertexShader))
+        if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
         {
             delete shader;
             shader = nullptr;

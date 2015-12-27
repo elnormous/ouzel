@@ -24,7 +24,7 @@ namespace ouzel
         virtual Texture* loadTextureFromFile(const std::string& filename) override;
 
         virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
-        virtual Shader* loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader) override;
+        virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
         virtual bool activateShader(Shader* shader);
 
         virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
@@ -36,14 +36,14 @@ namespace ouzel
     private:
         HWND _window;
 
-        ID3D11Device* _device;
-        ID3D11DeviceContext* _context;
-        IDXGISwapChain* _swapChain;
-        ID3D11Texture2D* _backBuffer;
-        ID3D11RenderTargetView* _rtView;
-        ID3D11SamplerState* _samplerState;
-        ID3D11RasterizerState* _rasterizerState;
-        ID3D11BlendState* _blendState;
-        ID3D11DepthStencilState* _depthStencilState;
+        ID3D11Device* _device = nullptr;
+        ID3D11DeviceContext* _context = nullptr;
+        IDXGISwapChain* _swapChain = nullptr;
+        ID3D11Texture2D* _backBuffer = nullptr;
+        ID3D11RenderTargetView* _rtView = nullptr;
+        ID3D11SamplerState* _samplerState = nullptr;
+        ID3D11RasterizerState* _rasterizerState = nullptr;
+        ID3D11BlendState* _blendState = nullptr;
+        ID3D11DepthStencilState* _depthStencilState = nullptr;
     };
 }

@@ -15,7 +15,7 @@ namespace ouzel
         ShaderD3D11(Renderer* renderer);
         virtual ~ShaderD3D11();
         
-        virtual bool initFromStrings(const std::string& fragmentShader, const std::string& vertexShader) override;
+        virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
         
         virtual ID3D11PixelShader* getPixelShader() const { return _pixelShader; }
         virtual ID3D11VertexShader* getVertexShader() const { return _vertexShader; }
@@ -26,5 +26,6 @@ namespace ouzel
     protected:
         ID3D11PixelShader* _pixelShader = nullptr;
         ID3D11VertexShader* _vertexShader = nullptr;
+        ID3D11InputLayout* _inputLayout = nullptr;
     };
 }
