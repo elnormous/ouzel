@@ -15,10 +15,15 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
     switch (msg)
     {
-        case WM_SIZING:
+        case WM_SIZE:
         {
-            RECT* rc = reinterpret_cast<LPRECT>(lParam);
-            rendererD3D11->resize(ouzel::Size2(rc->right - rc->left, rc->bottom - rc->top));
+            if (wParam == SIZE_MAXIMIZED || wParam == SIZE_RESTORED)
+            {
+                INT width = LOWORD(lParam);
+                INT height = HIWORD(lParam);
+
+                rendererD3D11->resize(ouzel::Size2(width, height));
+            }
             break;
         }
         case WM_DESTROY:
@@ -71,7 +76,7 @@ namespace ouzel
 
         if (_resizable)
         {
-            style |= WS_SIZEBOX;
+            style |= WS_SIZEBOX | WS_MAXIMIZEBOX;
         }
 
         int x = CW_USEDEFAULT;
@@ -257,6 +262,8 @@ namespace ouzel
 
     void RendererD3D11::resize(const Size2& size)
     {
+        Renderer::resize(size);
+
         UINT width = size.width;
         UINT height = size.height;
 
@@ -271,37 +278,38 @@ namespace ouzel
             y = 0;
             swpFlags &= ~SWP_NOMOVE;
         }
-        RECT rect = { 0, 0, (int) width, (int) height };
+        RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
         AdjustWindowRect(&rect, style, FALSE);
-        SetWindowPos(_window, nullptr, 0, 0, width, height, swpFlags);
+        //SetWindowPos(_window, nullptr, 0, 0, width, height, swpFlags);
 
-        _rtView->Release();
-        _rtView = nullptr;
-
-        _backBuffer->Release();
-        _backBuffer = nullptr;
-
-        _swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
-
-        HRESULT hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&_backBuffer);
-        if (FAILED(hr) || !_backBuffer)
+        if (_rtView && _backBuffer)
         {
-            log("Failed to retrieve D3D11 backbuffer");
-            return;
+            _rtView->Release();
+            _rtView = nullptr;
+
+            _backBuffer->Release();
+            _backBuffer = nullptr;
+
+            _swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+
+            HRESULT hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&_backBuffer);
+            if (FAILED(hr) || !_backBuffer)
+            {
+                log("Failed to retrieve D3D11 backbuffer");
+                return;
+            }
+
+            hr = _device->CreateRenderTargetView(_backBuffer, nullptr, &_rtView);
+            if (FAILED(hr) || !_rtView)
+            {
+                log("Failed to create D3D11 render target view");
+                return;
+            }
+
+            D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
+            _context->RSSetViewports(1, &viewport);
+            _context->OMSetRenderTargets(1, &_rtView, nullptr);
         }
-
-        hr = _device->CreateRenderTargetView(_backBuffer, nullptr, &_rtView);
-        if (FAILED(hr) || !_rtView)
-        {
-            log("Failed to create D3D11 render target view");
-            return;
-        }
-
-        D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
-        _context->RSSetViewports(1, &viewport);
-        _context->OMSetRenderTargets(1, &_rtView, nullptr);
-
-        Renderer::resize(size);
     }
 
     Texture* RendererD3D11::loadTextureFromFile(const std::string& filename)
