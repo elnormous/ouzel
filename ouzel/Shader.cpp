@@ -37,14 +37,13 @@ namespace ouzel
             return false;
         }
         
-        std::string fragmentShaderCode;
-        
         fragmentShaderFile.seekg(0, std::ios::end);
-        fragmentShaderCode.reserve(static_cast<size_t>(fragmentShaderFile.tellg()));
+        size_t fragmentShaderSize = static_cast<size_t>(fragmentShaderFile.tellg());
         fragmentShaderFile.seekg(0, std::ios::beg);
         
-        fragmentShaderCode.assign((std::istreambuf_iterator<char>(fragmentShaderFile)),
-                                  std::istreambuf_iterator<char>());
+        std::vector<char> fragmentShaderBuffer(fragmentShaderSize);
+        
+        fragmentShaderFile.read(fragmentShaderBuffer.data(), fragmentShaderSize);
         
         std::ifstream vertexShaderFile(_renderer->getEngine()->getFileSystem()->getPath(vertexShader));
         
@@ -57,16 +56,18 @@ namespace ouzel
         std::string vertexShaderCode;
         
         vertexShaderFile.seekg(0, std::ios::end);
-        vertexShaderCode.reserve(static_cast<size_t>(vertexShaderFile.tellg()));
+        size_t vertexShaderSize = static_cast<size_t>(vertexShaderFile.tellg());
         vertexShaderFile.seekg(0, std::ios::beg);
         
-        vertexShaderCode.assign((std::istreambuf_iterator<char>(vertexShaderFile)),
-                                std::istreambuf_iterator<char>());
+        std::vector<char> vertexShaderBuffer(vertexShaderSize);
         
-        return initFromStrings(fragmentShaderCode, vertexShaderCode);
+        vertexShaderFile.read(vertexShaderBuffer.data(), vertexShaderSize);
+        
+        return initFromBuffers(fragmentShaderBuffer.data(), static_cast<int32_t>(fragmentShaderSize),
+                               vertexShaderBuffer.data(), static_cast<int32_t>(vertexShaderSize));
     }
     
-    bool Shader::initFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    bool Shader::initFromBuffers(const char* fragmentShader, int32_t fragmentShaderSize, const char* vertexShader, int32_t vertexShaderSize)
     {
         return  true;
     }

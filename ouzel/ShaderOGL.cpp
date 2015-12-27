@@ -19,9 +19,9 @@ namespace ouzel
         
     }
     
-    bool ShaderOGL::initFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    bool ShaderOGL::initFromBuffers(const char* fragmentShader, int32_t fragmentShaderSize, const char* vertexShader, int32_t vertexShaderSize)
     {
-        if (!Shader::initFromStrings(fragmentShader, vertexShader))
+        if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
         {
             return false;
         }
@@ -40,22 +40,20 @@ namespace ouzel
             return false;
         }
         
-        _vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        const char* vertexShaderCodeStr = vertexShader.c_str();
-        glShaderSource(_vertexShader, 1, &vertexShaderCodeStr, NULL);
-        glCompileShader(_vertexShader);
+        _fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(_fragmentShader, 1, &fragmentShader, &fragmentShaderSize);
+        glCompileShader(_fragmentShader);
         
-        if (checkShaderError(_vertexShader))
+        if (checkShaderError(_fragmentShader))
         {
             return false;
         }
         
-        _fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        const char* fragmentShaderCodeStr = fragmentShader.c_str();
-        glShaderSource(_fragmentShader, 1, &fragmentShaderCodeStr, NULL);
-        glCompileShader(_fragmentShader);
+        _vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(_vertexShader, 1, &vertexShader, &vertexShaderSize);
+        glCompileShader(_vertexShader);
         
-        if (checkShaderError(_fragmentShader))
+        if (checkShaderError(_vertexShader))
         {
             return false;
         }

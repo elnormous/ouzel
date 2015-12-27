@@ -43,13 +43,13 @@ namespace ouzel
             return false;
         }
         
-        Shader* textureShader = loadShaderFromStrings(TEXTURE_PIXEL_SHADER_OGL, TEXTURE_VERTEX_SHADER_OGL);
+        Shader* textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL));
         if (textureShader)
         {
             _shaders[SHADER_TEXTURE] = textureShader;
         }
         
-        Shader* colorShader = loadShaderFromStrings(COLOR_PIXEL_SHADER_OGL, COLOR_VERTEX_SHADER_OGL);
+        Shader* colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL));
         if (colorShader)
         {
             _shaders[SHADER_COLOR] = colorShader;
@@ -170,11 +170,11 @@ namespace ouzel
         return shader;
     }
     
-    Shader* RendererOGL::loadShaderFromStrings(const std::string& fragmentShader, const std::string& vertexShader)
+    Shader* RendererOGL::loadShaderFromBuffers(const char* fragmentShader, int32_t fragmentShaderSize, const char* vertexShader, int32_t vertexShaderSize)
     {
         ShaderOGL* shader = new ShaderOGL(fragmentShader, vertexShader, this);
         
-        if (!shader->initFromStrings(fragmentShader, vertexShader))
+        if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
         {
             delete shader;
             shader = nullptr;
