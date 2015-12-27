@@ -11,8 +11,16 @@
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    ouzel::RendererD3D11* rendererD3D11 = reinterpret_cast<ouzel::RendererD3D11*>(GetWindowLongPtrW(window, GWLP_USERDATA));
+
     switch (msg)
     {
+        case WM_SIZING:
+        {
+            RECT* rc = reinterpret_cast<LPRECT>(lParam);
+            rendererD3D11->resize(ouzel::Size2(rc->right - rc->left, rc->bottom - rc->top));
+            break;
+        }
         case WM_DESTROY:
         {
             PostQuitMessage(0);
@@ -60,6 +68,12 @@ namespace ouzel
         RegisterClassExW(&wc);
 
         DWORD style = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+
+        if (_resizable)
+        {
+            style |= WS_SIZEBOX;
+        }
+
         int x = CW_USEDEFAULT;
         int y = CW_USEDEFAULT;
         if (_fullscreen)
