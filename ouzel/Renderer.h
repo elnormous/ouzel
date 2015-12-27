@@ -39,7 +39,7 @@ namespace ouzel
             DIRECT3D11
         };
         
-        Renderer(const Size2& size, bool fullscreen, Engine* engine, Driver driver = Driver::NONE);
+        Renderer(const Size2& size, bool resizable, bool fullscreen, Engine* engine, Driver driver = Driver::NONE);
         virtual ~Renderer();
         
         Engine* getEngine() const { return _engine; }
@@ -56,6 +56,8 @@ namespace ouzel
         
         virtual const Size2& getSize() const { return _size; }
         virtual void resize(const Size2& size);
+        
+        virtual bool getResizable() const { return _resizable; }
         
         virtual const std::string& getTitle() const { return _title; }
         virtual void setTitle(const std::string& title) { _title = title; }
@@ -100,6 +102,7 @@ namespace ouzel
         AutoPtr<Shader> _activeShader = nullptr;
         
         Size2 _size;
+        bool _resizable = false;
         bool _fullscreen = false;
         
         std::string _title = "Ouzel";

@@ -15,8 +15,8 @@
 
 namespace ouzel
 {
-    Renderer::Renderer(const Size2& size, bool fullscreen, Engine* engine, Driver driver):
-        _engine(engine), _driver(driver), _size(size), _fullscreen(fullscreen)
+    Renderer::Renderer(const Size2& size, bool resizable, bool fullscreen, Engine* engine, Driver driver):
+        _engine(engine), _driver(driver), _size(size), _resizable(resizable), _fullscreen(fullscreen)
     {
 
     }

@@ -21,6 +21,7 @@ namespace ouzel
     {
         Renderer::Driver driver = Renderer::Driver::NONE;
         Size2 size;
+        bool resizable = false;
         bool fullscreen = false;
     };
     

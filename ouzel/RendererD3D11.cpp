@@ -25,8 +25,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
 namespace ouzel
 {
-    RendererD3D11::RendererD3D11(const Size2& size, bool fullscreen, Engine* engine):
-        Renderer(size, fullscreen, engine, Driver::DIRECT3D11)
+    RendererD3D11::RendererD3D11(const Size2& size, bool resizable, bool fullscreen, Engine* engine):
+        Renderer(size, resizable, fullscreen, engine, Driver::DIRECT3D11)
     {
         initWindow();
         initD3D11();

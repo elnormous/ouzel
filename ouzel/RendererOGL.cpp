@@ -17,8 +17,8 @@
 
 namespace ouzel
 {
-    RendererOGL::RendererOGL(const Size2& size, bool fullscreen, Engine* engine):
-        Renderer(size, fullscreen, engine, Driver::OPENGL)
+    RendererOGL::RendererOGL(const Size2& size, bool resiazble, bool fullscreen, Engine* engine):
+        Renderer(size, resiazble, fullscreen, engine, Driver::OPENGL)
     {
         recalculateProjection();
     }

@@ -8,6 +8,7 @@ ouzel::Application* application;
 void OuzelInit(ouzel::Settings& settings)
 {
     settings.size = ouzel::Size2(640.0f, 480.0f);
+    settings.resizable = true;
 }
 
 void OuzelBegin(ouzel::Engine* engine)

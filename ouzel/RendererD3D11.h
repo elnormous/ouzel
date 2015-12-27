@@ -12,7 +12,7 @@ namespace ouzel
     class RendererD3D11: public Renderer
     {
     public:
-        RendererD3D11(const Size2& size, bool fullscreen, Engine* engine);
+        RendererD3D11(const Size2& size, bool resizable, bool fullscreen, Engine* engine);
         virtual ~RendererD3D11();
 
         void initWindow();

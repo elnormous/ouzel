@@ -42,16 +42,16 @@ namespace ouzel
         {
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
             case Renderer::Driver::OPENGL:
-                _renderer = new RendererOGL(settings.size, settings.fullscreen, this);
+                _renderer = new RendererOGL(settings.size, settings.resizable, settings.fullscreen, this);
 				break;
 #endif
 #ifdef OUZEL_PLATFORM_WINDOWS
             case Renderer::Driver::DIRECT3D11:
-                _renderer = new RendererD3D11(settings.size, settings.fullscreen, this);
+                _renderer = new RendererD3D11(settings.size, settings.resizable, settings.fullscreen, this);
                 break;
 #endif
             default:
-                _renderer = new Renderer(settings.size, settings.fullscreen, this);
+                _renderer = new Renderer(settings.size, settings.resizable, settings.fullscreen, this);
                 break;
         }
         

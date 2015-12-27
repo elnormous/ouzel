@@ -29,7 +29,12 @@
                                   screenFrame.size.height / 2 - size.height / 2,
                                   size.width, size.height);
         
-        NSUInteger windowStyleMask = NSTitledWindowMask | NSResizableWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
+        NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
+        
+        if (_engine->getRenderer()->getResizable())
+        {
+            windowStyleMask |= NSResizableWindowMask;
+        }
         
         _window  = [[NSWindow alloc] initWithContentRect:frame
                                                styleMask:windowStyleMask

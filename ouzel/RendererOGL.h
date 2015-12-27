@@ -24,7 +24,7 @@ namespace ouzel
     class RendererOGL: public Renderer
     {
     public:
-        RendererOGL(const Size2& size, bool fullscreen, Engine* engine);
+        RendererOGL(const Size2& size, bool resiazble, bool fullscreen, Engine* engine);
         
         bool initOpenGL(uint32_t width, uint32_t height);
         bool checkOpenGLErrors();
