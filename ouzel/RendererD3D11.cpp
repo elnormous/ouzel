@@ -241,6 +241,55 @@ namespace ouzel
         _swapChain->Present(1 /* TODO vsync off? */, 0);
     }
 
+    void RendererD3D11::resize(const Size2& size)
+    {
+        UINT width = size.width;
+        UINT height = size.height;
+
+        DWORD style = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+        int x = CW_USEDEFAULT;
+        int y = CW_USEDEFAULT;
+        UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
+        if (_fullscreen)
+        {
+            style = WS_POPUP;
+            x = 0;
+            y = 0;
+            swpFlags &= ~SWP_NOMOVE;
+        }
+        RECT rect = { 0, 0, (int) width, (int) height };
+        AdjustWindowRect(&rect, style, FALSE);
+        SetWindowPos(_window, nullptr, 0, 0, width, height, swpFlags);
+
+        _rtView->Release();
+        _rtView = nullptr;
+
+        _backBuffer->Release();
+        _backBuffer = nullptr;
+
+        _swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+
+        HRESULT hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&_backBuffer);
+        if (FAILED(hr) || !_backBuffer)
+        {
+            log("Failed to retrieve D3D11 backbuffer");
+            return;
+        }
+
+        hr = _device->CreateRenderTargetView(_backBuffer, nullptr, &_rtView);
+        if (FAILED(hr) || !_rtView)
+        {
+            log("Failed to create D3D11 render target view");
+            return;
+        }
+
+        D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
+        _context->RSSetViewports(1, &viewport);
+        _context->OMSetRenderTargets(1, &_rtView, nullptr);
+
+        Renderer::resize(size);
+    }
+
     Texture* RendererD3D11::loadTextureFromFile(const std::string& filename)
     {
         TextureD3D11* texture = new TextureD3D11(this);
