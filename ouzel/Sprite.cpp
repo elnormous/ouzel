@@ -47,7 +47,6 @@ namespace ouzel
         };
         
         _meshBuffer = _scene->getEngine()->getRenderer()->createMeshBuffer(indices, vertices);
-        
     }
 
     Sprite::~Sprite()
