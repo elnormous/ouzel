@@ -341,10 +341,10 @@ namespace ouzel
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
         activateShader(colorShader);
         
-        Matrix4 projViewModel = _projection * _engine->getScene()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * _engine->getScene()->getCamera()->getTransform() * transform;
         
-        uint32_t uniProjViewModel = colorShader->getVertexShaderConstantId("projViewModel");
-        colorShader->setVertexShaderConstant(uniProjViewModel, &projViewModel, 1);
+        uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
+        colorShader->setVertexShaderConstant(uniModelViewProj, &modelViewProj, 1);
         
         glBindVertexArray(vertexArray);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -394,10 +394,10 @@ namespace ouzel
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_TEXTURE));
         activateShader(colorShader);
         
-        Matrix4 projViewModel = _projection * _engine->getScene()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * _engine->getScene()->getCamera()->getTransform() * transform;
         
-        uint32_t uniProjViewModel = colorShader->getVertexShaderConstantId("projViewModel");
-        colorShader->setVertexShaderConstant(uniProjViewModel, &projViewModel, 1);
+        uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
+        colorShader->setVertexShaderConstant(uniModelViewProj, &modelViewProj, 1);
         
         glBindVertexArray(vertexArray);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
