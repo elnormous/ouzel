@@ -160,7 +160,7 @@ namespace ouzel
         RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(_renderer);
 
         D3D11_MAPPED_SUBRESOURCE mappedSubResource;
-        HRESULT hr = rendererD3D11->getContext()->Map(_pixelShaderConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
+        HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
         if (FAILED(hr))
         {
             log("Failed to lock D3D11 buffer");
@@ -169,7 +169,7 @@ namespace ouzel
 
         memcpy(mappedSubResource.pData, data, size);
 
-        rendererD3D11->getContext()->Unmap(_pixelShaderConstantBuffer, 0);
+        rendererD3D11->getContext()->Unmap(buffer, 0);
 
         return true;
     }

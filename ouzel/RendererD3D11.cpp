@@ -287,14 +287,6 @@ namespace ouzel
             return false;
         }
 
-        if (shader)
-        {
-            ShaderD3D11* shaderD3D11 = static_cast<ShaderD3D11*>(shader);
-
-            _context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
-            _context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
-        }
-
         return true;
     }
 
@@ -329,6 +321,9 @@ namespace ouzel
             ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
             _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
 
+            _context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+            _context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+
             _context->RSSetState(_rasterizerState);
             _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
             _context->OMSetDepthStencilState(_depthStencilState, 0);
@@ -344,6 +339,9 @@ namespace ouzel
         }
         _context->PSSetShaderResources(0, TEXTURE_LAYERS, resourceViews);
         _context->PSSetSamplers(0, TEXTURE_LAYERS, samplerStates);
+
+        _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        _context->IASetInputLayout(shaderD3D11->getInputLayout());
 
         ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
         UINT stride = sizeof(Vertex);

@@ -22,6 +22,7 @@ namespace ouzel
 
         virtual ID3D11Buffer* getPixelShaderConstantBuffer() const { return _pixelShaderConstantBuffer; }
         virtual ID3D11Buffer* getVertexShaderConstantBuffer() const { return _vertexShaderConstantBuffer; }
+        virtual ID3D11InputLayout* getInputLayout() const { return _inputLayout;  }
 
         virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
         virtual bool setPixelShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count);
