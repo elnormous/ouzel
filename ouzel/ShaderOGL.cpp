@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    ShaderOGL::ShaderOGL(const std::string& fragmentShader, const std::string& vertexShader, Renderer* renderer):
+    ShaderOGL::ShaderOGL(Renderer* renderer):
         Shader(renderer)
     {
     }
@@ -19,7 +19,7 @@ namespace ouzel
         
     }
     
-    bool ShaderOGL::initFromBuffers(const char* fragmentShader, int32_t fragmentShaderSize, const char* vertexShader, int32_t vertexShaderSize)
+    bool ShaderOGL::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
     {
         if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
         {
@@ -41,7 +41,7 @@ namespace ouzel
         }
         
         _fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(_fragmentShader, 1, &fragmentShader, &fragmentShaderSize);
+        glShaderSource(_fragmentShader, 1, reinterpret_cast<const GLchar* const*>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
         glCompileShader(_fragmentShader);
         
         if (checkShaderError(_fragmentShader))
@@ -50,7 +50,7 @@ namespace ouzel
         }
         
         _vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(_vertexShader, 1, &vertexShader, &vertexShaderSize);
+        glShaderSource(_vertexShader, 1, reinterpret_cast<const GLchar* const*>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
         glCompileShader(_vertexShader);
         
         if (checkShaderError(_vertexShader))

@@ -159,7 +159,7 @@ namespace ouzel
     
     Shader* RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        ShaderOGL* shader = new ShaderOGL(fragmentShader, vertexShader, this);
+        ShaderOGL* shader = new ShaderOGL(this);
         
         if (!shader->initFromFiles(fragmentShader, vertexShader))
         {
@@ -170,9 +170,9 @@ namespace ouzel
         return shader;
     }
     
-    Shader* RendererOGL::loadShaderFromBuffers(const char* fragmentShader, int32_t fragmentShaderSize, const char* vertexShader, int32_t vertexShaderSize)
+    Shader* RendererOGL::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
     {
-        ShaderOGL* shader = new ShaderOGL(fragmentShader, vertexShader, this);
+        ShaderOGL* shader = new ShaderOGL(this);
         
         if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
         {

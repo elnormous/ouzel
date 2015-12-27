@@ -63,11 +63,11 @@ namespace ouzel
         
         vertexShaderFile.read(vertexShaderBuffer.data(), vertexShaderSize);
         
-        return initFromBuffers(fragmentShaderBuffer.data(), static_cast<int32_t>(fragmentShaderSize),
-                               vertexShaderBuffer.data(), static_cast<int32_t>(vertexShaderSize));
+        return initFromBuffers(reinterpret_cast<const uint8_t*>(fragmentShaderBuffer.data()), static_cast<int32_t>(fragmentShaderSize),
+                               reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<int32_t>(vertexShaderSize));
     }
     
-    bool Shader::initFromBuffers(const char* fragmentShader, int32_t fragmentShaderSize, const char* vertexShader, int32_t vertexShaderSize)
+    bool Shader::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
     {
         return  true;
     }

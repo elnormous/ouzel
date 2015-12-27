@@ -140,7 +140,7 @@ namespace ouzel
         return shader;
     }
     
-    Shader* Renderer::loadShaderFromBuffers(const char* fragmentShader, int32_t fragmentShaderSize, const char* vertexShader, int32_t vertexShaderSize)
+    Shader* Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
     {
         Shader* shader = new Shader(this);
         

@@ -1,7 +1,7 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-const char TEXTURE_PIXEL_SHADER_OGL[] =
+const uint8_t TEXTURE_PIXEL_SHADER_OGL[] =
     "#version 400\n"
     "uniform sampler2D tex;\n"
     "in vec4 ex_Color;\n"

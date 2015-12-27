@@ -69,7 +69,7 @@ namespace ouzel
         Shader* getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, Shader* shader);
         virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader);
-        virtual Shader* loadShaderFromBuffers(const char* fragmentShader, int32_t fragmentShaderSize, const char* vertexShader, int32_t vertexShaderSize);
+        virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize);
         virtual bool activateShader(Shader* shader);
         virtual Shader* getActiveShader() const { return _activeShader; }
         

@@ -40,7 +40,7 @@ namespace ouzel
         virtual bool activateTexture(Texture* texture, uint32_t layer) override;
         
         virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
-        virtual Shader* loadShaderFromBuffers(const char* fragmentShader, int32_t fragmentShaderSize, const char* vertexShader, int32_t vertexShaderSize) override;
+        virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
         virtual bool activateShader(Shader* shader) override;
         
         virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices) override;
