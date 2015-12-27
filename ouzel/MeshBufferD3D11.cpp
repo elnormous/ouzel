@@ -34,7 +34,7 @@ namespace ouzel
         indexBufferDesc.ByteWidth = (UINT)indices.size() * sizeof(uint16_t);
         indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
         indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-        indexBufferDesc.CPUAccessFlags = 0; // if write is needed, then set this to D3D11_CPU_ACCESS_WRITE
+        indexBufferDesc.CPUAccessFlags = 0;
 
         D3D11_SUBRESOURCE_DATA indexBufferResourceData;
         memset(&indexBufferResourceData, 0, sizeof(indexBufferResourceData));
@@ -53,7 +53,7 @@ namespace ouzel
         vertexBufferDesc.ByteWidth = (UINT)vertices.size() * sizeof(Vertex);
         vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
         vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-        vertexBufferDesc.CPUAccessFlags = 0; // if write is needed, then set this to D3D11_CPU_ACCESS_WRITE
+        vertexBufferDesc.CPUAccessFlags = 0;
 
         D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
         memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));

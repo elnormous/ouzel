@@ -113,9 +113,9 @@ namespace ouzel
         return true;
     }
     
-    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count)
+    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
     {
-        glUniformMatrix4fv(index, count, GL_FALSE, reinterpret_cast<const float*>(matrixes));
+        glUniformMatrix4fv(index, count, GL_FALSE, reinterpret_cast<const float*>(matrices));
         return true;
     }
     
@@ -136,9 +136,9 @@ namespace ouzel
         return true;
     }
     
-    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count)
+    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
     {
-        glUniformMatrix4fv(index, count, GL_FALSE, reinterpret_cast<const float*>(matrixes));
+        glUniformMatrix4fv(index, count, GL_FALSE, reinterpret_cast<const float*>(matrices));
         return true;
     }
 }

@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Sprite.h"
+#include "CompileConfig.h"
 #include "Engine.h"
 #include "Renderer.h"
 #include "Texture.h"

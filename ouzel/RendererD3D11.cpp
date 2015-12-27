@@ -319,6 +319,20 @@ namespace ouzel
         }
 
         MeshBufferD3D11* meshBufferD3D11 = static_cast<MeshBufferD3D11*>(meshBuffer);
+        ShaderD3D11* shaderD3D11 = static_cast<ShaderD3D11*>(_activeShader.item);
+
+        if (shaderD3D11)
+        {
+            ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
+            _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+
+            ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
+            _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+
+            _context->RSSetState(_rasterizerState);
+            _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
+            _context->OMSetDepthStencilState(_depthStencilState, 0);
+        }
 
         ID3D11ShaderResourceView* resourceViews[TEXTURE_LAYERS];
         ID3D11SamplerState* samplerStates[TEXTURE_LAYERS];

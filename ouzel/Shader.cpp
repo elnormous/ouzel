@@ -87,7 +87,7 @@ namespace ouzel
         return true;
     }
     
-    bool Shader::setPixelShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count)
+    bool Shader::setPixelShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
     {
         return true;
     }
@@ -107,7 +107,7 @@ namespace ouzel
         return true;
     }
     
-    bool Shader::setVertexShaderConstant(uint32_t index, const Matrix4* matrixes, uint32_t count)
+    bool Shader::setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
     {
         return true;
     }
