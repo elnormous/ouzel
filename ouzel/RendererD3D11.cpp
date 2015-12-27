@@ -72,29 +72,29 @@ namespace ouzel
         wc.lpszClassName = L"OuzelWindow";
         RegisterClassExW(&wc);
 
-        DWORD style = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+        _windowStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
 
         if (_resizable)
         {
-            style |= WS_SIZEBOX | WS_MAXIMIZEBOX;
+            _windowStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
         }
 
         int x = CW_USEDEFAULT;
         int y = CW_USEDEFAULT;
         if (_fullscreen)
         {
-            style = WS_POPUP;
+            _windowStyle = WS_POPUP;
             x = 0;
             y = 0;
         }
         RECT windowRect = { 0, 0, (int)_size.width, (int)_size.height };
-        AdjustWindowRect(&windowRect, style, FALSE);
+        AdjustWindowRect(&windowRect, _windowStyle, FALSE);
 
         _window = CreateWindowExW(
             0,
             L"OuzelWindow",
             L"Ouzel",
-            style,
+            _windowStyle,
             x,
             y,
             windowRect.right - windowRect.left,
@@ -267,19 +267,17 @@ namespace ouzel
         UINT width = size.width;
         UINT height = size.height;
 
-        DWORD style = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
         int x = CW_USEDEFAULT;
         int y = CW_USEDEFAULT;
         UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
         if (_fullscreen)
         {
-            style = WS_POPUP;
             x = 0;
             y = 0;
             swpFlags &= ~SWP_NOMOVE;
         }
         RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-        AdjustWindowRect(&rect, style, FALSE);
+        AdjustWindowRect(&rect, _windowStyle, FALSE);
 
         SetWindowPos(_window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
 

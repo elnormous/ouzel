@@ -37,6 +37,7 @@ namespace ouzel
 
     private:
         HWND _window;
+        DWORD _windowStyle;
 
         ID3D11Device* _device = nullptr;
         ID3D11DeviceContext* _context = nullptr;
