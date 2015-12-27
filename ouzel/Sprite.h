@@ -42,5 +42,7 @@ namespace ouzel
         Size2 _size;
         
         AutoPtr<MeshBuffer> _meshBuffer;
+        
+        uint32_t _uniModelViewProj;
     };
 }

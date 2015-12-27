@@ -27,6 +27,15 @@ namespace ouzel
 
         _shader = _engine->getRenderer()->getShader(SHADER_TEXTURE);
         
+        if (_shader)
+        {
+#ifdef OUZEL_PLATFORM_WINDOWS
+            _uniModelViewProj = 0;
+#else
+            _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
+#endif
+        }
+        
         std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
         
         std::vector<Vertex> vertices = {
@@ -56,13 +65,7 @@ namespace ouzel
             
             Matrix4 modelViewProj = _engine->getRenderer()->getProjection() * _engine->getScene()->getCamera()->getTransform() * _transform;
             
-#ifdef OUZEL_PLATFORM_WINDOWS
-            uint32_t uniModelViewProj = 0;
-#else
-            uint32_t uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
-#endif
-
-            _shader->setVertexShaderConstant(uniModelViewProj, &modelViewProj, 1);
+            _shader->setVertexShaderConstant(_uniModelViewProj, &modelViewProj, 1);
             
             _engine->getRenderer()->drawMeshBuffer(_meshBuffer);
         }
