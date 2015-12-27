@@ -8,7 +8,7 @@
 #include "RendererOGL.h"
 #endif
 
-#ifdef OUZEL_PLATFORM_WINDOWS
+#if defined(OUZEL_PLATFORM_WINDOWS)
 #include "RendererD3D11.h"
 #endif
 
@@ -71,26 +71,6 @@ namespace ouzel
     void Engine::begin()
     {
         OuzelBegin(this);
-
-#ifdef OUZEL_PLATFORM_WINDOWS
-        MSG msg;
-
-        while (true)
-        {
-            while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-            {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-            }
-
-            if (msg.message == WM_QUIT)
-            {
-                break;
-            }
-
-            run();
-        }
-#endif
     }
     
     void Engine::run()

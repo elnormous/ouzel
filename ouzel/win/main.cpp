@@ -11,6 +11,24 @@ int WINAPI WinMain(HINSTANCE hInstance,
 {
     ouzel::Engine engine;
     engine.begin();
+
+    MSG msg;
+
+    while (true)
+    {
+        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+
+        if (msg.message == WM_QUIT)
+        {
+            break;
+        }
+
+        engine.run();
+    }
     
     return 0;
 }
