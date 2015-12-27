@@ -3,7 +3,7 @@
 
 cbuffer Constants : register(b0)
 {
-    float4x4 modelViewProj;
+    float4x4 projViewModel;
 }
 
 struct VSInput
@@ -22,7 +22,7 @@ struct VS2PS
 
 void main(in VSInput input, out VS2PS output)
 {
-    output.Position = mul(modelViewProj, float4(input.Position, 1));
+    output.Position = mul(projViewModel, float4(input.Position, 1));
     output.Color = input.Color;
     output.TexCoord = input.TexCoord;
 }

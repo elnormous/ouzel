@@ -56,7 +56,12 @@ namespace ouzel
             
             Matrix4 projViewModel = _engine->getRenderer()->getProjection() * _engine->getScene()->getCamera()->getTransform() * _transform;
             
+#ifdef OUZEL_PLATFORM_WINDOWS
+            uint32_t uniProjViewModel = 0;
+#else
             uint32_t uniProjViewModel = _shader->getVertexShaderConstantId("projViewModel");
+#endif
+
             _shader->setVertexShaderConstant(uniProjViewModel, &projViewModel, 1);
             
             _engine->getRenderer()->drawMeshBuffer(_meshBuffer);
