@@ -18,5 +18,8 @@ namespace ouzel
         
     protected:
         Engine* _engine;
+        
+        AutoPtr<Sprite> _sprite;
+        AutoPtr<Sprite> _witch;
     };
 }
