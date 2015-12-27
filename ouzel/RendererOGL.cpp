@@ -11,7 +11,7 @@
 #include "Camera.h"
 #include "Utils.h"
 
-static const char TEXTURE_PIXEL_SHADER[] =
+static const char OGL_TEXTURE_PIXEL_SHADER[] =
     "#version 400\n"
     "uniform sampler2D tex;\n"
     "in vec4 ex_Color;\n"
@@ -22,7 +22,7 @@ static const char TEXTURE_PIXEL_SHADER[] =
     "    out_Color = texture(tex, ex_TexCoord) * ex_Color;\n"
     "}";
 
-static const char TEXTURE_VERTEX_SHADER[] =
+static const char OGL_TEXTURE_VERTEX_SHADER[] =
     "#version 400\n"
     "layout(location=0) in vec4 in_Position;\n"
     "layout(location=1) in vec4 in_Color;\n"
@@ -39,7 +39,7 @@ static const char TEXTURE_VERTEX_SHADER[] =
     "    ex_TexCoord = in_TexCoord;\n"
     "}";
 
-static const char COLOR_PIXEL_SHADER[] =
+static const char OGL_COLOR_PIXEL_SHADER[] =
     "#version 400\n"
     "in vec4 ex_Color;\n"
     "out vec4 out_Color;\n"
@@ -48,7 +48,7 @@ static const char COLOR_PIXEL_SHADER[] =
     "    out_Color = ex_Color;\n"
     "}";
 
-static const char COLOR_VERTEX_SHADER[] =
+static const char OGL_COLOR_VERTEX_SHADER[] =
     "#version 400\n"
     "layout(location=0) in vec4 in_Position;\n"
     "layout(location=1) in vec4 in_Color;\n"
@@ -90,13 +90,13 @@ namespace ouzel
             return false;
         }
         
-        Shader* textureShader = loadShaderFromStrings(TEXTURE_PIXEL_SHADER, TEXTURE_VERTEX_SHADER);
+        Shader* textureShader = loadShaderFromStrings(OGL_TEXTURE_PIXEL_SHADER, OGL_TEXTURE_VERTEX_SHADER);
         if (textureShader)
         {
             _shaders[SHADER_TEXTURE] = textureShader;
         }
         
-        Shader* colorShader = loadShaderFromStrings(COLOR_PIXEL_SHADER, COLOR_VERTEX_SHADER);
+        Shader* colorShader = loadShaderFromStrings(OGL_COLOR_PIXEL_SHADER, OGL_COLOR_VERTEX_SHADER);
         if (colorShader)
         {
             _shaders[SHADER_COLOR] = colorShader;
