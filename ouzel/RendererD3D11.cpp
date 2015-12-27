@@ -280,7 +280,8 @@ namespace ouzel
         }
         RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
         AdjustWindowRect(&rect, style, FALSE);
-        //SetWindowPos(_window, nullptr, 0, 0, width, height, swpFlags);
+
+        SetWindowPos(_window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
 
         if (_rtView && _backBuffer)
         {
