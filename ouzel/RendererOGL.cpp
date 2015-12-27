@@ -10,57 +10,10 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Utils.h"
-
-static const char OGL_TEXTURE_PIXEL_SHADER[] =
-    "#version 400\n"
-    "uniform sampler2D tex;\n"
-    "in vec4 ex_Color;\n"
-    "in vec2 ex_TexCoord;\n"
-    "out vec4 out_Color;\n"
-    "void main(void)\n"
-    "{\n"
-    "    out_Color = texture(tex, ex_TexCoord) * ex_Color;\n"
-    "}";
-
-static const char OGL_TEXTURE_VERTEX_SHADER[] =
-    "#version 400\n"
-    "layout(location=0) in vec4 in_Position;\n"
-    "layout(location=1) in vec4 in_Color;\n"
-    "layout(location=2) in vec2 in_TexCoord;\n"
-    "uniform mat4 model;\n"
-    "uniform mat4 view;\n"
-    "uniform mat4 proj;\n"
-    "out vec4 ex_Color;\n"
-    "out vec2 ex_TexCoord;\n"
-    "void main(void)\n"
-    "{\n"
-    "    gl_Position = proj * view * model * in_Position;\n"
-    "    ex_Color = in_Color;\n"
-    "    ex_TexCoord = in_TexCoord;\n"
-    "}";
-
-static const char OGL_COLOR_PIXEL_SHADER[] =
-    "#version 400\n"
-    "in vec4 ex_Color;\n"
-    "out vec4 out_Color;\n"
-    "void main(void)\n"
-    "{\n"
-    "    out_Color = ex_Color;\n"
-    "}";
-
-static const char OGL_COLOR_VERTEX_SHADER[] =
-    "#version 400\n"
-    "layout(location=0) in vec4 in_Position;\n"
-    "layout(location=1) in vec4 in_Color;\n"
-    "uniform mat4 model;\n"
-    "uniform mat4 view;\n"
-    "uniform mat4 proj;\n"
-    "out vec4 ex_Color;\n"
-    "void main(void)\n"
-    "{\n"
-    "    gl_Position = proj * view * model * in_Position;\n"
-    "    ex_Color = in_Color;\n"
-    "}";
+#include "ColorPSOGL.h"
+#include "ColorVSOGL.h"
+#include "TexturePSOGL.h"
+#include "TextureVSOGL.h"
 
 namespace ouzel
 {
@@ -90,13 +43,13 @@ namespace ouzel
             return false;
         }
         
-        Shader* textureShader = loadShaderFromStrings(OGL_TEXTURE_PIXEL_SHADER, OGL_TEXTURE_VERTEX_SHADER);
+        Shader* textureShader = loadShaderFromStrings(TEXTURE_PIXEL_SHADER_OGL, TEXTURE_VERTEX_SHADER_OGL);
         if (textureShader)
         {
             _shaders[SHADER_TEXTURE] = textureShader;
         }
         
-        Shader* colorShader = loadShaderFromStrings(OGL_COLOR_PIXEL_SHADER, OGL_COLOR_VERTEX_SHADER);
+        Shader* colorShader = loadShaderFromStrings(COLOR_PIXEL_SHADER_OGL, COLOR_VERTEX_SHADER_OGL);
         if (colorShader)
         {
             _shaders[SHADER_COLOR] = colorShader;

@@ -93,6 +93,14 @@
 		303B75821C2B17DC00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
 		303B75991C2CA2EA00FEDE92 /* AutoPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* AutoPtr.h */; };
 		303B759A1C2CA2EA00FEDE92 /* AutoPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* AutoPtr.h */; };
+		303B75E21C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */; };
+		303B75E31C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */; };
+		303B75E41C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */; };
+		303B75E51C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */; };
+		303B75E61C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75E01C2F6FC000FEDE92 /* TexturePSOGL.h */; };
+		303B75E71C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75E01C2F6FC000FEDE92 /* TexturePSOGL.h */; };
+		303B75E81C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75E11C2F6FC000FEDE92 /* TextureVSOGL.h */; };
+		303B75E91C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75E11C2F6FC000FEDE92 /* TextureVSOGL.h */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -182,6 +190,10 @@
 		303B75751C2A3E3000FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B75801C2B17DC00FEDE92 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		303B75981C2CA2EA00FEDE92 /* AutoPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoPtr.h; sourceTree = "<group>"; };
+		303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSOGL.h; sourceTree = "<group>"; };
+		303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorVSOGL.h; sourceTree = "<group>"; };
+		303B75E01C2F6FC000FEDE92 /* TexturePSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturePSOGL.h; sourceTree = "<group>"; };
+		303B75E11C2F6FC000FEDE92 /* TextureVSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSOGL.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -390,6 +402,10 @@
 		303B75131C288CCE00FEDE92 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */,
+				303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */,
+				303B75E01C2F6FC000FEDE92 /* TexturePSOGL.h */,
+				303B75E11C2F6FC000FEDE92 /* TextureVSOGL.h */,
 				304A8E7B1C24814F008B1151 /* RendererOGL.cpp */,
 				304A8E7C1C24814F008B1151 /* RendererOGL.h */,
 				304A8E7D1C24814F008B1151 /* RenderTargetOGL.cpp */,
@@ -525,18 +541,22 @@
 				303B756C1C2A3CC500FEDE92 /* SoundManager.h in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.h in Headers */,
 				303B75661C2A3CBF00FEDE92 /* Scene.h in Headers */,
+				303B75E91C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Node.h in Headers */,
+				303B75E31C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
 				303B75541C2A3CB700FEDE92 /* Rectangle.h in Headers */,
 				303B759A1C2CA2EA00FEDE92 /* AutoPtr.h in Headers */,
 				303B753B1C2A3C8200FEDE92 /* Noncopyable.h in Headers */,
 				303B754E1C2A3CB700FEDE92 /* MathUtils.h in Headers */,
 				303B753C1C2A3C8200FEDE92 /* ReferenceCounted.h in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHander.h in Headers */,
+				303B75E51C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.h in Headers */,
 				303B75451C2A3C9200FEDE92 /* Renderer.h in Headers */,
 				303B75561C2A3CB700FEDE92 /* Size2.h in Headers */,
 				303B75491C2A3C9200FEDE92 /* Shader.h in Headers */,
+				303B75E71C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.h in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.h in Headers */,
 				303B75371C2A3C8200FEDE92 /* CompileConfig.h in Headers */,
@@ -554,6 +574,7 @@
 			files = (
 				304A8E5E1C237C70008B1151 /* Noncopyable.h in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix4.h in Headers */,
+				303B75E61C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */,
 				303B75781C2A419F00FEDE92 /* CompileConfig.h in Headers */,
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				304A8E861C24814F008B1151 /* TextureOGL.h in Headers */,
@@ -575,6 +596,7 @@
 				304A8E631C237C70008B1151 /* ReferenceCounted.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
+				303B75E81C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
 				303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */,
 				304A8E821C24814F008B1151 /* RendererOGL.h in Headers */,
 				304A8E591C237C70008B1151 /* Matrix3.h in Headers */,
@@ -588,9 +610,11 @@
 				304A8E841C24814F008B1151 /* RenderTargetOGL.h in Headers */,
 				303B74EA1C27868A00FEDE92 /* Sound.h in Headers */,
 				304A8E621C237C70008B1151 /* Rectangle.h in Headers */,
+				303B75E21C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
 				303B74E81C27856D00FEDE92 /* SoundManager.h in Headers */,
 				304A8E671C237C70008B1151 /* Scene.h in Headers */,
 				304A8E521C237C70008B1151 /* Camera.h in Headers */,
+				303B75E41C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */,
 				304A8E551C237C70008B1151 /* EventHander.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
