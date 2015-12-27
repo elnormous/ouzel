@@ -21,6 +21,8 @@ namespace ouzel
         virtual void clear() override;
         virtual void flush() override;
 
+        virtual void resize(const Size2& size) override;
+
         virtual Texture* loadTextureFromFile(const std::string& filename) override;
 
         virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
