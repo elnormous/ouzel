@@ -424,14 +424,22 @@ namespace ouzel
         }
 
         // Sampler state
-        D3D11_SAMPLER_DESC samplerStateDesc =
-        {
-            D3D11_FILTER_MIN_MAG_MIP_LINEAR,
-            D3D11_TEXTURE_ADDRESS_WRAP,
-            D3D11_TEXTURE_ADDRESS_WRAP,
-            D3D11_TEXTURE_ADDRESS_WRAP,
-            0, 1, D3D11_COMPARISON_NEVER,{ 0,0,0,0 }, 0, D3D11_FLOAT32_MAX
-        };
+        D3D11_SAMPLER_DESC samplerStateDesc;
+        samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+        samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+        samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+        samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+        samplerStateDesc.MipLODBias = 0.0f;
+        samplerStateDesc.MaxAnisotropy = 1;
+        samplerStateDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+
+        samplerStateDesc.BorderColor[0] = 0.0f;
+        samplerStateDesc.BorderColor[1] = 0.0f;
+        samplerStateDesc.BorderColor[2] = 0.0f;
+        samplerStateDesc.BorderColor[3] = 0.0f;
+
+        samplerStateDesc.MinLOD = 0.0f;
+        samplerStateDesc.MaxLOD = D3D11_FLOAT32_MAX;
         
         hr = _device->CreateSamplerState(&samplerStateDesc, &_samplerState);
         if (FAILED(hr) || !_samplerState)
