@@ -35,7 +35,7 @@ namespace ouzel
         virtual bool setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count);
         
     protected:
-        virtual bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
+        bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
         ID3D11PixelShader* _pixelShader = nullptr;
         ID3D11VertexShader* _vertexShader = nullptr;

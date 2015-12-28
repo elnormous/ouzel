@@ -32,9 +32,9 @@ namespace ouzel
         memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
 
         indexBufferDesc.ByteWidth = (UINT)indices.size() * sizeof(uint16_t);
-        indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+        indexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
         indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-        indexBufferDesc.CPUAccessFlags = 0;
+        indexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
         D3D11_SUBRESOURCE_DATA indexBufferResourceData;
         memset(&indexBufferResourceData, 0, sizeof(indexBufferResourceData));
@@ -51,9 +51,9 @@ namespace ouzel
         memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
 
         vertexBufferDesc.ByteWidth = (UINT)vertices.size() * sizeof(Vertex);
-        vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+        vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
         vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-        vertexBufferDesc.CPUAccessFlags = 0;
+        vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
         D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
         memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));
@@ -67,6 +67,37 @@ namespace ouzel
         }
 
         _indexCount = (UINT)indices.size();
+
+        return true;
+    }
+
+    bool MeshBufferD3D11::uploadIndices(const std::vector<uint16_t>& indices)
+    {
+        //TODO: resize if needed
+        return uploadData(_indexBuffer, indices.data(), indices.size() * sizeof(uint16_t));
+    }
+
+    bool MeshBufferD3D11::uploadVertices(const std::vector<Vertex>& vertices)
+    {
+        //TODO: resize if needed
+        return uploadData(_vertexBuffer, vertices.data(), vertices.size() * sizeof(Vertex));
+    }
+
+    bool MeshBufferD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)
+    {
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(_renderer);
+
+        D3D11_MAPPED_SUBRESOURCE mappedSubResource;
+        HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
+        if (FAILED(hr))
+        {
+            log("Failed to lock D3D11 buffer");
+            return false;
+        }
+
+        memcpy(mappedSubResource.pData, data, size);
+
+        rendererD3D11->getContext()->Unmap(buffer, 0);
 
         return true;
     }

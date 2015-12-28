@@ -143,16 +143,12 @@ namespace ouzel
 
     bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
     {
-        uploadData(_vertexShaderConstantBuffer, vectors, count * sizeof(Vector4));
-
-        return true;
+        return uploadData(_vertexShaderConstantBuffer, vectors, count * sizeof(Vector4));
     }
 
     bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
     {
-        uploadData(_vertexShaderConstantBuffer, matrices, count * sizeof(Matrix4));
-
-        return true;
+        return uploadData(_vertexShaderConstantBuffer, matrices, count * sizeof(Matrix4));
     }
 
     bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)
