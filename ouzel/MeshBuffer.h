@@ -18,12 +18,14 @@ namespace ouzel
         MeshBuffer(Renderer* renderer);
         virtual ~MeshBuffer();
         
-        virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
+        virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false);
         
         virtual bool uploadIndices(const std::vector<uint16_t>& indices);
         virtual bool uploadVertices(const std::vector<Vertex>& vertices);
         
     protected:
         Renderer* _renderer;
+        bool _dynamicIndexBuffer = false;
+        bool _dynamicVertexBuffer = false;
     };
 }

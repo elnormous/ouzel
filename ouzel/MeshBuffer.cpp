@@ -16,8 +16,11 @@ namespace ouzel
         
     }
     
-    bool MeshBuffer::initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices)
+    bool MeshBuffer::initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
+        _dynamicIndexBuffer = dynamicIndexBuffer;
+        _dynamicVertexBuffer = dynamicVertexBuffer;
+        
         return true;
     }
     

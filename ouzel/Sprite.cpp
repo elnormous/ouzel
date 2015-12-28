@@ -46,7 +46,7 @@ namespace ouzel
             Vertex(Vector3(_size.width / 2.0f, _size.height / 2.0f, -20.0f),  _color, Vector2(1.0f, 0.0f))
         };
         
-        _meshBuffer = _scene->getEngine()->getRenderer()->createMeshBuffer(indices, _vertices);
+        _meshBuffer = _scene->getEngine()->getRenderer()->createMeshBuffer(indices, _vertices, false, true);
     }
 
     Sprite::~Sprite()
