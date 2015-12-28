@@ -20,4 +20,14 @@ namespace ouzel
     {
         return true;
     }
+    
+    bool MeshBuffer::uploadIndices(const std::vector<uint16_t>& indices)
+    {
+        return true;
+    }
+    
+    bool MeshBuffer::uploadVertices(const std::vector<Vertex>& vertices)
+    {
+        return true;
+    }
 }

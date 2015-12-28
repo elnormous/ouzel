@@ -23,13 +23,16 @@ namespace ouzel
         
         virtual void draw() override;
         
-        Texture* getTexture() const { return _texture; }
-        void setTexture(Texture* texture);
+        virtual Texture* getTexture() const { return _texture; }
+        virtual void setTexture(Texture* texture);
         
-        Shader* getShader() const { return _shader; }
-        void setShader(Shader* shader);
+        virtual Shader* getShader() const { return _shader; }
+        virtual void setShader(Shader* shader);
         
-        const Size2& getSize() const { return _size; }
+        virtual const Size2& getSize() const { return _size; }
+        
+        virtual const Color& getColor() const { return _color; }
+        virtual void setColor(const Color& color);
         
         virtual bool checkVisibility() const override;
         
@@ -41,7 +44,9 @@ namespace ouzel
         
         Size2 _size;
         
+        std::vector<Vertex> _vertices;
         AutoPtr<MeshBuffer> _meshBuffer;
+        Color _color = Color(255, 255, 255, 255);
         
         uint32_t _uniModelViewProj;
     };

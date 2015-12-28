@@ -22,7 +22,10 @@ namespace ouzel
         MeshBufferOGL(Renderer* renderer);
         virtual ~MeshBufferOGL();
         
-        bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
+        virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices) override;
+        
+        virtual bool uploadIndices(const std::vector<uint16_t>& indices) override;
+        virtual bool uploadVertices(const std::vector<Vertex>& vertices) override;
         
         GLuint getIndexBufferId() const { return _indexBufferId; }
         GLuint getVertexArrayId() const { return _vertexArrayId; }

@@ -20,6 +20,8 @@ namespace ouzel
         _sprite = new Sprite("tim-from-braid.png", _engine->getScene());
         _engine->getScene()->getRootNode()->addChild(_sprite);
         
+        _sprite->setColor(Color(0, 0, 255, 255));
+        
         _witch = new Sprite("witch.png", _engine->getScene());
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _engine->getScene()->getRootNode()->addChild(_witch);

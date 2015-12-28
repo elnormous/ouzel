@@ -55,4 +55,22 @@ namespace ouzel
         
         return true;
     }
+    
+    bool MeshBufferOGL::uploadIndices(const std::vector<uint16_t>& indices)
+    {
+        //TODO: resize if needed
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint16_t), indices.data(), GL_STATIC_DRAW);
+        
+        return true;
+    }
+    
+    bool MeshBufferOGL::uploadVertices(const std::vector<Vertex>& vertices)
+    {
+        //TODO: resize if needed
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
+        
+        return true;
+    }
 }

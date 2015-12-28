@@ -20,6 +20,9 @@ namespace ouzel
         
         virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
         
+        virtual bool uploadIndices(const std::vector<uint16_t>& indices);
+        virtual bool uploadVertices(const std::vector<Vertex>& vertices);
+        
     protected:
         Renderer* _renderer;
     };

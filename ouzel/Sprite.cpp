@@ -39,14 +39,14 @@ namespace ouzel
         
         std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
         
-        std::vector<Vertex> vertices = {
-            Vertex(Vector3(-_size.width / 2.0f, -_size.height / 2.0f, -20.0f), Color(0xFF, 0xFF, 0xFF, 0xFF), Vector2(0.0f, 1.0f)),
-            Vertex(Vector3(_size.width / 2.0f, -_size.height / 2.0f, -20.0f), Color(0xFF, 0xFF, 0xFF, 0xFF), Vector2(1.0f, 1.0f)),
-            Vertex(Vector3(-_size.width / 2.0f, _size.height / 2.0f, -20.0f), Color(0xFF, 0xFF, 0xFF, 0xFF), Vector2(0.0f, 0.0f)),
-            Vertex(Vector3(_size.width / 2.0f, _size.height / 2.0f, -20.0f), Color(0xFF, 0xFF, 0xFF, 0xFF), Vector2(1.0f, 0.0f))
+        _vertices = {
+            Vertex(Vector3(-_size.width / 2.0f, -_size.height / 2.0f, -20.0f), _color, Vector2(0.0f, 1.0f)),
+            Vertex(Vector3(_size.width / 2.0f, -_size.height / 2.0f, -20.0f), _color, Vector2(1.0f, 1.0f)),
+            Vertex(Vector3(-_size.width / 2.0f, _size.height / 2.0f, -20.0f),  _color, Vector2(0.0f, 0.0f)),
+            Vertex(Vector3(_size.width / 2.0f, _size.height / 2.0f, -20.0f),  _color, Vector2(1.0f, 0.0f))
         };
         
-        _meshBuffer = _scene->getEngine()->getRenderer()->createMeshBuffer(indices, vertices);
+        _meshBuffer = _scene->getEngine()->getRenderer()->createMeshBuffer(indices, _vertices);
     }
 
     Sprite::~Sprite()
@@ -80,6 +80,18 @@ namespace ouzel
     void Sprite::setShader(Shader* shader)
     {
         _shader = shader;
+    }
+    
+    void Sprite::setColor(const Color& color)
+    {
+        _color = color;
+        
+        for (Vertex& vertex : _vertices)
+        {
+            vertex.color = color;
+        }
+        
+        _meshBuffer->uploadVertices(_vertices);
     }
     
     bool Sprite::checkVisibility() const
