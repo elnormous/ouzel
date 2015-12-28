@@ -615,11 +615,11 @@ namespace ouzel
         return true;
     }
 
-    MeshBuffer* RendererD3D11::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices)
+    MeshBuffer* RendererD3D11::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
         MeshBufferD3D11* meshBuffer = new MeshBufferD3D11(this);
 
-        if (!meshBuffer->initFromData(indices, vertices))
+        if (!meshBuffer->initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
         {
             delete meshBuffer;
             meshBuffer = nullptr;

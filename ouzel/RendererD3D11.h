@@ -29,7 +29,7 @@ namespace ouzel
         virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
         virtual bool activateShader(Shader* shader);
 
-        virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices);
+        virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false);
         virtual bool drawMeshBuffer(MeshBuffer* meshBuffer);
 
         ID3D11Device* getDevice() const { return _device; }

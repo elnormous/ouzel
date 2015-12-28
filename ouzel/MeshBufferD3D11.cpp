@@ -19,9 +19,9 @@ namespace ouzel
         if (_vertexBuffer) _vertexBuffer->Release();
     }
     
-    bool MeshBufferD3D11::initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices)
+    bool MeshBufferD3D11::initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
-        if (!MeshBuffer::initFromData(indices, vertices))
+        if (!MeshBuffer::initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
         {
             return false;
         }
@@ -32,9 +32,9 @@ namespace ouzel
         memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
 
         indexBufferDesc.ByteWidth = (UINT)indices.size() * sizeof(uint16_t);
-        indexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+        indexBufferDesc.Usage = _dynamicIndexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
         indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-        indexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        indexBufferDesc.CPUAccessFlags = _dynamicIndexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
 
         D3D11_SUBRESOURCE_DATA indexBufferResourceData;
         memset(&indexBufferResourceData, 0, sizeof(indexBufferResourceData));
@@ -51,9 +51,9 @@ namespace ouzel
         memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
 
         vertexBufferDesc.ByteWidth = (UINT)vertices.size() * sizeof(Vertex);
-        vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+        vertexBufferDesc.Usage = _dynamicVertexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
         vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-        vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        vertexBufferDesc.CPUAccessFlags = _dynamicVertexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
 
         D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
         memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));
