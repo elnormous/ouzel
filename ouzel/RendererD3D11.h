@@ -24,6 +24,7 @@ namespace ouzel
         virtual void resize(const Size2& size) override;
 
         virtual Texture* loadTextureFromFile(const std::string& filename) override;
+        virtual bool activateTexture(Texture* texture, uint32_t layer) override;
 
         virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
         virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
@@ -48,5 +49,8 @@ namespace ouzel
         ID3D11RasterizerState* _rasterizerState = nullptr;
         ID3D11BlendState* _blendState = nullptr;
         ID3D11DepthStencilState* _depthStencilState = nullptr;
+
+        ID3D11ShaderResourceView* _resourceViews[TEXTURE_LAYERS];
+        ID3D11SamplerState* _samplerStates[TEXTURE_LAYERS];
     };
 }

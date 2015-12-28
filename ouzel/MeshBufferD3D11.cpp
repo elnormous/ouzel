@@ -31,7 +31,7 @@ namespace ouzel
         D3D11_BUFFER_DESC indexBufferDesc;
         memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
 
-        indexBufferDesc.ByteWidth = (UINT)indices.size() * sizeof(uint16_t);
+        indexBufferDesc.ByteWidth = static_cast<UINT>(indices.size() * sizeof(uint16_t));
         indexBufferDesc.Usage = _dynamicIndexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
         indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
         indexBufferDesc.CPUAccessFlags = _dynamicIndexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
@@ -50,7 +50,7 @@ namespace ouzel
         D3D11_BUFFER_DESC vertexBufferDesc;
         memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
 
-        vertexBufferDesc.ByteWidth = (UINT)vertices.size() * sizeof(Vertex);
+        vertexBufferDesc.ByteWidth = static_cast<UINT>(vertices.size() * sizeof(Vertex));
         vertexBufferDesc.Usage = _dynamicVertexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
         vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         vertexBufferDesc.CPUAccessFlags = _dynamicVertexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
@@ -66,7 +66,7 @@ namespace ouzel
             return false;
         }
 
-        _indexCount = (UINT)indices.size();
+        _indexCount = static_cast<UINT>(indices.size());
 
         return true;
     }
