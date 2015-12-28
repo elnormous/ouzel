@@ -18,9 +18,9 @@
 #include "SoundManager.h"
 #include "FileSystem.h"
 
-void OuzelInit(ouzel::Settings&);
-void OuzelBegin(ouzel::Engine*);
-void OuzelEnd();
+void ouzelInit(ouzel::Settings&);
+void ouzelBegin(ouzel::Engine*);
+void ouzelEnd();
 
 namespace ouzel
 {
@@ -34,7 +34,7 @@ namespace ouzel
         settings.driver = Renderer::Driver::DIRECT3D11;
 #endif
 
-        OuzelInit(settings);
+        ouzelInit(settings);
 
         _fileSystem = new FileSystem();
         
@@ -65,12 +65,12 @@ namespace ouzel
     
     Engine::~Engine()
     {
-        OuzelEnd();
+        ouzelEnd();
     }
     
     void Engine::begin()
     {
-        OuzelBegin(this);
+        ouzelBegin(this);
     }
     
     void Engine::run()

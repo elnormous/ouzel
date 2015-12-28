@@ -5,18 +5,18 @@
 
 ouzel::Application* application;
 
-void OuzelInit(ouzel::Settings& settings)
+void ouzelInit(ouzel::Settings& settings)
 {
     settings.size = ouzel::Size2(640.0f, 480.0f);
     settings.resizable = true;
 }
 
-void OuzelBegin(ouzel::Engine* engine)
+void ouzelBegin(ouzel::Engine* engine)
 {
     application = new ouzel::Application(engine);
 }
 
-void OuzelEnd()
+void ouzelEnd()
 {
     delete application;
 }
