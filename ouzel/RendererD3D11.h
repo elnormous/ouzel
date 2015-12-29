@@ -11,8 +11,8 @@ namespace ouzel
 {
     class RendererD3D11: public Renderer
     {
+        friend Engine;
     public:
-        RendererD3D11(const Size2& size, bool resizable, bool fullscreen, Engine* engine);
         virtual ~RendererD3D11();
 
         void initWindow();
@@ -35,6 +35,9 @@ namespace ouzel
 
         ID3D11Device* getDevice() const { return _device; }
         ID3D11DeviceContext* getContext() const { return _context; }
+
+    protected:
+        RendererD3D11(const Size2& size, bool resizable, bool fullscreen, Engine* engine);
 
     private:
         HWND _window;

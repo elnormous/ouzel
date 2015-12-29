@@ -8,10 +8,12 @@
 
 namespace ouzel
 {
+    class RendererD3D11;
+
     class TextureD3D11: public Texture
     {
+        friend RendererD3D11;
     public:
-        TextureD3D11(Renderer* renderer);
         virtual ~TextureD3D11();
 
         virtual bool initFromFile(const std::string& filename) override;
@@ -20,6 +22,8 @@ namespace ouzel
         ID3D11ShaderResourceView* getResourceView() const { return _resourceView; }
 
     protected:
+        TextureD3D11(Renderer* renderer);
+
         ID3D11Texture2D* _texture;
         ID3D11ShaderResourceView* _resourceView;
     };

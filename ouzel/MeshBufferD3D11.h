@@ -8,10 +8,12 @@
 
 namespace ouzel
 {
+    class RendererD3D11;
+
     class MeshBufferD3D11: public MeshBuffer
     {
+        friend RendererD3D11;
     public:
-        MeshBufferD3D11(Renderer* renderer);
         virtual ~MeshBufferD3D11();
         
         virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false) override;
@@ -25,6 +27,7 @@ namespace ouzel
         UINT getIndexCount() const { return _indexCount; }
 
     protected:
+        MeshBufferD3D11(Renderer* renderer);
         bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
         ID3D11Buffer* _indexBuffer = nullptr;

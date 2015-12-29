@@ -9,10 +9,12 @@
 
 namespace ouzel
 {
+    class RendererD3D11;
+
     class ShaderD3D11: public Shader
     {
+        friend RendererD3D11;
     public:
-        ShaderD3D11(Renderer* renderer);
         virtual ~ShaderD3D11();
         
         virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
@@ -35,6 +37,7 @@ namespace ouzel
         virtual bool setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count);
         
     protected:
+        ShaderD3D11(Renderer* renderer);
         bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
         ID3D11PixelShader* _pixelShader = nullptr;

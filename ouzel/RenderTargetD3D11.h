@@ -7,10 +7,15 @@
 
 namespace ouzel
 {
+    class RendererD3D11;
+
     class RenderTargetD3D11: public RenderTarget
     {
+        friend RendererD3D11;
     public:
-        RenderTargetD3D11(Renderer* renderer);
         virtual ~RenderTargetD3D11();
+
+    protected:
+        RenderTargetD3D11(Renderer* renderer);
     };
 }
