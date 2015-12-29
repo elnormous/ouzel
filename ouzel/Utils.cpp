@@ -34,7 +34,7 @@ namespace ouzel
         va_end(list);
         
 #if defined(OUZEL_PLATFORM_OSX)
-        printf("%s\n", TEMP_BUFFER);
+        printf("%s\n", strBuffer);
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         syslog(LOG_WARNING, "log string");
 #elif defined(OUZEL_PLATFORM_WINDOWS)
