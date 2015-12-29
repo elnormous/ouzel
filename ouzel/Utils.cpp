@@ -36,7 +36,7 @@ namespace ouzel
 #if defined(OUZEL_PLATFORM_OSX)
         printf("%s\n", strBuffer);
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        syslog(LOG_WARNING, "log string");
+        syslog(LOG_WARNING, strBuffer);
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         wchar_t szBuffer[256];
         MultiByteToWideChar(CP_ACP, 0, strBuffer, -1, szBuffer, 256);
