@@ -28,7 +28,7 @@ namespace ouzel
     
     void Renderer::recalculateProjection()
     {
-        Matrix4::createOrthographic(_size.width, _size.height, 1.0f, 1000.0f, &_projection);
+        Matrix4::createOrthographic(_size.width, _size.height, -1.0f, 1.0f, &_projection);
     }
     
     void Renderer::begin()

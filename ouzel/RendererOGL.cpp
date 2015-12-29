@@ -321,10 +321,10 @@ namespace ouzel
         glBindVertexArray(vertexArray);
         
         GLfloat vertices[] = {
-            rectangle.x, rectangle.y, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(),
-            rectangle.x + rectangle.width, rectangle.y, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(),
-            rectangle.x, rectangle.y + rectangle.height, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(),
-            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, color.getR(), color.getG(), color.getB(), color.getA()
+            rectangle.x, rectangle.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            rectangle.x + rectangle.width, rectangle.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            rectangle.x, rectangle.y + rectangle.height, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f, color.getR(), color.getG(), color.getB(), color.getA()
         };
         
         glGenBuffers(1, &vertexBuffer);
@@ -371,10 +371,10 @@ namespace ouzel
         glBindVertexArray(vertexArray);
         
         GLfloat vertices[] = {
-            rectangle.x, rectangle.y, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 1.0f,
-            rectangle.x + rectangle.width, rectangle.y, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 1.0f,
-            rectangle.x, rectangle.y + rectangle.height, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 0.0f,
-            rectangle.x + rectangle.width, rectangle.y + rectangle.height, -10.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 0.0f
+            rectangle.x, rectangle.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 1.0f,
+            rectangle.x + rectangle.width, rectangle.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 1.0f,
+            rectangle.x, rectangle.y + rectangle.height, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 0.0f,
+            rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 0.0f
         };
         
         glGenBuffers(1, &vertexBuffer);
