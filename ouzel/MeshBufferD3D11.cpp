@@ -73,13 +73,13 @@ namespace ouzel
 
     bool MeshBufferD3D11::uploadIndices(const std::vector<uint16_t>& indices)
     {
-        //TODO: resize if needed
+        // TODO: resize if needed
         return uploadData(_indexBuffer, indices.data(), indices.size() * sizeof(uint16_t));
     }
 
     bool MeshBufferD3D11::uploadVertices(const std::vector<Vertex>& vertices)
     {
-        //TODO: resize if needed
+        // TODO: resize if needed
         return uploadData(_vertexBuffer, vertices.data(), vertices.size() * sizeof(Vertex));
     }
 

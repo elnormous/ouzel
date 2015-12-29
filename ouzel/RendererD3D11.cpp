@@ -244,6 +244,20 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
     switch (msg)
     {
+        case WM_ACTIVATE:
+        {
+            UINT state = LOWORD(wParam);
+
+            if (state == WA_ACTIVE || state == WA_CLICKACTIVE)
+            {
+                // TODO: Implement activation of the window
+            }
+            else if (state == WA_INACTIVE)
+            {
+                // TODO: Implement activation of the window
+            }
+            break;
+        }
         case WM_KEYUP:
         case WM_KEYDOWN:
         {
