@@ -16,10 +16,12 @@
 
 namespace ouzel
 {
+    class RendererOGL;
+    
     class TextureOGL: public Texture
     {
+        friend RendererOGL;
     public:
-        TextureOGL(Renderer* renderer);
         virtual ~TextureOGL();
         
         virtual bool initFromFile(const std::string& filename) override;
@@ -27,6 +29,8 @@ namespace ouzel
         GLuint getTextureId() const { return _textureId; }
         
     protected:
+        TextureOGL(Renderer* renderer);
+        
         GLuint _textureId = 0;
     };
 }

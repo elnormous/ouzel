@@ -16,8 +16,8 @@ namespace ouzel
     
     class Shader: public Noncopyable, public ReferenceCounted
     {
+        friend Renderer;
     public:
-        Shader(Renderer* renderer);
         virtual ~Shader();
         
         virtual bool initFromFiles(const std::string& fragmentShader, const std::string& vertexShader);
@@ -34,6 +34,8 @@ namespace ouzel
         virtual bool setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count);
         
     protected:
+        Shader(Renderer* renderer);
+        
         std::string _fragmentShaderFilename;
         std::string _vertexShaderFilename;
         Renderer* _renderer;

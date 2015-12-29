@@ -14,8 +14,8 @@ namespace ouzel
     
     class MeshBuffer: public Noncopyable, public ReferenceCounted
     {
+        friend Renderer;
     public:
-        MeshBuffer(Renderer* renderer);
         virtual ~MeshBuffer();
         
         virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false);
@@ -24,6 +24,8 @@ namespace ouzel
         virtual bool uploadVertices(const std::vector<Vertex>& vertices);
         
     protected:
+        MeshBuffer(Renderer* renderer);
+        
         Renderer* _renderer;
         bool _dynamicIndexBuffer = false;
         bool _dynamicVertexBuffer = false;

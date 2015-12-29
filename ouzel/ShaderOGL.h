@@ -16,10 +16,12 @@
 
 namespace ouzel
 {
+    class RendererOGL;
+    
     class ShaderOGL: public Shader
     {
+        friend RendererOGL;
     public:
-        ShaderOGL(Renderer* renderer);
         virtual ~ShaderOGL();
         
         virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
@@ -37,6 +39,7 @@ namespace ouzel
         virtual bool setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count) override;
         
     protected:
+        ShaderOGL(Renderer* renderer);
         bool checkShaderError(GLuint shader);
         
         GLuint _vertexShader;

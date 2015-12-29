@@ -23,6 +23,11 @@ namespace ouzel
         recalculateProjection();
     }
     
+    RendererOGL::~RendererOGL()
+    {
+        
+    }
+    
     bool RendererOGL::initOpenGL(uint32_t width, uint32_t height)
     {
         //glEnable(GL_DEPTH_TEST);

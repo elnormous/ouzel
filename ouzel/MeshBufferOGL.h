@@ -16,10 +16,12 @@
 
 namespace ouzel
 {
+    class RendererOGL;
+    
     class MeshBufferOGL: public MeshBuffer
     {
+        friend RendererOGL;
     public:
-        MeshBufferOGL(Renderer* renderer);
         virtual ~MeshBufferOGL();
         
         virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false) override;
@@ -33,6 +35,8 @@ namespace ouzel
         GLsizei getIndexCount() const { return _indexCount; }
         
     protected:
+        MeshBufferOGL(Renderer* renderer);
+        
         GLuint _vertexArrayId = 0;
         GLuint _indexBufferId = 0;
         GLuint _vertexBufferId = 0;

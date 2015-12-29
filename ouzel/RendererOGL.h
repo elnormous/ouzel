@@ -23,8 +23,9 @@ namespace ouzel
 {
     class RendererOGL: public Renderer
     {
+        friend Engine;
     public:
-        RendererOGL(const Size2& size, bool resiazble, bool fullscreen, Engine* engine);
+        virtual ~RendererOGL();
         
         bool initOpenGL(uint32_t width, uint32_t height);
         bool checkOpenGLErrors();
@@ -51,6 +52,8 @@ namespace ouzel
         virtual void drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4()) override;
         
     private:
+        RendererOGL(const Size2& size, bool resiazble, bool fullscreen, Engine* engine);
+        
         bool _ready = false;
     };
 }

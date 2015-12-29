@@ -31,6 +31,7 @@ namespace ouzel
 
     class Renderer: public Noncopyable, public ReferenceCounted
     {
+        friend Engine;
     public:
         enum class Driver
         {
@@ -39,7 +40,6 @@ namespace ouzel
             DIRECT3D11
         };
         
-        Renderer(const Size2& size, bool resizable, bool fullscreen, Engine* engine, Driver driver = Driver::NONE);
         virtual ~Renderer();
         
         Engine* getEngine() const { return _engine; }
@@ -88,6 +88,8 @@ namespace ouzel
         virtual void drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
         
     protected:
+        Renderer(const Size2& size, bool resizable, bool fullscreen, Engine* engine, Driver driver = Driver::NONE);
+        
         Engine* _engine;
         Driver _driver;
         

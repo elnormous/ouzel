@@ -7,9 +7,15 @@
 
 namespace ouzel
 {
+    class RendererOGL;
+    
     class RenderTargetOGL: public RenderTarget
     {
-        RenderTargetOGL(Renderer* renderer);
+        friend RendererOGL;
+    public:
         virtual ~RenderTargetOGL();
+        
+    protected:
+        RenderTargetOGL(Renderer* renderer);
     };
 }

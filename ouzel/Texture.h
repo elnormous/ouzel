@@ -14,8 +14,8 @@ namespace ouzel
     
     class Texture: public Noncopyable, public ReferenceCounted
     {
+        friend Renderer;
     public:
-        Texture(Renderer* renderer);
         virtual ~Texture();
         
         virtual bool initFromFile(const std::string& filename);
@@ -25,6 +25,8 @@ namespace ouzel
         const Size2& getSize() const { return _size; }
         
     protected:
+        Texture(Renderer* renderer);
+        
         Renderer* _renderer;
         std::string _filename;
         
