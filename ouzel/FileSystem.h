@@ -19,12 +19,14 @@ namespace ouzel
         FileSystem();
         virtual ~FileSystem();
         
-        std::string getPath(const std::string& filename);
+        std::string getPath(const std::string& filename) const;
         
         void addResourcePath(const std::string& path);
         
+        std::string getExtension(const std::string& path) const;
+        
     protected:
-        bool fileExists(const std::string& filename);
+        bool fileExists(const std::string& filename) const;
         
         std::vector<std::string> _resourcePaths;
     };

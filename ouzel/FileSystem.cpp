@@ -31,7 +31,7 @@ namespace ouzel
         
     }
     
-    bool FileSystem::fileExists(const std::string& filename)
+    bool FileSystem::fileExists(const std::string& filename) const
     {
         struct stat buf;
         if (stat(filename.c_str(), &buf) != -1)
@@ -41,7 +41,7 @@ namespace ouzel
         return false;
     }
     
-    std::string FileSystem::getPath(const std::string& filename)
+    std::string FileSystem::getPath(const std::string& filename) const
     {
 		std::string appPath;
 
@@ -100,5 +100,19 @@ namespace ouzel
         {
             _resourcePaths.push_back(path);
         }
+    }
+    
+    std::string FileSystem::getExtension(const std::string& path) const
+    {
+        std::string result;
+        
+        size_t pos = path.find_last_of('.');
+        
+        if (pos != std::string::npos)
+        {
+            result = path.substr(pos + 1);
+        }
+        
+        return result;
     }
 }
