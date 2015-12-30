@@ -28,10 +28,16 @@ namespace ouzel
 
     protected:
         MeshBufferD3D11();
+        bool createIndexBuffer(const std::vector<uint16_t>& indices);
+        bool createVertexBuffer(const std::vector<Vertex>& vertices);
         bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
         ID3D11Buffer* _indexBuffer = nullptr;
+        uint32_t _indexBufferSize = 0;
+
         ID3D11Buffer* _vertexBuffer = nullptr;
+        uint32_t _vertexBufferSize = 0;
+
         UINT _indexCount = 0;
     };
 }
