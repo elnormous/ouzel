@@ -18,44 +18,57 @@
 
 namespace ouzel
 {
-    Sprite::Sprite(const std::string& filename)
+    Sprite::Sprite()
     {
-        std::string extension = FileSystem::getInstance()->getExtension(filename);
-        
-        if (extension == "json")
-        {
-            loadSpriteSheet(filename);
-        }
-        else
-        {
-            _texture = Renderer::getInstance()->getTexture(filename);
-            
-            if (_texture)
-            {
-                _size = _texture->getSize();
-                _boundingBox.set(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height);
-                
-                Rectangle rectangle(0, 0, _size.width, _size.height);
-                
-                addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
-            }
-        }
-        
-        _shader = Renderer::getInstance()->getShader(SHADER_TEXTURE);
-        
-        if (_shader)
-        {
-#ifdef OUZEL_PLATFORM_WINDOWS
-            _uniModelViewProj = 0;
-#else
-            _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
-#endif
-        }
     }
 
     Sprite::~Sprite()
     {
 
+    }
+    
+    bool Sprite::initFromFile(const std::string& filename)
+    {
+        std::string extension = FileSystem::getInstance()->getExtension(filename);
+        
+        if (extension == "json")
+        {
+            if (!loadSpriteSheet(filename))
+            {
+                return false;
+            }
+        }
+        else
+        {
+            _texture = Renderer::getInstance()->getTexture(filename);
+            
+            if (!_texture)
+            {
+                return false;
+            }
+            
+            _size = _texture->getSize();
+            _boundingBox.set(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height);
+            
+            Rectangle rectangle(0, 0, _size.width, _size.height);
+            
+            addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
+        }
+        
+        _shader = Renderer::getInstance()->getShader(SHADER_TEXTURE);
+        
+        if (!_shader)
+        {
+            return false;
+        }
+        
+#ifdef OUZEL_PLATFORM_WINDOWS
+        _uniModelViewProj = 0;
+#else
+        _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
+#endif
+
+        return true;
     }
     
     bool Sprite::loadSpriteSheet(const std::string& filename)

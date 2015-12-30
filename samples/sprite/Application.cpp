@@ -16,19 +16,26 @@ namespace ouzel
         
         Renderer::getInstance()->setClearColor(Color(64, 0, 0));
 
-        _sprite = new Sprite("run.json");
+        _sprite = new Sprite();
+        _sprite->initFromFile("run.json");
         _sprite->play(true);
         Scene::getInstance()->getRootNode()->addChild(_sprite);
         
-        _witch = new Sprite("witch.png");
+        _witch = new Sprite();
+        _witch->initFromFile("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
         Scene::getInstance()->getRootNode()->addChild(_witch);
         
-        Sprite* fire = new Sprite("fire.json");
+        Sprite* fire = new Sprite();
+        fire->initFromFile("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
         Scene::getInstance()->getRootNode()->addChild(fire);
+        
+        ParticleSystem* flame = new ParticleSystem();
+        flame->initFromFile("flame.json");
+        Scene::getInstance()->getRootNode()->addChild(flame);
     }
     
     Application::~Application()

@@ -19,8 +19,10 @@ namespace ouzel
     class Sprite: public Node
     {
     public:
-        Sprite(const std::string& filename);
+        Sprite();
         virtual ~Sprite();
+        
+        virtual bool initFromFile(const std::string& filename);
         
         virtual void draw() override;
         virtual void update(float delta) override;
