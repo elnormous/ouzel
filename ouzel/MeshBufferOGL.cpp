@@ -4,6 +4,7 @@
 #include "MeshBufferOGL.h"
 #include "Engine.h"
 #include "RendererOGL.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -28,7 +29,7 @@ namespace ouzel
         
         glGenBuffers(1, &_indexBufferId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint16_t), indices.data(),
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, vectorDataSize(indices), indices.data(),
                      _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         
         if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
@@ -41,7 +42,7 @@ namespace ouzel
         
         glGenBuffers(1, &_vertexBufferId);
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), vertices.data(),
+        glBufferData(GL_ARRAY_BUFFER, vectorDataSize(vertices), vertices.data(),
                      _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         
         if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
@@ -66,7 +67,7 @@ namespace ouzel
     bool MeshBufferOGL::uploadIndices(const std::vector<uint16_t>& indices)
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint16_t), indices.data(),
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, vectorDataSize(indices), indices.data(),
                      _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         
         return true;
@@ -75,7 +76,7 @@ namespace ouzel
     bool MeshBufferOGL::uploadVertices(const std::vector<Vertex>& vertices)
     {
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), vertices.data(),
+        glBufferData(GL_ARRAY_BUFFER, vectorDataSize(vertices), vertices.data(),
                      _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         
         return true;
