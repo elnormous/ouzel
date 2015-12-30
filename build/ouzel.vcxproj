@@ -22,6 +22,7 @@
     <ClCompile Include="..\ouzel\Camera.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
     <ClCompile Include="..\ouzel\Engine.cpp" />
+    <ClCompile Include="..\ouzel\File.cpp" />
     <ClCompile Include="..\ouzel\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\Image.cpp" />
     <ClCompile Include="..\ouzel\MathUtils.cpp" />
@@ -60,6 +61,7 @@
     <ClInclude Include="..\ouzel\Engine.h" />
     <ClInclude Include="..\ouzel\Event.h" />
     <ClInclude Include="..\ouzel\EventHander.h" />
+    <ClInclude Include="..\ouzel\File.h" />
     <ClInclude Include="..\ouzel\FileSystem.h" />
     <ClInclude Include="..\ouzel\Image.h" />
     <ClInclude Include="..\ouzel\MathUtils.h" />

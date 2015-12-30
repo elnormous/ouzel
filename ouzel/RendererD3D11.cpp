@@ -618,6 +618,8 @@ namespace ouzel
 
         _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
         _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
+
+        return true;
     }
 
     Shader* RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)

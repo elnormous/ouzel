@@ -5,6 +5,7 @@
 
 #include <string>
 #include <stdio.h>
+#include <cstdint>
 
 namespace ouzel
 {
