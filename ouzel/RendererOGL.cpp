@@ -286,7 +286,7 @@ namespace ouzel
         
         GLint uniView = glGetUniformLocation(colorShader->getProgramId(), "view");
         
-        Camera* camera = Engine::getInstance()->getScene()->getCamera();
+        Camera* camera = Scene::getInstance()->getCamera();
         
         if (camera)
         {
@@ -346,7 +346,7 @@ namespace ouzel
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
         activateShader(colorShader);
         
-        Matrix4 modelViewProj = _projection * Engine::getInstance()->getScene()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
         
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
         colorShader->setVertexShaderConstant(uniModelViewProj, &modelViewProj, 1);
@@ -399,7 +399,7 @@ namespace ouzel
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_TEXTURE));
         activateShader(colorShader);
         
-        Matrix4 modelViewProj = _projection * Engine::getInstance()->getScene()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
         
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
         colorShader->setVertexShaderConstant(uniModelViewProj, &modelViewProj, 1);

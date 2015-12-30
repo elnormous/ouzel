@@ -35,7 +35,7 @@ namespace ouzel
             return false;
         }
         
-        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
         {
             return false;
         }
@@ -65,7 +65,7 @@ namespace ouzel
         
         glUseProgram(_programId);
         
-        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
         {
             return false;
         }

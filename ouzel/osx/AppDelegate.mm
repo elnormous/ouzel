@@ -20,7 +20,7 @@
     if (self = [super init])
     {
         _engine = new ouzel::Engine();
-        ouzel::Size2 size = _engine->getRenderer()->getSize();
+        ouzel::Size2 size = ouzel::Renderer::getInstance()->getSize();
         
         NSScreen* screen = [NSScreen mainScreen];
         NSRect screenFrame = screen.frame;
@@ -31,7 +31,7 @@
         
         NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
         
-        if (_engine->getRenderer()->getResizable())
+        if (ouzel::Renderer::getInstance()->getResizable())
         {
             windowStyleMask |= NSResizableWindowMask;
         }
@@ -45,7 +45,7 @@
         _window.acceptsMouseMovedEvents = YES;
         [_window setBackgroundColor:[NSColor blueColor]];
         
-        [_window setTitle:[NSString stringWithUTF8String:_engine->getRenderer()->getTitle().c_str()]];
+        [_window setTitle:[NSString stringWithUTF8String:ouzel::Renderer::getInstance()->getTitle().c_str()]];
     }
     
     return self;
@@ -53,7 +53,7 @@
 
 -(void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    OpenGLView* view = [[OpenGLView alloc] initWithFrame:NSMakeRect(0, 0, 600, 600) engine:_engine];
+    OpenGLView* view = [[OpenGLView alloc] initWithFrame:NSMakeRect(0, 0, 600, 600)];
     
     [_window setContentView:view];
 }

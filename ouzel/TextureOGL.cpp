@@ -42,7 +42,7 @@ namespace ouzel
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getSize().width, image->getSize().height,
                      0, GL_RGBA, GL_UNSIGNED_BYTE, image->getData());
         
-        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
         {
             return false;
         }
@@ -61,7 +61,7 @@ namespace ouzel
         
         glBindTexture(GL_TEXTURE_2D, 0);
         
-        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
         {
             return false;
         }

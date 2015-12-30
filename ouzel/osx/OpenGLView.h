@@ -3,22 +3,14 @@
 
 #include <Cocoa/Cocoa.h>
 
-namespace ouzel
-{
-    class Engine;
-    class Renderer;
-}
-
 @interface OpenGLView : NSView
 {
 @private
-    ouzel::Engine* _engine;
-    ouzel::Renderer* _renderer;
     NSOpenGLContext* _openGLContext;
     NSOpenGLPixelFormat* _pixelFormat;
 }
 
--(id)initWithFrame:(NSRect)frameRect engine:(ouzel::Engine*)engine;
+-(id)initWithFrame:(NSRect)frameRect;
 
 -(void)update;
 
