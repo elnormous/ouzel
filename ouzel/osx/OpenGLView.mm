@@ -34,9 +34,27 @@ using namespace ouzel;
         _openGLContext = [[NSOpenGLContext alloc] initWithFormat:_pixelFormat shareContext:NULL];
         [_openGLContext setView:self];
         [_openGLContext makeCurrentContext];
+        
+        NSMenu* mainMenu = [[NSMenu alloc] initWithTitle:@"Main Menu"];
+        
+        NSMenuItem* mainMenuItem = [[NSMenuItem alloc] initWithTitle:@"Ouzel" action:nil keyEquivalent:@""];
+        [mainMenu addItem:mainMenuItem];
+        
+        NSMenu* subMenu = [[NSMenu alloc] initWithTitle:@"Ouzel"];
+        [mainMenuItem setSubmenu:subMenu];
+        
+        NSMenuItem* quitItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"];
+        [subMenu addItem:quitItem];
+        
+        [NSApplication sharedApplication].mainMenu = mainMenu;
     }
     
     return self;
+}
+
+-(void)handleQuit:(id)sender
+{
+    [[NSApplication sharedApplication] terminate:self];
 }
 
 -(void)setFrameSize:(NSSize)newSize
