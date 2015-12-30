@@ -101,21 +101,21 @@ namespace ouzel
         return glGetUniformLocation(_programId, name.c_str());
     }
     
-    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
-        glUniform3fv(index, count, reinterpret_cast<const float*>(vectors));
+        glUniform3fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
         return true;
     }
     
-    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
-        glUniform4fv(index, count, reinterpret_cast<const float*>(vectors));
+        glUniform4fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
         return true;
     }
     
-    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
+    bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
-        glUniformMatrix4fv(index, count, GL_FALSE, reinterpret_cast<const float*>(matrices));
+        glUniformMatrix4fv(index, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
         return true;
     }
     
@@ -124,21 +124,21 @@ namespace ouzel
         return glGetUniformLocation(_programId, name.c_str());
     }
     
-    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
-        glUniform3fv(index, count, reinterpret_cast<const float*>(vectors));
+        glUniform3fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
         return true;
     }
     
-    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
-        glUniform4fv(index, count, reinterpret_cast<const float*>(vectors));
+        glUniform4fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
         return true;
     }
     
-    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
+    bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
-        glUniformMatrix4fv(index, count, GL_FALSE, reinterpret_cast<const float*>(matrices));
+        glUniformMatrix4fv(index, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
         return true;
     }
 }

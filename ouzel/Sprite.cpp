@@ -184,7 +184,7 @@ namespace ouzel
             
             Matrix4 modelViewProj = Renderer::getInstance()->getProjection() * Scene::getInstance()->getCamera()->getTransform() * _transform;
             
-            _shader->setVertexShaderConstant(_uniModelViewProj, &modelViewProj, 1);
+            _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
             
             if (_frameMeshBuffers.size() > _currentFrame)
             {

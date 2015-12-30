@@ -76,17 +76,17 @@ namespace ouzel
         return 0;
     }
     
-    bool Shader::setPixelShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
         return true;
     }
     
-    bool Shader::setPixelShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
         return true;
     }
     
-    bool Shader::setPixelShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
+    bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
         return true;
     }
@@ -96,17 +96,17 @@ namespace ouzel
         return 0;
     }
     
-    bool Shader::setVertexShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
         return true;
     }
     
-    bool Shader::setVertexShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
         return true;
     }
     
-    bool Shader::setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
+    bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
         return true;
     }

@@ -29,14 +29,14 @@ namespace ouzel
         GLuint getProgramId() const { return _programId; }
         
         virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
-        virtual bool setPixelShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count) override;
-        virtual bool setPixelShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count) override;
-        virtual bool setPixelShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count) override;
+        virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
+        virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
+        virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
         
         virtual uint32_t getVertexShaderConstantId(const std::string& name) override;
-        virtual bool setVertexShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count) override;
-        virtual bool setVertexShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count) override;
-        virtual bool setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count) override;
+        virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
+        virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
+        virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
         
     protected:
         ShaderOGL();
