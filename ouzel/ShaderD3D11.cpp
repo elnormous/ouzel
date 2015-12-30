@@ -106,23 +106,23 @@ namespace ouzel
         return 0;
     }
 
-    bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
-        uploadData(_pixelShaderConstantBuffer, vectors, count * sizeof(Vector3));
+        uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
 
         return true;
     }
 
-    bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
-        uploadData(_pixelShaderConstantBuffer, vectors, count * sizeof(Vector4));
+        uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
 
         return true;
     }
 
-    bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
+    bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
-        uploadData(_pixelShaderConstantBuffer, matrices, count * sizeof(Matrix4));
+        uploadData(_pixelShaderConstantBuffer, matrices.data(), vectorDataSize(matrices));
 
         return true;
     }
@@ -133,21 +133,21 @@ namespace ouzel
         return 0;
     }
 
-    bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count)
+    bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
-        uploadData(_vertexShaderConstantBuffer, vectors, count * sizeof(Vector3));
+        uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
 
         return true;
     }
 
-    bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count)
+    bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
-        return uploadData(_vertexShaderConstantBuffer, vectors, count * sizeof(Vector4));
+        return uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
     }
 
-    bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count)
+    bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
-        return uploadData(_vertexShaderConstantBuffer, matrices, count * sizeof(Matrix4));
+        return uploadData(_vertexShaderConstantBuffer, matrices.data(), vectorDataSize(matrices));
     }
 
     bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)

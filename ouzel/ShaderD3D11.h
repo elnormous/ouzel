@@ -27,14 +27,14 @@ namespace ouzel
         virtual ID3D11InputLayout* getInputLayout() const { return _inputLayout;  }
 
         virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
-        virtual bool setPixelShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count);
-        virtual bool setPixelShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count);
-        virtual bool setPixelShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count);
+        virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
+        virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
+        virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices);
 
         virtual uint32_t getVertexShaderConstantId(const std::string& name) override;
-        virtual bool setVertexShaderConstant(uint32_t index, const Vector3* vectors, uint32_t count);
-        virtual bool setVertexShaderConstant(uint32_t index, const Vector4* vectors, uint32_t count);
-        virtual bool setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count);
+        virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
+        virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
+        virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices);
         
     protected:
         ShaderD3D11();
