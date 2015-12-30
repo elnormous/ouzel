@@ -66,6 +66,11 @@ namespace ouzel
     {
 
     }
+    
+    void Node::update(float delta)
+    {
+        
+    }
 
     void Node::setZOrder(float zOrder)
     {

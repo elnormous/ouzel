@@ -7,6 +7,7 @@
 #include "Node.h"
 #include "Size2.h"
 #include "MeshBuffer.h"
+#include "Rectangle.h"
 
 namespace ouzel
 {
@@ -22,6 +23,7 @@ namespace ouzel
         virtual ~Sprite();
         
         virtual void draw() override;
+        virtual void update(float delta) override;
         
         virtual Texture* getTexture() const { return _texture; }
         virtual void setTexture(Texture* texture);
@@ -36,7 +38,14 @@ namespace ouzel
         
         virtual bool checkVisibility() const override;
         
+        virtual void play(bool repeat = true, float frameInterval = 0.1f);
+        virtual void stop(bool reset = true);
+        virtual bool isPlaying() const { return _playing; }
+        
     protected:
+        bool loadSpriteSheet(const std::string& filename);
+        void addFrame(const Rectangle& rectangle, Size2 textureSize);
+        
         AutoPtr<Texture> _texture;
         AutoPtr<Shader> _shader;
         
@@ -44,9 +53,15 @@ namespace ouzel
         
         Size2 _size;
         
-        std::vector<Vertex> _vertices;
-        AutoPtr<MeshBuffer> _meshBuffer;
+        std::vector<std::vector<Vertex>> _frameVertices;
+        std::vector<AutoPtr<MeshBuffer>> _frameMeshBuffers;
         Color _color = Color(255, 255, 255, 255);
+        
+        uint32_t _currentFrame = 0;
+        float _frameInterval = 0.0f;
+        bool _playing = false;
+        bool _repeat = false;
+        float _timeSinceLastFrame = 0.0f;
         
         uint32_t _uniModelViewProj;
     };

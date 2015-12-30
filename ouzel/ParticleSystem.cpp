@@ -1,10 +1,14 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ParticleSystem.h"
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/document.h>
+#include "ParticleSystem.h"
+#include "Engine.h"
+#include "Scene.h"
+#include "FileSystem.h"
+#include "File.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -22,18 +26,17 @@ namespace ouzel
     
     bool ParticleSystem::initFromFile(const std::string& filename)
     {
-        FILE* fp = fopen(filename.c_str(), "r");
+        File file(filename, File::Mode::READ, false, _scene->getEngine()->getFileSystem());
         
-        if (fp)
+        if (file.isOpen())
         {
-            rapidjson::FileReadStream is(fp, TEMP_BUFFER, sizeof(TEMP_BUFFER));
+            rapidjson::FileReadStream is(file.getFile(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
             
             rapidjson::Document document;
             document.ParseStream<0>(is);
             
             if (document.HasParseError())
             {
-                fclose(fp);
                 return false;
             }
             
@@ -104,8 +107,6 @@ namespace ouzel
             if (document.HasMember("finishColorVarianceAlpha")) _finishColorVarianceAlpha = static_cast<float>(document["finishColorVarianceAlpha"].GetDouble());
             
             if (document.HasMember("textureFilename")) _textureFilename = document["textureFilename"].GetString();
-            
-            fclose(fp);
         }
         else
         {

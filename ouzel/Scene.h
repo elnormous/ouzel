@@ -25,6 +25,8 @@ namespace ouzel
         
         bool init();
         
+        void update(float delta);
+        
         Engine* getEngine() const { return _engine; }
         
         void addNode(Node* node);

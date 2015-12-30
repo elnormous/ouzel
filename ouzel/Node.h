@@ -30,6 +30,7 @@ namespace ouzel
         virtual const std::vector<AutoPtr<Node>>& getChildren() const { return _children; }
         
         virtual void draw();
+        virtual void update(float delta);
         
         virtual void setZOrder(float zOrder);
         virtual float getZOrder() const { return _zOrder; }

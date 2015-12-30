@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		303B74E01C276E8100FEDE92 /* tim-from-braid.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B74DF1C276E8100FEDE92 /* tim-from-braid.png */; };
 		303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* Image.cpp */; };
 		303B74E71C27856D00FEDE92 /* SoundManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E51C27856D00FEDE92 /* SoundManager.cpp */; };
 		303B74E81C27856D00FEDE92 /* SoundManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B74E61C27856D00FEDE92 /* SoundManager.h */; };
@@ -101,6 +100,12 @@
 		303B75E71C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75E01C2F6FC000FEDE92 /* TexturePSOGL.h */; };
 		303B75E81C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75E11C2F6FC000FEDE92 /* TextureVSOGL.h */; };
 		303B75E91C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75E11C2F6FC000FEDE92 /* TextureVSOGL.h */; };
+		303B75ED1C33581700FEDE92 /* run.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EB1C33581700FEDE92 /* run.json */; };
+		303B75EE1C33581700FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
+		303B75F11C335B7D00FEDE92 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75EF1C335B7D00FEDE92 /* File.cpp */; };
+		303B75F21C335B7D00FEDE92 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75EF1C335B7D00FEDE92 /* File.cpp */; };
+		303B75F31C335B7D00FEDE92 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75F01C335B7D00FEDE92 /* File.h */; };
+		303B75F41C335B7D00FEDE92 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75F01C335B7D00FEDE92 /* File.h */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -165,7 +170,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		303B74DF1C276E8100FEDE92 /* tim-from-braid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tim-from-braid.png"; path = "Resources/tim-from-braid.png"; sourceTree = "<group>"; };
 		303B74E11C277A7500FEDE92 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		303B74E21C277A7500FEDE92 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		303B74E51C27856D00FEDE92 /* SoundManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundManager.cpp; sourceTree = "<group>"; };
@@ -194,6 +198,10 @@
 		303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorVSOGL.h; sourceTree = "<group>"; };
 		303B75E01C2F6FC000FEDE92 /* TexturePSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturePSOGL.h; sourceTree = "<group>"; };
 		303B75E11C2F6FC000FEDE92 /* TextureVSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSOGL.h; sourceTree = "<group>"; };
+		303B75EB1C33581700FEDE92 /* run.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = run.json; path = Resources/run.json; sourceTree = "<group>"; };
+		303B75EC1C33581700FEDE92 /* run.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = run.png; path = Resources/run.png; sourceTree = "<group>"; };
+		303B75EF1C335B7D00FEDE92 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
+		303B75F01C335B7D00FEDE92 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -378,6 +386,7 @@
 		303B75111C28838C00FEDE92 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				303B75981C2CA2EA00FEDE92 /* AutoPtr.h */,
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
@@ -385,7 +394,6 @@
 				304A8E2F1C237C70008B1151 /* EventHander.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				304A8E3D1C237C70008B1151 /* ReferenceCounted.h */,
-				303B75981C2CA2EA00FEDE92 /* AutoPtr.h */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -395,6 +403,8 @@
 			children = (
 				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
 				303B74FF1C28208800FEDE92 /* FileSystem.h */,
+				303B75EF1C335B7D00FEDE92 /* File.cpp */,
+				303B75F01C335B7D00FEDE92 /* File.h */,
 			);
 			name = files;
 			sourceTree = "<group>";
@@ -503,8 +513,9 @@
 		304A8EB21C2765C4008B1151 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				303B75EB1C33581700FEDE92 /* run.json */,
+				303B75EC1C33581700FEDE92 /* run.png */,
 				303B75081C286F8D00FEDE92 /* witch.png */,
-				303B74DF1C276E8100FEDE92 /* tim-from-braid.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -535,6 +546,7 @@
 				303B753F1C2A3C9200FEDE92 /* Color.h in Headers */,
 				303B75471C2A3C9200FEDE92 /* RenderTarget.h in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.h in Headers */,
+				303B75F41C335B7D00FEDE92 /* File.h in Headers */,
 				303B755C1C2A3CB700FEDE92 /* Vector4.h in Headers */,
 				303B756E1C2A3CCA00FEDE92 /* Utils.h in Headers */,
 				303B75431C2A3C9200FEDE92 /* MeshBuffer.h in Headers */,
@@ -576,6 +588,7 @@
 				304A8E5B1C237C70008B1151 /* Matrix4.h in Headers */,
 				303B75E61C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */,
 				303B75781C2A419F00FEDE92 /* CompileConfig.h in Headers */,
+				303B75F31C335B7D00FEDE92 /* File.h in Headers */,
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				304A8E861C24814F008B1151 /* TextureOGL.h in Headers */,
 				304A8E6D1C237C70008B1151 /* Texture.h in Headers */,
@@ -719,8 +732,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				304A8E171C237B96008B1151 /* Assets.xcassets in Resources */,
-				303B74E01C276E8100FEDE92 /* tim-from-braid.png in Resources */,
 				303B75091C286F8D00FEDE92 /* witch.png in Resources */,
+				303B75ED1C33581700FEDE92 /* run.json in Resources */,
+				303B75EE1C33581700FEDE92 /* run.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -764,6 +778,7 @@
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Node.cpp in Sources */,
 				303B756B1C2A3CC500FEDE92 /* SoundManager.cpp in Sources */,
+				303B75F21C335B7D00FEDE92 /* File.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,6 +829,7 @@
 				304A8E5A1C237C70008B1151 /* Matrix4.cpp in Sources */,
 				304A8E811C24814F008B1151 /* RendererOGL.cpp in Sources */,
 				304A8EA21C270833008B1151 /* Vertex.cpp in Sources */,
+				303B75F11C335B7D00FEDE92 /* File.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

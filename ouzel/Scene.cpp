@@ -29,6 +29,16 @@ namespace ouzel
         return true;
     }
     
+    void Scene::update(float delta)
+    {
+        for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        {
+            Node* node = *i;
+            
+            node->update(delta);
+        }
+    }
+    
     void Scene::addNode(Node* node)
     {
         std::vector<AutoPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);

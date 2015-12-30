@@ -80,12 +80,14 @@ namespace ouzel
         _scene->drawAll();
         _renderer->flush();
         
+        uint64_t currentTime = getCurrentMicroSeconds();
+        float delta = static_cast<float>((currentTime - _previousFrameTime)) / 1000000.0f;
+        _previousFrameTime = currentTime;
+        
+        _scene->update(delta);
+        
         for (EventHandler* eventHandler : _eventHandlers)
         {
-            uint64_t currentTime = getCurrentMicroSeconds();
-            uint64_t delta = currentTime - _previousFrameTime;
-            _previousFrameTime = currentTime;
-            
             eventHandler->update(static_cast<float>(delta));
         }
     }
