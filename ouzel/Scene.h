@@ -20,14 +20,12 @@ namespace ouzel
     class Scene: public Noncopyable, public ReferenceCounted
     {
     public:
-        Scene(Engine* engine);
+        Scene();
         virtual ~Scene();
         
         bool init();
         
         void update(float delta);
-        
-        Engine* getEngine() const { return _engine; }
         
         void addNode(Node* node);
         void removeNode(Node* node);
@@ -44,8 +42,6 @@ namespace ouzel
         void drawAll();
         
     protected:
-        Engine* _engine;
-        
         AutoPtr<Node> _rootNode;
         AutoPtr<Camera> _camera;
         std::vector<AutoPtr<Node>> _nodes;

@@ -5,8 +5,7 @@
 
 namespace ouzel
 {
-    MeshBuffer::MeshBuffer(Renderer* renderer):
-        _renderer(renderer)
+    MeshBuffer::MeshBuffer()
     {
         
     }

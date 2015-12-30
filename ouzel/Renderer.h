@@ -42,7 +42,6 @@ namespace ouzel
         
         virtual ~Renderer();
         
-        Engine* getEngine() const { return _engine; }
         Driver getDriver() const { return _driver; }
         
         virtual void setClearColor(Color color) { _clearColor = color; }
@@ -88,9 +87,8 @@ namespace ouzel
         virtual void drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
         
     protected:
-        Renderer(const Size2& size, bool resizable, bool fullscreen, Engine* engine, Driver driver = Driver::NONE);
+        Renderer(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE);
         
-        Engine* _engine;
         Driver _driver;
         
         Color _clearColor;

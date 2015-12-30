@@ -16,6 +16,6 @@ namespace ouzel
         virtual ~RenderTargetOGL();
         
     protected:
-        RenderTargetOGL(Renderer* renderer);
+        RenderTargetOGL();
     };
 }

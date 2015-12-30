@@ -14,7 +14,7 @@ namespace ouzel
     class ParticleSystem: public Node
     {
     public:
-        ParticleSystem(Scene* scene);
+        ParticleSystem();
         virtual ~ParticleSystem();
         
         virtual bool initFromFile(const std::string& filename);

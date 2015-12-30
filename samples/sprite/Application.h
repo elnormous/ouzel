@@ -8,17 +8,13 @@ namespace ouzel
     class Application: public Noncopyable, public ReferenceCounted, public EventHandler
     {
     public:
-        Application(Engine* engine);
+        Application();
         virtual ~Application();
-        
-        Engine* getEngine() const { return _engine; }
         
         virtual bool handleEvent(const Event& event) override;
         virtual void update(float delta) override;
         
     protected:
-        Engine* _engine;
-        
         AutoPtr<Sprite> _sprite;
         AutoPtr<Sprite> _witch;
     };

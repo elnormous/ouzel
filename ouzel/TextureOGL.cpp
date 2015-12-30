@@ -9,8 +9,7 @@
 
 namespace ouzel
 {
-    TextureOGL::TextureOGL(Renderer* renderer):
-        Texture(renderer)
+    TextureOGL::TextureOGL()
     {
         
     }
@@ -30,7 +29,7 @@ namespace ouzel
             return false;
         }
         
-        AutoPtr<Image> image = new Image(_renderer->getEngine());
+        AutoPtr<Image> image = new Image();
         if (!image->loadFromFile(filename))
         {
             return false;
@@ -43,7 +42,7 @@ namespace ouzel
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getSize().width, image->getSize().height,
                      0, GL_RGBA, GL_UNSIGNED_BYTE, image->getData());
         
-        if (static_cast<RendererOGL*>(_renderer)->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
@@ -62,7 +61,7 @@ namespace ouzel
         
         glBindTexture(GL_TEXTURE_2D, 0);
         
-        if (static_cast<RendererOGL*>(_renderer)->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }

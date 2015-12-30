@@ -12,7 +12,7 @@ namespace ouzel
     class Camera: public Node
     {
     public:
-        Camera(Scene* scene);
+        Camera();
         virtual ~Camera();
         
         float getZoom() const { return _zoom; }

@@ -25,9 +25,8 @@ namespace ouzel
         const Size2& getSize() const { return _size; }
         
     protected:
-        Texture(Renderer* renderer);
+        Texture();
         
-        Renderer* _renderer;
         std::string _filename;
         
         Size2 _size;

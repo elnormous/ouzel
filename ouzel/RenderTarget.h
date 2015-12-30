@@ -19,9 +19,8 @@ namespace ouzel
         Texture* getTexture() const { return _texture; }
         
     protected:
-        RenderTarget(Renderer* renderer);
+        RenderTarget();
         
-        Renderer* _renderer;
         Texture* _texture = nullptr;
     };
 }

@@ -19,7 +19,7 @@ namespace ouzel
     {
         friend Scene;
     public:
-        Node(Scene* scene);
+        Node();
         virtual ~Node();
         
         virtual void addChild(Node* node);
@@ -68,8 +68,6 @@ namespace ouzel
         virtual void addToScene();
         virtual void removeFromScene();
         void markInverseTransformDirty();
-        
-        Scene* _scene;
         
         Matrix4 _transform;
         

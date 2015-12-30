@@ -19,7 +19,7 @@ namespace ouzel
     class Sprite: public Node
     {
     public:
-        Sprite(const std::string& filename, Scene* scene);
+        Sprite(const std::string& filename);
         virtual ~Sprite();
         
         virtual void draw() override;
@@ -48,8 +48,6 @@ namespace ouzel
         
         AutoPtr<Texture> _texture;
         AutoPtr<Shader> _shader;
-        
-        Engine* _engine;
         
         Size2 _size;
         

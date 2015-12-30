@@ -15,7 +15,7 @@ namespace ouzel
     class Image: public Noncopyable, public ReferenceCounted
     {
     public:
-        Image(Engine* engine);
+        Image();
         virtual ~Image();
         
         const Size2& getSize() const { return _size; }
@@ -24,7 +24,6 @@ namespace ouzel
         virtual bool loadFromFile(const std::string& filename);
         
     protected:
-        Engine* _engine;
         std::string _filename;
         Size2 _size;
         

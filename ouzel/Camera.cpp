@@ -5,8 +5,7 @@
 
 namespace ouzel
 {
-    Camera::Camera(Scene* scene):
-        Node(scene)
+    Camera::Camera()
     {
         
     }

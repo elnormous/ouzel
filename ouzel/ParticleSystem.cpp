@@ -13,8 +13,7 @@
 
 namespace ouzel
 {
-    ParticleSystem::ParticleSystem(Scene* scene):
-        Node(scene)
+    ParticleSystem::ParticleSystem()
     {
         
     }
@@ -26,7 +25,7 @@ namespace ouzel
     
     bool ParticleSystem::initFromFile(const std::string& filename)
     {
-        File file(filename, File::Mode::READ, false, _scene->getEngine()->getFileSystem());
+        File file(filename, File::Mode::READ, false);
         
         if (file.isOpen())
         {

@@ -15,8 +15,8 @@
 
 namespace ouzel
 {
-    Renderer::Renderer(const Size2& size, bool resizable, bool fullscreen, Engine* engine, Driver driver):
-        _engine(engine), _driver(driver), _size(size), _resizable(resizable), _fullscreen(fullscreen)
+    Renderer::Renderer(const Size2& size, bool resizable, bool fullscreen, Driver driver):
+        _driver(driver), _size(size), _resizable(resizable), _fullscreen(fullscreen)
     {
 
     }
@@ -97,7 +97,7 @@ namespace ouzel
     
     Texture* Renderer::loadTextureFromFile(const std::string& filename)
     {
-        Texture* texture = new Texture(this);
+        Texture* texture = new Texture();
         
         if (!texture->initFromFile(filename))
         {
@@ -129,7 +129,7 @@ namespace ouzel
     
     Shader* Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        Shader* shader = new Shader(this);
+        Shader* shader = new Shader();
         
         if (!shader->initFromFiles(fragmentShader, vertexShader))
         {
@@ -142,7 +142,7 @@ namespace ouzel
     
     Shader* Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
     {
-        Shader* shader = new Shader(this);
+        Shader* shader = new Shader();
         
         if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
         {
@@ -162,7 +162,7 @@ namespace ouzel
     
     MeshBuffer* Renderer::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
-        MeshBuffer* meshBuffer = new MeshBuffer(this);
+        MeshBuffer* meshBuffer = new MeshBuffer();
         
         if (!meshBuffer->initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
         {
@@ -185,7 +185,7 @@ namespace ouzel
 
     Vector2 Renderer::absoluteToWorldLocation(const Vector2& position)
     {
-        Camera* camera = _engine->getScene()->getCamera();
+        Camera* camera = Engine::getInstance()->getScene()->getCamera();
         
         if (camera)
         {
@@ -209,7 +209,7 @@ namespace ouzel
 
     Vector2 Renderer::worldToAbsoluteLocation(const Vector2& position)
     {
-        Camera* camera = _engine->getScene()->getCamera();
+        Camera* camera = Engine::getInstance()->getScene()->getCamera();
         
         if (camera)
         {

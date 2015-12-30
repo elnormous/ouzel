@@ -10,8 +10,7 @@
 
 namespace ouzel
 {
-    Image::Image(Engine* engine):
-        _engine(engine)
+    Image::Image()
     {
         
     }
@@ -28,7 +27,7 @@ namespace ouzel
     {
         _filename = filename;
         
-        std::string path = _engine->getFileSystem()->getPath(filename);
+        std::string path = Engine::getInstance()->getFileSystem()->getPath(filename);
         
         int width;
         int height;

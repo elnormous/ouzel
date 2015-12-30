@@ -29,7 +29,7 @@ namespace ouzel
         GLuint getTextureId() const { return _textureId; }
         
     protected:
-        TextureOGL(Renderer* renderer);
+        TextureOGL();
         
         GLuint _textureId = 0;
     };

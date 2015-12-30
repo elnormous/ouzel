@@ -27,6 +27,8 @@ namespace ouzel
     class Engine: public Noncopyable, public ReferenceCounted
     {
     public:
+        static Engine* getInstance();
+        
         Engine();
         virtual ~Engine();
         

@@ -9,8 +9,8 @@
 
 namespace ouzel
 {
-    ShaderOGL::ShaderOGL(Renderer* renderer):
-        Shader(renderer)
+    ShaderOGL::ShaderOGL():
+        Shader()
     {
     }
 
@@ -35,7 +35,7 @@ namespace ouzel
             return false;
         }
         
-        if (static_cast<RendererOGL*>(_renderer)->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
@@ -65,7 +65,7 @@ namespace ouzel
         
         glUseProgram(_programId);
         
-        if (static_cast<RendererOGL*>(_renderer)->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }

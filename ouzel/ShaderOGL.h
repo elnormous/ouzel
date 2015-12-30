@@ -39,7 +39,7 @@ namespace ouzel
         virtual bool setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count) override;
         
     protected:
-        ShaderOGL(Renderer* renderer);
+        ShaderOGL();
         bool checkShaderError(GLuint shader);
         
         GLuint _vertexShader;

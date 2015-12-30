@@ -24,9 +24,8 @@ namespace ouzel
         virtual bool uploadVertices(const std::vector<Vertex>& vertices);
         
     protected:
-        MeshBuffer(Renderer* renderer);
+        MeshBuffer();
         
-        Renderer* _renderer;
         bool _dynamicIndexBuffer = false;
         bool _dynamicVertexBuffer = false;
     };

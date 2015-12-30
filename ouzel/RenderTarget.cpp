@@ -5,8 +5,7 @@
 
 namespace ouzel
 {
-    RenderTarget::RenderTarget(Renderer* renderer):
-        _renderer(renderer)
+    RenderTarget::RenderTarget()
     {
         
     }

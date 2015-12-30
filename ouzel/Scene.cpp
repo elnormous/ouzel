@@ -8,8 +8,7 @@
 
 namespace ouzel
 {
-    Scene::Scene(Engine* engine):
-        _engine(engine)
+    Scene::Scene()
     {
         
     }
@@ -21,9 +20,9 @@ namespace ouzel
     
     bool Scene::init()
     {
-        _camera = new Camera(this);
+        _camera = new Camera();
         
-        _rootNode = new Node(this);
+        _rootNode = new Node();
         _rootNode->addToScene();
         
         return true;

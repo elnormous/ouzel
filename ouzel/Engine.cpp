@@ -18,13 +18,30 @@
 #include "FileSystem.h"
 
 void ouzelInit(ouzel::Settings&);
-void ouzelBegin(ouzel::Engine*);
+void ouzelBegin();
 void ouzelEnd();
 
 namespace ouzel
 {
+    Engine* sharedEngine = nullptr;
+    
+    Engine* Engine::getInstance()
+    {
+        return sharedEngine;
+    }
+    
     Engine::Engine()
     {
+        if (!sharedEngine)
+        {
+            sharedEngine = this;
+        }
+        else
+        {
+            log("Engine instance already created");
+            abort();
+        }
+        
         Settings settings;
         
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
@@ -41,20 +58,20 @@ namespace ouzel
         {
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
             case Renderer::Driver::OPENGL:
-                _renderer = new RendererOGL(settings.size, settings.resizable, settings.fullscreen, this);
+                _renderer = new RendererOGL(settings.size, settings.resizable, settings.fullscreen);
 				break;
 #endif
 #ifdef OUZEL_PLATFORM_WINDOWS
             case Renderer::Driver::DIRECT3D11:
-                _renderer = new RendererD3D11(settings.size, settings.resizable, settings.fullscreen, this);
+                _renderer = new RendererD3D11(settings.size, settings.resizable, settings.fullscreen);
                 break;
 #endif
             default:
-                _renderer = new Renderer(settings.size, settings.resizable, settings.fullscreen, this);
+                _renderer = new Renderer(settings.size, settings.resizable, settings.fullscreen);
                 break;
         }
         
-        _scene = new Scene(this);
+        _scene = new Scene();
         _scene->init();
         
         _previousFrameTime = getCurrentMicroSeconds();
@@ -67,7 +84,7 @@ namespace ouzel
     
     void Engine::begin()
     {
-        ouzelBegin(this);
+        ouzelBegin();
     }
     
     void Engine::run()

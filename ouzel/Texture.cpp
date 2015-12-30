@@ -2,12 +2,12 @@
 // This file is part of the Ouzel engine.
 
 #include "Texture.h"
+#include "Engine.h"
 #include "Renderer.h"
 
 namespace ouzel
 {
-    Texture::Texture(Renderer* renderer):
-        _renderer(renderer)
+    Texture::Texture()
     {
         
     }
@@ -16,9 +16,9 @@ namespace ouzel
     {
         for (int i = 0; i < TEXTURE_LAYERS; ++i)
         {
-            if (_renderer->getActiveTexture(i) == this)
+            if (Engine::getInstance()->getRenderer()->getActiveTexture(i) == this)
             {
-                _renderer->activateTexture(nullptr, i);
+                Engine::getInstance()->getRenderer()->activateTexture(nullptr, i);
             }
         }
     }

@@ -7,8 +7,7 @@
 
 namespace ouzel
 {
-    Node::Node(Scene* scene):
-        _scene(scene)
+    Node::Node()
     {
         
     }
@@ -75,7 +74,7 @@ namespace ouzel
     void Node::setZOrder(float zOrder)
     {
         _zOrder = zOrder;
-        _scene->reorderNodes();
+        Engine::getInstance()->getScene()->reorderNodes();
         
         updateTransform();
     }
@@ -117,7 +116,7 @@ namespace ouzel
 
     void Node::addToScene()
     {
-        _scene->addNode(this);
+        Engine::getInstance()->getScene()->addNode(this);
         _addedToScene = true;
         
         for (AutoPtr<Node> child : _children)
@@ -128,7 +127,7 @@ namespace ouzel
 
     void Node::removeFromScene()
     {
-        _scene->removeNode(this);
+        Engine::getInstance()->getScene()->removeNode(this);
         _addedToScene = false;
         
         for (AutoPtr<Node> child : _children)

@@ -21,7 +21,7 @@ namespace ouzel
             APPEND
         };
         
-        File(const std::string& filename, Mode mode, bool binary, FileSystem* fileSystem);
+        File(const std::string& filename, Mode mode, bool binary);
         File(const File& other);
         File(File&& other);
         
@@ -39,7 +39,6 @@ namespace ouzel
     protected:
         void open();
         
-        FileSystem* _fileSystem = nullptr;
         std::string _path;
         Mode _mode;
         bool _binary;

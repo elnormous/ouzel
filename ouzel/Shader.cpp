@@ -10,17 +10,16 @@
 
 namespace ouzel
 {
-    Shader::Shader(Renderer* renderer):
-        _renderer(renderer)
+    Shader::Shader()
     {
         
     }
 
     Shader::~Shader()
     {
-        if (_renderer->getActiveShader() == this)
+        if (Engine::getInstance()->getRenderer()->getActiveShader() == this)
         {
-            _renderer->activateShader(nullptr);
+            Engine::getInstance()->getRenderer()->activateShader(nullptr);
         }
     }
     
@@ -29,7 +28,7 @@ namespace ouzel
         _fragmentShaderFilename = fragmentShader;
         _vertexShaderFilename = vertexShader;
         
-        std::ifstream fragmentShaderFile(_renderer->getEngine()->getFileSystem()->getPath(fragmentShader));
+        std::ifstream fragmentShaderFile(Engine::getInstance()->getFileSystem()->getPath(fragmentShader));
         
         if (!fragmentShaderFile)
         {
@@ -45,7 +44,7 @@ namespace ouzel
         
         fragmentShaderFile.read(fragmentShaderBuffer.data(), fragmentShaderSize);
         
-        std::ifstream vertexShaderFile(_renderer->getEngine()->getFileSystem()->getPath(vertexShader));
+        std::ifstream vertexShaderFile(Engine::getInstance()->getFileSystem()->getPath(vertexShader));
         
         if (!vertexShaderFile)
         {

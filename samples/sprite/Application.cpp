@@ -10,31 +10,30 @@
 
 namespace ouzel
 {
-    Application::Application(Engine* engine):
-        _engine(engine)
+    Application::Application()
     {
-        _engine->addEventHandler(this);
+        Engine::getInstance()->addEventHandler(this);
         
-        _engine->getRenderer()->setClearColor(Color(64, 0, 0));
+        Engine::getInstance()->getRenderer()->setClearColor(Color(64, 0, 0));
 
-        _sprite = new Sprite("run.json", _engine->getScene());
+        _sprite = new Sprite("run.json");
         _sprite->play(true);
-        _engine->getScene()->getRootNode()->addChild(_sprite);
+        Engine::getInstance()->getScene()->getRootNode()->addChild(_sprite);
         
-        _witch = new Sprite("witch.png", _engine->getScene());
+        _witch = new Sprite("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
-        _engine->getScene()->getRootNode()->addChild(_witch);
+        Engine::getInstance()->getScene()->getRootNode()->addChild(_witch);
         
-        Sprite* fire = new Sprite("fire.json", _engine->getScene());
+        Sprite* fire = new Sprite("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
-        _engine->getScene()->getRootNode()->addChild(fire);
+        Engine::getInstance()->getScene()->getRootNode()->addChild(fire);
     }
     
     Application::~Application()
     {
-        _engine->removeEventHandler(this);
+        Engine::getInstance()->removeEventHandler(this);
     }
     
     bool Application::handleEvent(const Event& event)

@@ -3,20 +3,21 @@
 
 
 #include "File.h"
+#include "Engine.h"
 #include "FileSystem.h"
 
 namespace ouzel
 {
-    File::File(const std::string& filename, Mode mode, bool binary, FileSystem* fileSystem):
-        _mode(mode), _binary(binary), _fileSystem(fileSystem)
+    File::File(const std::string& filename, Mode mode, bool binary):
+        _mode(mode), _binary(binary)
     {
-        _path = fileSystem->getPath(filename);
+        _path = Engine::getInstance()->getFileSystem()->getPath(filename);
         
         open();
     }
     
     File::File(const File& other):
-        _path(other._path), _mode(other._mode), _binary(other._binary), _fileSystem(other._fileSystem)
+        _path(other._path), _mode(other._mode), _binary(other._binary)
     {
         if (_file) fclose(_file);
         
@@ -24,9 +25,8 @@ namespace ouzel
     }
     
     File::File(File&& other):
-        _path(other._path), _mode(other._mode), _binary(other._binary), _fileSystem(other._fileSystem), _file(other._file)
+        _path(other._path), _mode(other._mode), _binary(other._binary), _file(other._file)
     {
-        other._fileSystem = nullptr;
         other._file = nullptr;
     }
     
@@ -40,7 +40,6 @@ namespace ouzel
         _path = other._path;
         _mode = other._mode;
         _binary = other._binary;
-        _fileSystem = other._fileSystem;
         
         open();
         
@@ -52,10 +51,8 @@ namespace ouzel
         _path = other._path;
         _mode = other._mode;
         _binary = other._binary;
-        _fileSystem = other._fileSystem;
         _file = other._file;
         
-        other._fileSystem = nullptr;
         other._file = nullptr;
         
         return *this;

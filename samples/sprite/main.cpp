@@ -11,9 +11,9 @@ void ouzelInit(ouzel::Settings& settings)
     settings.resizable = true;
 }
 
-void ouzelBegin(ouzel::Engine* engine)
+void ouzelBegin()
 {
-    application = new ouzel::Application(engine);
+    application = new ouzel::Application();
 }
 
 void ouzelEnd()

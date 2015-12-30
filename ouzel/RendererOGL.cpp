@@ -17,8 +17,8 @@
 
 namespace ouzel
 {
-    RendererOGL::RendererOGL(const Size2& size, bool resiazble, bool fullscreen, Engine* engine):
-        Renderer(size, resiazble, fullscreen, engine, Driver::OPENGL)
+    RendererOGL::RendererOGL(const Size2& size, bool resiazble, bool fullscreen):
+        Renderer(size, resiazble, fullscreen, Driver::OPENGL)
     {
         recalculateProjection();
     }
@@ -62,7 +62,7 @@ namespace ouzel
         
         _ready = true;
         
-        _engine->begin();
+        Engine::getInstance()->begin();
         
         return true;
     }
@@ -124,7 +124,7 @@ namespace ouzel
     
     Texture* RendererOGL::loadTextureFromFile(const std::string& filename)
     {
-        TextureOGL* texture = new TextureOGL(this);
+        TextureOGL* texture = new TextureOGL();
         
         if (!texture->initFromFile(filename))
         {
@@ -164,7 +164,7 @@ namespace ouzel
     
     Shader* RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        ShaderOGL* shader = new ShaderOGL(this);
+        ShaderOGL* shader = new ShaderOGL();
         
         if (!shader->initFromFiles(fragmentShader, vertexShader))
         {
@@ -177,7 +177,7 @@ namespace ouzel
     
     Shader* RendererOGL::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
     {
-        ShaderOGL* shader = new ShaderOGL(this);
+        ShaderOGL* shader = new ShaderOGL();
         
         if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
         {
@@ -216,7 +216,7 @@ namespace ouzel
     
     MeshBuffer* RendererOGL::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
-        MeshBufferOGL* meshBuffer = new MeshBufferOGL(this);
+        MeshBufferOGL* meshBuffer = new MeshBufferOGL();
         
         if (!meshBuffer->initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
         {
@@ -286,7 +286,7 @@ namespace ouzel
         
         GLint uniView = glGetUniformLocation(colorShader->getProgramId(), "view");
         
-        Camera* camera = _engine->getScene()->getCamera();
+        Camera* camera = Engine::getInstance()->getScene()->getCamera();
         
         if (camera)
         {
@@ -346,7 +346,7 @@ namespace ouzel
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
         activateShader(colorShader);
         
-        Matrix4 modelViewProj = _projection * _engine->getScene()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * Engine::getInstance()->getScene()->getCamera()->getTransform() * transform;
         
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
         colorShader->setVertexShaderConstant(uniModelViewProj, &modelViewProj, 1);
@@ -399,7 +399,7 @@ namespace ouzel
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_TEXTURE));
         activateShader(colorShader);
         
-        Matrix4 modelViewProj = _projection * _engine->getScene()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * Engine::getInstance()->getScene()->getCamera()->getTransform() * transform;
         
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
         colorShader->setVertexShaderConstant(uniModelViewProj, &modelViewProj, 1);

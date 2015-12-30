@@ -35,7 +35,7 @@ namespace ouzel
         GLsizei getIndexCount() const { return _indexCount; }
         
     protected:
-        MeshBufferOGL(Renderer* renderer);
+        MeshBufferOGL();
         
         GLuint _vertexArrayId = 0;
         GLuint _indexBufferId = 0;

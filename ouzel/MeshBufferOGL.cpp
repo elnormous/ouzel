@@ -2,12 +2,12 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBufferOGL.h"
+#include "Engine.h"
 #include "RendererOGL.h"
 
 namespace ouzel
 {
-    MeshBufferOGL::MeshBufferOGL(Renderer* renderer):
-        MeshBuffer(renderer)
+    MeshBufferOGL::MeshBufferOGL()
     {
         
     }
@@ -31,7 +31,7 @@ namespace ouzel
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint16_t), indices.data(),
                      _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         
-        if (static_cast<RendererOGL*>(_renderer)->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
@@ -44,7 +44,7 @@ namespace ouzel
         glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), vertices.data(),
                      _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         
-        if (static_cast<RendererOGL*>(_renderer)->checkOpenGLErrors())
+        if (static_cast<RendererOGL*>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }

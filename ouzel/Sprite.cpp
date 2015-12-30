@@ -18,12 +18,9 @@
 
 namespace ouzel
 {
-    Sprite::Sprite(const std::string& filename, Scene* scene):
-        Node(scene)
+    Sprite::Sprite(const std::string& filename)
     {
-        _engine = _scene->getEngine();
-        
-        std::string extension = _engine->getFileSystem()->getExtension(filename);
+        std::string extension = Engine::getInstance()->getFileSystem()->getExtension(filename);
         
         if (extension == "json")
         {
@@ -31,7 +28,7 @@ namespace ouzel
         }
         else
         {
-            _texture = _engine->getRenderer()->getTexture(filename);
+            _texture = Engine::getInstance()->getRenderer()->getTexture(filename);
             
             if (_texture)
             {
@@ -44,7 +41,7 @@ namespace ouzel
             }
         }
         
-        _shader = _engine->getRenderer()->getShader(SHADER_TEXTURE);
+        _shader = Engine::getInstance()->getRenderer()->getShader(SHADER_TEXTURE);
         
         if (_shader)
         {
@@ -63,7 +60,7 @@ namespace ouzel
     
     bool Sprite::loadSpriteSheet(const std::string& filename)
     {
-        File file(filename, File::Mode::READ, false, _scene->getEngine()->getFileSystem());
+        File file(filename, File::Mode::READ, false);
         
         if (file.isOpen())
         {
@@ -83,7 +80,7 @@ namespace ouzel
             Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
                               static_cast<float>(sizeObject["h"].GetInt()));
             
-            _texture = _engine->getRenderer()->getTexture(metaObject["image"].GetString());
+            _texture = Engine::getInstance()->getRenderer()->getTexture(metaObject["image"].GetString());
             
             const rapidjson::Value& framesArray = document["frames"];
             
@@ -173,7 +170,7 @@ namespace ouzel
         
         _frameVertices.push_back(vertices);
         
-        _frameMeshBuffers.push_back(_scene->getEngine()->getRenderer()->createMeshBuffer(indices, vertices, false, true));
+        _frameMeshBuffers.push_back(Engine::getInstance()->getRenderer()->createMeshBuffer(indices, vertices, false, true));
     }
 
     void Sprite::draw()
@@ -182,10 +179,10 @@ namespace ouzel
         
         if (_shader && _texture)
         {
-            _engine->getRenderer()->activateTexture(_texture, 0);
-            _engine->getRenderer()->activateShader(_shader);
+            Engine::getInstance()->getRenderer()->activateTexture(_texture, 0);
+            Engine::getInstance()->getRenderer()->activateShader(_shader);
             
-            Matrix4 modelViewProj = _engine->getRenderer()->getProjection() * _engine->getScene()->getCamera()->getTransform() * _transform;
+            Matrix4 modelViewProj = Engine::getInstance()->getRenderer()->getProjection() * Engine::getInstance()->getScene()->getCamera()->getTransform() * _transform;
             
             _shader->setVertexShaderConstant(_uniModelViewProj, &modelViewProj, 1);
             
@@ -193,7 +190,7 @@ namespace ouzel
             {
                 MeshBuffer* meshBuffer = _frameMeshBuffers[_currentFrame];
                 
-                _engine->getRenderer()->drawMeshBuffer(meshBuffer);
+                Engine::getInstance()->getRenderer()->drawMeshBuffer(meshBuffer);
             }
         }
     }
@@ -252,7 +249,7 @@ namespace ouzel
     
     bool Sprite::checkVisibility() const
     {
-        Matrix4 mvp = _engine->getRenderer()->getProjection() * _engine->getScene()->getCamera()->getTransform() * _transform;
+        Matrix4 mvp = Engine::getInstance()->getRenderer()->getProjection() * Engine::getInstance()->getScene()->getCamera()->getTransform() * _transform;
         
         Vector3 topRight(_size.width / 2.0f, _size.height / 2.0f, 0.0f);
         Vector3 bottomLeft(-_size.width / 2.0f, -_size.height / 2.0f, 0.0f);

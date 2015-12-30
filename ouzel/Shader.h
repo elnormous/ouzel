@@ -34,10 +34,9 @@ namespace ouzel
         virtual bool setVertexShaderConstant(uint32_t index, const Matrix4* matrices, uint32_t count);
         
     protected:
-        Shader(Renderer* renderer);
+        Shader();
         
         std::string _fragmentShaderFilename;
         std::string _vertexShaderFilename;
-        Renderer* _renderer;
     };
 }
