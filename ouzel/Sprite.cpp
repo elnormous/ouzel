@@ -38,7 +38,7 @@ namespace ouzel
                 _size = _texture->getSize();
                 _boundingBox.set(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height);
                 
-                addFrame(Rectangle(0, 0, _size.width, _size.height), _size);
+                addFrame(Rectangle(0, 0, _size.width, _size.height), _size, false);
             }
         }
         
@@ -109,10 +109,12 @@ namespace ouzel
                                     static_cast<float>(rectangleObject["w"].GetInt()),
                                     static_cast<float>(rectangleObject["h"].GetInt()));
                 
+                bool rotated = frameObject["rotated"].GetBool();
+                
                 if (rectangle.width > _size.width) _size.width = rectangle.width;
                 if (rectangle.height > _size.height) _size.height = rectangle.height;
                 
-                addFrame(rectangle, textureSize);
+                addFrame(rectangle, textureSize, rotated);
             }
         }
         else
@@ -123,21 +125,44 @@ namespace ouzel
         return true;
     }
     
-    void Sprite::addFrame(const Rectangle& rectangle, Size2 textureSize)
+    void Sprite::addFrame(const Rectangle& rectangle, Size2 textureSize, bool rotated)
     {
         std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
         
-        Vector2 leftBottom(rectangle.x / textureSize.width,
-                           rectangle.y / textureSize.height);
+        Vector2 textCoords[4];
         
-        Vector2 rightTop((rectangle.x + rectangle.width) / textureSize.width,
-                         (rectangle.y + rectangle.height) / textureSize.height);
+        if (!rotated)
+        {
+            Vector2 leftTop(rectangle.x / textureSize.width,
+                            rectangle.y / textureSize.height);
+            
+            Vector2 rightBottom((rectangle.x + rectangle.width) / textureSize.width,
+                                (rectangle.y + rectangle.height) / textureSize.height);
+            
+            textCoords[0] = Vector2(leftTop.x, rightBottom.y);
+            textCoords[1] = Vector2(rightBottom.x, rightBottom.y);
+            textCoords[2] = Vector2(leftTop.x, leftTop.y);
+            textCoords[3] = Vector2(rightBottom.x, leftTop.y);
+        }
+        else
+        {
+            Vector2 leftTop = Vector2(rectangle.x / textureSize.width,
+                                      rectangle.y / textureSize.height);
+            
+            Vector2 rightBottom = Vector2((rectangle.x + rectangle.height) / textureSize.width,
+                                          (rectangle.y + rectangle.width) / textureSize.height);
+            
+            textCoords[0] = Vector2(leftTop.x, leftTop.y);
+            textCoords[1] = Vector2(leftTop.x, rightBottom.y);
+            textCoords[2] = Vector2(rightBottom.x, leftTop.y);
+            textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
+        }
         
         std::vector<Vertex> vertices = {
-            Vertex(Vector3(-rectangle.width / 2.0f, -rectangle.height / 2.0f, 0.0f), _color, Vector2(leftBottom.x, rightTop.y)),
-            Vertex(Vector3(rectangle.width / 2.0f, -rectangle.height / 2.0f, 0.0f), _color, Vector2(rightTop.x, rightTop.y)),
-            Vertex(Vector3(-rectangle.width / 2.0f, rectangle.height / 2.0f, 0.0f),  _color, Vector2(leftBottom.x, leftBottom.y)),
-            Vertex(Vector3(rectangle.width / 2.0f, rectangle.height / 2.0f, 0.0f),  _color, Vector2(rightTop.x, leftBottom.y))
+            Vertex(Vector3(-rectangle.width / 2.0f, -rectangle.height / 2.0f, 0.0f), _color, textCoords[0]),
+            Vertex(Vector3(rectangle.width / 2.0f, -rectangle.height / 2.0f, 0.0f), _color, textCoords[1]),
+            Vertex(Vector3(-rectangle.width / 2.0f, rectangle.height / 2.0f, 0.0f),  _color, textCoords[2]),
+            Vertex(Vector3(rectangle.width / 2.0f, rectangle.height / 2.0f, 0.0f),  _color, textCoords[3])
         };
         
         _frameVertices.push_back(vertices);
@@ -189,6 +214,8 @@ namespace ouzel
                 }
             }
         }
+        
+        //_currentFrame = 8;
     }
     
     void Sprite::setTexture(Texture* texture)

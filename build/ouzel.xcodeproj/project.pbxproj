@@ -106,6 +106,8 @@
 		303B75F21C335B7D00FEDE92 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75EF1C335B7D00FEDE92 /* File.cpp */; };
 		303B75F31C335B7D00FEDE92 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75F01C335B7D00FEDE92 /* File.h */; };
 		303B75F41C335B7D00FEDE92 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75F01C335B7D00FEDE92 /* File.h */; };
+		303B75F71C33756100FEDE92 /* fire.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F51C33756100FEDE92 /* fire.json */; };
+		303B75F81C33756100FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -202,6 +204,8 @@
 		303B75EC1C33581700FEDE92 /* run.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = run.png; path = Resources/run.png; sourceTree = "<group>"; };
 		303B75EF1C335B7D00FEDE92 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
 		303B75F01C335B7D00FEDE92 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
+		303B75F51C33756100FEDE92 /* fire.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = fire.json; path = Resources/fire.json; sourceTree = "<group>"; };
+		303B75F61C33756100FEDE92 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fire.png; path = Resources/fire.png; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -513,6 +517,8 @@
 		304A8EB21C2765C4008B1151 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				303B75F51C33756100FEDE92 /* fire.json */,
+				303B75F61C33756100FEDE92 /* fire.png */,
 				303B75EB1C33581700FEDE92 /* run.json */,
 				303B75EC1C33581700FEDE92 /* run.png */,
 				303B75081C286F8D00FEDE92 /* witch.png */,
@@ -733,8 +739,10 @@
 			files = (
 				304A8E171C237B96008B1151 /* Assets.xcassets in Resources */,
 				303B75091C286F8D00FEDE92 /* witch.png in Resources */,
+				303B75F71C33756100FEDE92 /* fire.json in Resources */,
 				303B75ED1C33581700FEDE92 /* run.json in Resources */,
 				303B75EE1C33581700FEDE92 /* run.png in Resources */,
+				303B75F81C33756100FEDE92 /* fire.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

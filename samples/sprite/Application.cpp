@@ -25,6 +25,11 @@ namespace ouzel
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
         _engine->getScene()->getRootNode()->addChild(_witch);
+        
+        Sprite* fire = new Sprite("fire.json", _engine->getScene());
+        fire->play(true);
+        fire->setPosition(Vector2(-100.0f, -100.0f));
+        _engine->getScene()->getRootNode()->addChild(fire);
     }
     
     Application::~Application()
