@@ -14,7 +14,6 @@ namespace ouzel
 {
     class Renderer;
     class Scene;
-    class SoundManager;
     class FileSystem;
     
     struct Settings
@@ -36,7 +35,6 @@ namespace ouzel
         
         Renderer* getRenderer() const { return _renderer; }
         Scene* getScene() const { return _scene; }
-        SoundManager* getSoundManager() const { return _soundManager; }
         FileSystem* getFileSystem() const { return _fileSystem; }
         
         void addEventHandler(EventHandler* eventHandler);
@@ -47,7 +45,6 @@ namespace ouzel
     protected:
         AutoPtr<Renderer> _renderer;
         AutoPtr<Scene> _scene;
-        AutoPtr<SoundManager> _soundManager;
         AutoPtr<FileSystem> _fileSystem;
         
         uint64_t _previousFrameTime;
