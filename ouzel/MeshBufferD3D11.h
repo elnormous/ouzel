@@ -27,7 +27,7 @@ namespace ouzel
         UINT getIndexCount() const { return _indexCount; }
 
     protected:
-        MeshBufferD3D11(Renderer* renderer);
+        MeshBufferD3D11();
         bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
         ID3D11Buffer* _indexBuffer = nullptr;

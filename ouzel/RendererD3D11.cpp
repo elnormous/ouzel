@@ -168,7 +168,7 @@ KeyboardKey winKeyToEngineCode(WPARAM wParam, LPARAM lParam)
     return KeyboardKey::NONE;
 }
 
-static void handleKeyEvent(RendererD3D11* rendererD3D11, UINT msg, WPARAM wParam, LPARAM lParam)
+static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     bool isDown = msg == WM_KEYDOWN;
     KeyboardKey key = winKeyToEngineCode(wParam, lParam);
@@ -184,21 +184,21 @@ static void handleKeyEvent(RendererD3D11* rendererD3D11, UINT msg, WPARAM wParam
     {
         event.keyboardEvent.controlDown = true;
     }
-    rendererD3D11->getEngine()->handleEvent(event);
+    Engine::getInstance()->handleEvent(event);
 }
 
-static void handleMouseMoveEvent(RendererD3D11* rendererD3D11, UINT msg, WPARAM wParam, LPARAM lParam)
+static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                rendererD3D11->getSize().height - static_cast<float>(HIWORD(lParam)));
+                Renderer::getInstance()->getSize().height - static_cast<float>(HIWORD(lParam)));
 
     Event event;
     event.type = Event::Type::MOUSE_MOVE;
-    event.mouseEvent.position = rendererD3D11->absoluteToWorldLocation(pos);
-    rendererD3D11->getEngine()->handleEvent(event);
+    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(pos);
+    Engine::getInstance()->handleEvent(event);
 }
 
-static void handleMouseButtonEvent(RendererD3D11* rendererD3D11, UINT msg, WPARAM wParam, LPARAM lParam)
+static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     bool isDown = (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN);
     MouseButton button = MouseButton::NONE;
@@ -217,31 +217,29 @@ static void handleMouseButtonEvent(RendererD3D11* rendererD3D11, UINT msg, WPARA
     }
 
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                rendererD3D11->getSize().height - static_cast<float>(HIWORD(lParam)));
+                Renderer::getInstance()->getSize().height - static_cast<float>(HIWORD(lParam)));
 
     Event event;
     event.type = isDown ? Event::Type::MOUSE_DOWN : Event::Type::MOUSE_UP;
     event.mouseEvent.button = button;
-    event.mouseEvent.position = rendererD3D11->absoluteToWorldLocation(pos);
-    rendererD3D11->getEngine()->handleEvent(event);
+    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(pos);
+    Engine::getInstance()->handleEvent(event);
 }
 
-static void handleMouseWheelEvent(RendererD3D11* rendererD3D11, UINT msg, WPARAM wParam, LPARAM lParam)
+static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                rendererD3D11->getSize().height - static_cast<float>(HIWORD(lParam)));
+                Renderer::getInstance()->getSize().height - static_cast<float>(HIWORD(lParam)));
 
     Event event;
     event.type = Event::Type::MOUSE_SCROLL;
     event.mouseEvent.scroll = Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA));
-    event.mouseEvent.position = rendererD3D11->absoluteToWorldLocation(pos);
-    rendererD3D11->getEngine()->handleEvent(event);
+    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(pos);
+    Engine::getInstance()->handleEvent(event);
 }
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    RendererD3D11* rendererD3D11 = reinterpret_cast<RendererD3D11*>(GetWindowLongPtrW(window, GWLP_USERDATA));
-
     switch (msg)
     {
         case WM_ACTIVATE:
@@ -261,7 +259,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         case WM_KEYUP:
         case WM_KEYDOWN:
         {
-            handleKeyEvent(rendererD3D11, msg, wParam, lParam);
+            handleKeyEvent(msg, wParam, lParam);
             break;
         }
         case WM_LBUTTONDOWN:
@@ -271,17 +269,17 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         case WM_MBUTTONDOWN:
         case WM_MBUTTONUP:
         {
-            handleMouseButtonEvent(rendererD3D11, msg, wParam, lParam);
+            handleMouseButtonEvent(msg, wParam, lParam);
             break;
         }
         case WM_MOUSEMOVE:
         {
-            handleMouseMoveEvent(rendererD3D11, msg, wParam, lParam);
+            handleMouseMoveEvent(msg, wParam, lParam);
             break;
         }
         case WM_MOUSEHWHEEL:
         {
-            handleMouseWheelEvent(rendererD3D11, msg, wParam, lParam);
+            handleMouseWheelEvent(msg, wParam, lParam);
             break;
         }
         case WM_SIZE:
@@ -291,7 +289,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
                 INT width = LOWORD(lParam);
                 INT height = HIWORD(lParam);
 
-                rendererD3D11->resize(Size2(width, height));
+                Renderer::getInstance()->resize(Size2(width, height));
             }
             break;
         }
@@ -307,8 +305,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
 namespace ouzel
 {
-    RendererD3D11::RendererD3D11(const Size2& size, bool resizable, bool fullscreen, Engine* engine):
-        Renderer(size, resizable, fullscreen, engine, Driver::DIRECT3D11)
+    RendererD3D11::RendererD3D11(const Size2& size, bool resizable, bool fullscreen):
+        Renderer(size, resizable, fullscreen, Driver::DIRECT3D11)
     {
         initWindow();
         initD3D11();
@@ -593,7 +591,7 @@ namespace ouzel
 
     Texture* RendererD3D11::loadTextureFromFile(const std::string& filename)
     {
-        TextureD3D11* texture = new TextureD3D11(this);
+        TextureD3D11* texture = new TextureD3D11();
 
         if (!texture->initFromFile(filename))
         {
@@ -624,7 +622,7 @@ namespace ouzel
 
     Shader* RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
     {
-        ShaderD3D11* shader = new ShaderD3D11(this);
+        ShaderD3D11* shader = new ShaderD3D11();
 
         if (!shader->initFromFiles(fragmentShader, vertexShader))
         {
@@ -637,7 +635,7 @@ namespace ouzel
 
     Shader* RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
     {
-        ShaderD3D11* shader = new ShaderD3D11(this);
+        ShaderD3D11* shader = new ShaderD3D11();
 
         if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
         {
@@ -676,7 +674,7 @@ namespace ouzel
 
     MeshBuffer* RendererD3D11::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
-        MeshBufferD3D11* meshBuffer = new MeshBufferD3D11(this);
+        MeshBufferD3D11* meshBuffer = new MeshBufferD3D11();
 
         if (!meshBuffer->initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
         {

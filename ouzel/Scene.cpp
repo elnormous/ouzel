@@ -8,9 +8,16 @@
 
 namespace ouzel
 {
+    static Scene* sharedScene = nullptr;
+
+    Scene* Scene::getInstance()
+    {
+        return sharedScene;
+    }
+
     Scene::Scene()
     {
-        
+        sharedScene = this;
     }
     
     Scene::~Scene()

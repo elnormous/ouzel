@@ -39,7 +39,9 @@ namespace ouzel
             OPENGL,
             DIRECT3D11
         };
-        
+
+        static Renderer* getInstance();
+
         virtual ~Renderer();
         
         Driver getDriver() const { return _driver; }

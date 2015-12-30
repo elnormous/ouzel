@@ -11,7 +11,7 @@ namespace ouzel
     File::File(const std::string& filename, Mode mode, bool binary):
         _mode(mode), _binary(binary)
     {
-        _path = Engine::getInstance()->getFileSystem()->getPath(filename);
+        _path = FileSystem::getInstance()->getPath(filename);
         
         open();
     }

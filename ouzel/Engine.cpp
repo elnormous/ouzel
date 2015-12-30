@@ -23,7 +23,7 @@ void ouzelEnd();
 
 namespace ouzel
 {
-    Engine* sharedEngine = nullptr;
+    static Engine* sharedEngine = nullptr;
     
     Engine* Engine::getInstance()
     {

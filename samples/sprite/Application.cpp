@@ -14,21 +14,21 @@ namespace ouzel
     {
         Engine::getInstance()->addEventHandler(this);
         
-        Engine::getInstance()->getRenderer()->setClearColor(Color(64, 0, 0));
+        Renderer::getInstance()->setClearColor(Color(64, 0, 0));
 
         _sprite = new Sprite("run.json");
         _sprite->play(true);
-        Engine::getInstance()->getScene()->getRootNode()->addChild(_sprite);
+        Scene::getInstance()->getRootNode()->addChild(_sprite);
         
         _witch = new Sprite("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
-        Engine::getInstance()->getScene()->getRootNode()->addChild(_witch);
+        Scene::getInstance()->getRootNode()->addChild(_witch);
         
         Sprite* fire = new Sprite("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
-        Engine::getInstance()->getScene()->getRootNode()->addChild(fire);
+        Scene::getInstance()->getRootNode()->addChild(fire);
     }
     
     Application::~Application()

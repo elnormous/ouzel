@@ -20,6 +20,8 @@ namespace ouzel
     class Scene: public Noncopyable, public ReferenceCounted
     {
     public:
+        static Scene* getInstance();
+
         Scene();
         virtual ~Scene();
         

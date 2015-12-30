@@ -17,8 +17,7 @@ namespace ouzel
         { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0 },
     };
 
-    ShaderD3D11::ShaderD3D11(Renderer* renderer):
-        Shader(renderer)
+    ShaderD3D11::ShaderD3D11()
     {
     }
 
@@ -39,7 +38,7 @@ namespace ouzel
             return false;
         }
 
-        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(_renderer);
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
 
         HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(fragmentShader, fragmentShaderSize, NULL, &_pixelShader);
         if (FAILED(hr) || !_pixelShader)
@@ -153,7 +152,7 @@ namespace ouzel
 
     bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)
     {
-        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(_renderer);
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
 
         D3D11_MAPPED_SUBRESOURCE mappedSubResource;
         HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);

@@ -2,13 +2,13 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBufferD3D11.h"
+#include "Engine.h"
 #include "RendererD3D11.h"
 #include "Utils.h"
 
 namespace ouzel
 {
-    MeshBufferD3D11::MeshBufferD3D11(Renderer* renderer):
-        MeshBuffer(renderer)
+    MeshBufferD3D11::MeshBufferD3D11()
     {
         
     }
@@ -26,7 +26,7 @@ namespace ouzel
             return false;
         }
 
-        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(_renderer);
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
 
         D3D11_BUFFER_DESC indexBufferDesc;
         memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
@@ -85,7 +85,7 @@ namespace ouzel
 
     bool MeshBufferD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)
     {
-        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(_renderer);
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
 
         D3D11_MAPPED_SUBRESOURCE mappedSubResource;
         HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);

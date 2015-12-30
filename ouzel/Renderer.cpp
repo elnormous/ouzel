@@ -15,10 +15,17 @@
 
 namespace ouzel
 {
+    static Renderer* sharedRenderer = nullptr;
+
+    Renderer* Renderer::getInstance()
+    {
+        return sharedRenderer;
+    }
+
     Renderer::Renderer(const Size2& size, bool resizable, bool fullscreen, Driver driver):
         _driver(driver), _size(size), _resizable(resizable), _fullscreen(fullscreen)
     {
-
+        sharedRenderer = this;
     }
 
     Renderer::~Renderer()
@@ -185,7 +192,7 @@ namespace ouzel
 
     Vector2 Renderer::absoluteToWorldLocation(const Vector2& position)
     {
-        Camera* camera = Engine::getInstance()->getScene()->getCamera();
+        Camera* camera = Scene::getInstance()->getCamera();
         
         if (camera)
         {
@@ -209,7 +216,7 @@ namespace ouzel
 
     Vector2 Renderer::worldToAbsoluteLocation(const Vector2& position)
     {
-        Camera* camera = Engine::getInstance()->getScene()->getCamera();
+        Camera* camera = Scene::getInstance()->getCamera();
         
         if (camera)
         {

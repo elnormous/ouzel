@@ -37,7 +37,7 @@ namespace ouzel
         ID3D11DeviceContext* getContext() const { return _context; }
 
     protected:
-        RendererD3D11(const Size2& size, bool resizable, bool fullscreen, Engine* engine);
+        RendererD3D11(const Size2& size, bool resizable, bool fullscreen);
 
     private:
         HWND _window;

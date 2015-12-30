@@ -35,10 +35,6 @@ namespace ouzel
         void begin();
         void run();
         
-        Renderer* getRenderer() const { return _renderer; }
-        Scene* getScene() const { return _scene; }
-        FileSystem* getFileSystem() const { return _fileSystem; }
-        
         void addEventHandler(EventHandler* eventHandler);
         void removeEventHandler(EventHandler* eventHandler);
         

@@ -2,14 +2,14 @@
 // This file is part of the Ouzel engine.
 
 #include "TextureD3D11.h"
+#include "Engine.h"
 #include "RendererD3D11.h"
 #include "Image.h"
 #include "Utils.h"
 
 namespace ouzel
 {
-    TextureD3D11::TextureD3D11(Renderer* renderer):
-        Texture(renderer)
+    TextureD3D11::TextureD3D11()
     {
         
     }
@@ -26,13 +26,13 @@ namespace ouzel
             return false;
         }
 
-        AutoPtr<Image> image = new Image(_renderer->getEngine());
+        AutoPtr<Image> image = new Image();
         if (!image->loadFromFile(filename))
         {
             return false;
         }
 
-        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(_renderer);
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
         int width = (int)image->getSize().width;
         int height = (int)image->getSize().height;
 

@@ -16,6 +16,6 @@ namespace ouzel
         virtual ~RenderTargetD3D11();
 
     protected:
-        RenderTargetD3D11(Renderer* renderer);
+        RenderTargetD3D11();
     };
 }
