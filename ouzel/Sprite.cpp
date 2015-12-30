@@ -38,7 +38,9 @@ namespace ouzel
                 _size = _texture->getSize();
                 _boundingBox.set(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height);
                 
-                addFrame(Rectangle(0, 0, _size.width, _size.height), _size, false);
+                Rectangle rectangle(0, 0, _size.width, _size.height);
+                
+                addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
             }
         }
         
@@ -70,37 +72,24 @@ namespace ouzel
             rapidjson::Document document;
             document.ParseStream<0>(is);
             
-            Size2 textureSize;
-            
             if (document.HasParseError())
             {
                 return false;
             }
             
-            if (!document.HasMember("meta")) return false;
-            
             const rapidjson::Value& metaObject = document["meta"];
-            
-            if (!metaObject.HasMember("size")) return false;
             const rapidjson::Value& sizeObject = metaObject["size"];
             
-            if (!sizeObject.HasMember("w")) return false;
-            if (!sizeObject.HasMember("h")) return false;
+            Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
+                              static_cast<float>(sizeObject["h"].GetInt()));
             
-            textureSize.width = static_cast<float>(sizeObject["w"].GetInt());
-            textureSize.height = static_cast<float>(sizeObject["h"].GetInt());
-            
-            if (!metaObject.HasMember("image")) return false;
             _texture = _engine->getRenderer()->getTexture(metaObject["image"].GetString());
             
-            if (!document.HasMember("frames")) return false;
             const rapidjson::Value& framesArray = document["frames"];
             
             for (int index = 0; index < framesArray.Size(); ++index)
             {
                 const rapidjson::Value& frameObject = framesArray[index];
-                
-                if (!frameObject.HasMember("frame")) return false;
                 
                 const rapidjson::Value& rectangleObject = frameObject["frame"];
                 
@@ -111,10 +100,25 @@ namespace ouzel
                 
                 bool rotated = frameObject["rotated"].GetBool();
                 
-                if (rectangle.width > _size.width) _size.width = rectangle.width;
-                if (rectangle.height > _size.height) _size.height = rectangle.height;
+                const rapidjson::Value& sourceSizeObject = frameObject["sourceSize"];
                 
-                addFrame(rectangle, textureSize, rotated);
+                Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].GetInt()),
+                                 static_cast<float>(sourceSizeObject["h"].GetInt()));
+                
+                if (sourceSize.width > _size.width) _size.width = sourceSize.width;
+                if (sourceSize.height > _size.height) _size.height = sourceSize.height;
+                
+                const rapidjson::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
+                
+                Vector2 offset(static_cast<float>(spriteSourceSizeObject["x"].GetInt()),
+                               static_cast<float>(spriteSourceSizeObject["y"].GetInt()));
+                
+                const rapidjson::Value& pivotObject = frameObject["pivot"];
+                
+                Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
+                              static_cast<float>(pivotObject["y"].GetDouble()));
+                
+                addFrame(rectangle, textureSize, rotated, sourceSize, offset, pivot);
             }
         }
         else
@@ -125,11 +129,13 @@ namespace ouzel
         return true;
     }
     
-    void Sprite::addFrame(const Rectangle& rectangle, Size2 textureSize, bool rotated)
+    void Sprite::addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot)
     {
         std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
         
         Vector2 textCoords[4];
+        Vector2 realOffset(-sourceSize.width * pivot.x + offset.x,
+                           -sourceSize.height * pivot.y + (sourceSize.height - rectangle.height - offset.y));
         
         if (!rotated)
         {
@@ -159,10 +165,10 @@ namespace ouzel
         }
         
         std::vector<Vertex> vertices = {
-            Vertex(Vector3(-rectangle.width / 2.0f, -rectangle.height / 2.0f, 0.0f), _color, textCoords[0]),
-            Vertex(Vector3(rectangle.width / 2.0f, -rectangle.height / 2.0f, 0.0f), _color, textCoords[1]),
-            Vertex(Vector3(-rectangle.width / 2.0f, rectangle.height / 2.0f, 0.0f),  _color, textCoords[2]),
-            Vertex(Vector3(rectangle.width / 2.0f, rectangle.height / 2.0f, 0.0f),  _color, textCoords[3])
+            Vertex(Vector3(realOffset.x, realOffset.y, 0.0f), _color, textCoords[0]),
+            Vertex(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), _color, textCoords[1]),
+            Vertex(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[2]),
+            Vertex(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[3])
         };
         
         _frameVertices.push_back(vertices);

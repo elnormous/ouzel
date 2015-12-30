@@ -44,7 +44,7 @@ namespace ouzel
         
     protected:
         bool loadSpriteSheet(const std::string& filename);
-        void addFrame(const Rectangle& rectangle, Size2 textureSize, bool rotated);
+        void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot);
         
         AutoPtr<Texture> _texture;
         AutoPtr<Shader> _shader;
