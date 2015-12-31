@@ -120,6 +120,98 @@
 		303B76241C34D0D400FEDE92 /* libouzel_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B75331C2A3C5800FEDE92 /* libouzel_ios.a */; };
 		303B76281C34D11500FEDE92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76271C34D11400FEDE92 /* UIKit.framework */; };
 		303B76291C34D15300FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76251C34D10200FEDE92 /* Foundation.framework */; };
+		303B762F1C3559B900FEDE92 /* ViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B762D1C3559B900FEDE92 /* ViewController.h */; };
+		303B76301C3559B900FEDE92 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B762E1C3559B900FEDE92 /* ViewController.m */; };
+		303B76341C355A3B00FEDE92 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B762E1C3559B900FEDE92 /* ViewController.m */; };
+		303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3E1C237C70008B1151 /* Renderer.cpp */; };
+		303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E901C26ED32008B1151 /* MeshBuffer.cpp */; };
+		303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
+		303B76381C355A3B00FEDE92 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* Input.cpp */; };
+		303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* Sprite.cpp */; };
+		303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E4C1C237C70008B1151 /* Vector3.cpp */; };
+		303B763B1C355A3B00FEDE92 /* RendererOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E7B1C24814F008B1151 /* RendererOGL.cpp */; };
+		303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex.cpp */; };
+		303B763D1C355A3B00FEDE92 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E421C237C70008B1151 /* Shader.cpp */; };
+		303B763E1C355A3B00FEDE92 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E401C237C70008B1151 /* Scene.cpp */; };
+		303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E301C237C70008B1151 /* MathUtils.cpp */; };
+		303B76401C355A3B00FEDE92 /* MeshBufferOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */; };
+		303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
+		303B76421C355A3B00FEDE92 /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E321C237C70008B1151 /* Matrix3.cpp */; };
+		303B76431C355A3B00FEDE92 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E461C237C70008B1151 /* Texture.cpp */; };
+		303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
+		303B76451C355A3B00FEDE92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B75701C2A3D7F00FEDE92 /* main.m */; };
+		303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E4A1C237C70008B1151 /* Vector2.cpp */; };
+		303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E881C2486C6008B1151 /* RenderTarget.cpp */; };
+		303B76481C355A3B00FEDE92 /* TextureOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E7F1C24814F008B1151 /* TextureOGL.cpp */; };
+		303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3B1C237C70008B1151 /* Rectangle.cpp */; };
+		303B764A1C355A3B00FEDE92 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B75741C2A3E3000FEDE92 /* AppDelegate.mm */; };
+		303B764B1C355A3B00FEDE92 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* Image.cpp */; };
+		303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
+		303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E341C237C70008B1151 /* Matrix4.cpp */; };
+		303B764E1C355A3B00FEDE92 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E9C1C27081B008B1151 /* Color.cpp */; };
+		303B764F1C355A3B00FEDE92 /* ShaderOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E8C1C26EA8B008B1151 /* ShaderOGL.cpp */; };
+		303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E4E1C237C70008B1151 /* Vector4.cpp */; };
+		303B76511C355A3B00FEDE92 /* RenderTargetOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E7D1C24814F008B1151 /* RenderTargetOGL.cpp */; };
+		303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2D1C237C70008B1151 /* Engine.cpp */; };
+		303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E981C26F5CF008B1151 /* Size2.cpp */; };
+		303B76541C355A3B00FEDE92 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E361C237C70008B1151 /* Node.cpp */; };
+		303B76551C355A3B00FEDE92 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75EF1C335B7D00FEDE92 /* File.cpp */; };
+		303B76581C355A3B00FEDE92 /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E471C237C70008B1151 /* Texture.h */; };
+		303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E351C237C70008B1151 /* Matrix4.h */; };
+		303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4B1C237C70008B1151 /* Vector2.h */; };
+		303B765B1C355A3B00FEDE92 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E9D1C27081B008B1151 /* Color.h */; };
+		303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E891C2486C6008B1151 /* RenderTarget.h */; };
+		303B765D1C355A3B00FEDE92 /* ViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B762D1C3559B900FEDE92 /* ViewController.h */; };
+		303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4D1C237C70008B1151 /* Vector3.h */; };
+		303B765F1C355A3B00FEDE92 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75F01C335B7D00FEDE92 /* File.h */; };
+		303B76601C355A3B00FEDE92 /* Vector4.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4F1C237C70008B1151 /* Vector4.h */; };
+		303B76611C355A3B00FEDE92 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E491C237C70008B1151 /* Utils.h */; };
+		303B76621C355A3B00FEDE92 /* MeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E911C26ED32008B1151 /* MeshBuffer.h */; };
+		303B76631C355A3B00FEDE92 /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2E1C237C70008B1151 /* Engine.h */; };
+		303B76641C355A3B00FEDE92 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E411C237C70008B1151 /* Scene.h */; };
+		303B76651C355A3B00FEDE92 /* TextureVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75E11C2F6FC000FEDE92 /* TextureVSOGL.h */; };
+		303B76661C355A3B00FEDE92 /* Node.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E371C237C70008B1151 /* Node.h */; };
+		303B76671C355A3B00FEDE92 /* ColorPSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */; };
+		303B76681C355A3B00FEDE92 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.h */; };
+		303B76691C355A3B00FEDE92 /* Rectangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rectangle.h */; };
+		303B766A1C355A3B00FEDE92 /* AutoPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* AutoPtr.h */; };
+		303B766B1C355A3B00FEDE92 /* Noncopyable.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E381C237C70008B1151 /* Noncopyable.h */; };
+		303B766C1C355A3B00FEDE92 /* MathUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.h */; };
+		303B766D1C355A3B00FEDE92 /* ReferenceCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3D1C237C70008B1151 /* ReferenceCounted.h */; };
+		303B766E1C355A3B00FEDE92 /* EventHander.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2F1C237C70008B1151 /* EventHander.h */; };
+		303B766F1C355A3B00FEDE92 /* ColorVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */; };
+		303B76701C355A3B00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
+		303B76711C355A3B00FEDE92 /* Image.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B74E21C277A7500FEDE92 /* Image.h */; };
+		303B76721C355A3B00FEDE92 /* Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3F1C237C70008B1151 /* Renderer.h */; };
+		303B76731C355A3B00FEDE92 /* Size2.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E991C26F5CF008B1151 /* Size2.h */; };
+		303B76741C355A3B00FEDE92 /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E431C237C70008B1151 /* Shader.h */; };
+		303B76751C355A3B00FEDE92 /* TexturePSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75E01C2F6FC000FEDE92 /* TexturePSOGL.h */; };
+		303B76761C355A3B00FEDE92 /* Vertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.h */; };
+		303B76771C355A3B00FEDE92 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
+		303B76781C355A3B00FEDE92 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* CompileConfig.h */; };
+		303B76791C355A3B00FEDE92 /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* Sprite.h */; };
+		303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E331C237C70008B1151 /* Matrix3.h */; };
+		303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E951C26EDFB008B1151 /* ParticleSystem.h */; };
+		303B767C1C355A3B00FEDE92 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75751C2A3E3000FEDE92 /* AppDelegate.h */; };
+		303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76811C355A5800FEDE92 /* AppDelegate.h */; };
+		303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B76821C355A5800FEDE92 /* AppDelegate.mm */; };
+		303B76881C355A5800FEDE92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76831C355A5800FEDE92 /* main.m */; };
+		303B76891C355A5800FEDE92 /* ViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76841C355A5800FEDE92 /* ViewController.h */; };
+		303B768A1C355A5800FEDE92 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76851C355A5800FEDE92 /* ViewController.m */; };
+		303B768D1C355AA400FEDE92 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
+		303B768E1C355AA400FEDE92 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75181C29EB8400FEDE92 /* main.cpp */; };
+		303B76951C355AA400FEDE92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
+		303B76961C355AA400FEDE92 /* flame.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B76021C349CA800FEDE92 /* flame.png */; };
+		303B76971C355AA400FEDE92 /* witch.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75081C286F8D00FEDE92 /* witch.png */; };
+		303B76981C355AA400FEDE92 /* flame.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B76011C349CA800FEDE92 /* flame.json */; };
+		303B76991C355AA400FEDE92 /* fire.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F51C33756100FEDE92 /* fire.json */; };
+		303B769A1C355AA400FEDE92 /* run.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EB1C33581700FEDE92 /* run.json */; };
+		303B769B1C355AA400FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
+		303B769C1C355AA400FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
+		303B76A21C355ACF00FEDE92 /* libouzel_tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76801C355A3B00FEDE92 /* libouzel_tvos.a */; };
+		303B76A41C355ADC00FEDE92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A31C355ADC00FEDE92 /* UIKit.framework */; };
+		303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A51C355AE900FEDE92 /* OpenGLES.framework */; };
+		303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A71C355AF900FEDE92 /* Foundation.framework */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -224,6 +316,19 @@
 		303B76271C34D11400FEDE92 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		303B762B1C34D22700FEDE92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ios/Info.plist; sourceTree = "<group>"; };
 		303B762C1C34D22700FEDE92 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ios/Prefix.pch; sourceTree = "<group>"; };
+		303B762D1C3559B900FEDE92 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		303B762E1C3559B900FEDE92 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B76811C355A5800FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = tvos/AppDelegate.h; sourceTree = "<group>"; };
+		303B76821C355A5800FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = tvos/AppDelegate.mm; sourceTree = "<group>"; };
+		303B76831C355A5800FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = tvos/main.m; sourceTree = "<group>"; };
+		303B76841C355A5800FEDE92 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = tvos/ViewController.h; sourceTree = "<group>"; };
+		303B76851C355A5800FEDE92 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = tvos/ViewController.m; sourceTree = "<group>"; };
+		303B76A01C355AA400FEDE92 /* sprite_tvos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_tvos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B76A11C355AA400FEDE92 /* sprite_ios copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "sprite_ios copy-Info.plist"; path = "/Users/elviss/Projects/ouzel/build/sprite_ios copy-Info.plist"; sourceTree = "<absolute>"; };
+		303B76A31C355ADC00FEDE92 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		303B76A51C355AE900FEDE92 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
+		303B76A71C355AF900FEDE92 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -311,6 +416,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		303B76561C355A3B00FEDE92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		303B768F1C355AA400FEDE92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */,
+				303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */,
+				303B76A41C355ADC00FEDE92 /* UIKit.framework in Frameworks */,
+				303B76A21C355ACF00FEDE92 /* libouzel_tvos.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		304A8E071C237B95008B1151 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -334,6 +457,9 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				303B76A71C355AF900FEDE92 /* Foundation.framework */,
+				303B76A51C355AE900FEDE92 /* OpenGLES.framework */,
+				303B76A31C355ADC00FEDE92 /* UIKit.framework */,
 				303B76271C34D11400FEDE92 /* UIKit.framework */,
 				303B76251C34D10200FEDE92 /* Foundation.framework */,
 				303B76221C34D0A900FEDE92 /* OpenGLES.framework */,
@@ -473,6 +599,8 @@
 				303B75751C2A3E3000FEDE92 /* AppDelegate.h */,
 				303B75741C2A3E3000FEDE92 /* AppDelegate.mm */,
 				303B75701C2A3D7F00FEDE92 /* main.m */,
+				303B762D1C3559B900FEDE92 /* ViewController.h */,
+				303B762E1C3559B900FEDE92 /* ViewController.m */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -495,12 +623,25 @@
 			name = ios;
 			sourceTree = "<group>";
 		};
+		303B76311C355A3400FEDE92 /* tvos */ = {
+			isa = PBXGroup;
+			children = (
+				303B76811C355A5800FEDE92 /* AppDelegate.h */,
+				303B76821C355A5800FEDE92 /* AppDelegate.mm */,
+				303B76831C355A5800FEDE92 /* main.m */,
+				303B76841C355A5800FEDE92 /* ViewController.h */,
+				303B76851C355A5800FEDE92 /* ViewController.m */,
+			);
+			name = tvos;
+			sourceTree = "<group>";
+		};
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
 				304A8E291C237C51008B1151 /* ouzel */,
 				304A8E0C1C237B95008B1151 /* samples */,
 				304A8E0B1C237B95008B1151 /* Products */,
+				303B76A11C355AA400FEDE92 /* sprite_ios copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -511,6 +652,8 @@
 				304A8E251C237C30008B1151 /* libouzel_osx.a */,
 				303B75331C2A3C5800FEDE92 /* libouzel_ios.a */,
 				303B76201C34CFE300FEDE92 /* sprite_ios.app */,
+				303B76801C355A3B00FEDE92 /* libouzel_tvos.a */,
+				303B76A01C355AA400FEDE92 /* sprite_tvos.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -536,6 +679,7 @@
 				303B751B1C29EDD900FEDE92 /* osx */,
 				304A8E2A1C237C70008B1151 /* ouzel.h */,
 				303B750D1C28828600FEDE92 /* scene */,
+				303B76311C355A3400FEDE92 /* tvos */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.h */,
 			);
@@ -594,6 +738,7 @@
 				303B75581C2A3CB700FEDE92 /* Vector2.h in Headers */,
 				303B753F1C2A3C9200FEDE92 /* Color.h in Headers */,
 				303B75471C2A3C9200FEDE92 /* RenderTarget.h in Headers */,
+				303B762F1C3559B900FEDE92 /* ViewController.h in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.h in Headers */,
 				303B75F41C335B7D00FEDE92 /* File.h in Headers */,
 				303B755C1C2A3CB700FEDE92 /* Vector4.h in Headers */,
@@ -625,6 +770,52 @@
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
 				303B75771C2A3E3000FEDE92 /* AppDelegate.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		303B76571C355A3B00FEDE92 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
+				303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */,
+				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
+				303B765B1C355A3B00FEDE92 /* Color.h in Headers */,
+				303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */,
+				303B765D1C355A3B00FEDE92 /* ViewController.h in Headers */,
+				303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */,
+				303B765F1C355A3B00FEDE92 /* File.h in Headers */,
+				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
+				303B76611C355A3B00FEDE92 /* Utils.h in Headers */,
+				303B76621C355A3B00FEDE92 /* MeshBuffer.h in Headers */,
+				303B76631C355A3B00FEDE92 /* Engine.h in Headers */,
+				303B76641C355A3B00FEDE92 /* Scene.h in Headers */,
+				303B76651C355A3B00FEDE92 /* TextureVSOGL.h in Headers */,
+				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
+				303B76671C355A3B00FEDE92 /* ColorPSOGL.h in Headers */,
+				303B76681C355A3B00FEDE92 /* Input.h in Headers */,
+				303B76691C355A3B00FEDE92 /* Rectangle.h in Headers */,
+				303B766A1C355A3B00FEDE92 /* AutoPtr.h in Headers */,
+				303B766B1C355A3B00FEDE92 /* Noncopyable.h in Headers */,
+				303B766C1C355A3B00FEDE92 /* MathUtils.h in Headers */,
+				303B766D1C355A3B00FEDE92 /* ReferenceCounted.h in Headers */,
+				303B766E1C355A3B00FEDE92 /* EventHander.h in Headers */,
+				303B766F1C355A3B00FEDE92 /* ColorVSOGL.h in Headers */,
+				303B76701C355A3B00FEDE92 /* Event.h in Headers */,
+				303B76711C355A3B00FEDE92 /* Image.h in Headers */,
+				303B76721C355A3B00FEDE92 /* Renderer.h in Headers */,
+				303B76731C355A3B00FEDE92 /* Size2.h in Headers */,
+				303B76741C355A3B00FEDE92 /* Shader.h in Headers */,
+				303B76751C355A3B00FEDE92 /* TexturePSOGL.h in Headers */,
+				303B76761C355A3B00FEDE92 /* Vertex.h in Headers */,
+				303B76771C355A3B00FEDE92 /* Camera.h in Headers */,
+				303B76781C355A3B00FEDE92 /* CompileConfig.h in Headers */,
+				303B76791C355A3B00FEDE92 /* Sprite.h in Headers */,
+				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
+				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
+				303B767C1C355A3B00FEDE92 /* AppDelegate.h in Headers */,
+				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
+				303B76891C355A5800FEDE92 /* ViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -716,6 +907,40 @@
 			productReference = 303B76201C34CFE300FEDE92 /* sprite_ios.app */;
 			productType = "com.apple.product-type.application";
 		};
+		303B76321C355A3B00FEDE92 /* ouzel_tvos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 303B767D1C355A3B00FEDE92 /* Build configuration list for PBXNativeTarget "ouzel_tvos" */;
+			buildPhases = (
+				303B76331C355A3B00FEDE92 /* Sources */,
+				303B76561C355A3B00FEDE92 /* Frameworks */,
+				303B76571C355A3B00FEDE92 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ouzel_tvos;
+			productName = ouzel_ios;
+			productReference = 303B76801C355A3B00FEDE92 /* libouzel_tvos.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		303B768B1C355AA400FEDE92 /* sprite_tvos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 303B769D1C355AA400FEDE92 /* Build configuration list for PBXNativeTarget "sprite_tvos" */;
+			buildPhases = (
+				303B768C1C355AA400FEDE92 /* Sources */,
+				303B768F1C355AA400FEDE92 /* Frameworks */,
+				303B76941C355AA400FEDE92 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sprite_tvos;
+			productName = blackbird;
+			productReference = 303B76A01C355AA400FEDE92 /* sprite_tvos.app */;
+			productType = "com.apple.product-type.application";
+		};
 		304A8E091C237B95008B1151 /* sprite_osx */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "sprite_osx" */;
@@ -788,8 +1013,10 @@
 			targets = (
 				304A8E241C237C30008B1151 /* ouzel_osx */,
 				303B75321C2A3C5800FEDE92 /* ouzel_ios */,
+				303B76321C355A3B00FEDE92 /* ouzel_tvos */,
 				304A8E091C237B95008B1151 /* sprite_osx */,
 				303B760C1C34CFE300FEDE92 /* sprite_ios */,
+				303B768B1C355AA400FEDE92 /* sprite_tvos */,
 			);
 		};
 /* End PBXProject section */
@@ -807,6 +1034,21 @@
 				303B761A1C34CFE300FEDE92 /* run.json in Resources */,
 				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		303B76941C355AA400FEDE92 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				303B76951C355AA400FEDE92 /* Assets.xcassets in Resources */,
+				303B76961C355AA400FEDE92 /* flame.png in Resources */,
+				303B76971C355AA400FEDE92 /* witch.png in Resources */,
+				303B76981C355AA400FEDE92 /* flame.json in Resources */,
+				303B76991C355AA400FEDE92 /* fire.json in Resources */,
+				303B769A1C355AA400FEDE92 /* run.json in Resources */,
+				303B769B1C355AA400FEDE92 /* run.png in Resources */,
+				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -832,6 +1074,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				303B76301C3559B900FEDE92 /* ViewController.m in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
@@ -874,6 +1117,59 @@
 			files = (
 				303B760E1C34CFE300FEDE92 /* Application.cpp in Sources */,
 				303B760F1C34CFE300FEDE92 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		303B76331C355A3B00FEDE92 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				303B76341C355A3B00FEDE92 /* ViewController.m in Sources */,
+				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
+				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
+				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
+				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
+				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
+				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
+				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
+				303B763B1C355A3B00FEDE92 /* RendererOGL.cpp in Sources */,
+				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
+				303B763D1C355A3B00FEDE92 /* Shader.cpp in Sources */,
+				303B763E1C355A3B00FEDE92 /* Scene.cpp in Sources */,
+				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
+				303B76401C355A3B00FEDE92 /* MeshBufferOGL.cpp in Sources */,
+				303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */,
+				303B76421C355A3B00FEDE92 /* Matrix3.cpp in Sources */,
+				303B76431C355A3B00FEDE92 /* Texture.cpp in Sources */,
+				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
+				303B768A1C355A5800FEDE92 /* ViewController.m in Sources */,
+				303B76451C355A3B00FEDE92 /* main.m in Sources */,
+				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
+				303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */,
+				303B76481C355A3B00FEDE92 /* TextureOGL.cpp in Sources */,
+				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,
+				303B764A1C355A3B00FEDE92 /* AppDelegate.mm in Sources */,
+				303B764B1C355A3B00FEDE92 /* Image.cpp in Sources */,
+				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
+				303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */,
+				303B764E1C355A3B00FEDE92 /* Color.cpp in Sources */,
+				303B764F1C355A3B00FEDE92 /* ShaderOGL.cpp in Sources */,
+				303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */,
+				303B76511C355A3B00FEDE92 /* RenderTargetOGL.cpp in Sources */,
+				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
+				303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */,
+				303B76541C355A3B00FEDE92 /* Node.cpp in Sources */,
+				303B76881C355A5800FEDE92 /* main.m in Sources */,
+				303B76551C355A3B00FEDE92 /* File.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		303B768C1C355AA400FEDE92 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				303B768D1C355AA400FEDE92 /* Application.cpp in Sources */,
+				303B768E1C355AA400FEDE92 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,7 +1237,7 @@
 					../external/rapidjson/include/,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos9.2;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -956,7 +1252,7 @@
 					../external/rapidjson/include/,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos9.2;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -995,6 +1291,74 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		303B767E1C355A3B00FEDE92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					../external/stb/,
+					../external/rapidjson/include/,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+			};
+			name = Debug;
+		};
+		303B767F1C355A3B00FEDE92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					../external/stb/,
+					../external/rapidjson/include/,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+			};
+			name = Release;
+		};
+		303B769E1C355AA400FEDE92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../samples/sprite/ios/Prefix.pch;
+				HEADER_SEARCH_PATHS = ../ouzel/;
+				INFOPLIST_FILE = "sprite_ios copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = appletvos;
+			};
+			name = Debug;
+		};
+		303B769F1C355AA400FEDE92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../samples/sprite/ios/Prefix.pch;
+				HEADER_SEARCH_PATHS = ../ouzel/;
+				INFOPLIST_FILE = "sprite_ios copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = appletvos;
 			};
 			name = Release;
 		};
@@ -1150,6 +1514,24 @@
 			buildConfigurations = (
 				303B761E1C34CFE300FEDE92 /* Debug */,
 				303B761F1C34CFE300FEDE92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		303B767D1C355A3B00FEDE92 /* Build configuration list for PBXNativeTarget "ouzel_tvos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				303B767E1C355A3B00FEDE92 /* Debug */,
+				303B767F1C355A3B00FEDE92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		303B769D1C355AA400FEDE92 /* Build configuration list for PBXNativeTarget "sprite_tvos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				303B769E1C355AA400FEDE92 /* Debug */,
+				303B769F1C355AA400FEDE92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
