@@ -14,7 +14,7 @@ using namespace ouzel;
     self = [super initWithFrame:frameRect];
     if (self != nil)
     {
-        NSTimer *updateTimer = [NSTimer timerWithTimeInterval:1.0f/60.0f target:self selector:@selector(idle:) userInfo:nil repeats:YES];
+        NSTimer* updateTimer = [NSTimer timerWithTimeInterval:1.0f/60.0f target:self selector:@selector(idle:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:updateTimer forMode:NSDefaultRunLoopMode];
         
         // Create pixel format
@@ -106,10 +106,12 @@ using namespace ouzel;
 {
     _openGLContext = context;
 }
+
 -(NSOpenGLContext*)openGLContext
 {
     return _openGLContext;
 }
+
 -(void)clearGLContext
 {
     [_openGLContext clearDrawable];
@@ -119,6 +121,7 @@ using namespace ouzel;
 {
     _pixelFormat = pixelFormat;
 }
+
 -(NSOpenGLPixelFormat*)pixelFormat
 {
     return _pixelFormat;
@@ -141,7 +144,6 @@ void updateModifiers(NSEvent* theEvent, Event& event)
     event.keyboardEvent.commandDown = theEvent.modifierFlags & NSCommandKeyMask;
     event.keyboardEvent.functionDown = theEvent.modifierFlags & NSFunctionKeyMask;
 }
-
 
 // defines from Carbon
 enum {

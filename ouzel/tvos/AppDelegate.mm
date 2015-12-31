@@ -3,6 +3,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "OpenGLView.h"
 #include "Engine.h"
 
 @interface AppDelegate ()
@@ -18,7 +19,12 @@
     _engine = new ouzel::Engine();
     
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    _window.rootViewController = [[ViewController alloc] init];
+    
+    UIViewController* viewController = [[ViewController alloc] init];
+    _window.rootViewController = viewController;
+    
+    OpenGLView* view = [[OpenGLView alloc] init];
+    viewController.view = view;
     
     [_window makeKeyAndVisible];
     
@@ -48,6 +54,11 @@
 -(void)applicationWillTerminate:(UIApplication *)application
 {
     delete _engine;
+}
+
+-(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    //TODO: free resources
 }
 
 @end
