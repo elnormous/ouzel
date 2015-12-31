@@ -5,7 +5,6 @@
 
 #include <string>
 #include <vector>
-#include "CompileConfig.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 

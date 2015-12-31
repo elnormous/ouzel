@@ -102,6 +102,10 @@
 		303B75F81C33756100FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
 		303B76031C349CA800FEDE92 /* flame.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B76011C349CA800FEDE92 /* flame.json */; };
 		303B76041C349CA800FEDE92 /* flame.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B76021C349CA800FEDE92 /* flame.png */; };
+		303B76081C34A92B00FEDE92 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* Input.cpp */; };
+		303B76091C34A92B00FEDE92 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* Input.cpp */; };
+		303B760A1C34A92B00FEDE92 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.h */; };
+		303B760B1C34A92B00FEDE92 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.h */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -198,6 +202,8 @@
 		303B75F61C33756100FEDE92 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
 		303B76011C349CA800FEDE92 /* flame.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = flame.json; sourceTree = "<group>"; };
 		303B76021C349CA800FEDE92 /* flame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flame.png; sourceTree = "<group>"; };
+		303B76061C34A92B00FEDE92 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
+		303B76071C34A92B00FEDE92 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -437,6 +443,15 @@
 			path = ios;
 			sourceTree = "<group>";
 		};
+		303B76051C34A91B00FEDE92 /* input */ = {
+			isa = PBXGroup;
+			children = (
+				303B76061C34A92B00FEDE92 /* Input.cpp */,
+				303B76071C34A92B00FEDE92 /* Input.h */,
+			);
+			name = input;
+			sourceTree = "<group>";
+		};
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
@@ -468,12 +483,13 @@
 		304A8E291C237C51008B1151 /* ouzel */ = {
 			isa = PBXGroup;
 			children = (
-				303B751B1C29EDD900FEDE92 /* osx */,
-				303B756F1C2A3D0300FEDE92 /* ios */,
 				303B75111C28838C00FEDE92 /* core */,
 				303B75121C2883C800FEDE92 /* files */,
 				303B75101C28830A00FEDE92 /* graphics */,
+				303B76051C34A91B00FEDE92 /* input */,
+				303B756F1C2A3D0300FEDE92 /* ios */,
 				303B750F1C2882CA00FEDE92 /* math */,
+				303B751B1C29EDD900FEDE92 /* osx */,
 				304A8E2A1C237C70008B1151 /* ouzel.h */,
 				303B750D1C28828600FEDE92 /* scene */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
@@ -543,6 +559,7 @@
 				303B75E91C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Node.h in Headers */,
 				303B75E31C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
+				303B760B1C34A92B00FEDE92 /* Input.h in Headers */,
 				303B75541C2A3CB700FEDE92 /* Rectangle.h in Headers */,
 				303B759A1C2CA2EA00FEDE92 /* AutoPtr.h in Headers */,
 				303B753B1C2A3C8200FEDE92 /* Noncopyable.h in Headers */,
@@ -605,6 +622,7 @@
 				304A8E8B1C2486C6008B1151 /* RenderTarget.h in Headers */,
 				304A8E6F1C237C70008B1151 /* Utils.h in Headers */,
 				303B75011C28208800FEDE92 /* FileSystem.h in Headers */,
+				303B760A1C34A92B00FEDE92 /* Input.h in Headers */,
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
 				304A8E841C24814F008B1151 /* RenderTargetOGL.h in Headers */,
 				304A8E621C237C70008B1151 /* Rectangle.h in Headers */,
@@ -736,6 +754,7 @@
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
+				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
 				303B75791C2A43D100FEDE92 /* RendererOGL.cpp in Sources */,
@@ -785,6 +804,7 @@
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
 				303B751D1C29EDEE00FEDE92 /* main.m in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
+				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
 				303B75161C288CFB00FEDE92 /* MeshBufferOGL.cpp in Sources */,
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,

@@ -8,14 +8,13 @@
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Renderer.h"
+#include "Scene.h"
+#include "FileSystem.h"
+#include "Input.h"
 #include "EventHander.h"
 
 namespace ouzel
 {
-    class Renderer;
-    class Scene;
-    class FileSystem;
-    
     struct Settings
     {
         Renderer::Driver driver = Renderer::Driver::NONE;
@@ -44,6 +43,7 @@ namespace ouzel
         AutoPtr<Renderer> _renderer;
         AutoPtr<Scene> _scene;
         AutoPtr<FileSystem> _fileSystem;
+        AutoPtr<Input> _input;
         
         uint64_t _previousFrameTime;
         

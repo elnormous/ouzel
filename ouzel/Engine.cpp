@@ -74,6 +74,8 @@ namespace ouzel
         _scene = new Scene();
         _scene->init();
         
+        _input = new Input();
+        
         _previousFrameTime = getCurrentMicroSeconds();
     }
     
