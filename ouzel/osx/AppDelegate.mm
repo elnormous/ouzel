@@ -73,4 +73,9 @@
     return YES;
 }
 
+-(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    //TODO: free resources
+}
+
 @end

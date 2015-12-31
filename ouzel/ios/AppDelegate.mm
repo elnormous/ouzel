@@ -50,4 +50,9 @@
     delete _engine;
 }
 
+-(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    //TODO: free resources
+}
+
 @end

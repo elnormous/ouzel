@@ -10,4 +10,9 @@
 
 @implementation ViewController
 
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 @end

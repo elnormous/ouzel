@@ -122,7 +122,6 @@
 		303B76291C34D15300FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76251C34D10200FEDE92 /* Foundation.framework */; };
 		303B762F1C3559B900FEDE92 /* ViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B762D1C3559B900FEDE92 /* ViewController.h */; };
 		303B76301C3559B900FEDE92 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B762E1C3559B900FEDE92 /* ViewController.m */; };
-		303B76341C355A3B00FEDE92 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B762E1C3559B900FEDE92 /* ViewController.m */; };
 		303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3E1C237C70008B1151 /* Renderer.cpp */; };
 		303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E901C26ED32008B1151 /* MeshBuffer.cpp */; };
 		303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
@@ -139,12 +138,10 @@
 		303B76421C355A3B00FEDE92 /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E321C237C70008B1151 /* Matrix3.cpp */; };
 		303B76431C355A3B00FEDE92 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E461C237C70008B1151 /* Texture.cpp */; };
 		303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
-		303B76451C355A3B00FEDE92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B75701C2A3D7F00FEDE92 /* main.m */; };
 		303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E4A1C237C70008B1151 /* Vector2.cpp */; };
 		303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E881C2486C6008B1151 /* RenderTarget.cpp */; };
 		303B76481C355A3B00FEDE92 /* TextureOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E7F1C24814F008B1151 /* TextureOGL.cpp */; };
 		303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3B1C237C70008B1151 /* Rectangle.cpp */; };
-		303B764A1C355A3B00FEDE92 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B75741C2A3E3000FEDE92 /* AppDelegate.mm */; };
 		303B764B1C355A3B00FEDE92 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* Image.cpp */; };
 		303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E341C237C70008B1151 /* Matrix4.cpp */; };
@@ -161,7 +158,6 @@
 		303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4B1C237C70008B1151 /* Vector2.h */; };
 		303B765B1C355A3B00FEDE92 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E9D1C27081B008B1151 /* Color.h */; };
 		303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E891C2486C6008B1151 /* RenderTarget.h */; };
-		303B765D1C355A3B00FEDE92 /* ViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B762D1C3559B900FEDE92 /* ViewController.h */; };
 		303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4D1C237C70008B1151 /* Vector3.h */; };
 		303B765F1C355A3B00FEDE92 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75F01C335B7D00FEDE92 /* File.h */; };
 		303B76601C355A3B00FEDE92 /* Vector4.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4F1C237C70008B1151 /* Vector4.h */; };
@@ -192,7 +188,6 @@
 		303B76791C355A3B00FEDE92 /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* Sprite.h */; };
 		303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E331C237C70008B1151 /* Matrix3.h */; };
 		303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E951C26EDFB008B1151 /* ParticleSystem.h */; };
-		303B767C1C355A3B00FEDE92 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75751C2A3E3000FEDE92 /* AppDelegate.h */; };
 		303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76811C355A5800FEDE92 /* AppDelegate.h */; };
 		303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B76821C355A5800FEDE92 /* AppDelegate.mm */; };
 		303B76881C355A5800FEDE92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76831C355A5800FEDE92 /* main.m */; };
@@ -782,7 +777,6 @@
 				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
 				303B765B1C355A3B00FEDE92 /* Color.h in Headers */,
 				303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */,
-				303B765D1C355A3B00FEDE92 /* ViewController.h in Headers */,
 				303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */,
 				303B765F1C355A3B00FEDE92 /* File.h in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
@@ -813,7 +807,6 @@
 				303B76791C355A3B00FEDE92 /* Sprite.h in Headers */,
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
-				303B767C1C355A3B00FEDE92 /* AppDelegate.h in Headers */,
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
 				303B76891C355A5800FEDE92 /* ViewController.h in Headers */,
 			);
@@ -1124,7 +1117,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B76341C355A3B00FEDE92 /* ViewController.m in Sources */,
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
@@ -1143,12 +1135,10 @@
 				303B76431C355A3B00FEDE92 /* Texture.cpp in Sources */,
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
 				303B768A1C355A5800FEDE92 /* ViewController.m in Sources */,
-				303B76451C355A3B00FEDE92 /* main.m in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
 				303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */,
 				303B76481C355A3B00FEDE92 /* TextureOGL.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,
-				303B764A1C355A3B00FEDE92 /* AppDelegate.mm in Sources */,
 				303B764B1C355A3B00FEDE92 /* Image.cpp in Sources */,
 				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
 				303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */,
