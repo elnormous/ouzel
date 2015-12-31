@@ -208,9 +208,11 @@
 		303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A51C355AE900FEDE92 /* OpenGLES.framework */; };
 		303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A71C355AF900FEDE92 /* Foundation.framework */; };
 		303B76C11C35630B00FEDE92 /* OpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76BF1C35630B00FEDE92 /* OpenGLView.h */; };
-		303B76C21C35630B00FEDE92 /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76C01C35630B00FEDE92 /* OpenGLView.m */; };
+		303B76C21C35630B00FEDE92 /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B76C01C35630B00FEDE92 /* OpenGLView.mm */; };
 		303B76C51C35635700FEDE92 /* OpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76C31C35635700FEDE92 /* OpenGLView.h */; };
-		303B76C61C35635700FEDE92 /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76C41C35635700FEDE92 /* OpenGLView.m */; };
+		303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B76C41C35635700FEDE92 /* OpenGLView.mm */; };
+		303B76C81C35695900FEDE92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76C71C35695900FEDE92 /* QuartzCore.framework */; };
+		303B76CA1C35696200FEDE92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76C91C35696200FEDE92 /* QuartzCore.framework */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -318,20 +320,22 @@
 		303B762D1C3559B900FEDE92 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		303B762E1C3559B900FEDE92 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		303B76811C355A5800FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = tvos/AppDelegate.h; sourceTree = "<group>"; };
-		303B76821C355A5800FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = tvos/AppDelegate.mm; sourceTree = "<group>"; };
-		303B76831C355A5800FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = tvos/main.m; sourceTree = "<group>"; };
-		303B76841C355A5800FEDE92 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = tvos/ViewController.h; sourceTree = "<group>"; };
-		303B76851C355A5800FEDE92 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = tvos/ViewController.m; sourceTree = "<group>"; };
+		303B76811C355A5800FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		303B76821C355A5800FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		303B76831C355A5800FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		303B76841C355A5800FEDE92 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		303B76851C355A5800FEDE92 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		303B76A01C355AA400FEDE92 /* sprite_tvos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_tvos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B76A11C355AA400FEDE92 /* sprite_ios copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "sprite_ios copy-Info.plist"; path = "/Users/elviss/Projects/ouzel/build/sprite_ios copy-Info.plist"; sourceTree = "<absolute>"; };
 		303B76A31C355ADC00FEDE92 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		303B76A51C355AE900FEDE92 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		303B76A71C355AF900FEDE92 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		303B76BF1C35630B00FEDE92 /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
-		303B76C01C35630B00FEDE92 /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
+		303B76C01C35630B00FEDE92 /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
 		303B76C31C35635700FEDE92 /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
-		303B76C41C35635700FEDE92 /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
+		303B76C41C35635700FEDE92 /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
+		303B76C71C35695900FEDE92 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		303B76C91C35696200FEDE92 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -412,6 +416,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				303B76C81C35695900FEDE92 /* QuartzCore.framework in Frameworks */,
 				303B76241C34D0D400FEDE92 /* libouzel_ios.a in Frameworks */,
 				303B76281C34D11500FEDE92 /* UIKit.framework in Frameworks */,
 				303B76231C34D0A900FEDE92 /* OpenGLES.framework in Frameworks */,
@@ -430,6 +435,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				303B76CA1C35696200FEDE92 /* QuartzCore.framework in Frameworks */,
 				303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */,
 				303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */,
 				303B76A41C355ADC00FEDE92 /* UIKit.framework in Frameworks */,
@@ -460,6 +466,8 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				303B76C91C35696200FEDE92 /* QuartzCore.framework */,
+				303B76C71C35695900FEDE92 /* QuartzCore.framework */,
 				303B76A71C355AF900FEDE92 /* Foundation.framework */,
 				303B76A51C355AE900FEDE92 /* OpenGLES.framework */,
 				303B76A31C355ADC00FEDE92 /* UIKit.framework */,
@@ -603,7 +611,7 @@
 				303B75741C2A3E3000FEDE92 /* AppDelegate.mm */,
 				303B75701C2A3D7F00FEDE92 /* main.m */,
 				303B76BF1C35630B00FEDE92 /* OpenGLView.h */,
-				303B76C01C35630B00FEDE92 /* OpenGLView.m */,
+				303B76C01C35630B00FEDE92 /* OpenGLView.mm */,
 				303B762D1C3559B900FEDE92 /* ViewController.h */,
 				303B762E1C3559B900FEDE92 /* ViewController.m */,
 			);
@@ -635,11 +643,11 @@
 				303B76821C355A5800FEDE92 /* AppDelegate.mm */,
 				303B76831C355A5800FEDE92 /* main.m */,
 				303B76C31C35635700FEDE92 /* OpenGLView.h */,
-				303B76C41C35635700FEDE92 /* OpenGLView.m */,
+				303B76C41C35635700FEDE92 /* OpenGLView.mm */,
 				303B76841C355A5800FEDE92 /* ViewController.h */,
 				303B76851C355A5800FEDE92 /* ViewController.m */,
 			);
-			name = tvos;
+			path = tvos;
 			sourceTree = "<group>";
 		};
 		304A8E011C237B95008B1151 = {
@@ -1100,7 +1108,7 @@
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75711C2A3D7F00FEDE92 /* main.m in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
-				303B76C21C35630B00FEDE92 /* OpenGLView.m in Sources */,
+				303B76C21C35630B00FEDE92 /* OpenGLView.mm in Sources */,
 				303B75461C2A3C9200FEDE92 /* RenderTarget.cpp in Sources */,
 				303B757C1C2A43D900FEDE92 /* TextureOGL.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rectangle.cpp in Sources */,
@@ -1151,7 +1159,7 @@
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
 				303B768A1C355A5800FEDE92 /* ViewController.m in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
-				303B76C61C35635700FEDE92 /* OpenGLView.m in Sources */,
+				303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */,
 				303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */,
 				303B76481C355A3B00FEDE92 /* TextureOGL.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,

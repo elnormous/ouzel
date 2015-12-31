@@ -23,7 +23,7 @@
     UIViewController* viewController = [[ViewController alloc] init];
     _window.rootViewController = viewController;
     
-    OpenGLView* view = [[OpenGLView alloc] init];
+    OpenGLView* view = [[OpenGLView alloc] initWithFrame:[_window bounds]];
     viewController.view = view;
     
     [_window makeKeyAndVisible];
