@@ -207,6 +207,10 @@
 		303B76A41C355ADC00FEDE92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A31C355ADC00FEDE92 /* UIKit.framework */; };
 		303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A51C355AE900FEDE92 /* OpenGLES.framework */; };
 		303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A71C355AF900FEDE92 /* Foundation.framework */; };
+		303B76C11C35630B00FEDE92 /* OpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76BF1C35630B00FEDE92 /* OpenGLView.h */; };
+		303B76C21C35630B00FEDE92 /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76C01C35630B00FEDE92 /* OpenGLView.m */; };
+		303B76C51C35635700FEDE92 /* OpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76C31C35635700FEDE92 /* OpenGLView.h */; };
+		303B76C61C35635700FEDE92 /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76C41C35635700FEDE92 /* OpenGLView.m */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -324,6 +328,10 @@
 		303B76A31C355ADC00FEDE92 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		303B76A51C355AE900FEDE92 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		303B76A71C355AF900FEDE92 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		303B76BF1C35630B00FEDE92 /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
+		303B76C01C35630B00FEDE92 /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
+		303B76C31C35635700FEDE92 /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
+		303B76C41C35635700FEDE92 /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -594,6 +602,8 @@
 				303B75751C2A3E3000FEDE92 /* AppDelegate.h */,
 				303B75741C2A3E3000FEDE92 /* AppDelegate.mm */,
 				303B75701C2A3D7F00FEDE92 /* main.m */,
+				303B76BF1C35630B00FEDE92 /* OpenGLView.h */,
+				303B76C01C35630B00FEDE92 /* OpenGLView.m */,
 				303B762D1C3559B900FEDE92 /* ViewController.h */,
 				303B762E1C3559B900FEDE92 /* ViewController.m */,
 			);
@@ -624,6 +634,8 @@
 				303B76811C355A5800FEDE92 /* AppDelegate.h */,
 				303B76821C355A5800FEDE92 /* AppDelegate.mm */,
 				303B76831C355A5800FEDE92 /* main.m */,
+				303B76C31C35635700FEDE92 /* OpenGLView.h */,
+				303B76C41C35635700FEDE92 /* OpenGLView.m */,
 				303B76841C355A5800FEDE92 /* ViewController.h */,
 				303B76851C355A5800FEDE92 /* ViewController.m */,
 			);
@@ -760,6 +772,7 @@
 				303B75E71C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.h in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.h in Headers */,
+				303B76C11C35630B00FEDE92 /* OpenGLView.h in Headers */,
 				303B75371C2A3C8200FEDE92 /* CompileConfig.h in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
@@ -804,6 +817,7 @@
 				303B76761C355A3B00FEDE92 /* Vertex.h in Headers */,
 				303B76771C355A3B00FEDE92 /* Camera.h in Headers */,
 				303B76781C355A3B00FEDE92 /* CompileConfig.h in Headers */,
+				303B76C51C35635700FEDE92 /* OpenGLView.h in Headers */,
 				303B76791C355A3B00FEDE92 /* Sprite.h in Headers */,
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
@@ -1086,6 +1100,7 @@
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75711C2A3D7F00FEDE92 /* main.m in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
+				303B76C21C35630B00FEDE92 /* OpenGLView.m in Sources */,
 				303B75461C2A3C9200FEDE92 /* RenderTarget.cpp in Sources */,
 				303B757C1C2A43D900FEDE92 /* TextureOGL.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rectangle.cpp in Sources */,
@@ -1136,6 +1151,7 @@
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
 				303B768A1C355A5800FEDE92 /* ViewController.m in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
+				303B76C61C35635700FEDE92 /* OpenGLView.m in Sources */,
 				303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */,
 				303B76481C355A3B00FEDE92 /* TextureOGL.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,
