@@ -106,6 +106,20 @@
 		303B76091C34A92B00FEDE92 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* Input.cpp */; };
 		303B760A1C34A92B00FEDE92 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.h */; };
 		303B760B1C34A92B00FEDE92 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.h */; };
+		303B760E1C34CFE300FEDE92 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
+		303B760F1C34CFE300FEDE92 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75181C29EB8400FEDE92 /* main.cpp */; };
+		303B76151C34CFE300FEDE92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
+		303B76161C34CFE300FEDE92 /* flame.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B76021C349CA800FEDE92 /* flame.png */; };
+		303B76171C34CFE300FEDE92 /* witch.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75081C286F8D00FEDE92 /* witch.png */; };
+		303B76181C34CFE300FEDE92 /* flame.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B76011C349CA800FEDE92 /* flame.json */; };
+		303B76191C34CFE300FEDE92 /* fire.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F51C33756100FEDE92 /* fire.json */; };
+		303B761A1C34CFE300FEDE92 /* run.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EB1C33581700FEDE92 /* run.json */; };
+		303B761B1C34CFE300FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
+		303B761C1C34CFE300FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
+		303B76231C34D0A900FEDE92 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76221C34D0A900FEDE92 /* OpenGLES.framework */; };
+		303B76241C34D0D400FEDE92 /* libouzel_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B75331C2A3C5800FEDE92 /* libouzel_ios.a */; };
+		303B76281C34D11500FEDE92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76271C34D11400FEDE92 /* UIKit.framework */; };
+		303B76291C34D15300FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76251C34D10200FEDE92 /* Foundation.framework */; };
 		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -204,6 +218,12 @@
 		303B76021C349CA800FEDE92 /* flame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flame.png; sourceTree = "<group>"; };
 		303B76061C34A92B00FEDE92 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
 		303B76071C34A92B00FEDE92 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
+		303B76201C34CFE300FEDE92 /* sprite_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B76221C34D0A900FEDE92 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
+		303B76251C34D10200FEDE92 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		303B76271C34D11400FEDE92 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		303B762B1C34D22700FEDE92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ios/Info.plist; sourceTree = "<group>"; };
+		303B762C1C34D22700FEDE92 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ios/Prefix.pch; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -280,13 +300,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		303B76101C34CFE300FEDE92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				303B76241C34D0D400FEDE92 /* libouzel_ios.a in Frameworks */,
+				303B76281C34D11500FEDE92 /* UIKit.framework in Frameworks */,
+				303B76231C34D0A900FEDE92 /* OpenGLES.framework in Frameworks */,
+				303B76291C34D15300FEDE92 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		304A8E071C237B95008B1151 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				304A8EA51C274183008B1151 /* libouzel_osx.a in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
 				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,
-				304A8EA51C274183008B1151 /* libouzel_osx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +334,9 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				303B76271C34D11400FEDE92 /* UIKit.framework */,
+				303B76251C34D10200FEDE92 /* Foundation.framework */,
+				303B76221C34D0A900FEDE92 /* OpenGLES.framework */,
 				303B74F21C27F6EB00FEDE92 /* Cocoa.framework */,
 				303B74F01C27F6DD00FEDE92 /* AppKit.framework */,
 				303B74ED1C27F6A100FEDE92 /* OpenGL.framework */,
@@ -452,6 +486,15 @@
 			name = input;
 			sourceTree = "<group>";
 		};
+		303B762A1C34D21100FEDE92 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				303B762B1C34D22700FEDE92 /* Info.plist */,
+				303B762C1C34D22700FEDE92 /* Prefix.pch */,
+			);
+			name = ios;
+			sourceTree = "<group>";
+		};
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
@@ -467,6 +510,7 @@
 				304A8E0A1C237B95008B1151 /* sprite_osx.app */,
 				304A8E251C237C30008B1151 /* libouzel_osx.a */,
 				303B75331C2A3C5800FEDE92 /* libouzel_ios.a */,
+				303B76201C34CFE300FEDE92 /* sprite_ios.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -527,6 +571,7 @@
 		304A8EB31C2765DE008B1151 /* sprite */ = {
 			isa = PBXGroup;
 			children = (
+				303B762A1C34D21100FEDE92 /* ios */,
 				303B74EF1C27F6B000FEDE92 /* Frameworks */,
 				304A8EB21C2765C4008B1151 /* Resources */,
 				304A8EA41C274113008B1151 /* osx */,
@@ -654,6 +699,23 @@
 			productReference = 303B75331C2A3C5800FEDE92 /* libouzel_ios.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		303B760C1C34CFE300FEDE92 /* sprite_ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 303B761D1C34CFE300FEDE92 /* Build configuration list for PBXNativeTarget "sprite_ios" */;
+			buildPhases = (
+				303B760D1C34CFE300FEDE92 /* Sources */,
+				303B76101C34CFE300FEDE92 /* Frameworks */,
+				303B76141C34CFE300FEDE92 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sprite_ios;
+			productName = blackbird;
+			productReference = 303B76201C34CFE300FEDE92 /* sprite_ios.app */;
+			productType = "com.apple.product-type.application";
+		};
 		304A8E091C237B95008B1151 /* sprite_osx */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "sprite_osx" */;
@@ -700,6 +762,9 @@
 					303B75321C2A3C5800FEDE92 = {
 						CreatedOnToolsVersion = 7.2;
 					};
+					303B760C1C34CFE300FEDE92 = {
+						DevelopmentTeam = XHH29823R9;
+					};
 					304A8E091C237B95008B1151 = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -724,11 +789,27 @@
 				304A8E241C237C30008B1151 /* ouzel_osx */,
 				303B75321C2A3C5800FEDE92 /* ouzel_ios */,
 				304A8E091C237B95008B1151 /* sprite_osx */,
+				303B760C1C34CFE300FEDE92 /* sprite_ios */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		303B76141C34CFE300FEDE92 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				303B76151C34CFE300FEDE92 /* Assets.xcassets in Resources */,
+				303B76161C34CFE300FEDE92 /* flame.png in Resources */,
+				303B76171C34CFE300FEDE92 /* witch.png in Resources */,
+				303B76181C34CFE300FEDE92 /* flame.json in Resources */,
+				303B76191C34CFE300FEDE92 /* fire.json in Resources */,
+				303B761A1C34CFE300FEDE92 /* run.json in Resources */,
+				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
+				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		304A8E081C237B95008B1151 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -784,6 +865,15 @@
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Node.cpp in Sources */,
 				303B75F21C335B7D00FEDE92 /* File.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		303B760D1C34CFE300FEDE92 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				303B760E1C34CFE300FEDE92 /* Application.cpp in Sources */,
+				303B760F1C34CFE300FEDE92 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,6 +957,44 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos9.2;
+			};
+			name = Release;
+		};
+		303B761E1C34CFE300FEDE92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../samples/sprite/ios/Prefix.pch;
+				HEADER_SEARCH_PATHS = ../ouzel/;
+				INFOPLIST_FILE = ../samples/sprite/ios/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		303B761F1C34CFE300FEDE92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../samples/sprite/ios/Prefix.pch;
+				HEADER_SEARCH_PATHS = ../ouzel/;
+				INFOPLIST_FILE = ../samples/sprite/ios/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -1013,6 +1141,15 @@
 			buildConfigurations = (
 				303B75351C2A3C5800FEDE92 /* Debug */,
 				303B75361C2A3C5800FEDE92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		303B761D1C34CFE300FEDE92 /* Build configuration list for PBXNativeTarget "sprite_ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				303B761E1C34CFE300FEDE92 /* Debug */,
+				303B761F1C34CFE300FEDE92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
