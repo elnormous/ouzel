@@ -49,11 +49,21 @@ namespace ouzel
             return false;
         }
         
+        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        {
+            return false;
+        }
+        
         _vertexShader = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(_vertexShader, 1, reinterpret_cast<const GLchar* const*>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
         glCompileShader(_vertexShader);
         
         if (checkShaderError(_vertexShader))
+        {
+            return false;
+        }
+        
+        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
         {
             return false;
         }
