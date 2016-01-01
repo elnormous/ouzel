@@ -73,8 +73,6 @@ namespace ouzel
         glAttachShader(_programId, _fragmentShader);
         glLinkProgram(_programId);
         
-        glUseProgram(_programId);
-        
         if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
         {
             return false;
@@ -90,11 +88,11 @@ namespace ouzel
         
         if (good == GL_FALSE)
         {
-            GLint logLength=0;
-            char *logMessage=NULL;
+            GLint logLength = 0;
+            char* logMessage = nullptr;
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
             logMessage = (char*)malloc(logLength);
-            glGetShaderInfoLog(shader, logLength, NULL, logMessage);
+            glGetShaderInfoLog(shader, logLength, nullptr, logMessage);
             
             log("Shader error: %s", logMessage);
             

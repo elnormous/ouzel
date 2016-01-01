@@ -10,10 +10,20 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Utils.h"
+
+#if defined(SUPPORTS_OPENGL)
 #include "ColorPSOGL.h"
 #include "ColorVSOGL.h"
 #include "TexturePSOGL.h"
 #include "TextureVSOGL.h"
+#endif
+
+#if defined(SUPPORTS_OPENGLES)
+#include "ColorPSOGLES.h"
+#include "ColorVSOGLES.h"
+#include "TexturePSOGLES.h"
+#include "TextureVSOGLES.h"
+#endif
 
 namespace ouzel
 {
@@ -73,19 +83,18 @@ namespace ouzel
         
         while (GLenum error = glGetError() != GL_NO_ERROR)
         {
-            printf("OpenGL error: ");
+            const char* errorStr = "Unknown error";
             
             switch (error)
             {
-                case GL_INVALID_ENUM: printf("GL_INVALID_ENUM"); break;
-                case GL_INVALID_VALUE: printf("GL_INVALID_VALUE"); break;
-                case GL_INVALID_OPERATION: printf("GL_INVALID_OPERATION"); break;
-                case GL_OUT_OF_MEMORY: printf("GL_OUT_OF_MEMORY"); break;
-                case GL_INVALID_FRAMEBUFFER_OPERATION: printf("GL_INVALID_FRAMEBUFFER_OPERATION"); break;
-                default: printf("Unknown error");
+                case GL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
+                case GL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
+                case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
+                case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
+                case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
             }
             
-            printf(" (%x)\n", error);
+            log("OpenGL error: %s (%x)", errorStr, error);
             
             error = true;
         }

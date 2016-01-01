@@ -24,7 +24,7 @@ namespace ouzel
 
     void log(const char* format, ...)
     {
-        char strBuffer[256];
+        char strBuffer[512];
 
         va_list list;
         va_start(list, format);
@@ -37,6 +37,7 @@ namespace ouzel
         printf("%s\n", strBuffer);
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         syslog(LOG_WARNING, "%s", strBuffer);
+        printf("%s\n", strBuffer);
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         wchar_t szBuffer[256];
         MultiByteToWideChar(CP_ACP, 0, strBuffer, -1, szBuffer, 256);
