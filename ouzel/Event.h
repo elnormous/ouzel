@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Vector2.h"
+#include "Size2.h"
 
 namespace ouzel
 {
@@ -188,6 +189,16 @@ namespace ouzel
         Vector2 scroll;
     };
     
+    struct TouchEvent
+    {
+        Vector2 position;
+    };
+    
+    struct ScreenSizeEvent
+    {
+        Size2 size;
+    };
+    
     struct Event
     {
         enum class Type
@@ -198,12 +209,18 @@ namespace ouzel
             MOUSE_UP,
             MOUSE_SCROLL,
             MOUSE_MOVE,
-            MOUSE_DRAG
+            MOUSE_DRAG,
+            TOUCH_BEGIN,
+            TOUCH_MOVE,
+            TOUCH_END,
+            SCREEN_SIZE
         };
         
         Type type;
         
         KeyboardEvent keyboardEvent;
         MouseEvent mouseEvent;
+        TouchEvent touchEvent;
+        ScreenSizeEvent screenSizeEvent;
     };
 }
