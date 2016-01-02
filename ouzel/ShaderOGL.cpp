@@ -80,6 +80,19 @@ namespace ouzel
             return false;
         }
         
+        glDetachShader(_programId, _vertexShaderId);
+        glDeleteShader(_vertexShaderId);
+        _vertexShaderId = 0;
+        
+        glDetachShader(_programId, _fragmentShaderId);
+        glDeleteShader(_fragmentShaderId);
+        _fragmentShaderId = 0;
+        
+        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        {
+            return false;
+        }
+        
         return true;
     }
 
