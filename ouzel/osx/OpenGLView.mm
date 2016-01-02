@@ -52,6 +52,11 @@ using namespace ouzel;
     return self;
 }
 
+-(BOOL)acceptsFirstMouse:(nullable NSEvent *)theEvent
+{
+    return YES;
+}
+
 -(void)handleQuit:(id)sender
 {
     [[NSApplication sharedApplication] terminate:self];
