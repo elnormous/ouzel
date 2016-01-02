@@ -97,6 +97,21 @@ namespace ouzel
             return false;
         }
         
+        glUseProgram(_programId);
+        
+        GLint texture0Location = glGetUniformLocation(_programId, "texture0");
+        if (texture0Location != -1) glUniform1i(texture0Location, 0);
+        
+        GLint texture1Location = glGetUniformLocation(_programId, "texture1");
+        if (texture1Location != -1) glUniform1i(texture1Location, 1);
+        
+        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        glUseProgram(0);
+        
         glDetachShader(_programId, _vertexShaderId);
         glDeleteShader(_vertexShaderId);
         _vertexShaderId = 0;
