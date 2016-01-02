@@ -64,6 +64,9 @@ namespace ouzel
             return false;
         }
         
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+        
         _indexCount = static_cast<GLsizei>(indices.size());
         
         return true;
