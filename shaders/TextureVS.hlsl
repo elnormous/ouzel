@@ -10,7 +10,7 @@ struct VSInput
 {
     float3 Position : POSITION;
     float4 Color : COLOR;
-    float2 TexCoord : TEXCOORD;
+    float2 TexCoord0 : TEXCOORD0;
 };
 
 struct VS2PS
@@ -24,5 +24,5 @@ void main(in VSInput input, out VS2PS output)
 {
     output.Position = mul(modelViewProj, float4(input.Position, 1));
     output.Color = input.Color;
-    output.TexCoord = input.TexCoord;
+    output.TexCoord = input.TexCoord0;
 }

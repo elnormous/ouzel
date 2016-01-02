@@ -10,13 +10,6 @@
 
 namespace ouzel
 {
-    const D3D11_INPUT_ELEMENT_DESC VERTEX_INPUT_ELEMENTS[] =
-    {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-    };
-
     ShaderD3D11::ShaderD3D11()
     {
     }
@@ -54,9 +47,43 @@ namespace ouzel
             return false;
         }
 
+        std::vector<D3D11_INPUT_ELEMENT_DESC> vertexInputElements;
+
+        UINT offset = 0;
+
+        if (vertexAttributes & VERTEX_POSITION)
+        {
+            vertexInputElements.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+            offset += 12;
+        }
+
+        if (vertexAttributes & VERTEX_COLOR)
+        {
+            vertexInputElements.push_back({ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+            offset += 4;
+        }
+
+        if (vertexAttributes & VERTEX_NORMAL)
+        {
+            vertexInputElements.push_back({ "NORMAL", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+            offset += 12;
+        }
+
+        if (vertexAttributes & VERTEX_TEXCOORD0)
+        {
+            vertexInputElements.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+            offset += 8;
+        }
+
+        if (vertexAttributes & VERTEX_TEXCOORD1)
+        {
+            vertexInputElements.push_back({ "TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+            offset += 8;
+        }
+
         hr = rendererD3D11->getDevice()->CreateInputLayout(
-            VERTEX_INPUT_ELEMENTS,
-            static_cast<UINT>(sizeof(VERTEX_INPUT_ELEMENTS) / sizeof(D3D11_INPUT_ELEMENT_DESC)),
+            vertexInputElements.data(),
+            static_cast<UINT>(vertexInputElements.size()),
             vertexShader,
             vertexShaderSize,
             &_inputLayout);
