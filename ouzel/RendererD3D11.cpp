@@ -672,7 +672,7 @@ namespace ouzel
         return true;
     }
 
-    MeshBuffer* RendererD3D11::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
+    MeshBuffer* RendererD3D11::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
         MeshBufferD3D11* meshBuffer = new MeshBufferD3D11();
 
@@ -699,7 +699,7 @@ namespace ouzel
         _context->OMSetDepthStencilState(_depthStencilState, 0);
 
         ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
-        UINT stride = sizeof(Vertex);
+        UINT stride = sizeof(VertexPCT);
         UINT offset = 0;
         _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
         _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), DXGI_FORMAT_R16_UINT, 0);

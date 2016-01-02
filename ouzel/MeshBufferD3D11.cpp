@@ -19,7 +19,7 @@ namespace ouzel
         if (_vertexBuffer) _vertexBuffer->Release();
     }
     
-    bool MeshBufferD3D11::initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
+    bool MeshBufferD3D11::initFromData(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
         if (!MeshBuffer::initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
         {
@@ -52,7 +52,7 @@ namespace ouzel
         }
     }
 
-    bool MeshBufferD3D11::uploadVertices(const std::vector<Vertex>& vertices)
+    bool MeshBufferD3D11::uploadVertices(const std::vector<VertexPCT>& vertices)
     {
         if (vectorDataSize(vertices) > _vertexBufferSize)
         {
@@ -94,7 +94,7 @@ namespace ouzel
         return true;
     }
 
-    bool MeshBufferD3D11::createVertexBuffer(const std::vector<Vertex>& vertices)
+    bool MeshBufferD3D11::createVertexBuffer(const std::vector<VertexPCT>& vertices)
     {
         RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
 

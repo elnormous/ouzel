@@ -16,10 +16,10 @@ namespace ouzel
     public:
         virtual ~MeshBufferD3D11();
         
-        virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false) override;
+        virtual bool initFromData(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false) override;
 
         virtual bool uploadIndices(const std::vector<uint16_t>& indices) override;
-        virtual bool uploadVertices(const std::vector<Vertex>& vertices) override;
+        virtual bool uploadVertices(const std::vector<VertexPCT>& vertices) override;
 
         ID3D11Buffer* getIndexBuffer() const { return _indexBuffer; }
         ID3D11Buffer* getVertexBuffer() const { return _vertexBuffer; }
@@ -29,7 +29,7 @@ namespace ouzel
     protected:
         MeshBufferD3D11();
         bool createIndexBuffer(const std::vector<uint16_t>& indices);
-        bool createVertexBuffer(const std::vector<Vertex>& vertices);
+        bool createVertexBuffer(const std::vector<VertexPCT>& vertices);
         bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
         ID3D11Buffer* _indexBuffer = nullptr;
