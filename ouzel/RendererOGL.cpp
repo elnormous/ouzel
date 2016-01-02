@@ -267,8 +267,8 @@ namespace ouzel
         glBindVertexArray(vertexArray);
         
         GLfloat vertices[] = {
-            start.x, start.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA(),
-            finish.x, finish.y, -10.0f, 1.0f, color.getR(), color.getG(), color.getB(), color.getA()
+            start.x, start.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(),
+            finish.x, finish.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA()
         };
         
         glGenBuffers(1, &vertexBuffer);
@@ -276,10 +276,10 @@ namespace ouzel
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
         
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
         
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(16));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(12));
         
         GLubyte indices[] = {0, 1};
         
@@ -290,25 +290,10 @@ namespace ouzel
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
         activateShader(colorShader);
         
-        GLint uniProj = glGetUniformLocation(colorShader->getProgramId(), "proj");
-        glUniformMatrix4fv(uniProj, 1, GL_FALSE, _projection.m);
+        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
         
-        GLint uniView = glGetUniformLocation(colorShader->getProgramId(), "view");
-        
-        Camera* camera = Scene::getInstance()->getCamera();
-        
-        if (camera)
-        {
-            glUniformMatrix4fv(uniView, 1, GL_FALSE, camera->getTransform().m);
-        }
-        else
-        {
-            Matrix4 temp;
-            glUniformMatrix4fv(uniView, 1, GL_FALSE, temp.m);
-        }
-        
-        GLint uniModel = glGetUniformLocation(colorShader->getProgramId(), "model");
-        glUniformMatrix4fv(uniModel, 1, GL_FALSE, transform.m);
+        uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
+        colorShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
         
         glBindVertexArray(vertexArray);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
