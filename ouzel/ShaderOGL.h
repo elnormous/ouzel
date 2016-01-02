@@ -40,10 +40,10 @@ namespace ouzel
         
     protected:
         ShaderOGL();
-        bool checkShaderError(GLuint shader);
+        bool checkShaderError(GLuint shaderId);
         
-        GLuint _vertexShader;
-        GLuint _fragmentShader;
+        GLuint _vertexShaderId;
+        GLuint _fragmentShaderId;
         GLuint _programId;
     };
 }

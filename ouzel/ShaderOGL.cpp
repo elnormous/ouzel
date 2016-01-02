@@ -16,7 +16,9 @@ namespace ouzel
 
     ShaderOGL::~ShaderOGL()
     {
-        
+        if (_programId) glDeleteProgram(_programId);
+        if (_vertexShaderId) glDeleteShader(_vertexShaderId);
+        if (_fragmentShaderId) glDeleteShader(_fragmentShaderId);
     }
     
     bool ShaderOGL::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
@@ -40,11 +42,11 @@ namespace ouzel
             return false;
         }
         
-        _fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(_fragmentShader, 1, reinterpret_cast<const GLchar* const*>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
-        glCompileShader(_fragmentShader);
+        _fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(_fragmentShaderId, 1, reinterpret_cast<const GLchar* const*>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
+        glCompileShader(_fragmentShaderId);
         
-        if (checkShaderError(_fragmentShader))
+        if (checkShaderError(_fragmentShaderId))
         {
             return false;
         }
@@ -54,11 +56,11 @@ namespace ouzel
             return false;
         }
         
-        _vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(_vertexShader, 1, reinterpret_cast<const GLchar* const*>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
-        glCompileShader(_vertexShader);
+        _vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(_vertexShaderId, 1, reinterpret_cast<const GLchar* const*>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
+        glCompileShader(_vertexShaderId);
         
-        if (checkShaderError(_vertexShader))
+        if (checkShaderError(_vertexShaderId))
         {
             return false;
         }
@@ -69,8 +71,8 @@ namespace ouzel
         }
         
         _programId = glCreateProgram();
-        glAttachShader(_programId, _vertexShader);
-        glAttachShader(_programId, _fragmentShader);
+        glAttachShader(_programId, _vertexShaderId);
+        glAttachShader(_programId, _fragmentShaderId);
         glLinkProgram(_programId);
         
         if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
@@ -81,22 +83,21 @@ namespace ouzel
         return true;
     }
 
-    bool ShaderOGL::checkShaderError(GLuint shader)
+    bool ShaderOGL::checkShaderError(GLuint shaderId)
     {
         GLint good;
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &good);
+        glGetShaderiv(shaderId, GL_COMPILE_STATUS, &good);
         
         if (good == GL_FALSE)
         {
             GLint logLength = 0;
-            char* logMessage = nullptr;
-            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
-            logMessage = (char*)malloc(logLength);
-            glGetShaderInfoLog(shader, logLength, nullptr, logMessage);
+            glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
+            char* logMessage = new char[logLength];
+            glGetShaderInfoLog(shaderId, logLength, nullptr, logMessage);
             
             log("Shader error: %s", logMessage);
             
-            free(logMessage);
+            delete [] logMessage;
             
             return true;
         }
