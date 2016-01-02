@@ -9,6 +9,13 @@
 @private
     CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;
+    GLuint _colorRenderBuffer;
+    GLuint _frameBuffer;
+    
+    GLint backingWidth;
+    GLint backingHeight;
+    
+    CADisplayLink* _displayLink;
 }
 
 -(id)initWithFrame:(CGRect)frameRect;

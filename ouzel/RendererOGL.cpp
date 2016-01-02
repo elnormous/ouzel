@@ -40,6 +40,9 @@ namespace ouzel
     
     bool RendererOGL::initOpenGL(uint32_t width, uint32_t height)
     {
+        _size.width = static_cast<float>(width);
+        _size.height = static_cast<float>(height);
+        
         //glEnable(GL_DEPTH_TEST);
         glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
         
