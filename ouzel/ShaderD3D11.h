@@ -17,7 +17,7 @@ namespace ouzel
     public:
         virtual ~ShaderD3D11();
         
-        virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
+        virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
         
         virtual ID3D11PixelShader* getPixelShader() const { return _pixelShader; }
         virtual ID3D11VertexShader* getVertexShader() const { return _vertexShader; }

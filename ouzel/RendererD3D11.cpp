@@ -512,7 +512,8 @@ namespace ouzel
         }
 
         Shader* textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
-                                                      TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11));
+                                                      TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11),
+                                                      VertexPCT::ATTRIBUTES);
 
         if (textureShader)
         {
@@ -620,11 +621,11 @@ namespace ouzel
         return true;
     }
 
-    Shader* RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    Shader* RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         ShaderD3D11* shader = new ShaderD3D11();
 
-        if (!shader->initFromFiles(fragmentShader, vertexShader))
+        if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes))
         {
             delete shader;
             shader = nullptr;
@@ -633,11 +634,11 @@ namespace ouzel
         return shader;
     }
 
-    Shader* RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
+    Shader* RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
         ShaderD3D11* shader = new ShaderD3D11();
 
-        if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
+        if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
         {
             delete shader;
             shader = nullptr;
