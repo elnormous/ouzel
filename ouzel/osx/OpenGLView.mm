@@ -52,7 +52,7 @@ using namespace ouzel;
     return self;
 }
 
--(BOOL)acceptsFirstMouse:(nullable NSEvent *)theEvent
+-(BOOL)acceptsFirstMouse:(NSEvent*)theEvent
 {
     return YES;
 }
