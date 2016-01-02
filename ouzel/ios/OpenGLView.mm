@@ -6,6 +6,7 @@
 #include <OpenGLES/ES2/glext.h>
 #include "Engine.h"
 #include "RendererOGL.h"
+#include "Utils.h"
 
 using namespace ouzel;
 
@@ -15,11 +16,21 @@ using namespace ouzel;
 {
     if (self = [super initWithFrame:frameRect])
     {
-        NSTimer* updateTimer = [NSTimer timerWithTimeInterval:1.0f/60.0f target:self selector:@selector(idle:) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:updateTimer forMode:NSDefaultRunLoopMode];
+        _eaglLayer = (CAEAGLLayer*)self.layer;
+        _eaglLayer.opaque = YES;
+        _eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
         
-        [self setupLayer];
-        [self setupContext];
+        _context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        
+        if (!_context)
+        {
+            NSLog(@"Failed to initialize OpenGLES 2.0 context");
+            exit(1);
+        }
+        
+        [self makeContextCurrent];
+        
         [self setupRenderBuffer];
         [self setupFrameBuffer];
         
@@ -34,29 +45,22 @@ using namespace ouzel;
     return self;
 }
 
+-(void)dealloc
+{
+    if ([EAGLContext currentContext] == _context)
+    {
+        [EAGLContext setCurrentContext:nil];
+    }
+    
+    if (_frameBuffer) glDeleteFramebuffers(1, &_frameBuffer);
+    _frameBuffer = 0;
+    if (_colorRenderBuffer) glDeleteRenderbuffers(1, &_colorRenderBuffer);
+    _colorRenderBuffer = 0;
+}
+
 +(Class)layerClass
 {
     return [CAEAGLLayer class];
-}
-
--(void)setupLayer
-{
-    _eaglLayer = (CAEAGLLayer*) self.layer;
-    _eaglLayer.opaque = YES;
-}
-
--(void)setupContext
-{
-    EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
-    _context = [[EAGLContext alloc] initWithAPI:api];
-    
-    if (!_context)
-    {
-        NSLog(@"Failed to initialize OpenGLES 2.0 context");
-        exit(1);
-    }
-    
-    [self makeContextCurrent];
 }
 
 -(void)makeContextCurrent
@@ -77,11 +81,15 @@ using namespace ouzel;
 
 -(void)setupFrameBuffer
 {
-    GLuint framebuffer;
-    glGenFramebuffers(1, &framebuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    glGenFramebuffers(1, &_frameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                               GL_RENDERBUFFER, _colorRenderBuffer);
+    
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    {
+        log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    }
 }
 
 -(void)idle:(id)sender
