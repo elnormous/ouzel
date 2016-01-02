@@ -11,7 +11,7 @@ namespace ouzel
     }
     
     VertexPC::VertexPC(Vector3 position, Color color):
-    position(position), color(color)
+        position(position), color(color)
     {
         
     }

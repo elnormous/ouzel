@@ -134,11 +134,11 @@ namespace ouzel
         _shaders[shaderName] = shader;
     }
     
-    Shader* Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    Shader* Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         Shader* shader = new Shader();
         
-        if (!shader->initFromFiles(fragmentShader, vertexShader))
+        if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes))
         {
             delete shader;
             shader = nullptr;
@@ -147,11 +147,11 @@ namespace ouzel
         return shader;
     }
     
-    Shader* Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
+    Shader* Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
         Shader* shader = new Shader();
         
-        if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
+        if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
         {
             delete shader;
             shader = nullptr;

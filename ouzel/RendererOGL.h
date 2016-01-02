@@ -21,6 +21,15 @@
 
 namespace ouzel
 {
+    enum VertexAttributePosition
+    {
+        ATTRIBUTE_POSITION = 0,
+        ATTRIBUTE_COLOR = 1,
+        ATTRIBUTE_NORMAL = 2,
+        ATTRIBUTE_TEXCOORD0 = 3,
+        ATTRIBUTE_TEXCOORD1 = 4
+    };
+    
     class RendererOGL: public Renderer
     {
         friend Engine;
@@ -40,8 +49,8 @@ namespace ouzel
         virtual Texture* loadTextureFromFile(const std::string& filename) override;
         virtual bool activateTexture(Texture* texture, uint32_t layer) override;
         
-        virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader) override;
-        virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
+        virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes) override;
+        virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
         virtual bool activateShader(Shader* shader) override;
         
         virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false) override;

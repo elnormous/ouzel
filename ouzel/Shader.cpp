@@ -23,7 +23,7 @@ namespace ouzel
         }
     }
     
-    bool Shader::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    bool Shader::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         _fragmentShaderFilename = fragmentShader;
         _vertexShaderFilename = vertexShader;
@@ -63,10 +63,10 @@ namespace ouzel
         vertexShaderFile.read(vertexShaderBuffer.data(), vertexShaderSize);
         
         return initFromBuffers(reinterpret_cast<const uint8_t*>(fragmentShaderBuffer.data()), static_cast<int32_t>(fragmentShaderSize),
-                               reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<int32_t>(vertexShaderSize));
+                               reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<int32_t>(vertexShaderSize), vertexAttributes);
     }
     
-    bool Shader::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
+    bool Shader::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
         return  true;
     }

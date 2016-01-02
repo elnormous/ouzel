@@ -61,13 +61,13 @@ namespace ouzel
             return false;
         }
         
-        Shader* textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL));
+        Shader* textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
         if (textureShader)
         {
             _shaders[SHADER_TEXTURE] = textureShader;
         }
         
-        Shader* colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL));
+        Shader* colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
         if (colorShader)
         {
             _shaders[SHADER_COLOR] = colorShader;
@@ -176,11 +176,11 @@ namespace ouzel
         return true;
     }
     
-    Shader* RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader)
+    Shader* RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         ShaderOGL* shader = new ShaderOGL();
         
-        if (!shader->initFromFiles(fragmentShader, vertexShader))
+        if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes))
         {
             delete shader;
             shader = nullptr;
@@ -189,11 +189,11 @@ namespace ouzel
         return shader;
     }
     
-    Shader* RendererOGL::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
+    Shader* RendererOGL::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
         ShaderOGL* shader = new ShaderOGL();
         
-        if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
+        if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
         {
             delete shader;
             shader = nullptr;
@@ -246,18 +246,6 @@ namespace ouzel
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
             return false;
-        }
-        
-        if (_activeShader)
-        {
-            ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(_activeShader.item);
-            
-            GLint texLocation = glGetUniformLocation(shaderOGL->getProgramId(), "tex");
-            
-            if (texLocation != -1)
-            {
-                glUniform1i(texLocation, 0);
-            }
         }
         
         MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(meshBuffer);

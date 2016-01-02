@@ -21,9 +21,9 @@ namespace ouzel
         if (_fragmentShaderId) glDeleteShader(_fragmentShaderId);
     }
     
-    bool ShaderOGL::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize)
+    bool ShaderOGL::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
-        if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize))
+        if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
         {
             return false;
         }
@@ -76,9 +76,11 @@ namespace ouzel
         glAttachShader(_programId, _vertexShaderId);
         glAttachShader(_programId, _fragmentShaderId);
         
-        glBindAttribLocation(_programId, 0, "in_Position");
-        glBindAttribLocation(_programId, 1, "in_Color");
-        glBindAttribLocation(_programId, 2, "in_TexCoord");
+        if (vertexAttributes & VERTEX_POSITION) glBindAttribLocation(_programId, ATTRIBUTE_POSITION, "in_Position");
+        if (vertexAttributes & VERTEX_COLOR) glBindAttribLocation(_programId, ATTRIBUTE_COLOR, "in_Color");
+        if (vertexAttributes & VERTEX_NORMAL) glBindAttribLocation(_programId, ATTRIBUTE_NORMAL, "in_Normal");
+        if (vertexAttributes & VERTEX_TEXCOORD0) glBindAttribLocation(_programId, ATTRIBUTE_TEXCOORD0, "in_TexCoord0");
+        if (vertexAttributes & VERTEX_TEXCOORD1) glBindAttribLocation(_programId, ATTRIBUTE_TEXCOORD1, "in_TexCoord1");
         
         glLinkProgram(_programId);
         
