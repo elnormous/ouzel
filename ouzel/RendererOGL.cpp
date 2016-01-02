@@ -72,6 +72,8 @@ namespace ouzel
         
         _ready = true;
         
+        recalculateProjection();
+        
         Engine::getInstance()->begin();
         
         return true;
@@ -241,6 +243,18 @@ namespace ouzel
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
             return false;
+        }
+        
+        if (_activeShader)
+        {
+            ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(_activeShader.item);
+            
+            GLint texLocation = glGetUniformLocation(shaderOGL->getProgramId(), "tex");
+            
+            if (texLocation != -1)
+            {
+                glUniform1i(texLocation, 0);
+            }
         }
         
         MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(meshBuffer);

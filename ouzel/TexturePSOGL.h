@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 const uint8_t TEXTURE_PIXEL_SHADER_OGL[] =
-    "#version 400\n"
+    "#version 330\n"
     "uniform sampler2D tex;\n"
     "in vec4 ex_Color;\n"
     "in vec2 ex_TexCoord;\n"

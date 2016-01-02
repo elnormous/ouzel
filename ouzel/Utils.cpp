@@ -3,7 +3,7 @@
 
 #include "CompileConfig.h"
 
-#ifdef OUZEL_PLATFORM_OSX
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include <sys/time.h>
 #endif
 
@@ -48,7 +48,7 @@ namespace ouzel
     
     uint64_t getCurrentMicroSeconds()
     {
-#if defined(OUZEL_PLATFORM_OSX)
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         struct timeval currentTime;
         
         gettimeofday(&currentTime, NULL);

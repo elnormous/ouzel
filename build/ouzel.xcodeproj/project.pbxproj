@@ -533,8 +533,6 @@
 				304A8E4D1C237C70008B1151 /* Vector3.h */,
 				304A8E4E1C237C70008B1151 /* Vector4.cpp */,
 				304A8E4F1C237C70008B1151 /* Vector4.h */,
-				304A8EA01C270833008B1151 /* Vertex.cpp */,
-				304A8EA11C270833008B1151 /* Vertex.h */,
 			);
 			name = math;
 			sourceTree = "<group>";
@@ -557,6 +555,8 @@
 				304A8E431C237C70008B1151 /* Shader.h */,
 				304A8E461C237C70008B1151 /* Texture.cpp */,
 				304A8E471C237C70008B1151 /* Texture.h */,
+				304A8EA01C270833008B1151 /* Vertex.cpp */,
+				304A8EA11C270833008B1151 /* Vertex.h */,
 			);
 			name = graphics;
 			sourceTree = "<group>";

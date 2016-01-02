@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 const uint8_t TEXTURE_VERTEX_SHADER_OGL[] =
-    "precision highp float;\n"
+    "precision mediump float;\n"
     "attribute vec3 in_Position;\n"
     "attribute vec4 in_Color;\n"
     "attribute vec2 in_TexCoord;\n"

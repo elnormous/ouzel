@@ -12,6 +12,9 @@
     GLuint _colorRenderBuffer;
     GLuint _frameBuffer;
     
+    GLint backingWidth;
+    GLint backingHeight;
+    
     CADisplayLink* _displayLink;
 }
 

@@ -39,7 +39,7 @@ using namespace ouzel;
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         
         RendererOGL* renderer = static_cast<RendererOGL*>(Renderer::getInstance());
-        renderer->initOpenGL(frameRect.size.width, frameRect.size.height);
+        renderer->initOpenGL(backingWidth, backingHeight);
     }
     
     return self;
@@ -77,6 +77,9 @@ using namespace ouzel;
     glGenRenderbuffers(1, &_colorRenderBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
     [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
+    
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
 }
 
 -(void)setupFrameBuffer

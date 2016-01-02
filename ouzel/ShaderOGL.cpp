@@ -75,6 +75,11 @@ namespace ouzel
         _programId = glCreateProgram();
         glAttachShader(_programId, _vertexShaderId);
         glAttachShader(_programId, _fragmentShaderId);
+        
+        glBindAttribLocation(_programId, 0, "in_Position");
+        glBindAttribLocation(_programId, 1, "in_Color");
+        glBindAttribLocation(_programId, 2, "in_TexCoord");
+        
         glLinkProgram(_programId);
         
         printProgramMessage(_programId);
