@@ -15,7 +15,7 @@ namespace ouzel
         
     }
     
-    bool MeshBuffer::initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
+    bool MeshBuffer::initFromData(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
         _dynamicIndexBuffer = dynamicIndexBuffer;
         _dynamicVertexBuffer = dynamicVertexBuffer;
@@ -28,7 +28,7 @@ namespace ouzel
         return true;
     }
     
-    bool MeshBuffer::uploadVertices(const std::vector<Vertex>& vertices)
+    bool MeshBuffer::uploadVertices(const std::vector<VertexPCT>& vertices)
     {
         return true;
     }

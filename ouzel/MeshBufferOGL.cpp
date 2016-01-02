@@ -20,7 +20,7 @@ namespace ouzel
         if (_indexBufferId) glDeleteBuffers(1, &_indexBufferId);
     }
     
-    bool MeshBufferOGL::initFromData(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
+    bool MeshBufferOGL::initFromData(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
         if (!MeshBuffer::initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
         {
@@ -51,13 +51,13 @@ namespace ouzel
         }
         
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<const GLvoid*>(0));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPCT), reinterpret_cast<const GLvoid*>(0));
         
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<const GLvoid*>(12));
+        glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(VertexPCT), reinterpret_cast<const GLvoid*>(12));
         
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<const GLvoid*>(16));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPCT), reinterpret_cast<const GLvoid*>(16));
         
         if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
         {
@@ -87,7 +87,7 @@ namespace ouzel
         return true;
     }
     
-    bool MeshBufferOGL::uploadVertices(const std::vector<Vertex>& vertices)
+    bool MeshBufferOGL::uploadVertices(const std::vector<VertexPCT>& vertices)
     {
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
         glBufferData(GL_ARRAY_BUFFER, vectorDataSize(vertices), vertices.data(),

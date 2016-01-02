@@ -174,11 +174,11 @@ namespace ouzel
             textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
         }
         
-        std::vector<Vertex> vertices = {
-            Vertex(Vector3(realOffset.x, realOffset.y, 0.0f), _color, textCoords[0]),
-            Vertex(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), _color, textCoords[1]),
-            Vertex(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[2]),
-            Vertex(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[3])
+        std::vector<VertexPCT> vertices = {
+            VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), _color, textCoords[0]),
+            VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), _color, textCoords[1]),
+            VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[2]),
+            VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[3])
         };
         
         _frameVertices.push_back(vertices);
@@ -250,7 +250,7 @@ namespace ouzel
         
         for (uint32_t i = 0; i < _frameMeshBuffers.size(); ++i)
         {
-            for (Vertex& vertex : _frameVertices[i])
+            for (VertexPCT& vertex : _frameVertices[i])
             {
                 vertex.color = color;
             }

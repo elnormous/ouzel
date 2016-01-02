@@ -167,7 +167,7 @@ namespace ouzel
         return true;
     }
     
-    MeshBuffer* Renderer::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
+    MeshBuffer* Renderer::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
     {
         MeshBuffer* meshBuffer = new MeshBuffer();
         

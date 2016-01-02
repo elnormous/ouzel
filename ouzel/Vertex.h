@@ -9,14 +9,24 @@
 
 namespace ouzel
 {
-    class Vertex
+    class VertexPC
+    {
+    public:
+        Vector3 position;
+        Color color;
+        
+        VertexPC();
+        VertexPC(Vector3 position, Color color);
+    };
+    
+    class VertexPCT
     {
     public:
         Vector3 position;
         Color color;
         Vector2 texCoord;
         
-        Vertex();
-        Vertex(Vector3 position, Color color, Vector2 texCoord);
+        VertexPCT();
+        VertexPCT(Vector3 position, Color color, Vector2 texCoord);
     };
 }

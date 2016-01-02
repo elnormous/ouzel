@@ -5,12 +5,23 @@
 
 namespace ouzel
 {
-    Vertex::Vertex()
+    VertexPC::VertexPC()
     {
         
     }
     
-    Vertex::Vertex(Vector3 position, Color color, Vector2 texCoord):
+    VertexPC::VertexPC(Vector3 position, Color color):
+    position(position), color(color)
+    {
+        
+    }
+    
+    VertexPCT::VertexPCT()
+    {
+        
+    }
+    
+    VertexPCT::VertexPCT(Vector3 position, Color color, Vector2 texCoord):
         position(position), color(color), texCoord(texCoord)
     {
         

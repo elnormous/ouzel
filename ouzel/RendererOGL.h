@@ -44,7 +44,7 @@ namespace ouzel
         virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize) override;
         virtual bool activateShader(Shader* shader) override;
         
-        virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<Vertex>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false) override;
+        virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false) override;
         virtual bool drawMeshBuffer(MeshBuffer* meshBuffer) override;
         
         virtual void drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform = Matrix4()) override;

@@ -53,7 +53,7 @@ namespace ouzel
         
         Size2 _size;
         
-        std::vector<std::vector<Vertex>> _frameVertices;
+        std::vector<std::vector<VertexPCT>> _frameVertices;
         std::vector<AutoPtr<MeshBuffer>> _frameMeshBuffers;
         Color _color = Color(255, 255, 255, 255);
         
