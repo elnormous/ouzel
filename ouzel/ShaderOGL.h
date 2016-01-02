@@ -40,7 +40,8 @@ namespace ouzel
         
     protected:
         ShaderOGL();
-        bool checkShaderError(GLuint shaderId);
+        void printShaderMessage(GLuint shaderId);
+        void printProgramMessage(GLuint programId);
         
         GLuint _vertexShaderId;
         GLuint _fragmentShaderId;

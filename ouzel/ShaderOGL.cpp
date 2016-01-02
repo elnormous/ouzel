@@ -46,7 +46,11 @@ namespace ouzel
         glShaderSource(_fragmentShaderId, 1, reinterpret_cast<const GLchar* const*>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
         glCompileShader(_fragmentShaderId);
         
-        if (checkShaderError(_fragmentShaderId))
+        printShaderMessage(_fragmentShaderId);
+        
+        GLint status;
+        glGetShaderiv(_fragmentShaderId, GL_COMPILE_STATUS, &status);
+        if (status == GL_FALSE)
         {
             return false;
         }
@@ -60,12 +64,10 @@ namespace ouzel
         glShaderSource(_vertexShaderId, 1, reinterpret_cast<const GLchar* const*>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
         glCompileShader(_vertexShaderId);
         
-        if (checkShaderError(_vertexShaderId))
-        {
-            return false;
-        }
+        printShaderMessage(_fragmentShaderId);
         
-        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        glGetShaderiv(_vertexShaderId, GL_COMPILE_STATUS, &status);
+        if (status == GL_FALSE)
         {
             return false;
         }
@@ -74,6 +76,14 @@ namespace ouzel
         glAttachShader(_programId, _vertexShaderId);
         glAttachShader(_programId, _fragmentShaderId);
         glLinkProgram(_programId);
+        
+        printProgramMessage(_programId);
+        
+        glGetProgramiv(_programId, GL_LINK_STATUS, &status);
+        if (status == GL_FALSE)
+        {
+            return false;
+        }
         
         if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
         {
@@ -96,26 +106,36 @@ namespace ouzel
         return true;
     }
 
-    bool ShaderOGL::checkShaderError(GLuint shaderId)
+    void ShaderOGL::printShaderMessage(GLuint shaderId)
     {
-        GLint good;
-        glGetShaderiv(shaderId, GL_COMPILE_STATUS, &good);
+        GLint logLength = 0;
+        glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
         
-        if (good == GL_FALSE)
+        if (logLength > 0)
         {
-            GLint logLength = 0;
-            glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
             char* logMessage = new char[logLength];
             glGetShaderInfoLog(shaderId, logLength, nullptr, logMessage);
             
-            log("Shader error: %s", logMessage);
+            log("%s", logMessage);
             
             delete [] logMessage;
-            
-            return true;
         }
+    }
+    
+    void ShaderOGL::printProgramMessage(GLuint programId)
+    {
+        GLint logLength = 0;
+        glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength);
         
-        return false;
+        if (logLength > 0)
+        {
+            char* logMessage = new char[logLength];
+            glGetProgramInfoLog(programId, logLength, nullptr, logMessage);
+            
+            log("%s", logMessage);
+            
+            delete [] logMessage;
+        }
     }
     
     uint32_t ShaderOGL::getPixelShaderConstantId(const std::string& name)
