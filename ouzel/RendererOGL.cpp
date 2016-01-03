@@ -156,21 +156,22 @@ namespace ouzel
             return false;
         }
         
+        glActiveTexture(GL_TEXTURE0 + layer);
+        
         if (texture)
         {
             TextureOGL* textureOGL = static_cast<TextureOGL*>(texture);
             
-            glActiveTexture(GL_TEXTURE0 + layer);
             glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
-            
-            if (checkOpenGLErrors())
-            {
-                return false;
-            }
         }
         else
         {
             glBindTexture(GL_TEXTURE_2D, 0);
+        }
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
         }
         
         return true;
