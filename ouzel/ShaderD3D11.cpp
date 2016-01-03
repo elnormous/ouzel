@@ -54,31 +54,31 @@ namespace ouzel
         if (vertexAttributes & VERTEX_POSITION)
         {
             vertexInputElements.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-            offset += 12;
+            offset += 3 * sizeof(float);
         }
 
         if (vertexAttributes & VERTEX_COLOR)
         {
             vertexInputElements.push_back({ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-            offset += 4;
+            offset += 4 * sizeof(uint8_t);
         }
 
         if (vertexAttributes & VERTEX_NORMAL)
         {
             vertexInputElements.push_back({ "NORMAL", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-            offset += 12;
+            offset += 3 * sizeof(float);
         }
 
         if (vertexAttributes & VERTEX_TEXCOORD0)
         {
             vertexInputElements.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-            offset += 8;
+            offset += 2 * sizeof(float);
         }
 
         if (vertexAttributes & VERTEX_TEXCOORD1)
         {
             vertexInputElements.push_back({ "TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-            offset += 8;
+            offset += 2 * sizeof(float);
         }
 
         hr = rendererD3D11->getDevice()->CreateInputLayout(
