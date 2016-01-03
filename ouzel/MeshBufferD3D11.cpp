@@ -19,19 +19,29 @@ namespace ouzel
         if (_vertexBuffer) _vertexBuffer->Release();
     }
     
-    bool MeshBufferD3D11::initFromData(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
+    bool MeshBufferD3D11::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
-        if (!MeshBuffer::initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
+        if (!MeshBuffer::initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
         {
             return false;
         }
 
-        if (!createIndexBuffer(indices))
+        if (!createIndexBuffer(indices, _indexSize * indexCount))
         {
             return false;
         }
 
-        if (!createVertexBuffer(vertices))
+        switch (_indexSize)
+        {
+            case 1: _indexFormat = DXGI_FORMAT_R8_UINT; break;
+            case 2: _indexFormat = DXGI_FORMAT_R16_UINT; break;
+            case 4: _indexFormat = DXGI_FORMAT_R32_UINT; break;
+            default: return false;
+        }
+
+        _indexCount = static_cast<UINT>(indexCount);
+
+        if (!createVertexBuffer(vertices, _vertexSize * vertexCount))
         {
             return false;
         }
@@ -39,47 +49,47 @@ namespace ouzel
         return true;
     }
 
-    bool MeshBufferD3D11::uploadIndices(const std::vector<uint16_t>& indices)
+    bool MeshBufferD3D11::uploadIndices(const void* indices, uint32_t indexCount)
     {
-        if (vectorDataSize(indices) > _indexBufferSize)
+        if (_indexSize * indexCount > _indexBufferSize)
         {
             if (_indexBuffer) _indexBuffer->Release();
-            return createIndexBuffer(indices);
+            return createIndexBuffer(indices, _indexSize * indexCount);
         }
         else
         {
-            return uploadData(_indexBuffer, indices.data(), vectorDataSize(indices));
+            return uploadData(_indexBuffer, indices, _indexSize * indexCount);
         }
     }
 
-    bool MeshBufferD3D11::uploadVertices(const std::vector<VertexPCT>& vertices)
+    bool MeshBufferD3D11::uploadVertices(const void* vertices, uint32_t vertexCount)
     {
-        if (vectorDataSize(vertices) > _vertexBufferSize)
+        if (_vertexSize * vertexCount > _vertexBufferSize)
         {
             if (_vertexBuffer) _vertexBuffer->Release();
-            return createVertexBuffer(vertices);
+            return createVertexBuffer(vertices, _vertexSize * vertexCount);
         }
         else
         {
-            return uploadData(_vertexBuffer, vertices.data(), vectorDataSize(vertices));
+            return uploadData(_vertexBuffer, vertices, _vertexSize * vertexCount);
         }
     }
 
-    bool MeshBufferD3D11::createIndexBuffer(const std::vector<uint16_t>& indices)
+    bool MeshBufferD3D11::createIndexBuffer(const void* indices, uint32_t size)
     {
         RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
 
         D3D11_BUFFER_DESC indexBufferDesc;
         memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
 
-        indexBufferDesc.ByteWidth = static_cast<UINT>(vectorDataSize(indices));
+        indexBufferDesc.ByteWidth = static_cast<UINT>(size);
         indexBufferDesc.Usage = _dynamicIndexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
         indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
         indexBufferDesc.CPUAccessFlags = _dynamicIndexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
 
         D3D11_SUBRESOURCE_DATA indexBufferResourceData;
         memset(&indexBufferResourceData, 0, sizeof(indexBufferResourceData));
-        indexBufferResourceData.pSysMem = indices.data();
+        indexBufferResourceData.pSysMem = indices;
 
         HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &_indexBuffer);
         if (FAILED(hr) || !_indexBuffer)
@@ -88,27 +98,26 @@ namespace ouzel
             return false;
         }
 
-        _indexBufferSize = static_cast<uint32_t>(vectorDataSize(indices));
-        _indexCount = static_cast<UINT>(indices.size());
+        _indexBufferSize = static_cast<uint32_t>(size);
 
         return true;
     }
 
-    bool MeshBufferD3D11::createVertexBuffer(const std::vector<VertexPCT>& vertices)
+    bool MeshBufferD3D11::createVertexBuffer(const void* vertices, uint32_t size)
     {
         RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
 
         D3D11_BUFFER_DESC vertexBufferDesc;
         memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
 
-        vertexBufferDesc.ByteWidth = static_cast<UINT>(vectorDataSize(vertices));
+        vertexBufferDesc.ByteWidth = static_cast<UINT>(size);
         vertexBufferDesc.Usage = _dynamicVertexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
         vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         vertexBufferDesc.CPUAccessFlags = _dynamicVertexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
 
         D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
         memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));
-        vertexBufferResourceData.pSysMem = vertices.data();
+        vertexBufferResourceData.pSysMem = vertices;
 
         HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &_vertexBuffer);
         if (FAILED(hr) || !_vertexBuffer)
@@ -117,7 +126,7 @@ namespace ouzel
             return false;
         }
 
-        _vertexBufferSize = static_cast<uint32_t>(vectorDataSize(vertices));
+        _vertexBufferSize = static_cast<uint32_t>(size);
 
         return true;
     }

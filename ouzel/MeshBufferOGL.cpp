@@ -37,7 +37,7 @@ namespace ouzel
             return false;
         }
         
-        switch (indexSize)
+        switch (_indexSize)
         {
             case 1: _indexFormat = GL_UNSIGNED_BYTE; break;
             case 2: _indexFormat = GL_UNSIGNED_SHORT; break;
