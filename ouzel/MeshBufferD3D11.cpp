@@ -36,10 +36,24 @@ namespace ouzel
             case 1: _indexFormat = DXGI_FORMAT_R8_UINT; break;
             case 2: _indexFormat = DXGI_FORMAT_R16_UINT; break;
             case 4: _indexFormat = DXGI_FORMAT_R32_UINT; break;
-            default: return false;
+            default: log("Invalid index size"); return false;
         }
 
         _indexCount = static_cast<UINT>(indexCount);
+
+        uint32_t size = 0;
+
+        if (vertexAttributes & VERTEX_POSITION) size += 3 * sizeof(float);
+        if (vertexAttributes & VERTEX_COLOR) size += 4 * sizeof(uint8_t);
+        if (vertexAttributes & VERTEX_NORMAL) size += 3 * sizeof(float);
+        if (vertexAttributes & VERTEX_TEXCOORD0) size += 2 * sizeof(float);
+        if (vertexAttributes & VERTEX_TEXCOORD1) size += 2 * sizeof(float);
+
+        if (size != _vertexSize)
+        {
+            log("Invalid vertex size");
+            return false;
+        }
 
         if (!createVertexBuffer(vertices, _vertexSize * vertexCount))
         {
