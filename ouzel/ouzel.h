@@ -13,6 +13,7 @@
 #include "Matrix4.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "AABB2.h"
 #include "Size2.h"
 #include "Rectangle.h"
 #include "Scene.h"

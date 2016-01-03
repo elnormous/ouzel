@@ -286,6 +286,12 @@
 		304A8EA31C270833008B1151 /* Vertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.h */; };
 		304A8EA51C274183008B1151 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304A8E251C237C30008B1151 /* libouzel_osx.a */; };
 		304A8EAA1C27429A008B1151 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
+		30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
+		30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
+		30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
+		30575A921C38BD370009C8A7 /* AABB2.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A8E1C38BD370009C8A7 /* AABB2.h */; };
+		30575A931C38BD370009C8A7 /* AABB2.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A8E1C38BD370009C8A7 /* AABB2.h */; };
+		30575A941C38BD370009C8A7 /* AABB2.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A8E1C38BD370009C8A7 /* AABB2.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -418,6 +424,8 @@
 		304A8EA81C27429A008B1151 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		304A8EA91C27429A008B1151 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		304A8EAB1C2742D9008B1151 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		30575A8D1C38BD370009C8A7 /* AABB2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB2.cpp; sourceTree = "<group>"; };
+		30575A8E1C38BD370009C8A7 /* AABB2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AABB2.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -517,6 +525,8 @@
 		303B750F1C2882CA00FEDE92 /* math */ = {
 			isa = PBXGroup;
 			children = (
+				30575A8D1C38BD370009C8A7 /* AABB2.cpp */,
+				30575A8E1C38BD370009C8A7 /* AABB2.h */,
 				304A8E301C237C70008B1151 /* MathUtils.cpp */,
 				304A8E311C237C70008B1151 /* MathUtils.h */,
 				304A8E321C237C70008B1151 /* Matrix3.cpp */,
@@ -768,6 +778,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30575A931C38BD370009C8A7 /* AABB2.h in Headers */,
 				303B754B1C2A3C9200FEDE92 /* Texture.h in Headers */,
 				303B75521C2A3CB700FEDE92 /* Matrix4.h in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.h in Headers */,
@@ -817,6 +828,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30575A941C38BD370009C8A7 /* AABB2.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
 				303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */,
 				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
@@ -891,6 +903,7 @@
 				303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */,
 				304A8E631C237C70008B1151 /* ReferenceCounted.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
+				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75E81C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
 				303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */,
@@ -1155,6 +1168,7 @@
 				303B75381C2A3C8200FEDE92 /* Engine.cpp in Sources */,
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Node.cpp in Sources */,
+				30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				303B75F21C335B7D00FEDE92 /* File.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1206,6 +1220,7 @@
 				303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Node.cpp in Sources */,
 				303B76881C355A5800FEDE92 /* main.m in Sources */,
+				30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				303B76551C355A3B00FEDE92 /* File.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1240,6 +1255,7 @@
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
 				303B75161C288CFB00FEDE92 /* MeshBufferOGL.cpp in Sources */,
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
+				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,

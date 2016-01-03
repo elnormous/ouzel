@@ -18,6 +18,9 @@ namespace ouzel
         
         virtual ~Input();
         
+        virtual void startDiscovery();
+        virtual void stopDiscovery();
+        
     protected:
         Input();
     };

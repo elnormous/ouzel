@@ -21,4 +21,14 @@ namespace ouzel
     {
         
     }
+    
+    void Input::startDiscovery()
+    {
+        
+    }
+    
+    void Input::stopDiscovery()
+    {
+        
+    }
 }
