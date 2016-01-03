@@ -12,6 +12,8 @@
 #include "ColorPSD3D11.h"
 #include "ColorVSD3D11.h"
 #include "Event.h"
+#include "Scene.h"
+#include "Camera.h"
 
 using namespace ouzel;
 
@@ -690,6 +692,201 @@ namespace ouzel
         _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
 
         MeshBufferD3D11* meshBufferD3D11 = static_cast<MeshBufferD3D11*>(meshBuffer);
+
+        _context->RSSetState(_rasterizerState);
+        _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
+        _context->OMSetDepthStencilState(_depthStencilState, 0);
+
+        ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
+        UINT stride = meshBufferD3D11->getVertexSize();
+        UINT offset = 0;
+        _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
+        _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+        _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+        _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
+
+        return true;
+    }
+
+    bool RendererD3D11::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
+    {
+        uint16_t indices[] = { 0, 1 };
+
+        VertexPC vertices[] = {
+            VertexPC(Vector3(start.x, start.y, 0.0f), color),
+            VertexPC(Vector3(finish.x, finish.y, 0.0f), color)
+        };
+
+        AutoPtr<MeshBufferD3D11> meshBufferD3D11 = static_cast<MeshBufferD3D11*>(createMeshBuffer(indices, sizeof(uint16_t), 2, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
+
+        if (!meshBufferD3D11)
+        {
+            return false;
+        }
+
+        ShaderD3D11* colorShader = static_cast<ShaderD3D11*>(getShader(SHADER_COLOR));
+
+        if (!colorShader)
+        {
+            return false;
+        }
+
+        ID3D11Buffer* pixelShaderConstantBuffers[1] = { colorShader->getPixelShaderConstantBuffer() };
+        _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+
+        ID3D11Buffer* vertexShaderConstantBuffers[1] = { colorShader->getVertexShaderConstantBuffer() };
+        _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+
+        _context->PSSetShader(colorShader->getPixelShader(), nullptr, 0);
+        _context->VSSetShader(colorShader->getVertexShader(), nullptr, 0);
+
+        _context->IASetInputLayout(colorShader->getInputLayout());
+
+        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
+
+        colorShader->setVertexShaderConstant(0, { modelViewProj });
+
+        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+        {
+            _resourceViews[layer] = nullptr;
+            _samplerStates[layer] = nullptr;
+        }
+
+        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
+        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
+
+        _context->RSSetState(_rasterizerState);
+        _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
+        _context->OMSetDepthStencilState(_depthStencilState, 0);
+
+        ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
+        UINT stride = meshBufferD3D11->getVertexSize();
+        UINT offset = 0;
+        _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
+        _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+        _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+        _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
+
+        return true;
+    }
+
+    bool RendererD3D11::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
+    {
+        uint16_t indices[] = { 0, 1, 3, 2, 0 };
+
+        VertexPC vertices[] = {
+            VertexPC(Vector3(rectangle.x, rectangle.y, 0.0f), color),
+            VertexPC(Vector3(rectangle.x + rectangle.width, rectangle.y, 0.0f), color),
+            VertexPC(Vector3(rectangle.x, rectangle.y + rectangle.height, 0.0f), color),
+            VertexPC(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color)
+        };
+
+        AutoPtr<MeshBufferD3D11> meshBufferD3D11 = static_cast<MeshBufferD3D11*>(createMeshBuffer(indices, sizeof(uint16_t), 5, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
+
+        if (!meshBufferD3D11)
+        {
+            return false;
+        }
+
+        ShaderD3D11* colorShader = static_cast<ShaderD3D11*>(getShader(SHADER_COLOR));
+
+        if (!colorShader)
+        {
+            return false;
+        }
+
+        ID3D11Buffer* pixelShaderConstantBuffers[1] = { colorShader->getPixelShaderConstantBuffer() };
+        _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+
+        ID3D11Buffer* vertexShaderConstantBuffers[1] = { colorShader->getVertexShaderConstantBuffer() };
+        _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+
+        _context->PSSetShader(colorShader->getPixelShader(), nullptr, 0);
+        _context->VSSetShader(colorShader->getVertexShader(), nullptr, 0);
+
+        _context->IASetInputLayout(colorShader->getInputLayout());
+
+        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
+
+        colorShader->setVertexShaderConstant(0, { modelViewProj });
+
+        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+        {
+            _resourceViews[layer] = nullptr;
+            _samplerStates[layer] = nullptr;
+        }
+
+        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
+        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
+
+        _context->RSSetState(_rasterizerState);
+        _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
+        _context->OMSetDepthStencilState(_depthStencilState, 0);
+
+        ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
+        UINT stride = meshBufferD3D11->getVertexSize();
+        UINT offset = 0;
+        _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
+        _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+        _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+        _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
+
+        return true;
+    }
+
+    bool RendererD3D11::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
+    {
+        uint16_t indices[] = { 0, 1, 2, 1, 3, 2 };
+
+        VertexPCT vertices[] = {
+            VertexPCT(Vector3(rectangle.x, rectangle.y, 0.0f), color, Vector2(0.0f, 1.0f)),
+            VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y, 0.0f), color, Vector2(1.0f, 1.0f)),
+            VertexPCT(Vector3(rectangle.x, rectangle.y + rectangle.height, 0.0f), color, Vector2(0.0f, 0.0f)),
+            VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color, Vector2(1.0f, 0.0f))
+        };
+
+        AutoPtr<MeshBufferD3D11> meshBufferD3D11 = static_cast<MeshBufferD3D11*>(createMeshBuffer(indices, sizeof(uint16_t), 6, false, vertices, sizeof(VertexPCT), 4, false, VertexPCT::ATTRIBUTES));
+
+        if (!meshBufferD3D11)
+        {
+            return false;
+        }
+
+        ShaderD3D11* textureShader = static_cast<ShaderD3D11*>(getShader(SHADER_TEXTURE));
+
+        if (!textureShader)
+        {
+            return false;
+        }
+
+        ID3D11Buffer* pixelShaderConstantBuffers[1] = { textureShader->getPixelShaderConstantBuffer() };
+        _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+
+        ID3D11Buffer* vertexShaderConstantBuffers[1] = { textureShader->getVertexShaderConstantBuffer() };
+        _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+
+        _context->PSSetShader(textureShader->getPixelShader(), nullptr, 0);
+        _context->VSSetShader(textureShader->getVertexShader(), nullptr, 0);
+
+        _context->IASetInputLayout(textureShader->getInputLayout());
+
+        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
+
+        textureShader->setVertexShaderConstant(0, { modelViewProj });
+
+        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+        {
+            TextureD3D11* textureD3D11 = static_cast<TextureD3D11*>(_activeTextures[layer].item);
+
+            _resourceViews[layer] = textureD3D11 ? textureD3D11->getResourceView() : nullptr;
+            _samplerStates[layer] = textureD3D11 ? _samplerState : nullptr;
+        }
+
+        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
+        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
 
         _context->RSSetState(_rasterizerState);
         _context->OMSetBlendState(_blendState, NULL, 0xffffffff);

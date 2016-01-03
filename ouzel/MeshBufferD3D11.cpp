@@ -33,7 +33,6 @@ namespace ouzel
 
         switch (_indexSize)
         {
-            case 1: _indexFormat = DXGI_FORMAT_R8_UINT; break;
             case 2: _indexFormat = DXGI_FORMAT_R16_UINT; break;
             case 4: _indexFormat = DXGI_FORMAT_R32_UINT; break;
             default: log("Invalid index size"); return false;
