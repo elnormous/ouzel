@@ -24,7 +24,7 @@ namespace ouzel
     protected:
         TextureD3D11();
 
-        ID3D11Texture2D* _texture;
-        ID3D11ShaderResourceView* _resourceView;
+        ID3D11Texture2D* _texture = nullptr;
+        ID3D11ShaderResourceView* _resourceView = nullptr;
     };
 }
