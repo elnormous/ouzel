@@ -77,6 +77,13 @@ namespace ouzel
                 _witch->setPosition(event.mouseEvent.position);
                 break;
             }
+            case Event::Type::TOUCH_BEGIN:
+            case Event::Type::TOUCH_MOVE:
+            case Event::Type::TOUCH_END:
+            {
+                _witch->setPosition(event.touchEvent.position);
+                break;
+            }
             default:
                 break;
         }

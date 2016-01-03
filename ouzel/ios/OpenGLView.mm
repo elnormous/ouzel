@@ -104,4 +104,72 @@ using namespace ouzel;
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
+-(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
+{
+    for (UITouch* touch in touches)
+    {
+        CGPoint location = [touch locationInView:self];
+        location.y = Renderer::getInstance()->getSize().height - location.y;
+        
+        Event event;
+        event.type = Event::Type::TOUCH_BEGIN;
+        event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
+        event.touchEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+
+        
+        Engine::getInstance()->handleEvent(event);
+    }
+}
+
+-(void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event
+{
+    for (UITouch* touch in touches)
+    {
+        CGPoint location = [touch locationInView:self];
+        location.y = Renderer::getInstance()->getSize().height - location.y;
+        
+        Event event;
+        event.type = Event::Type::TOUCH_MOVE;
+        event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
+        event.touchEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+        
+        
+        Engine::getInstance()->handleEvent(event);
+    }
+}
+
+-(void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
+{
+    for (UITouch* touch in touches)
+    {
+        CGPoint location = [touch locationInView:self];
+        location.y = Renderer::getInstance()->getSize().height - location.y;
+        
+        Event event;
+        event.type = Event::Type::TOUCH_END;
+        event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
+        event.touchEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+        
+        
+        Engine::getInstance()->handleEvent(event);
+    }
+}
+
+-(void)touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)event
+{
+    for (UITouch* touch in touches)
+    {
+        CGPoint location = [touch locationInView:self];
+        location.y = Renderer::getInstance()->getSize().height - location.y;
+        
+        Event event;
+        event.type = Event::Type::TOUCH_CANCEL;
+        event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
+        event.touchEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+        
+        
+        Engine::getInstance()->handleEvent(event);
+    }
+}
+
 @end

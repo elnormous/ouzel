@@ -191,6 +191,7 @@ namespace ouzel
     
     struct TouchEvent
     {
+        uint64_t touchId = 0;
         Vector2 position;
     };
     
@@ -213,6 +214,7 @@ namespace ouzel
             TOUCH_BEGIN,
             TOUCH_MOVE,
             TOUCH_END,
+            TOUCH_CANCEL,
             SCREEN_SIZE
         };
         
