@@ -265,33 +265,19 @@ namespace ouzel
     
     bool RendererOGL::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
     {
-        GLuint vertexArray = 0;
-        GLuint vertexBuffer = 0;
-        GLuint indexBuffer = 0;
-        
-        glGenVertexArrays(1, &vertexArray);
-        glBindVertexArray(vertexArray);
-        
-        GLfloat vertices[] = {
-            start.x, start.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(),
-            finish.x, finish.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA()
-        };
-        
-        glGenBuffers(1, &vertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-        
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
-        
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(12));
-        
         GLubyte indices[] = {0, 1};
         
-        glGenBuffers(1, &indexBuffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        VertexPC vertices[] = {
+            VertexPC(Vector3(start.x, start.y, 0.0f), color),
+            VertexPC(Vector3(finish.x, finish.y, 0.0f), color)
+        };
+        
+        AutoPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 2, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
+        
+        if (!meshBufferOGL)
+        {
+            return false;
+        }
         
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
         activateShader(colorShader);
@@ -301,14 +287,9 @@ namespace ouzel
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
         colorShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
         
-        glBindVertexArray(vertexArray);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glDrawElements(GL_LINE_STRIP, 2, GL_UNSIGNED_BYTE, nullptr);
-        
-        // delete buffers
-        glDeleteVertexArrays(1, &vertexArray);
-        glDeleteBuffers(1, &vertexBuffer);
-        glDeleteBuffers(1, &indexBuffer);
+        glBindVertexArray(meshBufferOGL->getVertexArrayId());
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
+        glDrawElements(GL_LINE_STRIP, meshBufferOGL->getIndexCount(), meshBufferOGL->getIndexFormat(), nullptr);
         
         if (checkOpenGLErrors())
         {
@@ -358,40 +339,23 @@ namespace ouzel
     
     bool RendererOGL::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
-        GLuint vertexArray = 0;
-        GLuint vertexBuffer = 0;
-        GLuint indexBuffer = 0;
-        
-        glGenVertexArrays(1, &vertexArray);
-        glBindVertexArray(vertexArray);
-        
-        GLfloat vertices[] = {
-            rectangle.x, rectangle.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 1.0f,
-            rectangle.x + rectangle.width, rectangle.y, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 1.0f,
-            rectangle.x, rectangle.y + rectangle.height, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(), 0.0f, 0.0f,
-            rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f, color.getR(), color.getG(), color.getB(), color.getA(), 1.0f, 0.0f
-        };
-        
-        glGenBuffers(1, &vertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-        
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(0));
-        
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(12));
-        
-        glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<const GLvoid*>(16));
-        
         GLubyte indices[] = {0, 1, 2, 1, 3, 2};
         
-        glGenBuffers(1, &indexBuffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        VertexPCT vertices[] = {
+            VertexPCT(Vector3(rectangle.x, rectangle.y, 0.0f), color, Vector2(0.0f, 1.0f)),
+            VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y, 0.0f), color, Vector2(1.0f, 1.0f)),
+            VertexPCT(Vector3(rectangle.x, rectangle.y + rectangle.height, 0.0f), color, Vector2(0.0f, 0.0f)),
+            VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color, Vector2(1.0f, 0.0f))
+        };
         
-        ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_TEXTURE));
+        AutoPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 6, false, vertices, sizeof(VertexPCT), 4, false, VertexPCT::ATTRIBUTES));
+        
+        if (!meshBufferOGL)
+        {
+            return false;
+        }
+        
+        ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
         activateShader(colorShader);
         
         Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
@@ -399,14 +363,9 @@ namespace ouzel
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
         colorShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
         
-        glBindVertexArray(vertexArray);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, nullptr);
-        
-        // delete buffers
-        glDeleteVertexArrays(1, &vertexArray);
-        glDeleteBuffers(1, &vertexBuffer);
-        glDeleteBuffers(1, &indexBuffer);
+        glBindVertexArray(meshBufferOGL->getVertexArrayId());
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
+        glDrawElements(GL_TRIANGLES, meshBufferOGL->getIndexCount(), meshBufferOGL->getIndexFormat(), nullptr);
         
         if (checkOpenGLErrors())
         {
