@@ -39,6 +39,7 @@
     <ClCompile Include="..\ouzel\RendererD3D11.cpp" />
     <ClCompile Include="..\ouzel\RenderTarget.cpp" />
     <ClCompile Include="..\ouzel\RenderTargetD3D11.cpp" />
+    <ClCompile Include="..\ouzel\Scene.cpp" />
     <ClCompile Include="..\ouzel\SceneManager.cpp" />
     <ClCompile Include="..\ouzel\Shader.cpp" />
     <ClCompile Include="..\ouzel\ShaderD3D11.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="..\ouzel\RendererD3D11.h" />
     <ClInclude Include="..\ouzel\RenderTarget.h" />
     <ClInclude Include="..\ouzel\RenderTargetD3D11.h" />
+    <ClInclude Include="..\ouzel\Scene.h" />
     <ClInclude Include="..\ouzel\SceneManager.h" />
     <ClInclude Include="..\ouzel\Shader.h" />
     <ClInclude Include="..\ouzel\ShaderD3D11.h" />
