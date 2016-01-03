@@ -298,6 +298,12 @@
 		30575AA11C39CB790009C8A7 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A9D1C39CB790009C8A7 /* Scene.h */; };
 		30575AA21C39CB790009C8A7 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A9D1C39CB790009C8A7 /* Scene.h */; };
 		30575AA31C39CB790009C8A7 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A9D1C39CB790009C8A7 /* Scene.h */; };
+		30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AA41C39D1FF0009C8A7 /* Layer.cpp */; };
+		30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AA41C39D1FF0009C8A7 /* Layer.cpp */; };
+		30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AA41C39D1FF0009C8A7 /* Layer.cpp */; };
+		30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AA51C39D1FF0009C8A7 /* Layer.h */; };
+		30575AAA1C39D1FF0009C8A7 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AA51C39D1FF0009C8A7 /* Layer.h */; };
+		30575AAB1C39D1FF0009C8A7 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AA51C39D1FF0009C8A7 /* Layer.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -435,6 +441,8 @@
 		30575A971C38C90F0009C8A7 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		30575A9C1C39CB790009C8A7 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		30575A9D1C39CB790009C8A7 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		30575AA41C39D1FF0009C8A7 /* Layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cpp; sourceTree = "<group>"; };
+		30575AA51C39D1FF0009C8A7 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -529,6 +537,8 @@
 				304A8E451C237C70008B1151 /* Sprite.h */,
 				30575A9C1C39CB790009C8A7 /* Scene.cpp */,
 				30575A9D1C39CB790009C8A7 /* Scene.h */,
+				30575AA41C39D1FF0009C8A7 /* Layer.cpp */,
+				30575AA51C39D1FF0009C8A7 /* Layer.h */,
 			);
 			name = scene;
 			sourceTree = "<group>";
@@ -807,6 +817,7 @@
 				303B753F1C2A3C9200FEDE92 /* Color.h in Headers */,
 				303B75471C2A3C9200FEDE92 /* RenderTarget.h in Headers */,
 				303B762F1C3559B900FEDE92 /* ViewController.h in Headers */,
+				30575AAA1C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.h in Headers */,
 				303B75F41C335B7D00FEDE92 /* File.h in Headers */,
 				303B755C1C2A3CB700FEDE92 /* Vector4.h in Headers */,
@@ -858,6 +869,7 @@
 				303B765B1C355A3B00FEDE92 /* Color.h in Headers */,
 				303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */,
 				303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */,
+				30575AAB1C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B765F1C355A3B00FEDE92 /* File.h in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
 				303B76611C355A3B00FEDE92 /* Utils.h in Headers */,
@@ -918,6 +930,7 @@
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
 				304A8E751C237C70008B1151 /* Vector4.h in Headers */,
 				304A8E9F1C27081B008B1151 /* Color.h in Headers */,
+				30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
@@ -1188,6 +1201,7 @@
 				303B753E1C2A3C9200FEDE92 /* Color.cpp in Sources */,
 				303B757B1C2A43D700FEDE92 /* ShaderOGL.cpp in Sources */,
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
+				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				303B757A1C2A43D400FEDE92 /* RenderTargetOGL.cpp in Sources */,
 				303B75381C2A3C8200FEDE92 /* Engine.cpp in Sources */,
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
@@ -1241,6 +1255,7 @@
 				303B764F1C355A3B00FEDE92 /* ShaderOGL.cpp in Sources */,
 				303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */,
 				303B76511C355A3B00FEDE92 /* RenderTargetOGL.cpp in Sources */,
+				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
 				303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Node.cpp in Sources */,
@@ -1274,6 +1289,7 @@
 			files = (
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
+				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				303B751D1C29EDEE00FEDE92 /* main.m in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
 				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
