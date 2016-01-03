@@ -76,7 +76,7 @@ namespace ouzel
         virtual bool activateShader(Shader* shader);
         virtual Shader* getActiveShader() const { return _activeShader; }
         
-        virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false);
+        virtual MeshBuffer* createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes);
         virtual bool drawMeshBuffer(MeshBuffer* meshBuffer);
         
         const Matrix4& getProjection() const { return _projection; }

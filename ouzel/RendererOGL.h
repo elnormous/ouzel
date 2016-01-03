@@ -20,16 +20,7 @@
 #endif
 
 namespace ouzel
-{
-    enum VertexAttributePosition
-    {
-        ATTRIBUTE_POSITION = 0,
-        ATTRIBUTE_COLOR = 1,
-        ATTRIBUTE_NORMAL = 2,
-        ATTRIBUTE_TEXCOORD0 = 3,
-        ATTRIBUTE_TEXCOORD1 = 4
-    };
-    
+{    
     class RendererOGL: public Renderer
     {
         friend Engine;
@@ -53,7 +44,7 @@ namespace ouzel
         virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
         virtual bool activateShader(Shader* shader) override;
         
-        virtual MeshBuffer* createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer = false, bool dynamicVertexBuffer = false) override;
+        virtual MeshBuffer* createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes) override;
         virtual bool drawMeshBuffer(MeshBuffer* meshBuffer) override;
         
         virtual void drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform = Matrix4()) override;

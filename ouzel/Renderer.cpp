@@ -167,11 +167,11 @@ namespace ouzel
         return true;
     }
     
-    MeshBuffer* Renderer::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
+    MeshBuffer* Renderer::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
         MeshBuffer* meshBuffer = new MeshBuffer();
         
-        if (!meshBuffer->initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
+        if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
         {
             delete meshBuffer;
             meshBuffer = nullptr;
@@ -183,6 +183,11 @@ namespace ouzel
     bool Renderer::drawMeshBuffer(MeshBuffer* meshBuffer)
     {
         if (!_activeShader)
+        {
+            return false;
+        }
+        
+        if (meshBuffer->getVertexAttributes() != _activeShader->getVertexAttributes())
         {
             return false;
         }

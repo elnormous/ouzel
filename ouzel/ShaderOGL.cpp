@@ -76,11 +76,37 @@ namespace ouzel
         glAttachShader(_programId, _vertexShaderId);
         glAttachShader(_programId, _fragmentShaderId);
         
-        if (vertexAttributes & VERTEX_POSITION) glBindAttribLocation(_programId, ATTRIBUTE_POSITION, "in_Position");
-        if (vertexAttributes & VERTEX_COLOR) glBindAttribLocation(_programId, ATTRIBUTE_COLOR, "in_Color");
-        if (vertexAttributes & VERTEX_NORMAL) glBindAttribLocation(_programId, ATTRIBUTE_NORMAL, "in_Normal");
-        if (vertexAttributes & VERTEX_TEXCOORD0) glBindAttribLocation(_programId, ATTRIBUTE_TEXCOORD0, "in_TexCoord0");
-        if (vertexAttributes & VERTEX_TEXCOORD1) glBindAttribLocation(_programId, ATTRIBUTE_TEXCOORD1, "in_TexCoord1");
+        GLuint index = 0;
+        
+        if (vertexAttributes & VERTEX_POSITION)
+        {
+            glBindAttribLocation(_programId, index, "in_Position");
+            index++;
+        }
+        
+        if (vertexAttributes & VERTEX_COLOR)
+        {
+            glBindAttribLocation(_programId, index, "in_Color");
+            index++;
+        }
+        
+        if (vertexAttributes & VERTEX_NORMAL)
+        {
+            glBindAttribLocation(_programId, index, "in_Normal");
+            index++;
+        }
+        
+        if (vertexAttributes & VERTEX_TEXCOORD0)
+        {
+            glBindAttribLocation(_programId, index, "in_TexCoord0");
+            index++;
+        }
+        
+        if (vertexAttributes & VERTEX_TEXCOORD1)
+        {
+            glBindAttribLocation(_programId, index, "in_TexCoord1");
+            index++;
+        }
         
         glLinkProgram(_programId);
         

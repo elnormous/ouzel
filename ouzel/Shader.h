@@ -24,6 +24,8 @@ namespace ouzel
         virtual bool initFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
         virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
         
+        uint32_t getVertexAttributes() const { return _vertexAttributes; }
+        
         virtual uint32_t getPixelShaderConstantId(const std::string& name);
         virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
         virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
@@ -39,5 +41,7 @@ namespace ouzel
         
         std::string _fragmentShaderFilename;
         std::string _vertexShaderFilename;
+        
+        uint32_t _vertexAttributes;
     };
 }

@@ -183,7 +183,9 @@ namespace ouzel
         
         _frameVertices.push_back(vertices);
         
-        _frameMeshBuffers.push_back(Renderer::getInstance()->createMeshBuffer(indices, vertices, false, true));
+        _frameMeshBuffers.push_back(Renderer::getInstance()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
+                                                                              vertices.data(), sizeof(VertexPCT), static_cast<uint32_t>(vertices.size()), true,
+                                                                              VertexPCT::ATTRIBUTES));
     }
 
     void Sprite::draw()
@@ -230,8 +232,6 @@ namespace ouzel
                 }
             }
         }
-        
-        //_currentFrame = 8;
     }
     
     void Sprite::setTexture(Texture* texture)
@@ -256,7 +256,7 @@ namespace ouzel
             }
             
             MeshBuffer* meshBuffer = _frameMeshBuffers[i];
-            meshBuffer->uploadVertices(_frameVertices[i]);
+            meshBuffer->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
         }
     }
     

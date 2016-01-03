@@ -229,11 +229,11 @@ namespace ouzel
         return true;
     }
     
-    MeshBuffer* RendererOGL::createMeshBuffer(const std::vector<uint16_t>& indices, const std::vector<VertexPCT>& vertices, bool dynamicIndexBuffer, bool dynamicVertexBuffer)
+    MeshBuffer* RendererOGL::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
         MeshBufferOGL* meshBuffer = new MeshBufferOGL();
         
-        if (!meshBuffer->initFromData(indices, vertices, dynamicIndexBuffer, dynamicVertexBuffer))
+        if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
         {
             delete meshBuffer;
             meshBuffer = nullptr;
@@ -253,7 +253,7 @@ namespace ouzel
         
         glBindVertexArray(meshBufferOGL->getVertexArrayId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-        glDrawElements(GL_TRIANGLES, meshBufferOGL->getIndexCount(), GL_UNSIGNED_SHORT, nullptr);
+        glDrawElements(GL_TRIANGLES, meshBufferOGL->getIndexCount(), meshBufferOGL->getIndexFormat(), nullptr);
         
         if (checkOpenGLErrors())
         {
