@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ouzel\AABB2.cpp" />
     <ClCompile Include="..\ouzel\Camera.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
     <ClCompile Include="..\ouzel\Engine.cpp" />
@@ -53,6 +54,7 @@
     <ClCompile Include="..\ouzel\win\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ouzel\AABB2.h" />
     <ClInclude Include="..\ouzel\AutoPtr.h" />
     <ClInclude Include="..\ouzel\Camera.h" />
     <ClInclude Include="..\ouzel\Color.h" />

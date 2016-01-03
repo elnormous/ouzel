@@ -92,7 +92,7 @@ namespace ouzel
 
     void AABB2::updateMinMax(const Vector2* point, uint32_t num)
     {
-        for (ssize_t i = 0; i < num; i++)
+        for (uint32_t i = 0; i < num; i++)
         {
             // Leftmost point.
             if (point[i].x < _min.x)
