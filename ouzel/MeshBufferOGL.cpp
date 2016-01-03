@@ -42,7 +42,7 @@ namespace ouzel
             case 1: _indexFormat = GL_UNSIGNED_BYTE; break;
             case 2: _indexFormat = GL_UNSIGNED_SHORT; break;
             case 4: _indexFormat = GL_UNSIGNED_INT; break;
-            default: return false;
+            default: log("Invalid index size"); return false;
         }
         
         _indexCount = indexCount;
@@ -101,6 +101,12 @@ namespace ouzel
             glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(position));
             position += 2 * sizeof(float);
             index++;
+        }
+        
+        if (position != _vertexSize)
+        {
+            log("Invalid vertex size");
+            return false;
         }
         
         if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
