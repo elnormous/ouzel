@@ -84,9 +84,9 @@ namespace ouzel
         Vector2 absoluteToWorldLocation(const Vector2& position);
         Vector2 worldToAbsoluteLocation(const Vector2& position);
         
-        virtual void drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform = Matrix4());
-        virtual void drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
-        virtual void drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
+        virtual bool drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform = Matrix4());
+        virtual bool drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
+        virtual bool drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
         
     protected:
         Renderer(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE);
