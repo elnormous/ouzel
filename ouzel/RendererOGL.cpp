@@ -149,34 +149,6 @@ namespace ouzel
         return texture;
     }
     
-    bool RendererOGL::activateTexture(Texture* texture, uint32_t layer)
-    {
-        if (!Renderer::activateTexture(texture, layer))
-        {
-            return false;
-        }
-        
-        glActiveTexture(GL_TEXTURE0 + layer);
-        
-        if (texture)
-        {
-            TextureOGL* textureOGL = static_cast<TextureOGL*>(texture);
-            
-            glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
-        }
-        else
-        {
-            glBindTexture(GL_TEXTURE_2D, 0);
-        }
-        
-        if (checkOpenGLErrors())
-        {
-            return false;
-        }
-        
-        return true;
-    }
-    
     Shader* RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         ShaderOGL* shader = new ShaderOGL();
@@ -203,32 +175,6 @@ namespace ouzel
         return shader;
     }
     
-    bool RendererOGL::activateShader(Shader* shader)
-    {
-        if (!Renderer::activateShader(shader))
-        {
-            return false;
-        }
-        
-        if (shader)
-        {
-            ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(shader);
-            
-            glUseProgram(shaderOGL->getProgramId());
-            
-            if (checkOpenGLErrors())
-            {
-                return false;
-            }
-        }
-        else
-        {
-            glUseProgram(0);
-        }
-        
-        return true;
-    }
-    
     MeshBuffer* RendererOGL::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
         MeshBufferOGL* meshBuffer = new MeshBufferOGL();
@@ -245,6 +191,34 @@ namespace ouzel
     bool RendererOGL::drawMeshBuffer(MeshBuffer* meshBuffer)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
+        {
+            return false;
+        }
+        
+        ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(_activeShader.item);
+        
+        if (!shaderOGL)
+        {
+            return false;
+        }
+        
+        glUseProgram(shaderOGL->getProgramId());
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+        {
+            glActiveTexture(GL_TEXTURE0 + layer);
+            
+            TextureOGL* textureOGL = static_cast<TextureOGL*>(_activeTextures[layer].item);
+            
+            glBindTexture(GL_TEXTURE_2D, textureOGL ? textureOGL->getTextureId() : 0);
+        }
+        
+        if (checkOpenGLErrors())
         {
             return false;
         }
@@ -280,7 +254,13 @@ namespace ouzel
         }
         
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
-        activateShader(colorShader);
+        
+        if (!colorShader)
+        {
+            return false;
+        }
+        
+        glUseProgram(colorShader->getProgramId());
         
         Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
         
@@ -318,7 +298,13 @@ namespace ouzel
         }
         
         ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
-        activateShader(colorShader);
+        
+        if (!colorShader)
+        {
+            return false;
+        }
+        
+        glUseProgram(colorShader->getProgramId());
         
         Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
         
@@ -355,13 +341,19 @@ namespace ouzel
             return false;
         }
         
-        ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
-        activateShader(colorShader);
+        ShaderOGL* textureShader = static_cast<ShaderOGL*>(getShader(SHADER_TEXTURE));
+        
+        if (!textureShader)
+        {
+            return false;
+        }
+        
+        glUseProgram(textureShader->getProgramId());
         
         Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
         
-        uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
-        colorShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
+        uint32_t uniModelViewProj = textureShader->getVertexShaderConstantId("modelViewProj");
+        textureShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
         
         glBindVertexArray(meshBufferOGL->getVertexArrayId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());

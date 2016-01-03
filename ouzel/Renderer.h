@@ -19,8 +19,6 @@
 
 namespace ouzel
 {
-    const uint32_t TEXTURE_LAYERS = 8;
-    
     const std::string SHADER_TEXTURE = "shaderTexture";
     const std::string SHADER_COLOR = "shaderColor";
     
@@ -33,6 +31,8 @@ namespace ouzel
     {
         friend Engine;
     public:
+        static const uint32_t TEXTURE_LAYERS = 2;
+    
         enum class Driver
         {
             NONE = 0,
