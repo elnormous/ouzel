@@ -12,7 +12,7 @@
 #include "ColorPSD3D11.h"
 #include "ColorVSD3D11.h"
 #include "Event.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "Camera.h"
 
 using namespace ouzel;
@@ -743,7 +743,7 @@ namespace ouzel
 
         _context->IASetInputLayout(colorShader->getInputLayout());
 
-        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * SceneManager::getInstance()->getCamera()->getTransform() * transform;
 
         colorShader->setVertexShaderConstant(0, { modelViewProj });
 
@@ -808,7 +808,7 @@ namespace ouzel
 
         _context->IASetInputLayout(colorShader->getInputLayout());
 
-        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * SceneManager::getInstance()->getCamera()->getTransform() * transform;
 
         colorShader->setVertexShaderConstant(0, { modelViewProj });
 
@@ -873,7 +873,7 @@ namespace ouzel
 
         _context->IASetInputLayout(textureShader->getInputLayout());
 
-        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * SceneManager::getInstance()->getCamera()->getTransform() * transform;
 
         textureShader->setVertexShaderConstant(0, { modelViewProj });
 
