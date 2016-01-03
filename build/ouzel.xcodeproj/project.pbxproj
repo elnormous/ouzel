@@ -425,6 +425,8 @@
 		304A8EAB1C2742D9008B1151 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		30575A8D1C38BD370009C8A7 /* AABB2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB2.cpp; sourceTree = "<group>"; };
 		30575A8E1C38BD370009C8A7 /* AABB2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AABB2.h; sourceTree = "<group>"; };
+		30575A961C38C90F0009C8A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30575A971C38C90F0009C8A7 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -758,6 +760,7 @@
 		304A8EB31C2765DE008B1151 /* sprite */ = {
 			isa = PBXGroup;
 			children = (
+				30575A951C38C8ED0009C8A7 /* tvos */,
 				303B762A1C34D21100FEDE92 /* ios */,
 				303B74EF1C27F6B000FEDE92 /* Frameworks */,
 				304A8EB21C2765C4008B1151 /* Resources */,
@@ -767,6 +770,15 @@
 				303B75181C29EB8400FEDE92 /* main.cpp */,
 			);
 			path = sprite;
+			sourceTree = "<group>";
+		};
+		30575A951C38C8ED0009C8A7 /* tvos */ = {
+			isa = PBXGroup;
+			children = (
+				30575A961C38C90F0009C8A7 /* Info.plist */,
+				30575A971C38C90F0009C8A7 /* Prefix.pch */,
+			);
+			path = tvos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1397,7 +1409,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../samples/sprite/ios/Prefix.pch;
 				HEADER_SEARCH_PATHS = ../ouzel/;
-				INFOPLIST_FILE = "sprite_ios copy-Info.plist";
+				INFOPLIST_FILE = ../samples/sprite/tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1417,7 +1429,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../samples/sprite/ios/Prefix.pch;
 				HEADER_SEARCH_PATHS = ../ouzel/;
-				INFOPLIST_FILE = "sprite_ios copy-Info.plist";
+				INFOPLIST_FILE = ../samples/sprite/tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
