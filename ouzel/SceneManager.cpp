@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "Engine.h"
 #include "Camera.h"
+#include "Scene.h"
 
 namespace ouzel
 {
@@ -43,6 +44,11 @@ namespace ouzel
             
             node->update(delta);
         }
+    }
+    
+    void SceneManager::setScene(Scene* scene)
+    {
+        _scene = scene;
     }
     
     void SceneManager::addNode(Node* node)

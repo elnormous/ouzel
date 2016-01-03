@@ -292,6 +292,12 @@
 		30575A921C38BD370009C8A7 /* AABB2.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A8E1C38BD370009C8A7 /* AABB2.h */; };
 		30575A931C38BD370009C8A7 /* AABB2.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A8E1C38BD370009C8A7 /* AABB2.h */; };
 		30575A941C38BD370009C8A7 /* AABB2.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A8E1C38BD370009C8A7 /* AABB2.h */; };
+		30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A9C1C39CB790009C8A7 /* Scene.cpp */; };
+		30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A9C1C39CB790009C8A7 /* Scene.cpp */; };
+		30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A9C1C39CB790009C8A7 /* Scene.cpp */; };
+		30575AA11C39CB790009C8A7 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A9D1C39CB790009C8A7 /* Scene.h */; };
+		30575AA21C39CB790009C8A7 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A9D1C39CB790009C8A7 /* Scene.h */; };
+		30575AA31C39CB790009C8A7 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575A9D1C39CB790009C8A7 /* Scene.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -427,6 +433,8 @@
 		30575A8E1C38BD370009C8A7 /* AABB2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AABB2.h; sourceTree = "<group>"; };
 		30575A961C38C90F0009C8A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30575A971C38C90F0009C8A7 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		30575A9C1C39CB790009C8A7 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
+		30575A9D1C39CB790009C8A7 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -519,6 +527,8 @@
 				304A8E411C237C70008B1151 /* SceneManager.h */,
 				304A8E441C237C70008B1151 /* Sprite.cpp */,
 				304A8E451C237C70008B1151 /* Sprite.h */,
+				30575A9C1C39CB790009C8A7 /* Scene.cpp */,
+				30575A9D1C39CB790009C8A7 /* Scene.h */,
 			);
 			name = scene;
 			sourceTree = "<group>";
@@ -793,6 +803,7 @@
 				303B75521C2A3CB700FEDE92 /* Matrix4.h in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.h in Headers */,
 				3031A0B71C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
+				30575AA21C39CB790009C8A7 /* Scene.h in Headers */,
 				303B753F1C2A3C9200FEDE92 /* Color.h in Headers */,
 				303B75471C2A3C9200FEDE92 /* RenderTarget.h in Headers */,
 				303B762F1C3559B900FEDE92 /* ViewController.h in Headers */,
@@ -843,6 +854,7 @@
 				303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */,
 				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
 				3031A0B81C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
+				30575AA31C39CB790009C8A7 /* Scene.h in Headers */,
 				303B765B1C355A3B00FEDE92 /* Color.h in Headers */,
 				303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */,
 				303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */,
@@ -921,6 +933,7 @@
 				304A8E591C237C70008B1151 /* Matrix3.h in Headers */,
 				304A8E571C237C70008B1151 /* MathUtils.h in Headers */,
 				304A8E691C237C70008B1151 /* Shader.h in Headers */,
+				30575AA11C39CB790009C8A7 /* Scene.h in Headers */,
 				304A8E931C26ED32008B1151 /* MeshBuffer.h in Headers */,
 				304A8E8B1C2486C6008B1151 /* RenderTarget.h in Headers */,
 				304A8E6F1C237C70008B1151 /* Utils.h in Headers */,
@@ -1148,6 +1161,7 @@
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
+				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
@@ -1200,6 +1214,7 @@
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
+				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
@@ -1281,6 +1296,7 @@
 				304A8E8E1C26EA8B008B1151 /* ShaderOGL.cpp in Sources */,
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
+				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				304A8E681C237C70008B1151 /* Shader.cpp in Sources */,
 				304A8E531C237C70008B1151 /* Engine.cpp in Sources */,
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,
