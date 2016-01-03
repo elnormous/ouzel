@@ -61,49 +61,49 @@ namespace ouzel
         }
         
         GLuint index = 0;
-        GLuint position = 0;
+        GLuint offset = 0;
         
         if (vertexAttributes & VERTEX_POSITION)
         {
             glEnableVertexAttribArray(index);
-            glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(position));
-            position += 3 * sizeof(float);
+            glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(offset));
+            offset += 3 * sizeof(float);
             index++;
         }
         
         if (vertexAttributes & VERTEX_COLOR)
         {
             glEnableVertexAttribArray(index);
-            glVertexAttribPointer(index, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, reinterpret_cast<const GLvoid*>(position));
-            position += 4 * sizeof(uint8_t);
+            glVertexAttribPointer(index, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, reinterpret_cast<const GLvoid*>(offset));
+            offset += 4 * sizeof(uint8_t);
             index++;
         }
         
         if (vertexAttributes & VERTEX_NORMAL)
         {
             glEnableVertexAttribArray(index);
-            glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(position));
-            position += 3 * sizeof(float);
+            glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(offset));
+            offset += 3 * sizeof(float);
             index++;
         }
         
         if (vertexAttributes & VERTEX_TEXCOORD0)
         {
             glEnableVertexAttribArray(index);
-            glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(position));
-            position += 2 * sizeof(float);
+            glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(offset));
+            offset += 2 * sizeof(float);
             index++;
         }
         
         if (vertexAttributes & VERTEX_TEXCOORD1)
         {
             glEnableVertexAttribArray(index);
-            glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(position));
-            position += 2 * sizeof(float);
+            glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(offset));
+            offset += 2 * sizeof(float);
             index++;
         }
         
-        if (position != _vertexSize)
+        if (offset != _vertexSize)
         {
             log("Invalid vertex size");
             return false;
