@@ -12,7 +12,7 @@
 #include "Shader.h"
 #include "Utils.h"
 #include "Camera.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "FileSystem.h"
 #include "File.h"
 
@@ -197,7 +197,7 @@ namespace ouzel
             Renderer::getInstance()->activateTexture(_texture, 0);
             Renderer::getInstance()->activateShader(_shader);
             
-            Matrix4 modelViewProj = Renderer::getInstance()->getProjection() * Scene::getInstance()->getCamera()->getTransform() * _transform;
+            Matrix4 modelViewProj = Renderer::getInstance()->getProjection() * SceneManager::getInstance()->getCamera()->getTransform() * _transform;
             
             _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
             
@@ -262,7 +262,7 @@ namespace ouzel
     
     bool Sprite::checkVisibility() const
     {
-        Matrix4 mvp = Renderer::getInstance()->getProjection() * Scene::getInstance()->getCamera()->getTransform() * _transform;
+        Matrix4 mvp = Renderer::getInstance()->getProjection() * SceneManager::getInstance()->getCamera()->getTransform() * _transform;
         
         Vector3 topRight(_size.width / 2.0f, _size.height / 2.0f, 0.0f);
         Vector3 bottomLeft(-_size.width / 2.0f, -_size.height / 2.0f, 0.0f);

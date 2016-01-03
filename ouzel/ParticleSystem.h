@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    class Scene;
+    class SceneManager;
     
     class ParticleSystem: public Node
     {

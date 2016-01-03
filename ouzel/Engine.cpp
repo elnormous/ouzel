@@ -14,7 +14,6 @@
 
 #include "Utils.h"
 #include "Renderer.h"
-#include "Scene.h"
 #include "FileSystem.h"
 
 void ouzelInit(ouzel::Settings&);
@@ -71,8 +70,8 @@ namespace ouzel
                 break;
         }
         
-        _scene = new Scene();
-        _scene->init();
+        _sceneManager = new SceneManager();
+        _sceneManager->init();
         
         _input = new Input();
         
@@ -93,14 +92,14 @@ namespace ouzel
     {
         _renderer->begin();
         _renderer->clear();
-        _scene->drawAll();
+        _sceneManager->drawAll();
         _renderer->flush();
         
         uint64_t currentTime = getCurrentMicroSeconds();
         float delta = static_cast<float>((currentTime - _previousFrameTime)) / 1000000.0f;
         _previousFrameTime = currentTime;
         
-        _scene->update(delta);
+        _sceneManager->update(delta);
         
         for (EventHandler* eventHandler : _eventHandlers)
         {

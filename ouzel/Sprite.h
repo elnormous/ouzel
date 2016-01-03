@@ -12,7 +12,7 @@
 namespace ouzel
 {
     class Engine;
-    class Scene;
+    class SceneManager;
     class Texture;
     class Shader;
     

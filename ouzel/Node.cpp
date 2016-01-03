@@ -3,7 +3,7 @@
 
 #include "Node.h"
 #include "Engine.h"
-#include "Scene.h"
+#include "SceneManager.h"
 
 namespace ouzel
 {
@@ -74,7 +74,7 @@ namespace ouzel
     void Node::setZOrder(float zOrder)
     {
         _zOrder = zOrder;
-        Scene::getInstance()->reorderNodes();
+        SceneManager::getInstance()->reorderNodes();
         
         updateTransform();
     }
@@ -116,7 +116,7 @@ namespace ouzel
 
     void Node::addToScene()
     {
-        Scene::getInstance()->addNode(this);
+        SceneManager::getInstance()->addNode(this);
         _addedToScene = true;
         
         for (AutoPtr<Node> child : _children)
@@ -127,7 +127,7 @@ namespace ouzel
 
     void Node::removeFromScene()
     {
-        Scene::getInstance()->removeNode(this);
+        SceneManager::getInstance()->removeNode(this);
         _addedToScene = false;
         
         for (AutoPtr<Node> child : _children)

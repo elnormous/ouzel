@@ -7,7 +7,7 @@
 #include "ShaderOGL.h"
 #include "MeshBufferOGL.h"
 #include "Engine.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "Camera.h"
 #include "Utils.h"
 
@@ -262,7 +262,7 @@ namespace ouzel
         
         glUseProgram(colorShader->getProgramId());
         
-        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * SceneManager::getInstance()->getCamera()->getTransform() * transform;
         
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
         colorShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
@@ -306,7 +306,7 @@ namespace ouzel
         
         glUseProgram(colorShader->getProgramId());
         
-        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * SceneManager::getInstance()->getCamera()->getTransform() * transform;
         
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
         colorShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
@@ -350,7 +350,7 @@ namespace ouzel
         
         glUseProgram(textureShader->getProgramId());
         
-        Matrix4 modelViewProj = _projection * Scene::getInstance()->getCamera()->getTransform() * transform;
+        Matrix4 modelViewProj = _projection * SceneManager::getInstance()->getCamera()->getTransform() * transform;
         
         uint32_t uniModelViewProj = textureShader->getVertexShaderConstantId("modelViewProj");
         textureShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });

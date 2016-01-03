@@ -17,13 +17,13 @@ namespace ouzel
     class Camera;
     class Node;
     
-    class Scene: public Noncopyable, public ReferenceCounted
+    class SceneManager: public Noncopyable, public ReferenceCounted
     {
     public:
-        static Scene* getInstance();
+        static SceneManager* getInstance();
 
-        Scene();
-        virtual ~Scene();
+        SceneManager();
+        virtual ~SceneManager();
         
         bool init();
         

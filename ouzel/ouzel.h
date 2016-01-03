@@ -16,7 +16,7 @@
 #include "AABB2.h"
 #include "Size2.h"
 #include "Rectangle.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "FileSystem.h"
 #include "Node.h"
 #include "Camera.h"

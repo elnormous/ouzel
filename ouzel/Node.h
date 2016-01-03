@@ -13,11 +13,11 @@
 
 namespace ouzel
 {
-    class Scene;
+    class SceneManager;
 
     class Node: public Noncopyable, public ReferenceCounted
     {
-        friend Scene;
+        friend SceneManager;
     public:
         Node();
         virtual ~Node();

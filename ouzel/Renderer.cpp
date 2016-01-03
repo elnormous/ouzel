@@ -10,7 +10,7 @@
 #include "Sprite.h"
 #include "Camera.h"
 #include "EventHander.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "MeshBuffer.h"
 
 namespace ouzel
@@ -197,7 +197,7 @@ namespace ouzel
 
     Vector2 Renderer::absoluteToWorldLocation(const Vector2& position)
     {
-        Camera* camera = Scene::getInstance()->getCamera();
+        Camera* camera = SceneManager::getInstance()->getCamera();
         
         if (camera)
         {
@@ -221,7 +221,7 @@ namespace ouzel
 
     Vector2 Renderer::worldToAbsoluteLocation(const Vector2& position)
     {
-        Camera* camera = Scene::getInstance()->getCamera();
+        Camera* camera = SceneManager::getInstance()->getCamera();
         
         if (camera)
         {

@@ -6,7 +6,7 @@
 #include <rapidjson/document.h>
 #include "ParticleSystem.h"
 #include "Engine.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "FileSystem.h"
 #include "File.h"
 #include "Utils.h"

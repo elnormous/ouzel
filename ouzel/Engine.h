@@ -8,7 +8,7 @@
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Renderer.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "FileSystem.h"
 #include "Input.h"
 #include "EventHander.h"
@@ -41,7 +41,7 @@ namespace ouzel
         
     protected:
         AutoPtr<Renderer> _renderer;
-        AutoPtr<Scene> _scene;
+        AutoPtr<SceneManager> _sceneManager;
         AutoPtr<FileSystem> _fileSystem;
         AutoPtr<Input> _input;
         

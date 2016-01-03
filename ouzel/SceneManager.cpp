@@ -2,30 +2,30 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Scene.h"
+#include "SceneManager.h"
 #include "Engine.h"
 #include "Camera.h"
 
 namespace ouzel
 {
-    static Scene* sharedScene = nullptr;
+    static SceneManager* sharedSceneManager = nullptr;
 
-    Scene* Scene::getInstance()
+    SceneManager* SceneManager::getInstance()
     {
-        return sharedScene;
+        return sharedSceneManager;
     }
 
-    Scene::Scene()
+    SceneManager::SceneManager()
     {
-        sharedScene = this;
+        sharedSceneManager = this;
     }
     
-    Scene::~Scene()
+    SceneManager::~SceneManager()
     {
         
     }
     
-    bool Scene::init()
+    bool SceneManager::init()
     {
         _camera = new Camera();
         
@@ -35,7 +35,7 @@ namespace ouzel
         return true;
     }
     
-    void Scene::update(float delta)
+    void SceneManager::update(float delta)
     {
         for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
@@ -45,7 +45,7 @@ namespace ouzel
         }
     }
     
-    void Scene::addNode(Node* node)
+    void SceneManager::addNode(Node* node)
     {
         std::vector<AutoPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
         
@@ -56,7 +56,7 @@ namespace ouzel
         }
     }
     
-    void Scene::removeNode(Node* node)
+    void SceneManager::removeNode(Node* node)
     {
         std::vector<AutoPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
         
@@ -66,17 +66,17 @@ namespace ouzel
         }
     }
     
-    void Scene::reorderNodes()
+    void SceneManager::reorderNodes()
     {
         _reorderNodes = true;
     }
     
-    void Scene::setCamera(Camera* camera)
+    void SceneManager::setCamera(Camera* camera)
     {
         _camera = camera;
     }
     
-    Node* Scene::pickNode(const Vector2& position)
+    Node* SceneManager::pickNode(const Vector2& position)
     {
         for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
@@ -91,7 +91,7 @@ namespace ouzel
         return nullptr;
     }
     
-    std::set<Node*> Scene::pickNodes(const Rectangle& rectangle)
+    std::set<Node*> SceneManager::pickNodes(const Rectangle& rectangle)
     {
         std::set<Node*> result;
         
@@ -108,7 +108,7 @@ namespace ouzel
         return result;
     }
     
-    void Scene::drawAll()
+    void SceneManager::drawAll()
     {        
         if (_reorderNodes)
         {

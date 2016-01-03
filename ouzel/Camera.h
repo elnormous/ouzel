@@ -7,7 +7,7 @@
 
 namespace ouzel
 {
-    class Scene;
+    class SceneManager;
     
     class Camera: public Node
     {
