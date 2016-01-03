@@ -9,6 +9,8 @@
 #include "Utils.h"
 #include "TexturePSD3D11.h"
 #include "TextureVSD3D11.h"
+#include "ColorPSD3D11.h"
+#include "ColorVSD3D11.h"
 #include "Event.h"
 
 using namespace ouzel;
@@ -518,6 +520,15 @@ namespace ouzel
         if (textureShader)
         {
             _shaders[SHADER_TEXTURE] = textureShader;
+        }
+
+        Shader* colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
+                                                    COLOR_VERTEX_SHADER_D3D11, sizeof(COLOR_VERTEX_SHADER_D3D11),
+                                                    VertexPC::ATTRIBUTES);
+
+        if (colorShader)
+        {
+            _shaders[SHADER_COLOR] = colorShader;
         }
 
         D3D11_VIEWPORT viewport = { 0, 0, _size.width, _size.height, 0.0f, 1.0f };
