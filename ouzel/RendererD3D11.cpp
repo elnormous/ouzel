@@ -603,24 +603,6 @@ namespace ouzel
         return texture;
     }
 
-    bool RendererD3D11::activateTexture(Texture* texture, uint32_t layer)
-    {
-        if (!Renderer::activateTexture(texture, layer))
-        {
-            return false;
-        }
-
-        TextureD3D11* textureD3D11 = static_cast<TextureD3D11*>(_activeTextures[layer].item);
-        
-        _resourceViews[layer] = textureD3D11 ? textureD3D11->getResourceView() : nullptr;
-        _samplerStates[layer] = textureD3D11 ? _samplerState : nullptr;
-
-        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
-        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
-
-        return true;
-    }
-
     Shader* RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         ShaderD3D11* shader = new ShaderD3D11();
@@ -647,32 +629,6 @@ namespace ouzel
         return shader;
     }
 
-    bool RendererD3D11::activateShader(Shader* shader)
-    {
-        if (!Renderer::activateShader(shader))
-        {
-            return false;
-        }
-
-        ShaderD3D11* shaderD3D11 = static_cast<ShaderD3D11*>(_activeShader.item);
-
-        if (shaderD3D11)
-        {
-            ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
-            _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
-
-            ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
-            _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
-
-            _context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
-            _context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
-
-            _context->IASetInputLayout(shaderD3D11->getInputLayout());
-        }
-
-        return true;
-    }
-
     MeshBuffer* RendererD3D11::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
         MeshBufferD3D11* meshBuffer = new MeshBufferD3D11();
@@ -692,6 +648,35 @@ namespace ouzel
         {
             return false;
         }
+
+        ShaderD3D11* shaderD3D11 = static_cast<ShaderD3D11*>(_activeShader.item);
+
+        if (!shaderD3D11)
+        {
+            return false;
+        }
+
+        ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
+        _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+
+        ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
+        _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+
+        _context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+        _context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+
+        _context->IASetInputLayout(shaderD3D11->getInputLayout());
+
+        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+        {
+            TextureD3D11* textureD3D11 = static_cast<TextureD3D11*>(_activeTextures[layer].item);
+
+            _resourceViews[layer] = textureD3D11 ? textureD3D11->getResourceView() : nullptr;
+            _samplerStates[layer] = textureD3D11 ? _samplerState : nullptr;
+        }
+
+        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
+        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
 
         MeshBufferD3D11* meshBufferD3D11 = static_cast<MeshBufferD3D11*>(meshBuffer);
 
