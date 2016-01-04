@@ -23,12 +23,32 @@ namespace ouzel
 
     void Node::draw()
     {
-
+        if (_transformDirty)
+        {
+            calculateTransform();
+        }
     }
     
     void Node::update(float delta)
     {
+        if (_transformDirty)
+        {
+            calculateTransform();
+        }
+    }
+    
+    void Node::addChild(Node* node)
+    {
+        NodeContainer::addChild(node);
         
+        if (_transformDirty)
+        {
+            calculateTransform();
+        }
+        else
+        {
+            node->updateTransform(_transform);
+        }
     }
 
     void Node::setZOrder(float zOrder)
@@ -144,35 +164,32 @@ namespace ouzel
         
         return true;
     }
-
-    void Node::updateTransform(const Matrix4& parentTransform)
+    
+    const Matrix4& Node::getTransform() const
     {
         if (_transformDirty)
         {
-            Matrix4 translation;
-            translation.translate(Vector3(_position.x, _position.y, 0.0f));
-            
-            Matrix4 rotation;
-            rotation.rotate(Vector3(0.0f, 0.0f, -1.0f), _rotation);
-            
-            Vector3 realScale = Vector3(_scale.x * (_flipX ? -1.0f : 1.0f),
-                                        _scale.y * (_flipY ? -1.0f : 1.0f),
-                                        1.0f);
-            
-            Matrix4 scale;
-            scale.scale(realScale);
-            
-            _transform = parentTransform * translation * rotation * scale;
-            _inverseTransform = _transform;
-            _inverseTransform.invert();
-            
-            _transformDirty = false;
+            calculateTransform();
         }
         
-        for (AutoPtr<Node> child : _children)
+        return _transform;
+    }
+    
+    const Matrix4& Node::getInverseTransform() const
+    {
+        if (_inverseTransformDirty)
         {
-            child->updateTransform(_transform);
+            calculateInverseTransform();
         }
+        
+        return _inverseTransform;
+    }
+
+    void Node::updateTransform(const Matrix4& parentTransform)
+    {
+        _parentTransform = parentTransform;
+        calculateTransform();
+        _inverseTransformDirty = true;
     }
     
     bool Node::checkVisibility() const
@@ -180,8 +197,45 @@ namespace ouzel
         return true;
     }
     
-    void Node::markTransformDirty()
+    void Node::calculateTransform() const
+    {
+        Matrix4 translation;
+        translation.translate(Vector3(_position.x, _position.y, 0.0f));
+        
+        Matrix4 rotation;
+        rotation.rotate(Vector3(0.0f, 0.0f, -1.0f), _rotation);
+        
+        Vector3 realScale = Vector3(_scale.x * (_flipX ? -1.0f : 1.0f),
+                                    _scale.y * (_flipY ? -1.0f : 1.0f),
+                                    1.0f);
+        
+        Matrix4 scale;
+        scale.scale(realScale);
+        
+        _transform = _parentTransform * translation * rotation * scale;
+        _transformDirty = false;
+        
+        for (AutoPtr<Node> child : _children)
+        {
+            child->updateTransform(_transform);
+        }
+    }
+    
+    void Node::calculateInverseTransform() const
+    {
+        if (_transformDirty)
+        {
+            calculateTransform();
+        }
+        
+        _inverseTransform = _transform;
+        _inverseTransform.invert();
+        _inverseTransformDirty = false;
+    }
+    
+    void Node::markTransformDirty() const
     {
         _transformDirty = true;
+        _inverseTransformDirty = true;
     }
 }

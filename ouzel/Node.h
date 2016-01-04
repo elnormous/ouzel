@@ -25,6 +25,8 @@ namespace ouzel
         virtual void draw();
         virtual void update(float delta);
         
+        virtual void addChild(Node* node) override;
+        
         virtual void setZOrder(float zOrder);
         virtual float getZOrder() const { return _zOrder; }
         
@@ -43,13 +45,13 @@ namespace ouzel
         virtual void setFlipY(bool flipY);
         virtual bool getFlipY() const { return _flipY; }
         
-        virtual const Matrix4& getTransform() const { return _transform; }
-        const Matrix4& getInverseTransform() const { return _inverseTransform; }
-        
         virtual const Rectangle& getBoundingBox() const { return _boundingBox; }
         
         virtual bool pointOn(const Vector2& position) const;
         virtual bool rectangleOverlaps(const Rectangle& rectangle) const;
+        
+        virtual const Matrix4& getTransform() const;
+        const Matrix4& getInverseTransform() const;
         
         virtual void updateTransform(const Matrix4& parentTransform);
         
@@ -58,13 +60,18 @@ namespace ouzel
     protected:
         virtual void addToLayer(Layer* layer);
         virtual void removeFromLayer();
-        void markTransformDirty();
+        
+        virtual void calculateTransform() const;
+        void markTransformDirty() const;
+        virtual void calculateInverseTransform() const;
         
         NodeContainer* _parent = nullptr;
         
-        bool _transformDirty = false;
-        Matrix4 _transform;
-        Matrix4 _inverseTransform;
+        Matrix4 _parentTransform = Matrix4::identity();
+        mutable Matrix4 _transform;
+        mutable bool _transformDirty = false;
+        mutable Matrix4 _inverseTransform;
+        mutable bool _inverseTransformDirty = false;
         
         Vector2 _position;
         float _rotation = 0.0f;

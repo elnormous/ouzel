@@ -15,30 +15,6 @@ namespace ouzel
         
     }
 
-    void Camera::updateTransform(const Matrix4& parentTransform)
-    {
-        if (_transformDirty)
-        {
-            Matrix4 translation;
-            translation.translate(-_position.x, -_position.y, 0.0f);
-            
-            Matrix4 rotation;
-            rotation.rotate(Vector3(0.0f, 0.0f, -1.0f), -_rotation);
-            
-            Matrix4 scale;
-            scale.scale(_zoom);
-            
-            _transform = parentTransform * scale * rotation * translation;
-            _inverseTransform = _transform;
-            _inverseTransform.invert();
-        }
-        
-        for (AutoPtr<Node> child : _children)
-        {
-            child->updateTransform(_transform);
-        }
-    }
-
     void Camera::setZoom(float zoom)
     {
         _zoom = zoom;
@@ -49,5 +25,24 @@ namespace ouzel
         }
         
         markTransformDirty();
+    }
+    
+    void Camera::calculateTransform() const
+    {
+        Matrix4 translation;
+        translation.translate(-_position.x, -_position.y, 0.0f);
+        
+        Matrix4 rotation;
+        rotation.rotate(Vector3(0.0f, 0.0f, -1.0f), -_rotation);
+        
+        Matrix4 scale;
+        scale.scale(_zoom);
+        
+        _transform = _parentTransform * scale * rotation * translation;
+        
+        for (AutoPtr<Node> child : _children)
+        {
+            child->updateTransform(_transform);
+        }
     }
 }
