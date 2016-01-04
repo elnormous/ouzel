@@ -198,7 +198,7 @@ static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     Event event;
     event.type = Event::Type::MOUSE_MOVE;
-    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(pos);
+    event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(pos);
     Engine::getInstance()->handleEvent(event);
 }
 
@@ -226,7 +226,7 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     Event event;
     event.type = isDown ? Event::Type::MOUSE_DOWN : Event::Type::MOUSE_UP;
     event.mouseEvent.button = button;
-    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(pos);
+    event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(pos);
     Engine::getInstance()->handleEvent(event);
 }
 
@@ -238,7 +238,7 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     Event event;
     event.type = Event::Type::MOUSE_SCROLL;
     event.mouseEvent.scroll = Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA));
-    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(pos);
+    event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(pos);
     Engine::getInstance()->handleEvent(event);
 }
 

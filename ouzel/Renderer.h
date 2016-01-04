@@ -81,8 +81,8 @@ namespace ouzel
         
         const Matrix4& getProjection() const { return _projection; }
         
-        Vector2 screenToViewLocation(const Vector2& position);
         Vector2 viewToScreenLocation(const Vector2& position);
+        Vector2 screenToViewLocation(const Vector2& position);
         
         virtual bool drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform = Matrix4());
         virtual bool drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());

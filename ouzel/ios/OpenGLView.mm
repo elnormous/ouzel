@@ -113,7 +113,7 @@ using namespace ouzel;
         Event event;
         event.type = Event::Type::TOUCH_BEGIN;
         event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
-        event.touchEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
+        event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
 
         
         Engine::getInstance()->handleEvent(event);
@@ -129,7 +129,7 @@ using namespace ouzel;
         Event event;
         event.type = Event::Type::TOUCH_MOVE;
         event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
-        event.touchEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
+        event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
         
         
         Engine::getInstance()->handleEvent(event);
@@ -145,7 +145,7 @@ using namespace ouzel;
         Event event;
         event.type = Event::Type::TOUCH_END;
         event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
-        event.touchEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
+        event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
         
         
         Engine::getInstance()->handleEvent(event);
@@ -161,7 +161,7 @@ using namespace ouzel;
         Event event;
         event.type = Event::Type::TOUCH_CANCEL;
         event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
-        event.touchEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
+        event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
         
         
         Engine::getInstance()->handleEvent(event);
