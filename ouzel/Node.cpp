@@ -177,6 +177,11 @@ namespace ouzel
     
     const Matrix4& Node::getInverseTransform() const
     {
+        if (_transformDirty)
+        {
+            calculateTransform();
+        }
+        
         if (_inverseTransformDirty)
         {
             calculateInverseTransform();

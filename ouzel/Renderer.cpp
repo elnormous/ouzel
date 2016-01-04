@@ -49,6 +49,12 @@ namespace ouzel
     {
         _size = size;
         SceneManager::getInstance()->recalculateProjection();
+        
+        Event event;
+        event.type = Event::Type::SCREEN_SIZE;
+        event.screenSizeEvent.size = size;
+        
+        Engine::getInstance()->handleEvent(event);
     }
     
     void Renderer::preloadTexture(const std::string& filename)

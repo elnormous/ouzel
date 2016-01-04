@@ -191,6 +191,8 @@ namespace ouzel
 
     void Sprite::update(float delta)
     {
+        Node::update(delta);
+        
         if (_playing)
         {
             _timeSinceLastFrame += delta;
