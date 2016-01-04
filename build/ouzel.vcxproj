@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ouzel\AABB2.cpp" />
+    <ClCompile Include="..\ouzel\Button.cpp" />
     <ClCompile Include="..\ouzel\Camera.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
     <ClCompile Include="..\ouzel\Engine.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="..\ouzel\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\Image.cpp" />
     <ClCompile Include="..\ouzel\Input.cpp" />
+    <ClCompile Include="..\ouzel\Label.cpp" />
     <ClCompile Include="..\ouzel\Layer.cpp" />
     <ClCompile Include="..\ouzel\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\Matrix3.cpp" />
@@ -59,6 +61,7 @@
   <ItemGroup>
     <ClInclude Include="..\ouzel\AABB2.h" />
     <ClInclude Include="..\ouzel\AutoPtr.h" />
+    <ClInclude Include="..\ouzel\Button.h" />
     <ClInclude Include="..\ouzel\Camera.h" />
     <ClInclude Include="..\ouzel\Color.h" />
     <ClInclude Include="..\ouzel\CompileConfig.h" />
@@ -69,6 +72,7 @@
     <ClInclude Include="..\ouzel\FileSystem.h" />
     <ClInclude Include="..\ouzel\Image.h" />
     <ClInclude Include="..\ouzel\Input.h" />
+    <ClInclude Include="..\ouzel\Label.h" />
     <ClInclude Include="..\ouzel\Layer.h" />
     <ClInclude Include="..\ouzel\MathUtils.h" />
     <ClInclude Include="..\ouzel\Matrix3.h" />

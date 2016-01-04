@@ -26,4 +26,6 @@
 #include "ParticleSystem.h"
 #include "Texture.h"
 #include "EventHander.h"
+#include "Label.h"
+#include "Button.h"
 #include "Utils.h"
