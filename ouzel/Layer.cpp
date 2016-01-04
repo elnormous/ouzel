@@ -45,8 +45,9 @@ namespace ouzel
         // render only if there is an active camera
         if (_camera)
         {
-            for (AutoPtr<Node> node : _nodes)
+            for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
             {
+                Node* node = *i;
                 if (node->checkVisibility())
                 {
                     node->draw();
