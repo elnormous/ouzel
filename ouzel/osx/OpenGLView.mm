@@ -52,6 +52,11 @@ using namespace ouzel;
     return self;
 }
 
+-(BOOL)isFlipped
+{
+    return YES;
+}
+
 -(BOOL)acceptsFirstMouse:(NSEvent*)theEvent
 {
     return YES;
@@ -423,7 +428,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)mouseDown:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
@@ -436,7 +441,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)mouseUp:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_UP;
@@ -449,7 +454,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)rightMouseDown:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
@@ -462,7 +467,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)rightMouseUp:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_UP;
@@ -475,7 +480,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)otherMouseDown:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
@@ -488,7 +493,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)otherMouseUp:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_UP;
@@ -501,7 +506,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)mouseMoved:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_MOVE;
@@ -513,7 +518,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)mouseDragged:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
@@ -526,7 +531,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)rightMouseDragged:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
@@ -539,7 +544,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)otherMouseDragged:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
@@ -552,7 +557,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)scrollWheel:(NSEvent*)theEvent
 {
-    NSPoint location = theEvent.locationInWindow;
+    NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     Event event;
     event.type = Event::Type::MOUSE_SCROLL;

@@ -96,6 +96,7 @@ namespace ouzel
         Color _clearColor;
         
         Matrix4 _projection;
+        Matrix4 _inverseProjection;
         
         std::unordered_map<std::string, AutoPtr<Texture>> _textures;
         std::unordered_map<std::string, AutoPtr<Shader>> _shaders;

@@ -109,7 +109,6 @@ using namespace ouzel;
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
-        location.y = Renderer::getInstance()->getSize().height - location.y;
         
         Event event;
         event.type = Event::Type::TOUCH_BEGIN;
@@ -126,7 +125,6 @@ using namespace ouzel;
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
-        location.y = Renderer::getInstance()->getSize().height - location.y;
         
         Event event;
         event.type = Event::Type::TOUCH_MOVE;
@@ -143,7 +141,6 @@ using namespace ouzel;
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
-        location.y = Renderer::getInstance()->getSize().height - location.y;
         
         Event event;
         event.type = Event::Type::TOUCH_END;
@@ -160,7 +157,6 @@ using namespace ouzel;
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
-        location.y = Renderer::getInstance()->getSize().height - location.y;
         
         Event event;
         event.type = Event::Type::TOUCH_CANCEL;

@@ -194,7 +194,7 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                Renderer::getInstance()->getSize().height - static_cast<float>(HIWORD(lParam)));
+                static_cast<float>(HIWORD(lParam)));
 
     Event event;
     event.type = Event::Type::MOUSE_MOVE;
@@ -221,7 +221,7 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     }
 
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                Renderer::getInstance()->getSize().height - static_cast<float>(HIWORD(lParam)));
+                static_cast<float>(HIWORD(lParam)));
 
     Event event;
     event.type = isDown ? Event::Type::MOUSE_DOWN : Event::Type::MOUSE_UP;
@@ -233,7 +233,7 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                Renderer::getInstance()->getSize().height - static_cast<float>(HIWORD(lParam)));
+                static_cast<float>(HIWORD(lParam)));
 
     Event event;
     event.type = Event::Type::MOUSE_SCROLL;

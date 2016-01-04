@@ -36,6 +36,8 @@ namespace ouzel
     void Renderer::recalculateProjection()
     {
         Matrix4::createOrthographic(_size.width, _size.height, -1.0f, 1.0f, &_projection);
+        _inverseProjection = _projection;
+        _inverseProjection.invert();
     }
     
     void Renderer::begin()
@@ -198,7 +200,7 @@ namespace ouzel
     Vector2 Renderer::screenToViewLocation(const Vector2& position)
     {
         float x = 2.0f * position.x / _size.width - 1.0f;
-        float y = 2.0f * position.y / _size.height - 1.0f;
+        float y = 2.0f * (_size.height - position.y) / _size.height - 1.0f;
         
         return Vector2(x, y);
     }
@@ -206,7 +208,7 @@ namespace ouzel
     Vector2 Renderer::viewToScreenLocation(const Vector2& position)
     {
         float x = (position.x + 1.0f) / 2.0f * _size.width;
-        float y = (position.y + 1.0f) / 2.0f * _size.height;
+        float y = _size.height - (position.y + 1.0f) / 2.0f * _size.height;
         
         return Vector2(x, y);
     }
