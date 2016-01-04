@@ -3,10 +3,13 @@
 
 #pragma once
 
+#include "NodeContainer.h"
+
 namespace ouzel
 {
-    class Layer
+    class Layer: public NodeContainer
     {
+    public:
         Layer();
         virtual ~Layer();
     };

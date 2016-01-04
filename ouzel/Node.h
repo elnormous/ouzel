@@ -3,10 +3,7 @@
 
 #pragma once
 
-#include <vector>
-#include "AutoPtr.h"
-#include "Noncopyable.h"
-#include "ReferenceCounted.h"
+#include "NodeContainer.h"
 #include "Vector2.h"
 #include "Matrix4.h"
 #include "Rectangle.h"
@@ -15,19 +12,15 @@ namespace ouzel
 {
     class SceneManager;
 
-    class Node: public Noncopyable, public ReferenceCounted
+    class Node: public NodeContainer
     {
         friend SceneManager;
+        friend NodeContainer;
     public:
         Node();
         virtual ~Node();
         
-        virtual void addChild(Node* node);
-        virtual void removeChild(Node* node);
-        
-        virtual Node* getParent() const { return _parent; }
-        virtual bool hasChild(Node* node) const;
-        virtual const std::vector<AutoPtr<Node>>& getChildren() const { return _children; }
+        virtual NodeContainer* getParent() const { return _parent; }
         
         virtual void draw();
         virtual void update(float delta);
@@ -51,7 +44,7 @@ namespace ouzel
         virtual bool getFlipY() const { return _flipY; }
         
         virtual const Matrix4& getTransform() const { return _transform; }
-        const Matrix4& getInverseTransform() const;
+        const Matrix4& getInverseTransform() const { return _inverseTransform; }
         
         virtual const Rectangle& getBoundingBox() const { return _boundingBox; }
         
@@ -60,16 +53,20 @@ namespace ouzel
         virtual bool pointOn(const Vector2& position) const;
         virtual bool rectangleOverlaps(const Rectangle& rectangle) const;
         
-        virtual void updateTransform();
+        virtual void updateTransform(const Matrix4& parentTransform);
         
         virtual bool checkVisibility() const;
         
     protected:
         virtual void addToScene();
         virtual void removeFromScene();
-        void markInverseTransformDirty();
+        void markTransformDirty();
         
+        NodeContainer* _parent = nullptr;
+        
+        bool _transformDirty = false;
         Matrix4 _transform;
+        Matrix4 _inverseTransform;
         
         Vector2 _position;
         float _rotation = 0.0f;
@@ -78,16 +75,7 @@ namespace ouzel
         
         Rectangle _boundingBox;
         
-        Node* _parent = nullptr;
-        std::vector<AutoPtr<Node>> _children;
-        
         bool _flipX = false;
         bool _flipY = false;
-        
-        bool _addedToScene = false;
-        
-    private:
-        mutable Matrix4 _inverseTransform;
-        mutable bool _inverseTransformDirty = false;
     };
 }

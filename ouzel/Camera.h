@@ -18,9 +18,9 @@ namespace ouzel
         float getZoom() const { return _zoom; }
         void setZoom(float zoom);
         
-    protected:
-        virtual void updateTransform() override;
+        virtual void updateTransform(const Matrix4& parentTransform) override;
         
+    protected:
         float _zoom = 1.0f;
     };
 }

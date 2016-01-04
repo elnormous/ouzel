@@ -18,47 +18,6 @@ namespace ouzel
         {
             node->_parent = nullptr;
         }
-        
-        _children.clear();
-    }
-
-    bool Node::hasChild(Node* node) const
-    {
-        std::vector<AutoPtr<Node>>::const_iterator i = std::find(_children.begin(), _children.end(), node);
-        
-        return i != _children.end();
-    }
-
-    void Node::addChild(Node* node)
-    {
-        if (!hasChild(node) && node->getParent() == nullptr)
-        {
-            if (_addedToScene)
-            {
-                node->addToScene();
-            }
-            
-            _children.push_back(node);
-            node->_parent = this;
-            node->updateTransform();
-            node->retain();
-        }
-    }
-
-    void Node::removeChild(Node* node)
-    {
-        std::vector<AutoPtr<Node>>::iterator i = std::find(_children.begin(), _children.end(), node);
-        
-        if (i != _children.end())
-        {
-            if (_addedToScene)
-            {
-                node->removeFromScene();
-            }
-            
-            node->_parent = nullptr;
-            _children.erase(i);
-        }
     }
 
     void Node::draw()
@@ -76,42 +35,42 @@ namespace ouzel
         _zOrder = zOrder;
         SceneManager::getInstance()->reorderNodes();
         
-        updateTransform();
+        markTransformDirty();
     }
 
     void Node::setPosition(const Vector2& position)
     {
         _position = position;
         
-        updateTransform();
+        markTransformDirty();
     }
 
     void Node::setRotation(float rotation)
     {
         _rotation = rotation;
         
-        updateTransform();
+        markTransformDirty();
     }
 
     void Node::setScale(const Vector2& scale)
     {
         _scale = scale;
         
-        updateTransform();
+        markTransformDirty();
     }
     
     void Node::setFlipX(bool flipX)
     {
         _flipX = flipX;
         
-        updateTransform();
+        markTransformDirty();
     }
     
     void Node::setFlipY(bool flipY)
     {
         _flipY = flipY;
         
-        updateTransform();
+        markTransformDirty();
     }
 
     void Node::addToScene()
@@ -173,33 +132,33 @@ namespace ouzel
         return true;
     }
 
-    void Node::updateTransform()
+    void Node::updateTransform(const Matrix4& parentTransform)
     {
-        Matrix4 translation;
-        translation.translate(Vector3(_position.x, _position.y, 0.0f));
-        
-        Matrix4 rotation;
-        rotation.rotate(Vector3(0.0f, 0.0f, -1.0f), _rotation);
-        
-        Vector3 realScale = Vector3(_scale.x * (_flipX ? -1.0f : 1.0f),
-                                    _scale.y * (_flipY ? -1.0f : 1.0f),
-                                    1.0f);
-        
-        Matrix4 scale;
-        scale.scale(realScale);
-        
-        _transform = translation * rotation * scale;
-        
-        if (_parent)
+        if (_transformDirty)
         {
-            _transform = _parent->_transform * _transform;
+            Matrix4 translation;
+            translation.translate(Vector3(_position.x, _position.y, 0.0f));
+            
+            Matrix4 rotation;
+            rotation.rotate(Vector3(0.0f, 0.0f, -1.0f), _rotation);
+            
+            Vector3 realScale = Vector3(_scale.x * (_flipX ? -1.0f : 1.0f),
+                                        _scale.y * (_flipY ? -1.0f : 1.0f),
+                                        1.0f);
+            
+            Matrix4 scale;
+            scale.scale(realScale);
+            
+            _transform = parentTransform * translation * rotation * scale;
+            _inverseTransform = _transform;
+            _inverseTransform.invert();
+            
+            _transformDirty = false;
         }
-        
-        markInverseTransformDirty();
         
         for (AutoPtr<Node> child : _children)
         {
-            child->updateTransform();
+            child->updateTransform(_transform);
         }
     }
     
@@ -208,20 +167,8 @@ namespace ouzel
         return true;
     }
     
-    void Node::markInverseTransformDirty()
+    void Node::markTransformDirty()
     {
-        _inverseTransformDirty = true;
-    }
-    
-    const Matrix4& Node::getInverseTransform() const
-    {
-        if (_inverseTransformDirty)
-        {
-            _inverseTransform = _transform;
-            _inverseTransform.invert();
-            _inverseTransformDirty = false;
-        }
-        
-        return _inverseTransform;
+        _transformDirty = true;
     }
 }

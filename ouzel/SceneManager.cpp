@@ -38,6 +38,9 @@ namespace ouzel
     
     void SceneManager::update(float delta)
     {
+        if (_camera) _camera->updateTransform(Matrix4::identity());
+        _rootNode->updateTransform(Matrix4::identity());
+        
         for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
             Node* node = *i;

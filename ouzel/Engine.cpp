@@ -90,11 +90,6 @@ namespace ouzel
     
     void Engine::run()
     {
-        _renderer->begin();
-        _renderer->clear();
-        _sceneManager->drawAll();
-        _renderer->flush();
-        
         uint64_t currentTime = getCurrentMicroSeconds();
         float delta = static_cast<float>((currentTime - _previousFrameTime)) / 1000000.0f;
         _previousFrameTime = currentTime;
@@ -105,6 +100,11 @@ namespace ouzel
         {
             eventHandler->update(static_cast<float>(delta));
         }
+        
+        _renderer->begin();
+        _renderer->clear();
+        _sceneManager->drawAll();
+        _renderer->flush();
     }
     
     void Engine::addEventHandler(EventHandler* eventHandler)
