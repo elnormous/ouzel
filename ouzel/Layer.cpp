@@ -23,7 +23,7 @@ namespace ouzel
     
     void Layer::update(float delta)
     {
-        if (_camera) _camera->updateTransform(Matrix4::identity());
+        if (_camera && !_camera->getParent()) _camera->updateTransform(Matrix4::identity());
         
         for (AutoPtr<Node> node : _nodes)
         {
