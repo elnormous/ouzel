@@ -310,6 +310,18 @@
 		30575ABF1C39D9850009C8A7 /* NodeContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575ABB1C39D9850009C8A7 /* NodeContainer.h */; };
 		30575AC01C39D9850009C8A7 /* NodeContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575ABB1C39D9850009C8A7 /* NodeContainer.h */; };
 		30575AC11C39D9850009C8A7 /* NodeContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575ABB1C39D9850009C8A7 /* NodeContainer.h */; };
+		30575AC51C3B17540009C8A7 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AC31C3B17540009C8A7 /* Button.cpp */; };
+		30575AC61C3B17540009C8A7 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AC31C3B17540009C8A7 /* Button.cpp */; };
+		30575AC71C3B17540009C8A7 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AC31C3B17540009C8A7 /* Button.cpp */; };
+		30575AC81C3B17540009C8A7 /* Button.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AC41C3B17540009C8A7 /* Button.h */; };
+		30575AC91C3B17540009C8A7 /* Button.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AC41C3B17540009C8A7 /* Button.h */; };
+		30575ACA1C3B17540009C8A7 /* Button.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AC41C3B17540009C8A7 /* Button.h */; };
+		30575ACD1C3B175D0009C8A7 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575ACB1C3B175D0009C8A7 /* Label.cpp */; };
+		30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575ACB1C3B175D0009C8A7 /* Label.cpp */; };
+		30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575ACB1C3B175D0009C8A7 /* Label.cpp */; };
+		30575AD01C3B175D0009C8A7 /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575ACC1C3B175D0009C8A7 /* Label.h */; };
+		30575AD11C3B175D0009C8A7 /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575ACC1C3B175D0009C8A7 /* Label.h */; };
+		30575AD21C3B175D0009C8A7 /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575ACC1C3B175D0009C8A7 /* Label.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -451,6 +463,10 @@
 		30575AA51C39D1FF0009C8A7 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		30575ABA1C39D9850009C8A7 /* NodeContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeContainer.cpp; sourceTree = "<group>"; };
 		30575ABB1C39D9850009C8A7 /* NodeContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeContainer.h; sourceTree = "<group>"; };
+		30575AC31C3B17540009C8A7 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
+		30575AC41C3B17540009C8A7 /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
+		30575ACB1C3B175D0009C8A7 /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Label.cpp; sourceTree = "<group>"; };
+		30575ACC1C3B175D0009C8A7 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -748,6 +764,7 @@
 				303B75111C28838C00FEDE92 /* core */,
 				303B75121C2883C800FEDE92 /* files */,
 				303B75101C28830A00FEDE92 /* graphics */,
+				30575AC21C3B17430009C8A7 /* gui */,
 				303B76051C34A91B00FEDE92 /* input */,
 				303B756F1C2A3D0300FEDE92 /* ios */,
 				303B750F1C2882CA00FEDE92 /* math */,
@@ -811,6 +828,17 @@
 			path = tvos;
 			sourceTree = "<group>";
 		};
+		30575AC21C3B17430009C8A7 /* gui */ = {
+			isa = PBXGroup;
+			children = (
+				30575AC31C3B17540009C8A7 /* Button.cpp */,
+				30575AC41C3B17540009C8A7 /* Button.h */,
+				30575ACB1C3B175D0009C8A7 /* Label.cpp */,
+				30575ACC1C3B175D0009C8A7 /* Label.h */,
+			);
+			name = gui;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -833,6 +861,8 @@
 				303B755C1C2A3CB700FEDE92 /* Vector4.h in Headers */,
 				303B756E1C2A3CCA00FEDE92 /* Utils.h in Headers */,
 				303B75431C2A3C9200FEDE92 /* MeshBuffer.h in Headers */,
+				30575AD11C3B175D0009C8A7 /* Label.h in Headers */,
+				30575AC91C3B17540009C8A7 /* Button.h in Headers */,
 				3031A0BA1C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.h in Headers */,
 				303B75661C2A3CBF00FEDE92 /* SceneManager.h in Headers */,
@@ -886,6 +916,8 @@
 				303B76611C355A3B00FEDE92 /* Utils.h in Headers */,
 				303B76621C355A3B00FEDE92 /* MeshBuffer.h in Headers */,
 				303B76631C355A3B00FEDE92 /* Engine.h in Headers */,
+				30575AD21C3B175D0009C8A7 /* Label.h in Headers */,
+				30575ACA1C3B17540009C8A7 /* Button.h in Headers */,
 				3031A0BB1C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.h in Headers */,
 				303B76651C355A3B00FEDE92 /* TextureVSOGL.h in Headers */,
@@ -951,7 +983,9 @@
 				303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */,
 				304A8E631C237C70008B1151 /* ReferenceCounted.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
+				30575AD01C3B175D0009C8A7 /* Label.h in Headers */,
 				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
+				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75E81C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
 				303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */,
@@ -1198,6 +1232,7 @@
 				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
 				303B757D1C2A43DC00FEDE92 /* MeshBufferOGL.cpp in Sources */,
 				303B756D1C2A3CCA00FEDE92 /* Utils.cpp in Sources */,
+				30575AC61C3B17540009C8A7 /* Button.cpp in Sources */,
 				303B754F1C2A3CB700FEDE92 /* Matrix3.cpp in Sources */,
 				303B754A1C2A3C9200FEDE92 /* Texture.cpp in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
@@ -1209,6 +1244,7 @@
 				303B757C1C2A43D900FEDE92 /* TextureOGL.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rectangle.cpp in Sources */,
 				303B75761C2A3E3000FEDE92 /* AppDelegate.mm in Sources */,
+				30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B75401C2A3C9200FEDE92 /* Image.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
 				303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */,
@@ -1253,6 +1289,7 @@
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
 				303B76401C355A3B00FEDE92 /* MeshBufferOGL.cpp in Sources */,
 				303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */,
+				30575AC71C3B17540009C8A7 /* Button.cpp in Sources */,
 				303B76421C355A3B00FEDE92 /* Matrix3.cpp in Sources */,
 				303B76431C355A3B00FEDE92 /* Texture.cpp in Sources */,
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
@@ -1264,6 +1301,7 @@
 				303B76481C355A3B00FEDE92 /* TextureOGL.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,
 				303B764B1C355A3B00FEDE92 /* Image.cpp in Sources */,
+				30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
 				303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */,
 				303B764E1C355A3B00FEDE92 /* Color.cpp in Sources */,
@@ -1310,6 +1348,7 @@
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
 				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
+				30575AC51C3B17540009C8A7 /* Button.cpp in Sources */,
 				303B75161C288CFB00FEDE92 /* MeshBufferOGL.cpp in Sources */,
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
@@ -1327,6 +1366,7 @@
 				303B75211C29EFEC00FEDE92 /* AppDelegate.mm in Sources */,
 				304A8E8E1C26EA8B008B1151 /* ShaderOGL.cpp in Sources */,
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
+				30575ACD1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				304A8E681C237C70008B1151 /* Shader.cpp in Sources */,
