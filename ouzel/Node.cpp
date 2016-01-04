@@ -18,6 +18,7 @@ namespace ouzel
         for (AutoPtr<Node> node : _children)
         {
             node->_parent = nullptr;
+            node->_layer = nullptr;
         }
     }
 
@@ -41,13 +42,17 @@ namespace ouzel
     {
         NodeContainer::addChild(node);
         
-        if (_transformDirty)
+        // if added to this node, recalculate transform
+        if (node->_parent == this)
         {
-            calculateTransform();
-        }
-        else
-        {
-            node->updateTransform(_transform);
+            if (_transformDirty)
+            {
+                calculateTransform();
+            }
+            else
+            {
+                node->updateTransform(_transform);
+            }
         }
     }
 

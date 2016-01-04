@@ -6,6 +6,7 @@
 #include "Node.h"
 #include "Camera.h"
 #include "Renderer.h"
+#include "Scene.h"
 #include "Matrix4.h"
 
 namespace ouzel
@@ -161,5 +162,25 @@ namespace ouzel
         Matrix4::createOrthographic(size.width, size.height, -1.0f, 1.0f, &_projection);
         _inverseProjection = _projection;
         _inverseProjection.invert();
+    }
+    
+    void Layer::setOrder(int32_t order)
+    {
+        _order = order;
+        
+        if (_scene)
+        {
+            _scene->reorderLayers();
+        }
+    }
+    
+    void Layer::addToScene(Scene* scene)
+    {
+        _scene = scene;
+    }
+    
+    void Layer::removeFromScene()
+    {
+        _scene = nullptr;
     }
 }

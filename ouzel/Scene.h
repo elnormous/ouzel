@@ -28,7 +28,10 @@ namespace ouzel
         
         virtual void recalculateProjection();
         
+        virtual void reorderLayers();
+        
     protected:
         std::vector<AutoPtr<Layer>> _layers;
+        bool _reorderLayers = false;
     };
 }

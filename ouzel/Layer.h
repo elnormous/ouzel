@@ -12,9 +12,11 @@
 namespace ouzel
 {
     class Camera;
+    class Scene;
     
     class Layer: public NodeContainer
     {
+        friend Scene;
     public:
         Layer();
         virtual ~Layer();
@@ -38,12 +40,23 @@ namespace ouzel
         const Matrix4& getProjection() const { return _projection; }
         virtual void recalculateProjection();
         
+        int32_t getOrder() const { return _order; }
+        void setOrder(int32_t order);
+        
+        Scene* getScene() const { return _scene; }
+        
     protected:
+        virtual void addToScene(Scene* scene);
+        virtual void removeFromScene();
+        
         AutoPtr<Camera> _camera;
         std::vector<AutoPtr<Node>> _nodes;
         bool _reorderNodes = false;
         
         Matrix4 _projection;
         Matrix4 _inverseProjection;
+        
+        Scene* _scene = nullptr;
+        int32_t _order = 0;
     };
 }

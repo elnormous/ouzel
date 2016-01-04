@@ -13,7 +13,10 @@ namespace ouzel
     
     Scene::~Scene()
     {
-        
+        for (AutoPtr<Layer> layer : _layers)
+        {
+            layer->_scene = nullptr;
+        }
     }
     
     void Scene::update(float delta)
@@ -26,17 +29,28 @@ namespace ouzel
     
     void Scene::draw()
     {
-        for (AutoPtr<Layer> layer : _layers)
+        if (_reorderLayers)
         {
+            std::sort(_layers.begin(), _layers.end(), [](Layer* a, Layer* b){
+                return a->getOrder() < b->getOrder();
+            });
+            
+            _reorderLayers = false;
+        }
+        
+        for (std::vector<AutoPtr<Layer>>::reverse_iterator i = _layers.rbegin(); i != _layers.rend(); ++i)
+        {
+            Layer* layer = *i;
             layer->draw();
         }
     }
     
     void Scene::addLayer(Layer* layer)
     {
-        if (!hasLayer(layer))
+        if (!hasLayer(layer) && layer->getScene() == nullptr)
         {
             _layers.push_back(layer);
+            layer->addToScene(this);
             layer->recalculateProjection();
         }
     }
@@ -47,6 +61,7 @@ namespace ouzel
         
         if (i != _layers.end())
         {
+            layer->removeFromScene();
             _layers.erase(i);
         }
     }
@@ -64,5 +79,10 @@ namespace ouzel
         {
             layer->recalculateProjection();
         }
+    }
+    
+    void Scene::reorderLayers()
+    {
+        _reorderLayers = true;
     }
 }
