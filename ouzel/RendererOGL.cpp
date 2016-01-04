@@ -7,8 +7,6 @@
 #include "ShaderOGL.h"
 #include "MeshBufferOGL.h"
 #include "Engine.h"
-#include "SceneManager.h"
-#include "Camera.h"
 #include "Utils.h"
 
 #if defined(SUPPORTS_OPENGL)
@@ -262,10 +260,8 @@ namespace ouzel
         
         glUseProgram(colorShader->getProgramId());
         
-        Matrix4 modelViewProj = _projection * SceneManager::getInstance()->getCamera()->getTransform() * transform;
-        
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
-        colorShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
+        colorShader->setVertexShaderConstant(uniModelViewProj, { transform });
         
         glBindVertexArray(meshBufferOGL->getVertexArrayId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
@@ -306,10 +302,8 @@ namespace ouzel
         
         glUseProgram(colorShader->getProgramId());
         
-        Matrix4 modelViewProj = _projection * SceneManager::getInstance()->getCamera()->getTransform() * transform;
-        
         uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
-        colorShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
+        colorShader->setVertexShaderConstant(uniModelViewProj, { transform });
         
         glBindVertexArray(meshBufferOGL->getVertexArrayId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
@@ -350,10 +344,8 @@ namespace ouzel
         
         glUseProgram(textureShader->getProgramId());
         
-        Matrix4 modelViewProj = _projection * SceneManager::getInstance()->getCamera()->getTransform() * transform;
-        
         uint32_t uniModelViewProj = textureShader->getVertexShaderConstantId("modelViewProj");
-        textureShader->setVertexShaderConstant(uniModelViewProj, { modelViewProj });
+        textureShader->setVertexShaderConstant(uniModelViewProj, { transform });
         
         glBindVertexArray(meshBufferOGL->getVertexArrayId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());

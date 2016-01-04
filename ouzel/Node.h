@@ -48,8 +48,6 @@ namespace ouzel
         
         virtual const Rectangle& getBoundingBox() const { return _boundingBox; }
         
-        virtual bool isAddedToScene() const { return _addedToScene; }
-        
         virtual bool pointOn(const Vector2& position) const;
         virtual bool rectangleOverlaps(const Rectangle& rectangle) const;
         
@@ -58,8 +56,8 @@ namespace ouzel
         virtual bool checkVisibility() const;
         
     protected:
-        virtual void addToScene();
-        virtual void removeFromScene();
+        virtual void addToLayer(Layer* layer);
+        virtual void removeFromLayer();
         void markTransformDirty();
         
         NodeContainer* _parent = nullptr;

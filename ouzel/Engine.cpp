@@ -71,7 +71,6 @@ namespace ouzel
         }
         
         _sceneManager = new SceneManager();
-        _sceneManager->init();
         
         _input = new Input();
         
@@ -103,7 +102,7 @@ namespace ouzel
         
         _renderer->begin();
         _renderer->clear();
-        _sceneManager->drawAll();
+        _sceneManager->draw();
         _renderer->flush();
     }
     

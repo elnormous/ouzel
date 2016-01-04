@@ -428,7 +428,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
     event.mouseEvent.button = MouseButton::LEFT;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -441,7 +441,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     Event event;
     event.type = Event::Type::MOUSE_UP;
     event.mouseEvent.button = MouseButton::LEFT;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -454,7 +454,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
     event.mouseEvent.button = MouseButton::RIGHT;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -467,7 +467,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     Event event;
     event.type = Event::Type::MOUSE_UP;
     event.mouseEvent.button = MouseButton::RIGHT;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -480,7 +480,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     Event event;
     event.type = Event::Type::MOUSE_DOWN;
     event.mouseEvent.button = MouseButton::MIDDLE;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -493,7 +493,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     Event event;
     event.type = Event::Type::MOUSE_UP;
     event.mouseEvent.button = MouseButton::MIDDLE;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -505,7 +505,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_MOVE;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -518,7 +518,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
     event.mouseEvent.button = MouseButton::LEFT;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -531,7 +531,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
     event.mouseEvent.button = MouseButton::RIGHT;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -544,7 +544,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     Event event;
     event.type = Event::Type::MOUSE_DRAG;
     event.mouseEvent.button = MouseButton::MIDDLE;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
     Engine::getInstance()->handleEvent(event);
@@ -556,7 +556,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     Event event;
     event.type = Event::Type::MOUSE_SCROLL;
-    event.mouseEvent.position = Renderer::getInstance()->absoluteToWorldLocation(Vector2(location.x, location.y));
+    event.mouseEvent.position = Renderer::getInstance()->screenToViewLocation(Vector2(location.x, location.y));
     event.mouseEvent.scroll = Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY);
     updateModifiers(theEvent, event);
     

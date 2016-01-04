@@ -24,8 +24,8 @@ namespace ouzel
         
         virtual bool initFromFile(const std::string& filename);
         
-        virtual void draw() override;
         virtual void update(float delta) override;
+        virtual void draw() override;
         
         virtual Texture* getTexture() const { return _texture; }
         virtual void setTexture(Texture* texture);

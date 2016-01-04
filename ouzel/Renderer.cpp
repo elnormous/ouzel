@@ -195,50 +195,20 @@ namespace ouzel
         return true;
     }
 
-    Vector2 Renderer::absoluteToWorldLocation(const Vector2& position)
+    Vector2 Renderer::screenToViewLocation(const Vector2& position)
     {
-        Camera* camera = SceneManager::getInstance()->getCamera();
+        float x = 2.0f * position.x / _size.width - 1.0f;
+        float y = 2.0f * position.y / _size.height - 1.0f;
         
-        if (camera)
-        {
-            float x = 2.0f * position.x / _size.width - 1.0f;
-            float y = 2.0f * position.y / _size.height - 1.0f;
-            
-            Matrix4 projViewMatrix = _projection * camera->getTransform();
-            Matrix4 inverseViewMatrix = projViewMatrix;
-            inverseViewMatrix.invert();
-            
-            Vector3 result = Vector3(x, y, 0.0f);
-            inverseViewMatrix.transformPoint(&result);
-            
-            return Vector2(result.x, result.y);
-        }
-        else
-        {
-            return Vector2();
-        }
+        return Vector2(x, y);
     }
 
-    Vector2 Renderer::worldToAbsoluteLocation(const Vector2& position)
+    Vector2 Renderer::viewToScreenLocation(const Vector2& position)
     {
-        Camera* camera = SceneManager::getInstance()->getCamera();
+        float x = (position.x + 1.0f) / 2.0f * _size.width;
+        float y = (position.y + 1.0f) / 2.0f * _size.height;
         
-        if (camera)
-        {
-            Matrix4 projViewMatrix = _projection * camera->getTransform();
-            
-            Vector3 result = Vector3(position.x, position.y, 0.0f);
-            projViewMatrix.transformPoint(&result);
-            
-            float x = (result.x + 1.0f) / 2.0f * _size.width;
-            float y = (result.y + 1.0f) / 2.0f * _size.height;
-            
-            return Vector2(x, y);
-        }
-        else
-        {
-            return Vector2();
-        }
+        return Vector2(x, y);
     }
     
     bool Renderer::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)

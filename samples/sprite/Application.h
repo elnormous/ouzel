@@ -17,5 +17,7 @@ namespace ouzel
     protected:
         AutoPtr<Sprite> _sprite;
         AutoPtr<Sprite> _witch;
+        
+        AutoPtr<Layer> _layer;
     };
 }

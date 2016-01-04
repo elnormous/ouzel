@@ -18,6 +18,9 @@ namespace ouzel
         Scene();
         virtual ~Scene();
         
+        virtual void update(float delta);
+        virtual void draw();
+        
         void addLayer(Layer* layer);
         void removeLayer(Layer* layer);
         bool hasLayer(Layer* layer) const;

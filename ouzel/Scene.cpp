@@ -16,6 +16,22 @@ namespace ouzel
         
     }
     
+    void Scene::update(float delta)
+    {
+        for (AutoPtr<Layer> layer : _layers)
+        {
+            layer->update(delta);
+        }
+    }
+    
+    void Scene::draw()
+    {
+        for (AutoPtr<Layer> layer : _layers)
+        {
+            layer->draw();
+        }
+    }
+    
     void Scene::addLayer(Layer* layer)
     {
         if (!hasLayer(layer))

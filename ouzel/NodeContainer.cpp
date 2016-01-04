@@ -20,9 +20,9 @@ namespace ouzel
     {
         if (!hasChild(node) && node->getParent() == nullptr)
         {
-            if (_addedToScene)
+            if (_layer)
             {
-                node->addToScene();
+                node->addToLayer(_layer);
             }
             
             _children.push_back(node);
@@ -36,9 +36,9 @@ namespace ouzel
         
         if (i != _children.end())
         {
-            if (_addedToScene)
+            if (_layer)
             {
-                node->removeFromScene();
+                node->removeFromLayer();
             }
             
             node->_parent = nullptr;

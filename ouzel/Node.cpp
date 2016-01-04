@@ -4,6 +4,7 @@
 #include "Node.h"
 #include "Engine.h"
 #include "SceneManager.h"
+#include "Layer.h"
 
 namespace ouzel
 {
@@ -33,7 +34,11 @@ namespace ouzel
     void Node::setZOrder(float zOrder)
     {
         _zOrder = zOrder;
-        SceneManager::getInstance()->reorderNodes();
+        
+        if (_layer)
+        {
+            _layer->reorderNodes();
+        }
         
         markTransformDirty();
     }
@@ -73,25 +78,33 @@ namespace ouzel
         markTransformDirty();
     }
 
-    void Node::addToScene()
+    void Node::addToLayer(Layer* layer)
     {
-        SceneManager::getInstance()->addNode(this);
-        _addedToScene = true;
-        
-        for (AutoPtr<Node> child : _children)
+        if (layer && _layer != layer)
         {
-            child->addToScene();
+            removeFromLayer();
+            
+            _layer = layer;
+            _layer->addNode(this);
+            
+            for (AutoPtr<Node> child : _children)
+            {
+                child->addToLayer(layer);
+            }
         }
     }
 
-    void Node::removeFromScene()
+    void Node::removeFromLayer()
     {
-        SceneManager::getInstance()->removeNode(this);
-        _addedToScene = false;
-        
-        for (AutoPtr<Node> child : _children)
+        if (_layer)
         {
-            child->removeFromScene();
+            _layer->removeNode(this);
+            _layer = nullptr;
+            
+            for (AutoPtr<Node> child : _children)
+            {
+                child->removeFromLayer();
+            }
         }
     }
 

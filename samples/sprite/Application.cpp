@@ -15,27 +15,33 @@ namespace ouzel
         Engine::getInstance()->addEventHandler(this);
         
         Renderer::getInstance()->setClearColor(Color(64, 0, 0));
+        
+        Scene* scene = new Scene();
+        SceneManager::getInstance()->setScene(scene);
+        
+        _layer = new Layer();
+        scene->addLayer(_layer);
 
         _sprite = new Sprite();
         _sprite->initFromFile("run.json");
         _sprite->play(true);
-        SceneManager::getInstance()->getRootNode()->addChild(_sprite);
+        _layer->addChild(_sprite);
         
         _witch = new Sprite();
         _witch->initFromFile("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
-        SceneManager::getInstance()->getRootNode()->addChild(_witch);
+        _layer->addChild(_witch);
         
         Sprite* fire = new Sprite();
         fire->initFromFile("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
-        SceneManager::getInstance()->getRootNode()->addChild(fire);
+        _layer->addChild(fire);
         
         ParticleSystem* flame = new ParticleSystem();
         flame->initFromFile("flame.json");
-        SceneManager::getInstance()->getRootNode()->addChild(flame);
+        _layer->addChild(flame);
     }
     
     Application::~Application()
@@ -74,14 +80,16 @@ namespace ouzel
             }
             case Event::Type::MOUSE_MOVE:
             {
-                _witch->setPosition(event.mouseEvent.position);
+                Vector2 worldLocation = _layer->viewToWorldLocation(event.mouseEvent.position);
+                _witch->setPosition(worldLocation);
                 break;
             }
             case Event::Type::TOUCH_BEGIN:
             case Event::Type::TOUCH_MOVE:
             case Event::Type::TOUCH_END:
             {
-                _witch->setPosition(event.touchEvent.position);
+                Vector2 worldLocation = _layer->viewToWorldLocation(event.touchEvent.position);
+                _witch->setPosition(worldLocation);
                 break;
             }
             default:

@@ -26,33 +26,14 @@ namespace ouzel
         SceneManager();
         virtual ~SceneManager();
         
-        bool init();
-        
         void update(float delta);
+        
+        void draw();
         
         void setScene(Scene* scene);
         Scene* getScene() const { return _scene; }
         
-        void addNode(Node* node);
-        void removeNode(Node* node);
-        void reorderNodes();
-        
-        Node* getRootNode() const { return _rootNode; }
-        
-        Camera* getCamera() const { return _camera; }
-        void setCamera(Camera* camera);
-
-        Node* pickNode(const Vector2& position);
-        std::set<Node*> pickNodes(const Rectangle& rectangle);
-        
-        void drawAll();
-        
     protected:
         AutoPtr<Scene> _scene;
-        
-        AutoPtr<Node> _rootNode;
-        AutoPtr<Camera> _camera;
-        std::vector<AutoPtr<Node>> _nodes;
-        bool _reorderNodes = false;
     };
 }

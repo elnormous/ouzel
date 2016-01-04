@@ -10,6 +10,7 @@
 
 namespace ouzel
 {
+    class Layer;
     class Node;
     
     class NodeContainer: public Noncopyable, public ReferenceCounted
@@ -26,6 +27,6 @@ namespace ouzel
     protected:
         std::vector<AutoPtr<Node>> _children;
         
-        bool _addedToScene = false;
+        Layer* _layer = nullptr;
     };
 }

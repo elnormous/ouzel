@@ -15,6 +15,7 @@
 #include "SceneManager.h"
 #include "FileSystem.h"
 #include "File.h"
+#include "Layer.h"
 
 namespace ouzel
 {
@@ -188,28 +189,6 @@ namespace ouzel
                                                                               VertexPCT::ATTRIBUTES));
     }
 
-    void Sprite::draw()
-    {
-        Node::draw();
-        
-        if (_shader && _texture)
-        {
-            Renderer::getInstance()->activateTexture(_texture, 0);
-            Renderer::getInstance()->activateShader(_shader);
-            
-            Matrix4 modelViewProj = Renderer::getInstance()->getProjection() * SceneManager::getInstance()->getCamera()->getTransform() * _transform;
-            
-            _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
-            
-            if (_frameMeshBuffers.size() > _currentFrame)
-            {
-                MeshBuffer* meshBuffer = _frameMeshBuffers[_currentFrame];
-                
-                Renderer::getInstance()->drawMeshBuffer(meshBuffer);
-            }
-        }
-    }
-    
     void Sprite::update(float delta)
     {
         if (_playing)
@@ -230,6 +209,28 @@ namespace ouzel
                         _playing = false;
                     }
                 }
+            }
+        }
+    }
+    
+    void Sprite::draw()
+    {
+        Node::draw();
+        
+        if (_shader && _texture && _layer)
+        {
+            Renderer::getInstance()->activateTexture(_texture, 0);
+            Renderer::getInstance()->activateShader(_shader);
+            
+            Matrix4 modelViewProj = Renderer::getInstance()->getProjection() * _layer->getCamera()->getTransform() * _transform;
+            
+            _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
+            
+            if (_frameMeshBuffers.size() > _currentFrame)
+            {
+                MeshBuffer* meshBuffer = _frameMeshBuffers[_currentFrame];
+                
+                Renderer::getInstance()->drawMeshBuffer(meshBuffer);
             }
         }
     }
@@ -262,16 +263,23 @@ namespace ouzel
     
     bool Sprite::checkVisibility() const
     {
-        Matrix4 mvp = Renderer::getInstance()->getProjection() * SceneManager::getInstance()->getCamera()->getTransform() * _transform;
-        
-        Vector3 topRight(_size.width / 2.0f, _size.height / 2.0f, 0.0f);
-        Vector3 bottomLeft(-_size.width / 2.0f, -_size.height / 2.0f, 0.0f);
-        
-        mvp.transformPoint(&topRight);
-        mvp.transformPoint(&bottomLeft);
-        
-        return (topRight.x >= -1.0f && topRight.y >= -1.0f &&
-                bottomLeft.x <= 1.0f && bottomLeft.y <= 1.0f);
+        if (_layer)
+        {
+            Matrix4 mvp = Renderer::getInstance()->getProjection() * _layer->getCamera()->getTransform() * _transform;
+            
+            Vector3 topRight(_size.width / 2.0f, _size.height / 2.0f, 0.0f);
+            Vector3 bottomLeft(-_size.width / 2.0f, -_size.height / 2.0f, 0.0f);
+            
+            mvp.transformPoint(&topRight);
+            mvp.transformPoint(&bottomLeft);
+            
+            return (topRight.x >= -1.0f && topRight.y >= -1.0f &&
+                    bottomLeft.x <= 1.0f && bottomLeft.y <= 1.0f);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     void Sprite::play(bool repeat, float frameInterval)
