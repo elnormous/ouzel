@@ -1,10 +1,7 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "SceneManager.h"
-#include "Engine.h"
-#include "Camera.h"
 #include "Scene.h"
 
 namespace ouzel
