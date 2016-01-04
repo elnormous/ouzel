@@ -51,9 +51,9 @@ namespace ouzel
         }
     }
 
-    void Node::setZOrder(float zOrder)
+    void Node::setZ(float z)
     {
-        _zOrder = zOrder;
+        _z = z;
         
         if (_layer)
         {

@@ -36,7 +36,7 @@ namespace ouzel
         if (_reorderNodes)
         {
             std::sort(_nodes.begin(), _nodes.end(), [](Node* a, Node* b){
-                return a->getZOrder() < b->getZOrder();
+                return a->getZ() < b->getZ();
             });
             
             _reorderNodes = false;

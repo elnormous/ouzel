@@ -27,8 +27,8 @@ namespace ouzel
         
         virtual void addChild(Node* node) override;
         
-        virtual void setZOrder(float zOrder);
-        virtual float getZOrder() const { return _zOrder; }
+        virtual void setZ(float z);
+        virtual float getZ() const { return _z; }
         
         virtual void setPosition(const Vector2& position);
         virtual const Vector2& getPosition() const { return _position; }
@@ -76,7 +76,7 @@ namespace ouzel
         Vector2 _position;
         float _rotation = 0.0f;
         Vector2 _scale = Vector2(1.0f, 1.0f);
-        float _zOrder = 0.0f;
+        float _z = 0.0f;
         
         Rectangle _boundingBox;
         
