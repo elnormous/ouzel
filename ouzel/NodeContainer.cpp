@@ -27,7 +27,6 @@ namespace ouzel
             
             _children.push_back(node);
             node->_parent = this;
-            node->retain();
         }
     }
     
