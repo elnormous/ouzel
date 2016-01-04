@@ -32,7 +32,7 @@ namespace ouzel
         
         virtual void setClearColor(Color color) override;
         
-        virtual void recalculateProjection() override;
+        virtual void resize(const Size2& size) override;
         
         virtual void clear() override;
         virtual void flush() override;

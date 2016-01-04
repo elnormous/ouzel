@@ -7,7 +7,6 @@
 #include "Node.h"
 #include "Utils.h"
 #include "Shader.h"
-#include "Sprite.h"
 #include "Camera.h"
 #include "EventHander.h"
 #include "SceneManager.h"
@@ -33,13 +32,6 @@ namespace ouzel
 
     }
     
-    void Renderer::recalculateProjection()
-    {
-        Matrix4::createOrthographic(_size.width, _size.height, -1.0f, 1.0f, &_projection);
-        _inverseProjection = _projection;
-        _inverseProjection.invert();
-    }
-    
     void Renderer::begin()
     {
 
@@ -56,7 +48,7 @@ namespace ouzel
     void Renderer::resize(const Size2& size)
     {
         _size = size;
-        recalculateProjection();
+        SceneManager::getInstance()->recalculateProjection();
     }
     
     void Renderer::preloadTexture(const std::string& filename)

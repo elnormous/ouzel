@@ -33,6 +33,8 @@ namespace ouzel
         void setScene(Scene* scene);
         Scene* getScene() const { return _scene; }
         
+        virtual void recalculateProjection();
+        
     protected:
         AutoPtr<Scene> _scene;
     };

@@ -87,11 +87,11 @@ namespace ouzel
         _camera = camera;
     }
     
-    Vector2 Layer::viewToWorldLocation(const Vector2& position)
+    Vector2 Layer::screenToWorldLocation(const Vector2& position)
     {
         if (_camera)
         {
-            Matrix4 projViewMatrix = Renderer::getInstance()->getProjection() * _camera->getTransform();
+            Matrix4 projViewMatrix = _projection * _camera->getTransform();
             Matrix4 inverseViewMatrix = projViewMatrix;
             inverseViewMatrix.invert();
             
@@ -106,11 +106,11 @@ namespace ouzel
         }
     }
     
-    Vector2 Layer::worldToViewLocation(const Vector2& position)
+    Vector2 Layer::worldToScreenLocation(const Vector2& position)
     {
         if (_camera)
         {
-            Matrix4 projViewMatrix = Renderer::getInstance()->getProjection() * _camera->getTransform();
+            Matrix4 projViewMatrix = _projection * _camera->getTransform();
             
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             projViewMatrix.transformPoint(&result);
@@ -153,5 +153,13 @@ namespace ouzel
         }
         
         return result;
+    }
+    
+    void Layer::recalculateProjection()
+    {
+        Size2 size = Renderer::getInstance()->getSize();
+        Matrix4::createOrthographic(size.width, size.height, -1.0f, 1.0f, &_projection);
+        _inverseProjection = _projection;
+        _inverseProjection.invert();
     }
 }

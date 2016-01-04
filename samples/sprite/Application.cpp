@@ -80,7 +80,7 @@ namespace ouzel
             }
             case Event::Type::MOUSE_MOVE:
             {
-                Vector2 worldLocation = _layer->viewToWorldLocation(event.mouseEvent.position);
+                Vector2 worldLocation = _layer->screenToWorldLocation(event.mouseEvent.position);
                 _witch->setPosition(worldLocation);
                 break;
             }
@@ -88,7 +88,7 @@ namespace ouzel
             case Event::Type::TOUCH_MOVE:
             case Event::Type::TOUCH_END:
             {
-                Vector2 worldLocation = _layer->viewToWorldLocation(event.touchEvent.position);
+                Vector2 worldLocation = _layer->screenToWorldLocation(event.touchEvent.position);
                 _witch->setPosition(worldLocation);
                 break;
             }

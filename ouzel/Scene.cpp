@@ -37,6 +37,7 @@ namespace ouzel
         if (!hasLayer(layer))
         {
             _layers.push_back(layer);
+            layer->recalculateProjection();
         }
     }
     
@@ -55,5 +56,13 @@ namespace ouzel
         std::vector<AutoPtr<Layer>>::const_iterator i = std::find(_layers.begin(), _layers.end(), layer);
         
         return i != _layers.end();
+    }
+    
+    void Scene::recalculateProjection()
+    {
+        for (AutoPtr<Layer> layer : _layers)
+        {
+            layer->recalculateProjection();
+        }
     }
 }

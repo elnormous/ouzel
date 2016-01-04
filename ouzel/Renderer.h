@@ -49,8 +49,6 @@ namespace ouzel
         virtual void setClearColor(Color color) { _clearColor = color; }
         virtual Color getClearColor() const { return _clearColor; }
         
-        virtual void recalculateProjection();
-        
         virtual void begin();
         virtual void clear();
         virtual void flush();
@@ -79,8 +77,6 @@ namespace ouzel
         virtual MeshBuffer* createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes);
         virtual bool drawMeshBuffer(MeshBuffer* meshBuffer);
         
-        const Matrix4& getProjection() const { return _projection; }
-        
         Vector2 viewToScreenLocation(const Vector2& position);
         Vector2 screenToViewLocation(const Vector2& position);
         
@@ -94,9 +90,6 @@ namespace ouzel
         Driver _driver;
         
         Color _clearColor;
-        
-        Matrix4 _projection;
-        Matrix4 _inverseProjection;
         
         std::unordered_map<std::string, AutoPtr<Texture>> _textures;
         std::unordered_map<std::string, AutoPtr<Shader>> _shaders;

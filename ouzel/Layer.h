@@ -5,6 +5,7 @@
 
 #include <set>
 #include "NodeContainer.h"
+#include "Matrix4.h"
 #include "Vector2.h"
 #include "Rectangle.h"
 
@@ -31,12 +32,18 @@ namespace ouzel
         Node* pickNode(const Vector2& position);
         std::set<Node*> pickNodes(const Rectangle& rectangle);
         
-        Vector2 viewToWorldLocation(const Vector2& position);
-        Vector2 worldToViewLocation(const Vector2& position);
+        Vector2 screenToWorldLocation(const Vector2& position);
+        Vector2 worldToScreenLocation(const Vector2& position);
+        
+        const Matrix4& getProjection() const { return _projection; }
+        virtual void recalculateProjection();
         
     protected:
         AutoPtr<Camera> _camera;
         std::vector<AutoPtr<Node>> _nodes;
         bool _reorderNodes = false;
+        
+        Matrix4 _projection;
+        Matrix4 _inverseProjection;
     };
 }

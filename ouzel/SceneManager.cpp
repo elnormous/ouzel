@@ -30,11 +30,24 @@ namespace ouzel
     
     void SceneManager::setScene(Scene* scene)
     {
-        _scene = scene;
+        if (scene != _scene)
+        {
+            _scene = scene;
+            _scene->recalculateProjection();
+        }
     }
     
     void SceneManager::draw()
     {
         _scene->draw();
+    }
+    
+    void SceneManager::recalculateProjection()
+    {
+        if (_scene)
+        {
+            _scene->recalculateProjection();
+        }
+        
     }
 }

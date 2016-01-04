@@ -222,7 +222,7 @@ namespace ouzel
             Renderer::getInstance()->activateTexture(_texture, 0);
             Renderer::getInstance()->activateShader(_shader);
             
-            Matrix4 modelViewProj = Renderer::getInstance()->getProjection() * _layer->getCamera()->getTransform() * _transform;
+            Matrix4 modelViewProj = _layer->getProjection() * _layer->getCamera()->getTransform() * _transform;
             
             _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
             
@@ -265,7 +265,7 @@ namespace ouzel
     {
         if (_layer)
         {
-            Matrix4 mvp = Renderer::getInstance()->getProjection() * _layer->getCamera()->getTransform() * _transform;
+            Matrix4 mvp = _layer->getProjection() * _layer->getCamera()->getTransform() * _transform;
             
             Vector3 topRight(_size.width / 2.0f, _size.height / 2.0f, 0.0f);
             Vector3 bottomLeft(-_size.width / 2.0f, -_size.height / 2.0f, 0.0f);

@@ -26,6 +26,8 @@ namespace ouzel
         bool hasLayer(Layer* layer) const;
         const std::vector<AutoPtr<Layer>>& getLayers() const { return _layers; }
         
+        virtual void recalculateProjection();
+        
     protected:
         std::vector<AutoPtr<Layer>> _layers;
     };

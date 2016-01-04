@@ -28,7 +28,7 @@ namespace ouzel
     RendererOGL::RendererOGL(const Size2& size, bool resiazble, bool fullscreen):
         Renderer(size, resiazble, fullscreen, Driver::OPENGL)
     {
-        recalculateProjection();
+        
     }
     
     RendererOGL::~RendererOGL()
@@ -38,8 +38,7 @@ namespace ouzel
     
     bool RendererOGL::initOpenGL(uint32_t width, uint32_t height)
     {
-        _size.width = static_cast<float>(width);
-        _size.height = static_cast<float>(height);
+        Size2 size(static_cast<float>(width), static_cast<float>(height));
         
         //glEnable(GL_DEPTH_TEST);
         glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
@@ -73,7 +72,7 @@ namespace ouzel
         
         _ready = true;
         
-        recalculateProjection();
+        resize(size);
         
         Engine::getInstance()->begin();
         
@@ -112,9 +111,9 @@ namespace ouzel
         glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
     }
 
-    void RendererOGL::recalculateProjection()
+    void RendererOGL::resize(const Size2& size)
     {
-        Renderer::recalculateProjection();
+        Renderer::resize(size);
         
         if (_ready)
         {
