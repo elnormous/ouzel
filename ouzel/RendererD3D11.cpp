@@ -314,7 +314,7 @@ namespace ouzel
     {
         initWindow();
         initD3D11();
-        recalculateProjection();
+        resize(size);
     }
 
     RendererD3D11::~RendererD3D11()

@@ -52,7 +52,9 @@ namespace ouzel
         ouzelInit(settings);
 
         _fileSystem = new FileSystem();
-        
+        _sceneManager = new SceneManager();
+        _input = new Input();
+
         switch (settings.driver)
         {
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
@@ -69,10 +71,6 @@ namespace ouzel
                 _renderer = new Renderer(settings.size, settings.resizable, settings.fullscreen);
                 break;
         }
-        
-        _sceneManager = new SceneManager();
-        
-        _input = new Input();
         
         _previousFrameTime = getCurrentMicroSeconds();
     }
