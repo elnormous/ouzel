@@ -39,7 +39,9 @@ namespace ouzel
         
         glBindTexture(GL_TEXTURE_2D, _textureId);
         
-        uploadData(image->getData(), image->getSize());
+        uploadData(image->getData(),
+                   static_cast<GLsizei>(image->getSize().width),
+                   static_cast<GLsizei>(image->getSize().height));
         
         _size = image->getSize();
         
@@ -53,14 +55,12 @@ namespace ouzel
             return false;
         }
         
-        return uploadData(data, size);
+        return uploadData(data, static_cast<GLsizei>(size.width), static_cast<GLsizei>(size.height));
     }
     
-    bool TextureOGL::uploadData(const void* data, const Size2& size)
+    bool TextureOGL::uploadData(const void* data, GLsizei width, GLsizei height)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                     static_cast<GLsizei>(size.width),
-                     static_cast<GLsizei>(size.height),
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
                      0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         
         if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
@@ -81,8 +81,8 @@ namespace ouzel
         }
         
         // Mipmaps are supported only for power-of-two sized textures
-        if (isPOT(static_cast<int>(size.width)) &&
-            isPOT(static_cast<int>(size.height)))
+        if (isPOT(static_cast<int>(width)) &&
+            isPOT(static_cast<int>(height)))
         {
             glGenerateMipmap(GL_TEXTURE_2D);
             
