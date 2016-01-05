@@ -20,22 +20,44 @@ namespace ouzel
         if (_texture) _texture->Release();
     }
 
-    bool TextureD3D11::initFromFile(const std::string& filename)
+    bool TextureD3D11::initFromData(const void* data, const Size2& size, bool dynamic)
     {
-        if (!Texture::initFromFile(filename))
+        if (!Texture::initFromData(data, size, dynamic))
         {
             return false;
         }
 
-        AutoPtr<Image> image = new Image();
-        if (!image->loadFromFile(filename))
+        return createTexture(data,
+                             static_cast<UINT>(size.width),
+                             static_cast<UINT>(size.height));
+    }
+
+    bool TextureD3D11::upload(const void* data, const Size2& size)
+    {
+        if (!Texture::upload(data, size))
         {
             return false;
         }
 
+        if (static_cast<UINT>(size.width) != _width ||
+            static_cast<UINT>(size.height) != _height)
+        {
+            if (_resourceView) _resourceView->Release();
+            if (_texture) _texture->Release();
+
+            return createTexture(data,
+                                 static_cast<UINT>(size.width),
+                                 static_cast<UINT>(size.height));
+        }
+        else
+        {
+            return uploadData(data);
+        }
+    }
+
+    bool TextureD3D11::createTexture(const void* data, UINT width, UINT height)
+    {
         RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
-        int width = (int)image->getSize().width;
-        int height = (int)image->getSize().height;
 
         D3D11_TEXTURE2D_DESC textureDesc;
         memset(&textureDesc, 0, sizeof(textureDesc));
@@ -44,8 +66,8 @@ namespace ouzel
         textureDesc.MipLevels = 0;
         textureDesc.ArraySize = 1;
         textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        textureDesc.Usage = D3D11_USAGE_DEFAULT;
-        textureDesc.CPUAccessFlags = 0;
+        textureDesc.Usage = _dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+        textureDesc.CPUAccessFlags = _dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
         textureDesc.SampleDesc.Count = 1;
         textureDesc.SampleDesc.Quality = 0;
         textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
@@ -54,12 +76,12 @@ namespace ouzel
         HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, NULL, &_texture);
         if (FAILED(hr) || !_texture)
         {
-            log("Could not create D3D11 texture (type=2D, width=%d, height=%d, name=%s)", width, height, filename.c_str());
+            log("Failed to create D3D11 texture");
             return false;
         }
 
         UINT rowPitch = static_cast<UINT>(width * 4);
-        rendererD3D11->getContext()->UpdateSubresource(_texture, 0, NULL, image->getData(), rowPitch, 0);
+        rendererD3D11->getContext()->UpdateSubresource(_texture, 0, NULL, data, rowPitch, 0);
 
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
         memset(&srvDesc, 0, sizeof(srvDesc));
@@ -71,13 +93,24 @@ namespace ouzel
         hr = rendererD3D11->getDevice()->CreateShaderResourceView(_texture, &srvDesc, &_resourceView);
         if (FAILED(hr) || !_resourceView)
         {
-            log("Could not create D3D11 shader resource view (type=2D, width=%d, height=%d, name=%s)", width, height, filename.c_str());
+            log("Failed to create D3D11 shader resource view");
             return false;
         }
 
         rendererD3D11->getContext()->GenerateMips(_resourceView);
 
-        _size = image->getSize();
+        _width = width;
+        _height = height;
+
+        return true;
+    }
+
+    bool TextureD3D11::uploadData(const void* data)
+    {
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
+
+        UINT rowPitch = static_cast<UINT>(_width * 4);
+        rendererD3D11->getContext()->UpdateSubresource(_texture, 0, NULL, data, rowPitch, 0);
 
         return true;
     }

@@ -16,7 +16,9 @@ namespace ouzel
     public:
         virtual ~TextureD3D11();
 
-        virtual bool initFromFile(const std::string& filename) override;
+        virtual bool initFromData(const void* data, const Size2& size, bool dynamic) override;
+
+        virtual bool upload(const void* data, const Size2& size) override;
 
         ID3D11Texture2D* getTexture() const { return _texture; }
         ID3D11ShaderResourceView* getResourceView() const { return _resourceView; }
@@ -24,7 +26,13 @@ namespace ouzel
     protected:
         TextureD3D11();
 
+        bool createTexture(const void* data, UINT width, UINT height);
+        bool uploadData(const void* data);
+
         ID3D11Texture2D* _texture = nullptr;
         ID3D11ShaderResourceView* _resourceView = nullptr;
+
+        UINT _width = 0;
+        UINT _height = 0;
     };
 }

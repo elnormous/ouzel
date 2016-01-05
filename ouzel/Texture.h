@@ -19,6 +19,7 @@ namespace ouzel
         virtual ~Texture();
         
         virtual bool initFromFile(const std::string& filename, bool dynamic);
+        virtual bool initFromData(const void* data, const Size2& size, bool dynamic);
         
         const std::string& getFilename() const { return _filename; }
         

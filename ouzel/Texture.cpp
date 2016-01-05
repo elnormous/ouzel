@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Engine.h"
 #include "Renderer.h"
+#include "Image.h"
 
 namespace ouzel
 {
@@ -27,7 +28,21 @@ namespace ouzel
     {
         _filename = filename;
         _dynamic = dynamic;
-        
+
+        AutoPtr<Image> image = new Image();
+        if (!image->loadFromFile(filename))
+        {
+            return false;
+        }
+
+        return initFromData(image->getData(), image->getSize(), dynamic);
+    }
+
+    bool Texture::initFromData(const void* data, const Size2& size, bool dynamic)
+    {
+        _dynamic = dynamic;
+        _size = size;
+
         return true;
     }
     

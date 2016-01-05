@@ -622,11 +622,11 @@ namespace ouzel
         }
     }
 
-    Texture* RendererD3D11::loadTextureFromFile(const std::string& filename)
+    Texture* RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         TextureD3D11* texture = new TextureD3D11();
 
-        if (!texture->initFromFile(filename))
+        if (!texture->initFromFile(filename, dynamic))
         {
             delete texture;
             texture = nullptr;
