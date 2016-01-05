@@ -94,33 +94,13 @@ namespace ouzel
             return false;
         }
         
-        D3D11_BUFFER_DESC pixelShaderConstantBufferDesc;
-        memset(&pixelShaderConstantBufferDesc, 0, sizeof(pixelShaderConstantBufferDesc));
-
-        pixelShaderConstantBufferDesc.ByteWidth = (UINT)sizeof(Matrix4);
-        pixelShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-        pixelShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-        pixelShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-        hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &_pixelShaderConstantBuffer);
-        if (FAILED(hr) || !_pixelShaderConstantBuffer)
+        if (!createPixelShaderConstantBuffer(sizeof(Matrix4)))
         {
-            log("Failed to create D3D11 constant buffer");
             return false;
         }
 
-        D3D11_BUFFER_DESC vertexShaderConstantBufferDesc;
-        memset(&vertexShaderConstantBufferDesc, 0, sizeof(vertexShaderConstantBufferDesc));
-
-        vertexShaderConstantBufferDesc.ByteWidth = (UINT)sizeof(Matrix4);
-        vertexShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-        vertexShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-        vertexShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-        hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &_vertexShaderConstantBuffer);
-        if (FAILED(hr) || !_vertexShaderConstantBuffer)
+        if (!createVertexShaderConstantBuffer(sizeof(Matrix4)))
         {
-            log("Failed to create D3D11 constant buffer");
             return false;
         }
 
@@ -135,6 +115,13 @@ namespace ouzel
 
     bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
+        uint32_t size = index + vectorDataSize(vectors);
+        if (size > _pixelShaderConstantBufferSize)
+        {
+            if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
+            createPixelShaderConstantBuffer(size);
+        }
+
         uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
 
         return true;
@@ -142,6 +129,13 @@ namespace ouzel
 
     bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
+        uint32_t size = index + vectorDataSize(vectors);
+        if (size > _pixelShaderConstantBufferSize)
+        {
+            if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
+            createPixelShaderConstantBuffer(size);
+        }
+
         uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
 
         return true;
@@ -149,6 +143,13 @@ namespace ouzel
 
     bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
+        uint32_t size = index + vectorDataSize(matrices);
+        if (size > _pixelShaderConstantBufferSize)
+        {
+            if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
+            createPixelShaderConstantBuffer(size);
+        }
+
         uploadData(_pixelShaderConstantBuffer, matrices.data(), vectorDataSize(matrices));
 
         return true;
@@ -162,6 +163,13 @@ namespace ouzel
 
     bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
+        uint32_t size = index + vectorDataSize(vectors);
+        if (size > _vertexShaderConstantBufferSize)
+        {
+            if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
+            createPixelShaderConstantBuffer(size);
+        }
+
         uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
 
         return true;
@@ -169,12 +177,74 @@ namespace ouzel
 
     bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
+        uint32_t size = index + vectorDataSize(vectors);
+        if (size > _vertexShaderConstantBufferSize)
+        {
+            if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
+            createPixelShaderConstantBuffer(size);
+        }
+
         return uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
     }
 
     bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
+        uint32_t size = index + vectorDataSize(matrices);
+        if (size > _vertexShaderConstantBufferSize)
+        {
+            if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
+            createPixelShaderConstantBuffer(size);
+        }
+
         return uploadData(_vertexShaderConstantBuffer, matrices.data(), vectorDataSize(matrices));
+    }
+
+    bool ShaderD3D11::createPixelShaderConstantBuffer(uint32_t size)
+    {
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
+
+        D3D11_BUFFER_DESC pixelShaderConstantBufferDesc;
+        memset(&pixelShaderConstantBufferDesc, 0, sizeof(pixelShaderConstantBufferDesc));
+
+        pixelShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(size);
+        pixelShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+        pixelShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+        pixelShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+        HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &_pixelShaderConstantBuffer);
+        if (FAILED(hr) || !_pixelShaderConstantBuffer)
+        {
+            log("Failed to create D3D11 constant buffer");
+            return false;
+        }
+
+        _pixelShaderConstantBufferSize = size;
+
+        return true;
+    }
+
+    bool ShaderD3D11::createVertexShaderConstantBuffer(uint32_t size)
+    {
+        RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(Renderer::getInstance());
+
+        D3D11_BUFFER_DESC vertexShaderConstantBufferDesc;
+        memset(&vertexShaderConstantBufferDesc, 0, sizeof(vertexShaderConstantBufferDesc));
+
+        vertexShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(size);
+        vertexShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+        vertexShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+        vertexShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+        HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &_vertexShaderConstantBuffer);
+        if (FAILED(hr) || !_vertexShaderConstantBuffer)
+        {
+            log("Failed to create D3D11 constant buffer");
+            return false;
+        }
+
+        _vertexShaderConstantBufferSize = size;
+
+        return true;
     }
 
     bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)
