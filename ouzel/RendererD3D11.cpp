@@ -173,23 +173,32 @@ KeyboardKey winKeyToEngineCode(WPARAM wParam, LPARAM lParam)
     return KeyboardKey::NONE;
 }
 
+static void updateModifiers(WPARAM wParam, Event& event)
+{
+    event.shiftDown = wParam & MK_SHIFT;
+    event.altDown = wParam & MK_ALT;
+    event.controlDown = wParam & MK_CONTROL;
+}
+
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    bool isDown = msg == WM_KEYDOWN;
     KeyboardKey key = winKeyToEngineCode(wParam, lParam);
+    KeyboardEvent event;
+    event.key = key;
+    updateModifiers(wParam, event);
 
-    Event event;
-    event.type = isDown ? Event::Type::KEY_DOWN : Event::Type::KEY_UP;
-    event.keyboardEvent.key = key;
-    if (wParam & MK_SHIFT)
+    if (msg == WM_KEYDOWN)
     {
-        event.keyboardEvent.shiftDown = true;
+        event.type = Event::Type::KEY_DOWN;
+
+        EventDispatcher::getInstance()->dispatchKeyDownEvent(event, Engine::getInstance());
     }
-    if (wParam & MK_CONTROL)
+    else if (msg == WM_KEYUP)
     {
-        event.keyboardEvent.controlDown = true;
+        event.type = Event::Type::KEY_UP;
+
+        EventDispatcher::getInstance()->dispatchKeyUpEvent(event, Engine::getInstance());
     }
-    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -197,38 +206,45 @@ static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
                 static_cast<float>(HIWORD(lParam)));
 
-    Event event;
+    MouseEvent event;
     event.type = Event::Type::MOUSE_MOVE;
-    event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(pos);
-    EventDispatcher::getInstance()->dispatchEvent(event);
+    event.position = Renderer::getInstance()->viewToScreenLocation(pos);
+    updateModifiers(wParam, event);
+
+    EventDispatcher::getInstance()->dispatchMouseMoveEvent(event, Engine::getInstance());
 }
 
 static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    bool isDown = (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN);
-    MouseButton button = MouseButton::NONE;
-
-    if (msg == WM_LBUTTONDOWN || msg == WM_LBUTTONUP)
-    {
-        button = MouseButton::LEFT;
-    }
-    else if (msg == WM_RBUTTONDOWN || msg == WM_RBUTTONUP)
-    {
-        button = MouseButton::RIGHT;
-    }
-    else if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONUP)
-    {
-        button = MouseButton::MIDDLE;
-    }
-
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
                 static_cast<float>(HIWORD(lParam)));
 
-    Event event;
-    event.type = isDown ? Event::Type::MOUSE_DOWN : Event::Type::MOUSE_UP;
-    event.mouseEvent.button = button;
-    event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(pos);
-    EventDispatcher::getInstance()->dispatchEvent(event);
+    MouseEvent event;
+    event.position = Renderer::getInstance()->viewToScreenLocation(pos);
+
+    if (msg == WM_LBUTTONDOWN || msg == WM_LBUTTONUP)
+    {
+        event.button = MouseButton::LEFT;
+    }
+    else if (msg == WM_RBUTTONDOWN || msg == WM_RBUTTONUP)
+    {
+        event.button = MouseButton::RIGHT;
+    }
+    else if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONUP)
+    {
+        event.button = MouseButton::MIDDLE;
+    }
+
+    if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN)
+    {
+        event.type = Event::Type::MOUSE_DOWN;
+        EventDispatcher::getInstance()->dispatchMouseDownEvent(event, Engine::getInstance());
+    }
+    else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP)
+    {
+        event.type = Event::Type::MOUSE_UP;
+        EventDispatcher::getInstance()->dispatchMouseUpEvent(event, Engine::getInstance());
+    }
 }
 
 static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -236,11 +252,13 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
                 static_cast<float>(HIWORD(lParam)));
 
-    Event event;
+    MouseEvent event;
     event.type = Event::Type::MOUSE_SCROLL;
-    event.mouseEvent.scroll = Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA));
-    event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(pos);
-    EventDispatcher::getInstance()->dispatchEvent(event);
+    event.scroll = Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA));
+    event.position = Renderer::getInstance()->viewToScreenLocation(pos);
+    updateModifiers(wParam, event);
+
+    EventDispatcher::getInstance()->dispatchMouseScrollEvent(event, Engine::getInstance());
 }
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
