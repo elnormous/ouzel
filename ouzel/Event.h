@@ -194,10 +194,10 @@ namespace ouzel
         Type type;
         
         bool shiftDown = false;
+        bool altDown = false;
         bool controlDown = false;
         bool commandDown = false;
         bool functionDown = false;
-        bool altDown = false;
     };
     
     struct KeyboardEvent: public Event
