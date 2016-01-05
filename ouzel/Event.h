@@ -173,33 +173,6 @@ namespace ouzel
         X2,       // Windows 2000/XP: X2 mouse button
     };
     
-    struct KeyboardEvent
-    {
-        KeyboardKey key = KeyboardKey::NONE;
-        bool shiftDown = false;
-        bool controlDown = false;
-        bool commandDown = false;
-        bool functionDown = false;
-    };
-    
-    struct MouseEvent
-    {
-        MouseButton button = MouseButton::NONE;
-        Vector2 position;
-        Vector2 scroll;
-    };
-    
-    struct TouchEvent
-    {
-        uint64_t touchId = 0;
-        Vector2 position;
-    };
-    
-    struct ScreenSizeEvent
-    {
-        Size2 size;
-    };
-    
     struct Event
     {
         enum class Type
@@ -220,9 +193,34 @@ namespace ouzel
         
         Type type;
         
-        KeyboardEvent keyboardEvent;
-        MouseEvent mouseEvent;
-        TouchEvent touchEvent;
-        ScreenSizeEvent screenSizeEvent;
+        bool shiftDown = false;
+        bool controlDown = false;
+        bool commandDown = false;
+        bool functionDown = false;
     };
+    
+    struct KeyboardEvent: public Event
+    {
+        KeyboardKey key = KeyboardKey::NONE;
+    };
+    
+    struct MouseEvent: public Event
+    {
+        MouseButton button = MouseButton::NONE;
+        Vector2 position;
+        Vector2 scroll;
+    };
+    
+    struct TouchEvent: public Event
+    {
+        uint64_t touchId = 0;
+        Vector2 position;
+    };
+    
+    struct ScreenSizeEvent: public Event
+    {
+        Size2 size;
+    };
+    
+    
 }

@@ -26,7 +26,21 @@ namespace ouzel
         void addEventHandler(EventHandler* eventHandler);
         void removeEventHandler(EventHandler* eventHandler);
         
-        void dispatchEvent(const Event& event);
+        void dispatchKeyDownEvent(const KeyboardEvent& event, ReferenceCounted* sender);
+        void dispatchKeyUpEvent(const KeyboardEvent& event, ReferenceCounted* sender);
+        
+        void dispatchMouseDownEvent(const MouseEvent& event, ReferenceCounted* sender);
+        void dispatchMouseUpEvent(const MouseEvent& event, ReferenceCounted* sender);
+        void dispatchMouseScrollEvent(const MouseEvent& event, ReferenceCounted* sender);
+        void dispatchMouseMoveEvent(const MouseEvent& event, ReferenceCounted* sender);
+        void dispatchMouseDragEvent(const MouseEvent& event, ReferenceCounted* sender);
+        
+        void dispatchTouchBeginEvent(const TouchEvent& event, ReferenceCounted* sender);
+        void dispatchTouchMoveEvent(const TouchEvent& event, ReferenceCounted* sender);
+        void dispatchTouchEndEvent(const TouchEvent& event, ReferenceCounted* sender);
+        void dispatchTouchCancelEvent(const TouchEvent& event, ReferenceCounted* sender);
+        
+        void dispatchScreenSizeEvent(const ScreenSizeEvent& event, ReferenceCounted* sender);
         
     protected:
         EventDispatcher();

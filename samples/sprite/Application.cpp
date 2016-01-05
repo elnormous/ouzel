@@ -12,7 +12,15 @@ namespace ouzel
 {
     Application::Application()
     {
-        EventDispatcher::getInstance()->addEventHandler(this);
+        _eventHandler = new EventHandler();
+        
+        _eventHandler->keyDownHandler = std::bind(&Application::handleKeyDown, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->mouseMoveHandler = std::bind(&Application::handleMouseMove, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->touchBeginHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->touchMoveHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->touchEndHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
+        
+        EventDispatcher::getInstance()->addEventHandler(_eventHandler);
         
         Renderer::getInstance()->setClearColor(Color(64, 0, 0));
         
@@ -46,56 +54,43 @@ namespace ouzel
     
     Application::~Application()
     {
-        if (EventDispatcher::getInstance()) EventDispatcher::getInstance()->removeEventHandler(this);
+        if (EventDispatcher::getInstance()) EventDispatcher::getInstance()->removeEventHandler(_eventHandler);
     }
     
-    bool Application::handleEvent(const Event& event)
+    void Application::handleKeyDown(const KeyboardEvent& event, ReferenceCounted* sender) const
     {
-        switch (event.type)
+        Vector2 position = _sprite->getPosition();
+        
+        switch (event.key)
         {
-            case Event::Type::KEY_DOWN:
-            {
-                Vector2 position = _sprite->getPosition();
-                
-                switch (event.keyboardEvent.key)
-                {
-                    case KeyboardKey::UP:
-                        position.y += 10.0f;
-                        break;
-                    case KeyboardKey::DOWN:
-                        position.y -= 10.0f;
-                        break;
-                    case KeyboardKey::LEFT:
-                        position.x -= 10.0f;
-                        break;
-                    case KeyboardKey::RIGHT:
-                        position.x += 10.0f;
-                        break;
-                    default:
-                        break;
-                }
-                
-                _sprite->setPosition(position);
+            case KeyboardKey::UP:
+                position.y += 10.0f;
                 break;
-            }
-            case Event::Type::MOUSE_MOVE:
-            {
-                Vector2 worldLocation = _layer->screenToWorldLocation(event.mouseEvent.position);
-                _witch->setPosition(worldLocation);
+            case KeyboardKey::DOWN:
+                position.y -= 10.0f;
                 break;
-            }
-            case Event::Type::TOUCH_BEGIN:
-            case Event::Type::TOUCH_MOVE:
-            case Event::Type::TOUCH_END:
-            {
-                Vector2 worldLocation = _layer->screenToWorldLocation(event.touchEvent.position);
-                _witch->setPosition(worldLocation);
+            case KeyboardKey::LEFT:
+                position.x -= 10.0f;
                 break;
-            }
+            case KeyboardKey::RIGHT:
+                position.x += 10.0f;
+                break;
             default:
                 break;
         }
         
-        return true;
+        _sprite->setPosition(position);
+    }
+    
+    void Application::handleMouseMove(const MouseEvent& event, ReferenceCounted* sender) const
+    {
+        Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
+        _witch->setPosition(worldLocation);
+    }
+    
+    void Application::handleTouch(const TouchEvent& event, ReferenceCounted* sender) const
+    {
+        Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
+        _witch->setPosition(worldLocation);
     }
 }

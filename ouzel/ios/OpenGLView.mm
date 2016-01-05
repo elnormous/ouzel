@@ -111,12 +111,12 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
         
-        Event event;
+        TouchEvent event;
         event.type = Event::Type::TOUCH_BEGIN;
-        event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
-        event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
+        event.touchId = reinterpret_cast<uint64_t>(touch);
+        event.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
 
-        EventDispatcher::getInstance()->dispatchEvent(event);
+        EventDispatcher::getInstance()->dispatchTouchBeginEvent(event, Engine::getInstance());
     }
 }
 
@@ -126,12 +126,12 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
         
-        Event event;
+        TouchEvent event;
         event.type = Event::Type::TOUCH_MOVE;
-        event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
-        event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
+        event.touchId = reinterpret_cast<uint64_t>(touch);
+        event.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
         
-        EventDispatcher::getInstance()->dispatchEvent(event);
+        EventDispatcher::getInstance()->dispatchTouchMoveEvent(event, Engine::getInstance());
     }
 }
 
@@ -141,12 +141,12 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
         
-        Event event;
+        TouchEvent event;
         event.type = Event::Type::TOUCH_END;
-        event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
-        event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
+        event.touchId = reinterpret_cast<uint64_t>(touch);
+        event.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
         
-        EventDispatcher::getInstance()->dispatchEvent(event);
+        EventDispatcher::getInstance()->dispatchTouchEndEvent(event, Engine::getInstance());
     }
 }
 
@@ -156,12 +156,12 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
         
-        Event event;
+        TouchEvent event;
         event.type = Event::Type::TOUCH_CANCEL;
-        event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
-        event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
+        event.touchId = reinterpret_cast<uint64_t>(touch);
+        event.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
         
-        EventDispatcher::getInstance()->dispatchEvent(event);
+        EventDispatcher::getInstance()->dispatchTouchCancelEvent(event, Engine::getInstance());
     }
 }
 
