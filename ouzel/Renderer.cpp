@@ -116,6 +116,19 @@ namespace ouzel
         return texture;
     }
     
+    Texture* Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    {
+        Texture* texture = new Texture();
+        
+        if (!texture->initFromData(data, size, dynamic))
+        {
+            delete texture;
+            texture = nullptr;
+        }
+        
+        return texture;
+    }
+    
     Shader* Renderer::getShader(const std::string& shaderName) const
     {
         std::unordered_map<std::string, AutoPtr<Shader>>::const_iterator i = _shaders.find(shaderName);

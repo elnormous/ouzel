@@ -146,6 +146,19 @@ namespace ouzel
         return texture;
     }
     
+    Texture* RendererOGL::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    {
+        TextureOGL* texture = new TextureOGL();
+        
+        if (!texture->initFromData(data, size, dynamic))
+        {
+            delete texture;
+            texture = nullptr;
+        }
+        
+        return texture;
+    }
+    
     Shader* RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         ShaderOGL* shader = new ShaderOGL();

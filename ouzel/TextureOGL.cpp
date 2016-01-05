@@ -22,15 +22,9 @@ namespace ouzel
         }
     }
     
-    bool TextureOGL::initFromFile(const std::string& filename, bool dynamic)
+    bool TextureOGL::initFromData(const void* data, const Size2& size, bool dynamic)
     {
-        if (!Texture::initFromFile(filename, dynamic))
-        {
-            return false;
-        }
-        
-        AutoPtr<Image> image = new Image();
-        if (!image->loadFromFile(filename))
+        if (!Texture::initFromData(data, size, dynamic))
         {
             return false;
         }
@@ -39,11 +33,9 @@ namespace ouzel
         
         glBindTexture(GL_TEXTURE_2D, _textureId);
         
-        uploadData(image->getData(),
-                   static_cast<GLsizei>(image->getSize().width),
-                   static_cast<GLsizei>(image->getSize().height));
-        
-        _size = image->getSize();
+        uploadData(data,
+                   static_cast<GLsizei>(size.width),
+                   static_cast<GLsizei>(size.height));
         
         return true;
     }

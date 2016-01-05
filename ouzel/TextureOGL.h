@@ -24,7 +24,7 @@ namespace ouzel
     public:
         virtual ~TextureOGL();
         
-        virtual bool initFromFile(const std::string& filename, bool dynamic) override;
+        virtual bool initFromData(const void* data, const Size2& size, bool dynamic) override;
         
         virtual bool upload(const void* data, const Size2& size) override;
         
