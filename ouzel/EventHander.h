@@ -9,9 +9,17 @@
 
 namespace ouzel
 {
+    class EventDispatcher;
+    
     class EventHandler: public ReferenceCounted
     {
+        friend EventDispatcher;
+        
     public:
+        static const int32_t MAX_PRIORITY = 0x1000;
+        
+        EventHandler(int32_t priority = 0): _priority(priority) { }
+        
         std::function<void(const KeyboardEvent&, ReferenceCounted*)> keyDownHandler;
         std::function<void(const KeyboardEvent&, ReferenceCounted*)> keyUpHandler;
         
@@ -27,5 +35,8 @@ namespace ouzel
         std::function<void(const TouchEvent&, ReferenceCounted*)> touchCancelHandler;
         
         std::function<void(const ScreenSizeEvent&, ReferenceCounted*)> screenSizeHandler;
+        
+    protected:
+        int32_t _priority;
     };
 }

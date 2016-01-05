@@ -1,6 +1,7 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "EventDispatcher.h"
 
 namespace ouzel
@@ -29,6 +30,10 @@ namespace ouzel
         if (i == _eventHandlers.end())
         {
             _eventHandlers.push_back(eventHandler);
+            
+            std::sort(_eventHandlers.begin(), _eventHandlers.end(), [](EventHandler* a, EventHandler* b) {
+                return a->_priority < b->_priority;
+            });
         }
     }
     

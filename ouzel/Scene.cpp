@@ -32,7 +32,7 @@ namespace ouzel
     {
         if (_reorderLayers)
         {
-            std::sort(_layers.begin(), _layers.end(), [](Layer* a, Layer* b){
+            std::sort(_layers.begin(), _layers.end(), [](Layer* a, Layer* b) {
                 return a->getOrder() > b->getOrder();
             });
             
