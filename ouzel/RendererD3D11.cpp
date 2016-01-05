@@ -14,6 +14,7 @@
 #include "Event.h"
 #include "SceneManager.h"
 #include "Camera.h"
+#include "EventDispatcher.h"
 
 using namespace ouzel;
 
@@ -188,7 +189,7 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     {
         event.keyboardEvent.controlDown = true;
     }
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -199,7 +200,7 @@ static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     Event event;
     event.type = Event::Type::MOUSE_MOVE;
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(pos);
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -227,7 +228,7 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     event.type = isDown ? Event::Type::MOUSE_DOWN : Event::Type::MOUSE_UP;
     event.mouseEvent.button = button;
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(pos);
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -239,7 +240,7 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     event.type = Event::Type::MOUSE_SCROLL;
     event.mouseEvent.scroll = Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA));
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(pos);
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
