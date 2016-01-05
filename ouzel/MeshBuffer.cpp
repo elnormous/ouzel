@@ -30,11 +30,21 @@ namespace ouzel
     
     bool MeshBuffer::uploadIndices(const void* indices, uint32_t indexCount)
     {
+        if (!_dynamicIndexBuffer)
+        {
+            return false;
+        }
+        
         return true;
     }
     
     bool MeshBuffer::uploadVertices(const void* vertices, uint32_t vertexCount)
     {
+        if (!_dynamicVertexBuffer)
+        {
+            return false;
+        }
+        
         return true;
     }
 }

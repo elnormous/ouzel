@@ -24,12 +24,16 @@ namespace ouzel
     public:
         virtual ~TextureOGL();
         
-        virtual bool initFromFile(const std::string& filename) override;
+        virtual bool initFromFile(const std::string& filename, bool dynamic) override;
+        
+        virtual bool upload(const void* data, const Size2& size) override;
         
         GLuint getTextureId() const { return _textureId; }
         
     protected:
         TextureOGL();
+        
+        bool uploadData(const void* data, const Size2& size);
         
         GLuint _textureId = 0;
     };

@@ -23,9 +23,22 @@ namespace ouzel
         }
     }
     
-    bool Texture::initFromFile(const std::string& filename)
+    bool Texture::initFromFile(const std::string& filename, bool dynamic)
     {
         _filename = filename;
+        _dynamic = dynamic;
+        
+        return true;
+    }
+    
+    bool Texture::upload(const void* data, const Size2& size)
+    {
+        _size = size;
+        
+        if (!_dynamic)
+        {
+            return false;
+        }
         
         return true;
     }

@@ -123,6 +123,11 @@ namespace ouzel
     
     bool MeshBufferOGL::uploadIndices(const void* indices, uint32_t indexCount)
     {
+        if (!MeshBuffer::uploadIndices(indices, indexCount))
+        {
+            return false;
+        }
+        
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexSize * indexCount, indices,
                      _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
@@ -139,6 +144,11 @@ namespace ouzel
     
     bool MeshBufferOGL::uploadVertices(const void* vertices, uint32_t vertexCount)
     {
+        if (!MeshBuffer::uploadVertices(vertices, vertexCount))
+        {
+            return false;
+        }
+        
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
         glBufferData(GL_ARRAY_BUFFER, _vertexSize * vertexCount, vertices,
                      _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);

@@ -19,7 +19,7 @@ namespace ouzel
         virtual ~Image();
         
         const Size2& getSize() const { return _size; }
-        const uint8_t* getData() const { return _data; }
+        const void* getData() const { return _data; }
         
         virtual bool loadFromFile(const std::string& filename);
         
@@ -27,6 +27,6 @@ namespace ouzel
         std::string _filename;
         Size2 _size;
         
-        uint8_t* _data = nullptr;
+        void* _data = nullptr;
     };
 }

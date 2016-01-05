@@ -133,11 +133,11 @@ namespace ouzel
         checkOpenGLErrors();
     }
     
-    Texture* RendererOGL::loadTextureFromFile(const std::string& filename)
+    Texture* RendererOGL::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         TextureOGL* texture = new TextureOGL();
         
-        if (!texture->initFromFile(filename))
+        if (!texture->initFromFile(filename, dynamic))
         {
             delete texture;
             texture = nullptr;

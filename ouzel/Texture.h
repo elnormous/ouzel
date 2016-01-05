@@ -18,11 +18,15 @@ namespace ouzel
     public:
         virtual ~Texture();
         
-        virtual bool initFromFile(const std::string& filename);
+        virtual bool initFromFile(const std::string& filename, bool dynamic);
         
         const std::string& getFilename() const { return _filename; }
         
+        virtual bool upload(const void* data, const Size2& size);
+        
         const Size2& getSize() const { return _size; }
+        
+        bool isDynamic() const { return _dynamic; }
         
     protected:
         Texture();
@@ -30,5 +34,6 @@ namespace ouzel
         std::string _filename;
         
         Size2 _size;
+        bool _dynamic = false;
     };
 }

@@ -64,6 +64,11 @@ namespace ouzel
 
     bool MeshBufferD3D11::uploadIndices(const void* indices, uint32_t indexCount)
     {
+        if (!MeshBuffer::uploadIndices(indices, indexCount))
+        {
+            return false;
+        }
+        
         if (_indexSize * indexCount > _indexBufferSize)
         {
             if (_indexBuffer) _indexBuffer->Release();
@@ -77,6 +82,11 @@ namespace ouzel
 
     bool MeshBufferD3D11::uploadVertices(const void* vertices, uint32_t vertexCount)
     {
+        if (!MeshBuffer::uploadVertices(vertices, vertexCount))
+        {
+            return false;
+        }
+        
         if (_vertexSize * vertexCount > _vertexBufferSize)
         {
             if (_vertexBuffer) _vertexBuffer->Release();

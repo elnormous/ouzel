@@ -58,13 +58,13 @@ namespace ouzel
         EventDispatcher::getInstance()->dispatchScreenSizeEvent(event, this);
     }
     
-    void Renderer::preloadTexture(const std::string& filename)
+    void Renderer::preloadTexture(const std::string& filename, bool dynamic)
     {
         std::unordered_map<std::string, AutoPtr<Texture>>::const_iterator i = _textures.find(filename);
         
         if (i == _textures.end())
         {
-            Texture* texture = loadTextureFromFile(filename);
+            Texture* texture = loadTextureFromFile(filename, dynamic);
             
             if (texture)
             {
@@ -103,11 +103,11 @@ namespace ouzel
         return true;
     }
     
-    Texture* Renderer::loadTextureFromFile(const std::string& filename)
+    Texture* Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         Texture* texture = new Texture();
         
-        if (!texture->initFromFile(filename))
+        if (!texture->initFromFile(filename, dynamic))
         {
             delete texture;
             texture = nullptr;

@@ -22,9 +22,9 @@ namespace ouzel
         }
     }
     
-    bool TextureOGL::initFromFile(const std::string& filename)
+    bool TextureOGL::initFromFile(const std::string& filename, bool dynamic)
     {
-        if (!Texture::initFromFile(filename))
+        if (!Texture::initFromFile(filename, dynamic))
         {
             return false;
         }
@@ -39,8 +39,29 @@ namespace ouzel
         
         glBindTexture(GL_TEXTURE_2D, _textureId);
         
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getSize().width, image->getSize().height,
-                     0, GL_RGBA, GL_UNSIGNED_BYTE, image->getData());
+        uploadData(image->getData(), image->getSize());
+        
+        _size = image->getSize();
+        
+        return true;
+    }
+    
+    bool TextureOGL::upload(const void* data, const Size2& size)
+    {
+        if (!Texture::upload(data, size))
+        {
+            return false;
+        }
+        
+        return uploadData(data, size);
+    }
+    
+    bool TextureOGL::uploadData(const void* data, const Size2& size)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                     static_cast<GLsizei>(size.width),
+                     static_cast<GLsizei>(size.height),
+                     0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         
         if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
         {
@@ -50,7 +71,7 @@ namespace ouzel
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-
+        
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         
@@ -60,11 +81,11 @@ namespace ouzel
         }
         
         // Mipmaps are supported only for power-of-two sized textures
-        if (isPOT(static_cast<int>(image->getSize().width)) &&
-            isPOT(static_cast<int>(image->getSize().height)))
+        if (isPOT(static_cast<int>(size.width)) &&
+            isPOT(static_cast<int>(size.height)))
         {
             glGenerateMipmap(GL_TEXTURE_2D);
-        
+            
             if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
             {
                 return false;
@@ -72,8 +93,6 @@ namespace ouzel
         }
         
         glBindTexture(GL_TEXTURE_2D, 0);
-        
-        _size = image->getSize();
         
         return true;
     }

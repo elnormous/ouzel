@@ -61,9 +61,9 @@ namespace ouzel
         virtual const std::string& getTitle() const { return _title; }
         virtual void setTitle(const std::string& title) { _title = title; }
         
-        void preloadTexture(const std::string& filename);
+        void preloadTexture(const std::string& filename, bool dynamic = false);
         Texture* getTexture(const std::string& filename);
-        virtual Texture* loadTextureFromFile(const std::string& filename);
+        virtual Texture* loadTextureFromFile(const std::string& filename, bool dynamic = false);
         virtual bool activateTexture(Texture* texture, uint32_t layer);
         virtual Texture* getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
         
