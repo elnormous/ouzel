@@ -24,6 +24,7 @@ namespace ouzel
         virtual void resize(const Size2& size) override;
 
         virtual Texture* loadTextureFromFile(const std::string& filename, bool dynamic) override;
+        virtual Texture* loadTextureFromData(const void* data, const Size2& size, bool dynamic) override;
 
         virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes) override;
         virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;

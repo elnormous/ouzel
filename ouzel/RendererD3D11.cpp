@@ -635,6 +635,19 @@ namespace ouzel
         return texture;
     }
 
+    Texture* RendererD3D11::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    {
+        TextureD3D11* texture = new TextureD3D11();
+
+        if (!texture->initFromData(data, size, dynamic))
+        {
+            delete texture;
+            texture = nullptr;
+        }
+
+        return texture;
+    }
+
     Shader* RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         ShaderD3D11* shader = new ShaderD3D11();
