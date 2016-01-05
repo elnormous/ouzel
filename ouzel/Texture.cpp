@@ -16,7 +16,7 @@ namespace ouzel
     {
         for (int i = 0; i < Renderer::TEXTURE_LAYERS; ++i)
         {
-            if (Renderer::getInstance()->getActiveTexture(i) == this)
+            if (Renderer::getInstance() && Renderer::getInstance()->getActiveTexture(i) == this)
             {
                 Renderer::getInstance()->activateTexture(nullptr, i);
             }

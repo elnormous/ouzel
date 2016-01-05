@@ -3,14 +3,14 @@
 
 #pragma once
 
+#include "ReferenceCounted.h"
 #include "Event.h"
 
 namespace ouzel
 {
-    class EventHandler
+    class EventHandler: public ReferenceCounted
     {
     public:
         virtual bool handleEvent(const Event& event) = 0;
-        virtual void update(float delta) = 0;
     };
 }

@@ -14,12 +14,12 @@ namespace ouzel
     
     Input::Input()
     {
-        
+        sharedInput = this;
     }
     
     Input::~Input()
     {
-        
+        sharedInput = nullptr;
     }
     
     void Input::startDiscovery()

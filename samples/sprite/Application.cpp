@@ -12,7 +12,7 @@ namespace ouzel
 {
     Application::Application()
     {
-        Engine::getInstance()->addEventHandler(this);
+        EventDispatcher::getInstance()->addEventHandler(this);
         
         Renderer::getInstance()->setClearColor(Color(64, 0, 0));
         
@@ -46,7 +46,7 @@ namespace ouzel
     
     Application::~Application()
     {
-        Engine::getInstance()->removeEventHandler(this);
+        if (EventDispatcher::getInstance()) EventDispatcher::getInstance()->removeEventHandler(this);
     }
     
     bool Application::handleEvent(const Event& event)
@@ -97,10 +97,5 @@ namespace ouzel
         }
         
         return true;
-    }
-    
-    void Application::update(float delta)
-    {
-        
     }
 }

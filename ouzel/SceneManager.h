@@ -20,10 +20,10 @@ namespace ouzel
     
     class SceneManager: public Noncopyable, public ReferenceCounted
     {
+        friend Engine;
     public:
         static SceneManager* getInstance();
 
-        SceneManager();
         virtual ~SceneManager();
         
         void update(float delta);
@@ -36,6 +36,8 @@ namespace ouzel
         virtual void recalculateProjection();
         
     protected:
+        SceneManager();
+        
         AutoPtr<Scene> _scene;
     };
 }

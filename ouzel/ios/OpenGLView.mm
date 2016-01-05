@@ -6,6 +6,7 @@
 #include <OpenGLES/ES2/glext.h>
 #include "Engine.h"
 #include "RendererOGL.h"
+#include "EventDispatcher.h"
 #include "Utils.h"
 
 using namespace ouzel;
@@ -115,8 +116,7 @@ using namespace ouzel;
         event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
         event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
 
-        
-        Engine::getInstance()->handleEvent(event);
+        EventDispatcher::getInstance()->dispatchEvent(event);
     }
 }
 
@@ -131,8 +131,7 @@ using namespace ouzel;
         event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
         event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
         
-        
-        Engine::getInstance()->handleEvent(event);
+        EventDispatcher::getInstance()->dispatchEvent(event);
     }
 }
 
@@ -147,8 +146,7 @@ using namespace ouzel;
         event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
         event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
         
-        
-        Engine::getInstance()->handleEvent(event);
+        EventDispatcher::getInstance()->dispatchEvent(event);
     }
 }
 
@@ -163,8 +161,7 @@ using namespace ouzel;
         event.touchEvent.touchId = reinterpret_cast<uint64_t>(touch);
         event.touchEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
         
-        
-        Engine::getInstance()->handleEvent(event);
+        EventDispatcher::getInstance()->dispatchEvent(event);
     }
 }
 

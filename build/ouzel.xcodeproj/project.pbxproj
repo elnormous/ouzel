@@ -322,6 +322,12 @@
 		30575AD01C3B175D0009C8A7 /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575ACC1C3B175D0009C8A7 /* Label.h */; };
 		30575AD11C3B175D0009C8A7 /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575ACC1C3B175D0009C8A7 /* Label.h */; };
 		30575AD21C3B175D0009C8A7 /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575ACC1C3B175D0009C8A7 /* Label.h */; };
+		30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */; };
+		30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */; };
+		30575ADA1C3B48740009C8A7 /* EventDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */; };
+		30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.h */; };
+		30575ADC1C3B48740009C8A7 /* EventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.h */; };
+		30575ADD1C3B48740009C8A7 /* EventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -467,6 +473,8 @@
 		30575AC41C3B17540009C8A7 /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
 		30575ACB1C3B175D0009C8A7 /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Label.cpp; sourceTree = "<group>"; };
 		30575ACC1C3B175D0009C8A7 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
+		30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventDispatcher.cpp; sourceTree = "<group>"; };
+		30575AD71C3B48740009C8A7 /* EventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDispatcher.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -625,8 +633,6 @@
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
-				303B75801C2B17DC00FEDE92 /* Event.h */,
-				304A8E2F1C237C70008B1151 /* EventHander.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				304A8E3D1C237C70008B1151 /* ReferenceCounted.h */,
 			);
@@ -761,6 +767,7 @@
 		304A8E291C237C51008B1151 /* ouzel */ = {
 			isa = PBXGroup;
 			children = (
+				30575AD51C3B485F0009C8A7 /* events */,
 				303B75111C28838C00FEDE92 /* core */,
 				303B75121C2883C800FEDE92 /* files */,
 				303B75101C28830A00FEDE92 /* graphics */,
@@ -839,6 +846,17 @@
 			name = gui;
 			sourceTree = "<group>";
 		};
+		30575AD51C3B485F0009C8A7 /* events */ = {
+			isa = PBXGroup;
+			children = (
+				303B75801C2B17DC00FEDE92 /* Event.h */,
+				30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */,
+				30575AD71C3B48740009C8A7 /* EventDispatcher.h */,
+				304A8E2F1C237C70008B1151 /* EventHander.h */,
+			);
+			name = events;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -883,6 +901,7 @@
 				303B75821C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.h in Headers */,
 				303B75451C2A3C9200FEDE92 /* Renderer.h in Headers */,
+				30575ADC1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				303B75561C2A3CB700FEDE92 /* Size2.h in Headers */,
 				303B75491C2A3C9200FEDE92 /* Shader.h in Headers */,
 				303B75E71C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */,
@@ -938,6 +957,7 @@
 				303B76711C355A3B00FEDE92 /* Image.h in Headers */,
 				303B76721C355A3B00FEDE92 /* Renderer.h in Headers */,
 				303B76731C355A3B00FEDE92 /* Size2.h in Headers */,
+				30575ADD1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				303B76741C355A3B00FEDE92 /* Shader.h in Headers */,
 				303B76751C355A3B00FEDE92 /* TexturePSOGL.h in Headers */,
 				303B76761C355A3B00FEDE92 /* Vertex.h in Headers */,
@@ -978,6 +998,7 @@
 				30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
+				30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
 				303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */,
@@ -1250,6 +1271,7 @@
 				303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */,
 				303B753E1C2A3C9200FEDE92 /* Color.cpp in Sources */,
 				303B757B1C2A43D700FEDE92 /* ShaderOGL.cpp in Sources */,
+				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				303B757A1C2A43D400FEDE92 /* RenderTargetOGL.cpp in Sources */,
@@ -1307,6 +1329,7 @@
 				303B764E1C355A3B00FEDE92 /* Color.cpp in Sources */,
 				303B764F1C355A3B00FEDE92 /* ShaderOGL.cpp in Sources */,
 				303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */,
+				30575ADA1C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				303B76511C355A3B00FEDE92 /* RenderTargetOGL.cpp in Sources */,
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
@@ -1366,6 +1389,7 @@
 				303B75211C29EFEC00FEDE92 /* AppDelegate.mm in Sources */,
 				304A8E8E1C26EA8B008B1151 /* ShaderOGL.cpp in Sources */,
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
+				30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				30575ACD1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,

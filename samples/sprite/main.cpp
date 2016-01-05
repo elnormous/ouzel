@@ -3,7 +3,7 @@
 
 #include "Application.h"
 
-ouzel::Application* application;
+ouzel::AutoPtr<ouzel::Application> application;
 
 void ouzelInit(ouzel::Settings& settings)
 {
@@ -18,5 +18,5 @@ void ouzelBegin()
 
 void ouzelEnd()
 {
-    delete application;
+    
 }

@@ -4,6 +4,7 @@
 #import "OpenGLView.h"
 #include "Engine.h"
 #include "RendererOGL.h"
+#include "EventDispatcher.h"
 
 using namespace ouzel;
 
@@ -413,7 +414,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)keyUp:(NSEvent*)theEvent
@@ -423,7 +424,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.keyboardEvent.key = convertKeyCode(theEvent.keyCode);
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)mouseDown:(NSEvent*)theEvent
@@ -436,7 +437,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)mouseUp:(NSEvent*)theEvent
@@ -449,7 +450,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)rightMouseDown:(NSEvent*)theEvent
@@ -462,7 +463,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)rightMouseUp:(NSEvent*)theEvent
@@ -475,7 +476,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)otherMouseDown:(NSEvent*)theEvent
@@ -488,7 +489,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)otherMouseUp:(NSEvent*)theEvent
@@ -501,7 +502,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)mouseMoved:(NSEvent*)theEvent
@@ -513,7 +514,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)mouseDragged:(NSEvent*)theEvent
@@ -526,7 +527,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)rightMouseDragged:(NSEvent*)theEvent
@@ -539,7 +540,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)otherMouseDragged:(NSEvent*)theEvent
@@ -552,7 +553,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)scrollWheel:(NSEvent*)theEvent
@@ -565,7 +566,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     event.mouseEvent.scroll = Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY);
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->handleEvent(event);
+    EventDispatcher::getInstance()->dispatchEvent(event);
 }
 
 -(void)swipeWithEvent:(NSEvent*)theEvent

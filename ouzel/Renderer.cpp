@@ -11,6 +11,7 @@
 #include "EventHander.h"
 #include "SceneManager.h"
 #include "MeshBuffer.h"
+#include "EventDispatcher.h"
 
 namespace ouzel
 {
@@ -29,7 +30,7 @@ namespace ouzel
 
     Renderer::~Renderer()
     {
-
+        sharedRenderer = nullptr;
     }
     
     void Renderer::begin()
@@ -54,7 +55,7 @@ namespace ouzel
         event.type = Event::Type::SCREEN_SIZE;
         event.screenSizeEvent.size = size;
         
-        Engine::getInstance()->handleEvent(event);
+        EventDispatcher::getInstance()->dispatchEvent(event);
     }
     
     void Renderer::preloadTexture(const std::string& filename)

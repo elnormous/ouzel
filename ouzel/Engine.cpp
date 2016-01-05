@@ -51,6 +51,7 @@ namespace ouzel
 
         ouzelInit(settings);
 
+        _eventDispatcher = new EventDispatcher();
         _fileSystem = new FileSystem();
         _sceneManager = new SceneManager();
         _input = new Input();
@@ -78,6 +79,7 @@ namespace ouzel
     Engine::~Engine()
     {
         ouzelEnd();
+        sharedEngine = nullptr;
     }
     
     void Engine::begin()
@@ -93,45 +95,9 @@ namespace ouzel
         
         _sceneManager->update(delta);
         
-        for (EventHandler* eventHandler : _eventHandlers)
-        {
-            eventHandler->update(static_cast<float>(delta));
-        }
-        
         _renderer->begin();
         _renderer->clear();
         _sceneManager->draw();
         _renderer->flush();
-    }
-    
-    void Engine::addEventHandler(EventHandler* eventHandler)
-    {
-        std::vector<EventHandler*>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
-        
-        if (i == _eventHandlers.end())
-        {
-            _eventHandlers.push_back(eventHandler);
-        }
-    }
-    
-    void Engine::removeEventHandler(EventHandler* eventHandler)
-    {
-        std::vector<EventHandler*>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
-        
-        if (i != _eventHandlers.end())
-        {
-            _eventHandlers.erase(i);
-        }
-    }
-    
-    void Engine::handleEvent(const Event& event)
-    {
-        for (EventHandler* eventHandler : _eventHandlers)
-        {
-            if (!eventHandler->handleEvent(event))
-            {
-                break;
-            }
-        }
     }
 }

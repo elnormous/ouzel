@@ -17,7 +17,7 @@ namespace ouzel
 
     Shader::~Shader()
     {
-        if (Renderer::getInstance()->getActiveShader() == this)
+        if (Renderer::getInstance() && Renderer::getInstance()->getActiveShader() == this)
         {
             Renderer::getInstance()->activateShader(nullptr);
         }

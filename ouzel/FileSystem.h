@@ -10,14 +10,16 @@
 
 namespace ouzel
 {
+    class Engine;
+    
     class FileSystem: public Noncopyable, public ReferenceCounted
     {
+        friend Engine;
     public:
 		static const std::string DIRECTORY_SEPARATOR;
 
         static FileSystem* getInstance();
         
-        FileSystem();
         virtual ~FileSystem();
         
         std::string getPath(const std::string& filename) const;
@@ -27,6 +29,8 @@ namespace ouzel
         std::string getExtension(const std::string& path) const;
         
     protected:
+        FileSystem();
+        
         bool fileExists(const std::string& filename) const;
         
         std::vector<std::string> _resourcePaths;

@@ -20,7 +20,7 @@ namespace ouzel
     
     SceneManager::~SceneManager()
     {
-        
+        sharedSceneManager = nullptr;
     }
     
     void SceneManager::update(float delta)

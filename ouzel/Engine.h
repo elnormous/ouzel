@@ -11,7 +11,7 @@
 #include "SceneManager.h"
 #include "FileSystem.h"
 #include "Input.h"
-#include "EventHander.h"
+#include "EventDispatcher.h"
 
 namespace ouzel
 {
@@ -34,19 +34,13 @@ namespace ouzel
         void begin();
         void run();
         
-        void addEventHandler(EventHandler* eventHandler);
-        void removeEventHandler(EventHandler* eventHandler);
-        
-        void handleEvent(const Event& event);
-        
     protected:
+        AutoPtr<EventDispatcher> _eventDispatcher;
         AutoPtr<Renderer> _renderer;
         AutoPtr<SceneManager> _sceneManager;
         AutoPtr<FileSystem> _fileSystem;
         AutoPtr<Input> _input;
         
         uint64_t _previousFrameTime;
-        
-        std::vector<EventHandler*> _eventHandlers;
     };
 }

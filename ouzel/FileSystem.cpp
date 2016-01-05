@@ -35,7 +35,7 @@ namespace ouzel
     
     FileSystem::~FileSystem()
     {
-        
+        sharedFileSystem = nullptr;
     }
     
     bool FileSystem::fileExists(const std::string& filename) const

@@ -5,14 +5,13 @@
 
 namespace ouzel
 {
-    class Application: public Noncopyable, public ReferenceCounted, public EventHandler
+    class Application: public Noncopyable, public EventHandler
     {
     public:
         Application();
         virtual ~Application();
         
         virtual bool handleEvent(const Event& event) override;
-        virtual void update(float delta) override;
         
     protected:
         AutoPtr<Sprite> _sprite;
