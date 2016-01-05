@@ -151,6 +151,7 @@ using namespace ouzel;
 static void updateModifiers(NSEvent* theEvent, Event& event)
 {
     event.shiftDown = theEvent.modifierFlags & NSShiftKeyMask;
+    event.altDown = theEvent.modifierFlags & NSAlternateKeyMask;
     event.controlDown = theEvent.modifierFlags & NSControlKeyMask;
     event.commandDown = theEvent.modifierFlags & NSCommandKeyMask;
     event.functionDown = theEvent.modifierFlags & NSFunctionKeyMask;
