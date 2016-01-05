@@ -148,7 +148,7 @@ using namespace ouzel;
     [_openGLContext makeCurrentContext];
 }
 
-void updateModifiers(NSEvent* theEvent, Event& event)
+static void updateModifiers(NSEvent* theEvent, Event& event)
 {
     event.shiftDown = theEvent.modifierFlags & NSShiftKeyMask;
     event.controlDown = theEvent.modifierFlags & NSControlKeyMask;
