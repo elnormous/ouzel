@@ -27,12 +27,6 @@ namespace ouzel
         _sprite->play(true);
         _layer->addChild(_sprite);
         
-        _witch = new Sprite();
-        _witch->initFromFile("witch.png");
-        _witch->setPosition(Vector2(100.0f, 100.0f));
-        _witch->setColor(Color(128, 0, 255, 255));
-        _layer->addChild(_witch);
-        
         Sprite* fire = new Sprite();
         fire->initFromFile("fire.json");
         fire->play(true);
@@ -42,6 +36,12 @@ namespace ouzel
         ParticleSystem* flame = new ParticleSystem();
         flame->initFromFile("flame.json");
         _layer->addChild(flame);
+        
+        _witch = new Sprite();
+        _witch->initFromFile("witch.png");
+        _witch->setPosition(Vector2(100.0f, 100.0f));
+        _witch->setColor(Color(128, 0, 255, 255));
+        _layer->addChild(_witch);
     }
     
     Application::~Application()

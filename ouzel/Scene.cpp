@@ -32,15 +32,14 @@ namespace ouzel
         if (_reorderLayers)
         {
             std::sort(_layers.begin(), _layers.end(), [](Layer* a, Layer* b){
-                return a->getOrder() < b->getOrder();
+                return a->getOrder() > b->getOrder();
             });
             
             _reorderLayers = false;
         }
         
-        for (std::vector<AutoPtr<Layer>>::reverse_iterator i = _layers.rbegin(); i != _layers.rend(); ++i)
+        for (AutoPtr<Layer> layer : _layers)
         {
-            Layer* layer = *i;
             layer->draw();
         }
     }

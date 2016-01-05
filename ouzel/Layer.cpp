@@ -24,10 +24,8 @@ namespace ouzel
     
     void Layer::update(float delta)
     {
-        for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (AutoPtr<Node> node : _nodes)
         {
-            Node* node = *i;
-            
             node->update(delta);
         }
     }
@@ -37,7 +35,7 @@ namespace ouzel
         if (_reorderNodes)
         {
             std::sort(_nodes.begin(), _nodes.end(), [](Node* a, Node* b){
-                return a->getZ() < b->getZ();
+                return a->getZ() > b->getZ();
             });
             
             _reorderNodes = false;
@@ -46,9 +44,8 @@ namespace ouzel
         // render only if there is an active camera
         if (_camera)
         {
-            for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+            for (AutoPtr<Node> node : _nodes)
             {
-                Node* node = *i;
                 if (node->checkVisibility())
                 {
                     node->draw();
