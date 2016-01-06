@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
-#include "AutoPtr.h"
+#include "SharedPtr.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Rectangle.h"
@@ -92,11 +92,11 @@ namespace ouzel
         
         Color _clearColor;
         
-        std::unordered_map<std::string, AutoPtr<Texture>> _textures;
-        std::unordered_map<std::string, AutoPtr<Shader>> _shaders;
+        std::unordered_map<std::string, SharedPtr<Texture>> _textures;
+        std::unordered_map<std::string, SharedPtr<Shader>> _shaders;
         
-        AutoPtr<Texture> _activeTextures[TEXTURE_LAYERS];
-        AutoPtr<Shader> _activeShader = nullptr;
+        SharedPtr<Texture> _activeTextures[TEXTURE_LAYERS];
+        SharedPtr<Shader> _activeShader = nullptr;
         
         Size2 _size;
         bool _resizable = false;

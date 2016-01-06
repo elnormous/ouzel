@@ -49,8 +49,8 @@ namespace ouzel
         virtual void addToScene(Scene* scene);
         virtual void removeFromScene();
         
-        AutoPtr<Camera> _camera;
-        std::vector<AutoPtr<Node>> _nodes;
+        SharedPtr<Camera> _camera;
+        std::vector<SharedPtr<Node>> _nodes;
         bool _reorderNodes = false;
         
         Matrix4 _projection;

@@ -94,8 +94,8 @@
 		303B757D1C2A43DC00FEDE92 /* MeshBufferOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */; };
 		303B75811C2B17DC00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
 		303B75821C2B17DC00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
-		303B75991C2CA2EA00FEDE92 /* AutoPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* AutoPtr.h */; };
-		303B759A1C2CA2EA00FEDE92 /* AutoPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* AutoPtr.h */; };
+		303B75991C2CA2EA00FEDE92 /* SharedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* SharedPtr.h */; };
+		303B759A1C2CA2EA00FEDE92 /* SharedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* SharedPtr.h */; };
 		303B75E21C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */; };
 		303B75E31C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */; };
 		303B75E41C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */; };
@@ -182,7 +182,7 @@
 		303B76671C355A3B00FEDE92 /* ColorPSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */; };
 		303B76681C355A3B00FEDE92 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.h */; };
 		303B76691C355A3B00FEDE92 /* Rectangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rectangle.h */; };
-		303B766A1C355A3B00FEDE92 /* AutoPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* AutoPtr.h */; };
+		303B766A1C355A3B00FEDE92 /* SharedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* SharedPtr.h */; };
 		303B766B1C355A3B00FEDE92 /* Noncopyable.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E381C237C70008B1151 /* Noncopyable.h */; };
 		303B766C1C355A3B00FEDE92 /* MathUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.h */; };
 		303B766D1C355A3B00FEDE92 /* ReferenceCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3D1C237C70008B1151 /* ReferenceCounted.h */; };
@@ -337,6 +337,9 @@
 		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		30575AEA1C3C99010009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE91C3C99010009C8A7 /* GameController.framework */; };
 		30575AEC1C3C990B0009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AEB1C3C990B0009C8A7 /* GameController.framework */; };
+		30575AEE1C3CA5020009C8A7 /* WeakPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AED1C3CA5020009C8A7 /* WeakPtr.h */; };
+		30575AEF1C3CA5020009C8A7 /* WeakPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AED1C3CA5020009C8A7 /* WeakPtr.h */; };
+		30575AF01C3CA5020009C8A7 /* WeakPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AED1C3CA5020009C8A7 /* WeakPtr.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -363,7 +366,7 @@
 		303B75741C2A3E3000FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		303B75751C2A3E3000FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B75801C2B17DC00FEDE92 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		303B75981C2CA2EA00FEDE92 /* AutoPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoPtr.h; sourceTree = "<group>"; };
+		303B75981C2CA2EA00FEDE92 /* SharedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPtr.h; sourceTree = "<group>"; };
 		303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSOGL.h; sourceTree = "<group>"; };
 		303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorVSOGL.h; sourceTree = "<group>"; };
 		303B75E01C2F6FC000FEDE92 /* TexturePSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturePSOGL.h; sourceTree = "<group>"; };
@@ -489,6 +492,7 @@
 		30575AE71C3C98F50009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		30575AE91C3C99010009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		30575AEB1C3C990B0009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
+		30575AED1C3CA5020009C8A7 /* WeakPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeakPtr.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -646,12 +650,13 @@
 		303B75111C28838C00FEDE92 /* core */ = {
 			isa = PBXGroup;
 			children = (
-				303B75981C2CA2EA00FEDE92 /* AutoPtr.h */,
+				303B75981C2CA2EA00FEDE92 /* SharedPtr.h */,
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				304A8E3D1C237C70008B1151 /* ReferenceCounted.h */,
+				30575AED1C3CA5020009C8A7 /* WeakPtr.h */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -889,6 +894,7 @@
 				30575A931C38BD370009C8A7 /* AABB2.h in Headers */,
 				303B754B1C2A3C9200FEDE92 /* Texture.h in Headers */,
 				303B75521C2A3CB700FEDE92 /* Matrix4.h in Headers */,
+				30575AEF1C3CA5020009C8A7 /* WeakPtr.h in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.h in Headers */,
 				3031A0B71C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
 				30575AA21C39CB790009C8A7 /* Scene.h in Headers */,
@@ -913,7 +919,7 @@
 				3031A0B11C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
 				303B760B1C34A92B00FEDE92 /* Input.h in Headers */,
 				303B75541C2A3CB700FEDE92 /* Rectangle.h in Headers */,
-				303B759A1C2CA2EA00FEDE92 /* AutoPtr.h in Headers */,
+				303B759A1C2CA2EA00FEDE92 /* SharedPtr.h in Headers */,
 				303B753B1C2A3C8200FEDE92 /* Noncopyable.h in Headers */,
 				303B754E1C2A3CB700FEDE92 /* MathUtils.h in Headers */,
 				3031A0B41C3731A2004D3514 /* ColorVSOGLES.h in Headers */,
@@ -946,6 +952,7 @@
 				30575A941C38BD370009C8A7 /* AABB2.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
 				303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */,
+				30575AF01C3CA5020009C8A7 /* WeakPtr.h in Headers */,
 				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
 				3031A0B81C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
 				30575AA31C39CB790009C8A7 /* Scene.h in Headers */,
@@ -969,7 +976,7 @@
 				303B76681C355A3B00FEDE92 /* Input.h in Headers */,
 				3031A0B21C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
 				303B76691C355A3B00FEDE92 /* Rectangle.h in Headers */,
-				303B766A1C355A3B00FEDE92 /* AutoPtr.h in Headers */,
+				303B766A1C355A3B00FEDE92 /* SharedPtr.h in Headers */,
 				303B766B1C355A3B00FEDE92 /* Noncopyable.h in Headers */,
 				303B766C1C355A3B00FEDE92 /* MathUtils.h in Headers */,
 				303B766D1C355A3B00FEDE92 /* ReferenceCounted.h in Headers */,
@@ -1008,7 +1015,7 @@
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				304A8E861C24814F008B1151 /* TextureOGL.h in Headers */,
 				304A8E6D1C237C70008B1151 /* Texture.h in Headers */,
-				303B75991C2CA2EA00FEDE92 /* AutoPtr.h in Headers */,
+				303B75991C2CA2EA00FEDE92 /* SharedPtr.h in Headers */,
 				304A8E8F1C26EA8B008B1151 /* ShaderOGL.h in Headers */,
 				3031A0B61C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.h in Headers */,
@@ -1021,6 +1028,7 @@
 				304A8E9F1C27081B008B1151 /* Color.h in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
+				30575AEE1C3CA5020009C8A7 /* WeakPtr.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
 				30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,

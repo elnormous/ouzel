@@ -3,7 +3,7 @@
 
 #include "Application.h"
 
-ouzel::AutoPtr<ouzel::Application> application;
+ouzel::SharedPtr<ouzel::Application> application;
 
 void ouzelInit(ouzel::Settings& settings)
 {

@@ -5,7 +5,7 @@
 
 #include <set>
 #include <vector>
-#include "AutoPtr.h"
+#include "SharedPtr.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Vector2.h"
@@ -38,6 +38,6 @@ namespace ouzel
     protected:
         SceneManager();
         
-        AutoPtr<Scene> _scene;
+        SharedPtr<Scene> _scene;
     };
 }

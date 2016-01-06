@@ -14,7 +14,7 @@ namespace ouzel
     
     Scene::~Scene()
     {
-        for (AutoPtr<Layer> layer : _layers)
+        for (SharedPtr<Layer> layer : _layers)
         {
             layer->_scene = nullptr;
         }
@@ -22,7 +22,7 @@ namespace ouzel
     
     void Scene::update(float delta)
     {
-        for (AutoPtr<Layer> layer : _layers)
+        for (SharedPtr<Layer> layer : _layers)
         {
             layer->update(delta);
         }
@@ -39,7 +39,7 @@ namespace ouzel
             _reorderLayers = false;
         }
         
-        for (AutoPtr<Layer> layer : _layers)
+        for (SharedPtr<Layer> layer : _layers)
         {
             layer->draw();
         }
@@ -57,7 +57,7 @@ namespace ouzel
     
     void Scene::removeLayer(Layer* layer)
     {
-        std::vector<AutoPtr<Layer>>::iterator i = std::find(_layers.begin(), _layers.end(), layer);
+        std::vector<SharedPtr<Layer>>::iterator i = std::find(_layers.begin(), _layers.end(), layer);
         
         if (i != _layers.end())
         {
@@ -68,14 +68,14 @@ namespace ouzel
     
     bool Scene::hasLayer(Layer* layer) const
     {
-        std::vector<AutoPtr<Layer>>::const_iterator i = std::find(_layers.begin(), _layers.end(), layer);
+        std::vector<SharedPtr<Layer>>::const_iterator i = std::find(_layers.begin(), _layers.end(), layer);
         
         return i != _layers.end();
     }
     
     void Scene::recalculateProjection()
     {
-        for (AutoPtr<Layer> layer : _layers)
+        for (SharedPtr<Layer> layer : _layers)
         {
             layer->recalculateProjection();
         }

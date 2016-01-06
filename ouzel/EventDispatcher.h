@@ -4,7 +4,7 @@
 #pragma once
 
 #include <vector>
-#include "AutoPtr.h"
+#include "SharedPtr.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 #include "Event.h"
@@ -45,6 +45,6 @@ namespace ouzel
     protected:
         EventDispatcher();
         
-        std::vector<AutoPtr<EventHandler>> _eventHandlers;
+        std::vector<SharedPtr<EventHandler>> _eventHandlers;
     };
 }

@@ -24,7 +24,7 @@ namespace ouzel
     
     void Layer::update(float delta)
     {
-        for (AutoPtr<Node> node : _nodes)
+        for (SharedPtr<Node> node : _nodes)
         {
             node->update(delta);
         }
@@ -44,7 +44,7 @@ namespace ouzel
         // render only if there is an active camera
         if (_camera)
         {
-            for (AutoPtr<Node> node : _nodes)
+            for (SharedPtr<Node> node : _nodes)
             {
                 if (node->checkVisibility())
                 {
@@ -56,7 +56,7 @@ namespace ouzel
     
     void Layer::addNode(Node* node)
     {
-        std::vector<AutoPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
+        std::vector<SharedPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
         
         if (i == _nodes.end())
         {
@@ -67,7 +67,7 @@ namespace ouzel
     
     void Layer::removeNode(Node* node)
     {
-        std::vector<AutoPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
+        std::vector<SharedPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
         
         if (i != _nodes.end())
         {
@@ -123,7 +123,7 @@ namespace ouzel
     
     Node* Layer::pickNode(const Vector2& position)
     {
-        for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<SharedPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
             Node* node = *i;
             
@@ -140,7 +140,7 @@ namespace ouzel
     {
         std::set<Node*> result;
         
-        for (std::vector<AutoPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<SharedPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
             Node* node = *i;
             

@@ -29,7 +29,7 @@ namespace ouzel
         _filename = filename;
         _dynamic = dynamic;
 
-        AutoPtr<Image> image = new Image();
+        SharedPtr<Image> image = new Image();
         if (!image->loadFromFile(filename))
         {
             return false;

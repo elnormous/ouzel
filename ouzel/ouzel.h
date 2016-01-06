@@ -5,7 +5,7 @@
 
 #include "CompileConfig.h"
 #include "Engine.h"
-#include "AutoPtr.h"
+#include "SharedPtr.h"
 #include "ReferenceCounted.h"
 #include "Renderer.h"
 #include "Shader.h"

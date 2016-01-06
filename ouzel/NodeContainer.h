@@ -4,7 +4,7 @@
 #pragma once
 
 #include <vector>
-#include "AutoPtr.h"
+#include "SharedPtr.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 
@@ -22,10 +22,10 @@ namespace ouzel
         virtual void addChild(Node* node);
         virtual void removeChild(Node* node);
         virtual bool hasChild(Node* node) const;
-        virtual const std::vector<AutoPtr<Node>>& getChildren() const { return _children; }
+        virtual const std::vector<SharedPtr<Node>>& getChildren() const { return _children; }
         
     protected:
-        std::vector<AutoPtr<Node>> _children;
+        std::vector<SharedPtr<Node>> _children;
         
         Layer* _layer = nullptr;
     };

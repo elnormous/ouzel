@@ -4,7 +4,7 @@
 #pragma once
 
 #include <vector>
-#include "AutoPtr.h"
+#include "SharedPtr.h"
 #include "Noncopyable.h"
 #include "ReferenceCounted.h"
 
@@ -24,14 +24,14 @@ namespace ouzel
         void addLayer(Layer* layer);
         void removeLayer(Layer* layer);
         bool hasLayer(Layer* layer) const;
-        const std::vector<AutoPtr<Layer>>& getLayers() const { return _layers; }
+        const std::vector<SharedPtr<Layer>>& getLayers() const { return _layers; }
         
         virtual void recalculateProjection();
         
         virtual void reorderLayers();
         
     protected:
-        std::vector<AutoPtr<Layer>> _layers;
+        std::vector<SharedPtr<Layer>> _layers;
         bool _reorderLayers = false;
     };
 }

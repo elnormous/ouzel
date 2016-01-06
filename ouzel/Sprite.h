@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "AutoPtr.h"
+#include "SharedPtr.h"
 #include "Node.h"
 #include "Size2.h"
 #include "MeshBuffer.h"
@@ -48,13 +48,13 @@ namespace ouzel
         bool loadSpriteSheet(const std::string& filename);
         void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot);
         
-        AutoPtr<Texture> _texture;
-        AutoPtr<Shader> _shader;
+        SharedPtr<Texture> _texture;
+        SharedPtr<Shader> _shader;
         
         Size2 _size;
         
         std::vector<std::vector<VertexPCT>> _frameVertices;
-        std::vector<AutoPtr<MeshBuffer>> _frameMeshBuffers;
+        std::vector<SharedPtr<MeshBuffer>> _frameMeshBuffers;
         Color _color = Color(255, 255, 255, 255);
         
         uint32_t _currentFrame = 0;

@@ -40,7 +40,7 @@ namespace ouzel
         
         _transform = _parentTransform * scale * rotation * translation;
         
-        for (AutoPtr<Node> child : _children)
+        for (SharedPtr<Node> child : _children)
         {
             child->updateTransform(_transform);
         }

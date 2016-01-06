@@ -25,7 +25,7 @@ namespace ouzel
     
     void EventDispatcher::addEventHandler(EventHandler* eventHandler)
     {
-        std::vector<AutoPtr<EventHandler>>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
+        std::vector<SharedPtr<EventHandler>>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
         
         if (i == _eventHandlers.end())
         {
@@ -39,7 +39,7 @@ namespace ouzel
     
     void EventDispatcher::removeEventHandler(EventHandler* eventHandler)
     {
-        std::vector<AutoPtr<EventHandler>>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
+        std::vector<SharedPtr<EventHandler>>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
         
         if (i != _eventHandlers.end())
         {
@@ -49,7 +49,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchKeyDownEvent(const KeyboardEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->keyDownHandler)
             {
@@ -61,7 +61,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchKeyUpEvent(const KeyboardEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->keyUpHandler)
             {
@@ -73,7 +73,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchMouseDownEvent(const MouseEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->mouseDownHandler)
             {
@@ -85,7 +85,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchMouseUpEvent(const MouseEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->mouseDownHandler)
             {
@@ -97,7 +97,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchMouseScrollEvent(const MouseEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->mouseScrollHandler)
             {
@@ -109,7 +109,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchMouseMoveEvent(const MouseEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->mouseMoveHandler)
             {
@@ -121,7 +121,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchMouseDragEvent(const MouseEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->mouseDragHandler)
             {
@@ -133,7 +133,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchTouchBeginEvent(const TouchEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->touchBeginHandler)
             {
@@ -145,7 +145,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchTouchMoveEvent(const TouchEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->touchMoveHandler)
             {
@@ -157,7 +157,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchTouchEndEvent(const TouchEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->touchEndHandler)
             {
@@ -169,7 +169,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchTouchCancelEvent(const TouchEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->keyDownHandler)
             {
@@ -181,7 +181,7 @@ namespace ouzel
     
     void EventDispatcher::dispatchScreenSizeEvent(const ScreenSizeEvent& event, ReferenceCounted* sender)
     {
-        for (AutoPtr<EventHandler> eventHandler : _eventHandlers)
+        for (SharedPtr<EventHandler> eventHandler : _eventHandlers)
         {
             if (eventHandler->screenSizeHandler)
             {

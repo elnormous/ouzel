@@ -15,7 +15,7 @@ namespace ouzel
 
     Node::~Node()
     {
-        for (AutoPtr<Node> node : _children)
+        for (SharedPtr<Node> node : _children)
         {
             node->_parent = nullptr;
             node->_layer = nullptr;
@@ -112,7 +112,7 @@ namespace ouzel
             _layer = layer;
             _layer->addNode(this);
             
-            for (AutoPtr<Node> child : _children)
+            for (SharedPtr<Node> child : _children)
             {
                 child->addToLayer(layer);
             }
@@ -126,7 +126,7 @@ namespace ouzel
             _layer->removeNode(this);
             _layer = nullptr;
             
-            for (AutoPtr<Node> child : _children)
+            for (SharedPtr<Node> child : _children)
             {
                 child->removeFromLayer();
             }
@@ -225,7 +225,7 @@ namespace ouzel
         _transform = _parentTransform * translation * rotation * scale;
         _transformDirty = false;
         
-        for (AutoPtr<Node> child : _children)
+        for (SharedPtr<Node> child : _children)
         {
             child->updateTransform(_transform);
         }

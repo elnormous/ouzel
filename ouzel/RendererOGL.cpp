@@ -205,7 +205,7 @@ namespace ouzel
             return false;
         }
         
-        ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(_activeShader.item);
+        ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(_activeShader.obj());
         
         if (!shaderOGL)
         {
@@ -223,7 +223,7 @@ namespace ouzel
         {
             glActiveTexture(GL_TEXTURE0 + layer);
             
-            TextureOGL* textureOGL = static_cast<TextureOGL*>(_activeTextures[layer].item);
+            TextureOGL* textureOGL = static_cast<TextureOGL*>(_activeTextures[layer].obj());
             
             glBindTexture(GL_TEXTURE_2D, textureOGL ? textureOGL->getTextureId() : 0);
         }
@@ -256,7 +256,7 @@ namespace ouzel
             VertexPC(Vector3(finish.x, finish.y, 0.0f), color)
         };
         
-        AutoPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 2, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
+        SharedPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 2, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
         
         if (!meshBufferOGL)
         {
@@ -298,7 +298,7 @@ namespace ouzel
             VertexPC(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color)
         };
         
-        AutoPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 5, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
+        SharedPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 5, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
         
         if (!meshBufferOGL)
         {
@@ -340,7 +340,7 @@ namespace ouzel
             VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color, Vector2(1.0f, 0.0f))
         };
         
-        AutoPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 6, false, vertices, sizeof(VertexPCT), 4, false, VertexPCT::ATTRIBUTES));
+        SharedPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 6, false, vertices, sizeof(VertexPCT), 4, false, VertexPCT::ATTRIBUTES));
         
         if (!meshBufferOGL)
         {

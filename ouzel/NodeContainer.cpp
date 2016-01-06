@@ -32,7 +32,7 @@ namespace ouzel
     
     void NodeContainer::removeChild(Node* node)
     {
-        std::vector<AutoPtr<Node>>::iterator i = std::find(_children.begin(), _children.end(), node);
+        std::vector<SharedPtr<Node>>::iterator i = std::find(_children.begin(), _children.end(), node);
         
         if (i != _children.end())
         {
@@ -48,7 +48,7 @@ namespace ouzel
     
     bool NodeContainer::hasChild(Node* node) const
     {
-        std::vector<AutoPtr<Node>>::const_iterator i = std::find(_children.begin(), _children.end(), node);
+        std::vector<SharedPtr<Node>>::const_iterator i = std::find(_children.begin(), _children.end(), node);
         
         return i != _children.end();
     }

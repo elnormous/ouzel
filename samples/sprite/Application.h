@@ -16,11 +16,11 @@ namespace ouzel
         void handleTouch(const TouchEvent& event, ReferenceCounted* sender) const;
         
     protected:
-        AutoPtr<Sprite> _sprite;
-        AutoPtr<Sprite> _witch;
+        SharedPtr<Sprite> _sprite;
+        SharedPtr<Sprite> _witch;
         
-        AutoPtr<Layer> _layer;
+        SharedPtr<Layer> _layer;
         
-        AutoPtr<EventHandler> _eventHandler;
+        SharedPtr<EventHandler> _eventHandler;
     };
 }
