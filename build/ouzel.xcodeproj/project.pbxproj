@@ -328,6 +328,12 @@
 		30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.h */; };
 		30575ADC1C3B48740009C8A7 /* EventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.h */; };
 		30575ADD1C3B48740009C8A7 /* EventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.h */; };
+		30575AE11C3C91A40009C8A7 /* InputApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30575ADF1C3C91A40009C8A7 /* InputApple.mm */; };
+		30575AE21C3C91A40009C8A7 /* InputApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30575ADF1C3C91A40009C8A7 /* InputApple.mm */; };
+		30575AE31C3C91A40009C8A7 /* InputApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30575ADF1C3C91A40009C8A7 /* InputApple.mm */; };
+		30575AE41C3C91A40009C8A7 /* InputApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AE01C3C91A40009C8A7 /* InputApple.h */; };
+		30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AE01C3C91A40009C8A7 /* InputApple.h */; };
+		30575AE61C3C91A40009C8A7 /* InputApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AE01C3C91A40009C8A7 /* InputApple.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -475,6 +481,8 @@
 		30575ACC1C3B175D0009C8A7 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
 		30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventDispatcher.cpp; sourceTree = "<group>"; };
 		30575AD71C3B48740009C8A7 /* EventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDispatcher.h; sourceTree = "<group>"; };
+		30575ADF1C3C91A40009C8A7 /* InputApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = InputApple.mm; path = apple/InputApple.mm; sourceTree = "<group>"; };
+		30575AE01C3C91A40009C8A7 /* InputApple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputApple.h; path = apple/InputApple.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -706,6 +714,8 @@
 			children = (
 				303B76061C34A92B00FEDE92 /* Input.cpp */,
 				303B76071C34A92B00FEDE92 /* Input.h */,
+				30575ADF1C3C91A40009C8A7 /* InputApple.mm */,
+				30575AE01C3C91A40009C8A7 /* InputApple.h */,
 			);
 			name = input;
 			sourceTree = "<group>";
@@ -912,6 +922,7 @@
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
+				30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */,
 				303B75771C2A3E3000FEDE92 /* AppDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -968,6 +979,7 @@
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
+				30575AE61C3C91A40009C8A7 /* InputApple.h in Headers */,
 				303B76891C355A5800FEDE92 /* ViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1028,6 +1040,7 @@
 				3031A0B91C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B75E21C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
 				304A8E671C237C70008B1151 /* SceneManager.h in Headers */,
+				30575AE41C3C91A40009C8A7 /* InputApple.h in Headers */,
 				304A8E521C237C70008B1151 /* Camera.h in Headers */,
 				303B75E41C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */,
 				304A8E551C237C70008B1151 /* EventHander.h in Headers */,
@@ -1245,6 +1258,7 @@
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
+				30575AE21C3C91A40009C8A7 /* InputApple.mm in Sources */,
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
 				303B75791C2A43D100FEDE92 /* RendererOGL.cpp in Sources */,
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
@@ -1303,6 +1317,7 @@
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
+				30575AE31C3C91A40009C8A7 /* InputApple.mm in Sources */,
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
 				303B763B1C355A3B00FEDE92 /* RendererOGL.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
@@ -1400,6 +1415,7 @@
 				304A8E831C24814F008B1151 /* RenderTargetOGL.cpp in Sources */,
 				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
+				30575AE11C3C91A40009C8A7 /* InputApple.mm in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix4.cpp in Sources */,
 				304A8E811C24814F008B1151 /* RendererOGL.cpp in Sources */,
 				304A8EA21C270833008B1151 /* Vertex.cpp in Sources */,

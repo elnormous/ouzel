@@ -4,7 +4,7 @@
 #include "Engine.h"
 #include "CompileConfig.h"
 
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include "RendererOGL.h"
 #endif
 
@@ -15,6 +15,10 @@
 #include "Utils.h"
 #include "Renderer.h"
 #include "FileSystem.h"
+
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#include "InputApple.h"
+#endif
 
 void ouzelInit(ouzel::Settings&);
 void ouzelBegin();
@@ -32,7 +36,7 @@ namespace ouzel
     {
         Settings settings;
         
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         settings.driver = Renderer::Driver::OPENGL;
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         settings.driver = Renderer::Driver::DIRECT3D11;
@@ -43,11 +47,16 @@ namespace ouzel
         _eventDispatcher = new EventDispatcher();
         _fileSystem = new FileSystem();
         _sceneManager = new SceneManager();
+        
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+        _input = new InputApple();
+#else
         _input = new Input();
+#endif
 
         switch (settings.driver)
         {
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
             case Renderer::Driver::OPENGL:
                 _renderer = new RendererOGL(settings.size, settings.resizable, settings.fullscreen);
 				break;

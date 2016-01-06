@@ -7,7 +7,7 @@
 
 #if defined(OUZEL_PLATFORM_OSX)
 #include <OpenGL/gl3.h>
-#elif defined(OUZEL_PLATFORM_IOS)
+#elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #endif

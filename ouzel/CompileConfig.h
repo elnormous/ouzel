@@ -4,23 +4,25 @@
 #pragma once
 
 #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-#define OUZEL_PLATFORM_WINDOWS
-#define SUPPORTS_DIRECT3D
-#endif
+#define OUZEL_PLATFORM_WINDOWS 1
+#define SUPPORTS_DIRECT3D 1
 
-#if defined(__APPLE__)
+#elif defined(__APPLE__)
 
 #include <TargetConditionals.h>
 
-#if TARGET_OS_IPHONE
-#define OUZEL_PLATFORM_IOS
-#define SUPPORTS_OPENGLES
+#if TARGET_OS_IOS
+#define OUZEL_PLATFORM_IOS 1
+#define SUPPORTS_OPENGLES 1
+
 #elif TARGET_OS_TV
-#define OUZEL_PLATFORM_TVOS
-#define SUPPORTS_OPENGLES
+#define OUZEL_PLATFORM_TVOS 1
+#define SUPPORTS_OPENGLES 1
+
 #else
-#define OUZEL_PLATFORM_OSX
-#define SUPPORTS_OPENGL
+#define OUZEL_PLATFORM_OSX 1
+#define SUPPORTS_OPENGL 1
+
 #endif
 
 #endif
