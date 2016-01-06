@@ -19,21 +19,21 @@ namespace ouzel
         
         EventHandler(int32_t priority = 0): _priority(priority) { }
         
-        std::function<void(const KeyboardEvent&, void*)> keyDownHandler;
-        std::function<void(const KeyboardEvent&, void*)> keyUpHandler;
+        std::function<void(const KeyboardEvent&, std::shared_ptr<void> const&)> keyDownHandler;
+        std::function<void(const KeyboardEvent&, std::shared_ptr<void> const&)> keyUpHandler;
         
-        std::function<void(const MouseEvent&, void*)> mouseDownHandler;
-        std::function<void(const MouseEvent&, void*)> mouseUpHandler;
-        std::function<void(const MouseEvent&, void*)> mouseScrollHandler;
-        std::function<void(const MouseEvent&, void*)> mouseMoveHandler;
-        std::function<void(const MouseEvent&, void*)> mouseDragHandler;
+        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseDownHandler;
+        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseUpHandler;
+        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseScrollHandler;
+        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseMoveHandler;
+        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseDragHandler;
         
-        std::function<void(const TouchEvent&, void*)> touchBeginHandler;
-        std::function<void(const TouchEvent&, void*)> touchMoveHandler;
-        std::function<void(const TouchEvent&, void*)> touchEndHandler;
-        std::function<void(const TouchEvent&, void*)> touchCancelHandler;
+        std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchBeginHandler;
+        std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchMoveHandler;
+        std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchEndHandler;
+        std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchCancelHandler;
         
-        std::function<void(const ScreenSizeEvent&, void*)> screenSizeHandler;
+        std::function<void(const ScreenSizeEvent&, std::shared_ptr<void> const&)> screenSizeHandler;
         
     protected:
         int32_t _priority;

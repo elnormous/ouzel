@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
+#include "Engine.h"
 #include "Layer.h"
 #include "Node.h"
 #include "Camera.h"
@@ -158,7 +159,7 @@ namespace ouzel
     
     void Layer::recalculateProjection()
     {
-        Size2 size = Renderer::getInstance()->getSize();
+        Size2 size = Engine::getInstance()->getRenderer()->getSize();
         Matrix4::createOrthographic(size.width, size.height, -1.0f, 1.0f, &_projection);
         _inverseProjection = _projection;
         _inverseProjection.invert();

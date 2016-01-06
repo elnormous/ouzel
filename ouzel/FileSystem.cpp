@@ -21,21 +21,14 @@ namespace ouzel
 	const std::string FileSystem::DIRECTORY_SEPARATOR = "/";
 #endif
     
-    static FileSystem* sharedFileSystem = nullptr;
-
-    FileSystem* FileSystem::getInstance()
-    {
-        return sharedFileSystem;
-    }
-
 	FileSystem::FileSystem()
     {
-        sharedFileSystem = this;
+        
     }
     
     FileSystem::~FileSystem()
     {
-        sharedFileSystem = nullptr;
+        
     }
     
     bool FileSystem::fileExists(const std::string& filename) const

@@ -6,21 +6,14 @@
 
 namespace ouzel
 {
-    static SceneManager* sharedSceneManager = nullptr;
-
-    SceneManager* SceneManager::getInstance()
-    {
-        return sharedSceneManager;
-    }
-
     SceneManager::SceneManager()
     {
-        sharedSceneManager = this;
+        
     }
     
     SceneManager::~SceneManager()
     {
-        sharedSceneManager = nullptr;
+        
     }
     
     void SceneManager::update(float delta)

@@ -39,7 +39,7 @@ using namespace ouzel;
         [_displayLink setFrameInterval: 1.0f];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         
-        RendererOGL* renderer = static_cast<RendererOGL*>(Renderer::getInstance());
+        RendererOGL* renderer = static_cast<RendererOGL*>(Engine::getInstance()->getRenderer());
         renderer->initOpenGL(backingWidth, backingHeight);
     }
     
@@ -114,9 +114,9 @@ using namespace ouzel;
         TouchEvent event;
         event.type = Event::Type::TOUCH_BEGIN;
         event.touchId = reinterpret_cast<uint64_t>(touch);
-        event.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
+        event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
 
-        EventDispatcher::getInstance()->dispatchTouchBeginEvent(event, Input::getInstance());
+        Engine::getInstance()->getEventDispatcher()->dispatchTouchBeginEvent(event, Engine::getInstance()->getInput());
     }
 }
 
@@ -129,9 +129,9 @@ using namespace ouzel;
         TouchEvent event;
         event.type = Event::Type::TOUCH_MOVE;
         event.touchId = reinterpret_cast<uint64_t>(touch);
-        event.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
+        event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
         
-        EventDispatcher::getInstance()->dispatchTouchMoveEvent(event, Input::getInstance());
+        Engine::getInstance()->getEventDispatcher()->dispatchTouchMoveEvent(event, Engine::getInstance()->getInput());
     }
 }
 
@@ -144,9 +144,9 @@ using namespace ouzel;
         TouchEvent event;
         event.type = Event::Type::TOUCH_END;
         event.touchId = reinterpret_cast<uint64_t>(touch);
-        event.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
+        event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
         
-        EventDispatcher::getInstance()->dispatchTouchEndEvent(event, Input::getInstance());
+        Engine::getInstance()->getEventDispatcher()->dispatchTouchEndEvent(event, Engine::getInstance()->getInput());
     }
 }
 
@@ -159,9 +159,9 @@ using namespace ouzel;
         TouchEvent event;
         event.type = Event::Type::TOUCH_CANCEL;
         event.touchId = reinterpret_cast<uint64_t>(touch);
-        event.position = Renderer::getInstance()->viewToScreenLocation(Vector2(location.x, location.y));
+        event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
         
-        EventDispatcher::getInstance()->dispatchTouchCancelEvent(event, Input::getInstance());
+        Engine::getInstance()->getEventDispatcher()->dispatchTouchCancelEvent(event, Engine::getInstance()->getInput());
     }
 }
 

@@ -21,8 +21,6 @@ namespace ouzel
     {
         friend Engine;
     public:
-        static SceneManager* getInstance();
-
         virtual ~SceneManager();
         
         void update(float delta);

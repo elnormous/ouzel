@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include "Noncopyable.h"
 
 namespace ouzel
@@ -13,8 +14,6 @@ namespace ouzel
     {
         friend Engine;
     public:
-        static Input* getInstance();
-        
         virtual ~Input();
         
         virtual void startDiscovery();

@@ -38,7 +38,7 @@ using namespace ouzel;
         [_displayLink setFrameInterval: 1.0f];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         
-        RendererOGL* renderer = static_cast<RendererOGL*>(Renderer::getInstance());
+        RendererOGL* renderer = static_cast<RendererOGL*>(Engine::getInstance()->getRenderer());
         renderer->initOpenGL(backingWidth, backingHeight);
     }
     

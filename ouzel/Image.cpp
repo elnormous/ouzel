@@ -27,7 +27,7 @@ namespace ouzel
     {
         _filename = filename;
         
-        std::string path = FileSystem::getInstance()->getPath(filename);
+        std::string path = Engine::getInstance()->getFileSystem()->getPath(filename);
         
         int width;
         int height;

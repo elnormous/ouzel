@@ -5,21 +5,14 @@
 
 namespace ouzel
 {
-    static Input* sharedInput = nullptr;
-    
-    Input* Input::getInstance()
-    {
-        return sharedInput;
-    }
-    
     Input::Input()
     {
-        sharedInput = this;
+        
     }
     
     Input::~Input()
     {
-        sharedInput = nullptr;
+        
     }
     
     void Input::startDiscovery()

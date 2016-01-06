@@ -20,12 +20,12 @@ namespace ouzel
         _eventHandler->touchMoveHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->touchEndHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
         
-        EventDispatcher::getInstance()->addEventHandler(_eventHandler);
+        Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
         
-        Renderer::getInstance()->setClearColor(Color(64, 0, 0));
+        Engine::getInstance()->getRenderer()->setClearColor(Color(64, 0, 0));
         
         std::shared_ptr<Scene> scene(new Scene());
-        SceneManager::getInstance()->setScene(scene);
+        Engine::getInstance()->getSceneManager()->setScene(scene);
         
         _layer.reset(new Layer());
         scene->addLayer(_layer);
@@ -54,10 +54,10 @@ namespace ouzel
     
     Application::~Application()
     {
-        EventDispatcher::getInstance()->removeEventHandler(_eventHandler);
+        Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
-    void Application::handleKeyDown(const KeyboardEvent& event, void* sender) const
+    void Application::handleKeyDown(const KeyboardEvent& event, std::shared_ptr<void> const& sender) const
     {
         Vector2 position = _sprite->getPosition();
         
@@ -82,13 +82,13 @@ namespace ouzel
         _sprite->setPosition(position);
     }
     
-    void Application::handleMouseMove(const MouseEvent& event, void* sender) const
+    void Application::handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);
     }
     
-    void Application::handleTouch(const TouchEvent& event, void* sender) const
+    void Application::handleTouch(const TouchEvent& event, std::shared_ptr<void> const& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);

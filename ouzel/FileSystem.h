@@ -16,8 +16,6 @@ namespace ouzel
         friend Engine;
     public:
 		static const std::string DIRECTORY_SEPARATOR;
-
-        static FileSystem* getInstance();
         
         virtual ~FileSystem();
         

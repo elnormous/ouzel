@@ -15,22 +15,15 @@
 
 namespace ouzel
 {
-    static Renderer* sharedRenderer = nullptr;
-
-    Renderer* Renderer::getInstance()
-    {
-        return sharedRenderer;
-    }
-
     Renderer::Renderer(const Size2& size, bool resizable, bool fullscreen, Driver driver):
         _driver(driver), _size(size), _resizable(resizable), _fullscreen(fullscreen)
     {
-        sharedRenderer = this;
+        
     }
 
     Renderer::~Renderer()
     {
-        sharedRenderer = nullptr;
+        
     }
     
     void Renderer::begin()
@@ -49,13 +42,13 @@ namespace ouzel
     void Renderer::resize(const Size2& size)
     {
         _size = size;
-        SceneManager::getInstance()->recalculateProjection();
+        Engine::getInstance()->getSceneManager()->recalculateProjection();
         
         ScreenSizeEvent event;
         event.type = Event::Type::SCREEN_SIZE;
         event.size = size;
         
-        EventDispatcher::getInstance()->dispatchScreenSizeEvent(event, this);
+        Engine::getInstance()->getEventDispatcher()->dispatchScreenSizeEvent(event, Engine::getInstance()->getRenderer());
     }
     
     void Renderer::preloadTexture(const std::string& filename, bool dynamic)

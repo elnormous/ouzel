@@ -55,7 +55,7 @@ namespace ouzel
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
                      0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         
-        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
@@ -67,7 +67,7 @@ namespace ouzel
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         
-        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
@@ -78,7 +78,7 @@ namespace ouzel
         {
             glGenerateMipmap(GL_TEXTURE_2D);
             
-            if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }

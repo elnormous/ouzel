@@ -18,28 +18,26 @@ namespace ouzel
     {
         friend Engine;
     public:
-        static EventDispatcher* getInstance();
-        
         virtual ~EventDispatcher();
         
         void addEventHandler(std::shared_ptr<EventHandler> const& eventHandler);
         void removeEventHandler(std::shared_ptr<EventHandler> const& eventHandler);
         
-        void dispatchKeyDownEvent(const KeyboardEvent& event, void* sender);
-        void dispatchKeyUpEvent(const KeyboardEvent& event, void* sender);
+        void dispatchKeyDownEvent(const KeyboardEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchKeyUpEvent(const KeyboardEvent& event, std::shared_ptr<void> const& sender);
         
-        void dispatchMouseDownEvent(const MouseEvent& event, void* sender);
-        void dispatchMouseUpEvent(const MouseEvent& event, void* sender);
-        void dispatchMouseScrollEvent(const MouseEvent& event, void* sender);
-        void dispatchMouseMoveEvent(const MouseEvent& event, void* sender);
-        void dispatchMouseDragEvent(const MouseEvent& event, void* sender);
+        void dispatchMouseDownEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchMouseUpEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchMouseScrollEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchMouseMoveEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchMouseDragEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
         
-        void dispatchTouchBeginEvent(const TouchEvent& event, void* sender);
-        void dispatchTouchMoveEvent(const TouchEvent& event, void* sender);
-        void dispatchTouchEndEvent(const TouchEvent& event, void* sender);
-        void dispatchTouchCancelEvent(const TouchEvent& event, void* sender);
+        void dispatchTouchBeginEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchTouchMoveEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchTouchEndEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchTouchCancelEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);
         
-        void dispatchScreenSizeEvent(const ScreenSizeEvent& event, void* sender);
+        void dispatchScreenSizeEvent(const ScreenSizeEvent& event, std::shared_ptr<void> const& sender);
         
     protected:
         EventDispatcher();

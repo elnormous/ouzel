@@ -28,6 +28,12 @@ namespace ouzel
         
         virtual ~Engine();
         
+        std::shared_ptr<EventDispatcher> const& getEventDispatcher() const { return _eventDispatcher; }
+        std::shared_ptr<Renderer> const& getRenderer() const { return _renderer; }
+        std::shared_ptr<SceneManager> const& getSceneManager() const { return _sceneManager; }
+        std::shared_ptr<FileSystem> const& getFileSystem() const { return _fileSystem; }
+        std::shared_ptr<Input> const& getInput() const { return _input; }
+        
         void begin();
         void run();
         void end();

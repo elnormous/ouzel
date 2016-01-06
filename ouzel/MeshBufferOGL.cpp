@@ -32,7 +32,7 @@ namespace ouzel
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, indices,
                      _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         
-        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
@@ -55,7 +55,7 @@ namespace ouzel
         glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, vertices,
                      _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         
-        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
@@ -109,7 +109,7 @@ namespace ouzel
             return false;
         }
         
-        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
@@ -134,7 +134,7 @@ namespace ouzel
         
         _indexCount = indexCount;
         
-        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
@@ -153,7 +153,7 @@ namespace ouzel
         glBufferData(GL_ARRAY_BUFFER, _vertexSize * vertexCount, vertices,
                      _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         
-        if (static_cast<RendererOGL*>(Renderer::getInstance())->checkOpenGLErrors())
+        if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
