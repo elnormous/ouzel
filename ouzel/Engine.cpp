@@ -28,10 +28,16 @@ void ouzelEnd();
 
 namespace ouzel
 {
+    static Engine* sharedEngine = nullptr;
+    
     Engine* Engine::getInstance()
     {
-        static Engine sharedEngine;
-        return &sharedEngine;
+        if (!sharedEngine)
+        {
+            sharedEngine = new Engine();
+        }
+        
+        return sharedEngine;
     }
     
     Engine::Engine()
@@ -78,12 +84,17 @@ namespace ouzel
     
     Engine::~Engine()
     {
-        ouzelEnd();
+        
     }
     
     void Engine::begin()
     {
         ouzelBegin();
+    }
+    
+    void Engine::end()
+    {
+        ouzelEnd();
     }
     
     void Engine::run()

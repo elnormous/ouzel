@@ -54,7 +54,7 @@ namespace ouzel
     
     Application::~Application()
     {
-        if (EventDispatcher::getInstance()) EventDispatcher::getInstance()->removeEventHandler(_eventHandler);
+        EventDispatcher::getInstance()->removeEventHandler(_eventHandler);
     }
     
     void Application::handleKeyDown(const KeyboardEvent& event, ReferenceCounted* sender) const

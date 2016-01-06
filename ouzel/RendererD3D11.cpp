@@ -319,6 +319,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         case WM_DESTROY:
         {
             PostQuitMessage(0);
+            Engine::getInstance()->end();
             return 0;
         }
     }

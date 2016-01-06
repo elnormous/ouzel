@@ -32,6 +32,7 @@ namespace ouzel
         
         void begin();
         void run();
+        void end();
         
     protected:
         Engine();

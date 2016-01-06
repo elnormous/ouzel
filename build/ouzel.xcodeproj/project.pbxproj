@@ -334,6 +334,9 @@
 		30575AE41C3C91A40009C8A7 /* InputApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AE01C3C91A40009C8A7 /* InputApple.h */; };
 		30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AE01C3C91A40009C8A7 /* InputApple.h */; };
 		30575AE61C3C91A40009C8A7 /* InputApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AE01C3C91A40009C8A7 /* InputApple.h */; };
+		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
+		30575AEA1C3C99010009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE91C3C99010009C8A7 /* GameController.framework */; };
+		30575AEC1C3C990B0009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AEB1C3C990B0009C8A7 /* GameController.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -483,6 +486,9 @@
 		30575AD71C3B48740009C8A7 /* EventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDispatcher.h; sourceTree = "<group>"; };
 		30575ADF1C3C91A40009C8A7 /* InputApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = InputApple.mm; path = apple/InputApple.mm; sourceTree = "<group>"; };
 		30575AE01C3C91A40009C8A7 /* InputApple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputApple.h; path = apple/InputApple.h; sourceTree = "<group>"; };
+		30575AE71C3C98F50009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
+		30575AE91C3C99010009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
+		30575AEB1C3C990B0009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -497,11 +503,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B76C81C35695900FEDE92 /* QuartzCore.framework in Frameworks */,
 				303B76241C34D0D400FEDE92 /* libouzel_ios.a in Frameworks */,
-				303B76281C34D11500FEDE92 /* UIKit.framework in Frameworks */,
-				303B76231C34D0A900FEDE92 /* OpenGLES.framework in Frameworks */,
+				30575AEA1C3C99010009C8A7 /* GameController.framework in Frameworks */,
 				303B76291C34D15300FEDE92 /* Foundation.framework in Frameworks */,
+				303B76231C34D0A900FEDE92 /* OpenGLES.framework in Frameworks */,
+				303B76C81C35695900FEDE92 /* QuartzCore.framework in Frameworks */,
+				303B76281C34D11500FEDE92 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,11 +523,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B76CA1C35696200FEDE92 /* QuartzCore.framework in Frameworks */,
-				303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */,
-				303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */,
-				303B76A41C355ADC00FEDE92 /* UIKit.framework in Frameworks */,
 				303B76A21C355ACF00FEDE92 /* libouzel_tvos.a in Frameworks */,
+				303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */,
+				30575AEC1C3C990B0009C8A7 /* GameController.framework in Frameworks */,
+				303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */,
+				303B76CA1C35696200FEDE92 /* QuartzCore.framework in Frameworks */,
+				303B76A41C355ADC00FEDE92 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,6 +539,7 @@
 				304A8EA51C274183008B1151 /* libouzel_osx.a in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
 				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,
+				30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,6 +755,9 @@
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
+				30575AEB1C3C990B0009C8A7 /* GameController.framework */,
+				30575AE91C3C99010009C8A7 /* GameController.framework */,
+				30575AE71C3C98F50009C8A7 /* GameController.framework */,
 				304A8E291C237C51008B1151 /* ouzel */,
 				304A8E0C1C237B95008B1151 /* samples */,
 				304A8E0B1C237B95008B1151 /* Products */,

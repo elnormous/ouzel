@@ -51,7 +51,7 @@
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    
+    ouzel::Engine::getInstance()->end();
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender

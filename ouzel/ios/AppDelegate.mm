@@ -47,7 +47,7 @@
 
 -(void)applicationWillTerminate:(UIApplication *)application
 {
-    
+    ouzel::Engine::getInstance()->end();
 }
 
 -(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
