@@ -7,17 +7,11 @@
 #include "Renderer.h"
 #include "Size2.h"
 
-@interface AppDelegate ()
-{
-    ouzel::Engine* _engine;
-}
-@end
-
 @implementation AppDelegate
 
 -(void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    _engine = new ouzel::Engine();
+    ouzel::Engine::getInstance();
     ouzel::Size2 size = ouzel::Renderer::getInstance()->getSize();
     
     NSScreen* screen = [NSScreen mainScreen];

@@ -9,8 +9,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     LPSTR lpCmdLine,
     int nCmdShow)
 {
-    ouzel::Engine engine;
-    engine.begin();
+    ouzel::Engine::getInstance()->begin();
 
     MSG msg;
 
@@ -27,7 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
             break;
         }
 
-        engine.run();
+        ouzel::Engine::getInstance()->run();
     }
     
     return 0;

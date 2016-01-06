@@ -6,17 +6,11 @@
 #import "OpenGLView.h"
 #include "Engine.h"
 
-@interface AppDelegate ()
-{
-    ouzel::Engine* _engine;
-}
-@end
-
 @implementation AppDelegate
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    _engine = new ouzel::Engine();
+    ouzel::Engine::getInstance();
     
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -53,7 +47,7 @@
 
 -(void)applicationWillTerminate:(UIApplication *)application
 {
-    delete _engine;
+    
 }
 
 -(void)applicationDidReceiveMemoryWarning:(UIApplication *)application

@@ -22,25 +22,14 @@ void ouzelEnd();
 
 namespace ouzel
 {
-    static Engine* sharedEngine = nullptr;
-    
     Engine* Engine::getInstance()
     {
-        return sharedEngine;
+        static Engine sharedEngine;
+        return &sharedEngine;
     }
     
     Engine::Engine()
     {
-        if (!sharedEngine)
-        {
-            sharedEngine = this;
-        }
-        else
-        {
-            log("Engine instance already created");
-            abort();
-        }
-        
         Settings settings;
         
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS)
@@ -79,7 +68,6 @@ namespace ouzel
     Engine::~Engine()
     {
         ouzelEnd();
-        sharedEngine = nullptr;
     }
     
     void Engine::begin()

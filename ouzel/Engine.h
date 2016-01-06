@@ -23,18 +23,19 @@ namespace ouzel
         bool fullscreen = false;
     };
     
-    class Engine: public Noncopyable, public ReferenceCounted
+    class Engine: public Noncopyable
     {
     public:
         static Engine* getInstance();
         
-        Engine();
         virtual ~Engine();
         
         void begin();
         void run();
         
     protected:
+        Engine();
+        
         AutoPtr<EventDispatcher> _eventDispatcher;
         AutoPtr<Renderer> _renderer;
         AutoPtr<SceneManager> _sceneManager;

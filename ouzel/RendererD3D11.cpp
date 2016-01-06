@@ -191,13 +191,13 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     {
         event.type = Event::Type::KEY_DOWN;
 
-        EventDispatcher::getInstance()->dispatchKeyDownEvent(event, Engine::getInstance());
+        EventDispatcher::getInstance()->dispatchKeyDownEvent(event, Input::getInstance());
     }
     else if (msg == WM_KEYUP)
     {
         event.type = Event::Type::KEY_UP;
 
-        EventDispatcher::getInstance()->dispatchKeyUpEvent(event, Engine::getInstance());
+        EventDispatcher::getInstance()->dispatchKeyUpEvent(event, Input::getInstance());
     }
 }
 
@@ -211,7 +211,7 @@ static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     event.position = Renderer::getInstance()->viewToScreenLocation(pos);
     updateModifiers(wParam, event);
 
-    EventDispatcher::getInstance()->dispatchMouseMoveEvent(event, Engine::getInstance());
+    EventDispatcher::getInstance()->dispatchMouseMoveEvent(event, Input::getInstance());
 }
 
 static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -238,12 +238,12 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN)
     {
         event.type = Event::Type::MOUSE_DOWN;
-        EventDispatcher::getInstance()->dispatchMouseDownEvent(event, Engine::getInstance());
+        EventDispatcher::getInstance()->dispatchMouseDownEvent(event, Input::getInstance());
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP)
     {
         event.type = Event::Type::MOUSE_UP;
-        EventDispatcher::getInstance()->dispatchMouseUpEvent(event, Engine::getInstance());
+        EventDispatcher::getInstance()->dispatchMouseUpEvent(event, Input::getInstance());
     }
 }
 
@@ -258,7 +258,7 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     event.position = Renderer::getInstance()->viewToScreenLocation(pos);
     updateModifiers(wParam, event);
 
-    EventDispatcher::getInstance()->dispatchMouseScrollEvent(event, Engine::getInstance());
+    EventDispatcher::getInstance()->dispatchMouseScrollEvent(event, Input::getInstance());
 }
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
