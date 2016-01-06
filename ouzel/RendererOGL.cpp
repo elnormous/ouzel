@@ -360,6 +360,32 @@ namespace ouzel
         
         glUseProgram(textureShader->getProgramId());
         
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+        {
+            glActiveTexture(GL_TEXTURE0 + layer);
+            
+            if (std::shared_ptr<Texture> activeTexture = _activeTextures[layer].lock())
+            {
+                std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTexture);
+                
+                glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
+            }
+            else
+            {
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
+        }
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
         uint32_t uniModelViewProj = textureShader->getVertexShaderConstantId("modelViewProj");
         textureShader->setVertexShaderConstant(uniModelViewProj, { transform });
         
