@@ -16,7 +16,7 @@ using namespace ouzel;
 {
     if (self = [super initWithFrame:frameRect])
     {
-        _eaglLayer = (CAEAGLLayer*)self.layer;
+        _eaglLayer = (CAEAGLstd::shared_ptr<Layer>)self.layer;
         _eaglLayer.opaque = YES;
         _eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                          [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];

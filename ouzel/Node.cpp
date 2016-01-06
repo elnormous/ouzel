@@ -15,7 +15,7 @@ namespace ouzel
 
     Node::~Node()
     {
-        for (SharedPtr<Node> node : _children)
+        for (std::shared_ptr<Node> node : _children)
         {
             node->_parent = nullptr;
             node->_layer = nullptr;
@@ -38,7 +38,7 @@ namespace ouzel
         }
     }
     
-    void Node::addChild(Node* node)
+    void Node::addChild(std::shared_ptr<Node> node)
     {
         NodeContainer::addChild(node);
         
@@ -103,16 +103,16 @@ namespace ouzel
         markTransformDirty();
     }
 
-    void Node::addToLayer(Layer* layer)
+    void Node::addToLayer(std::shared_ptr<Layer> layer)
     {
         if (layer && _layer != layer)
         {
             removeFromLayer();
             
             _layer = layer;
-            _layer->addNode(this);
+            _layer->addNode(shared_from_this());
             
-            for (SharedPtr<Node> child : _children)
+            for (std::shared_ptr<Node> child : _children)
             {
                 child->addToLayer(layer);
             }
@@ -123,10 +123,10 @@ namespace ouzel
     {
         if (_layer)
         {
-            _layer->removeNode(this);
+            _layer->removeNode(shared_from_this());
             _layer = nullptr;
             
-            for (SharedPtr<Node> child : _children)
+            for (std::shared_ptr<Node> child : _children)
             {
                 child->removeFromLayer();
             }
@@ -225,7 +225,7 @@ namespace ouzel
         _transform = _parentTransform * translation * rotation * scale;
         _transformDirty = false;
         
-        for (SharedPtr<Node> child : _children)
+        for (std::shared_ptr<Node> child : _children)
         {
             child->updateTransform(_transform);
         }

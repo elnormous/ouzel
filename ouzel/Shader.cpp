@@ -17,10 +17,7 @@ namespace ouzel
 
     Shader::~Shader()
     {
-        if (Renderer::getInstance() && Renderer::getInstance()->getActiveShader() == this)
-        {
-            Renderer::getInstance()->activateShader(nullptr);
-        }
+
     }
     
     bool Shader::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)

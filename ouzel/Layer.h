@@ -4,6 +4,7 @@
 #pragma once
 
 #include <set>
+#include <memory>
 #include "NodeContainer.h"
 #include "Matrix4.h"
 #include "Vector2.h"
@@ -14,7 +15,7 @@ namespace ouzel
     class Camera;
     class Scene;
     
-    class Layer: public NodeContainer
+    class Layer: public NodeContainer, public std::enable_shared_from_this<Layer>
     {
         friend Scene;
     public:
@@ -24,15 +25,15 @@ namespace ouzel
         virtual void update(float delta);
         virtual void draw();
         
-        void addNode(Node* node);
-        void removeNode(Node* node);
+        void addNode(std::shared_ptr<Node> node);
+        void removeNode(std::shared_ptr<Node> node);
         void reorderNodes();
         
-        Camera* getCamera() const { return _camera; }
-        void setCamera(Camera* camera);
+        std::shared_ptr<Camera> getCamera() const { return _camera; }
+        void setCamera(std::shared_ptr<Camera> camera);
         
-        Node* pickNode(const Vector2& position);
-        std::set<Node*> pickNodes(const Rectangle& rectangle);
+        std::shared_ptr<Node> pickNode(const Vector2& position);
+        std::set<std::shared_ptr<Node>> pickNodes(const Rectangle& rectangle);
         
         Vector2 screenToWorldLocation(const Vector2& position);
         Vector2 worldToScreenLocation(const Vector2& position);
@@ -43,20 +44,20 @@ namespace ouzel
         int32_t getOrder() const { return _order; }
         void setOrder(int32_t order);
         
-        Scene* getScene() const { return _scene; }
+        std::shared_ptr<Scene> getScene() const { return _scene; }
         
     protected:
-        virtual void addToScene(Scene* scene);
+        virtual void addToScene(std::shared_ptr<Scene> scene);
         virtual void removeFromScene();
         
-        SharedPtr<Camera> _camera;
-        std::vector<SharedPtr<Node>> _nodes;
+        std::shared_ptr<Camera> _camera;
+        std::vector<std::shared_ptr<Node>> _nodes;
         bool _reorderNodes = false;
         
         Matrix4 _projection;
         Matrix4 _inverseProjection;
         
-        Scene* _scene = nullptr;
+        std::shared_ptr<Scene> _scene;
         int32_t _order = 0;
     };
 }

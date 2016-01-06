@@ -5,14 +5,13 @@
 
 #include <string>
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 #include "Size2.h"
 
 namespace ouzel
 {
     class Renderer;
     
-    class Texture: public Noncopyable, public ReferenceCounted
+    class Texture: public Noncopyable
     {
         friend Renderer;
     public:

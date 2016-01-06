@@ -1,6 +1,7 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "NodeContainer.h"
 #include "Node.h"
 
@@ -16,7 +17,7 @@ namespace ouzel
         
     }
     
-    void NodeContainer::addChild(Node* node)
+    void NodeContainer::addChild(std::shared_ptr<Node> node)
     {
         if (!hasChild(node) && node->getParent() == nullptr)
         {
@@ -30,9 +31,11 @@ namespace ouzel
         }
     }
     
-    void NodeContainer::removeChild(Node* node)
+    void NodeContainer::removeChild(std::shared_ptr<Node> node)
     {
-        std::vector<SharedPtr<Node>>::iterator i = std::find(_children.begin(), _children.end(), node);
+        std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_children.begin(), _children.end(), [node](std::shared_ptr<Node> const& p) {
+            return p.get() == node.get();
+        });
         
         if (i != _children.end())
         {
@@ -46,9 +49,11 @@ namespace ouzel
         }
     }
     
-    bool NodeContainer::hasChild(Node* node) const
+    bool NodeContainer::hasChild(std::shared_ptr<Node> node) const
     {
-        std::vector<SharedPtr<Node>>::const_iterator i = std::find(_children.begin(), _children.end(), node);
+        std::vector<std::shared_ptr<Node>>::const_iterator i = std::find_if(_children.begin(), _children.end(), [node](std::shared_ptr<Node> const& p) {
+            return p.get() == node.get();
+        });
         
         return i != _children.end();
     }

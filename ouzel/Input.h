@@ -4,13 +4,12 @@
 #pragma once
 
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 
 namespace ouzel
 {
     class Engine;
     
-    class Input: public Noncopyable, public ReferenceCounted
+    class Input: public Noncopyable
     {
         friend Engine;
     public:

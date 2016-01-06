@@ -19,8 +19,8 @@ namespace ouzel
         
         virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
         
-        virtual ID3D11PixelShader* getPixelShader() const { return _pixelShader; }
-        virtual ID3D11VertexShader* getVertexShader() const { return _vertexShader; }
+        virtual ID3D11Pixelstd::shared_ptr<Shader> getPixelShader() const { return _pixelShader; }
+        virtual ID3D11Vertexstd::shared_ptr<Shader> getVertexShader() const { return _vertexShader; }
 
         virtual ID3D11Buffer* getPixelShaderConstantBuffer() const { return _pixelShaderConstantBuffer; }
         virtual ID3D11Buffer* getVertexShaderConstantBuffer() const { return _vertexShaderConstantBuffer; }
@@ -43,8 +43,8 @@ namespace ouzel
 
         bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
-        ID3D11PixelShader* _pixelShader = nullptr;
-        ID3D11VertexShader* _vertexShader = nullptr;
+        ID3D11Pixelstd::shared_ptr<Shader> _pixelShader = nullptr;
+        ID3D11Vertexstd::shared_ptr<Shader> _vertexShader = nullptr;
         ID3D11InputLayout* _inputLayout = nullptr;
 
         ID3D11Buffer* _pixelShaderConstantBuffer = nullptr;

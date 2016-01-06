@@ -25,10 +25,13 @@ namespace ouzel
     
     void SceneManager::update(float delta)
     {
-        _scene->update(delta);
+        if (_scene)
+        {
+            _scene->update(delta);
+        }
     }
     
-    void SceneManager::setScene(Scene* scene)
+    void SceneManager::setScene(std::shared_ptr<Scene> scene)
     {
         if (scene != _scene)
         {
@@ -39,7 +42,10 @@ namespace ouzel
     
     void SceneManager::draw()
     {
-        _scene->draw();
+        if (_scene)
+        {
+            _scene->draw();
+        }
     }
     
     void SceneManager::recalculateProjection()

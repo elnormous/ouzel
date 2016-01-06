@@ -60,11 +60,11 @@ namespace ouzel
     
     void Renderer::preloadTexture(const std::string& filename, bool dynamic)
     {
-        std::unordered_map<std::string, SharedPtr<Texture>>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, std::shared_ptr<Texture>>::const_iterator i = _textures.find(filename);
         
         if (i == _textures.end())
         {
-            Texture* texture = loadTextureFromFile(filename, dynamic);
+            std::shared_ptr<Texture> texture = loadTextureFromFile(filename, dynamic);
             
             if (texture)
             {
@@ -73,11 +73,11 @@ namespace ouzel
         }
     }
 
-    Texture* Renderer::getTexture(const std::string& filename)
+    std::shared_ptr<Texture> Renderer::getTexture(const std::string& filename)
     {
-        Texture* result = nullptr;
+        std::shared_ptr<Texture> result;
         
-        std::unordered_map<std::string, SharedPtr<Texture>>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, std::shared_ptr<Texture>>::const_iterator i = _textures.find(filename);
         
         if (i != _textures.end())
         {
@@ -96,42 +96,40 @@ namespace ouzel
         return result;
     }
     
-    bool Renderer::activateTexture(Texture* texture, uint32_t layer)
+    bool Renderer::activateTexture(std::shared_ptr<Texture> texture, uint32_t layer)
     {
         _activeTextures[layer] = texture;
         
         return true;
     }
     
-    Texture* Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)
+    std::shared_ptr<Texture> Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
-        Texture* texture = new Texture();
+        std::shared_ptr<Texture> texture(new Texture());
         
         if (!texture->initFromFile(filename, dynamic))
         {
-            delete texture;
-            texture = nullptr;
+            texture.reset();
         }
         
         return texture;
     }
     
-    Texture* Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    std::shared_ptr<Texture> Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
     {
-        Texture* texture = new Texture();
+        std::shared_ptr<Texture> texture(new Texture());
         
         if (!texture->initFromData(data, size, dynamic))
         {
-            delete texture;
-            texture = nullptr;
+            texture.reset();
         }
         
         return texture;
     }
     
-    Shader* Renderer::getShader(const std::string& shaderName) const
+    std::shared_ptr<Shader> Renderer::getShader(const std::string& shaderName) const
     {
-        std::unordered_map<std::string, SharedPtr<Shader>>::const_iterator i = _shaders.find(shaderName);
+        std::unordered_map<std::string, std::shared_ptr<Shader>>::const_iterator i = _shaders.find(shaderName);
         
         if (i != _shaders.end())
         {
@@ -143,65 +141,64 @@ namespace ouzel
         }
     }
     
-    void Renderer::setShader(const std::string& shaderName, Shader* shader)
+    void Renderer::setShader(const std::string& shaderName, std::shared_ptr<Shader> shader)
     {
         _shaders[shaderName] = shader;
     }
     
-    Shader* Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+    std::shared_ptr<Shader> Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
-        Shader* shader = new Shader();
+        std::shared_ptr<Shader> shader(new Shader());
         
         if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes))
         {
-            delete shader;
-            shader = nullptr;
+            shader.reset();
         }
         
         return shader;
     }
     
-    Shader* Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+    std::shared_ptr<Shader> Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
-        Shader* shader = new Shader();
+        std::shared_ptr<Shader> shader(new Shader());
         
         if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
         {
-            delete shader;
-            shader = nullptr;
+            shader.reset();
         }
         
         return shader;
     }
     
-    bool Renderer::activateShader(Shader* shader)
+    bool Renderer::activateShader(std::shared_ptr<Shader> shader)
     {
         _activeShader = shader;
         
         return true;
     }
     
-    MeshBuffer* Renderer::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+    std::shared_ptr<MeshBuffer> Renderer::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
-        MeshBuffer* meshBuffer = new MeshBuffer();
+        std::shared_ptr<MeshBuffer> meshBuffer(new MeshBuffer());
         
         if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
         {
-            delete meshBuffer;
-            meshBuffer = nullptr;
+            meshBuffer.reset();
         }
         
         return meshBuffer;
     }
     
-    bool Renderer::drawMeshBuffer(MeshBuffer* meshBuffer)
+    bool Renderer::drawMeshBuffer(std::shared_ptr<MeshBuffer> meshBuffer)
     {
-        if (!_activeShader)
+        if (std::shared_ptr<Shader> shader = _activeShader.lock())
         {
-            return false;
+            if (meshBuffer->getVertexAttributes() != shader->getVertexAttributes())
+            {
+                return false;
+            }
         }
-        
-        if (meshBuffer->getVertexAttributes() != _activeShader->getVertexAttributes())
+        else
         {
             return false;
         }

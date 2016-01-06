@@ -52,21 +52,21 @@ namespace ouzel
 
         ouzelInit(settings);
 
-        _eventDispatcher = new EventDispatcher();
-        _fileSystem = new FileSystem();
-        _sceneManager = new SceneManager();
+        _eventDispatcher.reset(new EventDispatcher());
+        _fileSystem.reset(new FileSystem());
+        _sceneManager.reset(new SceneManager());
         
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        _input = new InputApple();
+        _input.reset(new InputApple());
 #else
-        _input = new Input();
+        _input.reset(new Input());
 #endif
 
         switch (settings.driver)
         {
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
             case Renderer::Driver::OPENGL:
-                _renderer = new RendererOGL(settings.size, settings.resizable, settings.fullscreen);
+                _renderer.reset(new RendererOGL(settings.size, settings.resizable, settings.fullscreen));
 				break;
 #endif
 #ifdef OUZEL_PLATFORM_WINDOWS
@@ -75,7 +75,7 @@ namespace ouzel
                 break;
 #endif
             default:
-                _renderer = new Renderer(settings.size, settings.resizable, settings.fullscreen);
+                _renderer.reset(new Renderer(settings.size, settings.resizable, settings.fullscreen));
                 break;
         }
         

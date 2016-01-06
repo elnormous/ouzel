@@ -230,19 +230,19 @@ namespace ouzel
             
             if (_frameMeshBuffers.size() > _currentFrame)
             {
-                MeshBuffer* meshBuffer = _frameMeshBuffers[_currentFrame];
+                std::shared_ptr<MeshBuffer> meshBuffer = _frameMeshBuffers[_currentFrame];
                 
                 Renderer::getInstance()->drawMeshBuffer(meshBuffer);
             }
         }
     }
     
-    void Sprite::setTexture(Texture* texture)
+    void Sprite::setTexture(std::shared_ptr<Texture> texture)
     {
         _texture = texture;
     }
     
-    void Sprite::setShader(Shader* shader)
+    void Sprite::setShader(std::shared_ptr<Shader> shader)
     {
         _shader = shader;
     }
@@ -258,7 +258,7 @@ namespace ouzel
                 vertex.color = color;
             }
             
-            MeshBuffer* meshBuffer = _frameMeshBuffers[i];
+            std::shared_ptr<MeshBuffer> meshBuffer = _frameMeshBuffers[i];
             meshBuffer->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
         }
     }

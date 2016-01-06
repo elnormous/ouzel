@@ -5,22 +5,22 @@
 
 namespace ouzel
 {
-    class Application: public Noncopyable, public ReferenceCounted
+    class Application: public Noncopyable
     {
     public:
         Application();
         virtual ~Application();
         
-        void handleKeyDown(const KeyboardEvent& event, ReferenceCounted* sender) const;
-        void handleMouseMove(const MouseEvent& event, ReferenceCounted* sender) const;
-        void handleTouch(const TouchEvent& event, ReferenceCounted* sender) const;
+        void handleKeyDown(const KeyboardEvent& event, void* sender) const;
+        void handleMouseMove(const MouseEvent& event, void* sender) const;
+        void handleTouch(const TouchEvent& event, void* sender) const;
         
     protected:
-        SharedPtr<Sprite> _sprite;
-        SharedPtr<Sprite> _witch;
+        std::shared_ptr<Sprite> _sprite;
+        std::shared_ptr<Sprite> _witch;
         
-        SharedPtr<Layer> _layer;
+        std::shared_ptr<Layer> _layer;
         
-        SharedPtr<EventHandler> _eventHandler;
+        std::shared_ptr<EventHandler> _eventHandler;
     };
 }

@@ -4,9 +4,7 @@
 #pragma once
 
 #include <vector>
-#include "SharedPtr.h"
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 #include "Event.h"
 #include "EventHander.h"
 
@@ -15,7 +13,7 @@ namespace ouzel
     class Engine;
     class EventHandler;
     
-    class EventDispatcher: public Noncopyable, public ReferenceCounted
+    class EventDispatcher: public Noncopyable
     {
         friend Engine;
     public:
@@ -23,28 +21,28 @@ namespace ouzel
         
         virtual ~EventDispatcher();
         
-        void addEventHandler(EventHandler* eventHandler);
-        void removeEventHandler(EventHandler* eventHandler);
+        void addEventHandler(std::shared_ptr<EventHandler> eventHandler);
+        void removeEventHandler(std::shared_ptr<EventHandler> eventHandler);
         
-        void dispatchKeyDownEvent(const KeyboardEvent& event, ReferenceCounted* sender);
-        void dispatchKeyUpEvent(const KeyboardEvent& event, ReferenceCounted* sender);
+        void dispatchKeyDownEvent(const KeyboardEvent& event, void* sender);
+        void dispatchKeyUpEvent(const KeyboardEvent& event, void* sender);
         
-        void dispatchMouseDownEvent(const MouseEvent& event, ReferenceCounted* sender);
-        void dispatchMouseUpEvent(const MouseEvent& event, ReferenceCounted* sender);
-        void dispatchMouseScrollEvent(const MouseEvent& event, ReferenceCounted* sender);
-        void dispatchMouseMoveEvent(const MouseEvent& event, ReferenceCounted* sender);
-        void dispatchMouseDragEvent(const MouseEvent& event, ReferenceCounted* sender);
+        void dispatchMouseDownEvent(const MouseEvent& event, void* sender);
+        void dispatchMouseUpEvent(const MouseEvent& event, void* sender);
+        void dispatchMouseScrollEvent(const MouseEvent& event, void* sender);
+        void dispatchMouseMoveEvent(const MouseEvent& event, void* sender);
+        void dispatchMouseDragEvent(const MouseEvent& event, void* sender);
         
-        void dispatchTouchBeginEvent(const TouchEvent& event, ReferenceCounted* sender);
-        void dispatchTouchMoveEvent(const TouchEvent& event, ReferenceCounted* sender);
-        void dispatchTouchEndEvent(const TouchEvent& event, ReferenceCounted* sender);
-        void dispatchTouchCancelEvent(const TouchEvent& event, ReferenceCounted* sender);
+        void dispatchTouchBeginEvent(const TouchEvent& event, void* sender);
+        void dispatchTouchMoveEvent(const TouchEvent& event, void* sender);
+        void dispatchTouchEndEvent(const TouchEvent& event, void* sender);
+        void dispatchTouchCancelEvent(const TouchEvent& event, void* sender);
         
-        void dispatchScreenSizeEvent(const ScreenSizeEvent& event, ReferenceCounted* sender);
+        void dispatchScreenSizeEvent(const ScreenSizeEvent& event, void* sender);
         
     protected:
         EventDispatcher();
         
-        std::vector<SharedPtr<EventHandler>> _eventHandlers;
+        std::vector<std::shared_ptr<EventHandler>> _eventHandlers;
     };
 }

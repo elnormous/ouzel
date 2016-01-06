@@ -12,7 +12,7 @@ namespace ouzel
 {
     Application::Application()
     {
-        _eventHandler = new EventHandler();
+        _eventHandler.reset(new EventHandler());
         
         _eventHandler->keyDownHandler = std::bind(&Application::handleKeyDown, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->mouseMoveHandler = std::bind(&Application::handleMouseMove, this, std::placeholders::_1, std::placeholders::_2);
@@ -24,28 +24,28 @@ namespace ouzel
         
         Renderer::getInstance()->setClearColor(Color(64, 0, 0));
         
-        Scene* scene = new Scene();
+        std::shared_ptr<Scene> scene(new Scene());
         SceneManager::getInstance()->setScene(scene);
         
-        _layer = new Layer();
+        _layer.reset(new Layer());
         scene->addLayer(_layer);
 
-        _sprite = new Sprite();
+        _sprite.reset(new Sprite());
         _sprite->initFromFile("run.json");
         _sprite->play(true);
         _layer->addChild(_sprite);
         
-        Sprite* fire = new Sprite();
+        std::shared_ptr<Sprite> fire(new Sprite());
         fire->initFromFile("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
         _layer->addChild(fire);
         
-        ParticleSystem* flame = new ParticleSystem();
+        std::shared_ptr<ParticleSystem> flame(new ParticleSystem());
         flame->initFromFile("flame.json");
         _layer->addChild(flame);
         
-        _witch = new Sprite();
+        _witch.reset(new Sprite());
         _witch->initFromFile("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
@@ -57,7 +57,7 @@ namespace ouzel
         EventDispatcher::getInstance()->removeEventHandler(_eventHandler);
     }
     
-    void Application::handleKeyDown(const KeyboardEvent& event, ReferenceCounted* sender) const
+    void Application::handleKeyDown(const KeyboardEvent& event, void* sender) const
     {
         Vector2 position = _sprite->getPosition();
         
@@ -82,13 +82,13 @@ namespace ouzel
         _sprite->setPosition(position);
     }
     
-    void Application::handleMouseMove(const MouseEvent& event, ReferenceCounted* sender) const
+    void Application::handleMouseMove(const MouseEvent& event, void* sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);
     }
     
-    void Application::handleTouch(const TouchEvent& event, ReferenceCounted* sender) const
+    void Application::handleTouch(const TouchEvent& event, void* sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);

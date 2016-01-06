@@ -4,29 +4,27 @@
 #pragma once
 
 #include <vector>
-#include "SharedPtr.h"
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 
 namespace ouzel
 {
     class Layer;
     class Node;
     
-    class NodeContainer: public Noncopyable, public ReferenceCounted
+    class NodeContainer: public Noncopyable
     {
     public:
         NodeContainer();
         virtual ~NodeContainer();
         
-        virtual void addChild(Node* node);
-        virtual void removeChild(Node* node);
-        virtual bool hasChild(Node* node) const;
-        virtual const std::vector<SharedPtr<Node>>& getChildren() const { return _children; }
+        virtual void addChild(std::shared_ptr<Node> node);
+        virtual void removeChild(std::shared_ptr<Node> node);
+        virtual bool hasChild(std::shared_ptr<Node> node) const;
+        virtual const std::vector<std::shared_ptr<Node>>& getChildren() const { return _children; }
         
     protected:
-        std::vector<SharedPtr<Node>> _children;
+        std::vector<std::shared_ptr<Node>> _children;
         
-        Layer* _layer = nullptr;
+        std::shared_ptr<Layer> _layer = nullptr;
     };
 }

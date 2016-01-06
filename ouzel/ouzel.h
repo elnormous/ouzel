@@ -5,8 +5,6 @@
 
 #include "CompileConfig.h"
 #include "Engine.h"
-#include "SharedPtr.h"
-#include "ReferenceCounted.h"
 #include "Renderer.h"
 #include "Shader.h"
 #include "Matrix3.h"

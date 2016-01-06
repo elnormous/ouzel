@@ -3,7 +3,7 @@
 
 #include "Application.h"
 
-ouzel::SharedPtr<ouzel::Application> application;
+std::shared_ptr<ouzel::Application> application;
 
 void ouzelInit(ouzel::Settings& settings)
 {
@@ -13,7 +13,7 @@ void ouzelInit(ouzel::Settings& settings)
 
 void ouzelBegin()
 {
-    application = new ouzel::Application();
+    application.reset(new ouzel::Application());
 }
 
 void ouzelEnd()

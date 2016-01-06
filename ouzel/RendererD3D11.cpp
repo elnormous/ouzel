@@ -535,7 +535,7 @@ namespace ouzel
             return;
         }
 
-        Shader* textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
+        std::shared_ptr<Shader> textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
                                                       TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11),
                                                       VertexPCT::ATTRIBUTES);
 
@@ -544,7 +544,7 @@ namespace ouzel
             _shaders[SHADER_TEXTURE] = textureShader;
         }
 
-        Shader* colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
+        std::shared_ptr<Shader> colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
                                                     COLOR_VERTEX_SHADER_D3D11, sizeof(COLOR_VERTEX_SHADER_D3D11),
                                                     VertexPC::ATTRIBUTES);
 
@@ -623,7 +623,7 @@ namespace ouzel
         }
     }
 
-    Texture* RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
+    std::shared_ptr<Texture> RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         TextureD3D11* texture = new TextureD3D11();
 
@@ -636,7 +636,7 @@ namespace ouzel
         return texture;
     }
 
-    Texture* RendererD3D11::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    std::shared_ptr<Texture> RendererD3D11::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
     {
         TextureD3D11* texture = new TextureD3D11();
 
@@ -649,7 +649,7 @@ namespace ouzel
         return texture;
     }
 
-    Shader* RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+    std::shared_ptr<Shader> RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         ShaderD3D11* shader = new ShaderD3D11();
 
@@ -662,7 +662,7 @@ namespace ouzel
         return shader;
     }
 
-    Shader* RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+    std::shared_ptr<Shader> RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
         ShaderD3D11* shader = new ShaderD3D11();
 
@@ -675,7 +675,7 @@ namespace ouzel
         return shader;
     }
 
-    MeshBuffer* RendererD3D11::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+    std::shared_ptr<MeshBuffer> RendererD3D11::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
         MeshBufferD3D11* meshBuffer = new MeshBufferD3D11();
 
@@ -688,7 +688,7 @@ namespace ouzel
         return meshBuffer;
     }
 
-    bool RendererD3D11::drawMeshBuffer(MeshBuffer* meshBuffer)
+    bool RendererD3D11::drawMeshBuffer(std::shared_ptr<MeshBuffer> meshBuffer)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {

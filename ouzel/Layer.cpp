@@ -13,8 +13,7 @@ namespace ouzel
 {
     Layer::Layer()
     {
-        _camera = new Camera();
-        _layer = this;
+        _camera.reset(new Camera());
     }
     
     Layer::~Layer()
@@ -24,7 +23,7 @@ namespace ouzel
     
     void Layer::update(float delta)
     {
-        for (SharedPtr<Node> node : _nodes)
+        for (std::shared_ptr<Node> node : _nodes)
         {
             node->update(delta);
         }
@@ -34,7 +33,7 @@ namespace ouzel
     {
         if (_reorderNodes)
         {
-            std::sort(_nodes.begin(), _nodes.end(), [](Node* a, Node* b) {
+            std::sort(_nodes.begin(), _nodes.end(), [](std::shared_ptr<Node> a, std::shared_ptr<Node> b) {
                 return a->getZ() > b->getZ();
             });
             
@@ -44,7 +43,7 @@ namespace ouzel
         // render only if there is an active camera
         if (_camera)
         {
-            for (SharedPtr<Node> node : _nodes)
+            for (std::shared_ptr<Node> node : _nodes)
             {
                 if (node->checkVisibility())
                 {
@@ -54,9 +53,11 @@ namespace ouzel
         }
     }
     
-    void Layer::addNode(Node* node)
+    void Layer::addNode(std::shared_ptr<Node> node)
     {
-        std::vector<SharedPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
+        std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
+            return p.get() == node.get();
+        });
         
         if (i == _nodes.end())
         {
@@ -65,9 +66,11 @@ namespace ouzel
         }
     }
     
-    void Layer::removeNode(Node* node)
+    void Layer::removeNode(std::shared_ptr<Node> node)
     {
-        std::vector<SharedPtr<Node>>::iterator i = std::find(_nodes.begin(), _nodes.end(), node);
+        std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
+            return p.get() == node.get();
+        });
         
         if (i != _nodes.end())
         {
@@ -80,7 +83,7 @@ namespace ouzel
         _reorderNodes = true;
     }
     
-    void Layer::setCamera(Camera* camera)
+    void Layer::setCamera(std::shared_ptr<Camera> camera)
     {
         _camera = camera;
     }
@@ -121,11 +124,11 @@ namespace ouzel
         }
     }
     
-    Node* Layer::pickNode(const Vector2& position)
+    std::shared_ptr<Node> Layer::pickNode(const Vector2& position)
     {
-        for (std::vector<SharedPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<std::shared_ptr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
-            Node* node = *i;
+            std::shared_ptr<Node> node = *i;
             
             if (node->pointOn(position))
             {
@@ -136,13 +139,13 @@ namespace ouzel
         return nullptr;
     }
     
-    std::set<Node*> Layer::pickNodes(const Rectangle& rectangle)
+    std::set<std::shared_ptr<Node>> Layer::pickNodes(const Rectangle& rectangle)
     {
-        std::set<Node*> result;
+        std::set<std::shared_ptr<Node>> result;
         
-        for (std::vector<SharedPtr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<std::shared_ptr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
-            Node* node = *i;
+            std::shared_ptr<Node> node = *i;
             
             if (node->rectangleOverlaps(rectangle))
             {
@@ -171,7 +174,7 @@ namespace ouzel
         }
     }
     
-    void Layer::addToScene(Scene* scene)
+    void Layer::addToScene(std::shared_ptr<Scene> scene)
     {
         _scene = scene;
     }

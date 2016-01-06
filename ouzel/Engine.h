@@ -4,9 +4,7 @@
 #pragma once
 
 #include <vector>
-#include "SharedPtr.h"
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "FileSystem.h"
@@ -37,11 +35,11 @@ namespace ouzel
     protected:
         Engine();
         
-        SharedPtr<EventDispatcher> _eventDispatcher;
-        SharedPtr<Renderer> _renderer;
-        SharedPtr<SceneManager> _sceneManager;
-        SharedPtr<FileSystem> _fileSystem;
-        SharedPtr<Input> _input;
+        std::shared_ptr<EventDispatcher> _eventDispatcher;
+        std::shared_ptr<Renderer> _renderer;
+        std::shared_ptr<SceneManager> _sceneManager;
+        std::shared_ptr<FileSystem> _fileSystem;
+        std::shared_ptr<Input> _input;
         
         uint64_t _previousFrameTime;
     };

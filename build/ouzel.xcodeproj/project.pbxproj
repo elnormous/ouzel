@@ -36,7 +36,6 @@
 		303B75391C2A3C8200FEDE92 /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2E1C237C70008B1151 /* Engine.h */; };
 		303B753A1C2A3C8200FEDE92 /* EventHander.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2F1C237C70008B1151 /* EventHander.h */; };
 		303B753B1C2A3C8200FEDE92 /* Noncopyable.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E381C237C70008B1151 /* Noncopyable.h */; };
-		303B753C1C2A3C8200FEDE92 /* ReferenceCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3D1C237C70008B1151 /* ReferenceCounted.h */; };
 		303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
 		303B753E1C2A3C9200FEDE92 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E9C1C27081B008B1151 /* Color.cpp */; };
 		303B753F1C2A3C9200FEDE92 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E9D1C27081B008B1151 /* Color.h */; };
@@ -94,8 +93,6 @@
 		303B757D1C2A43DC00FEDE92 /* MeshBufferOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */; };
 		303B75811C2B17DC00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
 		303B75821C2B17DC00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
-		303B75991C2CA2EA00FEDE92 /* SharedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* SharedPtr.h */; };
-		303B759A1C2CA2EA00FEDE92 /* SharedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* SharedPtr.h */; };
 		303B75E21C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */; };
 		303B75E31C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */; };
 		303B75E41C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */; };
@@ -129,7 +126,7 @@
 		303B761B1C34CFE300FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
 		303B761C1C34CFE300FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
 		303B76231C34D0A900FEDE92 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76221C34D0A900FEDE92 /* OpenGLES.framework */; };
-		303B76241C34D0D400FEDE92 /* libouzel_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B75331C2A3C5800FEDE92 /* libouzel_ios.a */; };
+		303B76241C34D0D400FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B75331C2A3C5800FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a */; };
 		303B76281C34D11500FEDE92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76271C34D11400FEDE92 /* UIKit.framework */; };
 		303B76291C34D15300FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76251C34D10200FEDE92 /* Foundation.framework */; };
 		303B762F1C3559B900FEDE92 /* ViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B762D1C3559B900FEDE92 /* ViewController.h */; };
@@ -182,10 +179,8 @@
 		303B76671C355A3B00FEDE92 /* ColorPSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */; };
 		303B76681C355A3B00FEDE92 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.h */; };
 		303B76691C355A3B00FEDE92 /* Rectangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rectangle.h */; };
-		303B766A1C355A3B00FEDE92 /* SharedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75981C2CA2EA00FEDE92 /* SharedPtr.h */; };
 		303B766B1C355A3B00FEDE92 /* Noncopyable.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E381C237C70008B1151 /* Noncopyable.h */; };
 		303B766C1C355A3B00FEDE92 /* MathUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.h */; };
-		303B766D1C355A3B00FEDE92 /* ReferenceCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3D1C237C70008B1151 /* ReferenceCounted.h */; };
 		303B766E1C355A3B00FEDE92 /* EventHander.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2F1C237C70008B1151 /* EventHander.h */; };
 		303B766F1C355A3B00FEDE92 /* ColorVSOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */; };
 		303B76701C355A3B00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
@@ -215,7 +210,7 @@
 		303B769A1C355AA400FEDE92 /* run.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EB1C33581700FEDE92 /* run.json */; };
 		303B769B1C355AA400FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
 		303B769C1C355AA400FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
-		303B76A21C355ACF00FEDE92 /* libouzel_tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76801C355A3B00FEDE92 /* libouzel_tvos.a */; };
+		303B76A21C355ACF00FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76801C355A3B00FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a */; };
 		303B76A41C355ADC00FEDE92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A31C355ADC00FEDE92 /* UIKit.framework */; };
 		303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A51C355AE900FEDE92 /* OpenGLES.framework */; };
 		303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A71C355AF900FEDE92 /* Foundation.framework */; };
@@ -245,7 +240,6 @@
 		304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3A1C237C70008B1151 /* OpenGLView.mm */; };
 		304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3B1C237C70008B1151 /* Rectangle.cpp */; };
 		304A8E621C237C70008B1151 /* Rectangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rectangle.h */; };
-		304A8E631C237C70008B1151 /* ReferenceCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3D1C237C70008B1151 /* ReferenceCounted.h */; };
 		304A8E641C237C70008B1151 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3E1C237C70008B1151 /* Renderer.cpp */; };
 		304A8E651C237C70008B1151 /* Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3F1C237C70008B1151 /* Renderer.h */; };
 		304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E401C237C70008B1151 /* SceneManager.cpp */; };
@@ -284,7 +278,7 @@
 		304A8E9F1C27081B008B1151 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E9D1C27081B008B1151 /* Color.h */; };
 		304A8EA21C270833008B1151 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex.cpp */; };
 		304A8EA31C270833008B1151 /* Vertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.h */; };
-		304A8EA51C274183008B1151 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304A8E251C237C30008B1151 /* libouzel_osx.a */; };
+		304A8EA51C274183008B1151 /* libouzel.temp_caseinsensitive_rename_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304A8E251C237C30008B1151 /* libouzel.temp_caseinsensitive_rename_osx.a */; };
 		304A8EAA1C27429A008B1151 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
 		30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
 		30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
@@ -337,9 +331,6 @@
 		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		30575AEA1C3C99010009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE91C3C99010009C8A7 /* GameController.framework */; };
 		30575AEC1C3C990B0009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AEB1C3C990B0009C8A7 /* GameController.framework */; };
-		30575AEE1C3CA5020009C8A7 /* WeakPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AED1C3CA5020009C8A7 /* WeakPtr.h */; };
-		30575AEF1C3CA5020009C8A7 /* WeakPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AED1C3CA5020009C8A7 /* WeakPtr.h */; };
-		30575AF01C3CA5020009C8A7 /* WeakPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AED1C3CA5020009C8A7 /* WeakPtr.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -361,12 +352,11 @@
 		303B751C1C29EDEE00FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		303B751E1C29EFEC00FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B751F1C29EFEC00FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
-		303B75331C2A3C5800FEDE92 /* libouzel_ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_ios.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B75331C2A3C5800FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel.temp_caseinsensitive_rename_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B75701C2A3D7F00FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		303B75741C2A3E3000FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		303B75751C2A3E3000FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B75801C2B17DC00FEDE92 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		303B75981C2CA2EA00FEDE92 /* SharedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPtr.h; sourceTree = "<group>"; };
 		303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSOGL.h; sourceTree = "<group>"; };
 		303B75DF1C2F6FC000FEDE92 /* ColorVSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorVSOGL.h; sourceTree = "<group>"; };
 		303B75E01C2F6FC000FEDE92 /* TexturePSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturePSOGL.h; sourceTree = "<group>"; };
@@ -389,7 +379,7 @@
 		303B762C1C34D22700FEDE92 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ios/Prefix.pch; sourceTree = "<group>"; };
 		303B762D1C3559B900FEDE92 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		303B762E1C3559B900FEDE92 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B76801C355A3B00FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel.temp_caseinsensitive_rename_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B76811C355A5800FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B76821C355A5800FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		303B76831C355A5800FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -408,7 +398,7 @@
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		304A8E251C237C30008B1151 /* libouzel_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		304A8E251C237C30008B1151 /* libouzel.temp_caseinsensitive_rename_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel.temp_caseinsensitive_rename_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E2A1C237C70008B1151 /* ouzel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ouzel.h; sourceTree = "<group>"; };
 		304A8E2B1C237C70008B1151 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		304A8E2C1C237C70008B1151 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
@@ -428,7 +418,6 @@
 		304A8E3A1C237C70008B1151 /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
 		304A8E3B1C237C70008B1151 /* Rectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rectangle.cpp; sourceTree = "<group>"; };
 		304A8E3C1C237C70008B1151 /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
-		304A8E3D1C237C70008B1151 /* ReferenceCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferenceCounted.h; sourceTree = "<group>"; };
 		304A8E3E1C237C70008B1151 /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
 		304A8E3F1C237C70008B1151 /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 		304A8E401C237C70008B1151 /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManager.cpp; sourceTree = "<group>"; };
@@ -492,7 +481,6 @@
 		30575AE71C3C98F50009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		30575AE91C3C99010009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		30575AEB1C3C990B0009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
-		30575AED1C3CA5020009C8A7 /* WeakPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeakPtr.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -507,7 +495,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B76241C34D0D400FEDE92 /* libouzel_ios.a in Frameworks */,
+				303B76241C34D0D400FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a in Frameworks */,
 				30575AEA1C3C99010009C8A7 /* GameController.framework in Frameworks */,
 				303B76291C34D15300FEDE92 /* Foundation.framework in Frameworks */,
 				303B76231C34D0A900FEDE92 /* OpenGLES.framework in Frameworks */,
@@ -527,7 +515,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B76A21C355ACF00FEDE92 /* libouzel_tvos.a in Frameworks */,
+				303B76A21C355ACF00FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a in Frameworks */,
 				303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */,
 				30575AEC1C3C990B0009C8A7 /* GameController.framework in Frameworks */,
 				303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */,
@@ -540,7 +528,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304A8EA51C274183008B1151 /* libouzel_osx.a in Frameworks */,
+				304A8EA51C274183008B1151 /* libouzel.temp_caseinsensitive_rename_osx.a in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
 				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,
 				30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */,
@@ -560,6 +548,9 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30575AEB1C3C990B0009C8A7 /* GameController.framework */,
+				30575AE91C3C99010009C8A7 /* GameController.framework */,
+				30575AE71C3C98F50009C8A7 /* GameController.framework */,
 				303B76C91C35696200FEDE92 /* QuartzCore.framework */,
 				303B76C71C35695900FEDE92 /* QuartzCore.framework */,
 				303B76A71C355AF900FEDE92 /* Foundation.framework */,
@@ -650,13 +641,10 @@
 		303B75111C28838C00FEDE92 /* core */ = {
 			isa = PBXGroup;
 			children = (
-				303B75981C2CA2EA00FEDE92 /* SharedPtr.h */,
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
-				304A8E3D1C237C70008B1151 /* ReferenceCounted.h */,
-				30575AED1C3CA5020009C8A7 /* WeakPtr.h */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -760,9 +748,6 @@
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
-				30575AEB1C3C990B0009C8A7 /* GameController.framework */,
-				30575AE91C3C99010009C8A7 /* GameController.framework */,
-				30575AE71C3C98F50009C8A7 /* GameController.framework */,
 				304A8E291C237C51008B1151 /* ouzel */,
 				304A8E0C1C237B95008B1151 /* samples */,
 				304A8E0B1C237B95008B1151 /* Products */,
@@ -773,10 +758,10 @@
 			isa = PBXGroup;
 			children = (
 				304A8E0A1C237B95008B1151 /* sprite_osx.app */,
-				304A8E251C237C30008B1151 /* libouzel_osx.a */,
-				303B75331C2A3C5800FEDE92 /* libouzel_ios.a */,
+				304A8E251C237C30008B1151 /* libouzel.temp_caseinsensitive_rename_osx.a */,
+				303B75331C2A3C5800FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a */,
 				303B76201C34CFE300FEDE92 /* sprite_ios.app */,
-				303B76801C355A3B00FEDE92 /* libouzel_tvos.a */,
+				303B76801C355A3B00FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a */,
 				303B76A01C355AA400FEDE92 /* sprite_tvos.app */,
 			);
 			name = Products;
@@ -894,7 +879,6 @@
 				30575A931C38BD370009C8A7 /* AABB2.h in Headers */,
 				303B754B1C2A3C9200FEDE92 /* Texture.h in Headers */,
 				303B75521C2A3CB700FEDE92 /* Matrix4.h in Headers */,
-				30575AEF1C3CA5020009C8A7 /* WeakPtr.h in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.h in Headers */,
 				3031A0B71C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
 				30575AA21C39CB790009C8A7 /* Scene.h in Headers */,
@@ -919,11 +903,9 @@
 				3031A0B11C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
 				303B760B1C34A92B00FEDE92 /* Input.h in Headers */,
 				303B75541C2A3CB700FEDE92 /* Rectangle.h in Headers */,
-				303B759A1C2CA2EA00FEDE92 /* SharedPtr.h in Headers */,
 				303B753B1C2A3C8200FEDE92 /* Noncopyable.h in Headers */,
 				303B754E1C2A3CB700FEDE92 /* MathUtils.h in Headers */,
 				3031A0B41C3731A2004D3514 /* ColorVSOGLES.h in Headers */,
-				303B753C1C2A3C8200FEDE92 /* ReferenceCounted.h in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHander.h in Headers */,
 				303B75E51C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.h in Headers */,
@@ -952,7 +934,6 @@
 				30575A941C38BD370009C8A7 /* AABB2.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
 				303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */,
-				30575AF01C3CA5020009C8A7 /* WeakPtr.h in Headers */,
 				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
 				3031A0B81C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
 				30575AA31C39CB790009C8A7 /* Scene.h in Headers */,
@@ -976,10 +957,8 @@
 				303B76681C355A3B00FEDE92 /* Input.h in Headers */,
 				3031A0B21C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
 				303B76691C355A3B00FEDE92 /* Rectangle.h in Headers */,
-				303B766A1C355A3B00FEDE92 /* SharedPtr.h in Headers */,
 				303B766B1C355A3B00FEDE92 /* Noncopyable.h in Headers */,
 				303B766C1C355A3B00FEDE92 /* MathUtils.h in Headers */,
-				303B766D1C355A3B00FEDE92 /* ReferenceCounted.h in Headers */,
 				3031A0B51C3731A2004D3514 /* ColorVSOGLES.h in Headers */,
 				303B766E1C355A3B00FEDE92 /* EventHander.h in Headers */,
 				303B766F1C355A3B00FEDE92 /* ColorVSOGL.h in Headers */,
@@ -1015,7 +994,6 @@
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				304A8E861C24814F008B1151 /* TextureOGL.h in Headers */,
 				304A8E6D1C237C70008B1151 /* Texture.h in Headers */,
-				303B75991C2CA2EA00FEDE92 /* SharedPtr.h in Headers */,
 				304A8E8F1C26EA8B008B1151 /* ShaderOGL.h in Headers */,
 				3031A0B61C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.h in Headers */,
@@ -1028,13 +1006,11 @@
 				304A8E9F1C27081B008B1151 /* Color.h in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
-				30575AEE1C3CA5020009C8A7 /* WeakPtr.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
 				30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
 				303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */,
-				304A8E631C237C70008B1151 /* ReferenceCounted.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
 				30575AD01C3B175D0009C8A7 /* Label.h in Headers */,
 				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
@@ -1084,7 +1060,7 @@
 			);
 			name = ouzel_ios;
 			productName = ouzel_ios;
-			productReference = 303B75331C2A3C5800FEDE92 /* libouzel_ios.a */;
+			productReference = 303B75331C2A3C5800FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		303B760C1C34CFE300FEDE92 /* sprite_ios */ = {
@@ -1118,7 +1094,7 @@
 			);
 			name = ouzel_tvos;
 			productName = ouzel_ios;
-			productReference = 303B76801C355A3B00FEDE92 /* libouzel_tvos.a */;
+			productReference = 303B76801C355A3B00FEDE92 /* libouzel.temp_caseinsensitive_rename_osx.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		303B768B1C355AA400FEDE92 /* sprite_tvos */ = {
@@ -1169,7 +1145,7 @@
 			);
 			name = ouzel_osx;
 			productName = libblackbird_mac;
-			productReference = 304A8E251C237C30008B1151 /* libouzel_osx.a */;
+			productReference = 304A8E251C237C30008B1151 /* libouzel.temp_caseinsensitive_rename_osx.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -1456,7 +1432,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ouzel.temp_caseinsensitive_rename_osx;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1471,7 +1447,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ouzel.temp_caseinsensitive_rename_osx;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -1528,7 +1504,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ouzel.temp_caseinsensitive_rename_osx;
 				SDKROOT = appletvos;
 			};
 			name = Debug;
@@ -1543,7 +1519,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ouzel.temp_caseinsensitive_rename_osx;
 				SDKROOT = appletvos;
 			};
 			name = Release;
@@ -1705,7 +1681,7 @@
 					../external/rapidjson/include/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ouzel.temp_caseinsensitive_rename_osx;
 			};
 			name = Debug;
 		};
@@ -1719,7 +1695,7 @@
 					../external/rapidjson/include/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ouzel.temp_caseinsensitive_rename_osx;
 			};
 			name = Release;
 		};

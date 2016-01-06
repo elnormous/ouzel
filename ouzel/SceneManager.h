@@ -5,9 +5,7 @@
 
 #include <set>
 #include <vector>
-#include "SharedPtr.h"
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 #include "Vector2.h"
 #include "Rectangle.h"
 
@@ -18,7 +16,7 @@ namespace ouzel
     class Node;
     class Scene;
     
-    class SceneManager: public Noncopyable, public ReferenceCounted
+    class SceneManager: public Noncopyable
     {
         friend Engine;
     public:
@@ -30,14 +28,14 @@ namespace ouzel
         
         void draw();
         
-        void setScene(Scene* scene);
-        Scene* getScene() const { return _scene; }
+        void setScene(std::shared_ptr<Scene> scene);
+        std::shared_ptr<Scene> getScene() const { return _scene; }
         
         virtual void recalculateProjection();
         
     protected:
         SceneManager();
         
-        SharedPtr<Scene> _scene;
+        std::shared_ptr<Scene> _scene;
     };
 }

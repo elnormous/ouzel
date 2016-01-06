@@ -14,7 +14,7 @@ namespace ouzel
     
     Scene::~Scene()
     {
-        for (SharedPtr<Layer> layer : _layers)
+        for (std::shared_ptr<Layer> layer : _layers)
         {
             layer->_scene = nullptr;
         }
@@ -22,7 +22,7 @@ namespace ouzel
     
     void Scene::update(float delta)
     {
-        for (SharedPtr<Layer> layer : _layers)
+        for (std::shared_ptr<Layer> layer : _layers)
         {
             layer->update(delta);
         }
@@ -32,32 +32,35 @@ namespace ouzel
     {
         if (_reorderLayers)
         {
-            std::sort(_layers.begin(), _layers.end(), [](Layer* a, Layer* b) {
+            std::sort(_layers.begin(), _layers.end(), [](std::shared_ptr<Layer> a, std::shared_ptr<Layer> b) {
                 return a->getOrder() > b->getOrder();
             });
             
             _reorderLayers = false;
         }
         
-        for (SharedPtr<Layer> layer : _layers)
+        for (std::shared_ptr<Layer> layer : _layers)
         {
             layer->draw();
         }
     }
     
-    void Scene::addLayer(Layer* layer)
+    void Scene::addLayer(std::shared_ptr<Layer> layer)
     {
-        if (!hasLayer(layer) && layer->getScene() == nullptr)
+        if (!hasLayer(layer) && !layer->getScene())
         {
             _layers.push_back(layer);
-            layer->addToScene(this);
+            layer->addToScene(shared_from_this());
             layer->recalculateProjection();
+            layer->_layer = layer;
         }
     }
     
-    void Scene::removeLayer(Layer* layer)
+    void Scene::removeLayer(std::shared_ptr<Layer> layer)
     {
-        std::vector<SharedPtr<Layer>>::iterator i = std::find(_layers.begin(), _layers.end(), layer);
+        std::vector<std::shared_ptr<Layer>>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
+            return p.get() == layer.get();
+        });
         
         if (i != _layers.end())
         {
@@ -66,16 +69,18 @@ namespace ouzel
         }
     }
     
-    bool Scene::hasLayer(Layer* layer) const
+    bool Scene::hasLayer(std::shared_ptr<Layer> layer) const
     {
-        std::vector<SharedPtr<Layer>>::const_iterator i = std::find(_layers.begin(), _layers.end(), layer);
+        std::vector<std::shared_ptr<Layer>>::const_iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
+            return p.get() == layer.get();
+        });
         
         return i != _layers.end();
     }
     
     void Scene::recalculateProjection()
     {
-        for (SharedPtr<Layer> layer : _layers)
+        for (std::shared_ptr<Layer> layer : _layers)
         {
             layer->recalculateProjection();
         }

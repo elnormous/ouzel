@@ -15,13 +15,7 @@ namespace ouzel
 
     Texture::~Texture()
     {
-        for (int i = 0; i < Renderer::TEXTURE_LAYERS; ++i)
-        {
-            if (Renderer::getInstance() && Renderer::getInstance()->getActiveTexture(i) == this)
-            {
-                Renderer::getInstance()->activateTexture(nullptr, i);
-            }
-        }
+
     }
     
     bool Texture::initFromFile(const std::string& filename, bool dynamic)
@@ -29,7 +23,7 @@ namespace ouzel
         _filename = filename;
         _dynamic = dynamic;
 
-        SharedPtr<Image> image = new Image();
+        std::shared_ptr<Image> image(new Image());
         if (!image->loadFromFile(filename))
         {
             return false;

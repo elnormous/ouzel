@@ -58,13 +58,13 @@ namespace ouzel
             return false;
         }
         
-        Shader* textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
+        std::shared_ptr<Shader> textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
         if (textureShader)
         {
             _shaders[SHADER_TEXTURE] = textureShader;
         }
         
-        Shader* colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
+        std::shared_ptr<Shader> colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
         if (colorShader)
         {
             _shaders[SHADER_COLOR] = colorShader;
@@ -133,113 +133,117 @@ namespace ouzel
         checkOpenGLErrors();
     }
     
-    Texture* RendererOGL::loadTextureFromFile(const std::string& filename, bool dynamic)
+    std::shared_ptr<Texture> RendererOGL::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
-        TextureOGL* texture = new TextureOGL();
+        std::shared_ptr<TextureOGL> texture(new TextureOGL());
         
         if (!texture->initFromFile(filename, dynamic))
         {
-            delete texture;
-            texture = nullptr;
+            texture.reset();
         }
         
         return texture;
     }
     
-    Texture* RendererOGL::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    std::shared_ptr<Texture> RendererOGL::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
     {
-        TextureOGL* texture = new TextureOGL();
+        std::shared_ptr<TextureOGL> texture(new TextureOGL());
         
         if (!texture->initFromData(data, size, dynamic))
         {
-            delete texture;
-            texture = nullptr;
+            texture.reset();
         }
         
         return texture;
     }
     
-    Shader* RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+    std::shared_ptr<Shader> RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
-        ShaderOGL* shader = new ShaderOGL();
+        std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
         
         if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes))
         {
-            delete shader;
-            shader = nullptr;
+            shader.reset();
         }
         
         return shader;
     }
     
-    Shader* RendererOGL::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+    std::shared_ptr<Shader> RendererOGL::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
-        ShaderOGL* shader = new ShaderOGL();
+        std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
         
         if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
         {
-            delete shader;
-            shader = nullptr;
+            shader.reset();
         }
         
         return shader;
     }
     
-    MeshBuffer* RendererOGL::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+    std::shared_ptr<MeshBuffer> RendererOGL::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
-        MeshBufferOGL* meshBuffer = new MeshBufferOGL();
+        std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
         
         if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
         {
-            delete meshBuffer;
-            meshBuffer = nullptr;
+            meshBuffer.reset();
         }
         
         return meshBuffer;
     }
     
-    bool RendererOGL::drawMeshBuffer(MeshBuffer* meshBuffer)
+    bool RendererOGL::drawMeshBuffer(std::shared_ptr<MeshBuffer> meshBuffer)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
             return false;
         }
         
-        ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(_activeShader.obj());
-        
-        if (!shaderOGL)
+        if (std::shared_ptr<Shader> activeShader = _activeShader.lock())
         {
-            return false;
-        }
-        
-        glUseProgram(shaderOGL->getProgramId());
-        
-        if (checkOpenGLErrors())
-        {
-            return false;
-        }
-        
-        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
-        {
-            glActiveTexture(GL_TEXTURE0 + layer);
+            std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(activeShader);
             
-            TextureOGL* textureOGL = static_cast<TextureOGL*>(_activeTextures[layer].obj());
+            glUseProgram(shaderOGL->getProgramId());
             
-            glBindTexture(GL_TEXTURE_2D, textureOGL ? textureOGL->getTextureId() : 0);
+            if (checkOpenGLErrors())
+            {
+                return false;
+            }
+            
+            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+            {
+                glActiveTexture(GL_TEXTURE0 + layer);
+                
+                if (std::shared_ptr<Texture> activeTexture = _activeTextures[layer].lock())
+                {
+                    std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTexture);
+                
+                    glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
+                }
+                else
+                {
+                    glBindTexture(GL_TEXTURE_2D, 0);
+                }
+            }
+            
+            if (checkOpenGLErrors())
+            {
+                return false;
+            }
+            
+            std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(meshBuffer);
+            
+            glBindVertexArray(meshBufferOGL->getVertexArrayId());
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
+            glDrawElements(GL_TRIANGLES, meshBufferOGL->getIndexCount(), meshBufferOGL->getIndexFormat(), nullptr);
+            
+            if (checkOpenGLErrors())
+            {
+                return false;
+            }
         }
-        
-        if (checkOpenGLErrors())
-        {
-            return false;
-        }
-        
-        MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(meshBuffer);
-        
-        glBindVertexArray(meshBufferOGL->getVertexArrayId());
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-        glDrawElements(GL_TRIANGLES, meshBufferOGL->getIndexCount(), meshBufferOGL->getIndexFormat(), nullptr);
-        
-        if (checkOpenGLErrors())
+        else
         {
             return false;
         }
@@ -256,14 +260,14 @@ namespace ouzel
             VertexPC(Vector3(finish.x, finish.y, 0.0f), color)
         };
         
-        SharedPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 2, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
+        std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(createMeshBuffer(indices, sizeof(uint8_t), 2, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
         
         if (!meshBufferOGL)
         {
             return false;
         }
         
-        ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
+        std::shared_ptr<ShaderOGL> colorShader = std::static_pointer_cast<ShaderOGL>(getShader(SHADER_COLOR));
         
         if (!colorShader)
         {
@@ -298,14 +302,14 @@ namespace ouzel
             VertexPC(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color)
         };
         
-        SharedPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 5, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
+        std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(createMeshBuffer(indices, sizeof(uint8_t), 5, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
         
         if (!meshBufferOGL)
         {
             return false;
         }
         
-        ShaderOGL* colorShader = static_cast<ShaderOGL*>(getShader(SHADER_COLOR));
+        std::shared_ptr<ShaderOGL> colorShader = std::static_pointer_cast<ShaderOGL>(getShader(SHADER_COLOR));
         
         if (!colorShader)
         {
@@ -340,14 +344,14 @@ namespace ouzel
             VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color, Vector2(1.0f, 0.0f))
         };
         
-        SharedPtr<MeshBufferOGL> meshBufferOGL = static_cast<MeshBufferOGL*>(createMeshBuffer(indices, sizeof(uint8_t), 6, false, vertices, sizeof(VertexPCT), 4, false, VertexPCT::ATTRIBUTES));
+        std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(createMeshBuffer(indices, sizeof(uint8_t), 6, false, vertices, sizeof(VertexPCT), 4, false, VertexPCT::ATTRIBUTES));
         
         if (!meshBufferOGL)
         {
             return false;
         }
         
-        ShaderOGL* textureShader = static_cast<ShaderOGL*>(getShader(SHADER_TEXTURE));
+        std::shared_ptr<ShaderOGL> textureShader = std::static_pointer_cast<ShaderOGL>(getShader(SHADER_TEXTURE));
         
         if (!textureShader)
         {

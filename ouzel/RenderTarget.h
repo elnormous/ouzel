@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include "Noncopyable.h"
 
 namespace ouzel
@@ -16,11 +17,11 @@ namespace ouzel
     public:
         virtual ~RenderTarget();
         
-        Texture* getTexture() const { return _texture; }
+        std::shared_ptr<Texture> getTexture() const { return _texture; }
         
     protected:
         RenderTarget();
         
-        Texture* _texture = nullptr;
+        std::shared_ptr<Texture> _texture = nullptr;
     };
 }

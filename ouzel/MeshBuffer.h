@@ -5,14 +5,13 @@
 
 #include <vector>
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 #include "Vertex.h"
 
 namespace ouzel
 {
     class Renderer;
     
-    class MeshBuffer: public Noncopyable, public ReferenceCounted
+    class MeshBuffer: public Noncopyable
     {
         friend Renderer;
     public:

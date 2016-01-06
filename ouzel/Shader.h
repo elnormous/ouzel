@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Matrix4.h"
@@ -15,7 +14,7 @@ namespace ouzel
 {
     class Renderer;
     
-    class Shader: public Noncopyable, public ReferenceCounted
+    class Shader: public Noncopyable
     {
         friend Renderer;
     public:

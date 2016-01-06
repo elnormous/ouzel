@@ -4,15 +4,13 @@
 #pragma once
 
 #include <vector>
-#include "SharedPtr.h"
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 
 namespace ouzel
 {
     class Layer;
     
-    class Scene: public Noncopyable, public ReferenceCounted
+    class Scene: public Noncopyable, public std::enable_shared_from_this<Scene>
     {
     public:
         Scene();
@@ -21,17 +19,17 @@ namespace ouzel
         virtual void update(float delta);
         virtual void draw();
         
-        void addLayer(Layer* layer);
-        void removeLayer(Layer* layer);
-        bool hasLayer(Layer* layer) const;
-        const std::vector<SharedPtr<Layer>>& getLayers() const { return _layers; }
+        void addLayer(std::shared_ptr<Layer> layer);
+        void removeLayer(std::shared_ptr<Layer> layer);
+        bool hasLayer(std::shared_ptr<Layer> layer) const;
+        const std::vector<std::shared_ptr<Layer>>& getLayers() const { return _layers; }
         
         virtual void recalculateProjection();
         
         virtual void reorderLayers();
         
     protected:
-        std::vector<SharedPtr<Layer>> _layers;
+        std::vector<std::shared_ptr<Layer>> _layers;
         bool _reorderLayers = false;
     };
 }

@@ -6,9 +6,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
-#include "SharedPtr.h"
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 #include "Rectangle.h"
 #include "Matrix4.h"
 #include "Size2.h"
@@ -27,7 +25,7 @@ namespace ouzel
     class Sprite;
     class MeshBuffer;
 
-    class Renderer: public Noncopyable, public ReferenceCounted
+    class Renderer: public Noncopyable
     {
         friend Engine;
     public:
@@ -62,21 +60,21 @@ namespace ouzel
         virtual void setTitle(const std::string& title) { _title = title; }
         
         void preloadTexture(const std::string& filename, bool dynamic = false);
-        Texture* getTexture(const std::string& filename);
-        virtual Texture* loadTextureFromFile(const std::string& filename, bool dynamic = false);
-        virtual Texture* loadTextureFromData(const void* data, const Size2& size, bool dynamic = false);
-        virtual bool activateTexture(Texture* texture, uint32_t layer);
-        virtual Texture* getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
+        std::shared_ptr<Texture> getTexture(const std::string& filename);
+        virtual std::shared_ptr<Texture> loadTextureFromFile(const std::string& filename, bool dynamic = false);
+        virtual std::shared_ptr<Texture> loadTextureFromData(const void* data, const Size2& size, bool dynamic = false);
+        virtual bool activateTexture(std::shared_ptr<Texture> texture, uint32_t layer);
+        virtual std::weak_ptr<Texture> getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
         
-        Shader* getShader(const std::string& shaderName) const;
-        void setShader(const std::string& shaderName, Shader* shader);
-        virtual Shader* loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
-        virtual Shader* loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
-        virtual bool activateShader(Shader* shader);
-        virtual Shader* getActiveShader() const { return _activeShader; }
+        std::shared_ptr<Shader> getShader(const std::string& shaderName) const;
+        void setShader(const std::string& shaderName, std::shared_ptr<Shader> shader);
+        virtual std::shared_ptr<Shader> loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
+        virtual std::shared_ptr<Shader> loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
+        virtual bool activateShader(std::shared_ptr<Shader> shader);
+        virtual std::weak_ptr<Shader> getActiveShader() const { return _activeShader; }
         
-        virtual MeshBuffer* createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes);
-        virtual bool drawMeshBuffer(MeshBuffer* meshBuffer);
+        virtual std::shared_ptr<MeshBuffer> createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes);
+        virtual bool drawMeshBuffer(std::shared_ptr<MeshBuffer> meshBuffer);
         
         Vector2 viewToScreenLocation(const Vector2& position);
         Vector2 screenToViewLocation(const Vector2& position);
@@ -92,11 +90,11 @@ namespace ouzel
         
         Color _clearColor;
         
-        std::unordered_map<std::string, SharedPtr<Texture>> _textures;
-        std::unordered_map<std::string, SharedPtr<Shader>> _shaders;
+        std::unordered_map<std::string, std::shared_ptr<Texture>> _textures;
+        std::unordered_map<std::string, std::shared_ptr<Shader>> _shaders;
         
-        SharedPtr<Texture> _activeTextures[TEXTURE_LAYERS];
-        SharedPtr<Shader> _activeShader = nullptr;
+        std::weak_ptr<Texture> _activeTextures[TEXTURE_LAYERS];
+        std::weak_ptr<Shader> _activeShader;
         
         Size2 _size;
         bool _resizable = false;

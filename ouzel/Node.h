@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include "NodeContainer.h"
 #include "Vector2.h"
 #include "Matrix4.h"
@@ -12,7 +13,7 @@ namespace ouzel
 {
     class SceneManager;
 
-    class Node: public NodeContainer
+    class Node: public NodeContainer, public std::enable_shared_from_this<Node>
     {
         friend SceneManager;
         friend NodeContainer;
@@ -25,7 +26,7 @@ namespace ouzel
         virtual void draw();
         virtual void update(float delta);
         
-        virtual void addChild(Node* node) override;
+        virtual void addChild(std::shared_ptr<Node> node) override;
         
         virtual void setZ(float z);
         virtual float getZ() const { return _z; }
@@ -58,7 +59,7 @@ namespace ouzel
         virtual bool checkVisibility() const;
         
     protected:
-        virtual void addToLayer(Layer* layer);
+        virtual void addToLayer(std::shared_ptr<Layer> layer);
         virtual void removeFromLayer();
         
         virtual void calculateTransform() const;

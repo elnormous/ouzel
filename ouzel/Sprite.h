@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "SharedPtr.h"
 #include "Node.h"
 #include "Size2.h"
 #include "MeshBuffer.h"
@@ -27,11 +26,11 @@ namespace ouzel
         virtual void update(float delta) override;
         virtual void draw() override;
         
-        virtual Texture* getTexture() const { return _texture; }
-        virtual void setTexture(Texture* texture);
+        virtual std::shared_ptr<Texture> getTexture() const { return _texture; }
+        virtual void setTexture(std::shared_ptr<Texture> texture);
         
-        virtual Shader* getShader() const { return _shader; }
-        virtual void setShader(Shader* shader);
+        virtual std::shared_ptr<Shader> getShader() const { return _shader; }
+        virtual void setShader(std::shared_ptr<Shader> shader);
         
         virtual const Size2& getSize() const { return _size; }
         
@@ -48,13 +47,13 @@ namespace ouzel
         bool loadSpriteSheet(const std::string& filename);
         void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot);
         
-        SharedPtr<Texture> _texture;
-        SharedPtr<Shader> _shader;
+        std::shared_ptr<Texture> _texture;
+        std::shared_ptr<Shader> _shader;
         
         Size2 _size;
         
         std::vector<std::vector<VertexPCT>> _frameVertices;
-        std::vector<SharedPtr<MeshBuffer>> _frameMeshBuffers;
+        std::vector<std::shared_ptr<MeshBuffer>> _frameMeshBuffers;
         Color _color = Color(255, 255, 255, 255);
         
         uint32_t _currentFrame = 0;

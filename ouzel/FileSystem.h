@@ -6,13 +6,12 @@
 #include <string>
 #include <vector>
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 
 namespace ouzel
 {
     class Engine;
     
-    class FileSystem: public Noncopyable, public ReferenceCounted
+    class FileSystem: public Noncopyable
     {
         friend Engine;
     public:

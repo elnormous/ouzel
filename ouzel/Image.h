@@ -5,14 +5,13 @@
 
 #include <string>
 #include "Noncopyable.h"
-#include "ReferenceCounted.h"
 #include "Size2.h"
 
 namespace ouzel
 {
     class Engine;
     
-    class Image: public Noncopyable, public ReferenceCounted
+    class Image: public Noncopyable
     {
     public:
         Image();
