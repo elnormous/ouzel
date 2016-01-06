@@ -10,7 +10,7 @@ namespace ouzel
     class Label: Node
     {
     public:
-        Label();
+        Label(std::string const& font, std::string const& text);
         virtual ~Label();
     };
 }

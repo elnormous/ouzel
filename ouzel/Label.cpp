@@ -5,7 +5,7 @@
 
 namespace ouzel
 {
-    Label::Label()
+    Label::Label(std::string const& font, std::string const& text)
     {
         
     }
