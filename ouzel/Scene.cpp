@@ -44,9 +44,9 @@ namespace ouzel
     
     void Scene::addLayer(std::shared_ptr<Layer> const& layer)
     {
-        if (!hasLayer(layer) && layer->getScene().expired())
+        if (!hasLayer(layer) && !layer->getScene())
         {
-            layer->_layer = layer;
+            layer->setLayer(layer);
             _layers.push_back(layer);
             layer->addToScene(shared_from_this());
             layer->recalculateProjection();
@@ -63,7 +63,6 @@ namespace ouzel
         if (i != _layers.end())
         {
             layer->removeFromScene();
-            layer->_layer.reset();
             _layers.erase(i);
         }
     }

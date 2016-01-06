@@ -15,11 +15,7 @@ namespace ouzel
 
     Node::~Node()
     {
-        for (std::shared_ptr<Node> node : _children)
-        {
-            node->_parent.reset();
-            node->_layer.reset();
-        }
+        
     }
 
     void Node::draw()
@@ -104,29 +100,49 @@ namespace ouzel
         
         markTransformDirty();
     }
-
-    void Node::addToLayer(std::shared_ptr<Layer> const& layer)
+    
+    void Node::setVisible(bool visible)
     {
-        if (std::shared_ptr<Layer> currentLayer = _layer.lock())
+        if (visible != _visible)
         {
-            removeFromLayer();
+            _visible = visible;
+            
+            if (_visible)
+            {
+                addToLayer();
+            }
+            else
+            {
+                removeFromLayer();
+            }
         }
-        
-        layer->addNode(shared_from_this());
-        _layer = layer;
-        
-        for (std::shared_ptr<Node> child : _children)
+    }
+
+    void Node::addToLayer()
+    {
+        if (_visible)
         {
-            child->addToLayer(layer);
+            _addedToLayer = true;
+            
+            if (std::shared_ptr<Layer> layer = _layer.lock())
+            {
+                layer->addNode(shared_from_this());
+                
+                for (std::shared_ptr<Node> child : _children)
+                {
+                    child->addToLayer();
+                }
+            }
         }
     }
 
     void Node::removeFromLayer()
     {
+        _addedToLayer = false;
+        
         if (std::shared_ptr<Layer> layer = _layer.lock())
         {
             layer->removeNode(shared_from_this());
-            _layer.reset();
             
             for (std::shared_ptr<Node> child : _children)
             {

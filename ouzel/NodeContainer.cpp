@@ -14,16 +14,22 @@ namespace ouzel
     
     NodeContainer::~NodeContainer()
     {
-        
+        for (std::shared_ptr<Node> node : _children)
+        {
+            node->_parent.reset();
+            node->_layer.reset();
+        }
     }
     
     void NodeContainer::addChild(std::shared_ptr<Node> const& node)
     {
-        if (!hasChild(node) && node->getParent().expired())
+        if (!hasChild(node) && !node->getParent())
         {
-            if (std::shared_ptr<Layer> layer = _layer.lock())
+            node->setLayer(_layer);
+            
+            if (node->getVisible())
             {
-                node->addToLayer(layer);
+                node->addToLayer();
             }
             
             _children.push_back(node);
@@ -38,12 +44,9 @@ namespace ouzel
         
         if (i != _children.end())
         {
-            if (!_layer.expired())
-            {
-                node->removeFromLayer();
-            }
-            
+            node->removeFromLayer();
             node->_parent.reset();
+            node->_layer.reset();
             _children.erase(i);
         }
     }
@@ -55,5 +58,15 @@ namespace ouzel
         });
         
         return i != _children.end();
+    }
+    
+    void NodeContainer::setLayer(std::weak_ptr<Layer> const& layer)
+    {
+        _layer = layer;
+        
+        for (auto& node : _children)
+        {
+            node->setLayer(layer);
+        }
     }
 }

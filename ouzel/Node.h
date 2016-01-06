@@ -21,7 +21,7 @@ namespace ouzel
         Node();
         virtual ~Node();
         
-        virtual std::weak_ptr<NodeContainer> getParent() const { return _parent; }
+        virtual std::shared_ptr<NodeContainer> getParent() const { return _parent.lock(); }
         
         virtual void draw();
         virtual void update(float delta);
@@ -46,6 +46,9 @@ namespace ouzel
         virtual void setFlipY(bool flipY);
         virtual bool getFlipY() const { return _flipY; }
         
+        virtual void setVisible(bool visible);
+        virtual bool getVisible() const { return _visible; }
+        
         virtual const Rectangle& getBoundingBox() const { return _boundingBox; }
         
         virtual bool pointOn(const Vector2& position) const;
@@ -59,7 +62,7 @@ namespace ouzel
         virtual bool checkVisibility() const;
         
     protected:
-        virtual void addToLayer(std::shared_ptr<Layer> const& layer);
+        virtual void addToLayer();
         virtual void removeFromLayer();
         
         virtual void calculateTransform() const;
@@ -81,6 +84,8 @@ namespace ouzel
         
         bool _flipX = false;
         bool _flipY = false;
+        
+        bool _visible = true;
         
         std::weak_ptr<Node> _parent;
     };

@@ -75,6 +75,9 @@ namespace ouzel
             case KeyboardKey::RIGHT:
                 position.x += 10.0f;
                 break;
+            case KeyboardKey::SPACE:
+                _witch->setVisible(!_witch->getVisible());
+                break;
             default:
                 break;
         }

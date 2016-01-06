@@ -44,7 +44,7 @@ namespace ouzel
         int32_t getOrder() const { return _order; }
         void setOrder(int32_t order);
         
-        std::weak_ptr<Scene> const& getScene() const { return _scene; }
+        std::shared_ptr<Scene> getScene() const { return _scene.lock(); }
         
     protected:
         virtual void addToScene(std::shared_ptr<Scene> const& scene);
