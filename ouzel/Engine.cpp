@@ -34,7 +34,17 @@ namespace ouzel
     {
         if (!sharedEngine)
         {
+            Settings settings;
+
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+            settings.driver = Renderer::Driver::OPENGL;
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+            settings.driver = Renderer::Driver::DIRECT3D11;
+#endif
+            ouzelInit(settings);
+
             sharedEngine = new Engine();
+            sharedEngine->init(settings);
         }
         
         return sharedEngine;
@@ -42,16 +52,10 @@ namespace ouzel
     
     Engine::Engine()
     {
-        Settings settings;
-        
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        settings.driver = Renderer::Driver::OPENGL;
-#elif defined(OUZEL_PLATFORM_WINDOWS)
-        settings.driver = Renderer::Driver::DIRECT3D11;
-#endif
+    }
 
-        ouzelInit(settings);
-
+    bool Engine::init(Settings const& settings)
+    {
         _eventDispatcher.reset(new EventDispatcher());
         _fileSystem.reset(new FileSystem());
         _sceneManager.reset(new SceneManager());
@@ -66,20 +70,27 @@ namespace ouzel
         {
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
             case Renderer::Driver::OPENGL:
-                _renderer.reset(new RendererOGL(settings.size, settings.resizable, settings.fullscreen));
+                _renderer.reset(new RendererOGL());
 				break;
 #endif
 #ifdef OUZEL_PLATFORM_WINDOWS
             case Renderer::Driver::DIRECT3D11:
-                _renderer.reset(new RendererD3D11(settings.size, settings.resizable, settings.fullscreen));
+                _renderer.reset(new RendererD3D11());
                 break;
 #endif
             default:
-                _renderer.reset(new Renderer(settings.size, settings.resizable, settings.fullscreen));
+                _renderer.reset(new Renderer());
                 break;
+        }
+
+        if (!_renderer->init(settings.size, settings.resizable, settings.fullscreen, settings.driver))
+        {
+            return false;
         }
         
         _previousFrameTime = getCurrentMicroSeconds();
+
+        return true;
     }
     
     Engine::~Engine()

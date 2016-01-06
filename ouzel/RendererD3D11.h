@@ -15,9 +15,6 @@ namespace ouzel
     public:
         virtual ~RendererD3D11();
 
-        void initWindow();
-        void initD3D11();
-
         virtual void clear() override;
         virtual void flush() override;
 
@@ -40,7 +37,12 @@ namespace ouzel
         ID3D11DeviceContext* getContext() const { return _context; }
 
     protected:
-        RendererD3D11(const Size2& size, bool resizable, bool fullscreen);
+        RendererD3D11();
+
+        virtual bool init(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE) override;
+
+        void initWindow();
+        void initD3D11();
 
     private:
         HWND _window;

@@ -83,7 +83,8 @@ namespace ouzel
         virtual bool drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
         
     protected:
-        Renderer(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE);
+        Renderer();
+        virtual bool init(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE);
         
         Driver _driver;
         

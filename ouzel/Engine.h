@@ -27,7 +27,7 @@ namespace ouzel
         static Engine* getInstance();
         
         virtual ~Engine();
-        
+
         std::shared_ptr<EventDispatcher> const& getEventDispatcher() const { return _eventDispatcher; }
         std::shared_ptr<Renderer> const& getRenderer() const { return _renderer; }
         std::shared_ptr<SceneManager> const& getSceneManager() const { return _sceneManager; }
@@ -40,6 +40,7 @@ namespace ouzel
         
     protected:
         Engine();
+        bool init(Settings const& settings);
         
         std::shared_ptr<EventDispatcher> _eventDispatcher;
         std::shared_ptr<Renderer> _renderer;

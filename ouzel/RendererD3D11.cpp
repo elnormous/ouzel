@@ -329,12 +329,9 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
 namespace ouzel
 {
-    RendererD3D11::RendererD3D11(const Size2& size, bool resizable, bool fullscreen):
-        Renderer(size, resizable, fullscreen, Driver::DIRECT3D11)
+    RendererD3D11::RendererD3D11()
     {
-        initWindow();
-        initD3D11();
-        resize(size);
+        
     }
 
     RendererD3D11::~RendererD3D11()
@@ -346,6 +343,20 @@ namespace ouzel
         if (_rtView) _rtView->Release();
         if (_backBuffer) _backBuffer->Release();
         if (_swapChain) _swapChain->Release();
+    }
+
+    bool RendererD3D11::init(const Size2& size, bool resizable, bool fullscreen, Driver driver)
+    {
+        if (!Renderer::init(size, resizable, fullscreen, Driver::DIRECT3D11))
+        {
+            return false;
+        }
+
+        initWindow();
+        initD3D11();
+        resize(_size);
+
+        return true;
     }
 
     void RendererD3D11::initWindow()
