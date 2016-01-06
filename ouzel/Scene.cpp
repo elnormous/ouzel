@@ -65,6 +65,7 @@ namespace ouzel
         if (i != _layers.end())
         {
             layer->removeFromScene();
+            layer->_layer.reset();
             _layers.erase(i);
         }
     }
