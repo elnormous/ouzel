@@ -51,7 +51,7 @@ namespace ouzel
         virtual bool drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4()) override;
         
     private:
-        RendererOGL(const Size2& size, bool resiazble, bool fullscreen);
+        RendererOGL();
         
         bool _ready = false;
     };

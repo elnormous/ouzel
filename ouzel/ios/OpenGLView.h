@@ -7,7 +7,7 @@
 @interface OpenGLView : UIView
 {
 @private
-    CAEAGLstd::shared_ptr<Layer> _eaglLayer;
+    CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;
     GLuint _colorRenderBuffer;
     GLuint _frameBuffer;

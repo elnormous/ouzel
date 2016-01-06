@@ -16,7 +16,7 @@ using namespace ouzel;
 {
     if (self = [super initWithFrame:frameRect])
     {
-        _eaglLayer = (CAEAGLstd::shared_ptr<Layer>)self.layer;
+        _eaglLayer = (CAEAGLLayer*)self.layer;
         _eaglLayer.opaque = YES;
         _eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                          [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
@@ -38,7 +38,7 @@ using namespace ouzel;
         [_displayLink setFrameInterval: 1.0f];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         
-        RendererOGL* renderer = static_cast<RendererOGL*>(Engine::getInstance()->getRenderer());
+        std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
         renderer->initOpenGL(backingWidth, backingHeight);
     }
     

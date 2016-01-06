@@ -25,8 +25,7 @@
 
 namespace ouzel
 {
-    RendererOGL::RendererOGL(const Size2& size, bool resiazble, bool fullscreen):
-        Renderer(size, resiazble, fullscreen, Driver::OPENGL)
+    RendererOGL::RendererOGL()
     {
         
     }
