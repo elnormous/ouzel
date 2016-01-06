@@ -25,12 +25,12 @@ namespace ouzel
         virtual void update(float delta);
         virtual void draw();
         
-        void addNode(std::shared_ptr<Node> node);
-        void removeNode(std::shared_ptr<Node> node);
+        void addNode(std::shared_ptr<Node> const& node);
+        void removeNode(std::shared_ptr<Node> const& node);
         void reorderNodes();
         
-        std::shared_ptr<Camera> getCamera() const { return _camera; }
-        void setCamera(std::shared_ptr<Camera> camera);
+        std::shared_ptr<Camera> const& getCamera() const { return _camera; }
+        void setCamera(std::shared_ptr<Camera> const& camera);
         
         std::shared_ptr<Node> pickNode(const Vector2& position);
         std::set<std::shared_ptr<Node>> pickNodes(const Rectangle& rectangle);
@@ -44,10 +44,10 @@ namespace ouzel
         int32_t getOrder() const { return _order; }
         void setOrder(int32_t order);
         
-        std::weak_ptr<Scene> getScene() const { return _scene; }
+        std::weak_ptr<Scene> const& getScene() const { return _scene; }
         
     protected:
-        virtual void addToScene(std::shared_ptr<Scene> scene);
+        virtual void addToScene(std::shared_ptr<Scene> const& scene);
         virtual void removeFromScene();
         
         std::shared_ptr<Camera> _camera;

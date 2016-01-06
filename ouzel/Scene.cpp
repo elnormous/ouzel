@@ -42,7 +42,7 @@ namespace ouzel
         }
     }
     
-    void Scene::addLayer(std::shared_ptr<Layer> layer)
+    void Scene::addLayer(std::shared_ptr<Layer> const& layer)
     {
         if (!hasLayer(layer) && layer->getScene().expired())
         {
@@ -54,7 +54,7 @@ namespace ouzel
         }
     }
     
-    void Scene::removeLayer(std::shared_ptr<Layer> layer)
+    void Scene::removeLayer(std::shared_ptr<Layer> const& layer)
     {
         std::vector<std::shared_ptr<Layer>>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
             return p.get() == layer.get();
@@ -68,7 +68,7 @@ namespace ouzel
         }
     }
     
-    bool Scene::hasLayer(std::shared_ptr<Layer> layer) const
+    bool Scene::hasLayer(std::shared_ptr<Layer> const& layer) const
     {
         std::vector<std::shared_ptr<Layer>>::const_iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
             return p.get() == layer.get();

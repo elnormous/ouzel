@@ -64,18 +64,18 @@ namespace ouzel
         std::shared_ptr<Texture> getTexture(const std::string& filename);
         virtual std::shared_ptr<Texture> loadTextureFromFile(const std::string& filename, bool dynamic = false);
         virtual std::shared_ptr<Texture> loadTextureFromData(const void* data, const Size2& size, bool dynamic = false);
-        virtual bool activateTexture(std::shared_ptr<Texture> texture, uint32_t layer);
+        virtual bool activateTexture(std::shared_ptr<Texture> const& texture, uint32_t layer);
         virtual std::weak_ptr<Texture> getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
         
         std::shared_ptr<Shader> getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, std::shared_ptr<Shader> shader);
         virtual std::shared_ptr<Shader> loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
         virtual std::shared_ptr<Shader> loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
-        virtual bool activateShader(std::shared_ptr<Shader> shader);
+        virtual bool activateShader(std::shared_ptr<Shader> const& shader);
         virtual std::weak_ptr<Shader> getActiveShader() const { return _activeShader; }
         
         virtual std::shared_ptr<MeshBuffer> createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes);
-        virtual bool drawMeshBuffer(std::shared_ptr<MeshBuffer> meshBuffer);
+        virtual bool drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer);
         
         Vector2 viewToScreenLocation(const Vector2& position);
         Vector2 screenToViewLocation(const Vector2& position);

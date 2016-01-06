@@ -33,7 +33,7 @@ namespace ouzel
     {
         if (_reorderNodes)
         {
-            std::sort(_nodes.begin(), _nodes.end(), [](std::shared_ptr<Node> a, std::shared_ptr<Node> b) {
+            std::sort(_nodes.begin(), _nodes.end(), [](std::shared_ptr<Node> const& a, std::shared_ptr<Node> const& b) {
                 return a->getZ() > b->getZ();
             });
             
@@ -53,7 +53,7 @@ namespace ouzel
         }
     }
     
-    void Layer::addNode(std::shared_ptr<Node> node)
+    void Layer::addNode(std::shared_ptr<Node> const& node)
     {
         std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
             return p.get() == node.get();
@@ -66,7 +66,7 @@ namespace ouzel
         }
     }
     
-    void Layer::removeNode(std::shared_ptr<Node> node)
+    void Layer::removeNode(std::shared_ptr<Node> const& node)
     {
         std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
             return p.get() == node.get();
@@ -83,7 +83,7 @@ namespace ouzel
         _reorderNodes = true;
     }
     
-    void Layer::setCamera(std::shared_ptr<Camera> camera)
+    void Layer::setCamera(std::shared_ptr<Camera> const& camera)
     {
         _camera = camera;
     }
@@ -174,7 +174,7 @@ namespace ouzel
         }
     }
     
-    void Layer::addToScene(std::shared_ptr<Scene> scene)
+    void Layer::addToScene(std::shared_ptr<Scene> const& scene)
     {
         _scene = scene;
     }

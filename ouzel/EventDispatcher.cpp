@@ -23,7 +23,7 @@ namespace ouzel
         sharedEventDispatcher = nullptr;
     }
     
-    void EventDispatcher::addEventHandler(std::shared_ptr<EventHandler> eventHandler)
+    void EventDispatcher::addEventHandler(std::shared_ptr<EventHandler> const& eventHandler)
     {
         std::vector<std::shared_ptr<EventHandler>>::iterator i = std::find_if(_eventHandlers.begin(), _eventHandlers.end(), [eventHandler](std::shared_ptr<EventHandler> const& p) {
             return p.get() == eventHandler.get();
@@ -33,13 +33,13 @@ namespace ouzel
         {
             _eventHandlers.push_back(eventHandler);
             
-            std::sort(_eventHandlers.begin(), _eventHandlers.end(), [](std::shared_ptr<EventHandler> a, std::shared_ptr<EventHandler> b) {
+            std::sort(_eventHandlers.begin(), _eventHandlers.end(), [](std::shared_ptr<EventHandler> const& a, std::shared_ptr<EventHandler> const& b) {
                 return a->_priority < b->_priority;
             });
         }
     }
     
-    void EventDispatcher::removeEventHandler(std::shared_ptr<EventHandler> eventHandler)
+    void EventDispatcher::removeEventHandler(std::shared_ptr<EventHandler> const& eventHandler)
     {
         std::vector<std::shared_ptr<EventHandler>>::iterator i = std::find_if(_eventHandlers.begin(), _eventHandlers.end(), [eventHandler](std::shared_ptr<EventHandler> const& p) {
             return p.get() == eventHandler.get();

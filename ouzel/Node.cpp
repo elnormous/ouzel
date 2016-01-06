@@ -38,7 +38,7 @@ namespace ouzel
         }
     }
     
-    void Node::addChild(std::shared_ptr<Node> node)
+    void Node::addChild(std::shared_ptr<Node> const& node)
     {
         NodeContainer::addChild(node);
         
@@ -105,7 +105,7 @@ namespace ouzel
         markTransformDirty();
     }
 
-    void Node::addToLayer(std::shared_ptr<Layer> layer)
+    void Node::addToLayer(std::shared_ptr<Layer> const& layer)
     {
         if (std::shared_ptr<Layer> currentLayer = _layer.lock())
         {

@@ -96,7 +96,7 @@ namespace ouzel
         return result;
     }
     
-    bool Renderer::activateTexture(std::shared_ptr<Texture> texture, uint32_t layer)
+    bool Renderer::activateTexture(std::shared_ptr<Texture> const& texture, uint32_t layer)
     {
         _activeTextures[layer] = texture;
         
@@ -170,7 +170,7 @@ namespace ouzel
         return shader;
     }
     
-    bool Renderer::activateShader(std::shared_ptr<Shader> shader)
+    bool Renderer::activateShader(std::shared_ptr<Shader> const& shader)
     {
         _activeShader = shader;
         
@@ -189,7 +189,7 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool Renderer::drawMeshBuffer(std::shared_ptr<MeshBuffer> meshBuffer)
+    bool Renderer::drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer)
     {
         if (std::shared_ptr<Shader> shader = _activeShader.lock())
         {

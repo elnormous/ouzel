@@ -239,12 +239,12 @@ namespace ouzel
         }
     }
     
-    void Sprite::setTexture(std::shared_ptr<Texture> texture)
+    void Sprite::setTexture(std::shared_ptr<Texture> const& texture)
     {
         _texture = texture;
     }
     
-    void Sprite::setShader(std::shared_ptr<Shader> shader)
+    void Sprite::setShader(std::shared_ptr<Shader> const& shader)
     {
         _shader = shader;
     }

@@ -27,10 +27,10 @@ namespace ouzel
         virtual void draw() override;
         
         virtual std::shared_ptr<Texture> getTexture() const { return _texture; }
-        virtual void setTexture(std::shared_ptr<Texture> texture);
+        virtual void setTexture(std::shared_ptr<Texture> const& texture);
         
         virtual std::shared_ptr<Shader> getShader() const { return _shader; }
-        virtual void setShader(std::shared_ptr<Shader> shader);
+        virtual void setShader(std::shared_ptr<Shader> const& shader);
         
         virtual const Size2& getSize() const { return _size; }
         

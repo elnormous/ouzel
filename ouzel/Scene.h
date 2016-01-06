@@ -20,9 +20,9 @@ namespace ouzel
         virtual void update(float delta);
         virtual void draw();
         
-        void addLayer(std::shared_ptr<Layer> layer);
-        void removeLayer(std::shared_ptr<Layer> layer);
-        bool hasLayer(std::shared_ptr<Layer> layer) const;
+        void addLayer(std::shared_ptr<Layer> const& layer);
+        void removeLayer(std::shared_ptr<Layer> const& layer);
+        bool hasLayer(std::shared_ptr<Layer> const& layer) const;
         const std::vector<std::shared_ptr<Layer>>& getLayers() const { return _layers; }
         
         virtual void recalculateProjection();

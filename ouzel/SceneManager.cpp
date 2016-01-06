@@ -31,7 +31,7 @@ namespace ouzel
         }
     }
     
-    void SceneManager::setScene(std::shared_ptr<Scene> scene)
+    void SceneManager::setScene(std::shared_ptr<Scene> const& scene)
     {
         if (scene != _scene)
         {

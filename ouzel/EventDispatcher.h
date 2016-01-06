@@ -22,8 +22,8 @@ namespace ouzel
         
         virtual ~EventDispatcher();
         
-        void addEventHandler(std::shared_ptr<EventHandler> eventHandler);
-        void removeEventHandler(std::shared_ptr<EventHandler> eventHandler);
+        void addEventHandler(std::shared_ptr<EventHandler> const& eventHandler);
+        void removeEventHandler(std::shared_ptr<EventHandler> const& eventHandler);
         
         void dispatchKeyDownEvent(const KeyboardEvent& event, void* sender);
         void dispatchKeyUpEvent(const KeyboardEvent& event, void* sender);

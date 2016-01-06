@@ -29,7 +29,7 @@ namespace ouzel
         
         void draw();
         
-        void setScene(std::shared_ptr<Scene> scene);
+        void setScene(std::shared_ptr<Scene> const& scene);
         std::shared_ptr<Scene> getScene() const { return _scene; }
         
         virtual void recalculateProjection();

@@ -193,7 +193,7 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool RendererOGL::drawMeshBuffer(std::shared_ptr<MeshBuffer> meshBuffer)
+    bool RendererOGL::drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
