@@ -352,14 +352,22 @@ namespace ouzel
             return false;
         }
 
-        initWindow();
-        initD3D11();
+        if (!initWindow())
+        {
+            return false;
+        }
+
+        if (!initD3D11())
+        {
+            return false;
+        }
+
         resize(_size);
 
         return true;
     }
 
-    void RendererD3D11::initWindow()
+    bool RendererD3D11::initWindow()
     {
         HINSTANCE hInstance = GetModuleHandle(nullptr);
 
@@ -372,7 +380,11 @@ namespace ouzel
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
         wc.lpszClassName = L"OuzelWindow";
-        RegisterClassExW(&wc);
+        if (!RegisterClassExW(&wc))
+        {
+            log("Failed to register window class");
+            return false;
+        }
 
         _windowStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
 
@@ -406,11 +418,19 @@ namespace ouzel
             hInstance,
             nullptr);
 
+        if (!_window)
+        {
+            log("Failed to create window");
+            return false;
+        }
+
         SetWindowLongPtrW(_window, GWLP_USERDATA, (LONG_PTR)this);
         ShowWindow(_window, SW_SHOW);
+
+        return true;
     }
 
-    void RendererD3D11::initD3D11()
+    bool RendererD3D11::initD3D11()
     {
         DXGI_SWAP_CHAIN_DESC swapChainDesc;
         memset(&swapChainDesc, 0, sizeof(swapChainDesc));
@@ -452,7 +472,7 @@ namespace ouzel
         if (FAILED(hr))
         {
             log("Failed to create the D3D11 device");
-            return;
+            return false;
         }
 
         // Backbuffer
@@ -460,14 +480,14 @@ namespace ouzel
         if (FAILED(hr) || !_backBuffer)
         {
             log("Failed to retrieve D3D11 backbuffer");
-            return;
+            return false;
         }
 
         hr = _device->CreateRenderTargetView(_backBuffer, nullptr, &_rtView);
         if (FAILED(hr) || !_rtView)
         {
             log("Failed to create D3D11 render target view");
-            return;
+            return false;
         }
 
         // Sampler state
@@ -492,7 +512,7 @@ namespace ouzel
         if (FAILED(hr) || !_samplerState)
         {
             log("Failed to create D3D11 sampler state");
-            return;
+            return false;
         }
 
         // Rasterizer state
@@ -512,7 +532,7 @@ namespace ouzel
         if (FAILED(hr) || !_rasterizerState)
         {
             log("Failed to create D3D11 rasterizer state");
-            return;
+            return false;
         }
 
         // Blending state
@@ -530,7 +550,7 @@ namespace ouzel
         if (FAILED(hr) || !_blendState)
         {
             log("Failed to create D3D11 blend state");
-            return;
+            return false;
         }
 
         // Depth/stencil state
@@ -543,7 +563,7 @@ namespace ouzel
         if (FAILED(hr) || !_depthStencilState)
         {
             log("Failed to create D3D11 depth stencil state");
-            return;
+            return false;
         }
 
         std::shared_ptr<Shader> textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
@@ -570,6 +590,8 @@ namespace ouzel
 
         memset(&_resourceViews, 0, sizeof(_resourceViews));
         memset(&_samplerStates, 0, sizeof(_samplerStates));
+
+        return true;
     }
 
     void RendererD3D11::clear()

@@ -41,8 +41,8 @@ namespace ouzel
 
         virtual bool init(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE) override;
 
-        void initWindow();
-        void initD3D11();
+        bool initWindow();
+        bool initD3D11();
 
     private:
         HWND _window;

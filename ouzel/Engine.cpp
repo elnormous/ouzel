@@ -44,7 +44,13 @@ namespace ouzel
             ouzelInit(settings);
 
             sharedEngine = new Engine();
-            sharedEngine->init(settings);
+            
+            if (!sharedEngine->init(settings))
+            {
+                log("Failed to initialize engine");
+                delete sharedEngine;
+                sharedEngine = nullptr;
+            }
         }
         
         return sharedEngine;
