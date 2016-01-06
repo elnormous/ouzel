@@ -14,10 +14,7 @@ namespace ouzel
     
     Scene::~Scene()
     {
-        for (std::shared_ptr<Layer> layer : _layers)
-        {
-            layer->_scene = nullptr;
-        }
+
     }
     
     void Scene::update(float delta)
@@ -47,12 +44,13 @@ namespace ouzel
     
     void Scene::addLayer(std::shared_ptr<Layer> layer)
     {
-        if (!hasLayer(layer) && !layer->getScene())
+        if (!hasLayer(layer) && layer->getScene().expired())
         {
+            layer->_layer = layer;
             _layers.push_back(layer);
             layer->addToScene(shared_from_this());
             layer->recalculateProjection();
-            layer->_layer = layer;
+            
         }
     }
     

@@ -26,6 +26,6 @@ namespace ouzel
     protected:
         std::vector<std::shared_ptr<Node>> _children;
         
-        std::shared_ptr<Layer> _layer = nullptr;
+        std::weak_ptr<Layer> _layer;
     };
 }

@@ -219,12 +219,14 @@ namespace ouzel
     {
         Node::draw();
         
-        if (_shader && _texture && _layer)
+        std::shared_ptr<Layer> layer = _layer.lock();
+        
+        if (_shader && _texture && layer)
         {
             Renderer::getInstance()->activateTexture(_texture, 0);
             Renderer::getInstance()->activateShader(_shader);
             
-            Matrix4 modelViewProj = _layer->getProjection() * _layer->getCamera()->getTransform() * _transform;
+            Matrix4 modelViewProj = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
             
             _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
             
@@ -265,9 +267,9 @@ namespace ouzel
     
     bool Sprite::checkVisibility() const
     {
-        if (_layer)
+        if (std::shared_ptr<Layer> layer = _layer.lock())
         {
-            Matrix4 mvp = _layer->getProjection() * _layer->getCamera()->getTransform() * _transform;
+            Matrix4 mvp = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
             
             Vector3 topRight(_size.width / 2.0f, _size.height / 2.0f, 0.0f);
             Vector3 bottomLeft(-_size.width / 2.0f, -_size.height / 2.0f, 0.0f);

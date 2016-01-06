@@ -19,15 +19,14 @@ namespace ouzel
     
     void NodeContainer::addChild(std::shared_ptr<Node> node)
     {
-        if (!hasChild(node) && node->getParent() == nullptr)
+        if (!hasChild(node) && node->getParent().expired())
         {
-            if (_layer)
+            if (std::shared_ptr<Layer> layer = _layer.lock())
             {
-                node->addToLayer(_layer);
+                node->addToLayer(layer);
             }
             
             _children.push_back(node);
-            node->_parent = this;
         }
     }
     
@@ -39,12 +38,12 @@ namespace ouzel
         
         if (i != _children.end())
         {
-            if (_layer)
+            if (!_layer.expired())
             {
                 node->removeFromLayer();
             }
             
-            node->_parent = nullptr;
+            node->_parent.reset();
             _children.erase(i);
         }
     }

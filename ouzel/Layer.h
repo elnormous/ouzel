@@ -44,7 +44,7 @@ namespace ouzel
         int32_t getOrder() const { return _order; }
         void setOrder(int32_t order);
         
-        std::shared_ptr<Scene> getScene() const { return _scene; }
+        std::weak_ptr<Scene> getScene() const { return _scene; }
         
     protected:
         virtual void addToScene(std::shared_ptr<Scene> scene);
@@ -57,7 +57,7 @@ namespace ouzel
         Matrix4 _projection;
         Matrix4 _inverseProjection;
         
-        std::shared_ptr<Scene> _scene;
+        std::weak_ptr<Scene> _scene;
         int32_t _order = 0;
     };
 }

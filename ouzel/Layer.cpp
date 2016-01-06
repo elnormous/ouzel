@@ -168,9 +168,9 @@ namespace ouzel
     {
         _order = order;
         
-        if (_scene)
+        if (std::shared_ptr<Scene> scene = _scene.lock())
         {
-            _scene->reorderLayers();
+            scene->reorderLayers();
         }
     }
     
@@ -181,6 +181,6 @@ namespace ouzel
     
     void Layer::removeFromScene()
     {
-        _scene = nullptr;
+        _scene.reset();
     }
 }

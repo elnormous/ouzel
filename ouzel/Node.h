@@ -21,7 +21,7 @@ namespace ouzel
         Node();
         virtual ~Node();
         
-        virtual NodeContainer* getParent() const { return _parent; }
+        virtual std::weak_ptr<NodeContainer> getParent() const { return _parent; }
         
         virtual void draw();
         virtual void update(float delta);
@@ -66,8 +66,6 @@ namespace ouzel
         void markTransformDirty() const;
         virtual void calculateInverseTransform() const;
         
-        NodeContainer* _parent = nullptr;
-        
         Matrix4 _parentTransform = Matrix4::identity();
         mutable Matrix4 _transform;
         mutable bool _transformDirty = false;
@@ -83,5 +81,7 @@ namespace ouzel
         
         bool _flipX = false;
         bool _flipY = false;
+        
+        std::weak_ptr<Node> _parent;
     };
 }
