@@ -91,9 +91,9 @@ namespace ouzel
     {
         for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
         {
-            if (eventHandler->mouseDownHandler)
+            if (eventHandler->mouseUpHandler)
             {
-                eventHandler->mouseDownHandler(event, sender);
+                eventHandler->mouseUpHandler(event, sender);
                 break;
             }
         }
