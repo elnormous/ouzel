@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 #include "Noncopyable.h"
 #include "Vector3.h"
 #include "Vector4.h"

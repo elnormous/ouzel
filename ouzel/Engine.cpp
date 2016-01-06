@@ -71,7 +71,7 @@ namespace ouzel
 #endif
 #ifdef OUZEL_PLATFORM_WINDOWS
             case Renderer::Driver::DIRECT3D11:
-                _renderer = new RendererD3D11(settings.size, settings.resizable, settings.fullscreen);
+                _renderer.reset(new RendererD3D11(settings.size, settings.resizable, settings.fullscreen));
                 break;
 #endif
             default:

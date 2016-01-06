@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include "Noncopyable.h"
 #include "Event.h"
 #include "EventHander.h"

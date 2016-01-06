@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <memory>
 #include "Noncopyable.h"
 #include "Rectangle.h"
 #include "Matrix4.h"

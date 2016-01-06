@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\AABB2.h" />
-    <ClInclude Include="..\ouzel\AutoPtr.h" />
     <ClInclude Include="..\ouzel\Button.h" />
     <ClInclude Include="..\ouzel\Camera.h" />
     <ClInclude Include="..\ouzel\Color.h" />
@@ -88,7 +87,6 @@
     <ClInclude Include="..\ouzel\ouzel.h" />
     <ClInclude Include="..\ouzel\ParticleSystem.h" />
     <ClInclude Include="..\ouzel\Rectangle.h" />
-    <ClInclude Include="..\ouzel\ReferenceCounted.h" />
     <ClInclude Include="..\ouzel\Renderer.h" />
     <ClInclude Include="..\ouzel\RendererD3D11.h" />
     <ClInclude Include="..\ouzel\RenderTarget.h" />

@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include "Vector2.h"
 #include "Size2.h"
 

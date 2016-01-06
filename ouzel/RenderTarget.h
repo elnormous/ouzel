@@ -4,6 +4,7 @@
 #pragma once
 
 #include <algorithm>
+#include <memory>
 #include "Noncopyable.h"
 
 namespace ouzel
