@@ -51,7 +51,7 @@
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    delete _engine;
+    
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
