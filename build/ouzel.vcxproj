@@ -57,6 +57,7 @@
     <ClCompile Include="..\ouzel\Vector3.cpp" />
     <ClCompile Include="..\ouzel\Vector4.cpp" />
     <ClCompile Include="..\ouzel\Vertex.cpp" />
+    <ClCompile Include="..\ouzel\win\InputWin.cpp" />
     <ClCompile Include="..\ouzel\win\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +106,7 @@
     <ClInclude Include="..\ouzel\Vector3.h" />
     <ClInclude Include="..\ouzel\Vector4.h" />
     <ClInclude Include="..\ouzel\Vertex.h" />
+    <ClInclude Include="..\ouzel\win\InputWin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</ProjectGuid>
@@ -157,19 +159,19 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\external\stb;..\external\rapidjson\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..\external\stb;..\external\rapidjson\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);..\ouzel\;..\ouzel\win\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\external\stb;..\external\rapidjson\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..\external\stb;..\external\rapidjson\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);..\ouzel\;..\ouzel\win\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\external\stb;..\external\rapidjson\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\external\stb;..\external\rapidjson\include;..\ouzel\;..\ouzel\win\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\external\stb;..\external\rapidjson\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\external\stb;..\external\rapidjson\include;..\ouzel\;..\ouzel\win\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

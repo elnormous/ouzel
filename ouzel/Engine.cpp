@@ -18,6 +18,8 @@
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include "InputApple.h"
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+#include "InputWin.h"
 #endif
 
 void ouzelInit(ouzel::Settings&);
