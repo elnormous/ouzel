@@ -683,7 +683,7 @@ namespace ouzel
         return meshBuffer;
     }
 
-    bool RendererD3D11::drawMeshBuffer(std::shared_ptr<MeshBuffer> meshBuffer)
+    bool RendererD3D11::drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
