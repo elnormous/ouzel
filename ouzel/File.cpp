@@ -77,9 +77,7 @@ namespace ouzel
             modeStr += "b";
         }
         
-        FILE* f = fopen(_path.c_str(), modeStr.c_str());
-        
-        if (f)
+        if (FILE* f = fopen(_path.c_str(), modeStr.c_str()))
         {
             _file.reset(f, std::fclose);
         }
