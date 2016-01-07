@@ -27,6 +27,7 @@
     <ClCompile Include="..\ouzel\EventDispatcher.cpp" />
     <ClCompile Include="..\ouzel\File.cpp" />
     <ClCompile Include="..\ouzel\FileSystem.cpp" />
+    <ClCompile Include="..\ouzel\Gamepad.cpp" />
     <ClCompile Include="..\ouzel\Image.cpp" />
     <ClCompile Include="..\ouzel\Input.cpp" />
     <ClCompile Include="..\ouzel\Label.cpp" />
@@ -57,6 +58,7 @@
     <ClCompile Include="..\ouzel\Vector3.cpp" />
     <ClCompile Include="..\ouzel\Vector4.cpp" />
     <ClCompile Include="..\ouzel\Vertex.cpp" />
+    <ClCompile Include="..\ouzel\win\GamepadWin.cpp" />
     <ClCompile Include="..\ouzel\win\InputWin.cpp" />
     <ClCompile Include="..\ouzel\win\main.cpp" />
   </ItemGroup>
@@ -72,6 +74,7 @@
     <ClInclude Include="..\ouzel\EventHander.h" />
     <ClInclude Include="..\ouzel\File.h" />
     <ClInclude Include="..\ouzel\FileSystem.h" />
+    <ClInclude Include="..\ouzel\Gamepad.h" />
     <ClInclude Include="..\ouzel\Image.h" />
     <ClInclude Include="..\ouzel\Input.h" />
     <ClInclude Include="..\ouzel\Label.h" />
@@ -104,6 +107,7 @@
     <ClInclude Include="..\ouzel\Vector3.h" />
     <ClInclude Include="..\ouzel\Vector4.h" />
     <ClInclude Include="..\ouzel\Vertex.h" />
+    <ClInclude Include="..\ouzel\win\GamepadWin.h" />
     <ClInclude Include="..\ouzel\win\InputWin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

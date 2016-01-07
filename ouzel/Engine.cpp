@@ -68,6 +68,8 @@ namespace ouzel
         
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         _input.reset(new InputApple());
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        _input.reset(new InputWin());
 #else
         _input.reset(new Input());
 #endif
