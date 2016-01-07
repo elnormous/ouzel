@@ -78,7 +78,7 @@ namespace ouzel
         
         if (file.isOpen())
         {
-            rapidjson::FileReadStream is(file.getFile(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
+            rapidjson::FileReadStream is(file.getFile().get(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
             
             rapidjson::Document document;
             document.ParseStream<0>(is);

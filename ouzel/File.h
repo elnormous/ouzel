@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include <stdio.h>
 #include <cstdint>
 
@@ -31,7 +32,7 @@ namespace ouzel
         File& operator=(File&& other);
         
         bool isOpen() const { return _file != nullptr; }
-        FILE* getFile() const { return _file; }
+        std::shared_ptr<FILE> const& getFile() const { return _file; }
         
         int64_t read(char* buffer, uint32_t size);
         int64_t write(const char* buffer, uint32_t size);
@@ -43,6 +44,6 @@ namespace ouzel
         Mode _mode;
         bool _binary;
         
-        FILE* _file = nullptr;
+        std::shared_ptr<FILE> _file;
     };
 }
