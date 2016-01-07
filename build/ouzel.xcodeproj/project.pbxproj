@@ -46,7 +46,7 @@
 		303B75161C288CFB00FEDE92 /* MeshBufferOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */; };
 		303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75151C288CFB00FEDE92 /* MeshBufferOGL.h */; };
 		303B751A1C29ED4200FEDE92 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75181C29EB8400FEDE92 /* main.cpp */; };
-		303B751D1C29EDEE00FEDE92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B751C1C29EDEE00FEDE92 /* main.m */; };
+		303B751D1C29EDEE00FEDE92 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B751C1C29EDEE00FEDE92 /* main.mm */; };
 		303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B751E1C29EFEC00FEDE92 /* AppDelegate.h */; };
 		303B75211C29EFEC00FEDE92 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B751F1C29EFEC00FEDE92 /* AppDelegate.mm */; };
 		303B75371C2A3C8200FEDE92 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* CompileConfig.h */; };
@@ -100,7 +100,7 @@
 		303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* Sprite.h */; };
 		303B756D1C2A3CCA00FEDE92 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
 		303B756E1C2A3CCA00FEDE92 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E491C237C70008B1151 /* Utils.h */; };
-		303B75711C2A3D7F00FEDE92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B75701C2A3D7F00FEDE92 /* main.m */; };
+		303B75711C2A3D7F00FEDE92 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B75701C2A3D7F00FEDE92 /* main.mm */; };
 		303B75761C2A3E3000FEDE92 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B75741C2A3E3000FEDE92 /* AppDelegate.mm */; };
 		303B75771C2A3E3000FEDE92 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75751C2A3E3000FEDE92 /* AppDelegate.h */; };
 		303B75781C2A419F00FEDE92 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* CompileConfig.h */; };
@@ -215,7 +215,7 @@
 		303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E951C26EDFB008B1151 /* ParticleSystem.h */; };
 		303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76811C355A5800FEDE92 /* AppDelegate.h */; };
 		303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B76821C355A5800FEDE92 /* AppDelegate.mm */; };
-		303B76881C355A5800FEDE92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76831C355A5800FEDE92 /* main.m */; };
+		303B76881C355A5800FEDE92 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B76831C355A5800FEDE92 /* main.mm */; };
 		303B76891C355A5800FEDE92 /* ViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76841C355A5800FEDE92 /* ViewController.h */; };
 		303B768A1C355A5800FEDE92 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76851C355A5800FEDE92 /* ViewController.m */; };
 		303B768D1C355AA400FEDE92 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
@@ -373,11 +373,11 @@
 		303B75141C288CFB00FEDE92 /* MeshBufferOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshBufferOGL.cpp; sourceTree = "<group>"; };
 		303B75151C288CFB00FEDE92 /* MeshBufferOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshBufferOGL.h; sourceTree = "<group>"; };
 		303B75181C29EB8400FEDE92 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		303B751C1C29EDEE00FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		303B751C1C29EDEE00FEDE92 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		303B751E1C29EFEC00FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B751F1C29EFEC00FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		303B75331C2A3C5800FEDE92 /* libouzel_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		303B75701C2A3D7F00FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		303B75701C2A3D7F00FEDE92 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		303B75741C2A3E3000FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		303B75751C2A3E3000FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B75801C2B17DC00FEDE92 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
@@ -406,7 +406,7 @@
 		303B76801C355A3B00FEDE92 /* libouzel_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B76811C355A5800FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B76821C355A5800FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
-		303B76831C355A5800FEDE92 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		303B76831C355A5800FEDE92 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		303B76841C355A5800FEDE92 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		303B76851C355A5800FEDE92 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		303B76A01C355AA400FEDE92 /* sprite_tvos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_tvos.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -716,7 +716,7 @@
 			children = (
 				303B751E1C29EFEC00FEDE92 /* AppDelegate.h */,
 				303B751F1C29EFEC00FEDE92 /* AppDelegate.mm */,
-				303B751C1C29EDEE00FEDE92 /* main.m */,
+				303B751C1C29EDEE00FEDE92 /* main.mm */,
 				304A8E391C237C70008B1151 /* OpenGLView.h */,
 				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
 			);
@@ -728,7 +728,7 @@
 			children = (
 				303B75751C2A3E3000FEDE92 /* AppDelegate.h */,
 				303B75741C2A3E3000FEDE92 /* AppDelegate.mm */,
-				303B75701C2A3D7F00FEDE92 /* main.m */,
+				303B75701C2A3D7F00FEDE92 /* main.mm */,
 				303B76BF1C35630B00FEDE92 /* OpenGLView.h */,
 				303B76C01C35630B00FEDE92 /* OpenGLView.mm */,
 				303B762D1C3559B900FEDE92 /* ViewController.h */,
@@ -766,7 +766,7 @@
 			children = (
 				303B76811C355A5800FEDE92 /* AppDelegate.h */,
 				303B76821C355A5800FEDE92 /* AppDelegate.mm */,
-				303B76831C355A5800FEDE92 /* main.m */,
+				303B76831C355A5800FEDE92 /* main.mm */,
 				303B76C31C35635700FEDE92 /* OpenGLView.h */,
 				303B76C41C35635700FEDE92 /* OpenGLView.mm */,
 				303B76841C355A5800FEDE92 /* ViewController.h */,
@@ -1310,7 +1310,7 @@
 				303B754F1C2A3CB700FEDE92 /* Matrix3.cpp in Sources */,
 				303B754A1C2A3C9200FEDE92 /* Texture.cpp in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
-				303B75711C2A3D7F00FEDE92 /* main.m in Sources */,
+				303B75711C2A3D7F00FEDE92 /* main.mm in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
 				303B76C21C35630B00FEDE92 /* OpenGLView.mm in Sources */,
 				303B75461C2A3C9200FEDE92 /* RenderTarget.cpp in Sources */,
@@ -1392,7 +1392,7 @@
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
 				303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Node.cpp in Sources */,
-				303B76881C355A5800FEDE92 /* main.m in Sources */,
+				303B76881C355A5800FEDE92 /* main.mm in Sources */,
 				30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				303B76551C355A3B00FEDE92 /* File.cpp in Sources */,
 			);
@@ -1424,7 +1424,7 @@
 				30575ABC1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
-				303B751D1C29EDEE00FEDE92 /* main.m in Sources */,
+				303B751D1C29EDEE00FEDE92 /* main.mm in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
 				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,

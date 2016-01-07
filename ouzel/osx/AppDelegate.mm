@@ -11,7 +11,7 @@
 
 -(void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    ouzel::Engine::getInstance();
+    ouzel::Engine::getInstance()->init();
     ouzel::Size2 size = ouzel::Engine::getInstance()->getRenderer()->getSize();
     
     NSScreen* screen = [NSScreen mainScreen];

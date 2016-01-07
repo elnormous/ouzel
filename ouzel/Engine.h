@@ -20,6 +20,9 @@ namespace ouzel
         static std::shared_ptr<Engine> getInstance();
         
         virtual ~Engine();
+        
+        void setArgs(std::vector<std::string> const& args);
+        bool init();
 
         std::shared_ptr<EventDispatcher> const& getEventDispatcher() const { return _eventDispatcher; }
         std::shared_ptr<Renderer> const& getRenderer() const { return _renderer; }
@@ -33,7 +36,8 @@ namespace ouzel
         
     protected:
         Engine();
-        bool init();
+        
+        std::vector<std::string> _args;
         
         std::shared_ptr<App> _app;
         

@@ -10,7 +10,7 @@
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    ouzel::Engine::getInstance();
+    ouzel::Engine::getInstance()->init();
     
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     

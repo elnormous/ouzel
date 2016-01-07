@@ -22,23 +22,17 @@
 #include "InputWin.h"
 #endif
 
-std::shared_ptr<ouzel::App> ouzelMain();
+std::shared_ptr<ouzel::App> ouzelMain(std::vector<std::string> const& args);
 
 namespace ouzel
 {
+    static std::shared_ptr<Engine> sharedEngine;
+    
     std::shared_ptr<Engine> Engine::getInstance()
     {
-        static std::shared_ptr<Engine> sharedEngine;
-        
         if (!sharedEngine)
         {
             sharedEngine.reset(new Engine());
-            
-            if (!sharedEngine->init())
-            {
-                log("Failed to initialize engine");
-                sharedEngine.reset();
-            }
         }
         
         return sharedEngine;
@@ -46,11 +40,17 @@ namespace ouzel
     
     Engine::Engine()
     {
+
+    }
+    
+    void Engine::setArgs(std::vector<std::string> const& args)
+    {
+        _args = args;
     }
 
     bool Engine::init()
     {
-        _app = ouzelMain();
+        _app = ouzelMain(_args);
         
         if (!_app)
         {
