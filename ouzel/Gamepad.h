@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace ouzel
 {
     class Gamepad
@@ -11,5 +13,8 @@ namespace ouzel
         virtual bool isAttached() const;
         virtual void setAbsoluteDpadValues(bool absoluteDpadValues);
         virtual bool isAbsoluteDpadValues() const;
+        
+        virtual int32_t getPlayerIndex() const;
+        virtual void setPlayerIndex(int32_t playerIndex);
     };
 }

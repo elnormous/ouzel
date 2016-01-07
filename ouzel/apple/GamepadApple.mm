@@ -94,4 +94,14 @@ namespace ouzel
         return false;
 #endif
     }
+    
+    int32_t GamepadApple::getPlayerIndex() const
+    {
+        return static_cast<int32_t>(_controller.playerIndex);
+    }
+    
+    void GamepadApple::setPlayerIndex(int32_t playerIndex)
+    {
+        _controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndex);
+    }
 }

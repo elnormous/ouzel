@@ -19,4 +19,14 @@ namespace ouzel
     {
         return false;
     }
+    
+    int32_t Gamepad::getPlayerIndex() const
+    {
+        return -1;
+    }
+    
+    void Gamepad::setPlayerIndex(int32_t playerIndex)
+    {
+        
+    }
 }
