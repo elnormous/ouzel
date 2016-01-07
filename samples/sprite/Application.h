@@ -5,11 +5,14 @@
 
 namespace ouzel
 {
-    class Application: public Noncopyable
+    class Application: public Noncopyable, public App
     {
     public:
-        Application();
         virtual ~Application();
+        
+        virtual Settings getSettings() override;
+        
+        virtual void begin() override;
         
         void handleKeyDown(const KeyboardEvent& event, std::shared_ptr<void> const& sender) const;
         void handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender) const;

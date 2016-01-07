@@ -22,34 +22,22 @@
 #include "InputWin.h"
 #endif
 
-void ouzelInit(ouzel::Settings&);
-void ouzelBegin();
-void ouzelEnd();
+std::shared_ptr<ouzel::App> ouzelMain();
 
 namespace ouzel
 {
-    static Engine* sharedEngine = nullptr;
-    
-    Engine* Engine::getInstance()
+    std::shared_ptr<Engine> Engine::getInstance()
     {
+        static std::shared_ptr<Engine> sharedEngine;
+        
         if (!sharedEngine)
         {
-            Settings settings;
-
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-            settings.driver = Renderer::Driver::OPENGL;
-#elif defined(OUZEL_PLATFORM_WINDOWS)
-            settings.driver = Renderer::Driver::DIRECT3D11;
-#endif
-            ouzelInit(settings);
-
-            sharedEngine = new Engine();
+            sharedEngine.reset(new Engine());
             
-            if (!sharedEngine->init(settings))
+            if (!sharedEngine->init())
             {
                 log("Failed to initialize engine");
-                delete sharedEngine;
-                sharedEngine = nullptr;
+                sharedEngine.reset();
             }
         }
         
@@ -60,8 +48,23 @@ namespace ouzel
     {
     }
 
-    bool Engine::init(Settings const& settings)
+    bool Engine::init()
     {
+        _app = ouzelMain();
+        
+        if (!_app)
+        {
+            return false;
+        }
+        
+        Settings settings = _app->getSettings();
+        
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+        settings.driver = Renderer::Driver::OPENGL;
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        settings.driver = Renderer::Driver::DIRECT3D11;
+#endif
+        
         _eventDispatcher.reset(new EventDispatcher());
         _fileSystem.reset(new FileSystem());
         _sceneManager.reset(new SceneManager());
@@ -108,12 +111,12 @@ namespace ouzel
     
     void Engine::begin()
     {
-        ouzelBegin();
+        _app->begin();
     }
     
     void Engine::end()
     {
-        ouzelEnd();
+        _app.reset();
     }
     
     void Engine::run()

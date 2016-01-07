@@ -5,6 +5,8 @@
 
 #include "CompileConfig.h"
 #include "Engine.h"
+#include "App.h"
+#include "Settings.h"
 #include "Renderer.h"
 #include "Shader.h"
 #include "Matrix3.h"

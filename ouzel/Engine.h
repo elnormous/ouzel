@@ -10,21 +10,14 @@
 #include "FileSystem.h"
 #include "Input.h"
 #include "EventDispatcher.h"
+#include "App.h"
 
 namespace ouzel
 {
-    struct Settings
-    {
-        Renderer::Driver driver = Renderer::Driver::NONE;
-        Size2 size;
-        bool resizable = false;
-        bool fullscreen = false;
-    };
-    
     class Engine: public Noncopyable
     {
     public:
-        static Engine* getInstance();
+        static std::shared_ptr<Engine> getInstance();
         
         virtual ~Engine();
 
@@ -35,12 +28,14 @@ namespace ouzel
         std::shared_ptr<Input> const& getInput() const { return _input; }
         
         void begin();
-        void run();
         void end();
+        void run();
         
     protected:
         Engine();
-        bool init(Settings const& settings);
+        bool init();
+        
+        std::shared_ptr<App> _app;
         
         std::shared_ptr<EventDispatcher> _eventDispatcher;
         std::shared_ptr<Renderer> _renderer;

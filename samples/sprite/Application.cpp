@@ -9,8 +9,22 @@
 #include "Application.h"
 
 namespace ouzel
-{
-    Application::Application()
+{    
+    Application::~Application()
+    {
+        Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
+    }
+    
+    Settings Application::getSettings()
+    {
+        Settings settings;
+        settings.size = ouzel::Size2(640.0f, 480.0f);
+        settings.resizable = true;
+        
+        return settings;
+    }
+    
+    void Application::begin()
     {
         _eventHandler.reset(new EventHandler());
         
@@ -29,7 +43,7 @@ namespace ouzel
         
         _layer.reset(new Layer());
         scene->addLayer(_layer);
-
+        
         _sprite.reset(new Sprite());
         _sprite->initFromFile("run.json");
         _sprite->play(true);
@@ -52,11 +66,6 @@ namespace ouzel
         _layer->addChild(_witch);
         
         Engine::getInstance()->getInput()->startDiscovery();
-    }
-    
-    Application::~Application()
-    {
-        Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
     void Application::handleKeyDown(const KeyboardEvent& event, std::shared_ptr<void> const& sender) const
