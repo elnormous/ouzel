@@ -50,6 +50,8 @@ namespace ouzel
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
         _layer->addChild(_witch);
+        
+        Engine::getInstance()->getInput()->startDiscovery();
     }
     
     Application::~Application()

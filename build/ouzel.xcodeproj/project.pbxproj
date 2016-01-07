@@ -19,6 +19,18 @@
 		3031A0B91C3731A2004D3514 /* TextureVSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031A0AF1C3731A2004D3514 /* TextureVSOGLES.h */; };
 		3031A0BA1C3731A2004D3514 /* TextureVSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031A0AF1C3731A2004D3514 /* TextureVSOGLES.h */; };
 		3031A0BB1C3731A2004D3514 /* TextureVSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031A0AF1C3731A2004D3514 /* TextureVSOGLES.h */; };
+		303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303647121C3DFEAF0024DB5B /* Gamepad.cpp */; };
+		303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303647121C3DFEAF0024DB5B /* Gamepad.cpp */; };
+		303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303647121C3DFEAF0024DB5B /* Gamepad.cpp */; };
+		303647171C3DFEAF0024DB5B /* Gamepad.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647131C3DFEAF0024DB5B /* Gamepad.h */; };
+		303647181C3DFEAF0024DB5B /* Gamepad.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647131C3DFEAF0024DB5B /* Gamepad.h */; };
+		303647191C3DFEAF0024DB5B /* Gamepad.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647131C3DFEAF0024DB5B /* Gamepad.h */; };
+		3036471C1C3E058E0024DB5B /* GamepadApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3036471A1C3E058E0024DB5B /* GamepadApple.mm */; };
+		3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3036471A1C3E058E0024DB5B /* GamepadApple.mm */; };
+		3036471E1C3E058E0024DB5B /* GamepadApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3036471A1C3E058E0024DB5B /* GamepadApple.mm */; };
+		3036471F1C3E058E0024DB5B /* GamepadApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 3036471B1C3E058E0024DB5B /* GamepadApple.h */; };
+		303647201C3E058E0024DB5B /* GamepadApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 3036471B1C3E058E0024DB5B /* GamepadApple.h */; };
+		303647211C3E058E0024DB5B /* GamepadApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 3036471B1C3E058E0024DB5B /* GamepadApple.h */; };
 		303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* Image.cpp */; };
 		303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B74ED1C27F6A100FEDE92 /* OpenGL.framework */; };
 		303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B74F21C27F6EB00FEDE92 /* Cocoa.framework */; };
@@ -338,6 +350,10 @@
 		3031A0AD1C3731A2004D3514 /* ColorVSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorVSOGLES.h; sourceTree = "<group>"; };
 		3031A0AE1C3731A2004D3514 /* TexturePSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturePSOGLES.h; sourceTree = "<group>"; };
 		3031A0AF1C3731A2004D3514 /* TextureVSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSOGLES.h; sourceTree = "<group>"; };
+		303647121C3DFEAF0024DB5B /* Gamepad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gamepad.cpp; sourceTree = "<group>"; };
+		303647131C3DFEAF0024DB5B /* Gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamepad.h; sourceTree = "<group>"; };
+		3036471A1C3E058E0024DB5B /* GamepadApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GamepadApple.mm; path = apple/GamepadApple.mm; sourceTree = "<group>"; };
+		3036471B1C3E058E0024DB5B /* GamepadApple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamepadApple.h; path = apple/GamepadApple.h; sourceTree = "<group>"; };
 		303B74E11C277A7500FEDE92 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		303B74E21C277A7500FEDE92 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		303B74ED1C27F6A100FEDE92 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -714,10 +730,14 @@
 		303B76051C34A91B00FEDE92 /* input */ = {
 			isa = PBXGroup;
 			children = (
+				303647121C3DFEAF0024DB5B /* Gamepad.cpp */,
+				303647131C3DFEAF0024DB5B /* Gamepad.h */,
+				3036471B1C3E058E0024DB5B /* GamepadApple.h */,
+				3036471A1C3E058E0024DB5B /* GamepadApple.mm */,
 				303B76061C34A92B00FEDE92 /* Input.cpp */,
 				303B76071C34A92B00FEDE92 /* Input.h */,
-				30575ADF1C3C91A40009C8A7 /* InputApple.mm */,
 				30575AE01C3C91A40009C8A7 /* InputApple.h */,
+				30575ADF1C3C91A40009C8A7 /* InputApple.mm */,
 			);
 			name = input;
 			sourceTree = "<group>";
@@ -892,6 +912,7 @@
 				303B756E1C2A3CCA00FEDE92 /* Utils.h in Headers */,
 				303B75431C2A3C9200FEDE92 /* MeshBuffer.h in Headers */,
 				30575AD11C3B175D0009C8A7 /* Label.h in Headers */,
+				303647181C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				30575AC91C3B17540009C8A7 /* Button.h in Headers */,
 				3031A0BA1C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.h in Headers */,
@@ -922,6 +943,7 @@
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
+				303647201C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */,
 				303B75771C2A3E3000FEDE92 /* AppDelegate.h in Headers */,
 			);
@@ -947,6 +969,7 @@
 				303B76621C355A3B00FEDE92 /* MeshBuffer.h in Headers */,
 				303B76631C355A3B00FEDE92 /* Engine.h in Headers */,
 				30575AD21C3B175D0009C8A7 /* Label.h in Headers */,
+				303647191C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.h in Headers */,
 				3031A0BB1C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.h in Headers */,
@@ -977,6 +1000,7 @@
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
+				303647211C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE61C3C91A40009C8A7 /* InputApple.h in Headers */,
 				303B76891C355A5800FEDE92 /* ViewController.h in Headers */,
 			);
@@ -986,6 +1010,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				303647171C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				304A8E5E1C237C70008B1151 /* Noncopyable.h in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix4.h in Headers */,
 				303B75E61C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */,
@@ -998,6 +1023,7 @@
 				3031A0B61C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.h in Headers */,
 				30575ABF1C39D9850009C8A7 /* NodeContainer.h in Headers */,
+				3036471F1C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.h in Headers */,
 				304A8E5D1C237C70008B1151 /* Node.h in Headers */,
 				304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */,
@@ -1250,6 +1276,7 @@
 				303B76301C3559B900FEDE92 /* ViewController.m in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
+				3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
@@ -1282,6 +1309,7 @@
 				303B753E1C2A3C9200FEDE92 /* Color.cpp in Sources */,
 				303B757B1C2A43D700FEDE92 /* ShaderOGL.cpp in Sources */,
 				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
+				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				303B757A1C2A43D400FEDE92 /* RenderTargetOGL.cpp in Sources */,
@@ -1309,6 +1337,7 @@
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
+				3036471E1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
@@ -1341,6 +1370,7 @@
 				303B764F1C355A3B00FEDE92 /* ShaderOGL.cpp in Sources */,
 				303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */,
 				30575ADA1C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
+				303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				303B76511C355A3B00FEDE92 /* RenderTargetOGL.cpp in Sources */,
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
@@ -1392,6 +1422,7 @@
 				303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
 				304A8E921C26ED32008B1151 /* MeshBuffer.cpp in Sources */,
+				3036471C1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				304A8E851C24814F008B1151 /* TextureOGL.cpp in Sources */,
 				304A8E6C1C237C70008B1151 /* Texture.cpp in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
@@ -1406,6 +1437,7 @@
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				304A8E681C237C70008B1151 /* Shader.cpp in Sources */,
 				304A8E531C237C70008B1151 /* Engine.cpp in Sources */,
+				303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,
 				304A8E741C237C70008B1151 /* Vector4.cpp in Sources */,
 				304A8E831C24814F008B1151 /* RenderTargetOGL.cpp in Sources */,
