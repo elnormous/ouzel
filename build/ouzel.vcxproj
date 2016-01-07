@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\AABB2.h" />
+    <ClInclude Include="..\ouzel\App.h" />
     <ClInclude Include="..\ouzel\Button.h" />
     <ClInclude Include="..\ouzel\Camera.h" />
     <ClInclude Include="..\ouzel\Color.h" />
@@ -96,6 +97,7 @@
     <ClInclude Include="..\ouzel\RenderTargetD3D11.h" />
     <ClInclude Include="..\ouzel\Scene.h" />
     <ClInclude Include="..\ouzel\SceneManager.h" />
+    <ClInclude Include="..\ouzel\Settings.h" />
     <ClInclude Include="..\ouzel\Shader.h" />
     <ClInclude Include="..\ouzel\ShaderD3D11.h" />
     <ClInclude Include="..\ouzel\Size2.h" />

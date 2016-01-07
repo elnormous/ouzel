@@ -9,6 +9,29 @@ int WINAPI WinMain(HINSTANCE hInstance,
     LPSTR lpCmdLine,
     int nCmdShow)
 {
+    LPWSTR* argList;
+    int nArgs;
+    int i;
+
+    argList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
+
+    std::vector<std::string> args;
+
+    if (argList)
+    {
+        for (i = 0; i < nArgs; i++)
+        {
+            char temporaryCString[256];
+            WideCharToMultiByte(CP_ACP, 0, argList[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
+
+            args.push_back(temporaryCString);
+        }
+
+        LocalFree(argList);
+    }
+
+    ouzel::Engine::getInstance()->setArgs(args);
+    ouzel::Engine::getInstance()->init();
     ouzel::Engine::getInstance()->begin();
 
     MSG msg;
