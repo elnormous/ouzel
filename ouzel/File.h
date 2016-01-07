@@ -23,13 +23,6 @@ namespace ouzel
         };
         
         File(const std::string& filename, Mode mode, bool binary);
-        File(const File& other);
-        File(File&& other);
-        
-        virtual ~File();
-        
-        File& operator=(const File& other);
-        File& operator=(File&& other);
         
         bool isOpen() const { return _file != nullptr; }
         std::shared_ptr<FILE> const& getFile() const { return _file; }
