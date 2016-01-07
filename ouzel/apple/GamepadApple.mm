@@ -73,4 +73,25 @@ namespace ouzel
             log("controllerPausedHandler");
         };
     }
+    
+    bool GamepadApple::isAttached() const
+    {
+        return _controller.isAttachedToDevice == YES;
+    }
+    
+    void GamepadApple::setAbsoluteDpadValues(bool absoluteDpadValues)
+    {
+#if defined(OUZEL_PLATFORM_TVOS)
+        _controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
+#endif
+    }
+    
+    bool GamepadApple::isAbsoluteDpadValues() const
+    {
+#if defined(OUZEL_PLATFORM_TVOS)
+        return _controller.microGamepad.reportsAbsoluteDpadValues == YES;
+#else
+        return false;
+#endif
+    }
 }

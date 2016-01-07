@@ -22,6 +22,10 @@ namespace ouzel
     public:
         GamepadApple(GCController* controller);
         
+        virtual bool isAttached() const override;
+        virtual void setAbsoluteDpadValues(bool absoluteDpadValues) override;
+        virtual bool isAbsoluteDpadValues() const override;
+        
         GCController* getController() const { return _controller; }
         
     protected:

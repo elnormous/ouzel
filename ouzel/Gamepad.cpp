@@ -5,5 +5,18 @@
 
 namespace ouzel
 {
+    bool Gamepad::isAttached() const
+    {
+        return false;
+    }
     
+    void Gamepad::setAbsoluteDpadValues(bool absoluteDpadValues)
+    {
+        
+    }
+    
+    bool Gamepad::isAbsoluteDpadValues() const
+    {
+        return false;
+    }
 }

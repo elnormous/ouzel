@@ -8,6 +8,8 @@ namespace ouzel
     class Gamepad
     {
     public:
-        
+        virtual bool isAttached() const;
+        virtual void setAbsoluteDpadValues(bool absoluteDpadValues);
+        virtual bool isAbsoluteDpadValues() const;
     };
 }
