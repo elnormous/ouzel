@@ -17,6 +17,7 @@ namespace ouzel
     {
         friend SceneManager;
         friend NodeContainer;
+        friend Layer;
     public:
         Node();
         virtual ~Node();
@@ -26,7 +27,8 @@ namespace ouzel
         virtual void draw();
         virtual void update(float delta);
         
-        virtual void addChild(std::shared_ptr<Node> const& node) override;
+        virtual bool addChild(std::shared_ptr<Node> const& node) override;
+        virtual bool removeChild(std::shared_ptr<Node> const& node) override;
         
         virtual void setZ(float z);
         virtual float getZ() const { return _z; }
@@ -62,6 +64,8 @@ namespace ouzel
         virtual bool checkVisibility() const;
         
     protected:
+        virtual void setLayer(std::weak_ptr<Layer> const& layer);
+        
         virtual void addToLayer();
         virtual void removeFromLayer();
         
@@ -88,5 +92,7 @@ namespace ouzel
         bool _visible = true;
         
         std::weak_ptr<Node> _parent;
+        std::weak_ptr<Layer> _layer;
+        bool _addedToLayer = false;
     };
 }

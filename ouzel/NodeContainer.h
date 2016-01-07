@@ -18,18 +18,12 @@ namespace ouzel
         NodeContainer();
         virtual ~NodeContainer();
         
-        virtual void addChild(std::shared_ptr<Node> const& node);
-        virtual void removeChild(std::shared_ptr<Node> const& node);
+        virtual bool addChild(std::shared_ptr<Node> const& node);
+        virtual bool removeChild(std::shared_ptr<Node> const& node);
         virtual bool hasChild(std::shared_ptr<Node> const& node) const;
         virtual const std::vector<std::shared_ptr<Node>>& getChildren() const { return _children; }
         
-        virtual void setLayer(std::weak_ptr<Layer> const& layer);
-        std::shared_ptr<Layer> getLayer() const { return _layer.lock(); }
-        
     protected:
         std::vector<std::shared_ptr<Node>> _children;
-        
-        std::weak_ptr<Layer> _layer;
-        bool _addedToLayer = false;
     };
 }

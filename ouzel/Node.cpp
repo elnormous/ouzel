@@ -34,14 +34,17 @@ namespace ouzel
         }
     }
     
-    void Node::addChild(std::shared_ptr<Node> const& node)
+    bool Node::addChild(std::shared_ptr<Node> const& node)
     {
-        NodeContainer::addChild(node);
-        
-        // if added to this node, recalculate transform
-        if (hasChild(node))
+        if (NodeContainer::addChild(node))
         {
             node->_parent = shared_from_this();
+            node->setLayer(_layer);
+            
+            if (node->getVisible())
+            {
+                node->addToLayer();
+            }
             
             if (_transformDirty)
             {
@@ -51,6 +54,32 @@ namespace ouzel
             {
                 node->updateTransform(_transform);
             }
+            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    bool Node::removeChild(std::shared_ptr<Node> const& node)
+    {
+        if (NodeContainer::removeChild(node))
+        {
+            node->_parent.reset();
+            node->_layer.reset();
+            
+            if (node->_addedToLayer)
+            {
+                node->removeFromLayer();
+            }
+            
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -218,6 +247,16 @@ namespace ouzel
         _parentTransform = parentTransform;
         calculateTransform();
         _inverseTransformDirty = true;
+    }
+    
+    void Node::setLayer(std::weak_ptr<Layer> const& layer)
+    {
+        _layer = layer;
+        
+        for (auto& node : _children)
+        {
+            node->setLayer(layer);
+        }
     }
     
     bool Node::checkVisibility() const

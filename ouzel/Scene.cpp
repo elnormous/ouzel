@@ -46,7 +46,6 @@ namespace ouzel
     {
         if (!hasLayer(layer) && !layer->getScene())
         {
-            layer->setLayer(layer);
             _layers.push_back(layer);
             layer->addToScene(shared_from_this());
             layer->recalculateProjection();

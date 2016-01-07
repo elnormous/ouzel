@@ -15,7 +15,7 @@ namespace ouzel
     class Camera;
     class Scene;
     
-    class Layer: public NodeContainer
+    class Layer: public NodeContainer, public std::enable_shared_from_this<Layer>
     {
         friend Scene;
     public:
@@ -24,6 +24,9 @@ namespace ouzel
         
         virtual void update(float delta);
         virtual void draw();
+        
+        virtual bool addChild(std::shared_ptr<Node> const& node) override;
+        virtual bool removeChild(std::shared_ptr<Node> const& node) override;
         
         void addNode(std::shared_ptr<Node> const& node);
         void removeNode(std::shared_ptr<Node> const& node);

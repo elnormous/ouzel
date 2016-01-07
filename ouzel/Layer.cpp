@@ -54,6 +54,47 @@ namespace ouzel
         }
     }
     
+    bool Layer::addChild(std::shared_ptr<Node> const& node)
+    {
+        if (NodeContainer::addChild(node))
+        {
+            node->setLayer(shared_from_this());
+            
+            if (node->getVisible())
+            {
+                node->addToLayer();
+            }
+            
+            node->updateTransform(Matrix4::identity());
+            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    bool Layer::removeChild(std::shared_ptr<Node> const& node)
+    {
+        if (NodeContainer::removeChild(node))
+        {
+            node->_parent.reset();
+            node->_layer.reset();
+            
+            if (node->_addedToLayer)
+            {
+                node->removeFromLayer();
+            }
+            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     void Layer::addNode(std::shared_ptr<Node> const& node)
     {
         std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {

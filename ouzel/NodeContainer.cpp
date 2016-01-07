@@ -21,22 +21,21 @@ namespace ouzel
         }
     }
     
-    void NodeContainer::addChild(std::shared_ptr<Node> const& node)
+    bool NodeContainer::addChild(std::shared_ptr<Node> const& node)
     {
         if (!hasChild(node) && !node->getParent())
         {
-            node->setLayer(_layer);
-            
-            if (node->getVisible())
-            {
-                node->addToLayer();
-            }
-            
             _children.push_back(node);
+            
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
     
-    void NodeContainer::removeChild(std::shared_ptr<Node> const& node)
+    bool NodeContainer::removeChild(std::shared_ptr<Node> const& node)
     {
         std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_children.begin(), _children.end(), [node](std::shared_ptr<Node> const& p) {
             return p.get() == node.get();
@@ -48,6 +47,12 @@ namespace ouzel
             node->_parent.reset();
             node->_layer.reset();
             _children.erase(i);
+            
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
     
@@ -58,15 +63,5 @@ namespace ouzel
         });
         
         return i != _children.end();
-    }
-    
-    void NodeContainer::setLayer(std::weak_ptr<Layer> const& layer)
-    {
-        _layer = layer;
-        
-        for (auto& node : _children)
-        {
-            node->setLayer(layer);
-        }
     }
 }
