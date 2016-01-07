@@ -18,6 +18,8 @@
 #include "Scene.h"
 #include "Layer.h"
 #include "FileSystem.h"
+#include "Input.h"
+#include "Gamepad.h"
 #include "Node.h"
 #include "Camera.h"
 #include "Sprite.h"
