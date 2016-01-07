@@ -236,17 +236,17 @@ public:
     /**
      * operator =
      */
-    Rectangle& operator = (const Rectangle& r);
+    Rectangle& operator=(const Rectangle& r);
 
     /**
      * operator ==
      */
-    bool operator == (const Rectangle& r) const;
+    bool operator==(const Rectangle& r) const;
 
     /**
      * operator !=
      */
-    bool operator != (const Rectangle& r) const;
+    bool operator!=(const Rectangle& r) const;
 };
 
 }

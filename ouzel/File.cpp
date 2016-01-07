@@ -35,7 +35,7 @@ namespace ouzel
         if (_file) fclose(_file);
     }
     
-    File& File::operator = (const File& other)
+    File& File::operator=(const File& other)
     {
         _path = other._path;
         _mode = other._mode;
@@ -46,7 +46,7 @@ namespace ouzel
         return *this;
     }
     
-    File& File::operator = (File&& other)
+    File& File::operator=(File&& other)
     {
         _path = other._path;
         _mode = other._mode;

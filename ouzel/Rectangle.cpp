@@ -174,7 +174,7 @@ namespace ouzel
         height += verticalAmount * 2;
     }
 
-    Rectangle& Rectangle::operator = (const Rectangle& r)
+    Rectangle& Rectangle::operator=(const Rectangle& r)
     {
         x = r.x;
         y = r.y;
@@ -183,12 +183,12 @@ namespace ouzel
         return *this;
     }
 
-    bool Rectangle::operator == (const Rectangle& r) const
+    bool Rectangle::operator==(const Rectangle& r) const
     {
         return (x == r.x && width == r.width && y == r.y && height == r.height);
     }
 
-    bool Rectangle::operator != (const Rectangle& r) const
+    bool Rectangle::operator!=(const Rectangle& r) const
     {
         return (x != r.x || width != r.width || y != r.y || height != r.height);
     }

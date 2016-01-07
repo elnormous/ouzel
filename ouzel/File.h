@@ -27,8 +27,8 @@ namespace ouzel
         
         virtual ~File();
         
-        File& operator = (const File& other);
-        File& operator = (File&& other);
+        File& operator=(const File& other);
+        File& operator=(File&& other);
         
         bool isOpen() const { return _file != nullptr; }
         FILE* getFile() const { return _file; }

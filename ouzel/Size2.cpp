@@ -16,4 +16,32 @@ namespace ouzel
     {
         
     }
+    
+    Size2& Size2::operator=(const Vector2& point)
+    {
+        width = point.x;
+        height = point.y;
+        
+        return *this;
+    }
+    
+    Size2 Size2::operator+(const Size2& right) const
+    {
+        return Size2(width + right.width, height + right.height);
+    }
+    
+    Size2 Size2::operator-(const Size2& right) const
+    {
+        return Size2(width - right.width, height - right.height);
+    }
+    
+    Size2 Size2::operator*(float a) const
+    {
+        return Size2(width * a, height * a);
+    }
+    
+    Size2 Size2::operator/(float a) const
+    {
+        return Size2(width / a, height / a);
+    }
 }
