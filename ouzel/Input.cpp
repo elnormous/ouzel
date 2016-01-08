@@ -15,6 +15,11 @@ namespace ouzel
         
     }
     
+    void Input::update()
+    {
+        
+    }
+    
     void Input::startDiscovery()
     {
         

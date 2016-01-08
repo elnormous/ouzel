@@ -198,6 +198,8 @@ namespace ouzel
     public:
         virtual ~Input();
         
+        virtual void update();
+        
         virtual void startDiscovery();
         virtual void stopDiscovery();
         

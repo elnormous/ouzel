@@ -125,6 +125,7 @@ namespace ouzel
         float delta = static_cast<float>((currentTime - _previousFrameTime)) / 1000000.0f;
         _previousFrameTime = currentTime;
         
+        _input->update();
         _sceneManager->update(delta);
         
         _renderer->begin();
