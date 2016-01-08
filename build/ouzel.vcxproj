@@ -68,6 +68,8 @@
     <ClInclude Include="..\ouzel\Button.h" />
     <ClInclude Include="..\ouzel\Camera.h" />
     <ClInclude Include="..\ouzel\Color.h" />
+    <ClInclude Include="..\ouzel\ColorPSD3D11.h" />
+    <ClInclude Include="..\ouzel\ColorVSD3D11.h" />
     <ClInclude Include="..\ouzel\CompileConfig.h" />
     <ClInclude Include="..\ouzel\Engine.h" />
     <ClInclude Include="..\ouzel\Event.h" />
@@ -104,6 +106,8 @@
     <ClInclude Include="..\ouzel\Sprite.h" />
     <ClInclude Include="..\ouzel\Texture.h" />
     <ClInclude Include="..\ouzel\TextureD3D11.h" />
+    <ClInclude Include="..\ouzel\TexturePSD3D11.h" />
+    <ClInclude Include="..\ouzel\TextureVSD3D11.h" />
     <ClInclude Include="..\ouzel\Utils.h" />
     <ClInclude Include="..\ouzel\Vector2.h" />
     <ClInclude Include="..\ouzel\Vector3.h" />
