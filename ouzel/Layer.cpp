@@ -14,7 +14,7 @@ namespace ouzel
 {
     Layer::Layer()
     {
-        _camera.reset(new Camera());
+        _camera = std::make_shared<Camera>();
     }
     
     Layer::~Layer()

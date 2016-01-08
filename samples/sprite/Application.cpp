@@ -26,7 +26,7 @@ namespace ouzel
     
     void Application::begin()
     {
-        _eventHandler.reset(new EventHandler());
+        _eventHandler = std::make_shared<EventHandler>();
         
         _eventHandler->keyDownHandler = std::bind(&Application::handleKeyDown, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->mouseMoveHandler = std::bind(&Application::handleMouseMove, this, std::placeholders::_1, std::placeholders::_2);
@@ -42,10 +42,10 @@ namespace ouzel
         std::shared_ptr<Scene> scene(new Scene());
         Engine::getInstance()->getSceneManager()->setScene(scene);
         
-        _layer.reset(new Layer());
+        _layer = std::make_shared<Layer>();
         scene->addLayer(_layer);
         
-        _sprite.reset(new Sprite());
+        _sprite = std::make_shared<Sprite>();
         _sprite->initFromFile("run.json");
         _sprite->play(true);
         _layer->addChild(_sprite);
@@ -60,7 +60,7 @@ namespace ouzel
         flame->initFromFile("flame.json");
         _layer->addChild(flame);
         
-        _witch.reset(new Sprite());
+        _witch = std::make_shared<Sprite>();
         _witch->initFromFile("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
