@@ -10,9 +10,13 @@ namespace ouzel
     class App
     {
     public:
-        virtual ~App() {}
+        virtual ~App() = 0;
         virtual Settings getSettings() = 0;
         
         virtual void begin() = 0;
     };
+    
+    inline App::~App()
+    {
+    }
 }
