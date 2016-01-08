@@ -569,6 +569,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3036476E1C3F40300024DB5B /* apple */ = {
+			isa = PBXGroup;
+			children = (
+				3036471B1C3E058E0024DB5B /* GamepadApple.h */,
+				3036471A1C3E058E0024DB5B /* GamepadApple.mm */,
+				30575AE01C3C91A40009C8A7 /* InputApple.h */,
+				30575ADF1C3C91A40009C8A7 /* InputApple.mm */,
+			);
+			name = apple;
+			sourceTree = "<group>";
+		};
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -641,7 +652,7 @@
 		303B75101C28830A00FEDE92 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
-				303B75131C288CCE00FEDE92 /* OpenGL */,
+				303B75131C288CCE00FEDE92 /* opengl */,
 				304A8E9C1C27081B008B1151 /* Color.cpp */,
 				304A8E9D1C27081B008B1151 /* Color.h */,
 				303B74E11C277A7500FEDE92 /* Image.cpp */,
@@ -686,7 +697,7 @@
 			name = files;
 			sourceTree = "<group>";
 		};
-		303B75131C288CCE00FEDE92 /* OpenGL */ = {
+		303B75131C288CCE00FEDE92 /* opengl */ = {
 			isa = PBXGroup;
 			children = (
 				303B75DE1C2F6FC000FEDE92 /* ColorPSOGL.h */,
@@ -708,7 +719,7 @@
 				303B75E11C2F6FC000FEDE92 /* TextureVSOGL.h */,
 				3031A0AF1C3731A2004D3514 /* TextureVSOGLES.h */,
 			);
-			name = OpenGL;
+			name = opengl;
 			sourceTree = "<group>";
 		};
 		303B751B1C29EDD900FEDE92 /* osx */ = {
@@ -742,12 +753,8 @@
 			children = (
 				303647121C3DFEAF0024DB5B /* Gamepad.cpp */,
 				303647131C3DFEAF0024DB5B /* Gamepad.h */,
-				3036471B1C3E058E0024DB5B /* GamepadApple.h */,
-				3036471A1C3E058E0024DB5B /* GamepadApple.mm */,
 				303B76061C34A92B00FEDE92 /* Input.cpp */,
 				303B76071C34A92B00FEDE92 /* Input.h */,
-				30575AE01C3C91A40009C8A7 /* InputApple.h */,
-				30575ADF1C3C91A40009C8A7 /* InputApple.mm */,
 			);
 			name = input;
 			sourceTree = "<group>";
@@ -809,8 +816,9 @@
 		304A8E291C237C51008B1151 /* ouzel */ = {
 			isa = PBXGroup;
 			children = (
-				30575AD51C3B485F0009C8A7 /* events */,
+				3036476E1C3F40300024DB5B /* apple */,
 				303B75111C28838C00FEDE92 /* core */,
+				30575AD51C3B485F0009C8A7 /* events */,
 				303B75121C2883C800FEDE92 /* files */,
 				303B75101C28830A00FEDE92 /* graphics */,
 				30575AC21C3B17430009C8A7 /* gui */,
