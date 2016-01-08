@@ -5,7 +5,7 @@
 
 #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
 #define OUZEL_PLATFORM_WINDOWS 1
-#define SUPPORTS_DIRECT3D 1
+#define SUPPORTS_DIRECT3D11 1
 
 #elif defined(__APPLE__)
 

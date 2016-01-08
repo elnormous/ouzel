@@ -4,11 +4,11 @@
 #include "Engine.h"
 #include "CompileConfig.h"
 
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(SUPPORTS_OPENGL) || defined(SUPPORTS_OPENGLES)
 #include "RendererOGL.h"
 #endif
 
-#if defined(OUZEL_PLATFORM_WINDOWS)
+#if defined(SUPPORTS_DIRECT3D11)
 #include "RendererD3D11.h"
 #endif
 
@@ -61,7 +61,7 @@ namespace ouzel
         
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         settings.driver = Renderer::Driver::OPENGL;
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif defined(SUPPORTS_DIRECT3D11)
         settings.driver = Renderer::Driver::DIRECT3D11;
 #endif
         
@@ -79,7 +79,7 @@ namespace ouzel
 
         switch (settings.driver)
         {
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(SUPPORTS_OPENGL) || defined(SUPPORTS_OPENGLES)
             case Renderer::Driver::OPENGL:
                 _renderer.reset(new RendererOGL());
 				break;
