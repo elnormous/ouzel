@@ -18,6 +18,32 @@ namespace ouzel
             _controller.extendedGamepad.leftThumbstick.valueChangedHandler = ^(GCControllerDirectionPad* dpad, float xValue, float yValue) {
                 
             };
+            
+            _controller.extendedGamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::DPAD_UP, pressed, value);
+            };
+            _controller.extendedGamepad.dpad.down.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::DPAD_DOWN, pressed, value);
+            };
+            _controller.extendedGamepad.dpad.left.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::DPAD_LEFT, pressed, value);
+            };
+            _controller.extendedGamepad.dpad.right.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::DPAD_RIGHT, pressed, value);
+            };
+            
+            _controller.extendedGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::A, pressed, value);
+            };
+            _controller.extendedGamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::B, pressed, value);
+            };
+            _controller.extendedGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::X, pressed, value);
+            };
+            _controller.extendedGamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::Y, pressed, value);
+            };
         }
         else if (_controller.gamepad)
         {
