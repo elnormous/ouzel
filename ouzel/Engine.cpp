@@ -12,6 +12,10 @@
 #include "RendererD3D11.h"
 #endif
 
+#if defined(SUPPORTS_METAL)
+#include "RendererMetal.h"
+#endif
+
 #include "Utils.h"
 #include "Renderer.h"
 #include "FileSystem.h"
@@ -87,6 +91,11 @@ namespace ouzel
 #ifdef OUZEL_PLATFORM_WINDOWS
             case Renderer::Driver::DIRECT3D11:
                 _renderer.reset(new RendererD3D11());
+                break;
+#endif
+#if defined(SUPPORTS_METAL)
+            case Renderer::Driver::METAL:
+                _renderer.reset(new RendererMetal());
                 break;
 #endif
             default:

@@ -36,7 +36,8 @@ namespace ouzel
         {
             NONE = 0,
             OPENGL,
-            DIRECT3D11
+            DIRECT3D11,
+            METAL
         };
 
         virtual ~Renderer();
