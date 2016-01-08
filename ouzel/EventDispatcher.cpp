@@ -176,6 +176,30 @@ namespace ouzel
         }
     }
     
+    void EventDispatcher::dispatchGamepadConnectEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender)
+    {
+        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        {
+            if (eventHandler->gamepadConnectHandler)
+            {
+                eventHandler->gamepadConnectHandler(event, sender);
+                break;
+            }
+        }
+    }
+    
+    void EventDispatcher::dispatchGamepadDisconnectEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender)
+    {
+        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        {
+            if (eventHandler->gamepadDisconnectHandler)
+            {
+                eventHandler->gamepadDisconnectHandler(event, sender);
+                break;
+            }
+        }
+    }
+    
     void EventDispatcher::dispatchGamepadButtonChangeEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender)
     {
         for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)

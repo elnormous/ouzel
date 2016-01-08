@@ -33,6 +33,8 @@ namespace ouzel
         std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchEndHandler;
         std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchCancelHandler;
         
+        std::function<void(const GamepadEvent&, std::shared_ptr<void> const&)> gamepadConnectHandler;
+        std::function<void(const GamepadEvent&, std::shared_ptr<void> const&)> gamepadDisconnectHandler;
         std::function<void(const GamepadEvent&, std::shared_ptr<void> const&)> gamepadButtonChangeHandler;
         
         std::function<void(const ScreenSizeEvent&, std::shared_ptr<void> const&)> screenSizeHandler;

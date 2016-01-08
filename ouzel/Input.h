@@ -177,6 +177,7 @@ namespace ouzel
     
     enum class GamepadButton
     {
+        NONE,
         DPAD_LEFT,
         DPAD_RIGHT,
         DPAD_UP,

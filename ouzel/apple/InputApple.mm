@@ -100,22 +100,30 @@ namespace ouzel
     
     void InputApple::handleControllerConnected(GCController* controller)
     {
-        log("Gamepad connected");
-        
         std::shared_ptr<GamepadApple> gamepad(new GamepadApple(controller));
         _gamepads.push_back(gamepad);
+        
+        GamepadEvent event;
+        event.type = Event::Type::GAMEPAD_CONNECT;
+        event.gamepad = gamepad;
+        
+        Engine::getInstance()->getEventDispatcher()->dispatchGamepadConnectEvent(event, Engine::getInstance()->getInput());
     }
     
     void InputApple::handleControllerDisconnected(GCController* controller)
     {
-        log("Gamepad disconnected");
-        
         std::vector<std::shared_ptr<GamepadApple>>::iterator i = std::find_if(_gamepads.begin(), _gamepads.end(), [controller](std::shared_ptr<GamepadApple> const& p) {
             return p->getController() == controller;
         });
         
         if (i != _gamepads.end())
         {
+            GamepadEvent event;
+            event.type = Event::Type::GAMEPAD_DISCONNECT;
+            event.gamepad = *i;
+            
+            Engine::getInstance()->getEventDispatcher()->dispatchGamepadDisconnectEvent(event, Engine::getInstance()->getInput());
+            
             _gamepads.erase(i);
         }
     }

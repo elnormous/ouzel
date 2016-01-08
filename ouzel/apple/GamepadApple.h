@@ -18,7 +18,7 @@ class GCControllerButtonInput;
 
 namespace ouzel
 {
-    class GamepadApple: public Gamepad
+    class GamepadApple: public Gamepad, public std::enable_shared_from_this<GamepadApple>
     {
     public:
         GamepadApple(GCController* controller);

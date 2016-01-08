@@ -26,6 +26,8 @@ namespace ouzel
             TOUCH_MOVE,
             TOUCH_END,
             TOUCH_CANCEL,
+            GAMEPAD_CONNECT,
+            GAMEPAD_DISCONNECT,
             GAMEPAD_BUTTON_CHANGE,
             SCREEN_SIZE
         };
@@ -62,7 +64,7 @@ namespace ouzel
     struct GamepadEvent: public Event
     {
         std::shared_ptr<Gamepad> gamepad;
-        GamepadButton button;
+        GamepadButton button = GamepadButton::NONE;
         bool pressed = false;
         float value = 0.0f;
     };
