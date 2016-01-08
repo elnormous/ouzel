@@ -17,6 +17,7 @@ namespace ouzel
         void handleKeyDown(const KeyboardEvent& event, std::shared_ptr<void> const& sender) const;
         void handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender) const;
         void handleTouch(const TouchEvent& event, std::shared_ptr<void> const& sender) const;
+        void handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender) const;
         
     protected:
         std::shared_ptr<Sprite> _sprite;

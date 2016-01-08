@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include "Vector2.h"
 #include "Size2.h"
 #include "Input.h"
@@ -25,8 +26,7 @@ namespace ouzel
             TOUCH_MOVE,
             TOUCH_END,
             TOUCH_CANCEL,
-            GAMEPAD_BUTTON_DOWN,
-            GAMEPAD_BUTTON_UP,
+            GAMEPAD_BUTTON_CHANGE,
             SCREEN_SIZE
         };
         
@@ -57,10 +57,14 @@ namespace ouzel
         Vector2 position;
     };
     
+    class Gamepad;
+    
     struct GamepadEvent: public Event
     {
-        uint64_t gamepadId = 0;
+        std::shared_ptr<Gamepad> gamepad;
         GamepadButton button;
+        bool pressed = false;
+        float value = 0.0f;
     };
     
     struct ScreenSizeEvent: public Event

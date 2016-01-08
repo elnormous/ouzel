@@ -33,6 +33,7 @@ namespace ouzel
         _eventHandler->touchBeginHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->touchMoveHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->touchEndHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->gamepadButtonChangeHandler = std::bind(&Application::handleGamepadButtonChange, this, std::placeholders::_1, std::placeholders::_2);
         
         Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
         
@@ -105,6 +106,32 @@ namespace ouzel
     void Application::handleTouch(const TouchEvent& event, std::shared_ptr<void> const& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
+        _witch->setPosition(worldLocation);
+    }
+    
+    void Application::handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender) const
+    {
+        Vector2 position = _layer->worldToScreenLocation(_witch->getPosition());
+        
+        switch (event.button)
+        {
+            case GamepadButton::DPAD_UP:
+                position.y = event.value;
+                break;
+            case GamepadButton::DPAD_DOWN:
+                position.y = -event.value;
+                break;
+            case GamepadButton::DPAD_LEFT:
+                position.x = -event.value;
+                break;
+            case GamepadButton::DPAD_RIGHT:
+                position.x = event.value;
+                break;
+            default:
+                break;
+        }
+        
+        Vector2 worldLocation = _layer->screenToWorldLocation(position);
         _witch->setPosition(worldLocation);
     }
 }

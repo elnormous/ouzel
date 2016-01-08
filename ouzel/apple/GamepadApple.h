@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Gamepad.h"
+#include "Event.h"
 
 #ifdef __OBJC__
 @class GCController;
@@ -32,6 +33,8 @@ namespace ouzel
         GCController* getController() const { return _controller; }
         
     protected:
+        void handleButtonValueChange(GamepadButton button, bool pressed, float value);
+        
         GCController* _controller;
     };
 }

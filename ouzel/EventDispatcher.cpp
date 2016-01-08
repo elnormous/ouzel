@@ -176,6 +176,18 @@ namespace ouzel
         }
     }
     
+    void EventDispatcher::dispatchGamepadButtonChangeEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender)
+    {
+        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        {
+            if (eventHandler->gamepadButtonChangeHandler)
+            {
+                eventHandler->gamepadButtonChangeHandler(event, sender);
+                break;
+            }
+        }
+    }
+    
     void EventDispatcher::dispatchScreenSizeEvent(const ScreenSizeEvent& event, std::shared_ptr<void> const& sender)
     {
         for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
