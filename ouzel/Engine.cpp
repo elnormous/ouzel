@@ -84,7 +84,7 @@ namespace ouzel
                 _renderer.reset(new RendererOGL());
 				break;
 #endif
-#ifdef OUZEL_PLATFORM_WINDOWS
+#if defined(SUPPORTS_DIRECT3D11)
             case Renderer::Driver::DIRECT3D11:
                 _renderer.reset(new RendererD3D11());
                 break;
