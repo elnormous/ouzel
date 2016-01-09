@@ -3,11 +3,14 @@
 
 #pragma once
 
+#include <memory>
+#include <xinput.h>
 #include "Input.h"
 
 namespace ouzel
 {
     class Engine;
+    class GamepadWin;
     
     class InputWin: public Input
     {
@@ -15,11 +18,12 @@ namespace ouzel
     public:
         
         virtual ~InputWin();
-        
-        virtual void startDiscovery() override;
-        virtual void stopDiscovery() override;
+
+        virtual void update() override;
         
     protected:
         InputWin();
+
+        std::shared_ptr<GamepadWin> _gamepads[XUSER_MAX_COUNT];
     };
 }

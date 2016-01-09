@@ -186,10 +186,15 @@ namespace ouzel
         B,
         X,
         Y,
-        L1,
-        L2,
-        R1,
-        R2
+        LEFT_SHOULDER, // L1 for Apple
+        LEFT_TRIGGER, // L2 for Apple
+        RIGHT_SHOULDER, // R1 for Apple
+        RIGHT_TRIGGER, // R2 for Apple
+        LEFT_THUMB,
+        RIGHT_THUMB,
+        START, 
+        BACK,
+        PAUSE
     };
     
     class Input: public Noncopyable
