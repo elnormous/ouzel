@@ -15,6 +15,6 @@ namespace ouzel
         virtual bool isAbsoluteDpadValues() const;
         
         virtual int32_t getPlayerIndex() const;
-        virtual void setPlayerIndex(int32_t playerIndex);
+        virtual bool setPlayerIndex(int32_t playerIndex);
     };
 }

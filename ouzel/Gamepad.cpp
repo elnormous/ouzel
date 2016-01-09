@@ -25,8 +25,8 @@ namespace ouzel
         return -1;
     }
     
-    void Gamepad::setPlayerIndex(int32_t playerIndex)
+    bool Gamepad::setPlayerIndex(int32_t playerIndex)
     {
-        
+        return false;
     }
 }

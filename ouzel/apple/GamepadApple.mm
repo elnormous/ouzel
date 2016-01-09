@@ -129,9 +129,11 @@ namespace ouzel
         return static_cast<int32_t>(_controller.playerIndex);
     }
     
-    void GamepadApple::setPlayerIndex(int32_t playerIndex)
+    bool GamepadApple::setPlayerIndex(int32_t playerIndex)
     {
         _controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndex);
+        
+        return true;
     }
     
     void GamepadApple::handleButtonValueChange(GamepadButton button, bool pressed, float value)
