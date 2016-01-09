@@ -99,7 +99,8 @@ namespace ouzel
 #endif
         
         _controller.controllerPausedHandler = ^(GCController* controller) {
-            log("controllerPausedHandler");
+            handleButtonValueChange(GamepadButton::PAUSE, true, 1.0f);
+            handleButtonValueChange(GamepadButton::PAUSE, false, 0.0f);
         };
     }
     
