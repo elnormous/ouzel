@@ -28,7 +28,6 @@ namespace ouzel
     {
         friend Engine;
     public:
-        
         virtual ~InputApple();
         
         virtual void startDiscovery() override;
