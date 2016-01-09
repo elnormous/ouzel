@@ -127,6 +127,9 @@ namespace ouzel
             case GamepadButton::DPAD_RIGHT:
                 position.x = event.value;
                 break;
+            case GamepadButton::X:
+                _witch->setVisible(!event.pressed);
+                break;
             default:
                 break;
         }

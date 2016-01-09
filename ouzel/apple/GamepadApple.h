@@ -18,11 +18,12 @@ class GCControllerButtonInput;
 
 namespace ouzel
 {
+    class InputApple;
+    
     class GamepadApple: public Gamepad, public std::enable_shared_from_this<GamepadApple>
     {
+        friend InputApple;
     public:
-        GamepadApple(GCController* controller);
-        
         virtual bool isAttached() const override;
         virtual void setAbsoluteDpadValues(bool absoluteDpadValues) override;
         virtual bool isAbsoluteDpadValues() const override;
@@ -33,6 +34,8 @@ namespace ouzel
         GCController* getController() const { return _controller; }
         
     protected:
+        GamepadApple(GCController* controller);
+        
         void handleButtonValueChange(GamepadButton button, bool pressed, float value);
         
         GCController* _controller;
