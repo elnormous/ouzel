@@ -37,6 +37,9 @@
 		303647641C3F218E0024DB5B /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647631C3F218E0024DB5B /* Settings.h */; };
 		303647651C3F218E0024DB5B /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647631C3F218E0024DB5B /* Settings.h */; };
 		303647661C3F218E0024DB5B /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647631C3F218E0024DB5B /* Settings.h */; };
+		303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3036479F1C414EF50024DB5B /* Assets.xcassets */; };
+		303647A21C418E790024DB5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
+		303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 303647A01C414F120024DB5B /* Assets.xcassets */; };
 		303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* Image.cpp */; };
 		303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B74ED1C27F6A100FEDE92 /* OpenGL.framework */; };
 		303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B74F21C27F6EB00FEDE92 /* Cocoa.framework */; };
@@ -135,7 +138,6 @@
 		303B760B1C34A92B00FEDE92 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.h */; };
 		303B760E1C34CFE300FEDE92 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
 		303B760F1C34CFE300FEDE92 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75181C29EB8400FEDE92 /* main.cpp */; };
-		303B76151C34CFE300FEDE92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		303B76161C34CFE300FEDE92 /* flame.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B76021C349CA800FEDE92 /* flame.png */; };
 		303B76171C34CFE300FEDE92 /* witch.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75081C286F8D00FEDE92 /* witch.png */; };
 		303B76181C34CFE300FEDE92 /* flame.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B76011C349CA800FEDE92 /* flame.json */; };
@@ -220,7 +222,6 @@
 		303B768A1C355A5800FEDE92 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B76851C355A5800FEDE92 /* ViewController.m */; };
 		303B768D1C355AA400FEDE92 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
 		303B768E1C355AA400FEDE92 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75181C29EB8400FEDE92 /* main.cpp */; };
-		303B76951C355AA400FEDE92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		303B76961C355AA400FEDE92 /* flame.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B76021C349CA800FEDE92 /* flame.png */; };
 		303B76971C355AA400FEDE92 /* witch.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75081C286F8D00FEDE92 /* witch.png */; };
 		303B76981C355AA400FEDE92 /* flame.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B76011C349CA800FEDE92 /* flame.json */; };
@@ -238,7 +239,6 @@
 		303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B76C41C35635700FEDE92 /* OpenGLView.mm */; };
 		303B76C81C35695900FEDE92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76C71C35695900FEDE92 /* QuartzCore.framework */; };
 		303B76CA1C35696200FEDE92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76C91C35696200FEDE92 /* QuartzCore.framework */; };
-		304A8E171C237B96008B1151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
@@ -362,6 +362,8 @@
 		3036471B1C3E058E0024DB5B /* GamepadApple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamepadApple.h; path = apple/GamepadApple.h; sourceTree = "<group>"; };
 		3036475F1C3F210F0024DB5B /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
 		303647631C3F218E0024DB5B /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		3036479F1C414EF50024DB5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ios/Assets.xcassets; sourceTree = "<group>"; };
+		303647A01C414F120024DB5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		303B74E11C277A7500FEDE92 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		303B74E21C277A7500FEDE92 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		303B74ED1C27F6A100FEDE92 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -762,6 +764,7 @@
 		303B762A1C34D21100FEDE92 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				3036479F1C414EF50024DB5B /* Assets.xcassets */,
 				303B762B1C34D22700FEDE92 /* Info.plist */,
 				303B762C1C34D22700FEDE92 /* Prefix.pch */,
 			);
@@ -864,14 +867,14 @@
 		304A8EB31C2765DE008B1151 /* sprite */ = {
 			isa = PBXGroup;
 			children = (
-				30575A951C38C8ED0009C8A7 /* tvos */,
-				303B762A1C34D21100FEDE92 /* ios */,
-				303B74EF1C27F6B000FEDE92 /* Frameworks */,
-				304A8EB21C2765C4008B1151 /* Resources */,
-				304A8EA41C274113008B1151 /* osx */,
 				304A8EA81C27429A008B1151 /* Application.cpp */,
 				304A8EA91C27429A008B1151 /* Application.h */,
+				303B74EF1C27F6B000FEDE92 /* Frameworks */,
+				303B762A1C34D21100FEDE92 /* ios */,
 				303B75181C29EB8400FEDE92 /* main.cpp */,
+				304A8EA41C274113008B1151 /* osx */,
+				304A8EB21C2765C4008B1151 /* Resources */,
+				30575A951C38C8ED0009C8A7 /* tvos */,
 			);
 			path = sprite;
 			sourceTree = "<group>";
@@ -879,6 +882,7 @@
 		30575A951C38C8ED0009C8A7 /* tvos */ = {
 			isa = PBXGroup;
 			children = (
+				303647A01C414F120024DB5B /* Assets.xcassets */,
 				30575A961C38C90F0009C8A7 /* Info.plist */,
 				30575A971C38C90F0009C8A7 /* Prefix.pch */,
 			);
@@ -1249,13 +1253,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B76151C34CFE300FEDE92 /* Assets.xcassets in Resources */,
 				303B76161C34CFE300FEDE92 /* flame.png in Resources */,
 				303B76171C34CFE300FEDE92 /* witch.png in Resources */,
 				303B76181C34CFE300FEDE92 /* flame.json in Resources */,
 				303B76191C34CFE300FEDE92 /* fire.json in Resources */,
 				303B761A1C34CFE300FEDE92 /* run.json in Resources */,
 				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
+				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1264,13 +1268,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B76951C355AA400FEDE92 /* Assets.xcassets in Resources */,
 				303B76961C355AA400FEDE92 /* flame.png in Resources */,
 				303B76971C355AA400FEDE92 /* witch.png in Resources */,
 				303B76981C355AA400FEDE92 /* flame.json in Resources */,
 				303B76991C355AA400FEDE92 /* fire.json in Resources */,
 				303B769A1C355AA400FEDE92 /* run.json in Resources */,
 				303B769B1C355AA400FEDE92 /* run.png in Resources */,
+				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
 				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1279,13 +1283,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304A8E171C237B96008B1151 /* Assets.xcassets in Resources */,
 				303B76041C349CA800FEDE92 /* flame.png in Resources */,
 				303B75091C286F8D00FEDE92 /* witch.png in Resources */,
 				303B76031C349CA800FEDE92 /* flame.json in Resources */,
 				303B75F71C33756100FEDE92 /* fire.json in Resources */,
 				303B75ED1C33581700FEDE92 /* run.json in Resources */,
 				303B75EE1C33581700FEDE92 /* run.png in Resources */,
+				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
 				303B75F81C33756100FEDE92 /* fire.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
