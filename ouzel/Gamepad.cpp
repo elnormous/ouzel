@@ -6,6 +6,11 @@
 
 namespace ouzel
 {
+    Gamepad::Gamepad()
+    {
+        memset(_buttonStates, 0, sizeof(_buttonStates));
+    }
+    
     bool Gamepad::isAttached() const
     {
         return false;
@@ -31,6 +36,11 @@ namespace ouzel
         return false;
     }
     
+    GamepadButtonState const& Gamepad::getButtonState(GamepadButton button) const
+    {
+        return _buttonStates[static_cast<uint32_t>(button)];
+    }
+    
     void Gamepad::handleButtonValueChange(GamepadButton button, bool pressed, float value)
     {
         GamepadEvent event;
@@ -41,5 +51,8 @@ namespace ouzel
         event.value = value;
         
         Engine::getInstance()->getEventDispatcher()->dispatchGamepadButtonChangeEvent(event, Engine::getInstance()->getInput());
+        
+        _buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
+        _buttonStates[static_cast<uint32_t>(button)].value = value;
     }
 }

@@ -172,7 +172,9 @@ namespace ouzel
         RIGHT,          // Right mouse button
         MIDDLE,         // Middle mouse button (three-button mouse)
         X1,             // Windows 2000/XP: X1 mouse button
-        X2              // Windows 2000/XP: X2 mouse button
+        X2,              // Windows 2000/XP: X2 mouse button
+        
+        BUTTON_COUNT
     };
     
     enum class GamepadButton
@@ -202,7 +204,9 @@ namespace ouzel
         RIGHT_THUMB_LEFT,
         RIGHT_THUMB_RIGHT,
         RIGHT_THUMB_UP,
-        RIGHT_THUMB_DOWN
+        RIGHT_THUMB_DOWN,
+        
+        BUTTON_COUNT
     };
     
     class Input: public Noncopyable
