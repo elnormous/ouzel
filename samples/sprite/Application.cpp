@@ -66,6 +66,9 @@ namespace ouzel
         _witch->setColor(Color(128, 0, 255, 255));
         _layer->addChild(_witch);
         
+        std::shared_ptr<Label> label = std::make_shared<Label>("font.fnt", "test");
+        _layer->addChild(label);
+        
         Engine::getInstance()->getInput()->startDiscovery();
     }
     

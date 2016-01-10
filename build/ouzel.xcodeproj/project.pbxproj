@@ -361,6 +361,18 @@
 		305B99941C41F06F008589E1 /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B99901C41F06F008589E1 /* Widget.h */; };
 		305B99951C41F06F008589E1 /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B99901C41F06F008589E1 /* Widget.h */; };
 		305B99961C41F06F008589E1 /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B99901C41F06F008589E1 /* Widget.h */; };
+		305B999F1C42A695008589E1 /* BMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B999B1C42A695008589E1 /* BMFont.h */; };
+		305B99A01C42A695008589E1 /* BMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B999B1C42A695008589E1 /* BMFont.h */; };
+		305B99A11C42A695008589E1 /* BMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B999B1C42A695008589E1 /* BMFont.h */; };
+		305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
+		305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
+		305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
+		305B99A71C42B3F6008589E1 /* font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A51C42B3F6008589E1 /* font.fnt */; };
+		305B99A81C42B3F6008589E1 /* font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A51C42B3F6008589E1 /* font.fnt */; };
+		305B99A91C42B3F6008589E1 /* font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A51C42B3F6008589E1 /* font.fnt */; };
+		305B99AA1C42B3F6008589E1 /* font.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A61C42B3F6008589E1 /* font.png */; };
+		305B99AB1C42B3F6008589E1 /* font.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A61C42B3F6008589E1 /* font.png */; };
+		305B99AC1C42B3F6008589E1 /* font.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A61C42B3F6008589E1 /* font.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -523,6 +535,10 @@
 		305B99881C41EFFA008589E1 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
 		305B998F1C41F06F008589E1 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
 		305B99901C41F06F008589E1 /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
+		305B999A1C42A695008589E1 /* BMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFont.cpp; sourceTree = "<group>"; };
+		305B999B1C42A695008589E1 /* BMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMFont.h; sourceTree = "<group>"; };
+		305B99A51C42B3F6008589E1 /* font.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = font.fnt; sourceTree = "<group>"; };
+		305B99A61C42B3F6008589E1 /* font.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -869,6 +885,8 @@
 		304A8EB21C2765C4008B1151 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				305B99A51C42B3F6008589E1 /* font.fnt */,
+				305B99A61C42B3F6008589E1 /* font.png */,
 				303B75F51C33756100FEDE92 /* fire.json */,
 				303B75F61C33756100FEDE92 /* fire.png */,
 				303B76011C349CA800FEDE92 /* flame.json */,
@@ -908,6 +926,8 @@
 		30575AC21C3B17430009C8A7 /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				305B999A1C42A695008589E1 /* BMFont.cpp */,
+				305B999B1C42A695008589E1 /* BMFont.h */,
 				30575AC31C3B17540009C8A7 /* Button.cpp */,
 				30575AC41C3B17540009C8A7 /* Button.h */,
 				30575ACB1C3B175D0009C8A7 /* Label.cpp */,
@@ -992,6 +1012,7 @@
 				30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */,
 				305B998D1C41EFFA008589E1 /* Menu.h in Headers */,
 				303B75771C2A3E3000FEDE92 /* AppDelegate.h in Headers */,
+				305B99A01C42A695008589E1 /* BMFont.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1053,6 +1074,7 @@
 				30575AE61C3C91A40009C8A7 /* InputApple.h in Headers */,
 				305B998E1C41EFFA008589E1 /* Menu.h in Headers */,
 				303B76891C355A5800FEDE92 /* ViewController.h in Headers */,
+				305B99A11C42A695008589E1 /* BMFont.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1061,6 +1083,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				303647171C3DFEAF0024DB5B /* Gamepad.h in Headers */,
+				305B999F1C42A695008589E1 /* BMFont.h in Headers */,
 				304A8E5E1C237C70008B1151 /* Noncopyable.h in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix4.h in Headers */,
 				303B75E61C2F6FC000FEDE92 /* TexturePSOGL.h in Headers */,
@@ -1284,6 +1307,8 @@
 				303B76181C34CFE300FEDE92 /* flame.json in Resources */,
 				303B76191C34CFE300FEDE92 /* fire.json in Resources */,
 				303B761A1C34CFE300FEDE92 /* run.json in Resources */,
+				305B99A81C42B3F6008589E1 /* font.fnt in Resources */,
+				305B99AB1C42B3F6008589E1 /* font.png in Resources */,
 				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
@@ -1299,6 +1324,8 @@
 				303B76981C355AA400FEDE92 /* flame.json in Resources */,
 				303B76991C355AA400FEDE92 /* fire.json in Resources */,
 				303B769A1C355AA400FEDE92 /* run.json in Resources */,
+				305B99A91C42B3F6008589E1 /* font.fnt in Resources */,
+				305B99AC1C42B3F6008589E1 /* font.png in Resources */,
 				303B769B1C355AA400FEDE92 /* run.png in Resources */,
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
 				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
@@ -1314,6 +1341,8 @@
 				303B76031C349CA800FEDE92 /* flame.json in Resources */,
 				303B75F71C33756100FEDE92 /* fire.json in Resources */,
 				303B75ED1C33581700FEDE92 /* run.json in Resources */,
+				305B99A71C42B3F6008589E1 /* font.fnt in Resources */,
+				305B99AA1C42B3F6008589E1 /* font.png in Resources */,
 				303B75EE1C33581700FEDE92 /* run.png in Resources */,
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
 				303B75F81C33756100FEDE92 /* fire.png in Resources */,
@@ -1328,6 +1357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				303B76301C3559B900FEDE92 /* ViewController.m in Sources */,
+				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
 				3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
@@ -1391,6 +1421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
+				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
 				3036471E1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
@@ -1501,6 +1532,7 @@
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,
 				304A8E741C237C70008B1151 /* Vector4.cpp in Sources */,
 				304A8E831C24814F008B1151 /* RenderTargetOGL.cpp in Sources */,
+				305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */,
 				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
 				30575AE11C3C91A40009C8A7 /* InputApple.mm in Sources */,
