@@ -57,9 +57,9 @@ namespace ouzel
     {
         std::set<Renderer::Driver> availableDrivers;
         
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(SUPPORTS_OPENGL) || defined(SUPPORTS_OPENGLES)
         availableDrivers.insert(Renderer::Driver::OPENGL);
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif defined(SUPPORTS_DIRECT3D11)
         availableDrivers.insert(Renderer::Driver::DIRECT3D11);
 #endif
         
