@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <set>
-#include <vector>
 #include <memory>
 #include "Noncopyable.h"
 #include "Vector2.h"

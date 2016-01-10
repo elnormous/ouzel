@@ -55,14 +55,21 @@ namespace ouzel
     
     void Scene::removeLayer(std::shared_ptr<Layer> const& layer)
     {
-        std::vector<std::shared_ptr<Layer>>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
-            return p.get() == layer.get();
-        });
-        
-        if (i != _layers.end())
+        if (_locked)
         {
-            layer->removeFromScene();
-            _layers.erase(i);
+            _layerDeleteList.insert(layer);
+        }
+        else
+        {
+            std::vector<std::shared_ptr<Layer>>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
+                return p.get() == layer.get();
+            });
+            
+            if (i != _layers.end())
+            {
+                layer->removeFromScene();
+                _layers.erase(i);
+            }
         }
     }
     
@@ -86,5 +93,22 @@ namespace ouzel
     void Scene::reorderLayers()
     {
         _reorderLayers = true;
+    }
+    
+    void Scene::lock()
+    {
+        _locked = true;
+    }
+    
+    void Scene::unlock()
+    {
+        _locked = false;
+        
+        for (std::shared_ptr<Layer> const& layer : _layerDeleteList)
+        {
+            removeLayer(layer);
+        }
+        
+        _layerDeleteList.clear();
     }
 }

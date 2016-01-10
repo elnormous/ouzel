@@ -3,8 +3,9 @@
 
 #pragma once
 
-#include <vector>
 #include <memory>
+#include <vector>
+#include <set>
 #include "Noncopyable.h"
 
 namespace ouzel
@@ -30,7 +31,13 @@ namespace ouzel
         virtual void reorderLayers();
         
     protected:
+        void lock();
+        void unlock();
+        
         std::vector<std::shared_ptr<Layer>> _layers;
         bool _reorderLayers = false;
+        
+        std::set<std::shared_ptr<Layer>> _layerDeleteList;
+        bool _locked;
     };
 }

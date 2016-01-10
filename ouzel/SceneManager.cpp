@@ -47,6 +47,5 @@ namespace ouzel
         {
             _scene->recalculateProjection();
         }
-        
     }
 }
