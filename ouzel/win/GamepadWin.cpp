@@ -42,7 +42,7 @@ namespace ouzel
                                         static_cast<float>(state.Gamepad.bLeftTrigger) / 255.0f);
             }
 
-            if (state.Gamepad.bLeftTrigger != _state.Gamepad.bLeftTrigger)
+            if (state.Gamepad.bRightTrigger != _state.Gamepad.bRightTrigger)
             {
                 handleButtonValueChange(GamepadButton::RIGHT_TRIGGER,
                                         state.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
