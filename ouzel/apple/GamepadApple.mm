@@ -181,16 +181,4 @@ namespace ouzel
         
         return true;
     }
-    
-    void GamepadApple::handleButtonValueChange(GamepadButton button, bool pressed, float value)
-    {
-        GamepadEvent event;
-        event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
-        event.gamepad = shared_from_this();
-        event.button = button;
-        event.pressed = pressed;
-        event.value = value;
-        
-        Engine::getInstance()->getEventDispatcher()->dispatchGamepadButtonChangeEvent(event, Engine::getInstance()->getInput());
-    }
 }

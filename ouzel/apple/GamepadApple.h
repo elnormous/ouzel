@@ -4,7 +4,6 @@
 #pragma once
 
 #include "Gamepad.h"
-#include "Event.h"
 
 #ifdef __OBJC__
 @class GCController;
@@ -20,7 +19,7 @@ namespace ouzel
 {
     class InputApple;
     
-    class GamepadApple: public Gamepad, public std::enable_shared_from_this<GamepadApple>
+    class GamepadApple: public Gamepad
     {
         friend InputApple;
     public:
@@ -35,8 +34,6 @@ namespace ouzel
         
     protected:
         GamepadApple(GCController* controller);
-        
-        void handleButtonValueChange(GamepadButton button, bool pressed, float value);
         
         GCController* _controller;
     };

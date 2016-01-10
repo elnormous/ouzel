@@ -4,10 +4,12 @@
 #pragma once
 
 #include <cstdint>
+#include "Noncopyable.h"
+#include "Event.h"
 
 namespace ouzel
 {
-    class Gamepad
+    class Gamepad: public Noncopyable, public std::enable_shared_from_this<Gamepad>
     {
     public:
         virtual bool isAttached() const;
@@ -16,5 +18,8 @@ namespace ouzel
         
         virtual int32_t getPlayerIndex() const;
         virtual bool setPlayerIndex(int32_t playerIndex);
+        
+    protected:
+        void handleButtonValueChange(GamepadButton button, bool pressed, float value);
     };
 }

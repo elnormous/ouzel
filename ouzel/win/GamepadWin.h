@@ -6,13 +6,12 @@
 #include <windows.h>
 #include <xinput.h>
 #include "Gamepad.h"
-#include "Event.h"
 
 namespace ouzel
 {
     class InputWin;
 
-    class GamepadWin: public Gamepad, public std::enable_shared_from_this<GamepadWin>
+    class GamepadWin: public Gamepad
     {
         friend InputWin;
     public:
@@ -25,7 +24,6 @@ namespace ouzel
 
         void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
         void checkButton(XINPUT_STATE const& state, WORD mask, GamepadButton button);
-        void handleButtonValueChange(GamepadButton button, bool pressed, float value);
 
         XINPUT_STATE _state;
         int32_t _playerIndex;

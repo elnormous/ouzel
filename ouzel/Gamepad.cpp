@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Gamepad.h"
+#include "Engine.h"
 
 namespace ouzel
 {
@@ -28,5 +29,17 @@ namespace ouzel
     bool Gamepad::setPlayerIndex(int32_t playerIndex)
     {
         return false;
+    }
+    
+    void Gamepad::handleButtonValueChange(GamepadButton button, bool pressed, float value)
+    {
+        GamepadEvent event;
+        event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
+        event.gamepad = shared_from_this();
+        event.button = button;
+        event.pressed = pressed;
+        event.value = value;
+        
+        Engine::getInstance()->getEventDispatcher()->dispatchGamepadButtonChangeEvent(event, Engine::getInstance()->getInput());
     }
 }
