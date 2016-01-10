@@ -10,14 +10,14 @@
 
 namespace ouzel
 {
-    Label::Label(std::string const& font, std::string const& text)
+    Label::Label(std::string const& font, std::string const& text, Vector2 const& textAnchor)
     {
         BMFont bmFont;
         bmFont.loadFont(font);
         
         _texture = bmFont.getTexture();
         
-        _meshBuffer = bmFont.createMeshBuffer(text);
+        _meshBuffer = bmFont.createMeshBuffer(text, textAnchor);
         
         _shader = Engine::getInstance()->getRenderer()->getShader(SHADER_TEXTURE);
         

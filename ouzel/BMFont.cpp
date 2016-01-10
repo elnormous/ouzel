@@ -216,7 +216,7 @@ namespace ouzel
         return true;
     }
 
-    std::shared_ptr<MeshBuffer> BMFont::createMeshBuffer(std::string const& text)
+    std::shared_ptr<MeshBuffer> BMFont::createMeshBuffer(std::string const& text, Vector2  const& anchor)
     {
         uint32_t flen;
         
@@ -226,7 +226,7 @@ namespace ouzel
         //setBlendMode(fblend);
         
         float x = 0.0f;
-        float y = lineHeight / 2.0f;
+        float y = lineHeight * (1.0f - anchor.y);
         
         flen = static_cast<uint32_t>(text.length());
         
@@ -298,7 +298,7 @@ namespace ouzel
         
         for (VertexPCT& vertex : vertices)
         {
-            vertex.position.x -= width / 2.0f;
+            vertex.position.x -= width * anchor.x;
         }
         
         std::shared_ptr<MeshBuffer> meshBuffer =
@@ -307,28 +307,5 @@ namespace ouzel
                                                                    VertexPCT::ATTRIBUTES);
         
         return meshBuffer;
-    }
-
-    void BMFont::printCenter(float y, std::string const& text)
-    {
-        /*int x = 0;
-        CharDescriptor  *f;		 
-        
-        int window_width = MyWindow.width;
-
-        int len = strlen(string);
-
-        for (int i = 0; i != len; ++i)
-        {
-            f = &chars[string[i]];
-
-            if (len > 1 && i < len)
-            {
-                x += getKerningPair(string[i], string[i+1]);
-            }
-            x +=  f->xAdvance;
-        }
-
-        print((MyWindow.width/2.0f) - (x/2.0f), y, string);*/
     }
 }

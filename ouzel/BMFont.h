@@ -44,8 +44,7 @@ namespace ouzel
         void setBlend(int b) { fblend = b; }
         float getHeight() { return lineHeight; }
         
-        std::shared_ptr<MeshBuffer> createMeshBuffer(std::string const& text);
-        void printCenter(float y, std::string const& text);
+        std::shared_ptr<MeshBuffer> createMeshBuffer(std::string const& text, Vector2 const& anchor = Vector2(0.5f, 0.5f));
         
         std::shared_ptr<Texture> const& getTexture() const { return _texture; }
 
