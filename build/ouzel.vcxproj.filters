@@ -131,6 +131,9 @@
     <ClCompile Include="..\ouzel\Widget.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\BMFont.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -289,6 +292,9 @@
       <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Widget.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\BMFont.h">
       <Filter>gui</Filter>
     </ClInclude>
   </ItemGroup>
