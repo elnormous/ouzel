@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ouzel\AABB2.cpp" />
+    <ClCompile Include="..\ouzel\BMFont.cpp" />
     <ClCompile Include="..\ouzel\Button.cpp" />
     <ClCompile Include="..\ouzel\Camera.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
@@ -67,6 +68,7 @@
   <ItemGroup>
     <ClInclude Include="..\ouzel\AABB2.h" />
     <ClInclude Include="..\ouzel\App.h" />
+    <ClInclude Include="..\ouzel\BMFont.h" />
     <ClInclude Include="..\ouzel\Button.h" />
     <ClInclude Include="..\ouzel\Camera.h" />
     <ClInclude Include="..\ouzel\Color.h" />
