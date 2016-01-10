@@ -125,6 +125,12 @@
     <ClCompile Include="..\ouzel\win\main.cpp">
       <Filter>win</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\Menu.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Widget.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -278,6 +284,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\win\InputWin.h">
       <Filter>win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Menu.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Widget.h">
+      <Filter>gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

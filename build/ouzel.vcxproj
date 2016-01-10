@@ -35,6 +35,7 @@
     <ClCompile Include="..\ouzel\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\Matrix3.cpp" />
     <ClCompile Include="..\ouzel\Matrix4.cpp" />
+    <ClCompile Include="..\ouzel\Menu.cpp" />
     <ClCompile Include="..\ouzel\MeshBuffer.cpp" />
     <ClCompile Include="..\ouzel\MeshBufferD3D11.cpp" />
     <ClCompile Include="..\ouzel\Node.cpp" />
@@ -58,6 +59,7 @@
     <ClCompile Include="..\ouzel\Vector3.cpp" />
     <ClCompile Include="..\ouzel\Vector4.cpp" />
     <ClCompile Include="..\ouzel\Vertex.cpp" />
+    <ClCompile Include="..\ouzel\Widget.cpp" />
     <ClCompile Include="..\ouzel\win\GamepadWin.cpp" />
     <ClCompile Include="..\ouzel\win\InputWin.cpp" />
     <ClCompile Include="..\ouzel\win\main.cpp" />
@@ -85,6 +87,7 @@
     <ClInclude Include="..\ouzel\MathUtils.h" />
     <ClInclude Include="..\ouzel\Matrix3.h" />
     <ClInclude Include="..\ouzel\Matrix4.h" />
+    <ClInclude Include="..\ouzel\Menu.h" />
     <ClInclude Include="..\ouzel\MeshBuffer.h" />
     <ClInclude Include="..\ouzel\MeshBufferD3D11.h" />
     <ClInclude Include="..\ouzel\Node.h" />
@@ -113,6 +116,7 @@
     <ClInclude Include="..\ouzel\Vector3.h" />
     <ClInclude Include="..\ouzel\Vector4.h" />
     <ClInclude Include="..\ouzel\Vertex.h" />
+    <ClInclude Include="..\ouzel\Widget.h" />
     <ClInclude Include="..\ouzel\win\GamepadWin.h" />
     <ClInclude Include="..\ouzel\win\InputWin.h" />
   </ItemGroup>
