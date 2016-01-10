@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include <set>
 #include <memory>
+#include <set>
 #include "NodeContainer.h"
 #include "Matrix4.h"
 #include "Vector2.h"
@@ -53,6 +53,9 @@ namespace ouzel
         virtual void addToScene(std::shared_ptr<Scene> const& scene);
         virtual void removeFromScene();
         
+        void lock();
+        void unlock();
+        
         std::shared_ptr<Camera> _camera;
         std::vector<std::shared_ptr<Node>> _nodes;
         bool _reorderNodes = false;
@@ -62,5 +65,8 @@ namespace ouzel
         
         std::weak_ptr<Scene> _scene;
         int32_t _order = 0;
+        
+        std::set<std::shared_ptr<Node>> _nodeDeleteList;
+        bool _locked = false;
     };
 }

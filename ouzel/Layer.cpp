@@ -24,10 +24,14 @@ namespace ouzel
     
     void Layer::update(float delta)
     {
+        lock();
+        
         for (std::shared_ptr<Node> node : _nodes)
         {
             node->update(delta);
         }
+        
+        unlock();
     }
     
     void Layer::draw()
@@ -44,6 +48,8 @@ namespace ouzel
         // render only if there is an active camera
         if (_camera)
         {
+            lock();
+            
             for (std::shared_ptr<Node> node : _nodes)
             {
                 if (node->checkVisibility())
@@ -51,6 +57,8 @@ namespace ouzel
                     node->draw();
                 }
             }
+            
+            unlock();
         }
     }
     
@@ -110,13 +118,20 @@ namespace ouzel
     
     void Layer::removeNode(std::shared_ptr<Node> const& node)
     {
-        std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
-            return p.get() == node.get();
-        });
-        
-        if (i != _nodes.end())
+        if (_locked)
         {
-            _nodes.erase(i);
+            _nodeDeleteList.insert(node);
+        }
+        else
+        {
+            std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
+                return p.get() == node.get();
+            });
+            
+            if (i != _nodes.end())
+            {
+                _nodes.erase(i);
+            }
         }
     }
     
@@ -224,5 +239,22 @@ namespace ouzel
     void Layer::removeFromScene()
     {
         _scene.reset();
+    }
+    
+    void Layer::lock()
+    {
+        _locked = true;
+    }
+    
+    void Layer::unlock()
+    {
+        _locked = false;
+        
+        for (std::shared_ptr<Node> const& node : _nodeDeleteList)
+        {
+            removeNode(node);
+        }
+        
+        _nodeDeleteList.clear();
     }
 }

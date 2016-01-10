@@ -38,6 +38,6 @@ namespace ouzel
         bool _reorderLayers = false;
         
         std::set<std::shared_ptr<Layer>> _layerDeleteList;
-        bool _locked;
+        bool _locked = false;
     };
 }
