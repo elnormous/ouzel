@@ -15,10 +15,35 @@ namespace ouzel
     {
         if (_controller.extendedGamepad)
         {
-            _controller.extendedGamepad.leftThumbstick.valueChangedHandler = ^(GCControllerDirectionPad* dpad, float xValue, float yValue) {
-                
+            // left thumbstick
+            _controller.extendedGamepad.leftThumbstick.up.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::LEFT_THUMB_UP, pressed, value);
+            };
+            _controller.extendedGamepad.leftThumbstick.down.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::LEFT_THUMB_DOWN, pressed, value);
+            };
+            _controller.extendedGamepad.leftThumbstick.left.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::LEFT_THUMB_LEFT, pressed, value);
+            };
+            _controller.extendedGamepad.leftThumbstick.right.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::LEFT_THUMB_RIGHT, pressed, value);
             };
             
+            // right thumbstick
+            _controller.extendedGamepad.rightThumbstick.up.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::RIGHT_THUMB_UP, pressed, value);
+            };
+            _controller.extendedGamepad.rightThumbstick.down.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::RIGHT_THUMB_DOWN, pressed, value);
+            };
+            _controller.extendedGamepad.rightThumbstick.left.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::RIGHT_THUMB_LEFT, pressed, value);
+            };
+            _controller.extendedGamepad.rightThumbstick.right.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::RIGHT_THUMB_RIGHT, pressed, value);
+            };
+            
+            // D-pad
             _controller.extendedGamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
                 handleButtonValueChange(GamepadButton::DPAD_UP, pressed, value);
             };
@@ -32,6 +57,7 @@ namespace ouzel
                 handleButtonValueChange(GamepadButton::DPAD_RIGHT, pressed, value);
             };
             
+            // buttons
             _controller.extendedGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                 handleButtonValueChange(GamepadButton::A, pressed, value);
             };
@@ -47,6 +73,7 @@ namespace ouzel
         }
         else if (_controller.gamepad)
         {
+            // D-pad
             _controller.gamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
                 handleButtonValueChange(GamepadButton::DPAD_UP, pressed, value);
             };
@@ -60,6 +87,7 @@ namespace ouzel
                 handleButtonValueChange(GamepadButton::DPAD_RIGHT, pressed, value);
             };
             
+            // buttons
             _controller.gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                 handleButtonValueChange(GamepadButton::A, pressed, value);
             };
@@ -76,6 +104,7 @@ namespace ouzel
 #if defined(OUZEL_PLATFORM_TVOS)
         else if (_controller.microGamepad)
         {
+            // D-pad
             _controller.microGamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
                 handleButtonValueChange(GamepadButton::DPAD_UP, pressed, value);
             };
@@ -89,6 +118,7 @@ namespace ouzel
                 handleButtonValueChange(GamepadButton::DPAD_RIGHT, pressed, value);
             };
             
+            // buttons
             _controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                 handleButtonValueChange(GamepadButton::A, pressed, value);
             };

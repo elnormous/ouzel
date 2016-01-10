@@ -116,15 +116,23 @@ namespace ouzel
         switch (event.button)
         {
             case GamepadButton::DPAD_UP:
+            case GamepadButton::LEFT_THUMB_UP:
+            case GamepadButton::RIGHT_THUMB_UP:
                 position.y = event.value;
                 break;
             case GamepadButton::DPAD_DOWN:
+            case GamepadButton::LEFT_THUMB_DOWN:
+            case GamepadButton::RIGHT_THUMB_DOWN:
                 position.y = -event.value;
                 break;
             case GamepadButton::DPAD_LEFT:
+            case GamepadButton::LEFT_THUMB_LEFT:
+            case GamepadButton::RIGHT_THUMB_LEFT:
                 position.x = -event.value;
                 break;
             case GamepadButton::DPAD_RIGHT:
+            case GamepadButton::LEFT_THUMB_RIGHT:
+            case GamepadButton::RIGHT_THUMB_RIGHT:
                 position.x = event.value;
                 break;
             case GamepadButton::A:

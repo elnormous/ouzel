@@ -168,11 +168,11 @@ namespace ouzel
     enum class MouseButton
     {
         NONE,
-        LEFT,        // Left mouse button
-        RIGHT,        // Right mouse button
-        MIDDLE,        // Middle mouse button (three-button mouse)
-        X1,       // Windows 2000/XP: X1 mouse button
-        X2,       // Windows 2000/XP: X2 mouse button
+        LEFT,           // Left mouse button
+        RIGHT,          // Right mouse button
+        MIDDLE,         // Middle mouse button (three-button mouse)
+        X1,             // Windows 2000/XP: X1 mouse button
+        X2              // Windows 2000/XP: X2 mouse button
     };
     
     enum class GamepadButton
@@ -186,15 +186,23 @@ namespace ouzel
         B,
         X,
         Y,
-        LEFT_SHOULDER, // L1 for Apple
-        LEFT_TRIGGER, // L2 for Apple
+        LEFT_SHOULDER,  // L1 for Apple
+        LEFT_TRIGGER,   // L2 for Apple
         RIGHT_SHOULDER, // R1 for Apple
-        RIGHT_TRIGGER, // R2 for Apple
+        RIGHT_TRIGGER,  // R2 for Apple
         LEFT_THUMB,
         RIGHT_THUMB,
         START, 
         BACK,
-        PAUSE
+        PAUSE,
+        LEFT_THUMB_LEFT,
+        LEFT_THUMB_RIGHT,
+        LEFT_THUMB_UP,
+        LEFT_THUMB_DOWN,
+        RIGHT_THUMB_LEFT,
+        RIGHT_THUMB_RIGHT,
+        RIGHT_THUMB_UP,
+        RIGHT_THUMB_DOWN
     };
     
     class Input: public Noncopyable
