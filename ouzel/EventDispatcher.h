@@ -31,7 +31,6 @@ namespace ouzel
         void dispatchMouseUpEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
         void dispatchMouseScrollEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
         void dispatchMouseMoveEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchMouseDragEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
         
         void dispatchTouchBeginEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);
         void dispatchTouchMoveEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);

@@ -155,6 +155,10 @@ static void updateModifiers(NSEvent* theEvent, Event& event)
     event.controlDown = theEvent.modifierFlags & NSControlKeyMask;
     event.commandDown = theEvent.modifierFlags & NSCommandKeyMask;
     event.functionDown = theEvent.modifierFlags & NSFunctionKeyMask;
+    
+    event.leftMouseDown = NSEvent.pressedMouseButtons & (1 << 0);
+    event.rightMouseDown = NSEvent.pressedMouseButtons & (1 << 1);
+    event.middleMouseDown = NSEvent.pressedMouseButtons & (1 << 2);
 }
 
 // defines from Carbon
@@ -523,12 +527,11 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     MouseEvent event;
-    event.type = Event::Type::MOUSE_DRAG;
-    event.button = MouseButton::LEFT;
+    event.type = Event::Type::MOUSE_MOVE;
     event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDragEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
 }
 
 -(void)rightMouseDragged:(NSEvent*)theEvent
@@ -536,12 +539,11 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     MouseEvent event;
-    event.type = Event::Type::MOUSE_DRAG;
-    event.button = MouseButton::RIGHT;
+    event.type = Event::Type::MOUSE_MOVE;
     event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDragEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
 }
 
 -(void)otherMouseDragged:(NSEvent*)theEvent
@@ -549,12 +551,11 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     MouseEvent event;
-    event.type = Event::Type::MOUSE_DRAG;
-    event.button = MouseButton::MIDDLE;
+    event.type = Event::Type::MOUSE_MOVE;
     event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
     updateModifiers(theEvent, event);
     
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDragEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
 }
 
 -(void)scrollWheel:(NSEvent*)theEvent

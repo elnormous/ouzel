@@ -159,24 +159,6 @@ namespace ouzel
         unlock();
     }
     
-    void EventDispatcher::dispatchMouseDragEvent(const MouseEvent& event, std::shared_ptr<void> const& sender)
-    {
-        lock();
-        
-        for (std::shared_ptr<EventHandler> const& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->mouseDragHandler)
-            {
-                if (!eventHandler->mouseDragHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
     void EventDispatcher::dispatchTouchBeginEvent(const TouchEvent& event, std::shared_ptr<void> const& sender)
     {
         lock();

@@ -21,7 +21,6 @@ namespace ouzel
             MOUSE_UP,
             MOUSE_SCROLL,
             MOUSE_MOVE,
-            MOUSE_DRAG,
             TOUCH_BEGIN,
             TOUCH_MOVE,
             TOUCH_END,
