@@ -21,7 +21,7 @@ namespace ouzel
 
     void InputWin::update()
     {
-        for (DWORD i = 0; i < XUSER_MAX_COUNT; i++)
+        for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
         {
             XINPUT_STATE state;
 

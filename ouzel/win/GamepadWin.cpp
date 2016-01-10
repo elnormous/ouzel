@@ -56,7 +56,7 @@ namespace ouzel
         if ((state.Gamepad.wButtons & mask) != (_state.Gamepad.wButtons & mask))
         {
             bool pressed = (state.Gamepad.wButtons & mask);
-            handleButtonValueChange(GamepadButton::RIGHT_TRIGGER, pressed, pressed ? 1.0f : 0.0f);
+            handleButtonValueChange(button, pressed, pressed ? 1.0f : 0.0f);
         }
     }
 
