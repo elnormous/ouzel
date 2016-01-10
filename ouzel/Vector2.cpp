@@ -93,7 +93,7 @@ namespace ouzel
 
     void Vector2::clamp(const Vector2& min, const Vector2& max)
     {
-        assert(!(min.x > max.x || min.y > max.y ));
+        assert(!(min.x > max.x || min.y > max.y));
 
         // Clamp the x value.
         if (x < min.x)
@@ -111,7 +111,7 @@ namespace ouzel
     void Vector2::clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst)
     {
         assert(dst);
-        assert(!(min.x > max.x || min.y > max.y ));
+        assert(!(min.x > max.x || min.y > max.y));
 
         // Clamp the x value.
         dst->x = v.x;
