@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <memory>
+#include <set>
 #include "Noncopyable.h"
 #include "Event.h"
 #include "EventHander.h"
@@ -46,6 +47,12 @@ namespace ouzel
     protected:
         EventDispatcher();
         
+        void lock();
+        void unlock();
+        
         std::vector<std::shared_ptr<EventHandler>> _eventHandlers;
+        std::set<std::shared_ptr<EventHandler>> _eventHandlerDeleteList;
+        
+        bool _locked = false;
     };
 }
