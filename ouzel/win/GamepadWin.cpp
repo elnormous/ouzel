@@ -20,6 +20,7 @@ namespace ouzel
     {
         if (state.dwPacketNumber > _state.dwPacketNumber)
         {
+            // buttons
             checkButton(state, XINPUT_GAMEPAD_DPAD_UP, GamepadButton::DPAD_UP);
             checkButton(state, XINPUT_GAMEPAD_DPAD_DOWN, GamepadButton::DPAD_DOWN);
             checkButton(state, XINPUT_GAMEPAD_DPAD_LEFT, GamepadButton::DPAD_LEFT);
@@ -35,6 +36,7 @@ namespace ouzel
             checkButton(state, XINPUT_GAMEPAD_X, GamepadButton::X);
             checkButton(state, XINPUT_GAMEPAD_Y, GamepadButton::Y);
 
+            // triggers
             if (state.Gamepad.bLeftTrigger != _state.Gamepad.bLeftTrigger)
             {
                 handleButtonValueChange(GamepadButton::LEFT_TRIGGER,
@@ -49,113 +51,13 @@ namespace ouzel
                                         static_cast<float>(state.Gamepad.bRightTrigger) / 255.0f);
             }
 
-            if (state.Gamepad.sThumbLX != _state.Gamepad.sThumbLX)
-            {
-                if (state.Gamepad.sThumbLX > 0)
-                {
-                    handleButtonValueChange(GamepadButton::LEFT_THUMB_RIGHT,
-                                            state.Gamepad.sThumbLX > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE,
-                                            static_cast<float>(state.Gamepad.sThumbLX) / static_cast<float>(MAX_THUMB_VALUE));
-                }
-                else if (state.Gamepad.sThumbLX < 0)
-                {
-                    handleButtonValueChange(GamepadButton::LEFT_THUMB_LEFT,
-                                            state.Gamepad.sThumbLX < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE,
-                                            static_cast<float>(state.Gamepad.sThumbLX) / static_cast<float>(MIN_THUMB_VALUE));
-                }
-                else // thumbstick is 0
-                {
-                    if (_state.Gamepad.sThumbLX > state.Gamepad.sThumbLX)
-                    {
-                        handleButtonValueChange(GamepadButton::LEFT_THUMB_RIGHT, false, 0.0f);
-                    }
-                    else
-                    {
-                        handleButtonValueChange(GamepadButton::LEFT_THUMB_LEFT, false, 0.0f);
-                    }
-                }
-            }
+            // left thumbstick
+            checkThumbAxis(_state.Gamepad.sThumbLX, state.Gamepad.sThumbLX, GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
+            checkThumbAxis(_state.Gamepad.sThumbLY, state.Gamepad.sThumbLY, GamepadButton::LEFT_THUMB_DOWN, GamepadButton::LEFT_THUMB_UP);
 
-            if (state.Gamepad.sThumbLY != _state.Gamepad.sThumbLY)
-            {
-                if (state.Gamepad.sThumbLY > 0)
-                {
-                    handleButtonValueChange(GamepadButton::LEFT_THUMB_UP,
-                                            state.Gamepad.sThumbLY > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE,
-                                            static_cast<float>(state.Gamepad.sThumbLY) / static_cast<float>(MAX_THUMB_VALUE));
-                }
-                else if (state.Gamepad.sThumbLY < 0)
-                {
-                    handleButtonValueChange(GamepadButton::LEFT_THUMB_DOWN,
-                                            state.Gamepad.sThumbLY < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE,
-                                            static_cast<float>(state.Gamepad.sThumbLY) / static_cast<float>(MIN_THUMB_VALUE));
-                }
-                else // thumbstick is 0
-                {
-                    if (_state.Gamepad.sThumbLY > state.Gamepad.sThumbLY)
-                    {
-                        handleButtonValueChange(GamepadButton::LEFT_THUMB_UP, false, 0.0f);
-                    }
-                    else
-                    {
-                        handleButtonValueChange(GamepadButton::LEFT_THUMB_DOWN, false, 0.0f);
-                    }
-                }
-            }
-
-            if (state.Gamepad.sThumbRX != _state.Gamepad.sThumbRX)
-            {
-                if (state.Gamepad.sThumbRX > 0)
-                {
-                    handleButtonValueChange(GamepadButton::RIGHT_THUMB_RIGHT,
-                                            state.Gamepad.sThumbRX > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
-                                            static_cast<float>(state.Gamepad.sThumbRX) / static_cast<float>(MAX_THUMB_VALUE));
-                }
-                else if (state.Gamepad.sThumbRX < 0)
-                {
-                    handleButtonValueChange(GamepadButton::RIGHT_THUMB_LEFT,
-                                            state.Gamepad.sThumbRX < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
-                                            static_cast<float>(state.Gamepad.sThumbRX) / static_cast<float>(MIN_THUMB_VALUE));
-                }
-                else // thumbstick is 0
-                {
-                    if (_state.Gamepad.sThumbRX > state.Gamepad.sThumbRX)
-                    {
-                        handleButtonValueChange(GamepadButton::RIGHT_THUMB_RIGHT, false, 0.0f);
-                    }
-                    else
-                    {
-                        handleButtonValueChange(GamepadButton::RIGHT_THUMB_LEFT, false, 0.0f);
-                    }
-                }
-            }
-
-            if (state.Gamepad.sThumbRY != _state.Gamepad.sThumbRY)
-            {
-                if (state.Gamepad.sThumbRY > 0)
-                {
-                    handleButtonValueChange(GamepadButton::RIGHT_THUMB_UP,
-                                            state.Gamepad.sThumbRY > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
-                                            static_cast<float>(state.Gamepad.sThumbRY) / static_cast<float>(MAX_THUMB_VALUE));
-                }
-                else if (state.Gamepad.sThumbRY < 0)
-                {
-                    handleButtonValueChange(GamepadButton::RIGHT_THUMB_DOWN,
-                                            state.Gamepad.sThumbRY < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
-                                            static_cast<float>(state.Gamepad.sThumbRY) / static_cast<float>(MIN_THUMB_VALUE));
-                }
-                else // thumbstick is 0
-                {
-                    if (_state.Gamepad.sThumbRY > state.Gamepad.sThumbRY)
-                    {
-                        handleButtonValueChange(GamepadButton::RIGHT_THUMB_UP, false, 0.0f);
-                    }
-                    else
-                    {
-                        handleButtonValueChange(GamepadButton::RIGHT_THUMB_DOWN, false, 0.0f);
-                    }
-                }
-            }
+            // right thumbstick
+            checkThumbAxis(_state.Gamepad.sThumbRX, state.Gamepad.sThumbRX, GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
+            checkThumbAxis(_state.Gamepad.sThumbRY, state.Gamepad.sThumbRY, GamepadButton::RIGHT_THUMB_DOWN, GamepadButton::RIGHT_THUMB_UP);
 
             _state = state;
         }
@@ -164,6 +66,36 @@ namespace ouzel
     int32_t GamepadWin::getPlayerIndex() const
     {
         return _playerIndex;
+    }
+
+    void GamepadWin::checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton)
+    {
+        if (newValue != oldValue)
+        {
+            if (newValue > 0)
+            {
+                handleButtonValueChange(positiveButton,
+                    newValue > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
+                    static_cast<float>(newValue) / static_cast<float>(MAX_THUMB_VALUE));
+            }
+            else if (newValue < 0)
+            {
+                handleButtonValueChange(negativeButton,
+                    newValue < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
+                    static_cast<float>(newValue) / static_cast<float>(MIN_THUMB_VALUE));
+            }
+            else // thumbstick is 0
+            {
+                if (oldValue > newValue)
+                {
+                    handleButtonValueChange(positiveButton, false, 0.0f);
+                }
+                else
+                {
+                    handleButtonValueChange(negativeButton, false, 0.0f);
+                }
+            }
+        }
     }
 
     void GamepadWin::checkButton(XINPUT_STATE const& state, WORD mask, GamepadButton button)

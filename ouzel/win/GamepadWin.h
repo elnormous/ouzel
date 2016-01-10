@@ -23,6 +23,7 @@ namespace ouzel
     protected:
         GamepadWin(int32_t playerIndex);
 
+        void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
         void checkButton(XINPUT_STATE const& state, WORD mask, GamepadButton button);
         void handleButtonValueChange(GamepadButton button, bool pressed, float value);
 
