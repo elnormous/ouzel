@@ -3,14 +3,13 @@
 
 #pragma once
 
-#include "Widget.h"
+#include "Node.h"
 
 namespace ouzel
 {
-    class Label: public Widget
+    class Widget: public Node
     {
     public:
-        Label(std::string const& font, std::string const& text);
-        virtual ~Label();
+        
     };
 }

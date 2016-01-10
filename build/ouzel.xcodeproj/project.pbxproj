@@ -349,6 +349,18 @@
 		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		30575AEA1C3C99010009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE91C3C99010009C8A7 /* GameController.framework */; };
 		30575AEC1C3C990B0009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AEB1C3C990B0009C8A7 /* GameController.framework */; };
+		305B99891C41EFFA008589E1 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B99871C41EFFA008589E1 /* Menu.cpp */; };
+		305B998A1C41EFFA008589E1 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B99871C41EFFA008589E1 /* Menu.cpp */; };
+		305B998B1C41EFFA008589E1 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B99871C41EFFA008589E1 /* Menu.cpp */; };
+		305B998C1C41EFFA008589E1 /* Menu.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B99881C41EFFA008589E1 /* Menu.h */; };
+		305B998D1C41EFFA008589E1 /* Menu.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B99881C41EFFA008589E1 /* Menu.h */; };
+		305B998E1C41EFFA008589E1 /* Menu.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B99881C41EFFA008589E1 /* Menu.h */; };
+		305B99911C41F06F008589E1 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B998F1C41F06F008589E1 /* Widget.cpp */; };
+		305B99921C41F06F008589E1 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B998F1C41F06F008589E1 /* Widget.cpp */; };
+		305B99931C41F06F008589E1 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B998F1C41F06F008589E1 /* Widget.cpp */; };
+		305B99941C41F06F008589E1 /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B99901C41F06F008589E1 /* Widget.h */; };
+		305B99951C41F06F008589E1 /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B99901C41F06F008589E1 /* Widget.h */; };
+		305B99961C41F06F008589E1 /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B99901C41F06F008589E1 /* Widget.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -507,6 +519,10 @@
 		30575AE71C3C98F50009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		30575AE91C3C99010009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		30575AEB1C3C990B0009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
+		305B99871C41EFFA008589E1 /* Menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
+		305B99881C41EFFA008589E1 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
+		305B998F1C41F06F008589E1 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
+		305B99901C41F06F008589E1 /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -896,6 +912,10 @@
 				30575AC41C3B17540009C8A7 /* Button.h */,
 				30575ACB1C3B175D0009C8A7 /* Label.cpp */,
 				30575ACC1C3B175D0009C8A7 /* Label.h */,
+				305B99871C41EFFA008589E1 /* Menu.cpp */,
+				305B99881C41EFFA008589E1 /* Menu.h */,
+				305B998F1C41F06F008589E1 /* Widget.cpp */,
+				305B99901C41F06F008589E1 /* Widget.h */,
 			);
 			name = gui;
 			sourceTree = "<group>";
@@ -946,6 +966,7 @@
 				303647651C3F218E0024DB5B /* Settings.h in Headers */,
 				303B75E31C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
 				3031A0B11C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
+				305B99951C41F06F008589E1 /* Widget.h in Headers */,
 				303B760B1C34A92B00FEDE92 /* Input.h in Headers */,
 				303B75541C2A3CB700FEDE92 /* Rectangle.h in Headers */,
 				303B753B1C2A3C8200FEDE92 /* Noncopyable.h in Headers */,
@@ -969,6 +990,7 @@
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
 				303647201C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */,
+				305B998D1C41EFFA008589E1 /* Menu.h in Headers */,
 				303B75771C2A3E3000FEDE92 /* AppDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1005,6 +1027,7 @@
 				303647661C3F218E0024DB5B /* Settings.h in Headers */,
 				303B76681C355A3B00FEDE92 /* Input.h in Headers */,
 				3031A0B21C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
+				305B99961C41F06F008589E1 /* Widget.h in Headers */,
 				303B76691C355A3B00FEDE92 /* Rectangle.h in Headers */,
 				303B766B1C355A3B00FEDE92 /* Noncopyable.h in Headers */,
 				303B766C1C355A3B00FEDE92 /* MathUtils.h in Headers */,
@@ -1028,6 +1051,7 @@
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
 				303647211C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE61C3C91A40009C8A7 /* InputApple.h in Headers */,
+				305B998E1C41EFFA008589E1 /* Menu.h in Headers */,
 				303B76891C355A5800FEDE92 /* ViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1052,6 +1076,7 @@
 				303647641C3F218E0024DB5B /* Settings.h in Headers */,
 				3036471F1C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.h in Headers */,
+				305B99941C41F06F008589E1 /* Widget.h in Headers */,
 				304A8E5D1C237C70008B1151 /* Node.h in Headers */,
 				304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */,
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
@@ -1070,6 +1095,7 @@
 				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75E81C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
+				305B998C1C41EFFA008589E1 /* Menu.h in Headers */,
 				303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */,
 				304A8E821C24814F008B1151 /* RendererOGL.h in Headers */,
 				304A8E591C237C70008B1151 /* Matrix3.h in Headers */,
@@ -1317,6 +1343,8 @@
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
 				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
 				303B757D1C2A43DC00FEDE92 /* MeshBufferOGL.cpp in Sources */,
+				305B99921C41F06F008589E1 /* Widget.cpp in Sources */,
+				305B998A1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				303B756D1C2A3CCA00FEDE92 /* Utils.cpp in Sources */,
 				30575AC61C3B17540009C8A7 /* Button.cpp in Sources */,
 				303B754F1C2A3CB700FEDE92 /* Matrix3.cpp in Sources */,
@@ -1378,6 +1406,8 @@
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
 				303B76401C355A3B00FEDE92 /* MeshBufferOGL.cpp in Sources */,
+				305B99931C41F06F008589E1 /* Widget.cpp in Sources */,
+				305B998B1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */,
 				30575AC71C3B17540009C8A7 /* Button.cpp in Sources */,
 				303B76421C355A3B00FEDE92 /* Matrix3.cpp in Sources */,
@@ -1441,6 +1471,7 @@
 				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Button.cpp in Sources */,
+				305B99891C41EFFA008589E1 /* Menu.cpp in Sources */,
 				303B75161C288CFB00FEDE92 /* MeshBufferOGL.cpp in Sources */,
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
@@ -1456,6 +1487,7 @@
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
 				304A8E701C237C70008B1151 /* Vector2.cpp in Sources */,
 				304A8E511C237C70008B1151 /* Camera.cpp in Sources */,
+				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				303B75211C29EFEC00FEDE92 /* AppDelegate.mm in Sources */,
 				304A8E8E1C26EA8B008B1151 /* ShaderOGL.cpp in Sources */,
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
