@@ -26,7 +26,6 @@ namespace ouzel
         std::function<bool(const MouseEvent&, std::shared_ptr<void> const&)> mouseUpHandler;
         std::function<bool(const MouseEvent&, std::shared_ptr<void> const&)> mouseScrollHandler;
         std::function<bool(const MouseEvent&, std::shared_ptr<void> const&)> mouseMoveHandler;
-        std::function<bool(const MouseEvent&, std::shared_ptr<void> const&)> mouseDragHandler;
         
         std::function<bool(const TouchEvent&, std::shared_ptr<void> const&)> touchBeginHandler;
         std::function<bool(const TouchEvent&, std::shared_ptr<void> const&)> touchMoveHandler;
