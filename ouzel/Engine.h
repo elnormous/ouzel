@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include <set>
 #include "Noncopyable.h"
 #include "Renderer.h"
 #include "SceneManager.h"
@@ -22,6 +23,10 @@ namespace ouzel
         virtual ~Engine();
         
         void setArgs(std::vector<std::string> const& args);
+        std::vector<std::string> const& getArgs() { return _args; }
+        
+        std::set<Renderer::Driver> getAvailableDrivers() const;
+        
         bool init();
 
         std::shared_ptr<EventDispatcher> const& getEventDispatcher() const { return _eventDispatcher; }

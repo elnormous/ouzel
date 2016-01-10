@@ -43,9 +43,27 @@ namespace ouzel
 
     }
     
+    Engine::~Engine()
+    {
+        
+    }
+    
     void Engine::setArgs(std::vector<std::string> const& args)
     {
         _args = args;
+    }
+    
+    std::set<Renderer::Driver> Engine::getAvailableDrivers() const
+    {
+        std::set<Renderer::Driver> availableDrivers;
+        
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+        availableDrivers.insert(Renderer::Driver::OPENGL);
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        availableDrivers.insert(Renderer::Driver::DIRECT3D11);
+#endif
+        
+        return availableDrivers;
     }
 
     bool Engine::init()
@@ -102,11 +120,6 @@ namespace ouzel
         _previousFrameTime = getCurrentMicroSeconds();
 
         return true;
-    }
-    
-    Engine::~Engine()
-    {
-        
     }
     
     void Engine::begin()
