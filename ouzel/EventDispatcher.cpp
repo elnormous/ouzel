@@ -50,8 +50,10 @@ namespace ouzel
         {
             if (eventHandler->keyDownHandler)
             {
-                eventHandler->keyDownHandler(event, sender);
-                break;
+                if (!eventHandler->keyDownHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -62,8 +64,10 @@ namespace ouzel
         {
             if (eventHandler->keyUpHandler)
             {
-                eventHandler->keyUpHandler(event, sender);
-                break;
+                if (!eventHandler->keyUpHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -74,8 +78,10 @@ namespace ouzel
         {
             if (eventHandler->mouseDownHandler)
             {
-                eventHandler->mouseDownHandler(event, sender);
-                break;
+                if (!eventHandler->mouseDownHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -86,8 +92,10 @@ namespace ouzel
         {
             if (eventHandler->mouseUpHandler)
             {
-                eventHandler->mouseUpHandler(event, sender);
-                break;
+                if (!eventHandler->mouseUpHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -98,8 +106,10 @@ namespace ouzel
         {
             if (eventHandler->mouseScrollHandler)
             {
-                eventHandler->mouseScrollHandler(event, sender);
-                break;
+                if (!eventHandler->mouseScrollHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -110,8 +120,10 @@ namespace ouzel
         {
             if (eventHandler->mouseMoveHandler)
             {
-                eventHandler->mouseMoveHandler(event, sender);
-                break;
+                if (!eventHandler->mouseMoveHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -122,8 +134,10 @@ namespace ouzel
         {
             if (eventHandler->mouseDragHandler)
             {
-                eventHandler->mouseDragHandler(event, sender);
-                break;
+                if (!eventHandler->mouseDragHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -134,8 +148,10 @@ namespace ouzel
         {
             if (eventHandler->touchBeginHandler)
             {
-                eventHandler->touchBeginHandler(event, sender);
-                break;
+                if (!eventHandler->touchBeginHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -146,8 +162,10 @@ namespace ouzel
         {
             if (eventHandler->touchMoveHandler)
             {
-                eventHandler->touchMoveHandler(event, sender);
-                break;
+                if (!eventHandler->touchMoveHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -158,8 +176,10 @@ namespace ouzel
         {
             if (eventHandler->touchEndHandler)
             {
-                eventHandler->touchEndHandler(event, sender);
-                break;
+                if (!eventHandler->touchEndHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -170,8 +190,10 @@ namespace ouzel
         {
             if (eventHandler->keyDownHandler)
             {
-                eventHandler->touchCancelHandler(event, sender);
-                break;
+                if (!eventHandler->touchCancelHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -182,8 +204,10 @@ namespace ouzel
         {
             if (eventHandler->gamepadConnectHandler)
             {
-                eventHandler->gamepadConnectHandler(event, sender);
-                break;
+                if (!eventHandler->gamepadConnectHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -194,8 +218,10 @@ namespace ouzel
         {
             if (eventHandler->gamepadDisconnectHandler)
             {
-                eventHandler->gamepadDisconnectHandler(event, sender);
-                break;
+                if (!eventHandler->gamepadDisconnectHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -206,8 +232,10 @@ namespace ouzel
         {
             if (eventHandler->gamepadButtonChangeHandler)
             {
-                eventHandler->gamepadButtonChangeHandler(event, sender);
-                break;
+                if (!eventHandler->gamepadButtonChangeHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }
@@ -218,8 +246,10 @@ namespace ouzel
         {
             if (eventHandler->screenSizeHandler)
             {
-                eventHandler->screenSizeHandler(event, sender);
-                break;
+                if (!eventHandler->screenSizeHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
     }

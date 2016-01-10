@@ -69,7 +69,7 @@ namespace ouzel
         Engine::getInstance()->getInput()->startDiscovery();
     }
     
-    void Application::handleKeyDown(const KeyboardEvent& event, std::shared_ptr<void> const& sender) const
+    bool Application::handleKeyDown(const KeyboardEvent& event, std::shared_ptr<void> const& sender) const
     {
         Vector2 position = _sprite->getPosition();
         
@@ -95,21 +95,27 @@ namespace ouzel
         }
         
         _sprite->setPosition(position);
+        
+        return true;
     }
     
-    void Application::handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender) const
+    bool Application::handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);
+        
+        return true;
     }
     
-    void Application::handleTouch(const TouchEvent& event, std::shared_ptr<void> const& sender) const
+    bool Application::handleTouch(const TouchEvent& event, std::shared_ptr<void> const& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);
+        
+        return true;
     }
     
-    void Application::handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender) const
+    bool Application::handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender) const
     {
         Vector2 position = _layer->worldToScreenLocation(_witch->getPosition());
         
@@ -144,5 +150,7 @@ namespace ouzel
         
         Vector2 worldLocation = _layer->screenToWorldLocation(position);
         _witch->setPosition(worldLocation);
+        
+        return true;
     }
 }
