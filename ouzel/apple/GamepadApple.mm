@@ -70,6 +70,21 @@ namespace ouzel
             _controller.extendedGamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                 handleButtonValueChange(GamepadButton::Y, pressed, value);
             };
+            
+            // triggers and shoulders
+            _controller.extendedGamepad.leftShoulder.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::LEFT_SHOULDER, pressed, value);
+            };
+            _controller.extendedGamepad.leftTrigger.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::LEFT_TRIGGER, pressed, value);
+            };
+            _controller.extendedGamepad.rightShoulder.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::RIGHT_SHOULDER, pressed, value);
+            };
+            _controller.extendedGamepad.rightTrigger.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                handleButtonValueChange(GamepadButton::RIGHT_TRIGGER, pressed, value);
+            };
+            
         }
         else if (_controller.gamepad)
         {
