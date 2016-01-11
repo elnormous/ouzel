@@ -432,10 +432,13 @@ namespace ouzel
         RECT windowRect = { 0, 0, (int)_size.width, (int)_size.height };
         AdjustWindowRect(&windowRect, _windowStyle, FALSE);
 
+        wchar_t titleBuffer[256];
+        MultiByteToWideChar(CP_ACP, 0, _title.c_str(), -1, titleBuffer, 256);
+
         _window = CreateWindowExW(
             0,
             WINDOW_CLASS_NAME,
-            L"Ouzel",
+            titleBuffer,
             _windowStyle,
             x,
             y,
@@ -688,10 +691,10 @@ namespace ouzel
     {
         Renderer::setTitle(title);
 
-        wchar_t szBuffer[256];
-        MultiByteToWideChar(CP_ACP, 0, title.c_str(), -1, szBuffer, 256);
+        wchar_t titleBuffer[256];
+        MultiByteToWideChar(CP_ACP, 0, _title.c_str(), -1, titleBuffer, 256);
 
-        SetWindowTextW(_window, szBuffer);
+        SetWindowTextW(_window, titleBuffer);
     }
 
     std::shared_ptr<Texture> RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
