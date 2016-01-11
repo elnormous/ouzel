@@ -39,6 +39,7 @@ namespace ouzel
         _normalSprite = std::make_shared<Sprite>();
         if (_normalSprite->initFromFile(normal))
         {
+            _boundingBox = _normalSprite->getBoundingBox();
             addChild(_normalSprite);
         }
         
@@ -103,6 +104,11 @@ namespace ouzel
         {
             Vector2 worldLocation = layer->screenToWorldLocation(event.position);
             checkPointer(worldLocation);
+            
+            if (_pointerOver)
+            {
+                _pressed = true;
+            }
         }
         
         return true;
@@ -121,11 +127,15 @@ namespace ouzel
     
     bool Button::handleTouchEnd(const TouchEvent& event, std::shared_ptr<void> const& sender)
     {
-        if (std::shared_ptr<Layer> layer = _layer.lock())
+        if (_pointerOver && _pressed)
         {
-            Vector2 worldLocation = layer->screenToWorldLocation(event.position);
-            checkPointer(worldLocation);
+            if (_callback)
+            {
+                _callback(shared_from_this());
+            }
         }
+        
+        _pressed = false;
         
         return true;
     }
@@ -137,7 +147,7 @@ namespace ouzel
     
     void Button::checkPointer(Vector2 const& worldLocation)
     {
-        if (_normalSprite->pointOn(worldLocation))
+        if (pointOn(worldLocation))
         {
             _pointerOver = true;
         }
