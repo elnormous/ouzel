@@ -100,6 +100,6 @@ namespace ouzel
         bool _resizable = false;
         bool _fullscreen = false;
         
-        std::string _title = "Ouzel";
+        std::string _title = "";
     };
 }

@@ -68,7 +68,7 @@ namespace ouzel
     {
         if (_title != title)
         {
-            Engine::getInstance()->getSceneManager()->recalculateProjection();
+            _title = title;
             
             WindowEvent event;
             event.type = Event::Type::WINDOW_TITLE_CHANGE;
