@@ -5,5 +5,8 @@
 
 namespace ouzel
 {
-    
+    void Widget::setEnabled(bool enabled)
+    {
+        _enabled = enabled;
+    }
 }

@@ -10,6 +10,10 @@ namespace ouzel
     class Widget: public Node
     {
     public:
+        virtual void setEnabled(bool enabled);
+        bool isEnabled() const { return _enabled; }
         
+    protected:
+        bool _enabled = true;
     };
 }

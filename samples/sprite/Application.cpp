@@ -1,10 +1,5 @@
-//
-//  Application.cpp
-//  ouzel
-//
-//  Created by Elviss Strazdins on 20/12/15.
-//  Copyright © 2015 Bool Games. All rights reserved.
-//
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #include "Application.h"
 
@@ -18,7 +13,7 @@ namespace ouzel
     Settings Application::getSettings()
     {
         Settings settings;
-        settings.size = ouzel::Size2(640.0f, 480.0f);
+        settings.size = ouzel::Size2(800.0f, 600.0f);
         settings.resizable = true;
         
         return settings;
@@ -68,6 +63,11 @@ namespace ouzel
         
         std::shared_ptr<Label> label = std::make_shared<Label>("font.fnt", "testing fonts");
         _layer->addChild(label);
+        
+        std::shared_ptr<Button> button(new Button());
+        button->init("button.png", "button.png", "button_down.png");
+        button->setPosition(Vector2(-200.0f, 200.0f));
+        _layer->addChild(button);
         
         Engine::getInstance()->getInput()->startDiscovery();
     }
