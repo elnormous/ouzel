@@ -50,29 +50,33 @@ namespace ouzel
     
     void Renderer::resize(const Size2& size)
     {
-        _size = size;
-        Engine::getInstance()->getSceneManager()->recalculateProjection();
-        
-        WindowEvent event;
-        event.type = Event::Type::WINDOW_SIZE_CHANGE;
-        event.size = _size;
-        event.title = _title;
-        
-        Engine::getInstance()->getEventDispatcher()->dispatchWindowSizeChangeEvent(event, Engine::getInstance()->getRenderer());
+        if (_size != size)
+        {
+            _size = size;
+            Engine::getInstance()->getSceneManager()->recalculateProjection();
+            
+            WindowEvent event;
+            event.type = Event::Type::WINDOW_SIZE_CHANGE;
+            event.size = _size;
+            event.title = _title;
+            
+            Engine::getInstance()->getEventDispatcher()->dispatchWindowSizeChangeEvent(event, Engine::getInstance()->getRenderer());
+        }
     }
     
     void Renderer::setTitle(const std::string& title)
     {
-        _title = title;
-        
-        Engine::getInstance()->getSceneManager()->recalculateProjection();
-        
-        WindowEvent event;
-        event.type = Event::Type::WINDOW_TITLE_CHANGE;
-        event.size = _size;
-        event.title = _title;
-        
-        Engine::getInstance()->getEventDispatcher()->dispatchWindowTitleChangeEvent(event, Engine::getInstance()->getRenderer());
+        if (_title != title)
+        {
+            Engine::getInstance()->getSceneManager()->recalculateProjection();
+            
+            WindowEvent event;
+            event.type = Event::Type::WINDOW_TITLE_CHANGE;
+            event.size = _size;
+            event.title = _title;
+            
+            Engine::getInstance()->getEventDispatcher()->dispatchWindowTitleChangeEvent(event, Engine::getInstance()->getRenderer());
+        }
     }
     
     void Renderer::preloadTexture(const std::string& filename, bool dynamic)
