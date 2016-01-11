@@ -22,7 +22,7 @@ namespace ouzel
         Node();
         virtual ~Node();
         
-        virtual std::shared_ptr<NodeContainer> getParent() const { return _parent.lock(); }
+        virtual bool hasParent() const { return _hasParent; }
         
         virtual void draw();
         virtual void update(float delta);
@@ -91,7 +91,7 @@ namespace ouzel
         
         bool _visible = true;
         
-        std::weak_ptr<Node> _parent;
+        bool _hasParent = false;
         std::weak_ptr<Layer> _layer;
         bool _addedToLayer = false;
     };

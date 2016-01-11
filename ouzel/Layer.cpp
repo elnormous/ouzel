@@ -87,7 +87,7 @@ namespace ouzel
     {
         if (NodeContainer::removeChild(node))
         {
-            node->_parent.reset();
+            node->_hasParent = false;
             node->_layer.reset();
             
             if (node->_addedToLayer)

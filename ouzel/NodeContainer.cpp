@@ -16,14 +16,14 @@ namespace ouzel
     {
         for (std::shared_ptr<Node> node : _children)
         {
-            node->_parent.reset();
+            node->_hasParent = false;
             node->_layer.reset();
         }
     }
     
     bool NodeContainer::addChild(std::shared_ptr<Node> const& node)
     {
-        if (!hasChild(node) && !node->getParent())
+        if (!hasChild(node) && !node->hasParent())
         {
             _children.push_back(node);
             
@@ -44,7 +44,7 @@ namespace ouzel
         if (i != _children.end())
         {
             node->removeFromLayer();
-            node->_parent.reset();
+            node->_hasParent = false;
             node->_layer.reset();
             _children.erase(i);
             

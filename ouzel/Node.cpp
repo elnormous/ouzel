@@ -38,7 +38,7 @@ namespace ouzel
     {
         if (NodeContainer::addChild(node))
         {
-            node->_parent = shared_from_this();
+            node->_hasParent = true;
             node->setLayer(_layer);
             
             if (node->getVisible())
@@ -67,7 +67,7 @@ namespace ouzel
     {
         if (NodeContainer::removeChild(node))
         {
-            node->_parent.reset();
+            node->_hasParent = false;
             node->_layer.reset();
             
             if (node->_addedToLayer)
