@@ -33,6 +33,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
         
         Engine::getInstance()->getRenderer()->setClearColor(Color(64, 0, 0));
+        Engine::getInstance()->getRenderer()->setTitle("Sample");
         
         std::shared_ptr<Scene> scene(new Scene());
         Engine::getInstance()->getSceneManager()->setScene(scene);

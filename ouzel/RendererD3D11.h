@@ -22,6 +22,8 @@ namespace ouzel
 
         virtual void resize(const Size2& size) override;
 
+        virtual void setTitle(const std::string& title) override;
+
         virtual std::shared_ptr<Texture> loadTextureFromFile(const std::string& filename, bool dynamic) override;
         virtual std::shared_ptr<Texture> loadTextureFromData(const void* data, const Size2& size, bool dynamic) override;
 

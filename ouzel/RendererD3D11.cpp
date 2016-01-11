@@ -684,6 +684,16 @@ namespace ouzel
         }
     }
 
+    void RendererD3D11::setTitle(const std::string& title)
+    {
+        Renderer::setTitle(title);
+
+        wchar_t szBuffer[256];
+        MultiByteToWideChar(CP_ACP, 0, title.c_str(), -1, szBuffer, 256);
+
+        SetWindowTextW(_window, szBuffer);
+    }
+
     std::shared_ptr<Texture> RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
