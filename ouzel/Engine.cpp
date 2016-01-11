@@ -130,6 +130,8 @@ namespace ouzel
     void Engine::end()
     {
         _app.reset();
+        // remove the active scene
+        _sceneManager->setScene(std::shared_ptr<Scene>());
     }
     
     void Engine::run()

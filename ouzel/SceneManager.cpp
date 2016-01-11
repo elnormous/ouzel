@@ -29,7 +29,11 @@ namespace ouzel
         if (scene != _scene)
         {
             _scene = scene;
-            _scene->recalculateProjection();
+            
+            if (_scene)
+            {
+                _scene->recalculateProjection();
+            }
         }
     }
     
