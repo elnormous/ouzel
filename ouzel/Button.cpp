@@ -7,6 +7,8 @@
 #include "Sprite.h"
 #include "EventHander.h"
 #include "EventDispatcher.h"
+#include "Layer.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -20,7 +22,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
-    bool Button::init(std::string const& normal, std::string const& selected, std::string const& pressed)
+    bool Button::init(std::string const& normal, std::string const& selected, std::string const& pressed, std::function<void(std::shared_ptr<void>)> const& callback)
     {
         _eventHandler = std::make_shared<EventHandler>();
         
@@ -54,41 +56,94 @@ namespace ouzel
             addChild(_pressedSprite);
         }
         
+        _callback = callback;
+        
         return true;
     }
     
     bool Button::handleMouseDown(const MouseEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (_pointerOver)
+        {
+            _pressed = true;
+        }
+        
         return true;
     }
     
     bool Button::handleMouseUp(const MouseEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (_pointerOver && _pressed)
+        {
+            if (_callback)
+            {
+                _callback(shared_from_this());
+            }
+        }
+        
+        _pressed = false;
+        
         return true;
     }
     
     bool Button::handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (std::shared_ptr<Layer> layer = _layer.lock())
+        {
+            Vector2 worldLocation = layer->screenToWorldLocation(event.position);
+            checkPointer(worldLocation);
+        }
+        
         return true;
     }
     
     bool Button::handleTouchBegin(const TouchEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (std::shared_ptr<Layer> layer = _layer.lock())
+        {
+            Vector2 worldLocation = layer->screenToWorldLocation(event.position);
+            checkPointer(worldLocation);
+        }
+        
         return true;
     }
     
     bool Button::handleTouchMove(const TouchEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (std::shared_ptr<Layer> layer = _layer.lock())
+        {
+            Vector2 worldLocation = layer->screenToWorldLocation(event.position);
+            checkPointer(worldLocation);
+        }
+        
         return true;
     }
     
     bool Button::handleTouchEnd(const TouchEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (std::shared_ptr<Layer> layer = _layer.lock())
+        {
+            Vector2 worldLocation = layer->screenToWorldLocation(event.position);
+            checkPointer(worldLocation);
+        }
+        
         return true;
     }
     
     bool Button::handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender)
     {
         return true;
+    }
+    
+    void Button::checkPointer(Vector2 const& worldLocation)
+    {
+        if (_normalSprite->pointOn(worldLocation))
+        {
+            _pointerOver = true;
+        }
+        else
+        {
+            _pointerOver = false;
+        }
     }
 }

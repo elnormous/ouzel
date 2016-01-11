@@ -65,7 +65,9 @@ namespace ouzel
         _layer->addChild(label);
         
         std::shared_ptr<Button> button(new Button());
-        button->init("button.png", "button.png", "button_down.png");
+        button->init("button.png", "button.png", "button_down.png", [this](std::shared_ptr<void> sender) {
+            _sprite->setVisible(!_sprite->getVisible());
+        });
         button->setPosition(Vector2(-200.0f, 200.0f));
         _layer->addChild(button);
         
