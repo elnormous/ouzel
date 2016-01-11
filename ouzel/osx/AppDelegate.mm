@@ -41,12 +41,30 @@
     
     std::shared_ptr<ouzel::EventHandler> eventHandler = std::make_shared<ouzel::EventHandler>();
     eventHandler->windowTitleChangeHandler = [self](const ouzel::WindowEvent& event, std::shared_ptr<void> const&) -> bool {
+        
         _window.title = [NSString stringWithCString:event.title.c_str() encoding:NSASCIIStringEncoding];
+        return true;
+    };
+    
+    eventHandler->windowSizeChangeHandler = [self](const ouzel::WindowEvent& event, std::shared_ptr<void> const&) -> bool {
+        
+        NSRect frame = [NSWindow contentRectForFrameRect:[_window frame]
+                                                       styleMask:[[self window] styleMask]];
+        
+        NSRect newFrame = [NSWindow frameRectForContentRect:
+                           NSMakeRect(NSMinX(frame), NSMaxY(frame) - event.size.height, event.size.width, event.size.height)
+                           styleMask:[_window styleMask]];
+        
+        [_window setFrame:newFrame display:YES animate:[_window isVisible]];
+        
         return true;
     };
     ouzel::Engine::getInstance()->getEventDispatcher()->addEventHandler(eventHandler);
     
-    OpenGLView* view = [[OpenGLView alloc] initWithFrame:NSMakeRect(0, 0, 600, 600)];
+    NSRect windowFrame = [NSWindow contentRectForFrameRect:[[self window] frame]
+                                                 styleMask:[[self window] styleMask]];
+    
+    OpenGLView* view = [[OpenGLView alloc] initWithFrame:windowFrame];
     
     [_window setContentView:view];
 }

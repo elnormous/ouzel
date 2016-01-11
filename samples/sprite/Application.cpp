@@ -96,6 +96,9 @@ namespace ouzel
             case KeyboardKey::SPACE:
                 _witch->setVisible(!_witch->getVisible());
                 break;
+            case KeyboardKey::RETURN:
+                Engine::getInstance()->getRenderer()->resize(Size2(640.0f, 480.0f));
+                break;
             default:
                 break;
         }
