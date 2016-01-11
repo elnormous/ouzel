@@ -20,10 +20,12 @@ namespace ouzel
         bool handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender) const;
         
     protected:
+        std::shared_ptr<Layer> _layer;
+        
         std::shared_ptr<Sprite> _sprite;
         std::shared_ptr<Sprite> _witch;
         
-        std::shared_ptr<Layer> _layer;
+        std::shared_ptr<Button> _button;
         
         std::shared_ptr<EventHandler> _eventHandler;
     };

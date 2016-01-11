@@ -22,7 +22,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
-    bool Button::init(std::string const& normal, std::string const& selected, std::string const& pressed, std::function<void(std::shared_ptr<void>)> const& callback)
+    bool Button::init(std::string const& normal, std::string const& selected, std::string const& pressed, std::string const& disabled, std::function<void(std::shared_ptr<void>)> const& callback)
     {
         _eventHandler = std::make_shared<EventHandler>();
         
@@ -46,24 +46,43 @@ namespace ouzel
         _selectedSprite = std::make_shared<Sprite>();
         if (_selectedSprite->initFromFile(selected))
         {
-            _selectedSprite->setVisible(false);
             addChild(_selectedSprite);
         }
         
         _pressedSprite = std::make_shared<Sprite>();
         if (_pressedSprite->initFromFile(pressed))
         {
-            _pressedSprite->setVisible(false);
             addChild(_pressedSprite);
+        }
+        
+        _disabledSprite = std::make_shared<Sprite>();
+        if (_disabledSprite->initFromFile(disabled))
+        {
+            addChild(_disabledSprite);
         }
         
         _callback = callback;
         
+        updateSprite();
+        
         return true;
+    }
+    
+    void Button::setEnabled(bool enabled)
+    {
+        Widget::setEnabled(enabled);
+        
+        _selected = false;
+        _pointerOver = false;
+        _pressed = false;
+        
+        updateSprite();
     }
     
     bool Button::handleMouseDown(const MouseEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (!_enabled) return true;
+            
         if (_pointerOver)
         {
             _pressed = true;
@@ -75,6 +94,8 @@ namespace ouzel
     
     bool Button::handleMouseUp(const MouseEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (!_enabled) return true;
+        
         if (_pointerOver && _pressed)
         {
             if (_callback)
@@ -91,6 +112,8 @@ namespace ouzel
     
     bool Button::handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (!_enabled) return true;
+        
         if (std::shared_ptr<Layer> layer = _layer.lock())
         {
             Vector2 worldLocation = layer->screenToWorldLocation(event.position);
@@ -103,6 +126,8 @@ namespace ouzel
     
     bool Button::handleTouchBegin(const TouchEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (!_enabled) return true;
+        
         if (std::shared_ptr<Layer> layer = _layer.lock())
         {
             Vector2 worldLocation = layer->screenToWorldLocation(event.position);
@@ -121,6 +146,8 @@ namespace ouzel
     
     bool Button::handleTouchMove(const TouchEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (!_enabled) return true;
+        
         if (std::shared_ptr<Layer> layer = _layer.lock())
         {
             Vector2 worldLocation = layer->screenToWorldLocation(event.position);
@@ -133,6 +160,8 @@ namespace ouzel
     
     bool Button::handleTouchEnd(const TouchEvent& event, std::shared_ptr<void> const& sender)
     {
+        if (!_enabled) return true;
+        
         if (_pointerOver && _pressed)
         {
             if (_callback)
@@ -169,18 +198,26 @@ namespace ouzel
         if (_normalSprite) _normalSprite->setVisible(false);
         if (_selectedSprite) _selectedSprite->setVisible(false);
         if (_pressedSprite) _pressedSprite->setVisible(false);
+        if (_disabledSprite) _disabledSprite->setVisible(false);
         
-        if (_pressed && _pointerOver && _pressedSprite)
+        if (_enabled)
         {
-            _pressedSprite->setVisible(true);
+            if (_pressed && _pointerOver && _pressedSprite)
+            {
+                _pressedSprite->setVisible(true);
+            }
+            else if (_selected && _selectedSprite)
+            {
+                _selectedSprite->setVisible(true);
+            }
+            else if (_normalSprite)
+            {
+                _normalSprite->setVisible(true);
+            }
         }
-        else if (_selected && _selectedSprite)
+        else if (_disabledSprite)
         {
-            _selectedSprite->setVisible(true);
-        }
-        else if (_normalSprite)
-        {
-            _normalSprite->setVisible(true);
+            _disabledSprite->setVisible(true);
         }
     }
 }

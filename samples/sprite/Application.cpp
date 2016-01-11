@@ -65,12 +65,12 @@ namespace ouzel
         std::shared_ptr<Label> label = std::make_shared<Label>("font.fnt", "testing fonts");
         _layer->addChild(label);
         
-        std::shared_ptr<Button> button(new Button());
-        button->init("button.png", "button.png", "button_down.png", [this](std::shared_ptr<void> sender) {
+        _button.reset(new Button());
+        _button->init("button.png", "button.png", "button_down.png", "button_disabled.png", [this](std::shared_ptr<void> sender) {
             _sprite->setVisible(!_sprite->getVisible());
         });
-        button->setPosition(Vector2(-200.0f, 200.0f));
-        _layer->addChild(button);
+        _button->setPosition(Vector2(-200.0f, 200.0f));
+        _layer->addChild(_button);
         
         Engine::getInstance()->getInput()->startDiscovery();
     }
@@ -98,6 +98,9 @@ namespace ouzel
                 break;
             case KeyboardKey::RETURN:
                 Engine::getInstance()->getRenderer()->resize(Size2(640.0f, 480.0f));
+                break;
+            case KeyboardKey::TAB:
+                _button->setEnabled(!_button->isEnabled());
                 break;
             default:
                 break;
