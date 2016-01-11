@@ -56,7 +56,7 @@ namespace ouzel
         virtual bool getResizable() const { return _resizable; }
         
         virtual const std::string& getTitle() const { return _title; }
-        virtual void setTitle(const std::string& title) { _title = title; }
+        virtual void setTitle(const std::string& title);
         
         void preloadTexture(const std::string& filename, bool dynamic = false);
         std::shared_ptr<Texture> getTexture(const std::string& filename);

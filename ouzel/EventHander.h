@@ -36,7 +36,8 @@ namespace ouzel
         std::function<bool(const GamepadEvent&, std::shared_ptr<void> const&)> gamepadDisconnectHandler;
         std::function<bool(const GamepadEvent&, std::shared_ptr<void> const&)> gamepadButtonChangeHandler;
         
-        std::function<bool(const ScreenSizeEvent&, std::shared_ptr<void> const&)> screenSizeHandler;
+        std::function<bool(const WindowEvent&, std::shared_ptr<void> const&)> windowSizeChangeHandler;
+        std::function<bool(const WindowEvent&, std::shared_ptr<void> const&)> windowTitleChangeHandler;
         
     protected:
         int32_t _priority;

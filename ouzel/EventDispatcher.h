@@ -41,7 +41,8 @@ namespace ouzel
         void dispatchGamepadDisconnectEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender);
         void dispatchGamepadButtonChangeEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender);
         
-        void dispatchScreenSizeEvent(const ScreenSizeEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchWindowSizeChangeEvent(const WindowEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchWindowTitleChangeEvent(const WindowEvent& event, std::shared_ptr<void> const& sender);
         
     protected:
         EventDispatcher();

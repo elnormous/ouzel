@@ -53,11 +53,26 @@ namespace ouzel
         _size = size;
         Engine::getInstance()->getSceneManager()->recalculateProjection();
         
-        ScreenSizeEvent event;
-        event.type = Event::Type::SCREEN_SIZE;
-        event.size = size;
+        WindowEvent event;
+        event.type = Event::Type::WINDOW_SIZE_CHANGE;
+        event.size = _size;
+        event.title = _title;
         
-        Engine::getInstance()->getEventDispatcher()->dispatchScreenSizeEvent(event, Engine::getInstance()->getRenderer());
+        Engine::getInstance()->getEventDispatcher()->dispatchWindowSizeChangeEvent(event, Engine::getInstance()->getRenderer());
+    }
+    
+    void Renderer::setTitle(const std::string& title)
+    {
+        _title = title;
+        
+        Engine::getInstance()->getSceneManager()->recalculateProjection();
+        
+        WindowEvent event;
+        event.type = Event::Type::WINDOW_TITLE_CHANGE;
+        event.size = _size;
+        event.title = _title;
+        
+        Engine::getInstance()->getEventDispatcher()->dispatchWindowTitleChangeEvent(event, Engine::getInstance()->getRenderer());
     }
     
     void Renderer::preloadTexture(const std::string& filename, bool dynamic)

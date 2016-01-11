@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <string>
 #include "Vector2.h"
 #include "Size2.h"
 #include "Input.h"
@@ -28,7 +29,8 @@ namespace ouzel
             GAMEPAD_CONNECT,
             GAMEPAD_DISCONNECT,
             GAMEPAD_BUTTON_CHANGE,
-            SCREEN_SIZE
+            WINDOW_SIZE_CHANGE,
+            WINDOW_TITLE_CHANGE
         };
         
         Type type;
@@ -71,8 +73,9 @@ namespace ouzel
         float value = 0.0f;
     };
     
-    struct ScreenSizeEvent: public Event
+    struct WindowEvent: public Event
     {
         Size2 size;
+        std::string title;
     };
 }

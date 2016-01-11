@@ -285,15 +285,33 @@ namespace ouzel
         unlock();
     }
     
-    void EventDispatcher::dispatchScreenSizeEvent(const ScreenSizeEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::dispatchWindowSizeChangeEvent(const WindowEvent& event, std::shared_ptr<void> const& sender)
     {
         lock();
         
         for (std::shared_ptr<EventHandler> const& eventHandler : _eventHandlers)
         {
-            if (eventHandler->screenSizeHandler)
+            if (eventHandler->windowSizeChangeHandler)
             {
-                if (!eventHandler->screenSizeHandler(event, sender))
+                if (!eventHandler->windowSizeChangeHandler(event, sender))
+                {
+                    break;
+                }
+            }
+        }
+        
+        unlock();
+    }
+    
+    void EventDispatcher::dispatchWindowTitleChangeEvent(const WindowEvent& event, std::shared_ptr<void> const& sender)
+    {
+        lock();
+        
+        for (std::shared_ptr<EventHandler> const& eventHandler : _eventHandlers)
+        {
+            if (eventHandler->windowTitleChangeHandler)
+            {
+                if (!eventHandler->windowTitleChangeHandler(event, sender))
                 {
                     break;
                 }
