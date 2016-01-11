@@ -18,7 +18,7 @@
 
 using namespace ouzel;
 
-KeyboardKey winKeyToEngineCode(WPARAM wParam, LPARAM lParam)
+static KeyboardKey winKeyToEngineCode(WPARAM wParam, LPARAM lParam)
 {
     switch (wParam)
     {
@@ -340,6 +340,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
 namespace ouzel
 {
+    const LPCWSTR RendererD3D11::WINDOW_CLASS_NAME = L"OuzelWindow";
+
     RendererD3D11::RendererD3D11()
     {
         
@@ -363,7 +365,7 @@ namespace ouzel
         if (_window) DestroyWindow(_window);
         if (_windowClass)
         {
-            UnregisterClassW(L"OuzelWindow", GetModuleHandle(nullptr));
+            UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
             _windowClass = 0;
         }
     }
@@ -404,7 +406,7 @@ namespace ouzel
         wc.hInstance = hInstance;
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wc.lpszClassName = L"OuzelWindow";
+        wc.lpszClassName = WINDOW_CLASS_NAME;
         _windowClass = RegisterClassExW(&wc);
         if (!_windowClass)
         {
@@ -432,7 +434,7 @@ namespace ouzel
 
         _window = CreateWindowExW(
             0,
-            L"OuzelWindow",
+            WINDOW_CLASS_NAME,
             L"Ouzel",
             _windowStyle,
             x,

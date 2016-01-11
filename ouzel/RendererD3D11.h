@@ -13,6 +13,8 @@ namespace ouzel
     {
         friend Engine;
     public:
+        static const LPCWSTR WINDOW_CLASS_NAME;
+
         virtual ~RendererD3D11();
 
         virtual void clear() override;
