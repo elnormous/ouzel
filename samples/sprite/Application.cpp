@@ -41,6 +41,9 @@ namespace ouzel
         _layer = std::make_shared<Layer>();
         scene->addLayer(_layer);
         
+        _uiLayer = std::make_shared<Layer>();
+        scene->addLayer(_uiLayer);
+        
         _sprite = std::make_shared<Sprite>();
         _sprite->initFromFile("run.json");
         _sprite->play(true);
@@ -63,21 +66,21 @@ namespace ouzel
         _layer->addChild(_witch);
         
         std::shared_ptr<Label> label = std::make_shared<Label>("font.fnt", "testing fonts");
-        _layer->addChild(label);
+        _uiLayer->addChild(label);
         
         _button.reset(new Button());
         _button->init("button.png", "button.png", "button_down.png", "button_disabled.png", [this](std::shared_ptr<void> sender) {
             _sprite->setVisible(!_sprite->getVisible());
         });
         _button->setPosition(Vector2(-200.0f, 200.0f));
-        _layer->addChild(_button);
+        _uiLayer->addChild(_button);
         
         Engine::getInstance()->getInput()->startDiscovery();
     }
     
     bool Application::handleKeyDown(const KeyboardEvent& event, std::shared_ptr<void> const& sender) const
     {
-        Vector2 position = _sprite->getPosition();
+        Vector2 position = _layer->getCamera()->getPosition();
         
         switch (event.key)
         {
@@ -106,7 +109,7 @@ namespace ouzel
                 break;
         }
         
-        _sprite->setPosition(position);
+        _layer->getCamera()->setPosition(position);
         
         return true;
     }

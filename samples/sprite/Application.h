@@ -21,6 +21,7 @@ namespace ouzel
         
     protected:
         std::shared_ptr<Layer> _layer;
+        std::shared_ptr<Layer> _uiLayer;
         
         std::shared_ptr<Sprite> _sprite;
         std::shared_ptr<Sprite> _witch;
