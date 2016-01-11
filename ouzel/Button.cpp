@@ -68,6 +68,7 @@ namespace ouzel
         {
             _pressed = true;
         }
+        updateSprite();
         
         return true;
     }
@@ -83,6 +84,7 @@ namespace ouzel
         }
         
         _pressed = false;
+        updateSprite();
         
         return true;
     }
@@ -93,6 +95,7 @@ namespace ouzel
         {
             Vector2 worldLocation = layer->screenToWorldLocation(event.position);
             checkPointer(worldLocation);
+            updateSprite();
         }
         
         return true;
@@ -109,6 +112,8 @@ namespace ouzel
             {
                 _pressed = true;
             }
+            
+            updateSprite();
         }
         
         return true;
@@ -120,6 +125,7 @@ namespace ouzel
         {
             Vector2 worldLocation = layer->screenToWorldLocation(event.position);
             checkPointer(worldLocation);
+            updateSprite();
         }
         
         return true;
@@ -136,6 +142,7 @@ namespace ouzel
         }
         
         _pressed = false;
+        updateSprite();
         
         return true;
     }
@@ -154,6 +161,26 @@ namespace ouzel
         else
         {
             _pointerOver = false;
+        }
+    }
+    
+    void Button::updateSprite()
+    {
+        if (_normalSprite) _normalSprite->setVisible(false);
+        if (_selectedSprite) _selectedSprite->setVisible(false);
+        if (_pressedSprite) _pressedSprite->setVisible(false);
+        
+        if (_pressed && _pointerOver && _pressedSprite)
+        {
+            _pressedSprite->setVisible(true);
+        }
+        else if (_selected && _selectedSprite)
+        {
+            _selectedSprite->setVisible(true);
+        }
+        else if (_normalSprite)
+        {
+            _normalSprite->setVisible(true);
         }
     }
 }

@@ -30,6 +30,7 @@ namespace ouzel
         bool handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender);
         
         void checkPointer(Vector2 const& worldLocation);
+        void updateSprite();
         
         std::shared_ptr<Sprite> _normalSprite;
         std::shared_ptr<Sprite> _selectedSprite;
@@ -39,6 +40,7 @@ namespace ouzel
         
         std::shared_ptr<EventHandler> _eventHandler;
         
+        bool _selected = false;
         bool _pointerOver = false;
         bool _pressed = false;
     };
