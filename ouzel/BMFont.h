@@ -40,11 +40,9 @@ namespace ouzel
         ~BMFont();
         
         bool loadFont(std::string const& filename);
-        void setColor(Color const& color) { _color = color; }
-        void setBlend(int b) { fblend = b; }
-        float getHeight() { return lineHeight; }
+        float getHeight() { return _lineHeight; }
         
-        std::shared_ptr<MeshBuffer> createMeshBuffer(std::string const& text, Vector2 const& anchor = Vector2(0.5f, 0.5f));
+        std::shared_ptr<MeshBuffer> createMeshBuffer(std::string const& text, Color const& color, Vector2 const& anchor = Vector2(0.5f, 0.5f));
         
         std::shared_ptr<Texture> const& getTexture() const { return _texture; }
 
@@ -53,17 +51,15 @@ namespace ouzel
         int32_t getKerningPair(int32_t, int32_t);
         float getStringWidth(std::string const& text);
         
-        int16_t lineHeight = 0;
-        int16_t base = 0;
-        int16_t width = 0;
-        int16_t height = 0;
-        int16_t pages = 0;
-        int16_t outline = 0;
-        uint16_t kernCount = 0;
-        std::map<int32_t, CharDescriptor> chars;
-        std::vector<KerningInfo> kern;
-        Color _color = Color(255,255,255,255);
+        int16_t _lineHeight = 0;
+        int16_t _base = 0;
+        int16_t _width = 0;
+        int16_t _height = 0;
+        int16_t _pages = 0;
+        int16_t _outline = 0;
+        uint16_t _kernCount = 0;
+        std::map<int32_t, CharDescriptor> _chars;
+        std::vector<KerningInfo> _kern;
         std::shared_ptr<Texture> _texture;
-        int32_t fblend = 0;
     };
 }

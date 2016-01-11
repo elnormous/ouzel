@@ -85,12 +85,12 @@ namespace ouzel
 
                     //assign the correct value
                     converter << value;
-                    if (key == "lineHeight") converter >> lineHeight;
-                    else if (key == "base") converter >> base;
-                    else if (key == "scaleW") converter >> width;
-                    else if (key == "scaleH") converter >> height;
-                    else if (key == "pages") converter >> pages;
-                    else if (key == "outline") converter >> outline;
+                    if (key == "lineHeight") converter >> _lineHeight;
+                    else if (key == "base") converter >> _base;
+                    else if (key == "scaleW") converter >> _width;
+                    else if (key == "scaleH") converter >> _height;
+                    else if (key == "pages") converter >> _pages;
+                    else if (key == "outline") converter >> _outline;
                 }
             }
             else if (read == "char")
@@ -119,7 +119,7 @@ namespace ouzel
                     else if (key == "page") converter >> c.page;
                 }
                 
-                chars.insert(std::map<int,CharDescriptor>::value_type(charId, c));
+                _chars.insert(std::map<int,CharDescriptor>::value_type(charId, c));
             }
             else if (read == "kernings")
             {
@@ -133,7 +133,7 @@ namespace ouzel
 
                     //assign the correct value
                     converter << value;
-                    if (key == "count") converter >> kernCount;
+                    if (key == "count") converter >> _kernCount;
                 }
             }
             else if (read == "kerning")
@@ -152,7 +152,7 @@ namespace ouzel
                     else if (key == "second") converter >> k.second;
                     else if (key == "amount") converter >> k.amount;
                 }
-                kern.push_back(k);
+                _kern.push_back(k);
             }
         }
 
@@ -166,11 +166,11 @@ namespace ouzel
         // TODO: keep kerning information in hashmap
         
         //Kearning is checked for every character processed. This is expensive in terms of processing time.
-        for (int j = 0; j < kernCount;  j++)
+        for (int j = 0; j < _kernCount;  j++)
         {
-            if (kern[j].first == first && kern[j].second == second)
+            if (_kern[j].first == first && _kern[j].second == second)
             {
-                return kern[j].amount;
+                return _kern[j].amount;
             }
         }
 
@@ -184,9 +184,9 @@ namespace ouzel
 
         for (int i = 0; i != text.length(); i++)
         {
-            std::map<int32_t, CharDescriptor>::iterator iter = chars.find(text[i]);
+            std::map<int32_t, CharDescriptor>::iterator iter = _chars.find(text[i]);
             
-            if (iter == chars.end())
+            if (iter == _chars.end())
             {
                 continue;
             }
@@ -211,22 +211,19 @@ namespace ouzel
             return false;
         }
         
-        kernCount = static_cast<uint16_t>(kern.size());
+        _kernCount = static_cast<uint16_t>(_kern.size());
 
         return true;
     }
 
-    std::shared_ptr<MeshBuffer> BMFont::createMeshBuffer(std::string const& text, Vector2  const& anchor)
+    std::shared_ptr<MeshBuffer> BMFont::createMeshBuffer(std::string const& text, Color const& color, Vector2  const& anchor)
     {
         uint32_t flen;
         
         CharDescriptor  *f;
         
-        //Set type of blending to use with this font.
-        //setBlendMode(fblend);
-        
         float x = 0.0f;
-        float y = lineHeight * (1.0f - anchor.y);
+        float y = _lineHeight * (1.0f - anchor.y);
         
         flen = static_cast<uint32_t>(text.length());
         
@@ -237,9 +234,9 @@ namespace ouzel
         
         for (uint32_t i = 0; i != flen; ++i)
         {
-            std::map<int32_t, CharDescriptor>::iterator iter = chars.find(text[i]);
+            std::map<int32_t, CharDescriptor>::iterator iter = _chars.find(text[i]);
             
-            if (iter == chars.end())
+            if (iter == _chars.end())
             {
                 continue;
             }
@@ -257,11 +254,11 @@ namespace ouzel
             indices.push_back(startIndex + 3);
             indices.push_back(startIndex + 2);
             
-            Vector2 leftTop(f->x / static_cast<float>(width),
-                            f->y / static_cast<float>(height));
+            Vector2 leftTop(f->x / static_cast<float>(_width),
+                            f->y / static_cast<float>(_height));
             
-            Vector2 rightBottom((f->x + f->width) / static_cast<float>(width),
-                                (f->y + f->height) / static_cast<float>(height));
+            Vector2 rightBottom((f->x + f->width) / static_cast<float>(_width),
+                                (f->y + f->height) / static_cast<float>(_height));
 
             textCoords[0] = Vector2(leftTop.x, leftTop.y);
             textCoords[1] = Vector2(rightBottom.x, leftTop.y);
@@ -269,20 +266,16 @@ namespace ouzel
             textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             
             vertices.push_back(VertexPCT(Vector3(x + f->xOffset, y - f->yOffset, 0.0f),
-                                         _color,
-                                         textCoords[0]));
+                                         color, textCoords[0]));
             
             vertices.push_back(VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset, 0.0f),
-                                         _color,
-                                         textCoords[1]));
+                                         color, textCoords[1]));
             
             vertices.push_back(VertexPCT(Vector3(x + f->xOffset, y - f->yOffset - f->height, 0.0f),
-                                         _color,
-                                         textCoords[2]));
+                                         color, textCoords[2]));
             
             vertices.push_back(VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset - f->height, 0.0f),
-                                         _color,
-                                         textCoords[3]));
+                                         color, textCoords[3]));
 
             // Only check kerning if there is greater then 1 character and
             // if the check character is 1 less then the end of the string.

@@ -17,7 +17,7 @@ namespace ouzel
         
         _texture = bmFont.getTexture();
         
-        _meshBuffer = bmFont.createMeshBuffer(text, textAnchor);
+        _meshBuffer = bmFont.createMeshBuffer(text, Color(255, 255, 255, 255), textAnchor);
         
         _shader = Engine::getInstance()->getRenderer()->getShader(SHADER_TEXTURE);
         
