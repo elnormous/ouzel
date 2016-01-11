@@ -38,6 +38,8 @@ namespace ouzel
     protected:
         MeshBufferOGL();
         
+        void clean();
+        
         GLuint _vertexArrayId = 0;
         GLuint _indexBufferId = 0;
         GLuint _vertexBufferId = 0;

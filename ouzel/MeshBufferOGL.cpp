@@ -15,6 +15,11 @@ namespace ouzel
     
     MeshBufferOGL::~MeshBufferOGL()
     {
+        clean();
+    }
+    
+    void MeshBufferOGL::clean()
+    {
         if (_vertexArrayId) glDeleteVertexArrays(1, &_vertexArrayId);
         if (_vertexBufferId) glDeleteBuffers(1, &_vertexBufferId);
         if (_indexBufferId) glDeleteBuffers(1, &_indexBufferId);
@@ -26,6 +31,8 @@ namespace ouzel
         {
             return false;
         }
+        
+        clean();
         
         glGenBuffers(1, &_indexBufferId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);

@@ -16,6 +16,11 @@ namespace ouzel
 
     ShaderOGL::~ShaderOGL()
     {
+        clean();
+    }
+    
+    void ShaderOGL::clean()
+    {
         if (_programId) glDeleteProgram(_programId);
         if (_vertexShaderId) glDeleteShader(_vertexShaderId);
         if (_fragmentShaderId) glDeleteShader(_fragmentShaderId);
@@ -27,6 +32,8 @@ namespace ouzel
         {
             return false;
         }
+        
+        clean();
         
         GLboolean support;
         glGetBooleanv(GL_SHADER_COMPILER, &support);

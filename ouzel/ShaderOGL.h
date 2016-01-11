@@ -40,11 +40,13 @@ namespace ouzel
         
     protected:
         ShaderOGL();
+        
+        void clean();
         void printShaderMessage(GLuint shaderId);
         void printProgramMessage(GLuint programId);
         
-        GLuint _vertexShaderId;
-        GLuint _fragmentShaderId;
-        GLuint _programId;
+        GLuint _vertexShaderId = 0;
+        GLuint _fragmentShaderId = 0;
+        GLuint _programId = 0;
     };
 }

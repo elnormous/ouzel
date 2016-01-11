@@ -33,6 +33,8 @@ namespace ouzel
     protected:
         TextureOGL();
         
+        void clean();
+        
         bool uploadData(const void* data, GLsizei width, GLsizei height);
         
         GLuint _textureId = 0;
