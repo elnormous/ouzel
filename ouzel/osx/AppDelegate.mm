@@ -39,6 +39,13 @@
     
     [_window setTitle:[NSString stringWithUTF8String:ouzel::Engine::getInstance()->getRenderer()->getTitle().c_str()]];
     
+    std::shared_ptr<ouzel::EventHandler> eventHandler = std::make_shared<ouzel::EventHandler>();
+    eventHandler->windowTitleChangeHandler = [self](const ouzel::WindowEvent& event, std::shared_ptr<void> const&) -> bool {
+        _window.title = [NSString stringWithCString:event.title.c_str() encoding:NSASCIIStringEncoding];
+        return true;
+    };
+    ouzel::Engine::getInstance()->getEventDispatcher()->addEventHandler(eventHandler);
+    
     OpenGLView* view = [[OpenGLView alloc] initWithFrame:NSMakeRect(0, 0, 600, 600)];
     
     [_window setContentView:view];
