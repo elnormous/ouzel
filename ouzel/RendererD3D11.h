@@ -46,6 +46,7 @@ namespace ouzel
         bool initD3D11();
 
     private:
+        ATOM _windowClass = 0;
         HWND _window = 0;
         DWORD _windowStyle;
 

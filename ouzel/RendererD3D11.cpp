@@ -361,7 +361,11 @@ namespace ouzel
         if (_swapChain) _swapChain->Release();
 
         if (_window) DestroyWindow(_window);
-        // TODO: destroy window class
+        if (_windowClass)
+        {
+            UnregisterClassW(L"OuzelWindow", GetModuleHandle(nullptr));
+            _windowClass = 0;
+        }
     }
 
     bool RendererD3D11::init(const Size2& size, bool resizable, bool fullscreen, Driver driver)
@@ -401,7 +405,8 @@ namespace ouzel
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
         wc.lpszClassName = L"OuzelWindow";
-        if (!RegisterClassExW(&wc))
+        _windowClass = RegisterClassExW(&wc);
+        if (!_windowClass)
         {
             log("Failed to register window class");
             return false;
