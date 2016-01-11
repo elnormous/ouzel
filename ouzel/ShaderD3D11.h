@@ -38,6 +38,8 @@ namespace ouzel
         
     protected:
         ShaderD3D11();
+
+        void clean();
         bool createPixelShaderConstantBuffer(uint32_t size);
         bool createVertexShaderConstantBuffer(uint32_t size);
 

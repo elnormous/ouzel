@@ -39,13 +39,14 @@ namespace ouzel
     protected:
         RendererD3D11();
 
+        void clean();
         virtual bool init(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE) override;
 
         bool initWindow();
         bool initD3D11();
 
     private:
-        HWND _window;
+        HWND _window = 0;
         DWORD _windowStyle;
 
         ID3D11Device* _device = nullptr;

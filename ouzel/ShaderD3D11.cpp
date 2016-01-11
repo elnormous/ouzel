@@ -16,6 +16,11 @@ namespace ouzel
 
     ShaderD3D11::~ShaderD3D11()
     {
+        clean();
+    }
+
+    void ShaderD3D11::clean()
+    {
         if (_pixelShader) _pixelShader->Release();
         if (_vertexShader) _vertexShader->Release();
         if (_inputLayout) _inputLayout->Release();
@@ -30,6 +35,8 @@ namespace ouzel
         {
             return false;
         }
+
+        clean();
 
         std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(Engine::getInstance()->getRenderer());
 
