@@ -297,6 +297,9 @@
     <ClInclude Include="..\ouzel\BMFont.h">
       <Filter>gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\Types.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">

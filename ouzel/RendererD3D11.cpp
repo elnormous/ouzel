@@ -597,7 +597,7 @@ namespace ouzel
             return false;
         }
 
-        std::shared_ptr<Shader> textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
+        ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
                                                       TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11),
                                                       VertexPCT::ATTRIBUTES);
 
@@ -606,7 +606,7 @@ namespace ouzel
             _shaders[SHADER_TEXTURE] = textureShader;
         }
 
-        std::shared_ptr<Shader> colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
+        ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
                                                     COLOR_VERTEX_SHADER_D3D11, sizeof(COLOR_VERTEX_SHADER_D3D11),
                                                     VertexPC::ATTRIBUTES);
 
@@ -697,7 +697,7 @@ namespace ouzel
         SetWindowTextW(_window, titleBuffer);
     }
 
-    std::shared_ptr<Texture> RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
+    TexturePtr RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
 
@@ -709,7 +709,7 @@ namespace ouzel
         return texture;
     }
 
-    std::shared_ptr<Texture> RendererD3D11::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    TexturePtr RendererD3D11::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
 
@@ -721,7 +721,7 @@ namespace ouzel
         return texture;
     }
 
-    std::shared_ptr<Shader> RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+    ShaderPtr RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         std::shared_ptr<ShaderD3D11> shader(new ShaderD3D11());
 
@@ -733,7 +733,7 @@ namespace ouzel
         return shader;
     }
 
-    std::shared_ptr<Shader> RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+    ShaderPtr RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
         std::shared_ptr<ShaderD3D11> shader(new ShaderD3D11());
 
@@ -745,7 +745,7 @@ namespace ouzel
         return shader;
     }
 
-    std::shared_ptr<MeshBuffer> RendererD3D11::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+    MeshBufferPtr RendererD3D11::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
         std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
 
@@ -757,14 +757,14 @@ namespace ouzel
         return meshBuffer;
     }
 
-    bool RendererD3D11::drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer)
+    bool RendererD3D11::drawMeshBuffer(MeshBufferPtr const& meshBuffer)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
             return false;
         }
 
-        if (std::shared_ptr<Shader> activeShader = _activeShader.lock())
+        if (ShaderPtr activeShader = _activeShader.lock())
         {
             std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(activeShader);
 
@@ -781,7 +781,7 @@ namespace ouzel
 
             for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
             {
-                if (std::shared_ptr<Texture> activeTexture = _activeTextures[layer].lock())
+                if (TexturePtr activeTexture = _activeTextures[layer].lock())
                 {
                     std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(activeTexture);
 
@@ -985,7 +985,7 @@ namespace ouzel
 
         for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
         {
-            if (std::shared_ptr<Texture> activeTexture = _activeTextures[layer].lock())
+            if (TexturePtr activeTexture = _activeTextures[layer].lock())
             {
                 std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(activeTexture);
 

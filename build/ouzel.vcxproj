@@ -113,6 +113,7 @@
     <ClInclude Include="..\ouzel\TextureD3D11.h" />
     <ClInclude Include="..\ouzel\TexturePSD3D11.h" />
     <ClInclude Include="..\ouzel\TextureVSD3D11.h" />
+    <ClInclude Include="..\ouzel\Types.h" />
     <ClInclude Include="..\ouzel\Utils.h" />
     <ClInclude Include="..\ouzel\Vector2.h" />
     <ClInclude Include="..\ouzel\Vector3.h" />

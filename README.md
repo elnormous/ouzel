@@ -33,7 +33,7 @@ The following code will open a 640px x 480px window:
         }
     };
 
-    std::shared_ptr<ouzel::App> ouzelMain(std::vector<std::string> const& args)
+    ouzel::AppPtr ouzelMain(std::vector<std::string> const& args)
     {
         std::shared_ptr<Application> application(new Application());
     
