@@ -7,16 +7,33 @@
 #include "Renderer.h"
 
 #if defined(OUZEL_PLATFORM_OSX)
-#include <OpenGL/gl3.h>
+    #include <OpenGL/gl3.h>
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
+    #import <OpenGLES/ES2/gl.h>
+    #import <OpenGLES/ES2/glext.h>
+#elif defined(OUZEL_PLATFORM_ANDROID)
+    #include <GLES2/gl2platform.h>
+    #ifndef GL_GLEXT_PROTOTYPES
+    #define GL_GLEXT_PROTOTYPES 1
+    #endif
+
+    #include <GLES2/gl2.h>
+    #include <GLES2/gl2ext.h>
+    #include <EGL/egl.h>
 #endif
 
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-#define glBindVertexArray glBindVertexArrayOES
-#define glGenVertexArrays glGenVertexArraysOES
-#define glDeleteVertexArrays glDeleteVertexArraysOES
+    #define glBindVertexArray glBindVertexArrayOES
+    #define glGenVertexArrays glGenVertexArraysOES
+    #define glDeleteVertexArrays glDeleteVertexArraysOES
+#elif defined(OUZEL_PLATFORM_ANDROID)
+    extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT;
+    extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT;
+    extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
+
+    #define glGenVertexArrays glGenVertexArraysOESEXT
+    #define glBindVertexArray glBindVertexArrayOESEXT
+    #define glDeleteVertexArrays glDeleteVertexArraysOESEXT
 #endif
 
 namespace ouzel

@@ -50,7 +50,7 @@ namespace ouzel
         }
         
         _fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(_fragmentShaderId, 1, reinterpret_cast<const GLchar* const*>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
+        glShaderSource(_fragmentShaderId, 1, reinterpret_cast<const GLchar**>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
         glCompileShader(_fragmentShaderId);
         
         printShaderMessage(_fragmentShaderId);
@@ -68,7 +68,7 @@ namespace ouzel
         }
         
         _vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(_vertexShaderId, 1, reinterpret_cast<const GLchar* const*>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
+        glShaderSource(_vertexShaderId, 1, reinterpret_cast<const GLchar**>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
         glCompileShader(_vertexShaderId);
         
         printShaderMessage(_fragmentShaderId);
