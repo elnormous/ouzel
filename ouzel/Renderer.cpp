@@ -245,16 +245,29 @@ namespace ouzel
     
     bool Renderer::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
     {
+        OUZEL_UNUSED(start);
+        OUZEL_UNUSED(finish);
+        OUZEL_UNUSED(color);
+        OUZEL_UNUSED(transform);
+        
         return true;
     }
     
     bool Renderer::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
+        OUZEL_UNUSED(rectangle);
+        OUZEL_UNUSED(color);
+        OUZEL_UNUSED(transform);
+        
         return true;
     }
     
     bool Renderer::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
+        OUZEL_UNUSED(rectangle);
+        OUZEL_UNUSED(color);
+        OUZEL_UNUSED(transform);
+        
         return true;
     }
 }

@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "SceneManager.h"
 #include "Layer.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -28,6 +29,8 @@ namespace ouzel
     
     void Node::update(float delta)
     {
+        OUZEL_UNUSED(delta);
+        
         if (_transformDirty)
         {
             calculateTransform();

@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBuffer.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -17,6 +18,11 @@ namespace ouzel
     
     bool MeshBuffer::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
+        OUZEL_UNUSED(indices);
+        OUZEL_UNUSED(indexCount);
+        OUZEL_UNUSED(vertices);
+        OUZEL_UNUSED(vertexCount);
+        
         _indexSize = indexSize;
         _dynamicIndexBuffer = dynamicIndexBuffer;
         
@@ -30,6 +36,9 @@ namespace ouzel
     
     bool MeshBuffer::uploadIndices(const void* indices, uint32_t indexCount)
     {
+        OUZEL_UNUSED(indices);
+        OUZEL_UNUSED(indexCount);
+        
         if (!_dynamicIndexBuffer)
         {
             return false;
@@ -40,6 +49,9 @@ namespace ouzel
     
     bool MeshBuffer::uploadVertices(const void* vertices, uint32_t vertexCount)
     {
+        OUZEL_UNUSED(vertices);
+        OUZEL_UNUSED(vertexCount);
+        
         if (!_dynamicVertexBuffer)
         {
             return false;

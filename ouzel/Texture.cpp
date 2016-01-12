@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Renderer.h"
 #include "Image.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -34,6 +35,8 @@ namespace ouzel
 
     bool Texture::initFromData(const void* data, const Size2& size, bool dynamic)
     {
+        OUZEL_UNUSED(data);
+        
         _dynamic = dynamic;
         _size = size;
 
@@ -42,6 +45,8 @@ namespace ouzel
     
     bool Texture::upload(const void* data, const Size2& size)
     {
+        OUZEL_UNUSED(data);
+        
         _size = size;
         
         if (!_dynamic)
