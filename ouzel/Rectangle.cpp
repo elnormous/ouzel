@@ -1,6 +1,7 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include <cmath>
 #include <cassert>
 #include "Rectangle.h"
@@ -139,12 +140,12 @@ namespace ouzel
     {
         assert(dst);
 
-        float xmin = std::fmax(r1.x, r2.x);
-        float xmax = std::fmin(r1.right(), r2.right());
+        float xmin = std::max(r1.x, r2.x);
+        float xmax = std::min(r1.right(), r2.right());
         if (xmax > xmin)
         {
-            float ymin = std::fmax(r1.y, r2.y);
-            float ymax = std::fmin(r1.bottom(), r2.bottom());
+            float ymin = std::max(r1.y, r2.y);
+            float ymax = std::min(r1.bottom(), r2.bottom());
             if (ymax > ymin)
             {
                 dst->set(xmin, ymin, xmax - xmin, ymax - ymin);
@@ -160,10 +161,10 @@ namespace ouzel
     {
         assert(dst);
 
-        dst->x = std::fmin(r1.x, r2.x);
-        dst->y = std::fmin(r1.y, r2.y);
-        dst->width = std::fmax(r1.x + r1.width, r2.x + r2.width) - dst->x;
-        dst->height = std::fmax(r1.y + r1.height, r2.y + r2.height) - dst->y;
+        dst->x = std::min(r1.x, r2.x);
+        dst->y = std::min(r1.y, r2.y);
+        dst->width = std::max(r1.x + r1.width, r2.x + r2.width) - dst->x;
+        dst->height = std::max(r1.y + r1.height, r2.y + r2.height) - dst->y;
     }
 
     void Rectangle::inflate(float horizontalAmount, float verticalAmount)
