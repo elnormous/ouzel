@@ -166,7 +166,7 @@ namespace ouzel
         // TODO: keep kerning information in hashmap
         
         //Kearning is checked for every character processed. This is expensive in terms of processing time.
-        for (int j = 0; j < _kernCount;  j++)
+        for (uint16_t j = 0; j < _kernCount;  j++)
         {
             if (_kern[j].first == first && _kern[j].second == second)
             {
@@ -182,7 +182,7 @@ namespace ouzel
         float total = 0;
         CharDescriptor* f;
 
-        for (int i = 0; i != text.length(); i++)
+        for (uint32_t i = 0; i < static_cast<uint32_t>(text.length()); i++)
         {
             std::map<int32_t, CharDescriptor>::iterator iter = _chars.find(text[i]);
             

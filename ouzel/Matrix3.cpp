@@ -343,30 +343,41 @@ namespace ouzel
     void Matrix3::transformPoint(Vector2* point) const
     {
         assert(point);
-        //transformVector(point->x, point->y, 1.0f, point);
+        transformVector(point->x, point->y, 1.0f, point);
     }
     
     void Matrix3::transformPoint(const Vector2& point, Vector2* dst) const
     {
-        //transformVector(point.x, point.y, 1.0f, dst);
+        transformVector(point.x, point.y, 1.0f, dst);
     }
     
     void Matrix3::transformVector(Vector2* vector) const
     {
         assert(vector);
-        //transformVector(vector->x, vector->y, 0.0f, vector);
+        transformVector(vector->x, vector->y, 0.0f, vector);
     }
     
     void Matrix3::transformVector(const Vector2& vector, Vector2* dst) const
     {
-        //transformVector(vector.x, vector.y, 0.0f, dst);
+        transformVector(vector.x, vector.y, 0.0f, dst);
     }
     
-    void Matrix3::transformVector(float x, float y, float z, float w, Vector3* dst) const
+    void Matrix3::transformVector(float x, float y, float z, Vector2* dst) const
     {
         assert(dst);
-        
-        transformVector4(m, x, y, z, w, (float*)dst);
+        transformVector3(m, x, y, z, (float*)dst);
+    }
+    
+    void Matrix3::transformVector(Vector3* vector) const
+    {
+        assert(vector);
+        transformVector(*vector, vector);
+    }
+    
+    void Matrix3::transformVector(const Vector3& vector, Vector3* dst) const
+    {
+        assert(dst);
+        transformVector3(m, (const float*) &vector, (float*)dst);
     }
     
     void Matrix3::translate(float x, float y)

@@ -7,6 +7,8 @@
 #include <vector>
 #include <cstdint>
 
+#define OUZEL_UNUSED(x) (void)(x)
+
 namespace ouzel
 {
     extern char TEMP_BUFFER[65536];

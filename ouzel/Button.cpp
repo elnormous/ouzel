@@ -81,6 +81,9 @@ namespace ouzel
     
     bool Button::handleMouseDown(const MouseEvent& event, VoidPtr const& sender)
     {
+        OUZEL_UNUSED(event);
+        OUZEL_UNUSED(sender);
+        
         if (!_enabled) return true;
             
         if (_pointerOver)
@@ -94,6 +97,9 @@ namespace ouzel
     
     bool Button::handleMouseUp(const MouseEvent& event, VoidPtr const& sender)
     {
+        OUZEL_UNUSED(event);
+        OUZEL_UNUSED(sender);
+        
         if (!_enabled) return true;
         
         if (_pointerOver && _pressed)
@@ -112,6 +118,8 @@ namespace ouzel
     
     bool Button::handleMouseMove(const MouseEvent& event, VoidPtr const& sender)
     {
+        OUZEL_UNUSED(sender);
+        
         if (!_enabled) return true;
         
         if (LayerPtr layer = _layer.lock())
@@ -126,6 +134,8 @@ namespace ouzel
     
     bool Button::handleTouchBegin(const TouchEvent& event, VoidPtr const& sender)
     {
+        OUZEL_UNUSED(sender);
+        
         if (!_enabled) return true;
         
         if (LayerPtr layer = _layer.lock())
@@ -146,6 +156,8 @@ namespace ouzel
     
     bool Button::handleTouchMove(const TouchEvent& event, VoidPtr const& sender)
     {
+        OUZEL_UNUSED(sender);
+        
         if (!_enabled) return true;
         
         if (LayerPtr layer = _layer.lock())
@@ -160,6 +172,9 @@ namespace ouzel
     
     bool Button::handleTouchEnd(const TouchEvent& event, VoidPtr const& sender)
     {
+        OUZEL_UNUSED(event);
+        OUZEL_UNUSED(sender);
+        
         if (!_enabled) return true;
         
         if (_pointerOver && _pressed)
@@ -178,6 +193,9 @@ namespace ouzel
     
     bool Button::handleGamepadButtonChange(const GamepadEvent& event, VoidPtr const& sender)
     {
+        OUZEL_UNUSED(event);
+        OUZEL_UNUSED(sender);
+        
         return true;
     }
     

@@ -420,10 +420,26 @@ namespace ouzel
          * @param x The vector x-coordinate to transform by.
          * @param y The vector y-coordinate to transform by.
          * @param z The vector z-coordinate to transform by.
-         * @param w The vector w-coordinate to transform by.
          * @param dst A vector to store the transformed point in.
          */
-        void transformVector(float x, float y, float z, float w, Vector3* dst) const;
+        void transformVector(float x, float y, float z, Vector2* dst) const;
+        
+        /**
+         * Transforms the specified vector by this matrix.
+         *
+         * The result of the transformation is stored directly into vector.
+         *
+         * @param vector The vector to transform.
+         */
+        void transformVector(Vector3* vector) const;
+        
+        /**
+         * Transforms the specified vector by this matrix.
+         *
+         * @param vector The vector to transform.
+         * @param dst A vector to store the transformed point in.
+         */
+        void transformVector(const Vector3& vector, Vector3* dst) const;
         
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
@@ -431,7 +447,6 @@ namespace ouzel
          *
          * @param x The amount to translate along the x-axis.
          * @param y The amount to translate along the y-axis.
-         * @param z The amount to translate along the z-axis.
          */
         void translate(float x, float y);
         
@@ -441,7 +456,6 @@ namespace ouzel
          *
          * @param x The amount to translate along the x-axis.
          * @param y The amount to translate along the y-axis.
-         * @param z The amount to translate along the z-axis.
          * @param dst A matrix to store the result in.
          */
         void translate(float x, float y, Matrix3* dst) const;
@@ -450,7 +464,7 @@ namespace ouzel
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified translation.
          *
-         * @param t The translation values along the x, y and z axes.
+         * @param t The translation values along the x and y axes.
          */
         void translate(const Vector2& t);
         
@@ -458,7 +472,7 @@ namespace ouzel
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified translation and stores the result in dst.
          *
-         * @param t The translation values along the x, y and z axes.
+         * @param t The translation values along the x and y axes.
          * @param dst A matrix to store the result in.
          */
         void translate(const Vector2& t, Matrix3* dst) const;

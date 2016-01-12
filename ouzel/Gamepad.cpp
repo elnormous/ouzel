@@ -3,6 +3,7 @@
 
 #include "Gamepad.h"
 #include "Engine.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -18,7 +19,7 @@ namespace ouzel
     
     void Gamepad::setAbsoluteDpadValues(bool absoluteDpadValues)
     {
-        
+        OUZEL_UNUSED(absoluteDpadValues);
     }
     
     bool Gamepad::isAbsoluteDpadValues() const
@@ -33,6 +34,8 @@ namespace ouzel
     
     bool Gamepad::setPlayerIndex(int32_t playerIndex)
     {
+        OUZEL_UNUSED(playerIndex);
+        
         return false;
     }
     

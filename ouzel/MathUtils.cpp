@@ -245,6 +245,24 @@ namespace ouzel
         memcpy(dst, t, sizeof(t));
     }
     
+    void transformVector3(const float* m, float x, float y, float z, float* dst)
+    {
+        dst[0] = x * m[0] + y * m[3] + z * m[6];
+        dst[1] = x * m[1] + y * m[4] + z * m[7];
+    }
+    
+    void transformVector3(const float* m, const float* v, float* dst)
+    {
+        // Handle case where v == dst.
+        float x = v[0] * m[0] + v[1] * m[3] + v[2] * m[6];
+        float y = v[0] * m[1] + v[1] * m[4] + v[2] * m[7];
+        float z = v[0] * m[2] + v[1] * m[5] + v[2] * m[8];
+        
+        dst[0] = x;
+        dst[1] = y;
+        dst[2] = z;
+    }
+    
     void transformVector4(const float* m, float x, float y, float z, float w, float* dst)
     {
         dst[0] = x * m[0] + y * m[4] + z * m[8] + w * m[12];
