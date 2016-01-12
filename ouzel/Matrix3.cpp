@@ -162,43 +162,26 @@ namespace ouzel
     
     bool Matrix3::invert(Matrix3* dst) const
     {
-        /*float a0 = m[0] * m[4] * m[8];
-        float a1 = m[1] * m[5] * m[6];
-        float a2 = m[2] * m[3] * m[7];
-        float a3 = m[2] * m[4] * m[6];
-        float a4 = m[1] * m[3] * m[8];
-        float a5 = m[0] * m[5] * m[7];
-
-        // Calculate the determinant.
-        float det = a0 + a1 + a2 - a3 - a4 - a5;
+        float det = +m[0] * (m[4] * m[8] - m[7] * m[5])
+                    -m[1] * (m[3] * m[8] - m[5] * m[6])
+                    +m[2] * (m[3] * m[7] - m[4] * m[6]);
         
         // Close to zero, can't invert.
         if (fabs(det) <= MATH_TOLERANCE)
             return false;
         
+        float invdet = 1.0f / det;
+        
         // Support the case where m == dst.
-        Matrix3 inverse;
-        inverse.m[0]  = m[5] * b5 - m[6] * b4 + m[7] * b3;
-        inverse.m[1]  = -m[1] * b5 + m[2] * b4 - m[3] * b3;
-        inverse.m[2]  = m[13] * a5 - m[14] * a4 + m[15] * a3;
-        inverse.m[3]  = -m[9] * a5 + m[10] * a4 - m[11] * a3;
-        
-        inverse.m[4]  = -m[4] * b5 + m[6] * b2 - m[7] * b1;
-        inverse.m[5]  = m[0] * b5 - m[2] * b2 + m[3] * b1;
-        inverse.m[6]  = -m[12] * a5 + m[14] * a2 - m[15] * a1;
-        inverse.m[7]  = m[8] * a5 - m[10] * a2 + m[11] * a1;
-        
-        inverse.m[8]  = m[4] * b4 - m[5] * b2 + m[7] * b0;
-        inverse.m[9]  = -m[0] * b4 + m[1] * b2 - m[3] * b0;
-        inverse.m[10] = m[12] * a4 - m[13] * a2 + m[15] * a0;
-        inverse.m[11] = -m[8] * a4 + m[9] * a2 - m[11] * a0;
-        
-        inverse.m[12] = -m[4] * b3 + m[5] * b1 - m[6] * b0;
-        inverse.m[13] = m[0] * b3 - m[1] * b1 + m[2] * b0;
-        inverse.m[14] = -m[12] * a3 + m[13] * a1 - m[14] * a0;
-        inverse.m[15] = m[8] * a3 - m[9] * a1 + m[10] * a0;
-        
-        multiply(inverse, 1.0f / det, dst);*/
+        dst->m[0] =  (m[4] * m[8] - m[7] * m[5]) * invdet;
+        dst->m[3] = -(m[1] * m[8] - m[2] * m[7]) * invdet;
+        dst->m[6] =  (m[1] * m[5] - m[2] * m[4]) * invdet;
+        dst->m[1] = -(m[3] * m[8] - m[5] * m[6]) * invdet;
+        dst->m[4] =  (m[0] * m[8] - m[2] * m[6]) * invdet;
+        dst->m[7] = -(m[0] * m[5] - m[3] * m[2]) * invdet;
+        dst->m[2] =  (m[3] * m[7] - m[6] * m[4]) * invdet;
+        dst->m[5] = -(m[0] * m[7] - m[6] * m[1]) * invdet;
+        dst->m[8] =  (m[0] * m[4] - m[3] * m[1]) * invdet;
         
         return true;
     }
