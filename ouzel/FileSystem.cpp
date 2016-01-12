@@ -1,6 +1,7 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include <sys/stat.h>
 #include "CompileConfig.h"
 #include "FileSystem.h"
