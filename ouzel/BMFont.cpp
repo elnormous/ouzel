@@ -216,7 +216,7 @@ namespace ouzel
         return true;
     }
 
-    std::shared_ptr<MeshBuffer> BMFont::createMeshBuffer(std::string const& text, Color const& color, Vector2  const& anchor)
+    MeshBufferPtr BMFont::createMeshBuffer(std::string const& text, Color const& color, Vector2  const& anchor)
     {
         uint32_t flen;
         
@@ -294,7 +294,7 @@ namespace ouzel
             vertex.position.x -= width * anchor.x;
         }
         
-        std::shared_ptr<MeshBuffer> meshBuffer =
+        MeshBufferPtr meshBuffer =
             Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
                                                                    vertices.data(), sizeof(VertexPCT), static_cast<uint32_t>(vertices.size()), false,
                                                                    VertexPCT::ATTRIBUTES);

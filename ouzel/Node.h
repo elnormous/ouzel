@@ -4,6 +4,7 @@
 #pragma once
 
 #include <memory>
+#include "Types.h"
 #include "NodeContainer.h"
 #include "Vector2.h"
 #include "Matrix4.h"
@@ -27,8 +28,8 @@ namespace ouzel
         virtual void draw();
         virtual void update(float delta);
         
-        virtual bool addChild(std::shared_ptr<Node> const& node) override;
-        virtual bool removeChild(std::shared_ptr<Node> const& node) override;
+        virtual bool addChild(NodePtr const& node) override;
+        virtual bool removeChild(NodePtr const& node) override;
         
         virtual void setZ(float z);
         virtual float getZ() const { return _z; }
@@ -64,7 +65,7 @@ namespace ouzel
         virtual bool checkVisibility() const;
         
     protected:
-        virtual void setLayer(std::weak_ptr<Layer> const& layer);
+        virtual void setLayer(LayerWeakPtr const& layer);
         
         virtual void addToLayer();
         virtual void removeFromLayer();
@@ -92,7 +93,7 @@ namespace ouzel
         bool _visible = true;
         
         bool _hasParent = false;
-        std::weak_ptr<Layer> _layer;
+        LayerWeakPtr _layer;
         bool _addedToLayer = false;
     };
 }

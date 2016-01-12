@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <set>
+#include "Types.h"
 #include "Noncopyable.h"
 #include "Renderer.h"
 #include "SceneManager.h"
@@ -18,7 +19,7 @@ namespace ouzel
     class Engine: public Noncopyable
     {
     public:
-        static std::shared_ptr<Engine> getInstance();
+        static EnginePtr getInstance();
         
         virtual ~Engine();
         
@@ -29,11 +30,11 @@ namespace ouzel
         
         bool init();
 
-        std::shared_ptr<EventDispatcher> const& getEventDispatcher() const { return _eventDispatcher; }
-        std::shared_ptr<Renderer> const& getRenderer() const { return _renderer; }
-        std::shared_ptr<SceneManager> const& getSceneManager() const { return _sceneManager; }
-        std::shared_ptr<FileSystem> const& getFileSystem() const { return _fileSystem; }
-        std::shared_ptr<Input> const& getInput() const { return _input; }
+        EventDispatcherPtr const& getEventDispatcher() const { return _eventDispatcher; }
+        RendererPtr const& getRenderer() const { return _renderer; }
+        SceneManagerPtr const& getSceneManager() const { return _sceneManager; }
+        FileSystemPtr const& getFileSystem() const { return _fileSystem; }
+        InputPtr const& getInput() const { return _input; }
         
         void begin();
         void end();
@@ -44,13 +45,13 @@ namespace ouzel
         
         std::vector<std::string> _args;
         
-        std::shared_ptr<App> _app;
+        AppPtr _app;
         
-        std::shared_ptr<EventDispatcher> _eventDispatcher;
-        std::shared_ptr<Renderer> _renderer;
-        std::shared_ptr<SceneManager> _sceneManager;
-        std::shared_ptr<FileSystem> _fileSystem;
-        std::shared_ptr<Input> _input;
+        EventDispatcherPtr _eventDispatcher;
+        RendererPtr _renderer;
+        SceneManagerPtr _sceneManager;
+        FileSystemPtr _fileSystem;
+        InputPtr _input;
         
         uint64_t _previousFrameTime;
     };

@@ -26,11 +26,11 @@ namespace ouzel
         virtual void update(float delta) override;
         virtual void draw() override;
         
-        virtual std::shared_ptr<Texture> getTexture() const { return _texture; }
-        virtual void setTexture(std::shared_ptr<Texture> const& texture);
+        virtual TexturePtr getTexture() const { return _texture; }
+        virtual void setTexture(TexturePtr const& texture);
         
-        virtual std::shared_ptr<Shader> getShader() const { return _shader; }
-        virtual void setShader(std::shared_ptr<Shader> const& shader);
+        virtual ShaderPtr getShader() const { return _shader; }
+        virtual void setShader(ShaderPtr const& shader);
         
         virtual const Size2& getSize() const { return _size; }
         
@@ -47,13 +47,13 @@ namespace ouzel
         bool loadSpriteSheet(const std::string& filename);
         void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot);
         
-        std::shared_ptr<Texture> _texture;
-        std::shared_ptr<Shader> _shader;
+        TexturePtr _texture;
+        ShaderPtr _shader;
         
         Size2 _size;
         
         std::vector<std::vector<VertexPCT>> _frameVertices;
-        std::vector<std::shared_ptr<MeshBuffer>> _frameMeshBuffers;
+        std::vector<MeshBufferPtr> _frameMeshBuffers;
         Color _color = Color(255, 255, 255, 255);
         
         uint32_t _currentFrame = 0;

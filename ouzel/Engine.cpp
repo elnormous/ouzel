@@ -22,13 +22,13 @@
 #include "InputWin.h"
 #endif
 
-std::shared_ptr<ouzel::App> ouzelMain(std::vector<std::string> const& args);
+ouzel::AppPtr ouzelMain(std::vector<std::string> const& args);
 
 namespace ouzel
 {
-    static std::shared_ptr<Engine> sharedEngine;
+    static EnginePtr sharedEngine;
     
-    std::shared_ptr<Engine> Engine::getInstance()
+    EnginePtr Engine::getInstance()
     {
         if (!sharedEngine)
         {
@@ -131,7 +131,7 @@ namespace ouzel
     {
         _app.reset();
         // remove the active scene
-        _sceneManager->setScene(std::shared_ptr<Scene>());
+        _sceneManager->setScene(ScenePtr());
     }
     
     void Engine::run()

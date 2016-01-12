@@ -37,7 +37,7 @@ namespace ouzel
     {
         Widget::draw();
         
-        std::shared_ptr<Layer> layer = _layer.lock();
+        LayerPtr layer = _layer.lock();
         
         if (_shader && _texture && layer)
         {

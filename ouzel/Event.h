@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include "Types.h"
 #include "Vector2.h"
 #include "Size2.h"
 #include "Input.h"
@@ -67,7 +68,7 @@ namespace ouzel
     
     struct GamepadEvent: public Event
     {
-        std::shared_ptr<Gamepad> gamepad;
+        GamepadPtr gamepad;
         GamepadButton button = GamepadButton::NONE;
         bool pressed = false;
         float value = 0.0f;

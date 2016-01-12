@@ -26,7 +26,7 @@ namespace ouzel
     {
         lock();
         
-        for (std::shared_ptr<Node> node : _nodes)
+        for (NodePtr node : _nodes)
         {
             node->update(delta);
         }
@@ -38,7 +38,7 @@ namespace ouzel
     {
         if (_reorderNodes)
         {
-            std::sort(_nodes.begin(), _nodes.end(), [](std::shared_ptr<Node> const& a, std::shared_ptr<Node> const& b) {
+            std::sort(_nodes.begin(), _nodes.end(), [](NodePtr const& a, NodePtr const& b) {
                 return a->getZ() > b->getZ();
             });
             
@@ -50,7 +50,7 @@ namespace ouzel
         {
             lock();
             
-            for (std::shared_ptr<Node> node : _nodes)
+            for (NodePtr node : _nodes)
             {
                 if (node->checkVisibility())
                 {
@@ -62,7 +62,7 @@ namespace ouzel
         }
     }
     
-    bool Layer::addChild(std::shared_ptr<Node> const& node)
+    bool Layer::addChild(NodePtr const& node)
     {
         if (NodeContainer::addChild(node))
         {
@@ -83,7 +83,7 @@ namespace ouzel
         }
     }
     
-    bool Layer::removeChild(std::shared_ptr<Node> const& node)
+    bool Layer::removeChild(NodePtr const& node)
     {
         if (NodeContainer::removeChild(node))
         {
@@ -103,9 +103,9 @@ namespace ouzel
         }
     }
     
-    void Layer::addNode(std::shared_ptr<Node> const& node)
+    void Layer::addNode(NodePtr const& node)
     {
-        std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
+        std::vector<NodePtr>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](NodePtr const& p) {
             return p.get() == node.get();
         });
         
@@ -116,7 +116,7 @@ namespace ouzel
         }
     }
     
-    void Layer::removeNode(std::shared_ptr<Node> const& node)
+    void Layer::removeNode(NodePtr const& node)
     {
         if (_locked)
         {
@@ -124,7 +124,7 @@ namespace ouzel
         }
         else
         {
-            std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
+            std::vector<NodePtr>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](NodePtr const& p) {
                 return p.get() == node.get();
             });
             
@@ -140,7 +140,7 @@ namespace ouzel
         _reorderNodes = true;
     }
     
-    void Layer::setCamera(std::shared_ptr<Camera> const& camera)
+    void Layer::setCamera(CameraPtr const& camera)
     {
         _camera = camera;
     }
@@ -181,11 +181,11 @@ namespace ouzel
         }
     }
     
-    std::shared_ptr<Node> Layer::pickNode(const Vector2& position)
+    NodePtr Layer::pickNode(const Vector2& position)
     {
-        for (std::vector<std::shared_ptr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<NodePtr>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
-            std::shared_ptr<Node> node = *i;
+            NodePtr node = *i;
             
             if (node->pointOn(position))
             {
@@ -196,13 +196,13 @@ namespace ouzel
         return nullptr;
     }
     
-    std::set<std::shared_ptr<Node>> Layer::pickNodes(const Rectangle& rectangle)
+    std::set<NodePtr> Layer::pickNodes(const Rectangle& rectangle)
     {
-        std::set<std::shared_ptr<Node>> result;
+        std::set<NodePtr> result;
         
-        for (std::vector<std::shared_ptr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<NodePtr>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
-            std::shared_ptr<Node> node = *i;
+            NodePtr node = *i;
             
             if (node->rectangleOverlaps(rectangle))
             {
@@ -225,13 +225,13 @@ namespace ouzel
     {
         _order = order;
         
-        if (std::shared_ptr<Scene> scene = _scene.lock())
+        if (ScenePtr scene = _scene.lock())
         {
             scene->reorderLayers();
         }
     }
     
-    void Layer::addToScene(std::shared_ptr<Scene> const& scene)
+    void Layer::addToScene(ScenePtr const& scene)
     {
         _scene = scene;
     }
@@ -250,7 +250,7 @@ namespace ouzel
     {
         _locked = false;
         
-        for (std::shared_ptr<Node> const& node : _nodeDeleteList)
+        for (NodePtr const& node : _nodeDeleteList)
         {
             removeNode(node);
         }

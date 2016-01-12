@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include "Types.h"
 #include "Color.h"
 #include "Texture.h"
 #include "MeshBuffer.h"
@@ -42,9 +43,9 @@ namespace ouzel
         bool loadFont(std::string const& filename);
         float getHeight() { return _lineHeight; }
         
-        std::shared_ptr<MeshBuffer> createMeshBuffer(std::string const& text, Color const& color, Vector2 const& anchor = Vector2(0.5f, 0.5f));
+        MeshBufferPtr createMeshBuffer(std::string const& text, Color const& color, Vector2 const& anchor = Vector2(0.5f, 0.5f));
         
-        std::shared_ptr<Texture> const& getTexture() const { return _texture; }
+        TexturePtr const& getTexture() const { return _texture; }
 
     private:
         bool parseFont(std::string const& filename);
@@ -60,6 +61,6 @@ namespace ouzel
         uint16_t _kernCount = 0;
         std::map<int32_t, CharDescriptor> _chars;
         std::vector<KerningInfo> _kern;
-        std::shared_ptr<Texture> _texture;
+        TexturePtr _texture;
     };
 }

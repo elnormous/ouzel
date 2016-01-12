@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include <set>
+#include "Types.h"
 #include "Noncopyable.h"
 
 namespace ouzel
@@ -21,10 +22,10 @@ namespace ouzel
         virtual void update(float delta);
         virtual void draw();
         
-        void addLayer(std::shared_ptr<Layer> const& layer);
-        void removeLayer(std::shared_ptr<Layer> const& layer);
-        bool hasLayer(std::shared_ptr<Layer> const& layer) const;
-        const std::vector<std::shared_ptr<Layer>>& getLayers() const { return _layers; }
+        void addLayer(LayerPtr const& layer);
+        void removeLayer(LayerPtr const& layer);
+        bool hasLayer(LayerPtr const& layer) const;
+        const std::vector<LayerPtr>& getLayers() const { return _layers; }
         
         virtual void recalculateProjection();
         
@@ -34,10 +35,10 @@ namespace ouzel
         void lock();
         void unlock();
         
-        std::vector<std::shared_ptr<Layer>> _layers;
+        std::vector<LayerPtr> _layers;
         bool _reorderLayers = false;
         
-        std::set<std::shared_ptr<Layer>> _layerDeleteList;
+        std::set<LayerPtr> _layerDeleteList;
         bool _locked = false;
     };
 }

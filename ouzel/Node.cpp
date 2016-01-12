@@ -34,7 +34,7 @@ namespace ouzel
         }
     }
     
-    bool Node::addChild(std::shared_ptr<Node> const& node)
+    bool Node::addChild(NodePtr const& node)
     {
         if (NodeContainer::addChild(node))
         {
@@ -63,7 +63,7 @@ namespace ouzel
         }
     }
     
-    bool Node::removeChild(std::shared_ptr<Node> const& node)
+    bool Node::removeChild(NodePtr const& node)
     {
         if (NodeContainer::removeChild(node))
         {
@@ -87,7 +87,7 @@ namespace ouzel
     {
         _z = z;
         
-        if (std::shared_ptr<Layer> layer = _layer.lock())
+        if (LayerPtr layer = _layer.lock())
         {
             layer->reorderNodes();
         }
@@ -153,11 +153,11 @@ namespace ouzel
         {
             _addedToLayer = true;
             
-            if (std::shared_ptr<Layer> layer = _layer.lock())
+            if (LayerPtr layer = _layer.lock())
             {
                 layer->addNode(shared_from_this());
                 
-                for (std::shared_ptr<Node> child : _children)
+                for (NodePtr child : _children)
                 {
                     child->addToLayer();
                 }
@@ -169,11 +169,11 @@ namespace ouzel
     {
         _addedToLayer = false;
         
-        if (std::shared_ptr<Layer> layer = _layer.lock())
+        if (LayerPtr layer = _layer.lock())
         {
             layer->removeNode(shared_from_this());
             
-            for (std::shared_ptr<Node> child : _children)
+            for (NodePtr child : _children)
             {
                 child->removeFromLayer();
             }
@@ -249,7 +249,7 @@ namespace ouzel
         _inverseTransformDirty = true;
     }
     
-    void Node::setLayer(std::weak_ptr<Layer> const& layer)
+    void Node::setLayer(LayerWeakPtr const& layer)
     {
         _layer = layer;
         
@@ -282,7 +282,7 @@ namespace ouzel
         _transform = _parentTransform * translation * rotation * scale;
         _transformDirty = false;
         
-        for (std::shared_ptr<Node> child : _children)
+        for (NodePtr child : _children)
         {
             child->updateTransform(_transform);
         }

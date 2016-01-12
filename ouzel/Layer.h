@@ -25,18 +25,18 @@ namespace ouzel
         virtual void update(float delta);
         virtual void draw();
         
-        virtual bool addChild(std::shared_ptr<Node> const& node) override;
-        virtual bool removeChild(std::shared_ptr<Node> const& node) override;
+        virtual bool addChild(NodePtr const& node) override;
+        virtual bool removeChild(NodePtr const& node) override;
         
-        void addNode(std::shared_ptr<Node> const& node);
-        void removeNode(std::shared_ptr<Node> const& node);
+        void addNode(NodePtr const& node);
+        void removeNode(NodePtr const& node);
         void reorderNodes();
         
-        std::shared_ptr<Camera> const& getCamera() const { return _camera; }
-        void setCamera(std::shared_ptr<Camera> const& camera);
+        CameraPtr const& getCamera() const { return _camera; }
+        void setCamera(CameraPtr const& camera);
         
-        std::shared_ptr<Node> pickNode(const Vector2& position);
-        std::set<std::shared_ptr<Node>> pickNodes(const Rectangle& rectangle);
+        NodePtr pickNode(const Vector2& position);
+        std::set<NodePtr> pickNodes(const Rectangle& rectangle);
         
         Vector2 screenToWorldLocation(const Vector2& position);
         Vector2 worldToScreenLocation(const Vector2& position);
@@ -47,17 +47,17 @@ namespace ouzel
         int32_t getOrder() const { return _order; }
         void setOrder(int32_t order);
         
-        std::shared_ptr<Scene> getScene() const { return _scene.lock(); }
+        ScenePtr getScene() const { return _scene.lock(); }
         
     protected:
-        virtual void addToScene(std::shared_ptr<Scene> const& scene);
+        virtual void addToScene(ScenePtr const& scene);
         virtual void removeFromScene();
         
         void lock();
         void unlock();
         
-        std::shared_ptr<Camera> _camera;
-        std::vector<std::shared_ptr<Node>> _nodes;
+        CameraPtr _camera;
+        std::vector<NodePtr> _nodes;
         bool _reorderNodes = false;
         
         Matrix4 _projection;
@@ -66,7 +66,7 @@ namespace ouzel
         std::weak_ptr<Scene> _scene;
         int32_t _order = 0;
         
-        std::set<std::shared_ptr<Node>> _nodeDeleteList;
+        std::set<NodePtr> _nodeDeleteList;
         bool _locked = false;
     };
 }

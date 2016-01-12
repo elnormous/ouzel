@@ -35,7 +35,7 @@ namespace ouzel
         Engine::getInstance()->getRenderer()->setClearColor(Color(64, 0, 0));
         Engine::getInstance()->getRenderer()->setTitle("Sample");
         
-        std::shared_ptr<Scene> scene(new Scene());
+        ScenePtr scene(new Scene());
         Engine::getInstance()->getSceneManager()->setScene(scene);
         
         _layer = std::make_shared<Layer>();
@@ -49,13 +49,13 @@ namespace ouzel
         _sprite->play(true);
         _layer->addChild(_sprite);
         
-        std::shared_ptr<Sprite> fire(new Sprite());
+        SpritePtr fire(new Sprite());
         fire->initFromFile("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
         _layer->addChild(fire);
         
-        std::shared_ptr<ParticleSystem> flame(new ParticleSystem());
+        ParticleSystemPtr flame(new ParticleSystem());
         flame->initFromFile("flame.json");
         _layer->addChild(flame);
         
@@ -65,11 +65,11 @@ namespace ouzel
         _witch->setColor(Color(128, 0, 255, 255));
         _layer->addChild(_witch);
         
-        std::shared_ptr<Label> label = std::make_shared<Label>("font.fnt", "testing fonts");
+        LabelPtr label = std::make_shared<Label>("font.fnt", "testing fonts");
         _uiLayer->addChild(label);
         
         _button.reset(new Button());
-        _button->init("button.png", "button.png", "button_down.png", "button_disabled.png", [this](std::shared_ptr<void> sender) {
+        _button->init("button.png", "button.png", "button_down.png", "button_disabled.png", [this](VoidPtr sender) {
             _sprite->setVisible(!_sprite->getVisible());
         });
         _button->setPosition(Vector2(-200.0f, 200.0f));
@@ -78,7 +78,7 @@ namespace ouzel
         Engine::getInstance()->getInput()->startDiscovery();
     }
     
-    bool Application::handleKeyDown(const KeyboardEvent& event, std::shared_ptr<void> const& sender) const
+    bool Application::handleKeyDown(const KeyboardEvent& event, VoidPtr const& sender) const
     {
         Vector2 position = _layer->getCamera()->getPosition();
         
@@ -114,7 +114,7 @@ namespace ouzel
         return true;
     }
     
-    bool Application::handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender) const
+    bool Application::handleMouseMove(const MouseEvent& event, VoidPtr const& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);
@@ -122,7 +122,7 @@ namespace ouzel
         return true;
     }
     
-    bool Application::handleTouch(const TouchEvent& event, std::shared_ptr<void> const& sender) const
+    bool Application::handleTouch(const TouchEvent& event, VoidPtr const& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);
@@ -130,7 +130,7 @@ namespace ouzel
         return true;
     }
     
-    bool Application::handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender) const
+    bool Application::handleGamepadButtonChange(const GamepadEvent& event, VoidPtr const& sender) const
     {
         Vector2 position = _layer->worldToScreenLocation(_witch->getPosition());
         

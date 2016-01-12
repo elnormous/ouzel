@@ -57,13 +57,13 @@ namespace ouzel
             return false;
         }
         
-        std::shared_ptr<Shader> textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
+        ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
         if (textureShader)
         {
             _shaders[SHADER_TEXTURE] = textureShader;
         }
         
-        std::shared_ptr<Shader> colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
+        ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
         if (colorShader)
         {
             _shaders[SHADER_COLOR] = colorShader;
@@ -132,7 +132,7 @@ namespace ouzel
         checkOpenGLErrors();
     }
     
-    std::shared_ptr<Texture> RendererOGL::loadTextureFromFile(const std::string& filename, bool dynamic)
+    TexturePtr RendererOGL::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         std::shared_ptr<TextureOGL> texture(new TextureOGL());
         
@@ -144,7 +144,7 @@ namespace ouzel
         return texture;
     }
     
-    std::shared_ptr<Texture> RendererOGL::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    TexturePtr RendererOGL::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
     {
         std::shared_ptr<TextureOGL> texture(new TextureOGL());
         
@@ -156,7 +156,7 @@ namespace ouzel
         return texture;
     }
     
-    std::shared_ptr<Shader> RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+    ShaderPtr RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
         
@@ -168,7 +168,7 @@ namespace ouzel
         return shader;
     }
     
-    std::shared_ptr<Shader> RendererOGL::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+    ShaderPtr RendererOGL::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
         std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
         
@@ -180,7 +180,7 @@ namespace ouzel
         return shader;
     }
     
-    std::shared_ptr<MeshBuffer> RendererOGL::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+    MeshBufferPtr RendererOGL::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
         std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
         
@@ -192,14 +192,14 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool RendererOGL::drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer)
+    bool RendererOGL::drawMeshBuffer(MeshBufferPtr const& meshBuffer)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
             return false;
         }
         
-        if (std::shared_ptr<Shader> activeShader = _activeShader.lock())
+        if (ShaderPtr activeShader = _activeShader.lock())
         {
             std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(activeShader);
             
@@ -214,7 +214,7 @@ namespace ouzel
             {
                 glActiveTexture(GL_TEXTURE0 + layer);
                 
-                if (std::shared_ptr<Texture> activeTexture = _activeTextures[layer].lock())
+                if (TexturePtr activeTexture = _activeTextures[layer].lock())
                 {
                     std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTexture);
                 
@@ -368,7 +368,7 @@ namespace ouzel
         {
             glActiveTexture(GL_TEXTURE0 + layer);
             
-            if (std::shared_ptr<Texture> activeTexture = _activeTextures[layer].lock())
+            if (TexturePtr activeTexture = _activeTextures[layer].lock())
             {
                 std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTexture);
                 

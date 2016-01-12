@@ -219,7 +219,7 @@ namespace ouzel
     {
         Node::draw();
         
-        std::shared_ptr<Layer> layer = _layer.lock();
+        LayerPtr layer = _layer.lock();
         
         if (_shader && _texture && layer)
         {
@@ -232,19 +232,19 @@ namespace ouzel
             
             if (_frameMeshBuffers.size() > _currentFrame)
             {
-                std::shared_ptr<MeshBuffer> meshBuffer = _frameMeshBuffers[_currentFrame];
+                MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
                 
                 Engine::getInstance()->getRenderer()->drawMeshBuffer(meshBuffer);
             }
         }
     }
     
-    void Sprite::setTexture(std::shared_ptr<Texture> const& texture)
+    void Sprite::setTexture(TexturePtr const& texture)
     {
         _texture = texture;
     }
     
-    void Sprite::setShader(std::shared_ptr<Shader> const& shader)
+    void Sprite::setShader(ShaderPtr const& shader)
     {
         _shader = shader;
     }
@@ -260,14 +260,14 @@ namespace ouzel
                 vertex.color = color;
             }
             
-            std::shared_ptr<MeshBuffer> meshBuffer = _frameMeshBuffers[i];
+            MeshBufferPtr meshBuffer = _frameMeshBuffers[i];
             meshBuffer->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
         }
     }
     
     bool Sprite::checkVisibility() const
     {
-        if (std::shared_ptr<Layer> layer = _layer.lock())
+        if (LayerPtr layer = _layer.lock())
         {
             Matrix4 mvp = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
             

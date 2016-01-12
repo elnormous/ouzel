@@ -4,6 +4,7 @@
 #pragma once
 
 #include <memory>
+#include "Types.h"
 #include "Noncopyable.h"
 #include "Vector2.h"
 #include "Rectangle.h"
@@ -25,14 +26,14 @@ namespace ouzel
         
         void draw();
         
-        void setScene(std::shared_ptr<Scene> const& scene);
-        std::shared_ptr<Scene> getScene() const { return _scene; }
+        void setScene(ScenePtr const& scene);
+        ScenePtr const& getScene() const { return _scene; }
         
         virtual void recalculateProjection();
         
     protected:
         SceneManager();
         
-        std::shared_ptr<Scene> _scene;
+        ScenePtr _scene;
     };
 }

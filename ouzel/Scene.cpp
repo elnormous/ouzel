@@ -19,7 +19,7 @@ namespace ouzel
     
     void Scene::update(float delta)
     {
-        for (std::shared_ptr<Layer> layer : _layers)
+        for (LayerPtr layer : _layers)
         {
             layer->update(delta);
         }
@@ -29,20 +29,20 @@ namespace ouzel
     {
         if (_reorderLayers)
         {
-            std::sort(_layers.begin(), _layers.end(), [](std::shared_ptr<Layer> a, std::shared_ptr<Layer> b) {
+            std::sort(_layers.begin(), _layers.end(), [](LayerPtr a, LayerPtr b) {
                 return a->getOrder() > b->getOrder();
             });
             
             _reorderLayers = false;
         }
         
-        for (std::shared_ptr<Layer> layer : _layers)
+        for (LayerPtr layer : _layers)
         {
             layer->draw();
         }
     }
     
-    void Scene::addLayer(std::shared_ptr<Layer> const& layer)
+    void Scene::addLayer(LayerPtr const& layer)
     {
         if (!hasLayer(layer) && !layer->getScene())
         {
@@ -53,7 +53,7 @@ namespace ouzel
         }
     }
     
-    void Scene::removeLayer(std::shared_ptr<Layer> const& layer)
+    void Scene::removeLayer(LayerPtr const& layer)
     {
         if (_locked)
         {
@@ -61,7 +61,7 @@ namespace ouzel
         }
         else
         {
-            std::vector<std::shared_ptr<Layer>>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
+            std::vector<LayerPtr>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](LayerPtr const& p) {
                 return p.get() == layer.get();
             });
             
@@ -73,9 +73,9 @@ namespace ouzel
         }
     }
     
-    bool Scene::hasLayer(std::shared_ptr<Layer> const& layer) const
+    bool Scene::hasLayer(LayerPtr const& layer) const
     {
-        std::vector<std::shared_ptr<Layer>>::const_iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
+        std::vector<LayerPtr>::const_iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](LayerPtr const& p) {
             return p.get() == layer.get();
         });
         
@@ -84,7 +84,7 @@ namespace ouzel
     
     void Scene::recalculateProjection()
     {
-        for (std::shared_ptr<Layer> layer : _layers)
+        for (LayerPtr layer : _layers)
         {
             layer->recalculateProjection();
         }
@@ -104,7 +104,7 @@ namespace ouzel
     {
         _locked = false;
         
-        for (std::shared_ptr<Layer> const& layer : _layerDeleteList)
+        for (LayerPtr const& layer : _layerDeleteList)
         {
             removeLayer(layer);
         }

@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <memory>
+#include "Types.h"
 #include "Noncopyable.h"
 
 namespace ouzel
@@ -18,11 +19,11 @@ namespace ouzel
     public:
         virtual ~RenderTarget();
         
-        std::shared_ptr<Texture> getTexture() const { return _texture; }
+        TexturePtr getTexture() const { return _texture; }
         
     protected:
         RenderTarget();
         
-        std::shared_ptr<Texture> _texture = nullptr;
+        TexturePtr _texture = nullptr;
     };
 }

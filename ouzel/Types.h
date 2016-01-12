@@ -1,0 +1,76 @@
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
+
+#pragma once
+
+#include <cstdint>
+#include <memory>
+
+namespace ouzel
+{
+    typedef std::shared_ptr<void> VoidPtr;
+    
+    class Engine;
+    typedef std::shared_ptr<Engine> EnginePtr;
+    
+    class App;
+    typedef std::shared_ptr<App> AppPtr;
+    
+    class EventDispatcher;
+    typedef std::shared_ptr<EventDispatcher> EventDispatcherPtr;
+    
+    class Renderer;
+    typedef std::shared_ptr<Renderer> RendererPtr;
+    
+    class Texture;
+    typedef std::shared_ptr<Texture> TexturePtr;
+    
+    class Shader;
+    typedef std::shared_ptr<Shader> ShaderPtr;
+    
+    class MeshBuffer;
+    typedef std::shared_ptr<MeshBuffer> MeshBufferPtr;
+    
+    class SceneManager;
+    typedef std::shared_ptr<SceneManager> SceneManagerPtr;
+    
+    class FileSystem;
+    typedef std::shared_ptr<FileSystem> FileSystemPtr;
+    
+    class Input;
+    typedef std::shared_ptr<Input> InputPtr;
+    
+    class Gamepad;
+    typedef std::shared_ptr<Gamepad> GamepadPtr;
+    
+    class EventHandler;
+    typedef std::shared_ptr<EventHandler> EventHandlerPtr;
+    
+    class Scene;
+    typedef std::shared_ptr<Scene> ScenePtr;
+    
+    class Layer;
+    typedef std::shared_ptr<Layer> LayerPtr;
+    typedef std::weak_ptr<Layer> LayerWeakPtr;
+    
+    class Sprite;
+    typedef std::shared_ptr<Sprite> SpritePtr;
+    
+    class Node;
+    typedef std::shared_ptr<Node> NodePtr;
+    
+    class Camera;
+    typedef std::shared_ptr<Camera> CameraPtr;
+    
+    class ParticleSystem;
+    typedef std::shared_ptr<ParticleSystem> ParticleSystemPtr;
+    
+    class Widget;
+    typedef std::shared_ptr<Widget> WidgetPtr;
+    
+    class Label;
+    typedef std::shared_ptr<Label> LabelPtr;
+    
+    class Button;
+    typedef std::shared_ptr<Button> ButtonPtr;
+}

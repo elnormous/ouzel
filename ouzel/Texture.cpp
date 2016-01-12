@@ -23,13 +23,13 @@ namespace ouzel
         _filename = filename;
         _dynamic = dynamic;
 
-        std::shared_ptr<Image> image(new Image());
-        if (!image->loadFromFile(filename))
+        Image image;
+        if (!image.loadFromFile(filename))
         {
             return false;
         }
 
-        return initFromData(image->getData(), image->getSize(), dynamic);
+        return initFromData(image.getData(), image.getSize(), dynamic);
     }
 
     bool Texture::initFromData(const void* data, const Size2& size, bool dynamic)

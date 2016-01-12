@@ -22,7 +22,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
-    bool Button::init(std::string const& normal, std::string const& selected, std::string const& pressed, std::string const& disabled, std::function<void(std::shared_ptr<void>)> const& callback)
+    bool Button::init(std::string const& normal, std::string const& selected, std::string const& pressed, std::string const& disabled, std::function<void(VoidPtr)> const& callback)
     {
         _eventHandler = std::make_shared<EventHandler>();
         
@@ -79,7 +79,7 @@ namespace ouzel
         updateSprite();
     }
     
-    bool Button::handleMouseDown(const MouseEvent& event, std::shared_ptr<void> const& sender)
+    bool Button::handleMouseDown(const MouseEvent& event, VoidPtr const& sender)
     {
         if (!_enabled) return true;
             
@@ -92,7 +92,7 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleMouseUp(const MouseEvent& event, std::shared_ptr<void> const& sender)
+    bool Button::handleMouseUp(const MouseEvent& event, VoidPtr const& sender)
     {
         if (!_enabled) return true;
         
@@ -110,11 +110,11 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender)
+    bool Button::handleMouseMove(const MouseEvent& event, VoidPtr const& sender)
     {
         if (!_enabled) return true;
         
-        if (std::shared_ptr<Layer> layer = _layer.lock())
+        if (LayerPtr layer = _layer.lock())
         {
             Vector2 worldLocation = layer->screenToWorldLocation(event.position);
             checkPointer(worldLocation);
@@ -124,11 +124,11 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleTouchBegin(const TouchEvent& event, std::shared_ptr<void> const& sender)
+    bool Button::handleTouchBegin(const TouchEvent& event, VoidPtr const& sender)
     {
         if (!_enabled) return true;
         
-        if (std::shared_ptr<Layer> layer = _layer.lock())
+        if (LayerPtr layer = _layer.lock())
         {
             Vector2 worldLocation = layer->screenToWorldLocation(event.position);
             checkPointer(worldLocation);
@@ -144,11 +144,11 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleTouchMove(const TouchEvent& event, std::shared_ptr<void> const& sender)
+    bool Button::handleTouchMove(const TouchEvent& event, VoidPtr const& sender)
     {
         if (!_enabled) return true;
         
-        if (std::shared_ptr<Layer> layer = _layer.lock())
+        if (LayerPtr layer = _layer.lock())
         {
             Vector2 worldLocation = layer->screenToWorldLocation(event.position);
             checkPointer(worldLocation);
@@ -158,7 +158,7 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleTouchEnd(const TouchEvent& event, std::shared_ptr<void> const& sender)
+    bool Button::handleTouchEnd(const TouchEvent& event, VoidPtr const& sender)
     {
         if (!_enabled) return true;
         
@@ -176,7 +176,7 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender)
+    bool Button::handleGamepadButtonChange(const GamepadEvent& event, VoidPtr const& sender)
     {
         return true;
     }

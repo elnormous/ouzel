@@ -21,9 +21,9 @@ namespace ouzel
         virtual void draw() override;
         
     protected:
-        std::shared_ptr<Texture> _texture;
-        std::shared_ptr<MeshBuffer> _meshBuffer;
-        std::shared_ptr<Shader> _shader;
+        TexturePtr _texture;
+        MeshBufferPtr _meshBuffer;
+        ShaderPtr _shader;
         
         uint32_t _uniModelViewProj;
     };

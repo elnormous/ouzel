@@ -14,14 +14,14 @@ namespace ouzel
     
     NodeContainer::~NodeContainer()
     {
-        for (std::shared_ptr<Node> node : _children)
+        for (NodePtr node : _children)
         {
             node->_hasParent = false;
             node->_layer.reset();
         }
     }
     
-    bool NodeContainer::addChild(std::shared_ptr<Node> const& node)
+    bool NodeContainer::addChild(NodePtr const& node)
     {
         if (!hasChild(node) && !node->hasParent())
         {
@@ -35,9 +35,9 @@ namespace ouzel
         }
     }
     
-    bool NodeContainer::removeChild(std::shared_ptr<Node> const& node)
+    bool NodeContainer::removeChild(NodePtr const& node)
     {
-        std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_children.begin(), _children.end(), [node](std::shared_ptr<Node> const& p) {
+        std::vector<NodePtr>::iterator i = std::find_if(_children.begin(), _children.end(), [node](NodePtr const& p) {
             return p.get() == node.get();
         });
         
@@ -56,9 +56,9 @@ namespace ouzel
         }
     }
     
-    bool NodeContainer::hasChild(std::shared_ptr<Node> const& node) const
+    bool NodeContainer::hasChild(NodePtr const& node) const
     {
-        std::vector<std::shared_ptr<Node>>::const_iterator i = std::find_if(_children.begin(), _children.end(), [node](std::shared_ptr<Node> const& p) {
+        std::vector<NodePtr>::const_iterator i = std::find_if(_children.begin(), _children.end(), [node](NodePtr const& p) {
             return p.get() == node.get();
         });
         

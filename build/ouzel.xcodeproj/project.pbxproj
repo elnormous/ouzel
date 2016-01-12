@@ -551,6 +551,7 @@
 		305B99B11C433061008589E1 /* button_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_down.png; sourceTree = "<group>"; };
 		305B99B21C433061008589E1 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		305B99B91C43306D008589E1 /* button_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_disabled.png; sourceTree = "<group>"; };
+		305B99C71C451962008589E1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -728,6 +729,7 @@
 				304A8E2E1C237C70008B1151 /* Engine.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				303647631C3F218E0024DB5B /* Settings.h */,
+				305B99C71C451962008589E1 /* Types.h */,
 			);
 			name = core;
 			sourceTree = "<group>";

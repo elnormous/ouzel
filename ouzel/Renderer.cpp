@@ -81,11 +81,11 @@ namespace ouzel
     
     void Renderer::preloadTexture(const std::string& filename, bool dynamic)
     {
-        std::unordered_map<std::string, std::shared_ptr<Texture>>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, TexturePtr>::const_iterator i = _textures.find(filename);
         
         if (i == _textures.end())
         {
-            std::shared_ptr<Texture> texture = loadTextureFromFile(filename, dynamic);
+            TexturePtr texture = loadTextureFromFile(filename, dynamic);
             
             if (texture)
             {
@@ -94,11 +94,11 @@ namespace ouzel
         }
     }
 
-    std::shared_ptr<Texture> Renderer::getTexture(const std::string& filename)
+    TexturePtr Renderer::getTexture(const std::string& filename)
     {
-        std::shared_ptr<Texture> result;
+        TexturePtr result;
         
-        std::unordered_map<std::string, std::shared_ptr<Texture>>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, TexturePtr>::const_iterator i = _textures.find(filename);
         
         if (i != _textures.end())
         {
@@ -117,16 +117,16 @@ namespace ouzel
         return result;
     }
     
-    bool Renderer::activateTexture(std::shared_ptr<Texture> const& texture, uint32_t layer)
+    bool Renderer::activateTexture(TexturePtr const& texture, uint32_t layer)
     {
         _activeTextures[layer] = texture;
         
         return true;
     }
     
-    std::shared_ptr<Texture> Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)
+    TexturePtr Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
-        std::shared_ptr<Texture> texture(new Texture());
+        TexturePtr texture(new Texture());
         
         if (!texture->initFromFile(filename, dynamic))
         {
@@ -136,9 +136,9 @@ namespace ouzel
         return texture;
     }
     
-    std::shared_ptr<Texture> Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    TexturePtr Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
     {
-        std::shared_ptr<Texture> texture(new Texture());
+        TexturePtr texture(new Texture());
         
         if (!texture->initFromData(data, size, dynamic))
         {
@@ -148,9 +148,9 @@ namespace ouzel
         return texture;
     }
     
-    std::shared_ptr<Shader> Renderer::getShader(const std::string& shaderName) const
+    ShaderPtr Renderer::getShader(const std::string& shaderName) const
     {
-        std::unordered_map<std::string, std::shared_ptr<Shader>>::const_iterator i = _shaders.find(shaderName);
+        std::unordered_map<std::string, ShaderPtr>::const_iterator i = _shaders.find(shaderName);
         
         if (i != _shaders.end())
         {
@@ -162,14 +162,14 @@ namespace ouzel
         }
     }
     
-    void Renderer::setShader(const std::string& shaderName, std::shared_ptr<Shader> shader)
+    void Renderer::setShader(const std::string& shaderName, ShaderPtr shader)
     {
         _shaders[shaderName] = shader;
     }
     
-    std::shared_ptr<Shader> Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+    ShaderPtr Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
-        std::shared_ptr<Shader> shader(new Shader());
+        ShaderPtr shader(new Shader());
         
         if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes))
         {
@@ -179,9 +179,9 @@ namespace ouzel
         return shader;
     }
     
-    std::shared_ptr<Shader> Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+    ShaderPtr Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
-        std::shared_ptr<Shader> shader(new Shader());
+        ShaderPtr shader(new Shader());
         
         if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
         {
@@ -191,16 +191,16 @@ namespace ouzel
         return shader;
     }
     
-    bool Renderer::activateShader(std::shared_ptr<Shader> const& shader)
+    bool Renderer::activateShader(ShaderPtr const& shader)
     {
         _activeShader = shader;
         
         return true;
     }
     
-    std::shared_ptr<MeshBuffer> Renderer::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+    MeshBufferPtr Renderer::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
-        std::shared_ptr<MeshBuffer> meshBuffer(new MeshBuffer());
+        MeshBufferPtr meshBuffer(new MeshBuffer());
         
         if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
         {
@@ -210,9 +210,9 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool Renderer::drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer)
+    bool Renderer::drawMeshBuffer(MeshBufferPtr const& meshBuffer)
     {
-        if (std::shared_ptr<Shader> shader = _activeShader.lock())
+        if (ShaderPtr shader = _activeShader.lock())
         {
             if (meshBuffer->getVertexAttributes() != shader->getVertexAttributes())
             {

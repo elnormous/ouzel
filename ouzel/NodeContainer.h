@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <memory>
+#include "Types.h"
 #include "Noncopyable.h"
 
 namespace ouzel
@@ -18,12 +19,12 @@ namespace ouzel
         NodeContainer();
         virtual ~NodeContainer();
         
-        virtual bool addChild(std::shared_ptr<Node> const& node);
-        virtual bool removeChild(std::shared_ptr<Node> const& node);
-        virtual bool hasChild(std::shared_ptr<Node> const& node) const;
-        virtual const std::vector<std::shared_ptr<Node>>& getChildren() const { return _children; }
+        virtual bool addChild(NodePtr const& node);
+        virtual bool removeChild(NodePtr const& node);
+        virtual bool hasChild(NodePtr const& node) const;
+        virtual const std::vector<NodePtr>& getChildren() const { return _children; }
         
     protected:
-        std::vector<std::shared_ptr<Node>> _children;
+        std::vector<NodePtr> _children;
     };
 }
