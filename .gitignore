@@ -8,3 +8,5 @@ build/ipch/
 build/samples/
 *.opensdf
 build/android/obj
+samples/sprite/android/obj
+samples/sprite/android/libs

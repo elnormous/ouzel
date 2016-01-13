@@ -5,8 +5,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := ouzel
 LOCAL_CFLAGS := -Wall -Wextra
 LOCAL_CPPFLAGS += -std=c++11
-LOCAL_C_INCLUDES += ../../external/stb \
-    ../../external/rapidjson/include
+LOCAL_C_INCLUDES += ../../../external/stb \
+    ../../../external/rapidjson/include
 
 LOCAL_SRC_FILES := ../../../ouzel/android/jni.cpp \
     ../../../ouzel/AABB2.cpp \
@@ -28,6 +28,7 @@ LOCAL_SRC_FILES := ../../../ouzel/android/jni.cpp \
     ../../../ouzel/Matrix4.cpp \
     ../../../ouzel/Menu.cpp \
     ../../../ouzel/MeshBuffer.cpp \
+    ../../../ouzel/MeshBufferOGL.cpp \
     ../../../ouzel/Node.cpp \
     ../../../ouzel/NodeContainer.cpp \
     ../../../ouzel/ParticleSystem.cpp \
