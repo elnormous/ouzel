@@ -1,3 +1,6 @@
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
+
 #include <jni.h>
 
 JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_on_1surface_1created(JNIEnv* env, jclass cls)
