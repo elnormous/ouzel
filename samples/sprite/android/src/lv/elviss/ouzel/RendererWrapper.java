@@ -13,18 +13,18 @@ public class RendererWrapper implements Renderer
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config)
 	{
-		GameLibJNIWrapper.onSurfaceCreated();
+		OuzelLibJNIWrapper.onSurfaceCreated();
 	}
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height)
 	{
-		GameLibJNIWrapper.onSurfaceChanged(width, height);
+		OuzelLibJNIWrapper.onSurfaceChanged(width, height);
 	}
 
 	@Override
 	public void onDrawFrame(GL10 gl)
 	{
-		GameLibJNIWrapper.onDrawFrame();
+		OuzelLibJNIWrapper.onDrawFrame();
 	}
 }

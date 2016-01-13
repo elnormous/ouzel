@@ -10,3 +10,5 @@ build/samples/
 build/android/obj
 samples/sprite/android/obj
 samples/sprite/android/libs
+samples/sprite/android/bin
+samples/sprite/android/gen
