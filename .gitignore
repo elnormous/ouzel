@@ -7,3 +7,4 @@ build/ARM/
 build/ipch/
 build/samples/
 *.opensdf
+build/android/obj
