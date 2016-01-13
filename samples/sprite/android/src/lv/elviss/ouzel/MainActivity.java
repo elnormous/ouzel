@@ -1,3 +1,6 @@
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
+
 package lv.elviss.ouzel;
 
 import android.app.Activity;

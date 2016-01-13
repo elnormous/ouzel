@@ -5,7 +5,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := ouzel
 LOCAL_CFLAGS := -Wall -Wextra
 LOCAL_CPPFLAGS += -std=c++11
-LOCAL_C_INCLUDES += ../../../external/stb \
+LOCAL_C_INCLUDES += ../../../ouzel \
+    ../../../external/stb \
     ../../../external/rapidjson/include
 
 LOCAL_SRC_FILES := ../../../ouzel/android/jni.cpp \

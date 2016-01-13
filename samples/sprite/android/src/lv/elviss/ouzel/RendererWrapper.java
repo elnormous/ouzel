@@ -1,3 +1,6 @@
+// Copyright (C) 2015 Elviss Strazdins
+// This file is part of the Ouzel engine.
+
 package lv.elviss.ouzel;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -10,18 +13,18 @@ public class RendererWrapper implements Renderer
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config)
 	{
-		GameLibJNIWrapper.on_surface_created();
+		GameLibJNIWrapper.onSurfaceCreated();
 	}
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height)
 	{
-		GameLibJNIWrapper.on_surface_changed(width, height);
+		GameLibJNIWrapper.onSurfaceChanged(width, height);
 	}
 
 	@Override
 	public void onDrawFrame(GL10 gl)
 	{
-		GameLibJNIWrapper.on_draw_frame();
+		GameLibJNIWrapper.onDrawFrame();
 	}
 }
