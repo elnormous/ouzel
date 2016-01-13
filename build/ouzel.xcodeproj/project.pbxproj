@@ -146,7 +146,7 @@
 		303B761B1C34CFE300FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
 		303B761C1C34CFE300FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
 		303B76231C34D0A900FEDE92 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76221C34D0A900FEDE92 /* OpenGLES.framework */; };
-		303B76241C34D0D400FEDE92 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B75331C2A3C5800FEDE92 /* libouzel_osx.a */; };
+		303B76241C34D0D400FEDE92 /* libouzel_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B75331C2A3C5800FEDE92 /* libouzel_ios.a */; };
 		303B76281C34D11500FEDE92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76271C34D11400FEDE92 /* UIKit.framework */; };
 		303B76291C34D15300FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76251C34D10200FEDE92 /* Foundation.framework */; };
 		303B762F1C3559B900FEDE92 /* ViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B762D1C3559B900FEDE92 /* ViewController.h */; };
@@ -229,7 +229,7 @@
 		303B769A1C355AA400FEDE92 /* run.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EB1C33581700FEDE92 /* run.json */; };
 		303B769B1C355AA400FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
 		303B769C1C355AA400FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
-		303B76A21C355ACF00FEDE92 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76801C355A3B00FEDE92 /* libouzel_osx.a */; };
+		303B76A21C355ACF00FEDE92 /* libouzel_tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76801C355A3B00FEDE92 /* libouzel_tvos.a */; };
 		303B76A41C355ADC00FEDE92 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A31C355ADC00FEDE92 /* UIKit.framework */; };
 		303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A51C355AE900FEDE92 /* OpenGLES.framework */; };
 		303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76A71C355AF900FEDE92 /* Foundation.framework */; };
@@ -411,7 +411,7 @@
 		303B751C1C29EDEE00FEDE92 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		303B751E1C29EFEC00FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B751F1C29EFEC00FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
-		303B75331C2A3C5800FEDE92 /* libouzel_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B75331C2A3C5800FEDE92 /* libouzel_ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_ios.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B75701C2A3D7F00FEDE92 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		303B75741C2A3E3000FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		303B75751C2A3E3000FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -438,7 +438,7 @@
 		303B762C1C34D22700FEDE92 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ios/Prefix.pch; sourceTree = "<group>"; };
 		303B762D1C3559B900FEDE92 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		303B762E1C3559B900FEDE92 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		303B76801C355A3B00FEDE92 /* libouzel_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B76811C355A5800FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B76821C355A5800FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		303B76831C355A5800FEDE92 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
@@ -566,7 +566,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B76241C34D0D400FEDE92 /* libouzel_osx.a in Frameworks */,
+				303B76241C34D0D400FEDE92 /* libouzel_ios.a in Frameworks */,
 				30575AEA1C3C99010009C8A7 /* GameController.framework in Frameworks */,
 				303B76291C34D15300FEDE92 /* Foundation.framework in Frameworks */,
 				303B76231C34D0A900FEDE92 /* OpenGLES.framework in Frameworks */,
@@ -586,7 +586,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				303B76A21C355ACF00FEDE92 /* libouzel_osx.a in Frameworks */,
+				303B76A21C355ACF00FEDE92 /* libouzel_tvos.a in Frameworks */,
 				303B76A81C355AFA00FEDE92 /* Foundation.framework in Frameworks */,
 				30575AEC1C3C990B0009C8A7 /* GameController.framework in Frameworks */,
 				303B76A61C355AE900FEDE92 /* OpenGLES.framework in Frameworks */,
@@ -845,9 +845,9 @@
 			children = (
 				304A8E0A1C237B95008B1151 /* sprite_osx.app */,
 				304A8E251C237C30008B1151 /* libouzel_osx.a */,
-				303B75331C2A3C5800FEDE92 /* libouzel_osx.a */,
+				303B75331C2A3C5800FEDE92 /* libouzel_ios.a */,
 				303B76201C34CFE300FEDE92 /* sprite_ios.app */,
-				303B76801C355A3B00FEDE92 /* libouzel_osx.a */,
+				303B76801C355A3B00FEDE92 /* libouzel_tvos.a */,
 				303B76A01C355AA400FEDE92 /* sprite_tvos.app */,
 			);
 			name = Products;
@@ -1180,7 +1180,7 @@
 			);
 			name = ouzel_ios;
 			productName = ouzel_ios;
-			productReference = 303B75331C2A3C5800FEDE92 /* libouzel_osx.a */;
+			productReference = 303B75331C2A3C5800FEDE92 /* libouzel_ios.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		303B760C1C34CFE300FEDE92 /* sprite_ios */ = {
@@ -1214,7 +1214,7 @@
 			);
 			name = ouzel_tvos;
 			productName = ouzel_ios;
-			productReference = 303B76801C355A3B00FEDE92 /* libouzel_osx.a */;
+			productReference = 303B76801C355A3B00FEDE92 /* libouzel_tvos.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		303B768B1C355AA400FEDE92 /* sprite_tvos */ = {
@@ -1582,7 +1582,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
-				PRODUCT_NAME = ouzel_osx;
+				PRODUCT_NAME = ouzel_ios;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1597,7 +1597,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
-				PRODUCT_NAME = ouzel_osx;
+				PRODUCT_NAME = ouzel_ios;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -1654,7 +1654,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
-				PRODUCT_NAME = ouzel_osx;
+				PRODUCT_NAME = ouzel_tvos;
 				SDKROOT = appletvos;
 			};
 			name = Debug;
@@ -1669,7 +1669,7 @@
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
-				PRODUCT_NAME = ouzel_osx;
+				PRODUCT_NAME = ouzel_tvos;
 				SDKROOT = appletvos;
 			};
 			name = Release;
