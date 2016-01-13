@@ -9,8 +9,7 @@ LOCAL_C_INCLUDES += ../../../ouzel \
     ../../../external/stb \
     ../../../external/rapidjson/include
 
-LOCAL_SRC_FILES := ../../../ouzel/android/jni.cpp \
-    ../../../ouzel/AABB2.cpp \
+LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/BMFont.cpp \
     ../../../ouzel/Button.cpp \
     ../../../ouzel/Camera.cpp \
