@@ -94,8 +94,8 @@ namespace ouzel
         std::unordered_map<std::string, TexturePtr> _textures;
         std::unordered_map<std::string, ShaderPtr> _shaders;
         
-        std::weak_ptr<Texture> _activeTextures[TEXTURE_LAYERS];
-        std::weak_ptr<Shader> _activeShader;
+        TextureWeakPtr _activeTextures[TEXTURE_LAYERS];
+        ShaderWeakPtr _activeShader;
         
         Size2 _size;
         bool _resizable = false;

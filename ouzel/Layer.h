@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <set>
+#include "Types.h"
 #include "NodeContainer.h"
 #include "Matrix4.h"
 #include "Vector2.h"
@@ -63,7 +64,7 @@ namespace ouzel
         Matrix4 _projection;
         Matrix4 _inverseProjection;
         
-        std::weak_ptr<Scene> _scene;
+        SceneWeakPtr _scene;
         int32_t _order = 0;
         
         std::set<NodePtr> _nodeDeleteList;

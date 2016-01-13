@@ -24,9 +24,11 @@ namespace ouzel
     
     class Texture;
     typedef std::shared_ptr<Texture> TexturePtr;
+    typedef std::weak_ptr<Texture> TextureWeakPtr;
     
     class Shader;
     typedef std::shared_ptr<Shader> ShaderPtr;
+    typedef std::weak_ptr<Shader> ShaderWeakPtr;
     
     class MeshBuffer;
     typedef std::shared_ptr<MeshBuffer> MeshBufferPtr;
@@ -48,6 +50,7 @@ namespace ouzel
     
     class Scene;
     typedef std::shared_ptr<Scene> ScenePtr;
+    typedef std::weak_ptr<Scene> SceneWeakPtr;
     
     class Layer;
     typedef std::shared_ptr<Layer> LayerPtr;
