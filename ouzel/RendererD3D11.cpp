@@ -697,6 +697,18 @@ namespace ouzel
         SetWindowTextW(_window, titleBuffer);
     }
 
+    TexturePtr RendererD3D11::createTexture(bool dynamic)
+    {
+        std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
+
+        if (!texture->init(dynamic))
+        {
+            texture.reset();
+        }
+
+        return texture;
+    }
+
     TexturePtr RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
