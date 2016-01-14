@@ -52,7 +52,7 @@
 
 -(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    //TODO: free resources
+    ouzel::Engine::getInstance()->getRenderer()->releaseTextures();
 }
 
 @end

@@ -59,6 +59,7 @@ namespace ouzel
         virtual const std::string& getTitle() const { return _title; }
         virtual void setTitle(const std::string& title);
         
+        virtual void releaseTextures();
         virtual TexturePtr createTexture(bool dynamic);
         virtual void preloadTexture(const std::string& filename, bool dynamic = false);
         TexturePtr getTexture(const std::string& filename);

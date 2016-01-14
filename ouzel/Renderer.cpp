@@ -79,6 +79,11 @@ namespace ouzel
         }
     }
     
+    void Renderer::releaseTextures()
+    {
+        _textures.clear();
+    }
+    
     TexturePtr Renderer::createTexture(bool dynamic)
     {
         TexturePtr texture(new Texture());
