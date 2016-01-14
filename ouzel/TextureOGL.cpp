@@ -24,6 +24,20 @@ namespace ouzel
         if (_textureId) glDeleteTextures(1, &_textureId);
     }
     
+    bool TextureOGL::init(bool dynamic)
+    {
+        if (!Texture::init(dynamic))
+        {
+            return false;
+        }
+        
+        clean();
+        
+        glGenTextures(1, &_textureId);
+        
+        return true;
+    }
+    
     bool TextureOGL::initFromData(const void* data, const Size2& size, bool dynamic)
     {
         if (!Texture::initFromData(data, size, dynamic))

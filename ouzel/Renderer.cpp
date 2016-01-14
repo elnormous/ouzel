@@ -79,6 +79,14 @@ namespace ouzel
         }
     }
     
+    TexturePtr Renderer::createTexture(bool dynamic)
+    {
+        TexturePtr texture(new Texture());
+        texture->init(dynamic);
+        
+        return texture;
+    }
+    
     void Renderer::preloadTexture(const std::string& filename, bool dynamic)
     {
         std::unordered_map<std::string, TexturePtr>::const_iterator i = _textures.find(filename);

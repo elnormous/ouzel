@@ -142,6 +142,14 @@ namespace ouzel
         checkOpenGLErrors();
     }
     
+    TexturePtr RendererOGL::createTexture(bool dynamic)
+    {
+        std::shared_ptr<TextureOGL> texture(new TextureOGL());
+        texture->init(dynamic);
+        
+        return texture;
+    }
+    
     TexturePtr RendererOGL::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         std::shared_ptr<TextureOGL> texture(new TextureOGL());

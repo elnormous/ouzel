@@ -54,6 +54,7 @@ namespace ouzel
         virtual void clear() override;
         virtual void flush() override;
         
+        virtual TexturePtr createTexture(bool dynamic) override;
         virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic) override;
         virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic) override;
         
