@@ -96,7 +96,7 @@ namespace ouzel
             else if (read == "char")
             {
                 //This is data for each specific character.
-                int charId = 0;
+                int32_t charId = 0;
         
                 while (!lineStream.eof())
                 {
@@ -119,7 +119,7 @@ namespace ouzel
                     else if (key == "page") converter >> c.page;
                 }
                 
-                _chars.insert(std::map<int,CharDescriptor>::value_type(charId, c));
+                _chars.insert(std::map<int32_t, CharDescriptor>::value_type(charId, c));
             }
             else if (read == "kernings")
             {
