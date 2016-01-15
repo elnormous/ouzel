@@ -152,7 +152,7 @@ namespace ouzel
                     else if (key == "second") converter >> k.second;
                     else if (key == "amount") converter >> k.amount;
                 }
-                _kern.push_back(k);
+                _kern[std::make_pair(k.first, k.second)] = k;
             }
         }
 
@@ -163,15 +163,11 @@ namespace ouzel
 
     int32_t BMFont::getKerningPair(int32_t first, int32_t second)
     {
-        // TODO: keep kerning information in hashmap
+        std::map<std::pair<int32_t, int32_t>, KerningInfo>::iterator i = _kern.find(std::make_pair(first, second));
         
-        //Kearning is checked for every character processed. This is expensive in terms of processing time.
-        for (uint16_t j = 0; j < _kernCount;  j++)
+        if (i != _kern.end())
         {
-            if (_kern[j].first == first && _kern[j].second == second)
-            {
-                return _kern[j].amount;
-            }
+            return i->second.amount;
         }
 
         return 0;

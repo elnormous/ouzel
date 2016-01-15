@@ -60,7 +60,7 @@ namespace ouzel
         int16_t _outline = 0;
         uint16_t _kernCount = 0;
         std::map<int32_t, CharDescriptor> _chars;
-        std::vector<KerningInfo> _kern;
+        std::map<std::pair<int32_t, int32_t>, KerningInfo> _kern;
         TexturePtr _texture;
     };
 }
