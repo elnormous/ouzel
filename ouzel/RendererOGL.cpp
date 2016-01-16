@@ -132,6 +132,17 @@ namespace ouzel
     
     void RendererOGL::clear()
     {
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+            
+            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
+        }
+        else
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
+        
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         checkOpenGLErrors();
     }
@@ -281,6 +292,22 @@ namespace ouzel
     
     bool RendererOGL::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
     {
+        if (!Renderer::drawLine(start, finish, color, transform))
+        {
+            return false;
+        }
+        
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+            
+            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
+        }
+        else
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
+        
         GLubyte indices[] = {0, 1};
         
         VertexPC vertices[] = {
@@ -321,6 +348,22 @@ namespace ouzel
     
     bool RendererOGL::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
+        if (!Renderer::drawRectangle(rectangle, color, transform))
+        {
+            return false;
+        }
+        
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+            
+            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
+        }
+        else
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
+        
         GLubyte indices[] = {0, 1, 3, 2, 0};
         
         VertexPC vertices[] = {
@@ -363,6 +406,22 @@ namespace ouzel
     
     bool RendererOGL::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
+        if (!Renderer::drawQuad(rectangle, color, transform))
+        {
+            return false;
+        }
+        
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+            
+            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
+        }
+        else
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
+        
         GLubyte indices[] = {0, 1, 2, 1, 3, 2};
         
         VertexPCT vertices[] = {
