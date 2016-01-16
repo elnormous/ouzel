@@ -65,15 +65,15 @@ namespace ouzel
         virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false);
         virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic = false);
         virtual bool activateTexture(TexturePtr const& texture, uint32_t layer);
-        virtual TexturePtr getActiveTexture(uint32_t layer) const { return _activeTextures[layer].lock(); }
-        virtual RenderTargetPtr createRenderTarget(Size2 const& size);
+        virtual TexturePtr getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
+        virtual RenderTargetPtr createRenderTarget(Size2 const& size, bool depthBuffer);
         
         ShaderPtr getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, ShaderPtr shader);
         virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
         virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
         virtual bool activateShader(ShaderPtr const& shader);
-        virtual ShaderPtr getActiveShader() const { return _activeShader.lock(); }
+        virtual ShaderPtr getActiveShader() const { return _activeShader; }
         
         virtual MeshBufferPtr createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes);
         virtual bool drawMeshBuffer(MeshBufferPtr const& meshBuffer);
@@ -96,8 +96,9 @@ namespace ouzel
         std::unordered_map<std::string, TexturePtr> _textures;
         std::unordered_map<std::string, ShaderPtr> _shaders;
         
-        TextureWeakPtr _activeTextures[TEXTURE_LAYERS];
-        ShaderWeakPtr _activeShader;
+        TexturePtr _activeTextures[TEXTURE_LAYERS];
+        ShaderPtr _activeShader;
+        RenderTargetPtr _activeRenderTarget;
         
         Size2 _size;
         bool _resizable = false;

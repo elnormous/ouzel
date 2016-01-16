@@ -138,11 +138,16 @@ namespace ouzel
         return true;
     }
     
-    RenderTargetPtr Renderer::createRenderTarget(Size2 const& size)
+    RenderTargetPtr Renderer::createRenderTarget(Size2 const& size, bool depthBuffer)
     {
-        RenderTargetPtr result(new RenderTarget());
+        RenderTargetPtr renderTarget(new RenderTarget());
         
-        return result;
+        if (!renderTarget->init(size, depthBuffer))
+        {
+            renderTarget.reset();
+        }
+        
+        return renderTarget;
     }
     
     TexturePtr Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)
@@ -233,9 +238,9 @@ namespace ouzel
     
     bool Renderer::drawMeshBuffer(MeshBufferPtr const& meshBuffer)
     {
-        if (ShaderPtr shader = _activeShader.lock())
+        if (_activeShader)
         {
-            if (meshBuffer->getVertexAttributes() != shader->getVertexAttributes())
+            if (meshBuffer->getVertexAttributes() != _activeShader->getVertexAttributes())
             {
                 return false;
             }

@@ -7,6 +7,7 @@
 #include <memory>
 #include "Types.h"
 #include "Noncopyable.h"
+#include "Size2.h"
 
 namespace ouzel
 {
@@ -19,10 +20,15 @@ namespace ouzel
     public:
         virtual ~RenderTarget();
         
+        virtual bool init(Size2 const& size, bool depthBuffer);
+        
         TexturePtr getTexture() const { return _texture; }
         
     protected:
         RenderTarget();
+        
+        Size2 _size;
+        bool _depthBuffer = false;
         
         TexturePtr _texture = nullptr;
     };

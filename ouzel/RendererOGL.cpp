@@ -217,9 +217,9 @@ namespace ouzel
             return false;
         }
         
-        if (ShaderPtr activeShader = _activeShader.lock())
+        if (_activeShader)
         {
-            std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(activeShader);
+            std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
             
             glUseProgram(shaderOGL->getProgramId());
             
@@ -232,9 +232,9 @@ namespace ouzel
             {
                 glActiveTexture(GL_TEXTURE0 + layer);
                 
-                if (TexturePtr activeTexture = _activeTextures[layer].lock())
+                if (_activeTextures[layer])
                 {
-                    std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTexture);
+                    std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
                 
                     glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
                 }
@@ -386,9 +386,9 @@ namespace ouzel
         {
             glActiveTexture(GL_TEXTURE0 + layer);
             
-            if (TexturePtr activeTexture = _activeTextures[layer].lock())
+            if (_activeTextures[layer])
             {
-                std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTexture);
+                std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
                 
                 glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
             }

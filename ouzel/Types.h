@@ -28,6 +28,7 @@ namespace ouzel
     
     class RenderTarget;
     typedef std::shared_ptr<RenderTarget> RenderTargetPtr;
+    typedef std::weak_ptr<RenderTarget> RenderTargetWeakPtr;
     
     class Shader;
     typedef std::shared_ptr<Shader> ShaderPtr;
