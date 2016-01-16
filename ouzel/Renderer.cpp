@@ -12,6 +12,7 @@
 #include "SceneManager.h"
 #include "MeshBuffer.h"
 #include "EventDispatcher.h"
+#include "RenderTarget.h"
 
 namespace ouzel
 {
@@ -135,6 +136,13 @@ namespace ouzel
         _activeTextures[layer] = texture;
         
         return true;
+    }
+    
+    RenderTargetPtr Renderer::createRenderTarget(Size2 const& size)
+    {
+        RenderTargetPtr result(new RenderTarget());
+        
+        return result;
     }
     
     TexturePtr Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)

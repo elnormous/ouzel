@@ -15,7 +15,6 @@
 #include "Color.h"
 #include "Vertex.h"
 #include "Shader.h"
-#include "Texture.h"
 
 namespace ouzel
 {
@@ -67,6 +66,7 @@ namespace ouzel
         virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic = false);
         virtual bool activateTexture(TexturePtr const& texture, uint32_t layer);
         virtual TexturePtr getActiveTexture(uint32_t layer) const { return _activeTextures[layer].lock(); }
+        virtual RenderTargetPtr createRenderTarget(Size2 const& size);
         
         ShaderPtr getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, ShaderPtr shader);
