@@ -138,18 +138,6 @@ namespace ouzel
         return true;
     }
     
-    RenderTargetPtr Renderer::createRenderTarget(Size2 const& size, bool depthBuffer)
-    {
-        RenderTargetPtr renderTarget(new RenderTarget());
-        
-        if (!renderTarget->init(size, depthBuffer))
-        {
-            renderTarget.reset();
-        }
-        
-        return renderTarget;
-    }
-    
     TexturePtr Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)
     {
         TexturePtr texture(new Texture());
@@ -172,6 +160,23 @@ namespace ouzel
         }
         
         return texture;
+    }
+    
+    RenderTargetPtr Renderer::createRenderTarget(Size2 const& size, bool depthBuffer)
+    {
+        RenderTargetPtr renderTarget(new RenderTarget());
+        
+        if (!renderTarget->init(size, depthBuffer))
+        {
+            renderTarget.reset();
+        }
+        
+        return renderTarget;
+    }
+    
+    void Renderer::activateRenderTarget(RenderTargetPtr renderTarget)
+    {
+        _activeRenderTarget = renderTarget;
     }
     
     ShaderPtr Renderer::getShader(const std::string& shaderName) const

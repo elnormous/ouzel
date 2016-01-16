@@ -219,6 +219,17 @@ namespace ouzel
         
         if (_activeShader)
         {
+            if (_activeRenderTarget)
+            {
+                std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+                
+                glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
+            }
+            else
+            {
+                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            }
+            
             std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
             
             glUseProgram(shaderOGL->getProgramId());

@@ -26,10 +26,12 @@
 namespace ouzel
 {
     class RendererOGL;
+    class RenderTargetOGL;
     
     class TextureOGL: public Texture
     {
         friend RendererOGL;
+        friend RenderTargetOGL;
     public:
         virtual ~TextureOGL();
         

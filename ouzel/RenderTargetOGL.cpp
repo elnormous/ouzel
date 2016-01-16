@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "RenderTargetOGL.h"
+#include "TextureOGL.h"
 
 namespace ouzel
 {
@@ -17,7 +18,6 @@ namespace ouzel
     
     void RenderTargetOGL::clean()
     {
-        if (_textureId) glDeleteTextures(1, &_textureId);
         if (_depthBufferId) glDeleteRenderbuffers(1, &_depthBufferId);
         if (_framebufferId) glDeleteFramebuffers(1, &_framebufferId);
     }
@@ -34,7 +34,16 @@ namespace ouzel
         glGenFramebuffers(1, &_framebufferId);
         glBindFramebuffer(GL_FRAMEBUFFER, _framebufferId);
         
-        glBindTexture(GL_TEXTURE_2D, _textureId);
+        std::shared_ptr<TextureOGL> textureOGL(new TextureOGL());
+        
+        if (!textureOGL->init(false))
+        {
+            return false;
+        }
+        
+        _texture = textureOGL;
+        
+        glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
         
         glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB,
                      static_cast<GLsizei>(_size.width),
@@ -54,7 +63,7 @@ namespace ouzel
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthBufferId);
         }
         
-        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, _textureId, 0);
+        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, textureOGL->getTextureId(), 0);
         GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
         glDrawBuffers(1, drawBuffers);
         
