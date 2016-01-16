@@ -9,13 +9,16 @@
 namespace ouzel
 {
     class RendererD3D11;
+    class RenderTargetD3D11;
 
     class TextureD3D11: public Texture
     {
         friend RendererD3D11;
+        friend RenderTargetD3D11;
     public:
         virtual ~TextureD3D11();
 
+        virtual bool init(Size2 const& size, bool dynamic) override;
         virtual bool initFromData(const void* data, const Size2& size, bool dynamic) override;
 
         virtual bool upload(const void* data, const Size2& size) override;

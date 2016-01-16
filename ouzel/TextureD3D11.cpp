@@ -25,6 +25,20 @@ namespace ouzel
         if (_texture) _texture->Release();
     }
 
+    bool TextureD3D11::init(Size2 const& size, bool dynamic)
+    {
+        if (!Texture::init(size, dynamic))
+        {
+            return false;
+        }
+
+        clean();
+
+        return createTexture(nullptr,
+                             static_cast<UINT>(size.width),
+                             static_cast<UINT>(size.height));
+    }
+
     bool TextureD3D11::initFromData(const void* data, const Size2& size, bool dynamic)
     {
         if (!Texture::initFromData(data, size, dynamic))
@@ -88,7 +102,17 @@ namespace ouzel
         }
 
         UINT rowPitch = static_cast<UINT>(width * 4);
-        rendererD3D11->getContext()->UpdateSubresource(_texture, 0, NULL, data, rowPitch, 0);
+
+        if (data)
+        {
+            rendererD3D11->getContext()->UpdateSubresource(_texture, 0, NULL, data, rowPitch, 0);
+        }
+        else
+        {
+            std::unique_ptr<uint8_t[]> emptyData(new uint8_t[width * height * 4]);
+            memset(emptyData.get(), 0, width * height * 4);
+            rendererD3D11->getContext()->UpdateSubresource(_texture, 0, NULL, emptyData.get(), rowPitch, 0);
+        }
 
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
         memset(&srvDesc, 0, sizeof(srvDesc));

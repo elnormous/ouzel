@@ -24,7 +24,7 @@ namespace ouzel
 
         virtual void setTitle(const std::string& title) override;
 
-        virtual TexturePtr createTexture(bool dynamic) override;
+        virtual TexturePtr createTexture(Size2 const& size, bool dynamic) override;
         virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic) override;
         virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic) override;
 

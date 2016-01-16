@@ -15,6 +15,8 @@ namespace ouzel
     public:
         virtual ~RenderTargetD3D11();
 
+        virtual bool init(Size2 const& size, bool depthBuffer);
+
     protected:
         RenderTargetD3D11();
     };
