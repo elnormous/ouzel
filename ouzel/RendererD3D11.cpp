@@ -776,9 +776,9 @@ namespace ouzel
             return false;
         }
 
-        if (ShaderPtr activeShader = _activeShader.lock())
+        if (_activeShader)
         {
-            std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(activeShader);
+            std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(_activeShader);
 
             ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
             _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
@@ -793,9 +793,9 @@ namespace ouzel
 
             for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
             {
-                if (TexturePtr activeTexture = _activeTextures[layer].lock())
+                if (_activeTextures[layer])
                 {
-                    std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(activeTexture);
+                    std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(_activeTextures[layer]);
 
                     _resourceViews[layer] = textureD3D11->getResourceView();
                     _samplerStates[layer] = _samplerState;
@@ -997,9 +997,9 @@ namespace ouzel
 
         for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
         {
-            if (TexturePtr activeTexture = _activeTextures[layer].lock())
+            if (_activeTextures[layer])
             {
-                std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(activeTexture);
+                std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(_activeTextures[layer]);
 
                 _resourceViews[layer] = textureD3D11->getResourceView();
                 _samplerStates[layer] = _samplerState;
