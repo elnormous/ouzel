@@ -35,7 +35,7 @@ namespace ouzel
     public:
         virtual ~TextureOGL();
         
-        virtual bool init(bool dynamic) override;
+        virtual bool init(const Size2& size, bool dynamic) override;
         virtual bool initFromData(const void* data, const Size2& size, bool dynamic) override;
         
         virtual bool upload(const void* data, const Size2& size) override;

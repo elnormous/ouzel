@@ -24,9 +24,9 @@ namespace ouzel
         if (_textureId) glDeleteTextures(1, &_textureId);
     }
     
-    bool TextureOGL::init(bool dynamic)
+    bool TextureOGL::init(const Size2& size, bool dynamic)
     {
-        if (!Texture::init(dynamic))
+        if (!Texture::init(size, dynamic))
         {
             return false;
         }
@@ -34,6 +34,18 @@ namespace ouzel
         clean();
         
         glGenTextures(1, &_textureId);
+        
+        if (size.width > 0.0f && size.height > 0.0f)
+        {
+            glBindTexture(GL_TEXTURE_2D, _textureId);
+            
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                         static_cast<GLsizei>(size.width),
+                         static_cast<GLsizei>(size.height),
+                         0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+            
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
         
         return true;
     }
@@ -51,11 +63,9 @@ namespace ouzel
         
         glBindTexture(GL_TEXTURE_2D, _textureId);
         
-        uploadData(data,
-                   static_cast<GLsizei>(size.width),
-                   static_cast<GLsizei>(size.height));
-        
-        return true;
+        return uploadData(data,
+                          static_cast<GLsizei>(size.width),
+                          static_cast<GLsizei>(size.height));
     }
     
     bool TextureOGL::upload(const void* data, const Size2& size)
@@ -65,11 +75,18 @@ namespace ouzel
             return false;
         }
         
-        return uploadData(data, static_cast<GLsizei>(size.width), static_cast<GLsizei>(size.height));
+        return uploadData(data,
+                          static_cast<GLsizei>(size.width),
+                          static_cast<GLsizei>(size.height));
     }
     
     bool TextureOGL::uploadData(const void* data, GLsizei width, GLsizei height)
     {
+        if (width <= 0 || height <= 0)
+        {
+            return false;
+        }
+        
         glBindTexture(GL_TEXTURE_2D, _textureId);
         
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,

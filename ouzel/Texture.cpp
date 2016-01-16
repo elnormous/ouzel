@@ -19,8 +19,9 @@ namespace ouzel
 
     }
     
-    bool Texture::init(bool dynamic)
+    bool Texture::init(const Size2& size, bool dynamic)
     {
+        _size = size;
         _dynamic = dynamic;
         
         return true;

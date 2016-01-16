@@ -85,10 +85,10 @@ namespace ouzel
         _textures.clear();
     }
     
-    TexturePtr Renderer::createTexture(bool dynamic)
+    TexturePtr Renderer::createTexture(Size2 const& size, bool dynamic)
     {
         TexturePtr texture(new Texture());
-        texture->init(dynamic);
+        texture->init(size, dynamic);
         
         return texture;
     }
