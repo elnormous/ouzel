@@ -28,7 +28,7 @@ namespace ouzel
         virtual int32_t getPlayerIndex() const override;
         virtual bool setPlayerIndex(int32_t playerIndex) override;
         
-        GCController* getController() const { return _controller; }
+        GCControllerPtr getController() const { return _controller; }
         
     protected:
         GamepadApple(GCControllerPtr controller);
