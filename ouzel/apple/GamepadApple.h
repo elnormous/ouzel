@@ -7,12 +7,10 @@
 
 #ifdef __OBJC__
 @class GCController;
-@class GCControllerDirectionPad;
-@class GCControllerButtonInput;
+typedef GCController* GCControllerPtr;
 #else
-class GCController;
-class GCControllerDirectionPad;
-class GCControllerButtonInput;
+#include <objc/objc.h>
+typedef id GCControllerPtr;
 #endif
 
 namespace ouzel
@@ -33,8 +31,8 @@ namespace ouzel
         GCController* getController() const { return _controller; }
         
     protected:
-        GamepadApple(GCController* controller);
+        GamepadApple(GCControllerPtr controller);
         
-        GCController* _controller;
+        GCControllerPtr _controller;
     };
 }

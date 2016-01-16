@@ -30,6 +30,6 @@ namespace ouzel
         Size2 _size;
         bool _depthBuffer = false;
         
-        TexturePtr _texture = nullptr;
+        TexturePtr _texture;
     };
 }

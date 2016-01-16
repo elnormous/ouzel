@@ -8,15 +8,11 @@
 #include "Input.h"
 
 #ifdef __OBJC__
-@class GCController;
-@class GCControllerDirectionPad;
-@class GCControllerButtonInput;
 @class ConnectDelegate;
+typedef ConnectDelegate* ConnectDelegatePtr;
 #else
-class GCController;
-class GCControllerDirectionPad;
-class GCControllerButtonInput;
-class ConnectDelegate;
+#include <objc/objc.h>
+typedef id ConnectDelegatePtr;
 #endif
 
 namespace ouzel
@@ -34,13 +30,13 @@ namespace ouzel
         virtual void stopDiscovery() override;
         
         void handleDiscoveryCompleted();
-        void handleControllerConnected(GCController* controller);
-        void handleControllerDisconnected(GCController* controller);
+        void handleControllerConnected(id controller);
+        void handleControllerDisconnected(id controller);
         
     protected:
         InputApple();
         
-        ConnectDelegate* _connectDelegate = nullptr;
+        ConnectDelegatePtr _connectDelegate = nullptr;
         std::vector<std::shared_ptr<GamepadApple>> _gamepads;
         
         bool _discovering = false;
