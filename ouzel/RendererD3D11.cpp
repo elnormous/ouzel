@@ -6,6 +6,7 @@
 #include "TextureD3D11.h"
 #include "ShaderD3D11.h"
 #include "MeshBufferD3D11.h"
+#include "RenderTargetD3D11.h"
 #include "Utils.h"
 #include "TexturePSD3D11.h"
 #include "TextureVSD3D11.h"
@@ -628,7 +629,17 @@ namespace ouzel
     void RendererD3D11::clear()
     {
         float color[4] = { _clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA() };
-        _context->ClearRenderTargetView(_rtView, color);
+
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+
+            _context->ClearRenderTargetView(renderTargetD3D11->getRenderTargetView(), color);
+        }
+        else
+        {
+            _context->ClearRenderTargetView(_rtView, color);
+        }
     }
 
     void RendererD3D11::flush()
@@ -778,6 +789,19 @@ namespace ouzel
 
         if (_activeShader)
         {
+            if (_activeRenderTarget)
+            {
+                std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+
+                ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
+
+                _context->OMGetRenderTargets(1, &renderTargetView, nullptr);
+            }
+            else
+            {
+                _context->OMGetRenderTargets(1, nullptr, nullptr);
+            }
+
             std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(_activeShader);
 
             ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
@@ -835,6 +859,24 @@ namespace ouzel
 
     bool RendererD3D11::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
     {
+        if (!Renderer::drawLine(start, finish, color, transform))
+        {
+            return false;
+        }
+
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+
+            ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
+
+            _context->OMGetRenderTargets(1, &renderTargetView, nullptr);
+        }
+        else
+        {
+            _context->OMGetRenderTargets(1, nullptr, nullptr);
+        }
+
         uint16_t indices[] = { 0, 1 };
 
         VertexPC vertices[] = {
@@ -896,6 +938,24 @@ namespace ouzel
 
     bool RendererD3D11::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
+        if (!Renderer::drawRectangle(rectangle, color, transform))
+        {
+            return false;
+        }
+
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+
+            ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
+
+            _context->OMGetRenderTargets(1, &renderTargetView, nullptr);
+        }
+        else
+        {
+            _context->OMGetRenderTargets(1, nullptr, nullptr);
+        }
+
         uint16_t indices[] = { 0, 1, 3, 2, 0 };
 
         VertexPC vertices[] = {
@@ -959,6 +1019,24 @@ namespace ouzel
 
     bool RendererD3D11::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
     {
+        if (!Renderer::drawQuad(rectangle, color, transform))
+        {
+            return false;
+        }
+
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+
+            ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
+
+            _context->OMGetRenderTargets(1, &renderTargetView, nullptr);
+        }
+        else
+        {
+            _context->OMGetRenderTargets(1, nullptr, nullptr);
+        }
+
         uint16_t indices[] = { 0, 1, 2, 1, 3, 2 };
 
         VertexPCT vertices[] = {
