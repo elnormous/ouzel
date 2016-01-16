@@ -149,6 +149,17 @@ namespace ouzel
     
     void RendererOGL::flush()
     {
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+            
+            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
+        }
+        else
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
+        
         glFlush();
         checkOpenGLErrors();
     }
