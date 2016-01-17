@@ -57,6 +57,7 @@ You can ask question in the following locations:
 * Ouzel Twitter account: https://twitter.com/ouzelengine
 * Author of the Ouzel engine: https://twitter.com/elvman
 * Freenode chat: https://webchat.freenode.net/ #ouzel
+* Development roadmap: https://trello.com/b/5tRlUXKR/ouzel-roadmap
 
 ## License
 
