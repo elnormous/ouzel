@@ -52,7 +52,7 @@ namespace ouzel
             
             for (NodePtr node : _nodes)
             {
-                if (node->checkVisibility())
+                if (node->isVisible() && node->checkVisibility())
                 {
                     node->draw();
                 }
@@ -66,12 +66,7 @@ namespace ouzel
     {
         if (NodeContainer::addChild(node))
         {
-            node->setLayer(shared_from_this());
-            
-            if (node->getVisible())
-            {
-                node->addToLayer();
-            }
+            node->addToLayer(shared_from_this());
             
             node->updateTransform(Matrix4::identity());
             
@@ -88,12 +83,8 @@ namespace ouzel
         if (NodeContainer::removeChild(node))
         {
             node->_hasParent = false;
+            node->removeFromLayer();
             node->_layer.reset();
-            
-            if (node->_addedToLayer)
-            {
-                node->removeFromLayer();
-            }
             
             return true;
         }

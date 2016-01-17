@@ -72,7 +72,7 @@ namespace ouzel
         
         _button.reset(new Button());
         _button->init("button.png", "button.png", "button_down.png", "button_disabled.png", [this](VoidPtr sender) {
-            _sprite->setVisible(!_sprite->getVisible());
+            _sprite->setVisible(!_sprite->isVisible());
         });
         _button->setPosition(Vector2(-200.0f, 200.0f));
         _uiLayer->addChild(_button);
@@ -99,7 +99,7 @@ namespace ouzel
                 position.x += 10.0f;
                 break;
             case KeyboardKey::SPACE:
-                _witch->setVisible(!_witch->getVisible());
+                _witch->setVisible(!_witch->isVisible());
                 break;
             case KeyboardKey::RETURN:
                 Engine::getInstance()->getRenderer()->resize(Size2(640.0f, 480.0f));

@@ -50,7 +50,7 @@ namespace ouzel
         virtual bool getFlipY() const { return _flipY; }
         
         virtual void setVisible(bool visible);
-        virtual bool getVisible() const { return _visible; }
+        virtual bool isVisible() const { return _visible; }
         
         virtual const Rectangle& getBoundingBox() const { return _boundingBox; }
         
@@ -67,9 +67,7 @@ namespace ouzel
         virtual void animate(AnimatorPtr const& animator);
         
     protected:
-        virtual void setLayer(LayerWeakPtr const& layer);
-        
-        virtual void addToLayer();
+        virtual void addToLayer(LayerWeakPtr const& layer);
         virtual void removeFromLayer();
         
         virtual void calculateTransform() const;
@@ -96,7 +94,6 @@ namespace ouzel
         
         bool _hasParent = false;
         LayerWeakPtr _layer;
-        bool _addedToLayer = false;
         
         AnimatorPtr _currentAnimator;
     };

@@ -46,12 +46,7 @@ namespace ouzel
         if (NodeContainer::addChild(node))
         {
             node->_hasParent = true;
-            node->setLayer(_layer);
-            
-            if (node->getVisible())
-            {
-                node->addToLayer();
-            }
+            node->addToLayer(_layer);
             
             if (_transformDirty)
             {
@@ -75,12 +70,8 @@ namespace ouzel
         if (NodeContainer::removeChild(node))
         {
             node->_hasParent = false;
+            node->removeFromLayer();
             node->_layer.reset();
-            
-            if (node->_addedToLayer)
-            {
-                node->removeFromLayer();
-            }
             
             return true;
         }
@@ -142,40 +133,26 @@ namespace ouzel
         if (visible != _visible)
         {
             _visible = visible;
-            
-            if (_visible)
-            {
-                addToLayer();
-            }
-            else
-            {
-                removeFromLayer();
-            }
         }
     }
 
-    void Node::addToLayer()
+    void Node::addToLayer(LayerWeakPtr const& layer)
     {
-        if (_visible)
+        _layer = layer;
+        
+        if (LayerPtr layer = _layer.lock())
         {
-            _addedToLayer = true;
+            layer->addNode(shared_from_this());
             
-            if (LayerPtr layer = _layer.lock())
+            for (NodePtr child : _children)
             {
-                layer->addNode(shared_from_this());
-                
-                for (NodePtr child : _children)
-                {
-                    child->addToLayer();
-                }
+                child->addToLayer(layer);
             }
         }
     }
 
     void Node::removeFromLayer()
     {
-        _addedToLayer = false;
-        
         if (LayerPtr layer = _layer.lock())
         {
             layer->removeNode(shared_from_this());
@@ -254,16 +231,6 @@ namespace ouzel
         _parentTransform = parentTransform;
         calculateTransform();
         _inverseTransformDirty = true;
-    }
-    
-    void Node::setLayer(LayerWeakPtr const& layer)
-    {
-        _layer = layer;
-        
-        for (auto& node : _children)
-        {
-            node->setLayer(layer);
-        }
     }
     
     bool Node::checkVisibility() const
