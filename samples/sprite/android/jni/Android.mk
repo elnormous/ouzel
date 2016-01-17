@@ -14,7 +14,7 @@ LOCAL_SRC_FILES := jni.cpp \
     ../../main.cpp
 
 LOCAL_STATIC_LIBRARIES := ouzel
-LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -lEGL
+LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -lEGL -llog
 
 include $(BUILD_SHARED_LIBRARY)
 

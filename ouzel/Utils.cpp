@@ -16,6 +16,10 @@
 #include <strsafe.h>
 #endif
 
+#ifdef OUZEL_PLATFORM_ANDROID
+#include <android/log.h>
+#endif
+
 #include "Utils.h"
 
 namespace ouzel
@@ -43,6 +47,8 @@ namespace ouzel
         MultiByteToWideChar(CP_ACP, 0, strBuffer, -1, szBuffer, 256);
         StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
         OutputDebugString(szBuffer);
+#elif defined(OUZEL_PLATFORM_ANDROID)
+        __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", strBuffer);
 #endif
     }
     
