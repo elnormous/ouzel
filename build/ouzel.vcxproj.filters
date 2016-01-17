@@ -140,6 +140,12 @@
     <ClCompile Include="..\ouzel\MoveTo.cpp">
       <Filter>animators</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\RotateTo.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\ScaleTo.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -310,6 +316,12 @@
       <Filter>animators</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\MoveTo.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\RotateTo.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\ScaleTo.h">
       <Filter>animators</Filter>
     </ClInclude>
   </ItemGroup>
