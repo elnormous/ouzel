@@ -263,6 +263,12 @@
 		3047F7591C4C4FBA00774E3D /* ScaleTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7551C4C4FBA00774E3D /* ScaleTo.h */; };
 		3047F75A1C4C4FBA00774E3D /* ScaleTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7551C4C4FBA00774E3D /* ScaleTo.h */; };
 		3047F75B1C4C4FBA00774E3D /* ScaleTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7551C4C4FBA00774E3D /* ScaleTo.h */; };
+		3047F75E1C4C60B900774E3D /* FadeTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F75C1C4C60B900774E3D /* FadeTo.cpp */; };
+		3047F75F1C4C60B900774E3D /* FadeTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F75C1C4C60B900774E3D /* FadeTo.cpp */; };
+		3047F7601C4C60B900774E3D /* FadeTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F75C1C4C60B900774E3D /* FadeTo.cpp */; };
+		3047F7611C4C60B900774E3D /* FadeTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* FadeTo.h */; };
+		3047F7621C4C60B900774E3D /* FadeTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* FadeTo.h */; };
+		3047F7631C4C60B900774E3D /* FadeTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* FadeTo.h */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
@@ -486,6 +492,8 @@
 		3047F74D1C4C4FAF00774E3D /* RotateTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotateTo.h; sourceTree = "<group>"; };
 		3047F7541C4C4FBA00774E3D /* ScaleTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScaleTo.cpp; sourceTree = "<group>"; };
 		3047F7551C4C4FBA00774E3D /* ScaleTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleTo.h; sourceTree = "<group>"; };
+		3047F75C1C4C60B900774E3D /* FadeTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FadeTo.cpp; sourceTree = "<group>"; };
+		3047F75D1C4C60B900774E3D /* FadeTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeTo.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -868,6 +876,8 @@
 			children = (
 				3047F73C1C4C344A00774E3D /* Animator.cpp */,
 				3047F73D1C4C344A00774E3D /* Animator.h */,
+				3047F75C1C4C60B900774E3D /* FadeTo.cpp */,
+				3047F75D1C4C60B900774E3D /* FadeTo.h */,
 				3047F7441C4C350D00774E3D /* MoveTo.cpp */,
 				3047F7451C4C350D00774E3D /* MoveTo.h */,
 				3047F74C1C4C4FAF00774E3D /* RotateTo.cpp */,
@@ -1050,6 +1060,7 @@
 				303B75E91C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Node.h in Headers */,
 				303647611C3F210F0024DB5B /* App.h in Headers */,
+				3047F7621C4C60B900774E3D /* FadeTo.h in Headers */,
 				303647651C3F218E0024DB5B /* Settings.h in Headers */,
 				303B75E31C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
 				3031A0B11C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
@@ -1116,6 +1127,7 @@
 				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
 				303B76671C355A3B00FEDE92 /* ColorPSOGL.h in Headers */,
 				303647621C3F210F0024DB5B /* App.h in Headers */,
+				3047F7631C4C60B900774E3D /* FadeTo.h in Headers */,
 				303647661C3F218E0024DB5B /* Settings.h in Headers */,
 				303B76681C355A3B00FEDE92 /* Input.h in Headers */,
 				3031A0B21C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
@@ -1212,6 +1224,7 @@
 				3031A0B01C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
 				3031A0B31C3731A2004D3514 /* ColorVSOGLES.h in Headers */,
 				304A8E841C24814F008B1151 /* RenderTargetOGL.h in Headers */,
+				3047F7611C4C60B900774E3D /* FadeTo.h in Headers */,
 				304A8E621C237C70008B1151 /* Rectangle.h in Headers */,
 				3031A0B91C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B75E21C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
@@ -1488,6 +1501,7 @@
 				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
+				3047F75F1C4C60B900774E3D /* FadeTo.cpp in Sources */,
 				303B757A1C2A43D400FEDE92 /* RenderTargetOGL.cpp in Sources */,
 				303B75381C2A3C8200FEDE92 /* Engine.cpp in Sources */,
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
@@ -1556,6 +1570,7 @@
 				303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				303B76511C355A3B00FEDE92 /* RenderTargetOGL.cpp in Sources */,
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
+				3047F7601C4C60B900774E3D /* FadeTo.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
 				303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Node.cpp in Sources */,
@@ -1629,6 +1644,7 @@
 				303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,
 				304A8E741C237C70008B1151 /* Vector4.cpp in Sources */,
+				3047F75E1C4C60B900774E3D /* FadeTo.cpp in Sources */,
 				304A8E831C24814F008B1151 /* RenderTargetOGL.cpp in Sources */,
 				305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */,
 				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,

@@ -43,6 +43,9 @@ namespace ouzel
         virtual void setScale(const Vector2& scale);
         virtual const Vector2& getScale() const { return _scale; }
         
+        virtual void setOpacity(float opacity) { _opacity = opacity; }
+        virtual float getOpacity() const { return _opacity; }
+        
         virtual void setFlipX(bool flipX);
         virtual bool getFlipX() const { return _flipX; }
         
@@ -84,6 +87,7 @@ namespace ouzel
         float _rotation = 0.0f;
         Vector2 _scale = Vector2(1.0f, 1.0f);
         float _z = 0.0f;
+        float _opacity = 1.0f;
         
         Rectangle _boundingBox;
         

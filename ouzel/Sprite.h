@@ -26,6 +26,8 @@ namespace ouzel
         virtual void update(float delta) override;
         virtual void draw() override;
         
+        virtual void setOpacity(float opacity) override;
+        
         virtual TexturePtr getTexture() const { return _texture; }
         virtual void setTexture(TexturePtr const& texture);
         
@@ -46,6 +48,8 @@ namespace ouzel
     protected:
         bool loadSpriteSheet(const std::string& filename);
         void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot);
+        
+        void updateVertexColor();
         
         TexturePtr _texture;
         ShaderPtr _shader;

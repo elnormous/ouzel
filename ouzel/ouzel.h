@@ -32,6 +32,7 @@
 #include "Label.h"
 #include "Button.h"
 #include "Animator.h"
+#include "FadeTo.h"
 #include "MoveTo.h"
 #include "RotateTo.h"
 #include "ScaleTo.h"

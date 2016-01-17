@@ -17,6 +17,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Color.cpp \
     ../../../ouzel/Engine.cpp \
     ../../../ouzel/EventDispatcher.cpp \
+	../../../ouzel/FadeTo.cpp \
     ../../../ouzel/File.cpp \
     ../../../ouzel/FileSystem.cpp \
     ../../../ouzel/Gamepad.cpp \

@@ -239,6 +239,13 @@ namespace ouzel
         }
     }
     
+    void Sprite::setOpacity(float opacity)
+    {
+        Node::setOpacity(opacity);
+        
+        updateVertexColor();
+    }
+    
     void Sprite::setTexture(TexturePtr const& texture)
     {
         _texture = texture;
@@ -253,11 +260,19 @@ namespace ouzel
     {
         _color = color;
         
+        updateVertexColor();
+    }
+    
+    void Sprite::updateVertexColor()
+    {
         for (uint32_t i = 0; i < _frameMeshBuffers.size(); ++i)
         {
             for (VertexPCT& vertex : _frameVertices[i])
             {
-                vertex.color = color;
+                vertex.color.r = _color.r;
+                vertex.color.g = _color.g;
+                vertex.color.b = _color.b;
+                vertex.color.a = static_cast<uint8_t>(_opacity * _color.a);
             }
             
             MeshBufferPtr meshBuffer = _frameMeshBuffers[i];

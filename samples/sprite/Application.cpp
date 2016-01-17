@@ -57,6 +57,7 @@ namespace ouzel
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
         _layer->addChild(fire);
+        fire->animate(AnimatorPtr(new FadeTo(5.0f, 0.5f)));
         
         ParticleSystemPtr flame(new ParticleSystem());
         flame->initFromFile("flame.json");
