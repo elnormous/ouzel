@@ -16,6 +16,7 @@
 #include "SceneManager.h"
 #include "Camera.h"
 #include "EventDispatcher.h"
+#include "stb_image_write.h"
 
 using namespace ouzel;
 
@@ -1104,6 +1105,57 @@ namespace ouzel
         _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
         _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
+
+        return true;
+    }
+
+    bool RendererD3D11::saveScreenshot(std::string const& filename)
+    {
+        if (!Renderer::saveScreenshot(filename))
+        {
+            return false;
+        }
+
+        D3D11_TEXTURE2D_DESC desc;
+        desc.Width = static_cast<UINT>(_size.width);
+        desc.Height = static_cast<UINT>(_size.height);
+        desc.MipLevels = 1;
+        desc.ArraySize = 1;
+        desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        desc.SampleDesc.Count = 1;
+        desc.SampleDesc.Quality = 0;
+        desc.Usage = D3D11_USAGE_STAGING;
+        desc.BindFlags = 0;
+        desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+        desc.MiscFlags = 0;
+
+        ID3D11Texture2D* texture;
+
+        HRESULT hr = _device->CreateTexture2D(&desc, nullptr, &texture);
+
+        if (FAILED(hr))
+        {
+            return false;
+        }
+
+        _context->CopyResource(texture, _backBuffer);
+
+        D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+        hr = _context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
+
+        if (FAILED(hr))
+        {
+            texture->Release();
+            return false;
+        }
+
+        uint32_t size = desc.Width * mappedSubresource.RowPitch; // someone said row pitch MIGHT be bigger than width * 4
+        
+        stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, size);
+
+        _context->Unmap(texture, 0);
+
+        texture->Release();
 
         return true;
     }

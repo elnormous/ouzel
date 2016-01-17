@@ -38,6 +38,8 @@ namespace ouzel
         virtual bool drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4()) override;
         virtual bool drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4()) override;
 
+        virtual bool saveScreenshot(std::string const& filename) override;
+
         ID3D11Device* getDevice() const { return _device; }
         ID3D11DeviceContext* getContext() const { return _context; }
 

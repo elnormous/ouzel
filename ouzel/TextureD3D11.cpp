@@ -94,24 +94,24 @@ namespace ouzel
         textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
         textureDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
-        HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, NULL, &_texture);
+        HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &_texture);
         if (FAILED(hr) || !_texture)
         {
             log("Failed to create D3D11 texture");
             return false;
         }
 
-        UINT rowPitch = static_cast<UINT>(width * 4);
+        UINT rowPitch = width * 4;
 
         if (data)
         {
-            rendererD3D11->getContext()->UpdateSubresource(_texture, 0, NULL, data, rowPitch, 0);
+            rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);
         }
         else
         {
             std::unique_ptr<uint8_t[]> emptyData(new uint8_t[width * height * 4]);
             memset(emptyData.get(), 0, width * height * 4);
-            rendererD3D11->getContext()->UpdateSubresource(_texture, 0, NULL, emptyData.get(), rowPitch, 0);
+            rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, emptyData.get(), rowPitch, 0);
         }
 
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -141,7 +141,7 @@ namespace ouzel
         std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(Engine::getInstance()->getRenderer());
 
         UINT rowPitch = static_cast<UINT>(_width * 4);
-        rendererD3D11->getContext()->UpdateSubresource(_texture, 0, NULL, data, rowPitch, 0);
+        rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);
 
         return true;
     }
