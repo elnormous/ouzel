@@ -28,27 +28,25 @@ namespace ouzel
 
     void log(const char* format, ...)
     {
-        char strBuffer[512];
-
         va_list list;
         va_start(list, format);
         
-        vsprintf(strBuffer, format, list);
+        vsprintf(TEMP_BUFFER, format, list);
         
         va_end(list);
         
 #if defined(OUZEL_PLATFORM_OSX)
-        printf("%s\n", strBuffer);
+        printf("%s\n", TEMP_BUFFER);
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        syslog(LOG_WARNING, "%s", strBuffer);
-        printf("%s\n", strBuffer);
+        syslog(LOG_WARNING, "%s", TEMP_BUFFER);
+        printf("%s\n", TEMP_BUFFER);
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         wchar_t szBuffer[256];
-        MultiByteToWideChar(CP_ACP, 0, strBuffer, -1, szBuffer, 256);
+        MultiByteToWideChar(CP_ACP, 0, TEMP_BUFFER, -1, szBuffer, 256);
         StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
         OutputDebugString(szBuffer);
 #elif defined(OUZEL_PLATFORM_ANDROID)
-        __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", strBuffer);
+        __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", TEMP_BUFFER);
 #endif
     }
     
