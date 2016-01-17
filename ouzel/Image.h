@@ -20,7 +20,7 @@ namespace ouzel
         const Size2& getSize() const { return _size; }
         const void* getData() const { return _data; }
         
-        virtual bool loadFromFile(const std::string& filename);
+        virtual bool initFromFile(const std::string& filename);
         
     protected:
         std::string _filename;

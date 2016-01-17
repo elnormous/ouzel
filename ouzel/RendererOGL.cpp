@@ -8,6 +8,7 @@
 #include "MeshBufferOGL.h"
 #include "Engine.h"
 #include "Utils.h"
+#include "stb_image_write.h"
 
 #if defined(SUPPORTS_OPENGL)
 #include "ColorPSOGL.h"
@@ -126,7 +127,9 @@ namespace ouzel
         
         if (_ready)
         {
-            glViewport(0, 0, _size.width, _size.height);
+            glViewport(0, 0,
+                       static_cast<GLsizei>(_size.width),
+                       static_cast<GLsizei>(_size.height));
         }
     }
     
@@ -493,6 +496,53 @@ namespace ouzel
         
         if (checkOpenGLErrors())
         {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    bool RendererOGL::saveScreenshot(std::string const& filename)
+    {
+        if (!Renderer::saveScreenshot(filename))
+        {
+            return false;
+        }
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        
+        GLsizei width = static_cast<GLsizei>(_size.width);
+        GLsizei height = static_cast<GLsizei>(_size.height);
+        
+        std::unique_ptr<uint8_t[]> data(new uint8_t[3 * width * height]);
+        
+        glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data.get());
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        int32_t w = width;
+        int32_t h = height;
+        uint8_t temp;
+        int32_t depth = 3;
+        
+        for (int32_t row = 0; row < (h>>1); row++)
+        {
+            for (int32_t col = 0; col < w; col++)
+            {
+                for (int32_t z = 0; z < depth; z++) {
+                    temp = data[(row * w + col) * depth + z];
+                    data[(row * w + col) * depth + z] = data[((h - row - 1) * w + col) * depth + z];
+                    data[((h - row - 1) * w + col) * depth + z] = temp;
+                }
+            }
+        }
+        
+        if (!stbi_write_png(filename.c_str(), width, height, 3, data.get(), width * 3))
+        {
+            log("Failed to save image to file");
             return false;
         }
         

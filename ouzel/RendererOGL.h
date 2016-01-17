@@ -68,6 +68,8 @@ namespace ouzel
         virtual bool drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4()) override;
         virtual bool drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4()) override;
         
+        virtual bool saveScreenshot(std::string const& filename) override;
+        
     private:
         RendererOGL();
         

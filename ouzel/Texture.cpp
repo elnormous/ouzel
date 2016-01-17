@@ -33,7 +33,7 @@ namespace ouzel
         _dynamic = dynamic;
 
         Image image;
-        if (!image.loadFromFile(filename))
+        if (!image.initFromFile(filename))
         {
             return false;
         }

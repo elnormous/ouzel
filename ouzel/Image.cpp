@@ -7,6 +7,8 @@
 #include "FileSystem.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 
 namespace ouzel
 {
@@ -23,7 +25,7 @@ namespace ouzel
         }
     }
     
-    bool Image::loadFromFile(const std::string& filename)
+    bool Image::initFromFile(const std::string& filename)
     {
         _filename = filename;
         
