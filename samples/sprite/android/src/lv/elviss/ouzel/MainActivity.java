@@ -15,7 +15,6 @@ import android.widget.Toast;
 public class MainActivity extends Activity
 {
 	private GLSurfaceView glSurfaceView;
-	private boolean rendererSet;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -41,7 +40,6 @@ public class MainActivity extends Activity
 
 			glSurfaceView.setEGLContextClientVersion(2);
 			glSurfaceView.setRenderer(new RendererWrapper());
-			rendererSet = true;
 			setContentView(glSurfaceView);
 		}
 		else
@@ -69,7 +67,7 @@ public class MainActivity extends Activity
 	{
 		super.onPause();
 
-		if (rendererSet)
+		if (glSurfaceView != null)
 		{
 			glSurfaceView.onPause();
 		}
@@ -80,7 +78,7 @@ public class MainActivity extends Activity
 	{
 		super.onResume();
 
-		if (rendererSet)
+		if (glSurfaceView != null)
 		{
 			glSurfaceView.onResume();
 		}
