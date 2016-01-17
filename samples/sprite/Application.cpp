@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Application.h"
+#include <cmath>
 
 namespace ouzel
 {    
@@ -66,6 +67,7 @@ namespace ouzel
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
         _layer->addChild(_witch);
+        _witch->animate(AnimatorPtr(new RotateTo(10.0f, M_PI * 2.0f)));
         
         LabelPtr label = std::make_shared<Label>("font.fnt", "testing fonts");
         _uiLayer->addChild(label);

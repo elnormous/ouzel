@@ -11,7 +11,6 @@ LOCAL_C_INCLUDES += ../../../ouzel \
 
 LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
 	../../../ouzel/Animator.cpp \
-	../../../ouzel/MoveTo.cpp \
     ../../../ouzel/BMFont.cpp \
     ../../../ouzel/Button.cpp \
     ../../../ouzel/Camera.cpp \
@@ -31,6 +30,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Menu.cpp \
     ../../../ouzel/MeshBuffer.cpp \
     ../../../ouzel/MeshBufferOGL.cpp \
+    ../../../ouzel/MoveTo.cpp \
     ../../../ouzel/Node.cpp \
     ../../../ouzel/NodeContainer.cpp \
     ../../../ouzel/ParticleSystem.cpp \
@@ -39,6 +39,8 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/RendererOGL.cpp \
     ../../../ouzel/RenderTarget.cpp \
     ../../../ouzel/RenderTargetOGL.cpp \
+	../../../ouzel/RotateTo.cpp \
+	../../../ouzel/ScaleTo.cpp \
     ../../../ouzel/Scene.cpp \
     ../../../ouzel/SceneManager.cpp \
     ../../../ouzel/Shader.cpp \

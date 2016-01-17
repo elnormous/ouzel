@@ -18,7 +18,7 @@ namespace ouzel
         
         if (NodePtr node = _node.lock())
         {
-            node->setPosition(_startPosition + (_offset * _progress));
+            node->setPosition(_startPosition + (_diff * _progress));
         }
     }
     
@@ -29,7 +29,7 @@ namespace ouzel
         if (node)
         {
             _startPosition = node->getPosition();
-            _offset = _targetPosition - _startPosition;
+            _diff = _targetPosition - _startPosition;
         }
     }
 }

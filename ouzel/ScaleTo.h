@@ -8,17 +8,17 @@
 
 namespace ouzel
 {
-    class MoveTo: public Animator
+    class ScaleTo: public Animator
     {
     public:
-        MoveTo(float length, Vector2 const& position);
+        ScaleTo(float length, Vector2 const& scale);
         virtual void update(float delta) override;
         
         virtual void start(NodePtr const& node) override;
         
     protected:
-        Vector2 _startPosition;
-        Vector2 _targetPosition;
+        Vector2 _startScale;
+        Vector2 _targetScale;
         Vector2 _diff;
     };
 }

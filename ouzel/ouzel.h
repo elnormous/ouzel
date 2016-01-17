@@ -33,4 +33,6 @@
 #include "Button.h"
 #include "Animator.h"
 #include "MoveTo.h"
+#include "RotateTo.h"
+#include "ScaleTo.h"
 #include "Utils.h"

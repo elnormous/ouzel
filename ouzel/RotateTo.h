@@ -4,21 +4,20 @@
 #pragma once
 
 #include "Animator.h"
-#include "Vector2.h"
 
 namespace ouzel
 {
-    class MoveTo: public Animator
+    class RotateTo: public Animator
     {
     public:
-        MoveTo(float length, Vector2 const& position);
+        RotateTo(float length, float rotation);
         virtual void update(float delta) override;
         
         virtual void start(NodePtr const& node) override;
         
     protected:
-        Vector2 _startPosition;
-        Vector2 _targetPosition;
-        Vector2 _diff;
+        float _startRotation = 0.0f;
+        float _targetRotation = 0.0f;
+        float _diff = 0.0f;
     };
 }
