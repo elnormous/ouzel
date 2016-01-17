@@ -65,6 +65,7 @@ namespace ouzel
     
     class Node;
     typedef std::shared_ptr<Node> NodePtr;
+    typedef std::weak_ptr<Node> NodeWeakPtr;
     
     class Camera;
     typedef std::shared_ptr<Camera> CameraPtr;
@@ -80,4 +81,8 @@ namespace ouzel
     
     class Button;
     typedef std::shared_ptr<Button> ButtonPtr;
+    
+    class Animator;
+    typedef std::shared_ptr<Animator> AnimatorPtr;
+    typedef std::weak_ptr<Animator> AnimatorWeakPtr;
 }

@@ -31,4 +31,6 @@
 #include "EventHander.h"
 #include "Label.h"
 #include "Button.h"
+#include "Animator.h"
+#include "MoveTo.h"
 #include "Utils.h"

@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "SceneManager.h"
 #include "Layer.h"
+#include "Animator.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -29,7 +30,10 @@ namespace ouzel
     
     void Node::update(float delta)
     {
-        OUZEL_UNUSED(delta);
+        if (_currentAnimator)
+        {
+            _currentAnimator->update(delta);
+        }
         
         if (_transformDirty)
         {
@@ -265,6 +269,16 @@ namespace ouzel
     bool Node::checkVisibility() const
     {
         return true;
+    }
+    
+    void Node::animate(AnimatorPtr const& animator)
+    {
+        _currentAnimator = animator;
+        
+        if (_currentAnimator)
+        {
+            _currentAnimator->start(shared_from_this());
+        }
     }
     
     void Node::calculateTransform() const

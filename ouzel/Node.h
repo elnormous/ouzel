@@ -64,6 +64,8 @@ namespace ouzel
         
         virtual bool checkVisibility() const;
         
+        virtual void animate(AnimatorPtr const& animator);
+        
     protected:
         virtual void setLayer(LayerWeakPtr const& layer);
         
@@ -95,5 +97,7 @@ namespace ouzel
         bool _hasParent = false;
         LayerWeakPtr _layer;
         bool _addedToLayer = false;
+        
+        AnimatorPtr _currentAnimator;
     };
 }

@@ -48,6 +48,8 @@ namespace ouzel
         _sprite->initFromFile("run.json");
         _sprite->play(true);
         _layer->addChild(_sprite);
+        _sprite->setPosition(Vector2(-300.0f, 0.0f));
+        _sprite->animate(AnimatorPtr(new MoveTo(4.0f, Vector2(300.0f, 0.0f))));
         
         SpritePtr fire(new Sprite());
         fire->initFromFile("fire.json");

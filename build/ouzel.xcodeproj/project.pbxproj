@@ -239,6 +239,18 @@
 		303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303B76C41C35635700FEDE92 /* OpenGLView.mm */; };
 		303B76C81C35695900FEDE92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76C71C35695900FEDE92 /* QuartzCore.framework */; };
 		303B76CA1C35696200FEDE92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303B76C91C35696200FEDE92 /* QuartzCore.framework */; };
+		3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F73C1C4C344A00774E3D /* Animator.cpp */; };
+		3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F73C1C4C344A00774E3D /* Animator.cpp */; };
+		3047F7401C4C344A00774E3D /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F73C1C4C344A00774E3D /* Animator.cpp */; };
+		3047F7411C4C344A00774E3D /* Animator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F73D1C4C344A00774E3D /* Animator.h */; };
+		3047F7421C4C344A00774E3D /* Animator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F73D1C4C344A00774E3D /* Animator.h */; };
+		3047F7431C4C344A00774E3D /* Animator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F73D1C4C344A00774E3D /* Animator.h */; };
+		3047F7461C4C350D00774E3D /* MoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7441C4C350D00774E3D /* MoveTo.cpp */; };
+		3047F7471C4C350D00774E3D /* MoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7441C4C350D00774E3D /* MoveTo.cpp */; };
+		3047F7481C4C350D00774E3D /* MoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7441C4C350D00774E3D /* MoveTo.cpp */; };
+		3047F7491C4C350D00774E3D /* MoveTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7451C4C350D00774E3D /* MoveTo.h */; };
+		3047F74A1C4C350D00774E3D /* MoveTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7451C4C350D00774E3D /* MoveTo.h */; };
+		3047F74B1C4C350D00774E3D /* MoveTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7451C4C350D00774E3D /* MoveTo.h */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
@@ -454,6 +466,10 @@
 		303B76C41C35635700FEDE92 /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
 		303B76C71C35695900FEDE92 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		303B76C91C35696200FEDE92 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		3047F73C1C4C344A00774E3D /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
+		3047F73D1C4C344A00774E3D /* Animator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animator.h; sourceTree = "<group>"; };
+		3047F7441C4C350D00774E3D /* MoveTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoveTo.cpp; sourceTree = "<group>"; };
+		3047F7451C4C350D00774E3D /* MoveTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveTo.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -831,6 +847,17 @@
 			path = tvos;
 			sourceTree = "<group>";
 		};
+		3047F73B1C4C341F00774E3D /* animators */ = {
+			isa = PBXGroup;
+			children = (
+				3047F73C1C4C344A00774E3D /* Animator.cpp */,
+				3047F73D1C4C344A00774E3D /* Animator.h */,
+				3047F7441C4C350D00774E3D /* MoveTo.cpp */,
+				3047F7451C4C350D00774E3D /* MoveTo.h */,
+			);
+			name = animators;
+			sourceTree = "<group>";
+		};
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
@@ -865,6 +892,7 @@
 		304A8E291C237C51008B1151 /* ouzel */ = {
 			isa = PBXGroup;
 			children = (
+				3047F73B1C4C341F00774E3D /* animators */,
 				3036476E1C3F40300024DB5B /* apple */,
 				303B75111C28838C00FEDE92 /* core */,
 				30575AD51C3B485F0009C8A7 /* events */,
@@ -996,6 +1024,7 @@
 				3031A0BA1C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.h in Headers */,
 				303B75661C2A3CBF00FEDE92 /* SceneManager.h in Headers */,
+				3047F7421C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC01C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				303B75E91C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Node.h in Headers */,
@@ -1011,6 +1040,7 @@
 				3031A0B41C3731A2004D3514 /* ColorVSOGLES.h in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHander.h in Headers */,
 				303B75E51C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */,
+				3047F74A1C4C350D00774E3D /* MoveTo.h in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.h in Headers */,
 				303B75451C2A3C9200FEDE92 /* Renderer.h in Headers */,
@@ -1058,6 +1088,7 @@
 				3031A0BB1C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.h in Headers */,
 				303B76651C355A3B00FEDE92 /* TextureVSOGL.h in Headers */,
+				3047F7431C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC11C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
 				303B76671C355A3B00FEDE92 /* ColorPSOGL.h in Headers */,
@@ -1073,6 +1104,7 @@
 				303B766E1C355A3B00FEDE92 /* EventHander.h in Headers */,
 				303B766F1C355A3B00FEDE92 /* ColorVSOGL.h in Headers */,
 				303B76701C355A3B00FEDE92 /* Event.h in Headers */,
+				3047F74B1C4C350D00774E3D /* MoveTo.h in Headers */,
 				303B76711C355A3B00FEDE92 /* Image.h in Headers */,
 				303B76721C355A3B00FEDE92 /* Renderer.h in Headers */,
 				303B76731C355A3B00FEDE92 /* Size2.h in Headers */,
@@ -1127,11 +1159,13 @@
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
 				30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
+				3047F7491C4C350D00774E3D /* MoveTo.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
 				303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
 				30575AD01C3B175D0009C8A7 /* Label.h in Headers */,
 				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
+				3047F7411C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75E81C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
@@ -1384,6 +1418,7 @@
 			files = (
 				303B76301C3559B900FEDE92 /* ViewController.m in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
+				3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
 				3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
@@ -1411,6 +1446,7 @@
 				303B76C21C35630B00FEDE92 /* OpenGLView.mm in Sources */,
 				303B75461C2A3C9200FEDE92 /* RenderTarget.cpp in Sources */,
 				30575ABD1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
+				3047F7471C4C350D00774E3D /* MoveTo.cpp in Sources */,
 				303B757C1C2A43D900FEDE92 /* TextureOGL.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rectangle.cpp in Sources */,
 				303B75761C2A3E3000FEDE92 /* AppDelegate.mm in Sources */,
@@ -1448,6 +1484,7 @@
 			files = (
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
+				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
 				3036471E1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
@@ -1475,6 +1512,7 @@
 				303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */,
 				303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */,
 				30575ABE1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
+				3047F7481C4C350D00774E3D /* MoveTo.cpp in Sources */,
 				303B76481C355A3B00FEDE92 /* TextureOGL.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,
 				303B764B1C355A3B00FEDE92 /* Image.cpp in Sources */,
@@ -1535,6 +1573,7 @@
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,
+				3047F7461C4C350D00774E3D /* MoveTo.cpp in Sources */,
 				303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
 				304A8E921C26ED32008B1151 /* MeshBuffer.cpp in Sources */,
@@ -1543,6 +1582,7 @@
 				304A8E6C1C237C70008B1151 /* Texture.cpp in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
 				304A8E701C237C70008B1151 /* Vector2.cpp in Sources */,
+				3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */,
 				304A8E511C237C70008B1151 /* Camera.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				303B75211C29EFEC00FEDE92 /* AppDelegate.mm in Sources */,
