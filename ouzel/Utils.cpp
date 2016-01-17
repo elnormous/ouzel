@@ -54,7 +54,7 @@ namespace ouzel
     
     uint64_t getCurrentMicroSeconds()
     {
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID)
         struct timeval currentTime;
         
         gettimeofday(&currentTime, NULL);
