@@ -134,6 +134,12 @@
     <ClCompile Include="..\ouzel\BMFont.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\Animator.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\MoveTo.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -300,6 +306,12 @@
     <ClInclude Include="..\ouzel\Types.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\Animator.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\MoveTo.h">
+      <Filter>animators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
@@ -331,6 +343,9 @@
     </Filter>
     <Filter Include="win">
       <UniqueIdentifier>{13c9cfb5-22dc-476d-94c2-c1d0d171f005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="animators">
+      <UniqueIdentifier>{a9680758-dcaa-488a-949b-ca09c57945a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

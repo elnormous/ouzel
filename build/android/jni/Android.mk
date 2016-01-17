@@ -10,6 +10,8 @@ LOCAL_C_INCLUDES += ../../../ouzel \
     ../../../external/rapidjson/include
 
 LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
+	../../../ouzel/Animator.cpp \
+	../../../ouzel/MoveTo.cpp \
     ../../../ouzel/BMFont.cpp \
     ../../../ouzel/Button.cpp \
     ../../../ouzel/Camera.cpp \
