@@ -1149,7 +1149,7 @@ namespace ouzel
             return false;
         }
 
-        uint32_t size = desc.Width * mappedSubresource.RowPitch; // someone said row pitch MIGHT be bigger than width * 4
+        uint32_t size = desc.Height * mappedSubresource.RowPitch;
         
         stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, size);
 
