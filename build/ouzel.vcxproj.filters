@@ -146,6 +146,9 @@
     <ClCompile Include="..\ouzel\ScaleTo.cpp">
       <Filter>animators</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\FadeTo.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -322,6 +325,9 @@
       <Filter>animators</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\ScaleTo.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\FadeTo.h">
       <Filter>animators</Filter>
     </ClInclude>
   </ItemGroup>

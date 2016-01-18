@@ -120,7 +120,7 @@ namespace ouzel
         
         float f_n = 1.0f / (zFarPlane - zNearPlane);
         float theta = MATH_DEG_TO_RAD(fieldOfView) * 0.5f;
-        if (fabs(fmod(theta, MATH_PIOVER2)) < MATH_EPSILON)
+        if (fabs(fmod(theta, PIOVER2)) < EPSILON)
         {
             //GP_ERROR("Invalid field of view value (%d) causes attempted calculation tan(%d), which is undefined.", fieldOfView, theta);
             return;
@@ -182,7 +182,7 @@ namespace ouzel
                                        Matrix4* dst)
     {
         Vector3 delta(objectPosition, cameraPosition);
-        bool isSufficientDelta = delta.lengthSquared() > MATH_EPSILON;
+        bool isSufficientDelta = delta.lengthSquared() > EPSILON;
         
         dst->setIdentity();
         dst->m[3] = objectPosition.x;
@@ -479,7 +479,7 @@ namespace ouzel
         float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
         
         // Close to zero, can't invert.
-        if (fabs(det) <= MATH_TOLERANCE)
+        if (fabs(det) <= TOLERANCE)
             return false;
         
         // Support the case where m == dst.

@@ -104,7 +104,7 @@ namespace ouzel
         float dy = v1.w * v2.y - v1.y * v2.w - v1.z * v2.x + v1.x * v2.z;
         float dz = v1.w * v2.z - v1.z * v2.w - v1.x * v2.y + v1.y * v2.x;
 
-        return atan2f(sqrt(dx * dx + dy * dy + dz * dz) + MATH_FLOAT_SMALL, dot(v1, v2));
+        return atan2f(sqrt(dx * dx + dy * dy + dz * dz) + FLOAT_SMALL, dot(v1, v2));
     }
 
     void Vector4::add(const Vector4& v)
@@ -262,7 +262,7 @@ namespace ouzel
 
         n = sqrt(n);
         // Too close to zero.
-        if (n < MATH_TOLERANCE)
+        if (n < TOLERANCE)
             return;
 
         n = 1.0f / n;
