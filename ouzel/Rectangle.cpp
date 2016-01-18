@@ -101,19 +101,19 @@ namespace ouzel
         return y + height;
     }
 
-    bool Rectangle::contains(float x, float y) const
+    bool Rectangle::containPoint(float x, float y) const
     {
         return (x >= this->x && x <= (this->x + width) && y >= this->y && y <= (this->y + height));
     }
     
-    bool Rectangle::contains(const Vector2& point) const
+    bool Rectangle::containPoint(const Vector2& point) const
     {
         return (point.x >= this->x && point.x <= (this->x + width) && point.y >= this->y && point.y <= (this->y + height));
     }
 
     bool Rectangle::contains(float x, float y, float width, float height) const
     {
-        return (contains(x, y) && contains(x + width, y + height));
+        return (containPoint(x, y) && containPoint(x + width, y + height));
     }
 
     bool Rectangle::contains(const Rectangle& r) const

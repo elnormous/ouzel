@@ -49,7 +49,8 @@ namespace ouzel
             }
             
             _size = _texture->getSize();
-            _boundingBox.set(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height);
+            _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
+                             Vector2(_size.width / 2.0f, _size.height / 2.0f));
             
             Rectangle rectangle(0, 0, _size.width, _size.height);
             
@@ -277,27 +278,6 @@ namespace ouzel
             
             MeshBufferPtr meshBuffer = _frameMeshBuffers[i];
             meshBuffer->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
-        }
-    }
-    
-    bool Sprite::checkVisibility() const
-    {
-        if (LayerPtr layer = _layer.lock())
-        {
-            Matrix4 mvp = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
-            
-            Vector3 topRight(_size.width / 2.0f, _size.height / 2.0f, 0.0f);
-            Vector3 bottomLeft(-_size.width / 2.0f, -_size.height / 2.0f, 0.0f);
-            
-            mvp.transformPoint(&topRight);
-            mvp.transformPoint(&bottomLeft);
-            
-            return (topRight.x >= -1.0f && topRight.y >= -1.0f &&
-                    bottomLeft.x <= 1.0f && bottomLeft.y <= 1.0f);
-        }
-        else
-        {
-            return false;
         }
     }
     

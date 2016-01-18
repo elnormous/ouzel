@@ -82,8 +82,8 @@ namespace ouzel
         void updateMinMax(const Vector2* point, uint32_t num);
         
     public:
-        Vector2 _min;
-        Vector2 _max;
+        Vector2 min;
+        Vector2 max;
     };
 
     // end of 3d group

@@ -9,6 +9,7 @@
 #include "Vector2.h"
 #include "Matrix4.h"
 #include "Rectangle.h"
+#include "AABB2.h"
 
 namespace ouzel
 {
@@ -55,7 +56,7 @@ namespace ouzel
         virtual void setVisible(bool visible);
         virtual bool isVisible() const { return _visible; }
         
-        virtual const Rectangle& getBoundingBox() const { return _boundingBox; }
+        virtual const AABB2& getBoundingBox() const { return _boundingBox; }
         
         virtual bool pointOn(const Vector2& position) const;
         virtual bool rectangleOverlaps(const Rectangle& rectangle) const;
@@ -89,7 +90,7 @@ namespace ouzel
         float _z = 0.0f;
         float _opacity = 1.0f;
         
-        Rectangle _boundingBox;
+        AABB2 _boundingBox;
         
         bool _flipX = false;
         bool _flipY = false;

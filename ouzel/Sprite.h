@@ -39,8 +39,6 @@ namespace ouzel
         virtual const Color& getColor() const { return _color; }
         virtual void setColor(const Color& color);
         
-        virtual bool checkVisibility() const override;
-        
         virtual void play(bool repeat = true, float frameInterval = 0.1f);
         virtual void stop(bool reset = true);
         virtual bool isPlaying() const { return _playing; }

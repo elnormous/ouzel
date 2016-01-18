@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "Layer.h"
 #include "Animator.h"
+#include "Camera.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -171,7 +172,7 @@ namespace ouzel
         const Matrix4& inverseTransform = getInverseTransform();
         inverseTransform.transformPoint(&localPosition);
         
-        return _boundingBox.contains(localPosition.x, localPosition.y);
+        return _boundingBox.containPoint(Vector2(localPosition.x, localPosition.y));
     }
     
     bool Node::rectangleOverlaps(const Rectangle& rectangle) const
@@ -190,10 +191,10 @@ namespace ouzel
         
         inverseTransform.transformPoint(&localRightTop);
         
-        if (localLeftBottom.x > _boundingBox.x + _boundingBox.width ||
-            localLeftBottom.y > _boundingBox.y + _boundingBox.height ||
-            localRightTop.x < _boundingBox.x ||
-            localRightTop.y < _boundingBox.y)
+        if (localLeftBottom.x > _boundingBox.max.x ||
+            localLeftBottom.y > _boundingBox.max.y ||
+            localRightTop.x < _boundingBox.min.x ||
+            localRightTop.y < _boundingBox.min.y)
         {
             return false;
         }
@@ -235,7 +236,36 @@ namespace ouzel
     
     bool Node::checkVisibility() const
     {
-        return true;
+        if (LayerPtr layer = _layer.lock())
+        {
+            if (_boundingBox.isEmpty())
+            {
+                return true;
+            }
+            
+            Matrix4 mvp = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
+            
+            Vector3 corners[4] = {
+                Vector3(_boundingBox.min.x, _boundingBox.min.y, 0.0f),
+                Vector3(_boundingBox.max.x, _boundingBox.min.y, 0.0f),
+                Vector3(_boundingBox.max.x, _boundingBox.max.y, 0.0f),
+                Vector3(_boundingBox.min.x, _boundingBox.max.y, 0.0f)
+            };
+            
+            for (Vector3& corner : corners)
+            {
+                mvp.transformPoint(&corner);
+                
+                if (corner.x >= -1.0f && corner.x <= 1.0f && corner.y >= -1.0f && corner.y <= 1.0f)
+                {
+                    return true;
+                }
+            }
+            
+            // TODO: handle objects bigger than screen
+        }
+        
+        return false;
     }
     
     void Node::animate(AnimatorPtr const& animator)
