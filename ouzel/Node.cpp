@@ -8,6 +8,7 @@
 #include "Animator.h"
 #include "Camera.h"
 #include "Utils.h"
+#include "MathUtils.h"
 
 namespace ouzel
 {
@@ -252,6 +253,8 @@ namespace ouzel
                 Vector3(_boundingBox.min.x, _boundingBox.max.y, 0.0f)
             };
             
+            uint8_t inCorners = 0;
+            
             for (Vector3& corner : corners)
             {
                 mvp.transformPoint(&corner);
@@ -260,9 +263,31 @@ namespace ouzel
                 {
                     return true;
                 }
+                
+                if (corner.x < -1.0f && corner.y < -1.0f) inCorners |= 0x01;
+                if (corner.x > 1.0f && corner.y < -1.0f) inCorners |= 0x02;
+                if (corner.x > 1.0f && corner.y > 1.0f) inCorners |= 0x04;
+                if (corner.x < -1.0f && corner.y > 1.0f) inCorners |= 0x08;
             }
             
-            // TODO: handle objects bigger than screen
+            // bounding box is bigger than screen
+            if (inCorners == 0x0F)
+            {
+                return true;
+            }
+            
+            for (uint32_t current = 0; current < 4; ++current)
+            {
+                uint32_t next = (current == 3) ? 0 : current + 1;
+                
+                if (linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(-1.0f, 1.0f), Vector2(1.0f, 1.0f)) || // top
+                    linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(-1.0f, -1.0f), Vector2(1.0f, -1.0f)) || // bottom
+                    linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(1.0f, -1.0f), Vector2(1.0f, 1.0f)) || // right
+                    linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(-1.0f, -1.0f), Vector2(-1.0f, 1.0f))) // left
+                {
+                    return true;
+                }
+            }
         }
         
         return false;

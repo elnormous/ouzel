@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "Vector2.h"
+
 #define MATH_DEG_TO_RAD(x)          ((x) * 0.0174532925f)
 #define MATH_RAD_TO_DEG(x)          ((x)* 57.29577951f)
 #define MATH_RANDOM_MINUS1_1()      ((2.0f*((float)rand()/RAND_MAX))-1.0f)      // Returns a random float between -1 and 1.
@@ -61,4 +63,7 @@ namespace ouzel
     void transformVector4(const float* m, const float* v, float* dst);
 
     void crossVector3(const float* v1, const float* v2, float* dst);
+    
+    bool linesIntersect(Vector2 const& p0, Vector2 const& p1,
+                        Vector2 const& p2, Vector2 const& p3);
 }
