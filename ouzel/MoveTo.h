@@ -12,9 +12,10 @@ namespace ouzel
     {
     public:
         MoveTo(float length, Vector2 const& position);
-        virtual void update(float delta) override;
         
         virtual void start(NodePtr const& node) override;
+        
+        virtual void setProgress(float progress) override;
         
     protected:
         Vector2 _startPosition;

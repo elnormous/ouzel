@@ -11,9 +11,10 @@ namespace ouzel
     {
     public:
         FadeTo(float length, float opacity);
-        virtual void update(float delta) override;
         
         virtual void start(NodePtr const& node) override;
+        
+        virtual void setProgress(float progress) override;
         
     protected:
         float _startOpacity = 0.0f;

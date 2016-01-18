@@ -12,16 +12,6 @@ namespace ouzel
         
     }
     
-    void ScaleTo::update(float delta)
-    {
-        Animator::update(delta);
-        
-        if (NodePtr node = _node.lock())
-        {
-            node->setScale(_startScale + (_diff * _progress));
-        }
-    }
-    
     void ScaleTo::start(NodePtr const& node)
     {
         Animator::start(node);
@@ -30,6 +20,16 @@ namespace ouzel
         {
             _startScale = node->getScale();
             _diff = _targetScale - _startScale;
+        }
+    }
+    
+    void ScaleTo::setProgress(float progress)
+    {
+        Animator::setProgress(progress);
+        
+        if (NodePtr node = _node.lock())
+        {
+            node->setScale(_startScale + (_diff * _progress));
         }
     }
 }

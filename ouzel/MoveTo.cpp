@@ -12,16 +12,6 @@ namespace ouzel
         
     }
     
-    void MoveTo::update(float delta)
-    {
-        Animator::update(delta);
-        
-        if (NodePtr node = _node.lock())
-        {
-            node->setPosition(_startPosition + (_diff * _progress));
-        }
-    }
-    
     void MoveTo::start(NodePtr const& node)
     {
         Animator::start(node);
@@ -30,6 +20,16 @@ namespace ouzel
         {
             _startPosition = node->getPosition();
             _diff = _targetPosition - _startPosition;
+        }
+    }
+    
+    void MoveTo::setProgress(float progress)
+    {
+        Animator::setProgress(progress);
+        
+        if (NodePtr node = _node.lock())
+        {
+            node->setPosition(_startPosition + (_diff * _progress));
         }
     }
 }

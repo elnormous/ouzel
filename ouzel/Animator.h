@@ -19,6 +19,9 @@ namespace ouzel
         bool isRunning() const { return _running; }
         bool isDone() const { return _done; }
         
+        float getProgress() const { return _progress; }
+        virtual void setProgress(float progress) { _progress = progress; }
+        
     protected:
         float _length = 0.0f;
         float _currentTime = 0.0f;

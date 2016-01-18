@@ -12,9 +12,10 @@ namespace ouzel
     {
     public:
         ScaleTo(float length, Vector2 const& scale);
-        virtual void update(float delta) override;
         
         virtual void start(NodePtr const& node) override;
+        
+        virtual void setProgress(float progress) override;
         
     protected:
         Vector2 _startScale;

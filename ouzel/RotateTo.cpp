@@ -12,16 +12,6 @@ namespace ouzel
         
     }
     
-    void RotateTo::update(float delta)
-    {
-        Animator::update(delta);
-        
-        if (NodePtr node = _node.lock())
-        {
-            node->setRotation(_startRotation + (_diff * _progress));
-        }
-    }
-    
     void RotateTo::start(NodePtr const& node)
     {
         Animator::start(node);
@@ -30,6 +20,16 @@ namespace ouzel
         {
             _startRotation = node->getRotation();
             _diff = _targetRotation - _startRotation;
+        }
+    }
+    
+    void RotateTo::setProgress(float progress)
+    {
+        Animator::setProgress(progress);
+        
+        if (NodePtr node = _node.lock())
+        {
+            node->setRotation(_startRotation + (_diff * _progress));
         }
     }
 }

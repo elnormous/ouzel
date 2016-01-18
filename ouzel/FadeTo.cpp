@@ -12,16 +12,6 @@ namespace ouzel
         
     }
     
-    void FadeTo::update(float delta)
-    {
-        Animator::update(delta);
-        
-        if (NodePtr node = _node.lock())
-        {
-            node->setOpacity(_startOpacity + (_diff * _progress));
-        }
-    }
-    
     void FadeTo::start(NodePtr const& node)
     {
         Animator::start(node);
@@ -30,6 +20,16 @@ namespace ouzel
         {
             _startOpacity = node->getOpacity();
             _diff = _targetOpacity - _startOpacity;
+        }
+    }
+    
+    void FadeTo::setProgress(float progress)
+    {
+        Animator::setProgress(progress);
+        
+        if (NodePtr node = _node.lock())
+        {
+            node->setOpacity(_startOpacity + (_diff * _progress));
         }
     }
 }

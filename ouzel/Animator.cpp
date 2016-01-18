@@ -23,11 +23,11 @@ namespace ouzel
                 _done = true;
                 _running = false;
                 _currentTime = _length;
-                _progress = 1.0f;
+                setProgress(1.0f);
             }
             else
             {
-                _progress = _currentTime / _length;
+                setProgress(_currentTime / _length);
             }
         }
     }
