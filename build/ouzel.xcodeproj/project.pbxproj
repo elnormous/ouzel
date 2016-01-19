@@ -269,6 +269,24 @@
 		3047F7611C4C60B900774E3D /* FadeTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* FadeTo.h */; };
 		3047F7621C4C60B900774E3D /* FadeTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* FadeTo.h */; };
 		3047F7631C4C60B900774E3D /* FadeTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* FadeTo.h */; };
+		3047F7671C4D2C2000774E3D /* Sequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7651C4D2C2000774E3D /* Sequence.cpp */; };
+		3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7651C4D2C2000774E3D /* Sequence.cpp */; };
+		3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7651C4D2C2000774E3D /* Sequence.cpp */; };
+		3047F76A1C4D2C2000774E3D /* Sequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7661C4D2C2000774E3D /* Sequence.h */; };
+		3047F76B1C4D2C2000774E3D /* Sequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7661C4D2C2000774E3D /* Sequence.h */; };
+		3047F76C1C4D2C2000774E3D /* Sequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7661C4D2C2000774E3D /* Sequence.h */; };
+		3047F76F1C4D2C3900774E3D /* Parallel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F76D1C4D2C3900774E3D /* Parallel.cpp */; };
+		3047F7701C4D2C3900774E3D /* Parallel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F76D1C4D2C3900774E3D /* Parallel.cpp */; };
+		3047F7711C4D2C3900774E3D /* Parallel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F76D1C4D2C3900774E3D /* Parallel.cpp */; };
+		3047F7721C4D2C3900774E3D /* Parallel.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F76E1C4D2C3900774E3D /* Parallel.h */; };
+		3047F7731C4D2C3900774E3D /* Parallel.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F76E1C4D2C3900774E3D /* Parallel.h */; };
+		3047F7741C4D2C3900774E3D /* Parallel.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F76E1C4D2C3900774E3D /* Parallel.h */; };
+		3047F7771C4D39C500774E3D /* Repeat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7751C4D39C500774E3D /* Repeat.cpp */; };
+		3047F7781C4D39C500774E3D /* Repeat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7751C4D39C500774E3D /* Repeat.cpp */; };
+		3047F7791C4D39C500774E3D /* Repeat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7751C4D39C500774E3D /* Repeat.cpp */; };
+		3047F77A1C4D39C500774E3D /* Repeat.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7761C4D39C500774E3D /* Repeat.h */; };
+		3047F77B1C4D39C500774E3D /* Repeat.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7761C4D39C500774E3D /* Repeat.h */; };
+		3047F77C1C4D39C500774E3D /* Repeat.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7761C4D39C500774E3D /* Repeat.h */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
@@ -494,6 +512,12 @@
 		3047F7551C4C4FBA00774E3D /* ScaleTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleTo.h; sourceTree = "<group>"; };
 		3047F75C1C4C60B900774E3D /* FadeTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FadeTo.cpp; sourceTree = "<group>"; };
 		3047F75D1C4C60B900774E3D /* FadeTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeTo.h; sourceTree = "<group>"; };
+		3047F7651C4D2C2000774E3D /* Sequence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sequence.cpp; sourceTree = "<group>"; };
+		3047F7661C4D2C2000774E3D /* Sequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequence.h; sourceTree = "<group>"; };
+		3047F76D1C4D2C3900774E3D /* Parallel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parallel.cpp; sourceTree = "<group>"; };
+		3047F76E1C4D2C3900774E3D /* Parallel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parallel.h; sourceTree = "<group>"; };
+		3047F7751C4D39C500774E3D /* Repeat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Repeat.cpp; sourceTree = "<group>"; };
+		3047F7761C4D39C500774E3D /* Repeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Repeat.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -880,10 +904,16 @@
 				3047F75D1C4C60B900774E3D /* FadeTo.h */,
 				3047F7441C4C350D00774E3D /* MoveTo.cpp */,
 				3047F7451C4C350D00774E3D /* MoveTo.h */,
+				3047F76D1C4D2C3900774E3D /* Parallel.cpp */,
+				3047F76E1C4D2C3900774E3D /* Parallel.h */,
+				3047F7751C4D39C500774E3D /* Repeat.cpp */,
+				3047F7761C4D39C500774E3D /* Repeat.h */,
 				3047F74C1C4C4FAF00774E3D /* RotateTo.cpp */,
 				3047F74D1C4C4FAF00774E3D /* RotateTo.h */,
 				3047F7541C4C4FBA00774E3D /* ScaleTo.cpp */,
 				3047F7551C4C4FBA00774E3D /* ScaleTo.h */,
+				3047F7651C4D2C2000774E3D /* Sequence.cpp */,
+				3047F7661C4D2C2000774E3D /* Sequence.h */,
 			);
 			name = animators;
 			sourceTree = "<group>";
@@ -1043,6 +1073,7 @@
 				303B753F1C2A3C9200FEDE92 /* Color.h in Headers */,
 				303B75471C2A3C9200FEDE92 /* RenderTarget.h in Headers */,
 				303B762F1C3559B900FEDE92 /* ViewController.h in Headers */,
+				3047F76B1C4D2C2000774E3D /* Sequence.h in Headers */,
 				30575AAA1C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.h in Headers */,
 				303B75F41C335B7D00FEDE92 /* File.h in Headers */,
@@ -1060,6 +1091,7 @@
 				303B75E91C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Node.h in Headers */,
 				303647611C3F210F0024DB5B /* App.h in Headers */,
+				3047F77B1C4D39C500774E3D /* Repeat.h in Headers */,
 				3047F7621C4C60B900774E3D /* FadeTo.h in Headers */,
 				303647651C3F218E0024DB5B /* Settings.h in Headers */,
 				303B75E31C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
@@ -1085,6 +1117,7 @@
 				303B76C11C35630B00FEDE92 /* OpenGLView.h in Headers */,
 				3047F7521C4C4FAF00774E3D /* RotateTo.h in Headers */,
 				303B75371C2A3C8200FEDE92 /* CompileConfig.h in Headers */,
+				3047F7731C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
@@ -1110,6 +1143,7 @@
 				303B765B1C355A3B00FEDE92 /* Color.h in Headers */,
 				303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */,
 				303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */,
+				3047F76C1C4D2C2000774E3D /* Sequence.h in Headers */,
 				30575AAB1C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B765F1C355A3B00FEDE92 /* File.h in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
@@ -1127,6 +1161,7 @@
 				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
 				303B76671C355A3B00FEDE92 /* ColorPSOGL.h in Headers */,
 				303647621C3F210F0024DB5B /* App.h in Headers */,
+				3047F77C1C4D39C500774E3D /* Repeat.h in Headers */,
 				3047F7631C4C60B900774E3D /* FadeTo.h in Headers */,
 				303647661C3F218E0024DB5B /* Settings.h in Headers */,
 				303B76681C355A3B00FEDE92 /* Input.h in Headers */,
@@ -1152,6 +1187,7 @@
 				303B76C51C35635700FEDE92 /* OpenGLView.h in Headers */,
 				3047F7531C4C4FAF00774E3D /* RotateTo.h in Headers */,
 				303B76791C355A3B00FEDE92 /* Sprite.h in Headers */,
+				3047F7741C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
@@ -1177,11 +1213,13 @@
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				304A8E861C24814F008B1151 /* TextureOGL.h in Headers */,
 				304A8E6D1C237C70008B1151 /* Texture.h in Headers */,
+				3047F77A1C4D39C500774E3D /* Repeat.h in Headers */,
 				304A8E8F1C26EA8B008B1151 /* ShaderOGL.h in Headers */,
 				3031A0B61C3731A2004D3514 /* TexturePSOGLES.h in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.h in Headers */,
 				30575ABF1C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				303647641C3F218E0024DB5B /* Settings.h in Headers */,
+				3047F7721C4D2C3900774E3D /* Parallel.h in Headers */,
 				3036471F1C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.h in Headers */,
 				305B99941C41F06F008589E1 /* Widget.h in Headers */,
@@ -1213,6 +1251,7 @@
 				304A8E571C237C70008B1151 /* MathUtils.h in Headers */,
 				304A8E691C237C70008B1151 /* Shader.h in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.h in Headers */,
+				3047F76A1C4D2C2000774E3D /* Sequence.h in Headers */,
 				304A8E931C26ED32008B1151 /* MeshBuffer.h in Headers */,
 				304A8E8B1C2486C6008B1151 /* RenderTarget.h in Headers */,
 				304A8E6F1C237C70008B1151 /* Utils.h in Headers */,
@@ -1461,9 +1500,11 @@
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
 				3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
+				3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
+				3047F7701C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				30575AE21C3C91A40009C8A7 /* InputApple.mm in Sources */,
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
@@ -1505,6 +1546,7 @@
 				303B757A1C2A43D400FEDE92 /* RenderTargetOGL.cpp in Sources */,
 				303B75381C2A3C8200FEDE92 /* Engine.cpp in Sources */,
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
+				3047F7781C4D39C500774E3D /* Repeat.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Node.cpp in Sources */,
 				30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				303B75F21C335B7D00FEDE92 /* File.cpp in Sources */,
@@ -1530,9 +1572,11 @@
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
 				3036471E1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
+				3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
+				3047F7711C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
 				30575AE31C3C91A40009C8A7 /* InputApple.mm in Sources */,
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
@@ -1574,6 +1618,7 @@
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
 				303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Node.cpp in Sources */,
+				3047F7791C4D39C500774E3D /* Repeat.cpp in Sources */,
 				303B76881C355A5800FEDE92 /* main.mm in Sources */,
 				30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				303B76551C355A3B00FEDE92 /* File.cpp in Sources */,
@@ -1612,12 +1657,14 @@
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Button.cpp in Sources */,
 				305B99891C41EFFA008589E1 /* Menu.cpp in Sources */,
+				3047F7671C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				303B75161C288CFB00FEDE92 /* MeshBufferOGL.cpp in Sources */,
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,
+				3047F7771C4D39C500774E3D /* Repeat.cpp in Sources */,
 				3047F7461C4C350D00774E3D /* MoveTo.cpp in Sources */,
 				303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
@@ -1627,6 +1674,7 @@
 				304A8E851C24814F008B1151 /* TextureOGL.cpp in Sources */,
 				304A8E6C1C237C70008B1151 /* Texture.cpp in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
+				3047F76F1C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				3047F7561C4C4FBA00774E3D /* ScaleTo.cpp in Sources */,
 				304A8E701C237C70008B1151 /* Vector2.cpp in Sources */,
 				3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */,

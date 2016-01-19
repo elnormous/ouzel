@@ -34,16 +34,19 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/MoveTo.cpp \
     ../../../ouzel/Node.cpp \
     ../../../ouzel/NodeContainer.cpp \
+    ../../../ouzel/Parallel.cpp \
     ../../../ouzel/ParticleSystem.cpp \
     ../../../ouzel/Rectangle.cpp \
     ../../../ouzel/Renderer.cpp \
     ../../../ouzel/RendererOGL.cpp \
     ../../../ouzel/RenderTarget.cpp \
     ../../../ouzel/RenderTargetOGL.cpp \
+    ../../../ouzel/Repeat.cpp \
 	../../../ouzel/RotateTo.cpp \
 	../../../ouzel/ScaleTo.cpp \
     ../../../ouzel/Scene.cpp \
     ../../../ouzel/SceneManager.cpp \
+    ../../../ouzel/Sequence.cpp \
     ../../../ouzel/Shader.cpp \
     ../../../ouzel/ShaderOGL.cpp \
     ../../../ouzel/Size2.cpp \

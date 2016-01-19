@@ -68,7 +68,7 @@ namespace ouzel
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
         _layer->addChild(_witch);
-        _witch->animate(AnimatorPtr(new RotateTo(10.0f, PI * 2.0f)));
+        _witch->animate(AnimatorPtr(new Repeat(AnimatorPtr(new RotateTo(1.0f, PI * 2.0f)), 3)));
         
         LabelPtr label = std::make_shared<Label>("font.fnt", "testing fonts");
         _uiLayer->addChild(label);

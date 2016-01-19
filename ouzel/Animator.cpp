@@ -42,6 +42,6 @@ namespace ouzel
     {
         _done = false;
         _currentTime = 0.0f;
-        _progress = 0.0f;
+        setProgress(0.0f);
     }
 }
