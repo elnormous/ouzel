@@ -9,45 +9,16 @@ namespace ouzel
     Sequence::Sequence(std::vector<AnimatorPtr> const& animators):
         Animator(std::accumulate(animators.begin(), animators.end(), 0.0f, [](float a, AnimatorPtr const& b) { return a + b->getLength(); })), _animators(animators)
     {
-        _current = _animators.begin();
-    }
-    
-    void Sequence::update(float delta)
-    {
-        Animator::update(delta);
         
-        while (true)
-        {
-            if (_current != _animators.end())
-            {
-                float remaining = (*_current)->getLength() - (*_current)->getCurrentTime();
-                
-                if (delta > remaining)
-                {
-                    (*_current)->update(remaining);
-                    delta -= remaining;
-                    _current++;
-                }
-                else
-                {
-                    (*_current)->update(delta);
-                    break;
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
     }
     
     void Sequence::start(NodePtr const& node)
     {
         Animator::start(node);
         
-        if (_current != _animators.end())
+        for (auto& animator : _animators)
         {
-            (*_current)->start(node);
+            animator->start(node);
         }
     }
     
@@ -59,7 +30,29 @@ namespace ouzel
         {
             animator->reset();
         }
+    }
+    
+    void Sequence::setProgress(float progress)
+    {
+        Animator::setProgress(progress);
         
-        _current = _animators.begin();
+        float time = 0.0f;
+        
+        for (auto& animator : _animators)
+        {
+            float animationLength = animator->getLength();
+            
+            if (!animationLength || _currentTime > time + animationLength)
+            {
+                animator->setProgress(1.0f);
+            }
+            else
+            {
+                animator->setProgress((_currentTime - time) / animationLength);
+                break;
+            }
+            
+            time += animator->getLength();
+        }
     }
 }

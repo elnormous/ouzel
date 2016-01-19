@@ -16,18 +16,15 @@ namespace ouzel
     {
         if (_running)
         {
-            _currentTime += delta;
-            
-            if (_currentTime >= _length)
+            if (_currentTime + delta >= _length)
             {
                 _done = true;
                 _running = false;
-                _currentTime = _length;
                 setProgress(1.0f);
             }
             else
             {
-                setProgress(_currentTime / _length);
+                setProgress((_currentTime + delta) / _length);
             }
         }
     }
@@ -38,10 +35,26 @@ namespace ouzel
         _node = node;
     }
     
+    void Animator::resume()
+    {
+        _running = true;
+    }
+    
+    void Animator::pause()
+    {
+        _running = false;
+    }
+    
     void Animator::reset()
     {
         _done = false;
         _currentTime = 0.0f;
         setProgress(0.0f);
+    }
+    
+    void Animator::setProgress(float progress)
+    {
+        _progress = progress;
+        _currentTime = _progress * _length;
     }
 }

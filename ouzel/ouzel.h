@@ -32,6 +32,7 @@
 #include "Label.h"
 #include "Button.h"
 #include "Animator.h"
+#include "Ease.h"
 #include "FadeTo.h"
 #include "MoveTo.h"
 #include "Parallel.h"

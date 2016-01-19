@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <vector>
 #include "Animator.h"
 #include "Types.h"
 

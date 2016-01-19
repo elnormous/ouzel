@@ -32,7 +32,6 @@ namespace ouzel
                 {
                     float remainingTime = _currentTime - _animator->getLength() * _currentCount;
                     _animator->setProgress(remainingTime / _animator->getLength());
-                    _animator->setCurrentTime(remainingTime);
                 }
                 else
                 {

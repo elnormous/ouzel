@@ -430,6 +430,12 @@
 		305B99BA1C43306D008589E1 /* button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B91C43306D008589E1 /* button_disabled.png */; };
 		305B99BB1C43306D008589E1 /* button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B91C43306D008589E1 /* button_disabled.png */; };
 		305B99BC1C43306D008589E1 /* button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B91C43306D008589E1 /* button_disabled.png */; };
+		30B328841C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
+		30B328851C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
+		30B328861C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
+		30B328871C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
+		30B328881C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
+		30B328891C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -616,6 +622,8 @@
 		305B99B21C433061008589E1 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		305B99B91C43306D008589E1 /* button_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_disabled.png; sourceTree = "<group>"; };
 		305B99C71C451962008589E1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
+		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
+		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -900,6 +908,8 @@
 			children = (
 				3047F73C1C4C344A00774E3D /* Animator.cpp */,
 				3047F73D1C4C344A00774E3D /* Animator.h */,
+				30B328821C4E9EAC00040927 /* Ease.cpp */,
+				30B328831C4E9EAC00040927 /* Ease.h */,
 				3047F75C1C4C60B900774E3D /* FadeTo.cpp */,
 				3047F75D1C4C60B900774E3D /* FadeTo.h */,
 				3047F7441C4C350D00774E3D /* MoveTo.cpp */,
@@ -1123,6 +1133,7 @@
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
 				303647201C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */,
+				30B328881C4E9EAC00040927 /* Ease.h in Headers */,
 				305B998D1C41EFFA008589E1 /* Menu.h in Headers */,
 				303B75771C2A3E3000FEDE92 /* AppDelegate.h in Headers */,
 				305B99A01C42A695008589E1 /* BMFont.h in Headers */,
@@ -1193,6 +1204,7 @@
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
 				303647211C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE61C3C91A40009C8A7 /* InputApple.h in Headers */,
+				30B328891C4E9EAC00040927 /* Ease.h in Headers */,
 				305B998E1C41EFFA008589E1 /* Menu.h in Headers */,
 				303B76891C355A5800FEDE92 /* ViewController.h in Headers */,
 				305B99A11C42A695008589E1 /* BMFont.h in Headers */,
@@ -1227,6 +1239,7 @@
 				304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */,
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
 				304A8E751C237C70008B1151 /* Vector4.h in Headers */,
+				30B328871C4E9EAC00040927 /* Ease.h in Headers */,
 				304A8E9F1C27081B008B1151 /* Color.h in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
@@ -1524,6 +1537,7 @@
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75711C2A3D7F00FEDE92 /* main.mm in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
+				30B328851C4E9EAC00040927 /* Ease.cpp in Sources */,
 				303B76C21C35630B00FEDE92 /* OpenGLView.mm in Sources */,
 				303B75461C2A3C9200FEDE92 /* RenderTarget.cpp in Sources */,
 				30575ABD1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
@@ -1596,6 +1610,7 @@
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
 				303B768A1C355A5800FEDE92 /* ViewController.m in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
+				30B328861C4E9EAC00040927 /* Ease.cpp in Sources */,
 				303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */,
 				303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */,
 				30575ABE1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
@@ -1662,6 +1677,7 @@
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
+				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,
 				3047F7771C4D39C500774E3D /* Repeat.cpp in Sources */,

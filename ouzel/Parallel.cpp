@@ -17,16 +17,6 @@ namespace ouzel
         }
     }
     
-    void Parallel::update(float delta)
-    {
-        Animator::update(delta);
-        
-        for (auto& animator : _animators)
-        {
-            animator->update(delta);
-        }
-    }
-    
     void Parallel::start(NodePtr const& node)
     {
         Animator::start(node);
@@ -44,6 +34,25 @@ namespace ouzel
         for (auto& animator : _animators)
         {
             animator->reset();
+        }
+    }
+    
+    void Parallel::setProgress(float progress)
+    {
+        Animator::setProgress(progress);
+        
+        for (auto& animator : _animators)
+        {
+            float animationLength = animator->getLength();
+            
+            if (!animationLength || _currentTime > animationLength)
+            {
+                animator->setProgress(1.0f);
+            }
+            else
+            {
+                animator->setProgress(_currentTime / animationLength);
+            }
         }
     }
 }

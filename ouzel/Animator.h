@@ -15,16 +15,19 @@ namespace ouzel
         virtual void update(float delta);
         
         virtual void start(NodePtr const& node);
+        
+        virtual void resume();
+        virtual void pause();
         virtual void reset();
+        
         bool isRunning() const { return _running; }
         bool isDone() const { return _done; }
         
         float getLength() const { return _length; }
         float getCurrentTime() const { return _currentTime; }
-        void setCurrentTime(float currentTime) { _currentTime = currentTime; }
         
         float getProgress() const { return _progress; }
-        virtual void setProgress(float progress) { _progress = progress; }
+        virtual void setProgress(float progress);
         
     protected:
         float _length = 0.0f;

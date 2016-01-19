@@ -14,13 +14,12 @@ namespace ouzel
     public:
         Sequence(std::vector<AnimatorPtr> const& animators);
         
-        virtual void update(float delta) override;
-        
         virtual void start(NodePtr const& node) override;
         virtual void reset() override;
         
+        virtual void setProgress(float progress) override;
+        
     protected:
         std::vector<AnimatorPtr> _animators;
-        std::vector<AnimatorPtr>::iterator _current;
     };
 }
