@@ -46,10 +46,13 @@ namespace ouzel
             {
                 animator->setProgress(1.0f);
             }
+            else if (_currentTime <= time)
+            {
+                animator->setProgress(0.0f);
+            }
             else
             {
                 animator->setProgress((_currentTime - time) / animationLength);
-                break;
             }
             
             time += animator->getLength();
