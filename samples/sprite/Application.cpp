@@ -75,6 +75,10 @@ namespace ouzel
         
         LabelPtr label = std::make_shared<Label>("font.fnt", "testing fonts");
         _uiLayer->addChild(label);
+        label->animate(AnimatorPtr(AnimatorPtr(new Sequence({
+            AnimatorPtr(new Animator(1.0f)), // delay
+            AnimatorPtr(new Ease(AnimatorPtr(new MoveTo(4.0f, Vector2(0.0f, -240.0f))), Ease::Type::OUT, Ease::Func::ELASTIC))
+        }))));
         
         _button.reset(new Button());
         _button->init("button.png", "button.png", "button_down.png", "button_disabled.png", [this](VoidPtr sender) {

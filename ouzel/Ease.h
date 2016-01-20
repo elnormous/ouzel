@@ -20,7 +20,7 @@ namespace ouzel
         
         enum class Func
         {
-            SIN,
+            SINE,
             QUAD,
             CUBIC,
             QUART,
@@ -33,8 +33,6 @@ namespace ouzel
         };
         
         Ease(AnimatorPtr const& animator, Type type, Func func);
-        
-        virtual void update(float delta) override;
         
         virtual void start(NodePtr const& node) override;
         virtual void reset() override;

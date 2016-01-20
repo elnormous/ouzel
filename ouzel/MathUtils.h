@@ -14,6 +14,8 @@
 namespace ouzel
 {
     const float PI = 3.14159265358979323846f;
+    const float PI_2 = 1.57079632679489661923f; // pi/2
+    const float PI_4 = 0.78539816339744830962f; // pi/4
     const float FLOAT_SMALL = 1.0e-37f;
     const float TOLERANCE = 2e-37f;
     const float E = 2.71828182845904523536f;
