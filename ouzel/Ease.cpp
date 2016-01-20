@@ -176,6 +176,9 @@ namespace ouzel
     
     static float elasticIn(float t)
     {
+        if (t == 0.0f) return 0.0f;
+        if (t == 1.0f) return 1.0f;
+        
         float p = 0.3f;
         
         t -= 1.0f;
@@ -185,6 +188,9 @@ namespace ouzel
     
     static float elasticOut(float t)
     {
+        if (t == 0.0f) return 0.0f;
+        if (t == 1.0f) return 1.0f;
+        
         float p = 0.3f;
         
         return powf(2.0f, -10.0f * t) * sinf((t - p / 4.0f) * (2.0f * PI) / p) + 1.0f;
@@ -192,6 +198,9 @@ namespace ouzel
     
     static float elasticInOut(float t)
     {
+        if (t == 0.0f) return 0.0f;
+        if (t == 1.0f) return 1.0f;
+        
         float p = 0.3f * 1.5f;
         
         if (t < 0.5f)
