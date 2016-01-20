@@ -6,6 +6,7 @@
 #include "RendererOGL.h"
 #include "Image.h"
 #include "Utils.h"
+#include "stb_image_resize.h"
 
 namespace ouzel
 {
@@ -92,14 +93,37 @@ namespace ouzel
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
                      0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         
+        GLsizei mipWidth = width / 2;
+        GLsizei mipHeight = height / 2;
+        GLint mipLevel = 1;
+        
+        std::unique_ptr<uint8_t[]> mipMapData(new uint8_t[width * height * 4]);
+        
+        while (mipWidth && mipHeight)
+        {
+            stbir_resize_uint8(static_cast<const uint8_t*>(data), width, height, 0, mipMapData.get(), mipWidth, mipHeight, 0, 4);
+            
+            glTexImage2D(GL_TEXTURE_2D, mipLevel, GL_RGBA, mipWidth, mipHeight,
+                         0, GL_RGBA, GL_UNSIGNED_BYTE, mipMapData.get());
+            
+            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            {
+                return false;
+            }
+            
+            mipWidth /= 2;
+            mipHeight /= 2;
+            mipLevel++;
+        }
+        
         if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
         
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -107,18 +131,6 @@ namespace ouzel
         if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
-        }
-        
-        // Mipmaps are supported only for power-of-two sized textures
-        if (isPOT(static_cast<int>(width)) &&
-            isPOT(static_cast<int>(height)))
-        {
-            glGenerateMipmap(GL_TEXTURE_2D);
-            
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
-            {
-                return false;
-            }
         }
         
         glBindTexture(GL_TEXTURE_2D, 0);
