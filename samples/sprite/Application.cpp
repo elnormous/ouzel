@@ -50,10 +50,13 @@ namespace ouzel
         _sprite->play(true);
         _layer->addChild(_sprite);
         _sprite->setPosition(Vector2(-300.0f, 0.0f));
-        _sprite->animate(AnimatorPtr(new Sequence({
+
+        std::vector<AnimatorPtr> sequence = {
             AnimatorPtr(new MoveTo(4.0f, Vector2(300.0f, 0.0f))),
             AnimatorPtr(new FadeTo(2.0f, 0.4f))
-        })));
+        };
+
+        _sprite->animate(AnimatorPtr(new Sequence(sequence)));
         
         SpritePtr fire(new Sprite());
         fire->initFromFile("fire.json");
@@ -75,10 +78,13 @@ namespace ouzel
         
         LabelPtr label = std::make_shared<Label>("font.fnt", "testing fonts");
         _uiLayer->addChild(label);
-        label->animate(AnimatorPtr(AnimatorPtr(new Sequence({
+
+        std::vector<AnimatorPtr> sequence2 = {
             AnimatorPtr(new Animator(1.0f)), // delay
             AnimatorPtr(new Ease(AnimatorPtr(new MoveTo(4.0f, Vector2(0.0f, -240.0f))), Ease::Type::OUT, Ease::Func::ELASTIC))
-        }))));
+        };
+
+        label->animate(AnimatorPtr(AnimatorPtr(new Sequence(sequence2))));
         
         _button.reset(new Button());
         _button->init("button.png", "button.png", "button_down.png", "button_disabled.png", [this](VoidPtr sender) {
