@@ -81,7 +81,7 @@ namespace ouzel
 
         std::vector<AnimatorPtr> sequence2 = {
             AnimatorPtr(new Animator(1.0f)), // delay
-            AnimatorPtr(new Ease(AnimatorPtr(new MoveTo(4.0f, Vector2(0.0f, -240.0f))), Ease::Type::OUT, Ease::Func::ELASTIC))
+            AnimatorPtr(new Ease(AnimatorPtr(new MoveTo(2.0f, Vector2(0.0f, -240.0f))), Ease::Type::OUT, Ease::Func::BOUNCE))
         };
 
         label->animate(AnimatorPtr(AnimatorPtr(new Sequence(sequence2))));
