@@ -74,6 +74,6 @@ namespace ouzel
         RendererOGL();
         
         bool _ready = false;
-        GLuint _framebuffer;
+        GLuint _framebuffer = 0;
     };
 }
