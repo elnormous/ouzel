@@ -30,7 +30,6 @@ namespace ouzel
         virtual void update(float delta);
         
         virtual bool addChild(NodePtr const& node) override;
-        virtual bool removeChild(NodePtr const& node) override;
         
         virtual void setZ(float z);
         virtual float getZ() const { return _z; }

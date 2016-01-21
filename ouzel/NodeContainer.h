@@ -21,6 +21,7 @@ namespace ouzel
         
         virtual bool addChild(NodePtr const& node);
         virtual bool removeChild(NodePtr const& node);
+        virtual void removeAllChildren();
         virtual bool hasChild(NodePtr const& node) const;
         virtual const std::vector<NodePtr>& getChildren() const { return _children; }
         

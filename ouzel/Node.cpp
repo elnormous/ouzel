@@ -47,7 +47,6 @@ namespace ouzel
     {
         if (NodeContainer::addChild(node))
         {
-            node->_hasParent = true;
             node->addToLayer(_layer);
             
             if (_transformDirty)
@@ -58,22 +57,6 @@ namespace ouzel
             {
                 node->updateTransform(_transform);
             }
-            
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
-    bool Node::removeChild(NodePtr const& node)
-    {
-        if (NodeContainer::removeChild(node))
-        {
-            node->_hasParent = false;
-            node->removeFromLayer();
-            node->_layer.reset();
             
             return true;
         }

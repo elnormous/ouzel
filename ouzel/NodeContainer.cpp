@@ -25,6 +25,7 @@ namespace ouzel
     {
         if (!hasChild(node) && !node->hasParent())
         {
+            node->_hasParent = true;
             _children.push_back(node);
             
             return true;
@@ -54,6 +55,18 @@ namespace ouzel
         {
             return false;
         }
+    }
+    
+    void NodeContainer::removeAllChildren()
+    {
+        for (auto& node : _children)
+        {
+            node->removeFromLayer();
+            node->_hasParent = false;
+            node->_layer.reset();
+        }
+        
+        _children.clear();
     }
     
     bool NodeContainer::hasChild(NodePtr const& node) const

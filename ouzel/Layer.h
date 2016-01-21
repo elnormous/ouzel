@@ -27,7 +27,6 @@ namespace ouzel
         virtual void draw();
         
         virtual bool addChild(NodePtr const& node) override;
-        virtual bool removeChild(NodePtr const& node) override;
         
         void addNode(NodePtr const& node);
         void removeNode(NodePtr const& node);

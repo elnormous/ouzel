@@ -78,22 +78,6 @@ namespace ouzel
         }
     }
     
-    bool Layer::removeChild(NodePtr const& node)
-    {
-        if (NodeContainer::removeChild(node))
-        {
-            node->_hasParent = false;
-            node->removeFromLayer();
-            node->_layer.reset();
-            
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
     void Layer::addNode(NodePtr const& node)
     {
         std::vector<NodePtr>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](NodePtr const& p) {
