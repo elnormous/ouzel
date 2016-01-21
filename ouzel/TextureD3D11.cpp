@@ -153,8 +153,11 @@ namespace ouzel
 
             std::unique_ptr<uint8_t[]> mipMapData(new uint8_t[width * height * 4]);
 
-            while (mipWidth && mipHeight)
+            while (mipWidth >= 1 || mipHeight >= 1)
             {
+                if (mipWidth < 1) mipWidth = 1;
+                if (mipHeight < 1) mipHeight = 1;
+            
                 stbir_resize_uint8_generic(static_cast<const uint8_t*>(data), width, height, 0,
                                            mipMapData.get(), mipWidth, mipHeight, 0, 4,
                                            STBIR_ALPHA_CHANNEL_NONE, 0, STBIR_EDGE_CLAMP,
