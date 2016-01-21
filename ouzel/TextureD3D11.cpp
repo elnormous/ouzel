@@ -6,6 +6,7 @@
 #include "RendererD3D11.h"
 #include "Image.h"
 #include "Utils.h"
+#include "stb_image_resize.h"
 
 namespace ouzel
 {
@@ -72,7 +73,9 @@ namespace ouzel
         }
         else
         {
-            return uploadData(data);
+            return uploadData(data,
+                              static_cast<UINT>(size.width),
+                              static_cast<UINT>(size.height));
         }
     }
 
@@ -91,8 +94,8 @@ namespace ouzel
         textureDesc.CPUAccessFlags = _dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
         textureDesc.SampleDesc.Count = 1;
         textureDesc.SampleDesc.Quality = 0;
-        textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
-        textureDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+        textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE; // | D3D11_BIND_RENDER_TARGET;
+        textureDesc.MiscFlags = 0;
 
         HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &_texture);
         if (FAILED(hr) || !_texture)
@@ -128,20 +131,37 @@ namespace ouzel
             return false;
         }
 
-        rendererD3D11->getContext()->GenerateMips(_resourceView);
-
         _width = width;
         _height = height;
 
         return true;
     }
 
-    bool TextureD3D11::uploadData(const void* data)
+    bool TextureD3D11::uploadData(const void* data, UINT width, UINT height)
     {
         std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(Engine::getInstance()->getRenderer());
 
         UINT rowPitch = static_cast<UINT>(_width * 4);
         rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);
+
+        UINT mipWidth = width / 2;
+        UINT mipHeight = height / 2;
+        UINT mipLevel = 1;
+        UINT mipRowPitch = mipWidth * 4;
+
+        std::unique_ptr<uint8_t[]> mipMapData(new uint8_t[width * height * 4]);
+
+        while (mipWidth && mipHeight)
+        {
+            stbir_resize_uint8(static_cast<const uint8_t*>(data), width, height, 0, mipMapData.get(), mipWidth, mipHeight, 0, 4);
+
+            rendererD3D11->getContext()->UpdateSubresource(_texture, mipLevel, nullptr, mipMapData.get(), mipRowPitch, 0);
+
+            mipWidth /= 2;
+            mipHeight /= 2;
+            mipLevel++;
+            mipRowPitch = mipWidth * 4;
+        }
 
         return true;
     }
