@@ -4,6 +4,8 @@
 #include "Application.h"
 #include <cmath>
 
+using namespace std;
+
 namespace ouzel
 {    
     Application::~Application()
@@ -22,7 +24,7 @@ namespace ouzel
     
     void Application::begin()
     {
-        _eventHandler = std::make_shared<EventHandler>();
+        _eventHandler = make_shared<EventHandler>();
         
         _eventHandler->keyDownHandler = std::bind(&Application::handleKeyDown, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->mouseMoveHandler = std::bind(&Application::handleMouseMove, this, std::placeholders::_1, std::placeholders::_2);
@@ -36,57 +38,57 @@ namespace ouzel
         Engine::getInstance()->getRenderer()->setClearColor(Color(64, 0, 0));
         Engine::getInstance()->getRenderer()->setTitle("Sample");
         
-        ScenePtr scene(new Scene());
+        ScenePtr scene = make_shared<Scene>();
         Engine::getInstance()->getSceneManager()->setScene(scene);
         
-        _layer = std::make_shared<Layer>();
+        _layer = make_shared<Layer>();
         scene->addLayer(_layer);
         
-        _uiLayer = std::make_shared<Layer>();
+        _uiLayer = make_shared<Layer>();
         scene->addLayer(_uiLayer);
         
-        _sprite = std::make_shared<Sprite>();
+        _sprite = make_shared<Sprite>();
         _sprite->initFromFile("run.json");
         _sprite->play(true);
         _layer->addChild(_sprite);
         _sprite->setPosition(Vector2(-300.0f, 0.0f));
 
         std::vector<AnimatorPtr> sequence = {
-            AnimatorPtr(new MoveTo(4.0f, Vector2(300.0f, 0.0f))),
-            AnimatorPtr(new FadeTo(2.0f, 0.4f))
+            make_shared<MoveTo>(4.0f, Vector2(300.0f, 0.0f)),
+            make_shared<FadeTo>(2.0f, 0.4f)
         };
 
-        _sprite->animate(AnimatorPtr(new Sequence(sequence)));
+        _sprite->animate(make_shared<Sequence>(sequence));
         
-        SpritePtr fire(new Sprite());
+        SpritePtr fire = make_shared<Sprite>();
         fire->initFromFile("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
         _layer->addChild(fire);
-        fire->animate(AnimatorPtr(new FadeTo(5.0f, 0.5f)));
+        fire->animate(make_shared<FadeTo>(5.0f, 0.5f));
         
-        ParticleSystemPtr flame(new ParticleSystem());
+        ParticleSystemPtr flame = make_shared<ParticleSystem>();
         flame->initFromFile("flame.json");
         _layer->addChild(flame);
         
-        _witch = std::make_shared<Sprite>();
+        _witch = make_shared<Sprite>();
         _witch->initFromFile("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
         _layer->addChild(_witch);
-        _witch->animate(AnimatorPtr(new Repeat(AnimatorPtr(new RotateTo(1.0f, PI * 2.0f)), 3)));
+        _witch->animate(make_shared<Repeat>(make_shared<RotateTo>(1.0f, PI * 2.0f), 3));
         
-        LabelPtr label = std::make_shared<Label>("font.fnt", "testing fonts");
+        LabelPtr label = make_shared<Label>("font.fnt", "testing fonts");
         _uiLayer->addChild(label);
 
         std::vector<AnimatorPtr> sequence2 = {
-            AnimatorPtr(new Animator(1.0f)), // delay
-            AnimatorPtr(new Ease(AnimatorPtr(new MoveTo(2.0f, Vector2(0.0f, -240.0f))), Ease::Type::OUT, Ease::Func::BOUNCE))
+            make_shared<Animator>(1.0f), // delay
+            make_shared<Ease>(make_shared<MoveTo>(2.0f, Vector2(0.0f, -240.0f)), Ease::Type::OUT, Ease::Func::BOUNCE)
         };
 
-        label->animate(AnimatorPtr(AnimatorPtr(new Sequence(sequence2))));
+        label->animate(make_shared<Sequence>(sequence2));
         
-        _button.reset(new Button());
+        _button = make_shared<Button>();
         _button->init("button.png", "button.png", "button_down.png", "button_disabled.png", [this](VoidPtr sender) {
             _sprite->setVisible(!_sprite->isVisible());
         });
