@@ -135,6 +135,7 @@ namespace ouzel
     
     void RendererOGL::clear()
     {
+#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -145,6 +146,7 @@ namespace ouzel
         {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
+#endif
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         checkOpenGLErrors();
@@ -152,6 +154,7 @@ namespace ouzel
     
     void RendererOGL::flush()
     {
+#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -162,6 +165,7 @@ namespace ouzel
         {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
+#endif
         
         glFlush();
         checkOpenGLErrors();
@@ -244,6 +248,7 @@ namespace ouzel
         
         if (_activeShader)
         {
+#ifdef SUPPORTS_OPENGL // TODO: fix
             if (_activeRenderTarget)
             {
                 std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -254,6 +259,7 @@ namespace ouzel
             {
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
             }
+#endif
             
             std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
             
@@ -311,6 +317,7 @@ namespace ouzel
             return false;
         }
         
+#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -321,6 +328,7 @@ namespace ouzel
         {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
+#endif
         
         GLubyte indices[] = {0, 1};
         
@@ -367,6 +375,7 @@ namespace ouzel
             return false;
         }
         
+#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -377,6 +386,7 @@ namespace ouzel
         {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
+#endif
         
         GLubyte indices[] = {0, 1, 3, 2, 0};
         
@@ -425,6 +435,7 @@ namespace ouzel
             return false;
         }
         
+#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -435,6 +446,7 @@ namespace ouzel
         {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
+#endif
         
         GLubyte indices[] = {0, 1, 2, 1, 3, 2};
         
@@ -509,7 +521,9 @@ namespace ouzel
             return false;
         }
         
+#ifdef SUPPORTS_OPENGL // TODO: fix
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+#endif
         
         GLsizei width = static_cast<GLsizei>(_size.width);
         GLsizei height = static_cast<GLsizei>(_size.height);
