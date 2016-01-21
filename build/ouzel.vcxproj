@@ -23,6 +23,7 @@
     <ClCompile Include="..\ouzel\Animator.cpp" />
     <ClCompile Include="..\ouzel\BMFont.cpp" />
     <ClCompile Include="..\ouzel\Button.cpp" />
+    <ClCompile Include="..\ouzel\Cache.cpp" />
     <ClCompile Include="..\ouzel\Camera.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
     <ClCompile Include="..\ouzel\Ease.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="..\ouzel\App.h" />
     <ClInclude Include="..\ouzel\BMFont.h" />
     <ClInclude Include="..\ouzel\Button.h" />
+    <ClInclude Include="..\ouzel\Cache.h" />
     <ClInclude Include="..\ouzel\Camera.h" />
     <ClInclude Include="..\ouzel\Color.h" />
     <ClInclude Include="..\ouzel\ColorPSD3D11.h" />

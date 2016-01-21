@@ -15,6 +15,7 @@
 #include "Event.h"
 #include "SceneManager.h"
 #include "Camera.h"
+#include "Cache.h"
 #include "EventDispatcher.h"
 #include "stb_image_write.h"
 
@@ -605,7 +606,7 @@ namespace ouzel
 
         if (textureShader)
         {
-            _shaders[SHADER_TEXTURE] = textureShader;
+            Engine::getInstance()->getCache()->setShader(SHADER_TEXTURE, textureShader);
         }
 
         ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
@@ -614,7 +615,7 @@ namespace ouzel
 
         if (colorShader)
         {
-            _shaders[SHADER_COLOR] = colorShader;
+            Engine::getInstance()->getCache()->setShader(SHADER_COLOR, colorShader);
         }
 
         D3D11_VIEWPORT viewport = { 0, 0, _size.width, _size.height, 0.0f, 1.0f };
@@ -892,7 +893,7 @@ namespace ouzel
             return false;
         }
 
-        std::shared_ptr<ShaderD3D11> colorShader = std::static_pointer_cast<ShaderD3D11>(getShader(SHADER_COLOR));
+        std::shared_ptr<ShaderD3D11> colorShader = std::static_pointer_cast<ShaderD3D11>(Engine::getInstance()->getCache()->getShader(SHADER_COLOR));
 
         if (!colorShader)
         {
@@ -973,7 +974,7 @@ namespace ouzel
             return false;
         }
 
-        std::shared_ptr<ShaderD3D11> colorShader = std::static_pointer_cast<ShaderD3D11>(getShader(SHADER_COLOR));
+        std::shared_ptr<ShaderD3D11> colorShader = std::static_pointer_cast<ShaderD3D11>(Engine::getInstance()->getCache()->getShader(SHADER_COLOR));
 
         if (!colorShader)
         {
@@ -1054,7 +1055,7 @@ namespace ouzel
             return false;
         }
 
-        std::shared_ptr<ShaderD3D11> textureShader = std::static_pointer_cast<ShaderD3D11>(getShader(SHADER_TEXTURE));
+        std::shared_ptr<ShaderD3D11> textureShader = std::static_pointer_cast<ShaderD3D11>(Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE));
 
         if (!textureShader)
         {
