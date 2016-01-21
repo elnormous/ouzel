@@ -144,23 +144,26 @@ namespace ouzel
         UINT rowPitch = static_cast<UINT>(_width * 4);
         rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);
 
-        UINT mipWidth = width / 2;
-        UINT mipHeight = height / 2;
-        UINT mipLevel = 1;
-        UINT mipRowPitch = mipWidth * 4;
-
-        std::unique_ptr<uint8_t[]> mipMapData(new uint8_t[width * height * 4]);
-
-        while (mipWidth && mipHeight)
+        if (isPOT(width) && isPOT(height))
         {
-            stbir_resize_uint8(static_cast<const uint8_t*>(data), width, height, 0, mipMapData.get(), mipWidth, mipHeight, 0, 4);
+            UINT mipWidth = width / 2;
+            UINT mipHeight = height / 2;
+            UINT mipLevel = 1;
+            UINT mipRowPitch = mipWidth * 4;
 
-            rendererD3D11->getContext()->UpdateSubresource(_texture, mipLevel, nullptr, mipMapData.get(), mipRowPitch, 0);
+            std::unique_ptr<uint8_t[]> mipMapData(new uint8_t[width * height * 4]);
 
-            mipWidth /= 2;
-            mipHeight /= 2;
-            mipLevel++;
-            mipRowPitch = mipWidth * 4;
+            while (mipWidth && mipHeight)
+            {
+                stbir_resize_uint8(static_cast<const uint8_t*>(data), width, height, 0, mipMapData.get(), mipWidth, mipHeight, 0, 4);
+
+                rendererD3D11->getContext()->UpdateSubresource(_texture, mipLevel, nullptr, mipMapData.get(), mipRowPitch, 0);
+
+                mipWidth /= 2;
+                mipHeight /= 2;
+                mipLevel++;
+                mipRowPitch = mipWidth * 4;
+            }
         }
 
         return true;
