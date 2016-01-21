@@ -25,9 +25,9 @@ namespace ouzel
         if (_textureId) glDeleteTextures(1, &_textureId);
     }
     
-    bool TextureOGL::init(const Size2& size, bool dynamic)
+    bool TextureOGL::init(const Size2& size, bool dynamic, bool mipmaps)
     {
-        if (!Texture::init(size, dynamic))
+        if (!Texture::init(size, dynamic, mipmaps))
         {
             return false;
         }
@@ -51,9 +51,9 @@ namespace ouzel
         return true;
     }
     
-    bool TextureOGL::initFromData(const void* data, const Size2& size, bool dynamic)
+    bool TextureOGL::initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
     {
-        if (!Texture::initFromData(data, size, dynamic))
+        if (!Texture::initFromData(data, size, dynamic, mipmaps))
         {
             return false;
         }
@@ -109,7 +109,7 @@ namespace ouzel
             return false;
         }
         
-        if (isPOT(width) && isPOT(height))
+        if (_mipmaps && isPOT(width) && isPOT(height))
         {
             GLsizei mipWidth = width / 2;
             GLsizei mipHeight = height / 2;

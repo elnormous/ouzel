@@ -17,6 +17,9 @@ namespace ouzel
         ParticleSystem();
         virtual ~ParticleSystem();
         
+        virtual void draw();
+        virtual void update(float delta);
+        
         virtual bool initFromFile(const std::string& filename);
         
     protected:
@@ -91,7 +94,6 @@ namespace ouzel
 
         std::string _textureFilename;
         
-        
-        
+        std::shared_ptr<Texture> _texture;
     };
 }

@@ -169,19 +169,19 @@ namespace ouzel
         checkOpenGLErrors();
     }
     
-    TexturePtr RendererOGL::createTexture(Size2 const& size, bool dynamic)
+    TexturePtr RendererOGL::createTexture(Size2 const& size, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureOGL> texture(new TextureOGL());
-        texture->init(size, dynamic);
+        texture->init(size, dynamic, mipmaps);
         
         return texture;
     }
     
-    TexturePtr RendererOGL::loadTextureFromFile(const std::string& filename, bool dynamic)
+    TexturePtr RendererOGL::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureOGL> texture(new TextureOGL());
         
-        if (!texture->initFromFile(filename, dynamic))
+        if (!texture->initFromFile(filename, dynamic, mipmaps))
         {
             texture.reset();
         }
@@ -189,11 +189,11 @@ namespace ouzel
         return texture;
     }
     
-    TexturePtr RendererOGL::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    TexturePtr RendererOGL::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureOGL> texture(new TextureOGL());
         
-        if (!texture->initFromData(data, size, dynamic))
+        if (!texture->initFromData(data, size, dynamic, mipmaps))
         {
             texture.reset();
         }

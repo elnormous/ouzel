@@ -26,9 +26,9 @@ namespace ouzel
         if (_texture) _texture->Release();
     }
 
-    bool TextureD3D11::init(Size2 const& size, bool dynamic)
+    bool TextureD3D11::init(Size2 const& size, bool dynamic, bool mipmaps)
     {
-        if (!Texture::init(size, dynamic))
+        if (!Texture::init(size, dynamic, mipmaps))
         {
             return false;
         }
@@ -40,9 +40,9 @@ namespace ouzel
                              static_cast<UINT>(size.height));
     }
 
-    bool TextureD3D11::initFromData(const void* data, const Size2& size, bool dynamic)
+    bool TextureD3D11::initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
     {
-        if (!Texture::initFromData(data, size, dynamic))
+        if (!Texture::initFromData(data, size, dynamic, mipmaps))
         {
             return false;
         }
@@ -144,7 +144,7 @@ namespace ouzel
         UINT rowPitch = static_cast<UINT>(_width * 4);
         rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);
 
-        if (isPOT(width) && isPOT(height))
+        if (_mipmaps && isPOT(width) && isPOT(height))
         {
             UINT mipWidth = width / 2;
             UINT mipHeight = height / 2;

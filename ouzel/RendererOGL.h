@@ -54,9 +54,9 @@ namespace ouzel
         virtual void clear() override;
         virtual void flush() override;
         
-        virtual TexturePtr createTexture(Size2 const& size, bool dynamic) override;
-        virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic) override;
-        virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic) override;
+        virtual TexturePtr createTexture(Size2 const& size, bool dynamic, bool mipmaps = true) override;
+        virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
+        virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
         
         virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes) override;
         virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;

@@ -23,6 +23,16 @@ namespace ouzel
         
     }
     
+    void ParticleSystem::draw()
+    {
+        Node::draw();
+    }
+    
+    void ParticleSystem::update(float delta)
+    {
+        Node::update(delta);
+    }
+    
     bool ParticleSystem::initFromFile(const std::string& filename)
     {
         File file(filename, File::Mode::READ, false);
@@ -105,9 +115,16 @@ namespace ouzel
             if (document.HasMember("finishColorVarianceBlue")) _finishColorVarianceBlue = static_cast<float>(document["finishColorVarianceBlue"].GetDouble());
             if (document.HasMember("finishColorVarianceAlpha")) _finishColorVarianceAlpha = static_cast<float>(document["finishColorVarianceAlpha"].GetDouble());
             
-            if (document.HasMember("textureFilename")) _textureFilename = document["textureFilename"].GetString();
+            if (document.HasMember("textureFileName")) _textureFilename = document["textureFileName"].GetString();
         }
         else
+        {
+            return false;
+        }
+        
+        _texture = Engine::getInstance()->getRenderer()->loadTextureFromFile(_textureFilename);
+        
+        if (!_texture)
         {
             return false;
         }

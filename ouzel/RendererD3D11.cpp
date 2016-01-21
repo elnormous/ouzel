@@ -710,11 +710,11 @@ namespace ouzel
         SetWindowTextW(_window, titleBuffer);
     }
 
-    TexturePtr RendererD3D11::createTexture(Size2 const& size, bool dynamic)
+    TexturePtr RendererD3D11::createTexture(Size2 const& size, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
 
-        if (!texture->init(size, dynamic))
+        if (!texture->init(size, dynamic, mipmaps))
         {
             texture.reset();
         }
@@ -722,11 +722,11 @@ namespace ouzel
         return texture;
     }
 
-    TexturePtr RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
+    TexturePtr RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
 
-        if (!texture->initFromFile(filename, dynamic))
+        if (!texture->initFromFile(filename, dynamic, mipmaps))
         {
             texture.reset();
         }
@@ -734,11 +734,11 @@ namespace ouzel
         return texture;
     }
 
-    TexturePtr RendererD3D11::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    TexturePtr RendererD3D11::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
 
-        if (!texture->initFromData(data, size, dynamic))
+        if (!texture->initFromData(data, size, dynamic, mipmaps))
         {
             texture.reset();
         }

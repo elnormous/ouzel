@@ -82,7 +82,7 @@ namespace ouzel
     
     
     
-    TexturePtr Renderer::createTexture(Size2 const& size, bool dynamic)
+    TexturePtr Renderer::createTexture(Size2 const& size, bool dynamic, bool mipmaps)
     {
         TexturePtr texture(new Texture());
         texture->init(size, dynamic);
@@ -97,7 +97,7 @@ namespace ouzel
         return true;
     }
     
-    TexturePtr Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)
+    TexturePtr Renderer::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
     {
         TexturePtr texture(new Texture());
         
@@ -109,7 +109,7 @@ namespace ouzel
         return texture;
     }
     
-    TexturePtr Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    TexturePtr Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
     {
         TexturePtr texture(new Texture());
         
