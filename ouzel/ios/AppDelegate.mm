@@ -5,6 +5,7 @@
 #import "ViewController.h"
 #import "OpenGLView.h"
 #include "Engine.h"
+#include "Cache.h"
 
 @implementation AppDelegate
 
@@ -52,7 +53,7 @@
 
 -(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    ouzel::Engine::getInstance()->getRenderer()->releaseTextures();
+    ouzel::Engine::getInstance()->getCache()->releaseTextures();
 }
 
 @end

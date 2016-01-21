@@ -80,10 +80,7 @@ namespace ouzel
         }
     }
     
-    void Renderer::releaseTextures()
-    {
-        _textures.clear();
-    }
+    
     
     TexturePtr Renderer::createTexture(Size2 const& size, bool dynamic)
     {
@@ -91,44 +88,6 @@ namespace ouzel
         texture->init(size, dynamic);
         
         return texture;
-    }
-    
-    void Renderer::preloadTexture(const std::string& filename, bool dynamic)
-    {
-        std::unordered_map<std::string, TexturePtr>::const_iterator i = _textures.find(filename);
-        
-        if (i == _textures.end())
-        {
-            TexturePtr texture = loadTextureFromFile(filename, dynamic);
-            
-            if (texture)
-            {
-                _textures[filename] = texture;
-            }
-        }
-    }
-
-    TexturePtr Renderer::getTexture(const std::string& filename)
-    {
-        TexturePtr result;
-        
-        std::unordered_map<std::string, TexturePtr>::const_iterator i = _textures.find(filename);
-        
-        if (i != _textures.end())
-        {
-            return i->second;
-        }
-        else
-        {
-            result = loadTextureFromFile(filename);
-            
-            if (result)
-            {
-                _textures[filename] = result;
-            }
-        }
-            
-        return result;
     }
     
     bool Renderer::activateTexture(TexturePtr const& texture, uint32_t layer)
@@ -177,25 +136,6 @@ namespace ouzel
     void Renderer::activateRenderTarget(RenderTargetPtr renderTarget)
     {
         _activeRenderTarget = renderTarget;
-    }
-    
-    ShaderPtr Renderer::getShader(const std::string& shaderName) const
-    {
-        std::unordered_map<std::string, ShaderPtr>::const_iterator i = _shaders.find(shaderName);
-        
-        if (i != _shaders.end())
-        {
-            return i->second;
-        }
-        else
-        {
-            return nullptr;
-        }
-    }
-    
-    void Renderer::setShader(const std::string& shaderName, ShaderPtr shader)
-    {
-        _shaders[shaderName] = shader;
     }
     
     ShaderPtr Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)

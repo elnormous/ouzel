@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "Camera.h"
 #include "BMFont.h"
+#include "Cache.h"
 
 namespace ouzel
 {
@@ -19,7 +20,7 @@ namespace ouzel
         
         _meshBuffer = bmFont.createMeshBuffer(text, Color(255, 255, 255, 255), textAnchor);
         
-        _shader = Engine::getInstance()->getRenderer()->getShader(SHADER_TEXTURE);
+        _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
         
 #ifdef OUZEL_PLATFORM_WINDOWS
         _uniModelViewProj = 0;

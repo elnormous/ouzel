@@ -16,6 +16,7 @@
 #include "FileSystem.h"
 #include "File.h"
 #include "Layer.h"
+#include "Cache.h"
 
 namespace ouzel
 {
@@ -41,7 +42,7 @@ namespace ouzel
         }
         else
         {
-            _texture = Engine::getInstance()->getRenderer()->getTexture(filename);
+            _texture = Engine::getInstance()->getCache()->getTexture(filename);
             
             if (!_texture)
             {
@@ -57,7 +58,7 @@ namespace ouzel
             addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
         }
         
-        _shader = Engine::getInstance()->getRenderer()->getShader(SHADER_TEXTURE);
+        _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
         
         if (!_shader)
         {
@@ -95,7 +96,7 @@ namespace ouzel
             Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
                               static_cast<float>(sizeObject["h"].GetInt()));
             
-            _texture = Engine::getInstance()->getRenderer()->getTexture(metaObject["image"].GetString());
+            _texture = Engine::getInstance()->getCache()->getTexture(metaObject["image"].GetString());
             
             const rapidjson::Value& framesArray = document["frames"];
             

@@ -436,6 +436,12 @@
 		30B328871C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
 		30B328881C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
 		30B328891C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
+		30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
+		30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
+		30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
+		30DADE9F1C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
+		30DADEA01C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
+		30DADEA11C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -624,6 +630,8 @@
 		305B99C71C451962008589E1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
+		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
+		30DADE9B1C5167BC001A63B4 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -796,6 +804,8 @@
 			isa = PBXGroup;
 			children = (
 				3036475F1C3F210F0024DB5B /* App.h */,
+				30DADE9A1C5167BC001A63B4 /* Cache.cpp */,
+				30DADE9B1C5167BC001A63B4 /* Cache.h */,
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
@@ -1092,6 +1102,7 @@
 				303B75431C2A3C9200FEDE92 /* MeshBuffer.h in Headers */,
 				30575AD11C3B175D0009C8A7 /* Label.h in Headers */,
 				303647181C3DFEAF0024DB5B /* Gamepad.h in Headers */,
+				30DADEA01C5167BC001A63B4 /* Cache.h in Headers */,
 				30575AC91C3B17540009C8A7 /* Button.h in Headers */,
 				3031A0BA1C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.h in Headers */,
@@ -1163,6 +1174,7 @@
 				303B76631C355A3B00FEDE92 /* Engine.h in Headers */,
 				30575AD21C3B175D0009C8A7 /* Label.h in Headers */,
 				303647191C3DFEAF0024DB5B /* Gamepad.h in Headers */,
+				30DADEA11C5167BC001A63B4 /* Cache.h in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.h in Headers */,
 				3031A0BB1C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.h in Headers */,
@@ -1231,6 +1243,7 @@
 				304A8E501C237C70008B1151 /* ouzel.h in Headers */,
 				30575ABF1C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				303647641C3F218E0024DB5B /* Settings.h in Headers */,
+				30DADE9F1C5167BC001A63B4 /* Cache.h in Headers */,
 				3047F7721C4D2C3900774E3D /* Parallel.h in Headers */,
 				3036471F1C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.h in Headers */,
@@ -1549,6 +1562,7 @@
 				30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B75401C2A3C9200FEDE92 /* Image.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
+				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */,
 				303B753E1C2A3C9200FEDE92 /* Color.cpp in Sources */,
 				303B757B1C2A43D700FEDE92 /* ShaderOGL.cpp in Sources */,
@@ -1622,6 +1636,7 @@
 				30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
 				303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */,
+				30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B764E1C355A3B00FEDE92 /* Color.cpp in Sources */,
 				303B764F1C355A3B00FEDE92 /* ShaderOGL.cpp in Sources */,
 				303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */,
@@ -1697,6 +1712,7 @@
 				304A8E511C237C70008B1151 /* Camera.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				303B75211C29EFEC00FEDE92 /* AppDelegate.mm in Sources */,
+				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				304A8E8E1C26EA8B008B1151 /* ShaderOGL.cpp in Sources */,
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
 				30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,

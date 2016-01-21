@@ -19,6 +19,9 @@ namespace ouzel
     class EventDispatcher;
     typedef std::shared_ptr<EventDispatcher> EventDispatcherPtr;
     
+    class Cache;
+    typedef std::shared_ptr<Cache> CachePtr;
+    
     class Renderer;
     typedef std::shared_ptr<Renderer> RendererPtr;
     

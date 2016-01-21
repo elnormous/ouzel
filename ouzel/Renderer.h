@@ -58,10 +58,7 @@ namespace ouzel
         virtual const std::string& getTitle() const { return _title; }
         virtual void setTitle(const std::string& title);
         
-        virtual void releaseTextures();
         virtual TexturePtr createTexture(Size2 const& size, bool dynamic);
-        virtual void preloadTexture(const std::string& filename, bool dynamic = false);
-        TexturePtr getTexture(const std::string& filename);
         virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false);
         virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic = false);
         virtual bool activateTexture(TexturePtr const& texture, uint32_t layer);
@@ -69,8 +66,6 @@ namespace ouzel
         virtual RenderTargetPtr createRenderTarget(Size2 const& size, bool depthBuffer);
         virtual void activateRenderTarget(RenderTargetPtr renderTarget);
         
-        ShaderPtr getShader(const std::string& shaderName) const;
-        void setShader(const std::string& shaderName, ShaderPtr shader);
         virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
         virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
         virtual bool activateShader(ShaderPtr const& shader);
@@ -95,9 +90,6 @@ namespace ouzel
         Driver _driver;
         
         Color _clearColor;
-        
-        std::unordered_map<std::string, TexturePtr> _textures;
-        std::unordered_map<std::string, ShaderPtr> _shaders;
         
         TexturePtr _activeTextures[TEXTURE_LAYERS];
         ShaderPtr _activeShader;

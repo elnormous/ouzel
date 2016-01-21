@@ -7,6 +7,7 @@
 #include "ShaderOGL.h"
 #include "MeshBufferOGL.h"
 #include "Engine.h"
+#include "Cache.h"
 #include "Utils.h"
 #include "stb_image_write.h"
 
@@ -72,13 +73,13 @@ namespace ouzel
         ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
         if (textureShader)
         {
-            _shaders[SHADER_TEXTURE] = textureShader;
+            Engine::getInstance()->getCache()->setShader(SHADER_TEXTURE, textureShader);
         }
         
         ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
         if (colorShader)
         {
-            _shaders[SHADER_COLOR] = colorShader;
+            Engine::getInstance()->getCache()->setShader(SHADER_COLOR, colorShader);
         }
         
         _ready = true;
@@ -337,7 +338,7 @@ namespace ouzel
             return false;
         }
         
-        std::shared_ptr<ShaderOGL> colorShader = std::static_pointer_cast<ShaderOGL>(getShader(SHADER_COLOR));
+        std::shared_ptr<ShaderOGL> colorShader = std::static_pointer_cast<ShaderOGL>(Engine::getInstance()->getCache()->getShader(SHADER_COLOR));
         
         if (!colorShader)
         {
@@ -395,7 +396,7 @@ namespace ouzel
             return false;
         }
         
-        std::shared_ptr<ShaderOGL> colorShader = std::static_pointer_cast<ShaderOGL>(getShader(SHADER_COLOR));
+        std::shared_ptr<ShaderOGL> colorShader = std::static_pointer_cast<ShaderOGL>(Engine::getInstance()->getCache()->getShader(SHADER_COLOR));
         
         if (!colorShader)
         {
@@ -453,7 +454,7 @@ namespace ouzel
             return false;
         }
         
-        std::shared_ptr<ShaderOGL> textureShader = std::static_pointer_cast<ShaderOGL>(getShader(SHADER_TEXTURE));
+        std::shared_ptr<ShaderOGL> textureShader = std::static_pointer_cast<ShaderOGL>(Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE));
         
         if (!textureShader)
         {

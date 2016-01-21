@@ -9,6 +9,7 @@
 #include "Engine.h"
 #include "FileSystem.h"
 #include "Vertex.h"
+#include "Cache.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -68,7 +69,7 @@ namespace ouzel
                             value = value.substr(1, value.length() - 2);
                         }
                         
-                        _texture = Engine::getInstance()->getRenderer()->getTexture(value);
+                        _texture = Engine::getInstance()->getCache()->getTexture(value);
                     }
                 }
             }

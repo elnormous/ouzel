@@ -3,6 +3,7 @@
 
 #include "Engine.h"
 #include "CompileConfig.h"
+#include "Cache.h"
 
 #if defined(SUPPORTS_OPENGL) || defined(SUPPORTS_OPENGLES)
 #include "RendererOGL.h"
@@ -84,6 +85,7 @@ namespace ouzel
 #endif
         
         _eventDispatcher.reset(new EventDispatcher());
+        _cache.reset(new Cache());
         _fileSystem.reset(new FileSystem());
         _sceneManager.reset(new SceneManager());
         
@@ -132,6 +134,7 @@ namespace ouzel
         _app.reset();
         // remove the active scene
         _sceneManager->setScene(ScenePtr());
+        _cache.reset();
     }
     
     void Engine::run()
