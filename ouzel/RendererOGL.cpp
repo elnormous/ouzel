@@ -46,9 +46,10 @@ namespace ouzel
         
     }
     
-    bool RendererOGL::initOpenGL(uint32_t width, uint32_t height)
+    bool RendererOGL::initOpenGL(uint32_t width, uint32_t height, GLuint framebuffer)
     {
         Size2 size(static_cast<float>(width), static_cast<float>(height));
+        _framebuffer = framebuffer;
         
         //glEnable(GL_DEPTH_TEST);
         glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
@@ -135,7 +136,6 @@ namespace ouzel
     
     void RendererOGL::clear()
     {
-#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -144,9 +144,8 @@ namespace ouzel
         }
         else
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
         }
-#endif
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         checkOpenGLErrors();
@@ -154,7 +153,6 @@ namespace ouzel
     
     void RendererOGL::flush()
     {
-#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -163,9 +161,8 @@ namespace ouzel
         }
         else
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
         }
-#endif
         
         glFlush();
         checkOpenGLErrors();
@@ -248,7 +245,6 @@ namespace ouzel
         
         if (_activeShader)
         {
-#ifdef SUPPORTS_OPENGL // TODO: fix
             if (_activeRenderTarget)
             {
                 std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -257,9 +253,8 @@ namespace ouzel
             }
             else
             {
-                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
             }
-#endif
             
             std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
             
@@ -282,7 +277,7 @@ namespace ouzel
                 }
                 else
                 {
-                    glBindTexture(GL_TEXTURE_2D, 0);
+                    glBindTexture(GL_TEXTURE_2D, _framebuffer);
                 }
             }
             
@@ -317,7 +312,6 @@ namespace ouzel
             return false;
         }
         
-#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -326,9 +320,8 @@ namespace ouzel
         }
         else
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
         }
-#endif
         
         GLubyte indices[] = {0, 1};
         
@@ -375,7 +368,6 @@ namespace ouzel
             return false;
         }
         
-#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -384,9 +376,8 @@ namespace ouzel
         }
         else
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
         }
-#endif
         
         GLubyte indices[] = {0, 1, 3, 2, 0};
         
@@ -435,7 +426,6 @@ namespace ouzel
             return false;
         }
         
-#ifdef SUPPORTS_OPENGL // TODO: fix
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -444,9 +434,8 @@ namespace ouzel
         }
         else
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
         }
-#endif
         
         GLubyte indices[] = {0, 1, 2, 1, 3, 2};
         
@@ -490,7 +479,7 @@ namespace ouzel
             }
             else
             {
-                glBindTexture(GL_TEXTURE_2D, 0);
+                glBindTexture(GL_TEXTURE_2D, _framebuffer);
             }
         }
         
@@ -521,9 +510,7 @@ namespace ouzel
             return false;
         }
         
-#ifdef SUPPORTS_OPENGL // TODO: fix
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-#endif
+        glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
         
         GLsizei width = static_cast<GLsizei>(_size.width);
         GLsizei height = static_cast<GLsizei>(_size.height);

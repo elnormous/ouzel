@@ -31,15 +31,32 @@ using namespace ouzel;
         
         [self makeContextCurrent];
         
-        [self setupRenderBuffer];
-        [self setupFrameBuffer];
+        // render buffer
+        glGenRenderbuffers(1, &_colorRenderBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+        [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
         
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
+        
+        // frame buffer
+        glGenFramebuffers(1, &_frameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                                  GL_RENDERBUFFER, _colorRenderBuffer);
+        
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        {
+            log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+        }
+        
+        // display link
         _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
         [_displayLink setFrameInterval: 1.0f];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         
         std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
-        renderer->initOpenGL(backingWidth, backingHeight);
+        renderer->initOpenGL(backingWidth, backingHeight, _frameBuffer);
     }
     
     return self;
@@ -69,29 +86,6 @@ using namespace ouzel;
     {
         NSLog(@"Failed to set current OpenGL context");
         exit(1);
-    }
-}
-
--(void)setupRenderBuffer
-{
-    glGenRenderbuffers(1, &_colorRenderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
-    [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
-    
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
-}
-
--(void)setupFrameBuffer
-{
-    glGenFramebuffers(1, &_frameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                              GL_RENDERBUFFER, _colorRenderBuffer);
-    
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-    {
-        log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
     }
 }
 

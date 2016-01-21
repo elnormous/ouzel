@@ -96,7 +96,7 @@ using namespace ouzel;
 -(void)prepareOpenGL
 {
     std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
-    renderer->initOpenGL(_frame.size.width, _frame.size.height);
+    renderer->initOpenGL(_frame.size.width, _frame.size.height, 0);
 }
 
 -(void)idle:(NSTimer*)timer
