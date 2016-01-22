@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "Vector2.h"
+
 namespace ouzel
 {
     class Matrix;
@@ -70,6 +72,10 @@ namespace ouzel
          * @param copy The vector to copy.
          */
         Vector3(const Vector3& copy);
+        
+        Vector3(const Vector2& v);
+        
+        Vector3& operator=(const Vector2& v);
         
         /**
          * Creates a new vector from an integer interpreted as an RGB value.

@@ -186,9 +186,11 @@ namespace ouzel
         
         _frameVertices.push_back(vertices);
         
-        _frameMeshBuffers.push_back(Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
-                                                                              vertices.data(), sizeof(VertexPCT), static_cast<uint32_t>(vertices.size()), true,
-                                                                              VertexPCT::ATTRIBUTES));
+        _frameMeshBuffers.push_back(Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
+                                                                                           static_cast<uint32_t>(indices.size()), false,
+                                                                                           vertices.data(), sizeof(VertexPCT),
+                                                                                           static_cast<uint32_t>(vertices.size()), true,
+                                                                                           VertexPCT::ATTRIBUTES));
     }
 
     void Sprite::update(float delta)

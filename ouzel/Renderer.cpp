@@ -80,8 +80,6 @@ namespace ouzel
         }
     }
     
-    
-    
     TexturePtr Renderer::createTexture(Size2 const& size, bool dynamic, bool mipmaps)
     {
         TexturePtr texture(new Texture());

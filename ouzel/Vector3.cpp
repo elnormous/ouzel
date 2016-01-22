@@ -33,6 +33,20 @@ namespace ouzel
         set(copy);
     }
     
+    Vector3::Vector3(const Vector2& v)
+    {
+        set(v.x, v.y, 0.0f);
+    }
+    
+    Vector3& Vector3::operator=(const Vector2& v)
+    {
+        x = v.x;
+        y = v.y;
+        z = 0.0f;
+        
+        return *this;
+    }
+    
     Vector3 Vector3::fromColor(unsigned int color)
     {
         float components[3];
