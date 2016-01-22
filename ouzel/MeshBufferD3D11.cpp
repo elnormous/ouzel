@@ -45,8 +45,6 @@ namespace ouzel
             default: log("Invalid index size"); return false;
         }
 
-        _indexCount = static_cast<UINT>(indexCount);
-
         uint32_t size = 0;
 
         if (vertexAttributes & VERTEX_POSITION) size += 3 * sizeof(float);

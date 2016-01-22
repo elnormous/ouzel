@@ -41,7 +41,6 @@ namespace ouzel
         GLuint getIndexBufferId() const { return _indexBufferId; }
         GLuint getVertexArrayId() const { return _vertexArrayId; }
         
-        GLsizei getIndexCount() const { return _indexCount; }
         GLenum getIndexFormat() const { return _indexFormat; }
         
     protected:
@@ -53,7 +52,6 @@ namespace ouzel
         GLuint _indexBufferId = 0;
         GLuint _vertexBufferId = 0;
         
-        GLsizei _indexCount = 0;
         GLenum _indexFormat = 0;
     };
 }

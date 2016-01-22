@@ -24,7 +24,6 @@ namespace ouzel
         ID3D11Buffer* getIndexBuffer() const { return _indexBuffer; }
         ID3D11Buffer* getVertexBuffer() const { return _vertexBuffer; }
 
-        UINT getIndexCount() const { return _indexCount; }
         DXGI_FORMAT getIndexFormat() const { return _indexFormat; }
 
     protected:
@@ -41,7 +40,6 @@ namespace ouzel
         ID3D11Buffer* _vertexBuffer = nullptr;
         uint32_t _vertexBufferSize = 0;
 
-        UINT _indexCount = 0;
         DXGI_FORMAT _indexFormat = DXGI_FORMAT_UNKNOWN;
     };
 }

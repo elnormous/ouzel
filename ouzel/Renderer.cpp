@@ -179,11 +179,16 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool Renderer::drawMeshBuffer(MeshBufferPtr const& meshBuffer)
+    bool Renderer::drawMeshBuffer(MeshBufferPtr const& meshBuffer, uint32_t indexCount)
     {
         if (_activeShader)
         {
             if (meshBuffer->getVertexAttributes() != _activeShader->getVertexAttributes())
+            {
+                return false;
+            }
+            
+            if (indexCount > meshBuffer->getIndexCount())
             {
                 return false;
             }

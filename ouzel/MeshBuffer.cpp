@@ -23,9 +23,11 @@ namespace ouzel
         OUZEL_UNUSED(vertices);
         OUZEL_UNUSED(vertexCount);
         
+        _indexCount = indexCount;
         _indexSize = indexSize;
         _dynamicIndexBuffer = dynamicIndexBuffer;
         
+        _vertexCount = vertexCount;
         _vertexSize = vertexSize;
         _dynamicVertexBuffer = dynamicVertexBuffer;
         
@@ -37,7 +39,8 @@ namespace ouzel
     bool MeshBuffer::uploadIndices(const void* indices, uint32_t indexCount)
     {
         OUZEL_UNUSED(indices);
-        OUZEL_UNUSED(indexCount);
+        
+        _indexCount = indexCount;
         
         if (!_dynamicIndexBuffer)
         {
@@ -50,7 +53,8 @@ namespace ouzel
     bool MeshBuffer::uploadVertices(const void* vertices, uint32_t vertexCount)
     {
         OUZEL_UNUSED(vertices);
-        OUZEL_UNUSED(vertexCount);
+        
+        _vertexCount = vertexCount;
         
         if (!_dynamicVertexBuffer)
         {

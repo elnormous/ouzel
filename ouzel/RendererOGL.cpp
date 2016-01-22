@@ -237,7 +237,7 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool RendererOGL::drawMeshBuffer(MeshBufferPtr const& meshBuffer)
+    bool RendererOGL::drawMeshBuffer(MeshBufferPtr const& meshBuffer, uint32_t indexCount)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
@@ -289,9 +289,14 @@ namespace ouzel
             
             std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(meshBuffer);
             
+            if (indexCount == 0)
+            {
+                indexCount = meshBufferOGL->getIndexCount();
+            }
+            
             glBindVertexArray(meshBufferOGL->getVertexArrayId());
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-            glDrawElements(GL_TRIANGLES, meshBufferOGL->getIndexCount(), meshBufferOGL->getIndexFormat(), nullptr);
+            glDrawElements(GL_TRIANGLES, indexCount, meshBufferOGL->getIndexFormat(), nullptr);
             
             if (checkOpenGLErrors())
             {

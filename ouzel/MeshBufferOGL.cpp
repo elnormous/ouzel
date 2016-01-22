@@ -52,8 +52,6 @@ namespace ouzel
             default: log("Invalid index size"); return false;
         }
         
-        _indexCount = indexCount;
-        
         glGenVertexArrays(1, &_vertexArrayId);
         glBindVertexArray(_vertexArrayId);
         
@@ -138,8 +136,6 @@ namespace ouzel
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexSize * indexCount, indices,
                      _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-        
-        _indexCount = indexCount;
         
         if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {

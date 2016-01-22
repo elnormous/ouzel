@@ -782,7 +782,7 @@ namespace ouzel
         return meshBuffer;
     }
 
-    bool RendererD3D11::drawMeshBuffer(MeshBufferPtr const& meshBuffer)
+    bool RendererD3D11::drawMeshBuffer(MeshBufferPtr const& meshBuffer, uint32_t indexCount)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
@@ -837,6 +837,11 @@ namespace ouzel
             _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
 
             std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(meshBuffer);
+            
+            if (indexCount == 0)
+            {
+                indexCount = meshBufferD3D11->getIndexCount();
+            }
 
             _context->RSSetState(_rasterizerState);
             _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
@@ -849,7 +854,7 @@ namespace ouzel
             _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
             _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-            _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
+            _context->DrawIndexed(indexCount, 0, 0);
         }
         else
         {
