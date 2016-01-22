@@ -782,7 +782,7 @@ namespace ouzel
         return meshBuffer;
     }
 
-    bool RendererD3D11::drawMeshBuffer(MeshBufferPtr const& meshBuffer, uint32_t indexCount)
+    bool RendererD3D11::drawMeshBuffer(MeshBufferPtr const& meshBuffer, uint32_t indexCount, DrawMode drawMode)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
@@ -852,7 +852,19 @@ namespace ouzel
             UINT offset = 0;
             _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
             _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
-            _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            
+            D3D_PRIMITIVE_TOPOLOGY topology;
+            
+            switch (drawMode)
+            {
+                case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
+                case DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
+                case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
+                case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
+                case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
+            }
+            
+            _context->IASetPrimitiveTopology(topology);
 
             _context->DrawIndexed(indexCount, 0, 0);
         }
