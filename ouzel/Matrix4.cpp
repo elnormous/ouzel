@@ -119,7 +119,7 @@ namespace ouzel
         assert(zFarPlane != zNearPlane);
         
         float f_n = 1.0f / (zFarPlane - zNearPlane);
-        float theta = MATH_DEG_TO_RAD(fieldOfView) * 0.5f;
+        float theta = DEG_TO_RAD(fieldOfView) * 0.5f;
         if (fabs(fmod(theta, PIOVER2)) < EPSILON)
         {
             //GP_ERROR("Invalid field of view value (%d) causes attempted calculation tan(%d), which is undefined.", fieldOfView, theta);
