@@ -295,8 +295,8 @@ namespace ouzel
         dst[2] = z;
     }
 
-    bool linesIntersect(Vector2 const& p0, Vector2 const& p1,
-                        Vector2 const& p2, Vector2 const& p3)
+    bool linesIntersect(const Vector2& p0, const Vector2& p1,
+                        const Vector2& p2, const Vector2& p3)
     {
         Vector2 s1(p1.x - p0.x, p1.y - p0.y), s2(p3.x - p2.x, p3.y - p2.y);
         

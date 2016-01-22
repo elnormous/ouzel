@@ -22,7 +22,7 @@ namespace ouzel
         if (_framebufferId) glDeleteFramebuffers(1, &_framebufferId);
     }
     
-    bool RenderTargetOGL::init(Size2 const& size, bool depthBuffer)
+    bool RenderTargetOGL::init(const Size2& size, bool depthBuffer)
     {
         if (RenderTarget::init(size, depthBuffer))
         {

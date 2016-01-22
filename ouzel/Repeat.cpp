@@ -5,7 +5,7 @@
 
 namespace ouzel
 {
-    Repeat::Repeat(AnimatorPtr const& animator, uint32_t count):
+    Repeat::Repeat(const AnimatorPtr& animator, uint32_t count):
         Animator(animator->getLength() * static_cast<float>(count)), _animator(animator), _count(count)
     {
         
@@ -44,7 +44,7 @@ namespace ouzel
         }
     }
     
-    void Repeat::start(NodePtr const& node)
+    void Repeat::start(const NodePtr& node)
     {
         Animator::start(node);
         

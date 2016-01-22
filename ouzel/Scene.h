@@ -22,9 +22,9 @@ namespace ouzel
         virtual void update(float delta);
         virtual void draw();
         
-        void addLayer(LayerPtr const& layer);
-        void removeLayer(LayerPtr const& layer);
-        bool hasLayer(LayerPtr const& layer) const;
+        void addLayer(const LayerPtr& layer);
+        void removeLayer(const LayerPtr& layer);
+        bool hasLayer(const LayerPtr& layer) const;
         const std::vector<LayerPtr>& getLayers() const { return _layers; }
         
         virtual void recalculateProjection();

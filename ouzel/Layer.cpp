@@ -38,7 +38,7 @@ namespace ouzel
     {
         if (_reorderNodes)
         {
-            std::sort(_nodes.begin(), _nodes.end(), [](NodePtr const& a, NodePtr const& b) {
+            std::sort(_nodes.begin(), _nodes.end(), [](const NodePtr& a, const NodePtr& b) {
                 return a->getZ() > b->getZ();
             });
             
@@ -62,7 +62,7 @@ namespace ouzel
         }
     }
     
-    bool Layer::addChild(NodePtr const& node)
+    bool Layer::addChild(const NodePtr& node)
     {
         if (NodeContainer::addChild(node))
         {
@@ -78,9 +78,9 @@ namespace ouzel
         }
     }
     
-    void Layer::addNode(NodePtr const& node)
+    void Layer::addNode(const NodePtr& node)
     {
-        std::vector<NodePtr>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](NodePtr const& p) {
+        std::vector<NodePtr>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](const NodePtr& p) {
             return p.get() == node.get();
         });
         
@@ -91,7 +91,7 @@ namespace ouzel
         }
     }
     
-    void Layer::removeNode(NodePtr const& node)
+    void Layer::removeNode(const NodePtr& node)
     {
         if (_locked)
         {
@@ -99,7 +99,7 @@ namespace ouzel
         }
         else
         {
-            std::vector<NodePtr>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](NodePtr const& p) {
+            std::vector<NodePtr>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](const NodePtr& p) {
                 return p.get() == node.get();
             });
             
@@ -115,7 +115,7 @@ namespace ouzel
         _reorderNodes = true;
     }
     
-    void Layer::setCamera(CameraPtr const& camera)
+    void Layer::setCamera(const CameraPtr& camera)
     {
         _camera = camera;
     }
@@ -206,7 +206,7 @@ namespace ouzel
         }
     }
     
-    void Layer::addToScene(ScenePtr const& scene)
+    void Layer::addToScene(const ScenePtr& scene)
     {
         _scene = scene;
     }
@@ -225,7 +225,7 @@ namespace ouzel
     {
         _locked = false;
         
-        for (NodePtr const& node : _nodeDeleteList)
+        for (const NodePtr& node : _nodeDeleteList)
         {
             removeNode(node);
         }

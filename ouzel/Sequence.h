@@ -12,9 +12,9 @@ namespace ouzel
     class Sequence: public Animator
     {
     public:
-        Sequence(std::vector<AnimatorPtr> const& animators);
+        Sequence(const std::vector<AnimatorPtr>& animators);
         
-        virtual void start(NodePtr const& node) override;
+        virtual void start(const NodePtr& node) override;
         virtual void reset() override;
         
         virtual void setProgress(float progress) override;

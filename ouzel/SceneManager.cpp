@@ -24,7 +24,7 @@ namespace ouzel
         }
     }
     
-    void SceneManager::setScene(ScenePtr const& scene)
+    void SceneManager::setScene(const ScenePtr& scene)
     {
         if (scene != _scene)
         {

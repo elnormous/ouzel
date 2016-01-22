@@ -23,7 +23,7 @@ namespace ouzel
         if (_renderTargetView) _renderTargetView->Release();
     }
 
-    bool RenderTargetD3D11::init(Size2 const& size, bool depthBuffer)
+    bool RenderTargetD3D11::init(const Size2& size, bool depthBuffer)
     {
         if (!RenderTarget::init(size, depthBuffer))
         {

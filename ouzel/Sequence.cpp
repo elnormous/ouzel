@@ -6,13 +6,13 @@
 
 namespace ouzel
 {
-    Sequence::Sequence(std::vector<AnimatorPtr> const& animators):
-        Animator(std::accumulate(animators.begin(), animators.end(), 0.0f, [](float a, AnimatorPtr const& b) { return a + b->getLength(); })), _animators(animators)
+    Sequence::Sequence(const std::vector<AnimatorPtr>& animators):
+        Animator(std::accumulate(animators.begin(), animators.end(), 0.0f, [](float a, const AnimatorPtr& b) { return a + b->getLength(); })), _animators(animators)
     {
         
     }
     
-    void Sequence::start(NodePtr const& node)
+    void Sequence::start(const NodePtr& node)
     {
         Animator::start(node);
         

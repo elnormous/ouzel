@@ -21,28 +21,28 @@ namespace ouzel
     public:
         virtual ~EventDispatcher();
         
-        void addEventHandler(EventHandlerPtr const& eventHandler);
-        void removeEventHandler(EventHandlerPtr const& eventHandler);
+        void addEventHandler(const EventHandlerPtr& eventHandler);
+        void removeEventHandler(const EventHandlerPtr& eventHandler);
         
-        void dispatchKeyDownEvent(const KeyboardEvent& event, VoidPtr const& sender);
-        void dispatchKeyUpEvent(const KeyboardEvent& event, VoidPtr const& sender);
+        void dispatchKeyDownEvent(const KeyboardEvent& event, const VoidPtr& sender);
+        void dispatchKeyUpEvent(const KeyboardEvent& event, const VoidPtr& sender);
         
-        void dispatchMouseDownEvent(const MouseEvent& event, VoidPtr const& sender);
-        void dispatchMouseUpEvent(const MouseEvent& event, VoidPtr const& sender);
-        void dispatchMouseScrollEvent(const MouseEvent& event, VoidPtr const& sender);
-        void dispatchMouseMoveEvent(const MouseEvent& event, VoidPtr const& sender);
+        void dispatchMouseDownEvent(const MouseEvent& event, const VoidPtr& sender);
+        void dispatchMouseUpEvent(const MouseEvent& event, const VoidPtr& sender);
+        void dispatchMouseScrollEvent(const MouseEvent& event, const VoidPtr& sender);
+        void dispatchMouseMoveEvent(const MouseEvent& event, const VoidPtr& sender);
         
-        void dispatchTouchBeginEvent(const TouchEvent& event, VoidPtr const& sender);
-        void dispatchTouchMoveEvent(const TouchEvent& event, VoidPtr const& sender);
-        void dispatchTouchEndEvent(const TouchEvent& event, VoidPtr const& sender);
-        void dispatchTouchCancelEvent(const TouchEvent& event, VoidPtr const& sender);
+        void dispatchTouchBeginEvent(const TouchEvent& event, const VoidPtr& sender);
+        void dispatchTouchMoveEvent(const TouchEvent& event, const VoidPtr& sender);
+        void dispatchTouchEndEvent(const TouchEvent& event, const VoidPtr& sender);
+        void dispatchTouchCancelEvent(const TouchEvent& event, const VoidPtr& sender);
         
-        void dispatchGamepadConnectEvent(const GamepadEvent& event, VoidPtr const& sender);
-        void dispatchGamepadDisconnectEvent(const GamepadEvent& event, VoidPtr const& sender);
-        void dispatchGamepadButtonChangeEvent(const GamepadEvent& event, VoidPtr const& sender);
+        void dispatchGamepadConnectEvent(const GamepadEvent& event, const VoidPtr& sender);
+        void dispatchGamepadDisconnectEvent(const GamepadEvent& event, const VoidPtr& sender);
+        void dispatchGamepadButtonChangeEvent(const GamepadEvent& event, const VoidPtr& sender);
         
-        void dispatchWindowSizeChangeEvent(const WindowEvent& event, VoidPtr const& sender);
-        void dispatchWindowTitleChangeEvent(const WindowEvent& event, VoidPtr const& sender);
+        void dispatchWindowSizeChangeEvent(const WindowEvent& event, const VoidPtr& sender);
+        void dispatchWindowTitleChangeEvent(const WindowEvent& event, const VoidPtr& sender);
         
     protected:
         EventDispatcher();

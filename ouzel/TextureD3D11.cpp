@@ -26,7 +26,7 @@ namespace ouzel
         if (_texture) _texture->Release();
     }
 
-    bool TextureD3D11::init(Size2 const& size, bool dynamic, bool mipmaps)
+    bool TextureD3D11::init(const Size2& size, bool dynamic, bool mipmaps)
     {
         if (!Texture::init(size, dynamic, mipmaps))
         {

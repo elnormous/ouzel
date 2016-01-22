@@ -26,8 +26,8 @@ namespace ouzel
         
         void draw();
         
-        void setScene(ScenePtr const& scene);
-        ScenePtr const& getScene() const { return _scene; }
+        void setScene(const ScenePtr& scene);
+        const ScenePtr& getScene() const { return _scene; }
         
         virtual void recalculateProjection();
         

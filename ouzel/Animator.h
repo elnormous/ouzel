@@ -14,7 +14,7 @@ namespace ouzel
         
         virtual void update(float delta);
         
-        virtual void start(NodePtr const& node);
+        virtual void start(const NodePtr& node);
         
         virtual void resume();
         virtual void pause();

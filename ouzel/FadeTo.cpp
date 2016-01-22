@@ -12,7 +12,7 @@ namespace ouzel
         
     }
     
-    void FadeTo::start(NodePtr const& node)
+    void FadeTo::start(const NodePtr& node)
     {
         Animator::start(node);
         

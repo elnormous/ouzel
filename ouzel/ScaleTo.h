@@ -11,9 +11,9 @@ namespace ouzel
     class ScaleTo: public Animator
     {
     public:
-        ScaleTo(float length, Vector2 const& scale);
+        ScaleTo(float length, const Vector2& scale);
         
-        virtual void start(NodePtr const& node) override;
+        virtual void start(const NodePtr& node) override;
         
         virtual void setProgress(float progress) override;
         

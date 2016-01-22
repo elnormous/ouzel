@@ -23,7 +23,7 @@
 #include "InputWin.h"
 #endif
 
-ouzel::AppPtr ouzelMain(std::vector<std::string> const& args);
+ouzel::AppPtr ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
@@ -49,7 +49,7 @@ namespace ouzel
         
     }
     
-    void Engine::setArgs(std::vector<std::string> const& args)
+    void Engine::setArgs(const std::vector<std::string>& args)
     {
         _args = args;
     }

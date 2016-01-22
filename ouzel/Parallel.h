@@ -12,11 +12,11 @@ namespace ouzel
     class Parallel: public Animator
     {
     public:
-        Parallel(std::vector<AnimatorPtr> const& animators);
+        Parallel(const std::vector<AnimatorPtr>& animators);
         
         virtual void update(float delta) override;
         
-        virtual void start(NodePtr const& node) override;
+        virtual void start(const NodePtr& node) override;
         virtual void reset() override;
         
         virtual void setProgress(float progress) override;

@@ -26,14 +26,14 @@ namespace ouzel
         virtual void update(float delta);
         virtual void draw();
         
-        virtual bool addChild(NodePtr const& node) override;
+        virtual bool addChild(const NodePtr& node) override;
         
-        void addNode(NodePtr const& node);
-        void removeNode(NodePtr const& node);
+        void addNode(const NodePtr& node);
+        void removeNode(const NodePtr& node);
         void reorderNodes();
         
-        CameraPtr const& getCamera() const { return _camera; }
-        void setCamera(CameraPtr const& camera);
+        const CameraPtr& getCamera() const { return _camera; }
+        void setCamera(const CameraPtr& camera);
         
         NodePtr pickNode(const Vector2& position);
         std::set<NodePtr> pickNodes(const Rectangle& rectangle);
@@ -50,7 +50,7 @@ namespace ouzel
         ScenePtr getScene() const { return _scene.lock(); }
         
     protected:
-        virtual void addToScene(ScenePtr const& scene);
+        virtual void addToScene(const ScenePtr& scene);
         virtual void removeFromScene();
         
         void lock();

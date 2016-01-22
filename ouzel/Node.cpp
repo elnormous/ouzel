@@ -43,7 +43,7 @@ namespace ouzel
         }
     }
     
-    bool Node::addChild(NodePtr const& node)
+    bool Node::addChild(const NodePtr& node)
     {
         if (NodeContainer::addChild(node))
         {
@@ -121,7 +121,7 @@ namespace ouzel
         }
     }
 
-    void Node::addToLayer(LayerWeakPtr const& layer)
+    void Node::addToLayer(const LayerWeakPtr& layer)
     {
         _layer = layer;
         
@@ -276,7 +276,7 @@ namespace ouzel
         return false;
     }
     
-    void Node::animate(AnimatorPtr const& animator)
+    void Node::animate(const AnimatorPtr& animator)
     {
         _currentAnimator = animator;
         

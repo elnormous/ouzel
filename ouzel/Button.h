@@ -19,20 +19,20 @@ namespace ouzel
         Button();
         virtual ~Button();
         
-        virtual bool init(std::string const& normal, std::string const& selected, std::string const& pressed, std::string const& disabled, std::function<void(VoidPtr)> const& callback = std::function<void(VoidPtr)>());
+        virtual bool init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(VoidPtr)>& callback = std::function<void(VoidPtr)>());
         
         virtual void setEnabled(bool enabled) override;
         
     protected:
-        bool handleMouseDown(const MouseEvent& event, VoidPtr const& sender);
-        bool handleMouseUp(const MouseEvent& event, VoidPtr const& sender);
-        bool handleMouseMove(const MouseEvent& event, VoidPtr const& sender);
-        bool handleTouchBegin(const TouchEvent& event, VoidPtr const& sender);
-        bool handleTouchMove(const TouchEvent& event, VoidPtr const& sender);
-        bool handleTouchEnd(const TouchEvent& event, VoidPtr const& sender);
-        bool handleGamepadButtonChange(const GamepadEvent& event, VoidPtr const& sender);
+        bool handleMouseDown(const MouseEvent& event, const VoidPtr& sender);
+        bool handleMouseUp(const MouseEvent& event, const VoidPtr& sender);
+        bool handleMouseMove(const MouseEvent& event, const VoidPtr& sender);
+        bool handleTouchBegin(const TouchEvent& event, const VoidPtr& sender);
+        bool handleTouchMove(const TouchEvent& event, const VoidPtr& sender);
+        bool handleTouchEnd(const TouchEvent& event, const VoidPtr& sender);
+        bool handleGamepadButtonChange(const GamepadEvent& event, const VoidPtr& sender);
         
-        void checkPointer(Vector2 const& worldLocation);
+        void checkPointer(const Vector2& worldLocation);
         void updateSprite();
         
         SpritePtr _normalSprite;

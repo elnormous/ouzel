@@ -250,12 +250,12 @@ namespace ouzel
         updateVertexColor();
     }
     
-    void Sprite::setTexture(TexturePtr const& texture)
+    void Sprite::setTexture(const TexturePtr& texture)
     {
         _texture = texture;
     }
     
-    void Sprite::setShader(ShaderPtr const& shader)
+    void Sprite::setShader(const ShaderPtr& shader)
     {
         _shader = shader;
     }

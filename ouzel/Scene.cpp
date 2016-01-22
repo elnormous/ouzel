@@ -42,7 +42,7 @@ namespace ouzel
         }
     }
     
-    void Scene::addLayer(LayerPtr const& layer)
+    void Scene::addLayer(const LayerPtr& layer)
     {
         if (!hasLayer(layer) && !layer->getScene())
         {
@@ -53,7 +53,7 @@ namespace ouzel
         }
     }
     
-    void Scene::removeLayer(LayerPtr const& layer)
+    void Scene::removeLayer(const LayerPtr& layer)
     {
         if (_locked)
         {
@@ -61,7 +61,7 @@ namespace ouzel
         }
         else
         {
-            std::vector<LayerPtr>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](LayerPtr const& p) {
+            std::vector<LayerPtr>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](const LayerPtr& p) {
                 return p.get() == layer.get();
             });
             
@@ -73,9 +73,9 @@ namespace ouzel
         }
     }
     
-    bool Scene::hasLayer(LayerPtr const& layer) const
+    bool Scene::hasLayer(const LayerPtr& layer) const
     {
-        std::vector<LayerPtr>::const_iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](LayerPtr const& p) {
+        std::vector<LayerPtr>::const_iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](const LayerPtr& p) {
             return p.get() == layer.get();
         });
         
@@ -104,7 +104,7 @@ namespace ouzel
     {
         _locked = false;
         
-        for (LayerPtr const& layer : _layerDeleteList)
+        for (const LayerPtr& layer : _layerDeleteList)
         {
             removeLayer(layer);
         }

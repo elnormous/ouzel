@@ -80,7 +80,7 @@ namespace ouzel
         }
     }
     
-    TexturePtr Renderer::createTexture(Size2 const& size, bool dynamic, bool mipmaps)
+    TexturePtr Renderer::createTexture(const Size2& size, bool dynamic, bool mipmaps)
     {
         TexturePtr texture(new Texture());
         texture->init(size, dynamic);
@@ -88,7 +88,7 @@ namespace ouzel
         return texture;
     }
     
-    bool Renderer::activateTexture(TexturePtr const& texture, uint32_t layer)
+    bool Renderer::activateTexture(const TexturePtr& texture, uint32_t layer)
     {
         _activeTextures[layer] = texture;
         
@@ -119,7 +119,7 @@ namespace ouzel
         return texture;
     }
     
-    RenderTargetPtr Renderer::createRenderTarget(Size2 const& size, bool depthBuffer)
+    RenderTargetPtr Renderer::createRenderTarget(const Size2& size, bool depthBuffer)
     {
         RenderTargetPtr renderTarget(new RenderTarget());
         
@@ -160,7 +160,7 @@ namespace ouzel
         return shader;
     }
     
-    bool Renderer::activateShader(ShaderPtr const& shader)
+    bool Renderer::activateShader(const ShaderPtr& shader)
     {
         _activeShader = shader;
         
@@ -179,7 +179,7 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool Renderer::drawMeshBuffer(MeshBufferPtr const& meshBuffer, uint32_t indexCount, DrawMode drawMode)
+    bool Renderer::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode)
     {
         OUZEL_UNUSED(drawMode);
         
@@ -247,7 +247,7 @@ namespace ouzel
         return Vector2(x, y);
     }
     
-    bool Renderer::saveScreenshot(std::string const& filename)
+    bool Renderer::saveScreenshot(const std::string& filename)
     {
         OUZEL_UNUSED(filename);
         

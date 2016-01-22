@@ -112,7 +112,7 @@ namespace ouzel
     
     void InputApple::handleControllerDisconnected(id controller)
     {
-        std::vector<std::shared_ptr<GamepadApple>>::iterator i = std::find_if(_gamepads.begin(), _gamepads.end(), [controller](std::shared_ptr<GamepadApple> const& p) {
+        std::vector<std::shared_ptr<GamepadApple>>::iterator i = std::find_if(_gamepads.begin(), _gamepads.end(), [controller](const std::shared_ptr<GamepadApple>& p) {
             return p->getController() == controller;
         });
         

@@ -11,9 +11,9 @@ namespace ouzel
     class MoveTo: public Animator
     {
     public:
-        MoveTo(float length, Vector2 const& position);
+        MoveTo(float length, const Vector2& position);
         
-        virtual void start(NodePtr const& node) override;
+        virtual void start(const NodePtr& node) override;
         
         virtual void setProgress(float progress) override;
         

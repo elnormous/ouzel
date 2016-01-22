@@ -14,10 +14,10 @@ namespace ouzel
         
         virtual void begin() override;
         
-        bool handleKeyDown(const KeyboardEvent& event, VoidPtr const& sender) const;
-        bool handleMouseMove(const MouseEvent& event, VoidPtr const& sender) const;
-        bool handleTouch(const TouchEvent& event, VoidPtr const& sender) const;
-        bool handleGamepadButtonChange(const GamepadEvent& event, VoidPtr const& sender) const;
+        bool handleKeyDown(const KeyboardEvent& event, const VoidPtr& sender) const;
+        bool handleMouseMove(const MouseEvent& event, const VoidPtr& sender) const;
+        bool handleTouch(const TouchEvent& event, const VoidPtr& sender) const;
+        bool handleGamepadButtonChange(const GamepadEvent& event, const VoidPtr& sender) const;
         
     protected:
         LayerPtr _layer;

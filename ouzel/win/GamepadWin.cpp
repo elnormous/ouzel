@@ -16,7 +16,7 @@ namespace ouzel
         memset(&_state, 0, sizeof(XINPUT_STATE));
     }
 
-    void GamepadWin::update(XINPUT_STATE const& state)
+    void GamepadWin::update(const XINPUT_STATE& state)
     {
         if (state.dwPacketNumber > _state.dwPacketNumber)
         {
@@ -98,7 +98,7 @@ namespace ouzel
         }
     }
 
-    void GamepadWin::checkButton(XINPUT_STATE const& state, WORD mask, GamepadButton button)
+    void GamepadWin::checkButton(const XINPUT_STATE& state, WORD mask, GamepadButton button)
     {
         if ((state.Gamepad.wButtons & mask) != (_state.Gamepad.wButtons & mask))
         {

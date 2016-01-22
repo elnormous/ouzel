@@ -40,13 +40,13 @@
     [_window setTitle:[NSString stringWithUTF8String:ouzel::Engine::getInstance()->getRenderer()->getTitle().c_str()]];
     
     ouzel::EventHandlerPtr eventHandler = std::make_shared<ouzel::EventHandler>();
-    eventHandler->windowTitleChangeHandler = [self](const ouzel::WindowEvent& event, ouzel::VoidPtr const&) -> bool {
+    eventHandler->windowTitleChangeHandler = [self](const ouzel::WindowEvent& event, const ouzel::VoidPtr&) -> bool {
         
         _window.title = [NSString stringWithCString:event.title.c_str() encoding:NSASCIIStringEncoding];
         return true;
     };
     
-    eventHandler->windowSizeChangeHandler = [self](const ouzel::WindowEvent& event, ouzel::VoidPtr const&) -> bool {
+    eventHandler->windowSizeChangeHandler = [self](const ouzel::WindowEvent& event, const ouzel::VoidPtr&) -> bool {
         
         NSRect frame = [NSWindow contentRectForFrameRect:[_window frame]
                                                        styleMask:[[self window] styleMask]];

@@ -15,7 +15,7 @@ namespace ouzel
     {
         friend InputWin;
     public:
-        void update(XINPUT_STATE const& state);
+        void update(const XINPUT_STATE& state);
 
         virtual int32_t getPlayerIndex() const override;
 
@@ -23,7 +23,7 @@ namespace ouzel
         GamepadWin(int32_t playerIndex);
 
         void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
-        void checkButton(XINPUT_STATE const& state, WORD mask, GamepadButton button);
+        void checkButton(const XINPUT_STATE& state, WORD mask, GamepadButton button);
 
         XINPUT_STATE _state;
         int32_t _playerIndex;

@@ -6,13 +6,13 @@
 
 namespace ouzel
 {
-    MoveTo::MoveTo(float length, Vector2 const& position):
+    MoveTo::MoveTo(float length, const Vector2& position):
         Animator(length), _targetPosition(position)
     {
         
     }
     
-    void MoveTo::start(NodePtr const& node)
+    void MoveTo::start(const NodePtr& node)
     {
         Animator::start(node);
         

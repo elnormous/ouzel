@@ -98,7 +98,7 @@ namespace ouzel
         Engine::getInstance()->getInput()->startDiscovery();
     }
     
-    bool Application::handleKeyDown(const KeyboardEvent& event, VoidPtr const& sender) const
+    bool Application::handleKeyDown(const KeyboardEvent& event, const VoidPtr& sender) const
     {
         Vector2 position = _layer->getCamera()->getPosition();
         
@@ -134,7 +134,7 @@ namespace ouzel
         return true;
     }
     
-    bool Application::handleMouseMove(const MouseEvent& event, VoidPtr const& sender) const
+    bool Application::handleMouseMove(const MouseEvent& event, const VoidPtr& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);
@@ -142,7 +142,7 @@ namespace ouzel
         return true;
     }
     
-    bool Application::handleTouch(const TouchEvent& event, VoidPtr const& sender) const
+    bool Application::handleTouch(const TouchEvent& event, const VoidPtr& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
         _witch->setPosition(worldLocation);
@@ -150,7 +150,7 @@ namespace ouzel
         return true;
     }
     
-    bool Application::handleGamepadButtonChange(const GamepadEvent& event, VoidPtr const& sender) const
+    bool Application::handleGamepadButtonChange(const GamepadEvent& event, const VoidPtr& sender) const
     {
         Vector2 position = _layer->worldToScreenLocation(_witch->getPosition());
         

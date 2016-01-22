@@ -57,7 +57,7 @@ namespace ouzel
         return result;
     }
     
-    void Cache::setTexture(const std::string& filename, TexturePtr const& texture)
+    void Cache::setTexture(const std::string& filename, const TexturePtr& texture)
     {
         _textures[filename] = texture;
     }
@@ -81,7 +81,7 @@ namespace ouzel
         }
     }
     
-    void Cache::setShader(const std::string& shaderName, ShaderPtr const& shader)
+    void Cache::setShader(const std::string& shaderName, const ShaderPtr& shader)
     {
         _shaders[shaderName] = shader;
     }

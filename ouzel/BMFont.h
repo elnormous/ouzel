@@ -40,17 +40,17 @@ namespace ouzel
         BMFont();
         ~BMFont();
         
-        bool loadFont(std::string const& filename);
+        bool loadFont(const std::string& filename);
         float getHeight() { return _lineHeight; }
         
-        MeshBufferPtr createMeshBuffer(std::string const& text, Color const& color, Vector2 const& anchor = Vector2(0.5f, 0.5f));
+        MeshBufferPtr createMeshBuffer(const std::string& text, const Color& color, const Vector2& anchor = Vector2(0.5f, 0.5f));
         
-        TexturePtr const& getTexture() const { return _texture; }
+        const TexturePtr& getTexture() const { return _texture; }
 
     private:
-        bool parseFont(std::string const& filename);
+        bool parseFont(const std::string& filename);
         int32_t getKerningPair(int32_t, int32_t);
-        float getStringWidth(std::string const& text);
+        float getStringWidth(const std::string& text);
         
         int16_t _lineHeight = 0;
         int16_t _base = 0;

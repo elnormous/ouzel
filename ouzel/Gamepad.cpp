@@ -39,7 +39,7 @@ namespace ouzel
         return false;
     }
     
-    GamepadButtonState const& Gamepad::getButtonState(GamepadButton button) const
+    const GamepadButtonState& Gamepad::getButtonState(GamepadButton button) const
     {
         return _buttonStates[static_cast<uint32_t>(button)];
     }

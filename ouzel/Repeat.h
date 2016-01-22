@@ -11,11 +11,11 @@ namespace ouzel
     class Repeat: public Animator
     {
     public:
-        Repeat(AnimatorPtr const& animator, uint32_t count = 0);
+        Repeat(const AnimatorPtr& animator, uint32_t count = 0);
         
         virtual void update(float delta) override;
         
-        virtual void start(NodePtr const& node) override;
+        virtual void start(const NodePtr& node) override;
         virtual void reset() override;
         
     protected:

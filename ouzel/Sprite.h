@@ -29,10 +29,10 @@ namespace ouzel
         virtual void setOpacity(float opacity) override;
         
         virtual TexturePtr getTexture() const { return _texture; }
-        virtual void setTexture(TexturePtr const& texture);
+        virtual void setTexture(const TexturePtr& texture);
         
         virtual ShaderPtr getShader() const { return _shader; }
-        virtual void setShader(ShaderPtr const& shader);
+        virtual void setShader(const ShaderPtr& shader);
         
         virtual const Size2& getSize() const { return _size; }
         

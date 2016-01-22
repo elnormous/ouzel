@@ -11,7 +11,7 @@
 
 namespace ouzel
 {
-    Label::Label(std::string const& font, std::string const& text, Vector2 const& textAnchor)
+    Label::Label(const std::string& font, const std::string& text, const Vector2& textAnchor)
     {
         BMFont bmFont;
         bmFont.loadFont(font);

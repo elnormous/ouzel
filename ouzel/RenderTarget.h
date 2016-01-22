@@ -20,7 +20,7 @@ namespace ouzel
     public:
         virtual ~RenderTarget();
         
-        virtual bool init(Size2 const& size, bool depthBuffer);
+        virtual bool init(const Size2& size, bool depthBuffer);
         
         TexturePtr getTexture() const { return _texture; }
         

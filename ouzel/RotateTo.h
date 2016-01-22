@@ -12,7 +12,7 @@ namespace ouzel
     public:
         RotateTo(float length, float rotation);
         
-        virtual void start(NodePtr const& node) override;
+        virtual void start(const NodePtr& node) override;
         
         virtual void setProgress(float progress) override;
         

@@ -12,7 +12,7 @@ namespace ouzel
         
     }
     
-    void RotateTo::start(NodePtr const& node)
+    void RotateTo::start(const NodePtr& node)
     {
         Animator::start(node);
         

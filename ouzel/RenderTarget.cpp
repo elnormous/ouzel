@@ -15,7 +15,7 @@ namespace ouzel
         
     }
     
-    bool RenderTarget::init(Size2 const& size, bool depthBuffer)
+    bool RenderTarget::init(const Size2& size, bool depthBuffer)
     {
         _size = size;
         _depthBuffer = depthBuffer;

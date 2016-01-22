@@ -25,7 +25,7 @@ namespace ouzel
         File(const std::string& filename, Mode mode, bool binary);
         
         bool isOpen() const { return _file != nullptr; }
-        std::shared_ptr<FILE> const& getFile() const { return _file; }
+        const std::shared_ptr<FILE>& getFile() const { return _file; }
         
         int64_t read(char* buffer, uint32_t size);
         int64_t write(const char* buffer, uint32_t size);

@@ -169,7 +169,7 @@ namespace ouzel
         checkOpenGLErrors();
     }
     
-    TexturePtr RendererOGL::createTexture(Size2 const& size, bool dynamic, bool mipmaps)
+    TexturePtr RendererOGL::createTexture(const Size2& size, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureOGL> texture(new TextureOGL());
         texture->init(size, dynamic, mipmaps);
@@ -237,7 +237,7 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool RendererOGL::drawMeshBuffer(MeshBufferPtr const& meshBuffer, uint32_t indexCount, DrawMode drawMode)
+    bool RendererOGL::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
@@ -520,7 +520,7 @@ namespace ouzel
         return true;
     }
     
-    bool RendererOGL::saveScreenshot(std::string const& filename)
+    bool RendererOGL::saveScreenshot(const std::string& filename)
     {
         if (!Renderer::saveScreenshot(filename))
         {

@@ -710,7 +710,7 @@ namespace ouzel
         SetWindowTextW(_window, titleBuffer);
     }
 
-    TexturePtr RendererD3D11::createTexture(Size2 const& size, bool dynamic, bool mipmaps)
+    TexturePtr RendererD3D11::createTexture(const Size2& size, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
 
@@ -782,7 +782,7 @@ namespace ouzel
         return meshBuffer;
     }
 
-    bool RendererD3D11::drawMeshBuffer(MeshBufferPtr const& meshBuffer, uint32_t indexCount, DrawMode drawMode)
+    bool RendererD3D11::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode)
     {
         if (!Renderer::drawMeshBuffer(meshBuffer))
         {
@@ -1127,7 +1127,7 @@ namespace ouzel
         return true;
     }
 
-    bool RendererD3D11::saveScreenshot(std::string const& filename)
+    bool RendererD3D11::saveScreenshot(const std::string& filename)
     {
         if (!Renderer::saveScreenshot(filename))
         {

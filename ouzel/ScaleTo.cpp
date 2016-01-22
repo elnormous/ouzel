@@ -6,13 +6,13 @@
 
 namespace ouzel
 {
-    ScaleTo::ScaleTo(float length, Vector2 const& scale):
+    ScaleTo::ScaleTo(float length, const Vector2& scale):
         Animator(length), _targetScale(scale)
     {
         
     }
     
-    void ScaleTo::start(NodePtr const& node)
+    void ScaleTo::start(const NodePtr& node)
     {
         Animator::start(node);
         

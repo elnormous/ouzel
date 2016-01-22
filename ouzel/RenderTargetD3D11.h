@@ -19,7 +19,7 @@ namespace ouzel
 
         void clean();
 
-        virtual bool init(Size2 const& size, bool depthBuffer);
+        virtual bool init(const Size2& size, bool depthBuffer);
 
         ID3D11RenderTargetView* getRenderTargetView() const { return _renderTargetView; }
 

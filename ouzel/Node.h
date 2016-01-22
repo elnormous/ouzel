@@ -29,7 +29,7 @@ namespace ouzel
         virtual void draw();
         virtual void update(float delta);
         
-        virtual bool addChild(NodePtr const& node) override;
+        virtual bool addChild(const NodePtr& node) override;
         
         virtual void setZ(float z);
         virtual float getZ() const { return _z; }
@@ -67,10 +67,10 @@ namespace ouzel
         
         virtual bool checkVisibility() const;
         
-        virtual void animate(AnimatorPtr const& animator);
+        virtual void animate(const AnimatorPtr& animator);
         
     protected:
-        virtual void addToLayer(LayerWeakPtr const& layer);
+        virtual void addToLayer(const LayerWeakPtr& layer);
         virtual void removeFromLayer();
         
         virtual void calculateTransform() const;

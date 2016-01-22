@@ -22,7 +22,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
-    bool Button::init(std::string const& normal, std::string const& selected, std::string const& pressed, std::string const& disabled, std::function<void(VoidPtr)> const& callback)
+    bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(VoidPtr)>& callback)
     {
         _eventHandler = std::make_shared<EventHandler>();
         
@@ -79,7 +79,7 @@ namespace ouzel
         updateSprite();
     }
     
-    bool Button::handleMouseDown(const MouseEvent& event, VoidPtr const& sender)
+    bool Button::handleMouseDown(const MouseEvent& event, const VoidPtr& sender)
     {
         OUZEL_UNUSED(event);
         OUZEL_UNUSED(sender);
@@ -95,7 +95,7 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleMouseUp(const MouseEvent& event, VoidPtr const& sender)
+    bool Button::handleMouseUp(const MouseEvent& event, const VoidPtr& sender)
     {
         OUZEL_UNUSED(event);
         OUZEL_UNUSED(sender);
@@ -116,7 +116,7 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleMouseMove(const MouseEvent& event, VoidPtr const& sender)
+    bool Button::handleMouseMove(const MouseEvent& event, const VoidPtr& sender)
     {
         OUZEL_UNUSED(sender);
         
@@ -132,7 +132,7 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleTouchBegin(const TouchEvent& event, VoidPtr const& sender)
+    bool Button::handleTouchBegin(const TouchEvent& event, const VoidPtr& sender)
     {
         OUZEL_UNUSED(sender);
         
@@ -154,7 +154,7 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleTouchMove(const TouchEvent& event, VoidPtr const& sender)
+    bool Button::handleTouchMove(const TouchEvent& event, const VoidPtr& sender)
     {
         OUZEL_UNUSED(sender);
         
@@ -170,7 +170,7 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleTouchEnd(const TouchEvent& event, VoidPtr const& sender)
+    bool Button::handleTouchEnd(const TouchEvent& event, const VoidPtr& sender)
     {
         OUZEL_UNUSED(event);
         OUZEL_UNUSED(sender);
@@ -191,7 +191,7 @@ namespace ouzel
         return true;
     }
     
-    bool Button::handleGamepadButtonChange(const GamepadEvent& event, VoidPtr const& sender)
+    bool Button::handleGamepadButtonChange(const GamepadEvent& event, const VoidPtr& sender)
     {
         OUZEL_UNUSED(event);
         OUZEL_UNUSED(sender);
@@ -199,7 +199,7 @@ namespace ouzel
         return true;
     }
     
-    void Button::checkPointer(Vector2 const& worldLocation)
+    void Button::checkPointer(const Vector2& worldLocation)
     {
         if (pointOn(worldLocation))
         {

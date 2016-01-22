@@ -19,25 +19,25 @@ namespace ouzel
         
         EventHandler(int32_t priority = 0): _priority(priority) { }
         
-        std::function<bool(const KeyboardEvent&, VoidPtr const&)> keyDownHandler;
-        std::function<bool(const KeyboardEvent&, VoidPtr const&)> keyUpHandler;
+        std::function<bool(const KeyboardEvent&, const VoidPtr &)> keyDownHandler;
+        std::function<bool(const KeyboardEvent&, const VoidPtr &)> keyUpHandler;
         
-        std::function<bool(const MouseEvent&, VoidPtr const&)> mouseDownHandler;
-        std::function<bool(const MouseEvent&, VoidPtr const&)> mouseUpHandler;
-        std::function<bool(const MouseEvent&, VoidPtr const&)> mouseScrollHandler;
-        std::function<bool(const MouseEvent&, VoidPtr const&)> mouseMoveHandler;
+        std::function<bool(const MouseEvent&, const VoidPtr &)> mouseDownHandler;
+        std::function<bool(const MouseEvent&, const VoidPtr &)> mouseUpHandler;
+        std::function<bool(const MouseEvent&, const VoidPtr &)> mouseScrollHandler;
+        std::function<bool(const MouseEvent&, const VoidPtr &)> mouseMoveHandler;
         
-        std::function<bool(const TouchEvent&, VoidPtr const&)> touchBeginHandler;
-        std::function<bool(const TouchEvent&, VoidPtr const&)> touchMoveHandler;
-        std::function<bool(const TouchEvent&, VoidPtr const&)> touchEndHandler;
-        std::function<bool(const TouchEvent&, VoidPtr const&)> touchCancelHandler;
+        std::function<bool(const TouchEvent&, const VoidPtr &)> touchBeginHandler;
+        std::function<bool(const TouchEvent&, const VoidPtr &)> touchMoveHandler;
+        std::function<bool(const TouchEvent&, const VoidPtr &)> touchEndHandler;
+        std::function<bool(const TouchEvent&, const VoidPtr &)> touchCancelHandler;
         
-        std::function<bool(const GamepadEvent&, VoidPtr const&)> gamepadConnectHandler;
-        std::function<bool(const GamepadEvent&, VoidPtr const&)> gamepadDisconnectHandler;
-        std::function<bool(const GamepadEvent&, VoidPtr const&)> gamepadButtonChangeHandler;
+        std::function<bool(const GamepadEvent&, const VoidPtr &)> gamepadConnectHandler;
+        std::function<bool(const GamepadEvent&, const VoidPtr &)> gamepadDisconnectHandler;
+        std::function<bool(const GamepadEvent&, const VoidPtr &)> gamepadButtonChangeHandler;
         
-        std::function<bool(const WindowEvent&, VoidPtr const&)> windowSizeChangeHandler;
-        std::function<bool(const WindowEvent&, VoidPtr const&)> windowTitleChangeHandler;
+        std::function<bool(const WindowEvent&, const VoidPtr &)> windowSizeChangeHandler;
+        std::function<bool(const WindowEvent&, const VoidPtr &)> windowTitleChangeHandler;
         
     protected:
         int32_t _priority;

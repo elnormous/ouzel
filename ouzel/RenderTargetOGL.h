@@ -35,7 +35,7 @@ namespace ouzel
         
         void clean();
         
-        virtual bool init(Size2 const& size, bool depthBuffer) override;
+        virtual bool init(const Size2& size, bool depthBuffer) override;
         
         GLuint getFrameBufferId() const { return _framebufferId; }
         

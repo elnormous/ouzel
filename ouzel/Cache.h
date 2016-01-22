@@ -18,11 +18,11 @@ namespace ouzel
         
         void preloadTexture(const std::string& filename, bool dynamic = false);
         TexturePtr getTexture(const std::string& filename);
-        void setTexture(const std::string& filename, TexturePtr const& texture);
+        void setTexture(const std::string& filename, const TexturePtr& texture);
         virtual void releaseTextures();
         
         ShaderPtr getShader(const std::string& shaderName) const;
-        void setShader(const std::string& shaderName, ShaderPtr const& shader);
+        void setShader(const std::string& shaderName, const ShaderPtr& shader);
         
     protected:
         Cache();

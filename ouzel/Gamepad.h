@@ -25,7 +25,7 @@ namespace ouzel
         virtual int32_t getPlayerIndex() const;
         virtual bool setPlayerIndex(int32_t playerIndex);
         
-        virtual GamepadButtonState const& getButtonState(GamepadButton button) const;
+        virtual const GamepadButtonState& getButtonState(GamepadButton button) const;
         
     protected:
         Gamepad();

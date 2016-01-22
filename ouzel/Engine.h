@@ -23,19 +23,19 @@ namespace ouzel
         
         virtual ~Engine();
         
-        void setArgs(std::vector<std::string> const& args);
-        std::vector<std::string> const& getArgs() { return _args; }
+        void setArgs(const std::vector<std::string>& args);
+        const std::vector<std::string>& getArgs() { return _args; }
         
         std::set<Renderer::Driver> getAvailableDrivers() const;
         
         bool init();
 
-        EventDispatcherPtr const& getEventDispatcher() const { return _eventDispatcher; }
-        CachePtr const& getCache() const { return _cache; }
-        RendererPtr const& getRenderer() const { return _renderer; }
-        SceneManagerPtr const& getSceneManager() const { return _sceneManager; }
-        FileSystemPtr const& getFileSystem() const { return _fileSystem; }
-        InputPtr const& getInput() const { return _input; }
+        const EventDispatcherPtr& getEventDispatcher() const { return _eventDispatcher; }
+        const CachePtr& getCache() const { return _cache; }
+        const RendererPtr& getRenderer() const { return _renderer; }
+        const SceneManagerPtr& getSceneManager() const { return _sceneManager; }
+        const FileSystemPtr& getFileSystem() const { return _fileSystem; }
+        const InputPtr& getInput() const { return _input; }
         
         void begin();
         void end();

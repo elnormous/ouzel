@@ -67,21 +67,21 @@ namespace ouzel
         virtual const std::string& getTitle() const { return _title; }
         virtual void setTitle(const std::string& title);
         
-        virtual TexturePtr createTexture(Size2 const& size, bool dynamic, bool mipmaps = true);
+        virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true);
         virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false, bool mipmaps = true);
         virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic = false, bool mipmaps = true);
-        virtual bool activateTexture(TexturePtr const& texture, uint32_t layer);
+        virtual bool activateTexture(const TexturePtr& texture, uint32_t layer);
         virtual TexturePtr getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
-        virtual RenderTargetPtr createRenderTarget(Size2 const& size, bool depthBuffer);
+        virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer);
         virtual void activateRenderTarget(RenderTargetPtr renderTarget);
         
         virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
         virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
-        virtual bool activateShader(ShaderPtr const& shader);
+        virtual bool activateShader(const ShaderPtr& shader);
         virtual ShaderPtr getActiveShader() const { return _activeShader; }
         
         virtual MeshBufferPtr createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes);
-        virtual bool drawMeshBuffer(MeshBufferPtr const& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST);
+        virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST);
         
         virtual bool drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform = Matrix4());
         virtual bool drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
@@ -90,7 +90,7 @@ namespace ouzel
         Vector2 viewToScreenLocation(const Vector2& position);
         Vector2 screenToViewLocation(const Vector2& position);
         
-        virtual bool saveScreenshot(std::string const& filename);
+        virtual bool saveScreenshot(const std::string& filename);
         
     protected:
         Renderer();

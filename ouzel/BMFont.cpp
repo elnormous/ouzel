@@ -24,7 +24,7 @@ namespace ouzel
         
     }
     
-    bool BMFont::parseFont(std::string const& filename)
+    bool BMFont::parseFont(const std::string& filename)
     {
         std::ifstream stream(Engine::getInstance()->getFileSystem()->getPath(filename));
         std::string line;
@@ -174,7 +174,7 @@ namespace ouzel
         return 0;
     }
 
-    float BMFont::getStringWidth(std::string const& text)
+    float BMFont::getStringWidth(const std::string& text)
     {
         float total = 0;
         CharDescriptor* f;
@@ -195,7 +195,7 @@ namespace ouzel
         return total;
     }
 
-    bool BMFont::loadFont(std::string const& filename)
+    bool BMFont::loadFont(const std::string& filename)
     {
         if (!parseFont(filename))
         {
@@ -213,7 +213,7 @@ namespace ouzel
         return true;
     }
 
-    MeshBufferPtr BMFont::createMeshBuffer(std::string const& text, Color const& color, Vector2  const& anchor)
+    MeshBufferPtr BMFont::createMeshBuffer(const std::string& text, const Color& color, const Vector2& anchor)
     {
         uint32_t flen;
         
