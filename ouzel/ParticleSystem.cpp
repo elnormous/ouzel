@@ -61,7 +61,7 @@ namespace ouzel
         if (_active && _emissionRate)
         {
             float rate = 1.0f / _emissionRate;
-            //issue #1201, prevent bursts of particles, due to too high emitCounter
+            
             if (_particleCount < _maxParticles)
             {
                 _emitCounter += delta;
