@@ -4,16 +4,55 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "node.h"
 #include "Vector2.h"
+#include "Color.h"
+#include "Vertex.h"
 
 namespace ouzel
 {
     class SceneManager;
     
+    struct Particle
+    {
+        float life = 0.0f;
+        
+        Vector2 position;
+        
+        Color startColor;
+        Color finishColor;
+        Color color;
+        
+        float angle = 0.0f;
+        float speed = 0.0f;
+        
+        float startSize = 0.0f;
+        float finishSize = 0.0f;
+        float size = 0.0f;
+        
+        float startRotation = 0.0f;
+        float finishRotation = 0.0f;
+        float rotation = 0.0f;
+        
+        float radialAcceleration = 0.0f;
+        float tangentialAcceleration = 0.0f;
+        
+        Vector2 direction;
+        float radius = 0.0f;
+        float degreesPerSecond = 0.0f;
+        float deltaRadius = 0.0f;
+    };
+    
     class ParticleSystem: public Node
     {
     public:
+        enum class EmitterType
+        {
+            GRAVITY,
+            RADIUS,
+        };
+        
         ParticleSystem();
         virtual ~ParticleSystem();
         
@@ -22,13 +61,22 @@ namespace ouzel
         
         virtual bool initFromFile(const std::string& filename);
         
+        void resume();
+        void stop();
+        void reset();
+        
     protected:
+        void createParticleMesh();
+        void updateParticleMesh();
+        
+        void emitParticles(uint32_t particles);
+        
         uint32_t _blendFuncSource = 1;
         uint32_t _blendFuncDestination = 771;
         
-        uint32_t _emitterType = 0;
+        EmitterType _emitterType = EmitterType::GRAVITY;
         uint32_t _maxParticles = 77;
-        float _duration = -1;
+        float _duration = -1.0f;
         float _particleLifespan = 1.0f;
         float _particleLifespanVariance = 0.0f;
         
@@ -37,8 +85,8 @@ namespace ouzel
         
         bool _absolutePosition = false;
         bool _yCoordFlipped = true;
-        Vector2 _sourcePosition = Vector2(160.0f, 240.0f);
-        Vector2 _sourcePositionVariance = Vector2(7.0f, 7.0f);
+        Vector2 _sourcePosition;
+        Vector2 _sourcePositionVariance;
         
         float _startParticleSize = 64.0f;
         float _startParticleSizeVariance = 5.0f;
@@ -49,11 +97,11 @@ namespace ouzel
         float _angle = 90.0f;
         float _angleVariance = 10.0f;
         
-        float _rotationStart = 0.0f;
-        float _rotationStartVariance = 0.0f;
+        float _startRotation = 0.0f;
+        float _startRotationVariance = 0.0f;
         
-        float _rotationEnd = 0.0f;
-        float _rotationEndVariance = 0.0f;
+        float _finishRotation = 0.0f;
+        float _finishRotationVariance = 0.0f;
         
         float _rotatePerSecond = 360.0f;
         float _rotatePerSecondVariance = 0.0f;
@@ -70,6 +118,8 @@ namespace ouzel
         float _tangentialAcceleration = 0.0f;
         float _tangentialAccelVariance = 0.0f;
         
+        bool _rotationIsDir = false;
+        
         Vector2 _gravity = Vector2(0.0f, 0.0f);
         
         float _startColorRed = 0.372f;
@@ -77,23 +127,41 @@ namespace ouzel
         float _startColorBlue = 0.8f;
         float _startColorAlpha = 0.5f;
         
-        float _startColorVarianceRed = 0.0f;
-        float _startColorVarianceGreen = 0.0f;
-        float _startColorVarianceBlue = 0.0f;
-        float _startColorVarianceAlpha = 0.0f;
+        float _startColorRedVariance = 0.0f;
+        float _startColorGreenVariance = 0.0f;
+        float _startColorBlueVariance = 0.0f;
+        float _startColorAlphaVariance = 0.0f;
         
         float _finishColorRed = 0.0f;
         float _finishColorGreen = 0.0f;
         float _finishColorBlue = 0.0f;
         float _finishColorAlpha = 0.0f;
         
-        float _finishColorVarianceRed = 0.0f;
-        float _finishColorVarianceGreen = 0.0f;
-        float _finishColorVarianceBlue = 0.0f;
-        float _finishColorVarianceAlpha = 0.0f;
+        float _finishColorRedVariance = 0.0f;
+        float _finishColorGreenVariance = 0.0f;
+        float _finishColorBlueVariance = 0.0f;
+        float _finishColorAlphaVariance = 0.0f;
+        
+        float _emissionRate = 0.0f;
 
         std::string _textureFilename;
         
-        std::shared_ptr<Texture> _texture;
+        ShaderPtr _shader;
+        TexturePtr _texture;
+        
+        std::vector<Particle> _particles;
+        
+        MeshBufferPtr _mesh;
+        
+        uint32_t _uniModelViewProj;
+        
+        std::vector<uint16_t> _indices;
+        std::vector<VertexPCT> _vertices;
+        
+        uint32_t _particleCount = 0;
+        
+        float _emitCounter = 0.0f;
+        float _elapsed = 0.0f;
+        bool _active = true;
     };
 }
