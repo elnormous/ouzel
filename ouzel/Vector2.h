@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <cmath>
+
 namespace ouzel
 {
     /**
@@ -476,6 +478,15 @@ namespace ouzel
         {
             return x!=v.x || y!=v.y;
         }
+        
+        /**
+         * Get the angle in radians between this vector and the x axis
+         *
+         * @return Returns the angle
+         */
+        inline float getAngle() const {
+            return atan2f(y, x);
+        };
     };
 
     /**
