@@ -20,20 +20,24 @@ namespace ouzel
         
         Vector2 position;
         
-        Color startColor;
-        Color finishColor;
-        Color color;
+        float colorRed = 0.0f;
+        float colorGreen = 0.0f;
+        float colorBlue = 0.0f;
+        float colorAlpha = 0.0f;
+        
+        float deltaColorRed = 0.0f;
+        float deltaColorGreen = 0.0f;
+        float deltaColorBlue = 0.0f;
+        float deltaColorAlpha = 0.0f;
         
         float angle = 0.0f;
         float speed = 0.0f;
         
-        float startSize = 0.0f;
-        float finishSize = 0.0f;
         float size = 0.0f;
+        float deltaSize = 0.0f;
         
-        float startRotation = 0.0f;
-        float finishRotation = 0.0f;
         float rotation = 0.0f;
+        float deltaRotation = 0.0f;
         
         float radialAcceleration = 0.0f;
         float tangentialAcceleration = 0.0f;

@@ -134,6 +134,19 @@ namespace ouzel
                     _particles[i].position.x = -cosf(_particles[i].angle) * _particles[i].radius;
                     _particles[i].position.y = -sinf(_particles[i].angle) * _particles[i].radius * _yCoordFlipped;
                 }
+                
+                //color r,g,b,a
+                _particles[i].colorRed += _particles[i].deltaColorRed * delta;
+                _particles[i].colorGreen += _particles[i].deltaColorGreen * delta;
+                _particles[i].colorBlue += _particles[i].deltaColorBlue * delta;
+                _particles[i].colorAlpha += _particles[i].deltaColorAlpha * delta;
+                
+                //size
+                _particles[i].size += (_particles[i].deltaSize * delta);
+                _particles[i].size = fmaxf(0.0f, _particles[i].size);
+                
+                //angle
+                _particles[i].rotation += _particles[i].deltaRotation * delta;
             }
             else
             {
@@ -325,17 +338,22 @@ namespace ouzel
             Vector2 c(v2.x * cr - v2.y * sr, v2.x * sr + v2.y * cr);
             Vector2 d(v1.x * cr - v2.y * sr, v1.x * sr + v2.y * cr);
             
+            Color color(_particles[i].colorRed * 255,
+                        _particles[i].colorGreen * 255,
+                        _particles[i].colorBlue * 255,
+                        _particles[i].colorAlpha * 255);
+            
             _vertices[i * 4 + 0].position = a + _particles[i].position;
-            _vertices[i * 4 + 0].color = _particles[i].color;
+            _vertices[i * 4 + 0].color = color;
             
             _vertices[i * 4 + 1].position = b + _particles[i].position;
-            _vertices[i * 4 + 1].color = _particles[i].color;
+            _vertices[i * 4 + 1].color = color;
             
             _vertices[i * 4 + 2].position = d + _particles[i].position;
-            _vertices[i * 4 + 2].color = _particles[i].color;
+            _vertices[i * 4 + 2].color = color;
             
             _vertices[i * 4 + 3].position = c + _particles[i].position;
-            _vertices[i * 4 + 3].color = _particles[i].color;
+            _vertices[i * 4 + 3].color = color;
         }
         
         _mesh->uploadVertices(_vertices.data(), static_cast<uint32_t>(_vertices.size()));
@@ -359,25 +377,32 @@ namespace ouzel
                     _particles[i].position = _sourcePosition + Vector2(_sourcePositionVariance.x * RANDOM_MINUS1_1(),
                                                                        _sourcePositionVariance.y * RANDOM_MINUS1_1());
                     
-                    _particles[i].size = _particles[i].startSize = fmaxf(_startParticleSize + _startParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
-                    _particles[i].finishSize = fmaxf(_finishParticleSize + _finishParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
+                    _particles[i].size = fmaxf(_startParticleSize + _startParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
                     
-                    Color startColor = Color(clamp(_startColorRed + _startColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f) * 255,
-                                             clamp(_startColorGreen + _startColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f) * 255,
-                                             clamp(_startColorBlue + _startColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f) * 255,
-                                             clamp(_startColorAlpha + _startColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f) * 255);
+                    float finishSize = fmaxf(_finishParticleSize + _finishParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
+                    _particles[i].deltaSize = (finishSize - _particles[i].size) / _particles[i].life;
                     
-                    _particles[i].color = _particles[i].startColor = startColor;
+                    _particles[i].colorRed = clamp(_startColorRed + _startColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                    _particles[i].colorGreen = clamp(_startColorGreen + _startColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                    _particles[i].colorBlue = clamp(_startColorBlue + _startColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                    _particles[i].colorAlpha = clamp(_startColorAlpha + _startColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
                     
-                    Color finishColor = Color(clamp(_finishColorRed + _finishColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f) * 255,
-                                              clamp(_finishColorGreen + _finishColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f) * 255,
-                                              clamp(_finishColorBlue + _finishColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f) * 255,
-                                              clamp(_finishColorAlpha + _finishColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f) * 255);
+                    float finishColorRed = clamp(_finishColorRed + _finishColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                    float finishColorGreen = clamp(_finishColorGreen + _finishColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                    float finishColorBlue = clamp(_finishColorBlue + _finishColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                    float finishColorAlpha = clamp(_finishColorAlpha + _finishColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
                     
-                    _particles[i].finishColor = finishColor;
+                    _particles[i].deltaColorRed = (finishColorRed - _particles[i].colorRed) / _particles[i].life;
+                    _particles[i].deltaColorGreen = (finishColorGreen - _particles[i].colorGreen) / _particles[i].life;
+                    _particles[i].deltaColorBlue = (finishColorBlue - _particles[i].colorBlue) / _particles[i].life;
+                    _particles[i].deltaColorAlpha = (finishColorAlpha - _particles[i].colorAlpha) / _particles[i].life;
                     
-                    _particles[i].rotation = _particles[i].startRotation = _startRotation + _startRotationVariance * RANDOM_MINUS1_1();
-                    _particles[i].finishRotation = _finishRotation + _finishRotation * RANDOM_MINUS1_1();
+                    //_particles[i].finishColor = finishColor;
+                    
+                    _particles[i].rotation = _startRotation + _startRotationVariance * RANDOM_MINUS1_1();
+                    
+                    float finishRotation = _finishRotation + _finishRotationVariance * RANDOM_MINUS1_1();
+                    _particles[i].deltaRotation = (finishRotation - _particles[i].rotation) / _particles[i].life;
                     
                     _particles[i].radialAcceleration = _radialAcceleration + _radialAcceleration * RANDOM_MINUS1_1();
                     _particles[i].tangentialAcceleration = _tangentialAcceleration + _tangentialAcceleration * RANDOM_MINUS1_1();
