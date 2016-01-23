@@ -57,6 +57,13 @@ namespace ouzel
             RADIUS,
         };
         
+        enum class PositionType
+        {
+            FREE,
+            RELATIVE,
+            GROUPED,
+        };
+        
         ParticleSystem();
         virtual ~ParticleSystem();
         
@@ -68,6 +75,9 @@ namespace ouzel
         void resume();
         void stop();
         void reset();
+        
+        void setPositionType(PositionType positionType) { _positionType = positionType; }
+        PositionType getPositionType() const { return _positionType; }
         
     protected:
         void createParticleMesh();
@@ -91,6 +101,8 @@ namespace ouzel
         bool _yCoordFlipped = true;
         Vector2 _sourcePosition;
         Vector2 _sourcePositionVariance;
+        
+        PositionType _positionType = PositionType::FREE;
         
         float _startParticleSize = 64.0f;
         float _startParticleSizeVariance = 5.0f;

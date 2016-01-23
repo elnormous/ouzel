@@ -83,6 +83,7 @@ namespace ouzel
         }
         
         // TODO: calculate bounding box
+        // TODO: implement position type
         
         for (int32_t i = _particleCount - 1; i >= 0; --i)
         {
