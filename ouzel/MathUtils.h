@@ -5,8 +5,6 @@
 
 #include "Vector2.h"
 
-#define DEG_TO_RAD(x)          (x * 0.0174532925f)
-#define RAD_TO_DEG(x)          (x * 57.29577951f)
 #define RANDOM_MINUS1_1()      ((2.0f * ((float)rand() / RAND_MAX)) - 1.0f) // Returns a random float between -1 and 1.
 #define RANDOM_0_1()           ((float)rand()/RAND_MAX) // Returns a random float between 0 and 1.
 
@@ -24,6 +22,16 @@ namespace ouzel
     const float PIOVER4 = 0.785398163397448309616f;
     const float PIX2 = 6.28318530717958647693f;
     const float EPSILON = 0.000001f;
+    
+    inline float degToRad(float x)
+    {
+        return x * 0.0174532925f;
+    }
+    
+    inline float radToDeg(float x)
+    {
+        return x * 57.29577951f;
+    }
     
     inline float clamp(float x, float lo, float hi)
     {

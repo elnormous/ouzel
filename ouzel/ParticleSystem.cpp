@@ -316,7 +316,7 @@ namespace ouzel
             Vector2 v1(-size_2, -size_2);
             Vector2 v2(size_2, size_2);
             
-            float r = -DEG_TO_RAD(_particles[i].rotation);
+            float r = -degToRad(_particles[i].rotation);
             float cr = cosf(r);
             float sr = sinf(r);
             
@@ -384,16 +384,16 @@ namespace ouzel
                     
                     if (_rotationIsDir)
                     {
-                        float a = DEG_TO_RAD(_angle + _angleVariance * RANDOM_MINUS1_1());
+                        float a = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
                         Vector2 v(cosf(a), sinf(a));
                         float s = _speed + _speedVariance * RANDOM_MINUS1_1();
                         Vector2 dir = v * s;
                         _particles[i].direction = dir;
-                        _particles[i].rotation = -RAD_TO_DEG(dir.getAngle());
+                        _particles[i].rotation = -radToDeg(dir.getAngle());
                     }
                     else
                     {
-                        float a = DEG_TO_RAD(_angle + _angleVariance * RANDOM_MINUS1_1());
+                        float a = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
                         Vector2 v(cosf(a), sinf(a));
                         float s = _speed + _speedVariance * RANDOM_MINUS1_1();
                         Vector2 dir = v * s;
@@ -403,8 +403,8 @@ namespace ouzel
                 else
                 {
                     _particles[i].radius = _maxRadius + _maxRadiusVariance * RANDOM_MINUS1_1();
-                    _particles[i].angle = DEG_TO_RAD(_angle + _angleVariance * RANDOM_MINUS1_1());
-                    _particles[i].degreesPerSecond = DEG_TO_RAD(_rotatePerSecond + _rotatePerSecondVariance * RANDOM_MINUS1_1());
+                    _particles[i].angle = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
+                    _particles[i].degreesPerSecond = degToRad(_rotatePerSecond + _rotatePerSecondVariance * RANDOM_MINUS1_1());
                     
                     float endRadius = _minRadius + _minRadiusVariance * RANDOM_MINUS1_1();
                     _particles[i].deltaRadius = (endRadius - _particles[i].radius) / _particles[i].life;
