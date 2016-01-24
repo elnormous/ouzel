@@ -30,6 +30,8 @@
 #include "ParticleSystem.h"
 #include "Texture.h"
 #include "EventHander.h"
+#include "Widget.h"
+#include "Menu.h"
 #include "Label.h"
 #include "Button.h"
 #include "Animator.h"

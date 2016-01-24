@@ -3,11 +3,11 @@
 
 #pragma once
 
-#include "Node.h"
+#include "Widget.h"
 
 namespace ouzel
 {
-    class Menu: public Node
+    class Menu: public Widget
     {
     public:
         

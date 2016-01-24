@@ -79,6 +79,9 @@ namespace ouzel
     class Widget;
     typedef std::shared_ptr<Widget> WidgetPtr;
     
+    class Menu;
+    typedef std::shared_ptr<Menu> MenuPtr;
+    
     class Label;
     typedef std::shared_ptr<Label> LabelPtr;
     
