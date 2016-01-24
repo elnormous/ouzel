@@ -46,9 +46,18 @@ namespace ouzel
             Engine::getInstance()->getRenderer()->activateTexture(_texture, 0);
             Engine::getInstance()->getRenderer()->activateShader(_shader);
             
-            Matrix4 modelViewProj = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
+            Matrix4 transform;
             
-            _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
+            if (_positionType == PositionType::FREE || _positionType == PositionType::RELATIVE)
+            {
+                transform = layer->getProjection() * layer->getCamera()->getTransform();
+            }
+            else if (_positionType == PositionType::GROUPED)
+            {
+                transform = layer->getProjection() * layer->getCamera()->getTransform() * getTransform();
+            }
+            
+            _shader->setVertexShaderConstant(_uniModelViewProj, { transform });
             
             Engine::getInstance()->getRenderer()->drawMeshBuffer(_mesh, _particleCount * 6);
         }
@@ -83,7 +92,6 @@ namespace ouzel
         }
         
         // TODO: calculate bounding box
-        // TODO: implement position type
         
         for (int32_t i = _particleCount - 1; i >= 0; --i)
         {
@@ -326,6 +334,17 @@ namespace ouzel
     {
         for (int32_t i = _particleCount - 1; i >= 0; --i)
         {
+            Vector2 position;
+            
+            if (_positionType == PositionType::FREE)
+            {
+                position = _particles[i].position;
+            }
+            else if (_positionType == PositionType::RELATIVE)
+            {
+                position = _position + _particles[i].position;
+            }
+            
             float size_2 = _particles[i].size / 2.0f;
             Vector2 v1(-size_2, -size_2);
             Vector2 v2(size_2, size_2);
@@ -344,16 +363,16 @@ namespace ouzel
                         _particles[i].colorBlue * 255,
                         _particles[i].colorAlpha * 255);
             
-            _vertices[i * 4 + 0].position = a + _particles[i].position;
+            _vertices[i * 4 + 0].position = a + position;
             _vertices[i * 4 + 0].color = color;
             
-            _vertices[i * 4 + 1].position = b + _particles[i].position;
+            _vertices[i * 4 + 1].position = b + position;
             _vertices[i * 4 + 1].color = color;
             
-            _vertices[i * 4 + 2].position = d + _particles[i].position;
+            _vertices[i * 4 + 2].position = d + position;
             _vertices[i * 4 + 2].color = color;
             
-            _vertices[i * 4 + 3].position = c + _particles[i].position;
+            _vertices[i * 4 + 3].position = c + position;
             _vertices[i * 4 + 3].color = color;
         }
         
@@ -369,14 +388,27 @@ namespace ouzel
         
         if (particles)
         {
+            Vector2 position;
+            if (LayerPtr layer = _layer.lock())
+            {
+                if (_positionType == PositionType::FREE)
+                {
+                    position = convertLocalToWorld(Vector2::zero());
+                }
+                else if (_positionType == PositionType::RELATIVE)
+                {
+                    position = convertLocalToWorld(Vector2::zero()) - _position;
+                }
+            }
+            
             for (uint32_t i = _particleCount; i < _particleCount + particles; ++i)
             {
                 if (_emitterType == EmitterType::GRAVITY)
                 {
                     _particles[i].life = fmaxf(_particleLifespan + _particleLifespanVariance * RANDOM_MINUS1_1(), 0.0f);
                     
-                    _particles[i].position = _sourcePosition + Vector2(_sourcePositionVariance.x * RANDOM_MINUS1_1(),
-                                                                       _sourcePositionVariance.y * RANDOM_MINUS1_1());
+                    _particles[i].position = _sourcePosition + position + Vector2(_sourcePositionVariance.x * RANDOM_MINUS1_1(),
+                                                                                  _sourcePositionVariance.y * RANDOM_MINUS1_1());
                     
                     _particles[i].size = fmaxf(_startParticleSize + _startParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
                     

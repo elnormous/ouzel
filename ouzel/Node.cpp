@@ -151,12 +151,7 @@ namespace ouzel
 
     bool Node::pointOn(const Vector2& position) const
     {
-        Vector3 localPosition = Vector3(position.x, position.y, 0.0f);
-        
-        const Matrix4& inverseTransform = getInverseTransform();
-        inverseTransform.transformPoint(&localPosition);
-        
-        return _boundingBox.containPoint(Vector2(localPosition.x, localPosition.y));
+        return _boundingBox.containPoint(convertWorldToLocal(position));
     }
     
     bool Node::rectangleOverlaps(const Rectangle& rectangle) const
@@ -216,6 +211,26 @@ namespace ouzel
         _parentTransform = parentTransform;
         calculateTransform();
         _inverseTransformDirty = true;
+    }
+    
+    Vector2 Node::convertWorldToLocal(const Vector2& position) const
+    {
+        Vector3 localPosition = position;
+        
+        const Matrix4& inverseTransform = getInverseTransform();
+        inverseTransform.transformPoint(&localPosition);
+        
+        return Vector2(localPosition.x, localPosition.y);
+    }
+    
+    Vector2 Node::convertLocalToWorld(const Vector2& position) const
+    {
+        Vector3 worldPosition = position;
+        
+        const Matrix4& transform = getTransform();
+        transform.transformPoint(&worldPosition);
+        
+        return Vector2(worldPosition.x, worldPosition.y);
     }
     
     bool Node::checkVisibility() const

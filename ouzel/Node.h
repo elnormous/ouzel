@@ -65,6 +65,9 @@ namespace ouzel
         
         virtual void updateTransform(const Matrix4& parentTransform);
         
+        Vector2 convertWorldToLocal(const Vector2& position) const;
+        Vector2 convertLocalToWorld(const Vector2& position) const;
+        
         virtual bool checkVisibility() const;
         
         virtual void animate(const AnimatorPtr& animator);
