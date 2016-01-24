@@ -25,6 +25,7 @@ namespace ouzel
         
         SpritePtr _sprite;
         SpritePtr _witch;
+        ParticleSystemPtr _flame;
         
         ButtonPtr _button;
         

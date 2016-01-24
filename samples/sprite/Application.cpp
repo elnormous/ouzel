@@ -67,9 +67,9 @@ namespace ouzel
         _layer->addChild(fire);
         fire->animate(make_shared<FadeTo>(5.0f, 0.5f));
         
-        ParticleSystemPtr flame = make_shared<ParticleSystem>();
-        flame->initFromFile("flame.json");
-        _layer->addChild(flame);
+        _flame = make_shared<ParticleSystem>();
+        _flame->initFromFile("flame.json");
+        _layer->addChild(_flame);
         
         _witch = make_shared<Sprite>();
         _witch->initFromFile("witch.png");
@@ -137,7 +137,7 @@ namespace ouzel
     bool Application::handleMouseMove(const MouseEvent& event, const VoidPtr& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
-        _witch->setPosition(worldLocation);
+        _flame->setPosition(worldLocation);
         
         return true;
     }
@@ -145,7 +145,7 @@ namespace ouzel
     bool Application::handleTouch(const TouchEvent& event, const VoidPtr& sender) const
     {
         Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
-        _witch->setPosition(worldLocation);
+        _flame->setPosition(worldLocation);
         
         return true;
     }
@@ -184,7 +184,7 @@ namespace ouzel
         }
         
         Vector2 worldLocation = _layer->screenToWorldLocation(position);
-        _witch->setPosition(worldLocation);
+        _flame->setPosition(worldLocation);
         
         return true;
     }
