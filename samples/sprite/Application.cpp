@@ -152,7 +152,7 @@ namespace ouzel
     
     bool Application::handleGamepadButtonChange(const GamepadEvent& event, const VoidPtr& sender) const
     {
-        Vector2 position = _layer->worldToScreenLocation(_witch->getPosition());
+        Vector2 position = _layer->worldToScreenLocation(_flame->getPosition());
         
         switch (event.button)
         {

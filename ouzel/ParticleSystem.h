@@ -102,7 +102,7 @@ namespace ouzel
         Vector2 _sourcePosition;
         Vector2 _sourcePositionVariance;
         
-        PositionType _positionType = PositionType::RELATIVE;
+        PositionType _positionType = PositionType::FREE;
         
         float _startParticleSize = 64.0f;
         float _startParticleSizeVariance = 5.0f;
