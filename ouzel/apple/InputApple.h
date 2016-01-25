@@ -26,8 +26,8 @@ namespace ouzel
     public:
         virtual ~InputApple();
         
-        virtual void startDiscovery() override;
-        virtual void stopDiscovery() override;
+        virtual void startGamepadDiscovery() override;
+        virtual void stopGamepadDiscovery() override;
         
         void handleDiscoveryCompleted();
         void handleControllerConnected(id controller);

@@ -217,8 +217,8 @@ namespace ouzel
         
         virtual void update();
         
-        virtual void startDiscovery();
-        virtual void stopDiscovery();
+        virtual void startGamepadDiscovery();
+        virtual void stopGamepadDiscovery();
         
     protected:
         Input();

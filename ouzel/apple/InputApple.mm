@@ -64,7 +64,7 @@ namespace ouzel
         
     }
     
-    void InputApple::startDiscovery()
+    void InputApple::startGamepadDiscovery()
     {
         log("Started gamepad discovery");
         
@@ -77,7 +77,7 @@ namespace ouzel
         }
     }
     
-    void InputApple::stopDiscovery()
+    void InputApple::stopGamepadDiscovery()
     {
         log("Stopped gamepad discovery");
         

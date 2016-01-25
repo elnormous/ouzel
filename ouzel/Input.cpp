@@ -20,12 +20,12 @@ namespace ouzel
         
     }
     
-    void Input::startDiscovery()
+    void Input::startGamepadDiscovery()
     {
         
     }
     
-    void Input::stopDiscovery()
+    void Input::stopGamepadDiscovery()
     {
         
     }
