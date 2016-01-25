@@ -16,6 +16,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Cache.cpp \
     ../../../ouzel/Camera.cpp \
     ../../../ouzel/Color.cpp \
+    ../../../ouzel/DrawNode.cpp \
     ../../../ouzel/Ease.cpp \
     ../../../ouzel/Engine.cpp \
     ../../../ouzel/EventDispatcher.cpp \

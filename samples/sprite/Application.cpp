@@ -47,6 +47,15 @@ namespace ouzel
         _uiLayer = make_shared<Layer>();
         scene->addLayer(_uiLayer);
         
+        DrawNodePtr drawNode = std::make_shared<DrawNode>();
+        drawNode->rectangle(Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
+        drawNode->rectangle(Rectangle(100.0f, 100.0f), Color(255, 255, 255, 255), false);
+        drawNode->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color(0, 255, 255, 255));
+        drawNode->point(Vector2(60.0f, 60.0f), Color(0, 255, 255, 255));
+        
+        drawNode->setPosition(Vector2(-300, 0.0f));
+        _layer->addChild(drawNode);
+        
         _sprite = make_shared<Sprite>();
         _sprite->initFromFile("run.json");
         _sprite->play(true);

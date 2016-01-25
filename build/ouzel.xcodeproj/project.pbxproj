@@ -430,6 +430,12 @@
 		305B99BA1C43306D008589E1 /* button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B91C43306D008589E1 /* button_disabled.png */; };
 		305B99BB1C43306D008589E1 /* button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B91C43306D008589E1 /* button_disabled.png */; };
 		305B99BC1C43306D008589E1 /* button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B91C43306D008589E1 /* button_disabled.png */; };
+		306B0E5F1C567D05005C75C1 /* DrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DrawNode.cpp */; };
+		306B0E601C567D05005C75C1 /* DrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DrawNode.cpp */; };
+		306B0E611C567D05005C75C1 /* DrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DrawNode.cpp */; };
+		306B0E621C567D05005C75C1 /* DrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DrawNode.h */; };
+		306B0E631C567D05005C75C1 /* DrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DrawNode.h */; };
+		306B0E641C567D05005C75C1 /* DrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DrawNode.h */; };
 		30B328841C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328851C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328861C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
@@ -628,6 +634,8 @@
 		305B99B21C433061008589E1 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		305B99B91C43306D008589E1 /* button_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_disabled.png; sourceTree = "<group>"; };
 		305B99C71C451962008589E1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
+		306B0E5D1C567D05005C75C1 /* DrawNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawNode.cpp; sourceTree = "<group>"; };
+		306B0E5E1C567D05005C75C1 /* DrawNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawNode.h; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
@@ -733,6 +741,8 @@
 			children = (
 				304A8E2B1C237C70008B1151 /* Camera.cpp */,
 				304A8E2C1C237C70008B1151 /* Camera.h */,
+				306B0E5D1C567D05005C75C1 /* DrawNode.cpp */,
+				306B0E5E1C567D05005C75C1 /* DrawNode.h */,
 				30575AA41C39D1FF0009C8A7 /* Layer.cpp */,
 				30575AA51C39D1FF0009C8A7 /* Layer.h */,
 				304A8E361C237C70008B1151 /* Node.cpp */,
@@ -1085,6 +1095,7 @@
 			files = (
 				3047F75A1C4C4FBA00774E3D /* ScaleTo.h in Headers */,
 				30575A931C38BD370009C8A7 /* AABB2.h in Headers */,
+				306B0E631C567D05005C75C1 /* DrawNode.h in Headers */,
 				303B754B1C2A3C9200FEDE92 /* Texture.h in Headers */,
 				303B75521C2A3CB700FEDE92 /* Matrix4.h in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.h in Headers */,
@@ -1157,6 +1168,7 @@
 			files = (
 				3047F75B1C4C4FBA00774E3D /* ScaleTo.h in Headers */,
 				30575A941C38BD370009C8A7 /* AABB2.h in Headers */,
+				306B0E641C567D05005C75C1 /* DrawNode.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
 				303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */,
 				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
@@ -1265,6 +1277,7 @@
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
 				30575AD01C3B175D0009C8A7 /* Label.h in Headers */,
 				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
+				306B0E621C567D05005C75C1 /* DrawNode.h in Headers */,
 				3047F7411C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
@@ -1521,6 +1534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				303B76301C3559B900FEDE92 /* ViewController.m in Sources */,
+				306B0E601C567D05005C75C1 /* DrawNode.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
@@ -1595,6 +1609,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
+				306B0E611C567D05005C75C1 /* DrawNode.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
@@ -1716,6 +1731,7 @@
 				304A8E8E1C26EA8B008B1151 /* ShaderOGL.cpp in Sources */,
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
 				30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
+				306B0E5F1C567D05005C75C1 /* DrawNode.cpp in Sources */,
 				30575ACD1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,

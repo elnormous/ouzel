@@ -76,6 +76,9 @@ namespace ouzel
     class ParticleSystem;
     typedef std::shared_ptr<ParticleSystem> ParticleSystemPtr;
     
+    class DrawNode;
+    typedef std::shared_ptr<DrawNode> DrawNodePtr;
+    
     class Widget;
     typedef std::shared_ptr<Widget> WidgetPtr;
     
