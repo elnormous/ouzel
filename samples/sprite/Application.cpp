@@ -51,7 +51,10 @@ namespace ouzel
         drawNode->rectangle(Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
         drawNode->rectangle(Rectangle(100.0f, 100.0f), Color(255, 255, 255, 255), false);
         drawNode->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color(0, 255, 255, 255));
-        drawNode->point(Vector2(60.0f, 60.0f), Color(0, 255, 255, 255));
+        drawNode->point(Vector2(75.0f, 75.0f), Color(255, 0, 0, 255));
+        
+        drawNode->circle(Vector2(75.0f, 75.0f), 20.0f, Color(0, 0, 255, 255));
+        drawNode->circle(Vector2(25.0f, 75.0f), 20.0f, Color(0, 0, 255, 255), true);
         
         drawNode->setPosition(Vector2(-300, 0.0f));
         _layer->addChild(drawNode);
@@ -85,7 +88,7 @@ namespace ouzel
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
         _layer->addChild(_witch);
-        _witch->animate(make_shared<Repeat>(make_shared<RotateTo>(1.0f, PI * 2.0f), 3));
+        _witch->animate(make_shared<Repeat>(make_shared<RotateTo>(1.0f, TAU), 3));
         
         LabelPtr label = make_shared<Label>("font.fnt", "testing fonts");
         _uiLayer->addChild(label);

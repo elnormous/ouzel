@@ -7,6 +7,7 @@
 #include "Cache.h"
 #include "Layer.h"
 #include "Camera.h"
+#include "MathUtils.h"
 
 namespace ouzel
 {
@@ -90,13 +91,69 @@ namespace ouzel
         _drawCommands.push_back(command);
     }
     
-    void DrawNode::circle(const Vector2& position, float radius, const Color& color, bool fill)
+    void DrawNode::circle(const Vector2& position, float radius, const Color& color, bool fill, uint32_t segments)
     {
+        if (segments < 3)
+        {
+            return;
+        }
         
+        std::vector<uint16_t> indices;
+        std::vector<VertexPC> vertices;
+        
+        if (fill)
+        {
+            vertices.push_back(VertexPC(Vector3(position), color));
+        }
+        
+        for(uint32_t i = 0; i <= segments; ++i)
+        {
+            vertices.push_back(VertexPC(Vector3((position.x + radius * cosf(i * TAU / static_cast<float>(segments))),
+                                                (position.y + radius * sinf(i * TAU / static_cast<float>(segments))),
+                                                0.0f), color));
+        }
+        
+        DrawCommand command;
+        
+        if (fill)
+        {
+            command.mode = Renderer::DrawMode::TRIANGLE_STRIP;
+            
+            for(uint32_t i = 1; i <= segments; ++i)
+            {
+                indices.push_back(i);
+                
+                if (i & 1)
+                {
+                    indices.push_back(0); // center
+                }
+            }
+            
+            indices.push_back(1);
+        }
+        else
+        {
+            command.mode = Renderer::DrawMode::LINE_STRIP;
+            
+            for(uint32_t i = 0; i <= segments; ++i)
+            {
+                indices.push_back(i);
+            }
+        }
+        
+        command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
+                                                                              static_cast<uint32_t>(indices.size()), false,
+                                                                              vertices.data(), sizeof(VertexPC),
+                                                                              static_cast<uint32_t>(vertices.size()), false,
+                                                                              VertexPC::ATTRIBUTES);
+        
+        _drawCommands.push_back(command);
     }
     
     void DrawNode::rectangle(const Rectangle& rectangle, const Color& color, bool fill)
     {
+        std::vector<uint16_t> indices;
+        
         std::vector<VertexPC> vertices = {
             VertexPC(Vector3(rectangle.left(), rectangle.bottom(), 0.0f), color),
             VertexPC(Vector3(rectangle.right(), rectangle.bottom(), 0.0f), color),
@@ -108,26 +165,20 @@ namespace ouzel
         
         if (fill)
         {
-            std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
-            
             command.mode = Renderer::DrawMode::TRIANGLE_LIST;
-            command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
-                                                                                  static_cast<uint32_t>(indices.size()), false,
-                                                                                  vertices.data(), sizeof(VertexPC),
-                                                                                  static_cast<uint32_t>(vertices.size()), false,
-                                                                                  VertexPC::ATTRIBUTES);
+            indices.assign({0, 1, 2, 1, 3, 2});
         }
         else
         {
-            std::vector<uint16_t> indices = {0, 1, 3, 2, 0};
-            
             command.mode = Renderer::DrawMode::LINE_STRIP;
-            command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
-                                                                                  static_cast<uint32_t>(indices.size()), false,
-                                                                                  vertices.data(), sizeof(VertexPC),
-                                                                                  static_cast<uint32_t>(vertices.size()), false,
-                                                                                  VertexPC::ATTRIBUTES);
+            indices.assign({0, 1, 3, 2, 0});
         }
+        
+        command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
+                                                                              static_cast<uint32_t>(indices.size()), false,
+                                                                              vertices.data(), sizeof(VertexPC),
+                                                                              static_cast<uint32_t>(vertices.size()), false,
+                                                                              VertexPC::ATTRIBUTES);
         
         _drawCommands.push_back(command);
     }
