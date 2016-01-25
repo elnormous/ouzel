@@ -575,7 +575,7 @@ namespace ouzel
         {
             TRUE, // enable blending
             D3D11_BLEND_SRC_ALPHA, D3D11_BLEND_INV_SRC_ALPHA, D3D11_BLEND_OP_ADD, // color blend source/dest factors, op
-            D3D11_BLEND_SRC_ALPHA, D3D11_BLEND_INV_SRC_ALPHA, D3D11_BLEND_OP_ADD, // alpha blend source/dest factors, op
+            D3D11_BLEND_ONE, D3D11_BLEND_ZERO, D3D11_BLEND_OP_ADD, // alpha blend source/dest factors, op
             D3D11_COLOR_WRITE_ENABLE_ALL, // color write mask
         };
         blendStateDesc.RenderTarget[0] = targetBlendDesc;
