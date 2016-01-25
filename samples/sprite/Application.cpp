@@ -107,7 +107,7 @@ namespace ouzel
         _button->setPosition(Vector2(-200.0f, 200.0f));
         _uiLayer->addChild(_button);
         
-        Engine::getInstance()->getInput()->startDiscovery();
+        Engine::getInstance()->getInput()->startGamepadDiscovery();
     }
     
     bool Application::handleKeyDown(const KeyboardEvent& event, const VoidPtr& sender) const
