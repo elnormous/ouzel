@@ -90,7 +90,7 @@ using namespace ouzel;
         [_openGLContext setView:self];
     }
     
-    [self makeOpenGLContextCurrent];
+    [self makeContextCurrent];
 }
 
 -(void)prepareOpenGL
@@ -106,7 +106,7 @@ using namespace ouzel;
 
 -(void)drawRect:(NSRect)bounds
 {
-    [_openGLContext makeCurrentContext];
+    [self makeContextCurrent];
     
     Engine::getInstance()->run();
     
@@ -143,7 +143,7 @@ using namespace ouzel;
     return YES;
 }
 
--(void)makeOpenGLContextCurrent
+-(void)makeContextCurrent
 {
     [_openGLContext makeCurrentContext];
 }
