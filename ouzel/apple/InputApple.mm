@@ -1,7 +1,11 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <GameController/GameController.h>
+#include "CompileConfig.h"
+#ifdef OUZEL_PLATFORM_OSX
+#import <AppKit/AppKit.h>
+#endif
+#import <GameController/GameController.h>
 #include "InputApple.h"
 #include "Engine.h"
 #include "GamepadApple.h"
@@ -22,13 +26,13 @@
 -(void)handleControllerConnected:(NSNotification*)notification
 {
     std::shared_ptr<ouzel::InputApple> inputApple = std::static_pointer_cast<ouzel::InputApple>(ouzel::Engine::getInstance()->getInput());
-    inputApple->handleControllerConnected(notification.object);
+    inputApple->handleGamepadConnected(notification.object);
 }
 
 -(void)handleControllerDisconnected:(NSNotification*)notification
 {
     std::shared_ptr<ouzel::InputApple> inputApple = std::static_pointer_cast<ouzel::InputApple>(ouzel::Engine::getInstance()->getInput());
-    inputApple->handleControllerDisconnected(notification.object);
+    inputApple->handleGamepadDisconnected(notification.object);
 }
 
 @end
@@ -54,7 +58,7 @@ namespace ouzel
             
             for (GCController* controller in [GCController controllers])
             {
-                handleControllerConnected(controller);
+                handleGamepadConnected(controller);
             }
         }
     }
@@ -62,6 +66,29 @@ namespace ouzel
     InputApple::~InputApple()
     {
         
+    }
+    
+    void InputApple::setMouseVisible(bool visible)
+    {
+#ifdef OUZEL_PLATFORM_OSX
+        if (visible)
+        {
+            [NSCursor unhide];
+        }
+        else
+        {
+            [NSCursor hide];
+        }
+#endif
+    }
+    
+    bool InputApple::isMouseVisible() const
+    {
+#ifdef OUZEL_PLATFORM_OSX
+        return CGCursorIsVisible();
+#else
+        return false;
+#endif
     }
     
     void InputApple::startGamepadDiscovery()
@@ -73,7 +100,7 @@ namespace ouzel
         if ([GCController class])
         {
             [GCController startWirelessControllerDiscoveryWithCompletionHandler:
-             ^(void){ handleDiscoveryCompleted(); }];
+             ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
     }
     
@@ -92,13 +119,13 @@ namespace ouzel
         }
     }
     
-    void InputApple::handleDiscoveryCompleted()
+    void InputApple::handleGamepadDiscoveryCompleted()
     {
-        log("Discovery completed");
+        log("Gamepad discovery completed");
         _discovering = false;
     }
     
-    void InputApple::handleControllerConnected(id controller)
+    void InputApple::handleGamepadConnected(id controller)
     {
         std::shared_ptr<GamepadApple> gamepad(new GamepadApple(controller));
         _gamepads.push_back(gamepad);
@@ -110,7 +137,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->dispatchGamepadConnectEvent(event, Engine::getInstance()->getInput());
     }
     
-    void InputApple::handleControllerDisconnected(id controller)
+    void InputApple::handleGamepadDisconnected(id controller)
     {
         std::vector<std::shared_ptr<GamepadApple>>::iterator i = std::find_if(_gamepads.begin(), _gamepads.end(), [controller](const std::shared_ptr<GamepadApple>& p) {
             return p->getController() == controller;

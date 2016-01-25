@@ -27,6 +27,7 @@ namespace ouzel
         _eventHandler = make_shared<EventHandler>();
         
         _eventHandler->keyDownHandler = std::bind(&Application::handleKeyDown, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->mouseDownHandler = std::bind(&Application::handleMouseDown, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->mouseMoveHandler = std::bind(&Application::handleMouseMove, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->touchBeginHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->touchMoveHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
@@ -142,6 +143,13 @@ namespace ouzel
         }
         
         _layer->getCamera()->setPosition(position);
+        
+        return true;
+    }
+    
+    bool Application::handleMouseDown(const MouseEvent& event, const VoidPtr& sender) const
+    {
+        Engine::getInstance()->getInput()->setMouseVisible(!Engine::getInstance()->getInput()->isMouseVisible());
         
         return true;
     }

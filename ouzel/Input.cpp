@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Input.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -18,6 +19,16 @@ namespace ouzel
     void Input::update()
     {
         
+    }
+    
+    void Input::setMouseVisible(bool visible)
+    {
+        OUZEL_UNUSED(visible);
+    }
+    
+    bool Input::isMouseVisible() const
+    {
+        return false;
     }
     
     void Input::startGamepadDiscovery()
