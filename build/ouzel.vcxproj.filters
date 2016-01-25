@@ -164,6 +164,9 @@
     <ClCompile Include="..\ouzel\Cache.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\DrawNode.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -359,6 +362,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\Cache.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\DrawNode.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

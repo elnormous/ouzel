@@ -26,6 +26,7 @@
     <ClCompile Include="..\ouzel\Cache.cpp" />
     <ClCompile Include="..\ouzel\Camera.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
+    <ClCompile Include="..\ouzel\DrawNode.cpp" />
     <ClCompile Include="..\ouzel\Ease.cpp" />
     <ClCompile Include="..\ouzel\Engine.cpp" />
     <ClCompile Include="..\ouzel\EventDispatcher.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="..\ouzel\ColorPSD3D11.h" />
     <ClInclude Include="..\ouzel\ColorVSD3D11.h" />
     <ClInclude Include="..\ouzel\CompileConfig.h" />
+    <ClInclude Include="..\ouzel\DrawNode.h" />
     <ClInclude Include="..\ouzel\Ease.h" />
     <ClInclude Include="..\ouzel\Engine.h" />
     <ClInclude Include="..\ouzel\Event.h" />
