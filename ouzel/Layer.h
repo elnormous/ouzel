@@ -16,7 +16,7 @@ namespace ouzel
     class Camera;
     class Scene;
     
-    class Layer: public NodeContainer, public std::enable_shared_from_this<Layer>
+    class Layer: public NodeContainer
     {
         friend Scene;
     public:

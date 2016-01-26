@@ -66,7 +66,7 @@ namespace ouzel
     {
         if (NodeContainer::addChild(node))
         {
-            node->addToLayer(shared_from_this());
+            node->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
             
             node->updateTransform(Matrix4::identity());
             

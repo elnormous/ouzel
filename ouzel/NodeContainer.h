@@ -13,7 +13,7 @@ namespace ouzel
     class Layer;
     class Node;
     
-    class NodeContainer: public Noncopyable
+    class NodeContainer: public Noncopyable, public std::enable_shared_from_this<NodeContainer>
     {
     public:
         NodeContainer();

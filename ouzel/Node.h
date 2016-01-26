@@ -15,7 +15,7 @@ namespace ouzel
 {
     class SceneManager;
 
-    class Node: public NodeContainer, public std::enable_shared_from_this<Node>
+    class Node: public NodeContainer
     {
         friend SceneManager;
         friend NodeContainer;
@@ -24,12 +24,13 @@ namespace ouzel
         Node();
         virtual ~Node();
         
-        virtual bool hasParent() const { return _hasParent; }
-        
         virtual void draw();
         virtual void update(float delta);
         
         virtual bool addChild(const NodePtr& node) override;
+        virtual bool hasParent() const { return !_parent.expired(); }
+        virtual NodeContainerPtr getParent() const { return _parent.lock(); }
+        virtual bool removeFromParent();
         
         virtual void setZ(float z);
         virtual float getZ() const { return _z; }
@@ -99,7 +100,7 @@ namespace ouzel
         
         bool _visible = true;
         
-        bool _hasParent = false;
+        NodeContainerWeakPtr _parent;
         LayerWeakPtr _layer;
         
         AnimatorPtr _currentAnimator;

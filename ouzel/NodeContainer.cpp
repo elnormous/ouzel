@@ -16,7 +16,7 @@ namespace ouzel
     {
         for (NodePtr node : _children)
         {
-            node->_hasParent = false;
+            node->_parent.reset();
             node->_layer.reset();
         }
     }
@@ -25,7 +25,7 @@ namespace ouzel
     {
         if (!hasChild(node) && !node->hasParent())
         {
-            node->_hasParent = true;
+            node->_parent = shared_from_this();
             _children.push_back(node);
             
             return true;
@@ -45,7 +45,7 @@ namespace ouzel
         if (i != _children.end())
         {
             node->removeFromLayer();
-            node->_hasParent = false;
+            node->_parent.reset();
             node->_layer.reset();
             _children.erase(i);
             
@@ -62,7 +62,7 @@ namespace ouzel
         for (auto& node : _children)
         {
             node->removeFromLayer();
-            node->_hasParent = false;
+            node->_parent.reset();
             node->_layer.reset();
         }
         

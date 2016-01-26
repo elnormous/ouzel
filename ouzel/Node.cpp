@@ -65,6 +65,17 @@ namespace ouzel
             return false;
         }
     }
+    
+    bool Node::removeFromParent()
+    {
+        if (NodeContainerPtr parent = _parent.lock())
+        {
+            parent->removeChild(std::static_pointer_cast<Node>(shared_from_this()));
+            return true;
+        }
+        
+        return false;
+    }
 
     void Node::setZ(float z)
     {
@@ -127,7 +138,7 @@ namespace ouzel
         
         if (LayerPtr layer = _layer.lock())
         {
-            layer->addNode(shared_from_this());
+            layer->addNode(std::static_pointer_cast<Node>(shared_from_this()));
             
             for (NodePtr child : _children)
             {
@@ -140,7 +151,7 @@ namespace ouzel
     {
         if (LayerPtr layer = _layer.lock())
         {
-            layer->removeNode(shared_from_this());
+            layer->removeNode(std::static_pointer_cast<Node>(shared_from_this()));
             
             for (NodePtr child : _children)
             {
@@ -297,7 +308,7 @@ namespace ouzel
         
         if (_currentAnimator)
         {
-            _currentAnimator->start(shared_from_this());
+            _currentAnimator->start(std::static_pointer_cast<Node>(shared_from_this()));
         }
     }
     
