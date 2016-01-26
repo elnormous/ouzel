@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Vector2.h"
+#include "Size2.h"
 
 namespace ouzel
 {
@@ -59,6 +60,8 @@ public:
     Rectangle(float x, float y, float width, float height);
     
     Rectangle(const Vector2& position, float width, float height);
+    
+    Rectangle(const Vector2& position, const Size2& size);
 
     /**
      * Constructs a new rectangle that is a copy of the specified rectangle.

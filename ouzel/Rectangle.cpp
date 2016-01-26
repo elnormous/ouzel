@@ -27,6 +27,12 @@ namespace ouzel
         x(position.x), y(position.y), width(width), height(height)
     {
     }
+    
+    Rectangle::Rectangle(const Vector2& position, const Size2& size):
+        x(position.x), y(position.y), width(size.width), height(size.height)
+    {
+        
+    }
 
     Rectangle::Rectangle(const Rectangle& copy)
     {
