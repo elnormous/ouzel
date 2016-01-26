@@ -24,6 +24,22 @@ namespace ouzel
     const float PIX2 = 6.28318530717958647693f;
     const float EPSILON = 0.000001f;
     
+    inline bool isPOT(int x)
+    {
+        return (x != 0) && (((x - 1) & x) == 0);
+    }
+    
+    inline int nextPOT(int x)
+    {
+        x = x - 1;
+        x = x | (x >> 1);
+        x = x | (x >> 2);
+        x = x | (x >> 4);
+        x = x | (x >> 8);
+        x = x | (x >>16);
+        return x + 1;
+    }
+    
     template <typename T> int sgn(T val)
     {
         return (T(0) < val) - (val < T(0));

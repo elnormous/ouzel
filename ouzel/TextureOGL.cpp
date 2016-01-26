@@ -5,7 +5,7 @@
 #include "Engine.h"
 #include "RendererOGL.h"
 #include "Image.h"
-#include "Utils.h"
+#include "MathUtils.h"
 #include "stb_image_resize.h"
 
 namespace ouzel
