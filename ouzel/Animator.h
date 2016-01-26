@@ -17,7 +17,7 @@ namespace ouzel
         virtual void start(const NodePtr& node);
         
         virtual void resume();
-        virtual void pause();
+        virtual void stop(bool resetAnimation = false);
         virtual void reset();
         
         bool isRunning() const { return _running; }

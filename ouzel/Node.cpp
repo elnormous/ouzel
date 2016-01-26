@@ -312,6 +312,12 @@ namespace ouzel
         }
     }
     
+    void Node::stopAnimation()
+    {
+        _currentAnimator->stop();
+        _currentAnimator.reset();
+    }
+    
     void Node::calculateTransform() const
     {
         Matrix4 translation;

@@ -72,6 +72,7 @@ namespace ouzel
         virtual bool checkVisibility() const;
         
         virtual void animate(const AnimatorPtr& animator);
+        virtual void stopAnimation();
         
     protected:
         virtual void addToLayer(const LayerWeakPtr& layer);

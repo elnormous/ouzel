@@ -40,9 +40,14 @@ namespace ouzel
         _running = true;
     }
     
-    void Animator::pause()
+    void Animator::stop(bool resetAnimation)
     {
         _running = false;
+        
+        if (resetAnimation)
+        {
+            reset();
+        }
     }
     
     void Animator::reset()
