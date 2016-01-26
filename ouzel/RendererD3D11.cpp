@@ -346,6 +346,26 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             return TRUE;
         }
+        case WM_SYSCOMMAND:
+        {
+            switch (wParam)
+            {
+                case SC_SCREENSAVE:
+                case SC_MONITORPOWER:
+                {
+                    if (Engine::getInstance()->getRenderer()->isFullscreen())
+                    {
+                        // Disable screensaver in fullscreen mode
+                        return 0;
+                    }
+                    break;
+                }
+                // Disable accessing menu using alt key
+                case SC_KEYMENU:
+                    return 0;
+            }
+            break;
+        }
         case WM_DESTROY:
         {
             PostQuitMessage(0);
