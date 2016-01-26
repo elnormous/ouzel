@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "RendererD3D11.h"
 #include "Image.h"
+#include "MathUtils.h"
 #include "Utils.h"
 #include "stb_image_resize.h"
 
