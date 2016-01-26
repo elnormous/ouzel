@@ -36,29 +36,41 @@ namespace ouzel
         
         Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
         
-        _normalSprite = std::make_shared<Sprite>();
-        if (_normalSprite->initFromFile(normal))
+        if (!normal.empty())
         {
-            _boundingBox = _normalSprite->getBoundingBox();
-            addChild(_normalSprite);
+            _normalSprite = std::make_shared<Sprite>();
+            if (_normalSprite->initFromFile(normal))
+            {
+                _boundingBox = _normalSprite->getBoundingBox();
+                addChild(_normalSprite);
+            }
         }
         
-        _selectedSprite = std::make_shared<Sprite>();
-        if (_selectedSprite->initFromFile(selected))
+        if (!selected.empty())
         {
-            addChild(_selectedSprite);
+            _selectedSprite = std::make_shared<Sprite>();
+            if (_selectedSprite->initFromFile(selected))
+            {
+                addChild(_selectedSprite);
+            }
         }
         
-        _pressedSprite = std::make_shared<Sprite>();
-        if (_pressedSprite->initFromFile(pressed))
+        if (!pressed.empty())
         {
-            addChild(_pressedSprite);
+            _pressedSprite = std::make_shared<Sprite>();
+            if (_pressedSprite->initFromFile(pressed))
+            {
+                addChild(_pressedSprite);
+            }
         }
         
-        _disabledSprite = std::make_shared<Sprite>();
-        if (_disabledSprite->initFromFile(disabled))
+        if (!disabled.empty())
         {
-            addChild(_disabledSprite);
+            _disabledSprite = std::make_shared<Sprite>();
+            if (_disabledSprite->initFromFile(disabled))
+            {
+                addChild(_disabledSprite);
+            }
         }
         
         _callback = callback;
