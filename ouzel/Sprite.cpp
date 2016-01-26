@@ -291,14 +291,19 @@ namespace ouzel
         _playing = true;
     }
     
-    void Sprite::stop(bool reset)
+    void Sprite::stop(bool resetAnimation)
     {
         _playing = false;
         
-        if (reset)
+        if (resetAnimation)
         {
-            _currentFrame = 0;
-            _timeSinceLastFrame = 0.0f;
+            reset();
         }
+    }
+    
+    void Sprite::reset()
+    {
+        _currentFrame = 0;
+        _timeSinceLastFrame = 0.0f;
     }
 }

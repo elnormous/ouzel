@@ -40,7 +40,8 @@ namespace ouzel
         virtual void setColor(const Color& color);
         
         virtual void play(bool repeat = true, float frameInterval = 0.1f);
-        virtual void stop(bool reset = true);
+        virtual void stop(bool resetAnimation = true);
+        virtual void reset();
         virtual bool isPlaying() const { return _playing; }
         
     protected:

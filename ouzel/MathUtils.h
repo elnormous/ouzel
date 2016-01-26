@@ -25,7 +25,7 @@ namespace ouzel
     const float PIX2 = 6.28318530717958647693f;
     const float EPSILON = 0.000001f;
     
-    unsigned int random(uint32_t min, uint32_t max)
+    inline unsigned int random(uint32_t min, uint32_t max)
     {
         int32_t r;
         const uint32_t range = 1 + max - min;
