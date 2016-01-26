@@ -60,8 +60,7 @@ namespace ouzel
         drawNode->setPosition(Vector2(-300, 0.0f));
         _layer->addChild(drawNode);
         
-        _sprite = make_shared<Sprite>();
-        _sprite->initFromFile("run.json");
+        _sprite = Sprite::createFromFile("run.json");
         _sprite->play(true);
         _layer->addChild(_sprite);
         _sprite->setPosition(Vector2(-300.0f, 0.0f));
@@ -73,25 +72,22 @@ namespace ouzel
 
         _sprite->animate(make_shared<Sequence>(sequence));
         
-        SpritePtr fire = make_shared<Sprite>();
-        fire->initFromFile("fire.json");
+        SpritePtr fire = Sprite::createFromFile("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
         _layer->addChild(fire);
         fire->animate(make_shared<FadeTo>(5.0f, 0.5f));
         
-        _flame = make_shared<ParticleSystem>();
-        _flame->initFromFile("flame.json");
+        _flame = ParticleSystem::createFromFile("flame.json");
         _layer->addChild(_flame);
         
-        _witch = make_shared<Sprite>();
-        _witch->initFromFile("witch.png");
+        _witch = Sprite::createFromFile("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
         _layer->addChild(_witch);
         _witch->animate(make_shared<Repeat>(make_shared<RotateTo>(1.0f, TAU), 3));
         
-        LabelPtr label = make_shared<Label>("font.fnt", "testing fonts");
+        LabelPtr label = Label::create("font.fnt", "testing fonts");
         _uiLayer->addChild(label);
 
         std::vector<AnimatorPtr> sequence2 = {
@@ -101,8 +97,7 @@ namespace ouzel
 
         label->animate(make_shared<Sequence>(sequence2));
         
-        _button = make_shared<Button>();
-        _button->init("button.png", "button.png", "button_down.png", "button_disabled.png", [this](VoidPtr sender) {
+        _button = Button::create("button.png", "button.png", "button_down.png", "button_disabled.png", [this](VoidPtr sender) {
             _sprite->setVisible(!_sprite->isVisible());
         });
         _button->setPosition(Vector2(-200.0f, 200.0f));

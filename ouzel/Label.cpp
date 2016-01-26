@@ -11,15 +11,20 @@
 
 namespace ouzel
 {
-    Label::Label(const std::string& font, const std::string& text, const Vector2& textAnchor)
+    std::shared_ptr<Label> Label::create(const std::string& font, const std::string& text, const Vector2& textAnchor)
     {
-        BMFont bmFont;
-        bmFont.loadFont(font);
+        std::shared_ptr<Label> result = std::make_shared<Label>();
         
-        _texture = bmFont.getTexture();
+        if (!result->init(font, text, textAnchor))
+        {
+            result.reset();
+        }
         
-        _meshBuffer = bmFont.createMeshBuffer(text, Color(255, 255, 255, 255), textAnchor);
-        
+        return result;
+    }
+    
+    Label::Label()
+    {
         _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
         
 #ifdef OUZEL_PLATFORM_WINDOWS
@@ -32,6 +37,23 @@ namespace ouzel
     Label::~Label()
     {
         
+    }
+    
+    bool Label::init(const std::string& font, const std::string& text, const Vector2& textAnchor)
+    {
+        BMFont bmFont;
+        bmFont.loadFont(font);
+        
+        _texture = bmFont.getTexture();
+        
+        if (!_texture)
+        {
+            return false;
+        }
+        
+        _meshBuffer = bmFont.createMeshBuffer(text, Color(255, 255, 255, 255), textAnchor);
+        
+        return true;
     }
     
     void Label::draw()

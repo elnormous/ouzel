@@ -20,6 +20,18 @@
 
 namespace ouzel
 {
+    std::shared_ptr<Sprite> Sprite::createFromFile(const std::string& filename)
+    {
+        std::shared_ptr<Sprite> result = std::make_shared<Sprite>();
+        
+        if (!result->initFromFile(filename))
+        {
+            result.reset();
+        }
+        
+        return result;
+    }
+    
     Sprite::Sprite()
     {
     }

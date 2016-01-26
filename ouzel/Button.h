@@ -16,6 +16,8 @@ namespace ouzel
     class Button: public Widget
     {
     public:
+        static std::shared_ptr<Button> create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(const VoidPtr&)>& callback = std::function<void(const VoidPtr&)>());
+        
         Button();
         virtual ~Button();
         

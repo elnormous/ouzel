@@ -18,6 +18,8 @@ namespace ouzel
     class Sprite: public Node
     {
     public:
+        static std::shared_ptr<Sprite> createFromFile(const std::string& filename);
+        
         Sprite();
         virtual ~Sprite();
         

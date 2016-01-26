@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 #include "node.h"
@@ -63,6 +64,8 @@ namespace ouzel
             RELATIVE,
             GROUPED,
         };
+        
+        static std::shared_ptr<ParticleSystem> createFromFile(const std::string& filename);
         
         ParticleSystem();
         virtual ~ParticleSystem();

@@ -12,6 +12,18 @@
 
 namespace ouzel
 {
+    std::shared_ptr<Button> Button::create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(const VoidPtr&)>& callback)
+    {
+        std::shared_ptr<Button> result = std::make_shared<Button>();
+        
+        if (!result->init(normal, selected, pressed, disabled, callback))
+        {
+            result.reset();
+        }
+        
+        return result;
+    }
+    
     Button::Button()
     {
         

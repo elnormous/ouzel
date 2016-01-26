@@ -19,6 +19,18 @@
 
 namespace ouzel
 {
+    std::shared_ptr<ParticleSystem> ParticleSystem::createFromFile(const std::string& filename)
+    {
+        std::shared_ptr<ParticleSystem> result = std::make_shared<ParticleSystem>();
+        
+        if (!result->initFromFile(filename))
+        {
+            result.reset();
+        }
+        
+        return result;
+    }
+    
     ParticleSystem::ParticleSystem()
     {
         _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
