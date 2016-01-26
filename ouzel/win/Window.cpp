@@ -318,11 +318,11 @@ LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
         return 0;
     }
     case WM_MOUSEMOVE:
-    case WM_MOUSEWHEEL:
     {
-        handleMouseWheelEvent(msg, wParam, lParam);
+        handleMouseMoveEvent(msg, wParam, lParam);
         return 0;
     }
+    case WM_MOUSEWHEEL:
     case WM_MOUSEHWHEEL:
     {
         handleMouseWheelEvent(msg, wParam, lParam);
