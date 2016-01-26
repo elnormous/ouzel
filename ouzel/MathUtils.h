@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdlib>
 #include "Vector2.h"
 
 #define RANDOM_MINUS1_1()      ((2.0f * ((float)rand() / RAND_MAX)) - 1.0f) // Returns a random float between -1 and 1.
@@ -23,6 +24,21 @@ namespace ouzel
     const float PIOVER4 = 0.785398163397448309616f;
     const float PIX2 = 6.28318530717958647693f;
     const float EPSILON = 0.000001f;
+    
+    unsigned int random(uint32_t min, uint32_t max)
+    {
+        int32_t r;
+        const uint32_t range = 1 + max - min;
+        const uint32_t buckets = RAND_MAX / range;
+        const uint32_t limit = buckets * range;
+        
+        do
+        {
+            r = rand();
+        } while (r >= limit);
+        
+        return min + (r / buckets);
+    }
     
     inline bool isPOT(int x)
     {
