@@ -167,6 +167,9 @@
     <ClCompile Include="..\ouzel\DrawNode.cpp">
       <Filter>scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\win\Window.cpp">
+      <Filter>win</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -365,6 +368,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\DrawNode.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\win\Window.h">
+      <Filter>win</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
