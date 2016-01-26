@@ -261,7 +261,16 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     MouseEvent event;
     event.type = Event::Type::MOUSE_SCROLL;
-    event.scroll = Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA));
+
+    if (msg == WM_MOUSEWHEEL)
+    {
+        event.scroll = Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA));
+    }
+    else if (msg == WM_MOUSEHWHEEL)
+    {
+        event.scroll = Vector2(-static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA), 0.0f);
+    }
+    
     event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(pos);
     updateMouseModifiers(wParam, event);
 
@@ -309,8 +318,9 @@ LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
         return 0;
     }
     case WM_MOUSEMOVE:
+    case WM_MOUSEWHEEL:
     {
-        handleMouseMoveEvent(msg, wParam, lParam);
+        handleMouseWheelEvent(msg, wParam, lParam);
         return 0;
     }
     case WM_MOUSEHWHEEL:
