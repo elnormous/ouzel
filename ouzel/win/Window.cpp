@@ -232,15 +232,22 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     {
         event.button = MouseButton::MIDDLE;
     }
+    else if (msg == WM_XBUTTONDOWN || msg == WM_XBUTTONUP)
+    {
+        if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
+            event.button = MouseButton::X1;
+        else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
+            event.button = MouseButton::X2;
+    }
 
     updateMouseModifiers(wParam, event);
 
-    if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN)
+    if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
         event.type = Event::Type::MOUSE_DOWN;
         Engine::getInstance()->getEventDispatcher()->dispatchMouseDownEvent(event, Engine::getInstance()->getInput());
     }
-    else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP)
+    else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
         event.type = Event::Type::MOUSE_UP;
         Engine::getInstance()->getEventDispatcher()->dispatchMouseUpEvent(event, Engine::getInstance()->getInput());
@@ -291,19 +298,25 @@ LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_RBUTTONUP:
     case WM_MBUTTONDOWN:
     case WM_MBUTTONUP:
+    case WM_XBUTTONDOWN:
+    case WM_XBUTTONUP:
     {
         handleMouseButtonEvent(msg, wParam, lParam);
-        break;
+
+        if (msg == WM_XBUTTONDOWN || msg == WM_XBUTTONUP)
+            return TRUE;
+
+        return 0;
     }
     case WM_MOUSEMOVE:
     {
         handleMouseMoveEvent(msg, wParam, lParam);
-        break;
+        return 0;
     }
     case WM_MOUSEHWHEEL:
     {
         handleMouseWheelEvent(msg, wParam, lParam);
-        break;
+        return 0;
     }
     case WM_SETCURSOR:
     {
