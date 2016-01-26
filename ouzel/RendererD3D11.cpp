@@ -319,6 +319,18 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
             handleMouseWheelEvent(msg, wParam, lParam);
             break;
         }
+        case WM_SETCURSOR:
+        {
+            if (LOWORD(lParam) == HTCLIENT)
+            {
+                if (!Engine::getInstance()->getInput()->isMouseVisible())
+                {
+                    SetCursor(nullptr);
+                    return TRUE;
+                }
+            }
+            break;
+        }
         case WM_SIZE:
         {
             if (wParam == SIZE_MAXIMIZED || wParam == SIZE_RESTORED)

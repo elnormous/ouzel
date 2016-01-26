@@ -21,9 +21,14 @@ namespace ouzel
 
         virtual void update() override;
         
+        virtual void setMouseVisible(bool visible) override;
+        virtual bool isMouseVisible() const override;
+
     protected:
         InputWin();
 
         std::shared_ptr<GamepadWin> _gamepads[XUSER_MAX_COUNT];
+
+        bool _mouseVisible = true;
     };
 }

@@ -63,4 +63,23 @@ namespace ouzel
             }
         }
     }
+
+    void InputWin::setMouseVisible(bool visible)
+    {
+        _mouseVisible = visible;
+
+        if (_mouseVisible)
+        {
+            SetCursor(LoadCursor(nullptr, IDC_ARROW));
+        }
+        else
+        {
+            SetCursor(nullptr);
+        }
+    }
+
+    bool InputWin::isMouseVisible() const
+    {
+        return _mouseVisible;
+    }
 }
