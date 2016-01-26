@@ -149,7 +149,7 @@ namespace ouzel
     
     bool Application::handleMouseDown(const MouseEvent& event, const VoidPtr& sender) const
     {
-        Engine::getInstance()->getInput()->setMouseVisible(!Engine::getInstance()->getInput()->isMouseVisible());
+        Engine::getInstance()->getInput()->setCursorVisible(!Engine::getInstance()->getInput()->isCursorVisible());
         
         return true;
     }

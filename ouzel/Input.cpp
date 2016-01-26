@@ -21,12 +21,12 @@ namespace ouzel
         
     }
     
-    void Input::setMouseVisible(bool visible)
+    void Input::setCursorVisible(bool visible)
     {
         OUZEL_UNUSED(visible);
     }
     
-    bool Input::isMouseVisible() const
+    bool Input::isCursorVisible() const
     {
         return false;
     }

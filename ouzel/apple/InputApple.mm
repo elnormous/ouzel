@@ -68,7 +68,7 @@ namespace ouzel
         
     }
     
-    void InputApple::setMouseVisible(bool visible)
+    void InputApple::setCursorVisible(bool visible)
     {
 #ifdef OUZEL_PLATFORM_OSX
         if (visible)
@@ -82,7 +82,7 @@ namespace ouzel
 #endif
     }
     
-    bool InputApple::isMouseVisible() const
+    bool InputApple::isCursorVisible() const
     {
 #ifdef OUZEL_PLATFORM_OSX
         return CGCursorIsVisible();

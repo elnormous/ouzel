@@ -26,8 +26,8 @@ namespace ouzel
     public:
         virtual ~InputApple();
         
-        virtual void setMouseVisible(bool visible) override;
-        virtual bool isMouseVisible() const override;
+        virtual void setCursorVisible(bool visible) override;
+        virtual bool isCursorVisible() const override;
         
         virtual void startGamepadDiscovery() override;
         virtual void stopGamepadDiscovery() override;

@@ -323,7 +323,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             if (LOWORD(lParam) == HTCLIENT)
             {
-                if (!Engine::getInstance()->getInput()->isMouseVisible())
+                if (!Engine::getInstance()->getInput()->isCursorVisible())
                 {
                     SetCursor(nullptr);
                     return TRUE;

@@ -217,8 +217,8 @@ namespace ouzel
         
         virtual void update();
         
-        virtual void setMouseVisible(bool visible);
-        virtual bool isMouseVisible() const;
+        virtual void setCursorVisible(bool visible);
+        virtual bool isCursorVisible() const;
         
         virtual void startGamepadDiscovery();
         virtual void stopGamepadDiscovery();

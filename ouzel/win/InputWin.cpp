@@ -64,11 +64,11 @@ namespace ouzel
         }
     }
 
-    void InputWin::setMouseVisible(bool visible)
+    void InputWin::setCursorVisible(bool visible)
     {
-        _mouseVisible = visible;
+        _cursorVisible = visible;
 
-        if (_mouseVisible)
+        if (_cursorVisible)
         {
             SetCursor(LoadCursor(nullptr, IDC_ARROW));
         }
@@ -78,8 +78,8 @@ namespace ouzel
         }
     }
 
-    bool InputWin::isMouseVisible() const
+    bool InputWin::isCursorVisible() const
     {
-        return _mouseVisible;
+        return _cursorVisible;
     }
 }
