@@ -34,6 +34,12 @@ namespace ouzel
     protected:
         SceneManager();
         
+        void lock();
+        void unlock();
+        
         ScenePtr _scene;
+        
+        ScenePtr _newScene;
+        bool _locked = false;
     };
 }

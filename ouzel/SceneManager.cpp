@@ -20,7 +20,11 @@ namespace ouzel
     {
         if (_scene)
         {
+            lock();
+            
             _scene->update(delta);
+            
+            unlock();
         }
     }
     
@@ -28,11 +32,18 @@ namespace ouzel
     {
         if (scene != _scene)
         {
-            _scene = scene;
-            
-            if (_scene)
+            if (_locked)
             {
-                _scene->recalculateProjection();
+                _newScene = scene;
+            }
+            else
+            {
+                _scene = scene;
+                
+                if (_scene)
+                {
+                    _scene->recalculateProjection();
+                }
             }
         }
     }
@@ -41,7 +52,11 @@ namespace ouzel
     {
         if (_scene)
         {
+            lock();
+            
             _scene->draw();
+            
+            unlock();
         }
     }
     
@@ -50,6 +65,22 @@ namespace ouzel
         if (_scene)
         {
             _scene->recalculateProjection();
+        }
+    }
+    
+    void SceneManager::lock()
+    {
+        _locked = true;
+    }
+    
+    void SceneManager::unlock()
+    {
+        _locked = false;
+        
+        if (_newScene)
+        {
+            setScene(_newScene);
+            _newScene.reset();
         }
     }
 }

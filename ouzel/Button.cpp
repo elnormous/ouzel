@@ -101,8 +101,8 @@ namespace ouzel
         if (_pointerOver)
         {
             _pressed = true;
+            updateSprite();
         }
-        updateSprite();
         
         return true;
     }
@@ -116,14 +116,14 @@ namespace ouzel
         
         if (_pointerOver && _pressed)
         {
+            _pressed = false;
+            updateSprite();
+            
             if (_callback)
             {
                 _callback(shared_from_this());
             }
         }
-        
-        _pressed = false;
-        updateSprite();
         
         return true;
     }
