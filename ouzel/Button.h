@@ -19,7 +19,7 @@ namespace ouzel
         Button();
         virtual ~Button();
         
-        virtual bool init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(VoidPtr)>& callback = std::function<void(VoidPtr)>());
+        virtual bool init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(const VoidPtr&)>& callback = std::function<void(const VoidPtr&)>());
         
         virtual void setEnabled(bool enabled) override;
         
@@ -40,7 +40,7 @@ namespace ouzel
         SpritePtr _pressedSprite;
         SpritePtr _disabledSprite;
         
-        std::function<void(VoidPtr)> _callback;
+        std::function<void(const VoidPtr&)> _callback;
         
         EventHandlerPtr _eventHandler;
         

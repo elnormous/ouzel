@@ -22,7 +22,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
-    bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(VoidPtr)>& callback)
+    bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(const VoidPtr&)>& callback)
     {
         _eventHandler = std::make_shared<EventHandler>();
         
