@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include "CompileConfig.h"
 #include "FileSystem.h"
+#include "Utils.h"
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include <CoreFoundation/CoreFoundation.h>
@@ -48,33 +49,29 @@ namespace ouzel
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-        CFStringRef urlString = CFURLCopyPath(appUrlRef);
+        CFStringRef urlString = CFURLCopyFileSystemPath(appUrlRef, kCFURLPOSIXPathStyle);
         
-        char temporaryCString[256];
-        
-        CFStringGetCString(urlString, temporaryCString, sizeof(temporaryCString), kCFStringEncodingUTF8);
+        CFStringGetCString(urlString, TEMP_BUFFER, sizeof(TEMP_BUFFER), kCFStringEncodingUTF8);
         
         CFRelease(appUrlRef);
         CFRelease(urlString);
 #endif
 
 #if defined(OUZEL_PLATFORM_OSX)
-		appPath = std::string(temporaryCString) + "Contents/Resources/";
+		appPath = std::string(TEMP_BUFFER) + "/Contents/Resources/";
 #endif
         
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        appPath = std::string(temporaryCString);
+        appPath = std::string(TEMP_BUFFER);
 #endif
 
 #if defined(OUZEL_PLATFORM_WINDOWS)
         wchar_t szBuffer[256];
         GetCurrentDirectoryW(256, szBuffer);
 
-        char temporaryCString[256];
+        WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
 
-        WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
-
-        appPath = std::string(temporaryCString) + DIRECTORY_SEPARATOR;
+        appPath = std::string(TEMP_BUFFER) + DIRECTORY_SEPARATOR;
 #endif
 
         std::string str = appPath + filename;
