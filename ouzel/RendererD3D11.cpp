@@ -399,7 +399,7 @@ namespace ouzel
 
     bool RendererD3D11::initWindow()
     {
-        HINSTANCE hInstance = GetModuleHandle(nullptr);
+        HINSTANCE hInstance = GetModuleHandleW(nullptr);
 
         WNDCLASSEXW wc;
         memset(&wc, 0, sizeof(wc));
@@ -410,6 +410,9 @@ namespace ouzel
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
         wc.lpszClassName = WINDOW_CLASS_NAME;
+        // Application icon should be the first resource
+        wc.hIcon = LoadIconW(hInstance, MAKEINTRESOURCE(101));
+
         _windowClass = RegisterClassExW(&wc);
         if (!_windowClass)
         {
