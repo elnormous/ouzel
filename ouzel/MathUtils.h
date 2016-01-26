@@ -24,6 +24,11 @@ namespace ouzel
     const float PIX2 = 6.28318530717958647693f;
     const float EPSILON = 0.000001f;
     
+    template <typename T> int sgn(T val)
+    {
+        return (T(0) < val) - (val < T(0));
+    }
+    
     inline float degToRad(float x)
     {
         return x * 0.0174532925f;
