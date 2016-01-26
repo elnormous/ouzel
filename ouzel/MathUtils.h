@@ -25,20 +25,7 @@ namespace ouzel
     const float PIX2 = 6.28318530717958647693f;
     const float EPSILON = 0.000001f;
     
-    inline unsigned int random(uint32_t min, uint32_t max)
-    {
-        int32_t r;
-        const uint32_t range = 1 + max - min;
-        const uint32_t buckets = RAND_MAX / range;
-        const uint32_t limit = buckets * range;
-        
-        do
-        {
-            r = rand();
-        } while (r >= limit);
-        
-        return min + (r / buckets);
-    }
+    uint32_t random(uint32_t min, uint32_t max);
     
     inline bool isPOT(int x)
     {

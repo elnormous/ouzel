@@ -6,6 +6,21 @@
 
 namespace ouzel
 {
+    uint32_t random(uint32_t min, uint32_t max)
+    {
+        int32_t r;
+        const uint32_t range = 1 + max - min;
+        const uint32_t buckets = RAND_MAX / range;
+        const uint32_t limit = buckets * range;
+        
+        do
+        {
+            r = rand();
+        } while (r >= limit);
+        
+        return min + (r / buckets);
+    }
+    
     void addMatrix3(const float* m, float scalar, float* dst)
     {
         dst[0]  = m[0]  + scalar;
