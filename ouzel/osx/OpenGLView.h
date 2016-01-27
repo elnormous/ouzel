@@ -25,8 +25,6 @@
 -(void)setPixelFormat:(NSOpenGLPixelFormat*)pixelFormat;
 -(NSOpenGLPixelFormat*)pixelFormat;
 
--(void)makeOpenGLContextCurrent;
-
 // input
 -(BOOL)acceptsFirstResponder;
 
