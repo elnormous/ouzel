@@ -146,7 +146,6 @@ namespace ouzel
         _input->update();
         _sceneManager->update(delta);
         
-        _renderer->begin();
         _renderer->clear();
         _sceneManager->draw();
         _renderer->flush();

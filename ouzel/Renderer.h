@@ -55,7 +55,6 @@ namespace ouzel
         virtual void setClearColor(Color color) { _clearColor = color; }
         virtual Color getClearColor() const { return _clearColor; }
         
-        virtual void begin();
         virtual void clear();
         virtual void flush();
         

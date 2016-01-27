@@ -36,11 +36,6 @@ namespace ouzel
         return true;
     }
     
-    void Renderer::begin()
-    {
-
-    }
-    
     void Renderer::clear()
     {
     }
