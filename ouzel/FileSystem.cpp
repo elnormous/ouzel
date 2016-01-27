@@ -48,21 +48,18 @@ namespace ouzel
 		std::string appPath;
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-        CFStringRef urlString = CFURLCopyFileSystemPath(appUrlRef, kCFURLPOSIXPathStyle);
+        CFURLRef resourcesUrlRef = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
+        CFURLRef absoluteURL = CFURLCopyAbsoluteURL(resourcesUrlRef);
+        
+        CFStringRef urlString = CFURLCopyFileSystemPath(absoluteURL, kCFURLPOSIXPathStyle);
         
         CFStringGetCString(urlString, TEMP_BUFFER, sizeof(TEMP_BUFFER), kCFStringEncodingUTF8);
         
-        CFRelease(appUrlRef);
+        CFRelease(resourcesUrlRef);
+        CFRelease(absoluteURL);
         CFRelease(urlString);
-#endif
-
-#if defined(OUZEL_PLATFORM_OSX)
-		appPath = std::string(TEMP_BUFFER) + "/Contents/Resources/";
-#endif
         
-#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        appPath = std::string(TEMP_BUFFER);
+        appPath = std::string(TEMP_BUFFER) + DIRECTORY_SEPARATOR;
 #endif
 
 #if defined(OUZEL_PLATFORM_WINDOWS)
