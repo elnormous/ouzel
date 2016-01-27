@@ -41,6 +41,9 @@ namespace ouzel
         void end();
         void run();
         
+        float getTargetFPS() const { return _targetFPS; }
+        float getFPS() const { return _currentFPS; }
+        
     protected:
         Engine();
         
@@ -55,6 +58,8 @@ namespace ouzel
         FileSystemPtr _fileSystem;
         InputPtr _input;
         
+        float _targetFPS;
+        float _currentFPS = 0.0f;
         uint64_t _previousFrameTime;
     };
 }

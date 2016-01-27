@@ -11,5 +11,6 @@ namespace ouzel
         Size2 size;
         bool resizable = false;
         bool fullscreen = false;
+        float targetFPS = 60.0f;
     };
 }

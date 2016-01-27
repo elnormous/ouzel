@@ -15,7 +15,7 @@ using namespace ouzel;
     self = [super initWithFrame:frameRect];
     if (self != nil)
     {
-        NSTimer* updateTimer = [NSTimer timerWithTimeInterval:1.0f/60.0f target:self selector:@selector(idle:) userInfo:nil repeats:YES];
+        NSTimer* updateTimer = [NSTimer timerWithTimeInterval:1.0f / Engine::getInstance()->getTargetFPS() target:self selector:@selector(idle:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:updateTimer forMode:NSDefaultRunLoopMode];
         
         // Create pixel format

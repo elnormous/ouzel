@@ -77,6 +77,7 @@ namespace ouzel
         }
         
         Settings settings = _app->getSettings();
+        _targetFPS = settings.targetFPS;
         
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         settings.driver = Renderer::Driver::OPENGL;
@@ -142,6 +143,8 @@ namespace ouzel
         uint64_t currentTime = getCurrentMicroSeconds();
         float delta = static_cast<float>((currentTime - _previousFrameTime)) / 1000000.0f;
         _previousFrameTime = currentTime;
+        
+        _currentFPS = 1.0f / delta;
         
         _input->update();
         _sceneManager->update(delta);
