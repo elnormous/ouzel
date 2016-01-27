@@ -59,7 +59,7 @@ namespace ouzel
         CFRelease(absoluteURL);
         CFRelease(urlString);
         
-        appPath = std::string(TEMP_BUFFER) + DIRECTORY_SEPARATOR;
+        appPath = std::string(TEMP_BUFFER);
 #endif
 
 #if defined(OUZEL_PLATFORM_WINDOWS)
@@ -68,10 +68,10 @@ namespace ouzel
 
         WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
 
-        appPath = std::string(TEMP_BUFFER) + DIRECTORY_SEPARATOR;
+        appPath = std::string(TEMP_BUFFER);
 #endif
 
-        std::string str = appPath + filename;
+        std::string str = appPath + DIRECTORY_SEPARATOR + filename;
         
         if (fileExists(str))
         {
