@@ -314,8 +314,11 @@ namespace ouzel
     
     void Node::stopAnimation()
     {
-        _currentAnimator->stop();
-        _currentAnimator.reset();
+        if (_currentAnimator)
+        {
+            _currentAnimator->stop();
+            _currentAnimator.reset();
+        }
     }
     
     void Node::calculateTransform() const
