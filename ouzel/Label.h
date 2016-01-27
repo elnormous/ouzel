@@ -5,6 +5,7 @@
 
 #include <memory>
 #include "Widget.h"
+#include "BMFont.h"
 
 namespace ouzel
 {
@@ -24,11 +25,17 @@ namespace ouzel
         
         virtual void draw() override;
         
+        virtual void setText(const std::string& text);
+        virtual const std::string& getText() const { return _text; }
+        
     protected:
         TexturePtr _texture;
         MeshBufferPtr _meshBuffer;
         ShaderPtr _shader;
         
         uint32_t _uniModelViewProj;
+        BMFont _font;
+        Vector2 _textAnchor;
+        std::string _text;
     };
 }

@@ -41,17 +41,17 @@ namespace ouzel
     
     bool Label::init(const std::string& font, const std::string& text, const Vector2& textAnchor)
     {
-        BMFont bmFont;
-        bmFont.loadFont(font);
+        _font.loadFont(font);
+        _textAnchor = textAnchor;
         
-        _texture = bmFont.getTexture();
+        _texture = _font.getTexture();
         
         if (!_texture)
         {
             return false;
         }
         
-        _meshBuffer = bmFont.createMeshBuffer(text, Color(255, 255, 255, 255), textAnchor);
+        setText(text);
         
         return true;
     }
@@ -62,7 +62,7 @@ namespace ouzel
         
         LayerPtr layer = _layer.lock();
         
-        if (_shader && _texture && layer)
+        if (_shader && _texture && layer && _meshBuffer)
         {
             Engine::getInstance()->getRenderer()->activateTexture(_texture, 0);
             Engine::getInstance()->getRenderer()->activateShader(_shader);
@@ -72,6 +72,20 @@ namespace ouzel
             _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
 
             Engine::getInstance()->getRenderer()->drawMeshBuffer(_meshBuffer);
+        }
+    }
+    
+    void Label::setText(const std::string& text)
+    {
+        _text = text;
+        
+        if (_text.empty())
+        {
+            _meshBuffer.reset();
+        }
+        else
+        {
+            _meshBuffer = _font.createMeshBuffer(text, Color(255, 255, 255, 255), _textAnchor);
         }
     }
 }
