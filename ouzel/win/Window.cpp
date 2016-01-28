@@ -162,40 +162,39 @@ static KeyboardKey winKeyToEngineCode(WPARAM wParam, LPARAM lParam)
     return KeyboardKey::NONE;
 }
 
-static void updateKeyboardModifiers(WPARAM wParam, Event& event)
+static uint32_t getKeyboardModifiers(WPARAM wParam)
 {
-    event.shiftDown = wParam & MK_SHIFT;
-    event.altDown = wParam & MK_ALT;
-    event.controlDown = wParam & MK_CONTROL;
+    uint32_t modifiers = 0;
+    
+    if (wParam & MK_SHIFT) modifiers |= Event::SHIFT_DOWN;
+    if (wParam & MK_ALT) modifiers |= Event::ALT_DOWN;
+    if (wParam & MK_CONTROL) modifiers |= Event::CONTROL_DOWN;
+    
+    return modifiers;
 }
 
-static void updateMouseModifiers(WPARAM wParam, Event& event)
+static uint32_t getMouseModifiers(WPARAM wParam)
 {
-    event.shiftDown = wParam & MK_SHIFT;
-    event.controlDown = wParam & MK_CONTROL;
-    event.leftMouseDown = wParam & MK_LBUTTON;
-    event.rightMouseDown = wParam & MK_RBUTTON;
-    event.middleMouseDown = wParam & MK_MBUTTON;
+    uint32_t modifiers = 0;
+    
+    if (wParam & MK_SHIFT) modifiers |= Event::SHIFT_DOWN;
+    if (wParam & MK_CONTROL) modifiers |= Event::CONTROL_DOWN;
+    if (wParam & MK_LBUTTON) modifiers |= Event::LEFT_MOUSE_DOWN;
+    if (wParam & MK_RBUTTON) modifiers |= Event::RIGHT_MOUSE_DOWN;
+    if (wParam & MK_MBUTTON) modifiers |= Event::MIDDLE_MOUSE_DOWN;
+    
+    return modifiers;
 }
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    KeyboardKey key = winKeyToEngineCode(wParam, lParam);
-    KeyboardEvent event;
-    event.key = key;
-    updateKeyboardModifiers(wParam, event);
-
     if (msg == WM_KEYDOWN)
     {
-        event.type = Event::Type::KEY_DOWN;
-
-        Engine::getInstance()->getEventDispatcher()->dispatchKeyDownEvent(event, Engine::getInstance()->getInput());
+        Engine::getInstance()->getInput()->keyDown(winKeyToEngineCode(wParam, lParam), getKeyboardModifiers(wParam));
     }
     else if (msg == WM_KEYUP)
     {
-        event.type = Event::Type::KEY_UP;
-
-        Engine::getInstance()->getEventDispatcher()->dispatchKeyUpEvent(event, Engine::getInstance()->getInput());
+        Engine::getInstance()->getInput()->keyUp(winKeyToEngineCode(wParam, lParam), getKeyboardModifiers(wParam));
     }
 }
 
@@ -204,77 +203,72 @@ static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
         static_cast<float>(HIWORD(lParam)));
 
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_MOVE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(pos);
-    updateMouseModifiers(wParam, event);
-
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+                                                 getMouseModifiers(wParam));
 }
 
 static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
-        static_cast<float>(HIWORD(lParam)));
+                static_cast<float>(HIWORD(lParam)));
 
-    MouseEvent event;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(pos);
+    MouseButton button;
 
     if (msg == WM_LBUTTONDOWN || msg == WM_LBUTTONUP)
     {
-        event.button = MouseButton::LEFT;
+        button = MouseButton::LEFT;
     }
     else if (msg == WM_RBUTTONDOWN || msg == WM_RBUTTONUP)
     {
-        event.button = MouseButton::RIGHT;
+        button = MouseButton::RIGHT;
     }
     else if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONUP)
     {
-        event.button = MouseButton::MIDDLE;
+        button = MouseButton::MIDDLE;
     }
     else if (msg == WM_XBUTTONDOWN || msg == WM_XBUTTONUP)
     {
         if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
-            event.button = MouseButton::X1;
+            button = MouseButton::X1;
         else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
-            event.button = MouseButton::X2;
+            button = MouseButton::X2;
     }
-
-    updateMouseModifiers(wParam, event);
+    else
+    {
+        return;
+    }
 
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
-        event.type = Event::Type::MOUSE_DOWN;
-        Engine::getInstance()->getEventDispatcher()->dispatchMouseDownEvent(event, Engine::getInstance()->getInput());
+        Engine::getInstance()->getInput()->mouseDown(button,
+                                                     Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+                                                     getMouseModifiers(wParam));
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
-        event.type = Event::Type::MOUSE_UP;
-        Engine::getInstance()->getEventDispatcher()->dispatchMouseUpEvent(event, Engine::getInstance()->getInput());
+        Engine::getInstance()->getInput()->mouseUp(button,
+                                                   Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+                                                   getMouseModifiers(wParam));
     }
 }
 
 static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     Vector2 pos(static_cast<float>(LOWORD(lParam)),
-        static_cast<float>(HIWORD(lParam)));
-
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_SCROLL;
+                static_cast<float>(HIWORD(lParam)));
 
     if (msg == WM_MOUSEWHEEL)
     {
-        event.scroll = Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA));
+        Engine::getInstance()->getInput()->mouseScroll(Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA)),
+                                                       Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+                                                       getMouseModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
-        event.scroll = Vector2(-static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA), 0.0f);
+        Engine::getInstance()->getInput()->mouseScroll(Vector2(-static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA), 0.0f),
+                                                       Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+                                                       getMouseModifiers(wParam));
     }
-    
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(pos);
-    updateMouseModifiers(wParam, event);
-
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseScrollEvent(event, Engine::getInstance()->getInput());
 }
 
 LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
