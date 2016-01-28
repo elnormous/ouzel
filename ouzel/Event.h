@@ -34,16 +34,20 @@ namespace ouzel
             WINDOW_TITLE_CHANGE
         };
         
-        Type type;
+        enum Modifiers
+        {
+            SHIFT_DOWN          = 0x0001,
+            ALT_DOWN            = 0x0002,
+            CONTROL_DOWN        = 0x0004,
+            COMMAND_DOWN        = 0x0008,
+            FUNCTION_DOWN       = 0x0010,
+            LEFT_MOUSE_DOWN     = 0x0020,
+            RIGHT_MOUSE_DOWN    = 0x0040,
+            MIDDLE_MOUSE_DOWN   = 0x0080,
+        };
         
-        bool shiftDown = false;
-        bool altDown = false;
-        bool controlDown = false;
-        bool commandDown = false;
-        bool functionDown = false;
-        bool leftMouseDown = false;
-        bool rightMouseDown = false;
-        bool middleMouseDown = false;
+        Type type;
+        uint32_t modifiers = 0;
     };
     
     struct KeyboardEvent: public Event

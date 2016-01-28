@@ -5,6 +5,7 @@
 
 #include <memory>
 #include "Noncopyable.h"
+#include "Vector2.h"
 
 namespace ouzel
 {
@@ -209,7 +210,7 @@ namespace ouzel
         BUTTON_COUNT
     };
     
-    class Input: public Noncopyable
+    class Input: public Noncopyable, public std::enable_shared_from_this<Input>
     {
         friend Engine;
     public:
@@ -223,7 +224,26 @@ namespace ouzel
         virtual void startGamepadDiscovery();
         virtual void stopGamepadDiscovery();
         
+        bool isKeyboardKeyDown(KeyboardKey key) const { return _keyboardKeyStates[static_cast<uint32_t>(key)]; }
+        bool isMouseButtonDown(MouseButton button) const { return _mouseButtonStates[static_cast<uint32_t>(button)]; }
+        
+        virtual void keyDown(KeyboardKey key, uint32_t modifiers);
+        virtual void keyUp(KeyboardKey key, uint32_t modifiers);
+        
+        virtual void mouseDown(MouseButton button, const Vector2& position, uint32_t modifiers);
+        virtual void mouseUp(MouseButton button, const Vector2& position, uint32_t modifiers);
+        virtual void mouseMove(const Vector2& position, uint32_t modifiers);
+        virtual void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
+        
+        virtual void touchBegin(uint64_t touchId, const Vector2 position);
+        virtual void touchEnd(uint64_t touchId, const Vector2 position);
+        virtual void touchMove(uint64_t touchId, const Vector2 position);
+        virtual void touchCancel(uint64_t touchId, const Vector2 position);
+        
     protected:
         Input();
+        
+        bool _keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
+        bool _mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
     };
 }

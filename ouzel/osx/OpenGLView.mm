@@ -4,7 +4,7 @@
 #import "OpenGLView.h"
 #include "Engine.h"
 #include "RendererOGL.h"
-#include "EventDispatcher.h"
+#include "Input.h"
 
 using namespace ouzel;
 
@@ -148,17 +148,21 @@ using namespace ouzel;
     [_openGLContext makeCurrentContext];
 }
 
-static void updateModifiers(NSEvent* theEvent, Event& event)
+static uint32_t getModifiers(NSEvent* theEvent)
 {
-    event.shiftDown = theEvent.modifierFlags & NSShiftKeyMask;
-    event.altDown = theEvent.modifierFlags & NSAlternateKeyMask;
-    event.controlDown = theEvent.modifierFlags & NSControlKeyMask;
-    event.commandDown = theEvent.modifierFlags & NSCommandKeyMask;
-    event.functionDown = theEvent.modifierFlags & NSFunctionKeyMask;
+    uint32_t modifiers = 0;
     
-    event.leftMouseDown = NSEvent.pressedMouseButtons & (1 << 0);
-    event.rightMouseDown = NSEvent.pressedMouseButtons & (1 << 1);
-    event.middleMouseDown = NSEvent.pressedMouseButtons & (1 << 2);
+    if (theEvent.modifierFlags & NSShiftKeyMask) modifiers |= Event::SHIFT_DOWN;
+    if (theEvent.modifierFlags & NSAlternateKeyMask) modifiers |= Event::ALT_DOWN;
+    if (theEvent.modifierFlags & NSControlKeyMask) modifiers |= Event::CONTROL_DOWN;
+    if (theEvent.modifierFlags & NSCommandKeyMask) modifiers |= Event::COMMAND_DOWN;
+    if (theEvent.modifierFlags & NSFunctionKeyMask) modifiers |= Event::FUNCTION_DOWN;
+    
+    if (NSEvent.pressedMouseButtons & (1 << 0)) modifiers |= Event::LEFT_MOUSE_DOWN;
+    if (NSEvent.pressedMouseButtons & (1 << 1)) modifiers |= Event::RIGHT_MOUSE_DOWN;
+    if (NSEvent.pressedMouseButtons & (1 << 2)) modifiers |= Event::MIDDLE_MOUSE_DOWN;
+    
+    return modifiers;
 }
 
 // defines from Carbon
@@ -413,162 +417,107 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)keyDown:(NSEvent*)theEvent
 {
-    KeyboardEvent event;
-    event.type = Event::Type::KEY_DOWN;
-    event.key = convertKeyCode(theEvent.keyCode);
-    
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchKeyDownEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->keyDown(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
 }
 
 -(void)keyUp:(NSEvent*)theEvent
 {
-    KeyboardEvent event;
-    event.type = Event::Type::KEY_UP;
-    event.key = convertKeyCode(theEvent.keyCode);
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchKeyUpEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->keyUp(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
 }
 
 -(void)mouseDown:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_DOWN;
-    event.button = MouseButton::LEFT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDownEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseDown(MouseButton::LEFT,
+                                                 Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
 }
 
 -(void)mouseUp:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_UP;
-    event.button = MouseButton::LEFT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseUpEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseUp(MouseButton::LEFT,
+                                               Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                               getModifiers(theEvent));
 }
 
 -(void)rightMouseDown:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_DOWN;
-    event.button = MouseButton::RIGHT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDownEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseDown(MouseButton::RIGHT,
+                                                 Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
 }
 
 -(void)rightMouseUp:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_UP;
-    event.button = MouseButton::RIGHT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseUpEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseUp(MouseButton::RIGHT,
+                                               Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                               getModifiers(theEvent));
 }
 
 -(void)otherMouseDown:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_DOWN;
-    event.button = MouseButton::MIDDLE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDownEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseDown(MouseButton::MIDDLE,
+                                                 Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
 }
 
 -(void)otherMouseUp:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_UP;
-    event.button = MouseButton::MIDDLE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseUpEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseUp(MouseButton::MIDDLE,
+                                               Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                               getModifiers(theEvent));
 }
 
 -(void)mouseMoved:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_MOVE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
 }
 
 -(void)mouseDragged:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_MOVE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
 }
 
 -(void)rightMouseDragged:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_MOVE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
 }
 
 -(void)otherMouseDragged:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_MOVE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
 }
 
 -(void)scrollWheel:(NSEvent*)theEvent
 {
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_SCROLL;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    event.scroll = Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY);
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseScrollEvent(event, Engine::getInstance()->getInput());
+    Engine::getInstance()->getInput()->mouseScroll(Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY),
+                                                   Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                   getModifiers(theEvent));
 }
 
 -(void)swipeWithEvent:(NSEvent*)theEvent
