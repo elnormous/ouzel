@@ -39,6 +39,7 @@ namespace ouzel
         scale.scale(_zoom);
         
         _transform = _parentTransform * scale * rotation * translation;
+        _transformDirty = false;
         
         for (NodePtr child : _children)
         {
