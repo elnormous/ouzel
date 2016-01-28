@@ -52,7 +52,7 @@ namespace ouzel
             
             for (NodePtr node : _nodes)
             {
-                if (node->isVisible() && node->checkVisibility())
+                if (node->isVisible() && node->isParentVisible() && node->checkVisibility())
                 {
                     node->draw();
                 }
@@ -67,6 +67,7 @@ namespace ouzel
         if (NodeContainer::addChild(node))
         {
             node->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
+            node->setParentVisible(true);
             
             node->updateTransform(Matrix4::identity());
             

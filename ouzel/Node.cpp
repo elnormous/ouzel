@@ -48,6 +48,7 @@ namespace ouzel
         if (NodeContainer::addChild(node))
         {
             node->addToLayer(_layer);
+            node->setParentVisible(_visible && _parentVisible);
             
             if (_transformDirty)
             {
@@ -129,6 +130,8 @@ namespace ouzel
         if (visible != _visible)
         {
             _visible = visible;
+            
+            setParentVisible(_parentVisible);
         }
     }
 
@@ -361,5 +364,15 @@ namespace ouzel
     {
         _transformDirty = true;
         _inverseTransformDirty = true;
+    }
+    
+    void Node::setParentVisible(bool parentVisible)
+    {
+        _parentVisible = parentVisible;
+        
+        for (const NodePtr& child : _children)
+        {
+            child->setParentVisible(_visible && _parentVisible);
+        }
     }
 }

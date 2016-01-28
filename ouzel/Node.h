@@ -82,6 +82,9 @@ namespace ouzel
         void markTransformDirty() const;
         virtual void calculateInverseTransform() const;
         
+        bool isParentVisible() const { return _parentVisible; }
+        void setParentVisible(bool parentVisible);
+        
         Matrix4 _parentTransform = Matrix4::identity();
         mutable Matrix4 _transform;
         mutable bool _transformDirty = false;
@@ -100,6 +103,7 @@ namespace ouzel
         bool _flipY = false;
         
         bool _visible = true;
+        bool _parentVisible = false;
         
         NodeContainerWeakPtr _parent;
         LayerWeakPtr _layer;
