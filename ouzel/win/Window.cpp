@@ -200,8 +200,8 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
 static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    Vector2 pos(static_cast<float>(LOWORD(lParam)),
-        static_cast<float>(HIWORD(lParam)));
+    Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
+                static_cast<float>(GET_Y_LPARAM(lParam)));
 
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
                                                  getMouseModifiers(wParam));
@@ -209,8 +209,8 @@ static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
 static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                static_cast<float>(HIWORD(lParam)));
+    Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
+                static_cast<float>(GET_Y_LPARAM(lParam)));
 
     MouseButton button;
 
@@ -254,8 +254,8 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
 static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                static_cast<float>(HIWORD(lParam)));
+    Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
+                static_cast<float>(GET_Y_LPARAM(lParam)));
 
     if (msg == WM_MOUSEWHEEL)
     {
