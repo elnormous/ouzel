@@ -111,4 +111,12 @@ namespace ouzel
                 max.y = point[i].y;
         }
     }
+    
+    void AABB2::insertPoint(const Vector2& point)
+    {
+        if (point.x < min.x) min.x = point.x;
+        if (point.x > max.x) max.x = point.x;
+        if (point.y < min.y) min.y = point.y;
+        if (point.y > max.y) max.y = point.y;
+    }
 }

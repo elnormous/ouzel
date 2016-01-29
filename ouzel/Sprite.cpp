@@ -62,13 +62,15 @@ namespace ouzel
             }
             
             _size = _texture->getSize();
-            _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
-                             Vector2(_size.width / 2.0f, _size.height / 2.0f));
             
             Rectangle rectangle(0, 0, _size.width, _size.height);
             
             addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
         }
+        
+        _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
+                         Vector2(_size.width / 2.0f, _size.height / 2.0f));
+        _boundingRadius = Vector2(_size.width / 2.0f, _size.height / 2.0f).length();
         
         _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
         

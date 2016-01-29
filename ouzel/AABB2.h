@@ -81,6 +81,8 @@ namespace ouzel
          */
         void updateMinMax(const Vector2* point, uint32_t num);
         
+        void insertPoint(const Vector2& point);
+        
         Vector2 min;
         Vector2 max;
     };

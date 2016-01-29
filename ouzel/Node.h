@@ -98,6 +98,7 @@ namespace ouzel
         float _opacity = 1.0f;
         
         AABB2 _boundingBox;
+        float _boundingRadius = 0.0f;
         
         bool _flipX = false;
         bool _flipY = false;
