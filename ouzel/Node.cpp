@@ -251,54 +251,69 @@ namespace ouzel
     {
         if (LayerPtr layer = _layer.lock())
         {
-            if (_boundingBox.isEmpty())
+            if (_boundingBox.isEmpty() || _boundingRadius == 0.0f)
             {
                 return true;
             }
             
             Matrix4 mvp = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
             
-            Vector3 corners[4] = {
-                Vector3(_boundingBox.min.x, _boundingBox.min.y, 0.0f),
-                Vector3(_boundingBox.max.x, _boundingBox.min.y, 0.0f),
-                Vector3(_boundingBox.max.x, _boundingBox.max.y, 0.0f),
-                Vector3(_boundingBox.min.x, _boundingBox.max.y, 0.0f)
-            };
+            Vector3 position;
             
-            uint8_t inCorners = 0;
+            mvp.transformPoint(&position);
             
-            for (Vector3& corner : corners)
+            float radius = _boundingRadius * std::max(_scale.x, _scale.y);
+            radius /= layer->getCamera()->getZoom();
+            
+            Vector2 radiusAxis(radius / (2.0f * Engine::getInstance()->getRenderer()->getSize().width - 1.0f),
+                               radius / (2.0f * Engine::getInstance()->getRenderer()->getSize().height - 1.0f));
+            
+            if (position.x >= -(1.0f + radiusAxis.x) && position.x <= (1.0f + radiusAxis.x) && position.y >= -(1.0f + radiusAxis.y) && position.y <= (1.0f + radiusAxis.y))
             {
-                mvp.transformPoint(&corner);
+                /*Vector3 corners[4] = {
+                    Vector3(_boundingBox.min.x, _boundingBox.min.y, 0.0f),
+                    Vector3(_boundingBox.max.x, _boundingBox.min.y, 0.0f),
+                    Vector3(_boundingBox.max.x, _boundingBox.max.y, 0.0f),
+                    Vector3(_boundingBox.min.x, _boundingBox.max.y, 0.0f)
+                };
                 
-                if (corner.x >= -1.0f && corner.x <= 1.0f && corner.y >= -1.0f && corner.y <= 1.0f)
+                uint8_t inCorners = 0;
+                
+                for (Vector3& corner : corners)
+                {
+                    mvp.transformPoint(&corner);
+                    
+                    if (corner.x >= -1.0f && corner.x <= 1.0f && corner.y >= -1.0f && corner.y <= 1.0f)
+                    {
+                        return true;
+                    }
+                    
+                    if (corner.x < -1.0f && corner.y < -1.0f) inCorners |= 0x01;
+                    if (corner.x > 1.0f && corner.y < -1.0f) inCorners |= 0x02;
+                    if (corner.x > 1.0f && corner.y > 1.0f) inCorners |= 0x04;
+                    if (corner.x < -1.0f && corner.y > 1.0f) inCorners |= 0x08;
+                }
+                
+                // bounding box is bigger than screen
+                if (inCorners == 0x0F)
                 {
                     return true;
                 }
                 
-                if (corner.x < -1.0f && corner.y < -1.0f) inCorners |= 0x01;
-                if (corner.x > 1.0f && corner.y < -1.0f) inCorners |= 0x02;
-                if (corner.x > 1.0f && corner.y > 1.0f) inCorners |= 0x04;
-                if (corner.x < -1.0f && corner.y > 1.0f) inCorners |= 0x08;
-            }
-            
-            // bounding box is bigger than screen
-            if (inCorners == 0x0F)
-            {
+                for (uint32_t current = 0; current < 4; ++current)
+                {
+                    uint32_t next = (current == 3) ? 0 : current + 1;
+                    
+                    if (linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(-1.0f, 1.0f), Vector2(1.0f, 1.0f)) || // top
+                        linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(-1.0f, -1.0f), Vector2(1.0f, -1.0f)) || // bottom
+                        linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(1.0f, -1.0f), Vector2(1.0f, 1.0f)) || // right
+                        linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(-1.0f, -1.0f), Vector2(-1.0f, 1.0f))) // left
+                    {
+                        return true;
+                    }
+                }*/
+                
                 return true;
-            }
-            
-            for (uint32_t current = 0; current < 4; ++current)
-            {
-                uint32_t next = (current == 3) ? 0 : current + 1;
-                
-                if (linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(-1.0f, 1.0f), Vector2(1.0f, 1.0f)) || // top
-                    linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(-1.0f, -1.0f), Vector2(1.0f, -1.0f)) || // bottom
-                    linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(1.0f, -1.0f), Vector2(1.0f, 1.0f)) || // right
-                    linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), Vector2(-1.0f, -1.0f), Vector2(-1.0f, 1.0f))) // left
-                {
-                    return true;
-                }
             }
         }
         
