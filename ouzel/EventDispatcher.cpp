@@ -69,6 +69,24 @@ namespace ouzel
         unlock();
     }
     
+    void EventDispatcher::dispatchKeyRepeatEvent(const KeyboardEvent& event, const VoidPtr& sender)
+    {
+        lock();
+        
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        {
+            if (eventHandler->keyRepeatHandler)
+            {
+                if (!eventHandler->keyRepeatHandler(event, sender))
+                {
+                    break;
+                }
+            }
+        }
+        
+        unlock();
+    }
+    
     void EventDispatcher::dispatchKeyUpEvent(const KeyboardEvent& event, const VoidPtr& sender)
     {
         lock();

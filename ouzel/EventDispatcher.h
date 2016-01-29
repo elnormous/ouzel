@@ -25,6 +25,7 @@ namespace ouzel
         void removeEventHandler(const EventHandlerPtr& eventHandler);
         
         void dispatchKeyDownEvent(const KeyboardEvent& event, const VoidPtr& sender);
+        void dispatchKeyRepeatEvent(const KeyboardEvent& event, const VoidPtr& sender);
         void dispatchKeyUpEvent(const KeyboardEvent& event, const VoidPtr& sender);
         
         void dispatchMouseDownEvent(const MouseEvent& event, const VoidPtr& sender);

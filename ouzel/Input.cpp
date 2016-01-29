@@ -46,20 +46,20 @@ namespace ouzel
     
     void Input::keyDown(KeyboardKey key, uint32_t modifiers)
     {
+        KeyboardEvent event;
+        event.type = Event::Type::KEY_DOWN;
+        event.key = key;
+        event.modifiers = modifiers;
+        
         if (!_keyboardKeyStates[static_cast<uint32_t>(key)])
         {
             _keyboardKeyStates[static_cast<uint32_t>(key)] = true;
-            
-            KeyboardEvent event;
-            event.type = Event::Type::KEY_DOWN;
-            event.key = key;
-            event.modifiers = modifiers;
             
             Engine::getInstance()->getEventDispatcher()->dispatchKeyDownEvent(event, shared_from_this());
         }
         else
         {
-            // TODO: implement key repeat event
+            Engine::getInstance()->getEventDispatcher()->dispatchKeyRepeatEvent(event, shared_from_this());
         }
     }
     

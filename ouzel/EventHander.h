@@ -20,6 +20,7 @@ namespace ouzel
         EventHandler(int32_t priority = 0): _priority(priority) { }
         
         std::function<bool(const KeyboardEvent&, const VoidPtr&)> keyDownHandler;
+        std::function<bool(const KeyboardEvent&, const VoidPtr&)> keyRepeatHandler;
         std::function<bool(const KeyboardEvent&, const VoidPtr&)> keyUpHandler;
         
         std::function<bool(const MouseEvent&, const VoidPtr&)> mouseDownHandler;
