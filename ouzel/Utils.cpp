@@ -58,13 +58,19 @@ namespace ouzel
         gettimeofday(&currentTime, NULL);
         return currentTime.tv_sec * 1000000L + currentTime.tv_usec;
 #elif defined(OUZEL_PLATFORM_WINDOWS)
+        
+        static uint64_t frequency = 0;
         LARGE_INTEGER li;
-        if (!QueryPerformanceFrequency(&li))
+        
+        if (!frequency)
         {
-            log("Failed to query frequency");
-            return 0;
+            if (!QueryPerformanceFrequency(&li))
+            {
+                log("Failed to query frequency");
+                return 0;
+            }
+            frequency = li.QuadPart / 1000000L;
         }
-        uint64_t frequency = li.QuadPart / 1000000L;
         
         QueryPerformanceCounter(&li);
         
