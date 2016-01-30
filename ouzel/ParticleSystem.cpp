@@ -183,7 +183,7 @@ namespace ouzel
     {
         File file(filename, File::Mode::READ, false);
         
-        if (file.isOpen())
+        if (file)
         {
             rapidjson::FileReadStream is(file.getFile().get(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
             
