@@ -75,7 +75,7 @@ namespace ouzel
         virtual bool activateTexture(const TexturePtr& texture, uint32_t layer);
         virtual TexturePtr getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
         virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer);
-        virtual bool activateRenderTarget(RenderTargetPtr renderTarget);
+        virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget);
         
         virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
         virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);

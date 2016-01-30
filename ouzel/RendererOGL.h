@@ -59,7 +59,7 @@ namespace ouzel
         virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
         virtual bool activateTexture(const TexturePtr& texture, uint32_t layer) override;
         virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer) override;
-        virtual bool activateRenderTarget(RenderTargetPtr renderTarget) override;
+        virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget) override;
         
         virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes) override;
         virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;

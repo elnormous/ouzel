@@ -431,6 +431,64 @@ namespace ouzel
         return texture;
     }
 
+    bool RendererD3D11::activateTexture(const TexturePtr& texture, uint32_t layer)
+    {
+        if (!Renderer::activateTexture(texture, layer))
+        {
+            return false;
+        }
+
+        if (_activeTextures[layer])
+        {
+            std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(_activeTextures[layer]);
+
+            _resourceViews[layer] = textureD3D11->getResourceView();
+            _samplerStates[layer] = _samplerState;
+        }
+        else
+        {
+            _resourceViews[layer] = nullptr;
+            _samplerStates[layer] = nullptr;
+        }
+
+        return true;
+    }
+
+    RenderTargetPtr RendererD3D11::createRenderTarget(const Size2& size, bool depthBuffer)
+    {
+        std::shared_ptr<RenderTargetD3D11> renderTarget(new RenderTargetD3D11());
+
+        if (!renderTarget->init(size, depthBuffer))
+        {
+            renderTarget.reset();
+        }
+
+        return renderTarget;
+    }
+
+    bool RendererD3D11::activateRenderTarget(const RenderTargetPtr& renderTarget)
+    {
+        if (!Renderer::activateRenderTarget(renderTarget))
+        {
+            return false;
+        }
+
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+
+            ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
+
+            _context->OMGetRenderTargets(1, &renderTargetView, nullptr);
+        }
+        else
+        {
+            _context->OMGetRenderTargets(1, nullptr, nullptr);
+        }
+
+        return true;
+    }
+
     ShaderPtr RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         std::shared_ptr<ShaderD3D11> shader(new ShaderD3D11());
@@ -455,6 +513,37 @@ namespace ouzel
         return shader;
     }
 
+    bool RendererD3D11::activateShader(const ShaderPtr& shader)
+    {
+        if (!Renderer::activateShader(shader))
+        {
+            return false;
+        }
+
+        if (_activeShader)
+        {
+            std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(_activeShader);
+
+            ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
+            _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+
+            ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
+            _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+
+            _context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+            _context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+
+            _context->IASetInputLayout(shaderD3D11->getInputLayout());
+        }
+        else
+        {
+            _context->PSSetShader(nullptr, nullptr, 0);
+            _context->VSSetShader(nullptr, nullptr, 0);
+        }
+
+        return true;
+    }
+
     MeshBufferPtr RendererD3D11::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
         std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
@@ -474,89 +563,40 @@ namespace ouzel
             return false;
         }
 
-        if (_activeShader)
+        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
+        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
+
+        std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(meshBuffer);
+            
+        if (indexCount == 0)
         {
-            if (_activeRenderTarget)
-            {
-                std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
-
-                ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
-
-                _context->OMGetRenderTargets(1, &renderTargetView, nullptr);
-            }
-            else
-            {
-                _context->OMGetRenderTargets(1, nullptr, nullptr);
-            }
-
-            std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(_activeShader);
-
-            ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
-            _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
-
-            ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
-            _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
-
-            _context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
-            _context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
-
-            _context->IASetInputLayout(shaderD3D11->getInputLayout());
-
-            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
-            {
-                if (_activeTextures[layer])
-                {
-                    std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(_activeTextures[layer]);
-
-                    _resourceViews[layer] = textureD3D11->getResourceView();
-                    _samplerStates[layer] = _samplerState;
-                }
-                else
-                {
-                    _resourceViews[layer] = nullptr;
-                    _samplerStates[layer] = nullptr;
-                }
-            }
-
-            _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
-            _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
-
-            std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(meshBuffer);
-            
-            if (indexCount == 0)
-            {
-                indexCount = meshBufferD3D11->getIndexCount();
-            }
-
-            _context->RSSetState(_rasterizerState);
-            _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
-            _context->OMSetDepthStencilState(_depthStencilState, 0);
-
-            ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
-            UINT stride = meshBufferD3D11->getVertexSize();
-            UINT offset = 0;
-            _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
-            _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
-            
-            D3D_PRIMITIVE_TOPOLOGY topology;
-            
-            switch (drawMode)
-            {
-                case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
-                case DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
-                case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
-                case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
-                case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
-            }
-            
-            _context->IASetPrimitiveTopology(topology);
-
-            _context->DrawIndexed(indexCount, 0, 0);
+            indexCount = meshBufferD3D11->getIndexCount();
         }
-        else
+
+        _context->RSSetState(_rasterizerState);
+        _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
+        _context->OMSetDepthStencilState(_depthStencilState, 0);
+
+        ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
+        UINT stride = meshBufferD3D11->getVertexSize();
+        UINT offset = 0;
+        _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
+        _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+            
+        D3D_PRIMITIVE_TOPOLOGY topology;
+            
+        switch (drawMode)
         {
-            return false;
+            case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
+            case DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
+            case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
+            case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
+            case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
         }
+            
+        _context->IASetPrimitiveTopology(topology);
+
+        _context->DrawIndexed(indexCount, 0, 0);
         
         return true;
     }

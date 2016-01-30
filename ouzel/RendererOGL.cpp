@@ -241,7 +241,7 @@ namespace ouzel
         return renderTarget;
     }
     
-    bool RendererOGL::activateRenderTarget(RenderTargetPtr renderTarget)
+    bool RendererOGL::activateRenderTarget(const RenderTargetPtr& renderTarget)
     {
         if (!Renderer::activateRenderTarget(renderTarget))
         {
