@@ -94,6 +94,8 @@ namespace ouzel
         
         virtual bool saveScreenshot(const std::string& filename);
         
+        virtual uint32_t getDrawCallCount() const { return _drawCallCount; }
+        
     protected:
         Renderer();
         virtual bool init(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE);
@@ -111,5 +113,7 @@ namespace ouzel
         bool _fullscreen = false;
         
         std::string _title = "";
+        
+        uint32_t _drawCallCount = 0;
     };
 }

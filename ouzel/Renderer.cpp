@@ -38,6 +38,7 @@ namespace ouzel
     
     void Renderer::clear()
     {
+        _drawCallCount = 0;
     }
     
     void Renderer::flush()
@@ -195,6 +196,8 @@ namespace ouzel
             return false;
         }
         
+        _drawCallCount++;
+        
         return true;
     }
 
@@ -205,6 +208,8 @@ namespace ouzel
         OUZEL_UNUSED(color);
         OUZEL_UNUSED(transform);
         
+        _drawCallCount++;
+        
         return true;
     }
     
@@ -214,6 +219,8 @@ namespace ouzel
         OUZEL_UNUSED(color);
         OUZEL_UNUSED(transform);
         
+        _drawCallCount++;
+        
         return true;
     }
     
@@ -222,6 +229,8 @@ namespace ouzel
         OUZEL_UNUSED(rectangle);
         OUZEL_UNUSED(color);
         OUZEL_UNUSED(transform);
+        
+        _drawCallCount++;
         
         return true;
     }
