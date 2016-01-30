@@ -55,6 +55,12 @@ namespace ouzel
         
         if (_shader && _texture && layer && _particleCount)
         {
+            if (_needsMeshUpdate)
+            {
+                updateParticleMesh();
+                _needsMeshUpdate = false;
+            }
+            
             Engine::getInstance()->getRenderer()->activateTexture(_texture, 0);
             Engine::getInstance()->getRenderer()->activateShader(_shader);
             
@@ -101,82 +107,85 @@ namespace ouzel
             {
                 stop();
             }
-        }
-        
-        // TODO: calculate bounding box
-        
-        for (int32_t i = _particleCount - 1; i >= 0; --i)
-        {
-            _particles[i].life -= delta;
             
-            if (_particles[i].life >= 0.0f)
+            _boundingBox.reset();
+            
+            for (int32_t i = _particleCount - 1; i >= 0; --i)
             {
-                if (_emitterType == EmitterType::GRAVITY)
+                _particles[i].life -= delta;
+                
+                if (_particles[i].life >= 0.0f)
                 {
-                    Vector2 tmp, radial, tangential;
-                    
-                    // radial acceleration
-                    if (_particles[i].position.x || _particles[i].position.y)
+                    if (_emitterType == EmitterType::GRAVITY)
                     {
-                        radial = _particles[i].position;
-                        radial.normalize();
+                        Vector2 tmp, radial, tangential;
+                        
+                        // radial acceleration
+                        if (_particles[i].position.x || _particles[i].position.y)
+                        {
+                            radial = _particles[i].position;
+                            radial.normalize();
+                        }
+                        tangential = radial;
+                        radial.x *= _particles[i].radialAcceleration;
+                        radial.y *= _particles[i].radialAcceleration;
+                        
+                        // tangential acceleration
+                        std::swap(tangential.x, tangential.y);
+                        tangential.x *= - _particles[i].tangentialAcceleration;
+                        tangential.y *= _particles[i].tangentialAcceleration;
+                        
+                        // (gravity + radial + tangential) * delta
+                        tmp.x = radial.x + tangential.x + _gravity.x;
+                        tmp.y = radial.y + tangential.y + _gravity.y;
+                        tmp.x *= delta;
+                        tmp.y *= delta;
+                        
+                        _particles[i].direction.x += tmp.x;
+                        _particles[i].direction.y += tmp.y;
+                        
+                        // this is cocos2d-x v3.0
+                        // if (_configName.length()>0 && _yCoordFlipped != -1)
+                        
+                        // this is cocos2d-x v3.0
+                        tmp.x = _particles[i].direction.x * delta * _yCoordFlipped;
+                        tmp.y = _particles[i].direction.y * delta * _yCoordFlipped;
+                        _particles[i].position.x += tmp.x;
+                        _particles[i].position.y += tmp.y;
                     }
-                    tangential = radial;
-                    radial.x *= _particles[i].radialAcceleration;
-                    radial.y *= _particles[i].radialAcceleration;
+                    else
+                    {
+                        _particles[i].angle += _particles[i].degreesPerSecond * delta;
+                        _particles[i].radius += _particles[i].deltaRadius * delta;
+                        _particles[i].position.x = -cosf(_particles[i].angle) * _particles[i].radius;
+                        _particles[i].position.y = -sinf(_particles[i].angle) * _particles[i].radius * _yCoordFlipped;
+                    }
                     
-                    // tangential acceleration
-                    std::swap(tangential.x, tangential.y);
-                    tangential.x *= - _particles[i].tangentialAcceleration;
-                    tangential.y *= _particles[i].tangentialAcceleration;
+                    //color r,g,b,a
+                    _particles[i].colorRed += _particles[i].deltaColorRed * delta;
+                    _particles[i].colorGreen += _particles[i].deltaColorGreen * delta;
+                    _particles[i].colorBlue += _particles[i].deltaColorBlue * delta;
+                    _particles[i].colorAlpha += _particles[i].deltaColorAlpha * delta;
                     
-                    // (gravity + radial + tangential) * delta
-                    tmp.x = radial.x + tangential.x + _gravity.x;
-                    tmp.y = radial.y + tangential.y + _gravity.y;
-                    tmp.x *= delta;
-                    tmp.y *= delta;
+                    //size
+                    _particles[i].size += (_particles[i].deltaSize * delta);
+                    _particles[i].size = fmaxf(0.0f, _particles[i].size);
                     
-                    _particles[i].direction.x += tmp.x;
-                    _particles[i].direction.y += tmp.y;
+                    //angle
+                    _particles[i].rotation += _particles[i].deltaRotation * delta;
                     
-                    // this is cocos2d-x v3.0
-                    // if (_configName.length()>0 && _yCoordFlipped != -1)
-                    
-                    // this is cocos2d-x v3.0
-                    tmp.x = _particles[i].direction.x * delta * _yCoordFlipped;
-                    tmp.y = _particles[i].direction.y * delta * _yCoordFlipped;
-                    _particles[i].position.x += tmp.x;
-                    _particles[i].position.y += tmp.y;
+                    _boundingBox.insertPoint(_particles[i].position - Vector2(_particles[i].size, _particles[i].size));
+                    _boundingBox.insertPoint(_particles[i].position + Vector2(_particles[i].size, _particles[i].size));
                 }
                 else
                 {
-                    _particles[i].angle += _particles[i].degreesPerSecond * delta;
-                    _particles[i].radius += _particles[i].deltaRadius * delta;
-                    _particles[i].position.x = -cosf(_particles[i].angle) * _particles[i].radius;
-                    _particles[i].position.y = -sinf(_particles[i].angle) * _particles[i].radius * _yCoordFlipped;
+                    _particles[i] = _particles[_particleCount - 1];
+                    _particleCount--;
                 }
-                
-                //color r,g,b,a
-                _particles[i].colorRed += _particles[i].deltaColorRed * delta;
-                _particles[i].colorGreen += _particles[i].deltaColorGreen * delta;
-                _particles[i].colorBlue += _particles[i].deltaColorBlue * delta;
-                _particles[i].colorAlpha += _particles[i].deltaColorAlpha * delta;
-                
-                //size
-                _particles[i].size += (_particles[i].deltaSize * delta);
-                _particles[i].size = fmaxf(0.0f, _particles[i].size);
-                
-                //angle
-                _particles[i].rotation += _particles[i].deltaRotation * delta;
             }
-            else
-            {
-                _particles[i] = _particles[_particleCount - 1];
-                _particleCount--;
-            }
+            
+            _needsMeshUpdate = true;
         }
-        
-        updateParticleMesh();
     }
     
     bool ParticleSystem::initFromFile(const std::string& filename)

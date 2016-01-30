@@ -182,5 +182,7 @@ namespace ouzel
         float _emitCounter = 0.0f;
         float _elapsed = 0.0f;
         bool _active = true;
+        
+        bool _needsMeshUpdate = false;
     };
 }
