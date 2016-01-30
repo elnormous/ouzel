@@ -7,19 +7,11 @@
 
 namespace ouzel
 {
-    File::File(const std::string& filename, Mode mode, bool binary):
-        _mode(mode), _binary(binary)
-    {
-        _path = Engine::getInstance()->getFileSystem()->getPath(filename);
-        
-        open();
-    }
-    
-    void File::open()
+    File::File(const std::string& filename, Mode mode, bool binary)
     {
         std::string modeStr;
         
-        switch (_mode)
+        switch (mode)
         {
             case Mode::READ:
                 modeStr = "r";
@@ -32,15 +24,12 @@ namespace ouzel
                 break;
         }
         
-        if (_binary)
+        if (binary)
         {
             modeStr += "b";
         }
         
-        if (FILE* f = fopen(_path.c_str(), modeStr.c_str()))
-        {
-            _file.reset(f, std::fclose);
-        }
+        _file.reset(fopen(Engine::getInstance()->getFileSystem()->getPath(filename).c_str(), modeStr.c_str()), std::fclose);
     }
     
     int64_t File::read(char* buffer, uint32_t size)

@@ -30,13 +30,7 @@ namespace ouzel
         int64_t read(char* buffer, uint32_t size);
         int64_t write(const char* buffer, uint32_t size);
         
-    protected:
-        void open();
-        
-        std::string _path;
-        Mode _mode;
-        bool _binary;
-        
+    protected:        
         std::shared_ptr<FILE> _file;
     };
 }
