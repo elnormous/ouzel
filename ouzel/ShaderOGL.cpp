@@ -130,6 +130,9 @@ namespace ouzel
             return false;
         }
         
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
         glUseProgram(_programId);
         
         GLint texture0Location = glGetUniformLocation(_programId, "texture0");
@@ -138,12 +141,12 @@ namespace ouzel
         GLint texture1Location = glGetUniformLocation(_programId, "texture1");
         if (texture1Location != -1) glUniform1i(texture1Location, 1);
         
+        glUseProgram(oldProgram);
+        
         if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
-        
-        glUseProgram(0);
         
         glDetachShader(_programId, _vertexShaderId);
         glDeleteShader(_vertexShaderId);
@@ -200,22 +203,40 @@ namespace ouzel
     
     bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
         glUseProgram(_programId);
         glUniform3fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+        
+        glUseProgram(oldProgram);
+        
         return true;
     }
     
     bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
         glUseProgram(_programId);
         glUniform4fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+        
+        glUseProgram(oldProgram);
+        
         return true;
     }
     
     bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
         glUseProgram(_programId);
         glUniformMatrix4fv(index, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
+        
+        glUseProgram(oldProgram);
+        
         return true;
     }
     
@@ -226,22 +247,40 @@ namespace ouzel
     
     bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
         glUseProgram(_programId);
         glUniform3fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+        
+        glUseProgram(oldProgram);
+        
         return true;
     }
     
     bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
         glUseProgram(_programId);
         glUniform4fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+        
+        glUseProgram(oldProgram);
+        
         return true;
     }
     
     bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
         glUseProgram(_programId);
         glUniformMatrix4fv(index, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
+        
+        glUseProgram(oldProgram);
+        
         return true;
     }
 }

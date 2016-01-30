@@ -203,6 +203,70 @@ namespace ouzel
         return texture;
     }
     
+    bool RendererOGL::activateTexture(const TexturePtr& texture, uint32_t layer)
+    {
+        if (!Renderer::activateTexture(texture, layer))
+        {
+            return false;
+        }
+        
+        if (_activeTextures[layer])
+        {
+            std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
+            
+            glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
+        }
+        else
+        {
+            glBindTexture(GL_TEXTURE_2D, _framebuffer);
+        }
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    RenderTargetPtr RendererOGL::createRenderTarget(const Size2& size, bool depthBuffer)
+    {
+        std::shared_ptr<RenderTargetOGL> renderTarget(new RenderTargetOGL());
+        
+        if (!renderTarget->init(size, depthBuffer))
+        {
+            renderTarget.reset();
+        }
+        
+        return renderTarget;
+    }
+    
+    bool RendererOGL::activateRenderTarget(RenderTargetPtr renderTarget)
+    {
+        if (!Renderer::activateRenderTarget(renderTarget))
+        {
+            return false;
+        }
+        
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+            
+            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
+        }
+        else
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+        }
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        return true;
+    }
+    
     ShaderPtr RendererOGL::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
@@ -227,6 +291,32 @@ namespace ouzel
         return shader;
     }
     
+    bool RendererOGL::activateShader(const ShaderPtr& shader)
+    {
+        if (!Renderer::activateShader(shader))
+        {
+            return false;
+        }
+        
+        if (_activeShader)
+        {
+            std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
+            
+            glUseProgram(shaderOGL->getProgramId());
+        }
+        else
+        {
+            glUseProgram(0);
+        }
+        
+        if (checkOpenGLErrors())
+        {
+            return false;
+        }
+        
+        return true;
+    }
+    
     MeshBufferPtr RendererOGL::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
         std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
@@ -245,274 +335,28 @@ namespace ouzel
         {
             return false;
         }
+            
+        std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(meshBuffer);
         
-        if (_activeShader)
+        if (indexCount == 0)
         {
-            if (_activeRenderTarget)
-            {
-                std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
-                
-                glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
-            }
-            else
-            {
-                glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-            }
-            
-            std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
-            
-            glUseProgram(shaderOGL->getProgramId());
-            
-            if (checkOpenGLErrors())
-            {
-                return false;
-            }
-            
-            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
-            {
-                glActiveTexture(GL_TEXTURE0 + layer);
-                
-                if (_activeTextures[layer])
-                {
-                    std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
-                
-                    glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
-                }
-                else
-                {
-                    glBindTexture(GL_TEXTURE_2D, _framebuffer);
-                }
-            }
-            
-            if (checkOpenGLErrors())
-            {
-                return false;
-            }
-            
-            std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(meshBuffer);
-            
-            if (indexCount == 0)
-            {
-                indexCount = meshBufferOGL->getIndexCount();
-            }
-            
-            GLenum mode;
-            
-            switch (drawMode)
-            {
-                case DrawMode::POINT_LIST: mode = GL_POINTS; break;
-                case DrawMode::LINE_LIST: mode = GL_LINES; break;
-                case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
-                case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
-                case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-            }
-            
-            glBindVertexArray(meshBufferOGL->getVertexArrayId());
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-            glDrawElements(mode, indexCount, meshBufferOGL->getIndexFormat(), nullptr);
-            
-            if (checkOpenGLErrors())
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
+            indexCount = meshBufferOGL->getIndexCount();
         }
         
-        return true;
-    }
-    
-    bool RendererOGL::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
-    {
-        if (!Renderer::drawLine(start, finish, color, transform))
+        GLenum mode;
+        
+        switch (drawMode)
         {
-            return false;
+            case DrawMode::POINT_LIST: mode = GL_POINTS; break;
+            case DrawMode::LINE_LIST: mode = GL_LINES; break;
+            case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
+            case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
+            case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
         }
-        
-        if (_activeRenderTarget)
-        {
-            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
-            
-            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
-        }
-        else
-        {
-            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-        }
-        
-        GLubyte indices[] = {0, 1};
-        
-        VertexPC vertices[] = {
-            VertexPC(Vector3(start.x, start.y, 0.0f), color),
-            VertexPC(Vector3(finish.x, finish.y, 0.0f), color)
-        };
-        
-        std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(createMeshBuffer(indices, sizeof(uint8_t), 2, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
-        
-        if (!meshBufferOGL)
-        {
-            return false;
-        }
-        
-        std::shared_ptr<ShaderOGL> colorShader = std::static_pointer_cast<ShaderOGL>(Engine::getInstance()->getCache()->getShader(SHADER_COLOR));
-        
-        if (!colorShader)
-        {
-            return false;
-        }
-        
-        glUseProgram(colorShader->getProgramId());
-        
-        uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
-        colorShader->setVertexShaderConstant(uniModelViewProj, { transform });
         
         glBindVertexArray(meshBufferOGL->getVertexArrayId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-        glDrawElements(GL_LINE_STRIP, meshBufferOGL->getIndexCount(), meshBufferOGL->getIndexFormat(), nullptr);
-        
-        if (checkOpenGLErrors())
-        {
-            return false;
-        }
-        
-        return true;
-    }
-    
-    bool RendererOGL::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
-    {
-        if (!Renderer::drawRectangle(rectangle, color, transform))
-        {
-            return false;
-        }
-        
-        if (_activeRenderTarget)
-        {
-            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
-            
-            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
-        }
-        else
-        {
-            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-        }
-        
-        GLubyte indices[] = {0, 1, 3, 2, 0};
-        
-        VertexPC vertices[] = {
-            VertexPC(Vector3(rectangle.x, rectangle.y, 0.0f), color),
-            VertexPC(Vector3(rectangle.x + rectangle.width, rectangle.y, 0.0f), color),
-            VertexPC(Vector3(rectangle.x, rectangle.y + rectangle.height, 0.0f), color),
-            VertexPC(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color)
-        };
-        
-        std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(createMeshBuffer(indices, sizeof(uint8_t), 5, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
-        
-        if (!meshBufferOGL)
-        {
-            return false;
-        }
-        
-        std::shared_ptr<ShaderOGL> colorShader = std::static_pointer_cast<ShaderOGL>(Engine::getInstance()->getCache()->getShader(SHADER_COLOR));
-        
-        if (!colorShader)
-        {
-            return false;
-        }
-        
-        glUseProgram(colorShader->getProgramId());
-        
-        uint32_t uniModelViewProj = colorShader->getVertexShaderConstantId("modelViewProj");
-        colorShader->setVertexShaderConstant(uniModelViewProj, { transform });
-        
-        glBindVertexArray(meshBufferOGL->getVertexArrayId());
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-        glDrawElements(GL_LINE_STRIP, meshBufferOGL->getIndexCount(), meshBufferOGL->getIndexFormat(), nullptr);
-        
-        if (checkOpenGLErrors())
-        {
-            return false;
-        }
-        
-        return true;
-    }
-    
-    bool RendererOGL::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
-    {
-        if (!Renderer::drawQuad(rectangle, color, transform))
-        {
-            return false;
-        }
-        
-        if (_activeRenderTarget)
-        {
-            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
-            
-            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
-        }
-        else
-        {
-            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-        }
-        
-        GLubyte indices[] = {0, 1, 2, 1, 3, 2};
-        
-        VertexPCT vertices[] = {
-            VertexPCT(Vector3(rectangle.x, rectangle.y, 0.0f), color, Vector2(0.0f, 1.0f)),
-            VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y, 0.0f), color, Vector2(1.0f, 1.0f)),
-            VertexPCT(Vector3(rectangle.x, rectangle.y + rectangle.height, 0.0f), color, Vector2(0.0f, 0.0f)),
-            VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color, Vector2(1.0f, 0.0f))
-        };
-        
-        std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(createMeshBuffer(indices, sizeof(uint8_t), 6, false, vertices, sizeof(VertexPCT), 4, false, VertexPCT::ATTRIBUTES));
-        
-        if (!meshBufferOGL)
-        {
-            return false;
-        }
-        
-        std::shared_ptr<ShaderOGL> textureShader = std::static_pointer_cast<ShaderOGL>(Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE));
-        
-        if (!textureShader)
-        {
-            return false;
-        }
-        
-        glUseProgram(textureShader->getProgramId());
-        
-        if (checkOpenGLErrors())
-        {
-            return false;
-        }
-        
-        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
-        {
-            glActiveTexture(GL_TEXTURE0 + layer);
-            
-            if (_activeTextures[layer])
-            {
-                std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
-                
-                glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
-            }
-            else
-            {
-                glBindTexture(GL_TEXTURE_2D, _framebuffer);
-            }
-        }
-        
-        if (checkOpenGLErrors())
-        {
-            return false;
-        }
-        
-        uint32_t uniModelViewProj = textureShader->getVertexShaderConstantId("modelViewProj");
-        textureShader->setVertexShaderConstant(uniModelViewProj, { transform });
-        
-        glBindVertexArray(meshBufferOGL->getVertexArrayId());
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-        glDrawElements(GL_TRIANGLES, meshBufferOGL->getIndexCount(), meshBufferOGL->getIndexFormat(), nullptr);
+        glDrawElements(mode, indexCount, meshBufferOGL->getIndexFormat(), nullptr);
         
         if (checkOpenGLErrors())
         {
@@ -528,6 +372,9 @@ namespace ouzel
         {
             return false;
         }
+        
+        GLint oldFrameBufferId;
+        glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFrameBufferId);
         
         glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
         
@@ -564,6 +411,11 @@ namespace ouzel
         {
             log("Failed to save image to file");
             return false;
+        }
+        
+        if (oldFrameBufferId != _framebuffer)
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, oldFrameBufferId);
         }
         
         return true;
