@@ -135,6 +135,8 @@ namespace ouzel
     
     void RendererOGL::clear()
     {
+        Renderer::clear();
+        
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -152,6 +154,8 @@ namespace ouzel
     
     void RendererOGL::flush()
     {
+        Renderer::flush();
+        
         if (_activeRenderTarget)
         {
             std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
