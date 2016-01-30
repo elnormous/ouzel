@@ -83,6 +83,34 @@ namespace ouzel
         
         void insertPoint(const Vector2& point);
         
+        inline const AABB2 operator+(const Vector2& v) const
+        {
+            AABB2 result(*this);
+            result += v;
+            return result;
+        }
+
+        inline AABB2& operator+=(const Vector2& v)
+        {
+            min += v;
+            max += v;
+            return *this;
+        }
+
+        inline const AABB2 operator-(const Vector2& v) const
+        {
+            AABB2 result(*this);
+            result -= v;
+            return result;
+        }
+
+        inline AABB2& operator-=(const Vector2& v)
+        {
+            min -= v;
+            max -= v;
+            return *this;
+        }
+        
         Vector2 min;
         Vector2 max;
     };
