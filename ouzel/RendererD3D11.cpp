@@ -311,6 +311,8 @@ namespace ouzel
 
     void RendererD3D11::clear()
     {
+        Renderer::clear();
+        
         float color[4] = { _clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA() };
 
         if (_activeRenderTarget)
@@ -327,6 +329,8 @@ namespace ouzel
 
     void RendererD3D11::flush()
     {
+        Renderer::flush();
+        
         _swapChain->Present(1 /* TODO vsync off? */, 0);
     }
 
