@@ -224,8 +224,7 @@ namespace ouzel
     void Node::updateTransform(const Matrix4& parentTransform)
     {
         _parentTransform = parentTransform;
-        _transformDirty = true;
-        _inverseTransformDirty = true;
+        markTransformDirty();
     }
     
     Vector2 Node::convertWorldToLocal(const Vector2& position) const
