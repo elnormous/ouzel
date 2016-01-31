@@ -224,7 +224,7 @@ namespace ouzel
     void Node::updateTransform(const Matrix4& parentTransform)
     {
         _parentTransform = parentTransform;
-        calculateTransform();
+        _transformDirty = true;
         _inverseTransformDirty = true;
     }
     
