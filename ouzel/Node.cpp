@@ -37,11 +37,6 @@ namespace ouzel
         {
             _currentAnimator->update(delta);
         }
-        
-        if (_transformDirty)
-        {
-            calculateTransform();
-        }
     }
     
     bool Node::addChild(const NodePtr& node)
@@ -144,7 +139,7 @@ namespace ouzel
         {
             layer->addNode(std::static_pointer_cast<Node>(shared_from_this()));
             
-            for (NodePtr child : _children)
+            for (const NodePtr& child : _children)
             {
                 child->addToLayer(layer);
             }
@@ -153,11 +148,11 @@ namespace ouzel
 
     void Node::removeFromLayer()
     {
-        if (LayerPtr layer = _layer.lock())
+        if (const LayerPtr& layer = _layer.lock())
         {
             layer->removeNode(std::static_pointer_cast<Node>(shared_from_this()));
             
-            for (NodePtr child : _children)
+            for (const NodePtr& child : _children)
             {
                 child->removeFromLayer();
             }
@@ -249,7 +244,7 @@ namespace ouzel
     
     bool Node::checkVisibility() const
     {
-        if (LayerPtr layer = _layer.lock())
+        if (const LayerPtr& layer = _layer.lock())
         {
             if (_boundingBox.isEmpty() || _boundingRadius == 0.0f)
             {
@@ -357,9 +352,22 @@ namespace ouzel
         _transform = _parentTransform * translation * rotation * scale;
         _transformDirty = false;
         
-        for (NodePtr child : _children)
+        for (const NodePtr& child : _children)
         {
             child->updateTransform(_transform);
+        }
+    }
+    
+    void Node::calculateTransformRecursive() const
+    {
+        if (_transformDirty)
+        {
+            calculateTransform();
+        }
+        
+        for (const NodePtr& child : _children)
+        {
+            child->calculateTransformRecursive();
         }
     }
     

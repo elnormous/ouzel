@@ -26,7 +26,7 @@ namespace ouzel
     {
         lock();
         
-        for (NodePtr node : _nodes)
+        for (const NodePtr& node : _nodes)
         {
             node->update(delta);
         }
@@ -50,7 +50,12 @@ namespace ouzel
         {
             lock();
             
-            for (NodePtr node : _nodes)
+            for (const NodePtr& child : _children)
+            {
+                child->calculateTransformRecursive();
+            }
+            
+            for (const NodePtr& node : _nodes)
             {
                 if (node->isVisible() && node->isParentVisible() && node->checkVisibility())
                 {
@@ -159,7 +164,7 @@ namespace ouzel
     
     NodePtr Layer::pickNode(const Vector2& position)
     {
-        for (std::vector<NodePtr>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<NodePtr>::const_reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
             NodePtr node = *i;
             
@@ -176,7 +181,7 @@ namespace ouzel
     {
         std::set<NodePtr> result;
         
-        for (std::vector<NodePtr>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<NodePtr>::const_reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
         {
             NodePtr node = *i;
             

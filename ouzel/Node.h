@@ -79,6 +79,8 @@ namespace ouzel
         virtual void removeFromLayer();
         
         virtual void calculateTransform() const;
+        virtual void calculateTransformRecursive() const;
+        
         void markTransformDirty() const;
         virtual void calculateInverseTransform() const;
         
