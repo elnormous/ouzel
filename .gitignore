@@ -12,3 +12,5 @@ samples/sprite/android/obj
 samples/sprite/android/libs
 samples/sprite/android/bin
 samples/sprite/android/gen
+samples/sprite/apple/sprite.xcodeproj/project.xcworkspace
+samples/sprite/apple/sprite.xcodeproj/xcuserdata
