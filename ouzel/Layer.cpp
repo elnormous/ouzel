@@ -168,7 +168,7 @@ namespace ouzel
         {
             NodePtr node = *i;
             
-            if (node->pointOn(position))
+            if (node->isPickable() && node->pointOn(position))
             {
                 return node;
             }
@@ -185,7 +185,7 @@ namespace ouzel
         {
             NodePtr node = *i;
             
-            if (node->rectangleOverlaps(rectangle))
+            if (node->isPickable() && node->rectangleOverlaps(rectangle))
             {
                 result.insert(node);
             }

@@ -53,6 +53,9 @@ namespace ouzel
         virtual void setFlipY(bool flipY);
         virtual bool getFlipY() const { return _flipY; }
         
+        virtual void setPickable(bool pickable) { _pickable = pickable; }
+        virtual bool isPickable() const { return _pickable; }
+        
         virtual void setVisible(bool visible);
         virtual bool isVisible() const { return _visible; }
         
@@ -104,6 +107,8 @@ namespace ouzel
         
         bool _flipX = false;
         bool _flipY = false;
+        
+        bool _pickable = true;
         
         bool _visible = true;
         bool _parentVisible = false;
