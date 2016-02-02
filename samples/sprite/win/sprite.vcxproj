@@ -70,20 +70,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\samples\sprite\;..\ouzel\;$(IncludePath)</IncludePath>
-    <IntDir>samples\sprite\$(Configuration)\</IntDir>
+    <IncludePath>..;..\..\..\ouzel;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\samples\sprite\;..\ouzel\;$(IncludePath)</IncludePath>
-    <IntDir>samples\sprite\$(Configuration)\</IntDir>
+    <IncludePath>..;..\..\..\ouzel;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\samples\sprite\;..\ouzel;$(IncludePath)</IncludePath>
-    <IntDir>samples\sprite\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>..;..\..\..\ouzel;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\samples\sprite\;..\ouzel\;$(IncludePath)</IncludePath>
-    <IntDir>samples\sprite\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>..;..\..\..\ouzel;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -148,30 +144,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\samples\sprite\Application.cpp" />
-    <ClCompile Include="..\samples\sprite\main.cpp" />
-    <ClCompile Include="..\samples\sprite\win\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    <ClCompile Include="..\Application.cpp" />
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\samples\sprite\Application.h" />
-    <ClInclude Include="..\samples\sprite\win\resource.h" />
-    <ClInclude Include="..\samples\sprite\win\stdafx.h" />
+    <ClInclude Include="..\Application.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="ouzel.vcxproj">
+    <Image Include="icon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="sprite.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\build\ouzel.vcxproj">
       <Project>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\samples\sprite\win\icon1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\samples\sprite\win\sprite.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
