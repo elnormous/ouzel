@@ -194,9 +194,71 @@ namespace ouzel
         return result;
     }
     
+    void Layer::setScaleMode(ScaleMode scaleMode)
+    {
+        _scaleMode = scaleMode;
+        recalculateProjection();
+    }
+    
+    void Layer::setDesignSize(const Size2& designSize)
+    {
+        _designSize = designSize;
+        recalculateProjection();
+    }
+    
     void Layer::recalculateProjection()
     {
         Size2 size = Engine::getInstance()->getRenderer()->getSize();
+        
+        if (_designSize.width != 0.0f && _designSize.height != 0.0f &&
+            size.width != 0.0f && size.height != 0.0f)
+        {
+            float aspectRatio = size.width / size.height;
+            
+            switch (_scaleMode)
+            {
+                case ScaleMode::None:
+                {
+                    // Do nothing
+                    break;
+                }
+                case ScaleMode::ExactFit:
+                {
+                    size.width = _designSize.width;
+                    size.height = _designSize.height;
+                    break;
+                }
+                case ScaleMode::NoBorder:
+                {
+                    if (size.width / size.height > _designSize.width / _designSize.height)
+                    {
+                        size.width = _designSize.width;
+                        size.height = _designSize.width / aspectRatio;
+                    }
+                    else
+                    {
+                        size.width = _designSize.height * aspectRatio;
+                        size.height = _designSize.height;
+                    }
+                    break;
+                }
+                case ScaleMode::ShowAll:
+                {
+                    if (size.width / size.height < _designSize.width / _designSize.height)
+                    {
+                        size.width = _designSize.width;
+                        size.height = _designSize.width / aspectRatio;
+                    }
+                    else
+                    {
+                        size.width = _designSize.height * aspectRatio;
+                        size.height = _designSize.height;
+                    }
+                    break;
+                }
+            }
+        }
+        
         Matrix4::createOrthographic(size.width, size.height, -1.0f, 1.0f, &_projection);
         _inverseProjection = _projection;
         _inverseProjection.invert();

@@ -31,5 +31,7 @@ namespace ouzel
         {
             return width != right.width || height != right.height;
         }
+        
+        bool isZero() const;
     };
 }

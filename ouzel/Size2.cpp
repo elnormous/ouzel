@@ -44,4 +44,9 @@ namespace ouzel
     {
         return Size2(width / a, height / a);
     }
+    
+    bool Size2::isZero() const
+    {
+        return width == 0.0f && height == 0.0f;
+    }
 }

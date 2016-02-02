@@ -7,6 +7,7 @@
 #include <set>
 #include "Types.h"
 #include "NodeContainer.h"
+#include "Size2.h"
 #include "Matrix4.h"
 #include "Vector2.h"
 #include "Rectangle.h"
@@ -20,6 +21,15 @@ namespace ouzel
     {
         friend Scene;
     public:
+        
+        enum class ScaleMode
+        {
+            None,
+            ExactFit,
+            NoBorder,
+            ShowAll
+        };
+        
         Layer();
         virtual ~Layer();
         
@@ -41,6 +51,12 @@ namespace ouzel
         Vector2 screenToWorldLocation(const Vector2& position);
         Vector2 worldToScreenLocation(const Vector2& position);
         
+        virtual void setScaleMode(ScaleMode scaleMode);
+        virtual ScaleMode getScaleMode() const { return _scaleMode; }
+        
+        virtual void setDesignSize(const Size2& designSize);
+        virtual const Size2& getDesignSize() const { return _designSize; }
+        
         const Matrix4& getProjection() const { return _projection; }
         virtual void recalculateProjection();
         
@@ -59,6 +75,9 @@ namespace ouzel
         CameraPtr _camera;
         std::vector<NodePtr> _nodes;
         bool _reorderNodes = false;
+        
+        ScaleMode _scaleMode = ScaleMode::None;
+        Size2 _designSize;
         
         Matrix4 _projection;
         Matrix4 _inverseProjection;
