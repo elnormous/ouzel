@@ -112,14 +112,14 @@ namespace ouzel
     {
         switch (motor)
         {
-            case ALL:
+            case Motor::ALL:
                 _vibration.wLeftMotorSpeed = speed;
                 _vibration.wRightMotorSpeed = speed;
                 break;
-            case LEFT:
+            case Motor::LEFT:
                 _vibration.wLeftMotorSpeed = speed;
                 break;
-            case RIGHT:
+            case Motor::RIGHT:
                 _vibration.wRightMotorSpeed = speed;
                 break;
         }
@@ -131,11 +131,11 @@ namespace ouzel
     {
         switch (motor)
         {
-            case ALL:
-            case LEFT:
+            case Motor::ALL:
+            case Motor::LEFT:
                 return _vibration.wLeftMotorSpeed;
                 break;
-            case RIGHT:
+            case Motor::RIGHT:
                 return _vibration.wRightMotorSpeed;
         }
         
