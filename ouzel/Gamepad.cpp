@@ -58,4 +58,10 @@ namespace ouzel
         _buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
         _buttonStates[static_cast<uint32_t>(button)].value = value;
     }
+    
+    void Gamepad::setVibration(Motor motor, float speed)
+    {
+        OUZEL_UNUSED(motor);
+        OUZEL_UNUSED(speed);
+    }
 }
