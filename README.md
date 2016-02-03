@@ -47,7 +47,7 @@ The following code will open a 640px x 480px window:
 * Scene management
 * GUI helper classes and management
 * Bitmap font support
-* Xbox 360 gamepad support
+* MFi and Xbox 360 gamepad support
 * OS X, iOS and tvOS gamepad support
 * Node animation (including tweening) system
 * Particle systems
