@@ -35,6 +35,7 @@ namespace ouzel
         virtual const GamepadButtonState& getButtonState(GamepadButton button) const;
         
         virtual void setVibration(Motor motor, float speed);
+        virtual float getVibration(Motor motor);
             
     protected:
         Gamepad();

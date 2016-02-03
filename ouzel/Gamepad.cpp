@@ -64,4 +64,11 @@ namespace ouzel
         OUZEL_UNUSED(motor);
         OUZEL_UNUSED(speed);
     }
+    
+    float Gamepad::getVibration(Motor motor)
+    {
+        OUZEL_UNUSED(motor);
+        
+        return 0.0f;
+    }
 }
