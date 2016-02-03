@@ -38,7 +38,7 @@ namespace ouzel
     {
         if (_reorderNodes)
         {
-            std::sort(_nodes.begin(), _nodes.end(), [](const NodePtr& a, const NodePtr& b) {
+            std::stable_sort(_nodes.begin(), _nodes.end(), [](const NodePtr& a, const NodePtr& b) {
                 return a->getZ() > b->getZ();
             });
             
