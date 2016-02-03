@@ -19,6 +19,9 @@ namespace ouzel
 
         virtual int32_t getPlayerIndex() const override;
 
+        virtual void setVibration(Motor motor, float speed) override;
+        virtual float getVibration(Motor motor) override;
+        
     protected:
         GamepadWin(int32_t playerIndex);
 
@@ -26,6 +29,7 @@ namespace ouzel
         void checkButton(const XINPUT_STATE& state, WORD mask, GamepadButton button);
 
         XINPUT_STATE _state;
+        XINPUT_VIBRATION _vibration;
         int32_t _playerIndex;
     };
 }

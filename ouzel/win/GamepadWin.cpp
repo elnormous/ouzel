@@ -14,6 +14,7 @@ namespace ouzel
         _playerIndex(playerIndex)
     {
         memset(&_state, 0, sizeof(XINPUT_STATE));
+        memset(&_vibration, 0, sizeof(XINPUT_VIBRATION));
     }
 
     void GamepadWin::update(const XINPUT_STATE& state)
@@ -105,5 +106,39 @@ namespace ouzel
             bool pressed = (state.Gamepad.wButtons & mask);
             handleButtonValueChange(button, pressed, pressed ? 1.0f : 0.0f);
         }
+    }
+    
+    void GamepadWin::setVibration(Motor motor, float speed)
+    {
+        switch (motor)
+        {
+            case ALL:
+                _vibration.wLeftMotorSpeed = speed;
+                _vibration.wRightMotorSpeed = speed;
+                break;
+            case LEFT:
+                _vibration.wLeftMotorSpeed = speed;
+                break;
+            case RIGHT:
+                _vibration.wRightMotorSpeed = speed;
+                break;
+        }
+        
+        XInputSetState(_playerIndex, &_vibration);
+    }
+    
+    float GamepadWin::getVibration(Motor motor)
+    {
+        switch (motor)
+        {
+            case ALL:
+            case LEFT:
+                return _vibration.wLeftMotorSpeed;
+                break;
+            case RIGHT:
+                return _vibration.wRightMotorSpeed;
+        }
+        
+        return 0.0f;
     }
 }
