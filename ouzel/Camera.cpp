@@ -24,7 +24,7 @@ namespace ouzel
             _zoom = 0.1f;
         }
         
-        markTransformDirty();
+        _transformDirty = _inverseTransformDirty = true;
     }
     
     void Camera::calculateTransform() const

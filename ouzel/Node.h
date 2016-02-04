@@ -91,14 +91,13 @@ namespace ouzel
         virtual void calculateTransform() const;
         virtual void calculateTransformRecursive() const;
         
-        void markTransformDirty() const;
         virtual void calculateInverseTransform() const;
         
         Matrix4 _parentTransform = Matrix4::identity();
         mutable Matrix4 _transform;
-        mutable bool _transformDirty = false;
+        mutable bool _transformDirty = true;
         mutable Matrix4 _inverseTransform;
-        mutable bool _inverseTransformDirty = false;
+        mutable bool _inverseTransformDirty = true;
         
         Vector2 _position;
         float _rotation = 0.0f;

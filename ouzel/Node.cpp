@@ -173,7 +173,7 @@ namespace ouzel
         _z = z;
         
         // Currently z does not affect transformation
-        //markTransformDirty();
+        //_transformDirty = _inverseTransformDirty = true;
     }
     
     void Node::setGlobalOrder(bool globalOrder)
@@ -185,35 +185,35 @@ namespace ouzel
     {
         _position = position;
         
-        markTransformDirty();
+        _transformDirty = _inverseTransformDirty = true;
     }
 
     void Node::setRotation(float rotation)
     {
         _rotation = rotation;
         
-        markTransformDirty();
+        _transformDirty = _inverseTransformDirty = true;
     }
 
     void Node::setScale(const Vector2& scale)
     {
         _scale = scale;
         
-        markTransformDirty();
+        _transformDirty = _inverseTransformDirty = true;
     }
     
     void Node::setFlipX(bool flipX)
     {
         _flipX = flipX;
         
-        markTransformDirty();
+        _transformDirty = _inverseTransformDirty = true;
     }
     
     void Node::setFlipY(bool flipY)
     {
         _flipY = flipY;
         
-        markTransformDirty();
+        _transformDirty = _inverseTransformDirty = true;
     }
     
     void Node::setVisible(bool visible)
@@ -304,7 +304,7 @@ namespace ouzel
     void Node::updateTransform(const Matrix4& parentTransform)
     {
         _parentTransform = parentTransform;
-        markTransformDirty();
+        _transformDirty = _inverseTransformDirty = true;
     }
     
     Vector2 Node::convertWorldToLocal(const Vector2& position) const
@@ -466,11 +466,5 @@ namespace ouzel
         _inverseTransform = _transform;
         _inverseTransform.invert();
         _inverseTransformDirty = false;
-    }
-    
-    void Node::markTransformDirty() const
-    {
-        _transformDirty = true;
-        _inverseTransformDirty = true;
     }
 }
