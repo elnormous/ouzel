@@ -22,7 +22,93 @@ namespace ouzel
     {
         
     }
-
+    
+    void Node::visit()
+    {
+        if (_visible)
+        {
+            lock();
+            
+            std::stable_sort(_children.begin(), _children.end(), [](const NodePtr& a, const NodePtr& b) {
+                return a->getZ() > b->getZ();
+            });
+            
+            auto i = _children.begin();
+            NodePtr node;
+            
+            for (; i != _children.end(); ++i)
+            {
+                node = *i;
+                
+                if (node->getZ() < 0.0f)
+                {
+                    node->visit();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            LayerPtr layer = _layer.lock();
+            
+            // check if _parent is _layer
+            bool isRoot = !_parent.owner_before(_layer) && !_layer.owner_before(_parent);
+            
+            if (layer && (_globalOrder || isRoot) && checkVisibility())
+            {
+                layer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
+            }
+            
+            for (; i != _children.end(); ++i)
+            {
+                node = *i;
+                node->visit();
+            }
+            
+            unlock();
+        }
+    }
+    
+    void Node::process()
+    {
+        lock();
+        
+        auto i = _children.begin();
+        NodePtr node;
+        
+        for (; i != _children.end(); ++i)
+        {
+            node = *i;
+            
+            if (node->getZ() < 0.0f)
+            {
+                if (!node->isGlobalOrder() && checkVisibility())
+                {
+                    node->draw();
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        
+        draw();
+        
+        for (; i != _children.end(); ++i)
+        {
+            node = *i;
+            
+            if (!node->isGlobalOrder() && checkVisibility())
+            {
+                node->draw();
+            }
+        }
+        
+        unlock();
+    }
+    
     void Node::draw()
     {
         if (_transformDirty)
@@ -37,6 +123,15 @@ namespace ouzel
         {
             _currentAnimator->update(delta);
         }
+        
+        lock();
+        
+        for (const NodePtr& child : _children)
+        {
+            child->update(delta);
+        }
+        
+        unlock();
     }
     
     bool Node::addChild(const NodePtr& node)
@@ -44,7 +139,6 @@ namespace ouzel
         if (NodeContainer::addChild(node))
         {
             node->addToLayer(_layer);
-            node->setParentVisible(_visible && _parentVisible);
             
             if (_transformDirty)
             {
@@ -78,12 +172,13 @@ namespace ouzel
     {
         _z = z;
         
-        if (LayerPtr layer = _layer.lock())
-        {
-            layer->reorderNodes();
-        }
-        
-        markTransformDirty();
+        // Currently z does not affect transformation
+        //markTransformDirty();
+    }
+    
+    void Node::setGlobalOrder(bool globalOrder)
+    {
+        _globalOrder = globalOrder;
     }
 
     void Node::setPosition(const Vector2& position)
@@ -123,12 +218,7 @@ namespace ouzel
     
     void Node::setVisible(bool visible)
     {
-        if (visible != _visible)
-        {
-            _visible = visible;
-            
-            setParentVisible(_parentVisible);
-        }
+        _visible = visible;
     }
 
     void Node::addToLayer(const LayerWeakPtr& layer)
@@ -137,8 +227,6 @@ namespace ouzel
         
         if (LayerPtr layer = _layer.lock())
         {
-            layer->addNode(std::static_pointer_cast<Node>(shared_from_this()));
-            
             for (const NodePtr& child : _children)
             {
                 child->addToLayer(layer);
@@ -148,15 +236,12 @@ namespace ouzel
 
     void Node::removeFromLayer()
     {
-        if (const LayerPtr& layer = _layer.lock())
+        for (const NodePtr& child : _children)
         {
-            layer->removeNode(std::static_pointer_cast<Node>(shared_from_this()));
-            
-            for (const NodePtr& child : _children)
-            {
-                child->removeFromLayer();
-            }
+            child->removeFromLayer();
         }
+        
+        _layer.reset();
     }
 
     bool Node::pointOn(const Vector2& position) const
@@ -387,15 +472,5 @@ namespace ouzel
     {
         _transformDirty = true;
         _inverseTransformDirty = true;
-    }
-    
-    void Node::setParentVisible(bool parentVisible)
-    {
-        _parentVisible = parentVisible;
-        
-        for (const NodePtr& child : _children)
-        {
-            child->setParentVisible(_visible && _parentVisible);
-        }
     }
 }

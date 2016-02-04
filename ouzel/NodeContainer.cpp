@@ -38,9 +38,13 @@ namespace ouzel
     
     bool NodeContainer::removeChild(const NodePtr& node)
     {
-        std::vector<NodePtr>::iterator i = std::find_if(_children.begin(), _children.end(), [node](const NodePtr& p) {
-            return p.get() == node.get();
-        });
+        if (_locked)
+        {
+            _nodeRemoveList.insert(node);
+            return false;
+        }
+        
+        std::vector<NodePtr>::iterator i = std::find(_children.begin(), _children.end(), node);
         
         if (i != _children.end())
         {
@@ -71,10 +75,25 @@ namespace ouzel
     
     bool NodeContainer::hasChild(const NodePtr& node) const
     {
-        std::vector<NodePtr>::const_iterator i = std::find_if(_children.begin(), _children.end(), [node](const NodePtr& p) {
-            return p.get() == node.get();
-        });
+        std::vector<NodePtr>::const_iterator i = std::find(_children.begin(), _children.end(), node);
         
         return i != _children.end();
+    }
+    
+    void NodeContainer::lock()
+    {
+        _locked = true;
+    }
+    
+    void NodeContainer::unlock()
+    {
+        _locked = false;
+        
+        for (const NodePtr& node : _nodeRemoveList)
+        {
+            removeChild(node);
+        }
+        
+        _nodeRemoveList.clear();
     }
 }

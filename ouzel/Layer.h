@@ -38,9 +38,7 @@ namespace ouzel
         
         virtual bool addChild(const NodePtr& node) override;
         
-        void addNode(const NodePtr& node);
-        void removeNode(const NodePtr& node);
-        void reorderNodes();
+        void addToDrawQueue(const NodePtr& node);
         
         const CameraPtr& getCamera() const { return _camera; }
         void setCamera(const CameraPtr& camera);
@@ -69,11 +67,8 @@ namespace ouzel
         virtual void addToScene(const ScenePtr& scene);
         virtual void removeFromScene();
         
-        void lock();
-        void unlock();
-        
         CameraPtr _camera;
-        std::vector<NodePtr> _nodes;
+        std::vector<NodePtr> _drawQueue;
         bool _reorderNodes = false;
         
         ScaleMode _scaleMode = ScaleMode::None;
@@ -84,8 +79,5 @@ namespace ouzel
         
         SceneWeakPtr _scene;
         int32_t _order = 0;
-        
-        std::set<NodePtr> _nodeDeleteList;
-        bool _locked = false;
     };
 }

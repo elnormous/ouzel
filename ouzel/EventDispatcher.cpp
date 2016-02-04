@@ -18,9 +18,7 @@ namespace ouzel
     
     void EventDispatcher::addEventHandler(const EventHandlerPtr& eventHandler)
     {
-        std::vector<EventHandlerPtr>::iterator i = std::find_if(_eventHandlers.begin(), _eventHandlers.end(), [eventHandler](const EventHandlerPtr& p) {
-            return p.get() == eventHandler.get();
-        });
+        std::vector<EventHandlerPtr>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
         
         if (i == _eventHandlers.end())
         {
@@ -40,9 +38,7 @@ namespace ouzel
         }
         else
         {
-            std::vector<EventHandlerPtr>::iterator i = std::find_if(_eventHandlers.begin(), _eventHandlers.end(), [eventHandler](const EventHandlerPtr& p) {
-                return p.get() == eventHandler.get();
-            });
+            std::vector<EventHandlerPtr>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
             
             if (i != _eventHandlers.end())
             {

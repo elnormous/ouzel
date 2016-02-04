@@ -26,9 +26,9 @@ namespace ouzel
     {
         lock();
         
-        for (const NodePtr& node : _nodes)
+        for (const NodePtr& child : _children)
         {
-            node->update(delta);
+            child->update(delta);
         }
         
         unlock();
@@ -36,31 +36,26 @@ namespace ouzel
     
     void Layer::draw()
     {
-        if (_reorderNodes)
-        {
-            std::stable_sort(_nodes.begin(), _nodes.end(), [](const NodePtr& a, const NodePtr& b) {
-                return a->getZ() > b->getZ();
-            });
-            
-            _reorderNodes = false;
-        }
+        _drawQueue.clear();
         
         // render only if there is an active camera
         if (_camera)
         {
             lock();
             
-            for (const NodePtr& child : _children)
+            for (const NodePtr child : _children)
             {
+                child->visit();
                 child->calculateTransformRecursive();
             }
             
-            for (const NodePtr& node : _nodes)
+            std::stable_sort(_drawQueue.begin(), _drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {
+                return a->getZ() > b->getZ();
+            });
+            
+            for (const NodePtr& node : _drawQueue)
             {
-                if (node->isVisible() && node->isParentVisible() && node->checkVisibility())
-                {
-                    node->draw();
-                }
+                node->process();
             }
             
             unlock();
@@ -72,7 +67,6 @@ namespace ouzel
         if (NodeContainer::addChild(node))
         {
             node->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
-            node->setParentVisible(true);
             
             node->updateTransform(Matrix4::identity());
             
@@ -84,41 +78,9 @@ namespace ouzel
         }
     }
     
-    void Layer::addNode(const NodePtr& node)
+    void Layer::addToDrawQueue(const NodePtr& node)
     {
-        std::vector<NodePtr>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](const NodePtr& p) {
-            return p.get() == node.get();
-        });
-        
-        if (i == _nodes.end())
-        {
-            _nodes.push_back(node);
-            _reorderNodes = true;
-        }
-    }
-    
-    void Layer::removeNode(const NodePtr& node)
-    {
-        if (_locked)
-        {
-            _nodeDeleteList.insert(node);
-        }
-        else
-        {
-            std::vector<NodePtr>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](const NodePtr& p) {
-                return p.get() == node.get();
-            });
-            
-            if (i != _nodes.end())
-            {
-                _nodes.erase(i);
-            }
-        }
-    }
-    
-    void Layer::reorderNodes()
-    {
-        _reorderNodes = true;
+        _drawQueue.push_back(node);
     }
     
     void Layer::setCamera(const CameraPtr& camera)
@@ -164,7 +126,7 @@ namespace ouzel
     
     NodePtr Layer::pickNode(const Vector2& position)
     {
-        for (std::vector<NodePtr>::const_reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
         {
             NodePtr node = *i;
             
@@ -181,7 +143,7 @@ namespace ouzel
     {
         std::set<NodePtr> result;
         
-        for (std::vector<NodePtr>::const_reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
         {
             NodePtr node = *i;
             
@@ -282,22 +244,5 @@ namespace ouzel
     void Layer::removeFromScene()
     {
         _scene.reset();
-    }
-    
-    void Layer::lock()
-    {
-        _locked = true;
-    }
-    
-    void Layer::unlock()
-    {
-        _locked = false;
-        
-        for (const NodePtr& node : _nodeDeleteList)
-        {
-            removeNode(node);
-        }
-        
-        _nodeDeleteList.clear();
     }
 }

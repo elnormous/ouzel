@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include <set>
 #include <memory>
 #include "Types.h"
 #include "Noncopyable.h"
@@ -26,6 +27,12 @@ namespace ouzel
         virtual const std::vector<NodePtr>& getChildren() const { return _children; }
         
     protected:
+        void lock();
+        void unlock();
+        
         std::vector<NodePtr> _children;
+        
+        std::set<NodePtr> _nodeRemoveList;
+        bool _locked = false;
     };
 }

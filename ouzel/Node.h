@@ -24,7 +24,10 @@ namespace ouzel
         Node();
         virtual ~Node();
         
+        virtual void visit();
+        virtual void process();
         virtual void draw();
+        
         virtual void update(float delta);
         
         virtual bool addChild(const NodePtr& node) override;
@@ -34,6 +37,9 @@ namespace ouzel
         
         virtual void setZ(float z);
         virtual float getZ() const { return _z; }
+        
+        virtual void setGlobalOrder(bool globalOrder);
+        virtual bool isGlobalOrder() const { return _globalOrder; }
         
         virtual void setPosition(const Vector2& position);
         virtual const Vector2& getPosition() const { return _position; }
@@ -88,9 +94,6 @@ namespace ouzel
         void markTransformDirty() const;
         virtual void calculateInverseTransform() const;
         
-        bool isParentVisible() const { return _parentVisible; }
-        void setParentVisible(bool parentVisible);
-        
         Matrix4 _parentTransform = Matrix4::identity();
         mutable Matrix4 _transform;
         mutable bool _transformDirty = false;
@@ -100,8 +103,9 @@ namespace ouzel
         Vector2 _position;
         float _rotation = 0.0f;
         Vector2 _scale = Vector2(1.0f, 1.0f);
-        float _z = 0.0f;
         float _opacity = 1.0f;
+        float _z = 0.0f;
+        bool _globalOrder = true;
         
         AABB2 _boundingBox;
         float _boundingRadius = 0.0f;
@@ -112,7 +116,6 @@ namespace ouzel
         bool _pickable = true;
         
         bool _visible = true;
-        bool _parentVisible = false;
         
         NodeContainerWeakPtr _parent;
         LayerWeakPtr _layer;

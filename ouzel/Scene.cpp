@@ -61,9 +61,7 @@ namespace ouzel
         }
         else
         {
-            std::vector<LayerPtr>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](const LayerPtr& p) {
-                return p.get() == layer.get();
-            });
+            std::vector<LayerPtr>::iterator i = std::find(_layers.begin(), _layers.end(), layer);
             
             if (i != _layers.end())
             {
@@ -75,9 +73,7 @@ namespace ouzel
     
     bool Scene::hasLayer(const LayerPtr& layer) const
     {
-        std::vector<LayerPtr>::const_iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](const LayerPtr& p) {
-            return p.get() == layer.get();
-        });
+        std::vector<LayerPtr>::const_iterator i = std::find(_layers.begin(), _layers.end(), layer);
         
         return i != _layers.end();
     }
