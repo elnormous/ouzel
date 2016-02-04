@@ -43,6 +43,10 @@ namespace ouzel
     
     bool Sprite::initFromFile(const std::string& filename)
     {
+        _frameCount = 0;
+        _frameVertices.clear();
+        _frameMeshBuffers.clear();
+        
         std::string extension = Engine::getInstance()->getFileSystem()->getExtension(filename);
         
         if (extension == "json")
@@ -113,6 +117,9 @@ namespace ouzel
             _texture = Engine::getInstance()->getCache()->getTexture(metaObject["image"].GetString());
             
             const rapidjson::Value& framesArray = document["frames"];
+            
+            _frameVertices.reserve(framesArray.Size());
+            _frameMeshBuffers.reserve(framesArray.Size());
             
             for (uint32_t index = 0; index < static_cast<uint32_t>(framesArray.Size()); ++index)
             {
@@ -205,6 +212,8 @@ namespace ouzel
                                                                                            vertices.data(), sizeof(VertexPCT),
                                                                                            static_cast<uint32_t>(vertices.size()), true,
                                                                                            VertexPCT::ATTRIBUTES));
+        
+        _frameCount++;
     }
 
     void Sprite::update(float delta)
@@ -220,7 +229,7 @@ namespace ouzel
                 _timeSinceLastFrame -= _frameInterval;
                 _currentFrame++;
                 
-                if (_currentFrame >= _frameMeshBuffers.size())
+                if (_currentFrame >= _frameCount)
                 {
                     _currentFrame = 0;
                     
@@ -248,7 +257,7 @@ namespace ouzel
             
             _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
             
-            if (_frameMeshBuffers.size() > _currentFrame)
+            if (_currentFrame < _frameCount)
             {
                 MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
                 
