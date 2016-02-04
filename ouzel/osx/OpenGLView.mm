@@ -6,6 +6,18 @@
 #include "RendererOGL.h"
 #include "Input.h"
 
+static CVReturn renderCallback(CVDisplayLinkRef displayLink,
+                               const CVTimeStamp *inNow,
+                               const CVTimeStamp *inOutputTime,
+                               CVOptionFlags flagsIn,
+                               CVOptionFlags *flagsOut,
+                               void *displayLinkContext)
+{
+    [(__bridge OpenGLView*)displayLinkContext setNeedsDisplay:YES];
+    
+    return kCVReturnSuccess;
+}
+
 using namespace ouzel;
 
 @implementation OpenGLView
@@ -15,9 +27,6 @@ using namespace ouzel;
     self = [super initWithFrame:frameRect];
     if (self != nil)
     {
-        NSTimer* updateTimer = [NSTimer timerWithTimeInterval:1.0f / Engine::getInstance()->getTargetFPS() target:self selector:@selector(idle:) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:updateTimer forMode:NSDefaultRunLoopMode];
-        
         // Create pixel format
         NSOpenGLPixelFormatAttribute attributes[] =
         {
@@ -48,9 +57,20 @@ using namespace ouzel;
         [subMenu addItem:quitItem];
         
         [NSApplication sharedApplication].mainMenu = mainMenu;
+        
+        CVDisplayLinkCreateWithCGDisplay(CGMainDisplayID(), &_displayLink);
+        CVDisplayLinkSetOutputCallback(_displayLink, renderCallback, (__bridge void *)self);
+        
+        CVDisplayLinkStart(_displayLink);
     }
     
     return self;
+}
+
+-(void)dealloc
+{
+    CVDisplayLinkStop(_displayLink);
+    CVDisplayLinkRelease(_displayLink);
 }
 
 -(BOOL)isFlipped
@@ -97,11 +117,6 @@ using namespace ouzel;
 {
     std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
     renderer->initOpenGL(_frame.size.width, _frame.size.height, 0);
-}
-
--(void)idle:(NSTimer*)timer
-{
-    [self setNeedsDisplay:YES];
 }
 
 -(void)drawRect:(NSRect)bounds

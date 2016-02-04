@@ -2,12 +2,15 @@
 // This file is part of the Ouzel engine.
 
 #include <Cocoa/Cocoa.h>
+#include <CoreVideo/CoreVideo.h>
 
 @interface OpenGLView : NSView
 {
 @private
     NSOpenGLContext* _openGLContext;
     NSOpenGLPixelFormat* _pixelFormat;
+    
+    CVDisplayLinkRef _displayLink;
 }
 
 -(id)initWithFrame:(NSRect)frameRect;
