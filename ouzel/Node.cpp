@@ -83,7 +83,7 @@ namespace ouzel
             
             if (node->getZ() < 0.0f)
             {
-                if (!node->isGlobalOrder() && node->isVisible() && checkVisibility())
+                if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility())
                 {
                     node->draw();
                 }
@@ -100,7 +100,7 @@ namespace ouzel
         {
             node = *i;
             
-            if (!node->isGlobalOrder() && node->isVisible() && checkVisibility())
+            if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility())
             {
                 node->draw();
             }
