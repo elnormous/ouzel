@@ -82,18 +82,19 @@ namespace ouzel
     
     void NodeContainer::lock()
     {
-        _locked = true;
+        ++_locked;
     }
     
     void NodeContainer::unlock()
     {
-        _locked = false;
-        
-        for (const NodePtr& node : _nodeRemoveList)
+        if (--_locked == 0)
         {
-            removeChild(node);
+            for (const NodePtr& node : _nodeRemoveList)
+            {
+                removeChild(node);
+            }
+            
+            _nodeRemoveList.clear();
         }
-        
-        _nodeRemoveList.clear();
     }
 }

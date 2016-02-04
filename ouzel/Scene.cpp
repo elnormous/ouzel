@@ -19,14 +19,20 @@ namespace ouzel
     
     void Scene::update(float delta)
     {
+        lock();
+        
         for (LayerPtr layer : _layers)
         {
             layer->update(delta);
         }
+        
+        unlock();
     }
     
     void Scene::draw()
     {
+        lock();
+        
         if (_reorderLayers)
         {
             std::sort(_layers.begin(), _layers.end(), [](LayerPtr a, LayerPtr b) {
@@ -40,6 +46,8 @@ namespace ouzel
         {
             layer->draw();
         }
+        
+        unlock();
     }
     
     void Scene::addLayer(const LayerPtr& layer)
@@ -93,18 +101,19 @@ namespace ouzel
     
     void Scene::lock()
     {
-        _locked = true;
+        ++_locked;
     }
     
     void Scene::unlock()
     {
-        _locked = false;
-        
-        for (const LayerPtr& layer : _layerDeleteList)
+        if (--_locked == 0)
         {
-            removeLayer(layer);
+            for (const LayerPtr& layer : _layerDeleteList)
+            {
+                removeLayer(layer);
+            }
+            
+            _layerDeleteList.clear();
         }
-        
-        _layerDeleteList.clear();
     }
 }

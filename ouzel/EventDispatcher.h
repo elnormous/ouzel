@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include <set>
+#include <cstdint>
 #include "Types.h"
 #include "Noncopyable.h"
 #include "Event.h"
@@ -54,6 +55,6 @@ namespace ouzel
         std::vector<EventHandlerPtr> _eventHandlers;
         std::set<EventHandlerPtr> _eventHandlerDeleteList;
         
-        bool _locked = false;
+        int32_t _locked = 0;
     };
 }

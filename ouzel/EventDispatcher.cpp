@@ -337,18 +337,19 @@ namespace ouzel
     
     void EventDispatcher::lock()
     {
-        _locked = true;
+        ++_locked;
     }
     
     void EventDispatcher::unlock()
     {
-        _locked = false;
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlerDeleteList)
+        if (--_locked == 0)
         {
-            removeEventHandler(eventHandler);
+            for (const EventHandlerPtr& eventHandler : _eventHandlerDeleteList)
+            {
+                removeEventHandler(eventHandler);
+            }
+            
+            _eventHandlerDeleteList.clear();
         }
-        
-        _eventHandlerDeleteList.clear();
     }
 }

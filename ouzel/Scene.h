@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include <set>
+#include <cstdint>
 #include "Types.h"
 #include "Noncopyable.h"
 
@@ -39,6 +40,6 @@ namespace ouzel
         bool _reorderLayers = false;
         
         std::set<LayerPtr> _layerDeleteList;
-        bool _locked = false;
+        int32_t _locked = 0;
     };
 }

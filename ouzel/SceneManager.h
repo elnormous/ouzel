@@ -4,6 +4,7 @@
 #pragma once
 
 #include <memory>
+#include <cstdint>
 #include "Types.h"
 #include "Noncopyable.h"
 #include "Vector2.h"
@@ -40,6 +41,6 @@ namespace ouzel
         ScenePtr _scene;
         
         ScenePtr _newScene;
-        bool _locked = false;
+        int32_t _locked = false;
     };
 }

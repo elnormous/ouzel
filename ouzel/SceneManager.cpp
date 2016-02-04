@@ -70,14 +70,12 @@ namespace ouzel
     
     void SceneManager::lock()
     {
-        _locked = true;
+        ++_locked;
     }
     
     void SceneManager::unlock()
     {
-        _locked = false;
-        
-        if (_newScene)
+        if (--_locked == 0 && _newScene)
         {
             setScene(_newScene);
             _newScene.reset();
