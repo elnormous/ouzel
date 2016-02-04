@@ -155,13 +155,13 @@ namespace ouzel
         assert(zFarPlane != zNearPlane);
         
 		memset(dst, 0, sizeof(*dst));
-        dst->m[0] = 2 / (right - left);
-        dst->m[5] = 2 / (top - bottom);
+        dst->m[0] = 2.0f / (right - left);
+        dst->m[5] = 2.0f / (top - bottom);
+        dst->m[10] = 1.0f / (zFarPlane - zNearPlane);
         dst->m[12] = (left + right) / (left - right);
-        dst->m[10] = 1 / (zNearPlane - zFarPlane);
-        dst->m[13] = (top + bottom) / (bottom - top);
+        dst->m[13] = (bottom + top) / (bottom - top);
         dst->m[14] = zNearPlane / (zNearPlane - zFarPlane);
-        dst->m[15] = 1;
+        dst->m[15] = 1.0f;
     }
     
     void Matrix4::createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
