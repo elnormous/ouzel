@@ -27,7 +27,7 @@ namespace ouzel
         _transformDirty = _inverseTransformDirty = true;
     }
     
-    void Camera::calculateTransform() const
+    void Camera::calculateLocalTransform() const
     {
         Matrix4 translation;
         translation.translate(-_position.x, -_position.y, 0.0f);
@@ -38,7 +38,19 @@ namespace ouzel
         Matrix4 scale;
         scale.scale(_zoom);
         
-        _transform = _parentTransform * scale * rotation * translation;
+        _localTransform = scale * rotation * translation;
+        
+        _localTransformDirty = false;
+    }
+    
+    void Camera::calculateTransform() const
+    {
+        if (_localTransformDirty)
+        {
+            calculateLocalTransform();
+        }
+        
+        _transform = _parentTransform * _localTransform;
         _transformDirty = false;
         
         for (NodePtr child : _children)

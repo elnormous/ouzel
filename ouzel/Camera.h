@@ -19,6 +19,7 @@ namespace ouzel
         void setZoom(float zoom);
         
     protected:
+        virtual void calculateLocalTransform() const override;
         virtual void calculateTransform() const override;
         
         float _zoom = 1.0f;

@@ -173,7 +173,7 @@ namespace ouzel
         _z = z;
         
         // Currently z does not affect transformation
-        //_transformDirty = _inverseTransformDirty = true;
+        //_localTransformDirty = _transformDirty = _inverseTransformDirty = true;
     }
     
     void Node::setGlobalOrder(bool globalOrder)
@@ -185,35 +185,35 @@ namespace ouzel
     {
         _position = position;
         
-        _transformDirty = _inverseTransformDirty = true;
+        _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
     }
 
     void Node::setRotation(float rotation)
     {
         _rotation = rotation;
         
-        _transformDirty = _inverseTransformDirty = true;
+        _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
     }
 
     void Node::setScale(const Vector2& scale)
     {
         _scale = scale;
         
-        _transformDirty = _inverseTransformDirty = true;
+        _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
     }
     
     void Node::setFlipX(bool flipX)
     {
         _flipX = flipX;
         
-        _transformDirty = _inverseTransformDirty = true;
+        _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
     }
     
     void Node::setFlipY(bool flipY)
     {
         _flipY = flipY;
         
-        _transformDirty = _inverseTransformDirty = true;
+        _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
     }
     
     void Node::setVisible(bool visible)
@@ -419,7 +419,7 @@ namespace ouzel
         }
     }
     
-    void Node::calculateTransform() const
+    void Node::calculateLocalTransform() const
     {
         Matrix4 translation;
         translation.translate(Vector3(_position.x, _position.y, 0.0f));
@@ -434,7 +434,19 @@ namespace ouzel
         Matrix4 scale;
         scale.scale(realScale);
         
-        _transform = _parentTransform * translation * rotation * scale;
+        _localTransform = translation * rotation * scale;
+        
+        _localTransformDirty = false;
+    }
+    
+    void Node::calculateTransform() const
+    {
+        if (_localTransformDirty)
+        {
+            calculateLocalTransform();
+        }
+        
+        _transform = _parentTransform * _localTransform;
         _transformDirty = false;
         
         for (const NodePtr& child : _children)

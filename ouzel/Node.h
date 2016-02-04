@@ -88,6 +88,7 @@ namespace ouzel
         virtual void addToLayer(const LayerWeakPtr& layer);
         virtual void removeFromLayer();
         
+        virtual void calculateLocalTransform() const;
         virtual void calculateTransform() const;
         virtual void calculateTransformRecursive() const;
         
@@ -98,6 +99,11 @@ namespace ouzel
         mutable bool _transformDirty = true;
         mutable Matrix4 _inverseTransform;
         mutable bool _inverseTransformDirty = true;
+        
+        mutable Matrix4 _localTransform;
+        mutable bool _localTransformDirty = true;
+        
+        //TODO: transform to parent and transform to parent
         
         Vector2 _position;
         float _rotation = 0.0f;
