@@ -61,16 +61,6 @@ namespace ouzel
         return value;
     }
 
-    bool Vector2::isZero() const
-    {
-        return x == 0.0f && y == 0.0f;
-    }
-
-    bool Vector2::isOne() const
-    {
-        return x == 1.0f && y == 1.0f;
-    }
-
     float Vector2::angle(const Vector2& v1, const Vector2& v2)
     {
         float dz = v1.x * v2.y - v1.y * v2.x;

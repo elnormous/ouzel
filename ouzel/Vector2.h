@@ -97,14 +97,20 @@ namespace ouzel
          *
          * @return true if this vector contains all zeros, false otherwise.
          */
-        bool isZero() const;
+        inline bool isZero() const
+        {
+            return x == 0.0f && y == 0.0f;
+        }
 
         /**
          * Indicates whether this vector contains all ones.
          *
          * @return true if this vector contains all ones, false otherwise.
          */
-        bool isOne() const;
+        inline bool isOne() const
+        {
+            return x == 1.0f && y == 1.0f;
+        }
 
         /**
          * Returns the angle (in radians) between the specified vectors.
@@ -341,9 +347,7 @@ namespace ouzel
          */
         inline const Vector2 operator+(const Vector2& v) const
         {
-            Vector2 result(*this);
-            result.add(v);
-            return result;
+            return Vector2(x + v.x, y + v.y);
         }
 
         /**
@@ -354,7 +358,8 @@ namespace ouzel
          */
         inline Vector2& operator+=(const Vector2& v)
         {
-            add(v);
+            x += v.x;
+            y += v.y;
             return *this;
         }
 
@@ -368,9 +373,7 @@ namespace ouzel
          */
         inline const Vector2 operator-(const Vector2& v) const
         {
-            Vector2 result(*this);
-            result.subtract(v);
-            return result;
+            return Vector2(x - v.x, y - v.y);
         }
 
         /**
@@ -381,7 +384,8 @@ namespace ouzel
          */
         inline Vector2& operator-=(const Vector2& v)
         {
-            subtract(v);
+            x -= v.x;
+            y -= v.y;
             return *this;
         }
 
@@ -394,9 +398,7 @@ namespace ouzel
          */
         inline const Vector2 operator-() const
         {
-            Vector2 result(*this);
-            result.negate();
-            return result;
+            return Vector2(-x, -y);
         }
 
         /**
@@ -404,25 +406,24 @@ namespace ouzel
          * 
          * Note: this does not modify this vector.
          * 
-         * @param x The value to scale by.
+         * @param scalar The value to scale by.
          * @return The scaled vector.
          */
-        inline const Vector2 operator*(float x) const
+        inline const Vector2 operator*(float scalar) const
         {
-            Vector2 result(*this);
-            result.scale(x);
-            return result;
+            return Vector2(x * scalar, y * scalar);
         }
 
         /**
          * Scales this vector by the given value.
          * 
-         * @param x The value to scale by.
+         * @param scalar The value to scale by.
          * @return This vector, after the scale occurs.
          */
-        inline Vector2& operator*=(float x)
+        inline Vector2& operator*=(float scalar)
         {
-            scale(x);
+            x *= scalar;
+            y *= scalar;
             return *this;
         }
         
@@ -431,12 +432,12 @@ namespace ouzel
          *
          * Note: this does not modify this vector.
          *
-         * @param x the constant to divide this vector with
+         * @param scalar the constant to divide this vector with
          * @return a smaller vector
          */
-        inline const Vector2 operator/(float x) const
+        inline const Vector2 operator/(float scalar) const
         {
-            return Vector2(this->x / x, this->y / x);
+            return Vector2(x / scalar, y / scalar);
         }
 
         /**
@@ -492,14 +493,12 @@ namespace ouzel
     /**
      * Calculates the scalar product of the given vector with the given value.
      * 
-     * @param x The value to scale by.
+     * @param scalar The value to scale by.
      * @param v The vector to scale.
      * @return The scaled vector.
      */
-    inline const Vector2 operator*(float x, const Vector2& v)
+    inline const Vector2 operator*(float scalar, const Vector2& v)
     {
-        Vector2 result(v);
-        result.scale(x);
-        return result;
+        return Vector2(v.x * scalar, v.y * scalar);
     }
 }
