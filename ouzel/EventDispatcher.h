@@ -53,7 +53,8 @@ namespace ouzel
         void unlock();
         
         std::vector<EventHandlerPtr> _eventHandlers;
-        std::set<EventHandlerPtr> _eventHandlerDeleteList;
+        std::set<EventHandlerPtr> _eventHandlerAddList;
+        std::set<EventHandlerPtr> _eventHandlerRemoveList;
         
         int32_t _locked = 0;
     };

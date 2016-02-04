@@ -39,7 +39,8 @@ namespace ouzel
         std::vector<LayerPtr> _layers;
         bool _reorderLayers = false;
         
-        std::set<LayerPtr> _layerDeleteList;
+        std::set<LayerPtr> _layerAddList;
+        std::set<LayerPtr> _layerRemoveList;
         int32_t _locked = 0;
     };
 }

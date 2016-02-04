@@ -18,15 +18,22 @@ namespace ouzel
     
     void EventDispatcher::addEventHandler(const EventHandlerPtr& eventHandler)
     {
-        std::vector<EventHandlerPtr>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
-        
-        if (i == _eventHandlers.end())
+        if (_locked)
         {
-            _eventHandlers.push_back(eventHandler);
+            _eventHandlerAddList.insert(eventHandler);
+        }
+        else
+        {
+            std::vector<EventHandlerPtr>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
             
-            std::sort(_eventHandlers.begin(), _eventHandlers.end(), [](const EventHandlerPtr& a, const EventHandlerPtr& b) {
-                return a->_priority < b->_priority;
-            });
+            if (i == _eventHandlers.end())
+            {
+                _eventHandlers.push_back(eventHandler);
+                
+                std::sort(_eventHandlers.begin(), _eventHandlers.end(), [](const EventHandlerPtr& a, const EventHandlerPtr& b) {
+                    return a->_priority < b->_priority;
+                });
+            }
         }
     }
     
@@ -34,7 +41,7 @@ namespace ouzel
     {
         if (_locked)
         {
-            _eventHandlerDeleteList.insert(eventHandler);
+            _eventHandlerRemoveList.insert(eventHandler);
         }
         else
         {
@@ -344,12 +351,18 @@ namespace ouzel
     {
         if (--_locked == 0)
         {
-            for (const EventHandlerPtr& eventHandler : _eventHandlerDeleteList)
+            for (const EventHandlerPtr& eventHandler : _eventHandlerAddList)
+            {
+                addEventHandler(eventHandler);
+            }
+            
+            for (const EventHandlerPtr& eventHandler : _eventHandlerRemoveList)
             {
                 removeEventHandler(eventHandler);
             }
             
-            _eventHandlerDeleteList.clear();
+            _eventHandlerAddList.clear();
+            _eventHandlerRemoveList.clear();
         }
     }
 }

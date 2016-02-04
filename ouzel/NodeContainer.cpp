@@ -23,6 +23,12 @@ namespace ouzel
     
     bool NodeContainer::addChild(const NodePtr& node)
     {
+        if (_locked)
+        {
+            _nodeAddList.insert(node);
+            return false;
+        }
+        
         if (!hasChild(node) && !node->hasParent())
         {
             node->_parent = shared_from_this();
@@ -89,11 +95,17 @@ namespace ouzel
     {
         if (--_locked == 0)
         {
+            for (const NodePtr& node : _nodeAddList)
+            {
+                addChild(node);
+            }
+            
             for (const NodePtr& node : _nodeRemoveList)
             {
                 removeChild(node);
             }
             
+            _nodeAddList.clear();
             _nodeRemoveList.clear();
         }
     }

@@ -32,6 +32,7 @@ namespace ouzel
         
         std::vector<NodePtr> _children;
         
+        std::set<NodePtr> _nodeAddList;
         std::set<NodePtr> _nodeRemoveList;
         int32_t _locked = 0;
     };

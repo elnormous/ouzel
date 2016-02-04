@@ -52,7 +52,11 @@ namespace ouzel
     
     void Scene::addLayer(const LayerPtr& layer)
     {
-        if (!hasLayer(layer) && !layer->getScene())
+        if (_locked)
+        {
+            _layerAddList.insert(layer);
+        }
+        else if (!hasLayer(layer) && !layer->getScene())
         {
             _layers.push_back(layer);
             layer->addToScene(shared_from_this());
@@ -65,7 +69,7 @@ namespace ouzel
     {
         if (_locked)
         {
-            _layerDeleteList.insert(layer);
+            _layerRemoveList.insert(layer);
         }
         else
         {
@@ -108,12 +112,18 @@ namespace ouzel
     {
         if (--_locked == 0)
         {
-            for (const LayerPtr& layer : _layerDeleteList)
+            for (const LayerPtr& layer : _layerAddList)
+            {
+                addLayer(layer);
+            }
+            
+            for (const LayerPtr& layer : _layerRemoveList)
             {
                 removeLayer(layer);
             }
             
-            _layerDeleteList.clear();
+            _layerAddList.clear();
+            _layerRemoveList.clear();
         }
     }
 }
