@@ -38,5 +38,6 @@ namespace ouzel
 
         UINT _width = 0;
         UINT _height = 0;
+        UINT _mipLevels = 0;
     };
 }

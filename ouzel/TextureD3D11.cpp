@@ -105,17 +105,15 @@ namespace ouzel
             return false;
         }
 
-        UINT rowPitch = width * 4;
-
         if (data)
         {
-            rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);
+            uploadData(data, width, height);
         }
         else
         {
             std::unique_ptr<uint8_t[]> emptyData(new uint8_t[width * height * 4]);
             memset(emptyData.get(), 0, width * height * 4);
-            rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, emptyData.get(), rowPitch, 0);
+            uploadData(emptyData.get(), width, height);
         }
 
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -123,7 +121,7 @@ namespace ouzel
         srvDesc.Format = textureDesc.Format;
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        srvDesc.Texture2D.MipLevels = -1;
+        srvDesc.Texture2D.MipLevels = _mipLevels;
 
         hr = rendererD3D11->getDevice()->CreateShaderResourceView(_texture, &srvDesc, &_resourceView);
         if (FAILED(hr) || !_resourceView)
@@ -142,8 +140,10 @@ namespace ouzel
     {
         std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(Engine::getInstance()->getRenderer());
 
-        UINT rowPitch = static_cast<UINT>(_width * 4);
+        UINT rowPitch = static_cast<UINT>(width * 4);
         rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);
+
+        _mipLevels = 1;
 
         if (_mipmaps && isPOT(width) && isPOT(height))
         {
@@ -171,6 +171,8 @@ namespace ouzel
                 mipLevel++;
                 mipRowPitch = mipWidth * 4;
             }
+
+            _mipLevels = mipLevel;
         }
 
         return true;
