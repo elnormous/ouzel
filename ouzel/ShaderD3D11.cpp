@@ -129,7 +129,7 @@ namespace ouzel
             createPixelShaderConstantBuffer(size);
         }
 
-        uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
+        uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors), index);
 
         return true;
     }
@@ -143,7 +143,7 @@ namespace ouzel
             createPixelShaderConstantBuffer(size);
         }
 
-        uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
+        uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors), index);
 
         return true;
     }
@@ -157,7 +157,7 @@ namespace ouzel
             createPixelShaderConstantBuffer(size);
         }
 
-        uploadData(_pixelShaderConstantBuffer, matrices.data(), vectorDataSize(matrices));
+        uploadData(_pixelShaderConstantBuffer, matrices.data(), vectorDataSize(matrices), index);
 
         return true;
     }
@@ -177,7 +177,7 @@ namespace ouzel
             createPixelShaderConstantBuffer(size);
         }
 
-        uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
+        uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors), index);
 
         return true;
     }
@@ -191,7 +191,7 @@ namespace ouzel
             createPixelShaderConstantBuffer(size);
         }
 
-        return uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors));
+        return uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors), index);
     }
 
     bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
@@ -203,7 +203,7 @@ namespace ouzel
             createPixelShaderConstantBuffer(size);
         }
 
-        return uploadData(_vertexShaderConstantBuffer, matrices.data(), vectorDataSize(matrices));
+        return uploadData(_vertexShaderConstantBuffer, matrices.data(), vectorDataSize(matrices), index);
     }
 
     bool ShaderD3D11::createPixelShaderConstantBuffer(uint32_t size)
@@ -254,7 +254,7 @@ namespace ouzel
         return true;
     }
 
-    bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)
+	bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size, uint32_t offset)
     {
         std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(Engine::getInstance()->getRenderer());
 
@@ -266,7 +266,7 @@ namespace ouzel
             return false;
         }
 
-        memcpy(mappedSubresource.pData, data, size);
+        memcpy(static_cast<char*>(mappedSubresource.pData) + offset, data, size);
 
         rendererD3D11->getContext()->Unmap(buffer, 0);
 
