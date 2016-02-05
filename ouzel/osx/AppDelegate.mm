@@ -34,6 +34,7 @@
                                                defer:NO
                                               screen:screen];
     
+    _window.backgroundColor = [NSColor blackColor];
     _window.acceptsMouseMovedEvents = YES;
     [_window setBackgroundColor:[NSColor blueColor]];
     
