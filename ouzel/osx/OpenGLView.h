@@ -11,6 +11,7 @@
     NSOpenGLPixelFormat* _pixelFormat;
     
     CVDisplayLinkRef _displayLink;
+    BOOL _running;
 }
 
 -(id)initWithFrame:(NSRect)frameRect;

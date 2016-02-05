@@ -27,6 +27,7 @@ using namespace ouzel;
     self = [super initWithFrame:frameRect];
     if (self != nil)
     {
+        _running = NO;
         // Create pixel format
         NSOpenGLPixelFormatAttribute attributes[] =
         {
@@ -117,6 +118,10 @@ using namespace ouzel;
 {
     std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
     renderer->initOpenGL(_frame.size.width, _frame.size.height, 0);
+    
+    CVDisplayLinkStart(_displayLink);
+    
+    _running = YES;
 }
 
 -(void)drawRect:(NSRect)bounds
@@ -432,18 +437,24 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)keyDown:(NSEvent*)theEvent
 {
+    if (!_running) return;
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->keyDown(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
 }
 
 -(void)keyUp:(NSEvent*)theEvent
 {
+    if (!_running) return;
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->keyUp(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
 }
 
 -(void)mouseDown:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseDown(MouseButton::LEFT,
                                                  Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
@@ -451,8 +462,10 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)mouseUp:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseUp(MouseButton::LEFT,
                                                Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                getModifiers(theEvent));
@@ -460,8 +473,10 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)rightMouseDown:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseDown(MouseButton::RIGHT,
                                                  Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
@@ -469,8 +484,10 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)rightMouseUp:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseUp(MouseButton::RIGHT,
                                                Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                getModifiers(theEvent));
@@ -478,8 +495,10 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)otherMouseDown:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseDown(MouseButton::MIDDLE,
                                                  Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
@@ -487,8 +506,10 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)otherMouseUp:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseUp(MouseButton::MIDDLE,
                                                Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                getModifiers(theEvent));
@@ -496,40 +517,50 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)mouseMoved:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
 }
 
 -(void)mouseDragged:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
 }
 
 -(void)rightMouseDragged:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
 }
 
 -(void)otherMouseDragged:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
 }
 
 -(void)scrollWheel:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseScroll(Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY),
                                                    Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                    getModifiers(theEvent));
