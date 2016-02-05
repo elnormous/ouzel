@@ -43,16 +43,16 @@ namespace ouzel
         bool createPixelShaderConstantBuffer(uint32_t size);
         bool createVertexShaderConstantBuffer(uint32_t size);
 
-        bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size, uint32_t offset);
+        bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
         ID3D11PixelShader* _pixelShader = nullptr;
         ID3D11VertexShader* _vertexShader = nullptr;
         ID3D11InputLayout* _inputLayout = nullptr;
 
         ID3D11Buffer* _pixelShaderConstantBuffer = nullptr;
-        uint32_t _pixelShaderConstantBufferSize = 0;
+        std::vector<char> _pixelShaderData;
 
         ID3D11Buffer* _vertexShaderConstantBuffer = nullptr;
-        uint32_t _vertexShaderConstantBufferSize = 0;
+        std::vector<char> _vertexShaderData;
     };
 }

@@ -123,43 +123,40 @@ namespace ouzel
     bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
         uint32_t size = index + vectorDataSize(vectors);
-        if (size > _pixelShaderConstantBufferSize)
+        if (size > _pixelShaderData.size())
         {
             if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
             createPixelShaderConstantBuffer(size);
         }
 
-        uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors), index);
-
-        return true;
+        memcpy(_pixelShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+        return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
     }
 
     bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
         uint32_t size = index + vectorDataSize(vectors);
-        if (size > _pixelShaderConstantBufferSize)
+		if (size > _pixelShaderData.size())
         {
             if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
             createPixelShaderConstantBuffer(size);
         }
 
-        uploadData(_pixelShaderConstantBuffer, vectors.data(), vectorDataSize(vectors), index);
-
-        return true;
+        memcpy(_pixelShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+        return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
     }
 
     bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
         uint32_t size = index + vectorDataSize(matrices);
-        if (size > _pixelShaderConstantBufferSize)
+		if (size > _pixelShaderData.size())
         {
             if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
             createPixelShaderConstantBuffer(size);
         }
 
-        uploadData(_pixelShaderConstantBuffer, matrices.data(), vectorDataSize(matrices), index);
-
-        return true;
+        memcpy(_pixelShaderData.data() + index, matrices.data(), vectorDataSize(matrices));
+        return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
     }
     
     uint32_t ShaderD3D11::getVertexShaderConstantId(const std::string& name)
@@ -171,39 +168,40 @@ namespace ouzel
     bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
         uint32_t size = index + vectorDataSize(vectors);
-        if (size > _vertexShaderConstantBufferSize)
+		if (size > _vertexShaderData.size())
         {
             if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
-            createPixelShaderConstantBuffer(size);
+            createVertexShaderConstantBuffer(size);
         }
 
-        uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors), index);
-
-        return true;
+        memcpy(_vertexShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+        return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
     }
 
     bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
         uint32_t size = index + vectorDataSize(vectors);
-        if (size > _vertexShaderConstantBufferSize)
+		if (size > _vertexShaderData.size())
         {
             if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
-            createPixelShaderConstantBuffer(size);
+            createVertexShaderConstantBuffer(size);
         }
 
-        return uploadData(_vertexShaderConstantBuffer, vectors.data(), vectorDataSize(vectors), index);
+        memcpy(_vertexShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+        return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
     }
 
     bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
         uint32_t size = index + vectorDataSize(matrices);
-        if (size > _vertexShaderConstantBufferSize)
+		if (size > _vertexShaderData.size())
         {
             if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
-            createPixelShaderConstantBuffer(size);
+            createVertexShaderConstantBuffer(size);
         }
 
-        return uploadData(_vertexShaderConstantBuffer, matrices.data(), vectorDataSize(matrices), index);
+        memcpy(_vertexShaderData.data() + index, matrices.data(), vectorDataSize(matrices));
+        return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
     }
 
     bool ShaderD3D11::createPixelShaderConstantBuffer(uint32_t size)
@@ -225,7 +223,7 @@ namespace ouzel
             return false;
         }
 
-        _pixelShaderConstantBufferSize = size;
+        _pixelShaderData.resize(size);
 
         return true;
     }
@@ -249,12 +247,12 @@ namespace ouzel
             return false;
         }
 
-        _vertexShaderConstantBufferSize = size;
+        _vertexShaderData.resize(size);
 
         return true;
     }
 
-	bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size, uint32_t offset)
+	bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)
     {
         std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(Engine::getInstance()->getRenderer());
 
@@ -266,7 +264,7 @@ namespace ouzel
             return false;
         }
 
-        memcpy(static_cast<char*>(mappedSubresource.pData) + offset, data, size);
+        memcpy(mappedSubresource.pData, data, size);
 
         rendererD3D11->getContext()->Unmap(buffer, 0);
 
