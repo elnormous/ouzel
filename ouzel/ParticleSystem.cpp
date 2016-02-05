@@ -106,6 +106,12 @@ namespace ouzel
             if (_duration >= 0.0f && _duration < _elapsed)
             {
                 stop();
+                
+                if (_removeOnFinish)
+                {
+                    removeFromParent();
+                    return;
+                }
             }
             
             _boundingBox.reset();

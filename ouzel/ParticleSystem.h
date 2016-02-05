@@ -82,6 +82,9 @@ namespace ouzel
         void setPositionType(PositionType positionType) { _positionType = positionType; }
         PositionType getPositionType() const { return _positionType; }
         
+        void setRemoveOnFinish(bool removeOnFinish) { _removeOnFinish = removeOnFinish; }
+        bool getRemoveOnFinish() const { return _removeOnFinish; }
+        
     protected:
         void createParticleMesh();
         void updateParticleMesh();
@@ -184,5 +187,7 @@ namespace ouzel
         bool _active = true;
         
         bool _needsMeshUpdate = false;
+        
+        bool _removeOnFinish = true;
     };
 }
