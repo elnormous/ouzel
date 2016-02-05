@@ -58,11 +58,6 @@ using namespace ouzel;
         [subMenu addItem:quitItem];
         
         [NSApplication sharedApplication].mainMenu = mainMenu;
-        
-        CVDisplayLinkCreateWithCGDisplay(CGMainDisplayID(), &_displayLink);
-        CVDisplayLinkSetOutputCallback(_displayLink, renderCallback, (__bridge void *)self);
-        
-        CVDisplayLinkStart(_displayLink);
     }
     
     return self;
@@ -70,7 +65,6 @@ using namespace ouzel;
 
 -(void)dealloc
 {
-    CVDisplayLinkStop(_displayLink);
     CVDisplayLinkRelease(_displayLink);
 }
 
@@ -118,6 +112,14 @@ using namespace ouzel;
 {
     std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
     renderer->initOpenGL(_frame.size.width, _frame.size.height, 0);
+    
+    GLint swapInt = 1;
+    [_openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+    
+    CVDisplayLinkCreateWithCGDisplay(CGMainDisplayID(), &_displayLink);
+    CVDisplayLinkSetOutputCallback(_displayLink, renderCallback, (__bridge void *)self);
+    
+    CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_displayLink, [_openGLContext CGLContextObj], [_pixelFormat CGLPixelFormatObj]);
     
     CVDisplayLinkStart(_displayLink);
     
