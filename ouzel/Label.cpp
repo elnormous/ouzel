@@ -1,6 +1,7 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "CompileConfig.h"
 #include "Label.h"
 #include "Engine.h"
 #include "Renderer.h"
