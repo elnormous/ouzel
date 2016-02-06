@@ -25,10 +25,10 @@ namespace ouzel
         
         std::string getExtension(const std::string& path) const;
         
+        bool fileExists(const std::string& filename) const;
+        
     protected:
         FileSystem();
-        
-        bool fileExists(const std::string& filename) const;
         
         std::vector<std::string> _resourcePaths;
     };
