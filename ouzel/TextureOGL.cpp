@@ -115,7 +115,7 @@ namespace ouzel
         GLint oldTextureId;
         glGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTextureId);
         
-        glBindTexture(GL_TEXTURE_2D, _textureId);
+        if (oldTextureId != _textureId) glBindTexture(GL_TEXTURE_2D, _textureId);
         
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
                      0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -153,7 +153,7 @@ namespace ouzel
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         }
         
-        glBindTexture(GL_TEXTURE_2D, oldTextureId);
+        if (oldTextureId != _textureId) glBindTexture(GL_TEXTURE_2D, oldTextureId);
         
         if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {

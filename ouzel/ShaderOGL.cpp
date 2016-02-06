@@ -206,10 +206,10 @@ namespace ouzel
         GLint oldProgram;
         glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
         
-        glUseProgram(_programId);
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniform3fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
         
-        glUseProgram(oldProgram);
+        if (oldProgram != _programId) glUseProgram(oldProgram);
         
         return true;
     }
@@ -219,10 +219,10 @@ namespace ouzel
         GLint oldProgram;
         glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
         
-        glUseProgram(_programId);
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniform4fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
         
-        glUseProgram(oldProgram);
+        if (oldProgram != _programId) glUseProgram(oldProgram);
         
         return true;
     }
@@ -232,10 +232,10 @@ namespace ouzel
         GLint oldProgram;
         glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
         
-        glUseProgram(_programId);
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniformMatrix4fv(index, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
         
-        glUseProgram(oldProgram);
+        if (oldProgram != _programId) glUseProgram(oldProgram);
         
         return true;
     }
@@ -250,10 +250,10 @@ namespace ouzel
         GLint oldProgram;
         glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
         
-        glUseProgram(_programId);
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniform3fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
         
-        glUseProgram(oldProgram);
+        if (oldProgram != _programId) glUseProgram(oldProgram);
         
         return true;
     }
@@ -263,10 +263,10 @@ namespace ouzel
         GLint oldProgram;
         glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
         
-        glUseProgram(_programId);
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniform4fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
         
-        glUseProgram(oldProgram);
+        if (oldProgram != _programId) glUseProgram(oldProgram);
         
         return true;
     }
@@ -276,10 +276,10 @@ namespace ouzel
         GLint oldProgram;
         glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
         
-        glUseProgram(_programId);
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniformMatrix4fv(index, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
         
-        glUseProgram(oldProgram);
+        if (oldProgram != _programId) glUseProgram(oldProgram);
         
         return true;
     }
