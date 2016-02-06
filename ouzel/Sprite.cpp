@@ -231,9 +231,11 @@ namespace ouzel
                 
                 if (_currentFrame >= _frameCount)
                 {
-                    _currentFrame = 0;
-                    
-                    if (!_repeat)
+                    if (_repeat)
+                    {
+                        _currentFrame = 0;
+                    }
+                    else
                     {
                         _playing = false;
                     }
