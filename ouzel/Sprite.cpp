@@ -237,6 +237,7 @@ namespace ouzel
                     }
                     else
                     {
+                        _currentFrame = _frameCount - 1;
                         _playing = false;
                     }
                 }
