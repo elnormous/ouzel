@@ -170,7 +170,7 @@ using namespace ouzel;
     [_openGLContext makeCurrentContext];
 }
 
-static uint32_t getModifiers(NSEvent* theEvent)
+static uint32_t getModifiers(NSEvent* theEvent, bool includeMouse = false)
 {
     uint32_t modifiers = 0;
     
@@ -180,9 +180,12 @@ static uint32_t getModifiers(NSEvent* theEvent)
     if (theEvent.modifierFlags & NSCommandKeyMask) modifiers |= Event::COMMAND_DOWN;
     if (theEvent.modifierFlags & NSFunctionKeyMask) modifiers |= Event::FUNCTION_DOWN;
     
-    if (NSEvent.pressedMouseButtons & (1 << 0)) modifiers |= Event::LEFT_MOUSE_DOWN;
-    if (NSEvent.pressedMouseButtons & (1 << 1)) modifiers |= Event::RIGHT_MOUSE_DOWN;
-    if (NSEvent.pressedMouseButtons & (1 << 2)) modifiers |= Event::MIDDLE_MOUSE_DOWN;
+    if (includeMouse)
+    {
+        if (NSEvent.pressedMouseButtons & (1 << 0)) modifiers |= Event::LEFT_MOUSE_DOWN;
+        if (NSEvent.pressedMouseButtons & (1 << 1)) modifiers |= Event::RIGHT_MOUSE_DOWN;
+        if (NSEvent.pressedMouseButtons & (1 << 2)) modifiers |= Event::MIDDLE_MOUSE_DOWN;
+    }
     
     return modifiers;
 }
@@ -520,6 +523,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 -(void)mouseMoved:(NSEvent*)theEvent
 {
     if (!_running) return;
+    
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
     [self makeContextCurrent];
@@ -534,7 +538,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
-                                                 getModifiers(theEvent));
+                                                 getModifiers(theEvent, true));
 }
 
 -(void)rightMouseDragged:(NSEvent*)theEvent
@@ -544,7 +548,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
-                                                 getModifiers(theEvent));
+                                                 getModifiers(theEvent, true));
 }
 
 -(void)otherMouseDragged:(NSEvent*)theEvent
@@ -554,7 +558,7 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
-                                                 getModifiers(theEvent));
+                                                 getModifiers(theEvent, true));
 }
 
 -(void)scrollWheel:(NSEvent*)theEvent
