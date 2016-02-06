@@ -151,6 +151,5 @@ namespace ouzel
         
         _renderer->clear();
         _sceneManager->draw();
-        _renderer->flush();
     }
 }

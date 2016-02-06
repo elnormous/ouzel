@@ -137,17 +137,6 @@ namespace ouzel
     {
         Renderer::clear();
         
-        if (_activeRenderTarget)
-        {
-            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
-            
-            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
-        }
-        else
-        {
-            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-        }
-        
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         checkOpenGLErrors();
     }
@@ -155,17 +144,6 @@ namespace ouzel
     void RendererOGL::flush()
     {
         Renderer::flush();
-        
-        if (_activeRenderTarget)
-        {
-            std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
-            
-            glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
-        }
-        else
-        {
-            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-        }
         
         glFlush();
         checkOpenGLErrors();
