@@ -41,8 +41,8 @@ namespace ouzel
         syslog(LOG_WARNING, "%s", TEMP_BUFFER);
         printf("%s\n", TEMP_BUFFER);
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-        wchar_t szBuffer[256];
-        MultiByteToWideChar(CP_ACP, 0, TEMP_BUFFER, -1, szBuffer, 256);
+        wchar_t szBuffer[MAX_PATH];
+        MultiByteToWideChar(CP_ACP, 0, TEMP_BUFFER, -1, szBuffer, MAX_PATH);
         StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
         OutputDebugString(szBuffer);
 #elif defined(OUZEL_PLATFORM_ANDROID)

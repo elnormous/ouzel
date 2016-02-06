@@ -4,6 +4,12 @@
 #include <algorithm>
 #include <sys/stat.h>
 #include "CompileConfig.h"
+#if defined(OUZEL_PLATFORM_OSX)
+#include <sys/types.h>
+#include <pwd.h>
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+#include <Shlobj.h>
+#endif
 #include "FileSystem.h"
 #include "Utils.h"
 
@@ -31,6 +37,25 @@ namespace ouzel
     FileSystem::~FileSystem()
     {
         
+    }
+    
+    std::string getHomeDirectory()
+    {
+#if defined(OUZEL_PLATFORM_OSX)
+        struct passwd* pw = getpwuid(getuid());
+        if (pw)
+        {
+            return pw->pw_dir;
+        }
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        WCHAR szBuffer[MAX_PATH];
+        if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, 0, szBuffer)))
+        {
+            WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+            return TEMP_BUFFER;
+        }
+#endif
+        return "";
     }
     
     bool FileSystem::fileExists(const std::string& filename) const
@@ -63,8 +88,8 @@ namespace ouzel
 #endif
 
 #if defined(OUZEL_PLATFORM_WINDOWS)
-        wchar_t szBuffer[256];
-        GetCurrentDirectoryW(256, szBuffer);
+        wchar_t szBuffer[MAX_PATH];
+        GetCurrentDirectoryW(MAX_PATH, szBuffer);
 
         WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
 

@@ -19,6 +19,8 @@ namespace ouzel
         
         virtual ~FileSystem();
         
+        std::string getHomeDirectory();
+        
         std::string getPath(const std::string& filename) const;
         
         void addResourcePath(const std::string& path);
