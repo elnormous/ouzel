@@ -28,6 +28,7 @@ namespace ouzel
         
         for (const NodePtr& child : _children)
         {
+            child->calculateTransformRecursive();
             child->update(delta);
         }
         
@@ -46,7 +47,6 @@ namespace ouzel
             for (const NodePtr child : _children)
             {
                 child->visit();
-                child->calculateTransformRecursive();
             }
             
             std::stable_sort(_drawQueue.begin(), _drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {

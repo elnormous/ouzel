@@ -415,9 +415,10 @@ namespace ouzel
         
         if (particles)
         {
-            Vector2 position;
             if (LayerPtr layer = _layer.lock())
             {
+                Vector2 position;
+                
                 if (_positionType == PositionType::FREE)
                 {
                     position = convertLocalToWorld(Vector2::zero());
@@ -426,77 +427,77 @@ namespace ouzel
                 {
                     position = convertLocalToWorld(Vector2::zero()) - _position;
                 }
-            }
             
-            for (uint32_t i = _particleCount; i < _particleCount + particles; ++i)
-            {
-                if (_emitterType == EmitterType::GRAVITY)
+                for (uint32_t i = _particleCount; i < _particleCount + particles; ++i)
                 {
-                    _particles[i].life = fmaxf(_particleLifespan + _particleLifespanVariance * RANDOM_MINUS1_1(), 0.0f);
-                    
-                    _particles[i].position = _sourcePosition + position + Vector2(_sourcePositionVariance.x * RANDOM_MINUS1_1(),
-                                                                                  _sourcePositionVariance.y * RANDOM_MINUS1_1());
-                    
-                    _particles[i].size = fmaxf(_startParticleSize + _startParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
-                    
-                    float finishSize = fmaxf(_finishParticleSize + _finishParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
-                    _particles[i].deltaSize = (finishSize - _particles[i].size) / _particles[i].life;
-                    
-                    _particles[i].colorRed = clamp(_startColorRed + _startColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                    _particles[i].colorGreen = clamp(_startColorGreen + _startColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                    _particles[i].colorBlue = clamp(_startColorBlue + _startColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                    _particles[i].colorAlpha = clamp(_startColorAlpha + _startColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                    
-                    float finishColorRed = clamp(_finishColorRed + _finishColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                    float finishColorGreen = clamp(_finishColorGreen + _finishColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                    float finishColorBlue = clamp(_finishColorBlue + _finishColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                    float finishColorAlpha = clamp(_finishColorAlpha + _finishColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                    
-                    _particles[i].deltaColorRed = (finishColorRed - _particles[i].colorRed) / _particles[i].life;
-                    _particles[i].deltaColorGreen = (finishColorGreen - _particles[i].colorGreen) / _particles[i].life;
-                    _particles[i].deltaColorBlue = (finishColorBlue - _particles[i].colorBlue) / _particles[i].life;
-                    _particles[i].deltaColorAlpha = (finishColorAlpha - _particles[i].colorAlpha) / _particles[i].life;
-                    
-                    //_particles[i].finishColor = finishColor;
-                    
-                    _particles[i].rotation = _startRotation + _startRotationVariance * RANDOM_MINUS1_1();
-                    
-                    float finishRotation = _finishRotation + _finishRotationVariance * RANDOM_MINUS1_1();
-                    _particles[i].deltaRotation = (finishRotation - _particles[i].rotation) / _particles[i].life;
-                    
-                    _particles[i].radialAcceleration = _radialAcceleration + _radialAcceleration * RANDOM_MINUS1_1();
-                    _particles[i].tangentialAcceleration = _tangentialAcceleration + _tangentialAcceleration * RANDOM_MINUS1_1();
-                    
-                    if (_rotationIsDir)
+                    if (_emitterType == EmitterType::GRAVITY)
                     {
-                        float a = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
-                        Vector2 v(cosf(a), sinf(a));
-                        float s = _speed + _speedVariance * RANDOM_MINUS1_1();
-                        Vector2 dir = v * s;
-                        _particles[i].direction = dir;
-                        _particles[i].rotation = -radToDeg(dir.getAngle());
+                        _particles[i].life = fmaxf(_particleLifespan + _particleLifespanVariance * RANDOM_MINUS1_1(), 0.0f);
+                        
+                        _particles[i].position = _sourcePosition + position + Vector2(_sourcePositionVariance.x * RANDOM_MINUS1_1(),
+                                                                                      _sourcePositionVariance.y * RANDOM_MINUS1_1());
+                        
+                        _particles[i].size = fmaxf(_startParticleSize + _startParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
+                        
+                        float finishSize = fmaxf(_finishParticleSize + _finishParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
+                        _particles[i].deltaSize = (finishSize - _particles[i].size) / _particles[i].life;
+                        
+                        _particles[i].colorRed = clamp(_startColorRed + _startColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        _particles[i].colorGreen = clamp(_startColorGreen + _startColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        _particles[i].colorBlue = clamp(_startColorBlue + _startColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        _particles[i].colorAlpha = clamp(_startColorAlpha + _startColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        
+                        float finishColorRed = clamp(_finishColorRed + _finishColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        float finishColorGreen = clamp(_finishColorGreen + _finishColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        float finishColorBlue = clamp(_finishColorBlue + _finishColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        float finishColorAlpha = clamp(_finishColorAlpha + _finishColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        
+                        _particles[i].deltaColorRed = (finishColorRed - _particles[i].colorRed) / _particles[i].life;
+                        _particles[i].deltaColorGreen = (finishColorGreen - _particles[i].colorGreen) / _particles[i].life;
+                        _particles[i].deltaColorBlue = (finishColorBlue - _particles[i].colorBlue) / _particles[i].life;
+                        _particles[i].deltaColorAlpha = (finishColorAlpha - _particles[i].colorAlpha) / _particles[i].life;
+                        
+                        //_particles[i].finishColor = finishColor;
+                        
+                        _particles[i].rotation = _startRotation + _startRotationVariance * RANDOM_MINUS1_1();
+                        
+                        float finishRotation = _finishRotation + _finishRotationVariance * RANDOM_MINUS1_1();
+                        _particles[i].deltaRotation = (finishRotation - _particles[i].rotation) / _particles[i].life;
+                        
+                        _particles[i].radialAcceleration = _radialAcceleration + _radialAcceleration * RANDOM_MINUS1_1();
+                        _particles[i].tangentialAcceleration = _tangentialAcceleration + _tangentialAcceleration * RANDOM_MINUS1_1();
+                        
+                        if (_rotationIsDir)
+                        {
+                            float a = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
+                            Vector2 v(cosf(a), sinf(a));
+                            float s = _speed + _speedVariance * RANDOM_MINUS1_1();
+                            Vector2 dir = v * s;
+                            _particles[i].direction = dir;
+                            _particles[i].rotation = -radToDeg(dir.getAngle());
+                        }
+                        else
+                        {
+                            float a = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
+                            Vector2 v(cosf(a), sinf(a));
+                            float s = _speed + _speedVariance * RANDOM_MINUS1_1();
+                            Vector2 dir = v * s;
+                            _particles[i].direction = dir;
+                        }
                     }
                     else
                     {
-                        float a = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
-                        Vector2 v(cosf(a), sinf(a));
-                        float s = _speed + _speedVariance * RANDOM_MINUS1_1();
-                        Vector2 dir = v * s;
-                        _particles[i].direction = dir;
+                        _particles[i].radius = _maxRadius + _maxRadiusVariance * RANDOM_MINUS1_1();
+                        _particles[i].angle = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
+                        _particles[i].degreesPerSecond = degToRad(_rotatePerSecond + _rotatePerSecondVariance * RANDOM_MINUS1_1());
+                        
+                        float endRadius = _minRadius + _minRadiusVariance * RANDOM_MINUS1_1();
+                        _particles[i].deltaRadius = (endRadius - _particles[i].radius) / _particles[i].life;
                     }
                 }
-                else
-                {
-                    _particles[i].radius = _maxRadius + _maxRadiusVariance * RANDOM_MINUS1_1();
-                    _particles[i].angle = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
-                    _particles[i].degreesPerSecond = degToRad(_rotatePerSecond + _rotatePerSecondVariance * RANDOM_MINUS1_1());
-                    
-                    float endRadius = _minRadius + _minRadiusVariance * RANDOM_MINUS1_1();
-                    _particles[i].deltaRadius = (endRadius - _particles[i].radius) / _particles[i].life;
-                }
+                
+                _particleCount += particles;
             }
-            
-            _particleCount += particles;
         }
     }
 }
