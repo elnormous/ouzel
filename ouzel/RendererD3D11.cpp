@@ -433,6 +433,11 @@ namespace ouzel
 
     bool RendererD3D11::activateTexture(const TexturePtr& texture, uint32_t layer)
     {
+        if (_activeTextures[layer] == texture)
+        {
+            return true;
+        }
+        
         if (!Renderer::activateTexture(texture, layer))
         {
             return false;
@@ -468,6 +473,11 @@ namespace ouzel
 
     bool RendererD3D11::activateRenderTarget(const RenderTargetPtr& renderTarget)
     {
+        if (_activeRenderTarget == renderTarget)
+        {
+            return true;
+        }
+        
         if (!Renderer::activateRenderTarget(renderTarget))
         {
             return false;
@@ -515,6 +525,11 @@ namespace ouzel
 
     bool RendererD3D11::activateShader(const ShaderPtr& shader)
     {
+        if (_activeShader == shader)
+        {
+            return true;
+        }
+        
         if (!Renderer::activateShader(shader))
         {
             return false;

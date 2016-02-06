@@ -183,6 +183,11 @@ namespace ouzel
     
     bool RendererOGL::activateTexture(const TexturePtr& texture, uint32_t layer)
     {
+        if (_activeTextures[layer] == texture)
+        {
+            return true;
+        }
+        
         if (!Renderer::activateTexture(texture, layer))
         {
             return false;
@@ -221,6 +226,11 @@ namespace ouzel
     
     bool RendererOGL::activateRenderTarget(const RenderTargetPtr& renderTarget)
     {
+        if (_activeRenderTarget == renderTarget)
+        {
+            return true;
+        }
+        
         if (!Renderer::activateRenderTarget(renderTarget))
         {
             return false;
@@ -271,6 +281,11 @@ namespace ouzel
     
     bool RendererOGL::activateShader(const ShaderPtr& shader)
     {
+        if (_activeShader == shader)
+        {
+            return true;
+        }
+        
         if (!Renderer::activateShader(shader))
         {
             return false;
