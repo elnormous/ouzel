@@ -166,7 +166,7 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst A vector to store the result in.
          */
-        static void add(const Vector4& v1, const Vector4& v2, Vector4* dst);
+        static void add(const Vector4& v1, const Vector4& v2, Vector4& dst);
 
         /**
          * Clamps this vector within the specified range.
@@ -184,7 +184,7 @@ namespace ouzel
          * @param max The maximum value.
          * @param dst A vector to store the result in.
          */
-        static void clamp(const Vector4& v, const Vector4& min, const Vector4& max, Vector4* dst);
+        static void clamp(const Vector4& v, const Vector4& min, const Vector4& max, Vector4& dst);
 
         /**
          * Returns the distance between this vector and v.
@@ -282,7 +282,7 @@ namespace ouzel
          *
          * @param dst The destination vector.
          */
-        void normalize(Vector4* dst) const;
+        void normalize(Vector4& dst) const;
 
         /**
          * Scales all elements of this vector by the specified value.
@@ -339,7 +339,7 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst The destination vector.
          */
-        static void subtract(const Vector4& v1, const Vector4& v2, Vector4* dst);
+        static void subtract(const Vector4& v1, const Vector4& v2, Vector4& dst);
 
         /**
          * Calculates the sum of this vector with the given vector.

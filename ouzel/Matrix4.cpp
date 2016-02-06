@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <memory>
-#include <cassert>
 #include <cmath>
+#include <cassert>
 #include "Matrix4.h"
 #include "MathUtils.h"
 
@@ -62,7 +62,7 @@ namespace ouzel
         return m;
     }
     
-    void Matrix4::createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4* dst)
+    void Matrix4::createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst)
     {
         createLookAt(eyePosition.x, eyePosition.y, eyePosition.z, targetPosition.x, targetPosition.y, targetPosition.z,
                      up.x, up.y, up.z, dst);
@@ -70,52 +70,49 @@ namespace ouzel
     
     void Matrix4::createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
                               float targetPositionX, float targetPositionY, float targetPositionZ,
-                              float upX, float upY, float upZ, Matrix4* dst)
+                              float upX, float upY, float upZ, Matrix4& dst)
     {
-        assert(dst);
-        
         Vector3 eye(eyePositionX, eyePositionY, eyePositionZ);
         Vector3 target(targetPositionX, targetPositionY, targetPositionZ);
         Vector3 up(upX, upY, upZ);
         up.normalize();
         
         Vector3 zaxis;
-        Vector3::subtract(eye, target, &zaxis);
+        Vector3::subtract(eye, target, zaxis);
         zaxis.normalize();
         
         Vector3 xaxis;
-        Vector3::cross(up, zaxis, &xaxis);
+        Vector3::cross(up, zaxis, xaxis);
         xaxis.normalize();
         
         Vector3 yaxis;
-        Vector3::cross(zaxis, xaxis, &yaxis);
+        Vector3::cross(zaxis, xaxis, yaxis);
         yaxis.normalize();
         
-        dst->m[0] = xaxis.x;
-        dst->m[1] = yaxis.x;
-        dst->m[2] = zaxis.x;
-        dst->m[3] = 0.0f;
+        dst.m[0] = xaxis.x;
+        dst.m[1] = yaxis.x;
+        dst.m[2] = zaxis.x;
+        dst.m[3] = 0.0f;
         
-        dst->m[4] = xaxis.y;
-        dst->m[5] = yaxis.y;
-        dst->m[6] = zaxis.y;
-        dst->m[7] = 0.0f;
+        dst.m[4] = xaxis.y;
+        dst.m[5] = yaxis.y;
+        dst.m[6] = zaxis.y;
+        dst.m[7] = 0.0f;
         
-        dst->m[8] = xaxis.z;
-        dst->m[9] = yaxis.z;
-        dst->m[10] = zaxis.z;
-        dst->m[11] = 0.0f;
+        dst.m[8] = xaxis.z;
+        dst.m[9] = yaxis.z;
+        dst.m[10] = zaxis.z;
+        dst.m[11] = 0.0f;
         
-        dst->m[12] = -Vector3::dot(xaxis, eye);
-        dst->m[13] = -Vector3::dot(yaxis, eye);
-        dst->m[14] = -Vector3::dot(zaxis, eye);
-        dst->m[15] = 1.0f;
+        dst.m[12] = -Vector3::dot(xaxis, eye);
+        dst.m[13] = -Vector3::dot(yaxis, eye);
+        dst.m[14] = -Vector3::dot(zaxis, eye);
+        dst.m[15] = 1.0f;
     }
     
     void Matrix4::createPerspective(float fieldOfView, float aspectRatio,
-                                   float zNearPlane, float zFarPlane, Matrix4* dst)
+                                   float zNearPlane, float zFarPlane, Matrix4& dst)
     {
-        assert(dst);
         assert(zFarPlane != zNearPlane);
         
         float f_n = 1.0f / (zFarPlane - zNearPlane);
@@ -129,17 +126,17 @@ namespace ouzel
         assert(divisor);
         float factor = 1.0f / divisor;
         
-        memset(dst, 0, sizeof(*dst));
+        memset(&dst, 0, sizeof(dst));
         
         assert(aspectRatio);
-        dst->m[0] = (1.0f / aspectRatio) * factor;
-        dst->m[5] = factor;
-        dst->m[10] = (-(zFarPlane + zNearPlane)) * f_n;
-        dst->m[11] = -1.0f;
-        dst->m[14] = -2.0f * zFarPlane * zNearPlane * f_n;
+        dst.m[0] = (1.0f / aspectRatio) * factor;
+        dst.m[5] = factor;
+        dst.m[10] = (-(zFarPlane + zNearPlane)) * f_n;
+        dst.m[11] = -1.0f;
+        dst.m[14] = -2.0f * zFarPlane * zNearPlane * f_n;
     }
     
-    void Matrix4::createOrthographic(float width, float height, float zNearPlane, float zFarPlane, Matrix4* dst)
+    void Matrix4::createOrthographic(float width, float height, float zNearPlane, float zFarPlane, Matrix4& dst)
     {
         float halfWidth = width / 2.0f;
         float halfHeight = height / 2.0f;
@@ -147,95 +144,88 @@ namespace ouzel
     }
     
     void Matrix4::createOrthographicOffCenter(float left, float right, float bottom, float top,
-                                             float zNearPlane, float zFarPlane, Matrix4* dst)
+                                             float zNearPlane, float zFarPlane, Matrix4& dst)
     {
-        assert(dst);
         assert(right != left);
         assert(top != bottom);
         assert(zFarPlane != zNearPlane);
         
-		memset(dst, 0, sizeof(*dst));
-        dst->m[0] = 2.0f / (right - left);
-        dst->m[5] = 2.0f / (top - bottom);
-        dst->m[10] = 1.0f / (zFarPlane - zNearPlane);
-        dst->m[12] = (left + right) / (left - right);
-        dst->m[13] = (bottom + top) / (bottom - top);
-        dst->m[14] = zNearPlane / (zNearPlane - zFarPlane);
-        dst->m[15] = 1.0f;
+		memset(&dst, 0, sizeof(dst));
+        dst.m[0] = 2.0f / (right - left);
+        dst.m[5] = 2.0f / (top - bottom);
+        dst.m[10] = 1.0f / (zFarPlane - zNearPlane);
+        dst.m[12] = (left + right) / (left - right);
+        dst.m[13] = (bottom + top) / (bottom - top);
+        dst.m[14] = zNearPlane / (zNearPlane - zFarPlane);
+        dst.m[15] = 1.0f;
     }
     
     void Matrix4::createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                 const Vector3& cameraUpVector, Matrix4* dst)
+                                 const Vector3& cameraUpVector, Matrix4& dst)
     {
         createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, NULL, dst);
     }
     
     void Matrix4::createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
                                  const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
-                                 Matrix4* dst)
+                                 Matrix4& dst)
     {
-        createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, &cameraForwardVector, dst);
+        createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, cameraForwardVector, dst);
     }
     
     void Matrix4::createBillboardHelper(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                       const Vector3& cameraUpVector, const Vector3* cameraForwardVector,
-                                       Matrix4* dst)
+                                       const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
+                                       Matrix4& dst)
     {
         Vector3 delta(objectPosition, cameraPosition);
         bool isSufficientDelta = delta.lengthSquared() > EPSILON;
         
-        dst->setIdentity();
-        dst->m[3] = objectPosition.x;
-        dst->m[7] = objectPosition.y;
-        dst->m[11] = objectPosition.z;
+        dst.setIdentity();
+        dst.m[3] = objectPosition.x;
+        dst.m[7] = objectPosition.y;
+        dst.m[11] = objectPosition.z;
         
         // As per the contracts for the 2 variants of createBillboard, we need
         // either a safe default or a sufficient distance between object and camera.
-        if (cameraForwardVector || isSufficientDelta)
+        if (isSufficientDelta)
         {
-            Vector3 target = isSufficientDelta ? cameraPosition : (objectPosition - *cameraForwardVector);
+            Vector3 target = isSufficientDelta ? cameraPosition : (objectPosition - cameraForwardVector);
             
             // A billboard is the inverse of a lookAt rotation
             Matrix4 lookAt;
-            createLookAt(objectPosition, target, cameraUpVector, &lookAt);
-            dst->m[0] = lookAt.m[0];
-            dst->m[1] = lookAt.m[4];
-            dst->m[2] = lookAt.m[8];
-            dst->m[4] = lookAt.m[1];
-            dst->m[5] = lookAt.m[5];
-            dst->m[6] = lookAt.m[9];
-            dst->m[8] = lookAt.m[2];
-            dst->m[9] = lookAt.m[6];
-            dst->m[10] = lookAt.m[10];
+            createLookAt(objectPosition, target, cameraUpVector, lookAt);
+            dst.m[0] = lookAt.m[0];
+            dst.m[1] = lookAt.m[4];
+            dst.m[2] = lookAt.m[8];
+            dst.m[4] = lookAt.m[1];
+            dst.m[5] = lookAt.m[5];
+            dst.m[6] = lookAt.m[9];
+            dst.m[8] = lookAt.m[2];
+            dst.m[9] = lookAt.m[6];
+            dst.m[10] = lookAt.m[10];
         }
     }
     
-    void Matrix4::createScale(const Vector3& scale, Matrix4* dst)
+    void Matrix4::createScale(const Vector3& scale, Matrix4& dst)
     {
-        assert(dst);
+		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
-		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
-        
-        dst->m[0] = scale.x;
-        dst->m[5] = scale.y;
-        dst->m[10] = scale.z;
+        dst.m[0] = scale.x;
+        dst.m[5] = scale.y;
+        dst.m[10] = scale.z;
     }
     
-    void Matrix4::createScale(float xScale, float yScale, float zScale, Matrix4* dst)
+    void Matrix4::createScale(float xScale, float yScale, float zScale, Matrix4& dst)
     {
-        assert(dst);
+		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
-		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
-        
-        dst->m[0] = xScale;
-        dst->m[5] = yScale;
-        dst->m[10] = zScale;
+        dst.m[0] = xScale;
+        dst.m[5] = yScale;
+        dst.m[10] = zScale;
     }
     
-    void Matrix4::createRotation(const Vector3& axis, float angle, Matrix4* dst)
+    void Matrix4::createRotation(const Vector3& axis, float angle, Matrix4& dst)
     {
-        assert(dst);
-        
         float x = axis.x;
         float y = axis.y;
         float z = axis.z;
@@ -270,116 +260,102 @@ namespace ouzel
         float sy = s * y;
         float sz = s * z;
         
-        dst->m[0] = c + tx*x;
-        dst->m[1] = txy + sz;
-        dst->m[2] = txz - sy;
-        dst->m[3] = 0.0f;
+        dst.m[0] = c + tx*x;
+        dst.m[1] = txy + sz;
+        dst.m[2] = txz - sy;
+        dst.m[3] = 0.0f;
         
-        dst->m[4] = txy - sz;
-        dst->m[5] = c + ty*y;
-        dst->m[6] = tyz + sx;
-        dst->m[7] = 0.0f;
+        dst.m[4] = txy - sz;
+        dst.m[5] = c + ty*y;
+        dst.m[6] = tyz + sx;
+        dst.m[7] = 0.0f;
         
-        dst->m[8] = txz + sy;
-        dst->m[9] = tyz - sx;
-        dst->m[10] = c + tz*z;
-        dst->m[11] = 0.0f;
+        dst.m[8] = txz + sy;
+        dst.m[9] = tyz - sx;
+        dst.m[10] = c + tz*z;
+        dst.m[11] = 0.0f;
         
-        dst->m[12] = 0.0f;
-        dst->m[13] = 0.0f;
-        dst->m[14] = 0.0f;
-        dst->m[15] = 1.0f;
+        dst.m[12] = 0.0f;
+        dst.m[13] = 0.0f;
+        dst.m[14] = 0.0f;
+        dst.m[15] = 1.0f;
     }
     
-    void Matrix4::createRotationX(float angle, Matrix4* dst)
+    void Matrix4::createRotationX(float angle, Matrix4& dst)
     {
-        assert(dst);
-        
-		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
+		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
         float c = cos(angle);
         float s = sin(angle);
         
-        dst->m[5]  = c;
-        dst->m[6]  = s;
-        dst->m[9]  = -s;
-        dst->m[10] = c;
+        dst.m[5]  = c;
+        dst.m[6]  = s;
+        dst.m[9]  = -s;
+        dst.m[10] = c;
     }
     
-    void Matrix4::createRotationY(float angle, Matrix4* dst)
+    void Matrix4::createRotationY(float angle, Matrix4& dst)
     {
-        assert(dst);
-        
-		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
+		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
         float c = cos(angle);
         float s = sin(angle);
         
-        dst->m[0]  = c;
-        dst->m[2]  = -s;
-        dst->m[8]  = s;
-        dst->m[10] = c;
+        dst.m[0]  = c;
+        dst.m[2]  = -s;
+        dst.m[8]  = s;
+        dst.m[10] = c;
     }
     
-    void Matrix4::createRotationZ(float angle, Matrix4* dst)
+    void Matrix4::createRotationZ(float angle, Matrix4& dst)
     {
-        assert(dst);
-        
-		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
+		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
         float c = cos(angle);
         float s = sin(angle);
         
-        dst->m[0] = c;
-        dst->m[1] = s;
-        dst->m[4] = -s;
-        dst->m[5] = c;
+        dst.m[0] = c;
+        dst.m[1] = s;
+        dst.m[4] = -s;
+        dst.m[5] = c;
     }
     
-    void Matrix4::createTranslation(const Vector3& translation, Matrix4* dst)
+    void Matrix4::createTranslation(const Vector3& translation, Matrix4& dst)
     {
-        assert(dst);
+		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
-		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
-        
-        dst->m[12] = translation.x;
-        dst->m[13] = translation.y;
-        dst->m[14] = translation.z;
+        dst.m[12] = translation.x;
+        dst.m[13] = translation.y;
+        dst.m[14] = translation.z;
     }
     
-    void Matrix4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4* dst)
+    void Matrix4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst)
     {
-        assert(dst);
+		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
-		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
-        
-        dst->m[12] = xTranslation;
-        dst->m[13] = yTranslation;
-        dst->m[14] = zTranslation;
+        dst.m[12] = xTranslation;
+        dst.m[13] = yTranslation;
+        dst.m[14] = zTranslation;
     }
     
     void Matrix4::add(float scalar)
     {
-        add(scalar, this);
+        add(scalar, *this);
     }
     
-    void Matrix4::add(float scalar, Matrix4* dst)
+    void Matrix4::add(float scalar, Matrix4& dst)
     {
-        assert(dst);
-        
-        addMatrix4(m, scalar, dst->m);
+        addMatrix4(m, scalar, dst.m);
     }
     
     void Matrix4::add(const Matrix4& m)
     {
-        add(*this, m, this);
+        add(*this, m, *this);
     }
     
-    void Matrix4::add(const Matrix4& m1, const Matrix4& m2, Matrix4* dst)
+    void Matrix4::add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
-        assert(dst);
-        
-        addMatrix4(m1.m, m2.m, dst->m);
+        addMatrix4(m1.m, m2.m, dst.m);
     }
     
     float Matrix4::determinant() const
@@ -401,66 +377,54 @@ namespace ouzel
         return (a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0);
     }
     
-    void Matrix4::getUpVector(Vector3* dst) const
+    void Matrix4::getUpVector(Vector3& dst) const
     {
-        assert(dst);
-        
-        dst->x = m[4];
-        dst->y = m[5];
-        dst->z = m[6];
+        dst.x = m[4];
+        dst.y = m[5];
+        dst.z = m[6];
     }
     
-    void Matrix4::getDownVector(Vector3* dst) const
+    void Matrix4::getDownVector(Vector3& dst) const
     {
-        assert(dst);
-        
-        dst->x = -m[4];
-        dst->y = -m[5];
-        dst->z = -m[6];
+        dst.x = -m[4];
+        dst.y = -m[5];
+        dst.z = -m[6];
     }
     
-    void Matrix4::getLeftVector(Vector3* dst) const
+    void Matrix4::getLeftVector(Vector3& dst) const
     {
-        assert(dst);
-        
-        dst->x = -m[0];
-        dst->y = -m[1];
-        dst->z = -m[2];
+        dst.x = -m[0];
+        dst.y = -m[1];
+        dst.z = -m[2];
     }
     
-    void Matrix4::getRightVector(Vector3* dst) const
+    void Matrix4::getRightVector(Vector3& dst) const
     {
-        assert(dst);
-        
-        dst->x = m[0];
-        dst->y = m[1];
-        dst->z = m[2];
+        dst.x = m[0];
+        dst.y = m[1];
+        dst.z = m[2];
     }
     
-    void Matrix4::getForwardVector(Vector3* dst) const
+    void Matrix4::getForwardVector(Vector3& dst) const
     {
-        assert(dst);
-        
-        dst->x = -m[8];
-        dst->y = -m[9];
-        dst->z = -m[10];
+        dst.x = -m[8];
+        dst.y = -m[9];
+        dst.z = -m[10];
     }
     
-    void Matrix4::getBackVector(Vector3* dst) const
+    void Matrix4::getBackVector(Vector3& dst) const
     {
-        assert(dst);
-        
-        dst->x = m[8];
-        dst->y = m[9];
-        dst->z = m[10];
+        dst.x = m[8];
+        dst.y = m[9];
+        dst.z = m[10];
     }
     
     bool Matrix4::invert()
     {
-        return invert(this);
+        return invert(*this);
     }
     
-    bool Matrix4::invert(Matrix4* dst) const
+    bool Matrix4::invert(Matrix4& dst) const
     {
         float a0 = m[0] * m[5] - m[1] * m[4];
         float a1 = m[0] * m[6] - m[2] * m[4];
@@ -516,121 +480,115 @@ namespace ouzel
     
     void Matrix4::multiply(float scalar)
     {
-        multiply(scalar, this);
+        multiply(scalar, *this);
     }
     
-    void Matrix4::multiply(float scalar, Matrix4* dst) const
+    void Matrix4::multiply(float scalar, Matrix4& dst) const
     {
         multiply(*this, scalar, dst);
     }
     
-    void Matrix4::multiply(const Matrix4& m, float scalar, Matrix4* dst)
+    void Matrix4::multiply(const Matrix4& m, float scalar, Matrix4& dst)
     {
-        assert(dst);
-        
-        multiplyMatrix4(m.m, scalar, dst->m);
+        multiplyMatrix4(m.m, scalar, dst.m);
     }
     
     void Matrix4::multiply(const Matrix4& m)
     {
-        multiply(*this, m, this);
+        multiply(*this, m, *this);
     }
     
-    void Matrix4::multiply(const Matrix4& m1, const Matrix4& m2, Matrix4* dst)
+    void Matrix4::multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
-        assert(dst);
-        
-        multiplyMatrix4(m1.m, m2.m, dst->m);
+        multiplyMatrix4(m1.m, m2.m, dst.m);
     }
     
     void Matrix4::negate()
     {
-        negate(this);
+        negate(*this);
     }
     
-    void Matrix4::negate(Matrix4* dst) const
+    void Matrix4::negate(Matrix4& dst) const
     {
-        assert(dst);
-        
-        negateMatrix4(m, dst->m);
+        negateMatrix4(m, dst.m);
     }
     
     void Matrix4::rotate(const Vector3& axis, float angle)
     {
-        rotate(axis, angle, this);
+        rotate(axis, angle, *this);
     }
     
-    void Matrix4::rotate(const Vector3& axis, float angle, Matrix4* dst) const
+    void Matrix4::rotate(const Vector3& axis, float angle, Matrix4& dst) const
     {
         Matrix4 r;
-        createRotation(axis, angle, &r);
+        createRotation(axis, angle, r);
         multiply(*this, r, dst);
     }
     
     void Matrix4::rotateX(float angle)
     {
-        rotateX(angle, this);
+        rotateX(angle, *this);
     }
     
-    void Matrix4::rotateX(float angle, Matrix4* dst) const
+    void Matrix4::rotateX(float angle, Matrix4& dst) const
     {
         Matrix4 r;
-        createRotationX(angle, &r);
+        createRotationX(angle, r);
         multiply(*this, r, dst);
     }
     
     void Matrix4::rotateY(float angle)
     {
-        rotateY(angle, this);
+        rotateY(angle, *this);
     }
     
-    void Matrix4::rotateY(float angle, Matrix4* dst) const
+    void Matrix4::rotateY(float angle, Matrix4& dst) const
     {
         Matrix4 r;
-        createRotationY(angle, &r);
+        createRotationY(angle, r);
         multiply(*this, r, dst);
     }
     
     void Matrix4::rotateZ(float angle)
     {
-        rotateZ(angle, this);
+        rotateZ(angle, *this);
     }
     
-    void Matrix4::rotateZ(float angle, Matrix4* dst) const
+    void Matrix4::rotateZ(float angle, Matrix4& dst) const
     {
         Matrix4 r;
-        createRotationZ(angle, &r);
+        createRotationZ(angle, r);
         multiply(*this, r, dst);
     }
     
     void Matrix4::scale(float value)
     {
-        scale(value, this);
+        scale(value, *this);
     }
     
-    void Matrix4::scale(float value, Matrix4* dst) const
+    void Matrix4::scale(float value, Matrix4& dst) const
     {
         scale(value, value, value, dst);
     }
     
     void Matrix4::scale(float xScale, float yScale, float zScale)
     {
-        scale(xScale, yScale, zScale, this);
+        scale(xScale, yScale, zScale, *this);
     }
     
-    void Matrix4::scale(float xScale, float yScale, float zScale, Matrix4* dst) const
+    void Matrix4::scale(float xScale, float yScale, float zScale, Matrix4& dst) const
     {
         Matrix4 s;
-        createScale(xScale, yScale, zScale, &s);
+        createScale(xScale, yScale, zScale, s);
         multiply(*this, s, dst);
     }
     
     void Matrix4::scale(const Vector3& s)
     {
-        scale(s.x, s.y, s.z, this);
+        scale(s.x, s.y, s.z, *this);
     }
     
-    void Matrix4::scale(const Vector3& s, Matrix4* dst) const
+    void Matrix4::scale(const Vector3& s, Matrix4& dst) const
     {
         scale(s.x, s.y, s.z, dst);
     }
@@ -679,88 +637,78 @@ namespace ouzel
     
     void Matrix4::subtract(const Matrix4& m)
     {
-        subtract(*this, m, this);
+        subtract(*this, m, *this);
     }
     
-    void Matrix4::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4* dst)
+    void Matrix4::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
-        assert(dst);
-        
-        subtractMatrix4(m1.m, m2.m, dst->m);
+        subtractMatrix4(m1.m, m2.m, dst.m);
     }
     
-    void Matrix4::transformPoint(Vector3* point) const
+    void Matrix4::transformPoint(Vector3& point) const
     {
-        assert(point);
-        transformVector(point->x, point->y, point->z, 1.0f, point);
+        transformVector(point.x, point.y, point.z, 1.0f, point);
     }
     
-    void Matrix4::transformPoint(const Vector3& point, Vector3* dst) const
+    void Matrix4::transformPoint(const Vector3& point, Vector3& dst) const
     {
         transformVector(point.x, point.y, point.z, 1.0f, dst);
     }
     
-    void Matrix4::transformVector(Vector3* vector) const
+    void Matrix4::transformVector(Vector3& vector) const
     {
-        assert(vector);
-        transformVector(vector->x, vector->y, vector->z, 0.0f, vector);
+        transformVector(vector.x, vector.y, vector.z, 0.0f, vector);
     }
     
-    void Matrix4::transformVector(const Vector3& vector, Vector3* dst) const
+    void Matrix4::transformVector(const Vector3& vector, Vector3& dst) const
     {
         transformVector(vector.x, vector.y, vector.z, 0.0f, dst);
     }
     
-    void Matrix4::transformVector(float x, float y, float z, float w, Vector3* dst) const
+    void Matrix4::transformVector(float x, float y, float z, float w, Vector3& dst) const
     {
-        assert(dst);
-        transformVector4(m, x, y, z, w, (float*)dst);
+        transformVector4(m, x, y, z, w, (float*)&dst);
     }
     
-    void Matrix4::transformVector(Vector4* vector) const
+    void Matrix4::transformVector(Vector4& vector) const
     {
-        assert(vector);
-        transformVector(*vector, vector);
+        transformVector(vector, vector);
     }
     
-    void Matrix4::transformVector(const Vector4& vector, Vector4* dst) const
+    void Matrix4::transformVector(const Vector4& vector, Vector4& dst) const
     {
-        assert(dst);
-        
-        transformVector4(m, (const float*) &vector, (float*)dst);
+        transformVector4(m, (const float*) &vector, (float*)&dst);
     }
     
     void Matrix4::translate(float x, float y, float z)
     {
-        translate(x, y, z, this);
+        translate(x, y, z, *this);
     }
     
-    void Matrix4::translate(float x, float y, float z, Matrix4* dst) const
+    void Matrix4::translate(float x, float y, float z, Matrix4& dst) const
     {
         Matrix4 t;
-        createTranslation(x, y, z, &t);
+        createTranslation(x, y, z, t);
         multiply(*this, t, dst);
     }
     
     void Matrix4::translate(const Vector3& t)
     {
-        translate(t.x, t.y, t.z, this);
+        translate(t.x, t.y, t.z, *this);
     }
     
-    void Matrix4::translate(const Vector3& t, Matrix4* dst) const
+    void Matrix4::translate(const Vector3& t, Matrix4& dst) const
     {
         translate(t.x, t.y, t.z, dst);
     }
     
     void Matrix4::transpose()
     {
-        transpose(this);
+        transpose(*this);
     }
     
-    void Matrix4::transpose(Matrix4* dst) const
+    void Matrix4::transpose(Matrix4& dst) const
     {
-        assert(dst);
-        
-        transposeMatrix4(m, dst->m);
+        transposeMatrix4(m, dst.m);
     }
 }

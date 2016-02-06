@@ -115,14 +115,12 @@ namespace ouzel
         w += v.w;
     }
 
-    void Vector4::add(const Vector4& v1, const Vector4& v2, Vector4* dst)
+    void Vector4::add(const Vector4& v1, const Vector4& v2, Vector4& dst)
     {
-        assert(dst);
-
-        dst->x = v1.x + v2.x;
-        dst->y = v1.y + v2.y;
-        dst->z = v1.z + v2.z;
-        dst->w = v1.w + v2.w;
+        dst.x = v1.x + v2.x;
+        dst.y = v1.y + v2.y;
+        dst.z = v1.z + v2.z;
+        dst.w = v1.w + v2.w;
     }
 
     void Vector4::clamp(const Vector4& min, const Vector4& max)
@@ -154,38 +152,37 @@ namespace ouzel
             w = max.w;
     }
 
-    void Vector4::clamp(const Vector4& v, const Vector4& min, const Vector4& max, Vector4* dst)
+    void Vector4::clamp(const Vector4& v, const Vector4& min, const Vector4& max, Vector4& dst)
     {
-        assert(dst);
         assert(!(min.x > max.x || min.y > max.y || min.z > max.z || min.w > max.w));
 
         // Clamp the x value.
-        dst->x = v.x;
-        if (dst->x < min.x)
-            dst->x = min.x;
-        if (dst->x > max.x)
-            dst->x = max.x;
+        dst.x = v.x;
+        if (dst.x < min.x)
+            dst.x = min.x;
+        if (dst.x > max.x)
+            dst.x = max.x;
 
         // Clamp the y value.
-        dst->y = v.y;
-        if (dst->y < min.y)
-            dst->y = min.y;
-        if (dst->y > max.y)
-            dst->y = max.y;
+        dst.y = v.y;
+        if (dst.y < min.y)
+            dst.y = min.y;
+        if (dst.y > max.y)
+            dst.y = max.y;
 
         // Clamp the z value.
-        dst->z = v.z;
-        if (dst->z < min.z)
-            dst->z = min.z;
-        if (dst->z > max.z)
-            dst->z = max.z;
+        dst.z = v.z;
+        if (dst.z < min.z)
+            dst.z = min.z;
+        if (dst.z > max.z)
+            dst.z = max.z;
 
         // Clamp the w value.
-        dst->w = v.w;
-        if (dst->w < min.w)
-            dst->w = min.w;
-        if (dst->w > max.w)
-            dst->w = max.w;
+        dst.w = v.w;
+        if (dst.w < min.w)
+            dst.w = min.w;
+        if (dst.w > max.w)
+            dst.w = max.w;
     }
 
     float Vector4::distance(const Vector4& v) const
@@ -239,20 +236,18 @@ namespace ouzel
 
     Vector4& Vector4::normalize()
     {
-        normalize(this);
+        normalize(*this);
         return *this;
     }
 
-    void Vector4::normalize(Vector4* dst) const
+    void Vector4::normalize(Vector4& dst) const
     {
-        assert(dst);
-
-        if (dst != this)
+        if (&dst != this)
         {
-            dst->x = x;
-            dst->y = y;
-            dst->z = z;
-            dst->w = w;
+            dst.x = x;
+            dst.y = y;
+            dst.z = z;
+            dst.w = w;
         }
 
         float n = x * x + y * y + z * z + w * w;
@@ -266,10 +261,10 @@ namespace ouzel
             return;
 
         n = 1.0f / n;
-        dst->x *= n;
-        dst->y *= n;
-        dst->z *= n;
-        dst->w *= n;
+        dst.x *= n;
+        dst.y *= n;
+        dst.z *= n;
+        dst.w *= n;
     }
 
     void Vector4::scale(float scalar)
@@ -322,13 +317,11 @@ namespace ouzel
         w -= v.w;
     }
 
-    void Vector4::subtract(const Vector4& v1, const Vector4& v2, Vector4* dst)
+    void Vector4::subtract(const Vector4& v1, const Vector4& v2, Vector4& dst)
     {
-        assert(dst);
-
-        dst->x = v1.x - v2.x;
-        dst->y = v1.y - v2.y;
-        dst->z = v1.z - v2.z;
-        dst->w = v1.w - v2.w;
+        dst.x = v1.x - v2.x;
+        dst.y = v1.y - v2.y;
+        dst.z = v1.z - v2.z;
+        dst.w = v1.w - v2.w;
     }
 }

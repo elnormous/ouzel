@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <cmath>
-#include <cassert>
 #include "Matrix3.h"
 #include "MathUtils.h"
 
@@ -59,88 +58,74 @@ namespace ouzel
         return m;
     }
     
-    void Matrix3::createScale(const Vector2& scale, Matrix3* dst)
+    void Matrix3::createScale(const Vector2& scale, Matrix3& dst)
     {
-        assert(dst);
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
-        memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
-        
-        dst->m[0] = scale.x;
-        dst->m[4] = scale.y;
+        dst.m[0] = scale.x;
+        dst.m[4] = scale.y;
     }
     
-    void Matrix3::createScale(float xScale, float yScale, Matrix3* dst)
+    void Matrix3::createScale(float xScale, float yScale, Matrix3& dst)
     {
-        assert(dst);
+		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
-		memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
-        
-        dst->m[0] = xScale;
-        dst->m[4] = yScale;
+        dst.m[0] = xScale;
+        dst.m[4] = yScale;
     }
     
-    void Matrix3::createRotation(float angle, Matrix3* dst)
+    void Matrix3::createRotation(float angle, Matrix3& dst)
     {
-        assert(dst);
-        
         float c = cos(angle);
         float s = sin(angle);
         
-        dst->m[0] = c;
-        dst->m[1] = -s;
-        dst->m[2] = 0.0f;
+        dst.m[0] = c;
+        dst.m[1] = -s;
+        dst.m[2] = 0.0f;
         
-        dst->m[3] = s;
-        dst->m[4] = c;
-        dst->m[5] = 0.0f;
+        dst.m[3] = s;
+        dst.m[4] = c;
+        dst.m[5] = 0.0f;
         
-        dst->m[6] = 0.0f;
-        dst->m[7] = 0.0f;
-        dst->m[8] = 1.0f;
+        dst.m[6] = 0.0f;
+        dst.m[7] = 0.0f;
+        dst.m[8] = 1.0f;
     }
     
-    void Matrix3::createTranslation(const Vector2& translation, Matrix3* dst)
+    void Matrix3::createTranslation(const Vector2& translation, Matrix3& dst)
     {
-        assert(dst);
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
-        memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
-        
-        dst->m[6] = translation.x;
-        dst->m[7] = translation.y;
+        dst.m[6] = translation.x;
+        dst.m[7] = translation.y;
     }
     
-    void Matrix3::createTranslation(float xTranslation, float yTranslation, Matrix3* dst)
+    void Matrix3::createTranslation(float xTranslation, float yTranslation, Matrix3& dst)
     {
-        assert(dst);
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
         
-        memcpy(dst->m, MATRIX_IDENTITY, sizeof(dst->m));
-        
-        dst->m[6] = xTranslation;
-        dst->m[7] = yTranslation;
+        dst.m[6] = xTranslation;
+        dst.m[7] = yTranslation;
     }
     
     void Matrix3::add(float scalar)
     {
-        add(scalar, this);
+        add(scalar, *this);
     }
     
-    void Matrix3::add(float scalar, Matrix3* dst)
+    void Matrix3::add(float scalar, Matrix3& dst)
     {
-        assert(dst);
-        
-        addMatrix3(m, scalar, dst->m);
+        addMatrix3(m, scalar, dst.m);
     }
     
     void Matrix3::add(const Matrix3& m)
     {
-        add(*this, m, this);
+        add(*this, m, *this);
     }
     
-    void Matrix3::add(const Matrix3& m1, const Matrix3& m2, Matrix3* dst)
+    void Matrix3::add(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
     {
-        assert(dst);
-        
-        addMatrix3(m1.m, m2.m, dst->m);
+        addMatrix3(m1.m, m2.m, dst.m);
     }
     
     float Matrix3::determinant() const
@@ -157,10 +142,10 @@ namespace ouzel
     
     bool Matrix3::invert()
     {
-        return invert(this);
+        return invert(*this);
     }
     
-    bool Matrix3::invert(Matrix3* dst) const
+    bool Matrix3::invert(Matrix3& dst) const
     {
         float det = +m[0] * (m[4] * m[8] - m[7] * m[5])
                     -m[1] * (m[3] * m[8] - m[5] * m[6])
@@ -173,15 +158,15 @@ namespace ouzel
         float invdet = 1.0f / det;
         
         // Support the case where m == dst.
-        dst->m[0] =  (m[4] * m[8] - m[7] * m[5]) * invdet;
-        dst->m[3] = -(m[1] * m[8] - m[2] * m[7]) * invdet;
-        dst->m[6] =  (m[1] * m[5] - m[2] * m[4]) * invdet;
-        dst->m[1] = -(m[3] * m[8] - m[5] * m[6]) * invdet;
-        dst->m[4] =  (m[0] * m[8] - m[2] * m[6]) * invdet;
-        dst->m[7] = -(m[0] * m[5] - m[3] * m[2]) * invdet;
-        dst->m[2] =  (m[3] * m[7] - m[6] * m[4]) * invdet;
-        dst->m[5] = -(m[0] * m[7] - m[6] * m[1]) * invdet;
-        dst->m[8] =  (m[0] * m[4] - m[3] * m[1]) * invdet;
+        dst.m[0] =  (m[4] * m[8] - m[7] * m[5]) * invdet;
+        dst.m[3] = -(m[1] * m[8] - m[2] * m[7]) * invdet;
+        dst.m[6] =  (m[1] * m[5] - m[2] * m[4]) * invdet;
+        dst.m[1] = -(m[3] * m[8] - m[5] * m[6]) * invdet;
+        dst.m[4] =  (m[0] * m[8] - m[2] * m[6]) * invdet;
+        dst.m[7] = -(m[0] * m[5] - m[3] * m[2]) * invdet;
+        dst.m[2] =  (m[3] * m[7] - m[6] * m[4]) * invdet;
+        dst.m[5] = -(m[0] * m[7] - m[6] * m[1]) * invdet;
+        dst.m[8] =  (m[0] * m[4] - m[3] * m[1]) * invdet;
         
         return true;
     }
@@ -193,85 +178,79 @@ namespace ouzel
     
     void Matrix3::multiply(float scalar)
     {
-        multiply(scalar, this);
+        multiply(scalar, *this);
     }
     
-    void Matrix3::multiply(float scalar, Matrix3* dst) const
+    void Matrix3::multiply(float scalar, Matrix3& dst) const
     {
         multiply(*this, scalar, dst);
     }
     
-    void Matrix3::multiply(const Matrix3& m, float scalar, Matrix3* dst)
+    void Matrix3::multiply(const Matrix3& m, float scalar, Matrix3& dst)
     {
-        assert(dst);
-        
-        multiplyMatrix3(m.m, scalar, dst->m);
+        multiplyMatrix3(m.m, scalar, dst.m);
     }
     
     void Matrix3::multiply(const Matrix3& m)
     {
-        multiply(*this, m, this);
+        multiply(*this, m, *this);
     }
     
-    void Matrix3::multiply(const Matrix3& m1, const Matrix3& m2, Matrix3* dst)
+    void Matrix3::multiply(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
     {
-        assert(dst);
-        
-        multiplyMatrix3(m1.m, m2.m, dst->m);
+        multiplyMatrix3(m1.m, m2.m, dst.m);
     }
     
     void Matrix3::negate()
     {
-        negate(this);
+        negate(*this);
     }
     
-    void Matrix3::negate(Matrix3* dst) const
+    void Matrix3::negate(Matrix3& dst) const
     {
-        assert(dst);
-        
-        negateMatrix3(m, dst->m);
+        negateMatrix3(m, dst.m);
     }
     
     void Matrix3::rotate(float angle)
     {
-        rotate(angle, this);
+        rotate(angle, *this);
     }
     
-    void Matrix3::rotate(float angle, Matrix3* dst) const
+    void Matrix3::rotate(float angle, Matrix3& dst) const
     {
         Matrix3 r;
-        createRotation(angle, &r);
+        createRotation(angle, r);
         multiply(*this, r, dst);
     }
     
     void Matrix3::scale(float value)
     {
-        scale(value, this);
+        scale(value, *this);
     }
     
-    void Matrix3::scale(float value, Matrix3* dst) const
+    void Matrix3::scale(float value, Matrix3& dst) const
     {
         scale(value, value, dst);
     }
     
     void Matrix3::scale(float xScale, float yScale)
     {
-        scale(xScale, yScale, this);
+        scale(xScale, yScale, *this);
     }
     
-    void Matrix3::scale(float xScale, float yScale, Matrix3* dst) const
+    void Matrix3::scale(float xScale, float yScale, Matrix3& dst) const
     {
         Matrix3 s;
-        createScale(xScale, yScale, &s);
+        createScale(xScale, yScale, s);
         multiply(*this, s, dst);
     }
     
     void Matrix3::scale(const Vector2& s)
     {
-        scale(s.x, s.y, this);
+        scale(s.x, s.y, *this);
     }
     
-    void Matrix3::scale(const Vector2& s, Matrix3* dst) const
+    void Matrix3::scale(const Vector2& s, Matrix3& dst) const
     {
         scale(s.x, s.y, dst);
     }
@@ -292,7 +271,6 @@ namespace ouzel
     
     void Matrix3::set(const float* m)
     {
-        assert(m);
         memcpy(this->m, m, sizeof(this->m));
     }
     
@@ -313,87 +291,78 @@ namespace ouzel
     
     void Matrix3::subtract(const Matrix3& m)
     {
-        subtract(*this, m, this);
+        subtract(*this, m, *this);
     }
     
-    void Matrix3::subtract(const Matrix3& m1, const Matrix3& m2, Matrix3* dst)
+    void Matrix3::subtract(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
     {
-        assert(dst);
-        
-        subtractMatrix3(m1.m, m2.m, dst->m);
+        subtractMatrix3(m1.m, m2.m, dst.m);
     }
     
-    void Matrix3::transformPoint(Vector2* point) const
+    void Matrix3::transformPoint(Vector2& point) const
     {
-        assert(point);
-        transformVector(point->x, point->y, 1.0f, point);
+        transformVector(point.x, point.y, 1.0f, point);
     }
     
-    void Matrix3::transformPoint(const Vector2& point, Vector2* dst) const
+    void Matrix3::transformPoint(const Vector2& point, Vector2& dst) const
     {
         transformVector(point.x, point.y, 1.0f, dst);
     }
     
-    void Matrix3::transformVector(Vector2* vector) const
+    void Matrix3::transformVector(Vector2& vector) const
     {
-        assert(vector);
-        transformVector(vector->x, vector->y, 0.0f, vector);
+        transformVector(vector.x, vector.y, 0.0f, vector);
     }
     
-    void Matrix3::transformVector(const Vector2& vector, Vector2* dst) const
+    void Matrix3::transformVector(const Vector2& vector, Vector2& dst) const
     {
         transformVector(vector.x, vector.y, 0.0f, dst);
     }
     
-    void Matrix3::transformVector(float x, float y, float z, Vector2* dst) const
+    void Matrix3::transformVector(float x, float y, float z, Vector2& dst) const
     {
-        assert(dst);
-        transformVector3(m, x, y, z, (float*)dst);
+        transformVector3(m, x, y, z, (float*)&dst);
     }
     
     void Matrix3::transformVector(Vector3* vector) const
     {
-        assert(vector);
-        transformVector(*vector, vector);
+        transformVector(*vector, *vector);
     }
     
-    void Matrix3::transformVector(const Vector3& vector, Vector3* dst) const
+    void Matrix3::transformVector(const Vector3& vector, Vector3& dst) const
     {
-        assert(dst);
-        transformVector3(m, (const float*) &vector, (float*)dst);
+        transformVector3(m, (const float*) &vector, (float*)&dst);
     }
     
     void Matrix3::translate(float x, float y)
     {
-        translate(x, y, this);
+        translate(x, y, *this);
     }
     
-    void Matrix3::translate(float x, float y, Matrix3* dst) const
+    void Matrix3::translate(float x, float y, Matrix3& dst) const
     {
         Matrix3 t;
-        createTranslation(x, y, &t);
+        createTranslation(x, y, t);
         multiply(*this, t, dst);
     }
     
     void Matrix3::translate(const Vector2& t)
     {
-        translate(t.x, t.y, this);
+        translate(t.x, t.y, *this);
     }
     
-    void Matrix3::translate(const Vector2& t, Matrix3* dst) const
+    void Matrix3::translate(const Vector2& t, Matrix3& dst) const
     {
         translate(t.x, t.y, dst);
     }
     
     void Matrix3::transpose()
     {
-        transpose(this);
+        transpose(*this);
     }
     
-    void Matrix3::transpose(Matrix3* dst) const
+    void Matrix3::transpose(Matrix3& dst) const
     {
-        assert(dst);
-        
-        transposeMatrix3(m, dst->m);
+        transposeMatrix3(m, dst.m);
     }
 }

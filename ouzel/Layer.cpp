@@ -97,7 +97,7 @@ namespace ouzel
             inverseViewMatrix.invert();
             
             Vector3 result = Vector3(position.x, position.y, 0.0f);
-            inverseViewMatrix.transformPoint(&result);
+            inverseViewMatrix.transformPoint(result);
             
             return Vector2(result.x, result.y);
         }
@@ -114,7 +114,7 @@ namespace ouzel
             Matrix4 projViewMatrix = _projection * _camera->getTransform();
             
             Vector3 result = Vector3(position.x, position.y, 0.0f);
-            projViewMatrix.transformPoint(&result);
+            projViewMatrix.transformPoint(result);
             
             return Vector2(result.x, result.y);
         }
@@ -221,7 +221,7 @@ namespace ouzel
             }
         }
         
-        Matrix4::createOrthographic(size.width, size.height, -1.0f, 1.0f, &_projection);
+        Matrix4::createOrthographic(size.width, size.height, -1.0f, 1.0f, _projection);
         _inverseProjection = _projection;
         _inverseProjection.invert();
     }

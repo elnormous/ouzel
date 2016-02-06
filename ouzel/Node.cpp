@@ -251,29 +251,62 @@ namespace ouzel
     
     bool Node::rectangleOverlaps(const Rectangle& rectangle) const
     {
-        if (_boundingBox.isEmpty())
+        Matrix4 inverse = getInverseTransform();
+        
+        Vector3 corners[4] = {
+            Vector3(rectangle.left(), rectangle.bottom(), 0.0f),
+            Vector3(rectangle.right(), rectangle.bottom(), 0.0f),
+            Vector3(rectangle.right(), rectangle.top(), 0.0f),
+            Vector3(rectangle.left(), rectangle.top(), 0.0f)
+        };
+        
+        uint8_t inCorners = 0;
+        
+        for (Vector3& corner : corners)
         {
-            return false;
+            inverse.transformPoint(corner);
+            
+            if (corner.x >= _boundingBox.min.x &&
+                corner.x <= _boundingBox.max.x &&
+                corner.y >= _boundingBox.min.y &&
+                corner.y <= _boundingBox.max.y)
+            {
+                return true;
+            }
+            
+            if (corner.x < _boundingBox.min.x && corner.y < _boundingBox.min.y) inCorners |= 0x01;
+            if (corner.x > _boundingBox.max.x && corner.y < _boundingBox.min.y) inCorners |= 0x02;
+            if (corner.x > _boundingBox.max.x && corner.y > _boundingBox.max.y) inCorners |= 0x04;
+            if (corner.x < _boundingBox.min.x && corner.y > _boundingBox.max.y) inCorners |= 0x08;
         }
         
-        Vector3 localLeftBottom = Vector3(rectangle.x, rectangle.y, 0.0f);
-        
-        const Matrix4& inverseTransform = getInverseTransform();
-        inverseTransform.transformPoint(&localLeftBottom);
-        
-        Vector3 localRightTop =  Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f);
-        
-        inverseTransform.transformPoint(&localRightTop);
-        
-        if (localLeftBottom.x > _boundingBox.max.x ||
-            localLeftBottom.y > _boundingBox.max.y ||
-            localRightTop.x < _boundingBox.min.x ||
-            localRightTop.y < _boundingBox.min.y)
+        // bounding box is bigger than rectangle
+        if (inCorners == 0x0F)
         {
-            return false;
+            return true;
         }
         
-        return true;
+        Vector2 boundingBoxCorners[4] = {
+            Vector2(_boundingBox.min),
+            Vector2(_boundingBox.max.x, _boundingBox.min.y),
+            Vector2(_boundingBox.max),
+            Vector2(_boundingBox.min.x, _boundingBox.max.y)
+        };
+        
+        for (uint32_t current = 0; current < 4; ++current)
+        {
+            uint32_t next = (current == 3) ? 0 : current + 1;
+            
+            if (linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), boundingBoxCorners[0], boundingBoxCorners[1]) || // left
+                linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), boundingBoxCorners[1], boundingBoxCorners[2]) || // top
+                linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), boundingBoxCorners[2], boundingBoxCorners[3]) || // right
+                linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), boundingBoxCorners[3], boundingBoxCorners[0])) // bottom
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     const Matrix4& Node::getTransform() const
@@ -312,7 +345,7 @@ namespace ouzel
         Vector3 localPosition = position;
         
         const Matrix4& inverseTransform = getInverseTransform();
-        inverseTransform.transformPoint(&localPosition);
+        inverseTransform.transformPoint(localPosition);
         
         return Vector2(localPosition.x, localPosition.y);
     }
@@ -322,7 +355,7 @@ namespace ouzel
         Vector3 worldPosition = position;
         
         const Matrix4& transform = getTransform();
-        transform.transformPoint(&worldPosition);
+        transform.transformPoint(worldPosition);
         
         return Vector2(worldPosition.x, worldPosition.y);
     }
@@ -340,7 +373,7 @@ namespace ouzel
             
             Vector3 position;
             
-            mvp.transformPoint(&position);
+            mvp.transformPoint(position);
             
             float radius = _boundingRadius * std::max(_scale.x, _scale.y);
             radius /= layer->getCamera()->getZoom();

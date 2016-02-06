@@ -73,12 +73,10 @@ namespace ouzel
         y += v.y;
     }
 
-    void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2* dst)
+    void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2& dst)
     {
-        assert(dst);
-
-        dst->x = v1.x + v2.x;
-        dst->y = v1.y + v2.y;
+        dst.x = v1.x + v2.x;
+        dst.y = v1.y + v2.y;
     }
 
     void Vector2::clamp(const Vector2& min, const Vector2& max)
@@ -98,24 +96,23 @@ namespace ouzel
             y = max.y;
     }
 
-    void Vector2::clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst)
+    void Vector2::clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2& dst)
     {
-        assert(dst);
         assert(!(min.x > max.x || min.y > max.y));
 
         // Clamp the x value.
-        dst->x = v.x;
-        if (dst->x < min.x)
-            dst->x = min.x;
-        if (dst->x > max.x)
-            dst->x = max.x;
+        dst.x = v.x;
+        if (dst.x < min.x)
+            dst.x = min.x;
+        if (dst.x > max.x)
+            dst.x = max.x;
 
         // Clamp the y value.
-        dst->y = v.y;
-        if (dst->y < min.y)
-            dst->y = min.y;
-        if (dst->y > max.y)
-            dst->y = max.y;
+        dst.y = v.y;
+        if (dst.y < min.y)
+            dst.y = min.y;
+        if (dst.y > max.y)
+            dst.y = max.y;
     }
 
     float Vector2::distance(const Vector2& v) const
@@ -161,18 +158,16 @@ namespace ouzel
 
     Vector2& Vector2::normalize()
     {
-        normalize(this);
+        normalize(*this);
         return *this;
     }
 
-    void Vector2::normalize(Vector2* dst) const
+    void Vector2::normalize(Vector2& dst) const
     {
-        assert(dst);
-
-        if (dst != this)
+        if (&dst != this)
         {
-            dst->x = x;
-            dst->y = y;
+            dst.x = x;
+            dst.y = y;
         }
 
         float n = x * x + y * y;
@@ -186,8 +181,8 @@ namespace ouzel
             return;
 
         n = 1.0f / n;
-        dst->x *= n;
-        dst->y *= n;
+        dst.x *= n;
+        dst.y *= n;
     }
 
     void Vector2::scale(float scalar)
@@ -255,12 +250,10 @@ namespace ouzel
         y -= v.y;
     }
 
-    void Vector2::subtract(const Vector2& v1, const Vector2& v2, Vector2* dst)
+    void Vector2::subtract(const Vector2& v1, const Vector2& v2, Vector2& dst)
     {
-        assert(dst);
-
-        dst->x = v1.x - v2.x;
-        dst->y = v1.y - v2.y;
+        dst.x = v1.x - v2.x;
+        dst.y = v1.y - v2.y;
     }
 
     void Vector2::smooth(const Vector2& target, float elapsedTime, float responseTime)

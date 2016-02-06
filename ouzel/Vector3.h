@@ -172,7 +172,7 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst A vector to store the result in.
          */
-        static void add(const Vector3& v1, const Vector3& v2, Vector3* dst);
+        static void add(const Vector3& v1, const Vector3& v2, Vector3& dst);
         
         /**
          * Clamps this vector within the specified range.
@@ -190,7 +190,7 @@ namespace ouzel
          * @param max The maximum value.
          * @param dst A vector to store the result in.
          */
-        static void clamp(const Vector3& v, const Vector3& min, const Vector3& max, Vector3* dst);
+        static void clamp(const Vector3& v, const Vector3& min, const Vector3& max, Vector3& dst);
         
         /**
          * Sets this vector to the cross product between itself and the specified vector.
@@ -206,7 +206,7 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst A vector to store the result in.
          */
-        static void cross(const Vector3& v1, const Vector3& v2, Vector3* dst);
+        static void cross(const Vector3& v1, const Vector3& v2, Vector3& dst);
         
         /**
          * Returns the distance between this vector and v.
@@ -304,7 +304,7 @@ namespace ouzel
          *
          * @param dst The destination vector.
          */
-        void normalize(Vector3* dst) const;
+        void normalize(Vector3& dst) const;
         
         /**
          * Scales all elements of this vector by the specified value.
@@ -357,7 +357,7 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst The destination vector.
          */
-        static void subtract(const Vector3& v1, const Vector3& v2, Vector3* dst);
+        static void subtract(const Vector3& v1, const Vector3& v2, Vector3& dst);
         
         /**
          * Updates this vector towards the given target using a smoothing function.

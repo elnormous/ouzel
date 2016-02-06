@@ -43,7 +43,7 @@ namespace ouzel
          * verts[2] : right bottom
          * verts[3] : right top
          */
-        void getCorners(Vector2 *dst) const;
+        void getCorners(Vector2* dst) const;
         
         /**
          * Tests whether this bounding box intersects the specified bounding object.
@@ -77,9 +77,9 @@ namespace ouzel
         bool isEmpty() const;
         
         /**
-         * update the _min and _max from the given point.
+         * update the _min and _max from the given points.
          */
-        void updateMinMax(const Vector2* point, uint32_t num);
+        void updateMinMax(const Vector2* points, uint32_t num);
         
         void insertPoint(const Vector2& point);
         
@@ -114,7 +114,4 @@ namespace ouzel
         Vector2 min;
         Vector2 max;
     };
-
-    // end of 3d group
-    /// @}
 }

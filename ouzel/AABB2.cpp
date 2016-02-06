@@ -32,10 +32,8 @@ namespace ouzel
         return center;
     }
 
-    void AABB2::getCorners(Vector2 *dst) const
+    void AABB2::getCorners(Vector2* dst) const
     {
-        assert(dst);
-        
         // Near face, specified counter-clockwise looking towards the origin from the positive z-axis.
         // Left-top.
         dst[0].set(min.x, max.y);
@@ -90,25 +88,25 @@ namespace ouzel
         return min.x > max.x || min.y > max.y;
     }
 
-    void AABB2::updateMinMax(const Vector2* point, uint32_t num)
+    void AABB2::updateMinMax(const Vector2* points, uint32_t num)
     {
         for (uint32_t i = 0; i < num; i++)
         {
             // Leftmost point.
-            if (point[i].x < min.x)
-                min.x = point[i].x;
+            if (points[i].x < min.x)
+                min.x = points[i].x;
             
             // Lowest point.
-            if (point[i].y < min.y)
-                min.y = point[i].y;
+            if (points[i].y < min.y)
+                min.y = points[i].y;
             
             // Rightmost point.
-            if (point[i].x > max.x)
-                max.x = point[i].x;
+            if (points[i].x > max.x)
+                max.x = points[i].x;
             
             // Highest point.
-            if (point[i].y > max.y)
-                max.y = point[i].y;
+            if (points[i].y > max.y)
+                max.y = points[i].y;
         }
     }
     

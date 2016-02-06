@@ -112,13 +112,11 @@ namespace ouzel
         z += v.z;
     }
     
-    void Vector3::add(const Vector3& v1, const Vector3& v2, Vector3* dst)
+    void Vector3::add(const Vector3& v1, const Vector3& v2, Vector3& dst)
     {
-        assert(dst);
-        
-        dst->x = v1.x + v2.x;
-        dst->y = v1.y + v2.y;
-        dst->z = v1.z + v2.z;
+        dst.x = v1.x + v2.x;
+        dst.y = v1.y + v2.y;
+        dst.z = v1.z + v2.z;
     }
     
     void Vector3::clamp(const Vector3& min, const Vector3& max)
@@ -144,46 +142,43 @@ namespace ouzel
             z = max.z;
     }
     
-    void Vector3::clamp(const Vector3& v, const Vector3& min, const Vector3& max, Vector3* dst)
+    void Vector3::clamp(const Vector3& v, const Vector3& min, const Vector3& max, Vector3& dst)
     {
-        assert(dst);
         assert(!(min.x > max.x || min.y > max.y || min.z > max.z));
         
         // Clamp the x value.
-        dst->x = v.x;
-        if (dst->x < min.x)
-            dst->x = min.x;
-        if (dst->x > max.x)
-            dst->x = max.x;
+        dst.x = v.x;
+        if (dst.x < min.x)
+            dst.x = min.x;
+        if (dst.x > max.x)
+            dst.x = max.x;
         
         // Clamp the y value.
-        dst->y = v.y;
-        if (dst->y < min.y)
-            dst->y = min.y;
-        if (dst->y > max.y)
-            dst->y = max.y;
+        dst.y = v.y;
+        if (dst.y < min.y)
+            dst.y = min.y;
+        if (dst.y > max.y)
+            dst.y = max.y;
         
         // Clamp the z value.
-        dst->z = v.z;
-        if (dst->z < min.z)
-            dst->z = min.z;
-        if (dst->z > max.z)
-            dst->z = max.z;
+        dst.z = v.z;
+        if (dst.z < min.z)
+            dst.z = min.z;
+        if (dst.z > max.z)
+            dst.z = max.z;
     }
     
     void Vector3::cross(const Vector3& v)
     {
-        cross(*this, v, this);
+        cross(*this, v, *this);
     }
     
-    void Vector3::cross(const Vector3& v1, const Vector3& v2, Vector3* dst)
+    void Vector3::cross(const Vector3& v1, const Vector3& v2, Vector3& dst)
     {
-        assert(dst);
-        
         // NOTE: This code assumes Vector3 struct members are contiguous floats in memory.
         // We might want to revisit this (and other areas of code that make this assumption)
         // later to guarantee 100% safety/compatibility.
-        crossVector3(&v1.x, &v2.x, &dst->x);
+        crossVector3(&v1.x, &v2.x, &dst.x);
     }
     
     float Vector3::distance(const Vector3& v) const
@@ -233,19 +228,17 @@ namespace ouzel
     
     Vector3& Vector3::normalize()
     {
-        normalize(this);
+        normalize(*this);
         return *this;
     }
     
-    void Vector3::normalize(Vector3* dst) const
+    void Vector3::normalize(Vector3& dst) const
     {
-        assert(dst);
-        
-        if (dst != this)
+        if (&dst != this)
         {
-            dst->x = x;
-            dst->y = y;
-            dst->z = z;
+            dst.x = x;
+            dst.y = y;
+            dst.z = z;
         }
         
         float n = x * x + y * y + z * z;
@@ -259,9 +252,9 @@ namespace ouzel
             return;
         
         n = 1.0f / n;
-        dst->x *= n;
-        dst->y *= n;
-        dst->z *= n;
+        dst.x *= n;
+        dst.y *= n;
+        dst.z *= n;
     }
     
     void Vector3::scale(float scalar)
@@ -308,13 +301,11 @@ namespace ouzel
         z -= v.z;
     }
     
-    void Vector3::subtract(const Vector3& v1, const Vector3& v2, Vector3* dst)
+    void Vector3::subtract(const Vector3& v1, const Vector3& v2, Vector3& dst)
     {
-        assert(dst);
-        
-        dst->x = v1.x - v2.x;
-        dst->y = v1.y - v2.y;
-        dst->z = v1.z - v2.z;
+        dst.x = v1.x - v2.x;
+        dst.y = v1.y - v2.y;
+        dst.z = v1.z - v2.z;
     }
     
     void Vector3::smooth(const Vector3& target, float elapsedTime, float responseTime)
