@@ -1,29 +1,31 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "MoveTo.h"
+#include "Move.h"
 #include "Node.h"
 
 namespace ouzel
 {
-    MoveTo::MoveTo(float length, const Vector2& position):
-        Animator(length), _targetPosition(position)
+    Move::Move(float length, const Vector2& position, bool relative):
+        Animator(length), _position(position), _relative(relative)
     {
         
     }
     
-    void MoveTo::start(const NodePtr& node)
+    void Move::start(const NodePtr& node)
     {
         Animator::start(node);
         
         if (node)
         {
             _startPosition = node->getPosition();
+            _targetPosition = _relative ? _startPosition + _position : _position;
+            
             _diff = _targetPosition - _startPosition;
         }
     }
     
-    void MoveTo::setProgress(float progress)
+    void Move::setProgress(float progress)
     {
         Animator::setProgress(progress);
         

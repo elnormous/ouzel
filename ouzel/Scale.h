@@ -4,21 +4,24 @@
 #pragma once
 
 #include "Animator.h"
+#include "Vector2.h"
 
 namespace ouzel
 {
-    class FadeTo: public Animator
+    class Scale: public Animator
     {
     public:
-        FadeTo(float length, float opacity);
+        Scale(float length, const Vector2& scale, bool relative);
         
         virtual void start(const NodePtr& node) override;
         
         virtual void setProgress(float progress) override;
         
     protected:
-        float _startOpacity = 0.0f;
-        float _targetOpacity = 0.0f;
-        float _diff = 0.0f;
+        Vector2 _scale;
+        Vector2 _startScale;
+        Vector2 _targetScale;
+        Vector2 _diff;
+        bool _relative;
     };
 }

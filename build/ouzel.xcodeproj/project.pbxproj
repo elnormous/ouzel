@@ -204,30 +204,30 @@
 		3047F7411C4C344A00774E3D /* Animator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F73D1C4C344A00774E3D /* Animator.h */; };
 		3047F7421C4C344A00774E3D /* Animator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F73D1C4C344A00774E3D /* Animator.h */; };
 		3047F7431C4C344A00774E3D /* Animator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F73D1C4C344A00774E3D /* Animator.h */; };
-		3047F7461C4C350D00774E3D /* MoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7441C4C350D00774E3D /* MoveTo.cpp */; };
-		3047F7471C4C350D00774E3D /* MoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7441C4C350D00774E3D /* MoveTo.cpp */; };
-		3047F7481C4C350D00774E3D /* MoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7441C4C350D00774E3D /* MoveTo.cpp */; };
-		3047F7491C4C350D00774E3D /* MoveTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7451C4C350D00774E3D /* MoveTo.h */; };
-		3047F74A1C4C350D00774E3D /* MoveTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7451C4C350D00774E3D /* MoveTo.h */; };
-		3047F74B1C4C350D00774E3D /* MoveTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7451C4C350D00774E3D /* MoveTo.h */; };
-		3047F74E1C4C4FAF00774E3D /* RotateTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F74C1C4C4FAF00774E3D /* RotateTo.cpp */; };
-		3047F74F1C4C4FAF00774E3D /* RotateTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F74C1C4C4FAF00774E3D /* RotateTo.cpp */; };
-		3047F7501C4C4FAF00774E3D /* RotateTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F74C1C4C4FAF00774E3D /* RotateTo.cpp */; };
-		3047F7511C4C4FAF00774E3D /* RotateTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F74D1C4C4FAF00774E3D /* RotateTo.h */; };
-		3047F7521C4C4FAF00774E3D /* RotateTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F74D1C4C4FAF00774E3D /* RotateTo.h */; };
-		3047F7531C4C4FAF00774E3D /* RotateTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F74D1C4C4FAF00774E3D /* RotateTo.h */; };
-		3047F7561C4C4FBA00774E3D /* ScaleTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7541C4C4FBA00774E3D /* ScaleTo.cpp */; };
-		3047F7571C4C4FBA00774E3D /* ScaleTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7541C4C4FBA00774E3D /* ScaleTo.cpp */; };
-		3047F7581C4C4FBA00774E3D /* ScaleTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7541C4C4FBA00774E3D /* ScaleTo.cpp */; };
-		3047F7591C4C4FBA00774E3D /* ScaleTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7551C4C4FBA00774E3D /* ScaleTo.h */; };
-		3047F75A1C4C4FBA00774E3D /* ScaleTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7551C4C4FBA00774E3D /* ScaleTo.h */; };
-		3047F75B1C4C4FBA00774E3D /* ScaleTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7551C4C4FBA00774E3D /* ScaleTo.h */; };
-		3047F75E1C4C60B900774E3D /* FadeTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F75C1C4C60B900774E3D /* FadeTo.cpp */; };
-		3047F75F1C4C60B900774E3D /* FadeTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F75C1C4C60B900774E3D /* FadeTo.cpp */; };
-		3047F7601C4C60B900774E3D /* FadeTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F75C1C4C60B900774E3D /* FadeTo.cpp */; };
-		3047F7611C4C60B900774E3D /* FadeTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* FadeTo.h */; };
-		3047F7621C4C60B900774E3D /* FadeTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* FadeTo.h */; };
-		3047F7631C4C60B900774E3D /* FadeTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* FadeTo.h */; };
+		3047F7461C4C350D00774E3D /* Move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7441C4C350D00774E3D /* Move.cpp */; };
+		3047F7471C4C350D00774E3D /* Move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7441C4C350D00774E3D /* Move.cpp */; };
+		3047F7481C4C350D00774E3D /* Move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7441C4C350D00774E3D /* Move.cpp */; };
+		3047F7491C4C350D00774E3D /* Move.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7451C4C350D00774E3D /* Move.h */; };
+		3047F74A1C4C350D00774E3D /* Move.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7451C4C350D00774E3D /* Move.h */; };
+		3047F74B1C4C350D00774E3D /* Move.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7451C4C350D00774E3D /* Move.h */; };
+		3047F74E1C4C4FAF00774E3D /* Rotate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F74C1C4C4FAF00774E3D /* Rotate.cpp */; };
+		3047F74F1C4C4FAF00774E3D /* Rotate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F74C1C4C4FAF00774E3D /* Rotate.cpp */; };
+		3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F74C1C4C4FAF00774E3D /* Rotate.cpp */; };
+		3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F74D1C4C4FAF00774E3D /* Rotate.h */; };
+		3047F7521C4C4FAF00774E3D /* Rotate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F74D1C4C4FAF00774E3D /* Rotate.h */; };
+		3047F7531C4C4FAF00774E3D /* Rotate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F74D1C4C4FAF00774E3D /* Rotate.h */; };
+		3047F7561C4C4FBA00774E3D /* Scale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7541C4C4FBA00774E3D /* Scale.cpp */; };
+		3047F7571C4C4FBA00774E3D /* Scale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7541C4C4FBA00774E3D /* Scale.cpp */; };
+		3047F7581C4C4FBA00774E3D /* Scale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7541C4C4FBA00774E3D /* Scale.cpp */; };
+		3047F7591C4C4FBA00774E3D /* Scale.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7551C4C4FBA00774E3D /* Scale.h */; };
+		3047F75A1C4C4FBA00774E3D /* Scale.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7551C4C4FBA00774E3D /* Scale.h */; };
+		3047F75B1C4C4FBA00774E3D /* Scale.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7551C4C4FBA00774E3D /* Scale.h */; };
+		3047F75E1C4C60B900774E3D /* Fade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F75C1C4C60B900774E3D /* Fade.cpp */; };
+		3047F75F1C4C60B900774E3D /* Fade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F75C1C4C60B900774E3D /* Fade.cpp */; };
+		3047F7601C4C60B900774E3D /* Fade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F75C1C4C60B900774E3D /* Fade.cpp */; };
+		3047F7611C4C60B900774E3D /* Fade.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* Fade.h */; };
+		3047F7621C4C60B900774E3D /* Fade.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* Fade.h */; };
+		3047F7631C4C60B900774E3D /* Fade.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F75D1C4C60B900774E3D /* Fade.h */; };
 		3047F7671C4D2C2000774E3D /* Sequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7651C4D2C2000774E3D /* Sequence.cpp */; };
 		3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7651C4D2C2000774E3D /* Sequence.cpp */; };
 		3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F7651C4D2C2000774E3D /* Sequence.cpp */; };
@@ -436,14 +436,14 @@
 		303B76C41C35635700FEDE92 /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
 		3047F73C1C4C344A00774E3D /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
 		3047F73D1C4C344A00774E3D /* Animator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animator.h; sourceTree = "<group>"; };
-		3047F7441C4C350D00774E3D /* MoveTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoveTo.cpp; sourceTree = "<group>"; };
-		3047F7451C4C350D00774E3D /* MoveTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveTo.h; sourceTree = "<group>"; };
-		3047F74C1C4C4FAF00774E3D /* RotateTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RotateTo.cpp; sourceTree = "<group>"; };
-		3047F74D1C4C4FAF00774E3D /* RotateTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotateTo.h; sourceTree = "<group>"; };
-		3047F7541C4C4FBA00774E3D /* ScaleTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScaleTo.cpp; sourceTree = "<group>"; };
-		3047F7551C4C4FBA00774E3D /* ScaleTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleTo.h; sourceTree = "<group>"; };
-		3047F75C1C4C60B900774E3D /* FadeTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FadeTo.cpp; sourceTree = "<group>"; };
-		3047F75D1C4C60B900774E3D /* FadeTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeTo.h; sourceTree = "<group>"; };
+		3047F7441C4C350D00774E3D /* Move.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Move.cpp; sourceTree = "<group>"; };
+		3047F7451C4C350D00774E3D /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Move.h; sourceTree = "<group>"; };
+		3047F74C1C4C4FAF00774E3D /* Rotate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rotate.cpp; sourceTree = "<group>"; };
+		3047F74D1C4C4FAF00774E3D /* Rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rotate.h; sourceTree = "<group>"; };
+		3047F7541C4C4FBA00774E3D /* Scale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scale.cpp; sourceTree = "<group>"; };
+		3047F7551C4C4FBA00774E3D /* Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scale.h; sourceTree = "<group>"; };
+		3047F75C1C4C60B900774E3D /* Fade.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fade.cpp; sourceTree = "<group>"; };
+		3047F75D1C4C60B900774E3D /* Fade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fade.h; sourceTree = "<group>"; };
 		3047F7651C4D2C2000774E3D /* Sequence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sequence.cpp; sourceTree = "<group>"; };
 		3047F7661C4D2C2000774E3D /* Sequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequence.h; sourceTree = "<group>"; };
 		3047F76D1C4D2C3900774E3D /* Parallel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parallel.cpp; sourceTree = "<group>"; };
@@ -760,18 +760,18 @@
 				3047F73D1C4C344A00774E3D /* Animator.h */,
 				30B328821C4E9EAC00040927 /* Ease.cpp */,
 				30B328831C4E9EAC00040927 /* Ease.h */,
-				3047F75C1C4C60B900774E3D /* FadeTo.cpp */,
-				3047F75D1C4C60B900774E3D /* FadeTo.h */,
-				3047F7441C4C350D00774E3D /* MoveTo.cpp */,
-				3047F7451C4C350D00774E3D /* MoveTo.h */,
+				3047F75C1C4C60B900774E3D /* Fade.cpp */,
+				3047F75D1C4C60B900774E3D /* Fade.h */,
+				3047F7441C4C350D00774E3D /* Move.cpp */,
+				3047F7451C4C350D00774E3D /* Move.h */,
 				3047F76D1C4D2C3900774E3D /* Parallel.cpp */,
 				3047F76E1C4D2C3900774E3D /* Parallel.h */,
 				3047F7751C4D39C500774E3D /* Repeat.cpp */,
 				3047F7761C4D39C500774E3D /* Repeat.h */,
-				3047F74C1C4C4FAF00774E3D /* RotateTo.cpp */,
-				3047F74D1C4C4FAF00774E3D /* RotateTo.h */,
-				3047F7541C4C4FBA00774E3D /* ScaleTo.cpp */,
-				3047F7551C4C4FBA00774E3D /* ScaleTo.h */,
+				3047F74C1C4C4FAF00774E3D /* Rotate.cpp */,
+				3047F74D1C4C4FAF00774E3D /* Rotate.h */,
+				3047F7541C4C4FBA00774E3D /* Scale.cpp */,
+				3047F7551C4C4FBA00774E3D /* Scale.h */,
 				3047F7651C4D2C2000774E3D /* Sequence.cpp */,
 				3047F7661C4D2C2000774E3D /* Sequence.h */,
 			);
@@ -855,7 +855,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3047F75A1C4C4FBA00774E3D /* ScaleTo.h in Headers */,
+				3047F75A1C4C4FBA00774E3D /* Scale.h in Headers */,
 				30575A931C38BD370009C8A7 /* AABB2.h in Headers */,
 				306B0E631C567D05005C75C1 /* DrawNode.h in Headers */,
 				303B754B1C2A3C9200FEDE92 /* Texture.h in Headers */,
@@ -886,7 +886,7 @@
 				303B75621C2A3CBF00FEDE92 /* Node.h in Headers */,
 				303647611C3F210F0024DB5B /* App.h in Headers */,
 				3047F77B1C4D39C500774E3D /* Repeat.h in Headers */,
-				3047F7621C4C60B900774E3D /* FadeTo.h in Headers */,
+				3047F7621C4C60B900774E3D /* Fade.h in Headers */,
 				303647651C3F218E0024DB5B /* Settings.h in Headers */,
 				303B75E31C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
 				3031A0B11C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
@@ -898,7 +898,7 @@
 				3031A0B41C3731A2004D3514 /* ColorVSOGLES.h in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHander.h in Headers */,
 				303B75E51C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */,
-				3047F74A1C4C350D00774E3D /* MoveTo.h in Headers */,
+				3047F74A1C4C350D00774E3D /* Move.h in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.h in Headers */,
 				303B75451C2A3C9200FEDE92 /* Renderer.h in Headers */,
@@ -909,7 +909,7 @@
 				303B755E1C2A3CB700FEDE92 /* Vertex.h in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.h in Headers */,
 				303B76C11C35630B00FEDE92 /* OpenGLView.h in Headers */,
-				3047F7521C4C4FAF00774E3D /* RotateTo.h in Headers */,
+				3047F7521C4C4FAF00774E3D /* Rotate.h in Headers */,
 				303B75371C2A3C8200FEDE92 /* CompileConfig.h in Headers */,
 				3047F7731C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
@@ -928,7 +928,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3047F75B1C4C4FBA00774E3D /* ScaleTo.h in Headers */,
+				3047F75B1C4C4FBA00774E3D /* Scale.h in Headers */,
 				30575A941C38BD370009C8A7 /* AABB2.h in Headers */,
 				306B0E641C567D05005C75C1 /* DrawNode.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
@@ -959,7 +959,7 @@
 				303B76671C355A3B00FEDE92 /* ColorPSOGL.h in Headers */,
 				303647621C3F210F0024DB5B /* App.h in Headers */,
 				3047F77C1C4D39C500774E3D /* Repeat.h in Headers */,
-				3047F7631C4C60B900774E3D /* FadeTo.h in Headers */,
+				3047F7631C4C60B900774E3D /* Fade.h in Headers */,
 				303647661C3F218E0024DB5B /* Settings.h in Headers */,
 				303B76681C355A3B00FEDE92 /* Input.h in Headers */,
 				3031A0B21C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
@@ -971,7 +971,7 @@
 				303B766E1C355A3B00FEDE92 /* EventHander.h in Headers */,
 				303B766F1C355A3B00FEDE92 /* ColorVSOGL.h in Headers */,
 				303B76701C355A3B00FEDE92 /* Event.h in Headers */,
-				3047F74B1C4C350D00774E3D /* MoveTo.h in Headers */,
+				3047F74B1C4C350D00774E3D /* Move.h in Headers */,
 				303B76711C355A3B00FEDE92 /* Image.h in Headers */,
 				303B76721C355A3B00FEDE92 /* Renderer.h in Headers */,
 				303B76731C355A3B00FEDE92 /* Size2.h in Headers */,
@@ -982,7 +982,7 @@
 				303B76771C355A3B00FEDE92 /* Camera.h in Headers */,
 				303B76781C355A3B00FEDE92 /* CompileConfig.h in Headers */,
 				303B76C51C35635700FEDE92 /* OpenGLView.h in Headers */,
-				3047F7531C4C4FAF00774E3D /* RotateTo.h in Headers */,
+				3047F7531C4C4FAF00774E3D /* Rotate.h in Headers */,
 				303B76791C355A3B00FEDE92 /* Sprite.h in Headers */,
 				3047F7741C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
@@ -1033,7 +1033,7 @@
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
 				30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
-				3047F7491C4C350D00774E3D /* MoveTo.h in Headers */,
+				3047F7491C4C350D00774E3D /* Move.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
 				303B75171C288CFB00FEDE92 /* MeshBufferOGL.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
@@ -1059,12 +1059,12 @@
 				303B75011C28208800FEDE92 /* FileSystem.h in Headers */,
 				303B760A1C34A92B00FEDE92 /* Input.h in Headers */,
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
-				3047F7511C4C4FAF00774E3D /* RotateTo.h in Headers */,
-				3047F7591C4C4FBA00774E3D /* ScaleTo.h in Headers */,
+				3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */,
+				3047F7591C4C4FBA00774E3D /* Scale.h in Headers */,
 				3031A0B01C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
 				3031A0B31C3731A2004D3514 /* ColorVSOGLES.h in Headers */,
 				304A8E841C24814F008B1151 /* RenderTargetOGL.h in Headers */,
-				3047F7611C4C60B900774E3D /* FadeTo.h in Headers */,
+				3047F7611C4C60B900774E3D /* Fade.h in Headers */,
 				304A8E621C237C70008B1151 /* Rectangle.h in Headers */,
 				3031A0B91C3731A2004D3514 /* TextureVSOGLES.h in Headers */,
 				303B75E21C2F6FC000FEDE92 /* ColorPSOGL.h in Headers */,
@@ -1189,7 +1189,7 @@
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
 				303B75791C2A43D100FEDE92 /* RendererOGL.cpp in Sources */,
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
-				3047F74F1C4C4FAF00774E3D /* RotateTo.cpp in Sources */,
+				3047F74F1C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				303B75481C2A3C9200FEDE92 /* Shader.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
 				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
@@ -1207,8 +1207,8 @@
 				303B76C21C35630B00FEDE92 /* OpenGLView.mm in Sources */,
 				303B75461C2A3C9200FEDE92 /* RenderTarget.cpp in Sources */,
 				30575ABD1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
-				3047F7571C4C4FBA00774E3D /* ScaleTo.cpp in Sources */,
-				3047F7471C4C350D00774E3D /* MoveTo.cpp in Sources */,
+				3047F7571C4C4FBA00774E3D /* Scale.cpp in Sources */,
+				3047F7471C4C350D00774E3D /* Move.cpp in Sources */,
 				303B757C1C2A43D900FEDE92 /* TextureOGL.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rectangle.cpp in Sources */,
 				303B75761C2A3E3000FEDE92 /* AppDelegate.mm in Sources */,
@@ -1223,7 +1223,7 @@
 				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
-				3047F75F1C4C60B900774E3D /* FadeTo.cpp in Sources */,
+				3047F75F1C4C60B900774E3D /* Fade.cpp in Sources */,
 				303B757A1C2A43D400FEDE92 /* RenderTargetOGL.cpp in Sources */,
 				303B75381C2A3C8200FEDE92 /* Engine.cpp in Sources */,
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
@@ -1255,7 +1255,7 @@
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
 				303B763B1C355A3B00FEDE92 /* RendererOGL.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
-				3047F7501C4C4FAF00774E3D /* RotateTo.cpp in Sources */,
+				3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				303B763D1C355A3B00FEDE92 /* Shader.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
@@ -1273,8 +1273,8 @@
 				303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */,
 				303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */,
 				30575ABE1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
-				3047F7581C4C4FBA00774E3D /* ScaleTo.cpp in Sources */,
-				3047F7481C4C350D00774E3D /* MoveTo.cpp in Sources */,
+				3047F7581C4C4FBA00774E3D /* Scale.cpp in Sources */,
+				3047F7481C4C350D00774E3D /* Move.cpp in Sources */,
 				303B76481C355A3B00FEDE92 /* TextureOGL.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,
 				303B764B1C355A3B00FEDE92 /* Image.cpp in Sources */,
@@ -1289,7 +1289,7 @@
 				303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				303B76511C355A3B00FEDE92 /* RenderTargetOGL.cpp in Sources */,
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
-				3047F7601C4C60B900774E3D /* FadeTo.cpp in Sources */,
+				3047F7601C4C60B900774E3D /* Fade.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
 				303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Node.cpp in Sources */,
@@ -1323,17 +1323,17 @@
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,
 				3047F7771C4D39C500774E3D /* Repeat.cpp in Sources */,
-				3047F7461C4C350D00774E3D /* MoveTo.cpp in Sources */,
+				3047F7461C4C350D00774E3D /* Move.cpp in Sources */,
 				303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
-				3047F74E1C4C4FAF00774E3D /* RotateTo.cpp in Sources */,
+				3047F74E1C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				304A8E921C26ED32008B1151 /* MeshBuffer.cpp in Sources */,
 				3036471C1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				304A8E851C24814F008B1151 /* TextureOGL.cpp in Sources */,
 				304A8E6C1C237C70008B1151 /* Texture.cpp in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
 				3047F76F1C4D2C3900774E3D /* Parallel.cpp in Sources */,
-				3047F7561C4C4FBA00774E3D /* ScaleTo.cpp in Sources */,
+				3047F7561C4C4FBA00774E3D /* Scale.cpp in Sources */,
 				304A8E701C237C70008B1151 /* Vector2.cpp in Sources */,
 				3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */,
 				304A8E511C237C70008B1151 /* Camera.cpp in Sources */,
@@ -1352,7 +1352,7 @@
 				303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,
 				304A8E741C237C70008B1151 /* Vector4.cpp in Sources */,
-				3047F75E1C4C60B900774E3D /* FadeTo.cpp in Sources */,
+				3047F75E1C4C60B900774E3D /* Fade.cpp in Sources */,
 				304A8E831C24814F008B1151 /* RenderTargetOGL.cpp in Sources */,
 				305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */,
 				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,

@@ -137,16 +137,16 @@
     <ClCompile Include="..\ouzel\Animator.cpp">
       <Filter>animators</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\MoveTo.cpp">
+    <ClCompile Include="..\ouzel\Move.cpp">
       <Filter>animators</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\RotateTo.cpp">
+    <ClCompile Include="..\ouzel\Rotate.cpp">
       <Filter>animators</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\ScaleTo.cpp">
+    <ClCompile Include="..\ouzel\Scale.cpp">
       <Filter>animators</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\FadeTo.cpp">
+    <ClCompile Include="..\ouzel\Fade.cpp">
       <Filter>animators</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Sequence.cpp">
@@ -339,16 +339,16 @@
     <ClInclude Include="..\ouzel\Animator.h">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\MoveTo.h">
+    <ClInclude Include="..\ouzel\Move.h">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\RotateTo.h">
+    <ClInclude Include="..\ouzel\Rotate.h">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\ScaleTo.h">
+    <ClInclude Include="..\ouzel\Scale.h">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\FadeTo.h">
+    <ClInclude Include="..\ouzel\Fade.h">
       <Filter>animators</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Sequence.h">

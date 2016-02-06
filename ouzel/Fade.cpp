@@ -1,29 +1,31 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "FadeTo.h"
+#include "Fade.h"
 #include "Node.h"
 
 namespace ouzel
 {
-    FadeTo::FadeTo(float length, float rotation):
-        Animator(length), _targetOpacity(rotation)
+    Fade::Fade(float length, float rotation, bool relative):
+        Animator(length), _opacity(rotation), _relative(relative)
     {
         
     }
     
-    void FadeTo::start(const NodePtr& node)
+    void Fade::start(const NodePtr& node)
     {
         Animator::start(node);
         
         if (node)
         {
             _startOpacity = node->getOpacity();
+            _targetOpacity = _relative ? _startOpacity + _opacity : _opacity;
+            
             _diff = _targetOpacity - _startOpacity;
         }
     }
     
-    void FadeTo::setProgress(float progress)
+    void Fade::setProgress(float progress)
     {
         Animator::setProgress(progress);
         

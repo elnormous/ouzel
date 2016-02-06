@@ -30,7 +30,7 @@
     <ClCompile Include="..\ouzel\Ease.cpp" />
     <ClCompile Include="..\ouzel\Engine.cpp" />
     <ClCompile Include="..\ouzel\EventDispatcher.cpp" />
-    <ClCompile Include="..\ouzel\FadeTo.cpp" />
+    <ClCompile Include="..\ouzel\Fade.cpp" />
     <ClCompile Include="..\ouzel\File.cpp" />
     <ClCompile Include="..\ouzel\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\Gamepad.cpp" />
@@ -44,7 +44,7 @@
     <ClCompile Include="..\ouzel\Menu.cpp" />
     <ClCompile Include="..\ouzel\MeshBuffer.cpp" />
     <ClCompile Include="..\ouzel\MeshBufferD3D11.cpp" />
-    <ClCompile Include="..\ouzel\MoveTo.cpp" />
+    <ClCompile Include="..\ouzel\Move.cpp" />
     <ClCompile Include="..\ouzel\Node.cpp" />
     <ClCompile Include="..\ouzel\NodeContainer.cpp" />
     <ClCompile Include="..\ouzel\Parallel.cpp" />
@@ -55,8 +55,8 @@
     <ClCompile Include="..\ouzel\RenderTarget.cpp" />
     <ClCompile Include="..\ouzel\RenderTargetD3D11.cpp" />
     <ClCompile Include="..\ouzel\Repeat.cpp" />
-    <ClCompile Include="..\ouzel\RotateTo.cpp" />
-    <ClCompile Include="..\ouzel\ScaleTo.cpp" />
+    <ClCompile Include="..\ouzel\Rotate.cpp" />
+    <ClCompile Include="..\ouzel\Scale.cpp" />
     <ClCompile Include="..\ouzel\Scene.cpp" />
     <ClCompile Include="..\ouzel\SceneManager.cpp" />
     <ClCompile Include="..\ouzel\Sequence.cpp" />
@@ -95,7 +95,7 @@
     <ClInclude Include="..\ouzel\Event.h" />
     <ClInclude Include="..\ouzel\EventDispatcher.h" />
     <ClInclude Include="..\ouzel\EventHander.h" />
-    <ClInclude Include="..\ouzel\FadeTo.h" />
+    <ClInclude Include="..\ouzel\Fade.h" />
     <ClInclude Include="..\ouzel\File.h" />
     <ClInclude Include="..\ouzel\FileSystem.h" />
     <ClInclude Include="..\ouzel\Gamepad.h" />
@@ -109,7 +109,7 @@
     <ClInclude Include="..\ouzel\Menu.h" />
     <ClInclude Include="..\ouzel\MeshBuffer.h" />
     <ClInclude Include="..\ouzel\MeshBufferD3D11.h" />
-    <ClInclude Include="..\ouzel\MoveTo.h" />
+    <ClInclude Include="..\ouzel\Move.h" />
     <ClInclude Include="..\ouzel\Node.h" />
     <ClInclude Include="..\ouzel\NodeContainer.h" />
     <ClInclude Include="..\ouzel\Noncopyable.h" />
@@ -122,8 +122,8 @@
     <ClInclude Include="..\ouzel\RenderTarget.h" />
     <ClInclude Include="..\ouzel\RenderTargetD3D11.h" />
     <ClInclude Include="..\ouzel\Repeat.h" />
-    <ClInclude Include="..\ouzel\RotateTo.h" />
-    <ClInclude Include="..\ouzel\ScaleTo.h" />
+    <ClInclude Include="..\ouzel\Rotate.h" />
+    <ClInclude Include="..\ouzel\Scale.h" />
     <ClInclude Include="..\ouzel\Scene.h" />
     <ClInclude Include="..\ouzel\SceneManager.h" />
     <ClInclude Include="..\ouzel\Sequence.h" />

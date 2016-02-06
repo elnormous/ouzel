@@ -20,7 +20,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Ease.cpp \
     ../../../ouzel/Engine.cpp \
     ../../../ouzel/EventDispatcher.cpp \
-	../../../ouzel/FadeTo.cpp \
+	../../../ouzel/Fade.cpp \
     ../../../ouzel/File.cpp \
     ../../../ouzel/FileSystem.cpp \
     ../../../ouzel/Gamepad.cpp \
@@ -34,7 +34,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Menu.cpp \
     ../../../ouzel/MeshBuffer.cpp \
     ../../../ouzel/MeshBufferOGL.cpp \
-    ../../../ouzel/MoveTo.cpp \
+    ../../../ouzel/Move.cpp \
     ../../../ouzel/Node.cpp \
     ../../../ouzel/NodeContainer.cpp \
     ../../../ouzel/Parallel.cpp \
@@ -45,8 +45,8 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/RenderTarget.cpp \
     ../../../ouzel/RenderTargetOGL.cpp \
     ../../../ouzel/Repeat.cpp \
-	../../../ouzel/RotateTo.cpp \
-	../../../ouzel/ScaleTo.cpp \
+	../../../ouzel/Rotate.cpp \
+	../../../ouzel/Scale.cpp \
     ../../../ouzel/Scene.cpp \
     ../../../ouzel/SceneManager.cpp \
     ../../../ouzel/Sequence.cpp \

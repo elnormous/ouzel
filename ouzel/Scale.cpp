@@ -1,29 +1,31 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ScaleTo.h"
+#include "Scale.h"
 #include "Node.h"
 
 namespace ouzel
 {
-    ScaleTo::ScaleTo(float length, const Vector2& scale):
-        Animator(length), _targetScale(scale)
+    Scale::Scale(float length, const Vector2& scale, bool relative):
+        Animator(length), _scale(scale), _relative(relative)
     {
         
     }
     
-    void ScaleTo::start(const NodePtr& node)
+    void Scale::start(const NodePtr& node)
     {
         Animator::start(node);
         
         if (node)
         {
             _startScale = node->getScale();
+            _targetScale = _relative ? _startScale + _scale : _scale;
+            
             _diff = _targetScale - _startScale;
         }
     }
     
-    void ScaleTo::setProgress(float progress)
+    void Scale::setProgress(float progress)
     {
         Animator::setProgress(progress);
         
