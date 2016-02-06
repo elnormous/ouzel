@@ -39,7 +39,7 @@ namespace ouzel
         
     }
     
-    std::string getHomeDirectory()
+    std::string FileSystem::getHomeDirectory()
     {
 #if defined(OUZEL_PLATFORM_OSX)
         struct passwd* pw = getpwuid(getuid());
