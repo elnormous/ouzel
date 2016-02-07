@@ -50,7 +50,7 @@ namespace ouzel
         virtual void setScale(const Vector2& scale);
         virtual const Vector2& getScale() const { return _scale; }
         
-        virtual void setOpacity(float opacity) { _opacity = opacity; }
+        virtual void setOpacity(float opacity);
         virtual float getOpacity() const { return _opacity; }
         
         virtual void setFlipX(bool flipX);

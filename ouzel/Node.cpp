@@ -202,6 +202,11 @@ namespace ouzel
         _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
     }
     
+    void Node::setOpacity(float opacity)
+    {
+        _opacity = clamp(opacity, 0.0f, 1.0f);
+    }
+    
     void Node::setFlipX(bool flipX)
     {
         _flipX = flipX;
