@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 const uint8_t COLOR_VERTEX_SHADER_OGL[] =
