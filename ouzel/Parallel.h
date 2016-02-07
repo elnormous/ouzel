@@ -14,8 +14,6 @@ namespace ouzel
     public:
         Parallel(const std::vector<AnimatorPtr>& animators);
         
-        virtual void update(float delta) override;
-        
         virtual void start(const NodePtr& node) override;
         virtual void reset() override;
         

@@ -66,8 +66,8 @@ namespace ouzel
         _sprite->setPosition(Vector2(-300.0f, 0.0f));
 
         std::vector<AnimatorPtr> sequence = {
-            make_shared<MoveTo>(4.0f, Vector2(300.0f, 0.0f)),
-            make_shared<FadeTo>(2.0f, 0.4f)
+            make_shared<Move>(4.0f, Vector2(300.0f, 0.0f)),
+            make_shared<Fade>(2.0f, 0.4f)
         };
 
         _sprite->animate(make_shared<Sequence>(sequence));
@@ -76,7 +76,7 @@ namespace ouzel
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
         _layer->addChild(fire);
-        fire->animate(make_shared<FadeTo>(5.0f, 0.5f));
+        fire->animate(make_shared<Fade>(5.0f, 0.5f));
         
         _flame = ParticleSystem::createFromFile("flame.json");
         _layer->addChild(_flame);
@@ -85,14 +85,14 @@ namespace ouzel
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(Color(128, 0, 255, 255));
         _layer->addChild(_witch);
-        _witch->animate(make_shared<Repeat>(make_shared<RotateTo>(1.0f, TAU), 3));
+        _witch->animate(make_shared<Repeat>(make_shared<Rotate>(1.0f, TAU, false), 3));
         
         LabelPtr label = Label::create("font.fnt", "testing fonts");
         _uiLayer->addChild(label);
 
         std::vector<AnimatorPtr> sequence2 = {
             make_shared<Animator>(1.0f), // delay
-            make_shared<Ease>(make_shared<MoveTo>(2.0f, Vector2(0.0f, -240.0f)), Ease::Type::OUT, Ease::Func::BOUNCE)
+            make_shared<Ease>(make_shared<Move>(2.0f, Vector2(0.0f, -240.0f), false), Ease::Type::OUT, Ease::Func::BOUNCE)
         };
 
         label->animate(make_shared<Sequence>(sequence2));
