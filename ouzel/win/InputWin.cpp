@@ -35,11 +35,11 @@ namespace ouzel
                 {
                     _gamepads[i].reset(new GamepadWin(static_cast<int32_t>(i)));
 
-                    GamepadEvent event;
-                    event.type = Event::Type::GAMEPAD_CONNECT;
-                    event.gamepad = _gamepads[i];
+                    GamepadEventPtr event = std::make_shared<GamepadEvent>();
+                    event->type = Event::Type::GAMEPAD_CONNECT;
+                    event->gamepad = _gamepads[i];
 
-                    Engine::getInstance()->getEventDispatcher()->dispatchGamepadConnectEvent(event, Engine::getInstance()->getInput());
+                    Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
                 }
                 
                 _gamepads[i]->update(state);
@@ -48,11 +48,11 @@ namespace ouzel
             {
                 if (_gamepads[i])
                 {
-                    GamepadEvent event;
-                    event.type = Event::Type::GAMEPAD_DISCONNECT;
-                    event.gamepad = _gamepads[i];
+                    GamepadEventPtr event = std::make_shared<GamepadEvent>();
+                    event->type = Event::Type::GAMEPAD_DISCONNECT;
+                    event->gamepad = _gamepads[i];
 
-                    Engine::getInstance()->getEventDispatcher()->dispatchGamepadDisconnectEvent(event, Engine::getInstance()->getInput());
+                    Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
 
                     _gamepads[i].reset();
                 }
