@@ -334,6 +334,7 @@ namespace ouzel
     
     void Sprite::reset()
     {
+        _playing = false;
         _currentFrame = 0;
         _timeSinceLastFrame = 0.0f;
     }
