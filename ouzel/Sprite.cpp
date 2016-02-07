@@ -315,6 +315,11 @@ namespace ouzel
         _repeat = repeat;
         _frameInterval = frameInterval;
         _playing = true;
+        
+        if (_currentFrame >= _frameCount)
+        {
+            reset();
+        }
     }
     
     void Sprite::stop(bool resetAnimation)
