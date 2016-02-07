@@ -68,6 +68,7 @@
 		305B99BA1C43306D008589E1 /* button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B91C43306D008589E1 /* button_disabled.png */; };
 		305B99BB1C43306D008589E1 /* button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B91C43306D008589E1 /* button_disabled.png */; };
 		305B99BC1C43306D008589E1 /* button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B91C43306D008589E1 /* button_disabled.png */; };
+		305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305F6DBA1C66C50000B76A03 /* CoreVideo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +138,7 @@
 		305B99B11C433061008589E1 /* button_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_down.png; sourceTree = "<group>"; };
 		305B99B21C433061008589E1 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		305B99B91C43306D008589E1 /* button_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_disabled.png; sourceTree = "<group>"; };
+		305F6DBA1C66C50000B76A03 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
 				304B80ED1C602047003A1188 /* libouzel_osx.a in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
 				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,
@@ -183,6 +186,7 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				305F6DBA1C66C50000B76A03 /* CoreVideo.framework */,
 				30575AEB1C3C990B0009C8A7 /* GameController.framework */,
 				30575AE91C3C99010009C8A7 /* GameController.framework */,
 				30575AE71C3C98F50009C8A7 /* GameController.framework */,

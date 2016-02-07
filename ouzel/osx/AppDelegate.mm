@@ -41,33 +41,42 @@
     [_window setTitle:[NSString stringWithUTF8String:ouzel::Engine::getInstance()->getRenderer()->getTitle().c_str()]];
     
     ouzel::EventHandlerPtr eventHandler = std::make_shared<ouzel::EventHandler>();
-    eventHandler->windowTitleChangeHandler = [self](const ouzel::WindowEvent& event, const ouzel::VoidPtr&) -> bool {
+    eventHandler->windowHandler = [self](const ouzel::WindowEventPtr& event, const ouzel::VoidPtr&) -> bool {
         
-        _window.title = [NSString stringWithCString:event.title.c_str() encoding:NSASCIIStringEncoding];
+        switch (event->type)
+        {
+            case ouzel::Event::Type::WINDOW_TITLE_CHANGE:
+            {
+                _window.title = [NSString stringWithCString:event->title.c_str() encoding:NSASCIIStringEncoding];
+                break;
+            }
+            case ouzel::Event::Type::WINDOW_SIZE_CHANGE:
+            {
+                NSRect frame = [NSWindow contentRectForFrameRect:[_window frame]
+                                                       styleMask:[[self window] styleMask]];
+                
+                NSRect newFrame = [NSWindow frameRectForContentRect:
+                                   NSMakeRect(NSMinX(frame), NSMaxY(frame) - event->size.height, event->size.width, event->size.height)
+                                                          styleMask:[_window styleMask]];
+                
+                [_window setFrame:newFrame display:YES animate:[_window isVisible]];
+                break;
+            }
+            default:
+                break;
+        }
+        
         return true;
     };
     
-    eventHandler->windowSizeChangeHandler = [self](const ouzel::WindowEvent& event, const ouzel::VoidPtr&) -> bool {
-        
-        NSRect frame = [NSWindow contentRectForFrameRect:[_window frame]
-                                                       styleMask:[[self window] styleMask]];
-        
-        NSRect newFrame = [NSWindow frameRectForContentRect:
-                           NSMakeRect(NSMinX(frame), NSMaxY(frame) - event.size.height, event.size.width, event.size.height)
-                           styleMask:[_window styleMask]];
-        
-        [_window setFrame:newFrame display:YES animate:[_window isVisible]];
-        
-        return true;
-    };
     ouzel::Engine::getInstance()->getEventDispatcher()->addEventHandler(eventHandler);
     
     NSRect windowFrame = [NSWindow contentRectForFrameRect:[[self window] frame]
                                                  styleMask:[[self window] styleMask]];
     
-    OpenGLView* view = [[OpenGLView alloc] initWithFrame:windowFrame];
+    _openGLView = [[OpenGLView alloc] initWithFrame:windowFrame];
     
-    [_window setContentView:view];
+    [_window setContentView:_openGLView];
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -77,7 +86,7 @@
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    ouzel::Engine::getInstance()->end();
+    [_openGLView close];
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender

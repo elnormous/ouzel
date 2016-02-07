@@ -78,6 +78,36 @@ using namespace ouzel;
     return YES;
 }
 
+-(void)prepareOpenGL
+{
+    std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
+    renderer->initOpenGL(_frame.size.width, _frame.size.height, 0);
+    
+    GLint swapInt = 1;
+    [_openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+    
+    CVDisplayLinkCreateWithCGDisplay(CGMainDisplayID(), &_displayLink);
+    CVDisplayLinkSetOutputCallback(_displayLink, renderCallback, (__bridge void *)self);
+    
+    CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_displayLink, [_openGLContext CGLContextObj], [_pixelFormat CGLPixelFormatObj]);
+    
+    CVDisplayLinkStart(_displayLink);
+    _running = YES;
+}
+
+-(void)close
+{
+    _running = NO;
+    
+    CGLLockContext([_openGLContext CGLContextObj]);
+    [_openGLContext makeCurrentContext];
+    
+    CVDisplayLinkStop(_displayLink);
+    ouzel::Engine::getInstance()->end();
+    
+    CGLUnlockContext([_openGLContext CGLContextObj]);
+}
+
 -(void)handleQuit:(id)sender
 {
     [[NSApplication sharedApplication] terminate:self];
@@ -104,23 +134,6 @@ using namespace ouzel;
     }
     
     [_openGLContext makeCurrentContext];
-}
-
--(void)prepareOpenGL
-{
-    std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
-    renderer->initOpenGL(_frame.size.width, _frame.size.height, 0);
-    
-    GLint swapInt = 1;
-    [_openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
-    
-    CVDisplayLinkCreateWithCGDisplay(CGMainDisplayID(), &_displayLink);
-    CVDisplayLinkSetOutputCallback(_displayLink, renderCallback, (__bridge void *)self);
-    
-    CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_displayLink, [_openGLContext CGLContextObj], [_pixelFormat CGLPixelFormatObj]);
-    
-    CVDisplayLinkStart(_displayLink);
-    _running = YES;
 }
 
 -(void)draw

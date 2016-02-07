@@ -26,13 +26,9 @@ namespace ouzel
         virtual void setEnabled(bool enabled) override;
         
     protected:
-        bool handleMouseDown(const MouseEvent& event, const VoidPtr& sender);
-        bool handleMouseUp(const MouseEvent& event, const VoidPtr& sender);
-        bool handleMouseMove(const MouseEvent& event, const VoidPtr& sender);
-        bool handleTouchBegin(const TouchEvent& event, const VoidPtr& sender);
-        bool handleTouchMove(const TouchEvent& event, const VoidPtr& sender);
-        bool handleTouchEnd(const TouchEvent& event, const VoidPtr& sender);
-        bool handleGamepadButtonChange(const GamepadEvent& event, const VoidPtr& sender);
+        bool handleMouse(const MouseEventPtr& event, const VoidPtr& sender);
+        bool handleTouch(const TouchEventPtr& event, const VoidPtr& sender);
+        bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender);
         
         void checkPointer(const Vector2& worldLocation);
         void updateSprite();

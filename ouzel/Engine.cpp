@@ -147,6 +147,7 @@ namespace ouzel
         _currentFPS = 1.0f / delta;
         
         _input->update();
+        _eventDispatcher->update();
         _sceneManager->update(delta);
         
         _renderer->clear();

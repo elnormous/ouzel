@@ -6,6 +6,8 @@
 #include <vector>
 #include <memory>
 #include <set>
+#include <mutex>
+#include <queue>
 #include <cstdint>
 #include "Types.h"
 #include "Noncopyable.h"
@@ -22,32 +24,21 @@ namespace ouzel
     public:
         virtual ~EventDispatcher();
         
+        void update();
+        
         void addEventHandler(const EventHandlerPtr& eventHandler);
         void removeEventHandler(const EventHandlerPtr& eventHandler);
         
-        void dispatchKeyDownEvent(const KeyboardEvent& event, const VoidPtr& sender);
-        void dispatchKeyRepeatEvent(const KeyboardEvent& event, const VoidPtr& sender);
-        void dispatchKeyUpEvent(const KeyboardEvent& event, const VoidPtr& sender);
-        
-        void dispatchMouseDownEvent(const MouseEvent& event, const VoidPtr& sender);
-        void dispatchMouseUpEvent(const MouseEvent& event, const VoidPtr& sender);
-        void dispatchMouseScrollEvent(const MouseEvent& event, const VoidPtr& sender);
-        void dispatchMouseMoveEvent(const MouseEvent& event, const VoidPtr& sender);
-        
-        void dispatchTouchBeginEvent(const TouchEvent& event, const VoidPtr& sender);
-        void dispatchTouchMoveEvent(const TouchEvent& event, const VoidPtr& sender);
-        void dispatchTouchEndEvent(const TouchEvent& event, const VoidPtr& sender);
-        void dispatchTouchCancelEvent(const TouchEvent& event, const VoidPtr& sender);
-        
-        void dispatchGamepadConnectEvent(const GamepadEvent& event, const VoidPtr& sender);
-        void dispatchGamepadDisconnectEvent(const GamepadEvent& event, const VoidPtr& sender);
-        void dispatchGamepadButtonChangeEvent(const GamepadEvent& event, const VoidPtr& sender);
-        
-        void dispatchWindowSizeChangeEvent(const WindowEvent& event, const VoidPtr& sender);
-        void dispatchWindowTitleChangeEvent(const WindowEvent& event, const VoidPtr& sender);
+        void dispatchEvent(const EventPtr& event, const VoidPtr& sender);
         
     protected:
         EventDispatcher();
+        
+        void dispatchKeyboardEvent(const KeyboardEventPtr& event, const VoidPtr& sender);
+        void dispatchMouseEvent(const MouseEventPtr& event, const VoidPtr& sender);
+        void dispatchTouchEvent(const TouchEventPtr& event, const VoidPtr& sender);
+        void dispatchGamepadEvent(const GamepadEventPtr& event, const VoidPtr& sender);
+        void dispatchWindowEvent(const WindowEventPtr& event, const VoidPtr& sender);
         
         void lock();
         void unlock();
@@ -56,6 +47,8 @@ namespace ouzel
         std::set<EventHandlerPtr> _eventHandlerAddList;
         std::set<EventHandlerPtr> _eventHandlerRemoveList;
         
+        std::queue<std::pair<EventPtr, VoidPtr>> _eventQueue;
+        std::mutex _mutex;
         int32_t _locked = 0;
     };
 }

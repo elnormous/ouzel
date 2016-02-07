@@ -16,6 +16,52 @@ namespace ouzel
         
     }
     
+    void EventDispatcher::update()
+    {
+        std::lock_guard<std::mutex> mutexLock(_mutex);
+        
+        lock();
+        
+        while (!_eventQueue.empty())
+        {
+            auto eventPair = _eventQueue.front();
+            
+            switch (eventPair.first->type)
+            {
+                case Event::Type::KEY_DOWN:
+                case Event::Type::KEY_UP:
+                    dispatchKeyboardEvent(std::static_pointer_cast<KeyboardEvent>(eventPair.first), eventPair.second);
+                    break;
+                    
+                case Event::Type::MOUSE_DOWN:
+                case Event::Type::MOUSE_UP:
+                case Event::Type::MOUSE_SCROLL:
+                case Event::Type::MOUSE_MOVE:
+                    dispatchMouseEvent(std::static_pointer_cast<MouseEvent>(eventPair.first), eventPair.second);
+                    break;
+                case Event::Type::TOUCH_BEGIN:
+                case Event::Type::TOUCH_MOVE:
+                case Event::Type::TOUCH_END:
+                case Event::Type::TOUCH_CANCEL:
+                    dispatchTouchEvent(std::static_pointer_cast<TouchEvent>(eventPair.first), eventPair.second);
+                    break;
+                case Event::Type::GAMEPAD_CONNECT:
+                case Event::Type::GAMEPAD_DISCONNECT:
+                case Event::Type::GAMEPAD_BUTTON_CHANGE:
+                    dispatchGamepadEvent(std::static_pointer_cast<GamepadEvent>(eventPair.first), eventPair.second);
+                    break;
+                case Event::Type::WINDOW_SIZE_CHANGE:
+                case Event::Type::WINDOW_TITLE_CHANGE:
+                    dispatchWindowEvent(std::static_pointer_cast<WindowEvent>(eventPair.first), eventPair.second);
+                    break;
+            }
+            
+            _eventQueue.pop();
+        }
+        
+        unlock();
+    }
+    
     void EventDispatcher::addEventHandler(const EventHandlerPtr& eventHandler)
     {
         if (_locked)
@@ -54,15 +100,50 @@ namespace ouzel
         }
     }
     
-    void EventDispatcher::dispatchKeyDownEvent(const KeyboardEvent& event, const VoidPtr& sender)
+    void EventDispatcher::dispatchEvent(const EventPtr& event, const VoidPtr& sender)
+    {
+        std::lock_guard<std::mutex> mutexLock(_mutex);
+        
+        _eventQueue.push(std::make_pair(event, sender));
+    }
+    
+    void EventDispatcher::dispatchKeyboardEvent(const KeyboardEventPtr& event, const VoidPtr& sender)
+    {
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        {
+            if (eventHandler->keyboardHandler)
+            {
+                if (!eventHandler->keyboardHandler(event, sender))
+                {
+                    break;
+                }
+            }
+        }
+    }
+    
+    void EventDispatcher::dispatchMouseEvent(const MouseEventPtr& event, const VoidPtr& sender)
+    {
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        {
+            if (eventHandler->mouseHandler)
+            {
+                if (!eventHandler->mouseHandler(event, sender))
+                {
+                    break;
+                }
+            }
+        }
+    }
+    
+    void EventDispatcher::dispatchTouchEvent(const TouchEventPtr& event, const VoidPtr& sender)
     {
         lock();
         
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->keyDownHandler)
+            if (eventHandler->touchHandler)
             {
-                if (!eventHandler->keyDownHandler(event, sender))
+                if (!eventHandler->touchHandler(event, sender))
                 {
                     break;
                 }
@@ -72,274 +153,32 @@ namespace ouzel
         unlock();
     }
     
-    void EventDispatcher::dispatchKeyRepeatEvent(const KeyboardEvent& event, const VoidPtr& sender)
+    void EventDispatcher::dispatchGamepadEvent(const GamepadEventPtr& event, const VoidPtr& sender)
     {
-        lock();
-        
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->keyRepeatHandler)
+            if (eventHandler->gamepadHandler)
             {
-                if (!eventHandler->keyRepeatHandler(event, sender))
+                if (!eventHandler->gamepadHandler(event, sender))
                 {
                     break;
                 }
             }
         }
-        
-        unlock();
     }
     
-    void EventDispatcher::dispatchKeyUpEvent(const KeyboardEvent& event, const VoidPtr& sender)
+    void EventDispatcher::dispatchWindowEvent(const WindowEventPtr& event, const VoidPtr& sender)
     {
-        lock();
-        
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->keyUpHandler)
+            if (eventHandler->windowHandler)
             {
-                if (!eventHandler->keyUpHandler(event, sender))
+                if (!eventHandler->windowHandler(event, sender))
                 {
                     break;
                 }
             }
         }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchMouseDownEvent(const MouseEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->mouseDownHandler)
-            {
-                if (!eventHandler->mouseDownHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchMouseUpEvent(const MouseEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->mouseUpHandler)
-            {
-                if (!eventHandler->mouseUpHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchMouseScrollEvent(const MouseEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->mouseScrollHandler)
-            {
-                if (!eventHandler->mouseScrollHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchMouseMoveEvent(const MouseEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->mouseMoveHandler)
-            {
-                if (!eventHandler->mouseMoveHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchTouchBeginEvent(const TouchEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->touchBeginHandler)
-            {
-                if (!eventHandler->touchBeginHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchTouchMoveEvent(const TouchEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->touchMoveHandler)
-            {
-                if (!eventHandler->touchMoveHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchTouchEndEvent(const TouchEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->touchEndHandler)
-            {
-                if (!eventHandler->touchEndHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchTouchCancelEvent(const TouchEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->keyDownHandler)
-            {
-                if (!eventHandler->touchCancelHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchGamepadConnectEvent(const GamepadEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->gamepadConnectHandler)
-            {
-                if (!eventHandler->gamepadConnectHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchGamepadDisconnectEvent(const GamepadEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->gamepadDisconnectHandler)
-            {
-                if (!eventHandler->gamepadDisconnectHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchGamepadButtonChangeEvent(const GamepadEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->gamepadButtonChangeHandler)
-            {
-                if (!eventHandler->gamepadButtonChangeHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchWindowSizeChangeEvent(const WindowEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->windowSizeChangeHandler)
-            {
-                if (!eventHandler->windowSizeChangeHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
-    }
-    
-    void EventDispatcher::dispatchWindowTitleChangeEvent(const WindowEvent& event, const VoidPtr& sender)
-    {
-        lock();
-        
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
-        {
-            if (eventHandler->windowTitleChangeHandler)
-            {
-                if (!eventHandler->windowTitleChangeHandler(event, sender))
-                {
-                    break;
-                }
-            }
-        }
-        
-        unlock();
     }
     
     void EventDispatcher::lock()

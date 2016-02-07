@@ -17,6 +17,7 @@
 -(id)initWithFrame:(NSRect)frameRect;
 
 -(void)prepareOpenGL;
+-(void)close;
 
 -(void)draw;
 

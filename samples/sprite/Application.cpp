@@ -26,13 +26,10 @@ namespace ouzel
     {
         _eventHandler = make_shared<EventHandler>();
         
-        _eventHandler->keyDownHandler = std::bind(&Application::handleKeyDown, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->mouseDownHandler = std::bind(&Application::handleMouseDown, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->mouseMoveHandler = std::bind(&Application::handleMouseMove, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->touchBeginHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->touchMoveHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->touchEndHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->gamepadButtonChangeHandler = std::bind(&Application::handleGamepadButtonChange, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->keyboardHandler = std::bind(&Application::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->mouseHandler = std::bind(&Application::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->touchHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
         
         Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
         
@@ -106,100 +103,113 @@ namespace ouzel
         Engine::getInstance()->getInput()->startGamepadDiscovery();
     }
     
-    bool Application::handleKeyDown(const KeyboardEvent& event, const VoidPtr& sender) const
+    bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const
     {
-        Vector2 position = _layer->getCamera()->getPosition();
-        
-        switch (event.key)
+        if (event->type == Event::Type::KEY_DOWN)
         {
-            case KeyboardKey::UP:
-                position.y += 10.0f;
+            Vector2 position = _layer->getCamera()->getPosition();
+            
+            switch (event->key)
+            {
+                case KeyboardKey::UP:
+                    position.y += 10.0f;
+                    break;
+                case KeyboardKey::DOWN:
+                    position.y -= 10.0f;
+                    break;
+                case KeyboardKey::LEFT:
+                    position.x -= 10.0f;
+                    break;
+                case KeyboardKey::RIGHT:
+                    position.x += 10.0f;
+                    break;
+                case KeyboardKey::SPACE:
+                    _witch->setVisible(!_witch->isVisible());
+                    break;
+                case KeyboardKey::RETURN:
+                    Engine::getInstance()->getRenderer()->resize(Size2(640.0f, 480.0f));
+                    break;
+                case KeyboardKey::TAB:
+                    _button->setEnabled(!_button->isEnabled());
+                    break;
+                default:
+                    break;
+            }
+            
+            _layer->getCamera()->setPosition(position);
+        }
+        
+        return true;
+    }
+    
+    bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender) const
+    {
+        switch (event->type)
+        {
+            case Event::Type::MOUSE_DOWN:
+            {
+                Engine::getInstance()->getInput()->setCursorVisible(!Engine::getInstance()->getInput()->isCursorVisible());
                 break;
-            case KeyboardKey::DOWN:
-                position.y -= 10.0f;
+            }
+            case Event::Type::MOUSE_MOVE:
+            {
+                Vector2 worldLocation = _layer->screenToWorldLocation(event->position);
+                _flame->setPosition(worldLocation);
                 break;
-            case KeyboardKey::LEFT:
-                position.x -= 10.0f;
-                break;
-            case KeyboardKey::RIGHT:
-                position.x += 10.0f;
-                break;
-            case KeyboardKey::SPACE:
-                _witch->setVisible(!_witch->isVisible());
-                break;
-            case KeyboardKey::RETURN:
-                Engine::getInstance()->getRenderer()->resize(Size2(640.0f, 480.0f));
-                break;
-            case KeyboardKey::TAB:
-                _button->setEnabled(!_button->isEnabled());
-                break;
+            }
             default:
                 break;
         }
         
-        _layer->getCamera()->setPosition(position);
-        
         return true;
     }
     
-    bool Application::handleMouseDown(const MouseEvent& event, const VoidPtr& sender) const
+    bool Application::handleTouch(const TouchEventPtr& event, const VoidPtr& sender) const
     {
-        Engine::getInstance()->getInput()->setCursorVisible(!Engine::getInstance()->getInput()->isCursorVisible());
-        
-        return true;
-    }
-    
-    bool Application::handleMouseMove(const MouseEvent& event, const VoidPtr& sender) const
-    {
-        Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
+        Vector2 worldLocation = _layer->screenToWorldLocation(event->position);
         _flame->setPosition(worldLocation);
         
         return true;
     }
     
-    bool Application::handleTouch(const TouchEvent& event, const VoidPtr& sender) const
+    bool Application::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender) const
     {
-        Vector2 worldLocation = _layer->screenToWorldLocation(event.position);
-        _flame->setPosition(worldLocation);
-        
-        return true;
-    }
-    
-    bool Application::handleGamepadButtonChange(const GamepadEvent& event, const VoidPtr& sender) const
-    {
-        Vector2 position = _layer->worldToScreenLocation(_flame->getPosition());
-        
-        switch (event.button)
+        if (event->type == Event::Type::GAMEPAD_BUTTON_CHANGE)
         {
-            case GamepadButton::DPAD_UP:
-            case GamepadButton::LEFT_THUMB_UP:
-            case GamepadButton::RIGHT_THUMB_UP:
-                position.y = event.value;
-                break;
-            case GamepadButton::DPAD_DOWN:
-            case GamepadButton::LEFT_THUMB_DOWN:
-            case GamepadButton::RIGHT_THUMB_DOWN:
-                position.y = -event.value;
-                break;
-            case GamepadButton::DPAD_LEFT:
-            case GamepadButton::LEFT_THUMB_LEFT:
-            case GamepadButton::RIGHT_THUMB_LEFT:
-                position.x = -event.value;
-                break;
-            case GamepadButton::DPAD_RIGHT:
-            case GamepadButton::LEFT_THUMB_RIGHT:
-            case GamepadButton::RIGHT_THUMB_RIGHT:
-                position.x = event.value;
-                break;
-            case GamepadButton::A:
-                _witch->setVisible(!event.pressed);
-                break;
-            default:
-                break;
+            Vector2 position = _layer->worldToScreenLocation(_flame->getPosition());
+            
+            switch (event->button)
+            {
+                case GamepadButton::DPAD_UP:
+                case GamepadButton::LEFT_THUMB_UP:
+                case GamepadButton::RIGHT_THUMB_UP:
+                    position.y = event->value;
+                    break;
+                case GamepadButton::DPAD_DOWN:
+                case GamepadButton::LEFT_THUMB_DOWN:
+                case GamepadButton::RIGHT_THUMB_DOWN:
+                    position.y = -event->value;
+                    break;
+                case GamepadButton::DPAD_LEFT:
+                case GamepadButton::LEFT_THUMB_LEFT:
+                case GamepadButton::RIGHT_THUMB_LEFT:
+                    position.x = -event->value;
+                    break;
+                case GamepadButton::DPAD_RIGHT:
+                case GamepadButton::LEFT_THUMB_RIGHT:
+                case GamepadButton::RIGHT_THUMB_RIGHT:
+                    position.x = event->value;
+                    break;
+                case GamepadButton::A:
+                    _witch->setVisible(!event->pressed);
+                    break;
+                default:
+                    break;
+            }
+            
+            Vector2 worldLocation = _layer->screenToWorldLocation(position);
+            _flame->setPosition(worldLocation);
         }
-        
-        Vector2 worldLocation = _layer->screenToWorldLocation(position);
-        _flame->setPosition(worldLocation);
         
         return true;
     }

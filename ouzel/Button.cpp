@@ -38,13 +38,9 @@ namespace ouzel
     {
         _eventHandler = std::make_shared<EventHandler>();
         
-        _eventHandler->mouseDownHandler = std::bind(&Button::handleMouseDown, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->mouseUpHandler = std::bind(&Button::handleMouseUp, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->mouseMoveHandler = std::bind(&Button::handleMouseMove, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->touchBeginHandler = std::bind(&Button::handleTouchBegin, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->touchMoveHandler = std::bind(&Button::handleTouchMove, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->touchEndHandler = std::bind(&Button::handleTouchEnd, this, std::placeholders::_1, std::placeholders::_2);
-        _eventHandler->gamepadButtonChangeHandler = std::bind(&Button::handleGamepadButtonChange, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->mouseHandler = std::bind(&Button::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->touchHandler = std::bind(&Button::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
         
         Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
         
@@ -103,119 +99,110 @@ namespace ouzel
         updateSprite();
     }
     
-    bool Button::handleMouseDown(const MouseEvent& event, const VoidPtr& sender)
+    bool Button::handleMouse(const MouseEventPtr& event, const VoidPtr& sender)
     {
-        OUZEL_UNUSED(event);
-        OUZEL_UNUSED(sender);
-        
-        if (!_enabled) return true;
-            
-        if (_pointerOver)
-        {
-            _pressed = true;
-            updateSprite();
-        }
-        
-        return true;
-    }
-    
-    bool Button::handleMouseUp(const MouseEvent& event, const VoidPtr& sender)
-    {
-        OUZEL_UNUSED(event);
         OUZEL_UNUSED(sender);
         
         if (!_enabled) return true;
         
-        if (_pointerOver && _pressed)
+        switch (event->type)
         {
-            _pressed = false;
-            updateSprite();
-            
-            if (_callback)
+            case Event::Type::MOUSE_DOWN:
             {
-                _callback(shared_from_this());
+                if (_pointerOver)
+                {
+                    _pressed = true;
+                    updateSprite();
+                }
+                break;
             }
-        }
-        
-        return true;
-    }
-    
-    bool Button::handleMouseMove(const MouseEvent& event, const VoidPtr& sender)
-    {
-        OUZEL_UNUSED(sender);
-        
-        if (!_enabled) return true;
-        
-        if (LayerPtr layer = _layer.lock())
-        {
-            Vector2 worldLocation = layer->screenToWorldLocation(event.position);
-            checkPointer(worldLocation);
-            updateSprite();
-        }
-        
-        return true;
-    }
-    
-    bool Button::handleTouchBegin(const TouchEvent& event, const VoidPtr& sender)
-    {
-        OUZEL_UNUSED(sender);
-        
-        if (!_enabled) return true;
-        
-        if (LayerPtr layer = _layer.lock())
-        {
-            Vector2 worldLocation = layer->screenToWorldLocation(event.position);
-            checkPointer(worldLocation);
-            
-            if (_pointerOver)
+            case Event::Type::MOUSE_UP:
             {
-                _pressed = true;
+                if (_pointerOver && _pressed)
+                {
+                    _pressed = false;
+                    updateSprite();
+                    
+                    if (_callback)
+                    {
+                        _callback(shared_from_this());
+                    }
+                }
+                break;
             }
-            
-            updateSprite();
-        }
-        
-        return true;
-    }
-    
-    bool Button::handleTouchMove(const TouchEvent& event, const VoidPtr& sender)
-    {
-        OUZEL_UNUSED(sender);
-        
-        if (!_enabled) return true;
-        
-        if (LayerPtr layer = _layer.lock())
-        {
-            Vector2 worldLocation = layer->screenToWorldLocation(event.position);
-            checkPointer(worldLocation);
-            updateSprite();
-        }
-        
-        return true;
-    }
-    
-    bool Button::handleTouchEnd(const TouchEvent& event, const VoidPtr& sender)
-    {
-        OUZEL_UNUSED(event);
-        OUZEL_UNUSED(sender);
-        
-        if (!_enabled) return true;
-        
-        if (_pointerOver && _pressed)
-        {
-            if (_callback)
+            case Event::Type::MOUSE_MOVE:
             {
-                _callback(shared_from_this());
+                if (LayerPtr layer = _layer.lock())
+                {
+                    Vector2 worldLocation = layer->screenToWorldLocation(event->position);
+                    checkPointer(worldLocation);
+                    updateSprite();
+                }
+                break;
             }
+            default:
+                break;
         }
-        
-        _pressed = false;
-        updateSprite();
         
         return true;
     }
     
-    bool Button::handleGamepadButtonChange(const GamepadEvent& event, const VoidPtr& sender)
+    bool Button::handleTouch(const TouchEventPtr& event, const VoidPtr& sender)
+    {
+        OUZEL_UNUSED(sender);
+        
+        if (!_enabled) return true;
+        
+        switch (event->type)
+        {
+            case Event::Type::TOUCH_BEGIN:
+            {
+                if (LayerPtr layer = _layer.lock())
+                {
+                    Vector2 worldLocation = layer->screenToWorldLocation(event->position);
+                    checkPointer(worldLocation);
+                    
+                    if (_pointerOver)
+                    {
+                        _pressed = true;
+                    }
+                    
+                    updateSprite();
+                }
+                break;
+            }
+            case Event::Type::TOUCH_MOVE:
+            {
+                if (LayerPtr layer = _layer.lock())
+                {
+                    Vector2 worldLocation = layer->screenToWorldLocation(event->position);
+                    checkPointer(worldLocation);
+                    updateSprite();
+                }
+                break;
+            }
+            case Event::Type::TOUCH_END:
+            {
+                if (_pointerOver && _pressed)
+                {
+                    if (_callback)
+                    {
+                        _callback(shared_from_this());
+                    }
+                }
+                
+                _pressed = false;
+                updateSprite();
+                break;
+            }
+            default:
+                break;
+        }
+        
+        return true;
+    }
+    
+    bool Button::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender)
     {
         OUZEL_UNUSED(event);
         OUZEL_UNUSED(sender);

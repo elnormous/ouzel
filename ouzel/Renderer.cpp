@@ -52,12 +52,12 @@ namespace ouzel
             _size = size;
             Engine::getInstance()->getSceneManager()->recalculateProjection();
             
-            WindowEvent event;
-            event.type = Event::Type::WINDOW_SIZE_CHANGE;
-            event.size = _size;
-            event.title = _title;
+            WindowEventPtr event = std::make_shared<WindowEvent>();
+            event->type = Event::Type::WINDOW_SIZE_CHANGE;
+            event->size = _size;
+            event->title = _title;
             
-            Engine::getInstance()->getEventDispatcher()->dispatchWindowSizeChangeEvent(event, Engine::getInstance()->getRenderer());
+            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getRenderer());
         }
     }
     
@@ -67,12 +67,12 @@ namespace ouzel
         {
             _title = title;
             
-            WindowEvent event;
-            event.type = Event::Type::WINDOW_TITLE_CHANGE;
-            event.size = _size;
-            event.title = _title;
+            WindowEventPtr event = std::make_shared<WindowEvent>();
+            event->type = Event::Type::WINDOW_TITLE_CHANGE;
+            event->size = _size;
+            event->title = _title;
             
-            Engine::getInstance()->getEventDispatcher()->dispatchWindowTitleChangeEvent(event, Engine::getInstance()->getRenderer());
+            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getRenderer());
         }
     }
     
