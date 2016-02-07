@@ -4,12 +4,9 @@
 #include <Cocoa/Cocoa.h>
 #include <CoreVideo/CoreVideo.h>
 
-@interface OpenGLView : NSView
+@interface OpenGLView : NSOpenGLView
 {
-@private
-    NSOpenGLContext* _openGLContext;
-    NSOpenGLPixelFormat* _pixelFormat;
-    
+@private    
     CVDisplayLinkRef _displayLink;
     BOOL _running;
     BOOL _resized;
@@ -21,13 +18,6 @@
 -(void)close;
 
 -(void)draw;
-
--(void)setOpenGLContext:(NSOpenGLContext*)context;
--(NSOpenGLContext*)openGLContext;
--(void)clearGLContext;
-
--(void)setPixelFormat:(NSOpenGLPixelFormat*)pixelFormat;
--(NSOpenGLPixelFormat*)pixelFormat;
 
 // input
 -(BOOL)acceptsFirstResponder;
