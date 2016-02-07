@@ -171,6 +171,7 @@ namespace ouzel
     void Layer::recalculateProjection()
     {
         Size2 size = Engine::getInstance()->getRenderer()->getSize();
+        Size2 transformedSize = size;
         
         if (_designSize.width != 0.0f && _designSize.height != 0.0f &&
             size.width != 0.0f && size.height != 0.0f)
@@ -186,21 +187,21 @@ namespace ouzel
                 }
                 case ScaleMode::ExactFit:
                 {
-                    size.width = _designSize.width;
-                    size.height = _designSize.height;
+                    transformedSize.width = _designSize.width;
+                    transformedSize.height = _designSize.height;
                     break;
                 }
                 case ScaleMode::NoBorder:
                 {
                     if (size.width / size.height > _designSize.width / _designSize.height)
                     {
-                        size.width = _designSize.width;
-                        size.height = _designSize.width / aspectRatio;
+                        transformedSize.width = _designSize.width;
+                        transformedSize.height = _designSize.width / aspectRatio;
                     }
                     else
                     {
-                        size.width = _designSize.height * aspectRatio;
-                        size.height = _designSize.height;
+                        transformedSize.width = _designSize.height * aspectRatio;
+                        transformedSize.height = _designSize.height;
                     }
                     break;
                 }
@@ -208,20 +209,22 @@ namespace ouzel
                 {
                     if (size.width / size.height < _designSize.width / _designSize.height)
                     {
-                        size.width = _designSize.width;
-                        size.height = _designSize.width / aspectRatio;
+                        transformedSize.width = _designSize.width;
+                        transformedSize.height = _designSize.width / aspectRatio;
                     }
                     else
                     {
-                        size.width = _designSize.height * aspectRatio;
-                        size.height = _designSize.height;
+                        transformedSize.width = _designSize.height * aspectRatio;
+                        transformedSize.height = _designSize.height;
                     }
                     break;
                 }
             }
         }
         
-        Matrix4::createOrthographic(size.width, size.height, -1.0f, 1.0f, _projection);
+        _designScale = Vector2(size.width / transformedSize.width, size.height / transformedSize.height);
+        
+        Matrix4::createOrthographic(transformedSize.width, transformedSize.height, -1.0f, 1.0f, _projection);
         _inverseProjection = _projection;
         _inverseProjection.invert();
     }

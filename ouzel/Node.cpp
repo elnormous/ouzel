@@ -374,17 +374,20 @@ namespace ouzel
                 return true;
             }
             
-            Matrix4 mvp = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
+            Matrix4 worldView = layer->getCamera()->getTransform() * _transform;
+            Matrix4 mvp = layer->getProjection() * worldView;
             
             Vector3 position;
-            
             mvp.transformPoint(position);
             
-            float radius = _boundingRadius * std::max(_scale.x, _scale.y);
-            radius /= layer->getCamera()->getZoom();
+            Vector2 scale(Vector3(worldView.m[0], worldView.m[4], worldView.m[8]).length(),
+                          Vector3(worldView.m[1], worldView.m[5], worldView.m[9]).length());
             
-            Vector2 radiusAxis(radius / (2.0f * Engine::getInstance()->getRenderer()->getSize().width - 1.0f),
-                               radius / (2.0f * Engine::getInstance()->getRenderer()->getSize().height - 1.0f));
+            Vector2 radius(_boundingRadius * scale.x * layer->getDesignScale().x,
+                           _boundingRadius * scale.y * layer->getDesignScale().y);
+            
+            Vector2 radiusAxis(2.0f * radius.x / Engine::getInstance()->getRenderer()->getSize().width,
+                               2.0f * radius.y / Engine::getInstance()->getRenderer()->getSize().height);
             
             if (position.x >= -(1.0f + radiusAxis.x) && position.x <= (1.0f + radiusAxis.x) && position.y >= -(1.0f + radiusAxis.y) && position.y <= (1.0f + radiusAxis.y))
             {

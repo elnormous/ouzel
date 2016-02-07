@@ -54,6 +54,7 @@ namespace ouzel
         
         virtual void setDesignSize(const Size2& designSize);
         virtual const Size2& getDesignSize() const { return _designSize; }
+        virtual const Vector2& getDesignScale() const { return _designScale; }
         
         const Matrix4& getProjection() const { return _projection; }
         virtual void recalculateProjection();
@@ -73,6 +74,7 @@ namespace ouzel
         
         ScaleMode _scaleMode = ScaleMode::None;
         Size2 _designSize;
+        Vector2 _designScale;
         
         Matrix4 _projection;
         Matrix4 _inverseProjection;

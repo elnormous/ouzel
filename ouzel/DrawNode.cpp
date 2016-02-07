@@ -71,7 +71,11 @@ namespace ouzel
         _drawCommands.push_back(command);
         
         _boundingBox.insertPoint(position);
-        _boundingRadius = (_boundingBox.max - _boundingBox.min).length();
+        
+        Vector2 halfSize(std::max(fabsf(_boundingBox.max.x), fabsf(_boundingBox.min.x)),
+                         std::max(fabsf(_boundingBox.max.y), fabsf(_boundingBox.min.y)));
+        
+        _boundingRadius = halfSize.length();
     }
     
     void DrawNode::line(const Vector2& start, const Vector2& finish, const Color& color)
@@ -96,7 +100,11 @@ namespace ouzel
         
         _boundingBox.insertPoint(start);
         _boundingBox.insertPoint(finish);
-        _boundingRadius = (_boundingBox.max - _boundingBox.min).length();
+        
+        Vector2 halfSize(std::max(fabsf(_boundingBox.max.x), fabsf(_boundingBox.min.x)),
+                         std::max(fabsf(_boundingBox.max.y), fabsf(_boundingBox.min.y)));
+        
+        _boundingRadius = halfSize.length();
     }
     
     void DrawNode::circle(const Vector2& position, float radius, const Color& color, bool fill, uint32_t segments)
@@ -159,7 +167,11 @@ namespace ouzel
         
         _boundingBox.insertPoint(Vector2(position.x - radius, position.y - radius));
         _boundingBox.insertPoint(Vector2(position.x + radius, position.y + radius));
-        _boundingRadius = (_boundingBox.max - _boundingBox.min).length();
+        
+        Vector2 halfSize(std::max(fabsf(_boundingBox.max.x), fabsf(_boundingBox.min.x)),
+                         std::max(fabsf(_boundingBox.max.y), fabsf(_boundingBox.min.y)));
+        
+        _boundingRadius = halfSize.length();
     }
     
     void DrawNode::rectangle(const Rectangle& rectangle, const Color& color, bool fill)
@@ -196,6 +208,10 @@ namespace ouzel
         
         _boundingBox.insertPoint(Vector2(rectangle.x, rectangle.y));
         _boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
-        _boundingRadius = (_boundingBox.max - _boundingBox.min).length();
+        
+        Vector2 halfSize(std::max(fabsf(_boundingBox.max.x), fabsf(_boundingBox.min.x)),
+                         std::max(fabsf(_boundingBox.max.y), fabsf(_boundingBox.min.y)));
+        
+        _boundingRadius = halfSize.length();
     }
 }
