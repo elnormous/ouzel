@@ -5,7 +5,7 @@
 
 @class OpenGLView;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 {
     OpenGLView* _openGLView;
 }

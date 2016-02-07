@@ -103,7 +103,6 @@ using namespace ouzel;
     [_openGLContext makeCurrentContext];
     
     CVDisplayLinkStop(_displayLink);
-    ouzel::Engine::getInstance()->end();
     
     CGLUnlockContext([_openGLContext CGLContextObj]);
 }

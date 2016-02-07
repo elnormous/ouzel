@@ -36,6 +36,7 @@
     
     _window.backgroundColor = [NSColor blackColor];
     _window.acceptsMouseMovedEvents = YES;
+    _window.delegate = self;
     [_window setBackgroundColor:[NSColor blueColor]];
     
     [_window setTitle:[NSString stringWithUTF8String:ouzel::Engine::getInstance()->getRenderer()->getTitle().c_str()]];
@@ -86,12 +87,17 @@
 
 -(void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    [_openGLView close];
+    ouzel::Engine::getInstance()->end();
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
 {
     return YES;
+}
+
+-(void)windowWillClose:(NSNotification *)notification
+{
+    [_openGLView close];
 }
 
 @end
