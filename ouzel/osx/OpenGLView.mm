@@ -13,7 +13,7 @@ static CVReturn renderCallback(CVDisplayLinkRef displayLink,
                                CVOptionFlags *flagsOut,
                                void *displayLinkContext)
 {
-    [(__bridge OpenGLView*)displayLinkContext setNeedsDisplay:YES];
+    [(__bridge OpenGLView*)displayLinkContext draw];
     
     return kCVReturnSuccess;
 }
@@ -85,16 +85,14 @@ using namespace ouzel;
 
 -(void)setFrameSize:(NSSize)newSize
 {
-    [super setFrameSize:newSize];
+    CGLLockContext([_openGLContext CGLContextObj]);
     
-    [self update];
-}
-
--(void)update
-{
+    [super setFrameSize:newSize];
     Engine::getInstance()->getRenderer()->resize(Size2(_frame.size.width, _frame.size.height));
     
     [_openGLContext update];
+    
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)lockFocus
@@ -122,17 +120,18 @@ using namespace ouzel;
     CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_displayLink, [_openGLContext CGLContextObj], [_pixelFormat CGLPixelFormatObj]);
     
     CVDisplayLinkStart(_displayLink);
-    
     _running = YES;
 }
 
--(void)drawRect:(NSRect)bounds
+-(void)draw
 {
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     
     Engine::getInstance()->run();
-    
     [_openGLContext flushBuffer];
+    
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)setOpenGLContext:(NSOpenGLContext*)context
@@ -443,15 +442,21 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 -(void)keyDown:(NSEvent*)theEvent
 {
     if (!_running) return;
+    
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->keyDown(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)keyUp:(NSEvent*)theEvent
 {
     if (!_running) return;
+    
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->keyUp(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)mouseDown:(NSEvent*)theEvent
@@ -459,10 +464,12 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseDown(MouseButton::LEFT,
                                                  Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)mouseUp:(NSEvent*)theEvent
@@ -470,10 +477,12 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseUp(MouseButton::LEFT,
                                                Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)rightMouseDown:(NSEvent*)theEvent
@@ -481,10 +490,12 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseDown(MouseButton::RIGHT,
                                                  Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)rightMouseUp:(NSEvent*)theEvent
@@ -492,10 +503,12 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseUp(MouseButton::RIGHT,
                                                Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)otherMouseDown:(NSEvent*)theEvent
@@ -503,10 +516,12 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseDown(MouseButton::MIDDLE,
                                                  Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)otherMouseUp:(NSEvent*)theEvent
@@ -514,10 +529,12 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseUp(MouseButton::MIDDLE,
                                                Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)mouseMoved:(NSEvent*)theEvent
@@ -526,9 +543,11 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)mouseDragged:(NSEvent*)theEvent
@@ -536,9 +555,11 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent, true));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)rightMouseDragged:(NSEvent*)theEvent
@@ -546,9 +567,11 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent, true));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)otherMouseDragged:(NSEvent*)theEvent
@@ -556,9 +579,11 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                  getModifiers(theEvent, true));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)scrollWheel:(NSEvent*)theEvent
@@ -566,10 +591,12 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
+    CGLLockContext([_openGLContext CGLContextObj]);
     [self makeContextCurrent];
     Engine::getInstance()->getInput()->mouseScroll(Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY),
                                                    Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
                                                    getModifiers(theEvent));
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)swipeWithEvent:(NSEvent*)theEvent

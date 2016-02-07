@@ -16,11 +16,9 @@
 
 -(id)initWithFrame:(NSRect)frameRect;
 
--(void)update;
-
 -(void)prepareOpenGL;
 
--(void)drawRect:(NSRect)bounds;
+-(void)draw;
 
 -(void)setOpenGLContext:(NSOpenGLContext*)context;
 -(NSOpenGLContext*)openGLContext;
