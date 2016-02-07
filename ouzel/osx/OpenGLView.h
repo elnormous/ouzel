@@ -12,6 +12,7 @@
     
     CVDisplayLinkRef _displayLink;
     BOOL _running;
+    BOOL _resized;
 }
 
 -(id)initWithFrame:(NSRect)frameRect;

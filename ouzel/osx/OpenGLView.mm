@@ -28,6 +28,8 @@ using namespace ouzel;
     if (self != nil)
     {
         _running = NO;
+        _resized = NO;
+        
         // Create pixel format
         NSOpenGLPixelFormatAttribute attributes[] =
         {
@@ -114,14 +116,9 @@ using namespace ouzel;
 
 -(void)setFrameSize:(NSSize)newSize
 {
-    CGLLockContext([_openGLContext CGLContextObj]);
-    
     [super setFrameSize:newSize];
-    Engine::getInstance()->getRenderer()->resize(Size2(_frame.size.width, _frame.size.height));
     
-    [_openGLContext update];
-    
-    CGLUnlockContext([_openGLContext CGLContextObj]);
+    _resized = YES;
 }
 
 -(void)lockFocus
@@ -139,6 +136,13 @@ using namespace ouzel;
 {
     CGLLockContext([_openGLContext CGLContextObj]);
     [_openGLContext makeCurrentContext];
+    
+    if (_resized)
+    {
+        _resized = NO;
+        Engine::getInstance()->getRenderer()->resize(Size2(_frame.size.width, _frame.size.height));
+        [_openGLContext update];
+    }
     
     Engine::getInstance()->run();
     [_openGLContext flushBuffer];
