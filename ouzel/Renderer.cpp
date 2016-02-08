@@ -221,7 +221,6 @@ namespace ouzel
     
     bool Renderer::checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const CameraPtr& camera)
     {
-        // TODO: do calculations for different scale modes
         Rectangle visiableRect(0.0f, 0.0f, _size.width, _size.height);
         
         // transform center point to screen space
@@ -229,6 +228,8 @@ namespace ouzel
         
         Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
         diff *= camera->getZoom();
+        diff.x *= camera->getContentScale().x;
+        diff.y *= camera->getContentScale().y;
         
         transform.transformPoint(v3p);
         
