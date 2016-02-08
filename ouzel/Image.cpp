@@ -40,7 +40,7 @@ namespace ouzel
         
         if (!_data)
         {
-            log("Failed to open texture file %s", filename.c_str());
+            log("Failed to open texture file %s, reason: %s", filename.c_str(), stbi_failure_reason());
             return false;
         }
         
