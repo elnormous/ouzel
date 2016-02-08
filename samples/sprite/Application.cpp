@@ -39,10 +39,10 @@ namespace ouzel
         ScenePtr scene = make_shared<Scene>();
         Engine::getInstance()->getSceneManager()->setScene(scene);
         
-        _layer = make_shared<Layer>();
+        _layer = Layer::create();
         scene->addLayer(_layer);
         
-        _uiLayer = make_shared<Layer>();
+        _uiLayer = Layer::create();
         scene->addLayer(_uiLayer);
         
         DrawNodePtr drawNode = std::make_shared<DrawNode>();
@@ -153,7 +153,7 @@ namespace ouzel
             }
             case Event::Type::MOUSE_MOVE:
             {
-                Vector2 worldLocation = _layer->screenToWorldLocation(event->position);
+                Vector2 worldLocation = _layer->getCamera()->screenToWorldLocation(event->position);
                 _flame->setPosition(worldLocation);
                 break;
             }
@@ -166,7 +166,7 @@ namespace ouzel
     
     bool Application::handleTouch(const TouchEventPtr& event, const VoidPtr& sender) const
     {
-        Vector2 worldLocation = _layer->screenToWorldLocation(event->position);
+        Vector2 worldLocation = _layer->getCamera()->screenToWorldLocation(event->position);
         _flame->setPosition(worldLocation);
         
         return true;
@@ -176,7 +176,7 @@ namespace ouzel
     {
         if (event->type == Event::Type::GAMEPAD_BUTTON_CHANGE)
         {
-            Vector2 position = _layer->worldToScreenLocation(_flame->getPosition());
+            Vector2 position = _layer->getCamera()->worldToScreenLocation(_flame->getPosition());
             
             switch (event->button)
             {
@@ -207,7 +207,7 @@ namespace ouzel
                     break;
             }
             
-            Vector2 worldLocation = _layer->screenToWorldLocation(position);
+            Vector2 worldLocation = _layer->getCamera()->screenToWorldLocation(position);
             _flame->setPosition(worldLocation);
         }
         

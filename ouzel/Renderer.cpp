@@ -219,6 +219,37 @@ namespace ouzel
         return Vector2(x, y);
     }
     
+    bool Renderer::checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const CameraPtr& camera)
+    {
+        Rectangle visiableRect(0.0f, 0.0f, _size.width, _size.height);
+        
+        // transform center point to screen space
+        Vector2 diff = boundingBox.max - boundingBox.min;
+        
+        Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
+        diff *= camera->getZoom();
+        
+        transform.transformPoint(v3p);
+        
+        Vector2 v2p = camera->projectPoint(v3p);
+        
+        Size2 hSize(diff.x / 2.0f, diff.y / 2.0f);
+        
+        // convert content size to world coordinates
+        Size2 hWorldSize;
+        
+        hWorldSize.width = std::max(fabsf(hSize.width * transform.m[0] + hSize.height * transform.m[4]), fabsf(hSize.width * transform.m[0] - hSize.height * transform.m[4]));
+        hWorldSize.height = std::max(fabsf(hSize.width * transform.m[1] + hSize.height * transform.m[5]), fabsf(hSize.width * transform.m[1] - hSize.height * transform.m[5]));
+        
+        // enlarge visible rect half size in screen coord
+        visiableRect.x -= hWorldSize.width;
+        visiableRect.y -= hWorldSize.height;
+        visiableRect.width += hWorldSize.width * 2.0f;
+        visiableRect.height += hWorldSize.height * 2.0f;
+        
+        return visiableRect.containsPoint(v2p);
+    }
+    
     bool Renderer::saveScreenshot(const std::string& filename)
     {
         OUZEL_UNUSED(filename);

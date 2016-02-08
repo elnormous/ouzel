@@ -154,9 +154,9 @@ public:
      * 
      * @return true if the rectangle contains the point, false otherwise.
      */
-    bool containPoint(float x, float y) const;
+    bool containsPoint(float x, float y) const;
     
-    bool containPoint(const Vector2& point) const;
+    bool containsPoint(const Vector2& point) const;
 
     /**
      * Determines whether this rectangle contains a specified rectangle.

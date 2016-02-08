@@ -448,6 +448,15 @@ namespace ouzel
         {
             return Vector4(this->x / x, this->y / x, this->z / x, this->w / x);
         }
+        
+        inline Vector4& operator/=(float scalar)
+        {
+            x /= scalar;
+            y /= scalar;
+            z /= scalar;
+            w /= scalar;
+            return *this;
+        }
 
         /**
          * Determines if this vector is less than the given vector.

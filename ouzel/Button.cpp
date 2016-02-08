@@ -8,6 +8,7 @@
 #include "EventHander.h"
 #include "EventDispatcher.h"
 #include "Layer.h"
+#include "Camera.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -134,7 +135,7 @@ namespace ouzel
             {
                 if (LayerPtr layer = _layer.lock())
                 {
-                    Vector2 worldLocation = layer->screenToWorldLocation(event->position);
+                    Vector2 worldLocation = layer->getCamera()->screenToWorldLocation(event->position);
                     checkPointer(worldLocation);
                     updateSprite();
                 }
@@ -159,7 +160,7 @@ namespace ouzel
             {
                 if (LayerPtr layer = _layer.lock())
                 {
-                    Vector2 worldLocation = layer->screenToWorldLocation(event->position);
+                    Vector2 worldLocation = layer->getCamera()->screenToWorldLocation(event->position);
                     checkPointer(worldLocation);
                     
                     if (_pointerOver)
@@ -175,7 +176,7 @@ namespace ouzel
             {
                 if (LayerPtr layer = _layer.lock())
                 {
-                    Vector2 worldLocation = layer->screenToWorldLocation(event->position);
+                    Vector2 worldLocation = layer->getCamera()->screenToWorldLocation(event->position);
                     checkPointer(worldLocation);
                     updateSprite();
                 }

@@ -439,6 +439,13 @@ namespace ouzel
         {
             return Vector2(x / scalar, y / scalar);
         }
+        
+        inline Vector2& operator/=(float scalar)
+        {
+            x /= scalar;
+            y /= scalar;
+            return *this;
+        }
 
         /**
          * Determines if this vector is less than the given vector.

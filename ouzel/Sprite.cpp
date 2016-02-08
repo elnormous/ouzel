@@ -74,7 +74,6 @@ namespace ouzel
         
         _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
                          Vector2(_size.width / 2.0f, _size.height / 2.0f));
-        _boundingRadius = Vector2(_size.width / 2.0f, _size.height / 2.0f).length();
         
         _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
         
@@ -256,7 +255,7 @@ namespace ouzel
             Engine::getInstance()->getRenderer()->activateTexture(_texture, 0);
             Engine::getInstance()->getRenderer()->activateShader(_shader);
             
-            Matrix4 modelViewProj = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
+            Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
             
             _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
             

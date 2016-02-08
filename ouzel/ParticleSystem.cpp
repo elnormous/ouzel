@@ -68,11 +68,11 @@ namespace ouzel
             
             if (_positionType == PositionType::FREE || _positionType == PositionType::RELATIVE)
             {
-                transform = layer->getProjection() * layer->getCamera()->getTransform();
+                transform = layer->getCamera()->getViewProjection();
             }
             else if (_positionType == PositionType::GROUPED)
             {
-                transform = layer->getProjection() * layer->getCamera()->getTransform() * getTransform();
+                transform = layer->getCamera()->getViewProjection() * getTransform();
             }
             
             _shader->setVertexShaderConstant(_uniModelViewProj, { transform });
@@ -113,8 +113,6 @@ namespace ouzel
                     return;
                 }
             }
-            
-            _boundingBox.reset();
             
             for (int32_t i = _particleCount - 1; i >= 0; --i)
             {
@@ -179,9 +177,6 @@ namespace ouzel
                     
                     //angle
                     _particles[i].rotation += _particles[i].deltaRotation * delta;
-                    
-                    _boundingBox.insertPoint(_particles[i].position - Vector2(_particles[i].size, _particles[i].size));
-                    _boundingBox.insertPoint(_particles[i].position + Vector2(_particles[i].size, _particles[i].size));
                 }
                 else
                 {

@@ -12,14 +12,34 @@
 
 namespace ouzel
 {
+    std::shared_ptr<Layer> Layer::create()
+    {
+        std::shared_ptr<Layer> result = std::make_shared<Layer>();
+        
+        if (!result->init())
+        {
+            result.reset();
+        }
+        
+        return result;
+    }
+    
     Layer::Layer()
     {
-        _camera = std::make_shared<Camera>();
+        
     }
     
     Layer::~Layer()
     {
         
+    }
+    
+    bool Layer::init()
+    {
+        _camera = std::make_shared<Camera>();
+        _camera->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
+        
+        return true;
     }
     
     void Layer::update(float delta)
@@ -88,42 +108,6 @@ namespace ouzel
         _camera = camera;
     }
     
-    Vector2 Layer::screenToWorldLocation(const Vector2& position)
-    {
-        if (_camera)
-        {
-            Matrix4 projViewMatrix = _projection * _camera->getTransform();
-            Matrix4 inverseViewMatrix = projViewMatrix;
-            inverseViewMatrix.invert();
-            
-            Vector3 result = Vector3(position.x, position.y, 0.0f);
-            inverseViewMatrix.transformPoint(result);
-            
-            return Vector2(result.x, result.y);
-        }
-        else
-        {
-            return Vector2();
-        }
-    }
-    
-    Vector2 Layer::worldToScreenLocation(const Vector2& position)
-    {
-        if (_camera)
-        {
-            Matrix4 projViewMatrix = _projection * _camera->getTransform();
-            
-            Vector3 result = Vector3(position.x, position.y, 0.0f);
-            projViewMatrix.transformPoint(result);
-            
-            return Vector2(result.x, result.y);
-        }
-        else
-        {
-            return Vector2();
-        }
-    }
-    
     NodePtr Layer::pickNode(const Vector2& position)
     {
         for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
@@ -154,79 +138,6 @@ namespace ouzel
         }
         
         return result;
-    }
-    
-    void Layer::setScaleMode(ScaleMode scaleMode)
-    {
-        _scaleMode = scaleMode;
-        recalculateProjection();
-    }
-    
-    void Layer::setDesignSize(const Size2& designSize)
-    {
-        _designSize = designSize;
-        recalculateProjection();
-    }
-    
-    void Layer::recalculateProjection()
-    {
-        Size2 size = Engine::getInstance()->getRenderer()->getSize();
-        Size2 transformedSize = size;
-        
-        if (_designSize.width != 0.0f && _designSize.height != 0.0f &&
-            size.width != 0.0f && size.height != 0.0f)
-        {
-            float aspectRatio = size.width / size.height;
-            
-            switch (_scaleMode)
-            {
-                case ScaleMode::None:
-                {
-                    // Do nothing
-                    break;
-                }
-                case ScaleMode::ExactFit:
-                {
-                    transformedSize.width = _designSize.width;
-                    transformedSize.height = _designSize.height;
-                    break;
-                }
-                case ScaleMode::NoBorder:
-                {
-                    if (size.width / size.height > _designSize.width / _designSize.height)
-                    {
-                        transformedSize.width = _designSize.width;
-                        transformedSize.height = _designSize.width / aspectRatio;
-                    }
-                    else
-                    {
-                        transformedSize.width = _designSize.height * aspectRatio;
-                        transformedSize.height = _designSize.height;
-                    }
-                    break;
-                }
-                case ScaleMode::ShowAll:
-                {
-                    if (size.width / size.height < _designSize.width / _designSize.height)
-                    {
-                        transformedSize.width = _designSize.width;
-                        transformedSize.height = _designSize.width / aspectRatio;
-                    }
-                    else
-                    {
-                        transformedSize.width = _designSize.height * aspectRatio;
-                        transformedSize.height = _designSize.height;
-                    }
-                    break;
-                }
-            }
-        }
-        
-        _designScale = Vector2(size.width / transformedSize.width, size.height / transformedSize.height);
-        
-        Matrix4::createOrthographic(transformedSize.width, transformedSize.height, -1.0f, 1.0f, _projection);
-        _inverseProjection = _projection;
-        _inverseProjection.invert();
     }
     
     void Layer::setOrder(int32_t order)

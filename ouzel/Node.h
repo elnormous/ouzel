@@ -66,7 +66,6 @@ namespace ouzel
         virtual bool isVisible() const { return _visible; }
         
         virtual const AABB2& getBoundingBox() const { return _boundingBox; }
-        virtual float getBoundingRadius() const { return _boundingRadius; }
         
         virtual bool pointOn(const Vector2& position) const;
         virtual bool rectangleOverlaps(const Rectangle& rectangle) const;
@@ -113,7 +112,6 @@ namespace ouzel
         bool _globalOrder = true;
         
         AABB2 _boundingBox;
-        float _boundingRadius = 0.0f;
         
         bool _flipX = false;
         bool _flipY = false;

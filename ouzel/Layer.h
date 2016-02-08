@@ -21,17 +21,12 @@ namespace ouzel
     {
         friend Scene;
     public:
-        
-        enum class ScaleMode
-        {
-            None,
-            ExactFit,
-            NoBorder,
-            ShowAll
-        };
+        static std::shared_ptr<Layer> create();
         
         Layer();
         virtual ~Layer();
+        
+        virtual bool init();
         
         virtual void update(float delta);
         virtual void draw();
@@ -46,19 +41,6 @@ namespace ouzel
         NodePtr pickNode(const Vector2& position);
         std::set<NodePtr> pickNodes(const Rectangle& rectangle);
         
-        Vector2 screenToWorldLocation(const Vector2& position);
-        Vector2 worldToScreenLocation(const Vector2& position);
-        
-        virtual void setScaleMode(ScaleMode scaleMode);
-        virtual ScaleMode getScaleMode() const { return _scaleMode; }
-        
-        virtual void setDesignSize(const Size2& designSize);
-        virtual const Size2& getDesignSize() const { return _designSize; }
-        virtual const Vector2& getDesignScale() const { return _designScale; }
-        
-        const Matrix4& getProjection() const { return _projection; }
-        virtual void recalculateProjection();
-        
         int32_t getOrder() const { return _order; }
         void setOrder(int32_t order);
         
@@ -71,13 +53,6 @@ namespace ouzel
         CameraPtr _camera;
         std::vector<NodePtr> _drawQueue;
         bool _reorderNodes = false;
-        
-        ScaleMode _scaleMode = ScaleMode::None;
-        Size2 _designSize;
-        Vector2 _designScale;
-        
-        Matrix4 _projection;
-        Matrix4 _inverseProjection;
         
         SceneWeakPtr _scene;
         int32_t _order = 0;

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Scene.h"
 #include "Layer.h"
+#include "Camera.h"
 
 namespace ouzel
 {
@@ -60,8 +61,11 @@ namespace ouzel
         {
             _layers.push_back(layer);
             layer->addToScene(shared_from_this());
-            layer->recalculateProjection();
             
+            if (CameraPtr camera = layer->getCamera())
+            {
+                camera->recalculateProjection();
+            }
         }
     }
     
@@ -94,7 +98,10 @@ namespace ouzel
     {
         for (LayerPtr layer : _layers)
         {
-            layer->recalculateProjection();
+            if (CameraPtr camera = layer->getCamera())
+            {
+                camera->recalculateProjection();
+            }
         }
     }
     

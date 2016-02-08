@@ -13,6 +13,7 @@
 #include "Matrix4.h"
 #include "Size2.h"
 #include "Color.h"
+#include "AABB2.h"
 #include "Vertex.h"
 #include "Shader.h"
 
@@ -87,6 +88,7 @@ namespace ouzel
         
         Vector2 viewToScreenLocation(const Vector2& position);
         Vector2 screenToViewLocation(const Vector2& position);
+        bool checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const CameraPtr& camera);
         
         virtual bool saveScreenshot(const std::string& filename);
         

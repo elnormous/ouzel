@@ -32,7 +32,7 @@ namespace ouzel
         {
             Engine::getInstance()->getRenderer()->activateShader(_shader);
             
-            Matrix4 modelViewProj = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
+            Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
             
             _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
             
@@ -46,7 +46,6 @@ namespace ouzel
     void DrawNode::clear()
     {
         _boundingBox = AABB2();
-        _boundingRadius = 0.0f;
         
         _drawCommands.clear();
     }
@@ -71,11 +70,6 @@ namespace ouzel
         _drawCommands.push_back(command);
         
         _boundingBox.insertPoint(position);
-        
-        Vector2 halfSize(std::max(fabsf(_boundingBox.max.x), fabsf(_boundingBox.min.x)),
-                         std::max(fabsf(_boundingBox.max.y), fabsf(_boundingBox.min.y)));
-        
-        _boundingRadius = halfSize.length();
     }
     
     void DrawNode::line(const Vector2& start, const Vector2& finish, const Color& color)
@@ -100,11 +94,6 @@ namespace ouzel
         
         _boundingBox.insertPoint(start);
         _boundingBox.insertPoint(finish);
-        
-        Vector2 halfSize(std::max(fabsf(_boundingBox.max.x), fabsf(_boundingBox.min.x)),
-                         std::max(fabsf(_boundingBox.max.y), fabsf(_boundingBox.min.y)));
-        
-        _boundingRadius = halfSize.length();
     }
     
     void DrawNode::circle(const Vector2& position, float radius, const Color& color, bool fill, uint32_t segments)
@@ -167,11 +156,6 @@ namespace ouzel
         
         _boundingBox.insertPoint(Vector2(position.x - radius, position.y - radius));
         _boundingBox.insertPoint(Vector2(position.x + radius, position.y + radius));
-        
-        Vector2 halfSize(std::max(fabsf(_boundingBox.max.x), fabsf(_boundingBox.min.x)),
-                         std::max(fabsf(_boundingBox.max.y), fabsf(_boundingBox.min.y)));
-        
-        _boundingRadius = halfSize.length();
     }
     
     void DrawNode::rectangle(const Rectangle& rectangle, const Color& color, bool fill)
@@ -208,10 +192,5 @@ namespace ouzel
         
         _boundingBox.insertPoint(Vector2(rectangle.x, rectangle.y));
         _boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
-        
-        Vector2 halfSize(std::max(fabsf(_boundingBox.max.x), fabsf(_boundingBox.min.x)),
-                         std::max(fabsf(_boundingBox.max.y), fabsf(_boundingBox.min.y)));
-        
-        _boundingRadius = halfSize.length();
     }
 }
