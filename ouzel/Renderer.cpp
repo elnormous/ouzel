@@ -221,6 +221,7 @@ namespace ouzel
     
     bool Renderer::checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const CameraPtr& camera)
     {
+        // TODO: do calculations for different scale modes
         Rectangle visiableRect(0.0f, 0.0f, _size.width, _size.height);
         
         // transform center point to screen space
