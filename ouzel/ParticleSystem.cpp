@@ -64,31 +64,15 @@ namespace ouzel
             Engine::getInstance()->getRenderer()->activateTexture(_texture, 0);
             Engine::getInstance()->getRenderer()->activateShader(_shader);
             
-            _boundingBox.reset();
-            
             Matrix4 transform;
             
             if (_positionType == PositionType::FREE || _positionType == PositionType::RELATIVE)
             {
                 transform = layer->getCamera()->getViewProjection();
-                
-                const Matrix4& inverseTransform = getInverseTransform();
-                
-                for (int32_t i = 0; i < _particleCount; i++)
-                {
-                    Vector3 position = _particles[i].position;
-                    inverseTransform.transformPoint(position);
-                    _boundingBox.insertPoint(Vector2(position.x, position.y));
-                }
             }
             else if (_positionType == PositionType::GROUPED)
             {
                 transform = layer->getCamera()->getViewProjection() * getTransform();
-                
-                for (int32_t i = 0; i < _particleCount; i++)
-                {
-                    _boundingBox.insertPoint(_particles[i].position);
-                }
             }
             
             _shader->setVertexShaderConstant(_uniModelViewProj, { transform });
@@ -200,6 +184,29 @@ namespace ouzel
                     _particleCount--;
                 }
             }
+            
+            // Update bounding box
+            _boundingBox.reset();
+            
+            if (_positionType == PositionType::FREE || _positionType == PositionType::RELATIVE)
+            {
+                const Matrix4& inverseTransform = getInverseTransform();
+                
+                for (int32_t i = 0; i < _particleCount; i++)
+                {
+                    Vector3 position = _particles[i].position;
+                    inverseTransform.transformPoint(position);
+                    _boundingBox.insertPoint(Vector2(position.x, position.y));
+                }
+            }
+            else if (_positionType == PositionType::GROUPED)
+            {
+                for (int32_t i = 0; i < _particleCount; i++)
+                {
+                    _boundingBox.insertPoint(_particles[i].position);
+                }
+            }
+
             
             _needsMeshUpdate = true;
         }
