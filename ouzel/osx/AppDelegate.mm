@@ -48,7 +48,11 @@
         {
             case ouzel::Event::Type::WINDOW_TITLE_CHANGE:
             {
-                _window.title = [NSString stringWithCString:event->title.c_str() encoding:NSASCIIStringEncoding];
+                NSString* title = [NSString stringWithCString:event->title.c_str() encoding:NSASCIIStringEncoding];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    _window.title = title;
+                });
                 break;
             }
             case ouzel::Event::Type::WINDOW_SIZE_CHANGE:
@@ -60,7 +64,9 @@
                                    NSMakeRect(NSMinX(frame), NSMaxY(frame) - event->size.height, event->size.width, event->size.height)
                                                           styleMask:[_window styleMask]];
                 
-                [_window setFrame:newFrame display:YES animate:[_window isVisible]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_window setFrame:newFrame display:YES animate:[_window isVisible]];
+                });
                 break;
             }
             default:
