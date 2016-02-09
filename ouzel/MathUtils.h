@@ -63,6 +63,12 @@ namespace ouzel
         return (x < lo) ? lo : ((x > hi) ? hi : x);
     }
     
+    inline float mabs(float i)
+    {
+        (*reinterpret_cast<uint32_t*>(&i)) &= 0x7fffffff;
+        return i;
+    }
+    
     // Matrix3
     void addMatrix3(const float* m, float scalar, float* dst);
     

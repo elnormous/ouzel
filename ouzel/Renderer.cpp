@@ -13,6 +13,7 @@
 #include "MeshBuffer.h"
 #include "EventDispatcher.h"
 #include "RenderTarget.h"
+#include "MathUtils.h"
 
 namespace ouzel
 {
@@ -240,8 +241,8 @@ namespace ouzel
         // convert content size to world coordinates
         Size2 hWorldSize;
         
-        hWorldSize.width = std::max(fabsf(hSize.width * transform.m[0] + hSize.height * transform.m[4]), fabsf(hSize.width * transform.m[0] - hSize.height * transform.m[4]));
-        hWorldSize.height = std::max(fabsf(hSize.width * transform.m[1] + hSize.height * transform.m[5]), fabsf(hSize.width * transform.m[1] - hSize.height * transform.m[5]));
+        hWorldSize.width = std::max(mabs(hSize.width * transform.m[0] + hSize.height * transform.m[4]), mabs(hSize.width * transform.m[0] - hSize.height * transform.m[4]));
+        hWorldSize.height = std::max(mabs(hSize.width * transform.m[1] + hSize.height * transform.m[5]), mabs(hSize.width * transform.m[1] - hSize.height * transform.m[5]));
         
         // enlarge visible rect half size in screen coord
         visiableRect.x -= hWorldSize.width;
