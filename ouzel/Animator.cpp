@@ -50,7 +50,11 @@ namespace ouzel
     
     void Animator::resume()
     {
-        _running = true;
+        if (!_running)
+        {
+            _running = true;
+            Engine::getInstance()->scheduleUpdate(_updateCallback);
+        }
     }
     
     void Animator::stop(bool resetAnimation)

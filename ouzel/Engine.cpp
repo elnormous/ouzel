@@ -189,7 +189,7 @@ namespace ouzel
             
             if (i != _updateCallbacks.end())
             {
-                _updateCallbacks.push_back(callback);
+                _updateCallbacks.erase(i);
             }
         }
     }

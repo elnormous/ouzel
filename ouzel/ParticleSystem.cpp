@@ -43,8 +43,6 @@ namespace ouzel
         
         _updateCallback = std::make_shared<UpdateCallback>();
         _updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
-        
-        Engine::getInstance()->scheduleUpdate(_updateCallback);
     }
     
     ParticleSystem::~ParticleSystem()
@@ -328,18 +326,27 @@ namespace ouzel
         }
         
         createParticleMesh();
+        resume();
         
         return true;
     }
     
     void ParticleSystem::resume()
     {
-        _active = true;
+        if (!_active)
+        {
+            _active = true;
+            Engine::getInstance()->scheduleUpdate(_updateCallback);
+        }
     }
     
     void ParticleSystem::stop()
     {
-        _active = false;
+        if (_active)
+        {
+            _active = false;
+            Engine::getInstance()->unscheduleUpdate(_updateCallback);
+        }
     }
     
     void ParticleSystem::reset()
