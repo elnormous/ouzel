@@ -47,7 +47,6 @@ namespace ouzel
     void Input::keyDown(KeyboardKey key, uint32_t modifiers)
     {
         KeyboardEventPtr event = std::make_shared<KeyboardEvent>();
-        event->type = Event::Type::KEY_DOWN;
         event->key = key;
         event->modifiers = modifiers;
         
@@ -55,10 +54,12 @@ namespace ouzel
         {
             _keyboardKeyStates[static_cast<uint32_t>(key)] = true;
             
+            event->type = Event::Type::KEY_DOWN;
             Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
         }
         else
         {
+            event->type = Event::Type::KEY_REPEAT;
             Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
         }
     }

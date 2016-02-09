@@ -19,6 +19,7 @@ namespace ouzel
         {
             KEY_DOWN,
             KEY_UP,
+            KEY_REPEAT,
             MOUSE_DOWN,
             MOUSE_UP,
             MOUSE_SCROLL,
