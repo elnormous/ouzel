@@ -117,23 +117,6 @@ namespace ouzel
         }
     }
     
-    void Node::update(float delta)
-    {
-        if (_currentAnimator)
-        {
-            _currentAnimator->update(delta);
-        }
-        
-        lock();
-        
-        for (const NodePtr& child : _children)
-        {
-            child->update(delta);
-        }
-        
-        unlock();
-    }
-    
     bool Node::addChild(const NodePtr& node)
     {
         if (NodeContainer::addChild(node))

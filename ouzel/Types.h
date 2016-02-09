@@ -13,6 +13,10 @@ namespace ouzel
     class Engine;
     typedef std::shared_ptr<Engine> EnginePtr;
     
+    class UpdateCallback;
+    typedef std::shared_ptr<UpdateCallback> UpdateCallbackPtr;
+    
+    
     class App;
     typedef std::shared_ptr<App> AppPtr;
     

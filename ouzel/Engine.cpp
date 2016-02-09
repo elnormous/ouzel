@@ -148,9 +148,73 @@ namespace ouzel
         
         _input->update();
         _eventDispatcher->update();
-        _sceneManager->update(delta);
+        
+        lock();
+        for (const UpdateCallbackPtr& updateCallback : _updateCallbacks)
+        {
+            updateCallback->callback(delta);
+        }
+        unlock();
         
         _renderer->clear();
         _sceneManager->draw();
+    }
+    
+    void Engine::scheduleUpdate(const UpdateCallbackPtr& callback)
+    {
+        if (_locked)
+        {
+            _updateCallbackAddList.insert(callback);
+        }
+        else
+        {
+            std::vector<UpdateCallbackPtr>::iterator i = std::find(_updateCallbacks.begin(), _updateCallbacks.end(), callback);
+            
+            if (i == _updateCallbacks.end())
+            {
+                _updateCallbacks.push_back(callback);
+            }
+        }
+    }
+    
+    void Engine::unscheduleUpdate(const UpdateCallbackPtr& callback)
+    {
+        if (_locked)
+        {
+            _updateCallbackRemoveList.insert(callback);
+        }
+        else
+        {
+            std::vector<UpdateCallbackPtr>::iterator i = std::find(_updateCallbacks.begin(), _updateCallbacks.end(), callback);
+            
+            if (i != _updateCallbacks.end())
+            {
+                _updateCallbacks.push_back(callback);
+            }
+        }
+    }
+    
+    void Engine::lock()
+    {
+        ++_locked;
+    }
+    
+    void Engine::unlock()
+    {
+        if (--_locked == 0)
+        {
+            for (const UpdateCallbackPtr& updateCallback : _updateCallbackAddList)
+            {
+                scheduleUpdate(updateCallback);
+            }
+            
+            for (const UpdateCallbackPtr& updateCallback : _updateCallbackRemoveList)
+            {
+                unscheduleUpdate(updateCallback);
+            }
+            
+            _updateCallbackAddList.clear();
+            _updateCallbackRemoveList.clear();
+        }
     }
 }

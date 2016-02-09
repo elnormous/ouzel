@@ -42,19 +42,6 @@ namespace ouzel
         return true;
     }
     
-    void Layer::update(float delta)
-    {
-        lock();
-        
-        for (const NodePtr& child : _children)
-        {
-            child->calculateTransformRecursive();
-            child->update(delta);
-        }
-        
-        unlock();
-    }
-    
     void Layer::draw()
     {
         _drawQueue.clear();
@@ -66,6 +53,7 @@ namespace ouzel
             
             for (const NodePtr child : _children)
             {
+                child->calculateTransformRecursive();
                 child->visit();
             }
             

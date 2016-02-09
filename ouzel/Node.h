@@ -28,8 +28,6 @@ namespace ouzel
         virtual void process();
         virtual void draw();
         
-        virtual void update(float delta);
-        
         virtual bool addChild(const NodePtr& node) override;
         virtual bool hasParent() const { return !_parent.expired(); }
         virtual NodeContainerPtr getParent() const { return _parent.lock(); }

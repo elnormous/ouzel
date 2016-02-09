@@ -20,7 +20,6 @@ namespace ouzel
         Scene();
         virtual ~Scene();
         
-        virtual void update(float delta);
         virtual void draw();
         
         void addLayer(const LayerPtr& layer);

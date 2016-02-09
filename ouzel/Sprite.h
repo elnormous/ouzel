@@ -25,7 +25,7 @@ namespace ouzel
         
         virtual bool initFromFile(const std::string& filename);
         
-        virtual void update(float delta) override;
+        virtual void update(float delta);
         virtual void draw() override;
         
         virtual void setOpacity(float opacity) override;
@@ -69,5 +69,7 @@ namespace ouzel
         float _timeSinceLastFrame = 0.0f;
         
         uint32_t _uniModelViewProj;
+        
+        UpdateCallbackPtr _updateCallback;
     };
 }

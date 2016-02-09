@@ -34,11 +34,13 @@ namespace ouzel
     
     Sprite::Sprite()
     {
+        _updateCallback = std::make_shared<UpdateCallback>();
+        _updateCallback->callback = std::bind(&Sprite::update, this, std::placeholders::_1);
     }
 
     Sprite::~Sprite()
     {
-
+        Engine::getInstance()->unscheduleUpdate(_updateCallback);
     }
     
     bool Sprite::initFromFile(const std::string& filename)
@@ -217,8 +219,6 @@ namespace ouzel
 
     void Sprite::update(float delta)
     {
-        Node::update(delta);
-        
         if (_playing)
         {
             _timeSinceLastFrame += delta;
@@ -238,6 +238,7 @@ namespace ouzel
                     {
                         _currentFrame = _frameCount - 1;
                         _playing = false;
+                        Engine::getInstance()->unscheduleUpdate(_updateCallback);
                     }
                 }
             }
@@ -313,17 +314,27 @@ namespace ouzel
     {
         _repeat = repeat;
         _frameInterval = frameInterval;
-        _playing = true;
         
-        if (_currentFrame >= _frameCount)
+        if (!_playing)
         {
-            reset();
+            _playing = true;
+            
+            if (_currentFrame >= _frameCount)
+            {
+                reset();
+            }
+            
+            Engine::getInstance()->scheduleUpdate(_updateCallback);
         }
     }
     
     void Sprite::stop(bool resetAnimation)
     {
-        _playing = false;
+        if (_playing)
+        {
+            _playing = false;
+            Engine::getInstance()->unscheduleUpdate(_updateCallback);
+        }
         
         if (resetAnimation)
         {

@@ -18,18 +18,6 @@ namespace ouzel
 
     }
     
-    void Scene::update(float delta)
-    {
-        lock();
-        
-        for (LayerPtr layer : _layers)
-        {
-            layer->update(delta);
-        }
-        
-        unlock();
-    }
-    
     void Scene::draw()
     {
         lock();

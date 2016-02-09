@@ -189,5 +189,7 @@ namespace ouzel
         bool _needsMeshUpdate = false;
         
         bool _removeOnFinish = true;
+        
+        UpdateCallbackPtr _updateCallback;
     };
 }

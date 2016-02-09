@@ -11,6 +11,7 @@ namespace ouzel
     {
     public:
         Animator(float length);
+        virtual ~Animator();
         
         virtual void update(float delta);
         
@@ -37,5 +38,7 @@ namespace ouzel
         bool _running = false;
         
         NodeWeakPtr _node;
+        
+        UpdateCallbackPtr _updateCallback;
     };
 }

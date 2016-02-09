@@ -28,7 +28,6 @@ namespace ouzel
         
         virtual bool init();
         
-        virtual void update(float delta);
         virtual void draw();
         
         virtual bool addChild(const NodePtr& node) override;

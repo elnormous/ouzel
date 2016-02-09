@@ -40,11 +40,16 @@ namespace ouzel
 #else
         _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
 #endif
+        
+        _updateCallback = std::make_shared<UpdateCallback>();
+        _updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
+        
+        Engine::getInstance()->scheduleUpdate(_updateCallback);
     }
     
     ParticleSystem::~ParticleSystem()
     {
-        
+        Engine::getInstance()->unscheduleUpdate(_updateCallback);
     }
     
     void ParticleSystem::draw()
@@ -83,8 +88,6 @@ namespace ouzel
     
     void ParticleSystem::update(float delta)
     {
-        Node::update(delta);
-        
         if (_active && _emissionRate)
         {
             float rate = 1.0f / _emissionRate;

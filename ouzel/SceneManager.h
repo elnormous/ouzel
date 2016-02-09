@@ -23,8 +23,6 @@ namespace ouzel
     public:
         virtual ~SceneManager();
         
-        void update(float delta);
-        
         void draw();
         
         void setScene(const ScenePtr& scene);

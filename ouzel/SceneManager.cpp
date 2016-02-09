@@ -16,18 +16,6 @@ namespace ouzel
         
     }
     
-    void SceneManager::update(float delta)
-    {
-        if (_scene)
-        {
-            lock();
-            
-            _scene->update(delta);
-            
-            unlock();
-        }
-    }
-    
     void SceneManager::setScene(const ScenePtr& scene)
     {
         if (scene != _scene)

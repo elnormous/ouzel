@@ -16,6 +16,12 @@
 
 namespace ouzel
 {
+    class UpdateCallback
+    {
+    public:
+        std::function<void(float)> callback;
+    };
+    
     class Engine: public Noncopyable
     {
     public:
@@ -44,6 +50,12 @@ namespace ouzel
         float getTargetFPS() const { return _targetFPS; }
         float getFPS() const { return _currentFPS; }
         
+        void scheduleUpdate(const UpdateCallbackPtr& callback);
+        void unscheduleUpdate(const UpdateCallbackPtr& callback);
+        
+        void lock();
+        void unlock();
+        
     protected:
         Engine();
         
@@ -61,5 +73,11 @@ namespace ouzel
         float _targetFPS;
         float _currentFPS = 0.0f;
         uint64_t _previousFrameTime;
+        
+        std::vector<UpdateCallbackPtr> _updateCallbacks;
+        std::set<UpdateCallbackPtr> _updateCallbackAddList;
+        std::set<UpdateCallbackPtr> _updateCallbackRemoveList;
+        
+        int32_t _locked = 0;
     };
 }

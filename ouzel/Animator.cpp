@@ -3,13 +3,20 @@
 
 #include "Animator.h"
 #include "Utils.h"
+#include "Engine.h"
 
 namespace ouzel
 {
     Animator::Animator(float length):
         _length(length)
     {
-        
+        _updateCallback = std::make_shared<UpdateCallback>();
+        _updateCallback->callback = std::bind(&Animator::update, this, std::placeholders::_1);
+    }
+    
+    Animator::~Animator()
+    {
+        Engine::getInstance()->unscheduleUpdate(_updateCallback);
     }
     
     void Animator::update(float delta)
@@ -21,6 +28,7 @@ namespace ouzel
                 _done = true;
                 _running = false;
                 setProgress(1.0f);
+                Engine::getInstance()->unscheduleUpdate(_updateCallback);
             }
             else
             {
@@ -31,8 +39,13 @@ namespace ouzel
     
     void Animator::start(const NodePtr& node)
     {
-        _running = true;
-        _node = node;
+        if (!_running)
+        {
+            _running = true;
+            _node = node;
+            
+            Engine::getInstance()->scheduleUpdate(_updateCallback);
+        }
     }
     
     void Animator::resume()
@@ -42,7 +55,11 @@ namespace ouzel
     
     void Animator::stop(bool resetAnimation)
     {
-        _running = false;
+        if (_running)
+        {
+            _running = false;
+            Engine::getInstance()->unscheduleUpdate(_updateCallback);
+        }
         
         if (resetAnimation)
         {
