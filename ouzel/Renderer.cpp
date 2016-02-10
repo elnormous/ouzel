@@ -235,19 +235,19 @@ namespace ouzel
         
         Vector2 v2p = camera->projectPoint(v3p);
         
-        Size2 hSize(diff.x / 2.0f, diff.y / 2.0f);
+        Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
         
         // convert content size to world coordinates
-        Size2 hWorldSize;
+        Size2 halfWorldSize;
         
-        hWorldSize.width = std::max(fabsf(hSize.width * transform.m[0] + hSize.height * transform.m[4]), fabsf(hSize.width * transform.m[0] - hSize.height * transform.m[4]));
-        hWorldSize.height = std::max(fabsf(hSize.width * transform.m[1] + hSize.height * transform.m[5]), fabsf(hSize.width * transform.m[1] - hSize.height * transform.m[5]));
+        halfWorldSize.width = std::max(fabsf(halfSize.width * transform.m[0] + halfSize.height * transform.m[4]), fabsf(halfSize.width * transform.m[0] - halfSize.height * transform.m[4]));
+        halfWorldSize.height = std::max(fabsf(halfSize.width * transform.m[1] + halfSize.height * transform.m[5]), fabsf(halfSize.width * transform.m[1] - halfSize.height * transform.m[5]));
         
         // enlarge visible rect half size in screen coord
-        visiableRect.x -= hWorldSize.width;
-        visiableRect.y -= hWorldSize.height;
-        visiableRect.width += hWorldSize.width * 2.0f;
-        visiableRect.height += hWorldSize.height * 2.0f;
+        visiableRect.x -= halfWorldSize.width;
+        visiableRect.y -= halfWorldSize.height;
+        visiableRect.width += halfWorldSize.width * 2.0f;
+        visiableRect.height += halfWorldSize.height * 2.0f;
         
         return visiableRect.containsPoint(v2p);
     }
