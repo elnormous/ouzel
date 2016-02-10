@@ -30,6 +30,7 @@ namespace ouzel
             {
                 case Event::Type::KEY_DOWN:
                 case Event::Type::KEY_UP:
+                case Event::Type::KEY_REPEAT:
                     dispatchKeyboardEvent(std::static_pointer_cast<KeyboardEvent>(eventPair.first), eventPair.second);
                     break;
                     
