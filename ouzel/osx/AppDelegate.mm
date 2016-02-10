@@ -65,7 +65,7 @@
                                                           styleMask:[_window styleMask]];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [_window setFrame:newFrame display:YES animate:[_window isVisible]];
+                    [_window setFrame:newFrame display:YES animate:NO];
                 });
                 break;
             }
