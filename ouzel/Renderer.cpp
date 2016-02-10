@@ -221,7 +221,7 @@ namespace ouzel
     
     bool Renderer::checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const CameraPtr& camera)
     {
-        Rectangle visiableRect(0.0f, 0.0f, _size.width, _size.height);
+        Rectangle visibleRect(0.0f, 0.0f, _size.width, _size.height);
         
         // transform center point to screen space
         Vector2 diff = boundingBox.max - boundingBox.min;
@@ -244,12 +244,12 @@ namespace ouzel
         halfWorldSize.height = std::max(fabsf(halfSize.width * transform.m[1] + halfSize.height * transform.m[5]), fabsf(halfSize.width * transform.m[1] - halfSize.height * transform.m[5]));
         
         // enlarge visible rect half size in screen coord
-        visiableRect.x -= halfWorldSize.width;
-        visiableRect.y -= halfWorldSize.height;
-        visiableRect.width += halfWorldSize.width * 2.0f;
-        visiableRect.height += halfWorldSize.height * 2.0f;
+        visibleRect.x -= halfWorldSize.width;
+        visibleRect.y -= halfWorldSize.height;
+        visibleRect.width += halfWorldSize.width * 2.0f;
+        visibleRect.height += halfWorldSize.height * 2.0f;
         
-        return visiableRect.containsPoint(v2p);
+        return visibleRect.containsPoint(v2p);
     }
     
     bool Renderer::saveScreenshot(const std::string& filename)
