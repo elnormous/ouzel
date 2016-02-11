@@ -88,7 +88,7 @@ using namespace ouzel;
     GLint swapInt = 1;
     [self.openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
     
-    _displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription]objectForKey:@"NSScreenNumber"] intValue];
+    _displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription]objectForKey:@"NSScreenNumber"] unsignedIntValue];
     
     CVDisplayLinkCreateWithCGDisplay(_displayId, &_displayLink);
     CVDisplayLinkSetOutputCallback(_displayLink, renderCallback, (__bridge void *)self);
@@ -113,7 +113,7 @@ using namespace ouzel;
 
 -(void)changeDisplay
 {
-    CGDirectDisplayID displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription] objectForKey:@"NSScreenNumber"] intValue];
+    CGDirectDisplayID displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
     
     if(displayId != 0 && _displayId != displayId)
     {
