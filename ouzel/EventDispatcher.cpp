@@ -75,6 +75,7 @@ namespace ouzel
             
             if (i == _eventHandlers.end())
             {
+                eventHandler->_remove = false;
                 _eventHandlers.push_back(eventHandler);
                 
                 std::sort(_eventHandlers.begin(), _eventHandlers.end(), [](const EventHandlerPtr& a, const EventHandlerPtr& b) {

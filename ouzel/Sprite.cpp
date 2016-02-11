@@ -228,18 +228,15 @@ namespace ouzel
                 _timeSinceLastFrame -= _frameInterval;
                 _currentFrame++;
                 
-                if (_currentFrame >= _frameCount)
+                if (_repeat && _currentFrame >= _frameCount)
                 {
-                    if (_repeat)
-                    {
-                        _currentFrame = 0;
-                    }
-                    else
-                    {
-                        _currentFrame = _frameCount - 1;
-                        _playing = false;
-                        Engine::getInstance()->unscheduleUpdate(_updateCallback);
-                    }
+                    _currentFrame = 0;
+                }
+                else if (!_repeat && _currentFrame >= _frameCount - 1)
+                {
+                    _currentFrame = _frameCount - 1;
+                    _playing = false;
+                    Engine::getInstance()->unscheduleUpdate(_updateCallback);
                 }
             }
         }
@@ -315,13 +312,14 @@ namespace ouzel
         _repeat = repeat;
         _frameInterval = frameInterval;
         
-        if (!_playing)
+        if (!_playing && _frameCount > 1)
         {
             _playing = true;
             
-            if (_currentFrame >= _frameCount)
+            if (_currentFrame >= _frameCount - 1)
             {
-                reset();
+                _currentFrame = 0;
+                _timeSinceLastFrame = 0.0f;
             }
             
             Engine::getInstance()->scheduleUpdate(_updateCallback);

@@ -175,6 +175,7 @@ namespace ouzel
             
             if (i == _updateCallbacks.end())
             {
+                callback->_remove = false;
                 _updateCallbacks.push_back(callback);
             }
         }
