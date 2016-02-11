@@ -12,16 +12,11 @@
 #include "FileSystem.h"
 #include "Input.h"
 #include "EventDispatcher.h"
+#include "UpdateCallback.h"
 #include "App.h"
 
 namespace ouzel
 {
-    class UpdateCallback
-    {
-    public:
-        std::function<void(float)> callback;
-    };
-    
     class Engine: public Noncopyable
     {
     public:

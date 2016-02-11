@@ -152,7 +152,10 @@ namespace ouzel
         lock();
         for (const UpdateCallbackPtr& updateCallback : _updateCallbacks)
         {
-            updateCallback->callback(delta);
+            if (!updateCallback->_remove)
+            {
+                updateCallback->callback(delta);
+            }
         }
         unlock();
         
@@ -181,6 +184,7 @@ namespace ouzel
     {
         if (_locked)
         {
+            callback->_remove = true;
             _updateCallbackRemoveList.insert(callback);
         }
         else

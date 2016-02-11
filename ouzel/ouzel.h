@@ -6,6 +6,7 @@
 #include "CompileConfig.h"
 #include "Types.h"
 #include "Engine.h"
+#include "UpdateCallback.h"
 #include "App.h"
 #include "Settings.h"
 #include "Cache.h"
