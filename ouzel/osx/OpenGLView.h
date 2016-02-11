@@ -8,6 +8,7 @@
 {
 @private    
     CVDisplayLinkRef _displayLink;
+    CGDirectDisplayID _displayId;
     BOOL _running;
     BOOL _resized;
 }
@@ -16,6 +17,7 @@
 
 -(void)prepareOpenGL;
 -(void)close;
+-(void)changeDisplay;
 
 -(void)draw;
 

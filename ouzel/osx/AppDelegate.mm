@@ -101,6 +101,11 @@
     return YES;
 }
 
+-(void)windowDidChangeScreen:(NSNotification *)notification
+{
+    [_openGLView changeDisplay];
+}
+
 -(void)windowWillClose:(NSNotification *)notification
 {
     [_openGLView close];
