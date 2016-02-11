@@ -27,5 +27,6 @@ namespace ouzel
         
     protected:
         int32_t _priority;
+        bool _remove = false;
     };
 }

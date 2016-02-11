@@ -88,6 +88,7 @@ namespace ouzel
     {
         if (_locked)
         {
+            eventHandler->_remove = true;
             _eventHandlerRemoveList.insert(eventHandler);
         }
         else
@@ -112,7 +113,7 @@ namespace ouzel
     {
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->keyboardHandler)
+            if (!eventHandler->_remove && eventHandler->keyboardHandler)
             {
                 if (!eventHandler->keyboardHandler(event, sender))
                 {
@@ -126,7 +127,7 @@ namespace ouzel
     {
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->mouseHandler)
+            if (!eventHandler->_remove && eventHandler->mouseHandler)
             {
                 if (!eventHandler->mouseHandler(event, sender))
                 {
@@ -142,7 +143,7 @@ namespace ouzel
         
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->touchHandler)
+            if (!eventHandler->_remove && eventHandler->touchHandler)
             {
                 if (!eventHandler->touchHandler(event, sender))
                 {
@@ -158,7 +159,7 @@ namespace ouzel
     {
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->gamepadHandler)
+            if (!eventHandler->_remove && eventHandler->gamepadHandler)
             {
                 if (!eventHandler->gamepadHandler(event, sender))
                 {
@@ -172,7 +173,7 @@ namespace ouzel
     {
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->windowHandler)
+            if (!eventHandler->_remove && eventHandler->windowHandler)
             {
                 if (!eventHandler->windowHandler(event, sender))
                 {
