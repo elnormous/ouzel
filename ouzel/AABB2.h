@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "Vector2.h"
+#include "Size2.h"
 
 #pragma once
 
@@ -109,6 +110,11 @@ namespace ouzel
             min -= v;
             max -= v;
             return *this;
+        }
+        
+        inline Size2 getSize() const
+        {
+            return Size2(max.x - min.x, max.y - min.y);
         }
         
         Vector2 min;
