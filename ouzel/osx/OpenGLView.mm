@@ -154,7 +154,6 @@ using namespace ouzel;
     {
         _resized = NO;
         Engine::getInstance()->getRenderer()->resize(Size2(_frame.size.width, _frame.size.height));
-        //[_openGLContext update];
     }
     
     Engine::getInstance()->run();
