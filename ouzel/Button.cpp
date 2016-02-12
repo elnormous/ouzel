@@ -186,14 +186,15 @@ namespace ouzel
             {
                 if (_pointerOver && _pressed)
                 {
+                    _pressed = false;
+                    updateSprite();
+                    
                     if (_callback)
                     {
                         _callback(shared_from_this());
                     }
                 }
                 
-                _pressed = false;
-                updateSprite();
                 break;
             }
             default:
