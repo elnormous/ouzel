@@ -31,6 +31,7 @@ namespace ouzel
         
         if (!hasChild(node) && !node->hasParent())
         {
+            node->_remove = false;
             node->_parent = shared_from_this();
             _children.push_back(node);
             
@@ -46,6 +47,7 @@ namespace ouzel
     {
         if (_locked)
         {
+            node->_remove = true;
             _nodeRemoveList.insert(node);
             return false;
         }
@@ -69,6 +71,8 @@ namespace ouzel
     
     void NodeContainer::removeAllChildren()
     {
+        lock();
+        
         for (auto& node : _children)
         {
             node->removeFromLayer();
@@ -77,6 +81,8 @@ namespace ouzel
         }
         
         _children.clear();
+        
+        unlock();
     }
     
     bool NodeContainer::hasChild(const NodePtr& node) const

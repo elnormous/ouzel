@@ -1,6 +1,6 @@
 <img src="https://github.com/elvman/ouzel/blob/master/logo/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.6
+# Ouzel v0.7
 Ouzel is a game engine mainly targeted for development of 2D games, but also 3D games can be created with it.
 
 ## Supported platforms
@@ -33,7 +33,7 @@ The following code will open a 640px x 480px window:
         }
     };
 
-    ouzel::AppPtr ouzelMain(std::vector<std::string> const& args)
+    ouzel::AppPtr ouzelMain(const std::vector<std::string>& args)
     {
         std::shared_ptr<Application> application = std::make_shared<Application>();
     

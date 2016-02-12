@@ -40,13 +40,16 @@ namespace ouzel
             {
                 node = *i;
                 
-                if (node->getZ() < 0.0f)
+                if (!node->_remove)
                 {
-                    node->visit();
-                }
-                else
-                {
-                    break;
+                    if (node->getZ() < 0.0f)
+                    {
+                        node->visit();
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
             
@@ -62,8 +65,11 @@ namespace ouzel
             
             for (; i != _children.end(); ++i)
             {
-                node = *i;
-                node->visit();
+                if (!node->_remove)
+                {
+                    node = *i;
+                    node->visit();
+                }
             }
             
             unlock();

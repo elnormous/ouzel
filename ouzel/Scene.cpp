@@ -33,7 +33,10 @@ namespace ouzel
         
         for (LayerPtr layer : _layers)
         {
-            layer->draw();
+            if (!layer->_remove)
+            {
+                layer->draw();
+            }
         }
         
         unlock();
@@ -47,6 +50,7 @@ namespace ouzel
         }
         else if (!hasLayer(layer) && !layer->getScene())
         {
+            layer->_remove = false;
             _layers.push_back(layer);
             layer->addToScene(shared_from_this());
             
@@ -61,6 +65,7 @@ namespace ouzel
     {
         if (_locked)
         {
+            layer->_remove = true;
             _layerRemoveList.insert(layer);
         }
         else

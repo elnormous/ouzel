@@ -122,5 +122,6 @@ namespace ouzel
         LayerWeakPtr _layer;
         
         AnimatorPtr _currentAnimator;
+        bool _remove = false;
     };
 }

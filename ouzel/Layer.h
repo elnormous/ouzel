@@ -55,5 +55,6 @@ namespace ouzel
         
         SceneWeakPtr _scene;
         int32_t _order = 0;
+        bool _remove = false;
     };
 }
