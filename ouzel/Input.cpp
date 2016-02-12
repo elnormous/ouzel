@@ -123,7 +123,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
     }
     
-    void Input::touchBegin(uint64_t touchId, const Vector2 position)
+    void Input::touchBegin(uint64_t touchId, const Vector2& position)
     {
         TouchEventPtr event = std::make_shared<TouchEvent>();
         event->type = Event::Type::TOUCH_BEGIN;
@@ -133,7 +133,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
     }
     
-    void Input::touchEnd(uint64_t touchId, const Vector2 position)
+    void Input::touchEnd(uint64_t touchId, const Vector2& position)
     {
         TouchEventPtr event = std::make_shared<TouchEvent>();
         event->type = Event::Type::TOUCH_END;
@@ -143,7 +143,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
     }
     
-    void Input::touchMove(uint64_t touchId, const Vector2 position)
+    void Input::touchMove(uint64_t touchId, const Vector2& position)
     {
         TouchEventPtr event = std::make_shared<TouchEvent>();
         event->type = Event::Type::TOUCH_MOVE;
@@ -153,7 +153,7 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
     }
     
-    void Input::touchCancel(uint64_t touchId, const Vector2 position)
+    void Input::touchCancel(uint64_t touchId, const Vector2& position)
     {
         TouchEventPtr event = std::make_shared<TouchEvent>();
         event->type = Event::Type::TOUCH_CANCEL;

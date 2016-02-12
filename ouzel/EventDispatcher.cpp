@@ -25,6 +25,7 @@ namespace ouzel
         while (!_eventQueue.empty())
         {
             auto eventPair = _eventQueue.front();
+            _eventQueue.pop();
             
             switch (eventPair.first->type)
             {
@@ -56,8 +57,6 @@ namespace ouzel
                     dispatchWindowEvent(std::static_pointer_cast<WindowEvent>(eventPair.first), eventPair.second);
                     break;
             }
-            
-            _eventQueue.pop();
         }
         
         unlock();
@@ -112,6 +111,8 @@ namespace ouzel
     
     void EventDispatcher::dispatchKeyboardEvent(const KeyboardEventPtr& event, const VoidPtr& sender)
     {
+        lock();
+        
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
             if (!eventHandler->_remove && eventHandler->keyboardHandler)
@@ -122,10 +123,14 @@ namespace ouzel
                 }
             }
         }
+        
+        unlock();
     }
     
     void EventDispatcher::dispatchMouseEvent(const MouseEventPtr& event, const VoidPtr& sender)
     {
+        lock();
+        
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
             if (!eventHandler->_remove && eventHandler->mouseHandler)
@@ -136,6 +141,8 @@ namespace ouzel
                 }
             }
         }
+        
+        unlock();
     }
     
     void EventDispatcher::dispatchTouchEvent(const TouchEventPtr& event, const VoidPtr& sender)
@@ -158,6 +165,8 @@ namespace ouzel
     
     void EventDispatcher::dispatchGamepadEvent(const GamepadEventPtr& event, const VoidPtr& sender)
     {
+        lock();
+        
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
             if (!eventHandler->_remove && eventHandler->gamepadHandler)
@@ -168,10 +177,14 @@ namespace ouzel
                 }
             }
         }
+        
+        unlock();
     }
     
     void EventDispatcher::dispatchWindowEvent(const WindowEventPtr& event, const VoidPtr& sender)
     {
+        lock();
+        
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
             if (!eventHandler->_remove && eventHandler->windowHandler)
@@ -182,6 +195,8 @@ namespace ouzel
                 }
             }
         }
+        
+        unlock();
     }
     
     void EventDispatcher::lock()

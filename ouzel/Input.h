@@ -235,10 +235,10 @@ namespace ouzel
         virtual void mouseMove(const Vector2& position, uint32_t modifiers);
         virtual void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
         
-        virtual void touchBegin(uint64_t touchId, const Vector2 position);
-        virtual void touchEnd(uint64_t touchId, const Vector2 position);
-        virtual void touchMove(uint64_t touchId, const Vector2 position);
-        virtual void touchCancel(uint64_t touchId, const Vector2 position);
+        virtual void touchBegin(uint64_t touchId, const Vector2& position);
+        virtual void touchEnd(uint64_t touchId, const Vector2& position);
+        virtual void touchMove(uint64_t touchId, const Vector2& position);
+        virtual void touchCancel(uint64_t touchId, const Vector2& position);
         
     protected:
         Input();
