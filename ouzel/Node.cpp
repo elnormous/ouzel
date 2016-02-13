@@ -399,6 +399,7 @@ namespace ouzel
     
     void Node::animate(const AnimatorPtr& animator)
     {
+        stopAnimation();
         _currentAnimator = animator;
         
         if (_currentAnimator)
@@ -412,8 +413,13 @@ namespace ouzel
         if (_currentAnimator)
         {
             _currentAnimator->stop();
-            _currentAnimator.reset();
+            removeAnimation();
         }
+    }
+    
+    void Node::removeAnimation()
+    {
+        _currentAnimator.reset();
     }
     
     void Node::calculateLocalTransform() const
