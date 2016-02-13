@@ -39,6 +39,6 @@ namespace ouzel
         ScenePtr _scene;
         
         ScenePtr _newScene;
-        int32_t _locked = false;
+        int32_t _locked = 0;
     };
 }
