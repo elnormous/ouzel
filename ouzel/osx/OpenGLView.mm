@@ -124,7 +124,11 @@ using namespace ouzel;
 
 -(void)handleQuit:(id)sender
 {
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    
     [[NSApplication sharedApplication] terminate:self];
+    
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)setFrameSize:(NSSize)newSize
