@@ -21,6 +21,11 @@ namespace ouzel
     class Vector3
     {
     public:
+        static Vector3 ZERO;
+        static Vector3 ONE;
+        static Vector3 UNIT_X;
+        static Vector3 UNIT_Y;
+        static Vector3 UNIT_Z;
         
         /**
          * The x-coordinate.
@@ -91,41 +96,6 @@ namespace ouzel
          * Destructor.
          */
         ~Vector3();
-        
-        /**
-         * Returns the zero vector.
-         *
-         * @return The 3-element vector of 0s.
-         */
-        static const Vector3& zero();
-        
-        /**
-         * Returns the one vector.
-         *
-         * @return The 3-element vector of 1s.
-         */
-        static const Vector3& one();
-        
-        /**
-         * Returns the unit x vector.
-         *
-         * @return The 3-element unit vector along the x axis.
-         */
-        static const Vector3& unitX();
-        
-        /**
-         * Returns the unit y vector.
-         *
-         * @return The 3-element unit vector along the y axis.
-         */
-        static const Vector3& unitY();
-        
-        /**
-         * Returns the unit z vector.
-         *
-         * @return The 3-element unit vector along the z axis.
-         */
-        static const Vector3& unitZ();
         
         /**
          * Indicates whether this vector contains all zeros.

@@ -23,10 +23,22 @@ namespace ouzel
         
     }
     
-    void Node::visit()
+    void Node::visit(const Matrix4& parentTransform, bool parentTransformDirty)
     {
         if (_visible)
         {
+            if (parentTransformDirty)
+            {
+                _parentTransform = parentTransform;
+                _transformDirty = true;
+            }
+            
+            bool dirty = _transformDirty;
+            if (dirty)
+            {
+                calculateTransform();
+            }
+            
             lock();
             
             std::stable_sort(_children.begin(), _children.end(), [](const NodePtr& a, const NodePtr& b) {
@@ -44,7 +56,7 @@ namespace ouzel
                 {
                     if (node->getZ() < 0.0f)
                     {
-                        node->visit();
+                        node->visit(_transform, dirty);
                     }
                     else
                     {
@@ -68,7 +80,7 @@ namespace ouzel
                 if (!node->_remove)
                 {
                     node = *i;
-                    node->visit();
+                    node->visit(_transform, dirty);
                 }
             }
             
@@ -421,19 +433,6 @@ namespace ouzel
         for (const NodePtr& child : _children)
         {
             child->updateTransform(_transform);
-        }
-    }
-    
-    void Node::calculateTransformRecursive() const
-    {
-        if (_transformDirty)
-        {
-            calculateTransform();
-        }
-        
-        for (const NodePtr& child : _children)
-        {
-            child->calculateTransformRecursive();
         }
     }
     

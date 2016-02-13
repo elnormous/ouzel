@@ -11,7 +11,13 @@ namespace ouzel
     class Vector4
     {
     public:
-
+        static Vector4 ZERO;
+        static Vector4 ONE;
+        static Vector4 UNIT_X;
+        static Vector4 UNIT_Y;
+        static Vector4 UNIT_Z;
+        static Vector4 UNIT_W;
+        
         /**
          * The x-coordinate.
          */
@@ -85,48 +91,6 @@ namespace ouzel
          * Destructor.
          */
         ~Vector4();
-
-        /**
-         * Returns the zero vector.
-         *
-         * @return The 4-element vector of 0s.
-         */
-        static const Vector4& zero();
-
-        /**
-         * Returns the one vector.
-         *
-         * @return The 4-element vector of 1s.
-         */
-        static const Vector4& one();
-
-        /**
-         * Returns the unit x vector.
-         *
-         * @return The 4-element unit vector along the x axis.
-         */
-        static const Vector4& unitX();
-
-        /**
-         * Returns the unit y vector.
-         *
-         * @return The 4-element unit vector along the y axis.
-         */
-        static const Vector4& unitY();
-
-        /**
-         * Returns the unit z vector.
-         *
-         * @return The 4-element unit vector along the z axis.
-         */
-        static const Vector4& unitZ();
-
-        /**
-         * Returns the unit w vector.
-         *
-         * @return The 4-element unit vector along the w axis.
-         */
-        static const Vector4& unitW();
 
         /**
          * Indicates whether this vector contains all zeros.

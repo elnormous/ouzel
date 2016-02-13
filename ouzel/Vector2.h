@@ -13,7 +13,11 @@ namespace ouzel
     class Vector2
     {
     public:
-
+        static Vector2 ZERO;
+        static Vector2 ONE;
+        static Vector2 UNIT_X;
+        static Vector2 UNIT_Y;
+        
         /**
          * The x coordinate.
          */
@@ -63,34 +67,6 @@ namespace ouzel
          * Destructor.
          */
         ~Vector2();
-
-        /**
-         * Returns the zero vector.
-         *
-         * @return The 2-element vector of 0s.
-         */
-        static const Vector2& zero();
-
-        /**
-         * Returns the one vector.
-         *
-         * @return The 2-element vector of 1s.
-         */
-        static const Vector2& one();
-
-        /**
-         * Returns the unit x vector.
-         *
-         * @return The 2-element unit vector along the x axis.
-         */
-        static const Vector2& unitX();
-
-        /**
-         * Returns the unit y vector.
-         *
-         * @return The 2-element unit vector along the y axis.
-         */
-        static const Vector2& unitY();
 
         /**
          * Indicates whether this vector contains all zeros.

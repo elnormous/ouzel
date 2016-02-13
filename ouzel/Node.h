@@ -24,7 +24,7 @@ namespace ouzel
         Node();
         virtual ~Node();
         
-        virtual void visit();
+        virtual void visit(const Matrix4& parentTransform, bool parentTransformDirty);
         virtual void process();
         virtual void draw();
         
@@ -87,11 +87,10 @@ namespace ouzel
         
         virtual void calculateLocalTransform() const;
         virtual void calculateTransform() const;
-        virtual void calculateTransformRecursive() const;
         
         virtual void calculateInverseTransform() const;
         
-        Matrix4 _parentTransform = Matrix4::identity();
+        Matrix4 _parentTransform = Matrix4::IDENTITY;
         mutable Matrix4 _transform;
         mutable bool _transformDirty = true;
         mutable Matrix4 _inverseTransform;

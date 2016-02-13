@@ -14,3 +14,7 @@ samples/sprite/win/x64/
 samples/sprite/win/ipch/
 samples/sprite/win/sprite.sdf
 samples/sprite/win/sprite.VC.opendb
+samples/sprite/android/bin
+samples/sprite/android/gen
+samples/sprite/android/libs
+samples/sprite/android/obj

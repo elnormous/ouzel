@@ -76,13 +76,6 @@ public:
     ~Rectangle();
 
     /**
-     * Returns a rectangle with all of its values set to zero.
-     *
-     * @return The empty rectangle with all of its values set to zero.
-     */
-    static const Rectangle& empty();
-
-    /**
      * Gets a value that indicates whether the rectangle is empty.
      *
      * @return true if the rectangle is empty, false otherwise.

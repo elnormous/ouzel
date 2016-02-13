@@ -15,9 +15,17 @@ namespace ouzel
         0.0f, 0.0f, 1.0f,
     };
     
+    Matrix3 Matrix3::IDENTITY(1, 0, 0,
+                              0, 1, 0,
+                              0, 0, 1);
+    
+    Matrix3 Matrix3::ZERO(0, 0, 0,
+                          0, 0, 0,
+                          0, 0, 0);
+    
     Matrix3::Matrix3()
     {
-        *this = Matrix3::identity();
+        *this = Matrix3::IDENTITY;
     }
     
     Matrix3::Matrix3(float m11, float m12, float m13, float m21, float m22, float m23,
@@ -38,24 +46,6 @@ namespace ouzel
     
     Matrix3::~Matrix3()
     {
-    }
-    
-    const Matrix3& Matrix3::identity()
-    {
-        static Matrix3 m(
-                         1, 0, 0,
-                         0, 1, 0,
-                         0, 0, 1);
-        return m;
-    }
-    
-    const Matrix3& Matrix3::zero()
-    {
-        static Matrix3 m(
-                         0, 0, 0,
-                         0, 0, 0,
-                         0, 0, 0);
-        return m;
     }
     
     void Matrix3::createScale(const Vector2& scale, Matrix3& dst)

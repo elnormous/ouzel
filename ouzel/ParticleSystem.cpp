@@ -449,11 +449,11 @@ namespace ouzel
                 
                 if (_positionType == PositionType::FREE)
                 {
-                    position = convertLocalToWorld(Vector2::zero());
+                    position = convertLocalToWorld(Vector2::ZERO);
                 }
                 else if (_positionType == PositionType::RELATIVE)
                 {
-                    position = convertLocalToWorld(Vector2::zero()) - _position;
+                    position = convertLocalToWorld(Vector2::ZERO) - _position;
                 }
             
                 for (uint32_t i = _particleCount; i < _particleCount + particles; ++i)

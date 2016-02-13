@@ -43,12 +43,6 @@ namespace ouzel
     {
     }
 
-    const Rectangle& Rectangle::empty()
-    {
-        static Rectangle empty;
-        return empty;
-    }
-
     bool Rectangle::isEmpty() const
     {
         return (width == 0 && height == 0);

@@ -17,9 +17,19 @@ namespace ouzel
         0.0f, 0.0f, 0.0f, 1.0f
     };
     
+    Matrix4 Matrix4::IDENTITY(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              0, 0, 0, 1);
+    
+    Matrix4 Matrix4::ZERO(0, 0, 0, 0,
+                          0, 0, 0, 0,
+                          0, 0, 0, 0,
+                          0, 0, 0, 0);
+    
     Matrix4::Matrix4()
     {
-        *this = Matrix4::identity();
+        *this = Matrix4::IDENTITY;
     }
     
     Matrix4::Matrix4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
@@ -40,26 +50,6 @@ namespace ouzel
     
     Matrix4::~Matrix4()
     {
-    }
-    
-    const Matrix4& Matrix4::identity()
-    {
-        static Matrix4 m(
-                        1, 0, 0, 0,
-                        0, 1, 0, 0,
-                        0, 0, 1, 0,
-                        0, 0, 0, 1);
-        return m;
-    }
-    
-    const Matrix4& Matrix4::zero()
-    {
-        static Matrix4 m(
-                        0, 0, 0, 0,
-                        0, 0, 0, 0,
-                        0, 0, 0, 0,
-                        0, 0, 0, 0);
-        return m;
     }
     
     void Matrix4::createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst)

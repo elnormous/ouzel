@@ -8,6 +8,13 @@
 
 namespace ouzel
 {
+    Vector4 Vector4::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
+    Vector4 Vector4::ONE(1.0f, 1.0f, 1.0f, 1.0f);
+    Vector4 Vector4::UNIT_X(1.0f, 0.0f, 0.0f, 0.0f);
+    Vector4 Vector4::UNIT_Y(0.0f, 1.0f, 0.0f, 0.0f);
+    Vector4 Vector4::UNIT_Z(0.0f, 0.0f, 1.0f, 0.0f);
+    Vector4 Vector4::UNIT_W(0.0f, 0.0f, 0.0f, 1.0f);
+    
     Vector4::Vector4():
         x(0.0f), y(0.0f), z(0.0f), w(0.0f)
     {
@@ -50,42 +57,6 @@ namespace ouzel
 
     Vector4::~Vector4()
     {
-    }
-
-    const Vector4& Vector4::zero()
-    {
-        static Vector4 value(0.0f, 0.0f, 0.0f, 0.0f);
-        return value;
-    }
-
-    const Vector4& Vector4::one()
-    {
-        static Vector4 value(1.0f, 1.0f, 1.0f, 1.0f);
-        return value;
-    }
-
-    const Vector4& Vector4::unitX()
-    {
-        static Vector4 value(1.0f, 0.0f, 0.0f, 0.0f);
-        return value;
-    }
-
-    const Vector4& Vector4::unitY()
-    {
-        static Vector4 value(0.0f, 1.0f, 0.0f, 0.0f);
-        return value;
-    }
-
-    const Vector4& Vector4::unitZ()
-    {
-        static Vector4 value(0.0f, 0.0f, 1.0f, 0.0f);
-        return value;
-    }
-
-    const Vector4& Vector4::unitW()
-    {
-        static Vector4 value(0.0f, 0.0f, 0.0f, 1.0f);
-        return value;
     }
 
     bool Vector4::isZero() const

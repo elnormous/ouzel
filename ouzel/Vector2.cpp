@@ -8,6 +8,11 @@
 
 namespace ouzel
 {
+    Vector2 Vector2::ZERO(0.0f, 0.0f);
+    Vector2 Vector2::ONE(1.0f, 1.0f);
+    Vector2 Vector2::UNIT_X(1.0f, 0.0f);
+    Vector2 Vector2::UNIT_Y(0.0f, 1.0f);
+    
     Vector2::Vector2():
         x(0.0f), y(0.0f)
     {
@@ -35,30 +40,6 @@ namespace ouzel
 
     Vector2::~Vector2()
     {
-    }
-
-    const Vector2& Vector2::zero()
-    {
-        static Vector2 value(0.0f, 0.0f);
-        return value;
-    }
-
-    const Vector2& Vector2::one()
-    {
-        static Vector2 value(1.0f, 1.0f);
-        return value;
-    }
-
-    const Vector2& Vector2::unitX()
-    {
-        static Vector2 value(1.0f, 0.0f);
-        return value;
-    }
-
-    const Vector2& Vector2::unitY()
-    {
-        static Vector2 value(0.0f, 1.0f);
-        return value;
     }
 
     float Vector2::angle(const Vector2& v1, const Vector2& v2)

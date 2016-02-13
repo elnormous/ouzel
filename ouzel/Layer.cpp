@@ -53,8 +53,7 @@ namespace ouzel
             
             for (const NodePtr child : _children)
             {
-                child->calculateTransformRecursive();
-                child->visit();
+                child->visit(Matrix4::IDENTITY, false);
             }
             
             std::stable_sort(_drawQueue.begin(), _drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {
@@ -76,7 +75,7 @@ namespace ouzel
         {
             node->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
             
-            node->updateTransform(Matrix4::identity());
+            node->updateTransform(Matrix4::IDENTITY);
             
             return true;
         }

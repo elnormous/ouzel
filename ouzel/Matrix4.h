@@ -11,6 +11,8 @@ namespace ouzel
     class Matrix4
     {
     public:
+        static Matrix4 IDENTITY;
+        static Matrix4 ZERO;
         
         /**
          * Stores the columns of this 4x4 matrix.
@@ -75,25 +77,6 @@ namespace ouzel
          * Destructor.
          */
         ~Matrix4();
-        
-        /**
-         * Returns the identity matrix:
-         *
-         * 1  0  0  0
-         * 0  1  0  0
-         * 0  0  1  0
-         * 0  0  0  1
-         *
-         * @return The identity matrix.
-         */
-        static const Matrix4& identity();
-        
-        /**
-         * Returns the matrix with all zeros.
-         *
-         * @return The matrix with all zeros.
-         */
-        static const Matrix4& zero();
         
         /**
          * Creates a view matrix based on the specified input parameters.
