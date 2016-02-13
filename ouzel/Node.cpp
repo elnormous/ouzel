@@ -99,41 +99,48 @@ namespace ouzel
     
     void Node::process()
     {
-        lock();
-        
-        auto i = _children.begin();
-        NodePtr node;
-        
-        for (; i != _children.end(); ++i)
+        if (_children.empty())
         {
-            node = *i;
+            draw();
+        }
+        else
+        {
+            lock();
             
-            if (node->getZ() < 0.0f)
+            auto i = _children.begin();
+            NodePtr node;
+            
+            for (; i != _children.end(); ++i)
             {
+                node = *i;
+                
+                if (node->getZ() < 0.0f)
+                {
+                    if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility())
+                    {
+                        node->draw();
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            draw();
+            
+            for (; i != _children.end(); ++i)
+            {
+                node = *i;
+                
                 if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility())
                 {
                     node->draw();
                 }
             }
-            else
-            {
-                break;
-            }
-        }
-        
-        draw();
-        
-        for (; i != _children.end(); ++i)
-        {
-            node = *i;
             
-            if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility())
-            {
-                node->draw();
-            }
+            unlock();
         }
-        
-        unlock();
     }
     
     void Node::draw()
