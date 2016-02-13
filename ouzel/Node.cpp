@@ -418,20 +418,15 @@ namespace ouzel
     
     void Node::calculateLocalTransform() const
     {
-        Matrix4 translation;
-        translation.translate(Vector3(_position.x, _position.y, 0.0f));
+        _localTransform = Matrix4::IDENTITY;
+        _localTransform.translate(Vector3(_position.x, _position.y, 0.0f));
+        _localTransform.rotateZ(TAU - _rotation);
         
-        Matrix4 rotation;
-        rotation.rotate(Vector3(0.0f, 0.0f, -1.0f), _rotation);
+        Vector3 scale = Vector3(_scale.x * (_flipX ? -1.0f : 1.0f),
+                                _scale.y * (_flipY ? -1.0f : 1.0f),
+                                1.0f);
         
-        Vector3 realScale = Vector3(_scale.x * (_flipX ? -1.0f : 1.0f),
-                                    _scale.y * (_flipY ? -1.0f : 1.0f),
-                                    1.0f);
-        
-        Matrix4 scale;
-        scale.scale(realScale);
-        
-        _localTransform = translation * rotation * scale;
+        _localTransform.scale(scale);
         
         _localTransformDirty = false;
     }
