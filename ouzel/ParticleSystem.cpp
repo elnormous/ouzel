@@ -106,19 +106,20 @@ namespace ouzel
                 _elapsed = 0.f;
             if (_duration >= 0.0f && _duration < _elapsed)
             {
+                _finished = true;
                 stop();
-                
-                if (_removeOnFinish)
-                {
-                    removeFromParent();
-                    return;
-                }
             }
         }
         else if (_active && !_particleCount)
         {
             _active = false;
             Engine::getInstance()->unscheduleUpdate(_updateCallback);
+            
+            if (_finished && _removeOnFinish)
+            {
+                removeFromParent();
+                return;
+            }
         }
         
         if (_active)
@@ -342,6 +343,7 @@ namespace ouzel
     {
         if (!_running)
         {
+            _finished = false;
             _running = true;
             
             if (!_active)
@@ -362,6 +364,7 @@ namespace ouzel
         _emitCounter = 0.0f;
         _elapsed = 0.0f;
         _particleCount = 0;
+        _finished = false;
     }
     
     void ParticleSystem::createParticleMesh()

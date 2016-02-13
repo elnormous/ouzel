@@ -189,6 +189,7 @@ namespace ouzel
         float _elapsed = 0.0f;
         bool _active = false;
         bool _running = false;
+        bool _finished = false;
         
         bool _needsMeshUpdate = false;
         
