@@ -67,7 +67,7 @@ using namespace ouzel;
 
 -(void)dealloc
 {
-    CVDisplayLinkRelease(_displayLink);
+    if (_displayLink) CVDisplayLinkRelease(_displayLink);
 }
 
 -(BOOL)isFlipped
@@ -101,14 +101,18 @@ using namespace ouzel;
 
 -(void)close
 {
-    _running = NO;
-    
-    CGLLockContext([self.openGLContext CGLContextObj]);
-    [self.openGLContext makeCurrentContext];
-    
-    CVDisplayLinkStop(_displayLink);
-    
-    CGLUnlockContext([self.openGLContext CGLContextObj]);
+    if (_displayLink)
+    {
+        _running = NO;
+        
+        CGLLockContext([self.openGLContext CGLContextObj]);
+        [self.openGLContext makeCurrentContext];
+        
+        CVDisplayLinkRelease(_displayLink);
+        _displayLink = Nil;
+        
+        CGLUnlockContext([self.openGLContext CGLContextObj]);
+    }
 }
 
 -(void)changeDisplay
@@ -124,7 +128,8 @@ using namespace ouzel;
 
 -(void)handleQuit:(id)sender
 {
-    [_window close];
+    [self close];
+    [[NSApplication sharedApplication] terminate:self];
 }
 
 -(void)setFrameSize:(NSSize)newSize
