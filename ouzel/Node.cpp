@@ -39,52 +39,61 @@ namespace ouzel
                 calculateTransform();
             }
             
-            lock();
-            
-            std::stable_sort(_children.begin(), _children.end(), [](const NodePtr& a, const NodePtr& b) {
-                return a->getZ() > b->getZ();
-            });
-            
-            auto i = _children.begin();
-            NodePtr node;
-            
-            for (; i != _children.end(); ++i)
-            {
-                node = *i;
-                
-                if (!node->_remove)
-                {
-                    if (node->getZ() < 0.0f)
-                    {
-                        node->visit(_transform, dirty);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-            
             LayerPtr layer = _layer.lock();
-            
             // check if _parent is _layer
             bool isRoot = !_parent.owner_before(_layer) && !_layer.owner_before(_parent);
             
-            if (layer && (_globalOrder || isRoot) && checkVisibility())
+            if (_children.empty())
             {
-                layer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
-            }
-            
-            for (; i != _children.end(); ++i)
-            {
-                if (!node->_remove)
+                if (layer && (_globalOrder || isRoot) && checkVisibility())
                 {
-                    node = *i;
-                    node->visit(_transform, dirty);
+                    layer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
                 }
             }
-            
-            unlock();
+            else
+            {
+                lock();
+                
+                std::stable_sort(_children.begin(), _children.end(), [](const NodePtr& a, const NodePtr& b) {
+                    return a->getZ() > b->getZ();
+                });
+                
+                auto i = _children.begin();
+                NodePtr node;
+                
+                for (; i != _children.end(); ++i)
+                {
+                    node = *i;
+                    
+                    if (!node->_remove)
+                    {
+                        if (node->getZ() < 0.0f)
+                        {
+                            node->visit(_transform, dirty);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                
+                if (layer && (_globalOrder || isRoot) && checkVisibility())
+                {
+                    layer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
+                }
+                
+                for (; i != _children.end(); ++i)
+                {
+                    if (!node->_remove)
+                    {
+                        node = *i;
+                        node->visit(_transform, dirty);
+                    }
+                }
+                
+                unlock();
+            }
         }
     }
     
