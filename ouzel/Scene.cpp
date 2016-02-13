@@ -112,18 +112,23 @@ namespace ouzel
     {
         if (--_locked == 0)
         {
-            for (const LayerPtr& layer : _layerAddList)
+            if (!_layerAddList.empty())
             {
-                addLayer(layer);
+                for (const LayerPtr& layer : _layerAddList)
+                {
+                    addLayer(layer);
+                }
+                _layerAddList.clear();
             }
             
-            for (const LayerPtr& layer : _layerRemoveList)
+            if (!_layerRemoveList.empty())
             {
-                removeLayer(layer);
+                for (const LayerPtr& layer : _layerRemoveList)
+                {
+                    removeLayer(layer);
+                }
+                _layerRemoveList.clear();
             }
-            
-            _layerAddList.clear();
-            _layerRemoveList.clear();
         }
     }
 }

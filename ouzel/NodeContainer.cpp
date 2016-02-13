@@ -101,18 +101,23 @@ namespace ouzel
     {
         if (--_locked == 0)
         {
-            for (const NodePtr& node : _nodeAddList)
+            if (!_nodeAddList.empty())
             {
-                addChild(node);
+                for (const NodePtr& node : _nodeAddList)
+                {
+                    addChild(node);
+                }
+                _nodeAddList.clear();
             }
             
-            for (const NodePtr& node : _nodeRemoveList)
+            if (!_nodeRemoveList.empty())
             {
-                removeChild(node);
+                for (const NodePtr& node : _nodeRemoveList)
+                {
+                    removeChild(node);
+                }
+                _nodeRemoveList.clear();
             }
-            
-            _nodeAddList.clear();
-            _nodeRemoveList.clear();
         }
     }
 }

@@ -208,18 +208,23 @@ namespace ouzel
     {
         if (--_locked == 0)
         {
-            for (const UpdateCallbackPtr& updateCallback : _updateCallbackAddList)
+            if (!_updateCallbackAddList.empty())
             {
-                scheduleUpdate(updateCallback);
+                for (const UpdateCallbackPtr& updateCallback : _updateCallbackAddList)
+                {
+                    scheduleUpdate(updateCallback);
+                }
+                _updateCallbackAddList.clear();
             }
             
-            for (const UpdateCallbackPtr& updateCallback : _updateCallbackRemoveList)
+            if (!_updateCallbackRemoveList.empty())
             {
-                unscheduleUpdate(updateCallback);
+                for (const UpdateCallbackPtr& updateCallback : _updateCallbackRemoveList)
+                {
+                    unscheduleUpdate(updateCallback);
+                }
+                _updateCallbackRemoveList.clear();
             }
-            
-            _updateCallbackAddList.clear();
-            _updateCallbackRemoveList.clear();
         }
     }
 }

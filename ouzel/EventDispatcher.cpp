@@ -208,18 +208,23 @@ namespace ouzel
     {
         if (--_locked == 0)
         {
-            for (const EventHandlerPtr& eventHandler : _eventHandlerAddList)
+            if (!_eventHandlerAddList.empty())
             {
-                addEventHandler(eventHandler);
+                for (const EventHandlerPtr& eventHandler : _eventHandlerAddList)
+                {
+                    addEventHandler(eventHandler);
+                }
+                _eventHandlerAddList.clear();
             }
             
-            for (const EventHandlerPtr& eventHandler : _eventHandlerRemoveList)
+            if (!_eventHandlerRemoveList.empty())
             {
-                removeEventHandler(eventHandler);
+                for (const EventHandlerPtr& eventHandler : _eventHandlerRemoveList)
+                {
+                    removeEventHandler(eventHandler);
+                }
+                _eventHandlerRemoveList.clear();
             }
-            
-            _eventHandlerAddList.clear();
-            _eventHandlerRemoveList.clear();
         }
     }
 }
