@@ -79,6 +79,9 @@ namespace ouzel
         void stop();
         void reset();
         
+        bool isRunning() const { return _running; }
+        bool isActive() const { return _active; }
+        
         void setPositionType(PositionType positionType) { _positionType = positionType; }
         PositionType getPositionType() const { return _positionType; }
         
@@ -185,6 +188,7 @@ namespace ouzel
         float _emitCounter = 0.0f;
         float _elapsed = 0.0f;
         bool _active = false;
+        bool _running = false;
         
         bool _needsMeshUpdate = false;
         

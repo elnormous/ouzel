@@ -86,7 +86,7 @@ namespace ouzel
     
     void ParticleSystem::update(float delta)
     {
-        if (_active && _emissionRate)
+        if (_running && _emissionRate)
         {
             float rate = 1.0f / _emissionRate;
             
@@ -114,7 +114,15 @@ namespace ouzel
                     return;
                 }
             }
-            
+        }
+        else if (_active && !_particleCount)
+        {
+            _active = false;
+            Engine::getInstance()->unscheduleUpdate(_updateCallback);
+        }
+        
+        if (_active)
+        {
             for (int32_t i = _particleCount - 1; i >= 0; --i)
             {
                 _particles[i].life -= delta;
@@ -208,7 +216,6 @@ namespace ouzel
                 }
             }
 
-            
             _needsMeshUpdate = true;
         }
     }
@@ -333,20 +340,21 @@ namespace ouzel
     
     void ParticleSystem::resume()
     {
-        if (!_active)
+        if (!_running)
         {
-            _active = true;
-            Engine::getInstance()->scheduleUpdate(_updateCallback);
+            _running = true;
+            
+            if (!_active)
+            {
+                _active = true;
+                Engine::getInstance()->scheduleUpdate(_updateCallback);
+            }
         }
     }
     
     void ParticleSystem::stop()
     {
-        if (_active)
-        {
-            _active = false;
-            Engine::getInstance()->unscheduleUpdate(_updateCallback);
-        }
+        _running = false;
     }
     
     void ParticleSystem::reset()
