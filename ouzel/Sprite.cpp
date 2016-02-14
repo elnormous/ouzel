@@ -281,6 +281,10 @@ namespace ouzel
     void Sprite::setShader(const ShaderPtr& shader)
     {
         _shader = shader;
+        
+#ifndef OUZEL_PLATFORM_WINDOWS
+        _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
+#endif
     }
     
     void Sprite::setColor(const Color& color)

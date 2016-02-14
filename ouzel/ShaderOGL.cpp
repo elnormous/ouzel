@@ -71,11 +71,12 @@ namespace ouzel
         glShaderSource(_vertexShaderId, 1, reinterpret_cast<const GLchar**>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
         glCompileShader(_vertexShaderId);
         
-        printShaderMessage(_fragmentShaderId);
+        printShaderMessage(_vertexShaderId);
         
         glGetShaderiv(_vertexShaderId, GL_COMPILE_STATUS, &status);
         if (status == GL_FALSE)
         {
+            log("Failed to link shader");
             return false;
         }
         
