@@ -18,7 +18,7 @@ namespace ouzel
         virtual ~RendererD3D11();
 
         virtual void clear() override;
-        virtual void flush() override;
+        virtual void present() override;
 
         virtual void resize(const Size2& size) override;
 

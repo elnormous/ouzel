@@ -40,6 +40,11 @@ namespace ouzel
     {
         _drawCallCount = 0;
     }
+
+    void Renderer::present()
+    {
+
+    }
     
     void Renderer::flush()
     {

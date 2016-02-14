@@ -327,9 +327,9 @@ namespace ouzel
         }
     }
 
-    void RendererD3D11::flush()
+    void RendererD3D11::present()
     {
-        Renderer::flush();
+        Renderer::present();
         
         _swapChain->Present(1 /* TODO vsync off? */, 0);
     }
