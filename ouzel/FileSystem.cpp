@@ -97,14 +97,16 @@ namespace ouzel
         
         if (!directoryExists(path))
         {
-            CreateDirectory(path.c_str(), NULL);
+            MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+            CreateDirectory(szBuffer, NULL);
         }
         
         path += DIRECTORY_SEPARATOR + app;
         
         if (!directoryExists(path))
         {
-            CreateDirectory(path.c_str(), NULL);
+            MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+            CreateDirectory(szBuffer, NULL);
         }
 #endif
         return path;
@@ -118,7 +120,7 @@ namespace ouzel
             return true;
         }
         
-        return S_ISDIR(buf.st_mode);
+        return (buf.st_mode & S_IFMT) == S_IFDIR;
     }
     
     bool FileSystem::fileExists(const std::string& filename) const
@@ -129,7 +131,7 @@ namespace ouzel
             return true;
         }
         
-        return S_ISREG(buf.st_mode);
+        return (buf.st_mode & S_IFMT) == S_IFREG;
     }
     
     std::string FileSystem::getPath(const std::string& filename) const

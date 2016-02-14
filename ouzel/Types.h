@@ -93,7 +93,7 @@ namespace ouzel
     class Camera;
     typedef std::shared_ptr<Camera> CameraPtr;
     
-    class ParticleDefinition;
+    struct ParticleDefinition;
     typedef std::shared_ptr<ParticleDefinition> ParticleDefinitionPtr;
     
     class ParticleSystem;
