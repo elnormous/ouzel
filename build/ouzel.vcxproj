@@ -115,6 +115,7 @@
     <ClInclude Include="..\ouzel\Noncopyable.h" />
     <ClInclude Include="..\ouzel\ouzel.h" />
     <ClInclude Include="..\ouzel\Parallel.h" />
+    <ClInclude Include="..\ouzel\ParticleDefinition.h" />
     <ClInclude Include="..\ouzel\ParticleSystem.h" />
     <ClInclude Include="..\ouzel\Rectangle.h" />
     <ClInclude Include="..\ouzel\Renderer.h" />
