@@ -86,13 +86,33 @@ namespace ouzel
         }
         else
         {
-            _meshBuffer = _font.createMeshBuffer(_text, _color, _textAnchor);
+            updateMesh();
         }
     }
     
     void Label::setColor(const Color& color)
     {
         _color = color;
-        _meshBuffer = _font.createMeshBuffer(_text, _color, _textAnchor);
+        
+        updateMesh();
+    }
+    
+    void Label::updateMesh()
+    {
+        std::vector<uint16_t> indices;
+        std::vector<VertexPCT> vertices;
+        
+        _font.getVertices(_text, _color, _textAnchor, indices, vertices);
+        
+        _meshBuffer = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
+                                                                             vertices.data(), sizeof(VertexPCT), static_cast<uint32_t>(vertices.size()), false,
+                                                                             VertexPCT::ATTRIBUTES);
+        
+        _boundingBox.reset();
+        
+        for (VertexPCT vertex : vertices)
+        {
+            _boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
+        }
     }
 }

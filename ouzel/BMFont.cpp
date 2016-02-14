@@ -213,7 +213,7 @@ namespace ouzel
         return true;
     }
 
-    MeshBufferPtr BMFont::createMeshBuffer(const std::string& text, const Color& color, const Vector2& anchor)
+    void BMFont::getVertices(const std::string& text, const Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<VertexPCT>& vertices)
     {
         uint32_t flen;
         
@@ -223,9 +223,12 @@ namespace ouzel
         float y = _lineHeight * (1.0f - anchor.y);
         
         flen = static_cast<uint32_t>(text.length());
+
+        indices.clear();
+        vertices.clear();
         
-        std::vector<VertexPCT> vertices;
-        std::vector<uint16_t> indices;
+        indices.reserve(flen * 6);
+        vertices.reserve(flen * 4);
         
         Vector2 textCoords[4];
         
@@ -290,12 +293,5 @@ namespace ouzel
         {
             vertex.position.x -= width * anchor.x;
         }
-        
-        MeshBufferPtr meshBuffer =
-            Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
-                                                                   vertices.data(), sizeof(VertexPCT), static_cast<uint32_t>(vertices.size()), false,
-                                                                   VertexPCT::ATTRIBUTES);
-        
-        return meshBuffer;
     }
 }

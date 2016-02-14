@@ -43,7 +43,7 @@ namespace ouzel
         bool loadFont(const std::string& filename);
         float getHeight() { return _lineHeight; }
         
-        MeshBufferPtr createMeshBuffer(const std::string& text, const Color& color, const Vector2& anchor = Vector2(0.5f, 0.5f));
+        void getVertices(const std::string& text, const Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<VertexPCT>& vertices);
         
         const TexturePtr& getTexture() const { return _texture; }
 

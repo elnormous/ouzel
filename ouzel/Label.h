@@ -32,6 +32,8 @@ namespace ouzel
         virtual void setColor(const Color& color);
         
     protected:
+        void updateMesh();
+        
         TexturePtr _texture;
         MeshBufferPtr _meshBuffer;
         ShaderPtr _shader;

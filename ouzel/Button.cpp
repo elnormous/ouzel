@@ -9,15 +9,18 @@
 #include "EventDispatcher.h"
 #include "Layer.h"
 #include "Camera.h"
+#include "Label.h"
 #include "Utils.h"
 
 namespace ouzel
 {
-    std::shared_ptr<Button> Button::create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(const VoidPtr&)>& callback)
+    std::shared_ptr<Button> Button::create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
+                                           const std::string& label, const Color& labelColor, const std::string& font,
+                                           const std::function<void(const VoidPtr&)>& callback)
     {
         std::shared_ptr<Button> result = std::make_shared<Button>();
         
-        if (!result->init(normal, selected, pressed, disabled, callback))
+        if (!result->init(normal, selected, pressed, disabled, label, labelColor, font, callback))
         {
             result.reset();
         }
@@ -35,7 +38,8 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
-    bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::function<void(const VoidPtr&)>& callback)
+    bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
+                      const std::string& label, const Color& labelColor, const std::string& font, const std::function<void(const VoidPtr&)>& callback)
     {
         _eventHandler = std::make_shared<EventHandler>();
         
@@ -60,6 +64,7 @@ namespace ouzel
             _selectedSprite = std::make_shared<Sprite>();
             if (_selectedSprite->initFromFile(selected))
             {
+                _boundingBox.merge(_selectedSprite->getBoundingBox());
                 addChild(_selectedSprite);
             }
         }
@@ -69,6 +74,7 @@ namespace ouzel
             _pressedSprite = std::make_shared<Sprite>();
             if (_pressedSprite->initFromFile(pressed))
             {
+                _boundingBox.merge(_pressedSprite->getBoundingBox());
                 addChild(_pressedSprite);
             }
         }
@@ -78,7 +84,19 @@ namespace ouzel
             _disabledSprite = std::make_shared<Sprite>();
             if (_disabledSprite->initFromFile(disabled))
             {
+                _boundingBox.merge(_disabledSprite->getBoundingBox());
                 addChild(_disabledSprite);
+            }
+        }
+        
+        if (!label.empty())
+        {
+            _label = Label::create(font, label);
+            if (_label)
+            {
+                _boundingBox.merge(_label->getBoundingBox());
+                _label->setColor(labelColor);
+                addChild(_label);
             }
         }
         
