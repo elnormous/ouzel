@@ -38,6 +38,8 @@ namespace ouzel
         const FileSystemPtr& getFileSystem() const { return _fileSystem; }
         const InputPtr& getInput() const { return _input; }
         
+        void exit();
+        
         void begin();
         void end();
         void run();

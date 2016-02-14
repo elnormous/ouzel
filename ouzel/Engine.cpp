@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cstdlib>
 #include "Engine.h"
 #include "CompileConfig.h"
 #include "Cache.h"
@@ -123,6 +124,13 @@ namespace ouzel
         _previousFrameTime = getCurrentMicroSeconds();
 
         return true;
+    }
+    
+    void Engine::exit()
+    {
+#ifndef OUZEL_PLATFORM_TVOS
+        ::exit(0);
+#endif
     }
     
     void Engine::begin()
