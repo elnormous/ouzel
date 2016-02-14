@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "DrawNode.h"
+#include "CompileConfig.h"
 #include "Engine.h"
 #include "Renderer.h"
 #include "Cache.h"
