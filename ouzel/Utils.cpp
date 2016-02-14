@@ -59,22 +59,22 @@ namespace ouzel
         return currentTime.tv_sec * 1000000L + currentTime.tv_usec;
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         
-        static uint64_t frequency = 0;
+        static double invFrequency = 0.0;
         LARGE_INTEGER li;
         
-        if (!frequency)
+        if (invFrequency == 0.0f)
         {
             if (!QueryPerformanceFrequency(&li))
             {
                 log("Failed to query frequency");
                 return 0;
             }
-            frequency = li.QuadPart / 1000000L;
+            invFrequency = 1000000.0 / li.QuadPart;
         }
         
         QueryPerformanceCounter(&li);
         
-        return li.QuadPart / frequency;
+        return static_cast<uint64_t>(li.QuadPart * invFrequency);
 #else
         return 0;
 #endif
