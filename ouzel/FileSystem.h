@@ -20,6 +20,7 @@ namespace ouzel
         virtual ~FileSystem();
         
         std::string getHomeDirectory();
+        std::string getStorageDirectory(const std::string& developer, const std::string& app);
         
         std::string getPath(const std::string& filename) const;
         
@@ -27,6 +28,7 @@ namespace ouzel
         
         std::string getExtension(const std::string& path) const;
         
+        bool directoryExists(const std::string& filename) const;
         bool fileExists(const std::string& filename) const;
         
     protected:

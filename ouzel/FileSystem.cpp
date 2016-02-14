@@ -7,6 +7,7 @@
 #if defined(OUZEL_PLATFORM_OSX)
 #include <sys/types.h>
 #include <pwd.h>
+#include <CoreServices/CoreServices.h>
 #elif defined(OUZEL_PLATFORM_WINDOWS)
 #include <Shlobj.h>
 #endif
@@ -58,6 +59,68 @@ namespace ouzel
         return "";
     }
     
+    std::string FileSystem::getStorageDirectory(const std::string& developer, const std::string& app)
+    {
+        std::string path;
+        
+#if defined(OUZEL_PLATFORM_OSX)
+        FSRef ref;
+        OSType folderType = kApplicationSupportFolderType;
+        
+        FSFindFolder( kUserDomain, folderType, kCreateFolder, &ref );
+        
+        FSRefMakePath( &ref, (UInt8*)&TEMP_BUFFER, sizeof(TEMP_BUFFER));
+        
+        path = TEMP_BUFFER;
+        
+        CFStringRef bundleIdentifier = CFBundleGetIdentifier(CFBundleGetMainBundle());
+        CFStringGetCString(bundleIdentifier, TEMP_BUFFER, sizeof(TEMP_BUFFER), kCFStringEncodingUTF8);
+        CFRelease(bundleIdentifier);
+        
+        path += DIRECTORY_SEPARATOR + TEMP_BUFFER;
+        
+        if (!directoryExists(path))
+        {
+            mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+        }
+#elif  defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+        //TODO: implement
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        WCHAR szBuffer[MAX_PATH];
+        if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_COMMON_APPDATA, NULL, 0, szBuffer)))
+        {
+            WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+            path = TEMP_BUFFER;
+        }
+        
+        path += DIRECTORY_SEPARATOR + developer;
+        
+        if (!directoryExists(path))
+        {
+            CreateDirectory(path.c_str(), NULL);
+        }
+        
+        path += DIRECTORY_SEPARATOR + app;
+        
+        if (!directoryExists(path))
+        {
+            CreateDirectory(path.c_str(), NULL);
+        }
+#endif
+        return path;
+    }
+    
+    bool FileSystem::directoryExists(const std::string& filename) const
+    {
+        struct stat buf;
+        if (stat(filename.c_str(), &buf) != -1)
+        {
+            return true;
+        }
+        
+        return S_ISDIR(buf.st_mode);
+    }
+    
     bool FileSystem::fileExists(const std::string& filename) const
     {
         struct stat buf;
@@ -65,7 +128,8 @@ namespace ouzel
         {
             return true;
         }
-        return false;
+        
+        return S_ISREG(buf.st_mode);
     }
     
     std::string FileSystem::getPath(const std::string& filename) const
