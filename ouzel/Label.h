@@ -28,6 +28,9 @@ namespace ouzel
         virtual void setText(const std::string& text);
         virtual const std::string& getText() const { return _text; }
         
+        virtual const Color& getColor() const { return _color; }
+        virtual void setColor(const Color& color);
+        
     protected:
         TexturePtr _texture;
         MeshBufferPtr _meshBuffer;
@@ -37,5 +40,7 @@ namespace ouzel
         BMFont _font;
         Vector2 _textAnchor;
         std::string _text;
+        
+        Color _color = Color(255, 255, 255, 255);
     };
 }

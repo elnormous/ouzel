@@ -86,7 +86,12 @@ namespace ouzel
         }
         else
         {
-            _meshBuffer = _font.createMeshBuffer(text, Color(255, 255, 255, 255), _textAnchor);
+            _meshBuffer = _font.createMeshBuffer(_text, _color, _textAnchor);
         }
+    }
+    
+    void Label::setColor(const Color& color)
+    {
+        _meshBuffer = _font.createMeshBuffer(_text, _color, _textAnchor);
     }
 }
