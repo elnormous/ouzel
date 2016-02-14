@@ -1,9 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <rapidjson/rapidjson.h>
-#include <rapidjson/filereadstream.h>
-#include <rapidjson/document.h>
+#include <cstdlib>
 #include "CompileConfig.h"
 #include "ParticleSystem.h"
 #include "Engine.h"
@@ -69,11 +67,11 @@ namespace ouzel
             
             Matrix4 transform;
             
-            if (_positionType == PositionType::FREE || _positionType == PositionType::RELATIVE)
+            if (_positionType == ParticleDefinition::PositionType::FREE || _positionType == ParticleDefinition::PositionType::RELATIVE)
             {
                 transform = layer->getCamera()->getViewProjection();
             }
-            else if (_positionType == PositionType::GROUPED)
+            else if (_positionType == ParticleDefinition::PositionType::GROUPED)
             {
                 transform = layer->getCamera()->getViewProjection() * getTransform();
             }
@@ -86,25 +84,25 @@ namespace ouzel
     
     void ParticleSystem::update(float delta)
     {
-        if (_running && _emissionRate)
+        if (_running && _particleDefinition.emissionRate)
         {
-            float rate = 1.0f / _emissionRate;
+            float rate = 1.0f / _particleDefinition.emissionRate;
             
-            if (_particleCount < _maxParticles)
+            if (_particleCount < _particleDefinition.maxParticles)
             {
                 _emitCounter += delta;
                 if (_emitCounter < 0.f)
                     _emitCounter = 0.f;
             }
             
-            int emitCount = fminf(_maxParticles - _particleCount, _emitCounter / rate);
+            int emitCount = fminf(_particleDefinition.maxParticles - _particleCount, _emitCounter / rate);
             emitParticles(emitCount);
             _emitCounter -= rate * emitCount;
             
             _elapsed += delta;
             if (_elapsed < 0.f)
                 _elapsed = 0.f;
-            if (_duration >= 0.0f && _duration < _elapsed)
+            if (_particleDefinition.duration >= 0.0f && _particleDefinition.duration < _elapsed)
             {
                 _finished = true;
                 stop();
@@ -130,7 +128,7 @@ namespace ouzel
                 
                 if (_particles[i].life >= 0.0f)
                 {
-                    if (_emitterType == EmitterType::GRAVITY)
+                    if (_particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
                     {
                         Vector2 tmp, radial, tangential;
                         
@@ -150,8 +148,8 @@ namespace ouzel
                         tangential.y *= _particles[i].tangentialAcceleration;
                         
                         // (gravity + radial + tangential) * delta
-                        tmp.x = radial.x + tangential.x + _gravity.x;
-                        tmp.y = radial.y + tangential.y + _gravity.y;
+                        tmp.x = radial.x + tangential.x + _particleDefinition.gravity.x;
+                        tmp.y = radial.y + tangential.y + _particleDefinition.gravity.y;
                         tmp.x *= delta;
                         tmp.y *= delta;
                         
@@ -162,8 +160,8 @@ namespace ouzel
                         // if (_configName.length()>0 && _yCoordFlipped != -1)
                         
                         // this is cocos2d-x v3.0
-                        tmp.x = _particles[i].direction.x * delta * _yCoordFlipped;
-                        tmp.y = _particles[i].direction.y * delta * _yCoordFlipped;
+                        tmp.x = _particles[i].direction.x * delta * _particleDefinition.yCoordFlipped;
+                        tmp.y = _particles[i].direction.y * delta * _particleDefinition.yCoordFlipped;
                         _particles[i].position.x += tmp.x;
                         _particles[i].position.y += tmp.y;
                     }
@@ -172,7 +170,7 @@ namespace ouzel
                         _particles[i].angle += _particles[i].degreesPerSecond * delta;
                         _particles[i].radius += _particles[i].deltaRadius * delta;
                         _particles[i].position.x = -cosf(_particles[i].angle) * _particles[i].radius;
-                        _particles[i].position.y = -sinf(_particles[i].angle) * _particles[i].radius * _yCoordFlipped;
+                        _particles[i].position.y = -sinf(_particles[i].angle) * _particles[i].radius * _particleDefinition.yCoordFlipped;
                     }
                     
                     //color r,g,b,a
@@ -198,7 +196,7 @@ namespace ouzel
             // Update bounding box
             _boundingBox.reset();
             
-            if (_positionType == PositionType::FREE || _positionType == PositionType::RELATIVE)
+            if (_positionType == ParticleDefinition::PositionType::FREE || _positionType == ParticleDefinition::PositionType::RELATIVE)
             {
                 const Matrix4& inverseTransform = getInverseTransform();
                 
@@ -209,7 +207,7 @@ namespace ouzel
                     _boundingBox.insertPoint(Vector2(position.x, position.y));
                 }
             }
-            else if (_positionType == PositionType::GROUPED)
+            else if (_particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
             {
                 for (int32_t i = 0; i < _particleCount; i++)
                 {
@@ -223,110 +221,16 @@ namespace ouzel
     
     bool ParticleSystem::initFromFile(const std::string& filename)
     {
-        File file(filename, File::Mode::READ, false);
+        ParticleDefinitionPtr particleDefinition = Engine::getInstance()->getCache()->getParticleDefinition(filename);
         
-        if (file)
-        {
-            rapidjson::FileReadStream is(file.getFile().get(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
-            
-            rapidjson::Document document;
-            document.ParseStream<0>(is);
-            
-            if (document.HasParseError())
-            {
-                return false;
-            }
-            
-            if (document.HasMember("blendFuncSource")) _blendFuncSource = document["blendFuncSource"].GetInt();
-            if (document.HasMember("blendFuncDestination")) _blendFuncDestination = document["blendFuncDestination"].GetInt();
-            
-            
-            if (document.HasMember("emitterType"))
-            {
-                uint32_t emitterType = document["emitterType"].GetInt();
-                
-                switch (emitterType)
-                {
-                    case 0: _emitterType = EmitterType::GRAVITY; break;
-                    case 1: _emitterType = EmitterType::RADIUS; break;
-                }
-            }
-            
-            if (document.HasMember("maxParticles")) _maxParticles = document["maxParticles"].GetInt();
-            
-            if (document.HasMember("duration")) _duration = static_cast<float>(document["duration"].GetDouble());
-            if (document.HasMember("particleLifespan")) _particleLifespan = static_cast<float>(document["particleLifespan"].GetDouble());
-            if (document.HasMember("particleLifespanVariance")) _particleLifespanVariance = static_cast<float>(document["particleLifespanVariance"].GetDouble());
-            
-            if (document.HasMember("speed")) _speed = static_cast<float>(document["speed"].GetDouble());
-            if (document.HasMember("speedVariance")) _speedVariance = static_cast<float>(document["speedVariance"].GetDouble());
-            
-            if (document.HasMember("absolutePosition")) _absolutePosition = document["absolutePosition"].GetBool();
-            
-            if (document.HasMember("yCoordFlipped")) _yCoordFlipped = (document["yCoordFlipped"].GetInt() == 1);
-            
-            if (document.HasMember("sourcePositionx")) _sourcePosition.x = static_cast<float>(document["sourcePositionx"].GetDouble());
-            if (document.HasMember("sourcePositiony")) _sourcePosition.y = static_cast<float>(document["sourcePositiony"].GetDouble());
-            if (document.HasMember("sourcePositionVariancex")) _sourcePositionVariance.x = static_cast<float>(document["sourcePositionVariancex"].GetDouble());
-            if (document.HasMember("sourcePositionVariancey")) _sourcePositionVariance.y = static_cast<float>(document["sourcePositionVariancey"].GetDouble());
-            
-            if (document.HasMember("startParticleSize")) _startParticleSize = static_cast<float>(document["startParticleSize"].GetDouble());
-            if (document.HasMember("startParticleSizeVariance")) _startParticleSizeVariance = static_cast<float>(document["startParticleSizeVariance"].GetDouble());
-            if (document.HasMember("finishParticleSize")) _finishParticleSize = static_cast<float>(document["finishParticleSize"].GetDouble());
-            if (document.HasMember("finishParticleSizeVariance")) _finishParticleSizeVariance = static_cast<float>(document["finishParticleSizeVariance"].GetDouble());
-            if (document.HasMember("angle")) _angle = static_cast<float>(document["angle"].GetDouble());
-            if (document.HasMember("angleVariance")) _angleVariance = static_cast<float>(document["angleVariance"].GetDouble());
-            if (document.HasMember("rotationStart")) _startRotation = static_cast<float>(document["rotationStart"].GetDouble());
-            if (document.HasMember("rotationStartVariance")) _startRotationVariance = static_cast<float>(document["rotationStartVariance"].GetDouble());
-            if (document.HasMember("rotationEnd")) _finishRotation = static_cast<float>(document["rotationEnd"].GetDouble());
-            if (document.HasMember("rotationEndVariance")) _finishRotationVariance = static_cast<float>(document["rotationEndVariance"].GetDouble());
-            if (document.HasMember("rotatePerSecond")) _rotatePerSecond = static_cast<float>(document["rotatePerSecond"].GetDouble());
-            if (document.HasMember("rotatePerSecondVariance")) _rotatePerSecondVariance = static_cast<float>(document["rotatePerSecondVariance"].GetDouble());
-            if (document.HasMember("minRadius")) _minRadius = static_cast<float>(document["minRadius"].GetDouble());
-            if (document.HasMember("minRadiusVariance")) _minRadiusVariance = static_cast<float>(document["minRadiusVariance"].GetDouble());
-            if (document.HasMember("maxRadius")) _maxRadius = static_cast<float>(document["maxRadius"].GetDouble());
-            if (document.HasMember("maxRadiusVariance")) _maxRadiusVariance = static_cast<float>(document["maxRadiusVariance"].GetDouble());
-            
-            if (document.HasMember("radialAcceleration")) _radialAcceleration = static_cast<float>(document["radialAcceleration"].GetDouble());
-            if (document.HasMember("radialAccelVariance")) _radialAccelVariance = static_cast<float>(document["radialAccelVariance"].GetDouble());
-            if (document.HasMember("tangentialAcceleration")) _tangentialAcceleration = static_cast<float>(document["tangentialAcceleration"].GetDouble());
-            if (document.HasMember("tangentialAccelVariance")) _tangentialAccelVariance = static_cast<float>(document["tangentialAccelVariance"].GetDouble());
-            
-            if (document.HasMember("rotationIsDir")) _rotationIsDir = static_cast<float>(document["rotationIsDir"].GetBool());
-            
-            if (document.HasMember("gravityx")) _gravity.x = static_cast<float>(document["gravityx"].GetDouble());
-            if (document.HasMember("gravityy")) _gravity.y = static_cast<float>(document["gravityy"].GetDouble());
-            
-            if (document.HasMember("startColorRed")) _startColorRed = static_cast<float>(document["startColorRed"].GetDouble());
-            if (document.HasMember("startColorGreen")) _startColorGreen = static_cast<float>(document["startColorGreen"].GetDouble());
-            if (document.HasMember("startColorBlue")) _startColorBlue = static_cast<float>(document["startColorBlue"].GetDouble());
-            if (document.HasMember("startColorAlpha")) _startColorAlpha = static_cast<float>(document["startColorAlpha"].GetDouble());
-            
-            if (document.HasMember("startColorVarianceRed")) _startColorRedVariance = static_cast<float>(document["startColorVarianceRed"].GetDouble());
-            if (document.HasMember("startColorVarianceGreen")) _startColorGreenVariance = static_cast<float>(document["startColorVarianceGreen"].GetDouble());
-            if (document.HasMember("startColorVarianceBlue")) _startColorBlueVariance = static_cast<float>(document["startColorVarianceBlue"].GetDouble());
-            if (document.HasMember("startColorVarianceAlpha")) _startColorAlphaVariance = static_cast<float>(document["startColorVarianceAlpha"].GetDouble());
-            
-            if (document.HasMember("finishColorRed")) _finishColorRed = static_cast<float>(document["finishColorRed"].GetDouble());
-            if (document.HasMember("finishColorGreen")) _finishColorGreen = static_cast<float>(document["finishColorGreen"].GetDouble());
-            if (document.HasMember("finishColorBlue")) _finishColorBlue = static_cast<float>(document["finishColorBlue"].GetDouble());
-            if (document.HasMember("finishColorAlpha")) _finishColorAlpha = static_cast<float>(document["finishColorAlpha"].GetDouble());
-            
-            if (document.HasMember("finishColorVarianceRed")) _finishColorRedVariance = static_cast<float>(document["finishColorVarianceRed"].GetDouble());
-            if (document.HasMember("finishColorVarianceGreen")) _finishColorGreenVariance = static_cast<float>(document["finishColorVarianceGreen"].GetDouble());
-            if (document.HasMember("finishColorVarianceBlue")) _finishColorBlueVariance = static_cast<float>(document["finishColorVarianceBlue"].GetDouble());
-            if (document.HasMember("finishColorVarianceAlpha")) _finishColorAlphaVariance = static_cast<float>(document["finishColorVarianceAlpha"].GetDouble());
-            
-            if (document.HasMember("textureFileName")) _textureFilename = document["textureFileName"].GetString();
-        }
-        else
+        if (!particleDefinition)
         {
             return false;
         }
         
-        _emissionRate = static_cast<float>(_maxParticles) / _particleLifespan;
-        
-        _texture = Engine::getInstance()->getCache()->getTexture(_textureFilename);
+        _particleDefinition = *particleDefinition;
+        _positionType = _particleDefinition.positionType;
+        _texture = Engine::getInstance()->getCache()->getTexture(_particleDefinition.textureFilename);
         
         if (!_texture)
         {
@@ -369,10 +273,10 @@ namespace ouzel
     
     void ParticleSystem::createParticleMesh()
     {
-        _indices.reserve(_maxParticles * 6);
-        _vertices.reserve(_maxParticles * 4);
+        _indices.reserve(_particleDefinition.maxParticles * 6);
+        _vertices.reserve(_particleDefinition.maxParticles * 4);
         
-        for (int32_t i = 0; i < _maxParticles; ++i)
+        for (int32_t i = 0; i < _particleDefinition.maxParticles; ++i)
         {
             _indices.push_back(i * 4 + 0);
             _indices.push_back(i * 4 + 1);
@@ -393,7 +297,7 @@ namespace ouzel
                                                                        static_cast<uint32_t>(_vertices.size()), true,
                                                                        VertexPCT::ATTRIBUTES);
         
-        _particles.resize(_maxParticles);
+        _particles.resize(_particleDefinition.maxParticles);
     }
     
     void ParticleSystem::updateParticleMesh()
@@ -402,11 +306,11 @@ namespace ouzel
         {
             Vector2 position;
             
-            if (_positionType == PositionType::FREE)
+            if (_positionType == ParticleDefinition::PositionType::FREE)
             {
                 position = _particles[i].position;
             }
-            else if (_positionType == PositionType::RELATIVE)
+            else if (_positionType == ParticleDefinition::PositionType::RELATIVE)
             {
                 position = _position + _particles[i].position;
             }
@@ -447,9 +351,9 @@ namespace ouzel
     
     void ParticleSystem::emitParticles(uint32_t particles)
     {
-        if (_particleCount + particles > _maxParticles)
+        if (_particleCount + particles > _particleDefinition.maxParticles)
         {
-            particles = _maxParticles - _particleCount;
+            particles = _particleDefinition.maxParticles - _particleCount;
         }
         
         if (particles)
@@ -458,38 +362,38 @@ namespace ouzel
             {
                 Vector2 position;
                 
-                if (_positionType == PositionType::FREE)
+                if (_positionType == ParticleDefinition::PositionType::FREE)
                 {
                     position = convertLocalToWorld(Vector2::ZERO);
                 }
-                else if (_positionType == PositionType::RELATIVE)
+                else if (_positionType == ParticleDefinition::PositionType::RELATIVE)
                 {
                     position = convertLocalToWorld(Vector2::ZERO) - _position;
                 }
             
                 for (uint32_t i = _particleCount; i < _particleCount + particles; ++i)
                 {
-                    if (_emitterType == EmitterType::GRAVITY)
+                    if (_particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
                     {
-                        _particles[i].life = fmaxf(_particleLifespan + _particleLifespanVariance * RANDOM_MINUS1_1(), 0.0f);
+                        _particles[i].life = fmaxf(_particleDefinition.particleLifespan + _particleDefinition.particleLifespanVariance * RANDOM_MINUS1_1(), 0.0f);
                         
-                        _particles[i].position = _sourcePosition + position + Vector2(_sourcePositionVariance.x * RANDOM_MINUS1_1(),
-                                                                                      _sourcePositionVariance.y * RANDOM_MINUS1_1());
+                        _particles[i].position = _particleDefinition.sourcePosition + position + Vector2(_particleDefinition.sourcePositionVariance.x * RANDOM_MINUS1_1(),
+                                                                                                         _particleDefinition.sourcePositionVariance.y * RANDOM_MINUS1_1());
                         
-                        _particles[i].size = fmaxf(_startParticleSize + _startParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
+                        _particles[i].size = fmaxf(_particleDefinition.startParticleSize + _particleDefinition.startParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
                         
-                        float finishSize = fmaxf(_finishParticleSize + _finishParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
+                        float finishSize = fmaxf(_particleDefinition.finishParticleSize + _particleDefinition.finishParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
                         _particles[i].deltaSize = (finishSize - _particles[i].size) / _particles[i].life;
                         
-                        _particles[i].colorRed = clamp(_startColorRed + _startColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                        _particles[i].colorGreen = clamp(_startColorGreen + _startColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                        _particles[i].colorBlue = clamp(_startColorBlue + _startColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                        _particles[i].colorAlpha = clamp(_startColorAlpha + _startColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        _particles[i].colorRed = clamp(_particleDefinition.startColorRed + _particleDefinition.startColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        _particles[i].colorGreen = clamp(_particleDefinition.startColorGreen + _particleDefinition.startColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        _particles[i].colorBlue = clamp(_particleDefinition.startColorBlue + _particleDefinition.startColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        _particles[i].colorAlpha = clamp(_particleDefinition.startColorAlpha + _particleDefinition.startColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
                         
-                        float finishColorRed = clamp(_finishColorRed + _finishColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                        float finishColorGreen = clamp(_finishColorGreen + _finishColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                        float finishColorBlue = clamp(_finishColorBlue + _finishColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                        float finishColorAlpha = clamp(_finishColorAlpha + _finishColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        float finishColorRed = clamp(_particleDefinition.finishColorRed + _particleDefinition.finishColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        float finishColorGreen = clamp(_particleDefinition.finishColorGreen + _particleDefinition.finishColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        float finishColorBlue = clamp(_particleDefinition.finishColorBlue + _particleDefinition.finishColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                        float finishColorAlpha = clamp(_particleDefinition.finishColorAlpha + _particleDefinition.finishColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
                         
                         _particles[i].deltaColorRed = (finishColorRed - _particles[i].colorRed) / _particles[i].life;
                         _particles[i].deltaColorGreen = (finishColorGreen - _particles[i].colorGreen) / _particles[i].life;
@@ -498,39 +402,39 @@ namespace ouzel
                         
                         //_particles[i].finishColor = finishColor;
                         
-                        _particles[i].rotation = _startRotation + _startRotationVariance * RANDOM_MINUS1_1();
+                        _particles[i].rotation = _particleDefinition.startRotation + _particleDefinition.startRotationVariance * RANDOM_MINUS1_1();
                         
-                        float finishRotation = _finishRotation + _finishRotationVariance * RANDOM_MINUS1_1();
+                        float finishRotation = _particleDefinition.finishRotation + _particleDefinition.finishRotationVariance * RANDOM_MINUS1_1();
                         _particles[i].deltaRotation = (finishRotation - _particles[i].rotation) / _particles[i].life;
                         
-                        _particles[i].radialAcceleration = _radialAcceleration + _radialAcceleration * RANDOM_MINUS1_1();
-                        _particles[i].tangentialAcceleration = _tangentialAcceleration + _tangentialAcceleration * RANDOM_MINUS1_1();
+                        _particles[i].radialAcceleration = _particleDefinition.radialAcceleration + _particleDefinition.radialAcceleration * RANDOM_MINUS1_1();
+                        _particles[i].tangentialAcceleration = _particleDefinition.tangentialAcceleration + _particleDefinition.tangentialAcceleration * RANDOM_MINUS1_1();
                         
-                        if (_rotationIsDir)
+                        if (_particleDefinition.rotationIsDir)
                         {
-                            float a = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
+                            float a = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * RANDOM_MINUS1_1());
                             Vector2 v(cosf(a), sinf(a));
-                            float s = _speed + _speedVariance * RANDOM_MINUS1_1();
+                            float s = _particleDefinition.speed + _particleDefinition.speedVariance * RANDOM_MINUS1_1();
                             Vector2 dir = v * s;
                             _particles[i].direction = dir;
                             _particles[i].rotation = -radToDeg(dir.getAngle());
                         }
                         else
                         {
-                            float a = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
+                            float a = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * RANDOM_MINUS1_1());
                             Vector2 v(cosf(a), sinf(a));
-                            float s = _speed + _speedVariance * RANDOM_MINUS1_1();
+                            float s = _particleDefinition.speed + _particleDefinition.speedVariance * RANDOM_MINUS1_1();
                             Vector2 dir = v * s;
                             _particles[i].direction = dir;
                         }
                     }
                     else
                     {
-                        _particles[i].radius = _maxRadius + _maxRadiusVariance * RANDOM_MINUS1_1();
-                        _particles[i].angle = degToRad(_angle + _angleVariance * RANDOM_MINUS1_1());
-                        _particles[i].degreesPerSecond = degToRad(_rotatePerSecond + _rotatePerSecondVariance * RANDOM_MINUS1_1());
+                        _particles[i].radius = _particleDefinition.maxRadius + _particleDefinition.maxRadiusVariance * RANDOM_MINUS1_1();
+                        _particles[i].angle = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * RANDOM_MINUS1_1());
+                        _particles[i].degreesPerSecond = degToRad(_particleDefinition.rotatePerSecond + _particleDefinition.rotatePerSecondVariance * RANDOM_MINUS1_1());
                         
-                        float endRadius = _minRadius + _minRadiusVariance * RANDOM_MINUS1_1();
+                        float endRadius = _particleDefinition.minRadius + _particleDefinition.minRadiusVariance * RANDOM_MINUS1_1();
                         _particles[i].deltaRadius = (endRadius - _particles[i].radius) / _particles[i].life;
                     }
                 }

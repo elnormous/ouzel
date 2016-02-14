@@ -17,17 +17,23 @@ namespace ouzel
         virtual ~Cache();
         
         void preloadTexture(const std::string& filename, bool dynamic = false);
-        TexturePtr getTexture(const std::string& filename);
+        TexturePtr getTexture(const std::string& filename) const;
         void setTexture(const std::string& filename, const TexturePtr& texture);
         virtual void releaseTextures();
         
         ShaderPtr getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, const ShaderPtr& shader);
         
+        void preloadParticleDefinition(const std::string& filename);
+        ParticleDefinitionPtr getParticleDefinition(const std::string& filename) const;
+        
     protected:
         Cache();
         
-        std::unordered_map<std::string, TexturePtr> _textures;
-        std::unordered_map<std::string, ShaderPtr> _shaders;
+        ParticleDefinitionPtr loadParticleDefinition(const std::string& filename) const;
+        
+        mutable std::unordered_map<std::string, TexturePtr> _textures;
+        mutable std::unordered_map<std::string, ShaderPtr> _shaders;
+        mutable std::unordered_map<std::string, ParticleDefinitionPtr> _particleDefinitions;
     };
 }
