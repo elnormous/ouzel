@@ -92,6 +92,7 @@ namespace ouzel
     
     void Label::setColor(const Color& color)
     {
+        _color = color;
         _meshBuffer = _font.createMeshBuffer(_text, _color, _textAnchor);
     }
 }
