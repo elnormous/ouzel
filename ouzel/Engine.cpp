@@ -128,9 +128,7 @@ namespace ouzel
     
     void Engine::exit()
     {
-#ifndef OUZEL_PLATFORM_TVOS
-        ::exit(0);
-#endif
+        _active = false;
     }
     
     void Engine::begin()
@@ -146,7 +144,7 @@ namespace ouzel
         _cache.reset();
     }
     
-    void Engine::run()
+    bool Engine::run()
     {
         uint64_t currentTime = getCurrentMicroSeconds();
         float delta = static_cast<float>((currentTime - _previousFrameTime)) / 1000000.0f;
@@ -170,6 +168,8 @@ namespace ouzel
         _renderer->clear();
         _sceneManager->draw();
         _renderer->present();
+        
+        return _active;
     }
     
     void Engine::scheduleUpdate(const UpdateCallbackPtr& callback)

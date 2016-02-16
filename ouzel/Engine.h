@@ -42,7 +42,7 @@ namespace ouzel
         
         void begin();
         void end();
-        void run();
+        bool run();
         
         float getTargetFPS() const { return _targetFPS; }
         float getFPS() const { return _currentFPS; }
@@ -76,5 +76,6 @@ namespace ouzel
         std::set<UpdateCallbackPtr> _updateCallbackRemoveList;
         
         int32_t _locked = 0;
+        bool _active = true;
     };
 }

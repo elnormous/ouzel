@@ -161,10 +161,17 @@ using namespace ouzel;
         Engine::getInstance()->getRenderer()->resize(Size2(_frame.size.width, _frame.size.height));
     }
     
-    Engine::getInstance()->run();
+    bool quit = !Engine::getInstance()->run();
+
     [self.openGLContext flushBuffer];
     
     CGLUnlockContext([self.openGLContext CGLContextObj]);
+    
+    if (quit)
+    {
+        [self close];
+        [[NSApplication sharedApplication] terminate:self];
+    }
 }
 
 -(BOOL)acceptsFirstResponder

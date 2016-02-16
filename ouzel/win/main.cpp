@@ -49,7 +49,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
             break;
         }
 
-        ouzel::Engine::getInstance()->run();
+        if (!ouzel::Engine::getInstance()->run())
+        {
+            break;
+        }
     }
     
     return 0;
