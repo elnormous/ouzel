@@ -51,7 +51,6 @@ namespace ouzel
         
         CameraPtr _camera;
         std::vector<NodePtr> _drawQueue;
-        bool _reorderNodes = false;
         
         SceneWeakPtr _scene;
         int32_t _order = 0;
