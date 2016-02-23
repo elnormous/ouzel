@@ -145,7 +145,7 @@ namespace ouzel
 
         _mipLevels = 1;
 
-        if (_mipmaps && isPOT(width) && isPOT(height))
+        if (_mipmaps)
         {
             UINT mipWidth = width / 2;
             UINT mipHeight = height / 2;
