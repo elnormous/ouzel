@@ -20,6 +20,8 @@ namespace ouzel
         virtual void clear() override;
         virtual void present() override;
 
+        virtual std::vector<Size2> getSupportedResolutions() const override;
+
         virtual void resize(const Size2& size) override;
 
         virtual void setFullscreen(bool fullscreen) override;
@@ -62,6 +64,7 @@ namespace ouzel
         ID3D11Device* _device = nullptr;
         ID3D11DeviceContext* _context = nullptr;
         IDXGISwapChain* _swapChain = nullptr;
+        IDXGIAdapter* _adapter = nullptr;
         ID3D11Texture2D* _backBuffer = nullptr;
         ID3D11RenderTargetView* _rtView = nullptr;
         ID3D11SamplerState* _samplerState = nullptr;

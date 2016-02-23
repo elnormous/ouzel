@@ -59,7 +59,9 @@ namespace ouzel
         virtual void clear();
         virtual void present();
         virtual void flush();
-        
+
+        virtual std::vector<Size2> getSupportedResolutions() const;
+
         virtual const Size2& getSize() const { return _size; }
         virtual void resize(const Size2& size);
         virtual bool getResizable() const { return _resizable; }

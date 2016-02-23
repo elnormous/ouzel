@@ -42,6 +42,7 @@ namespace ouzel
         if (_rtView) _rtView->Release();
         if (_backBuffer) _backBuffer->Release();
         if (_swapChain) _swapChain->Release();
+        if (_adapter) _adapter->Release();
 
         if (_window) DestroyWindow(_window);
         if (_windowClass)
@@ -147,25 +148,6 @@ namespace ouzel
 
     bool RendererD3D11::initD3D11()
     {
-        DXGI_SWAP_CHAIN_DESC swapChainDesc;
-        memset(&swapChainDesc, 0, sizeof(swapChainDesc));
-
-        swapChainDesc.BufferDesc.Width = (int)_size.width;
-        swapChainDesc.BufferDesc.Height = (int)_size.height;
-        swapChainDesc.BufferDesc.RefreshRate.Numerator = _fullscreen ? 60 : 0; // TODO refresh rate?
-        swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-        swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
-        swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_STRETCHED;
-        swapChainDesc.SampleDesc.Count = 1; // TODO MSAA?
-        swapChainDesc.SampleDesc.Quality = 0;
-        swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-        swapChainDesc.BufferCount = 1;
-        swapChainDesc.OutputWindow = _window;
-        swapChainDesc.Windowed = _fullscreen == false;
-        swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-        swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-
         UINT deviceCreationFlags = 0;
 #if D3D11_DEBUG
         deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -190,17 +172,35 @@ namespace ouzel
         }
 
         IDXGIDevice* dxgiDevice;
-        IDXGIAdapter* adapter;
         IDXGIFactory* factory;
 
         _device->QueryInterface(IID_IDXGIDevice, (void**)&dxgiDevice);
-        dxgiDevice->GetParent(IID_IDXGIAdapter, (void**)&adapter);
-        hr = adapter->GetParent(IID_IDXGIFactory, (void**)&factory);
+        dxgiDevice->GetParent(IID_IDXGIAdapter, (void**)&_adapter);
+        hr = _adapter->GetParent(IID_IDXGIFactory, (void**)&factory);
         if (FAILED(hr))
         {
             log("Failed to get the DXGI factory");
             return false;
         }
+
+        DXGI_SWAP_CHAIN_DESC swapChainDesc;
+        memset(&swapChainDesc, 0, sizeof(swapChainDesc));
+
+        swapChainDesc.BufferDesc.Width = (int)_size.width;
+        swapChainDesc.BufferDesc.Height = (int)_size.height;
+        swapChainDesc.BufferDesc.RefreshRate.Numerator = _fullscreen ? 60 : 0; // TODO refresh rate?
+        swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+        swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
+        swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_STRETCHED;
+        swapChainDesc.SampleDesc.Count = 1; // TODO MSAA?
+        swapChainDesc.SampleDesc.Quality = 0;
+        swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        swapChainDesc.BufferCount = 1;
+        swapChainDesc.OutputWindow = _window;
+        swapChainDesc.Windowed = _fullscreen == false;
+        swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+        swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
         hr = factory->CreateSwapChain(_device, &swapChainDesc, &_swapChain);
         if (FAILED(hr))
@@ -212,7 +212,6 @@ namespace ouzel
         factory->MakeWindowAssociation(_window, DXGI_MWA_NO_ALT_ENTER);
 
         factory->Release();
-        adapter->Release();
         dxgiDevice->Release();
 
         // Backbuffer
@@ -357,6 +356,28 @@ namespace ouzel
         Renderer::present();
         
         _swapChain->Present(1 /* TODO vsync off? */, 0);
+    }
+
+    std::vector<Size2> RendererD3D11::getSupportedResolutions() const
+    {
+        std::vector<Size2> result;
+
+        IDXGIOutput* output;
+        _adapter->EnumOutputs(0, &output);
+
+        UINT numModes = 0;
+        DXGI_MODE_DESC* displayModes = NULL;
+        DXGI_FORMAT format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        output->GetDisplayModeList(format, 0, &numModes, nullptr);
+
+        for (UINT i = 0; i < numModes; ++i)
+        {
+            result.push_back(Size2(displayModes[i].Width, displayModes[i].Height));
+        }
+
+        output->Release();
+
+        return result;
     }
 
     void RendererD3D11::resize(const Size2& size)

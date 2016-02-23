@@ -49,6 +49,11 @@ namespace ouzel
     void Renderer::flush()
     {
     }
+
+    std::vector<Size2> Renderer::getSupportedResolutions() const
+    {
+        return std::vector<Size2>();
+    }
     
     void Renderer::resize(const Size2& size)
     {
