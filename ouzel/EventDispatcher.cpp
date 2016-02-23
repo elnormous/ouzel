@@ -18,14 +18,16 @@ namespace ouzel
     
     void EventDispatcher::update()
     {
-        std::lock_guard<std::mutex> mutexLock(_mutex);
-        
         lock();
         
         while (!_eventQueue.empty())
         {
+            _mutex.lock();
+            
             auto eventPair = _eventQueue.front();
             _eventQueue.pop();
+            
+            _mutex.unlock();
             
             switch (eventPair.first->type)
             {
@@ -54,6 +56,7 @@ namespace ouzel
                     break;
                 case Event::Type::WINDOW_SIZE_CHANGE:
                 case Event::Type::WINDOW_TITLE_CHANGE:
+                case Event::Type::WINDOW_FULLSCREEN_CHANGE:
                     dispatchWindowEvent(std::static_pointer_cast<WindowEvent>(eventPair.first), eventPair.second);
                     break;
             }

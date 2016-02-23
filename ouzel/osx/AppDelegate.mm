@@ -38,6 +38,7 @@
     _window.acceptsMouseMovedEvents = YES;
     _window.delegate = self;
     [_window setBackgroundColor:[NSColor blueColor]];
+    [_window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
     
     [_window setTitle:[NSString stringWithUTF8String:ouzel::Engine::getInstance()->getRenderer()->getTitle().c_str()]];
     
@@ -50,9 +51,16 @@
             {
                 NSString* title = [NSString stringWithCString:event->title.c_str() encoding:NSASCIIStringEncoding];
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
+                if ([NSThread isMainThread])
+                {
                     _window.title = title;
-                });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        _window.title = title;
+                    });
+                }
                 break;
             }
             case ouzel::Event::Type::WINDOW_SIZE_CHANGE:
@@ -64,9 +72,30 @@
                                    NSMakeRect(NSMinX(frame), NSMaxY(frame) - event->size.height, event->size.width, event->size.height)
                                                           styleMask:[_window styleMask]];
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
+                if ([NSThread isMainThread])
+                {
                     [_window setFrame:newFrame display:YES animate:NO];
-                });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_window setFrame:newFrame display:YES animate:NO];
+                    });
+                }
+                break;
+            }
+            case ouzel::Event::Type::WINDOW_FULLSCREEN_CHANGE:
+            {
+                if ([NSThread isMainThread])
+                {
+                    [_window toggleFullScreen:nil];
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_window toggleFullScreen:nil];
+                    });
+                }
                 break;
             }
             default:
@@ -109,6 +138,16 @@
 -(void)windowWillClose:(NSNotification *)notification
 {
     [_openGLView close];
+}
+
+-(void)windowDidEnterFullScreen:(NSNotification *)notification
+{
+    ouzel::Engine::getInstance()->getRenderer()->setFullscreen(true);
+}
+
+-(void)windowDidExitFullScreen:(NSNotification *)notification
+{
+    ouzel::Engine::getInstance()->getRenderer()->setFullscreen(false);
 }
 
 @end

@@ -61,6 +61,23 @@ namespace ouzel
             event->type = Event::Type::WINDOW_SIZE_CHANGE;
             event->size = _size;
             event->title = _title;
+            event->fullscreen = _fullscreen;
+            
+            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getRenderer());
+        }
+    }
+    
+    void Renderer::setFullscreen(bool fullscreen)
+    {
+        if (fullscreen != _fullscreen)
+        {
+            _fullscreen = fullscreen;
+            
+            WindowEventPtr event = std::make_shared<WindowEvent>();
+            event->type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
+            event->size = _size;
+            event->title = _title;
+            event->fullscreen = _fullscreen;
             
             Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getRenderer());
         }
@@ -76,6 +93,7 @@ namespace ouzel
             event->type = Event::Type::WINDOW_TITLE_CHANGE;
             event->size = _size;
             event->title = _title;
+            event->fullscreen = _fullscreen;
             
             Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getRenderer());
         }

@@ -32,7 +32,8 @@ namespace ouzel
             GAMEPAD_DISCONNECT,
             GAMEPAD_BUTTON_CHANGE,
             WINDOW_SIZE_CHANGE,
-            WINDOW_TITLE_CHANGE
+            WINDOW_TITLE_CHANGE,
+            WINDOW_FULLSCREEN_CHANGE
         };
         
         enum Modifiers
@@ -83,5 +84,6 @@ namespace ouzel
     {
         Size2 size;
         std::string title;
+        bool fullscreen = false;
     };
 }

@@ -63,7 +63,7 @@ namespace ouzel
         virtual const Size2& getSize() const { return _size; }
         virtual void resize(const Size2& size);
 
-        virtual void setFullscreen(bool fullscreen) { _fullscreen = fullscreen; }
+        virtual void setFullscreen(bool fullscreen);
         virtual bool isFullscreen() const { return _fullscreen; }
         
         virtual bool getResizable() const { return _resizable; }
