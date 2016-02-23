@@ -56,6 +56,8 @@ namespace ouzel
         bool initWindow();
         bool initD3D11();
 
+        IDXGIOutput* getOutput() const;
+
     private:
         ATOM _windowClass = 0;
         HWND _window = 0;

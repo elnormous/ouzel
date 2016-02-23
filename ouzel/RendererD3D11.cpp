@@ -358,21 +358,64 @@ namespace ouzel
         _swapChain->Present(1 /* TODO vsync off? */, 0);
     }
 
+    IDXGIOutput* RendererD3D11::getOutput() const
+    {
+        HMONITOR monitor = MonitorFromWindow(_window, MONITOR_DEFAULTTONULL);
+        if (!monitor)
+        {
+            log("Window is not on any monitor");
+            return nullptr;
+        }
+
+        UINT i = 0;
+        IDXGIOutput* output;
+        DXGI_OUTPUT_DESC outputDesc;
+        HRESULT hr;
+
+        while (_adapter->EnumOutputs(i, &output) != DXGI_ERROR_NOT_FOUND)
+        {
+            hr = output->GetDesc(&outputDesc);
+
+            if (SUCCEEDED(hr) && outputDesc.Monitor == monitor)
+            {
+                return output;
+            }
+
+            output->Release();
+        }
+
+        return nullptr;
+    }
+
     std::vector<Size2> RendererD3D11::getSupportedResolutions() const
     {
         std::vector<Size2> result;
 
-        IDXGIOutput* output;
-        _adapter->EnumOutputs(0, &output);
+        IDXGIOutput* output = getOutput();
 
-        UINT numModes = 0;
-        DXGI_MODE_DESC* displayModes = NULL;
-        DXGI_FORMAT format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-        output->GetDisplayModeList(format, 0, &numModes, nullptr);
-
-        for (UINT i = 0; i < numModes; ++i)
+        if (!output)
         {
-            result.push_back(Size2(displayModes[i].Width, displayModes[i].Height));
+            return result;
+        }
+        
+        UINT numModes = 0;
+        DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        HRESULT hr = output->GetDisplayModeList(format, 0, &numModes, nullptr);
+        if (FAILED(hr))
+        {
+            log("Failed to get display mode list");
+            output->Release();
+        }
+
+        if (numModes > 0)
+        {
+            std::vector<DXGI_MODE_DESC> displayModes(numModes);
+            output->GetDisplayModeList(format, 0, &numModes, displayModes.data());
+
+            for (const DXGI_MODE_DESC& displayMode : displayModes)
+            {
+                result.push_back(Size2(displayMode.Width, displayMode.Height));
+            }
         }
 
         output->Release();
@@ -387,27 +430,29 @@ namespace ouzel
         UINT width = size.width;
         UINT height = size.height;
 
-        int x = CW_USEDEFAULT;
-        int y = CW_USEDEFAULT;
-        UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
-        if (_fullscreen)
+        if (!_fullscreen)
         {
-            x = 0;
-            y = 0;
-            swpFlags &= ~SWP_NOMOVE;
+            UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
+
+            RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
+            AdjustWindowRect(&rect, _windowStyle, FALSE);
+
+            SetWindowPos(_window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
         }
-        RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-        AdjustWindowRect(&rect, _windowStyle, FALSE);
 
-        SetWindowPos(_window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
-
-        if (_rtView && _backBuffer)
+        if (_swapChain)
         {
-            _rtView->Release();
-            _rtView = nullptr;
+            if (_rtView)
+            {
+                _rtView->Release();
+                _rtView = nullptr;
+            }
 
-            _backBuffer->Release();
-            _backBuffer = nullptr;
+            if (_backBuffer)
+            {
+                _backBuffer->Release();
+                _backBuffer = nullptr;
+            }
 
             _swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 
@@ -428,14 +473,6 @@ namespace ouzel
             D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
             _context->RSSetViewports(1, &viewport);
             _context->OMSetRenderTargets(1, &_rtView, nullptr);
-
-            BOOL isFullscreen;
-            _swapChain->GetFullscreenState(&isFullscreen, nullptr);
-
-            if (static_cast<bool>(isFullscreen) != _fullscreen)
-            {
-                setFullscreen(static_cast<bool>(isFullscreen));
-            }
         }
     }
 
@@ -448,6 +485,50 @@ namespace ouzel
 
         if (static_cast<bool>(isFullscreen) != _fullscreen)
         {
+            IDXGIOutput* output = getOutput();
+
+            if (!output)
+            {
+                return;
+            }
+
+            DXGI_OUTPUT_DESC desc;
+            HRESULT hr = output->GetDesc(&desc);
+            if (FAILED(hr))
+            {
+                output->Release();
+                return;
+            }
+
+            MONITORINFOEX info;
+            info.cbSize = sizeof(MONITORINFOEX);
+            GetMonitorInfo(desc.Monitor, &info);
+            DEVMODE devMode;
+            devMode.dmSize = sizeof(DEVMODE);
+            devMode.dmDriverExtra = 0;
+            EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
+
+            DXGI_MODE_DESC current;
+            current.Width = devMode.dmPelsWidth;
+            current.Height = devMode.dmPelsHeight;
+            bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
+            current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
+            current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
+            current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+            current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+            DXGI_MODE_DESC closestDisplayMode;
+            hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
+            if (FAILED(hr))
+            {
+                output->Release();
+                return;
+            }
+            output->Release();
+
+            resize(Size2(closestDisplayMode.Width, closestDisplayMode.Height));
+
             _swapChain->SetFullscreenState(_fullscreen, nullptr);
         }
     }
