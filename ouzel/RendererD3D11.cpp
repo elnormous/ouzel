@@ -42,7 +42,6 @@ namespace ouzel
         if (_rtView) _rtView->Release();
         if (_backBuffer) _backBuffer->Release();
         if (_swapChain) _swapChain->Release();
-        if (_factory) _factory->Release();
 
         if (_window) DestroyWindow(_window);
         if (_windowClass)
@@ -190,21 +189,31 @@ namespace ouzel
             return false;
         }
 
-        hr = CreateDXGIFactory(IID_IDXGIFactory, (void**)&_factory);
+        IDXGIDevice* dxgiDevice;
+        IDXGIAdapter* adapter;
+        IDXGIFactory* factory;
+
+        _device->QueryInterface(IID_IDXGIDevice, (void**)&dxgiDevice);
+        dxgiDevice->GetParent(IID_IDXGIAdapter, (void**)&adapter);
+        hr = adapter->GetParent(IID_IDXGIFactory, (void**)&factory);
         if (FAILED(hr))
         {
-            log("Failed to create the D3D11 factory");
+            log("Failed to get the DXGI factory");
             return false;
         }
 
-        hr = _factory->CreateSwapChain(_device, &swapChainDesc, &_swapChain);
+        hr = factory->CreateSwapChain(_device, &swapChainDesc, &_swapChain);
         if (FAILED(hr))
         {
             log("Failed to create the D3D11 swap chain");
             return false;
         }
 
-        _factory->MakeWindowAssociation(_window, DXGI_MWA_NO_ALT_ENTER);
+        factory->MakeWindowAssociation(_window, DXGI_MWA_NO_ALT_ENTER);
+
+        factory->Release();
+        adapter->Release();
+        dxgiDevice->Release();
 
         // Backbuffer
         hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&_backBuffer);
