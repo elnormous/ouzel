@@ -135,7 +135,7 @@ namespace ouzel
                 
                 stbir_resize_uint8_generic(static_cast<const uint8_t*>(data), width, height, 0,
                                            mipMapData.get(), mipWidth, mipHeight, 0, 4,
-                                           STBIR_ALPHA_CHANNEL_NONE, 0, STBIR_EDGE_CLAMP,
+                                           3, 0, STBIR_EDGE_CLAMP,
                                            STBIR_FILTER_MITCHELL, STBIR_COLORSPACE_LINEAR, nullptr);
                 
                 glTexImage2D(GL_TEXTURE_2D, mipLevel, GL_RGBA, mipWidth, mipHeight,
