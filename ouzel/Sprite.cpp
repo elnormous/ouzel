@@ -20,11 +20,11 @@
 
 namespace ouzel
 {
-    std::shared_ptr<Sprite> Sprite::createFromFile(const std::string& filename)
+    std::shared_ptr<Sprite> Sprite::createFromFile(const std::string& filename, bool mipmaps)
     {
         std::shared_ptr<Sprite> result = std::make_shared<Sprite>();
         
-        if (!result->initFromFile(filename))
+        if (!result->initFromFile(filename, mipmaps))
         {
             result.reset();
         }
@@ -43,7 +43,7 @@ namespace ouzel
         Engine::getInstance()->unscheduleUpdate(_updateCallback);
     }
     
-    bool Sprite::initFromFile(const std::string& filename)
+    bool Sprite::initFromFile(const std::string& filename, bool mipmaps)
     {
         _frameCount = 0;
         _frameVertices.clear();
@@ -53,14 +53,14 @@ namespace ouzel
         
         if (extension == "json")
         {
-            if (!loadSpriteSheet(filename))
+            if (!loadSpriteSheet(filename, mipmaps))
             {
                 return false;
             }
         }
         else
         {
-            _texture = Engine::getInstance()->getCache()->getTexture(filename);
+            _texture = Engine::getInstance()->getCache()->getTexture(filename, false, mipmaps);
             
             if (!_texture)
             {
@@ -93,7 +93,7 @@ namespace ouzel
         return true;
     }
     
-    bool Sprite::loadSpriteSheet(const std::string& filename)
+    bool Sprite::loadSpriteSheet(const std::string& filename, bool mipmaps)
     {
         File file(filename, File::Mode::READ, false);
         
@@ -115,7 +115,7 @@ namespace ouzel
             Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
                               static_cast<float>(sizeObject["h"].GetInt()));
             
-            _texture = Engine::getInstance()->getCache()->getTexture(metaObject["image"].GetString());
+            _texture = Engine::getInstance()->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
             
             const rapidjson::Value& framesArray = document["frames"];
             

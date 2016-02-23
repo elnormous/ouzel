@@ -18,12 +18,12 @@ namespace ouzel
     class Sprite: public Node
     {
     public:
-        static std::shared_ptr<Sprite> createFromFile(const std::string& filename);
+        static std::shared_ptr<Sprite> createFromFile(const std::string& filename, bool mipmaps = true);
         
         Sprite();
         virtual ~Sprite();
         
-        virtual bool initFromFile(const std::string& filename);
+        virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
         
         virtual void update(float delta);
         virtual void draw() override;
@@ -47,7 +47,7 @@ namespace ouzel
         virtual bool isPlaying() const { return _playing; }
         
     protected:
-        bool loadSpriteSheet(const std::string& filename);
+        bool loadSpriteSheet(const std::string& filename, bool mipmaps);
         void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot);
         
         void updateVertexColor();

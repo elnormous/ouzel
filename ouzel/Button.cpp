@@ -52,7 +52,7 @@ namespace ouzel
         if (!normal.empty())
         {
             _normalSprite = std::make_shared<Sprite>();
-            if (_normalSprite->initFromFile(normal))
+            if (_normalSprite->initFromFile(normal, false))
             {
                 _boundingBox = _normalSprite->getBoundingBox();
                 addChild(_normalSprite);
@@ -62,7 +62,7 @@ namespace ouzel
         if (!selected.empty())
         {
             _selectedSprite = std::make_shared<Sprite>();
-            if (_selectedSprite->initFromFile(selected))
+            if (_selectedSprite->initFromFile(selected, false))
             {
                 _boundingBox.merge(_selectedSprite->getBoundingBox());
                 addChild(_selectedSprite);
@@ -72,7 +72,7 @@ namespace ouzel
         if (!pressed.empty())
         {
             _pressedSprite = std::make_shared<Sprite>();
-            if (_pressedSprite->initFromFile(pressed))
+            if (_pressedSprite->initFromFile(pressed, false))
             {
                 _boundingBox.merge(_pressedSprite->getBoundingBox());
                 addChild(_pressedSprite);
@@ -82,7 +82,7 @@ namespace ouzel
         if (!disabled.empty())
         {
             _disabledSprite = std::make_shared<Sprite>();
-            if (_disabledSprite->initFromFile(disabled))
+            if (_disabledSprite->initFromFile(disabled, false))
             {
                 _boundingBox.merge(_disabledSprite->getBoundingBox());
                 addChild(_disabledSprite);

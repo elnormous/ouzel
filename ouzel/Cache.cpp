@@ -25,13 +25,13 @@ namespace ouzel
         
     }
     
-    void Cache::preloadTexture(const std::string& filename, bool dynamic)
+    void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
         std::unordered_map<std::string, TexturePtr>::const_iterator i = _textures.find(filename);
         
         if (i == _textures.end())
         {
-            TexturePtr texture = Engine::getInstance()->getRenderer()->loadTextureFromFile(filename, dynamic);
+            TexturePtr texture = Engine::getInstance()->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
             
             if (texture)
             {
@@ -40,7 +40,7 @@ namespace ouzel
         }
     }
     
-    TexturePtr Cache::getTexture(const std::string& filename) const
+    TexturePtr Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
     {
         TexturePtr result;
         
@@ -52,7 +52,7 @@ namespace ouzel
         }
         else
         {
-            result = Engine::getInstance()->getRenderer()->loadTextureFromFile(filename);
+            result = Engine::getInstance()->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
             
             if (result)
             {

@@ -69,7 +69,7 @@ namespace ouzel
                             value = value.substr(1, value.length() - 2);
                         }
                         
-                        _texture = Engine::getInstance()->getCache()->getTexture(value);
+                        _texture = Engine::getInstance()->getCache()->getTexture(value, false, true);
                     }
                 }
             }
