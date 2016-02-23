@@ -8,6 +8,7 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 {
     OpenGLView* _openGLView;
+    BOOL _fullscreen;
 }
 
 @property (strong, nonatomic) NSWindow* window;

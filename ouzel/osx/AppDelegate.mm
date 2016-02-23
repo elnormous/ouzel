@@ -11,6 +11,8 @@
 
 -(void)applicationWillFinishLaunching:(NSNotification *)notification
 {
+    _fullscreen = NO;
+    
     ouzel::Engine::getInstance()->init();
     ouzel::Size2 size = ouzel::Engine::getInstance()->getRenderer()->getSize();
     
@@ -86,15 +88,18 @@
             }
             case ouzel::Event::Type::WINDOW_FULLSCREEN_CHANGE:
             {
-                if ([NSThread isMainThread])
+                if (event->fullscreen != (bool)_fullscreen)
                 {
-                    [_window toggleFullScreen:nil];
-                }
-                else
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([NSThread isMainThread])
+                    {
                         [_window toggleFullScreen:nil];
-                    });
+                    }
+                    else
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [_window toggleFullScreen:nil];
+                        });
+                    }
                 }
                 break;
             }
@@ -140,9 +145,19 @@
     [_openGLView close];
 }
 
+-(void)windowWillEnterFullScreen:(NSNotification *)notification
+{
+    _fullscreen = YES;
+}
+
 -(void)windowDidEnterFullScreen:(NSNotification *)notification
 {
     ouzel::Engine::getInstance()->getRenderer()->setFullscreen(true);
+}
+
+-(void)windowWillExitFullScreen:(NSNotification *)notification
+{
+    _fullscreen = NO;
 }
 
 -(void)windowDidExitFullScreen:(NSNotification *)notification
