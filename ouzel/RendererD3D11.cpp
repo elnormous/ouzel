@@ -42,6 +42,7 @@ namespace ouzel
         if (_rtView) _rtView->Release();
         if (_backBuffer) _backBuffer->Release();
         if (_swapChain) _swapChain->Release();
+        if (_factory) _factory->Release();
 
         if (_window) DestroyWindow(_window);
         if (_windowClass)
@@ -170,7 +171,8 @@ namespace ouzel
 #if D3D11_DEBUG
         deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
-        HRESULT hr = D3D11CreateDeviceAndSwapChain(
+
+        HRESULT hr = D3D11CreateDevice(
             nullptr, // adapter
             D3D_DRIVER_TYPE_HARDWARE,
             nullptr, // software rasterizer (unused)
@@ -178,17 +180,31 @@ namespace ouzel
             nullptr, // feature levels
             0, // ^^
             D3D11_SDK_VERSION,
-            &swapChainDesc,
-            &_swapChain,
             &_device,
             nullptr,
             &_context
-            );
+        );
         if (FAILED(hr))
         {
             log("Failed to create the D3D11 device");
             return false;
         }
+
+        hr = CreateDXGIFactory(IID_IDXGIFactory, (void**)&_factory);
+        if (FAILED(hr))
+        {
+            log("Failed to create the D3D11 factory");
+            return false;
+        }
+
+        hr = _factory->CreateSwapChain(_device, &swapChainDesc, &_swapChain);
+        if (FAILED(hr))
+        {
+            log("Failed to create the D3D11 swap chain");
+            return false;
+        }
+
+        _factory->MakeWindowAssociation(_window, DXGI_MWA_NO_ALT_ENTER);
 
         // Backbuffer
         hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&_backBuffer);
@@ -382,6 +398,27 @@ namespace ouzel
             D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
             _context->RSSetViewports(1, &viewport);
             _context->OMSetRenderTargets(1, &_rtView, nullptr);
+
+            BOOL isFullscreen;
+            _swapChain->GetFullscreenState(&isFullscreen, nullptr);
+
+            if (static_cast<bool>(isFullscreen) != _fullscreen)
+            {
+                setFullscreen(static_cast<bool>(isFullscreen));
+            }
+        }
+    }
+
+    void RendererD3D11::setFullscreen(bool fullscreen)
+    {
+        Renderer::setFullscreen(fullscreen);
+
+        BOOL isFullscreen;
+        _swapChain->GetFullscreenState(&isFullscreen, nullptr);
+
+        if (static_cast<bool>(isFullscreen) != _fullscreen)
+        {
+            _swapChain->SetFullscreenState(_fullscreen, nullptr);
         }
     }
 

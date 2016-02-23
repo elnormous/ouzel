@@ -62,11 +62,10 @@ namespace ouzel
         
         virtual const Size2& getSize() const { return _size; }
         virtual void resize(const Size2& size);
+        virtual bool getResizable() const { return _resizable; }
 
         virtual void setFullscreen(bool fullscreen);
         virtual bool isFullscreen() const { return _fullscreen; }
-        
-        virtual bool getResizable() const { return _resizable; }
         
         virtual const std::string& getTitle() const { return _title; }
         virtual void setTitle(const std::string& title);

@@ -22,6 +22,8 @@ namespace ouzel
 
         virtual void resize(const Size2& size) override;
 
+        virtual void setFullscreen(bool fullscreen) override;
+
         virtual void setTitle(const std::string& title) override;
 
         virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true) override;
@@ -59,6 +61,7 @@ namespace ouzel
 
         ID3D11Device* _device = nullptr;
         ID3D11DeviceContext* _context = nullptr;
+        IDXGIFactory* _factory = nullptr;
         IDXGISwapChain* _swapChain = nullptr;
         ID3D11Texture2D* _backBuffer = nullptr;
         ID3D11RenderTargetView* _rtView = nullptr;
