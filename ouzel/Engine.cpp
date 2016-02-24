@@ -5,7 +5,7 @@
 #include "CompileConfig.h"
 #include "Cache.h"
 
-#if defined(SUPPORTS_OPENGL) || defined(SUPPORTS_OPENGLES)
+#if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
 #include "RendererOGL.h"
 #endif
 
@@ -58,7 +58,7 @@ namespace ouzel
     {
         std::set<Renderer::Driver> availableDrivers;
         
-#if defined(SUPPORTS_OPENGL) || defined(SUPPORTS_OPENGLES)
+#if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
         availableDrivers.insert(Renderer::Driver::OPENGL);
 #elif defined(SUPPORTS_DIRECT3D11)
         availableDrivers.insert(Renderer::Driver::DIRECT3D11);
@@ -100,7 +100,7 @@ namespace ouzel
 
         switch (settings.driver)
         {
-#if defined(SUPPORTS_OPENGL) || defined(SUPPORTS_OPENGLES)
+#if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             case Renderer::Driver::OPENGL:
                 _renderer.reset(new RendererOGL());
 				break;

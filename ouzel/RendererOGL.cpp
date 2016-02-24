@@ -11,14 +11,14 @@
 #include "Utils.h"
 #include "stb_image_write.h"
 
-#if defined(SUPPORTS_OPENGL)
+#if defined(OUZEL_SUPPORTS_OPENGL)
 #include "ColorPSOGL.h"
 #include "ColorVSOGL.h"
 #include "TexturePSOGL.h"
 #include "TextureVSOGL.h"
 #endif
 
-#if defined(SUPPORTS_OPENGLES)
+#if defined(OUZEL_SUPPORTS_OPENGLES)
 #include "ColorPSOGLES.h"
 #include "ColorVSOGLES.h"
 #include "TexturePSOGLES.h"
