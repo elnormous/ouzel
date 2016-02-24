@@ -485,52 +485,58 @@ namespace ouzel
 
         if (static_cast<bool>(isFullscreen) != _fullscreen)
         {
-            IDXGIOutput* output = getOutput();
-
-            if (!output)
+            if (_fullscreen)
             {
-                return;
-            }
+                IDXGIOutput* output = getOutput();
 
-            DXGI_OUTPUT_DESC desc;
-            HRESULT hr = output->GetDesc(&desc);
-            if (FAILED(hr))
-            {
-                output->Release();
-                return;
-            }
+                if (!output)
+                {
+                    return;
+                }
 
-            MONITORINFOEX info;
-            info.cbSize = sizeof(MONITORINFOEX);
-            GetMonitorInfo(desc.Monitor, &info);
-            DEVMODE devMode;
-            devMode.dmSize = sizeof(DEVMODE);
-            devMode.dmDriverExtra = 0;
-            EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
+                DXGI_OUTPUT_DESC desc;
+                HRESULT hr = output->GetDesc(&desc);
+                if (FAILED(hr))
+                {
+                    output->Release();
+                    return;
+                }
 
-            DXGI_MODE_DESC current;
-            current.Width = devMode.dmPelsWidth;
-            current.Height = devMode.dmPelsHeight;
-            bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
-            current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
-            current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
-            current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-            current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-            current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+                MONITORINFOEX info;
+                info.cbSize = sizeof(MONITORINFOEX);
+                GetMonitorInfo(desc.Monitor, &info);
+                DEVMODE devMode;
+                devMode.dmSize = sizeof(DEVMODE);
+                devMode.dmDriverExtra = 0;
+                EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
 
-            DXGI_MODE_DESC closestDisplayMode;
-            hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
-            if (FAILED(hr))
-            {
-                output->Release();
-                return;
-            }
+                DXGI_MODE_DESC current;
+                current.Width = devMode.dmPelsWidth;
+                current.Height = devMode.dmPelsHeight;
+                bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
+                current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
+                current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
+                current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+                current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-            resize(Size2(closestDisplayMode.Width, closestDisplayMode.Height));
+                DXGI_MODE_DESC closestDisplayMode;
+                hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
+                if (FAILED(hr))
+                {
+                    output->Release();
+                    return;
+                }
 
-            _swapChain->SetFullscreenState(_fullscreen, output);
+                _swapChain->SetFullscreenState(TRUE, output);
+                resize(Size2(closestDisplayMode.Width, closestDisplayMode.Height));
             
-            output->Release();
+                output->Release();
+            }
+            else
+            {
+                _swapChain->SetFullscreenState(FALSE, nullptr);
+            }
         }
     }
 
