@@ -525,11 +525,12 @@ namespace ouzel
                 output->Release();
                 return;
             }
-            output->Release();
 
             resize(Size2(closestDisplayMode.Width, closestDisplayMode.Height));
 
-            _swapChain->SetFullscreenState(_fullscreen, nullptr);
+            _swapChain->SetFullscreenState(_fullscreen, output);
+            
+            output->Release();
         }
     }
 
