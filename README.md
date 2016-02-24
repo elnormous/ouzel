@@ -1,6 +1,6 @@
 <img src="https://github.com/elvman/ouzel/blob/master/logo/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.7
+# Ouzel v0.8
 Ouzel is a game engine mainly targeted for development of 2D games, but also 3D games can be created with it.
 
 ## Supported platforms
@@ -51,6 +51,7 @@ The following code will open a 640px x 480px window:
 * OS X, iOS and tvOS gamepad support
 * Node animation (including tweening) system
 * Particle systems
+* Resource caching system
 
 ## Getting help
 
