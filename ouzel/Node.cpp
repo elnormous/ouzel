@@ -25,16 +25,15 @@ namespace ouzel
     
     void Node::visit(const Matrix4& parentTransform, bool parentTransformDirty)
     {
+        if (parentTransformDirty)
+        {
+            updateTransform(parentTransform);
+        }
+        
         if (_visible)
         {
-            if (parentTransformDirty)
-            {
-                _parentTransform = parentTransform;
-                _transformDirty = true;
-            }
-            
             bool dirty = _transformDirty;
-            if (dirty)
+            if (_transformDirty)
             {
                 calculateTransform();
             }
@@ -156,15 +155,7 @@ namespace ouzel
         if (NodeContainer::addChild(node))
         {
             node->addToLayer(_layer);
-            
-            if (_transformDirty)
-            {
-                calculateTransform();
-            }
-            else
-            {
-                node->updateTransform(_transform);
-            }
+            node->updateTransform(getTransform());
             
             return true;
         }
@@ -446,11 +437,6 @@ namespace ouzel
         
         _transform = _parentTransform * _localTransform;
         _transformDirty = false;
-        
-        for (const NodePtr& child : _children)
-        {
-            child->updateTransform(_transform);
-        }
     }
     
     void Node::calculateInverseTransform() const

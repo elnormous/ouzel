@@ -121,11 +121,6 @@ namespace ouzel
         
         _transform = _parentTransform * _localTransform;
         _transformDirty = false;
-        
-        for (NodePtr child : _children)
-        {
-            child->updateTransform(_transform);
-        }
     }
     
     Vector2 Camera::screenToWorldLocation(const Vector2& position)
