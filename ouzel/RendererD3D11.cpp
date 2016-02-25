@@ -382,6 +382,8 @@ namespace ouzel
             }
 
             output->Release();
+            
+            ++i;
         }
 
         return nullptr;
