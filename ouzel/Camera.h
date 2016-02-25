@@ -47,9 +47,6 @@ namespace ouzel
         
     protected:
         virtual void calculateLocalTransform() const override;
-        virtual void calculateTransform() const override;
-        
-        void updateViewProjection();
         
         float _zoom = 1.0f;
         

@@ -112,17 +112,6 @@ namespace ouzel
         _localTransformDirty = false;
     }
     
-    void Camera::calculateTransform() const
-    {
-        if (_localTransformDirty)
-        {
-            calculateLocalTransform();
-        }
-        
-        _transform = _parentTransform * _localTransform;
-        _transformDirty = false;
-    }
-    
     Vector2 Camera::screenToWorldLocation(const Vector2& position)
     {
         Matrix4 projViewMatrix = _projection * getTransform();
