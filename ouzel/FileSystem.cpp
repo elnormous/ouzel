@@ -115,9 +115,9 @@ namespace ouzel
     bool FileSystem::directoryExists(const std::string& filename) const
     {
         struct stat buf;
-        if (stat(filename.c_str(), &buf) != -1)
+        if (stat(filename.c_str(), &buf) != 0)
         {
-            return true;
+            return false;
         }
         
         return (buf.st_mode & S_IFMT) == S_IFDIR;
@@ -126,9 +126,9 @@ namespace ouzel
     bool FileSystem::fileExists(const std::string& filename) const
     {
         struct stat buf;
-        if (stat(filename.c_str(), &buf) != -1)
+        if (stat(filename.c_str(), &buf) != 0)
         {
-            return true;
+            return false;
         }
         
         return (buf.st_mode & S_IFMT) == S_IFREG;
