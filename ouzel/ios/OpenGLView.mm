@@ -27,7 +27,7 @@ using namespace ouzel;
         if (!_context)
         {
             NSLog(@"Failed to initialize OpenGLES 2.0 context");
-            exit(1);
+            return Nil;
         }
         
         [self makeContextCurrent];
@@ -65,6 +65,8 @@ using namespace ouzel;
 
 -(void)dealloc
 {
+    [_displayLink invalidate];
+    
     if ([EAGLContext currentContext] == _context)
     {
         [EAGLContext setCurrentContext:nil];
@@ -86,7 +88,6 @@ using namespace ouzel;
     if (![EAGLContext setCurrentContext:_context])
     {
         NSLog(@"Failed to set current OpenGL context");
-        exit(1);
     }
 }
 
