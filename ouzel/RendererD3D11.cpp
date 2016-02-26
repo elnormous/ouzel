@@ -118,7 +118,7 @@ namespace ouzel
         AdjustWindowRect(&windowRect, _windowStyle, FALSE);
 
         wchar_t titleBuffer[256];
-        MultiByteToWideChar(CP_ACP, 0, _title.c_str(), -1, titleBuffer, 256);
+        MultiByteToWideChar(CP_UTF8, 0, _title.c_str(), -1, titleBuffer, 256);
 
         _window = CreateWindowExW(
             0,
@@ -547,7 +547,7 @@ namespace ouzel
         Renderer::setTitle(title);
 
         wchar_t titleBuffer[256];
-        MultiByteToWideChar(CP_ACP, 0, _title.c_str(), -1, titleBuffer, 256);
+        MultiByteToWideChar(CP_UTF8, 0, _title.c_str(), -1, titleBuffer, 256);
 
         SetWindowTextW(_window, titleBuffer);
     }

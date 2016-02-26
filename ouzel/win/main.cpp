@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
         for (i = 0; i < nArgs; i++)
         {
             char temporaryCString[256];
-            WideCharToMultiByte(CP_ACP, 0, argList[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
+            WideCharToMultiByte(CP_UTF8, 0, argList[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
 
             args.push_back(temporaryCString);
         }
