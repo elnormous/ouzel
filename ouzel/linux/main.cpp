@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include <GL/glx.h>
-#include <GL/gl.h>
 #include <X11/X.h>
 #include <X11/keysym.h>
 #include "Engine.h"
@@ -301,7 +300,7 @@ int main(int argc, char **argv)
                 case KeyPress: // keyboard
                 case KeyRelease:
                 {
-                    KeySym keySym = XkbKeycodeToKeysym(display, event.xkey.keycode, 0, 0);
+                    KeySym keySym = XKeycodeToKeysym(display, event.xkey.keycode, 0);
 
                     if (event.type == KeyPress)
                     {

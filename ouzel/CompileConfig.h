@@ -21,4 +21,7 @@
 #elif defined(__ANDROID__)
     #define OUZEL_PLATFORM_ANDROID 1
     #define OUZEL_SUPPORTS_OPENGLES 1
+#elif defined(__linux__)
+    #define OUZEL_PLATFORM_LINUX 1
+    #define OUZEL_SUPPORTS_OPENGL 1
 #endif
