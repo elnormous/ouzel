@@ -62,9 +62,9 @@ int main(int argc, char **argv)
     }
 
     // create an OpenGL rendering context
-    GLXContext cx = glXCreateContext(display, vi, /* no shared dlists */ None,
-                        /* direct rendering if possible */ GL_TRUE);
-    if (cx == NULL)
+    GLXContext context = glXCreateContext(display, vi, /* no shared dlists */ None,
+                                          /* direct rendering if possible */ GL_TRUE);
+    if (context == NULL)
     {
         ouzel::log("Failed to create rendering context");
         return 1;
@@ -79,12 +79,10 @@ int main(int argc, char **argv)
     Window window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
                                   300, 300, 0, vi->depth, InputOutput, vi->visual,
                                   CWBorderPixel | CWColormap | CWEventMask, &swa);
-    XSetStandardProperties(display, window, "ouzel", "ouzel", None,
-                           argv, argc, NULL);
+    XSetStandardProperties(display, window, "ouzel", "ouzel", None, argv, argc, NULL);
 
     // bind the rendering context to the window
-
-    glXMakeCurrent(display, window, cx);
+    glXMakeCurrent(display, window, context);
 
     // request the X window to be displayed on the screen
     XMapWindow(display, window);
@@ -184,6 +182,21 @@ int main(int argc, char **argv)
         }
         glXSwapBuffers(display, window);
     }
+
+    if (display)
+    {
+        if (context)
+        {
+            glXDestroyContext(display, context);
+        }
+    
+        if (window)
+        {
+            XDestroyWindow(display, window);
+        }
+        
+	    XCloseDisplay(display);
+	}
 
     ouzel::Engine::getInstance()->end();
     
