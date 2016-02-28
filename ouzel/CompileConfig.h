@@ -14,7 +14,7 @@
     #elif TARGET_OS_TV
         #define OUZEL_PLATFORM_TVOS 1
         #define OUZEL_SUPPORTS_OPENGLES 1
-    #else
+    #elif TARGET_OS_MAC
         #define OUZEL_PLATFORM_OSX 1
         #define OUZEL_SUPPORTS_OPENGL 1
     #endif
