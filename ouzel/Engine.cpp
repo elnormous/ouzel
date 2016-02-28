@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "Engine.h"
 #include "CompileConfig.h"
 #include "Cache.h"
@@ -28,68 +29,68 @@ ouzel::AppPtr ouzelMain(const std::vector<std::string>& args);
 namespace ouzel
 {
     static EnginePtr sharedEngine;
-    
+
     EnginePtr Engine::getInstance()
     {
         if (!sharedEngine)
         {
             sharedEngine.reset(new Engine());
         }
-        
+
         return sharedEngine;
     }
-    
+
     Engine::Engine()
     {
 
     }
-    
+
     Engine::~Engine()
     {
-        
+
     }
-    
+
     void Engine::setArgs(const std::vector<std::string>& args)
     {
         _args = args;
     }
-    
+
     std::set<Renderer::Driver> Engine::getAvailableDrivers() const
     {
         std::set<Renderer::Driver> availableDrivers;
-        
+
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
         availableDrivers.insert(Renderer::Driver::OPENGL);
 #elif defined(SUPPORTS_DIRECT3D11)
         availableDrivers.insert(Renderer::Driver::DIRECT3D11);
 #endif
-        
+
         return availableDrivers;
     }
 
     bool Engine::init()
     {
         _app = ouzelMain(_args);
-        
+
         if (!_app)
         {
             return false;
         }
-        
+
         Settings settings = _app->getSettings();
         _targetFPS = settings.targetFPS;
-        
+
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         settings.driver = Renderer::Driver::OPENGL;
 #elif defined(SUPPORTS_DIRECT3D11)
         settings.driver = Renderer::Driver::DIRECT3D11;
 #endif
-        
+
         _eventDispatcher.reset(new EventDispatcher());
         _cache.reset(new Cache());
         _fileSystem.reset(new FileSystem());
         _sceneManager.reset(new SceneManager());
-        
+
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         _input.reset(new InputApple());
 #elif defined(OUZEL_PLATFORM_WINDOWS)
@@ -119,22 +120,22 @@ namespace ouzel
         {
             return false;
         }
-        
+
         _previousFrameTime = getCurrentMicroSeconds();
 
         return true;
     }
-    
+
     void Engine::exit()
     {
         _active = false;
     }
-    
+
     void Engine::begin()
     {
         _app->begin();
     }
-    
+
     void Engine::end()
     {
         _app.reset();
@@ -142,18 +143,18 @@ namespace ouzel
         _sceneManager->setScene(ScenePtr());
         _cache.reset();
     }
-    
+
     bool Engine::run()
     {
         uint64_t currentTime = getCurrentMicroSeconds();
         float delta = static_cast<float>((currentTime - _previousFrameTime)) / 1000000.0f;
         _previousFrameTime = currentTime;
-        
+
         _currentFPS = 1.0f / delta;
-        
+
         _input->update();
         _eventDispatcher->update();
-        
+
         lock();
         for (const UpdateCallbackPtr& updateCallback : _updateCallbacks)
         {
@@ -163,14 +164,14 @@ namespace ouzel
             }
         }
         unlock();
-        
+
         _renderer->clear();
         _sceneManager->draw();
         _renderer->present();
-        
+
         return _active;
     }
-    
+
     void Engine::scheduleUpdate(const UpdateCallbackPtr& callback)
     {
         if (_locked)
@@ -180,7 +181,7 @@ namespace ouzel
         else
         {
             std::vector<UpdateCallbackPtr>::iterator i = std::find(_updateCallbacks.begin(), _updateCallbacks.end(), callback);
-            
+
             if (i == _updateCallbacks.end())
             {
                 callback->_remove = false;
@@ -188,7 +189,7 @@ namespace ouzel
             }
         }
     }
-    
+
     void Engine::unscheduleUpdate(const UpdateCallbackPtr& callback)
     {
         if (_locked)
@@ -199,19 +200,19 @@ namespace ouzel
         else
         {
             std::vector<UpdateCallbackPtr>::iterator i = std::find(_updateCallbacks.begin(), _updateCallbacks.end(), callback);
-            
+
             if (i != _updateCallbacks.end())
             {
                 _updateCallbacks.erase(i);
             }
         }
     }
-    
+
     void Engine::lock()
     {
         ++_locked;
     }
-    
+
     void Engine::unlock()
     {
         if (--_locked == 0)
@@ -224,7 +225,7 @@ namespace ouzel
                 }
                 _updateCallbackAddList.clear();
             }
-            
+
             if (!_updateCallbackRemoveList.empty())
             {
                 for (const UpdateCallbackPtr& updateCallback : _updateCallbackRemoveList)

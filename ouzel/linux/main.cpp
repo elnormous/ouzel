@@ -6,11 +6,14 @@
 #include <X11/X.h>
 #include <X11/keysym.h>
 #include "Engine.h"
+#include "Utils.h"
+
+using namespace ouzel;
 
 static uint32_t getModifiers(unsigned int state)
 {
     uint32_t modifiers = 0;
-    
+
     if (state & ShiftMask) modifiers |= Event::SHIFT_DOWN;
     if (state & ControlMask) modifiers |= Event::CONTROL_DOWN;
     if (state & Button1) modifiers |= Event::LEFT_MOUSE_DOWN;
@@ -22,9 +25,9 @@ static uint32_t getModifiers(unsigned int state)
 
 KeyboardKey convertKeyCode(KeySym keyCode)
 {
-    switch(keyVode)
+    switch(keyCode)
     {
-        case XK_BackSpace: return KeyboardKey::BACK;
+        case XK_BackSpace: return KeyboardKey::BACKSPACE;
         case XK_Tab: return KeyboardKey::TAB;
         case XK_ISO_Left_Tab: return KeyboardKey::TAB;
         case XK_Linefeed: return KeyboardKey::NONE; // ???
@@ -35,16 +38,14 @@ KeyboardKey convertKeyCode(KeySym keyCode)
         case XK_Sys_Req: return KeyboardKey::NONE; // ???
         case XK_Escape: return KeyboardKey::ESCAPE;
         case XK_Insert: return KeyboardKey::INSERT;
-        case XK_Delete: return KeyboardKey::DELETE;
+        case XK_Delete: return KeyboardKey::DEL;
         case XK_Home: return KeyboardKey::HOME;
         case XK_Left: return KeyboardKey::LEFT;
         case XK_Up: return KeyboardKey::UP;
         case XK_Right: return KeyboardKey::RIGHT;
         case XK_Down: return KeyboardKey::DOWN;
-        case XK_Prior: return KeyboardKey::PRIOR;
-        case XK_Page_Up: return KeyboardKey::PRIOR;
-        case XK_Next: return KeyboardKey::NEXT;
-        case XK_Page_Down: return KeyboardKey::NEXT;
+        case XK_Prior: return KeyboardKey::PRIOR; // also XK_Page_Up
+        case XK_Next: return KeyboardKey::NEXT; // also XK_Page_Down
         case XK_End: return KeyboardKey::END;
         case XK_Begin: return KeyboardKey::HOME;
         case XK_Num_Lock: return KeyboardKey::NUMLOCK;
@@ -61,15 +62,13 @@ KeyboardKey convertKeyCode(KeySym keyCode)
         case XK_KP_Right: return KeyboardKey::RIGHT;
         case XK_KP_Down: return KeyboardKey::DOWN;
         case XK_Print: return KeyboardKey::PRINT;
-        case XK_KP_Prior: return KeyboardKey::PRIOR;
-        case XK_KP_Page_Up: return KeyboardKey::PRIOR;
-        case XK_KP_Next: return KeyboardKey::NEXT;
-        case XK_KP_Page_Down: return KeyboardKey::NEXT;
+        case XK_KP_Prior: return KeyboardKey::PRIOR; // alos XK_KP_Page_Up
+        case XK_KP_Next: return KeyboardKey::NEXT; // also XK_KP_Page_Down
         case XK_KP_End: return KeyboardKey::END;
         case XK_KP_Begin: return KeyboardKey::HOME;
         case XK_KP_Insert: return KeyboardKey::INSERT;
-        case XK_KP_Delete: return KeyboardKey::DELETE;
-        case XK_KP_Equal: return 0; // ???
+        case XK_KP_Delete: return KeyboardKey::DEL;
+        case XK_KP_Equal: return KeyboardKey::NONE; // ???
         case XK_KP_Multiply: return KeyboardKey::MULTIPLY;
         case XK_KP_Add: return KeyboardKey::ADD;
         case XK_KP_Separator: return KeyboardKey::SEPARATOR;
@@ -222,14 +221,14 @@ KeyboardKey convertKeyCode(KeySym keyCode)
 int main(int argc, char **argv)
 {
     std::vector<std::string> args;
-    
+
     for (int32_t i = 0; i < argc; ++i)
     {
         args.push_back(argv[i]);
     }
-    
+
     ouzel::Engine::getInstance()->setArgs(args);
-    
+
     // open a connection to the X server
     Display* display = XOpenDisplay(NULL);
     if (display == NULL)
@@ -239,6 +238,7 @@ int main(int argc, char **argv)
     }
 
     // make sure OpenGL's GLX extension supported
+    int dummy;
     if (!glXQueryExtension(display, &dummy, &dummy))
     {
         ouzel::log("X server has no OpenGL GLX extension");
@@ -247,14 +247,14 @@ int main(int argc, char **argv)
 
     // find an OpenGL-capable RGB visual with depth buffer
     static int doubleBuffer[]  = {GLX_RGBA, GLX_DEPTH_SIZE, 16, GLX_DOUBLEBUFFER, None};
-    
+
     XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), doubleBuffer);
     if (vi == NULL)
     {
         ouzel::log("No RGB visual with depth buffer");
         return 1;
     }
-    if (vi->class != TrueColor)
+    if (vi->c_class != TrueColor)
     {
         ouzel::log("TrueColor visual required for this program");
         return 1;
@@ -268,7 +268,7 @@ int main(int argc, char **argv)
         ouzel::log("Failed to create rendering context");
         return 1;
     }
-    
+
     // create an X colormap since probably not using default visual
     Colormap cmap = XCreateColormap(display, RootWindow(display, vi->screen), vi->visual, AllocNone);
     XSetWindowAttributes swa;
@@ -285,14 +285,12 @@ int main(int argc, char **argv)
 
     // request the X window to be displayed on the screen
     XMapWindow(display, window);
-    
+
     ouzel::Engine::getInstance()->init();
     ouzel::Engine::getInstance()->begin();
 
-    MSG msg;
-
     XEvent event;
-    
+
     while (true)
     {
         do
@@ -303,29 +301,26 @@ int main(int argc, char **argv)
                 case KeyPress: // keyboard
                 case KeyRelease:
                 {
-                    XKeyEvent* keyEvent = static_cast<XKeyEvent*>(&event);
-                    KeySym keySym = XkbKeycodeToKeysym(display, keyEvent.keycode, 0, 0);
-                    
+                    KeySym keySym = XkbKeycodeToKeysym(display, event.xkey.keycode, 0, 0);
+
                     if (event.type == KeyPress)
                     {
-                        Engine::getInstance()->getInput()->keyDown(convertKeyCode(keySym), getModifiers(keyEvent->state));
+                        Engine::getInstance()->getInput()->keyDown(convertKeyCode(keySym), getModifiers(event.xkey.state));
                     }
                     else
                     {
-                        Engine::getInstance()->getInput()->keyUp(convertKeyCode(keySym), getModifiers(keyEvent->state));
+                        Engine::getInstance()->getInput()->keyUp(convertKeyCode(keySym), getModifiers(event.xkey.state));
                     }
                     break;
                 }
                 case ButtonPress: // mouse button
                 case ButtonRelease:
                 {
-                    XButtonEvent* buttonEvent = static_cast<XKeyEvent*>(&event);
-                    
-                    Vector2 pos(static_cast<float>(buttonEvent->x),
-                                static_cast<float>(buttonEvent->y));
-                
+                    Vector2 pos(static_cast<float>(event.xbutton.x),
+                                static_cast<float>(event.xbutton.y));
+
                     MouseButton button;
-                    
+
                     switch (event.xbutton.button)
                     {
                     case 1:
@@ -338,36 +333,34 @@ int main(int argc, char **argv)
                         button = MouseButton::MIDDLE;
                         break;
                     }
-                    
+
                     if (event.type == ButtonPress)
                     {
                         Engine::getInstance()->getInput()->mouseDown(button,
                                                                      Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
-                                                                     getModifiers(buttonEvent->state));
+                                                                     getModifiers(event.xbutton.state));
                     }
                     else
                     {
                         Engine::getInstance()->getInput()->mouseUp(button,
                                                                    Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
-                                                                   getModifiers(buttonEvent->state));
+                                                                   getModifiers(event.xbutton.state));
                     }
                     break;
                 }
                 case MotionNotify:
                 {
-                    XMotionEvent* motionEvent = static_cast<XMotionEvent*>(&event);
-                    
-                    Vector2 pos(static_cast<float>(motionEvent->x),
-                                static_cast<float>(motionEvent->y));
-                                
+                    Vector2 pos(static_cast<float>(event.xmotion.x),
+                                static_cast<float>(event.xmotion.y));
+
                     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
-                                                                 getModifiers(motionEvent->state));
-                    
+                                                                 getModifiers(event.xmotion.state));
+
                     break;
                 }
                 case ConfigureNotify:
                 {
-                    Engine::getInstance->getRenderer()->resize(ouzel::Size2(event.xconfigure.width, event.xconfigure.height));
+                    ouzel::Engine::getInstance()->getRenderer()->resize(ouzel::Size2(event.xconfigure.width, event.xconfigure.height));
                     //needRedraw = true;
                     break;
                 }
@@ -393,16 +386,16 @@ int main(int argc, char **argv)
         {
             glXDestroyContext(display, context);
         }
-    
+
         if (window)
         {
             XDestroyWindow(display, window);
         }
-        
+
 	    XCloseDisplay(display);
 	}
 
     ouzel::Engine::getInstance()->end();
-    
+
     return 0;
 }
