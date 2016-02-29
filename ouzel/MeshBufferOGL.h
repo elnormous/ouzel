@@ -13,7 +13,7 @@
 #elif defined(OUZEL_PLATFORM_ANDROID)
     #include <GLES2/gl2platform.h>
     #ifndef GL_GLEXT_PROTOTYPES
-    #define GL_GLEXT_PROTOTYPES 1
+        #define GL_GLEXT_PROTOTYPES 1
     #endif
 
     #include <GLES2/gl2.h>
@@ -21,6 +21,11 @@
     #include <EGL/egl.h>
 #elif defined(OUZEL_PLATFORM_LINUX)
     #include <GL/gl.h>
+	#include <GL/glx.h>
+	#ifndef GL_GLEXT_PROTOTYPES
+        #define GL_GLEXT_PROTOTYPES 1
+    #endif
+	#include <GL/glext.h>
 #endif
 
 #include "MeshBuffer.h"
