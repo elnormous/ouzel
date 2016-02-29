@@ -158,7 +158,7 @@ namespace ouzel
         lock();
         for (const UpdateCallbackPtr& updateCallback : _updateCallbacks)
         {
-            if (!updateCallback->_remove)
+            if (!updateCallback->_remove && updateCallback->callback)
             {
                 updateCallback->callback(delta);
             }
