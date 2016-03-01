@@ -42,6 +42,11 @@
     [_window setBackgroundColor:[NSColor blueColor]];
     [_window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
     
+    if (ouzel::Engine::getInstance()->getRenderer()->isFullscreen())
+    {
+        [_window toggleFullScreen:nil];
+    }
+    
     [_window setTitle:[NSString stringWithUTF8String:ouzel::Engine::getInstance()->getRenderer()->getTitle().c_str()]];
     
     ouzel::EventHandlerPtr eventHandler = std::make_shared<ouzel::EventHandler>();
