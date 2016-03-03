@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3009341C1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
+		3009341D1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
+		3009341E1C88698500CC50D3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009341A1C88698500CC50D3 /* Window.cpp */; };
+		3009341F1C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
+		300934201C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
+		300934211C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
 		3031A0B01C3731A2004D3514 /* ColorPSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031A0AC1C3731A2004D3514 /* ColorPSOGLES.h */; };
 		3031A0B11C3731A2004D3514 /* ColorPSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031A0AC1C3731A2004D3514 /* ColorPSOGLES.h */; };
 		3031A0B21C3731A2004D3514 /* ColorPSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031A0AC1C3731A2004D3514 /* ColorPSOGLES.h */; };
@@ -390,6 +396,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3009341A1C88698500CC50D3 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
+		3009341B1C88698500CC50D3 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
 		3031A0AC1C3731A2004D3514 /* ColorPSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSOGLES.h; sourceTree = "<group>"; };
 		3031A0AD1C3731A2004D3514 /* ColorVSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorVSOGLES.h; sourceTree = "<group>"; };
 		3031A0AE1C3731A2004D3514 /* TexturePSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturePSOGLES.h; sourceTree = "<group>"; };
@@ -666,6 +674,8 @@
 				303647631C3F218E0024DB5B /* Settings.h */,
 				305B99C71C451962008589E1 /* Types.h */,
 				30C8B6211C6D0E350031B64F /* UpdateCallback.h */,
+				3009341A1C88698500CC50D3 /* Window.cpp */,
+				3009341B1C88698500CC50D3 /* Window.h */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -918,6 +928,7 @@
 				3047F7731C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
+				300934201C88698500CC50D3 /* Window.h in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
 				303647201C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */,
@@ -991,6 +1002,7 @@
 				3047F7741C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
+				300934211C88698500CC50D3 /* Window.h in Headers */,
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
 				303647211C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE61C3C91A40009C8A7 /* InputApple.h in Headers */,
@@ -1024,6 +1036,7 @@
 				30DADE9F1C5167BC001A63B4 /* Cache.h in Headers */,
 				3047F7721C4D2C3900774E3D /* Parallel.h in Headers */,
 				3036471F1C3E058E0024DB5B /* GamepadApple.h in Headers */,
+				3009341F1C88698500CC50D3 /* Window.h in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.h in Headers */,
 				305B99941C41F06F008589E1 /* Widget.h in Headers */,
 				304A8E5D1C237C70008B1151 /* Node.h in Headers */,
@@ -1207,6 +1220,7 @@
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75711C2A3D7F00FEDE92 /* main.mm in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
+				3009341D1C88698500CC50D3 /* Window.cpp in Sources */,
 				30B328851C4E9EAC00040927 /* Ease.cpp in Sources */,
 				303B76C21C35630B00FEDE92 /* OpenGLView.mm in Sources */,
 				303B75461C2A3C9200FEDE92 /* RenderTarget.cpp in Sources */,
@@ -1273,6 +1287,7 @@
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
 				303B768A1C355A5800FEDE92 /* ViewController.m in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
+				3009341E1C88698500CC50D3 /* Window.cpp in Sources */,
 				30B328861C4E9EAC00040927 /* Ease.cpp in Sources */,
 				303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */,
 				303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */,
@@ -1329,6 +1344,7 @@
 				3047F7771C4D39C500774E3D /* Repeat.cpp in Sources */,
 				3047F7461C4C350D00774E3D /* Move.cpp in Sources */,
 				303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */,
+				3009341C1C88698500CC50D3 /* Window.cpp in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
 				3047F74E1C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				304A8E921C26ED32008B1151 /* MeshBuffer.cpp in Sources */,
