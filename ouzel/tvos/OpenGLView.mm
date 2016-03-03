@@ -55,6 +55,9 @@ using namespace ouzel;
         [_displayLink setFrameInterval: 1.0f];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         
+        _size.width = backingWidth;
+        _size.height = backingHeight;
+        
         std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
         renderer->initOpenGL(backingWidth, backingHeight, _frameBuffer);
     }
@@ -65,16 +68,20 @@ using namespace ouzel;
 -(void)dealloc
 {
     [_displayLink invalidate];
+    [_displayLink dealloc];
     
     if ([EAGLContext currentContext] == _context)
     {
         [EAGLContext setCurrentContext:nil];
     }
+    [EAGLContext dealloc];
     
     if (_frameBuffer) glDeleteFramebuffers(1, &_frameBuffer);
     _frameBuffer = 0;
     if (_colorRenderBuffer) glDeleteRenderbuffers(1, &_colorRenderBuffer);
     _colorRenderBuffer = 0;
+    
+    [super dealloc];
 }
 
 +(Class)layerClass

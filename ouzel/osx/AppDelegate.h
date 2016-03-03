@@ -3,14 +3,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class OpenGLView;
-
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
-{
-    OpenGLView* _openGLView;
-    BOOL _fullscreen;
-}
-
-@property (strong, nonatomic) NSWindow* window;
+@interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @end

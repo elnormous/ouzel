@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "RendererOGL.h"
 #include "Input.h"
+#include "Window.h"
 
 static CVReturn renderCallback(CVDisplayLinkRef displayLink,
                                const CVTimeStamp *inNow,
@@ -68,6 +69,8 @@ using namespace ouzel;
 -(void)dealloc
 {
     if (_displayLink) CVDisplayLinkRelease(_displayLink);
+    
+    [super dealloc];
 }
 
 -(BOOL)isFlipped
@@ -83,7 +86,7 @@ using namespace ouzel;
 -(void)prepareOpenGL
 {
     std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
-    renderer->initOpenGL(_frame.size.width, _frame.size.height, 0);
+    renderer->initOpenGL(0);
     
     GLint swapInt = 1;
     [self.openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
@@ -128,8 +131,16 @@ using namespace ouzel;
 
 -(void)handleQuit:(id)sender
 {
-    [self close];
-    [[NSApplication sharedApplication] terminate:self];
+    if ([NSThread isMainThread])
+    {
+        [self.window close];
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.window close];
+        });
+    }
 }
 
 -(void)setFrameSize:(NSSize)newSize
@@ -155,11 +166,7 @@ using namespace ouzel;
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     
-    if (_resized)
-    {
-        _resized = NO;
-        Engine::getInstance()->getRenderer()->resize(Size2(_frame.size.width, _frame.size.height));
-    }
+    _resized = NO;
     
     bool quit = !Engine::getInstance()->run();
 
@@ -169,8 +176,16 @@ using namespace ouzel;
     
     if (quit)
     {
-        [self close];
-        [[NSApplication sharedApplication] terminate:self];
+        if ([NSThread isMainThread])
+        {
+            [self.window close];
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.window close];
+            });
+        }
     }
 }
 

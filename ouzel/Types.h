@@ -16,6 +16,9 @@ namespace ouzel
     class UpdateCallback;
     typedef std::shared_ptr<UpdateCallback> UpdateCallbackPtr;
     
+    class Window;
+    typedef std::shared_ptr<Window> WindowPtr;
+    
     class App;
     typedef std::shared_ptr<App> AppPtr;
     

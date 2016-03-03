@@ -13,6 +13,12 @@
 		3009341F1C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
 		300934201C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
 		300934211C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
+		300934261C88950200CC50D3 /* WindowOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300934221C8894D800CC50D3 /* WindowOSX.mm */; };
+		300934271C88950500CC50D3 /* WindowOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 300934231C8894D800CC50D3 /* WindowOSX.h */; };
+		3009342A1C88964700CC50D3 /* WindowIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300934281C88964700CC50D3 /* WindowIOS.mm */; };
+		3009342B1C88964700CC50D3 /* WindowIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 300934291C88964700CC50D3 /* WindowIOS.h */; };
+		3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009342C1C88978D00CC50D3 /* WindowTVOS.mm */; };
+		3009342F1C88978D00CC50D3 /* WindowTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009342D1C88978D00CC50D3 /* WindowTVOS.h */; };
 		3031A0B01C3731A2004D3514 /* ColorPSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031A0AC1C3731A2004D3514 /* ColorPSOGLES.h */; };
 		3031A0B11C3731A2004D3514 /* ColorPSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031A0AC1C3731A2004D3514 /* ColorPSOGLES.h */; };
 		3031A0B21C3731A2004D3514 /* ColorPSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031A0AC1C3731A2004D3514 /* ColorPSOGLES.h */; };
@@ -398,6 +404,12 @@
 /* Begin PBXFileReference section */
 		3009341A1C88698500CC50D3 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		3009341B1C88698500CC50D3 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
+		300934221C8894D800CC50D3 /* WindowOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowOSX.mm; sourceTree = "<group>"; };
+		300934231C8894D800CC50D3 /* WindowOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowOSX.h; sourceTree = "<group>"; };
+		300934281C88964700CC50D3 /* WindowIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowIOS.mm; sourceTree = "<group>"; };
+		300934291C88964700CC50D3 /* WindowIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowIOS.h; sourceTree = "<group>"; };
+		3009342C1C88978D00CC50D3 /* WindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowTVOS.mm; sourceTree = "<group>"; };
+		3009342D1C88978D00CC50D3 /* WindowTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowTVOS.h; sourceTree = "<group>"; };
 		3031A0AC1C3731A2004D3514 /* ColorPSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSOGLES.h; sourceTree = "<group>"; };
 		3031A0AD1C3731A2004D3514 /* ColorVSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorVSOGLES.h; sourceTree = "<group>"; };
 		3031A0AE1C3731A2004D3514 /* TexturePSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturePSOGLES.h; sourceTree = "<group>"; };
@@ -724,6 +736,8 @@
 				303B751C1C29EDEE00FEDE92 /* main.mm */,
 				304A8E391C237C70008B1151 /* OpenGLView.h */,
 				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
+				300934231C8894D800CC50D3 /* WindowOSX.h */,
+				300934221C8894D800CC50D3 /* WindowOSX.mm */,
 			);
 			path = osx;
 			sourceTree = "<group>";
@@ -738,6 +752,8 @@
 				303B76C01C35630B00FEDE92 /* OpenGLView.mm */,
 				303B762D1C3559B900FEDE92 /* ViewController.h */,
 				303B762E1C3559B900FEDE92 /* ViewController.m */,
+				300934291C88964700CC50D3 /* WindowIOS.h */,
+				300934281C88964700CC50D3 /* WindowIOS.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -763,6 +779,8 @@
 				303B76C41C35635700FEDE92 /* OpenGLView.mm */,
 				303B76841C355A5800FEDE92 /* ViewController.h */,
 				303B76851C355A5800FEDE92 /* ViewController.m */,
+				3009342D1C88978D00CC50D3 /* WindowTVOS.h */,
+				3009342C1C88978D00CC50D3 /* WindowTVOS.mm */,
 			);
 			path = tvos;
 			sourceTree = "<group>";
@@ -913,6 +931,7 @@
 				303B753A1C2A3C8200FEDE92 /* EventHander.h in Headers */,
 				303B75E51C2F6FC000FEDE92 /* ColorVSOGL.h in Headers */,
 				3047F74A1C4C350D00774E3D /* Move.h in Headers */,
+				3009342B1C88964700CC50D3 /* WindowIOS.h in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.h in Headers */,
 				303B75451C2A3C9200FEDE92 /* Renderer.h in Headers */,
@@ -973,6 +992,7 @@
 				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
 				303B76671C355A3B00FEDE92 /* ColorPSOGL.h in Headers */,
 				303647621C3F210F0024DB5B /* App.h in Headers */,
+				3009342F1C88978D00CC50D3 /* WindowTVOS.h in Headers */,
 				3047F77C1C4D39C500774E3D /* Repeat.h in Headers */,
 				3047F7631C4C60B900774E3D /* Fade.h in Headers */,
 				303647661C3F218E0024DB5B /* Settings.h in Headers */,
@@ -1060,6 +1080,7 @@
 				3047F7411C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
+				300934271C88950500CC50D3 /* WindowOSX.h in Headers */,
 				303B75E81C2F6FC000FEDE92 /* TextureVSOGL.h in Headers */,
 				305B998C1C41EFFA008589E1 /* Menu.h in Headers */,
 				303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */,
@@ -1239,6 +1260,7 @@
 				303B757B1C2A43D700FEDE92 /* ShaderOGL.cpp in Sources */,
 				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
+				3009342A1C88964700CC50D3 /* WindowIOS.mm in Sources */,
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				3047F75F1C4C60B900774E3D /* Fade.cpp in Sources */,
@@ -1273,6 +1295,7 @@
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
 				303B763B1C355A3B00FEDE92 /* RendererOGL.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
+				3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */,
 				3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				303B763D1C355A3B00FEDE92 /* Shader.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
@@ -1351,6 +1374,7 @@
 				3036471C1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				304A8E851C24814F008B1151 /* TextureOGL.cpp in Sources */,
 				304A8E6C1C237C70008B1151 /* Texture.cpp in Sources */,
+				300934261C88950200CC50D3 /* WindowOSX.mm in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
 				3047F76F1C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				3047F7561C4C4FBA00774E3D /* Scale.cpp in Sources */,
@@ -1454,7 +1478,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1496,7 +1519,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;

@@ -7,6 +7,7 @@
 #include "ShaderOGL.h"
 #include "MeshBufferOGL.h"
 #include "Engine.h"
+#include "Window.h"
 #include "Cache.h"
 #include "Utils.h"
 #include "stb_image_write.h"
@@ -47,9 +48,10 @@ namespace ouzel
         
     }
     
-    bool RendererOGL::initOpenGL(uint32_t width, uint32_t height, GLuint framebuffer)
+    bool RendererOGL::initOpenGL(GLuint framebuffer)
     {
-        Size2 size(static_cast<float>(width), static_cast<float>(height));
+        Size2 size = Engine::getInstance()->getWindow()->getSize();
+        
         _framebuffer = framebuffer;
         
         //glEnable(GL_DEPTH_TEST);
@@ -82,7 +84,7 @@ namespace ouzel
         
         _ready = true;
         
-        resize(size);
+        setSize(size);
         
         Engine::getInstance()->begin();
         
@@ -121,9 +123,9 @@ namespace ouzel
         glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
     }
 
-    void RendererOGL::resize(const Size2& size)
+    void RendererOGL::setSize(const Size2& size)
     {
-        Renderer::resize(size);
+        Renderer::setSize(size);
         
         if (_ready)
         {

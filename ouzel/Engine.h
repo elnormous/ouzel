@@ -33,6 +33,7 @@ namespace ouzel
 
         const EventDispatcherPtr& getEventDispatcher() const { return _eventDispatcher; }
         const CachePtr& getCache() const { return _cache; }
+        const WindowPtr& getWindow() const { return _window; }
         const RendererPtr& getRenderer() const { return _renderer; }
         const SceneManagerPtr& getSceneManager() const { return _sceneManager; }
         const FileSystemPtr& getFileSystem() const { return _fileSystem; }
@@ -62,6 +63,7 @@ namespace ouzel
         
         EventDispatcherPtr _eventDispatcher;
         CachePtr _cache;
+        WindowPtr _window;
         RendererPtr _renderer;
         SceneManagerPtr _sceneManager;
         FileSystemPtr _fileSystem;

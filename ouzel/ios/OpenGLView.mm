@@ -66,16 +66,21 @@ using namespace ouzel;
 -(void)dealloc
 {
     [_displayLink invalidate];
+    [_displayLink dealloc]
     
     if ([EAGLContext currentContext] == _context)
     {
         [EAGLContext setCurrentContext:nil];
     }
     
+    [EAGLContext dealloc];
+    
     if (_frameBuffer) glDeleteFramebuffers(1, &_frameBuffer);
     _frameBuffer = 0;
     if (_colorRenderBuffer) glDeleteRenderbuffers(1, &_colorRenderBuffer);
     _colorRenderBuffer = 0;
+    
+    [super dealloc];
 }
 
 +(Class)layerClass

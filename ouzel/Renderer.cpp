@@ -26,12 +26,11 @@ namespace ouzel
         
     }
 
-    bool Renderer::init(const Size2& size, bool resizable, bool fullscreen, Driver driver)
+    bool Renderer::init(const Size2& size, bool fullscreen, Driver driver)
     {
-        _driver = driver;
         _size = size;
-        _resizable = resizable;
         _fullscreen = fullscreen;
+        _driver = driver;
 
         return true;
     }
@@ -55,53 +54,14 @@ namespace ouzel
         return std::vector<Size2>();
     }
     
-    void Renderer::resize(const Size2& size)
+    void Renderer::setSize(const Size2& size)
     {
-        if (_size != size)
-        {
-            _size = size;
-            Engine::getInstance()->getSceneManager()->recalculateProjection();
-            
-            WindowEventPtr event = std::make_shared<WindowEvent>();
-            event->type = Event::Type::WINDOW_SIZE_CHANGE;
-            event->size = _size;
-            event->title = _title;
-            event->fullscreen = _fullscreen;
-            
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getRenderer());
-        }
+        _size = size;
     }
     
     void Renderer::setFullscreen(bool fullscreen)
     {
-        if (fullscreen != _fullscreen)
-        {
-            _fullscreen = fullscreen;
-            
-            WindowEventPtr event = std::make_shared<WindowEvent>();
-            event->type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
-            event->size = _size;
-            event->title = _title;
-            event->fullscreen = _fullscreen;
-            
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getRenderer());
-        }
-    }
-    
-    void Renderer::setTitle(const std::string& title)
-    {
-        if (_title != title)
-        {
-            _title = title;
-            
-            WindowEventPtr event = std::make_shared<WindowEvent>();
-            event->type = Event::Type::WINDOW_TITLE_CHANGE;
-            event->size = _size;
-            event->title = _title;
-            event->fullscreen = _fullscreen;
-            
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getRenderer());
-        }
+        _fullscreen = fullscreen;
     }
     
     TexturePtr Renderer::createTexture(const Size2& size, bool dynamic, bool mipmaps)

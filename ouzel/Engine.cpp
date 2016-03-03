@@ -6,6 +6,20 @@
 #include "CompileConfig.h"
 #include "Cache.h"
 
+#if defined(OUZEL_PLATFORM_OSX)
+#include "WindowOSX.h"
+#elif defined(OUZEL_PLATFORM_IOS)
+#include "WindowIOS.h"
+#elif defined(OUZEL_PLATFORM_TVOS)
+#include "WindowTVOS.h"
+#elif defined(OUZEL_PLATFORM_ANDROID)
+#include "WindowAndroid.h"
+#elif defined(OUZEL_PLATFORM_LINUX)
+#include "WindowLinux.h"
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+#include "WindowWin.h"
+#endif
+
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
 #include "RendererOGL.h"
 #endif
@@ -80,12 +94,26 @@ namespace ouzel
         Settings settings = _app->getSettings();
         _targetFPS = settings.targetFPS;
 
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
         settings.driver = Renderer::Driver::OPENGL;
 #elif defined(SUPPORTS_DIRECT3D11)
         settings.driver = Renderer::Driver::DIRECT3D11;
 #endif
 
+#if defined(OUZEL_PLATFORM_OSX)
+        _window.reset(new WindowOSX(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#elif defined(OUZEL_PLATFORM_IOS)
+        _window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#elif defined(OUZEL_PLATFORM_TVOS)
+        _window.reset(new WindowTVOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#elif defined(OUZEL_PLATFORM_ANDROID)
+        _window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#elif defined(OUZEL_PLATFORM_LINUX)
+        _window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        _window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#endif
+        
         _eventDispatcher.reset(new EventDispatcher());
         _cache.reset(new Cache());
         _fileSystem.reset(new FileSystem());
@@ -116,7 +144,7 @@ namespace ouzel
                 break;
         }
 
-        if (!_renderer->init(settings.size, settings.resizable, settings.fullscreen, settings.driver))
+        if (!_renderer->init(settings.size, settings.fullscreen, settings.driver))
         {
             return false;
         }
@@ -142,6 +170,8 @@ namespace ouzel
         // remove the active scene
         _sceneManager->setScene(ScenePtr());
         _cache.reset();
+        _renderer.reset();
+        _window.reset();
     }
 
     bool Engine::run()

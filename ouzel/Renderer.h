@@ -26,10 +26,12 @@ namespace ouzel
     class Node;
     class Sprite;
     class MeshBuffer;
+    class Window;
 
     class Renderer: public Noncopyable
     {
         friend Engine;
+        friend Window;
     public:
         static const uint32_t TEXTURE_LAYERS = 2;
     
@@ -59,19 +61,11 @@ namespace ouzel
         virtual void clear();
         virtual void present();
         virtual void flush();
+        
+        const Size2& getSize() const { return _size; }
 
         virtual std::vector<Size2> getSupportedResolutions() const;
 
-        virtual const Size2& getSize() const { return _size; }
-        virtual void resize(const Size2& size);
-        virtual bool getResizable() const { return _resizable; }
-
-        virtual void setFullscreen(bool fullscreen);
-        virtual bool isFullscreen() const { return _fullscreen; }
-        
-        virtual const std::string& getTitle() const { return _title; }
-        virtual void setTitle(const std::string& title);
-        
         virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true);
         virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false, bool mipmaps = true);
         virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic = false, bool mipmaps = true);
@@ -98,21 +92,20 @@ namespace ouzel
         
     protected:
         Renderer();
-        virtual bool init(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE);
+        virtual bool init(const Size2& size, bool fullscreen, Driver driver = Driver::NONE);
+        
+        virtual void setSize(const Size2& size);
+        virtual void setFullscreen(bool fullscreen);
         
         Driver _driver;
+        Size2 _size;
+        bool _fullscreen = false;
         
         Color _clearColor;
         
         TexturePtr _activeTextures[TEXTURE_LAYERS];
         ShaderPtr _activeShader;
         RenderTargetPtr _activeRenderTarget;
-        
-        Size2 _size;
-        bool _resizable = false;
-        bool _fullscreen = false;
-        
-        std::string _title = "";
         
         uint32_t _drawCallCount = 0;
     };

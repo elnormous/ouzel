@@ -51,12 +51,12 @@ namespace ouzel
     public:
         virtual ~RendererOGL();
 
-        bool initOpenGL(uint32_t width, uint32_t height, GLuint framebuffer);
+        bool initOpenGL(GLuint framebuffer);
         bool checkOpenGLErrors();
 
         virtual void setClearColor(Color color) override;
 
-        virtual void resize(const Size2& size) override;
+        virtual void setSize(const Size2& size) override;
 
         virtual void clear() override;
         virtual void flush() override;
