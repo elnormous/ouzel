@@ -170,6 +170,9 @@
     <ClCompile Include="..\ouzel\win\Window.cpp">
       <Filter>win</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\Window.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -374,6 +377,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\ParticleDefinition.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Window.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

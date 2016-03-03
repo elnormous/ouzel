@@ -72,6 +72,7 @@
     <ClCompile Include="..\ouzel\Vector4.cpp" />
     <ClCompile Include="..\ouzel\Vertex.cpp" />
     <ClCompile Include="..\ouzel\Widget.cpp" />
+    <ClCompile Include="..\ouzel\Window.cpp" />
     <ClCompile Include="..\ouzel\win\GamepadWin.cpp" />
     <ClCompile Include="..\ouzel\win\InputWin.cpp" />
     <ClCompile Include="..\ouzel\win\main.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="..\ouzel\Vector4.h" />
     <ClInclude Include="..\ouzel\Vertex.h" />
     <ClInclude Include="..\ouzel\Widget.h" />
+    <ClInclude Include="..\ouzel\Window.h" />
     <ClInclude Include="..\ouzel\win\GamepadWin.h" />
     <ClInclude Include="..\ouzel\win\InputWin.h" />
     <ClInclude Include="..\ouzel\win\Window.h" />

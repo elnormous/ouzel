@@ -8,6 +8,7 @@ build/Debug/
 build/x64/
 build/ipch/
 build/ouzel.sdf
+build/ouzel.VC.opendb
 samples/sprite/win/Release/
 samples/sprite/win/Debug/
 samples/sprite/win/x64/
