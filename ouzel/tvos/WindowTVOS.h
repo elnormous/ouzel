@@ -20,13 +20,14 @@ namespace ouzel
 {
     class WindowTVOS: public Window
     {
+        friend Engine
     public:
-        WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
         virtual ~WindowTVOS();
         
+    protected:
+        WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
         virtual bool init() override;
         
-    protected:
         UIWindowPtr _window;
         OpenGLViewPtr _openGLView;
     };

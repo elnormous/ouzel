@@ -23,11 +23,9 @@ namespace ouzel
 {
     class WindowOSX: public Window
     {
+        friend Engine;
     public:
-        WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
         virtual ~WindowOSX();
-        
-        virtual bool init() override;
         
         virtual void setSize(const Size2& size) override;
         virtual void setFullscreen(bool fullscreen) override;
@@ -39,6 +37,9 @@ namespace ouzel
         void handleFullscreenChange(bool fullscreen);
         
     protected:
+        WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
+        virtual bool init() override;
+        
         NSWindowPtr _window = Nil;
         WindowDelegatePtr _windowDelegate = Nil;
         OpenGLViewPtr _openGLView = Nil;
