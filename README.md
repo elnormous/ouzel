@@ -1,6 +1,6 @@
 <img src="https://github.com/elvman/ouzel/blob/master/logo/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.9
+# Ouzel v0.10
 Ouzel is a game engine mainly targeted for development of 2D games, but also 3D games can be created with it.
 
 ## Supported platforms
