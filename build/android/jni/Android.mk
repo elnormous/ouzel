@@ -62,6 +62,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Vector4.cpp \
     ../../../ouzel/Vertex.cpp \
     ../../../ouzel/Widget.cpp \
-    ../../../ouzel/Window.cpp
+    ../../../ouzel/Window.cpp \
+    ../../../ouzel/WindowAndroid.cpp
 
 include $(BUILD_STATIC_LIBRARY)
