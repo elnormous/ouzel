@@ -14,15 +14,13 @@
 #include "ColorVSD3D11.h"
 #include "Camera.h"
 #include "Cache.h"
-#include "Window.h"
+#include "WindowWin.h"
 #include "stb_image_write.h"
 
 using namespace ouzel;
 
 namespace ouzel
 {
-    const LPCWSTR RendererD3D11::WINDOW_CLASS_NAME = L"OuzelWindow";
-
     RendererD3D11::RendererD3D11():
         Renderer(Driver::DIRECT3D11)
     {
@@ -44,111 +42,17 @@ namespace ouzel
         if (_backBuffer) _backBuffer->Release();
         if (_swapChain) _swapChain->Release();
         if (_adapter) _adapter->Release();
-
-        if (_window) DestroyWindow(_window);
-        if (_windowClass)
-        {
-            UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
-            _windowClass = 0;
-        }
     }
 
-    bool RendererD3D11::init(const Size2& size, bool resizable, bool fullscreen, Driver driver)
+    bool RendererD3D11::init(const Size2& size, bool fullscreen)
     {
-        if (!Renderer::init(size, resizable, fullscreen, Driver::DIRECT3D11))
+        if (!Renderer::init(size, fullscreen))
         {
             return false;
         }
 
         clean();
 
-        if (!initWindow())
-        {
-            return false;
-        }
-
-        if (!initD3D11())
-        {
-            return false;
-        }
-
-        resize(_size);
-
-        return true;
-    }
-
-    bool RendererD3D11::initWindow()
-    {
-        HINSTANCE hInstance = GetModuleHandleW(nullptr);
-
-        WNDCLASSEXW wc;
-        memset(&wc, 0, sizeof(wc));
-        wc.cbSize = sizeof(wc);
-        wc.style = CS_HREDRAW | CS_VREDRAW;
-        wc.lpfnWndProc = windowProc;
-        wc.hInstance = hInstance;
-        wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-        wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wc.lpszClassName = WINDOW_CLASS_NAME;
-        // Application icon should be the first resource
-        wc.hIcon = LoadIconW(hInstance, MAKEINTRESOURCE(101));
-
-        _windowClass = RegisterClassExW(&wc);
-        if (!_windowClass)
-        {
-            log("Failed to register window class");
-            return false;
-        }
-
-        _windowStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
-
-        if (_resizable)
-        {
-            _windowStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
-        }
-
-        int x = CW_USEDEFAULT;
-        int y = CW_USEDEFAULT;
-        if (_fullscreen)
-        {
-            _windowStyle = WS_POPUP;
-            x = 0;
-            y = 0;
-        }
-        RECT windowRect = { 0, 0, (int)_size.width, (int)_size.height };
-        AdjustWindowRect(&windowRect, _windowStyle, FALSE);
-
-        wchar_t titleBuffer[256];
-        MultiByteToWideChar(CP_UTF8, 0, _title.c_str(), -1, titleBuffer, 256);
-
-        _window = CreateWindowExW(
-            0,
-            WINDOW_CLASS_NAME,
-            titleBuffer,
-            _windowStyle,
-            x,
-            y,
-            windowRect.right - windowRect.left,
-            windowRect.bottom - windowRect.top,
-            nullptr,
-            nullptr,
-            hInstance,
-            nullptr);
-
-        if (!_window)
-        {
-            log("Failed to create window");
-            return false;
-        }
-
-        SetWindowLongPtrW(_window, GWLP_USERDATA, (LONG_PTR)this);
-        ShowWindow(_window, SW_SHOW);
-
-        return true;
-    }
-
-    bool RendererD3D11::initD3D11()
-    {
         UINT deviceCreationFlags = 0;
 #if D3D11_DEBUG
         deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -165,7 +69,7 @@ namespace ouzel
             &_device,
             nullptr,
             &_context
-        );
+            );
         if (FAILED(hr))
         {
             log("Failed to create the D3D11 device");
@@ -184,6 +88,8 @@ namespace ouzel
             return false;
         }
 
+        std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(Engine::getInstance()->getWindow());
+
         DXGI_SWAP_CHAIN_DESC swapChainDesc;
         memset(&swapChainDesc, 0, sizeof(swapChainDesc));
 
@@ -198,7 +104,7 @@ namespace ouzel
         swapChainDesc.SampleDesc.Quality = 0;
         swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swapChainDesc.BufferCount = 1;
-        swapChainDesc.OutputWindow = _window;
+        swapChainDesc.OutputWindow = windowWin->getWindow();
         swapChainDesc.Windowed = _fullscreen == false;
         swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
         swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
@@ -210,7 +116,7 @@ namespace ouzel
             return false;
         }
 
-        factory->MakeWindowAssociation(_window, DXGI_MWA_NO_ALT_ENTER);
+        factory->MakeWindowAssociation(windowWin->getWindow(), DXGI_MWA_NO_ALT_ENTER);
 
         factory->Release();
         dxgiDevice->Release();
@@ -247,7 +153,7 @@ namespace ouzel
 
         samplerStateDesc.MinLOD = 0.0f;
         samplerStateDesc.MaxLOD = D3D11_FLOAT32_MAX;
-        
+
         hr = _device->CreateSamplerState(&samplerStateDesc, &_samplerState);
         if (FAILED(hr) || !_samplerState)
         {
@@ -267,7 +173,7 @@ namespace ouzel
             FALSE, // TODO MSAA enable?
             TRUE, // AA lines
         };
-        
+
         hr = _device->CreateRasterizerState(&rasterStateDesc, &_rasterizerState);
         if (FAILED(hr) || !_rasterizerState)
         {
@@ -307,8 +213,8 @@ namespace ouzel
         }
 
         ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
-                                                      TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11),
-                                                      VertexPCT::ATTRIBUTES);
+            TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11),
+            VertexPCT::ATTRIBUTES);
 
         if (textureShader)
         {
@@ -316,8 +222,8 @@ namespace ouzel
         }
 
         ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
-                                                    COLOR_VERTEX_SHADER_D3D11, sizeof(COLOR_VERTEX_SHADER_D3D11),
-                                                    VertexPC::ATTRIBUTES);
+            COLOR_VERTEX_SHADER_D3D11, sizeof(COLOR_VERTEX_SHADER_D3D11),
+            VertexPC::ATTRIBUTES);
 
         if (colorShader)
         {
@@ -330,6 +236,8 @@ namespace ouzel
 
         memset(&_resourceViews, 0, sizeof(_resourceViews));
         memset(&_samplerStates, 0, sizeof(_samplerStates));
+
+        setSize(_size);
 
         return true;
     }
@@ -361,7 +269,10 @@ namespace ouzel
 
     IDXGIOutput* RendererD3D11::getOutput() const
     {
-        HMONITOR monitor = MonitorFromWindow(_window, MONITOR_DEFAULTTONULL);
+        std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(Engine::getInstance()->getWindow());
+
+        HMONITOR monitor = windowWin->getMonitor();
+
         if (!monitor)
         {
             log("Window is not on any monitor");
@@ -426,25 +337,15 @@ namespace ouzel
         return result;
     }
 
-    void RendererD3D11::resize(const Size2& size)
+    void RendererD3D11::setSize(const Size2& size)
     {
-        Renderer::resize(size);
-
-        UINT width = size.width;
-        UINT height = size.height;
-
-        if (!_fullscreen)
-        {
-            UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
-
-            RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-            AdjustWindowRect(&rect, _windowStyle, FALSE);
-
-            SetWindowPos(_window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
-        }
+        Renderer::setSize(size);
 
         if (_swapChain)
         {
+            UINT width = size.width;
+            UINT height = size.height;
+
             if (_rtView)
             {
                 _rtView->Release();
@@ -531,7 +432,7 @@ namespace ouzel
                     return;
                 }
 
-                resize(Size2(closestDisplayMode.Width, closestDisplayMode.Height));
+                setSize(Size2(closestDisplayMode.Width, closestDisplayMode.Height));
                 _swapChain->SetFullscreenState(TRUE, output);
             
                 output->Release();
@@ -541,16 +442,6 @@ namespace ouzel
                 _swapChain->SetFullscreenState(FALSE, nullptr);
             }
         }
-    }
-
-    void RendererD3D11::setTitle(const std::string& title)
-    {
-        Renderer::setTitle(title);
-
-        wchar_t titleBuffer[256];
-        MultiByteToWideChar(CP_UTF8, 0, _title.c_str(), -1, titleBuffer, 256);
-
-        SetWindowTextW(_window, titleBuffer);
     }
 
     TexturePtr RendererD3D11::createTexture(const Size2& size, bool dynamic, bool mipmaps)

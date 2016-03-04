@@ -2,9 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include <windowsx.h>
-#include "Window.h"
+#include "WindowWin.h"
 #include "Engine.h"
 #include "InputWin.h"
+#include "Renderer.h"
+#include "Utils.h"
 
 using namespace ouzel;
 
@@ -272,8 +274,10 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     }
 }
 
-LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    WindowWin* windowWin = (WindowWin*)GetWindowLongPtr(window, GWLP_USERDATA);
+
     switch (msg)
     {
         case WM_ACTIVATE:
@@ -343,10 +347,7 @@ LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
             }
             else if (wParam == SIZE_MAXIMIZED || wParam == SIZE_RESTORED)
             {
-                INT width = LOWORD(lParam);
-                INT height = HIWORD(lParam);
-
-                Engine::getInstance()->getRenderer()->resize(Size2(width, height));
+                windowWin->handleResize(LOWORD(lParam), HIWORD(lParam));
             }
             return 0;
         }
@@ -361,7 +362,7 @@ LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
             case SC_SCREENSAVE:
             case SC_MONITORPOWER:
             {
-                if (Engine::getInstance()->getRenderer()->isFullscreen())
+                if (windowWin->isFullscreen())
                 {
                     // Disable screensaver in fullscreen mode
                     return 0;
@@ -382,4 +383,130 @@ LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
     }
 
     return DefWindowProcW(window, msg, wParam, lParam);
+}
+
+const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
+
+namespace ouzel
+{
+    WindowWin::WindowWin(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
+        Window(size, resizable, fullscreen, title)
+    {
+
+    }
+
+    WindowWin::~WindowWin()
+    {
+        if (_window) DestroyWindow(_window);
+        if (_windowClass)
+        {
+            UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
+            _windowClass = 0;
+        }
+    }
+
+    bool WindowWin::init()
+    {
+        HINSTANCE hInstance = GetModuleHandleW(nullptr);
+
+        WNDCLASSEXW wc;
+        memset(&wc, 0, sizeof(wc));
+        wc.cbSize = sizeof(wc);
+        wc.style = CS_HREDRAW | CS_VREDRAW;
+        wc.lpfnWndProc = windowProc;
+        wc.hInstance = hInstance;
+        wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+        wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+        wc.lpszClassName = WINDOW_CLASS_NAME;
+        // Application icon should be the first resource
+        wc.hIcon = LoadIconW(hInstance, MAKEINTRESOURCE(101));
+
+        _windowClass = RegisterClassExW(&wc);
+        if (!_windowClass)
+        {
+            log("Failed to register window class");
+            return false;
+        }
+
+        _windowStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+
+        if (_resizable)
+        {
+            _windowStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
+        }
+
+        int x = CW_USEDEFAULT;
+        int y = CW_USEDEFAULT;
+        if (_fullscreen)
+        {
+            _windowStyle = WS_POPUP;
+            x = 0;
+            y = 0;
+        }
+        RECT windowRect = { 0, 0, (int)_size.width, (int)_size.height };
+        AdjustWindowRect(&windowRect, _windowStyle, FALSE);
+
+        wchar_t titleBuffer[256];
+        MultiByteToWideChar(CP_UTF8, 0, _title.c_str(), -1, titleBuffer, 256);
+
+        _window = CreateWindowExW(
+            0,
+            WINDOW_CLASS_NAME,
+            titleBuffer,
+            _windowStyle,
+            x,
+            y,
+            windowRect.right - windowRect.left,
+            windowRect.bottom - windowRect.top,
+            nullptr,
+            nullptr,
+            hInstance,
+            nullptr);
+
+        if (!_window)
+        {
+            log("Failed to create window");
+            return false;
+        }
+
+        SetWindowLongPtr(_window, GWLP_USERDATA, (LONG_PTR)this);
+        ShowWindow(_window, SW_SHOW);
+
+        return Window::init();
+    }
+
+    void WindowWin::setSize(const Size2& size)
+    {
+        UINT width = size.width;
+        UINT height = size.height;
+
+        UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
+
+        RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
+        AdjustWindowRect(&rect, _windowStyle, FALSE);
+
+        SetWindowPos(_window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
+
+        Window::setSize(size);
+    }
+
+    void WindowWin::setTitle(const std::string& title)
+    {
+        wchar_t titleBuffer[256];
+        MultiByteToWideChar(CP_UTF8, 0, _title.c_str(), -1, titleBuffer, 256);
+
+        SetWindowTextW(_window, titleBuffer);
+
+        Window::setTitle(title);
+    }
+
+    void WindowWin::handleResize(INT width, INT height)
+    {
+        setSize(Size2(width, height));
+    }
+
+    HMONITOR WindowWin::getMonitor() const
+    {
+        return MonitorFromWindow(_window, MONITOR_DEFAULTTONULL);
+    }
 }

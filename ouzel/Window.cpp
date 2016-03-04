@@ -54,6 +54,8 @@ namespace ouzel
         if (fullscreen != _fullscreen)
         {
             _fullscreen = fullscreen;
+
+            Engine::getInstance()->getRenderer()->setFullscreen(_fullscreen);
             
             WindowEventPtr event = std::make_shared<WindowEvent>();
             event->type = Event::Type::WINDOW_FULLSCREEN_CHANGE;

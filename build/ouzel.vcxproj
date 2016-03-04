@@ -76,7 +76,7 @@
     <ClCompile Include="..\ouzel\win\GamepadWin.cpp" />
     <ClCompile Include="..\ouzel\win\InputWin.cpp" />
     <ClCompile Include="..\ouzel\win\main.cpp" />
-    <ClCompile Include="..\ouzel\win\Window.cpp" />
+    <ClCompile Include="..\ouzel\win\WindowWin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\AABB2.h" />
@@ -148,7 +148,7 @@
     <ClInclude Include="..\ouzel\Window.h" />
     <ClInclude Include="..\ouzel\win\GamepadWin.h" />
     <ClInclude Include="..\ouzel\win\InputWin.h" />
-    <ClInclude Include="..\ouzel\win\Window.h" />
+    <ClInclude Include="..\ouzel\win\WindowWin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</ProjectGuid>

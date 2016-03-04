@@ -167,11 +167,11 @@
     <ClCompile Include="..\ouzel\DrawNode.cpp">
       <Filter>scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\win\Window.cpp">
-      <Filter>win</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\Window.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\win\WindowWin.cpp">
+      <Filter>win</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -372,14 +372,14 @@
     <ClInclude Include="..\ouzel\DrawNode.h">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\win\Window.h">
-      <Filter>win</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\ParticleDefinition.h">
       <Filter>scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Window.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\win\WindowWin.h">
+      <Filter>win</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

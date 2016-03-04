@@ -13,8 +13,6 @@ namespace ouzel
     {
         friend Engine;
     public:
-        static const LPCWSTR WINDOW_CLASS_NAME;
-
         virtual ~RendererD3D11();
 
         virtual void clear() override;
@@ -22,11 +20,9 @@ namespace ouzel
 
         virtual std::vector<Size2> getSupportedResolutions() const override;
 
-        virtual void resize(const Size2& size) override;
+        virtual void setSize(const Size2& size) override;
 
         virtual void setFullscreen(bool fullscreen) override;
-
-        virtual void setTitle(const std::string& title) override;
 
         virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true) override;
         virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
@@ -51,18 +47,11 @@ namespace ouzel
         RendererD3D11();
 
         void clean();
-        virtual bool init(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE) override;
-
-        bool initWindow();
-        bool initD3D11();
+        virtual bool init(const Size2& size, bool fullscreen) override;
 
         IDXGIOutput* getOutput() const;
 
     private:
-        ATOM _windowClass = 0;
-        HWND _window = 0;
-        DWORD _windowStyle;
-
         ID3D11Device* _device = nullptr;
         ID3D11DeviceContext* _context = nullptr;
         IDXGISwapChain* _swapChain = nullptr;
