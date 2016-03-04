@@ -56,8 +56,6 @@ namespace ouzel
 
         virtual void setClearColor(Color color) override;
 
-        virtual void setSize(const Size2& size) override;
-
         virtual void clear() override;
         virtual void flush() override;
 
@@ -79,6 +77,7 @@ namespace ouzel
 
     private:
         RendererOGL();
+        virtual void setSize(const Size2& size) override;
 
         bool _ready = false;
         GLuint _framebuffer = 0;
