@@ -22,7 +22,7 @@ static uint32_t getModifiers(unsigned int state)
     return modifiers;
 }
 
-KeyboardKey convertKeyCode(KeySym keyCode)
+static KeyboardKey convertKeyCode(KeySym keyCode)
 {
     switch(keyCode)
     {

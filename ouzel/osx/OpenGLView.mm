@@ -348,7 +348,7 @@ enum {
     kVK_JIS_Kana                  = 0x68
 };
 
-KeyboardKey convertKeyCode(unsigned short keyCode)
+static KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     switch (keyCode)
     {
