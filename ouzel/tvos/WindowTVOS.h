@@ -20,7 +20,7 @@ namespace ouzel
 {
     class WindowTVOS: public Window
     {
-        friend Engine
+        friend Engine;
     public:
         virtual ~WindowTVOS();
         
