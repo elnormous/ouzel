@@ -91,8 +91,8 @@ namespace ouzel
         virtual uint32_t getDrawCallCount() const { return _drawCallCount; }
         
     protected:
-        Renderer();
-        virtual bool init(const Size2& size, bool fullscreen, Driver driver = Driver::NONE);
+        Renderer(Driver driver = Driver::NONE);
+        virtual bool init(const Size2& size, bool fullscreen);
         
         virtual void setSize(const Size2& size);
         virtual void setFullscreen(bool fullscreen);

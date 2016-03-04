@@ -34,7 +34,8 @@ PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT = 0;
 
 namespace ouzel
 {
-    RendererOGL::RendererOGL()
+    RendererOGL::RendererOGL():
+        Renderer(Driver::OPENGL)
     {
 #if defined(OUZEL_PLATFORM_ANDROID)
         glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");

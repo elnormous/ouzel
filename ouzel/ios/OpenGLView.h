@@ -12,12 +12,13 @@
     GLuint _colorRenderBuffer;
     GLuint _frameBuffer;
     
-    GLint backingWidth;
-    GLint backingHeight;
-    
     CADisplayLink* _displayLink;
 }
 
 -(id)initWithFrame:(CGRect)frameRect;
+-(void)prepareOpenGL;
+
+@property (readonly) GLint backingWidth;
+@property (readonly) GLint backingHeight;
 
 @end

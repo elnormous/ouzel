@@ -27,6 +27,8 @@ namespace ouzel
         WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
         virtual ~WindowOSX();
         
+        virtual bool init() override;
+        
         virtual void setSize(const Size2& size) override;
         virtual void setFullscreen(bool fullscreen) override;
         virtual void setTitle(const std::string& title) override;
@@ -37,8 +39,8 @@ namespace ouzel
         void handleFullscreenChange(bool fullscreen);
         
     protected:
-        NSWindowPtr _window;
-        WindowDelegatePtr _windowDelegate;
-        OpenGLViewPtr _openGLView;
+        NSWindowPtr _window = Nil;
+        WindowDelegatePtr _windowDelegate = Nil;
+        OpenGLViewPtr _openGLView = Nil;
     };
 }

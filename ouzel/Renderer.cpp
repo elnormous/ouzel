@@ -16,7 +16,8 @@
 
 namespace ouzel
 {
-    Renderer::Renderer()
+    Renderer::Renderer(Driver driver):
+        _driver(driver)
     {
         
     }
@@ -26,11 +27,10 @@ namespace ouzel
         
     }
 
-    bool Renderer::init(const Size2& size, bool fullscreen, Driver driver)
+    bool Renderer::init(const Size2& size, bool fullscreen)
     {
         _size = size;
         _fullscreen = fullscreen;
-        _driver = driver;
 
         return true;
     }

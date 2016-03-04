@@ -2,6 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowIOS.h"
+#import "OpenGLView.h"
+#import "ViewController.h"
 
 namespace ouzel
 {
@@ -9,5 +11,32 @@ namespace ouzel
         Window(size, resizable, fullscreen, title)
     {
         
+    }
+    
+    WindowIOS::~WindowIOS()
+    {
+        [_openGLView dealloc];
+        [_window.rootViewController dealloc];
+        [_window dealloc];
+    }
+    
+    bool WindowIOS::init()
+    {
+        _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        
+        UIViewController* viewController = [[ViewController alloc] init];
+        _window.rootViewController = viewController;
+        
+        _openGLView = [[OpenGLView alloc] initWithFrame:[_window bounds]];
+        viewController.view = _openGLView;
+        
+        [_window makeKeyAndVisible];
+        
+        _size.width = _openGLView.backingWidth;
+        _size.height = _openGLView.backingHeight;
+        
+        [_openGLView prepareOpenGL];
+        
+        return Window::init();
     }
 }

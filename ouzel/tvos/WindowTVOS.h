@@ -8,9 +8,12 @@
 #ifdef __OBJC__
 @class UIWindow;
 typedef UIWindow* UIWindowPtr;
+@class OpenGLView;
+typedef OpenGLView* OpenGLViewPtr;
 #else
 #include <objc/objc.h>
 typedef id UIWindowPtr;
+typedef id OpenGLViewPtr;
 #endif
 
 namespace ouzel
@@ -21,7 +24,10 @@ namespace ouzel
         WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
         virtual ~WindowTVOS();
         
+        virtual bool init() override;
+        
     protected:
         UIWindowPtr _window;
+        OpenGLViewPtr _openGLView;
     };
 }

@@ -13,16 +13,6 @@
 {
     ouzel::Engine::getInstance()->init();
     
-    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    UIViewController* viewController = [[ViewController alloc] init];
-    _window.rootViewController = viewController;
-    
-    OpenGLView* view = [[OpenGLView alloc] initWithFrame:[_window bounds]];
-    viewController.view = view;
-    
-    [_window makeKeyAndVisible];
-    
     return YES;
 }
 

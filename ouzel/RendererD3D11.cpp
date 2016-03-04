@@ -23,7 +23,8 @@ namespace ouzel
 {
     const LPCWSTR RendererD3D11::WINDOW_CLASS_NAME = L"OuzelWindow";
 
-    RendererD3D11::RendererD3D11()
+    RendererD3D11::RendererD3D11():
+        Renderer(Driver::DIRECT3D11)
     {
         
     }

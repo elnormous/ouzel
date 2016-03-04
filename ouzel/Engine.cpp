@@ -144,7 +144,7 @@ namespace ouzel
                 break;
         }
 
-        if (!_renderer->init(settings.size, settings.fullscreen, settings.driver))
+        if (!_window->init())
         {
             return false;
         }

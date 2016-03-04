@@ -21,6 +21,16 @@ namespace ouzel
         
     }
     
+    bool Window::init()
+    {
+        if (!Engine::getInstance()->getRenderer()->init(_size, _fullscreen))
+        {
+            return false;
+        }
+        
+        return true;
+    }
+    
     void Window::setSize(const Size2& size)
     {
         if (_size != size)

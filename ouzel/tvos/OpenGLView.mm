@@ -29,15 +29,18 @@ using namespace ouzel;
             return Nil;
         }
         
-        [self makeContextCurrent];
+        if (![EAGLContext setCurrentContext:_context])
+        {
+            NSLog(@"Failed to set current OpenGL context");
+        }
         
         // render buffer
         glGenRenderbuffers(1, &_colorRenderBuffer);
         glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
         [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
         
-        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
-        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_backingWidth);
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_backingHeight);
         
         // frame buffer
         glGenFramebuffers(1, &_frameBuffer);
@@ -49,17 +52,6 @@ using namespace ouzel;
         {
             log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
         }
-        
-        // display link
-        _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
-        [_displayLink setFrameInterval: 1.0f];
-        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-        
-        _size.width = backingWidth;
-        _size.height = backingHeight;
-        
-        std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
-        renderer->initOpenGL(backingWidth, backingHeight, _frameBuffer);
     }
     
     return self;
@@ -89,17 +81,28 @@ using namespace ouzel;
     return [CAEAGLLayer class];
 }
 
--(void)makeContextCurrent
+-(void)prepareOpenGL
 {
     if (![EAGLContext setCurrentContext:_context])
     {
         NSLog(@"Failed to set current OpenGL context");
     }
+    
+    // display link
+    _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
+    [_displayLink setFrameInterval: 1.0f];
+    [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    
+    std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
+    renderer->initOpenGL(_frameBuffer);
 }
 
 -(void)idle:(id)sender
 {
-    [self makeContextCurrent];
+    if (![EAGLContext setCurrentContext:_context])
+    {
+        NSLog(@"Failed to set current OpenGL context");
+    }
     
     Engine::getInstance()->run();
     

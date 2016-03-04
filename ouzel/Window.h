@@ -6,6 +6,7 @@
 #include <string>
 #include "Noncopyable.h"
 #include "Size2.h"
+#include "Renderer.h"
 
 namespace ouzel
 {
@@ -16,6 +17,8 @@ namespace ouzel
         friend Engine;
     public:
         virtual ~Window();
+        
+        virtual bool init();
         
         virtual const Size2& getSize() const { return _size; }
         virtual void setSize(const Size2& size);

@@ -56,12 +56,24 @@ namespace ouzel
     WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
         Window(size, resizable, fullscreen, title)
     {
+        
+    }
+    
+    WindowOSX::~WindowOSX()
+    {
+        [_openGLView dealloc];
+        [_windowDelegate dealloc];
+        [_window dealloc];
+    }
+    
+    bool WindowOSX::init()
+    {
         NSScreen* screen = [NSScreen mainScreen];
         NSRect screenFrame = screen.frame;
         
-        NSRect frame = NSMakeRect(screenFrame.size.width / 2 - size.width / 2,
-                                  screenFrame.size.height / 2 - size.height / 2,
-                                  size.width, size.height);
+        NSRect frame = NSMakeRect(screenFrame.size.width / 2 - _size.width / 2,
+                                  screenFrame.size.height / 2 - _size.height / 2,
+                                  _size.width, _size.height);
         
         NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
         
@@ -100,13 +112,8 @@ namespace ouzel
         [_window setContentView:_openGLView];
         
         [_window makeKeyAndOrderFront:Nil];
-    }
-    
-    WindowOSX::~WindowOSX()
-    {
-        [_openGLView dealloc];
-        [_windowDelegate dealloc];
-        [_window dealloc];
+        
+        return Window::init();
     }
     
     void WindowOSX::setSize(const Size2& size)
