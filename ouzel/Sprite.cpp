@@ -97,68 +97,68 @@ namespace ouzel
     {
         File file(filename, File::Mode::READ, false);
         
-        if (file)
+        if (!file)
         {
-            rapidjson::FileReadStream is(file.getFile().get(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
-            
-            rapidjson::Document document;
-            document.ParseStream<0>(is);
-            
-            if (document.HasParseError())
-            {
-                return false;
-            }
-            
-            const rapidjson::Value& metaObject = document["meta"];
-            const rapidjson::Value& sizeObject = metaObject["size"];
-            
-            Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
-                              static_cast<float>(sizeObject["h"].GetInt()));
-            
-            _texture = Engine::getInstance()->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
-            
-            const rapidjson::Value& framesArray = document["frames"];
-            
-            _frameVertices.reserve(framesArray.Size());
-            _frameMeshBuffers.reserve(framesArray.Size());
-            
-            for (uint32_t index = 0; index < static_cast<uint32_t>(framesArray.Size()); ++index)
-            {
-                const rapidjson::Value& frameObject = framesArray[index];
-                
-                const rapidjson::Value& rectangleObject = frameObject["frame"];
-                
-                Rectangle rectangle(static_cast<float>(rectangleObject["x"].GetInt()),
-                                    static_cast<float>(rectangleObject["y"].GetInt()),
-                                    static_cast<float>(rectangleObject["w"].GetInt()),
-                                    static_cast<float>(rectangleObject["h"].GetInt()));
-                
-                bool rotated = frameObject["rotated"].GetBool();
-                
-                const rapidjson::Value& sourceSizeObject = frameObject["sourceSize"];
-                
-                Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].GetInt()),
-                                 static_cast<float>(sourceSizeObject["h"].GetInt()));
-                
-                if (sourceSize.width > _size.width) _size.width = sourceSize.width;
-                if (sourceSize.height > _size.height) _size.height = sourceSize.height;
-                
-                const rapidjson::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
-                
-                Vector2 offset(static_cast<float>(spriteSourceSizeObject["x"].GetInt()),
-                               static_cast<float>(spriteSourceSizeObject["y"].GetInt()));
-                
-                const rapidjson::Value& pivotObject = frameObject["pivot"];
-                
-                Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
-                              static_cast<float>(pivotObject["y"].GetDouble()));
-                
-                addFrame(rectangle, textureSize, rotated, sourceSize, offset, pivot);
-            }
-        }
-        else
-        {
+            log("Failed to open %s", filename.c_str());
             return false;
+        }
+        
+        rapidjson::FileReadStream is(file.getFile().get(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
+        
+        rapidjson::Document document;
+        document.ParseStream<0>(is);
+        
+        if (document.HasParseError())
+        {
+            log("Failed to parse %s", filename.c_str());
+            return false;
+        }
+        
+        const rapidjson::Value& metaObject = document["meta"];
+        const rapidjson::Value& sizeObject = metaObject["size"];
+        
+        Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
+                          static_cast<float>(sizeObject["h"].GetInt()));
+        
+        _texture = Engine::getInstance()->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
+        
+        const rapidjson::Value& framesArray = document["frames"];
+        
+        _frameVertices.reserve(framesArray.Size());
+        _frameMeshBuffers.reserve(framesArray.Size());
+        
+        for (uint32_t index = 0; index < static_cast<uint32_t>(framesArray.Size()); ++index)
+        {
+            const rapidjson::Value& frameObject = framesArray[index];
+            
+            const rapidjson::Value& rectangleObject = frameObject["frame"];
+            
+            Rectangle rectangle(static_cast<float>(rectangleObject["x"].GetInt()),
+                                static_cast<float>(rectangleObject["y"].GetInt()),
+                                static_cast<float>(rectangleObject["w"].GetInt()),
+                                static_cast<float>(rectangleObject["h"].GetInt()));
+            
+            bool rotated = frameObject["rotated"].GetBool();
+            
+            const rapidjson::Value& sourceSizeObject = frameObject["sourceSize"];
+            
+            Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].GetInt()),
+                             static_cast<float>(sourceSizeObject["h"].GetInt()));
+            
+            if (sourceSize.width > _size.width) _size.width = sourceSize.width;
+            if (sourceSize.height > _size.height) _size.height = sourceSize.height;
+            
+            const rapidjson::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
+            
+            Vector2 offset(static_cast<float>(spriteSourceSizeObject["x"].GetInt()),
+                           static_cast<float>(spriteSourceSizeObject["y"].GetInt()));
+            
+            const rapidjson::Value& pivotObject = frameObject["pivot"];
+            
+            Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
+                          static_cast<float>(pivotObject["y"].GetDouble()));
+            
+            addFrame(rectangle, textureSize, rotated, sourceSize, offset, pivot);
         }
         
         return true;
