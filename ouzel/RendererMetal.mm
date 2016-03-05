@@ -20,7 +20,7 @@ namespace ouzel
 
     }
 
-    void RendererMetal::resize(const Size2& size)
+    void RendererMetal::setSize(const Size2& size)
     {
 
     }
@@ -35,11 +35,11 @@ namespace ouzel
 
     }
     
-    std::shared_ptr<Texture> RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic)
+    std::shared_ptr<Texture> RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureMetal> texture(new TextureMetal());
         
-        if (!texture->initFromFile(filename, dynamic))
+        if (!texture->initFromFile(filename, dynamic, mipmaps))
         {
             texture.reset();
         }
@@ -47,11 +47,11 @@ namespace ouzel
         return texture;
     }
     
-    std::shared_ptr<Texture> RendererMetal::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    std::shared_ptr<Texture> RendererMetal::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureMetal> texture(new TextureMetal());
         
-        if (!texture->initFromData(data, size, dynamic))
+        if (!texture->initFromData(data, size, dynamic, mipmaps))
         {
             texture.reset();
         }
@@ -95,28 +95,13 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool RendererMetal::drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer)
+    bool RendererMetal::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode)
     {
-        if (!Renderer::drawMeshBuffer(meshBuffer))
+        if (!Renderer::drawMeshBuffer(meshBuffer, indexCount, drawMode))
         {
             return false;
         }
         
-        return true;
-    }
-    
-    bool RendererMetal::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
-    {
-        return true;
-    }
-    
-    bool RendererMetal::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
-    {
-        return true;
-    }
-    
-    bool RendererMetal::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
-    {
         return true;
     }
 }
