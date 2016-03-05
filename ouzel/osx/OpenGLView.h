@@ -1,31 +1,25 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <Cocoa/Cocoa.h>
+#include <CoreVideo/CoreVideo.h>
 
-@interface OpenGLView : NSView
+@interface OpenGLView : NSOpenGLView
 {
-@private
-    NSOpenGLContext* _openGLContext;
-    NSOpenGLPixelFormat* _pixelFormat;
+@private    
+    CVDisplayLinkRef _displayLink;
+    CGDirectDisplayID _displayId;
+    BOOL _running;
+    BOOL _resized;
 }
 
 -(id)initWithFrame:(NSRect)frameRect;
 
--(void)update;
-
 -(void)prepareOpenGL;
+-(void)close;
+-(void)changeDisplay;
 
--(void)drawRect:(NSRect)bounds;
-
--(void)setOpenGLContext:(NSOpenGLContext*)context;
--(NSOpenGLContext*)openGLContext;
--(void)clearGLContext;
-
--(void)setPixelFormat:(NSOpenGLPixelFormat*)pixelFormat;
--(NSOpenGLPixelFormat*)pixelFormat;
-
--(void)makeOpenGLContextCurrent;
+-(void)draw;
 
 // input
 -(BOOL)acceptsFirstResponder;

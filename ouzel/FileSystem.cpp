@@ -1,9 +1,18 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include <sys/stat.h>
 #include "CompileConfig.h"
+#if defined(OUZEL_PLATFORM_OSX)
+#include <sys/types.h>
+#include <pwd.h>
+#include <CoreServices/CoreServices.h>
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+#include <Shlobj.h>
+#endif
 #include "FileSystem.h"
+#include "Utils.h"
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include <CoreFoundation/CoreFoundation.h>
@@ -31,14 +40,98 @@ namespace ouzel
         
     }
     
+    std::string FileSystem::getHomeDirectory()
+    {
+#if defined(OUZEL_PLATFORM_OSX)
+        struct passwd* pw = getpwuid(getuid());
+        if (pw)
+        {
+            return pw->pw_dir;
+        }
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        WCHAR szBuffer[MAX_PATH];
+        if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, 0, szBuffer)))
+        {
+            WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+            return TEMP_BUFFER;
+        }
+#endif
+        return "";
+    }
+    
+    std::string FileSystem::getStorageDirectory(const std::string& developer, const std::string& app)
+    {
+        std::string path;
+        
+#if defined(OUZEL_PLATFORM_OSX)
+        FSRef ref;
+        OSType folderType = kApplicationSupportFolderType;
+        
+        FSFindFolder( kUserDomain, folderType, kCreateFolder, &ref );
+        
+        FSRefMakePath( &ref, (UInt8*)&TEMP_BUFFER, sizeof(TEMP_BUFFER));
+        
+        path = TEMP_BUFFER;
+        
+        CFStringRef bundleIdentifier = CFBundleGetIdentifier(CFBundleGetMainBundle());
+        CFStringGetCString(bundleIdentifier, TEMP_BUFFER, sizeof(TEMP_BUFFER), kCFStringEncodingUTF8);
+        CFRelease(bundleIdentifier);
+        
+        path += DIRECTORY_SEPARATOR + TEMP_BUFFER;
+        
+        if (!directoryExists(path))
+        {
+            mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+        }
+#elif  defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+        //TODO: implement
+#elif defined(OUZEL_PLATFORM_WINDOWS)
+        WCHAR szBuffer[MAX_PATH];
+        if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_COMMON_APPDATA, NULL, 0, szBuffer)))
+        {
+            WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+            path = TEMP_BUFFER;
+        }
+        
+        path += DIRECTORY_SEPARATOR + developer;
+        
+        if (!directoryExists(path))
+        {
+            MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+            CreateDirectory(szBuffer, NULL);
+        }
+        
+        path += DIRECTORY_SEPARATOR + app;
+        
+        if (!directoryExists(path))
+        {
+            MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+            CreateDirectory(szBuffer, NULL);
+        }
+#endif
+        return path;
+    }
+    
+    bool FileSystem::directoryExists(const std::string& filename) const
+    {
+        struct stat buf;
+        if (stat(filename.c_str(), &buf) != 0)
+        {
+            return false;
+        }
+        
+        return (buf.st_mode & S_IFMT) == S_IFDIR;
+    }
+    
     bool FileSystem::fileExists(const std::string& filename) const
     {
         struct stat buf;
-        if (stat(filename.c_str(), &buf) != -1)
+        if (stat(filename.c_str(), &buf) != 0)
         {
-            return true;
+            return false;
         }
-        return false;
+        
+        return (buf.st_mode & S_IFMT) == S_IFREG;
     }
     
     std::string FileSystem::getPath(const std::string& filename) const
@@ -46,37 +139,30 @@ namespace ouzel
 		std::string appPath;
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-        CFStringRef urlString = CFURLCopyPath(appUrlRef);
+        CFURLRef resourcesUrlRef = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
+        CFURLRef absoluteURL = CFURLCopyAbsoluteURL(resourcesUrlRef);
         
-        char temporaryCString[256];
+        CFStringRef urlString = CFURLCopyFileSystemPath(absoluteURL, kCFURLPOSIXPathStyle);
         
-        CFStringGetCString(urlString, temporaryCString, sizeof(temporaryCString), kCFStringEncodingUTF8);
+        CFStringGetCString(urlString, TEMP_BUFFER, sizeof(TEMP_BUFFER), kCFStringEncodingUTF8);
         
-        CFRelease(appUrlRef);
+        CFRelease(resourcesUrlRef);
+        CFRelease(absoluteURL);
         CFRelease(urlString);
-#endif
-
-#if defined(OUZEL_PLATFORM_OSX)
-		appPath = std::string(temporaryCString) + "Contents/Resources/";
-#endif
         
-#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        appPath = std::string(temporaryCString);
+        appPath = std::string(TEMP_BUFFER);
 #endif
 
 #if defined(OUZEL_PLATFORM_WINDOWS)
-        wchar_t szBuffer[256];
-        GetCurrentDirectoryW(256, szBuffer);
+        wchar_t szBuffer[MAX_PATH];
+        GetCurrentDirectoryW(MAX_PATH, szBuffer);
 
-        char temporaryCString[256];
+        WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
 
-        WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
-
-        appPath = std::string(temporaryCString) + DIRECTORY_SEPARATOR;
+        appPath = std::string(TEMP_BUFFER);
 #endif
 
-        std::string str = appPath + filename;
+        std::string str = appPath + DIRECTORY_SEPARATOR + filename;
         
         if (fileExists(str))
         {

@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
@@ -12,9 +12,21 @@
 
 namespace ouzel
 {
+    std::shared_ptr<Layer> Layer::create()
+    {
+        std::shared_ptr<Layer> result = std::make_shared<Layer>();
+        
+        if (!result->init())
+        {
+            result.reset();
+        }
+        
+        return result;
+    }
+    
     Layer::Layer()
     {
-        _camera.reset(new Camera());
+        
     }
     
     Layer::~Layer()
@@ -22,50 +34,48 @@ namespace ouzel
         
     }
     
-    void Layer::update(float delta)
+    bool Layer::init()
     {
-        for (std::shared_ptr<Node> node : _nodes)
-        {
-            node->update(delta);
-        }
+        _camera = std::make_shared<Camera>();
+        _camera->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
+        
+        return true;
     }
     
     void Layer::draw()
     {
-        if (_reorderNodes)
-        {
-            std::sort(_nodes.begin(), _nodes.end(), [](std::shared_ptr<Node> const& a, std::shared_ptr<Node> const& b) {
-                return a->getZ() > b->getZ();
-            });
-            
-            _reorderNodes = false;
-        }
+        _drawQueue.clear();
         
         // render only if there is an active camera
         if (_camera)
         {
-            for (std::shared_ptr<Node> node : _nodes)
+            lock();
+            
+            for (const NodePtr child : _children)
             {
-                if (node->checkVisibility())
-                {
-                    node->draw();
-                }
+                child->visit(Matrix4::IDENTITY, false);
             }
+            
+            std::stable_sort(_drawQueue.begin(), _drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {
+                return a->getZ() > b->getZ();
+            });
+            
+            for (const NodePtr& node : _drawQueue)
+            {
+                node->process();
+            }
+            
+            unlock();
         }
     }
     
-    bool Layer::addChild(std::shared_ptr<Node> const& node)
+    bool Layer::addChild(const NodePtr& node)
     {
         if (NodeContainer::addChild(node))
         {
-            node->setLayer(shared_from_this());
+            node->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
             
-            if (node->getVisible())
-            {
-                node->addToLayer();
-            }
-            
-            node->updateTransform(Matrix4::identity());
+            node->updateTransform(Matrix4::IDENTITY);
             
             return true;
         }
@@ -75,104 +85,23 @@ namespace ouzel
         }
     }
     
-    bool Layer::removeChild(std::shared_ptr<Node> const& node)
+    void Layer::addToDrawQueue(const NodePtr& node)
     {
-        if (NodeContainer::removeChild(node))
-        {
-            node->_parent.reset();
-            node->_layer.reset();
-            
-            if (node->_addedToLayer)
-            {
-                node->removeFromLayer();
-            }
-            
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        _drawQueue.push_back(node);
     }
     
-    void Layer::addNode(std::shared_ptr<Node> const& node)
-    {
-        std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
-            return p.get() == node.get();
-        });
-        
-        if (i == _nodes.end())
-        {
-            _nodes.push_back(node);
-            _reorderNodes = true;
-        }
-    }
-    
-    void Layer::removeNode(std::shared_ptr<Node> const& node)
-    {
-        std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_nodes.begin(), _nodes.end(), [node](std::shared_ptr<Node> const& p) {
-            return p.get() == node.get();
-        });
-        
-        if (i != _nodes.end())
-        {
-            _nodes.erase(i);
-        }
-    }
-    
-    void Layer::reorderNodes()
-    {
-        _reorderNodes = true;
-    }
-    
-    void Layer::setCamera(std::shared_ptr<Camera> const& camera)
+    void Layer::setCamera(const CameraPtr& camera)
     {
         _camera = camera;
     }
     
-    Vector2 Layer::screenToWorldLocation(const Vector2& position)
+    NodePtr Layer::pickNode(const Vector2& position)
     {
-        if (_camera)
+        for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
         {
-            Matrix4 projViewMatrix = _projection * _camera->getTransform();
-            Matrix4 inverseViewMatrix = projViewMatrix;
-            inverseViewMatrix.invert();
+            NodePtr node = *i;
             
-            Vector3 result = Vector3(position.x, position.y, 0.0f);
-            inverseViewMatrix.transformPoint(&result);
-            
-            return Vector2(result.x, result.y);
-        }
-        else
-        {
-            return Vector2();
-        }
-    }
-    
-    Vector2 Layer::worldToScreenLocation(const Vector2& position)
-    {
-        if (_camera)
-        {
-            Matrix4 projViewMatrix = _projection * _camera->getTransform();
-            
-            Vector3 result = Vector3(position.x, position.y, 0.0f);
-            projViewMatrix.transformPoint(&result);
-            
-            return Vector2(result.x, result.y);
-        }
-        else
-        {
-            return Vector2();
-        }
-    }
-    
-    std::shared_ptr<Node> Layer::pickNode(const Vector2& position)
-    {
-        for (std::vector<std::shared_ptr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
-        {
-            std::shared_ptr<Node> node = *i;
-            
-            if (node->pointOn(position))
+            if (node->isPickable() && node->pointOn(position))
             {
                 return node;
             }
@@ -181,15 +110,15 @@ namespace ouzel
         return nullptr;
     }
     
-    std::set<std::shared_ptr<Node>> Layer::pickNodes(const Rectangle& rectangle)
+    std::set<NodePtr> Layer::pickNodes(const Rectangle& rectangle)
     {
-        std::set<std::shared_ptr<Node>> result;
+        std::set<NodePtr> result;
         
-        for (std::vector<std::shared_ptr<Node>>::reverse_iterator i = _nodes.rbegin(); i != _nodes.rend(); ++i)
+        for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
         {
-            std::shared_ptr<Node> node = *i;
+            NodePtr node = *i;
             
-            if (node->rectangleOverlaps(rectangle))
+            if (node->isPickable() && node->rectangleOverlaps(rectangle))
             {
                 result.insert(node);
             }
@@ -198,25 +127,17 @@ namespace ouzel
         return result;
     }
     
-    void Layer::recalculateProjection()
-    {
-        Size2 size = Engine::getInstance()->getRenderer()->getSize();
-        Matrix4::createOrthographic(size.width, size.height, -1.0f, 1.0f, &_projection);
-        _inverseProjection = _projection;
-        _inverseProjection.invert();
-    }
-    
     void Layer::setOrder(int32_t order)
     {
         _order = order;
         
-        if (std::shared_ptr<Scene> scene = _scene.lock())
+        if (ScenePtr scene = _scene.lock())
         {
             scene->reorderLayers();
         }
     }
     
-    void Layer::addToScene(std::shared_ptr<Scene> const& scene)
+    void Layer::addToScene(const ScenePtr& scene)
     {
         _scene = scene;
     }

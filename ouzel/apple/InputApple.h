@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -8,15 +8,11 @@
 #include "Input.h"
 
 #ifdef __OBJC__
-@class GCController;
-@class GCControllerDirectionPad;
-@class GCControllerButtonInput;
 @class ConnectDelegate;
+typedef ConnectDelegate* ConnectDelegatePtr;
 #else
-class GCController;
-class GCControllerDirectionPad;
-class GCControllerButtonInput;
-class ConnectDelegate;
+#include <objc/objc.h>
+typedef id ConnectDelegatePtr;
 #endif
 
 namespace ouzel
@@ -28,20 +24,22 @@ namespace ouzel
     {
         friend Engine;
     public:
-        
         virtual ~InputApple();
         
-        virtual void startDiscovery() override;
-        virtual void stopDiscovery() override;
+        virtual void setCursorVisible(bool visible) override;
+        virtual bool isCursorVisible() const override;
         
-        void handleDiscoveryCompleted();
-        void handleControllerConnected(GCController* controller);
-        void handleControllerDisconnected(GCController* controller);
+        virtual void startGamepadDiscovery() override;
+        virtual void stopGamepadDiscovery() override;
+        
+        void handleGamepadDiscoveryCompleted();
+        void handleGamepadConnected(id controller);
+        void handleGamepadDisconnected(id controller);
         
     protected:
         InputApple();
         
-        ConnectDelegate* _connectDelegate = nullptr;
+        ConnectDelegatePtr _connectDelegate = nullptr;
         std::vector<std::shared_ptr<GamepadApple>> _gamepads;
         
         bool _discovering = false;

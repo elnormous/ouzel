@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include "RendererD3D11.h"
@@ -6,335 +6,33 @@
 #include "TextureD3D11.h"
 #include "ShaderD3D11.h"
 #include "MeshBufferD3D11.h"
+#include "RenderTargetD3D11.h"
 #include "Utils.h"
 #include "TexturePSD3D11.h"
 #include "TextureVSD3D11.h"
 #include "ColorPSD3D11.h"
 #include "ColorVSD3D11.h"
-#include "Event.h"
-#include "SceneManager.h"
 #include "Camera.h"
-#include "EventDispatcher.h"
+#include "Cache.h"
+#include "WindowWin.h"
+#include "stb_image_write.h"
 
 using namespace ouzel;
 
-KeyboardKey winKeyToEngineCode(WPARAM wParam, LPARAM lParam)
-{
-    switch (wParam)
-    {
-        case VK_CANCEL: return KeyboardKey::CANCEL;
-        case VK_BACK: return KeyboardKey::BACKSPACE;
-        case VK_TAB: return KeyboardKey::TAB;
-        case VK_CLEAR: return KeyboardKey::CLEAR;
-        case VK_RETURN: return KeyboardKey::RETURN;
-        case VK_SHIFT: return KeyboardKey::SHIFT;
-        case VK_CONTROL: return KeyboardKey::CONTROL;
-        case VK_MENU: return KeyboardKey::MENU;
-        case VK_PAUSE: return KeyboardKey::PAUSE;
-        case VK_CAPITAL: return KeyboardKey::CAPITAL;
-
-            // ... Japanese ...
-
-        case VK_ESCAPE: return KeyboardKey::ESCAPE;
-
-            // ... IME ...
-
-        case VK_SPACE: return KeyboardKey::SPACE;
-        case VK_PRIOR: return KeyboardKey::PRIOR;
-        case VK_NEXT: return KeyboardKey::NEXT;
-        case VK_END: return KeyboardKey::END;
-        case VK_HOME: return KeyboardKey::HOME;
-        case VK_LEFT: return KeyboardKey::LEFT;
-        case VK_UP: return KeyboardKey::UP;
-        case VK_RIGHT: return KeyboardKey::RIGHT;
-        case VK_DOWN: return KeyboardKey::DOWN;
-
-        case VK_SELECT: return KeyboardKey::SELECT;
-        case VK_PRINT: return KeyboardKey::PRINT;
-        case VK_EXECUTE: return KeyboardKey::EXECUT;
-
-        case VK_SNAPSHOT: return KeyboardKey::SNAPSHOT;
-        case VK_INSERT: return KeyboardKey::INSERT;
-        case VK_DELETE: return KeyboardKey::DEL;
-        case VK_HELP: return KeyboardKey::HELP;
-
-        case '0': return KeyboardKey::KEY_0;
-        case '1': return KeyboardKey::KEY_1;
-        case '2': return KeyboardKey::KEY_2;
-        case '3': return KeyboardKey::KEY_3;
-        case '4': return KeyboardKey::KEY_4;
-        case '5': return KeyboardKey::KEY_5;
-        case '6': return KeyboardKey::KEY_6;
-        case '7': return KeyboardKey::KEY_7;
-        case '8': return KeyboardKey::KEY_8;
-        case '9': return KeyboardKey::KEY_9;
-
-        case 'A': return KeyboardKey::KEY_A;
-        case 'B': return KeyboardKey::KEY_B;
-        case 'C': return KeyboardKey::KEY_C;
-        case 'D': return KeyboardKey::KEY_D;
-        case 'E': return KeyboardKey::KEY_E;
-        case 'F': return KeyboardKey::KEY_F;
-        case 'G': return KeyboardKey::KEY_G;
-        case 'H': return KeyboardKey::KEY_H;
-        case 'I': return KeyboardKey::KEY_I;
-        case 'J': return KeyboardKey::KEY_J;
-        case 'K': return KeyboardKey::KEY_K;
-        case 'L': return KeyboardKey::KEY_L;
-        case 'M': return KeyboardKey::KEY_M;
-        case 'N': return KeyboardKey::KEY_N;
-        case 'O': return KeyboardKey::KEY_O;
-        case 'P': return KeyboardKey::KEY_P;
-        case 'Q': return KeyboardKey::KEY_Q;
-        case 'R': return KeyboardKey::KEY_R;
-        case 'S': return KeyboardKey::KEY_S;
-        case 'T': return KeyboardKey::KEY_T;
-        case 'U': return KeyboardKey::KEY_U;
-        case 'V': return KeyboardKey::KEY_V;
-        case 'W': return KeyboardKey::KEY_W;
-        case 'X': return KeyboardKey::KEY_X;
-        case 'Y': return KeyboardKey::KEY_Y;
-        case 'Z': return KeyboardKey::KEY_Z;
-
-        case VK_LWIN: return KeyboardKey::LWIN;
-        case VK_RWIN: return KeyboardKey::RWIN;
-        case VK_APPS: return KeyboardKey::MENU;
-        case VK_SLEEP: return KeyboardKey::SLEEP;
-
-        case VK_NUMPAD0: return KeyboardKey::NUMPAD0;
-        case VK_NUMPAD1: return KeyboardKey::NUMPAD1;
-        case VK_NUMPAD2: return KeyboardKey::NUMPAD2;
-        case VK_NUMPAD3: return KeyboardKey::NUMPAD3;
-        case VK_NUMPAD4: return KeyboardKey::NUMPAD4;
-        case VK_NUMPAD5: return KeyboardKey::NUMPAD5;
-        case VK_NUMPAD6: return KeyboardKey::NUMPAD6;
-        case VK_NUMPAD7: return KeyboardKey::NUMPAD7;
-        case VK_NUMPAD8: return KeyboardKey::NUMPAD8;
-        case VK_NUMPAD9: return KeyboardKey::NUMPAD9;
-
-        case VK_MULTIPLY: return KeyboardKey::MULTIPLY;
-        case VK_ADD: return KeyboardKey::ADD;
-        case VK_SEPARATOR: return KeyboardKey::SEPARATOR;
-        case VK_SUBTRACT: return KeyboardKey::SUBTRACT;
-        case VK_DECIMAL: return KeyboardKey::DECIMAL;
-        case VK_DIVIDE: return KeyboardKey::DIVIDE;
-
-        case VK_F1: return KeyboardKey::F1;
-        case VK_F2: return KeyboardKey::F2;
-        case VK_F3: return KeyboardKey::F3;
-        case VK_F4: return KeyboardKey::F4;
-        case VK_F5: return KeyboardKey::F5;
-        case VK_F6: return KeyboardKey::F6;
-        case VK_F7: return KeyboardKey::F7;
-        case VK_F8: return KeyboardKey::F8;
-        case VK_F9: return KeyboardKey::F9;
-        case VK_F10: return KeyboardKey::F10;
-        case VK_F11: return KeyboardKey::F11;
-        case VK_F12: return KeyboardKey::F12;
-        case VK_F13: return KeyboardKey::F13;
-        case VK_F14: return KeyboardKey::F14;
-        case VK_F15: return KeyboardKey::F15;
-        case VK_F16: return KeyboardKey::F16;
-        case VK_F17: return KeyboardKey::F17;
-        case VK_F18: return KeyboardKey::F18;
-        case VK_F19: return KeyboardKey::F19;
-        case VK_F20: return KeyboardKey::F20;
-        case VK_F21: return KeyboardKey::F21;
-        case VK_F22: return KeyboardKey::F22;
-        case VK_F23: return KeyboardKey::F23;
-        case VK_F24: return KeyboardKey::F24;
-
-        case VK_NUMLOCK: return KeyboardKey::NUMLOCK;
-        case VK_SCROLL: return KeyboardKey::SCROLL;
-        case VK_LSHIFT: return KeyboardKey::LSHIFT;
-        case VK_RSHIFT: return KeyboardKey::RSHIFT;
-        case VK_LCONTROL: return KeyboardKey::LCONTROL;
-        case VK_RCONTROL: return KeyboardKey::RCONTROL;
-        case VK_LMENU: return KeyboardKey::LMENU;
-        case VK_RMENU: return KeyboardKey::RMENU;
-
-        case VK_OEM_1: return KeyboardKey::OEM_1;
-        case VK_OEM_PLUS: return KeyboardKey::PLUS;
-        case VK_OEM_COMMA: return KeyboardKey::COMMA;
-        case VK_OEM_MINUS: return KeyboardKey::MINUS;
-        case VK_OEM_PERIOD: return KeyboardKey::PERIOD;
-        case VK_OEM_2: return KeyboardKey::OEM_2;
-        case VK_OEM_3: return KeyboardKey::OEM_3;
-        case VK_OEM_4: return KeyboardKey::OEM_4;
-        case VK_OEM_5: return KeyboardKey::OEM_5;
-        case VK_OEM_6: return KeyboardKey::OEM_6;
-        case VK_OEM_7: return KeyboardKey::OEM_7;
-        case VK_OEM_8: return KeyboardKey::OEM_8;
-        case VK_OEM_AX: return KeyboardKey::OEM_AX;
-        case VK_OEM_102: return KeyboardKey::OEM_102;
-
-        // ... misc keys ...
-    }
-    return KeyboardKey::NONE;
-}
-
-static void updateModifiers(WPARAM wParam, Event& event)
-{
-    event.shiftDown = wParam & MK_SHIFT;
-    event.altDown = wParam & MK_ALT;
-    event.controlDown = wParam & MK_CONTROL;
-}
-
-static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    KeyboardKey key = winKeyToEngineCode(wParam, lParam);
-    KeyboardEvent event;
-    event.key = key;
-    updateModifiers(wParam, event);
-
-    if (msg == WM_KEYDOWN)
-    {
-        event.type = Event::Type::KEY_DOWN;
-
-        Engine::getInstance()->getEventDispatcher()->dispatchKeyDownEvent(event, Engine::getInstance()->getInput());
-    }
-    else if (msg == WM_KEYUP)
-    {
-        event.type = Event::Type::KEY_UP;
-
-        Engine::getInstance()->getEventDispatcher()->dispatchKeyUpEvent(event, Engine::getInstance()->getInput());
-    }
-}
-
-static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                static_cast<float>(HIWORD(lParam)));
-
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_MOVE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(pos);
-    updateModifiers(wParam, event);
-
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
-}
-
-static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                static_cast<float>(HIWORD(lParam)));
-
-    MouseEvent event;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(pos);
-
-    if (msg == WM_LBUTTONDOWN || msg == WM_LBUTTONUP)
-    {
-        event.button = MouseButton::LEFT;
-    }
-    else if (msg == WM_RBUTTONDOWN || msg == WM_RBUTTONUP)
-    {
-        event.button = MouseButton::RIGHT;
-    }
-    else if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONUP)
-    {
-        event.button = MouseButton::MIDDLE;
-    }
-
-    if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN)
-    {
-        event.type = Event::Type::MOUSE_DOWN;
-        Engine::getInstance()->getEventDispatcher()->dispatchMouseDownEvent(event, Engine::getInstance()->getInput());
-    }
-    else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP)
-    {
-        event.type = Event::Type::MOUSE_UP;
-        Engine::getInstance()->getEventDispatcher()->dispatchMouseUpEvent(event, Engine::getInstance()->getInput());
-    }
-}
-
-static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    Vector2 pos(static_cast<float>(LOWORD(lParam)),
-                static_cast<float>(HIWORD(lParam)));
-
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_SCROLL;
-    event.scroll = Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA));
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(pos);
-    updateModifiers(wParam, event);
-
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseScrollEvent(event, Engine::getInstance()->getInput());
-}
-
-static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    switch (msg)
-    {
-        case WM_ACTIVATE:
-        {
-            UINT state = LOWORD(wParam);
-
-            if (state == WA_ACTIVE || state == WA_CLICKACTIVE)
-            {
-                // TODO: Implement activation of the window
-            }
-            else if (state == WA_INACTIVE)
-            {
-                // TODO: Implement activation of the window
-            }
-            break;
-        }
-        case WM_KEYUP:
-        case WM_KEYDOWN:
-        {
-            handleKeyEvent(msg, wParam, lParam);
-            break;
-        }
-        case WM_LBUTTONDOWN:
-        case WM_LBUTTONUP:
-        case WM_RBUTTONDOWN:
-        case WM_RBUTTONUP:
-        case WM_MBUTTONDOWN:
-        case WM_MBUTTONUP:
-        {
-            handleMouseButtonEvent(msg, wParam, lParam);
-            break;
-        }
-        case WM_MOUSEMOVE:
-        {
-            handleMouseMoveEvent(msg, wParam, lParam);
-            break;
-        }
-        case WM_MOUSEHWHEEL:
-        {
-            handleMouseWheelEvent(msg, wParam, lParam);
-            break;
-        }
-        case WM_SIZE:
-        {
-            if (wParam == SIZE_MAXIMIZED || wParam == SIZE_RESTORED)
-            {
-                INT width = LOWORD(lParam);
-                INT height = HIWORD(lParam);
-
-                Engine::getInstance()->getRenderer()->resize(Size2(width, height));
-            }
-            break;
-        }
-        case WM_DESTROY:
-        {
-            PostQuitMessage(0);
-            Engine::getInstance()->end();
-            return 0;
-        }
-    }
-
-    return DefWindowProcW(window, msg, wParam, lParam);
-}
-
 namespace ouzel
 {
-    RendererD3D11::RendererD3D11()
+    RendererD3D11::RendererD3D11():
+        Renderer(Driver::DIRECT3D11)
     {
         
     }
 
     RendererD3D11::~RendererD3D11()
+    {
+        clean();
+    }
+
+    void RendererD3D11::clean()
     {
         if (_depthStencilState) _depthStencilState->Release();
         if (_blendState) _blendState->Release();
@@ -343,95 +41,55 @@ namespace ouzel
         if (_rtView) _rtView->Release();
         if (_backBuffer) _backBuffer->Release();
         if (_swapChain) _swapChain->Release();
+        if (_adapter) _adapter->Release();
     }
 
-    bool RendererD3D11::init(const Size2& size, bool resizable, bool fullscreen, Driver driver)
+    bool RendererD3D11::init(const Size2& size, bool fullscreen)
     {
-        if (!Renderer::init(size, resizable, fullscreen, Driver::DIRECT3D11))
+        if (!Renderer::init(size, fullscreen))
         {
             return false;
         }
 
-        if (!initWindow())
-        {
-            return false;
-        }
+        clean();
 
-        if (!initD3D11())
-        {
-            return false;
-        }
+        UINT deviceCreationFlags = 0;
+#if D3D11_DEBUG
+        deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
 
-        resize(_size);
-
-        return true;
-    }
-
-    bool RendererD3D11::initWindow()
-    {
-        HINSTANCE hInstance = GetModuleHandle(nullptr);
-
-        WNDCLASSEXW wc;
-        memset(&wc, 0, sizeof(wc));
-        wc.cbSize = sizeof(wc);
-        wc.style = CS_HREDRAW | CS_VREDRAW;
-        wc.lpfnWndProc = windowProc;
-        wc.hInstance = hInstance;
-        wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-        wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wc.lpszClassName = L"OuzelWindow";
-        if (!RegisterClassExW(&wc))
-        {
-            log("Failed to register window class");
-            return false;
-        }
-
-        _windowStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
-
-        if (_resizable)
-        {
-            _windowStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
-        }
-
-        int x = CW_USEDEFAULT;
-        int y = CW_USEDEFAULT;
-        if (_fullscreen)
-        {
-            _windowStyle = WS_POPUP;
-            x = 0;
-            y = 0;
-        }
-        RECT windowRect = { 0, 0, (int)_size.width, (int)_size.height };
-        AdjustWindowRect(&windowRect, _windowStyle, FALSE);
-
-        _window = CreateWindowExW(
-            0,
-            L"OuzelWindow",
-            L"Ouzel",
-            _windowStyle,
-            x,
-            y,
-            windowRect.right - windowRect.left,
-            windowRect.bottom - windowRect.top,
+        HRESULT hr = D3D11CreateDevice(
+            nullptr, // adapter
+            D3D_DRIVER_TYPE_HARDWARE,
+            nullptr, // software rasterizer (unused)
+            deviceCreationFlags,
+            nullptr, // feature levels
+            0, // ^^
+            D3D11_SDK_VERSION,
+            &_device,
             nullptr,
-            nullptr,
-            hInstance,
-            nullptr);
-
-        if (!_window)
+            &_context
+            );
+        if (FAILED(hr))
         {
-            log("Failed to create window");
+            log("Failed to create the D3D11 device");
             return false;
         }
 
-        SetWindowLongPtrW(_window, GWLP_USERDATA, (LONG_PTR)this);
-        ShowWindow(_window, SW_SHOW);
+        IDXGIDevice* dxgiDevice;
+        IDXGIFactory* factory;
 
-        return true;
-    }
+        _device->QueryInterface(IID_IDXGIDevice, (void**)&dxgiDevice);
+        dxgiDevice->GetParent(IID_IDXGIAdapter, (void**)&_adapter);
+        hr = _adapter->GetParent(IID_IDXGIFactory, (void**)&factory);
+        if (FAILED(hr))
+        {
+            log("Failed to get the DXGI factory");
+            return false;
+        }
 
-    bool RendererD3D11::initD3D11()
-    {
+        std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(Engine::getInstance()->getWindow());
+
         DXGI_SWAP_CHAIN_DESC swapChainDesc;
         memset(&swapChainDesc, 0, sizeof(swapChainDesc));
 
@@ -446,34 +104,22 @@ namespace ouzel
         swapChainDesc.SampleDesc.Quality = 0;
         swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swapChainDesc.BufferCount = 1;
-        swapChainDesc.OutputWindow = _window;
+        swapChainDesc.OutputWindow = windowWin->getWindow();
         swapChainDesc.Windowed = _fullscreen == false;
         swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
         swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-        UINT deviceCreationFlags = 0;
-#if D3D11_DEBUG
-        deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif
-        HRESULT hr = D3D11CreateDeviceAndSwapChain(
-            nullptr, // adapter
-            D3D_DRIVER_TYPE_HARDWARE,
-            nullptr, // software rasterizer (unused)
-            deviceCreationFlags,
-            nullptr, // feature levels
-            0, // ^^
-            D3D11_SDK_VERSION,
-            &swapChainDesc,
-            &_swapChain,
-            &_device,
-            nullptr,
-            &_context
-            );
+        hr = factory->CreateSwapChain(_device, &swapChainDesc, &_swapChain);
         if (FAILED(hr))
         {
-            log("Failed to create the D3D11 device");
+            log("Failed to create the D3D11 swap chain");
             return false;
         }
+
+        factory->MakeWindowAssociation(windowWin->getWindow(), DXGI_MWA_NO_ALT_ENTER);
+
+        factory->Release();
+        dxgiDevice->Release();
 
         // Backbuffer
         hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&_backBuffer);
@@ -507,7 +153,7 @@ namespace ouzel
 
         samplerStateDesc.MinLOD = 0.0f;
         samplerStateDesc.MaxLOD = D3D11_FLOAT32_MAX;
-        
+
         hr = _device->CreateSamplerState(&samplerStateDesc, &_samplerState);
         if (FAILED(hr) || !_samplerState)
         {
@@ -527,7 +173,7 @@ namespace ouzel
             FALSE, // TODO MSAA enable?
             TRUE, // AA lines
         };
-        
+
         hr = _device->CreateRasterizerState(&rasterStateDesc, &_rasterizerState);
         if (FAILED(hr) || !_rasterizerState)
         {
@@ -541,7 +187,7 @@ namespace ouzel
         {
             TRUE, // enable blending
             D3D11_BLEND_SRC_ALPHA, D3D11_BLEND_INV_SRC_ALPHA, D3D11_BLEND_OP_ADD, // color blend source/dest factors, op
-            D3D11_BLEND_SRC_ALPHA, D3D11_BLEND_INV_SRC_ALPHA, D3D11_BLEND_OP_ADD, // alpha blend source/dest factors, op
+            D3D11_BLEND_ONE, D3D11_BLEND_ZERO, D3D11_BLEND_OP_ADD, // alpha blend source/dest factors, op
             D3D11_COLOR_WRITE_ENABLE_ALL, // color write mask
         };
         blendStateDesc.RenderTarget[0] = targetBlendDesc;
@@ -566,22 +212,22 @@ namespace ouzel
             return false;
         }
 
-        std::shared_ptr<Shader> textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
-                                                      TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11),
-                                                      VertexPCT::ATTRIBUTES);
+        ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_D3D11, sizeof(TEXTURE_PIXEL_SHADER_D3D11),
+            TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11),
+            VertexPCT::ATTRIBUTES);
 
         if (textureShader)
         {
-            _shaders[SHADER_TEXTURE] = textureShader;
+            Engine::getInstance()->getCache()->setShader(SHADER_TEXTURE, textureShader);
         }
 
-        std::shared_ptr<Shader> colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
-                                                    COLOR_VERTEX_SHADER_D3D11, sizeof(COLOR_VERTEX_SHADER_D3D11),
-                                                    VertexPC::ATTRIBUTES);
+        ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
+            COLOR_VERTEX_SHADER_D3D11, sizeof(COLOR_VERTEX_SHADER_D3D11),
+            VertexPC::ATTRIBUTES);
 
         if (colorShader)
         {
-            _shaders[SHADER_COLOR] = colorShader;
+            Engine::getInstance()->getCache()->setShader(SHADER_COLOR, colorShader);
         }
 
         D3D11_VIEWPORT viewport = { 0, 0, _size.width, _size.height, 0.0f, 1.0f };
@@ -591,48 +237,126 @@ namespace ouzel
         memset(&_resourceViews, 0, sizeof(_resourceViews));
         memset(&_samplerStates, 0, sizeof(_samplerStates));
 
+        setSize(_size);
+
         return true;
     }
 
     void RendererD3D11::clear()
     {
+        Renderer::clear();
+        
         float color[4] = { _clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA() };
-        _context->ClearRenderTargetView(_rtView, color);
+
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+
+            _context->ClearRenderTargetView(renderTargetD3D11->getRenderTargetView(), color);
+        }
+        else
+        {
+            _context->ClearRenderTargetView(_rtView, color);
+        }
     }
 
-    void RendererD3D11::flush()
+    void RendererD3D11::present()
     {
+        Renderer::present();
+        
         _swapChain->Present(1 /* TODO vsync off? */, 0);
     }
 
-    void RendererD3D11::resize(const Size2& size)
+    IDXGIOutput* RendererD3D11::getOutput() const
     {
-        Renderer::resize(size);
+        std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(Engine::getInstance()->getWindow());
 
-        UINT width = size.width;
-        UINT height = size.height;
+        HMONITOR monitor = windowWin->getMonitor();
 
-        int x = CW_USEDEFAULT;
-        int y = CW_USEDEFAULT;
-        UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
-        if (_fullscreen)
+        if (!monitor)
         {
-            x = 0;
-            y = 0;
-            swpFlags &= ~SWP_NOMOVE;
+            log("Window is not on any monitor");
+            return nullptr;
         }
-        RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-        AdjustWindowRect(&rect, _windowStyle, FALSE);
 
-        SetWindowPos(_window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
+        UINT i = 0;
+        IDXGIOutput* output;
+        DXGI_OUTPUT_DESC outputDesc;
+        HRESULT hr;
 
-        if (_rtView && _backBuffer)
+        while (_adapter->EnumOutputs(i, &output) != DXGI_ERROR_NOT_FOUND)
         {
-            _rtView->Release();
-            _rtView = nullptr;
+            hr = output->GetDesc(&outputDesc);
 
-            _backBuffer->Release();
-            _backBuffer = nullptr;
+            if (SUCCEEDED(hr) && outputDesc.Monitor == monitor)
+            {
+                return output;
+            }
+
+            output->Release();
+            
+            ++i;
+        }
+
+        return nullptr;
+    }
+
+    std::vector<Size2> RendererD3D11::getSupportedResolutions() const
+    {
+        std::vector<Size2> result;
+
+        IDXGIOutput* output = getOutput();
+
+        if (!output)
+        {
+            return result;
+        }
+        
+        UINT numModes = 0;
+        DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        HRESULT hr = output->GetDisplayModeList(format, 0, &numModes, nullptr);
+        if (FAILED(hr))
+        {
+            log("Failed to get display mode list");
+            output->Release();
+        }
+
+        if (numModes > 0)
+        {
+            std::vector<DXGI_MODE_DESC> displayModes(numModes);
+            output->GetDisplayModeList(format, 0, &numModes, displayModes.data());
+
+            for (const DXGI_MODE_DESC& displayMode : displayModes)
+            {
+                result.push_back(Size2(displayMode.Width, displayMode.Height));
+            }
+        }
+
+        output->Release();
+
+        return result;
+    }
+
+    void RendererD3D11::setSize(const Size2& size)
+    {
+        Renderer::setSize(size);
+
+        if (_swapChain)
+        {
+            UINT width = size.width;
+            UINT height = size.height;
+
+            if (_rtView)
+            {
+                _rtView->Release();
+                _rtView = nullptr;
+            }
+
+            if (_backBuffer)
+            {
+                _backBuffer->Release();
+                _backBuffer = nullptr;
+            }
 
             _swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 
@@ -656,11 +380,75 @@ namespace ouzel
         }
     }
 
-    std::shared_ptr<Texture> RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic)
+    void RendererD3D11::setFullscreen(bool fullscreen)
+    {
+        Renderer::setFullscreen(fullscreen);
+
+        BOOL isFullscreen;
+        _swapChain->GetFullscreenState(&isFullscreen, nullptr);
+
+        if (static_cast<bool>(isFullscreen) != _fullscreen)
+        {
+            if (_fullscreen)
+            {
+                IDXGIOutput* output = getOutput();
+
+                if (!output)
+                {
+                    return;
+                }
+
+                DXGI_OUTPUT_DESC desc;
+                HRESULT hr = output->GetDesc(&desc);
+                if (FAILED(hr))
+                {
+                    output->Release();
+                    return;
+                }
+
+                MONITORINFOEX info;
+                info.cbSize = sizeof(MONITORINFOEX);
+                GetMonitorInfo(desc.Monitor, &info);
+                DEVMODE devMode;
+                devMode.dmSize = sizeof(DEVMODE);
+                devMode.dmDriverExtra = 0;
+                EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
+
+                DXGI_MODE_DESC current;
+                current.Width = devMode.dmPelsWidth;
+                current.Height = devMode.dmPelsHeight;
+                bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
+                current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
+                current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
+                current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+                current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+                DXGI_MODE_DESC closestDisplayMode;
+                hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
+                if (FAILED(hr))
+                {
+                    output->Release();
+                    return;
+                }
+
+                setSize(Size2(closestDisplayMode.Width, closestDisplayMode.Height));
+                _swapChain->SetFullscreenState(TRUE, output);
+            
+                output->Release();
+            }
+            else
+            {
+                _swapChain->SetFullscreenState(FALSE, nullptr);
+            }
+        }
+    }
+
+    TexturePtr RendererD3D11::createTexture(const Size2& size, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
 
-        if (!texture->initFromFile(filename, dynamic))
+        if (!texture->init(size, dynamic, mipmaps))
         {
             texture.reset();
         }
@@ -668,11 +456,11 @@ namespace ouzel
         return texture;
     }
 
-    std::shared_ptr<Texture> RendererD3D11::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    TexturePtr RendererD3D11::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
 
-        if (!texture->initFromData(data, size, dynamic))
+        if (!texture->initFromFile(filename, dynamic, mipmaps))
         {
             texture.reset();
         }
@@ -680,7 +468,87 @@ namespace ouzel
         return texture;
     }
 
-    std::shared_ptr<Shader> RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+    TexturePtr RendererD3D11::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
+    {
+        std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
+
+        if (!texture->initFromData(data, size, dynamic, mipmaps))
+        {
+            texture.reset();
+        }
+
+        return texture;
+    }
+
+    bool RendererD3D11::activateTexture(const TexturePtr& texture, uint32_t layer)
+    {
+        if (_activeTextures[layer] == texture)
+        {
+            return true;
+        }
+        
+        if (!Renderer::activateTexture(texture, layer))
+        {
+            return false;
+        }
+
+        if (_activeTextures[layer])
+        {
+            std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(_activeTextures[layer]);
+
+            _resourceViews[layer] = textureD3D11->getResourceView();
+            _samplerStates[layer] = _samplerState;
+        }
+        else
+        {
+            _resourceViews[layer] = nullptr;
+            _samplerStates[layer] = nullptr;
+        }
+
+        return true;
+    }
+
+    RenderTargetPtr RendererD3D11::createRenderTarget(const Size2& size, bool depthBuffer)
+    {
+        std::shared_ptr<RenderTargetD3D11> renderTarget(new RenderTargetD3D11());
+
+        if (!renderTarget->init(size, depthBuffer))
+        {
+            renderTarget.reset();
+        }
+
+        return renderTarget;
+    }
+
+    bool RendererD3D11::activateRenderTarget(const RenderTargetPtr& renderTarget)
+    {
+        if (_activeRenderTarget == renderTarget)
+        {
+            return true;
+        }
+        
+        if (!Renderer::activateRenderTarget(renderTarget))
+        {
+            return false;
+        }
+
+        if (_activeRenderTarget)
+        {
+            std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+
+            ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
+
+            _context->OMGetRenderTargets(1, &renderTargetView, nullptr);
+        }
+        else
+        {
+            _context->OMGetRenderTargets(1, nullptr, nullptr);
+        }
+
+        return true;
+    }
+
+    ShaderPtr RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
         std::shared_ptr<ShaderD3D11> shader(new ShaderD3D11());
 
@@ -692,7 +560,7 @@ namespace ouzel
         return shader;
     }
 
-    std::shared_ptr<Shader> RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+    ShaderPtr RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
         std::shared_ptr<ShaderD3D11> shader(new ShaderD3D11());
 
@@ -704,28 +572,21 @@ namespace ouzel
         return shader;
     }
 
-    std::shared_ptr<MeshBuffer> RendererD3D11::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+    bool RendererD3D11::activateShader(const ShaderPtr& shader)
     {
-        std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
-
-        if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
+        if (_activeShader == shader)
         {
-            meshBuffer.reset();
+            return true;
         }
-
-        return meshBuffer;
-    }
-
-    bool RendererD3D11::drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer)
-    {
-        if (!Renderer::drawMeshBuffer(meshBuffer))
+        
+        if (!Renderer::activateShader(shader))
         {
             return false;
         }
 
-        if (std::shared_ptr<Shader> activeShader = _activeShader.lock())
+        if (_activeShader)
         {
-            std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(activeShader);
+            std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(_activeShader);
 
             ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
             _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
@@ -737,242 +598,120 @@ namespace ouzel
             _context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
 
             _context->IASetInputLayout(shaderD3D11->getInputLayout());
-
-            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
-            {
-                if (std::shared_ptr<Texture> activeTexture = _activeTextures[layer].lock())
-                {
-                    std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(activeTexture);
-
-                    _resourceViews[layer] = textureD3D11->getResourceView();
-                    _samplerStates[layer] = _samplerState;
-                }
-                else
-                {
-                    _resourceViews[layer] = nullptr;
-                    _samplerStates[layer] = nullptr;
-                }
-            }
-
-            _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
-            _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
-
-            std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(meshBuffer);
-
-            _context->RSSetState(_rasterizerState);
-            _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
-            _context->OMSetDepthStencilState(_depthStencilState, 0);
-
-            ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
-            UINT stride = meshBufferD3D11->getVertexSize();
-            UINT offset = 0;
-            _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
-            _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
-            _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-            _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
         }
         else
         {
+            _context->PSSetShader(nullptr, nullptr, 0);
+            _context->VSSetShader(nullptr, nullptr, 0);
+        }
+
+        return true;
+    }
+
+    MeshBufferPtr RendererD3D11::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+    {
+        std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
+
+        if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
+        {
+            meshBuffer.reset();
+        }
+
+        return meshBuffer;
+    }
+
+    bool RendererD3D11::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode)
+    {
+        if (!Renderer::drawMeshBuffer(meshBuffer))
+        {
             return false;
         }
+
+        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
+        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
+
+        std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(meshBuffer);
+            
+        if (indexCount == 0)
+        {
+            indexCount = meshBufferD3D11->getIndexCount();
+        }
+
+        _context->RSSetState(_rasterizerState);
+        _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
+        _context->OMSetDepthStencilState(_depthStencilState, 0);
+
+        ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
+        UINT stride = meshBufferD3D11->getVertexSize();
+        UINT offset = 0;
+        _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
+        _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+            
+        D3D_PRIMITIVE_TOPOLOGY topology;
+            
+        switch (drawMode)
+        {
+            case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
+            case DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
+            case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
+            case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
+            case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
+        }
+            
+        _context->IASetPrimitiveTopology(topology);
+
+        _context->DrawIndexed(indexCount, 0, 0);
         
         return true;
     }
 
-    bool RendererD3D11::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
+    bool RendererD3D11::saveScreenshot(const std::string& filename)
     {
-        uint16_t indices[] = { 0, 1 };
-
-        VertexPC vertices[] = {
-            VertexPC(Vector3(start.x, start.y, 0.0f), color),
-            VertexPC(Vector3(finish.x, finish.y, 0.0f), color)
-        };
-
-        std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(createMeshBuffer(indices, sizeof(uint16_t), 2, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
-
-        if (!meshBufferD3D11)
+        if (!Renderer::saveScreenshot(filename))
         {
             return false;
         }
 
-        std::shared_ptr<ShaderD3D11> colorShader = std::static_pointer_cast<ShaderD3D11>(getShader(SHADER_COLOR));
+        D3D11_TEXTURE2D_DESC desc;
+        desc.Width = static_cast<UINT>(_size.width);
+        desc.Height = static_cast<UINT>(_size.height);
+        desc.MipLevels = 1;
+        desc.ArraySize = 1;
+        desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        desc.SampleDesc.Count = 1;
+        desc.SampleDesc.Quality = 0;
+        desc.Usage = D3D11_USAGE_STAGING;
+        desc.BindFlags = 0;
+        desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+        desc.MiscFlags = 0;
 
-        if (!colorShader)
+        ID3D11Texture2D* texture;
+
+        HRESULT hr = _device->CreateTexture2D(&desc, nullptr, &texture);
+
+        if (FAILED(hr))
         {
             return false;
         }
 
-        ID3D11Buffer* pixelShaderConstantBuffers[1] = { colorShader->getPixelShaderConstantBuffer() };
-        _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+        _context->CopyResource(texture, _backBuffer);
 
-        ID3D11Buffer* vertexShaderConstantBuffers[1] = { colorShader->getVertexShaderConstantBuffer() };
-        _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+        D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+        hr = _context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
 
-        _context->PSSetShader(colorShader->getPixelShader(), nullptr, 0);
-        _context->VSSetShader(colorShader->getVertexShader(), nullptr, 0);
-
-        _context->IASetInputLayout(colorShader->getInputLayout());
-
-        colorShader->setVertexShaderConstant(0, { transform });
-
-        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+        if (FAILED(hr))
         {
-            _resourceViews[layer] = nullptr;
-            _samplerStates[layer] = nullptr;
-        }
-
-        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
-        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
-
-        _context->RSSetState(_rasterizerState);
-        _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
-        _context->OMSetDepthStencilState(_depthStencilState, 0);
-
-        ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
-        UINT stride = meshBufferD3D11->getVertexSize();
-        UINT offset = 0;
-        _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
-        _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
-        _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-
-        _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
-
-        return true;
-    }
-
-    bool RendererD3D11::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
-    {
-        uint16_t indices[] = { 0, 1, 3, 2, 0 };
-
-        VertexPC vertices[] = {
-            VertexPC(Vector3(rectangle.x, rectangle.y, 0.0f), color),
-            VertexPC(Vector3(rectangle.x + rectangle.width, rectangle.y, 0.0f), color),
-            VertexPC(Vector3(rectangle.x, rectangle.y + rectangle.height, 0.0f), color),
-            VertexPC(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color)
-        };
-
-        std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(createMeshBuffer(indices, sizeof(uint16_t), 5, false, vertices, sizeof(VertexPC), 4, false, VertexPC::ATTRIBUTES));
-
-        if (!meshBufferD3D11)
-        {
+            texture->Release();
             return false;
         }
 
-        std::shared_ptr<ShaderD3D11> colorShader = std::static_pointer_cast<ShaderD3D11>(getShader(SHADER_COLOR));
+        uint32_t size = desc.Height * mappedSubresource.RowPitch;
+        
+        stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, size);
 
-        if (!colorShader)
-        {
-            return false;
-        }
+        _context->Unmap(texture, 0);
 
-        ID3D11Buffer* pixelShaderConstantBuffers[1] = { colorShader->getPixelShaderConstantBuffer() };
-        _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
-
-        ID3D11Buffer* vertexShaderConstantBuffers[1] = { colorShader->getVertexShaderConstantBuffer() };
-        _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
-
-        _context->PSSetShader(colorShader->getPixelShader(), nullptr, 0);
-        _context->VSSetShader(colorShader->getVertexShader(), nullptr, 0);
-
-        _context->IASetInputLayout(colorShader->getInputLayout());
-
-        colorShader->setVertexShaderConstant(0, { transform });
-
-        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
-        {
-            _resourceViews[layer] = nullptr;
-            _samplerStates[layer] = nullptr;
-        }
-
-        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
-        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
-
-        _context->RSSetState(_rasterizerState);
-        _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
-        _context->OMSetDepthStencilState(_depthStencilState, 0);
-
-        ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
-        UINT stride = meshBufferD3D11->getVertexSize();
-        UINT offset = 0;
-        _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
-        _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
-        _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-
-        _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
-
-        return true;
-    }
-
-    bool RendererD3D11::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
-    {
-        uint16_t indices[] = { 0, 1, 2, 1, 3, 2 };
-
-        VertexPCT vertices[] = {
-            VertexPCT(Vector3(rectangle.x, rectangle.y, 0.0f), color, Vector2(0.0f, 1.0f)),
-            VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y, 0.0f), color, Vector2(1.0f, 1.0f)),
-            VertexPCT(Vector3(rectangle.x, rectangle.y + rectangle.height, 0.0f), color, Vector2(0.0f, 0.0f)),
-            VertexPCT(Vector3(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0f), color, Vector2(1.0f, 0.0f))
-        };
-
-        std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(createMeshBuffer(indices, sizeof(uint16_t), 6, false, vertices, sizeof(VertexPCT), 4, false, VertexPCT::ATTRIBUTES));
-
-        if (!meshBufferD3D11)
-        {
-            return false;
-        }
-
-        std::shared_ptr<ShaderD3D11> textureShader = std::static_pointer_cast<ShaderD3D11>(getShader(SHADER_TEXTURE));
-
-        if (!textureShader)
-        {
-            return false;
-        }
-
-        ID3D11Buffer* pixelShaderConstantBuffers[1] = { textureShader->getPixelShaderConstantBuffer() };
-        _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
-
-        ID3D11Buffer* vertexShaderConstantBuffers[1] = { textureShader->getVertexShaderConstantBuffer() };
-        _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
-
-        _context->PSSetShader(textureShader->getPixelShader(), nullptr, 0);
-        _context->VSSetShader(textureShader->getVertexShader(), nullptr, 0);
-
-        _context->IASetInputLayout(textureShader->getInputLayout());
-
-        textureShader->setVertexShaderConstant(0, { transform });
-
-        for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
-        {
-            if (std::shared_ptr<Texture> activeTexture = _activeTextures[layer].lock())
-            {
-                std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(activeTexture);
-
-                _resourceViews[layer] = textureD3D11->getResourceView();
-                _samplerStates[layer] = _samplerState;
-            }
-            else
-            {
-                _resourceViews[layer] = nullptr;
-                _samplerStates[layer] = nullptr;
-            }
-        }
-
-        _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
-        _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
-
-        _context->RSSetState(_rasterizerState);
-        _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
-        _context->OMSetDepthStencilState(_depthStencilState, 0);
-
-        ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
-        UINT stride = meshBufferD3D11->getVertexSize();
-        UINT offset = 0;
-        _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
-        _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
-        _context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-        _context->DrawIndexed(meshBufferD3D11->getIndexCount(), 0, 0);
+        texture->Release();
 
         return true;
     }

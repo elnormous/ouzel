@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
@@ -16,210 +16,217 @@ namespace ouzel
         
     }
     
-    void EventDispatcher::addEventHandler(std::shared_ptr<EventHandler> const& eventHandler)
+    void EventDispatcher::update()
     {
-        std::vector<std::shared_ptr<EventHandler>>::iterator i = std::find_if(_eventHandlers.begin(), _eventHandlers.end(), [eventHandler](std::shared_ptr<EventHandler> const& p) {
-            return p.get() == eventHandler.get();
-        });
+        lock();
         
-        if (i == _eventHandlers.end())
+        while (!_eventQueue.empty())
         {
-            _eventHandlers.push_back(eventHandler);
+            _mutex.lock();
             
-            std::sort(_eventHandlers.begin(), _eventHandlers.end(), [](std::shared_ptr<EventHandler> const& a, std::shared_ptr<EventHandler> const& b) {
-                return a->_priority < b->_priority;
-            });
+            auto eventPair = _eventQueue.front();
+            _eventQueue.pop();
+            
+            _mutex.unlock();
+            
+            switch (eventPair.first->type)
+            {
+                case Event::Type::KEY_DOWN:
+                case Event::Type::KEY_UP:
+                case Event::Type::KEY_REPEAT:
+                    dispatchKeyboardEvent(std::static_pointer_cast<KeyboardEvent>(eventPair.first), eventPair.second);
+                    break;
+                    
+                case Event::Type::MOUSE_DOWN:
+                case Event::Type::MOUSE_UP:
+                case Event::Type::MOUSE_SCROLL:
+                case Event::Type::MOUSE_MOVE:
+                    dispatchMouseEvent(std::static_pointer_cast<MouseEvent>(eventPair.first), eventPair.second);
+                    break;
+                case Event::Type::TOUCH_BEGIN:
+                case Event::Type::TOUCH_MOVE:
+                case Event::Type::TOUCH_END:
+                case Event::Type::TOUCH_CANCEL:
+                    dispatchTouchEvent(std::static_pointer_cast<TouchEvent>(eventPair.first), eventPair.second);
+                    break;
+                case Event::Type::GAMEPAD_CONNECT:
+                case Event::Type::GAMEPAD_DISCONNECT:
+                case Event::Type::GAMEPAD_BUTTON_CHANGE:
+                    dispatchGamepadEvent(std::static_pointer_cast<GamepadEvent>(eventPair.first), eventPair.second);
+                    break;
+                case Event::Type::WINDOW_SIZE_CHANGE:
+                case Event::Type::WINDOW_TITLE_CHANGE:
+                case Event::Type::WINDOW_FULLSCREEN_CHANGE:
+                    dispatchWindowEvent(std::static_pointer_cast<WindowEvent>(eventPair.first), eventPair.second);
+                    break;
+            }
         }
-    }
-    
-    void EventDispatcher::removeEventHandler(std::shared_ptr<EventHandler> const& eventHandler)
-    {
-        std::vector<std::shared_ptr<EventHandler>>::iterator i = std::find_if(_eventHandlers.begin(), _eventHandlers.end(), [eventHandler](std::shared_ptr<EventHandler> const& p) {
-            return p.get() == eventHandler.get();
-        });
         
-        if (i != _eventHandlers.end())
-        {
-            _eventHandlers.erase(i);
-        }
+        unlock();
     }
     
-    void EventDispatcher::dispatchKeyDownEvent(const KeyboardEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::addEventHandler(const EventHandlerPtr& eventHandler)
     {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        if (_locked)
         {
-            if (eventHandler->keyDownHandler)
+            _eventHandlerAddList.insert(eventHandler);
+        }
+        else
+        {
+            std::vector<EventHandlerPtr>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
+            
+            if (i == _eventHandlers.end())
             {
-                eventHandler->keyDownHandler(event, sender);
-                break;
+                eventHandler->_remove = false;
+                _eventHandlers.push_back(eventHandler);
+                
+                std::sort(_eventHandlers.begin(), _eventHandlers.end(), [](const EventHandlerPtr& a, const EventHandlerPtr& b) {
+                    return a->_priority < b->_priority;
+                });
             }
         }
     }
     
-    void EventDispatcher::dispatchKeyUpEvent(const KeyboardEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::removeEventHandler(const EventHandlerPtr& eventHandler)
     {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        if (_locked)
         {
-            if (eventHandler->keyUpHandler)
+            eventHandler->_remove = true;
+            _eventHandlerRemoveList.insert(eventHandler);
+        }
+        else
+        {
+            std::vector<EventHandlerPtr>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
+            
+            if (i != _eventHandlers.end())
             {
-                eventHandler->keyUpHandler(event, sender);
-                break;
+                _eventHandlers.erase(i);
             }
         }
     }
     
-    void EventDispatcher::dispatchMouseDownEvent(const MouseEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::dispatchEvent(const EventPtr& event, const VoidPtr& sender)
     {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
-        {
-            if (eventHandler->mouseDownHandler)
-            {
-                eventHandler->mouseDownHandler(event, sender);
-                break;
-            }
-        }
+        std::lock_guard<std::mutex> mutexLock(_mutex);
+        
+        _eventQueue.push(std::make_pair(event, sender));
     }
     
-    void EventDispatcher::dispatchMouseUpEvent(const MouseEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::dispatchKeyboardEvent(const KeyboardEventPtr& event, const VoidPtr& sender)
     {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        lock();
+        
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->mouseUpHandler)
+            if (!eventHandler->_remove && eventHandler->keyboardHandler)
             {
-                eventHandler->mouseUpHandler(event, sender);
-                break;
+                if (!eventHandler->keyboardHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
+        
+        unlock();
     }
     
-    void EventDispatcher::dispatchMouseScrollEvent(const MouseEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::dispatchMouseEvent(const MouseEventPtr& event, const VoidPtr& sender)
     {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        lock();
+        
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->mouseScrollHandler)
+            if (!eventHandler->_remove && eventHandler->mouseHandler)
             {
-                eventHandler->mouseScrollHandler(event, sender);
-                break;
+                if (!eventHandler->mouseHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
+        
+        unlock();
     }
     
-    void EventDispatcher::dispatchMouseMoveEvent(const MouseEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::dispatchTouchEvent(const TouchEventPtr& event, const VoidPtr& sender)
     {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        lock();
+        
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->mouseMoveHandler)
+            if (!eventHandler->_remove && eventHandler->touchHandler)
             {
-                eventHandler->mouseMoveHandler(event, sender);
-                break;
+                if (!eventHandler->touchHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
+        
+        unlock();
     }
     
-    void EventDispatcher::dispatchMouseDragEvent(const MouseEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::dispatchGamepadEvent(const GamepadEventPtr& event, const VoidPtr& sender)
     {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        lock();
+        
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->mouseDragHandler)
+            if (!eventHandler->_remove && eventHandler->gamepadHandler)
             {
-                eventHandler->mouseDragHandler(event, sender);
-                break;
+                if (!eventHandler->gamepadHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
+        
+        unlock();
     }
     
-    void EventDispatcher::dispatchTouchBeginEvent(const TouchEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::dispatchWindowEvent(const WindowEventPtr& event, const VoidPtr& sender)
     {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        lock();
+        
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (eventHandler->touchBeginHandler)
+            if (!eventHandler->_remove && eventHandler->windowHandler)
             {
-                eventHandler->touchBeginHandler(event, sender);
-                break;
+                if (!eventHandler->windowHandler(event, sender))
+                {
+                    break;
+                }
             }
         }
+        
+        unlock();
     }
     
-    void EventDispatcher::dispatchTouchMoveEvent(const TouchEvent& event, std::shared_ptr<void> const& sender)
+    void EventDispatcher::lock()
     {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
+        ++_locked;
+    }
+    
+    void EventDispatcher::unlock()
+    {
+        if (--_locked == 0)
         {
-            if (eventHandler->touchMoveHandler)
+            if (!_eventHandlerAddList.empty())
             {
-                eventHandler->touchMoveHandler(event, sender);
-                break;
+                for (const EventHandlerPtr& eventHandler : _eventHandlerAddList)
+                {
+                    addEventHandler(eventHandler);
+                }
+                _eventHandlerAddList.clear();
             }
-        }
-    }
-    
-    void EventDispatcher::dispatchTouchEndEvent(const TouchEvent& event, std::shared_ptr<void> const& sender)
-    {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
-        {
-            if (eventHandler->touchEndHandler)
+            
+            if (!_eventHandlerRemoveList.empty())
             {
-                eventHandler->touchEndHandler(event, sender);
-                break;
-            }
-        }
-    }
-    
-    void EventDispatcher::dispatchTouchCancelEvent(const TouchEvent& event, std::shared_ptr<void> const& sender)
-    {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
-        {
-            if (eventHandler->keyDownHandler)
-            {
-                eventHandler->touchCancelHandler(event, sender);
-                break;
-            }
-        }
-    }
-    
-    void EventDispatcher::dispatchGamepadConnectEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender)
-    {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
-        {
-            if (eventHandler->gamepadConnectHandler)
-            {
-                eventHandler->gamepadConnectHandler(event, sender);
-                break;
-            }
-        }
-    }
-    
-    void EventDispatcher::dispatchGamepadDisconnectEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender)
-    {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
-        {
-            if (eventHandler->gamepadDisconnectHandler)
-            {
-                eventHandler->gamepadDisconnectHandler(event, sender);
-                break;
-            }
-        }
-    }
-    
-    void EventDispatcher::dispatchGamepadButtonChangeEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender)
-    {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
-        {
-            if (eventHandler->gamepadButtonChangeHandler)
-            {
-                eventHandler->gamepadButtonChangeHandler(event, sender);
-                break;
-            }
-        }
-    }
-    
-    void EventDispatcher::dispatchScreenSizeEvent(const ScreenSizeEvent& event, std::shared_ptr<void> const& sender)
-    {
-        for (std::shared_ptr<EventHandler> eventHandler : _eventHandlers)
-        {
-            if (eventHandler->screenSizeHandler)
-            {
-                eventHandler->screenSizeHandler(event, sender);
-                break;
+                for (const EventHandlerPtr& eventHandler : _eventHandlerRemoveList)
+                {
+                    removeEventHandler(eventHandler);
+                }
+                _eventHandlerRemoveList.clear();
             }
         }
     }

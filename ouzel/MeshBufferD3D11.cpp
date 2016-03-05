@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include "MeshBufferD3D11.h"
@@ -15,6 +15,11 @@ namespace ouzel
     
     MeshBufferD3D11::~MeshBufferD3D11()
     {
+        clean();
+    }
+
+    void MeshBufferD3D11::clean()
+    {
         if (_indexBuffer) _indexBuffer->Release();
         if (_vertexBuffer) _vertexBuffer->Release();
     }
@@ -25,6 +30,8 @@ namespace ouzel
         {
             return false;
         }
+
+        clean();
 
         if (!createIndexBuffer(indices, _indexSize * indexCount))
         {
@@ -37,8 +44,6 @@ namespace ouzel
             case 4: _indexFormat = DXGI_FORMAT_R32_UINT; break;
             default: log("Invalid index size"); return false;
         }
-
-        _indexCount = static_cast<UINT>(indexCount);
 
         uint32_t size = 0;
 

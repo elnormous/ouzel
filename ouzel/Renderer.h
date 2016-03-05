@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -7,14 +7,15 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
+#include "Types.h"
 #include "Noncopyable.h"
 #include "Rectangle.h"
 #include "Matrix4.h"
 #include "Size2.h"
 #include "Color.h"
+#include "AABB2.h"
 #include "Vertex.h"
 #include "Shader.h"
-#include "Texture.h"
 
 namespace ouzel
 {
@@ -25,10 +26,12 @@ namespace ouzel
     class Node;
     class Sprite;
     class MeshBuffer;
+    class Window;
 
     class Renderer: public Noncopyable
     {
         friend Engine;
+        friend Window;
     public:
         static const uint32_t TEXTURE_LAYERS = 2;
     
@@ -39,6 +42,15 @@ namespace ouzel
             DIRECT3D11,
             METAL
         };
+        
+        enum class DrawMode
+        {
+            POINT_LIST = 0,
+            LINE_LIST,
+            LINE_STRIP,
+            TRIANGLE_LIST,
+            TRIANGLE_STRIP
+        };
 
         virtual ~Renderer();
         
@@ -47,60 +59,55 @@ namespace ouzel
         virtual void setClearColor(Color color) { _clearColor = color; }
         virtual Color getClearColor() const { return _clearColor; }
         
-        virtual void begin();
         virtual void clear();
+        virtual void present();
         virtual void flush();
         
-        virtual const Size2& getSize() const { return _size; }
-        virtual void resize(const Size2& size);
+        const Size2& getSize() const { return _size; }
+
+        virtual std::vector<Size2> getSupportedResolutions() const;
+
+        virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true);
+        virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false, bool mipmaps = true);
+        virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic = false, bool mipmaps = true);
+        virtual bool activateTexture(const TexturePtr& texture, uint32_t layer);
+        virtual TexturePtr getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
+        virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer);
+        virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget);
         
-        virtual bool getResizable() const { return _resizable; }
+        virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
+        virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
+        virtual bool activateShader(const ShaderPtr& shader);
+        virtual ShaderPtr getActiveShader() const { return _activeShader; }
         
-        virtual const std::string& getTitle() const { return _title; }
-        virtual void setTitle(const std::string& title) { _title = title; }
-        
-        void preloadTexture(const std::string& filename, bool dynamic = false);
-        std::shared_ptr<Texture> getTexture(const std::string& filename);
-        virtual std::shared_ptr<Texture> loadTextureFromFile(const std::string& filename, bool dynamic = false);
-        virtual std::shared_ptr<Texture> loadTextureFromData(const void* data, const Size2& size, bool dynamic = false);
-        virtual bool activateTexture(std::shared_ptr<Texture> const& texture, uint32_t layer);
-        virtual std::shared_ptr<Texture> getActiveTexture(uint32_t layer) const { return _activeTextures[layer].lock(); }
-        
-        std::shared_ptr<Shader> getShader(const std::string& shaderName) const;
-        void setShader(const std::string& shaderName, std::shared_ptr<Shader> shader);
-        virtual std::shared_ptr<Shader> loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
-        virtual std::shared_ptr<Shader> loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
-        virtual bool activateShader(std::shared_ptr<Shader> const& shader);
-        virtual std::shared_ptr<Shader> getActiveShader() const { return _activeShader.lock(); }
-        
-        virtual std::shared_ptr<MeshBuffer> createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes);
-        virtual bool drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer);
+        virtual MeshBufferPtr createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes);
+        virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST);
         
         Vector2 viewToScreenLocation(const Vector2& position);
         Vector2 screenToViewLocation(const Vector2& position);
+        bool checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const CameraPtr& camera);
         
-        virtual bool drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform = Matrix4());
-        virtual bool drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
-        virtual bool drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform = Matrix4());
+        virtual bool saveScreenshot(const std::string& filename);
+        
+        virtual uint32_t getDrawCallCount() const { return _drawCallCount; }
         
     protected:
-        Renderer();
-        virtual bool init(const Size2& size, bool resizable, bool fullscreen, Driver driver = Driver::NONE);
+        Renderer(Driver driver = Driver::NONE);
+        virtual bool init(const Size2& size, bool fullscreen);
+        
+        virtual void setSize(const Size2& size);
+        virtual void setFullscreen(bool fullscreen);
         
         Driver _driver;
+        Size2 _size;
+        bool _fullscreen = false;
         
         Color _clearColor;
         
-        std::unordered_map<std::string, std::shared_ptr<Texture>> _textures;
-        std::unordered_map<std::string, std::shared_ptr<Shader>> _shaders;
+        TexturePtr _activeTextures[TEXTURE_LAYERS];
+        ShaderPtr _activeShader;
+        RenderTargetPtr _activeRenderTarget;
         
-        std::weak_ptr<Texture> _activeTextures[TEXTURE_LAYERS];
-        std::weak_ptr<Shader> _activeShader;
-        
-        Size2 _size;
-        bool _resizable = false;
-        bool _fullscreen = false;
-        
-        std::string _title = "Ouzel";
+        uint32_t _drawCallCount = 0;
     };
 }

@@ -1,11 +1,11 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
-#include <set>
-#include <vector>
 #include <memory>
+#include <cstdint>
+#include "Types.h"
 #include "Noncopyable.h"
 #include "Vector2.h"
 #include "Rectangle.h"
@@ -23,18 +23,22 @@ namespace ouzel
     public:
         virtual ~SceneManager();
         
-        void update(float delta);
-        
         void draw();
         
-        void setScene(std::shared_ptr<Scene> const& scene);
-        std::shared_ptr<Scene> getScene() const { return _scene; }
+        void setScene(const ScenePtr& scene);
+        const ScenePtr& getScene() const { return _scene; }
         
         virtual void recalculateProjection();
         
     protected:
         SceneManager();
         
-        std::shared_ptr<Scene> _scene;
+        void lock();
+        void unlock();
+        
+        ScenePtr _scene;
+        
+        ScenePtr _newScene;
+        int32_t _locked = 0;
     };
 }

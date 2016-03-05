@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -24,11 +24,12 @@ namespace ouzel
         ID3D11Buffer* getIndexBuffer() const { return _indexBuffer; }
         ID3D11Buffer* getVertexBuffer() const { return _vertexBuffer; }
 
-        UINT getIndexCount() const { return _indexCount; }
         DXGI_FORMAT getIndexFormat() const { return _indexFormat; }
 
     protected:
         MeshBufferD3D11();
+
+        void clean();
         bool createIndexBuffer(const void* indices, uint32_t size);
         bool createVertexBuffer(const void* vertices, uint32_t size);
         bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
@@ -39,7 +40,6 @@ namespace ouzel
         ID3D11Buffer* _vertexBuffer = nullptr;
         uint32_t _vertexBufferSize = 0;
 
-        UINT _indexCount = 0;
         DXGI_FORMAT _indexFormat = DXGI_FORMAT_UNKNOWN;
     };
 }

@@ -1,11 +1,11 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
 #include <string>
 #include <memory>
-#include <stdio.h>
+#include <cstdio>
 #include <cstdint>
 
 namespace ouzel
@@ -24,19 +24,22 @@ namespace ouzel
         
         File(const std::string& filename, Mode mode, bool binary);
         
-        bool isOpen() const { return _file != nullptr; }
-        std::shared_ptr<FILE> const& getFile() const { return _file; }
+        operator bool() const
+        {
+            return static_cast<bool>(_file);
+        }
+        
+        bool isOpen() const
+        {
+            return static_cast<bool>(_file);
+        }
+        
+        const std::shared_ptr<FILE>& getFile() const { return _file; }
         
         int64_t read(char* buffer, uint32_t size);
         int64_t write(const char* buffer, uint32_t size);
         
-    protected:
-        void open();
-        
-        std::string _path;
-        Mode _mode;
-        bool _binary;
-        
+    protected:        
         std::shared_ptr<FILE> _file;
     };
 }

@@ -20,11 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ouzel\AABB2.cpp" />
+    <ClCompile Include="..\ouzel\Animator.cpp" />
+    <ClCompile Include="..\ouzel\BMFont.cpp" />
     <ClCompile Include="..\ouzel\Button.cpp" />
+    <ClCompile Include="..\ouzel\Cache.cpp" />
     <ClCompile Include="..\ouzel\Camera.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
+    <ClCompile Include="..\ouzel\DrawNode.cpp" />
+    <ClCompile Include="..\ouzel\Ease.cpp" />
     <ClCompile Include="..\ouzel\Engine.cpp" />
     <ClCompile Include="..\ouzel\EventDispatcher.cpp" />
+    <ClCompile Include="..\ouzel\Fade.cpp" />
     <ClCompile Include="..\ouzel\File.cpp" />
     <ClCompile Include="..\ouzel\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\Gamepad.cpp" />
@@ -35,18 +41,25 @@
     <ClCompile Include="..\ouzel\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\Matrix3.cpp" />
     <ClCompile Include="..\ouzel\Matrix4.cpp" />
+    <ClCompile Include="..\ouzel\Menu.cpp" />
     <ClCompile Include="..\ouzel\MeshBuffer.cpp" />
     <ClCompile Include="..\ouzel\MeshBufferD3D11.cpp" />
+    <ClCompile Include="..\ouzel\Move.cpp" />
     <ClCompile Include="..\ouzel\Node.cpp" />
     <ClCompile Include="..\ouzel\NodeContainer.cpp" />
+    <ClCompile Include="..\ouzel\Parallel.cpp" />
     <ClCompile Include="..\ouzel\ParticleSystem.cpp" />
     <ClCompile Include="..\ouzel\Rectangle.cpp" />
     <ClCompile Include="..\ouzel\Renderer.cpp" />
     <ClCompile Include="..\ouzel\RendererD3D11.cpp" />
     <ClCompile Include="..\ouzel\RenderTarget.cpp" />
     <ClCompile Include="..\ouzel\RenderTargetD3D11.cpp" />
+    <ClCompile Include="..\ouzel\Repeat.cpp" />
+    <ClCompile Include="..\ouzel\Rotate.cpp" />
+    <ClCompile Include="..\ouzel\Scale.cpp" />
     <ClCompile Include="..\ouzel\Scene.cpp" />
     <ClCompile Include="..\ouzel\SceneManager.cpp" />
+    <ClCompile Include="..\ouzel\Sequence.cpp" />
     <ClCompile Include="..\ouzel\Shader.cpp" />
     <ClCompile Include="..\ouzel\ShaderD3D11.cpp" />
     <ClCompile Include="..\ouzel\Size2.cpp" />
@@ -58,23 +71,32 @@
     <ClCompile Include="..\ouzel\Vector3.cpp" />
     <ClCompile Include="..\ouzel\Vector4.cpp" />
     <ClCompile Include="..\ouzel\Vertex.cpp" />
+    <ClCompile Include="..\ouzel\Widget.cpp" />
+    <ClCompile Include="..\ouzel\Window.cpp" />
     <ClCompile Include="..\ouzel\win\GamepadWin.cpp" />
     <ClCompile Include="..\ouzel\win\InputWin.cpp" />
     <ClCompile Include="..\ouzel\win\main.cpp" />
+    <ClCompile Include="..\ouzel\win\WindowWin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\AABB2.h" />
+    <ClInclude Include="..\ouzel\Animator.h" />
     <ClInclude Include="..\ouzel\App.h" />
+    <ClInclude Include="..\ouzel\BMFont.h" />
     <ClInclude Include="..\ouzel\Button.h" />
+    <ClInclude Include="..\ouzel\Cache.h" />
     <ClInclude Include="..\ouzel\Camera.h" />
     <ClInclude Include="..\ouzel\Color.h" />
     <ClInclude Include="..\ouzel\ColorPSD3D11.h" />
     <ClInclude Include="..\ouzel\ColorVSD3D11.h" />
     <ClInclude Include="..\ouzel\CompileConfig.h" />
+    <ClInclude Include="..\ouzel\DrawNode.h" />
+    <ClInclude Include="..\ouzel\Ease.h" />
     <ClInclude Include="..\ouzel\Engine.h" />
     <ClInclude Include="..\ouzel\Event.h" />
     <ClInclude Include="..\ouzel\EventDispatcher.h" />
     <ClInclude Include="..\ouzel\EventHander.h" />
+    <ClInclude Include="..\ouzel\Fade.h" />
     <ClInclude Include="..\ouzel\File.h" />
     <ClInclude Include="..\ouzel\FileSystem.h" />
     <ClInclude Include="..\ouzel\Gamepad.h" />
@@ -85,20 +107,28 @@
     <ClInclude Include="..\ouzel\MathUtils.h" />
     <ClInclude Include="..\ouzel\Matrix3.h" />
     <ClInclude Include="..\ouzel\Matrix4.h" />
+    <ClInclude Include="..\ouzel\Menu.h" />
     <ClInclude Include="..\ouzel\MeshBuffer.h" />
     <ClInclude Include="..\ouzel\MeshBufferD3D11.h" />
+    <ClInclude Include="..\ouzel\Move.h" />
     <ClInclude Include="..\ouzel\Node.h" />
     <ClInclude Include="..\ouzel\NodeContainer.h" />
     <ClInclude Include="..\ouzel\Noncopyable.h" />
     <ClInclude Include="..\ouzel\ouzel.h" />
+    <ClInclude Include="..\ouzel\Parallel.h" />
+    <ClInclude Include="..\ouzel\ParticleDefinition.h" />
     <ClInclude Include="..\ouzel\ParticleSystem.h" />
     <ClInclude Include="..\ouzel\Rectangle.h" />
     <ClInclude Include="..\ouzel\Renderer.h" />
     <ClInclude Include="..\ouzel\RendererD3D11.h" />
     <ClInclude Include="..\ouzel\RenderTarget.h" />
     <ClInclude Include="..\ouzel\RenderTargetD3D11.h" />
+    <ClInclude Include="..\ouzel\Repeat.h" />
+    <ClInclude Include="..\ouzel\Rotate.h" />
+    <ClInclude Include="..\ouzel\Scale.h" />
     <ClInclude Include="..\ouzel\Scene.h" />
     <ClInclude Include="..\ouzel\SceneManager.h" />
+    <ClInclude Include="..\ouzel\Sequence.h" />
     <ClInclude Include="..\ouzel\Settings.h" />
     <ClInclude Include="..\ouzel\Shader.h" />
     <ClInclude Include="..\ouzel\ShaderD3D11.h" />
@@ -108,13 +138,17 @@
     <ClInclude Include="..\ouzel\TextureD3D11.h" />
     <ClInclude Include="..\ouzel\TexturePSD3D11.h" />
     <ClInclude Include="..\ouzel\TextureVSD3D11.h" />
+    <ClInclude Include="..\ouzel\Types.h" />
     <ClInclude Include="..\ouzel\Utils.h" />
     <ClInclude Include="..\ouzel\Vector2.h" />
     <ClInclude Include="..\ouzel\Vector3.h" />
     <ClInclude Include="..\ouzel\Vector4.h" />
     <ClInclude Include="..\ouzel\Vertex.h" />
+    <ClInclude Include="..\ouzel\Widget.h" />
+    <ClInclude Include="..\ouzel\Window.h" />
     <ClInclude Include="..\ouzel\win\GamepadWin.h" />
     <ClInclude Include="..\ouzel\win\InputWin.h" />
+    <ClInclude Include="..\ouzel\win\WindowWin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</ProjectGuid>
@@ -127,7 +161,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -138,7 +172,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -194,9 +228,7 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
-    <Lib>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib</AdditionalDependencies>
-    </Lib>
+    <Lib />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -211,9 +243,7 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
-    <Lib>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib</AdditionalDependencies>
-    </Lib>
+    <Lib />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -228,9 +258,7 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
-    <Lib>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib</AdditionalDependencies>
-    </Lib>
+    <Lib />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -245,9 +273,7 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
-    <Lib>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib</AdditionalDependencies>
-    </Lib>
+    <Lib />
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

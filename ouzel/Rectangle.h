@@ -1,9 +1,10 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
 #include "Vector2.h"
+#include "Size2.h"
 
 namespace ouzel
 {
@@ -59,6 +60,8 @@ public:
     Rectangle(float x, float y, float width, float height);
     
     Rectangle(const Vector2& position, float width, float height);
+    
+    Rectangle(const Vector2& position, const Size2& size);
 
     /**
      * Constructs a new rectangle that is a copy of the specified rectangle.
@@ -71,13 +74,6 @@ public:
      * Destructor.
      */
     ~Rectangle();
-
-    /**
-     * Returns a rectangle with all of its values set to zero.
-     *
-     * @return The empty rectangle with all of its values set to zero.
-     */
-    static const Rectangle& empty();
 
     /**
      * Gets a value that indicates whether the rectangle is empty.
@@ -151,9 +147,9 @@ public:
      * 
      * @return true if the rectangle contains the point, false otherwise.
      */
-    bool contains(float x, float y) const;
+    bool containsPoint(float x, float y) const;
     
-    bool contains(const Vector2& point) const;
+    bool containsPoint(const Vector2& point) const;
 
     /**
      * Determines whether this rectangle contains a specified rectangle.

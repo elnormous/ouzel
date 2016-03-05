@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include "Renderer.h"
@@ -12,10 +12,12 @@
 #include "SceneManager.h"
 #include "MeshBuffer.h"
 #include "EventDispatcher.h"
+#include "RenderTarget.h"
 
 namespace ouzel
 {
-    Renderer::Renderer()
+    Renderer::Renderer(Driver driver):
+        _driver(driver)
     {
         
     }
@@ -25,89 +27,61 @@ namespace ouzel
         
     }
 
-    bool Renderer::init(const Size2& size, bool resizable, bool fullscreen, Driver driver)
+    bool Renderer::init(const Size2& size, bool fullscreen)
     {
-        _driver = driver;
         _size = size;
-        _resizable = resizable;
         _fullscreen = fullscreen;
 
         return true;
     }
     
-    void Renderer::begin()
-    {
-
-    }
-    
     void Renderer::clear()
     {
+        _drawCallCount = 0;
+    }
+
+    void Renderer::present()
+    {
+
     }
     
     void Renderer::flush()
     {
     }
+
+    std::vector<Size2> Renderer::getSupportedResolutions() const
+    {
+        return std::vector<Size2>();
+    }
     
-    void Renderer::resize(const Size2& size)
+    void Renderer::setSize(const Size2& size)
     {
         _size = size;
-        Engine::getInstance()->getSceneManager()->recalculateProjection();
-        
-        ScreenSizeEvent event;
-        event.type = Event::Type::SCREEN_SIZE;
-        event.size = size;
-        
-        Engine::getInstance()->getEventDispatcher()->dispatchScreenSizeEvent(event, Engine::getInstance()->getRenderer());
     }
     
-    void Renderer::preloadTexture(const std::string& filename, bool dynamic)
+    void Renderer::setFullscreen(bool fullscreen)
     {
-        std::unordered_map<std::string, std::shared_ptr<Texture>>::const_iterator i = _textures.find(filename);
-        
-        if (i == _textures.end())
-        {
-            std::shared_ptr<Texture> texture = loadTextureFromFile(filename, dynamic);
-            
-            if (texture)
-            {
-                _textures[filename] = texture;
-            }
-        }
-    }
-
-    std::shared_ptr<Texture> Renderer::getTexture(const std::string& filename)
-    {
-        std::shared_ptr<Texture> result;
-        
-        std::unordered_map<std::string, std::shared_ptr<Texture>>::const_iterator i = _textures.find(filename);
-        
-        if (i != _textures.end())
-        {
-            return i->second;
-        }
-        else
-        {
-            result = loadTextureFromFile(filename);
-            
-            if (result)
-            {
-                _textures[filename] = result;
-            }
-        }
-            
-        return result;
+        _fullscreen = fullscreen;
     }
     
-    bool Renderer::activateTexture(std::shared_ptr<Texture> const& texture, uint32_t layer)
+    TexturePtr Renderer::createTexture(const Size2& size, bool dynamic, bool mipmaps)
+    {
+        TexturePtr texture(new Texture());
+        texture->init(size, dynamic);
+        
+        return texture;
+    }
+    
+    bool Renderer::activateTexture(const TexturePtr& texture, uint32_t layer)
     {
         _activeTextures[layer] = texture;
         
         return true;
     }
     
-    std::shared_ptr<Texture> Renderer::loadTextureFromFile(const std::string& filename, bool dynamic)
+    TexturePtr Renderer::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
     {
-        std::shared_ptr<Texture> texture(new Texture());
+        TexturePtr texture(new Texture());
         
         if (!texture->initFromFile(filename, dynamic))
         {
@@ -117,9 +91,9 @@ namespace ouzel
         return texture;
     }
     
-    std::shared_ptr<Texture> Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic)
+    TexturePtr Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
     {
-        std::shared_ptr<Texture> texture(new Texture());
+        TexturePtr texture(new Texture());
         
         if (!texture->initFromData(data, size, dynamic))
         {
@@ -129,28 +103,28 @@ namespace ouzel
         return texture;
     }
     
-    std::shared_ptr<Shader> Renderer::getShader(const std::string& shaderName) const
+    RenderTargetPtr Renderer::createRenderTarget(const Size2& size, bool depthBuffer)
     {
-        std::unordered_map<std::string, std::shared_ptr<Shader>>::const_iterator i = _shaders.find(shaderName);
+        RenderTargetPtr renderTarget(new RenderTarget());
         
-        if (i != _shaders.end())
+        if (!renderTarget->init(size, depthBuffer))
         {
-            return i->second;
+            renderTarget.reset();
         }
-        else
-        {
-            return nullptr;
-        }
+        
+        return renderTarget;
     }
     
-    void Renderer::setShader(const std::string& shaderName, std::shared_ptr<Shader> shader)
+    bool Renderer::activateRenderTarget(const RenderTargetPtr& renderTarget)
     {
-        _shaders[shaderName] = shader;
+        _activeRenderTarget = renderTarget;
+        
+        return true;
     }
     
-    std::shared_ptr<Shader> Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+    ShaderPtr Renderer::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
     {
-        std::shared_ptr<Shader> shader(new Shader());
+        ShaderPtr shader(new Shader());
         
         if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes))
         {
@@ -160,9 +134,9 @@ namespace ouzel
         return shader;
     }
     
-    std::shared_ptr<Shader> Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+    ShaderPtr Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
-        std::shared_ptr<Shader> shader(new Shader());
+        ShaderPtr shader(new Shader());
         
         if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
         {
@@ -172,16 +146,16 @@ namespace ouzel
         return shader;
     }
     
-    bool Renderer::activateShader(std::shared_ptr<Shader> const& shader)
+    bool Renderer::activateShader(const ShaderPtr& shader)
     {
         _activeShader = shader;
         
         return true;
     }
     
-    std::shared_ptr<MeshBuffer> Renderer::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+    MeshBufferPtr Renderer::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
     {
-        std::shared_ptr<MeshBuffer> meshBuffer(new MeshBuffer());
+        MeshBufferPtr meshBuffer(new MeshBuffer());
         
         if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
         {
@@ -191,11 +165,18 @@ namespace ouzel
         return meshBuffer;
     }
     
-    bool Renderer::drawMeshBuffer(std::shared_ptr<MeshBuffer> const& meshBuffer)
+    bool Renderer::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode)
     {
-        if (std::shared_ptr<Shader> shader = _activeShader.lock())
+        OUZEL_UNUSED(drawMode);
+        
+        if (_activeShader)
         {
-            if (meshBuffer->getVertexAttributes() != shader->getVertexAttributes())
+            if (meshBuffer->getVertexAttributes() != _activeShader->getVertexAttributes())
+            {
+                return false;
+            }
+            
+            if (indexCount > meshBuffer->getIndexCount())
             {
                 return false;
             }
@@ -205,9 +186,11 @@ namespace ouzel
             return false;
         }
         
+        _drawCallCount++;
+        
         return true;
     }
-
+    
     Vector2 Renderer::viewToScreenLocation(const Vector2& position)
     {
         float x = 2.0f * position.x / _size.width - 1.0f;
@@ -215,7 +198,7 @@ namespace ouzel
         
         return Vector2(x, y);
     }
-
+    
     Vector2 Renderer::screenToViewLocation(const Vector2& position)
     {
         float x = (position.x + 1.0f) / 2.0f * _size.width;
@@ -224,18 +207,43 @@ namespace ouzel
         return Vector2(x, y);
     }
     
-    bool Renderer::drawLine(const Vector2& start, const Vector2& finish, const Color& color, const Matrix4& transform)
+    bool Renderer::checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const CameraPtr& camera)
     {
-        return true;
+        Rectangle visibleRect(0.0f, 0.0f, _size.width, _size.height);
+        
+        // transform center point to screen space
+        Vector2 diff = boundingBox.max - boundingBox.min;
+        
+        Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
+        diff *= camera->getZoom();
+        diff.x *= camera->getContentScale().x;
+        diff.y *= camera->getContentScale().y;
+        
+        transform.transformPoint(v3p);
+        
+        Vector2 v2p = camera->projectPoint(v3p);
+        
+        Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
+        
+        // convert content size to world coordinates
+        Size2 halfWorldSize;
+        
+        halfWorldSize.width = std::max(fabsf(halfSize.width * transform.m[0] + halfSize.height * transform.m[4]), fabsf(halfSize.width * transform.m[0] - halfSize.height * transform.m[4]));
+        halfWorldSize.height = std::max(fabsf(halfSize.width * transform.m[1] + halfSize.height * transform.m[5]), fabsf(halfSize.width * transform.m[1] - halfSize.height * transform.m[5]));
+        
+        // enlarge visible rect half size in screen coord
+        visibleRect.x -= halfWorldSize.width;
+        visibleRect.y -= halfWorldSize.height;
+        visibleRect.width += halfWorldSize.width * 2.0f;
+        visibleRect.height += halfWorldSize.height * 2.0f;
+        
+        return visibleRect.containsPoint(v2p);
     }
     
-    bool Renderer::drawRectangle(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
+    bool Renderer::saveScreenshot(const std::string& filename)
     {
-        return true;
-    }
-    
-    bool Renderer::drawQuad(const Rectangle& rectangle, const Color& color, const Matrix4& transform)
-    {
+        OUZEL_UNUSED(filename);
+        
         return true;
     }
 }

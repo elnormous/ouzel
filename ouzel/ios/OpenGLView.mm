@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #import "OpenGLView.h"
@@ -6,7 +6,7 @@
 #include <OpenGLES/ES2/glext.h>
 #include "Engine.h"
 #include "RendererOGL.h"
-#include "EventDispatcher.h"
+#include "Input.h"
 #include "Utils.h"
 
 using namespace ouzel;
@@ -27,20 +27,32 @@ using namespace ouzel;
         if (!_context)
         {
             NSLog(@"Failed to initialize OpenGLES 2.0 context");
-            exit(1);
+            return Nil;
         }
         
-        [self makeContextCurrent];
+        if (![EAGLContext setCurrentContext:_context])
+        {
+            NSLog(@"Failed to set current OpenGL context");
+        }
         
-        [self setupRenderBuffer];
-        [self setupFrameBuffer];
+        // render buffer
+        glGenRenderbuffers(1, &_colorRenderBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+        [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
         
-        _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
-        [_displayLink setFrameInterval: 1.0f];
-        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_backingWidth);
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_backingHeight);
         
-        std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
-        renderer->initOpenGL(backingWidth, backingHeight);
+        // frame buffer
+        glGenFramebuffers(1, &_frameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                                  GL_RENDERBUFFER, _colorRenderBuffer);
+        
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        {
+            log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+        }
     }
     
     return self;
@@ -48,15 +60,22 @@ using namespace ouzel;
 
 -(void)dealloc
 {
+    [_displayLink invalidate];
+    [_displayLink dealloc];
+    
     if ([EAGLContext currentContext] == _context)
     {
         [EAGLContext setCurrentContext:nil];
     }
     
+    [EAGLContext dealloc];
+    
     if (_frameBuffer) glDeleteFramebuffers(1, &_frameBuffer);
     _frameBuffer = 0;
     if (_colorRenderBuffer) glDeleteRenderbuffers(1, &_colorRenderBuffer);
     _colorRenderBuffer = 0;
+    
+    [super dealloc];
 }
 
 +(Class)layerClass
@@ -64,41 +83,28 @@ using namespace ouzel;
     return [CAEAGLLayer class];
 }
 
--(void)makeContextCurrent
+-(void)prepareOpenGL
 {
     if (![EAGLContext setCurrentContext:_context])
     {
         NSLog(@"Failed to set current OpenGL context");
-        exit(1);
     }
-}
-
--(void)setupRenderBuffer
-{
-    glGenRenderbuffers(1, &_colorRenderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
-    [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
     
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
-}
-
--(void)setupFrameBuffer
-{
-    glGenFramebuffers(1, &_frameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                              GL_RENDERBUFFER, _colorRenderBuffer);
+    // display link
+    _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
+    [_displayLink setFrameInterval: 1.0f];
+    [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-    {
-        log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-    }
+    std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
+    renderer->initOpenGL(_frameBuffer);
 }
 
 -(void)idle:(id)sender
 {
-    [self makeContextCurrent];
+    if (![EAGLContext setCurrentContext:_context])
+    {
+        NSLog(@"Failed to set current OpenGL context");
+    }
     
     Engine::getInstance()->run();
     
@@ -111,12 +117,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
         
-        TouchEvent event;
-        event.type = Event::Type::TOUCH_BEGIN;
-        event.touchId = reinterpret_cast<uint64_t>(touch);
-        event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-
-        Engine::getInstance()->getEventDispatcher()->dispatchTouchBeginEvent(event, Engine::getInstance()->getInput());
+        Engine::getInstance()->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
+                                                      Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -126,12 +128,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
         
-        TouchEvent event;
-        event.type = Event::Type::TOUCH_MOVE;
-        event.touchId = reinterpret_cast<uint64_t>(touch);
-        event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-        
-        Engine::getInstance()->getEventDispatcher()->dispatchTouchMoveEvent(event, Engine::getInstance()->getInput());
+        Engine::getInstance()->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
+                                                     Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -141,12 +139,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
         
-        TouchEvent event;
-        event.type = Event::Type::TOUCH_END;
-        event.touchId = reinterpret_cast<uint64_t>(touch);
-        event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-        
-        Engine::getInstance()->getEventDispatcher()->dispatchTouchEndEvent(event, Engine::getInstance()->getInput());
+        Engine::getInstance()->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
+                                                    Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -156,12 +150,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
         
-        TouchEvent event;
-        event.type = Event::Type::TOUCH_CANCEL;
-        event.touchId = reinterpret_cast<uint64_t>(touch);
-        event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-        
-        Engine::getInstance()->getEventDispatcher()->dispatchTouchCancelEvent(event, Engine::getInstance()->getInput());
+        Engine::getInstance()->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
+                                                       Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 

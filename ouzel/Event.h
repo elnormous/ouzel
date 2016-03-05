@@ -1,10 +1,12 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
 #include <cstdint>
 #include <memory>
+#include <string>
+#include "Types.h"
 #include "Vector2.h"
 #include "Size2.h"
 #include "Input.h"
@@ -17,11 +19,11 @@ namespace ouzel
         {
             KEY_DOWN,
             KEY_UP,
+            KEY_REPEAT,
             MOUSE_DOWN,
             MOUSE_UP,
             MOUSE_SCROLL,
             MOUSE_MOVE,
-            MOUSE_DRAG,
             TOUCH_BEGIN,
             TOUCH_MOVE,
             TOUCH_END,
@@ -29,16 +31,25 @@ namespace ouzel
             GAMEPAD_CONNECT,
             GAMEPAD_DISCONNECT,
             GAMEPAD_BUTTON_CHANGE,
-            SCREEN_SIZE
+            WINDOW_SIZE_CHANGE,
+            WINDOW_TITLE_CHANGE,
+            WINDOW_FULLSCREEN_CHANGE
+        };
+        
+        enum Modifiers
+        {
+            SHIFT_DOWN          = 0x0001,
+            ALT_DOWN            = 0x0002,
+            CONTROL_DOWN        = 0x0004,
+            COMMAND_DOWN        = 0x0008,
+            FUNCTION_DOWN       = 0x0010,
+            LEFT_MOUSE_DOWN     = 0x0020,
+            RIGHT_MOUSE_DOWN    = 0x0040,
+            MIDDLE_MOUSE_DOWN   = 0x0080,
         };
         
         Type type;
-        
-        bool shiftDown = false;
-        bool altDown = false;
-        bool controlDown = false;
-        bool commandDown = false;
-        bool functionDown = false;
+        uint32_t modifiers = 0;
     };
     
     struct KeyboardEvent: public Event
@@ -63,14 +74,16 @@ namespace ouzel
     
     struct GamepadEvent: public Event
     {
-        std::shared_ptr<Gamepad> gamepad;
+        GamepadPtr gamepad;
         GamepadButton button = GamepadButton::NONE;
         bool pressed = false;
         float value = 0.0f;
     };
     
-    struct ScreenSizeEvent: public Event
+    struct WindowEvent: public Event
     {
         Size2 size;
+        std::string title;
+        bool fullscreen = false;
     };
 }

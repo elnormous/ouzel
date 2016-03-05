@@ -1,10 +1,23 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #import "OpenGLView.h"
 #include "Engine.h"
 #include "RendererOGL.h"
-#include "EventDispatcher.h"
+#include "Input.h"
+#include "Window.h"
+
+static CVReturn renderCallback(CVDisplayLinkRef displayLink,
+                               const CVTimeStamp *inNow,
+                               const CVTimeStamp *inOutputTime,
+                               CVOptionFlags flagsIn,
+                               CVOptionFlags *flagsOut,
+                               void *displayLinkContext)
+{
+    [(__bridge OpenGLView*)displayLinkContext draw];
+    
+    return kCVReturnSuccess;
+}
 
 using namespace ouzel;
 
@@ -12,29 +25,29 @@ using namespace ouzel;
 
 -(id)initWithFrame:(NSRect)frameRect
 {
-    self = [super initWithFrame:frameRect];
+    // Create pixel format
+    NSOpenGLPixelFormatAttribute attributes[] =
+    {
+        NSOpenGLPFADoubleBuffer,
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core, // ensure we're using 3.2
+        NSOpenGLPFAColorSize, 24,
+        NSOpenGLPFAAlphaSize, 8,
+        NSOpenGLPFADepthSize, 32, // set depth buffer size
+        0
+    };
+    
+    NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
+    
+    self = [super initWithFrame:frameRect pixelFormat:pixelFormat];
     if (self != nil)
     {
-        NSTimer* updateTimer = [NSTimer timerWithTimeInterval:1.0f/60.0f target:self selector:@selector(idle:) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:updateTimer forMode:NSDefaultRunLoopMode];
-        
-        // Create pixel format
-        NSOpenGLPixelFormatAttribute attributes[] =
-        {
-            NSOpenGLPFADoubleBuffer,
-            NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core, // ensure we're using 3.2
-            NSOpenGLPFAColorSize, 24,
-            NSOpenGLPFAAlphaSize, 8,
-            NSOpenGLPFADepthSize, 32, // set depth buffer size
-            0
-        };
-        
-        _pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
+        _running = NO;
+        _resized = NO;
         
         // Create OpenGL context
-        _openGLContext = [[NSOpenGLContext alloc] initWithFormat:_pixelFormat shareContext:NULL];
-        [_openGLContext setView:self];
-        [_openGLContext makeCurrentContext];
+        self.openGLContext = [[NSOpenGLContext alloc] initWithFormat:self.pixelFormat shareContext:NULL];
+        [self.openGLContext setView:self];
+        [self.openGLContext makeCurrentContext];
         
         NSMenu* mainMenu = [[NSMenu alloc] initWithTitle:@"Main Menu"];
         
@@ -53,6 +66,13 @@ using namespace ouzel;
     return self;
 }
 
+-(void)dealloc
+{
+    if (_displayLink) CVDisplayLinkRelease(_displayLink);
+    
+    [super dealloc];
+}
+
 -(BOOL)isFlipped
 {
     return YES;
@@ -63,79 +83,110 @@ using namespace ouzel;
     return YES;
 }
 
+-(void)prepareOpenGL
+{
+    std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
+    renderer->initOpenGL(0);
+    
+    GLint swapInt = 1;
+    [self.openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+    
+    _displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription]objectForKey:@"NSScreenNumber"] unsignedIntValue];
+    
+    CVDisplayLinkCreateWithCGDisplay(_displayId, &_displayLink);
+    CVDisplayLinkSetOutputCallback(_displayLink, renderCallback, (__bridge void *)self);
+    
+    CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_displayLink, [self.openGLContext CGLContextObj], [self.pixelFormat CGLPixelFormatObj]);
+    
+    CVDisplayLinkStart(_displayLink);
+    _running = YES;
+}
+
+-(void)close
+{
+    if (_displayLink)
+    {
+        _running = NO;
+        
+        CGLLockContext([self.openGLContext CGLContextObj]);
+        [self.openGLContext makeCurrentContext];
+        
+        CVDisplayLinkRelease(_displayLink);
+        _displayLink = Nil;
+        
+        CGLUnlockContext([self.openGLContext CGLContextObj]);
+    }
+}
+
+-(void)changeDisplay
+{
+    CGDirectDisplayID displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
+    
+    if(displayId != 0 && _displayId != displayId)
+    {
+        CVDisplayLinkSetCurrentCGDisplay(_displayLink, displayId);
+        _displayId = displayId;
+    }
+}
+
 -(void)handleQuit:(id)sender
 {
-    [[NSApplication sharedApplication] terminate:self];
+    if ([NSThread isMainThread])
+    {
+        [self.window close];
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.window close];
+        });
+    }
 }
 
 -(void)setFrameSize:(NSSize)newSize
 {
     [super setFrameSize:newSize];
     
-    [self update];
-}
-
--(void)update
-{
-    Engine::getInstance()->getRenderer()->resize(Size2(_frame.size.width, _frame.size.height));
-    
-    [_openGLContext update];
+    _resized = YES;
 }
 
 -(void)lockFocus
 {
     [super lockFocus];
-    if ([_openGLContext view] != self)
+    if ([self.openGLContext view] != self)
     {
-        [_openGLContext setView:self];
+        [self.openGLContext setView:self];
     }
     
-    [self makeOpenGLContextCurrent];
+    [self.openGLContext makeCurrentContext];
 }
 
--(void)prepareOpenGL
+-(void)draw
 {
-    std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
-    renderer->initOpenGL(_frame.size.width, _frame.size.height);
-}
-
--(void)idle:(NSTimer*)timer
-{
-    [self setNeedsDisplay:YES];
-}
-
--(void)drawRect:(NSRect)bounds
-{
-    [_openGLContext makeCurrentContext];
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
     
-    Engine::getInstance()->run();
+    _resized = NO;
     
-    [_openGLContext flushBuffer];
-}
+    bool quit = !Engine::getInstance()->run();
 
--(void)setOpenGLContext:(NSOpenGLContext*)context
-{
-    _openGLContext = context;
-}
-
--(NSOpenGLContext*)openGLContext
-{
-    return _openGLContext;
-}
-
--(void)clearGLContext
-{
-    [_openGLContext clearDrawable];
-}
-
--(void)setPixelFormat:(NSOpenGLPixelFormat*)pixelFormat
-{
-    _pixelFormat = pixelFormat;
-}
-
--(NSOpenGLPixelFormat*)pixelFormat
-{
-    return _pixelFormat;
+    [self.openGLContext flushBuffer];
+    
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
+    
+    if (quit)
+    {
+        if ([NSThread isMainThread])
+        {
+            [self.window close];
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.window close];
+            });
+        }
+    }
 }
 
 -(BOOL)acceptsFirstResponder
@@ -143,18 +194,24 @@ using namespace ouzel;
     return YES;
 }
 
--(void)makeOpenGLContextCurrent
+static uint32_t getModifiers(NSEvent* theEvent, bool includeMouse = false)
 {
-    [_openGLContext makeCurrentContext];
-}
-
-static void updateModifiers(NSEvent* theEvent, Event& event)
-{
-    event.shiftDown = theEvent.modifierFlags & NSShiftKeyMask;
-    event.altDown = theEvent.modifierFlags & NSAlternateKeyMask;
-    event.controlDown = theEvent.modifierFlags & NSControlKeyMask;
-    event.commandDown = theEvent.modifierFlags & NSCommandKeyMask;
-    event.functionDown = theEvent.modifierFlags & NSFunctionKeyMask;
+    uint32_t modifiers = 0;
+    
+    if (theEvent.modifierFlags & NSShiftKeyMask) modifiers |= Event::SHIFT_DOWN;
+    if (theEvent.modifierFlags & NSAlternateKeyMask) modifiers |= Event::ALT_DOWN;
+    if (theEvent.modifierFlags & NSControlKeyMask) modifiers |= Event::CONTROL_DOWN;
+    if (theEvent.modifierFlags & NSCommandKeyMask) modifiers |= Event::COMMAND_DOWN;
+    if (theEvent.modifierFlags & NSFunctionKeyMask) modifiers |= Event::FUNCTION_DOWN;
+    
+    if (includeMouse)
+    {
+        if (NSEvent.pressedMouseButtons & (1 << 0)) modifiers |= Event::LEFT_MOUSE_DOWN;
+        if (NSEvent.pressedMouseButtons & (1 << 1)) modifiers |= Event::RIGHT_MOUSE_DOWN;
+        if (NSEvent.pressedMouseButtons & (1 << 2)) modifiers |= Event::MIDDLE_MOUSE_DOWN;
+    }
+    
+    return modifiers;
 }
 
 // defines from Carbon
@@ -291,7 +348,7 @@ enum {
     kVK_JIS_Kana                  = 0x68
 };
 
-KeyboardKey convertKeyCode(unsigned short keyCode)
+static KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     switch (keyCode)
     {
@@ -409,165 +466,162 @@ KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)keyDown:(NSEvent*)theEvent
 {
-    KeyboardEvent event;
-    event.type = Event::Type::KEY_DOWN;
-    event.key = convertKeyCode(theEvent.keyCode);
+    if (!_running) return;
     
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchKeyDownEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->keyDown(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)keyUp:(NSEvent*)theEvent
 {
-    KeyboardEvent event;
-    event.type = Event::Type::KEY_UP;
-    event.key = convertKeyCode(theEvent.keyCode);
-    updateModifiers(theEvent, event);
+    if (!_running) return;
     
-    Engine::getInstance()->getEventDispatcher()->dispatchKeyUpEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->keyUp(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)mouseDown:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_DOWN;
-    event.button = MouseButton::LEFT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDownEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseDown(MouseButton::LEFT,
+                                                 Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)mouseUp:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_UP;
-    event.button = MouseButton::LEFT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseUpEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseUp(MouseButton::LEFT,
+                                               Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                               getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)rightMouseDown:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_DOWN;
-    event.button = MouseButton::RIGHT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDownEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseDown(MouseButton::RIGHT,
+                                                 Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)rightMouseUp:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_UP;
-    event.button = MouseButton::RIGHT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseUpEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseUp(MouseButton::RIGHT,
+                                               Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                               getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)otherMouseDown:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_DOWN;
-    event.button = MouseButton::MIDDLE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDownEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseDown(MouseButton::MIDDLE,
+                                                 Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)otherMouseUp:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_UP;
-    event.button = MouseButton::MIDDLE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseUpEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseUp(MouseButton::MIDDLE,
+                                               Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                               getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)mouseMoved:(NSEvent*)theEvent
 {
+    if (!_running) return;
+    
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_MOVE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseMoveEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)mouseDragged:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_DRAG;
-    event.button = MouseButton::LEFT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDragEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent, true));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)rightMouseDragged:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_DRAG;
-    event.button = MouseButton::RIGHT;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDragEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent, true));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)otherMouseDragged:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_DRAG;
-    event.button = MouseButton::MIDDLE;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseDragEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                 getModifiers(theEvent, true));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)scrollWheel:(NSEvent*)theEvent
 {
+    if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
     
-    MouseEvent event;
-    event.type = Event::Type::MOUSE_SCROLL;
-    event.position = Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y));
-    event.scroll = Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY);
-    updateModifiers(theEvent, event);
-    
-    Engine::getInstance()->getEventDispatcher()->dispatchMouseScrollEvent(event, Engine::getInstance()->getInput());
+    CGLLockContext([self.openGLContext CGLContextObj]);
+    [self.openGLContext makeCurrentContext];
+    Engine::getInstance()->getInput()->mouseScroll(Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY),
+                                                   Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
+                                                   getModifiers(theEvent));
+    CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
 -(void)swipeWithEvent:(NSEvent*)theEvent

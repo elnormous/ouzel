@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -17,8 +17,9 @@ namespace ouzel
     public:
         virtual ~Texture();
         
-        virtual bool initFromFile(const std::string& filename, bool dynamic);
-        virtual bool initFromData(const void* data, const Size2& size, bool dynamic);
+        virtual bool init(const Size2& size, bool dynamic, bool mipmaps = true);
+        virtual bool initFromFile(const std::string& filename, bool dynamic, bool mipmaps = true);
+        virtual bool initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true);
         
         const std::string& getFilename() const { return _filename; }
         
@@ -35,5 +36,6 @@ namespace ouzel
         
         Size2 _size;
         bool _dynamic = false;
+        bool _mipmaps = false;
     };
 }

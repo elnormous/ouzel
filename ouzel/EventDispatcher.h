@@ -1,17 +1,21 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
 #include <vector>
 #include <memory>
+#include <set>
+#include <mutex>
+#include <queue>
+#include <cstdint>
+#include "Types.h"
 #include "Noncopyable.h"
 #include "Event.h"
 #include "EventHander.h"
 
 namespace ouzel
 {
-    class Engine;
     class EventHandler;
     
     class EventDispatcher: public Noncopyable
@@ -20,32 +24,31 @@ namespace ouzel
     public:
         virtual ~EventDispatcher();
         
-        void addEventHandler(std::shared_ptr<EventHandler> const& eventHandler);
-        void removeEventHandler(std::shared_ptr<EventHandler> const& eventHandler);
+        void update();
         
-        void dispatchKeyDownEvent(const KeyboardEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchKeyUpEvent(const KeyboardEvent& event, std::shared_ptr<void> const& sender);
+        void addEventHandler(const EventHandlerPtr& eventHandler);
+        void removeEventHandler(const EventHandlerPtr& eventHandler);
         
-        void dispatchMouseDownEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchMouseUpEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchMouseScrollEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchMouseMoveEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchMouseDragEvent(const MouseEvent& event, std::shared_ptr<void> const& sender);
-        
-        void dispatchTouchBeginEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchTouchMoveEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchTouchEndEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchTouchCancelEvent(const TouchEvent& event, std::shared_ptr<void> const& sender);
-        
-        void dispatchGamepadConnectEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchGamepadDisconnectEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender);
-        void dispatchGamepadButtonChangeEvent(const GamepadEvent& event, std::shared_ptr<void> const& sender);
-        
-        void dispatchScreenSizeEvent(const ScreenSizeEvent& event, std::shared_ptr<void> const& sender);
+        void dispatchEvent(const EventPtr& event, const VoidPtr& sender);
         
     protected:
         EventDispatcher();
         
-        std::vector<std::shared_ptr<EventHandler>> _eventHandlers;
+        void dispatchKeyboardEvent(const KeyboardEventPtr& event, const VoidPtr& sender);
+        void dispatchMouseEvent(const MouseEventPtr& event, const VoidPtr& sender);
+        void dispatchTouchEvent(const TouchEventPtr& event, const VoidPtr& sender);
+        void dispatchGamepadEvent(const GamepadEventPtr& event, const VoidPtr& sender);
+        void dispatchWindowEvent(const WindowEventPtr& event, const VoidPtr& sender);
+        
+        void lock();
+        void unlock();
+        
+        std::vector<EventHandlerPtr> _eventHandlers;
+        std::set<EventHandlerPtr> _eventHandlerAddList;
+        std::set<EventHandlerPtr> _eventHandlerRemoveList;
+        
+        std::queue<std::pair<EventPtr, VoidPtr>> _eventQueue;
+        std::mutex _mutex;
+        int32_t _locked = 0;
     };
 }

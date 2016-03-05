@@ -1,40 +1,38 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
 #include "Gamepad.h"
-#include "Event.h"
 
 #ifdef __OBJC__
 @class GCController;
-@class GCControllerDirectionPad;
-@class GCControllerButtonInput;
+typedef GCController* GCControllerPtr;
 #else
-class GCController;
-class GCControllerDirectionPad;
-class GCControllerButtonInput;
+#include <objc/objc.h>
+typedef id GCControllerPtr;
 #endif
 
 namespace ouzel
 {
-    class GamepadApple: public Gamepad, public std::enable_shared_from_this<GamepadApple>
+    class InputApple;
+    
+    class GamepadApple: public Gamepad
     {
+        friend InputApple;
     public:
-        GamepadApple(GCController* controller);
-        
         virtual bool isAttached() const override;
         virtual void setAbsoluteDpadValues(bool absoluteDpadValues) override;
         virtual bool isAbsoluteDpadValues() const override;
         
         virtual int32_t getPlayerIndex() const override;
-        virtual void setPlayerIndex(int32_t playerIndex) override;
+        virtual bool setPlayerIndex(int32_t playerIndex) override;
         
-        GCController* getController() const { return _controller; }
+        GCControllerPtr getController() const { return _controller; }
         
     protected:
-        void handleButtonValueChange(GamepadButton button, bool pressed, float value);
+        GamepadApple(GCControllerPtr controller);
         
-        GCController* _controller;
+        GCControllerPtr _controller;
     };
 }

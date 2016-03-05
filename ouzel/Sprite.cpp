@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <rapidjson/rapidjson.h>
@@ -16,32 +16,51 @@
 #include "FileSystem.h"
 #include "File.h"
 #include "Layer.h"
+#include "Cache.h"
 
 namespace ouzel
 {
+    std::shared_ptr<Sprite> Sprite::createFromFile(const std::string& filename, bool mipmaps)
+    {
+        std::shared_ptr<Sprite> result = std::make_shared<Sprite>();
+        
+        if (!result->initFromFile(filename, mipmaps))
+        {
+            result.reset();
+        }
+        
+        return result;
+    }
+    
     Sprite::Sprite()
     {
+        _updateCallback = std::make_shared<UpdateCallback>();
+        _updateCallback->callback = std::bind(&Sprite::update, this, std::placeholders::_1);
     }
 
     Sprite::~Sprite()
     {
-
+        Engine::getInstance()->unscheduleUpdate(_updateCallback);
     }
     
-    bool Sprite::initFromFile(const std::string& filename)
+    bool Sprite::initFromFile(const std::string& filename, bool mipmaps)
     {
+        _frameCount = 0;
+        _frameVertices.clear();
+        _frameMeshBuffers.clear();
+        
         std::string extension = Engine::getInstance()->getFileSystem()->getExtension(filename);
         
         if (extension == "json")
         {
-            if (!loadSpriteSheet(filename))
+            if (!loadSpriteSheet(filename, mipmaps))
             {
                 return false;
             }
         }
         else
         {
-            _texture = Engine::getInstance()->getRenderer()->getTexture(filename);
+            _texture = Engine::getInstance()->getCache()->getTexture(filename, false, mipmaps);
             
             if (!_texture)
             {
@@ -49,14 +68,16 @@ namespace ouzel
             }
             
             _size = _texture->getSize();
-            _boundingBox.set(-_size.width / 2.0f, -_size.height / 2.0f, _size.width, _size.height);
             
             Rectangle rectangle(0, 0, _size.width, _size.height);
             
             addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
         }
         
-        _shader = Engine::getInstance()->getRenderer()->getShader(SHADER_TEXTURE);
+        _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
+                         Vector2(_size.width / 2.0f, _size.height / 2.0f));
+        
+        _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
         
         if (!_shader)
         {
@@ -72,69 +93,72 @@ namespace ouzel
         return true;
     }
     
-    bool Sprite::loadSpriteSheet(const std::string& filename)
+    bool Sprite::loadSpriteSheet(const std::string& filename, bool mipmaps)
     {
         File file(filename, File::Mode::READ, false);
         
-        if (file.isOpen())
+        if (!file)
         {
-            rapidjson::FileReadStream is(file.getFile().get(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
-            
-            rapidjson::Document document;
-            document.ParseStream<0>(is);
-            
-            if (document.HasParseError())
-            {
-                return false;
-            }
-            
-            const rapidjson::Value& metaObject = document["meta"];
-            const rapidjson::Value& sizeObject = metaObject["size"];
-            
-            Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
-                              static_cast<float>(sizeObject["h"].GetInt()));
-            
-            _texture = Engine::getInstance()->getRenderer()->getTexture(metaObject["image"].GetString());
-            
-            const rapidjson::Value& framesArray = document["frames"];
-            
-            for (int index = 0; index < framesArray.Size(); ++index)
-            {
-                const rapidjson::Value& frameObject = framesArray[index];
-                
-                const rapidjson::Value& rectangleObject = frameObject["frame"];
-                
-                Rectangle rectangle(static_cast<float>(rectangleObject["x"].GetInt()),
-                                    static_cast<float>(rectangleObject["y"].GetInt()),
-                                    static_cast<float>(rectangleObject["w"].GetInt()),
-                                    static_cast<float>(rectangleObject["h"].GetInt()));
-                
-                bool rotated = frameObject["rotated"].GetBool();
-                
-                const rapidjson::Value& sourceSizeObject = frameObject["sourceSize"];
-                
-                Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].GetInt()),
-                                 static_cast<float>(sourceSizeObject["h"].GetInt()));
-                
-                if (sourceSize.width > _size.width) _size.width = sourceSize.width;
-                if (sourceSize.height > _size.height) _size.height = sourceSize.height;
-                
-                const rapidjson::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
-                
-                Vector2 offset(static_cast<float>(spriteSourceSizeObject["x"].GetInt()),
-                               static_cast<float>(spriteSourceSizeObject["y"].GetInt()));
-                
-                const rapidjson::Value& pivotObject = frameObject["pivot"];
-                
-                Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
-                              static_cast<float>(pivotObject["y"].GetDouble()));
-                
-                addFrame(rectangle, textureSize, rotated, sourceSize, offset, pivot);
-            }
-        }
-        else
-        {
+            log("Failed to open %s", filename.c_str());
             return false;
+        }
+        
+        rapidjson::FileReadStream is(file.getFile().get(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
+        
+        rapidjson::Document document;
+        document.ParseStream<0>(is);
+        
+        if (document.HasParseError())
+        {
+            log("Failed to parse %s", filename.c_str());
+            return false;
+        }
+        
+        const rapidjson::Value& metaObject = document["meta"];
+        const rapidjson::Value& sizeObject = metaObject["size"];
+        
+        Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
+                          static_cast<float>(sizeObject["h"].GetInt()));
+        
+        _texture = Engine::getInstance()->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
+        
+        const rapidjson::Value& framesArray = document["frames"];
+        
+        _frameVertices.reserve(framesArray.Size());
+        _frameMeshBuffers.reserve(framesArray.Size());
+        
+        for (uint32_t index = 0; index < static_cast<uint32_t>(framesArray.Size()); ++index)
+        {
+            const rapidjson::Value& frameObject = framesArray[index];
+            
+            const rapidjson::Value& rectangleObject = frameObject["frame"];
+            
+            Rectangle rectangle(static_cast<float>(rectangleObject["x"].GetInt()),
+                                static_cast<float>(rectangleObject["y"].GetInt()),
+                                static_cast<float>(rectangleObject["w"].GetInt()),
+                                static_cast<float>(rectangleObject["h"].GetInt()));
+            
+            bool rotated = frameObject["rotated"].GetBool();
+            
+            const rapidjson::Value& sourceSizeObject = frameObject["sourceSize"];
+            
+            Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].GetInt()),
+                             static_cast<float>(sourceSizeObject["h"].GetInt()));
+            
+            if (sourceSize.width > _size.width) _size.width = sourceSize.width;
+            if (sourceSize.height > _size.height) _size.height = sourceSize.height;
+            
+            const rapidjson::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
+            
+            Vector2 offset(static_cast<float>(spriteSourceSizeObject["x"].GetInt()),
+                           static_cast<float>(spriteSourceSizeObject["y"].GetInt()));
+            
+            const rapidjson::Value& pivotObject = frameObject["pivot"];
+            
+            Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
+                          static_cast<float>(pivotObject["y"].GetDouble()));
+            
+            addFrame(rectangle, textureSize, rotated, sourceSize, offset, pivot);
         }
         
         return true;
@@ -184,15 +208,17 @@ namespace ouzel
         
         _frameVertices.push_back(vertices);
         
-        _frameMeshBuffers.push_back(Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
-                                                                              vertices.data(), sizeof(VertexPCT), static_cast<uint32_t>(vertices.size()), true,
-                                                                              VertexPCT::ATTRIBUTES));
+        _frameMeshBuffers.push_back(Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
+                                                                                           static_cast<uint32_t>(indices.size()), false,
+                                                                                           vertices.data(), sizeof(VertexPCT),
+                                                                                           static_cast<uint32_t>(vertices.size()), true,
+                                                                                           VertexPCT::ATTRIBUTES));
+        
+        _frameCount++;
     }
 
     void Sprite::update(float delta)
     {
-        Node::update(delta);
-        
         if (_playing)
         {
             _timeSinceLastFrame += delta;
@@ -202,14 +228,15 @@ namespace ouzel
                 _timeSinceLastFrame -= _frameInterval;
                 _currentFrame++;
                 
-                if (_currentFrame >= _frameMeshBuffers.size())
+                if (_repeat && _currentFrame >= _frameCount)
                 {
                     _currentFrame = 0;
-                    
-                    if (!_repeat)
-                    {
-                        _playing = false;
-                    }
+                }
+                else if (!_repeat && _currentFrame >= _frameCount - 1)
+                {
+                    _currentFrame = _frameCount - 1;
+                    _playing = false;
+                    Engine::getInstance()->unscheduleUpdate(_updateCallback);
                 }
             }
         }
@@ -219,70 +246,71 @@ namespace ouzel
     {
         Node::draw();
         
-        std::shared_ptr<Layer> layer = _layer.lock();
+        LayerPtr layer = _layer.lock();
         
         if (_shader && _texture && layer)
         {
             Engine::getInstance()->getRenderer()->activateTexture(_texture, 0);
             Engine::getInstance()->getRenderer()->activateShader(_shader);
             
-            Matrix4 modelViewProj = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
+            Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
             
             _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
             
-            if (_frameMeshBuffers.size() > _currentFrame)
+            if (_currentFrame < _frameCount)
             {
-                std::shared_ptr<MeshBuffer> meshBuffer = _frameMeshBuffers[_currentFrame];
+                MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
                 
                 Engine::getInstance()->getRenderer()->drawMeshBuffer(meshBuffer);
             }
         }
     }
     
-    void Sprite::setTexture(std::shared_ptr<Texture> const& texture)
+    void Sprite::setOpacity(float opacity)
+    {
+        Node::setOpacity(opacity);
+        
+        updateVertexColor();
+    }
+    
+    void Sprite::setTexture(const TexturePtr& texture)
     {
         _texture = texture;
     }
     
-    void Sprite::setShader(std::shared_ptr<Shader> const& shader)
+    void Sprite::setShader(const ShaderPtr& shader)
     {
         _shader = shader;
+        
+#ifndef OUZEL_PLATFORM_WINDOWS
+        if (_shader)
+        {
+            _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
+        }
+#endif
     }
     
     void Sprite::setColor(const Color& color)
     {
         _color = color;
         
+        updateVertexColor();
+    }
+    
+    void Sprite::updateVertexColor()
+    {
         for (uint32_t i = 0; i < _frameMeshBuffers.size(); ++i)
         {
             for (VertexPCT& vertex : _frameVertices[i])
             {
-                vertex.color = color;
+                vertex.color.r = _color.r;
+                vertex.color.g = _color.g;
+                vertex.color.b = _color.b;
+                vertex.color.a = static_cast<uint8_t>(_opacity * _color.a);
             }
             
-            std::shared_ptr<MeshBuffer> meshBuffer = _frameMeshBuffers[i];
+            MeshBufferPtr meshBuffer = _frameMeshBuffers[i];
             meshBuffer->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
-        }
-    }
-    
-    bool Sprite::checkVisibility() const
-    {
-        if (std::shared_ptr<Layer> layer = _layer.lock())
-        {
-            Matrix4 mvp = layer->getProjection() * layer->getCamera()->getTransform() * _transform;
-            
-            Vector3 topRight(_size.width / 2.0f, _size.height / 2.0f, 0.0f);
-            Vector3 bottomLeft(-_size.width / 2.0f, -_size.height / 2.0f, 0.0f);
-            
-            mvp.transformPoint(&topRight);
-            mvp.transformPoint(&bottomLeft);
-            
-            return (topRight.x >= -1.0f && topRight.y >= -1.0f &&
-                    bottomLeft.x <= 1.0f && bottomLeft.y <= 1.0f);
-        }
-        else
-        {
-            return false;
         }
     }
     
@@ -290,17 +318,39 @@ namespace ouzel
     {
         _repeat = repeat;
         _frameInterval = frameInterval;
-        _playing = true;
+        
+        if (!_playing && _frameCount > 1)
+        {
+            _playing = true;
+            
+            if (_currentFrame >= _frameCount - 1)
+            {
+                _currentFrame = 0;
+                _timeSinceLastFrame = 0.0f;
+            }
+            
+            Engine::getInstance()->scheduleUpdate(_updateCallback);
+        }
     }
     
-    void Sprite::stop(bool reset)
+    void Sprite::stop(bool resetAnimation)
+    {
+        if (_playing)
+        {
+            _playing = false;
+            Engine::getInstance()->unscheduleUpdate(_updateCallback);
+        }
+        
+        if (resetAnimation)
+        {
+            reset();
+        }
+    }
+    
+    void Sprite::reset()
     {
         _playing = false;
-        
-        if (reset)
-        {
-            _currentFrame = 0;
-            _timeSinceLastFrame = 0.0f;
-        }
+        _currentFrame = 0;
+        _timeSinceLastFrame = 0.0f;
     }
 }

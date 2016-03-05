@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -14,17 +14,21 @@ namespace ouzel
         
         virtual void begin() override;
         
-        void handleKeyDown(const KeyboardEvent& event, std::shared_ptr<void> const& sender) const;
-        void handleMouseMove(const MouseEvent& event, std::shared_ptr<void> const& sender) const;
-        void handleTouch(const TouchEvent& event, std::shared_ptr<void> const& sender) const;
-        void handleGamepadButtonChange(const GamepadEvent& event, std::shared_ptr<void> const& sender) const;
+        bool handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const;
+        bool handleMouse(const MouseEventPtr& event, const VoidPtr& sender) const;
+        bool handleTouch(const TouchEventPtr& event, const VoidPtr& sender) const;
+        bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender) const;
         
     protected:
-        std::shared_ptr<Sprite> _sprite;
-        std::shared_ptr<Sprite> _witch;
+        LayerPtr _layer;
+        LayerPtr _uiLayer;
         
-        std::shared_ptr<Layer> _layer;
+        SpritePtr _sprite;
+        SpritePtr _witch;
+        ParticleSystemPtr _flame;
         
-        std::shared_ptr<EventHandler> _eventHandler;
+        ButtonPtr _button;
+        
+        EventHandlerPtr _eventHandler;
     };
 }

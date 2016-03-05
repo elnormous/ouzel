@@ -1,10 +1,13 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
-#include <vector>
 #include <memory>
+#include <vector>
+#include <set>
+#include <cstdint>
+#include "Types.h"
 #include "Noncopyable.h"
 
 namespace ouzel
@@ -17,20 +20,26 @@ namespace ouzel
         Scene();
         virtual ~Scene();
         
-        virtual void update(float delta);
         virtual void draw();
         
-        void addLayer(std::shared_ptr<Layer> const& layer);
-        void removeLayer(std::shared_ptr<Layer> const& layer);
-        bool hasLayer(std::shared_ptr<Layer> const& layer) const;
-        const std::vector<std::shared_ptr<Layer>>& getLayers() const { return _layers; }
+        void addLayer(const LayerPtr& layer);
+        void removeLayer(const LayerPtr& layer);
+        bool hasLayer(const LayerPtr& layer) const;
+        const std::vector<LayerPtr>& getLayers() const { return _layers; }
         
         virtual void recalculateProjection();
         
         virtual void reorderLayers();
         
     protected:
-        std::vector<std::shared_ptr<Layer>> _layers;
+        void lock();
+        void unlock();
+        
+        std::vector<LayerPtr> _layers;
         bool _reorderLayers = false;
+        
+        std::set<LayerPtr> _layerAddList;
+        std::set<LayerPtr> _layerRemoveList;
+        int32_t _locked = 0;
     };
 }

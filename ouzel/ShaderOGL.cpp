@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include "Engine.h"
@@ -16,6 +16,11 @@ namespace ouzel
 
     ShaderOGL::~ShaderOGL()
     {
+        clean();
+    }
+    
+    void ShaderOGL::clean()
+    {
         if (_programId) glDeleteProgram(_programId);
         if (_vertexShaderId) glDeleteShader(_vertexShaderId);
         if (_fragmentShaderId) glDeleteShader(_fragmentShaderId);
@@ -27,6 +32,8 @@ namespace ouzel
         {
             return false;
         }
+        
+        clean();
         
         GLboolean support;
         glGetBooleanv(GL_SHADER_COMPILER, &support);
@@ -43,7 +50,7 @@ namespace ouzel
         }
         
         _fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(_fragmentShaderId, 1, reinterpret_cast<const GLchar* const*>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
+        glShaderSource(_fragmentShaderId, 1, reinterpret_cast<const GLchar**>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
         glCompileShader(_fragmentShaderId);
         
         printShaderMessage(_fragmentShaderId);
@@ -61,14 +68,15 @@ namespace ouzel
         }
         
         _vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(_vertexShaderId, 1, reinterpret_cast<const GLchar* const*>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
+        glShaderSource(_vertexShaderId, 1, reinterpret_cast<const GLchar**>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
         glCompileShader(_vertexShaderId);
         
-        printShaderMessage(_fragmentShaderId);
+        printShaderMessage(_vertexShaderId);
         
         glGetShaderiv(_vertexShaderId, GL_COMPILE_STATUS, &status);
         if (status == GL_FALSE)
         {
+            log("Failed to link shader");
             return false;
         }
         
@@ -123,6 +131,9 @@ namespace ouzel
             return false;
         }
         
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
         glUseProgram(_programId);
         
         GLint texture0Location = glGetUniformLocation(_programId, "texture0");
@@ -131,12 +142,12 @@ namespace ouzel
         GLint texture1Location = glGetUniformLocation(_programId, "texture1");
         if (texture1Location != -1) glUniform1i(texture1Location, 1);
         
+        glUseProgram(oldProgram);
+        
         if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {
             return false;
         }
-        
-        glUseProgram(0);
         
         glDetachShader(_programId, _vertexShaderId);
         glDeleteShader(_vertexShaderId);
@@ -193,22 +204,40 @@ namespace ouzel
     
     bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
-        glUseProgram(_programId);
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniform3fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+        
+        if (oldProgram != _programId) glUseProgram(oldProgram);
+        
         return true;
     }
     
     bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
-        glUseProgram(_programId);
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniform4fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+        
+        if (oldProgram != _programId) glUseProgram(oldProgram);
+        
         return true;
     }
     
     bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
-        glUseProgram(_programId);
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniformMatrix4fv(index, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
+        
+        if (oldProgram != _programId) glUseProgram(oldProgram);
+        
         return true;
     }
     
@@ -219,22 +248,40 @@ namespace ouzel
     
     bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
-        glUseProgram(_programId);
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniform3fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+        
+        if (oldProgram != _programId) glUseProgram(oldProgram);
+        
         return true;
     }
     
     bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
-        glUseProgram(_programId);
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniform4fv(index, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+        
+        if (oldProgram != _programId) glUseProgram(oldProgram);
+        
         return true;
     }
     
     bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
-        glUseProgram(_programId);
+        GLint oldProgram;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+        
+        if (oldProgram != _programId) glUseProgram(_programId);
         glUniformMatrix4fv(index, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
+        
+        if (oldProgram != _programId) glUseProgram(oldProgram);
+        
         return true;
     }
 }

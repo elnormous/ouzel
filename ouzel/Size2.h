@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -21,5 +21,17 @@ namespace ouzel
         Size2 operator-(const Size2& right) const;
         Size2 operator*(float a) const;
         Size2 operator/(float a) const;
+        
+        inline bool operator==(const Size2& right) const
+        {
+            return width == right.width && height == right.height;
+        }
+
+        inline bool operator!=(const Size2& right) const
+        {
+            return width != right.width || height != right.height;
+        }
+        
+        bool isZero() const;
     };
 }

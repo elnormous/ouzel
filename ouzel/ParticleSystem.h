@@ -1,97 +1,114 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
+#include <memory>
 #include <string>
-#include "node.h"
+#include <vector>
+#include "Node.h"
+#include "ParticleDefinition.h"
 #include "Vector2.h"
+#include "Color.h"
+#include "Vertex.h"
 
 namespace ouzel
 {
     class SceneManager;
     
+    struct Particle
+    {
+        float life = 0.0f;
+        
+        Vector2 position;
+        
+        float colorRed = 0.0f;
+        float colorGreen = 0.0f;
+        float colorBlue = 0.0f;
+        float colorAlpha = 0.0f;
+        
+        float deltaColorRed = 0.0f;
+        float deltaColorGreen = 0.0f;
+        float deltaColorBlue = 0.0f;
+        float deltaColorAlpha = 0.0f;
+        
+        float angle = 0.0f;
+        float speed = 0.0f;
+        
+        float size = 0.0f;
+        float deltaSize = 0.0f;
+        
+        float rotation = 0.0f;
+        float deltaRotation = 0.0f;
+        
+        float radialAcceleration = 0.0f;
+        float tangentialAcceleration = 0.0f;
+        
+        Vector2 direction;
+        float radius = 0.0f;
+        float degreesPerSecond = 0.0f;
+        float deltaRadius = 0.0f;
+    };
+    
     class ParticleSystem: public Node
     {
     public:
+        static std::shared_ptr<ParticleSystem> createFromFile(const std::string& filename);
+        
         ParticleSystem();
         virtual ~ParticleSystem();
         
+        virtual void draw();
+        virtual void update(float delta);
+        
         virtual bool initFromFile(const std::string& filename);
         
+        void resume();
+        void stop();
+        void reset();
+        
+        bool isRunning() const { return _running; }
+        bool isActive() const { return _active; }
+        
+        void setPositionType(ParticleDefinition::PositionType positionType) { _positionType = positionType; }
+        ParticleDefinition::PositionType getPositionType() const { return _positionType; }
+        
+        void setRemoveOnFinish(bool removeOnFinish) { _removeOnFinish = removeOnFinish; }
+        bool getRemoveOnFinish() const { return _removeOnFinish; }
+        
     protected:
-        uint32_t _blendFuncSource = 1;
-        uint32_t _blendFuncDestination = 771;
+        void createParticleMesh();
+        void updateParticleMesh();
         
-        uint32_t _emitterType = 0;
-        uint32_t _maxParticles = 77;
-        float _duration = -1;
-        float _particleLifespan = 1.0f;
-        float _particleLifespanVariance = 0.0f;
+        void emitParticles(uint32_t particles);
         
-        float _speed = 225.0f;
-        float _speedVariance = 30.0f;
+        ParticleDefinition _particleDefinition;
+        ParticleDefinition::PositionType _positionType;
         
-        bool _absolutePosition = false;
-        bool _yCoordFlipped = true;
-        Vector2 _sourcePosition = Vector2(160.0f, 240.0f);
-        Vector2 _sourcePositionVariance = Vector2(7.0f, 7.0f);
+        ShaderPtr _shader;
+        TexturePtr _texture;
         
-        float _startParticleSize = 64.0f;
-        float _startParticleSizeVariance = 5.0f;
+        std::vector<Particle> _particles;
         
-        float _finishParticleSize = 0.0f;
-        float _finishParticleSizeVariance = 0.0f;
+        MeshBufferPtr _mesh;
         
-        float _angle = 90.0f;
-        float _angleVariance = 10.0f;
+        uint32_t _uniModelViewProj;
         
-        float _rotationStart = 0.0f;
-        float _rotationStartVariance = 0.0f;
+        std::vector<uint16_t> _indices;
+        std::vector<VertexPCT> _vertices;
         
-        float _rotationEnd = 0.0f;
-        float _rotationEndVariance = 0.0f;
+        uint32_t _particleCount = 0;
         
-        float _rotatePerSecond = 360.0f;
-        float _rotatePerSecondVariance = 0.0f;
+        float _emitCounter = 0.0f;
+        float _elapsed = 0.0f;
+        bool _active = false;
+        bool _running = false;
+        bool _finished = false;
         
-        float _minRadius = 300.0f;
-        float _minRadiusVariance = 0.0f;
+        bool _needsMeshUpdate = false;
         
-        float _maxRadius = 0.0f;
-        float _maxRadiusVariance = 0.0f;
+        bool _removeOnFinish = true;
         
-        float _radialAcceleration = 0.0f;
-        float _radialAccelVariance = 0.0f;
-        
-        float _tangentialAcceleration = 0.0f;
-        float _tangentialAccelVariance = 0.0f;
-        
-        Vector2 _gravity = Vector2(0.0f, 0.0f);
-        
-        float _startColorRed = 0.372f;
-        float _startColorGreen = 0.498f;
-        float _startColorBlue = 0.8f;
-        float _startColorAlpha = 0.5f;
-        
-        float _startColorVarianceRed = 0.0f;
-        float _startColorVarianceGreen = 0.0f;
-        float _startColorVarianceBlue = 0.0f;
-        float _startColorVarianceAlpha = 0.0f;
-        
-        float _finishColorRed = 0.0f;
-        float _finishColorGreen = 0.0f;
-        float _finishColorBlue = 0.0f;
-        float _finishColorAlpha = 0.0f;
-        
-        float _finishColorVarianceRed = 0.0f;
-        float _finishColorVarianceGreen = 0.0f;
-        float _finishColorVarianceBlue = 0.0f;
-        float _finishColorVarianceAlpha = 0.0f;
-
-        std::string _textureFilename;
-        
-        
-        
+        UpdateCallbackPtr _updateCallback;
     };
 }

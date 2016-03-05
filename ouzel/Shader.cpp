@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <fstream>
@@ -65,6 +65,11 @@ namespace ouzel
     
     bool Shader::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
     {
+        OUZEL_UNUSED(fragmentShader);
+        OUZEL_UNUSED(fragmentShaderSize);
+        OUZEL_UNUSED(vertexShader);
+        OUZEL_UNUSED(vertexShaderSize);
+        
         _vertexAttributes = vertexAttributes;
         
         return  true;
@@ -72,41 +77,63 @@ namespace ouzel
     
     uint32_t Shader::getPixelShaderConstantId(const std::string& name)
     {
+        OUZEL_UNUSED(name);
+        
         return 0;
     }
     
     bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
+        OUZEL_UNUSED(index);
+        OUZEL_UNUSED(vectors);
+        
         return true;
     }
     
     bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
+        OUZEL_UNUSED(index);
+        OUZEL_UNUSED(vectors);
+        
         return true;
     }
     
     bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
+        OUZEL_UNUSED(index);
+        OUZEL_UNUSED(matrices);
+        
         return true;
     }
     
     uint32_t Shader::getVertexShaderConstantId(const std::string& name)
     {
+        OUZEL_UNUSED(name);
+        
         return 0;
     }
     
     bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
     {
+        OUZEL_UNUSED(index);
+        OUZEL_UNUSED(vectors);
+        
         return true;
     }
     
     bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
     {
+        OUZEL_UNUSED(index);
+        OUZEL_UNUSED(vectors);
+        
         return true;
     }
     
     bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
     {
+        OUZEL_UNUSED(index);
+        OUZEL_UNUSED(matrices);
+        
         return true;
     }
 }

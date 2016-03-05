@@ -1,11 +1,13 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
 #include <algorithm>
 #include <memory>
+#include "Types.h"
 #include "Noncopyable.h"
+#include "Size2.h"
 
 namespace ouzel
 {
@@ -18,11 +20,16 @@ namespace ouzel
     public:
         virtual ~RenderTarget();
         
-        std::shared_ptr<Texture> getTexture() const { return _texture; }
+        virtual bool init(const Size2& size, bool depthBuffer);
+        
+        TexturePtr getTexture() const { return _texture; }
         
     protected:
         RenderTarget();
         
-        std::shared_ptr<Texture> _texture = nullptr;
+        Size2 _size;
+        bool _depthBuffer = false;
+        
+        TexturePtr _texture;
     };
 }

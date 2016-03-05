@@ -1,8 +1,9 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <cstdint>
 #include "Vector2.h"
+#include "Size2.h"
 
 #pragma once
 
@@ -43,7 +44,7 @@ namespace ouzel
          * verts[2] : right bottom
          * verts[3] : right top
          */
-        void getCorners(Vector2 *dst) const;
+        void getCorners(Vector2* dst) const;
         
         /**
          * Tests whether this bounding box intersects the specified bounding object.
@@ -77,15 +78,46 @@ namespace ouzel
         bool isEmpty() const;
         
         /**
-         * update the _min and _max from the given point.
+         * update the _min and _max from the given points.
          */
-        void updateMinMax(const Vector2* point, uint32_t num);
+        void updateMinMax(const Vector2* points, uint32_t num);
         
-    public:
-        Vector2 _min;
-        Vector2 _max;
-    };
+        void insertPoint(const Vector2& point);
+        
+        inline const AABB2 operator+(const Vector2& v) const
+        {
+            AABB2 result(*this);
+            result += v;
+            return result;
+        }
 
-    // end of 3d group
-    /// @}
+        inline AABB2& operator+=(const Vector2& v)
+        {
+            min += v;
+            max += v;
+            return *this;
+        }
+
+        inline const AABB2 operator-(const Vector2& v) const
+        {
+            AABB2 result(*this);
+            result -= v;
+            return result;
+        }
+
+        inline AABB2& operator-=(const Vector2& v)
+        {
+            min -= v;
+            max -= v;
+            return *this;
+        }
+        
+        inline Size2 getSize() const
+        {
+            return Size2(max.x - min.x, max.y - min.y);
+        }
+        
+        Vector2 min;
+        Vector2 max;
+    };
 }

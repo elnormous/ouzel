@@ -1,26 +1,17 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "OpenGLView.h"
 #include "Engine.h"
+#include "Cache.h"
 
 @implementation AppDelegate
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     ouzel::Engine::getInstance()->init();
-    
-    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    UIViewController* viewController = [[ViewController alloc] init];
-    _window.rootViewController = viewController;
-    
-    OpenGLView* view = [[OpenGLView alloc] initWithFrame:[_window bounds]];
-    viewController.view = view;
-    
-    [_window makeKeyAndVisible];
     
     return YES;
 }
@@ -52,7 +43,7 @@
 
 -(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    //TODO: free resources
+    ouzel::Engine::getInstance()->getCache()->releaseTextures();
 }
 
 @end

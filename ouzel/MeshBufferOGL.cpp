@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include "MeshBufferOGL.h"
@@ -15,6 +15,11 @@ namespace ouzel
     
     MeshBufferOGL::~MeshBufferOGL()
     {
+        clean();
+    }
+    
+    void MeshBufferOGL::clean()
+    {
         if (_vertexArrayId) glDeleteVertexArrays(1, &_vertexArrayId);
         if (_vertexBufferId) glDeleteBuffers(1, &_vertexBufferId);
         if (_indexBufferId) glDeleteBuffers(1, &_indexBufferId);
@@ -26,6 +31,8 @@ namespace ouzel
         {
             return false;
         }
+        
+        clean();
         
         glGenBuffers(1, &_indexBufferId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
@@ -44,8 +51,6 @@ namespace ouzel
             case 4: _indexFormat = GL_UNSIGNED_INT; break;
             default: log("Invalid index size"); return false;
         }
-        
-        _indexCount = indexCount;
         
         glGenVertexArrays(1, &_vertexArrayId);
         glBindVertexArray(_vertexArrayId);
@@ -131,8 +136,6 @@ namespace ouzel
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexSize * indexCount, indices,
                      _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-        
-        _indexCount = indexCount;
         
         if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
         {

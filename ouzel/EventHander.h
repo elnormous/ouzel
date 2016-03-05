@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -19,27 +19,14 @@ namespace ouzel
         
         EventHandler(int32_t priority = 0): _priority(priority) { }
         
-        std::function<void(const KeyboardEvent&, std::shared_ptr<void> const&)> keyDownHandler;
-        std::function<void(const KeyboardEvent&, std::shared_ptr<void> const&)> keyUpHandler;
-        
-        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseDownHandler;
-        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseUpHandler;
-        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseScrollHandler;
-        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseMoveHandler;
-        std::function<void(const MouseEvent&, std::shared_ptr<void> const&)> mouseDragHandler;
-        
-        std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchBeginHandler;
-        std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchMoveHandler;
-        std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchEndHandler;
-        std::function<void(const TouchEvent&, std::shared_ptr<void> const&)> touchCancelHandler;
-        
-        std::function<void(const GamepadEvent&, std::shared_ptr<void> const&)> gamepadConnectHandler;
-        std::function<void(const GamepadEvent&, std::shared_ptr<void> const&)> gamepadDisconnectHandler;
-        std::function<void(const GamepadEvent&, std::shared_ptr<void> const&)> gamepadButtonChangeHandler;
-        
-        std::function<void(const ScreenSizeEvent&, std::shared_ptr<void> const&)> screenSizeHandler;
+        std::function<bool(const KeyboardEventPtr&, const VoidPtr&)> keyboardHandler;
+        std::function<bool(const MouseEventPtr&, const VoidPtr&)> mouseHandler;
+        std::function<bool(const TouchEventPtr&, const VoidPtr&)> touchHandler;
+        std::function<bool(const GamepadEventPtr&, const VoidPtr&)> gamepadHandler;
+        std::function<bool(const WindowEventPtr&, const VoidPtr&)> windowHandler;
         
     protected:
         int32_t _priority;
+        bool _remove = false;
     };
 }

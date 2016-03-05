@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -19,16 +19,20 @@ namespace ouzel
         
         virtual ~FileSystem();
         
+        std::string getHomeDirectory();
+        std::string getStorageDirectory(const std::string& developer, const std::string& app);
+        
         std::string getPath(const std::string& filename) const;
         
         void addResourcePath(const std::string& path);
         
         std::string getExtension(const std::string& path) const;
         
+        bool directoryExists(const std::string& filename) const;
+        bool fileExists(const std::string& filename) const;
+        
     protected:
         FileSystem();
-        
-        bool fileExists(const std::string& filename) const;
         
         std::vector<std::string> _resourcePaths;
     };

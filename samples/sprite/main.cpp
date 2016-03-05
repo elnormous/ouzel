@@ -3,9 +3,9 @@
 
 #include "Application.h"
 
-std::shared_ptr<ouzel::App> ouzelMain(std::vector<std::string> const& args)
+ouzel::AppPtr ouzelMain(const std::vector<std::string>& args)
 {
-    std::shared_ptr<ouzel::Application> application(new ouzel::Application());
+    std::shared_ptr<ouzel::Application> application = std::make_shared<ouzel::Application>();
     
     return application;
 }

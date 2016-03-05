@@ -1,7 +1,11 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <GameController/GameController.h>
+#include "CompileConfig.h"
+#ifdef OUZEL_PLATFORM_OSX
+#import <AppKit/AppKit.h>
+#endif
+#import <GameController/GameController.h>
 #include "InputApple.h"
 #include "Engine.h"
 #include "GamepadApple.h"
@@ -22,13 +26,13 @@
 -(void)handleControllerConnected:(NSNotification*)notification
 {
     std::shared_ptr<ouzel::InputApple> inputApple = std::static_pointer_cast<ouzel::InputApple>(ouzel::Engine::getInstance()->getInput());
-    inputApple->handleControllerConnected(notification.object);
+    inputApple->handleGamepadConnected(notification.object);
 }
 
 -(void)handleControllerDisconnected:(NSNotification*)notification
 {
     std::shared_ptr<ouzel::InputApple> inputApple = std::static_pointer_cast<ouzel::InputApple>(ouzel::Engine::getInstance()->getInput());
-    inputApple->handleControllerDisconnected(notification.object);
+    inputApple->handleGamepadDisconnected(notification.object);
 }
 
 @end
@@ -54,7 +58,7 @@ namespace ouzel
             
             for (GCController* controller in [GCController controllers])
             {
-                handleControllerConnected(controller);
+                handleGamepadConnected(controller);
             }
         }
     }
@@ -64,7 +68,30 @@ namespace ouzel
         
     }
     
-    void InputApple::startDiscovery()
+    void InputApple::setCursorVisible(bool visible)
+    {
+#ifdef OUZEL_PLATFORM_OSX
+        if (visible)
+        {
+            [NSCursor unhide];
+        }
+        else
+        {
+            [NSCursor hide];
+        }
+#endif
+    }
+    
+    bool InputApple::isCursorVisible() const
+    {
+#ifdef OUZEL_PLATFORM_OSX
+        return CGCursorIsVisible();
+#else
+        return false;
+#endif
+    }
+    
+    void InputApple::startGamepadDiscovery()
     {
         log("Started gamepad discovery");
         
@@ -73,11 +100,11 @@ namespace ouzel
         if ([GCController class])
         {
             [GCController startWirelessControllerDiscoveryWithCompletionHandler:
-             ^(void){ handleDiscoveryCompleted(); }];
+             ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
     }
     
-    void InputApple::stopDiscovery()
+    void InputApple::stopGamepadDiscovery()
     {
         log("Stopped gamepad discovery");
         
@@ -92,37 +119,37 @@ namespace ouzel
         }
     }
     
-    void InputApple::handleDiscoveryCompleted()
+    void InputApple::handleGamepadDiscoveryCompleted()
     {
-        log("Discovery completed");
+        log("Gamepad discovery completed");
         _discovering = false;
     }
     
-    void InputApple::handleControllerConnected(GCController* controller)
+    void InputApple::handleGamepadConnected(id controller)
     {
         std::shared_ptr<GamepadApple> gamepad(new GamepadApple(controller));
         _gamepads.push_back(gamepad);
         
-        GamepadEvent event;
-        event.type = Event::Type::GAMEPAD_CONNECT;
-        event.gamepad = gamepad;
+        GamepadEventPtr event = std::make_shared<GamepadEvent>();
+        event->type = Event::Type::GAMEPAD_CONNECT;
+        event->gamepad = gamepad;
         
-        Engine::getInstance()->getEventDispatcher()->dispatchGamepadConnectEvent(event, Engine::getInstance()->getInput());
+        Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
     }
     
-    void InputApple::handleControllerDisconnected(GCController* controller)
+    void InputApple::handleGamepadDisconnected(id controller)
     {
-        std::vector<std::shared_ptr<GamepadApple>>::iterator i = std::find_if(_gamepads.begin(), _gamepads.end(), [controller](std::shared_ptr<GamepadApple> const& p) {
+        std::vector<std::shared_ptr<GamepadApple>>::iterator i = std::find_if(_gamepads.begin(), _gamepads.end(), [controller](const std::shared_ptr<GamepadApple>& p) {
             return p->getController() == controller;
         });
         
         if (i != _gamepads.end())
         {
-            GamepadEvent event;
-            event.type = Event::Type::GAMEPAD_DISCONNECT;
-            event.gamepad = *i;
+            GamepadEventPtr event = std::make_shared<GamepadEvent>();
+            event->type = Event::Type::GAMEPAD_DISCONNECT;
+            event->gamepad = *i;
             
-            Engine::getInstance()->getEventDispatcher()->dispatchGamepadDisconnectEvent(event, Engine::getInstance()->getInput());
+            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
             
             _gamepads.erase(i);
         }

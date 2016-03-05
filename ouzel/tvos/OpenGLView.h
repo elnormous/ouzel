@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #import <UIKit/UIKit.h>
@@ -12,12 +12,13 @@
     GLuint _colorRenderBuffer;
     GLuint _frameBuffer;
     
-    GLint backingWidth;
-    GLint backingHeight;
-    
     CADisplayLink* _displayLink;
 }
 
 -(id)initWithFrame:(CGRect)frameRect;
+-(void)prepareOpenGL;
+
+@property (readonly) GLint backingWidth;
+@property (readonly) GLint backingHeight;
 
 @end

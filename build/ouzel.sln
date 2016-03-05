@@ -5,11 +5,6 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ouzel", "ouzel.vcxproj", "{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sprite", "sprite.vcxproj", "{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C60AB6A6-67FF-4704-BDCD-DE2F382FE251} = {C60AB6A6-67FF-4704-BDCD-DE2F382FE251}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -26,14 +21,6 @@ Global
 		{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}.Release|x64.Build.0 = Release|x64
 		{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}.Release|x86.ActiveCfg = Release|x64
 		{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}.Release|x86.Build.0 = Release|x64
-		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Debug|x64.ActiveCfg = Debug|x64
-		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Debug|x64.Build.0 = Debug|x64
-		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Debug|x86.ActiveCfg = Debug|x64
-		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Debug|x86.Build.0 = Debug|Win32
-		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Release|x64.ActiveCfg = Release|x64
-		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Release|x64.Build.0 = Release|x64
-		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Release|x86.ActiveCfg = Release|x64
-		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

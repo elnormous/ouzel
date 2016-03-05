@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include "SceneManager.h"
@@ -16,20 +16,23 @@ namespace ouzel
         
     }
     
-    void SceneManager::update(float delta)
-    {
-        if (_scene)
-        {
-            _scene->update(delta);
-        }
-    }
-    
-    void SceneManager::setScene(std::shared_ptr<Scene> const& scene)
+    void SceneManager::setScene(const ScenePtr& scene)
     {
         if (scene != _scene)
         {
-            _scene = scene;
-            _scene->recalculateProjection();
+            if (_locked)
+            {
+                _newScene = scene;
+            }
+            else
+            {
+                _scene = scene;
+                
+                if (_scene)
+                {
+                    _scene->recalculateProjection();
+                }
+            }
         }
     }
     
@@ -37,7 +40,11 @@ namespace ouzel
     {
         if (_scene)
         {
+            lock();
+            
             _scene->draw();
+            
+            unlock();
         }
     }
     
@@ -47,6 +54,19 @@ namespace ouzel
         {
             _scene->recalculateProjection();
         }
-        
+    }
+    
+    void SceneManager::lock()
+    {
+        ++_locked;
+    }
+    
+    void SceneManager::unlock()
+    {
+        if (--_locked == 0 && _newScene)
+        {
+            setScene(_newScene);
+            _newScene.reset();
+        }
     }
 }

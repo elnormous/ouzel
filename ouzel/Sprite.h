@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -18,42 +18,48 @@ namespace ouzel
     class Sprite: public Node
     {
     public:
+        static std::shared_ptr<Sprite> createFromFile(const std::string& filename, bool mipmaps = true);
+        
         Sprite();
         virtual ~Sprite();
         
-        virtual bool initFromFile(const std::string& filename);
+        virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
         
-        virtual void update(float delta) override;
+        virtual void update(float delta);
         virtual void draw() override;
         
-        virtual std::shared_ptr<Texture> getTexture() const { return _texture; }
-        virtual void setTexture(std::shared_ptr<Texture> const& texture);
+        virtual void setOpacity(float opacity) override;
         
-        virtual std::shared_ptr<Shader> getShader() const { return _shader; }
-        virtual void setShader(std::shared_ptr<Shader> const& shader);
+        virtual TexturePtr getTexture() const { return _texture; }
+        virtual void setTexture(const TexturePtr& texture);
+        
+        virtual ShaderPtr getShader() const { return _shader; }
+        virtual void setShader(const ShaderPtr& shader);
         
         virtual const Size2& getSize() const { return _size; }
         
         virtual const Color& getColor() const { return _color; }
         virtual void setColor(const Color& color);
         
-        virtual bool checkVisibility() const override;
-        
         virtual void play(bool repeat = true, float frameInterval = 0.1f);
-        virtual void stop(bool reset = true);
+        virtual void stop(bool resetAnimation = true);
+        virtual void reset();
         virtual bool isPlaying() const { return _playing; }
         
     protected:
-        bool loadSpriteSheet(const std::string& filename);
+        bool loadSpriteSheet(const std::string& filename, bool mipmaps);
         void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot);
         
-        std::shared_ptr<Texture> _texture;
-        std::shared_ptr<Shader> _shader;
+        void updateVertexColor();
+        
+        TexturePtr _texture;
+        ShaderPtr _shader;
         
         Size2 _size;
         
+        uint32_t _frameCount = 0;
         std::vector<std::vector<VertexPCT>> _frameVertices;
-        std::vector<std::shared_ptr<MeshBuffer>> _frameMeshBuffers;
+        std::vector<MeshBufferPtr> _frameMeshBuffers;
         Color _color = Color(255, 255, 255, 255);
         
         uint32_t _currentFrame = 0;
@@ -63,5 +69,7 @@ namespace ouzel
         float _timeSinceLastFrame = 0.0f;
         
         uint32_t _uniModelViewProj;
+        
+        UpdateCallbackPtr _updateCallback;
     };
 }

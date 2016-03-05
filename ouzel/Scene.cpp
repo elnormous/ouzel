@@ -1,9 +1,10 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
 #include "Scene.h"
 #include "Layer.h"
+#include "Camera.h"
 
 namespace ouzel
 {
@@ -17,74 +18,117 @@ namespace ouzel
 
     }
     
-    void Scene::update(float delta)
-    {
-        for (std::shared_ptr<Layer> layer : _layers)
-        {
-            layer->update(delta);
-        }
-    }
-    
     void Scene::draw()
     {
+        lock();
+        
         if (_reorderLayers)
         {
-            std::sort(_layers.begin(), _layers.end(), [](std::shared_ptr<Layer> a, std::shared_ptr<Layer> b) {
+            std::sort(_layers.begin(), _layers.end(), [](LayerPtr a, LayerPtr b) {
                 return a->getOrder() > b->getOrder();
             });
             
             _reorderLayers = false;
         }
         
-        for (std::shared_ptr<Layer> layer : _layers)
+        for (LayerPtr layer : _layers)
         {
-            layer->draw();
+            if (!layer->_remove)
+            {
+                layer->draw();
+            }
         }
+        
+        unlock();
     }
     
-    void Scene::addLayer(std::shared_ptr<Layer> const& layer)
+    void Scene::addLayer(const LayerPtr& layer)
     {
-        if (!hasLayer(layer) && !layer->getScene())
+        if (_locked)
         {
+            _layerAddList.insert(layer);
+        }
+        else if (!hasLayer(layer) && !layer->getScene())
+        {
+            layer->_remove = false;
             _layers.push_back(layer);
             layer->addToScene(shared_from_this());
-            layer->recalculateProjection();
             
+            if (CameraPtr camera = layer->getCamera())
+            {
+                camera->recalculateProjection();
+            }
         }
     }
     
-    void Scene::removeLayer(std::shared_ptr<Layer> const& layer)
+    void Scene::removeLayer(const LayerPtr& layer)
     {
-        std::vector<std::shared_ptr<Layer>>::iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
-            return p.get() == layer.get();
-        });
-        
-        if (i != _layers.end())
+        if (_locked)
         {
-            layer->removeFromScene();
-            _layers.erase(i);
+            layer->_remove = true;
+            _layerRemoveList.insert(layer);
+        }
+        else
+        {
+            std::vector<LayerPtr>::iterator i = std::find(_layers.begin(), _layers.end(), layer);
+            
+            if (i != _layers.end())
+            {
+                layer->removeFromScene();
+                _layers.erase(i);
+            }
         }
     }
     
-    bool Scene::hasLayer(std::shared_ptr<Layer> const& layer) const
+    bool Scene::hasLayer(const LayerPtr& layer) const
     {
-        std::vector<std::shared_ptr<Layer>>::const_iterator i = std::find_if(_layers.begin(), _layers.end(), [layer](std::shared_ptr<Layer> const& p) {
-            return p.get() == layer.get();
-        });
+        std::vector<LayerPtr>::const_iterator i = std::find(_layers.begin(), _layers.end(), layer);
         
         return i != _layers.end();
     }
     
     void Scene::recalculateProjection()
     {
-        for (std::shared_ptr<Layer> layer : _layers)
+        for (LayerPtr layer : _layers)
         {
-            layer->recalculateProjection();
+            if (CameraPtr camera = layer->getCamera())
+            {
+                camera->recalculateProjection();
+            }
         }
     }
     
     void Scene::reorderLayers()
     {
         _reorderLayers = true;
+    }
+    
+    void Scene::lock()
+    {
+        ++_locked;
+    }
+    
+    void Scene::unlock()
+    {
+        if (--_locked == 0)
+        {
+            if (!_layerAddList.empty())
+            {
+                for (const LayerPtr& layer : _layerAddList)
+                {
+                    addLayer(layer);
+                }
+                _layerAddList.clear();
+            }
+            
+            if (!_layerRemoveList.empty())
+            {
+                for (const LayerPtr& layer : _layerRemoveList)
+                {
+                    removeLayer(layer);
+                }
+                _layerRemoveList.clear();
+            }
+        }
     }
 }

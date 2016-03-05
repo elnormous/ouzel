@@ -125,6 +125,54 @@
     <ClCompile Include="..\ouzel\win\main.cpp">
       <Filter>win</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\Menu.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Widget.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\BMFont.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Animator.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Move.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Rotate.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Scale.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Fade.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Sequence.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Parallel.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Repeat.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Ease.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Cache.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\DrawNode.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Window.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\win\WindowWin.cpp">
+      <Filter>win</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -279,6 +327,60 @@
     <ClInclude Include="..\ouzel\win\InputWin.h">
       <Filter>win</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\Menu.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Widget.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\BMFont.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Types.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Animator.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Move.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Rotate.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Scale.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Fade.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Sequence.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Parallel.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Repeat.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Ease.h">
+      <Filter>animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Cache.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\DrawNode.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\ParticleDefinition.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Window.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\win\WindowWin.h">
+      <Filter>win</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
@@ -310,6 +412,9 @@
     </Filter>
     <Filter Include="win">
       <UniqueIdentifier>{13c9cfb5-22dc-476d-94c2-c1d0d171f005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="animators">
+      <UniqueIdentifier>{a9680758-dcaa-488a-949b-ca09c57945a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,10 +1,11 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
 #include <memory>
 #include "Noncopyable.h"
+#include "Vector2.h"
 
 namespace ouzel
 {
@@ -168,11 +169,13 @@ namespace ouzel
     enum class MouseButton
     {
         NONE,
-        LEFT,        // Left mouse button
-        RIGHT,        // Right mouse button
-        MIDDLE,        // Middle mouse button (three-button mouse)
-        X1,       // Windows 2000/XP: X1 mouse button
-        X2,       // Windows 2000/XP: X2 mouse button
+        LEFT,           // Left mouse button
+        RIGHT,          // Right mouse button
+        MIDDLE,         // Middle mouse button (three-button mouse)
+        X1,             // Windows 2000/XP: X1 mouse button
+        X2,              // Windows 2000/XP: X2 mouse button
+        
+        BUTTON_COUNT
     };
     
     enum class GamepadButton
@@ -186,22 +189,61 @@ namespace ouzel
         B,
         X,
         Y,
-        L1,
-        L2,
-        R1,
-        R2
+        LEFT_SHOULDER,  // L1 for Apple
+        LEFT_TRIGGER,   // L2 for Apple
+        RIGHT_SHOULDER, // R1 for Apple
+        RIGHT_TRIGGER,  // R2 for Apple
+        LEFT_THUMB,
+        RIGHT_THUMB,
+        START, 
+        BACK,
+        PAUSE,
+        LEFT_THUMB_LEFT,
+        LEFT_THUMB_RIGHT,
+        LEFT_THUMB_UP,
+        LEFT_THUMB_DOWN,
+        RIGHT_THUMB_LEFT,
+        RIGHT_THUMB_RIGHT,
+        RIGHT_THUMB_UP,
+        RIGHT_THUMB_DOWN,
+        
+        BUTTON_COUNT
     };
     
-    class Input: public Noncopyable
+    class Input: public Noncopyable, public std::enable_shared_from_this<Input>
     {
         friend Engine;
     public:
         virtual ~Input();
         
-        virtual void startDiscovery();
-        virtual void stopDiscovery();
+        virtual void update();
+        
+        virtual void setCursorVisible(bool visible);
+        virtual bool isCursorVisible() const;
+        
+        virtual void startGamepadDiscovery();
+        virtual void stopGamepadDiscovery();
+        
+        bool isKeyboardKeyDown(KeyboardKey key) const { return _keyboardKeyStates[static_cast<uint32_t>(key)]; }
+        bool isMouseButtonDown(MouseButton button) const { return _mouseButtonStates[static_cast<uint32_t>(button)]; }
+        
+        virtual void keyDown(KeyboardKey key, uint32_t modifiers);
+        virtual void keyUp(KeyboardKey key, uint32_t modifiers);
+        
+        virtual void mouseDown(MouseButton button, const Vector2& position, uint32_t modifiers);
+        virtual void mouseUp(MouseButton button, const Vector2& position, uint32_t modifiers);
+        virtual void mouseMove(const Vector2& position, uint32_t modifiers);
+        virtual void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
+        
+        virtual void touchBegin(uint64_t touchId, const Vector2& position);
+        virtual void touchEnd(uint64_t touchId, const Vector2& position);
+        virtual void touchMove(uint64_t touchId, const Vector2& position);
+        virtual void touchCancel(uint64_t touchId, const Vector2& position);
         
     protected:
         Input();
+        
+        bool _keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
+        bool _mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
     };
 }

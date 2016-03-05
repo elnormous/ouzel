@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include "Image.h"
@@ -7,6 +7,10 @@
 #include "FileSystem.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "stb_image_resize.h"
 
 namespace ouzel
 {
@@ -23,7 +27,7 @@ namespace ouzel
         }
     }
     
-    bool Image::loadFromFile(const std::string& filename)
+    bool Image::initFromFile(const std::string& filename)
     {
         _filename = filename;
         
@@ -36,7 +40,7 @@ namespace ouzel
         
         if (!_data)
         {
-            log("Failed to open texture file %s", filename.c_str());
+            log("Failed to open texture file %s, reason: %s", filename.c_str(), stbi_failure_reason());
             return false;
         }
         

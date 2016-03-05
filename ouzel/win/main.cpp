@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <windows.h>
@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
         for (i = 0; i < nArgs; i++)
         {
             char temporaryCString[256];
-            WideCharToMultiByte(CP_ACP, 0, argList[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
+            WideCharToMultiByte(CP_UTF8, 0, argList[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
 
             args.push_back(temporaryCString);
         }
@@ -49,8 +49,13 @@ int WINAPI WinMain(HINSTANCE hInstance,
             break;
         }
 
-        ouzel::Engine::getInstance()->run();
+        if (!ouzel::Engine::getInstance()->run())
+        {
+            break;
+        }
     }
+
+    ouzel::Engine::getInstance()->end();
     
     return 0;
 }

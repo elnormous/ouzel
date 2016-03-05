@@ -1,7 +1,9 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
+
+#include <cmath>
 
 namespace ouzel
 {
@@ -11,7 +13,11 @@ namespace ouzel
     class Vector2
     {
     public:
-
+        static Vector2 ZERO;
+        static Vector2 ONE;
+        static Vector2 UNIT_X;
+        static Vector2 UNIT_Y;
+        
         /**
          * The x coordinate.
          */
@@ -63,46 +69,24 @@ namespace ouzel
         ~Vector2();
 
         /**
-         * Returns the zero vector.
-         *
-         * @return The 2-element vector of 0s.
-         */
-        static const Vector2& zero();
-
-        /**
-         * Returns the one vector.
-         *
-         * @return The 2-element vector of 1s.
-         */
-        static const Vector2& one();
-
-        /**
-         * Returns the unit x vector.
-         *
-         * @return The 2-element unit vector along the x axis.
-         */
-        static const Vector2& unitX();
-
-        /**
-         * Returns the unit y vector.
-         *
-         * @return The 2-element unit vector along the y axis.
-         */
-        static const Vector2& unitY();
-
-        /**
          * Indicates whether this vector contains all zeros.
          *
          * @return true if this vector contains all zeros, false otherwise.
          */
-        bool isZero() const;
+        inline bool isZero() const
+        {
+            return x == 0.0f && y == 0.0f;
+        }
 
         /**
          * Indicates whether this vector contains all ones.
          *
          * @return true if this vector contains all ones, false otherwise.
          */
-        bool isOne() const;
+        inline bool isOne() const
+        {
+            return x == 1.0f && y == 1.0f;
+        }
 
         /**
          * Returns the angle (in radians) between the specified vectors.
@@ -128,7 +112,7 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst A vector to store the result in.
          */
-        static void add(const Vector2& v1, const Vector2& v2, Vector2* dst);
+        static void add(const Vector2& v1, const Vector2& v2, Vector2& dst);
 
         /**
          * Clamps this vector within the specified range.
@@ -146,7 +130,7 @@ namespace ouzel
          * @param max The maximum value.
          * @param dst A vector to store the result in.
          */
-        static void clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst);
+        static void clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2& dst);
 
         /**
          * Returns the distance between this vector and v.
@@ -244,7 +228,7 @@ namespace ouzel
          *
          * @param dst The destination vector.
          */
-        void normalize(Vector2* dst) const;
+        void normalize(Vector2& dst) const;
 
         /**
          * Scales all elements of this vector by the specified value.
@@ -314,7 +298,7 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst The destination vector.
          */
-        static void subtract(const Vector2& v1, const Vector2& v2, Vector2* dst);
+        static void subtract(const Vector2& v1, const Vector2& v2, Vector2& dst);
 
         /**
          * Updates this vector towards the given target using a smoothing function.
@@ -339,9 +323,7 @@ namespace ouzel
          */
         inline const Vector2 operator+(const Vector2& v) const
         {
-            Vector2 result(*this);
-            result.add(v);
-            return result;
+            return Vector2(x + v.x, y + v.y);
         }
 
         /**
@@ -352,7 +334,8 @@ namespace ouzel
          */
         inline Vector2& operator+=(const Vector2& v)
         {
-            add(v);
+            x += v.x;
+            y += v.y;
             return *this;
         }
 
@@ -366,9 +349,7 @@ namespace ouzel
          */
         inline const Vector2 operator-(const Vector2& v) const
         {
-            Vector2 result(*this);
-            result.subtract(v);
-            return result;
+            return Vector2(x - v.x, y - v.y);
         }
 
         /**
@@ -379,7 +360,8 @@ namespace ouzel
          */
         inline Vector2& operator-=(const Vector2& v)
         {
-            subtract(v);
+            x -= v.x;
+            y -= v.y;
             return *this;
         }
 
@@ -392,9 +374,7 @@ namespace ouzel
          */
         inline const Vector2 operator-() const
         {
-            Vector2 result(*this);
-            result.negate();
-            return result;
+            return Vector2(-x, -y);
         }
 
         /**
@@ -402,25 +382,24 @@ namespace ouzel
          * 
          * Note: this does not modify this vector.
          * 
-         * @param x The value to scale by.
+         * @param scalar The value to scale by.
          * @return The scaled vector.
          */
-        inline const Vector2 operator*(float x) const
+        inline const Vector2 operator*(float scalar) const
         {
-            Vector2 result(*this);
-            result.scale(x);
-            return result;
+            return Vector2(x * scalar, y * scalar);
         }
 
         /**
          * Scales this vector by the given value.
          * 
-         * @param x The value to scale by.
+         * @param scalar The value to scale by.
          * @return This vector, after the scale occurs.
          */
-        inline Vector2& operator*=(float x)
+        inline Vector2& operator*=(float scalar)
         {
-            scale(x);
+            x *= scalar;
+            y *= scalar;
             return *this;
         }
         
@@ -429,12 +408,19 @@ namespace ouzel
          *
          * Note: this does not modify this vector.
          *
-         * @param x the constant to divide this vector with
+         * @param scalar the constant to divide this vector with
          * @return a smaller vector
          */
-        inline const Vector2 operator/(float x) const
+        inline const Vector2 operator/(float scalar) const
         {
-            return Vector2(this->x / x, this->y / x);
+            return Vector2(x / scalar, y / scalar);
+        }
+        
+        inline Vector2& operator/=(float scalar)
+        {
+            x /= scalar;
+            y /= scalar;
+            return *this;
         }
 
         /**
@@ -476,19 +462,26 @@ namespace ouzel
         {
             return x!=v.x || y!=v.y;
         }
+        
+        /**
+         * Get the angle in radians between this vector and the x axis
+         *
+         * @return Returns the angle
+         */
+        inline float getAngle() const {
+            return atan2f(y, x);
+        };
     };
 
     /**
      * Calculates the scalar product of the given vector with the given value.
      * 
-     * @param x The value to scale by.
+     * @param scalar The value to scale by.
      * @param v The vector to scale.
      * @return The scaled vector.
      */
-    inline const Vector2 operator*(float x, const Vector2& v)
+    inline const Vector2 operator*(float scalar, const Vector2& v)
     {
-        Vector2 result(v);
-        result.scale(x);
-        return result;
+        return Vector2(v.x * scalar, v.y * scalar);
     }
 }

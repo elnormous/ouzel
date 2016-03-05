@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -38,6 +38,8 @@ namespace ouzel
         
     protected:
         ShaderD3D11();
+
+        void clean();
         bool createPixelShaderConstantBuffer(uint32_t size);
         bool createVertexShaderConstantBuffer(uint32_t size);
 
@@ -48,9 +50,9 @@ namespace ouzel
         ID3D11InputLayout* _inputLayout = nullptr;
 
         ID3D11Buffer* _pixelShaderConstantBuffer = nullptr;
-        uint32_t _pixelShaderConstantBufferSize = 0;
+        std::vector<char> _pixelShaderData;
 
         ID3D11Buffer* _vertexShaderConstantBuffer = nullptr;
-        uint32_t _vertexShaderConstantBufferSize = 0;
+        std::vector<char> _vertexShaderData;
     };
 }

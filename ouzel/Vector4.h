@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
@@ -11,7 +11,13 @@ namespace ouzel
     class Vector4
     {
     public:
-
+        static Vector4 ZERO;
+        static Vector4 ONE;
+        static Vector4 UNIT_X;
+        static Vector4 UNIT_Y;
+        static Vector4 UNIT_Z;
+        static Vector4 UNIT_W;
+        
         /**
          * The x-coordinate.
          */
@@ -87,48 +93,6 @@ namespace ouzel
         ~Vector4();
 
         /**
-         * Returns the zero vector.
-         *
-         * @return The 4-element vector of 0s.
-         */
-        static const Vector4& zero();
-
-        /**
-         * Returns the one vector.
-         *
-         * @return The 4-element vector of 1s.
-         */
-        static const Vector4& one();
-
-        /**
-         * Returns the unit x vector.
-         *
-         * @return The 4-element unit vector along the x axis.
-         */
-        static const Vector4& unitX();
-
-        /**
-         * Returns the unit y vector.
-         *
-         * @return The 4-element unit vector along the y axis.
-         */
-        static const Vector4& unitY();
-
-        /**
-         * Returns the unit z vector.
-         *
-         * @return The 4-element unit vector along the z axis.
-         */
-        static const Vector4& unitZ();
-
-        /**
-         * Returns the unit w vector.
-         *
-         * @return The 4-element unit vector along the w axis.
-         */
-        static const Vector4& unitW();
-
-        /**
          * Indicates whether this vector contains all zeros.
          *
          * @return true if this vector contains all zeros, false otherwise.
@@ -166,7 +130,7 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst A vector to store the result in.
          */
-        static void add(const Vector4& v1, const Vector4& v2, Vector4* dst);
+        static void add(const Vector4& v1, const Vector4& v2, Vector4& dst);
 
         /**
          * Clamps this vector within the specified range.
@@ -184,7 +148,7 @@ namespace ouzel
          * @param max The maximum value.
          * @param dst A vector to store the result in.
          */
-        static void clamp(const Vector4& v, const Vector4& min, const Vector4& max, Vector4* dst);
+        static void clamp(const Vector4& v, const Vector4& min, const Vector4& max, Vector4& dst);
 
         /**
          * Returns the distance between this vector and v.
@@ -282,7 +246,7 @@ namespace ouzel
          *
          * @param dst The destination vector.
          */
-        void normalize(Vector4* dst) const;
+        void normalize(Vector4& dst) const;
 
         /**
          * Scales all elements of this vector by the specified value.
@@ -339,7 +303,7 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst The destination vector.
          */
-        static void subtract(const Vector4& v1, const Vector4& v2, Vector4* dst);
+        static void subtract(const Vector4& v1, const Vector4& v2, Vector4& dst);
 
         /**
          * Calculates the sum of this vector with the given vector.
@@ -447,6 +411,15 @@ namespace ouzel
         inline const Vector4 operator/(float x) const
         {
             return Vector4(this->x / x, this->y / x, this->z / x, this->w / x);
+        }
+        
+        inline Vector4& operator/=(float scalar)
+        {
+            x /= scalar;
+            y /= scalar;
+            z /= scalar;
+            w /= scalar;
+            return *this;
         }
 
         /**

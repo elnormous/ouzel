@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
@@ -14,17 +14,25 @@ namespace ouzel
     
     NodeContainer::~NodeContainer()
     {
-        for (std::shared_ptr<Node> node : _children)
+        for (NodePtr node : _children)
         {
             node->_parent.reset();
             node->_layer.reset();
         }
     }
     
-    bool NodeContainer::addChild(std::shared_ptr<Node> const& node)
+    bool NodeContainer::addChild(const NodePtr& node)
     {
-        if (!hasChild(node) && !node->getParent())
+        if (_locked)
         {
+            _nodeAddList.insert(node);
+            return false;
+        }
+        
+        if (!hasChild(node) && !node->hasParent())
+        {
+            node->_remove = false;
+            node->_parent = shared_from_this();
             _children.push_back(node);
             
             return true;
@@ -35,11 +43,16 @@ namespace ouzel
         }
     }
     
-    bool NodeContainer::removeChild(std::shared_ptr<Node> const& node)
+    bool NodeContainer::removeChild(const NodePtr& node)
     {
-        std::vector<std::shared_ptr<Node>>::iterator i = std::find_if(_children.begin(), _children.end(), [node](std::shared_ptr<Node> const& p) {
-            return p.get() == node.get();
-        });
+        if (_locked)
+        {
+            node->_remove = true;
+            _nodeRemoveList.insert(node);
+            return false;
+        }
+        
+        std::vector<NodePtr>::iterator i = std::find(_children.begin(), _children.end(), node);
         
         if (i != _children.end())
         {
@@ -56,12 +69,55 @@ namespace ouzel
         }
     }
     
-    bool NodeContainer::hasChild(std::shared_ptr<Node> const& node) const
+    void NodeContainer::removeAllChildren()
     {
-        std::vector<std::shared_ptr<Node>>::const_iterator i = std::find_if(_children.begin(), _children.end(), [node](std::shared_ptr<Node> const& p) {
-            return p.get() == node.get();
-        });
+        lock();
+        
+        for (auto& node : _children)
+        {
+            node->removeFromLayer();
+            node->_parent.reset();
+            node->_layer.reset();
+        }
+        
+        _children.clear();
+        
+        unlock();
+    }
+    
+    bool NodeContainer::hasChild(const NodePtr& node) const
+    {
+        std::vector<NodePtr>::const_iterator i = std::find(_children.begin(), _children.end(), node);
         
         return i != _children.end();
+    }
+    
+    void NodeContainer::lock()
+    {
+        ++_locked;
+    }
+    
+    void NodeContainer::unlock()
+    {
+        if (--_locked == 0)
+        {
+            if (!_nodeAddList.empty())
+            {
+                for (const NodePtr& node : _nodeAddList)
+                {
+                    addChild(node);
+                }
+                _nodeAddList.clear();
+            }
+            
+            if (!_nodeRemoveList.empty())
+            {
+                for (const NodePtr& node : _nodeRemoveList)
+                {
+                    removeChild(node);
+                }
+                _nodeRemoveList.clear();
+            }
+        }
     }
 }

@@ -1,10 +1,11 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include "Texture.h"
 #include "Engine.h"
 #include "Renderer.h"
 #include "Image.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -18,30 +19,45 @@ namespace ouzel
 
     }
     
-    bool Texture::initFromFile(const std::string& filename, bool dynamic)
+    bool Texture::init(const Size2& size, bool dynamic, bool mipmaps)
+    {
+        _size = size;
+        _dynamic = dynamic;
+        _mipmaps = mipmaps;
+        
+        return true;
+    }
+    
+    bool Texture::initFromFile(const std::string& filename, bool dynamic, bool mipmaps)
     {
         _filename = filename;
         _dynamic = dynamic;
+        _mipmaps = mipmaps;
 
-        std::shared_ptr<Image> image(new Image());
-        if (!image->loadFromFile(filename))
+        Image image;
+        if (!image.initFromFile(filename))
         {
             return false;
         }
 
-        return initFromData(image->getData(), image->getSize(), dynamic);
+        return initFromData(image.getData(), image.getSize(), dynamic, mipmaps);
     }
 
-    bool Texture::initFromData(const void* data, const Size2& size, bool dynamic)
+    bool Texture::initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
     {
-        _dynamic = dynamic;
+        OUZEL_UNUSED(data);
+        
         _size = size;
+        _dynamic = dynamic;
+        _mipmaps = mipmaps;
 
         return true;
     }
     
     bool Texture::upload(const void* data, const Size2& size)
     {
+        OUZEL_UNUSED(data);
+        
         _size = size;
         
         if (!_dynamic)

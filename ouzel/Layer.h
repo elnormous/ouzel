@@ -1,11 +1,13 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #pragma once
 
-#include <set>
 #include <memory>
+#include <set>
+#include "Types.h"
 #include "NodeContainer.h"
+#include "Size2.h"
 #include "Matrix4.h"
 #include "Vector2.h"
 #include "Rectangle.h"
@@ -15,52 +17,43 @@ namespace ouzel
     class Camera;
     class Scene;
     
-    class Layer: public NodeContainer, public std::enable_shared_from_this<Layer>
+    class Layer: public NodeContainer
     {
         friend Scene;
     public:
+        static std::shared_ptr<Layer> create();
+        
         Layer();
         virtual ~Layer();
         
-        virtual void update(float delta);
+        virtual bool init();
+        
         virtual void draw();
         
-        virtual bool addChild(std::shared_ptr<Node> const& node) override;
-        virtual bool removeChild(std::shared_ptr<Node> const& node) override;
+        virtual bool addChild(const NodePtr& node) override;
         
-        void addNode(std::shared_ptr<Node> const& node);
-        void removeNode(std::shared_ptr<Node> const& node);
-        void reorderNodes();
+        void addToDrawQueue(const NodePtr& node);
         
-        std::shared_ptr<Camera> const& getCamera() const { return _camera; }
-        void setCamera(std::shared_ptr<Camera> const& camera);
+        const CameraPtr& getCamera() const { return _camera; }
+        void setCamera(const CameraPtr& camera);
         
-        std::shared_ptr<Node> pickNode(const Vector2& position);
-        std::set<std::shared_ptr<Node>> pickNodes(const Rectangle& rectangle);
-        
-        Vector2 screenToWorldLocation(const Vector2& position);
-        Vector2 worldToScreenLocation(const Vector2& position);
-        
-        const Matrix4& getProjection() const { return _projection; }
-        virtual void recalculateProjection();
+        NodePtr pickNode(const Vector2& position);
+        std::set<NodePtr> pickNodes(const Rectangle& rectangle);
         
         int32_t getOrder() const { return _order; }
         void setOrder(int32_t order);
         
-        std::shared_ptr<Scene> getScene() const { return _scene.lock(); }
+        ScenePtr getScene() const { return _scene.lock(); }
         
     protected:
-        virtual void addToScene(std::shared_ptr<Scene> const& scene);
+        virtual void addToScene(const ScenePtr& scene);
         virtual void removeFromScene();
         
-        std::shared_ptr<Camera> _camera;
-        std::vector<std::shared_ptr<Node>> _nodes;
-        bool _reorderNodes = false;
+        CameraPtr _camera;
+        std::vector<NodePtr> _drawQueue;
         
-        Matrix4 _projection;
-        Matrix4 _inverseProjection;
-        
-        std::weak_ptr<Scene> _scene;
+        SceneWeakPtr _scene;
         int32_t _order = 0;
+        bool _remove = false;
     };
 }
