@@ -60,13 +60,13 @@ using namespace ouzel;
 -(void)dealloc
 {
     [_displayLink invalidate];
-    [_displayLink dealloc];
+    [_displayLink release];
     
     if ([EAGLContext currentContext] == _context)
     {
         [EAGLContext setCurrentContext:nil];
     }
-    [EAGLContext dealloc];
+    [_context release];
     
     if (_frameBuffer) glDeleteFramebuffers(1, &_frameBuffer);
     _frameBuffer = 0;

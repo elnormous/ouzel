@@ -36,7 +36,7 @@ using namespace ouzel;
         0
     };
     
-    NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
+    NSOpenGLPixelFormat* pixelFormat = [[[NSOpenGLPixelFormat alloc] initWithAttributes:attributes] autorelease];
     
     self = [super initWithFrame:frameRect pixelFormat:pixelFormat];
     if (self != nil)
@@ -49,15 +49,15 @@ using namespace ouzel;
         [self.openGLContext setView:self];
         [self.openGLContext makeCurrentContext];
         
-        NSMenu* mainMenu = [[NSMenu alloc] initWithTitle:@"Main Menu"];
+        NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
         
-        NSMenuItem* mainMenuItem = [[NSMenuItem alloc] initWithTitle:@"Ouzel" action:nil keyEquivalent:@""];
+        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Ouzel" action:nil keyEquivalent:@""] autorelease];
         [mainMenu addItem:mainMenuItem];
         
-        NSMenu* subMenu = [[NSMenu alloc] initWithTitle:@"Ouzel"];
+        NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:@"Ouzel"] autorelease];
         [mainMenuItem setSubmenu:subMenu];
         
-        NSMenuItem* quitItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"];
+        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
         [subMenu addItem:quitItem];
         
         [NSApplication sharedApplication].mainMenu = mainMenu;
@@ -69,6 +69,7 @@ using namespace ouzel;
 -(void)dealloc
 {
     if (_displayLink) CVDisplayLinkRelease(_displayLink);
+    [self.openGLContext release];
     
     [super dealloc];
 }
@@ -133,11 +134,13 @@ using namespace ouzel;
 {
     if ([NSThread isMainThread])
     {
+        [self close];
         [self.window close];
     }
     else
     {
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self close];
             [self.window close];
         });
     }

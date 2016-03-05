@@ -167,6 +167,7 @@ namespace ouzel
     void Engine::end()
     {
         _app.reset();
+        _window->close();
         // remove the active scene
         _sceneManager->setScene(ScenePtr());
         _cache.reset();

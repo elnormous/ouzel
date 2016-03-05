@@ -10,12 +10,9 @@
 typedef NSWindow* NSWindowPtr;
 @class OpenGLView;
 typedef OpenGLView* OpenGLViewPtr;
-@class WindowDelegate;
-typedef WindowDelegate* WindowDelegatePtr;
 #else
 #include <objc/objc.h>
 typedef id NSWindowPtr;
-typedef id WindowDelegatePtr;
 typedef id OpenGLViewPtr;
 #endif
 
@@ -26,6 +23,8 @@ namespace ouzel
         friend Engine;
     public:
         virtual ~WindowOSX();
+        
+        virtual void close();
         
         virtual void setSize(const Size2& size) override;
         virtual void setFullscreen(bool fullscreen) override;
@@ -41,7 +40,6 @@ namespace ouzel
         virtual bool init() override;
         
         NSWindowPtr _window = Nil;
-        WindowDelegatePtr _windowDelegate = Nil;
         OpenGLViewPtr _openGLView = Nil;
     };
 }
