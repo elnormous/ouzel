@@ -14,6 +14,8 @@ namespace ouzel
     public:
         virtual ~WindowWin();
 
+        virtual void close() override;
+
         virtual void setSize(const Size2& size) override;
         virtual void setTitle(const std::string& title) override;
 

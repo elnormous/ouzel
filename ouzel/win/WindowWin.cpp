@@ -474,6 +474,11 @@ namespace ouzel
 
         return Window::init();
     }
+    
+    void WindowWin::close()
+    {
+        SendMessage(_window, WM_CLOSE, 0, 0);
+    }
 
     void WindowWin::setSize(const Size2& size)
     {
