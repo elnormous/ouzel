@@ -23,8 +23,6 @@ namespace ouzel
     const std::string SHADER_COLOR = "shaderColor";
     
     class Engine;
-    class Node;
-    class Sprite;
     class MeshBuffer;
     class Window;
 

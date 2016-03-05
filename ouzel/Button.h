@@ -11,7 +11,6 @@
 
 namespace ouzel
 {
-    class Sprite;
     class EventHandler;
     
 namespace gui
