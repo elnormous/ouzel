@@ -6,7 +6,7 @@
 #include <vector>
 #include "Engine.h"
 
-int main(int argc, const char * argv[])
+int main(int argc, const char* argv[])
 {
     std::vector<std::string> args;
     
@@ -21,7 +21,7 @@ int main(int argc, const char * argv[])
     {
         NSApplication* application = [NSApplication sharedApplication];
         
-        AppDelegate *appDelegate = [[AppDelegate alloc] init];
+        AppDelegate* appDelegate = [[AppDelegate alloc] init];
         [application setDelegate:appDelegate];
         [application run];
     }

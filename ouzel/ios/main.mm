@@ -6,7 +6,7 @@
 #include <vector>
 #include "Engine.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     std::vector<std::string> args;
     
