@@ -94,7 +94,6 @@ namespace ouzel
         _windowDelegate = [[WindowDelegate alloc] initWithWindow: this];
         
         _window.delegate = _windowDelegate;
-        [_window setBackgroundColor:[NSColor blueColor]];
         [_window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
         
         if (_fullscreen)
