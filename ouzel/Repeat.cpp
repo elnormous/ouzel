@@ -5,6 +5,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Repeat::Repeat(const AnimatorPtr& animator, uint32_t count):
         Animator(animator->getLength() * static_cast<float>(count)), _animator(animator), _count(count)
     {
@@ -65,4 +67,5 @@ namespace ouzel
         
         _currentCount = 0;
     }
-}
+} // namespace scene
+} // namespace ouzel

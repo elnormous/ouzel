@@ -6,6 +6,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Rotate::Rotate(float length, float rotation, bool relative):
         Animator(length), _rotation(rotation), _relative(relative)
     {
@@ -34,4 +36,5 @@ namespace ouzel
             node->setRotation(_startRotation + (_diff * _progress));
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

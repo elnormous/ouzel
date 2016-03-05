@@ -13,6 +13,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Node::Node()
     {
         
@@ -450,4 +452,5 @@ namespace ouzel
         _inverseTransform.invert();
         _inverseTransformDirty = false;
     }
-}
+} // namespace scene
+} // namespace ouzel

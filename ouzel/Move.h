@@ -8,6 +8,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class Move: public Animator
     {
     public:
@@ -24,4 +26,5 @@ namespace ouzel
         Vector2 _diff;
         bool _relative;
     };
-}
+} // namespace scene
+} // namespace ouzel

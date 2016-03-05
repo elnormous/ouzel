@@ -6,6 +6,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     SceneManager::SceneManager()
     {
         
@@ -69,4 +71,5 @@ namespace ouzel
             _newScene.reset();
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

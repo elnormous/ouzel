@@ -10,10 +10,9 @@
 
 namespace ouzel
 {
-    class Engine;
+namespace scene
+{
     class SceneManager;
-    class Texture;
-    class Shader;
     
     class Sprite: public Node
     {
@@ -72,4 +71,5 @@ namespace ouzel
         
         UpdateCallbackPtr _updateCallback;
     };
-}
+} // namespace scene
+} // namespace ouzel

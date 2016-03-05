@@ -13,6 +13,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class SceneManager;
 
     class Node: public NodeContainer
@@ -125,4 +127,5 @@ namespace ouzel
         AnimatorPtr _currentAnimator;
         bool _remove = false;
     };
-}
+} // namespace scene
+} // namespace ouzel

@@ -14,6 +14,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class SceneManager;
     
     struct Particle
@@ -111,4 +113,5 @@ namespace ouzel
         
         UpdateCallbackPtr _updateCallback;
     };
-}
+} // namespace scene
+} // namespace ouzel

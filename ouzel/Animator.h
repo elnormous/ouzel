@@ -7,6 +7,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class Animator
     {
     public:
@@ -41,4 +43,5 @@ namespace ouzel
         
         UpdateCallbackPtr _updateCallback;
     };
-}
+} // namespace scene
+} // namespace ouzel

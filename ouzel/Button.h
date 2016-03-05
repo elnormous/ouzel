@@ -40,10 +40,10 @@ namespace gui
         void checkPointer(const Vector2& worldLocation);
         void updateSprite();
         
-        SpritePtr _normalSprite;
-        SpritePtr _selectedSprite;
-        SpritePtr _pressedSprite;
-        SpritePtr _disabledSprite;
+        scene::SpritePtr _normalSprite;
+        scene::SpritePtr _selectedSprite;
+        scene::SpritePtr _pressedSprite;
+        scene::SpritePtr _disabledSprite;
         LabelPtr _label;
         
         std::function<void(const VoidPtr&)> _callback;

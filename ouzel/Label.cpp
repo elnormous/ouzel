@@ -63,7 +63,7 @@ namespace gui
     {
         Widget::draw();
         
-        LayerPtr layer = _layer.lock();
+        scene::LayerPtr layer = _layer.lock();
         
         if (_shader && _texture && layer && _meshBuffer)
         {

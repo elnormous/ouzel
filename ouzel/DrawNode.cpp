@@ -12,6 +12,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     DrawNode::DrawNode()
     {
         _shader = Engine::getInstance()->getCache()->getShader(SHADER_COLOR);
@@ -194,4 +196,5 @@ namespace ouzel
         _boundingBox.insertPoint(Vector2(rectangle.x, rectangle.y));
         _boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
     }
-}
+} // namespace scene
+} // namespace ouzel

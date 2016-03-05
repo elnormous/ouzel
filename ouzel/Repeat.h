@@ -8,6 +8,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class Repeat: public Animator
     {
     public:
@@ -23,4 +25,5 @@ namespace ouzel
         uint32_t _count = 0;
         uint32_t _currentCount = 0;
     };
-}
+} // namespace scene
+} // namespace ouzel

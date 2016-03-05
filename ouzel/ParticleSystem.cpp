@@ -17,6 +17,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     std::shared_ptr<ParticleSystem> ParticleSystem::createFromFile(const std::string& filename)
     {
         std::shared_ptr<ParticleSystem> result = std::make_shared<ParticleSystem>();
@@ -443,4 +445,5 @@ namespace ouzel
             }
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

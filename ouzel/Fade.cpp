@@ -6,6 +6,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Fade::Fade(float length, float rotation, bool relative):
         Animator(length), _opacity(rotation), _relative(relative)
     {
@@ -34,4 +36,5 @@ namespace ouzel
             node->setOpacity(_startOpacity + (_diff * _progress));
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

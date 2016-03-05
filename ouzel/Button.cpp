@@ -53,7 +53,7 @@ namespace gui
         
         if (!normal.empty())
         {
-            _normalSprite = std::make_shared<Sprite>();
+            _normalSprite = std::make_shared<scene::Sprite>();
             if (_normalSprite->initFromFile(normal, false))
             {
                 _boundingBox = _normalSprite->getBoundingBox();
@@ -63,7 +63,7 @@ namespace gui
         
         if (!selected.empty())
         {
-            _selectedSprite = std::make_shared<Sprite>();
+            _selectedSprite = std::make_shared<scene::Sprite>();
             if (_selectedSprite->initFromFile(selected, false))
             {
                 _boundingBox.merge(_selectedSprite->getBoundingBox());
@@ -73,7 +73,7 @@ namespace gui
         
         if (!pressed.empty())
         {
-            _pressedSprite = std::make_shared<Sprite>();
+            _pressedSprite = std::make_shared<scene::Sprite>();
             if (_pressedSprite->initFromFile(pressed, false))
             {
                 _boundingBox.merge(_pressedSprite->getBoundingBox());
@@ -83,7 +83,7 @@ namespace gui
         
         if (!disabled.empty())
         {
-            _disabledSprite = std::make_shared<Sprite>();
+            _disabledSprite = std::make_shared<scene::Sprite>();
             if (_disabledSprite->initFromFile(disabled, false))
             {
                 _boundingBox.merge(_disabledSprite->getBoundingBox());
@@ -153,7 +153,7 @@ namespace gui
             }
             case Event::Type::MOUSE_MOVE:
             {
-                if (LayerPtr layer = _layer.lock())
+                if (scene::LayerPtr layer = _layer.lock())
                 {
                     Vector2 worldLocation = layer->getCamera()->screenToWorldLocation(event->position);
                     checkPointer(worldLocation);
@@ -178,7 +178,7 @@ namespace gui
         {
             case Event::Type::TOUCH_BEGIN:
             {
-                if (LayerPtr layer = _layer.lock())
+                if (scene::LayerPtr layer = _layer.lock())
                 {
                     Vector2 worldLocation = layer->getCamera()->screenToWorldLocation(event->position);
                     checkPointer(worldLocation);
@@ -194,7 +194,7 @@ namespace gui
             }
             case Event::Type::TOUCH_MOVE:
             {
-                if (LayerPtr layer = _layer.lock())
+                if (scene::LayerPtr layer = _layer.lock())
                 {
                     Vector2 worldLocation = layer->getCamera()->screenToWorldLocation(event->position);
                     checkPointer(worldLocation);

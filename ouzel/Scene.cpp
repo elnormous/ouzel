@@ -8,6 +8,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Scene::Scene()
     {
         
@@ -131,4 +133,5 @@ namespace ouzel
             }
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

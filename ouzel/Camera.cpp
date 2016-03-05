@@ -11,6 +11,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Camera::Camera()
     {
         
@@ -166,4 +168,5 @@ namespace ouzel
         _targetContentSize = targetContentSize;
         recalculateProjection();
     }
-}
+} // namespace scene
+} // namespace ouzel

@@ -12,6 +12,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     std::shared_ptr<Layer> Layer::create()
     {
         std::shared_ptr<Layer> result = std::make_shared<Layer>();
@@ -146,4 +148,5 @@ namespace ouzel
     {
         _scene.reset();
     }
-}
+} // namespace scene
+} // namespace ouzel

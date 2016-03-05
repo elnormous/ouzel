@@ -6,6 +6,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Scale::Scale(float length, const Vector2& scale, bool relative):
         Animator(length), _scale(scale), _relative(relative)
     {
@@ -34,4 +36,5 @@ namespace ouzel
             node->setScale(_startScale + (_diff * _progress));
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

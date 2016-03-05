@@ -7,6 +7,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class SceneManager;
     
     class Camera: public Node
@@ -62,4 +64,5 @@ namespace ouzel
         bool _viewProjectionDirty = false;
         mutable Matrix4 _viewProjection;
     };
-}
+} // namespace scene
+} // namespace ouzel

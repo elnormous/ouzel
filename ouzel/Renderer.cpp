@@ -207,7 +207,7 @@ namespace ouzel
         return Vector2(x, y);
     }
     
-    bool Renderer::checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const CameraPtr& camera)
+    bool Renderer::checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const scene::CameraPtr& camera)
     {
         Rectangle visibleRect(0.0f, 0.0f, _size.width, _size.height);
         

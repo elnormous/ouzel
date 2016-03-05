@@ -94,11 +94,11 @@ namespace ouzel
 
     void Cache::preloadParticleDefinition(const std::string& filename)
     {
-        std::unordered_map<std::string, ParticleDefinitionPtr>::const_iterator i = _particleDefinitions.find(filename);
+        std::unordered_map<std::string, scene::ParticleDefinitionPtr>::const_iterator i = _particleDefinitions.find(filename);
 
         if (i == _particleDefinitions.end())
         {
-            ParticleDefinitionPtr result = loadParticleDefinition(filename);
+            scene::ParticleDefinitionPtr result = loadParticleDefinition(filename);
 
             if (result)
             {
@@ -107,11 +107,11 @@ namespace ouzel
         }
     }
 
-    ParticleDefinitionPtr Cache::getParticleDefinition(const std::string& filename) const
+    scene::ParticleDefinitionPtr Cache::getParticleDefinition(const std::string& filename) const
     {
-        ParticleDefinitionPtr result;
+        scene::ParticleDefinitionPtr result;
 
-        std::unordered_map<std::string, ParticleDefinitionPtr>::const_iterator i = _particleDefinitions.find(filename);
+        std::unordered_map<std::string, scene::ParticleDefinitionPtr>::const_iterator i = _particleDefinitions.find(filename);
 
         if (i != _particleDefinitions.end())
         {
@@ -130,9 +130,9 @@ namespace ouzel
         return result;
     }
 
-    ParticleDefinitionPtr Cache::loadParticleDefinition(const std::string& filename) const
+    scene::ParticleDefinitionPtr Cache::loadParticleDefinition(const std::string& filename) const
     {
-        ParticleDefinitionPtr result = std::make_shared<ParticleDefinition>();
+        scene::ParticleDefinitionPtr result = std::make_shared<scene::ParticleDefinition>();
 
         File file(filename, File::Mode::READ, false);
 
@@ -163,8 +163,8 @@ namespace ouzel
 
             switch (emitterType)
             {
-                case 0: result->emitterType = ParticleDefinition::EmitterType::GRAVITY; break;
-                case 1: result->emitterType = ParticleDefinition::EmitterType::RADIUS; break;
+                case 0: result->emitterType = scene::ParticleDefinition::EmitterType::GRAVITY; break;
+                case 1: result->emitterType = scene::ParticleDefinition::EmitterType::RADIUS; break;
             }
         }
 

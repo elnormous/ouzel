@@ -117,7 +117,7 @@ namespace ouzel
         _eventDispatcher.reset(new EventDispatcher());
         _cache.reset(new Cache());
         _fileSystem.reset(new FileSystem());
-        _sceneManager.reset(new SceneManager());
+        _sceneManager.reset(new scene::SceneManager());
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         _input.reset(new InputApple());
@@ -169,7 +169,7 @@ namespace ouzel
         _app.reset();
         _window->close();
         // remove the active scene
-        _sceneManager->setScene(ScenePtr());
+        _sceneManager->setScene(nullptr);
         _cache.reset();
         _renderer.reset();
         _window.reset();

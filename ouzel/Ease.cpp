@@ -7,6 +7,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     static float sineIn(float t)
     {
         return 1.0f - cosf(t * PI_2);
@@ -336,4 +338,5 @@ namespace ouzel
         
         _animator->setProgress(progress);
     }
-}
+} // namespace scene
+} // namespace ouzel

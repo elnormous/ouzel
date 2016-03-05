@@ -7,6 +7,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     NodeContainer::NodeContainer()
     {
         
@@ -120,4 +122,5 @@ namespace ouzel
             }
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

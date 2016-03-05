@@ -5,6 +5,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     struct ParticleDefinition
     {
         enum class EmitterType
@@ -97,4 +99,5 @@ namespace ouzel
         
         std::string textureFilename;
     };
-}
+} // namespace scene
+} // namespace ouzel

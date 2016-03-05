@@ -14,6 +14,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class Camera;
     class Scene;
     
@@ -56,4 +58,5 @@ namespace ouzel
         int32_t _order = 0;
         bool _remove = false;
     };
-}
+} // namespace scene
+} // namespace ouzel

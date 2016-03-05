@@ -11,6 +11,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class DrawNode: public Node
     {
     public:
@@ -37,4 +39,5 @@ namespace ouzel
         
         uint32_t _uniModelViewProj;
     };
-}
+} // namespace scene
+} // namespace ouzel

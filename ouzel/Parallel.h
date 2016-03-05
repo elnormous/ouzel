@@ -9,6 +9,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class Parallel: public Animator
     {
     public:
@@ -22,4 +24,5 @@ namespace ouzel
     protected:
         std::vector<AnimatorPtr> _animators;
     };
-}
+} // namespace scene
+} // namespace ouzel

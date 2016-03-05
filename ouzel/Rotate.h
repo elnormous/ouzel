@@ -7,6 +7,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class Rotate: public Animator
     {
     public:
@@ -23,4 +25,5 @@ namespace ouzel
         float _diff = 0.0f;
         bool _relative;
     };
-}
+} // namespace scene
+} // namespace ouzel

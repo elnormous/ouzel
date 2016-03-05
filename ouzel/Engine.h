@@ -35,7 +35,7 @@ namespace ouzel
         const CachePtr& getCache() const { return _cache; }
         const WindowPtr& getWindow() const { return _window; }
         const RendererPtr& getRenderer() const { return _renderer; }
-        const SceneManagerPtr& getSceneManager() const { return _sceneManager; }
+        const scene::SceneManagerPtr& getSceneManager() const { return _sceneManager; }
         const FileSystemPtr& getFileSystem() const { return _fileSystem; }
         const InputPtr& getInput() const { return _input; }
         
@@ -65,7 +65,7 @@ namespace ouzel
         CachePtr _cache;
         WindowPtr _window;
         RendererPtr _renderer;
-        SceneManagerPtr _sceneManager;
+        scene::SceneManagerPtr _sceneManager;
         FileSystemPtr _fileSystem;
         InputPtr _input;
         

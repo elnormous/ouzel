@@ -46,9 +46,6 @@ namespace ouzel
     class MeshBuffer;
     typedef std::shared_ptr<MeshBuffer> MeshBufferPtr;
     
-    class SceneManager;
-    typedef std::shared_ptr<SceneManager> SceneManagerPtr;
-    
     class FileSystem;
     typedef std::shared_ptr<FileSystem> FileSystemPtr;
     
@@ -74,6 +71,11 @@ namespace ouzel
     struct WindowEvent;
     typedef std::shared_ptr<WindowEvent> WindowEventPtr;
     
+namespace scene
+{
+    class SceneManager;
+    typedef std::shared_ptr<SceneManager> SceneManagerPtr;
+    
     class Scene;
     typedef std::shared_ptr<Scene> ScenePtr;
     typedef std::weak_ptr<Scene> SceneWeakPtr;
@@ -96,10 +98,6 @@ namespace ouzel
     class Camera;
     typedef std::shared_ptr<Camera> CameraPtr;
     
-    class Animator;
-    typedef std::shared_ptr<Animator> AnimatorPtr;
-    typedef std::weak_ptr<Animator> AnimatorWeakPtr;
-    
     struct ParticleDefinition;
     typedef std::shared_ptr<ParticleDefinition> ParticleDefinitionPtr;
     
@@ -108,6 +106,11 @@ namespace ouzel
     
     class DrawNode;
     typedef std::shared_ptr<DrawNode> DrawNodePtr;
+    
+    class Animator;
+    typedef std::shared_ptr<Animator> AnimatorPtr;
+    typedef std::weak_ptr<Animator> AnimatorWeakPtr;
+} // namespace scene
     
 namespace gui
 {

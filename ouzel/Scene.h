@@ -12,6 +12,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class Layer;
     
     class Scene: public Noncopyable, public std::enable_shared_from_this<Scene>
@@ -42,4 +44,5 @@ namespace ouzel
         std::set<LayerPtr> _layerRemoveList;
         int32_t _locked = 0;
     };
-}
+} // namespace scene
+} // namespace ouzel

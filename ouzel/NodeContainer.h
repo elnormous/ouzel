@@ -11,6 +11,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class Layer;
     class Node;
     
@@ -36,4 +38,5 @@ namespace ouzel
         std::set<NodePtr> _nodeRemoveList;
         int32_t _locked = 0;
     };
-}
+} // namespace scene
+} // namespace ouzel

@@ -7,6 +7,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Animator::Animator(float length):
         _length(length)
     {
@@ -83,4 +85,5 @@ namespace ouzel
         _progress = progress;
         _currentTime = _progress * _length;
     }
-}
+} // namespace scene
+} // namespace ouzel

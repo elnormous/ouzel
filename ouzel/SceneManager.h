@@ -12,11 +12,8 @@
 
 namespace ouzel
 {
-    class Engine;
-    class Camera;
-    class Node;
-    class Scene;
-    
+namespace scene
+{
     class SceneManager: public Noncopyable
     {
         friend Engine;
@@ -41,4 +38,5 @@ namespace ouzel
         ScenePtr _newScene;
         int32_t _locked = 0;
     };
-}
+} // namespace scene
+} // namespace ouzel

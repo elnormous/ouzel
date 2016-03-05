@@ -20,6 +20,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     std::shared_ptr<Sprite> Sprite::createFromFile(const std::string& filename, bool mipmaps)
     {
         std::shared_ptr<Sprite> result = std::make_shared<Sprite>();
@@ -353,4 +355,5 @@ namespace ouzel
         _currentFrame = 0;
         _timeSinceLastFrame = 0.0f;
     }
-}
+} // namespace scene
+} // namespace ouzel

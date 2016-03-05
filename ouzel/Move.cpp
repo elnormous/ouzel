@@ -6,6 +6,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Move::Move(float length, const Vector2& position, bool relative):
         Animator(length), _position(position), _relative(relative)
     {
@@ -34,4 +36,5 @@ namespace ouzel
             node->setPosition(_startPosition + (_diff * _progress));
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

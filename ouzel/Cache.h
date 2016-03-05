@@ -25,15 +25,15 @@ namespace ouzel
         void setShader(const std::string& shaderName, const ShaderPtr& shader);
         
         void preloadParticleDefinition(const std::string& filename);
-        ParticleDefinitionPtr getParticleDefinition(const std::string& filename) const;
+        scene::ParticleDefinitionPtr getParticleDefinition(const std::string& filename) const;
         
     protected:
         Cache();
         
-        ParticleDefinitionPtr loadParticleDefinition(const std::string& filename) const;
+        scene::ParticleDefinitionPtr loadParticleDefinition(const std::string& filename) const;
         
         mutable std::unordered_map<std::string, TexturePtr> _textures;
         mutable std::unordered_map<std::string, ShaderPtr> _shaders;
-        mutable std::unordered_map<std::string, ParticleDefinitionPtr> _particleDefinitions;
+        mutable std::unordered_map<std::string, scene::ParticleDefinitionPtr> _particleDefinitions;
     };
 }

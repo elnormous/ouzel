@@ -5,6 +5,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Parallel::Parallel(const std::vector<AnimatorPtr>& animators):
         Animator(0.0f), _animators(animators)
     {
@@ -55,4 +57,5 @@ namespace ouzel
             }
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

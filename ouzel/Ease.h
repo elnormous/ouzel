@@ -8,6 +8,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     class Ease: public Animator
     {
     public:
@@ -44,4 +46,5 @@ namespace ouzel
         Type _type;
         Func _func;
     };
-}
+} // namespace scene
+} // namespace ouzel

@@ -6,6 +6,8 @@
 
 namespace ouzel
 {
+namespace scene
+{
     Sequence::Sequence(const std::vector<AnimatorPtr>& animators):
         Animator(std::accumulate(animators.begin(), animators.end(), 0.0f, [](float a, const AnimatorPtr& b) { return a + b->getLength(); })), _animators(animators)
     {
@@ -58,4 +60,5 @@ namespace ouzel
             time += animator->getLength();
         }
     }
-}
+} // namespace scene
+} // namespace ouzel

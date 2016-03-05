@@ -9,7 +9,7 @@ namespace ouzel
 {
 namespace gui
 {
-    class Widget: public Node
+    class Widget: public scene::Node
     {
     public:
         virtual void setEnabled(bool enabled);
