@@ -7,6 +7,8 @@
 
 namespace ouzel
 {
+namespace gui
+{
     class Widget: public Node
     {
     public:
@@ -16,4 +18,5 @@ namespace ouzel
     protected:
         bool _enabled = true;
     };
-}
+} // namespace gui
+} // namespace ouzel

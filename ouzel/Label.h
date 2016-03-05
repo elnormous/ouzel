@@ -13,6 +13,8 @@ namespace ouzel
     class MeshBuffer;
     class Shader;
     
+namespace gui
+{
     class Label: public Widget
     {
     public:
@@ -45,4 +47,5 @@ namespace ouzel
         
         Color _color = Color(255, 255, 255, 255);
     };
-}
+} // namespace gui
+} // namespace ouzel

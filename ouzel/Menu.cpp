@@ -5,5 +5,8 @@
 
 namespace ouzel
 {
+namespace gui
+{
     
-}
+} // namespace gui
+} // namespace ouzel

@@ -14,6 +14,8 @@
 
 namespace ouzel
 {
+namespace gui
+{
     std::shared_ptr<Button> Button::create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
                                            const std::string& label, const Color& labelColor, const std::string& font,
                                            const std::function<void(const VoidPtr&)>& callback)
@@ -269,4 +271,5 @@ namespace ouzel
             _disabledSprite->setVisible(true);
         }
     }
-}
+} // namespace gui
+} // namespace ouzel

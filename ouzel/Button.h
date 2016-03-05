@@ -14,6 +14,8 @@ namespace ouzel
     class Sprite;
     class EventHandler;
     
+namespace gui
+{
     class Button: public Widget
     {
     public:
@@ -52,4 +54,5 @@ namespace ouzel
         bool _pointerOver = false;
         bool _pressed = false;
     };
-}
+} // namespace gui
+} // namespace ouzel

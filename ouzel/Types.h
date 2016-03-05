@@ -96,6 +96,10 @@ namespace ouzel
     class Camera;
     typedef std::shared_ptr<Camera> CameraPtr;
     
+    class Animator;
+    typedef std::shared_ptr<Animator> AnimatorPtr;
+    typedef std::weak_ptr<Animator> AnimatorWeakPtr;
+    
     struct ParticleDefinition;
     typedef std::shared_ptr<ParticleDefinition> ParticleDefinitionPtr;
     
@@ -105,6 +109,8 @@ namespace ouzel
     class DrawNode;
     typedef std::shared_ptr<DrawNode> DrawNodePtr;
     
+namespace gui
+{
     class Widget;
     typedef std::shared_ptr<Widget> WidgetPtr;
     
@@ -116,8 +122,5 @@ namespace ouzel
     
     class Button;
     typedef std::shared_ptr<Button> ButtonPtr;
-    
-    class Animator;
-    typedef std::shared_ptr<Animator> AnimatorPtr;
-    typedef std::weak_ptr<Animator> AnimatorWeakPtr;
-}
+} // namespace gui
+} // namespace ouzel
