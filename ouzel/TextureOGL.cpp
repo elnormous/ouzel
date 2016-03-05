@@ -126,29 +126,45 @@ namespace ouzel
         if (_mipmaps)
 #endif
         {
-            GLsizei mipWidth = width / 2;
-            GLsizei mipHeight = height / 2;
+            GLsizei oldMipWidth = width;
+            GLsizei oldMipHeight = height;
+            
+            GLsizei mipWidth = width >> 1;
+            GLsizei mipHeight = height >> 1;
             GLint mipLevel = 1;
             
-            std::unique_ptr<uint8_t[]> mipMapData(new uint8_t[width * height * 4]);
+            uint8_t* oldMipMapData = new uint8_t[width * height * 4];
+            memcpy(oldMipMapData, data, width * height * 4);
+            
+            uint8_t* newMipMapData = new uint8_t[mipWidth * mipHeight * 4];
             
             while (mipWidth >= 1 || mipHeight >= 1)
             {
                 if (mipWidth < 1) mipWidth = 1;
                 if (mipHeight < 1) mipHeight = 1;
                 
-                stbir_resize_uint8_generic(static_cast<const uint8_t*>(data), width, height, 0,
-                                           mipMapData.get(), mipWidth, mipHeight, 0, 4,
+                stbir_resize_uint8_generic(oldMipMapData, oldMipWidth, oldMipHeight, 0,
+                                           newMipMapData, mipWidth, mipHeight, 0, 4,
                                            3, 0, STBIR_EDGE_CLAMP,
-                                           STBIR_FILTER_MITCHELL, STBIR_COLORSPACE_LINEAR, nullptr);
+                                           STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
                 
                 glTexImage2D(GL_TEXTURE_2D, mipLevel, GL_RGBA, mipWidth, mipHeight,
-                             0, GL_RGBA, GL_UNSIGNED_BYTE, mipMapData.get());
+                             0, GL_RGBA, GL_UNSIGNED_BYTE, newMipMapData);
                 
-                mipWidth /= 2;
-                mipHeight /= 2;
+                oldMipWidth = mipWidth;
+                oldMipHeight = mipHeight;
+                
+                mipWidth >>= 1;
+                mipHeight >>= 1;
                 mipLevel++;
+                
+                uint8_t* temp = oldMipMapData;
+                oldMipMapData = newMipMapData;
+                newMipMapData = temp;
             }
+            
+            delete [] oldMipMapData;
+            delete [] newMipMapData;
             
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
         }

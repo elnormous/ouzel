@@ -147,30 +147,46 @@ namespace ouzel
 
         if (_mipmaps)
         {
-            UINT mipWidth = width / 2;
-            UINT mipHeight = height / 2;
+            UINT oldMipWidth = width;
+            UINT oldMipHeight = height;
+            
+            UINT mipWidth = width >> 1;
+            UINT mipHeight = height >> 1;
             UINT mipLevel = 1;
             UINT mipRowPitch = mipWidth * 4;
 
-            std::unique_ptr<uint8_t[]> mipMapData(new uint8_t[width * height * 4]);
+            uint8_t* oldMipMapData = new uint8_t[width * height * 4];
+            memcpy(oldMipMapData, data, width * height * 4);
+
+            uint8_t* newMipMapData = new uint8_t[mipWidth * mipHeight * 4];
 
             while (mipWidth >= 1 || mipHeight >= 1)
             {
                 if (mipWidth < 1) mipWidth = 1;
                 if (mipHeight < 1) mipHeight = 1;
             
-                stbir_resize_uint8_generic(static_cast<const uint8_t*>(data), width, height, 0,
-                                           mipMapData.get(), mipWidth, mipHeight, 0, 4,
+                stbir_resize_uint8_generic(oldMipMapData, oldMipWidth, oldMipHeight, 0,
+                                           newMipMapData, mipWidth, mipHeight, 0, 4,
                                            3, 0, STBIR_EDGE_CLAMP,
-                                           STBIR_FILTER_MITCHELL, STBIR_COLORSPACE_LINEAR, nullptr);
+                                           STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
 
-                rendererD3D11->getContext()->UpdateSubresource(_texture, mipLevel, nullptr, mipMapData.get(), mipRowPitch, 0);
+                rendererD3D11->getContext()->UpdateSubresource(_texture, mipLevel, nullptr, newMipMapData, mipRowPitch, 0);
 
-                mipWidth /= 2;
-                mipHeight /= 2;
+                oldMipWidth = mipWidth;
+                oldMipHeight = mipHeight;
+
+                mipWidth >>= 2;
+                mipHeight >>= 2;
                 mipLevel++;
                 mipRowPitch = mipWidth * 4;
+                
+                uint8_t* temp = oldMipMapData;
+                oldMipMapData = newMipMapData;
+                newMipMapData = temp;
             }
+
+            delete [] oldMipMapData;
+            delete [] newMipMapData;
 
             _mipLevels = mipLevel;
         }
