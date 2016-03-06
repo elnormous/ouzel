@@ -21,43 +21,43 @@
       <Filter>gui</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Color.cpp">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Image.cpp">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\MeshBuffer.cpp">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Renderer.cpp">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\RenderTarget.cpp">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Shader.cpp">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Texture.cpp">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Vertex.cpp">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\MeshBufferD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\RendererD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\RenderTargetD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\ShaderD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\TextureD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Gamepad.cpp">
       <Filter>input</Filter>
@@ -211,55 +211,55 @@
       <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Color.h">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Image.h">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\MeshBuffer.h">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Renderer.h">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\RenderTarget.h">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Shader.h">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Texture.h">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Vertex.h">
-      <Filter>graphics</Filter>
+      <Filter>video</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\MeshBufferD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\RenderTargetD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\RendererD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\ShaderD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\TextureD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\TexturePSD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\TextureVSD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\ColorPSD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\ColorVSD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
+      <Filter>video\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Gamepad.h">
       <Filter>input</Filter>
@@ -392,14 +392,8 @@
     <Filter Include="files">
       <UniqueIdentifier>{7a193010-0937-41df-8646-3985b49c9ad0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="graphics">
-      <UniqueIdentifier>{0877872b-c7d8-414e-a082-3147a5d62586}</UniqueIdentifier>
-    </Filter>
     <Filter Include="gui">
       <UniqueIdentifier>{eeba243b-569c-47ca-8bee-934ddfe7623a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="graphics\direct3d11">
-      <UniqueIdentifier>{423e908c-7ccf-496a-bbee-22b3ab9c5b14}</UniqueIdentifier>
     </Filter>
     <Filter Include="input">
       <UniqueIdentifier>{ff9cfd6e-7ace-4eee-b658-c01b8916acec}</UniqueIdentifier>
@@ -415,6 +409,12 @@
     </Filter>
     <Filter Include="animators">
       <UniqueIdentifier>{a9680758-dcaa-488a-949b-ca09c57945a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="video">
+      <UniqueIdentifier>{0877872b-c7d8-414e-a082-3147a5d62586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="video\direct3d11">
+      <UniqueIdentifier>{423e908c-7ccf-496a-bbee-22b3ab9c5b14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
