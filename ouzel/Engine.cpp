@@ -120,11 +120,11 @@ namespace ouzel
         _sceneManager.reset(new scene::SceneManager());
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        _input.reset(new InputApple());
+        _input.reset(new input::InputApple());
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-        _input.reset(new InputWin());
+        _input.reset(new input::InputWin());
 #else
-        _input.reset(new Input());
+        _input.reset(new input::Input());
 #endif
 
         switch (settings.driver)

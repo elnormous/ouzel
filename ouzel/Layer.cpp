@@ -12,141 +12,141 @@
 
 namespace ouzel
 {
-namespace scene
-{
-    std::shared_ptr<Layer> Layer::create()
+    namespace scene
     {
-        std::shared_ptr<Layer> result = std::make_shared<Layer>();
-        
-        if (!result->init())
+        std::shared_ptr<Layer> Layer::create()
         {
-            result.reset();
-        }
-        
-        return result;
-    }
-    
-    Layer::Layer()
-    {
-        
-    }
-    
-    Layer::~Layer()
-    {
-        
-    }
-    
-    bool Layer::init()
-    {
-        _camera = std::make_shared<Camera>();
-        _camera->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
-        
-        return true;
-    }
-    
-    void Layer::draw()
-    {
-        _drawQueue.clear();
-        
-        // render only if there is an active camera
-        if (_camera)
-        {
-            lock();
+            std::shared_ptr<Layer> result = std::make_shared<Layer>();
             
-            for (const NodePtr child : _children)
+            if (!result->init())
             {
-                child->visit(Matrix4::IDENTITY, false);
+                result.reset();
             }
             
-            std::stable_sort(_drawQueue.begin(), _drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {
-                return a->getZ() > b->getZ();
-            });
-            
-            for (const NodePtr& node : _drawQueue)
-            {
-                node->process();
-            }
-            
-            unlock();
+            return result;
         }
-    }
-    
-    bool Layer::addChild(const NodePtr& node)
-    {
-        if (NodeContainer::addChild(node))
+        
+        Layer::Layer()
         {
-            node->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
             
-            node->updateTransform(Matrix4::IDENTITY);
+        }
+        
+        Layer::~Layer()
+        {
+            
+        }
+        
+        bool Layer::init()
+        {
+            _camera = std::make_shared<Camera>();
+            _camera->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
             
             return true;
         }
-        else
+        
+        void Layer::draw()
         {
-            return false;
-        }
-    }
-    
-    void Layer::addToDrawQueue(const NodePtr& node)
-    {
-        _drawQueue.push_back(node);
-    }
-    
-    void Layer::setCamera(const CameraPtr& camera)
-    {
-        _camera = camera;
-    }
-    
-    NodePtr Layer::pickNode(const Vector2& position)
-    {
-        for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
-        {
-            NodePtr node = *i;
+            _drawQueue.clear();
             
-            if (node->isPickable() && node->pointOn(position))
+            // render only if there is an active camera
+            if (_camera)
             {
-                return node;
+                lock();
+                
+                for (const NodePtr child : _children)
+                {
+                    child->visit(Matrix4::IDENTITY, false);
+                }
+                
+                std::stable_sort(_drawQueue.begin(), _drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {
+                    return a->getZ() > b->getZ();
+                });
+                
+                for (const NodePtr& node : _drawQueue)
+                {
+                    node->process();
+                }
+                
+                unlock();
             }
         }
         
-        return nullptr;
-    }
-    
-    std::set<NodePtr> Layer::pickNodes(const Rectangle& rectangle)
-    {
-        std::set<NodePtr> result;
-        
-        for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
+        bool Layer::addChild(const NodePtr& node)
         {
-            NodePtr node = *i;
-            
-            if (node->isPickable() && node->rectangleOverlaps(rectangle))
+            if (NodeContainer::addChild(node))
             {
-                result.insert(node);
+                node->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
+                
+                node->updateTransform(Matrix4::IDENTITY);
+                
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         
-        return result;
-    }
-    
-    void Layer::setOrder(int32_t order)
-    {
-        _order = order;
-        
-        if (ScenePtr scene = _scene.lock())
+        void Layer::addToDrawQueue(const NodePtr& node)
         {
-            scene->reorderLayers();
+            _drawQueue.push_back(node);
         }
-    }
-    
-    void Layer::addToScene(const ScenePtr& scene)
-    {
-        _scene = scene;
-    }
-    
-    void Layer::removeFromScene()
-    {
-        _scene.reset();
-    }
-} // namespace scene
+        
+        void Layer::setCamera(const CameraPtr& camera)
+        {
+            _camera = camera;
+        }
+        
+        NodePtr Layer::pickNode(const Vector2& position)
+        {
+            for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
+            {
+                NodePtr node = *i;
+                
+                if (node->isPickable() && node->pointOn(position))
+                {
+                    return node;
+                }
+            }
+            
+            return nullptr;
+        }
+        
+        std::set<NodePtr> Layer::pickNodes(const Rectangle& rectangle)
+        {
+            std::set<NodePtr> result;
+            
+            for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
+            {
+                NodePtr node = *i;
+                
+                if (node->isPickable() && node->rectangleOverlaps(rectangle))
+                {
+                    result.insert(node);
+                }
+            }
+            
+            return result;
+        }
+        
+        void Layer::setOrder(int32_t order)
+        {
+            _order = order;
+            
+            if (ScenePtr scene = _scene.lock())
+            {
+                scene->reorderLayers();
+            }
+        }
+        
+        void Layer::addToScene(const ScenePtr& scene)
+        {
+            _scene = scene;
+        }
+        
+        void Layer::removeFromScene()
+        {
+            _scene.reset();
+        }
+    } // namespace scene
 } // namespace ouzel

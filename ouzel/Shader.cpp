@@ -10,133 +10,133 @@
 
 namespace ouzel
 {
-namespace video
-{
-    Shader::Shader()
+    namespace video
     {
-        
-    }
-
-    Shader::~Shader()
-    {
-
-    }
-    
-    bool Shader::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
-    {
-        _fragmentShaderFilename = fragmentShader;
-        _vertexShaderFilename = vertexShader;
-        
-        std::ifstream fragmentShaderFile(Engine::getInstance()->getFileSystem()->getPath(fragmentShader));
-        
-        if (!fragmentShaderFile)
+        Shader::Shader()
         {
-            log("Failed to open fragment shader file %s", fragmentShader.c_str());
-            return false;
+            
+        }
+
+        Shader::~Shader()
+        {
+
         }
         
-        fragmentShaderFile.seekg(0, std::ios::end);
-        size_t fragmentShaderSize = static_cast<size_t>(fragmentShaderFile.tellg());
-        fragmentShaderFile.seekg(0, std::ios::beg);
-        
-        std::vector<char> fragmentShaderBuffer(fragmentShaderSize);
-        
-        fragmentShaderFile.read(fragmentShaderBuffer.data(), fragmentShaderSize);
-        
-        std::ifstream vertexShaderFile(Engine::getInstance()->getFileSystem()->getPath(vertexShader));
-        
-        if (!vertexShaderFile)
+        bool Shader::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
         {
-            log("Failed to open vertex shader file %s", fragmentShader.c_str());
-            return false;
+            _fragmentShaderFilename = fragmentShader;
+            _vertexShaderFilename = vertexShader;
+            
+            std::ifstream fragmentShaderFile(Engine::getInstance()->getFileSystem()->getPath(fragmentShader));
+            
+            if (!fragmentShaderFile)
+            {
+                log("Failed to open fragment shader file %s", fragmentShader.c_str());
+                return false;
+            }
+            
+            fragmentShaderFile.seekg(0, std::ios::end);
+            size_t fragmentShaderSize = static_cast<size_t>(fragmentShaderFile.tellg());
+            fragmentShaderFile.seekg(0, std::ios::beg);
+            
+            std::vector<char> fragmentShaderBuffer(fragmentShaderSize);
+            
+            fragmentShaderFile.read(fragmentShaderBuffer.data(), fragmentShaderSize);
+            
+            std::ifstream vertexShaderFile(Engine::getInstance()->getFileSystem()->getPath(vertexShader));
+            
+            if (!vertexShaderFile)
+            {
+                log("Failed to open vertex shader file %s", fragmentShader.c_str());
+                return false;
+            }
+            
+            std::string vertexShaderCode;
+            
+            vertexShaderFile.seekg(0, std::ios::end);
+            size_t vertexShaderSize = static_cast<size_t>(vertexShaderFile.tellg());
+            vertexShaderFile.seekg(0, std::ios::beg);
+            
+            std::vector<char> vertexShaderBuffer(vertexShaderSize);
+            
+            vertexShaderFile.read(vertexShaderBuffer.data(), vertexShaderSize);
+            
+            return initFromBuffers(reinterpret_cast<const uint8_t*>(fragmentShaderBuffer.data()), static_cast<int32_t>(fragmentShaderSize),
+                                   reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<int32_t>(vertexShaderSize), vertexAttributes);
         }
         
-        std::string vertexShaderCode;
+        bool Shader::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+        {
+            OUZEL_UNUSED(fragmentShader);
+            OUZEL_UNUSED(fragmentShaderSize);
+            OUZEL_UNUSED(vertexShader);
+            OUZEL_UNUSED(vertexShaderSize);
+            
+            _vertexAttributes = vertexAttributes;
+            
+            return  true;
+        }
         
-        vertexShaderFile.seekg(0, std::ios::end);
-        size_t vertexShaderSize = static_cast<size_t>(vertexShaderFile.tellg());
-        vertexShaderFile.seekg(0, std::ios::beg);
+        uint32_t Shader::getPixelShaderConstantId(const std::string& name)
+        {
+            OUZEL_UNUSED(name);
+            
+            return 0;
+        }
         
-        std::vector<char> vertexShaderBuffer(vertexShaderSize);
+        bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
+        {
+            OUZEL_UNUSED(index);
+            OUZEL_UNUSED(vectors);
+            
+            return true;
+        }
         
-        vertexShaderFile.read(vertexShaderBuffer.data(), vertexShaderSize);
+        bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
+        {
+            OUZEL_UNUSED(index);
+            OUZEL_UNUSED(vectors);
+            
+            return true;
+        }
         
-        return initFromBuffers(reinterpret_cast<const uint8_t*>(fragmentShaderBuffer.data()), static_cast<int32_t>(fragmentShaderSize),
-                               reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<int32_t>(vertexShaderSize), vertexAttributes);
-    }
-    
-    bool Shader::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
-    {
-        OUZEL_UNUSED(fragmentShader);
-        OUZEL_UNUSED(fragmentShaderSize);
-        OUZEL_UNUSED(vertexShader);
-        OUZEL_UNUSED(vertexShaderSize);
+        bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
+        {
+            OUZEL_UNUSED(index);
+            OUZEL_UNUSED(matrices);
+            
+            return true;
+        }
         
-        _vertexAttributes = vertexAttributes;
+        uint32_t Shader::getVertexShaderConstantId(const std::string& name)
+        {
+            OUZEL_UNUSED(name);
+            
+            return 0;
+        }
         
-        return  true;
-    }
-    
-    uint32_t Shader::getPixelShaderConstantId(const std::string& name)
-    {
-        OUZEL_UNUSED(name);
+        bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
+        {
+            OUZEL_UNUSED(index);
+            OUZEL_UNUSED(vectors);
+            
+            return true;
+        }
         
-        return 0;
-    }
-    
-    bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
-    {
-        OUZEL_UNUSED(index);
-        OUZEL_UNUSED(vectors);
+        bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
+        {
+            OUZEL_UNUSED(index);
+            OUZEL_UNUSED(vectors);
+            
+            return true;
+        }
         
-        return true;
-    }
-    
-    bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
-    {
-        OUZEL_UNUSED(index);
-        OUZEL_UNUSED(vectors);
-        
-        return true;
-    }
-    
-    bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
-    {
-        OUZEL_UNUSED(index);
-        OUZEL_UNUSED(matrices);
-        
-        return true;
-    }
-    
-    uint32_t Shader::getVertexShaderConstantId(const std::string& name)
-    {
-        OUZEL_UNUSED(name);
-        
-        return 0;
-    }
-    
-    bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
-    {
-        OUZEL_UNUSED(index);
-        OUZEL_UNUSED(vectors);
-        
-        return true;
-    }
-    
-    bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
-    {
-        OUZEL_UNUSED(index);
-        OUZEL_UNUSED(vectors);
-        
-        return true;
-    }
-    
-    bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
-    {
-        OUZEL_UNUSED(index);
-        OUZEL_UNUSED(matrices);
-        
-        return true;
-    }
-} // namespace video
+        bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
+        {
+            OUZEL_UNUSED(index);
+            OUZEL_UNUSED(matrices);
+            
+            return true;
+        }
+    } // namespace video
 } // namespace ouzel

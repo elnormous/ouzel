@@ -7,16 +7,16 @@
 
 namespace ouzel
 {
-namespace gui
-{
-    class Widget: public scene::Node
+    namespace gui
     {
-    public:
-        virtual void setEnabled(bool enabled);
-        bool isEnabled() const { return _enabled; }
-        
-    protected:
-        bool _enabled = true;
-    };
-} // namespace gui
+        class Widget: public scene::Node
+        {
+        public:
+            virtual void setEnabled(bool enabled);
+            bool isEnabled() const { return _enabled; }
+            
+        protected:
+            bool _enabled = true;
+        };
+    } // namespace gui
 } // namespace ouzel

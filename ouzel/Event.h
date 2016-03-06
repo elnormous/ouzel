@@ -54,12 +54,12 @@ namespace ouzel
     
     struct KeyboardEvent: public Event
     {
-        KeyboardKey key = KeyboardKey::NONE;
+        input::KeyboardKey key = input::KeyboardKey::NONE;
     };
     
     struct MouseEvent: public Event
     {
-        MouseButton button = MouseButton::NONE;
+        input::MouseButton button = input::MouseButton::NONE;
         Vector2 position;
         Vector2 scroll;
     };
@@ -70,12 +70,10 @@ namespace ouzel
         Vector2 position;
     };
     
-    class Gamepad;
-    
     struct GamepadEvent: public Event
     {
-        GamepadPtr gamepad;
-        GamepadButton button = GamepadButton::NONE;
+        input::GamepadPtr gamepad;
+        input::GamepadButton button = input::GamepadButton::NONE;
         bool pressed = false;
         float value = 0.0f;
     };

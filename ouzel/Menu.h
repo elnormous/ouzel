@@ -7,12 +7,12 @@
 
 namespace ouzel
 {
-namespace gui
-{
-    class Menu: public Widget
+    namespace gui
     {
-    public:
-        
-    };
-} // namespace gui
+        class Menu: public Widget
+        {
+        public:
+            
+        };
+    } // namespace gui
 } // namespace ouzel

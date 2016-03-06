@@ -6,35 +6,35 @@
 
 namespace ouzel
 {
-namespace scene
-{
-    Move::Move(float length, const Vector2& position, bool relative):
-        Animator(length), _position(position), _relative(relative)
+    namespace scene
     {
-        
-    }
-    
-    void Move::start(const NodePtr& node)
-    {
-        Animator::start(node);
-        
-        if (node)
+        Move::Move(float length, const Vector2& position, bool relative):
+            Animator(length), _position(position), _relative(relative)
         {
-            _startPosition = node->getPosition();
-            _targetPosition = _relative ? _startPosition + _position : _position;
             
-            _diff = _targetPosition - _startPosition;
         }
-    }
-    
-    void Move::setProgress(float progress)
-    {
-        Animator::setProgress(progress);
         
-        if (NodePtr node = _node.lock())
+        void Move::start(const NodePtr& node)
         {
-            node->setPosition(_startPosition + (_diff * _progress));
+            Animator::start(node);
+            
+            if (node)
+            {
+                _startPosition = node->getPosition();
+                _targetPosition = _relative ? _startPosition + _position : _position;
+                
+                _diff = _targetPosition - _startPosition;
+            }
         }
-    }
-} // namespace scene
+        
+        void Move::setProgress(float progress)
+        {
+            Animator::setProgress(progress);
+            
+            if (NodePtr node = _node.lock())
+            {
+                node->setPosition(_startPosition + (_diff * _progress));
+            }
+        }
+    } // namespace scene
 } // namespace ouzel

@@ -9,20 +9,20 @@
 
 namespace ouzel
 {
-namespace scene
-{
-    class Parallel: public Animator
+    namespace scene
     {
-    public:
-        Parallel(const std::vector<AnimatorPtr>& animators);
-        
-        virtual void start(const NodePtr& node) override;
-        virtual void reset() override;
-        
-        virtual void setProgress(float progress) override;
-        
-    protected:
-        std::vector<AnimatorPtr> _animators;
-    };
-} // namespace scene
+        class Parallel: public Animator
+        {
+        public:
+            Parallel(const std::vector<AnimatorPtr>& animators);
+            
+            virtual void start(const NodePtr& node) override;
+            virtual void reset() override;
+            
+            virtual void setProgress(float progress) override;
+            
+        protected:
+            std::vector<AnimatorPtr> _animators;
+        };
+    } // namespace scene
 } // namespace ouzel

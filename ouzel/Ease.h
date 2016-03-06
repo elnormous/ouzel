@@ -8,43 +8,43 @@
 
 namespace ouzel
 {
-namespace scene
-{
-    class Ease: public Animator
+    namespace scene
     {
-    public:
-        enum class Type
+        class Ease: public Animator
         {
-            IN,
-            OUT,
-            INOUT
+        public:
+            enum class Type
+            {
+                IN,
+                OUT,
+                INOUT
+            };
+            
+            enum class Func
+            {
+                SINE,
+                QUAD,
+                CUBIC,
+                QUART,
+                QUINT,
+                EXPO,
+                CIRC,
+                BACK,
+                ELASTIC,
+                BOUNCE
+            };
+            
+            Ease(const AnimatorPtr& animator, Type type, Func func);
+            
+            virtual void start(const NodePtr& node) override;
+            virtual void reset() override;
+            
+            virtual void setProgress(float progress) override;
+            
+        protected:
+            AnimatorPtr _animator;
+            Type _type;
+            Func _func;
         };
-        
-        enum class Func
-        {
-            SINE,
-            QUAD,
-            CUBIC,
-            QUART,
-            QUINT,
-            EXPO,
-            CIRC,
-            BACK,
-            ELASTIC,
-            BOUNCE
-        };
-        
-        Ease(const AnimatorPtr& animator, Type type, Func func);
-        
-        virtual void start(const NodePtr& node) override;
-        virtual void reset() override;
-        
-        virtual void setProgress(float progress) override;
-        
-    protected:
-        AnimatorPtr _animator;
-        Type _type;
-        Func _func;
-    };
-} // namespace scene
+    } // namespace scene
 } // namespace ouzel

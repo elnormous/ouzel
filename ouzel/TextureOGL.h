@@ -32,33 +32,33 @@
 
 namespace ouzel
 {
-namespace video
-{
-    class RendererOGL;
-    class RenderTargetOGL;
-
-    class TextureOGL: public Texture
+    namespace video
     {
-        friend RendererOGL;
-        friend RenderTargetOGL;
-    public:
-        virtual ~TextureOGL();
+        class RendererOGL;
+        class RenderTargetOGL;
 
-        virtual bool init(const Size2& size, bool dynamic, bool mipmaps = true) override;
-        virtual bool initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
+        class TextureOGL: public Texture
+        {
+            friend RendererOGL;
+            friend RenderTargetOGL;
+        public:
+            virtual ~TextureOGL();
 
-        virtual bool upload(const void* data, const Size2& size) override;
+            virtual bool init(const Size2& size, bool dynamic, bool mipmaps = true) override;
+            virtual bool initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
 
-        GLuint getTextureId() const { return _textureId; }
+            virtual bool upload(const void* data, const Size2& size) override;
 
-    protected:
-        TextureOGL();
+            GLuint getTextureId() const { return _textureId; }
 
-        void clean();
+        protected:
+            TextureOGL();
 
-        bool uploadData(const void* data, GLsizei width, GLsizei height);
+            void clean();
 
-        GLuint _textureId = 0;
-    };
-} // namespace video
+            bool uploadData(const void* data, GLsizei width, GLsizei height);
+
+            GLuint _textureId = 0;
+        };
+    } // namespace video
 } // namespace ouzel

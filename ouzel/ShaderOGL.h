@@ -32,40 +32,40 @@
 
 namespace ouzel
 {
-namespace video
-{
-    class RendererOGL;
-
-    class ShaderOGL: public Shader
+    namespace video
     {
-        friend RendererOGL;
-    public:
-        virtual ~ShaderOGL();
+        class RendererOGL;
 
-        virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
+        class ShaderOGL: public Shader
+        {
+            friend RendererOGL;
+        public:
+            virtual ~ShaderOGL();
 
-        GLuint getProgramId() const { return _programId; }
+            virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
 
-        virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
-        virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
-        virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
-        virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
+            GLuint getProgramId() const { return _programId; }
 
-        virtual uint32_t getVertexShaderConstantId(const std::string& name) override;
-        virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
-        virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
-        virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
+            virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
+            virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
+            virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
+            virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
 
-    protected:
-        ShaderOGL();
+            virtual uint32_t getVertexShaderConstantId(const std::string& name) override;
+            virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
+            virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
+            virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
 
-        void clean();
-        void printShaderMessage(GLuint shaderId);
-        void printProgramMessage(GLuint programId);
+        protected:
+            ShaderOGL();
 
-        GLuint _vertexShaderId = 0;
-        GLuint _fragmentShaderId = 0;
-        GLuint _programId = 0;
-    };
-} // namespace video
+            void clean();
+            void printShaderMessage(GLuint shaderId);
+            void printProgramMessage(GLuint programId);
+
+            GLuint _vertexShaderId = 0;
+            GLuint _fragmentShaderId = 0;
+            GLuint _programId = 0;
+        };
+    } // namespace video
 } // namespace ouzel

@@ -6,70 +6,70 @@
 
 namespace ouzel
 {
-namespace scene
-{
-    SceneManager::SceneManager()
+    namespace scene
     {
-        
-    }
-    
-    SceneManager::~SceneManager()
-    {
-        
-    }
-    
-    void SceneManager::setScene(const ScenePtr& scene)
-    {
-        if (scene != _scene)
+        SceneManager::SceneManager()
         {
-            if (_locked)
+            
+        }
+        
+        SceneManager::~SceneManager()
+        {
+            
+        }
+        
+        void SceneManager::setScene(const ScenePtr& scene)
+        {
+            if (scene != _scene)
             {
-                _newScene = scene;
-            }
-            else
-            {
-                _scene = scene;
-                
-                if (_scene)
+                if (_locked)
                 {
-                    _scene->recalculateProjection();
+                    _newScene = scene;
+                }
+                else
+                {
+                    _scene = scene;
+                    
+                    if (_scene)
+                    {
+                        _scene->recalculateProjection();
+                    }
                 }
             }
         }
-    }
-    
-    void SceneManager::draw()
-    {
-        if (_scene)
+        
+        void SceneManager::draw()
         {
-            lock();
-            
-            _scene->draw();
-            
-            unlock();
+            if (_scene)
+            {
+                lock();
+                
+                _scene->draw();
+                
+                unlock();
+            }
         }
-    }
-    
-    void SceneManager::recalculateProjection()
-    {
-        if (_scene)
+        
+        void SceneManager::recalculateProjection()
         {
-            _scene->recalculateProjection();
+            if (_scene)
+            {
+                _scene->recalculateProjection();
+            }
         }
-    }
-    
-    void SceneManager::lock()
-    {
-        ++_locked;
-    }
-    
-    void SceneManager::unlock()
-    {
-        if (--_locked == 0 && _newScene)
+        
+        void SceneManager::lock()
         {
-            setScene(_newScene);
-            _newScene.reset();
+            ++_locked;
         }
-    }
-} // namespace scene
+        
+        void SceneManager::unlock()
+        {
+            if (--_locked == 0 && _newScene)
+            {
+                setScene(_newScene);
+                _newScene.reset();
+            }
+        }
+    } // namespace scene
 } // namespace ouzel

@@ -14,42 +14,42 @@
 
 namespace ouzel
 {
-namespace video
-{
-    Image::Image()
+    namespace video
     {
-        
-    }
-    
-    Image::~Image()
-    {
-        if (_data)
+        Image::Image()
         {
-            stbi_image_free(_data);
-        }
-    }
-    
-    bool Image::initFromFile(const std::string& filename)
-    {
-        _filename = filename;
-        
-        std::string path = Engine::getInstance()->getFileSystem()->getPath(filename);
-        
-        int width;
-        int height;
-        int comp;
-        _data = stbi_load(path.c_str(), &width, &height, &comp, STBI_rgb_alpha);
-        
-        if (!_data)
-        {
-            log("Failed to open texture file %s, reason: %s", filename.c_str(), stbi_failure_reason());
-            return false;
+            
         }
         
-        _size.width = static_cast<float>(width);
-        _size.height = static_cast<float>(height);
+        Image::~Image()
+        {
+            if (_data)
+            {
+                stbi_image_free(_data);
+            }
+        }
         
-        return true;
-    }
-} // namespace video
+        bool Image::initFromFile(const std::string& filename)
+        {
+            _filename = filename;
+            
+            std::string path = Engine::getInstance()->getFileSystem()->getPath(filename);
+            
+            int width;
+            int height;
+            int comp;
+            _data = stbi_load(path.c_str(), &width, &height, &comp, STBI_rgb_alpha);
+            
+            if (!_data)
+            {
+                log("Failed to open texture file %s, reason: %s", filename.c_str(), stbi_failure_reason());
+                return false;
+            }
+            
+            _size.width = static_cast<float>(width);
+            _size.height = static_cast<float>(height);
+            
+            return true;
+        }
+    } // namespace video
 } // namespace ouzel

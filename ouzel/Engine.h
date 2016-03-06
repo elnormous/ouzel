@@ -37,7 +37,7 @@ namespace ouzel
         const video::RendererPtr& getRenderer() const { return _renderer; }
         const scene::SceneManagerPtr& getSceneManager() const { return _sceneManager; }
         const FileSystemPtr& getFileSystem() const { return _fileSystem; }
-        const InputPtr& getInput() const { return _input; }
+        const input::InputPtr& getInput() const { return _input; }
         
         void exit();
         
@@ -67,7 +67,7 @@ namespace ouzel
         video::RendererPtr _renderer;
         scene::SceneManagerPtr _sceneManager;
         FileSystemPtr _fileSystem;
-        InputPtr _input;
+        input::InputPtr _input;
         
         float _targetFPS;
         float _currentFPS = 0.0f;

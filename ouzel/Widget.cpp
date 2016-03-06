@@ -5,11 +5,11 @@
 
 namespace ouzel
 {
-namespace gui
-{
-    void Widget::setEnabled(bool enabled)
+    namespace gui
     {
-        _enabled = enabled;
-    }
-} // namespace gui
+        void Widget::setEnabled(bool enabled)
+        {
+            _enabled = enabled;
+        }
+    } // namespace gui
 } // namespace ouzel

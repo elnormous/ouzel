@@ -32,27 +32,27 @@
 
 namespace ouzel
 {
-namespace video
-{
-    class RendererOGL;
-
-    class RenderTargetOGL: public RenderTarget
+    namespace video
     {
-        friend RendererOGL;
-    public:
-        virtual ~RenderTargetOGL();
+        class RendererOGL;
 
-        void clean();
+        class RenderTargetOGL: public RenderTarget
+        {
+            friend RendererOGL;
+        public:
+            virtual ~RenderTargetOGL();
 
-        virtual bool init(const Size2& size, bool depthBuffer) override;
+            void clean();
 
-        GLuint getFrameBufferId() const { return _framebufferId; }
+            virtual bool init(const Size2& size, bool depthBuffer) override;
 
-    protected:
-        RenderTargetOGL();
+            GLuint getFrameBufferId() const { return _framebufferId; }
 
-        GLuint _framebufferId = 0;
-        GLuint _depthBufferId = 0;
-    };
-} // namespace video
+        protected:
+            RenderTargetOGL();
+
+            GLuint _framebufferId = 0;
+            GLuint _depthBufferId = 0;
+        };
+    } // namespace video
 } // namespace ouzel
