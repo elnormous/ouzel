@@ -111,25 +111,25 @@ namespace ouzel
             
             switch (event->key)
             {
-                case KeyboardKey::UP:
+                case input::KeyboardKey::UP:
                     position.y += 10.0f;
                     break;
-                case KeyboardKey::DOWN:
+                case input::KeyboardKey::DOWN:
                     position.y -= 10.0f;
                     break;
-                case KeyboardKey::LEFT:
+                case input::KeyboardKey::LEFT:
                     position.x -= 10.0f;
                     break;
-                case KeyboardKey::RIGHT:
+                case input::KeyboardKey::RIGHT:
                     position.x += 10.0f;
                     break;
-                case KeyboardKey::SPACE:
+                case input::KeyboardKey::SPACE:
                     _witch->setVisible(!_witch->isVisible());
                     break;
-                case KeyboardKey::RETURN:
+                case input::KeyboardKey::RETURN:
                     Engine::getInstance()->getWindow()->setSize(Size2(640.0f, 480.0f));
                     break;
-                case KeyboardKey::TAB:
+                case input::KeyboardKey::TAB:
                     _button->setEnabled(!_button->isEnabled());
                     break;
                 default:
@@ -180,27 +180,27 @@ namespace ouzel
             
             switch (event->button)
             {
-                case GamepadButton::DPAD_UP:
-                case GamepadButton::LEFT_THUMB_UP:
-                case GamepadButton::RIGHT_THUMB_UP:
+                case input::GamepadButton::DPAD_UP:
+                case input::GamepadButton::LEFT_THUMB_UP:
+                case input::GamepadButton::RIGHT_THUMB_UP:
                     position.y = event->value;
                     break;
-                case GamepadButton::DPAD_DOWN:
-                case GamepadButton::LEFT_THUMB_DOWN:
-                case GamepadButton::RIGHT_THUMB_DOWN:
+                case input::GamepadButton::DPAD_DOWN:
+                case input::GamepadButton::LEFT_THUMB_DOWN:
+                case input::GamepadButton::RIGHT_THUMB_DOWN:
                     position.y = -event->value;
                     break;
-                case GamepadButton::DPAD_LEFT:
-                case GamepadButton::LEFT_THUMB_LEFT:
-                case GamepadButton::RIGHT_THUMB_LEFT:
+                case input::GamepadButton::DPAD_LEFT:
+                case input::GamepadButton::LEFT_THUMB_LEFT:
+                case input::GamepadButton::RIGHT_THUMB_LEFT:
                     position.x = -event->value;
                     break;
-                case GamepadButton::DPAD_RIGHT:
-                case GamepadButton::LEFT_THUMB_RIGHT:
-                case GamepadButton::RIGHT_THUMB_RIGHT:
+                case input::GamepadButton::DPAD_RIGHT:
+                case input::GamepadButton::LEFT_THUMB_RIGHT:
+                case input::GamepadButton::RIGHT_THUMB_RIGHT:
                     position.x = event->value;
                     break;
-                case GamepadButton::A:
+                case input::GamepadButton::A:
                     _witch->setVisible(!event->pressed);
                     break;
                 default:
