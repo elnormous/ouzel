@@ -79,7 +79,7 @@ namespace scene
         _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
                          Vector2(_size.width / 2.0f, _size.height / 2.0f));
         
-        _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
+        _shader = Engine::getInstance()->getCache()->getShader(video::SHADER_TEXTURE);
         
         if (!_shader)
         {
@@ -201,20 +201,20 @@ namespace scene
             textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
         }
         
-        std::vector<VertexPCT> vertices = {
-            VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), _color, textCoords[0]),
-            VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), _color, textCoords[1]),
-            VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[2]),
-            VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[3])
+        std::vector<video::VertexPCT> vertices = {
+            video::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), _color, textCoords[0]),
+            video::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), _color, textCoords[1]),
+            video::VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[2]),
+            video::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[3])
         };
         
         _frameVertices.push_back(vertices);
         
         _frameMeshBuffers.push_back(Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                            static_cast<uint32_t>(indices.size()), false,
-                                                                                           vertices.data(), sizeof(VertexPCT),
+                                                                                           vertices.data(), sizeof(video::VertexPCT),
                                                                                            static_cast<uint32_t>(vertices.size()), true,
-                                                                                           VertexPCT::ATTRIBUTES));
+                                                                                           video::VertexPCT::ATTRIBUTES));
         
         _frameCount++;
     }
@@ -261,7 +261,7 @@ namespace scene
             
             if (_currentFrame < _frameCount)
             {
-                MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
+                video::MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
                 
                 Engine::getInstance()->getRenderer()->drawMeshBuffer(meshBuffer);
             }
@@ -275,12 +275,12 @@ namespace scene
         updateVertexColor();
     }
     
-    void Sprite::setTexture(const TexturePtr& texture)
+    void Sprite::setTexture(const video::TexturePtr& texture)
     {
         _texture = texture;
     }
     
-    void Sprite::setShader(const ShaderPtr& shader)
+    void Sprite::setShader(const video::ShaderPtr& shader)
     {
         _shader = shader;
         
@@ -292,7 +292,7 @@ namespace scene
 #endif
     }
     
-    void Sprite::setColor(const Color& color)
+    void Sprite::setColor(const video::Color& color)
     {
         _color = color;
         
@@ -303,7 +303,7 @@ namespace scene
     {
         for (uint32_t i = 0; i < _frameMeshBuffers.size(); ++i)
         {
-            for (VertexPCT& vertex : _frameVertices[i])
+            for (video::VertexPCT& vertex : _frameVertices[i])
             {
                 vertex.color.r = _color.r;
                 vertex.color.g = _color.g;
@@ -311,7 +311,7 @@ namespace scene
                 vertex.color.a = static_cast<uint8_t>(_opacity * _color.a);
             }
             
-            MeshBufferPtr meshBuffer = _frameMeshBuffers[i];
+            video::MeshBufferPtr meshBuffer = _frameMeshBuffers[i];
             meshBuffer->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
         }
     }

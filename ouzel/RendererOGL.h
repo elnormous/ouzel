@@ -45,6 +45,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class RendererOGL: public Renderer
     {
         friend Engine;
@@ -82,4 +84,5 @@ namespace ouzel
         bool _ready = false;
         GLuint _framebuffer = 0;
     };
-}
+} // namespace video
+} // namespace ouzel

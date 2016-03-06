@@ -6,6 +6,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     RenderTargetOGL::RenderTargetOGL()
     {
         
@@ -87,4 +89,5 @@ namespace ouzel
         
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel

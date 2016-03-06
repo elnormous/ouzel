@@ -32,6 +32,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class RendererOGL;
 
     class ShaderOGL: public Shader
@@ -65,4 +67,5 @@ namespace ouzel
         GLuint _fragmentShaderId = 0;
         GLuint _programId = 0;
     };
-}
+} // namespace video
+} // namespace ouzel

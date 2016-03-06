@@ -29,16 +29,16 @@ namespace scene
         
         virtual void setOpacity(float opacity) override;
         
-        virtual TexturePtr getTexture() const { return _texture; }
-        virtual void setTexture(const TexturePtr& texture);
+        virtual video::TexturePtr getTexture() const { return _texture; }
+        virtual void setTexture(const video::TexturePtr& texture);
         
-        virtual ShaderPtr getShader() const { return _shader; }
-        virtual void setShader(const ShaderPtr& shader);
+        virtual video::ShaderPtr getShader() const { return _shader; }
+        virtual void setShader(const video::ShaderPtr& shader);
         
         virtual const Size2& getSize() const { return _size; }
         
-        virtual const Color& getColor() const { return _color; }
-        virtual void setColor(const Color& color);
+        virtual const video::Color& getColor() const { return _color; }
+        virtual void setColor(const video::Color& color);
         
         virtual void play(bool repeat = true, float frameInterval = 0.1f);
         virtual void stop(bool resetAnimation = true);
@@ -51,15 +51,15 @@ namespace scene
         
         void updateVertexColor();
         
-        TexturePtr _texture;
-        ShaderPtr _shader;
+        video::TexturePtr _texture;
+        video::ShaderPtr _shader;
         
         Size2 _size;
         
         uint32_t _frameCount = 0;
-        std::vector<std::vector<VertexPCT>> _frameVertices;
-        std::vector<MeshBufferPtr> _frameMeshBuffers;
-        Color _color = Color(255, 255, 255, 255);
+        std::vector<std::vector<video::VertexPCT>> _frameVertices;
+        std::vector<video::MeshBufferPtr> _frameMeshBuffers;
+        video::Color _color = video::Color(255, 255, 255, 255);
         
         uint32_t _currentFrame = 0;
         float _frameInterval = 0.0f;

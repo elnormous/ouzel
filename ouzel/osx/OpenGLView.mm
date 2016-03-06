@@ -86,7 +86,7 @@ using namespace ouzel;
 
 -(void)prepareOpenGL
 {
-    std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
+    std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(Engine::getInstance()->getRenderer());
     renderer->initOpenGL(0);
     
     GLint swapInt = 1;

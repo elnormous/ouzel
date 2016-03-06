@@ -5,6 +5,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     VertexPC::VertexPC()
     {
         
@@ -26,4 +28,5 @@ namespace ouzel
     {
         
     }
-}
+} // namespace video
+} // namespace ouzel

@@ -9,6 +9,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     Texture::Texture()
     {
         
@@ -67,4 +69,5 @@ namespace ouzel
         
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel

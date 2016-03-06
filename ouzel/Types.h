@@ -28,6 +28,8 @@ namespace ouzel
     class Cache;
     typedef std::shared_ptr<Cache> CachePtr;
     
+namespace video
+{
     class Renderer;
     typedef std::shared_ptr<Renderer> RendererPtr;
     
@@ -45,6 +47,7 @@ namespace ouzel
     
     class MeshBuffer;
     typedef std::shared_ptr<MeshBuffer> MeshBufferPtr;
+}
     
     class FileSystem;
     typedef std::shared_ptr<FileSystem> FileSystemPtr;

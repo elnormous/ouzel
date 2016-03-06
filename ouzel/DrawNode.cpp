@@ -16,7 +16,7 @@ namespace scene
 {
     DrawNode::DrawNode()
     {
-        _shader = Engine::getInstance()->getCache()->getShader(SHADER_COLOR);
+        _shader = Engine::getInstance()->getCache()->getShader(video::SHADER_COLOR);
         
 #ifdef OUZEL_PLATFORM_WINDOWS
         _uniModelViewProj = 0;
@@ -53,45 +53,45 @@ namespace scene
         _drawCommands.clear();
     }
     
-    void DrawNode::point(const Vector2& position, const Color& color)
+    void DrawNode::point(const Vector2& position, const video::Color& color)
     {
         std::vector<uint16_t> indices = {0};
         
-        std::vector<VertexPC> vertices = {
-            VertexPC(Vector3(position), color)
+        std::vector<video::VertexPC> vertices = {
+            video::VertexPC(Vector3(position), color)
         };
         
         DrawCommand command;
         
-        command.mode = Renderer::DrawMode::POINT_LIST;
+        command.mode = video::Renderer::DrawMode::POINT_LIST;
         command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                               static_cast<uint32_t>(indices.size()), false,
-                                                                              vertices.data(), sizeof(VertexPC),
+                                                                              vertices.data(), sizeof(video::VertexPC),
                                                                               static_cast<uint32_t>(vertices.size()), false,
-                                                                              VertexPC::ATTRIBUTES);
+                                                                              video::VertexPC::ATTRIBUTES);
         
         _drawCommands.push_back(command);
         
         _boundingBox.insertPoint(position);
     }
     
-    void DrawNode::line(const Vector2& start, const Vector2& finish, const Color& color)
+    void DrawNode::line(const Vector2& start, const Vector2& finish, const video::Color& color)
     {
         std::vector<uint16_t> indices = {0, 1};
         
-        std::vector<VertexPC> vertices = {
-            VertexPC(Vector3(start), color),
-            VertexPC(Vector3(finish), color)
+        std::vector<video::VertexPC> vertices = {
+            video::VertexPC(Vector3(start), color),
+            video::VertexPC(Vector3(finish), color)
         };
         
         DrawCommand command;
 
-        command.mode = Renderer::DrawMode::LINE_STRIP;
+        command.mode = video::Renderer::DrawMode::LINE_STRIP;
         command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                               static_cast<uint32_t>(indices.size()), false,
-                                                                              vertices.data(), sizeof(VertexPC),
+                                                                              vertices.data(), sizeof(video::VertexPC),
                                                                               static_cast<uint32_t>(vertices.size()), false,
-                                                                              VertexPC::ATTRIBUTES);
+                                                                              video::VertexPC::ATTRIBUTES);
         
         _drawCommands.push_back(command);
         
@@ -99,7 +99,7 @@ namespace scene
         _boundingBox.insertPoint(finish);
     }
     
-    void DrawNode::circle(const Vector2& position, float radius, const Color& color, bool fill, uint32_t segments)
+    void DrawNode::circle(const Vector2& position, float radius, const video::Color& color, bool fill, uint32_t segments)
     {
         if (segments < 3)
         {
@@ -107,16 +107,16 @@ namespace scene
         }
         
         std::vector<uint16_t> indices;
-        std::vector<VertexPC> vertices;
+        std::vector<video::VertexPC> vertices;
         
         if (fill)
         {
-            vertices.push_back(VertexPC(Vector3(position), color));
+            vertices.push_back(video::VertexPC(Vector3(position), color));
         }
         
         for(uint32_t i = 0; i <= segments; ++i)
         {
-            vertices.push_back(VertexPC(Vector3((position.x + radius * cosf(i * TAU / static_cast<float>(segments))),
+            vertices.push_back(video::VertexPC(Vector3((position.x + radius * cosf(i * TAU / static_cast<float>(segments))),
                                                 (position.y + radius * sinf(i * TAU / static_cast<float>(segments))),
                                                 0.0f), color));
         }
@@ -125,7 +125,7 @@ namespace scene
         
         if (fill)
         {
-            command.mode = Renderer::DrawMode::TRIANGLE_STRIP;
+            command.mode = video::Renderer::DrawMode::TRIANGLE_STRIP;
             
             for(uint32_t i = 1; i <= segments; ++i)
             {
@@ -141,7 +141,7 @@ namespace scene
         }
         else
         {
-            command.mode = Renderer::DrawMode::LINE_STRIP;
+            command.mode = video::Renderer::DrawMode::LINE_STRIP;
             
             for(uint32_t i = 0; i <= segments; ++i)
             {
@@ -151,9 +151,9 @@ namespace scene
         
         command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                               static_cast<uint32_t>(indices.size()), false,
-                                                                              vertices.data(), sizeof(VertexPC),
+                                                                              vertices.data(), sizeof(video::VertexPC),
                                                                               static_cast<uint32_t>(vertices.size()), false,
-                                                                              VertexPC::ATTRIBUTES);
+                                                                              video::VertexPC::ATTRIBUTES);
         
         _drawCommands.push_back(command);
         
@@ -161,35 +161,35 @@ namespace scene
         _boundingBox.insertPoint(Vector2(position.x + radius, position.y + radius));
     }
     
-    void DrawNode::rectangle(const Rectangle& rectangle, const Color& color, bool fill)
+    void DrawNode::rectangle(const Rectangle& rectangle, const video::Color& color, bool fill)
     {
         std::vector<uint16_t> indices;
         
-        std::vector<VertexPC> vertices = {
-            VertexPC(Vector3(rectangle.left(), rectangle.bottom(), 0.0f), color),
-            VertexPC(Vector3(rectangle.right(), rectangle.bottom(), 0.0f), color),
-            VertexPC(Vector3(rectangle.left(), rectangle.top(), 0.0f),  color),
-            VertexPC(Vector3(rectangle.right(), rectangle.top(), 0.0f),  color)
+        std::vector<video::VertexPC> vertices = {
+            video::VertexPC(Vector3(rectangle.left(), rectangle.bottom(), 0.0f), color),
+            video::VertexPC(Vector3(rectangle.right(), rectangle.bottom(), 0.0f), color),
+            video::VertexPC(Vector3(rectangle.left(), rectangle.top(), 0.0f),  color),
+            video::VertexPC(Vector3(rectangle.right(), rectangle.top(), 0.0f),  color)
         };
         
         DrawCommand command;
         
         if (fill)
         {
-            command.mode = Renderer::DrawMode::TRIANGLE_LIST;
+            command.mode = video::Renderer::DrawMode::TRIANGLE_LIST;
             indices.assign({0, 1, 2, 1, 3, 2});
         }
         else
         {
-            command.mode = Renderer::DrawMode::LINE_STRIP;
+            command.mode = video::Renderer::DrawMode::LINE_STRIP;
             indices.assign({0, 1, 3, 2, 0});
         }
         
         command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                               static_cast<uint32_t>(indices.size()), false,
-                                                                              vertices.data(), sizeof(VertexPC),
+                                                                              vertices.data(), sizeof(video::VertexPC),
                                                                               static_cast<uint32_t>(vertices.size()), false,
-                                                                              VertexPC::ATTRIBUTES);
+                                                                              video::VertexPC::ATTRIBUTES);
         
         _drawCommands.push_back(command);
         

@@ -11,6 +11,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class Renderer;
     class Texture;
     
@@ -32,4 +34,5 @@ namespace ouzel
         
         TexturePtr _texture;
     };
-}
+} // namespace video
+} // namespace ouzel

@@ -9,6 +9,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class Renderer;
     
     class MeshBuffer: public Noncopyable
@@ -43,4 +45,5 @@ namespace ouzel
         
         uint32_t _vertexAttributes;
     };
-}
+} // namespace video
+} // namespace ouzel

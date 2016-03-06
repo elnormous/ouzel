@@ -27,11 +27,11 @@ namespace ouzel
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
-        std::unordered_map<std::string, TexturePtr>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, video::TexturePtr>::const_iterator i = _textures.find(filename);
 
         if (i == _textures.end())
         {
-            TexturePtr texture = Engine::getInstance()->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
+            video::TexturePtr texture = Engine::getInstance()->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
 
             if (texture)
             {
@@ -40,11 +40,11 @@ namespace ouzel
         }
     }
 
-    TexturePtr Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
+    video::TexturePtr Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
     {
-        TexturePtr result;
+        video::TexturePtr result;
 
-        std::unordered_map<std::string, TexturePtr>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, video::TexturePtr>::const_iterator i = _textures.find(filename);
 
         if (i != _textures.end())
         {
@@ -63,7 +63,7 @@ namespace ouzel
         return result;
     }
 
-    void Cache::setTexture(const std::string& filename, const TexturePtr& texture)
+    void Cache::setTexture(const std::string& filename, const video::TexturePtr& texture)
     {
         _textures[filename] = texture;
     }
@@ -73,9 +73,9 @@ namespace ouzel
         _textures.clear();
     }
 
-    ShaderPtr Cache::getShader(const std::string& shaderName) const
+    video::ShaderPtr Cache::getShader(const std::string& shaderName) const
     {
-        std::unordered_map<std::string, ShaderPtr>::const_iterator i = _shaders.find(shaderName);
+        std::unordered_map<std::string, video::ShaderPtr>::const_iterator i = _shaders.find(shaderName);
 
         if (i != _shaders.end())
         {
@@ -87,7 +87,7 @@ namespace ouzel
         }
     }
 
-    void Cache::setShader(const std::string& shaderName, const ShaderPtr& shader)
+    void Cache::setShader(const std::string& shaderName, const video::ShaderPtr& shader)
     {
         _shaders[shaderName] = shader;
     }

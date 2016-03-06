@@ -28,7 +28,7 @@ namespace gui
     
     Label::Label()
     {
-        _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
+        _shader = Engine::getInstance()->getCache()->getShader(video::SHADER_TEXTURE);
         
 #ifdef OUZEL_PLATFORM_WINDOWS
         _uniModelViewProj = 0;
@@ -92,7 +92,7 @@ namespace gui
         }
     }
     
-    void Label::setColor(const Color& color)
+    void Label::setColor(const video::Color& color)
     {
         _color = color;
         
@@ -102,17 +102,17 @@ namespace gui
     void Label::updateMesh()
     {
         std::vector<uint16_t> indices;
-        std::vector<VertexPCT> vertices;
+        std::vector<video::VertexPCT> vertices;
         
         _font.getVertices(_text, _color, _textAnchor, indices, vertices);
         
         _meshBuffer = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
-                                                                             vertices.data(), sizeof(VertexPCT), static_cast<uint32_t>(vertices.size()), false,
-                                                                             VertexPCT::ATTRIBUTES);
+                                                                             vertices.data(), sizeof(video::VertexPCT), static_cast<uint32_t>(vertices.size()), false,
+                                                                             video::VertexPCT::ATTRIBUTES);
         
         _boundingBox.reset();
         
-        for (VertexPCT vertex : vertices)
+        for (const video::VertexPCT& vertex : vertices)
         {
             _boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
         }

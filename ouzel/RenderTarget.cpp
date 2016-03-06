@@ -5,6 +5,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     RenderTarget::RenderTarget()
     {
         
@@ -22,4 +24,5 @@ namespace ouzel
         
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel

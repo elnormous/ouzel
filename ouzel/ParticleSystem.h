@@ -87,17 +87,17 @@ namespace scene
         ParticleDefinition _particleDefinition;
         ParticleDefinition::PositionType _positionType;
         
-        ShaderPtr _shader;
-        TexturePtr _texture;
+        video::ShaderPtr _shader;
+        video::TexturePtr _texture;
         
         std::vector<Particle> _particles;
         
-        MeshBufferPtr _mesh;
+        video::MeshBufferPtr _mesh;
         
         uint32_t _uniModelViewProj;
         
         std::vector<uint16_t> _indices;
-        std::vector<VertexPCT> _vertices;
+        std::vector<video::VertexPCT> _vertices;
         
         uint32_t _particleCount = 0;
         

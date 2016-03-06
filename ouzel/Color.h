@@ -7,6 +7,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class Color
     {
     public:
@@ -23,4 +25,5 @@ namespace ouzel
         float getB() const;
         float getA() const;
     };
-}
+} // namespace video
+} // namespace ouzel

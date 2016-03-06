@@ -33,7 +33,7 @@ namespace ouzel
         
         Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
         
-        Engine::getInstance()->getRenderer()->setClearColor(Color(64, 0, 0));
+        Engine::getInstance()->getRenderer()->setClearColor(video::Color(64, 0, 0));
         Engine::getInstance()->getWindow()->setTitle("Sample");
         
         scene::ScenePtr scene = make_shared<scene::Scene>();
@@ -46,13 +46,13 @@ namespace ouzel
         scene->addLayer(_uiLayer);
         
         scene::DrawNodePtr drawNode = std::make_shared<scene::DrawNode>();
-        drawNode->rectangle(Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
-        drawNode->rectangle(Rectangle(100.0f, 100.0f), Color(255, 255, 255, 255), false);
-        drawNode->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color(0, 255, 255, 255));
-        drawNode->point(Vector2(75.0f, 75.0f), Color(255, 0, 0, 255));
+        drawNode->rectangle(Rectangle(100.0f, 100.0f), video::Color(0, 128, 128, 255), true);
+        drawNode->rectangle(Rectangle(100.0f, 100.0f), video::Color(255, 255, 255, 255), false);
+        drawNode->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), video::Color(0, 255, 255, 255));
+        drawNode->point(Vector2(75.0f, 75.0f), video::Color(255, 0, 0, 255));
         
-        drawNode->circle(Vector2(75.0f, 75.0f), 20.0f, Color(0, 0, 255, 255));
-        drawNode->circle(Vector2(25.0f, 75.0f), 20.0f, Color(0, 0, 255, 255), true);
+        drawNode->circle(Vector2(75.0f, 75.0f), 20.0f, video::Color(0, 0, 255, 255));
+        drawNode->circle(Vector2(25.0f, 75.0f), 20.0f, video::Color(0, 0, 255, 255), true);
         
         drawNode->setPosition(Vector2(-300, 0.0f));
         _layer->addChild(drawNode);
@@ -80,7 +80,7 @@ namespace ouzel
         
         _witch = scene::Sprite::createFromFile("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
-        _witch->setColor(Color(128, 0, 255, 255));
+        _witch->setColor(video::Color(128, 0, 255, 255));
         _layer->addChild(_witch);
         _witch->animate(make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3));
         
@@ -94,7 +94,7 @@ namespace ouzel
 
         label->animate(make_shared<scene::Sequence>(sequence2));
         
-        _button = gui::Button::create("button.png", "button.png", "button_down.png", "button_disabled.png", "", Color(), "", [this](VoidPtr sender) {
+        _button = gui::Button::create("button.png", "button.png", "button_down.png", "button_disabled.png", "", video::Color(), "", [this](VoidPtr sender) {
             _sprite->setVisible(!_sprite->isVisible());
         });
         _button->setPosition(Vector2(-200.0f, 200.0f));

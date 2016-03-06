@@ -10,6 +10,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     TextureOGL::TextureOGL()
     {
         
@@ -182,4 +184,5 @@ namespace ouzel
         
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel

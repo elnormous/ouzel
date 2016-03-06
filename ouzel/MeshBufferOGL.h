@@ -32,6 +32,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class RendererOGL;
 
     class MeshBufferOGL: public MeshBuffer
@@ -61,4 +63,5 @@ namespace ouzel
 
         GLenum _indexFormat = 0;
     };
-}
+} // namespace video
+} // namespace ouzel

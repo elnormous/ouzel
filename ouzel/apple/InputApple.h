@@ -17,7 +17,6 @@ typedef id ConnectDelegatePtr;
 
 namespace ouzel
 {
-    class Engine;
     class GamepadApple;
     
     class InputApple: public Input

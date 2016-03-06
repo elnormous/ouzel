@@ -9,6 +9,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class Renderer;
     
     class Texture: public Noncopyable
@@ -38,4 +40,5 @@ namespace ouzel
         bool _dynamic = false;
         bool _mipmaps = false;
     };
-}
+} // namespace video
+} // namespace ouzel

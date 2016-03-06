@@ -32,6 +32,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class RendererOGL;
 
     class RenderTargetOGL: public RenderTarget
@@ -52,4 +54,5 @@ namespace ouzel
         GLuint _framebufferId = 0;
         GLuint _depthBufferId = 0;
     };
-}
+} // namespace video
+} // namespace ouzel

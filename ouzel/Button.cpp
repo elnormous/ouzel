@@ -17,7 +17,7 @@ namespace ouzel
 namespace gui
 {
     std::shared_ptr<Button> Button::create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
-                                           const std::string& label, const Color& labelColor, const std::string& font,
+                                           const std::string& label, const video::Color& labelColor, const std::string& font,
                                            const std::function<void(const VoidPtr&)>& callback)
     {
         std::shared_ptr<Button> result = std::make_shared<Button>();
@@ -41,7 +41,7 @@ namespace gui
     }
     
     bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
-                      const std::string& label, const Color& labelColor, const std::string& font, const std::function<void(const VoidPtr&)>& callback)
+                      const std::string& label, const video::Color& labelColor, const std::string& font, const std::function<void(const VoidPtr&)>& callback)
     {
         _eventHandler = std::make_shared<EventHandler>();
         

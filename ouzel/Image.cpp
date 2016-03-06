@@ -14,6 +14,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     Image::Image()
     {
         
@@ -49,4 +51,5 @@ namespace ouzel
         
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel

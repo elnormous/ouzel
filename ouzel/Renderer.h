@@ -19,12 +19,12 @@
 
 namespace ouzel
 {
+namespace video
+{
     const std::string SHADER_TEXTURE = "shaderTexture";
     const std::string SHADER_COLOR = "shaderColor";
     
-    class Engine;
     class MeshBuffer;
-    class Window;
 
     class Renderer: public Noncopyable
     {
@@ -107,4 +107,5 @@ namespace ouzel
         
         uint32_t _drawCallCount = 0;
     };
-}
+} // namespace video
+} // namespace ouzel

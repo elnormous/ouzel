@@ -6,6 +6,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     MeshBuffer::MeshBuffer()
     {
         
@@ -63,4 +65,5 @@ namespace ouzel
         
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel

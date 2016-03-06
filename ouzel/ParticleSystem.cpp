@@ -33,7 +33,7 @@ namespace scene
     
     ParticleSystem::ParticleSystem()
     {
-        _shader = Engine::getInstance()->getCache()->getShader(SHADER_TEXTURE);
+        _shader = Engine::getInstance()->getCache()->getShader(video::SHADER_TEXTURE);
         
 #ifdef OUZEL_PLATFORM_WINDOWS
         _uniModelViewProj = 0;
@@ -287,17 +287,17 @@ namespace scene
             _indices.push_back(i * 4 + 3);
             _indices.push_back(i * 4 + 2);
             
-            _vertices.push_back(VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), Color(255, 255, 255, 255), Vector2(0.0f, 1.0f)));
-            _vertices.push_back(VertexPCT(Vector3(1.0f, -1.0f, 0.0f), Color(255, 255, 255, 255), Vector2(1.0f, 1.0f)));
-            _vertices.push_back(VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  Color(255, 255, 255, 255), Vector2(0.0f, 0.0f)));
-            _vertices.push_back(VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
+            _vertices.push_back(video::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), video::Color(255, 255, 255, 255), Vector2(0.0f, 1.0f)));
+            _vertices.push_back(video::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), video::Color(255, 255, 255, 255), Vector2(1.0f, 1.0f)));
+            _vertices.push_back(video::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  video::Color(255, 255, 255, 255), Vector2(0.0f, 0.0f)));
+            _vertices.push_back(video::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  video::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
         }
 
         _mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(_indices.data(), sizeof(uint16_t),
                                                                        static_cast<uint32_t>(_indices.size()), false,
-                                                                       _vertices.data(), sizeof(VertexPCT),
+                                                                       _vertices.data(), sizeof(video::VertexPCT),
                                                                        static_cast<uint32_t>(_vertices.size()), true,
-                                                                       VertexPCT::ATTRIBUTES);
+                                                                       video::VertexPCT::ATTRIBUTES);
         
         _particles.resize(_particleDefinition.maxParticles);
     }
@@ -330,10 +330,10 @@ namespace scene
             Vector2 c(v2.x * cr - v2.y * sr, v2.x * sr + v2.y * cr);
             Vector2 d(v1.x * cr - v2.y * sr, v1.x * sr + v2.y * cr);
             
-            Color color(_particles[i].colorRed * 255,
-                        _particles[i].colorGreen * 255,
-                        _particles[i].colorBlue * 255,
-                        _particles[i].colorAlpha * 255);
+            video::Color color(_particles[i].colorRed * 255,
+                               _particles[i].colorGreen * 255,
+                               _particles[i].colorBlue * 255,
+                               _particles[i].colorAlpha * 255);
             
             _vertices[i * 4 + 0].position = a + position;
             _vertices[i * 4 + 0].color = color;

@@ -24,7 +24,7 @@ namespace ouzel
     public:
         virtual ~WindowOSX();
         
-        virtual void close();
+        virtual void close() override;
         
         virtual void setSize(const Size2& size) override;
         virtual void setFullscreen(bool fullscreen) override;

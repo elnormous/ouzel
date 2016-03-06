@@ -9,6 +9,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     enum VertexAttributes
     {
         VERTEX_POSITION = 0x01,
@@ -42,4 +44,5 @@ namespace ouzel
         VertexPCT();
         VertexPCT(Vector3 position, Color color, Vector2 texCoord);
     };
-}
+} // namespace video
+} // namespace ouzel

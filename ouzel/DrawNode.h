@@ -22,19 +22,19 @@ namespace scene
         
         void clear();
         
-        void point(const Vector2& position, const Color& color);
-        void line(const Vector2& start, const Vector2& finish, const Color& color);
-        void circle(const Vector2& position, float radius, const Color& color, bool fill = false, uint32_t segments = 20);
-        void rectangle(const Rectangle& rectangle, const Color& color, bool fill = false);
+        void point(const Vector2& position, const video::Color& color);
+        void line(const Vector2& start, const Vector2& finish, const video::Color& color);
+        void circle(const Vector2& position, float radius, const video::Color& color, bool fill = false, uint32_t segments = 20);
+        void rectangle(const Rectangle& rectangle, const video::Color& color, bool fill = false);
         
     protected:
         struct DrawCommand
         {
-            Renderer::DrawMode mode;
-            MeshBufferPtr mesh;
+            video::Renderer::DrawMode mode;
+            video::MeshBufferPtr mesh;
         };
         
-        ShaderPtr _shader;
+        video::ShaderPtr _shader;
         std::vector<DrawCommand> _drawCommands;
         
         uint32_t _uniModelViewProj;

@@ -9,6 +9,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     ShaderOGL::ShaderOGL():
         Shader()
     {
@@ -284,4 +286,5 @@ namespace ouzel
         
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel

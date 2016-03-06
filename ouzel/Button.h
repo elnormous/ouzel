@@ -19,14 +19,14 @@ namespace gui
     {
     public:
         static std::shared_ptr<Button> create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
-                                              const std::string& label = "", const Color& labelColor = Color(255, 255, 255, 255), const std::string& font = "",
+                                              const std::string& label = "", const video::Color& labelColor = video::Color(255, 255, 255, 255), const std::string& font = "",
                                               const std::function<void(const VoidPtr&)>& callback = std::function<void(const VoidPtr&)>());
         
         Button();
         virtual ~Button();
         
         virtual bool init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
-                          const std::string& label = "", const Color& labelColor = Color(255, 255, 255, 255), const std::string& font = "",
+                          const std::string& label = "", const video::Color& labelColor = video::Color(255, 255, 255, 255), const std::string& font = "",
                           const std::function<void(const VoidPtr&)>& callback = std::function<void(const VoidPtr&)>());
         
         virtual void setEnabled(bool enabled) override;

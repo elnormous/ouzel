@@ -213,7 +213,7 @@ namespace ouzel
         return true;
     }
 
-    void BMFont::getVertices(const std::string& text, const Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<VertexPCT>& vertices)
+    void BMFont::getVertices(const std::string& text, const video::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<video::VertexPCT>& vertices)
     {
         uint32_t flen;
         
@@ -265,16 +265,16 @@ namespace ouzel
             textCoords[2] = Vector2(leftTop.x, rightBottom.y);
             textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             
-            vertices.push_back(VertexPCT(Vector3(x + f->xOffset, y - f->yOffset, 0.0f),
+            vertices.push_back(video::VertexPCT(Vector3(x + f->xOffset, y - f->yOffset, 0.0f),
                                          color, textCoords[0]));
             
-            vertices.push_back(VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset, 0.0f),
+            vertices.push_back(video::VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset, 0.0f),
                                          color, textCoords[1]));
             
-            vertices.push_back(VertexPCT(Vector3(x + f->xOffset, y - f->yOffset - f->height, 0.0f),
+            vertices.push_back(video::VertexPCT(Vector3(x + f->xOffset, y - f->yOffset - f->height, 0.0f),
                                          color, textCoords[2]));
             
-            vertices.push_back(VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset - f->height, 0.0f),
+            vertices.push_back(video::VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset - f->height, 0.0f),
                                          color, textCoords[3]));
 
             // Only check kerning if there is greater then 1 character and
@@ -289,7 +289,7 @@ namespace ouzel
         
         float width = x;
         
-        for (VertexPCT& vertex : vertices)
+        for (video::VertexPCT& vertex : vertices)
         {
             vertex.position.x -= width * anchor.x;
         }

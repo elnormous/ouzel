@@ -69,12 +69,12 @@ namespace ouzel
         _args = args;
     }
 
-    std::set<Renderer::Driver> Engine::getAvailableDrivers() const
+    std::set<video::Renderer::Driver> Engine::getAvailableDrivers() const
     {
-        std::set<Renderer::Driver> availableDrivers;
+        std::set<video::Renderer::Driver> availableDrivers;
 
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-        availableDrivers.insert(Renderer::Driver::OPENGL);
+        availableDrivers.insert(video::Renderer::Driver::OPENGL);
 #elif defined(SUPPORTS_DIRECT3D11)
         availableDrivers.insert(Renderer::Driver::DIRECT3D11);
 #endif
@@ -95,9 +95,9 @@ namespace ouzel
         _targetFPS = settings.targetFPS;
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
-        settings.driver = Renderer::Driver::OPENGL;
+        settings.driver = video::Renderer::Driver::OPENGL;
 #elif defined(SUPPORTS_DIRECT3D11)
-        settings.driver = Renderer::Driver::DIRECT3D11;
+        settings.driver = video::Renderer::Driver::DIRECT3D11;
 #endif
 
 #if defined(OUZEL_PLATFORM_OSX)
@@ -130,17 +130,17 @@ namespace ouzel
         switch (settings.driver)
         {
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-            case Renderer::Driver::OPENGL:
-                _renderer.reset(new RendererOGL());
+            case video::Renderer::Driver::OPENGL:
+                _renderer.reset(new video::RendererOGL());
 				break;
 #endif
 #if defined(SUPPORTS_DIRECT3D11)
-            case Renderer::Driver::DIRECT3D11:
-                _renderer.reset(new RendererD3D11());
+            case video::Renderer::Driver::DIRECT3D11:
+                _renderer.reset(new video::RendererD3D11());
                 break;
 #endif
             default:
-                _renderer.reset(new Renderer());
+                _renderer.reset(new video::Renderer());
                 break;
         }
 

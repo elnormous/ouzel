@@ -34,6 +34,8 @@ PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT = 0;
 
 namespace ouzel
 {
+namespace video
+{        
     RendererOGL::RendererOGL():
         Renderer(Driver::OPENGL)
     {
@@ -416,4 +418,5 @@ namespace ouzel
         
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel

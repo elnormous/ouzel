@@ -8,6 +8,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     MeshBufferOGL::MeshBufferOGL()
     {
         
@@ -163,4 +165,5 @@ namespace ouzel
         
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel
