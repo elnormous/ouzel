@@ -9,26 +9,26 @@
 
 namespace ouzel
 {
-namespace video
-{
-    class RendererD3D11;
-
-    class RenderTargetD3D11: public RenderTarget
+    namespace video
     {
-        friend RendererD3D11;
-    public:
-        virtual ~RenderTargetD3D11();
+        class RendererD3D11;
 
-        void clean();
+        class RenderTargetD3D11: public RenderTarget
+        {
+            friend RendererD3D11;
+        public:
+            virtual ~RenderTargetD3D11();
 
-        virtual bool init(const Size2& size, bool depthBuffer);
+            void clean();
 
-        ID3D11RenderTargetView* getRenderTargetView() const { return _renderTargetView; }
+            virtual bool init(const Size2& size, bool depthBuffer);
 
-    protected:
-        RenderTargetD3D11();
+            ID3D11RenderTargetView* getRenderTargetView() const { return _renderTargetView; }
 
-        ID3D11RenderTargetView* _renderTargetView = nullptr;
-    };
-} // namespace video
+        protected:
+            RenderTargetD3D11();
+
+            ID3D11RenderTargetView* _renderTargetView = nullptr;
+        };
+    } // namespace video
 } // namespace ouzel

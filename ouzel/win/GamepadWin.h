@@ -9,27 +9,30 @@
 
 namespace ouzel
 {
-    class InputWin;
-
-    class GamepadWin: public Gamepad
+    namespace input
     {
-        friend InputWin;
-    public:
-        void update(const XINPUT_STATE& state);
+        class InputWin;
 
-        virtual int32_t getPlayerIndex() const override;
+        class GamepadWin : public Gamepad
+        {
+            friend InputWin;
+        public:
+            void update(const XINPUT_STATE& state);
 
-        virtual void setVibration(Motor motor, float speed) override;
-        virtual float getVibration(Motor motor) override;
-        
-    protected:
-        GamepadWin(int32_t playerIndex);
+            virtual int32_t getPlayerIndex() const override;
 
-        void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
-        void checkButton(const XINPUT_STATE& state, WORD mask, GamepadButton button);
+            virtual void setVibration(Motor motor, float speed) override;
+            virtual float getVibration(Motor motor) override;
 
-        XINPUT_STATE _state;
-        XINPUT_VIBRATION _vibration;
-        int32_t _playerIndex;
-    };
-}
+        protected:
+            GamepadWin(int32_t playerIndex);
+
+            void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
+            void checkButton(const XINPUT_STATE& state, WORD mask, GamepadButton button);
+
+            XINPUT_STATE _state;
+            XINPUT_VIBRATION _vibration;
+            int32_t _playerIndex;
+        };
+    } // namespace input
+} // namespace ouzel

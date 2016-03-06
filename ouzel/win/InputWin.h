@@ -9,26 +9,28 @@
 
 namespace ouzel
 {
-    class Engine;
-    class GamepadWin;
-    
-    class InputWin: public Input
+    namespace input
     {
-        friend Engine;
-    public:
-        
-        virtual ~InputWin();
+        class GamepadWin;
 
-        virtual void update() override;
-        
-        virtual void setCursorVisible(bool visible) override;
-        virtual bool isCursorVisible() const override;
+        class InputWin : public Input
+        {
+            friend Engine;
+        public:
 
-    protected:
-        InputWin();
+            virtual ~InputWin();
 
-        std::shared_ptr<GamepadWin> _gamepads[XUSER_MAX_COUNT];
+            virtual void update() override;
 
-        bool _cursorVisible = true;
-    };
-}
+            virtual void setCursorVisible(bool visible) override;
+            virtual bool isCursorVisible() const override;
+
+        protected:
+            InputWin();
+
+            std::shared_ptr<GamepadWin> _gamepads[XUSER_MAX_COUNT];
+
+            bool _cursorVisible = true;
+        };
+    } // namespace input
+} // namespace ouzel
