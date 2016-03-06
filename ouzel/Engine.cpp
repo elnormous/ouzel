@@ -76,7 +76,7 @@ namespace ouzel
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
         availableDrivers.insert(video::Renderer::Driver::OPENGL);
 #elif defined(SUPPORTS_DIRECT3D11)
-        availableDrivers.insert(Renderer::Driver::DIRECT3D11);
+        availableDrivers.insert(video::Renderer::Driver::DIRECT3D11);
 #endif
 
         return availableDrivers;

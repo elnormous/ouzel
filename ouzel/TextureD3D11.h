@@ -8,6 +8,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class RendererD3D11;
     class RenderTargetD3D11;
 
@@ -40,4 +42,5 @@ namespace ouzel
         UINT _height = 0;
         UINT _mipLevels = 0;
     };
-}
+} // namespace video
+} // namespace ouzel

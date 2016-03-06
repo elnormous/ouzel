@@ -8,6 +8,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     RenderTargetD3D11::RenderTargetD3D11()
     {
         
@@ -56,4 +58,5 @@ namespace ouzel
 
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel

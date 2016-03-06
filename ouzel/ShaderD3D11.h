@@ -9,6 +9,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class RendererD3D11;
 
     class ShaderD3D11: public Shader
@@ -55,4 +57,5 @@ namespace ouzel
         ID3D11Buffer* _vertexShaderConstantBuffer = nullptr;
         std::vector<char> _vertexShaderData;
     };
-}
+} // namespace video
+} // namespace ouzel

@@ -8,6 +8,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class RendererD3D11;
 
     class MeshBufferD3D11: public MeshBuffer
@@ -42,4 +44,5 @@ namespace ouzel
 
         DXGI_FORMAT _indexFormat = DXGI_FORMAT_UNKNOWN;
     };
-}
+} // namespace video
+} // namespace ouzel

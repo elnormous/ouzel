@@ -9,6 +9,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     class RendererD3D11: public Renderer
     {
         friend Engine;
@@ -66,4 +68,5 @@ namespace ouzel
         ID3D11ShaderResourceView* _resourceViews[TEXTURE_LAYERS];
         ID3D11SamplerState* _samplerStates[TEXTURE_LAYERS];
     };
-}
+} // namespace video
+} // namespace ouzel

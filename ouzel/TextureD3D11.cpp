@@ -11,6 +11,8 @@
 
 namespace ouzel
 {
+namespace video
+{
     TextureD3D11::TextureD3D11()
     {
         
@@ -193,4 +195,5 @@ namespace ouzel
 
         return true;
     }
-}
+} // namespace video
+} // namespace ouzel
