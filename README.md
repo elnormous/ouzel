@@ -35,9 +35,7 @@ The following code will open a 640px x 480px window:
 
     ouzel::AppPtr ouzelMain(const std::vector<std::string>& args)
     {
-        std::shared_ptr<Application> application = std::make_shared<Application>();
-    
-        return application;
+        return std::make_shared<Application>();
     }
 
 ## Features
