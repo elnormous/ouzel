@@ -177,8 +177,8 @@ namespace ouzel
                     oldMipWidth = mipWidth;
                     oldMipHeight = mipHeight;
 
-                    mipWidth >>= 2;
-                    mipHeight >>= 2;
+                    mipWidth >>= 1;
+                    mipHeight >>= 1;
                     mipLevel++;
                     mipRowPitch = mipWidth * 4;
                 
