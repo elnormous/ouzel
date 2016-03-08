@@ -3,6 +3,9 @@
 
 #include <windows.h>
 #include "Engine.h"
+#include "Utils.h"
+
+void ouzelMain(const std::vector<std::string>& args);
 
 int WINAPI WinMain(HINSTANCE hInstance,
     HINSTANCE hPrevInstance,
@@ -30,8 +33,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
         LocalFree(argList);
     }
 
-    ouzel::Engine::getInstance()->setArgs(args);
-    ouzel::Engine::getInstance()->init();
+    ouzel::setArgs(args);
+    ouzelMain(ouzel::getArgs());
     ouzel::Engine::getInstance()->begin();
 
     MSG msg;

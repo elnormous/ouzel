@@ -79,4 +79,16 @@ namespace ouzel
         return 0;
 #endif
     }
+    
+    std::vector<std::string> ARGS;
+    
+    void setArgs(const std::vector<std::string>& args)
+    {
+        ARGS = args;
+    }
+    
+    const std::vector<std::string>& getArgs()
+    {
+        return ARGS;
+    }
 }

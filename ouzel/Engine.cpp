@@ -38,8 +38,6 @@
 #include "InputWin.h"
 #endif
 
-ouzel::AppPtr ouzelMain(const std::vector<std::string>& args);
-
 namespace ouzel
 {
     static EnginePtr sharedEngine;
@@ -64,11 +62,6 @@ namespace ouzel
 
     }
 
-    void Engine::setArgs(const std::vector<std::string>& args)
-    {
-        _args = args;
-    }
-
     std::set<video::Renderer::Driver> Engine::getAvailableDrivers() const
     {
         std::set<video::Renderer::Driver> availableDrivers;
@@ -82,16 +75,8 @@ namespace ouzel
         return availableDrivers;
     }
 
-    bool Engine::init()
+    bool Engine::init(Settings& settings)
     {
-        _app = ouzelMain(_args);
-
-        if (!_app)
-        {
-            return false;
-        }
-
-        Settings settings = _app->getSettings();
         _targetFPS = settings.targetFPS;
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
@@ -161,7 +146,12 @@ namespace ouzel
 
     void Engine::begin()
     {
-        _app->begin();
+        _running = true;
+        
+        if (_app)
+        {
+            _app->begin();
+        }
     }
 
     void Engine::end()
@@ -236,6 +226,16 @@ namespace ouzel
             {
                 _updateCallbacks.erase(i);
             }
+        }
+    }
+    
+    void Engine::setApp(const AppPtr &app)
+    {
+        _app = app;
+        
+        if (_running && _app)
+        {
+            _app->begin();
         }
     }
 

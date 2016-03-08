@@ -20,4 +20,7 @@ namespace ouzel
 
     void log(const char* format, ...);
     uint64_t getCurrentMicroSeconds();
+    
+    void setArgs(const std::vector<std::string>& args);
+    const std::vector<std::string>& getArgs();
 }

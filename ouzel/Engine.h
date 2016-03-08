@@ -24,12 +24,9 @@ namespace ouzel
         
         virtual ~Engine();
         
-        void setArgs(const std::vector<std::string>& args);
-        const std::vector<std::string>& getArgs() { return _args; }
-        
         std::set<video::Renderer::Driver> getAvailableDrivers() const;
         
-        bool init();
+        bool init(Settings& settings);
 
         const EventDispatcherPtr& getEventDispatcher() const { return _eventDispatcher; }
         const CachePtr& getCache() const { return _cache; }
@@ -51,13 +48,13 @@ namespace ouzel
         void scheduleUpdate(const UpdateCallbackPtr& callback);
         void unscheduleUpdate(const UpdateCallbackPtr& callback);
         
-        void lock();
-        void unlock();
+        void setApp(const AppPtr& app);
+        const AppPtr& getApp() const { return _app; }
         
     protected:
         Engine();
-        
-        std::vector<std::string> _args;
+        void lock();
+        void unlock();
         
         AppPtr _app;
         
@@ -78,6 +75,7 @@ namespace ouzel
         std::set<UpdateCallbackPtr> _updateCallbackRemoveList;
         
         int32_t _locked = 0;
+        bool _running = false;
         bool _active = true;
     };
 }

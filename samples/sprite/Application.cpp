@@ -13,15 +13,6 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
-    Settings Application::getSettings()
-    {
-        Settings settings;
-        settings.size = ouzel::Size2(800.0f, 600.0f);
-        settings.resizable = true;
-        
-        return settings;
-    }
-    
     void Application::begin()
     {
         _eventHandler = make_shared<EventHandler>();

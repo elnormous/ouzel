@@ -7,12 +7,15 @@
 #include "Renderer.h"
 #include "WindowOSX.h"
 #include "Size2.h"
+#include "Utils.h"
 
 @implementation AppDelegate
 
+void ouzelMain(const std::vector<std::string>& args);
+
 -(void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    ouzel::Engine::getInstance()->init();
+    ouzelMain(ouzel::getArgs());
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification

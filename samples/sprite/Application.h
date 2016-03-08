@@ -10,8 +10,6 @@ namespace ouzel
     public:
         virtual ~Application();
         
-        virtual Settings getSettings() override;
-        
         virtual void begin() override;
         
         bool handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const;

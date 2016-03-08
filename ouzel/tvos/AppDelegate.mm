@@ -6,12 +6,15 @@
 #import "OpenGLView.h"
 #include "Engine.h"
 #include "Cache.h"
+#include "Utils.h"
 
 @implementation AppDelegate
 
+void ouzelMain(const std::vector<std::string>& args);
+
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    ouzel::Engine::getInstance()->init();
+    ouzelMain(ouzel::getArgs());
     
     return YES;
 }
