@@ -315,6 +315,12 @@
 		304A8E9F1C27081B008B1151 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E9D1C27081B008B1151 /* Color.h */; };
 		304A8EA21C270833008B1151 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex.cpp */; };
 		304A8EA31C270833008B1151 /* Vertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.h */; };
+		304B27551C9384A600BA162D /* Size3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27531C9384A600BA162D /* Size3.cpp */; };
+		304B27561C9384A600BA162D /* Size3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27531C9384A600BA162D /* Size3.cpp */; };
+		304B27571C9384A600BA162D /* Size3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27531C9384A600BA162D /* Size3.cpp */; };
+		304B27581C9384A600BA162D /* Size3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size3.h */; };
+		304B27591C9384A600BA162D /* Size3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size3.h */; };
+		304B275A1C9384A600BA162D /* Size3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size3.h */; };
 		30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
 		30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
 		30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
@@ -529,6 +535,8 @@
 		304A8E9D1C27081B008B1151 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		304A8EA01C270833008B1151 /* Vertex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vertex.cpp; sourceTree = "<group>"; };
 		304A8EA11C270833008B1151 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
+		304B27531C9384A600BA162D /* Size3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Size3.cpp; sourceTree = "<group>"; };
+		304B27541C9384A600BA162D /* Size3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Size3.h; sourceTree = "<group>"; };
 		30575A8D1C38BD370009C8A7 /* AABB2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB2.cpp; sourceTree = "<group>"; };
 		30575A8E1C38BD370009C8A7 /* AABB2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AABB2.h; sourceTree = "<group>"; };
 		30575A9C1C39CB790009C8A7 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
@@ -639,6 +647,8 @@
 				304A8E3C1C237C70008B1151 /* Rectangle.h */,
 				304A8E981C26F5CF008B1151 /* Size2.cpp */,
 				304A8E991C26F5CF008B1151 /* Size2.h */,
+				304B27531C9384A600BA162D /* Size3.cpp */,
+				304B27541C9384A600BA162D /* Size3.h */,
 				304A8E4A1C237C70008B1151 /* Vector2.cpp */,
 				304A8E4B1C237C70008B1151 /* Vector2.h */,
 				304A8E4C1C237C70008B1151 /* Vector3.cpp */,
@@ -890,6 +900,7 @@
 				3047F75A1C4C4FBA00774E3D /* Scale.h in Headers */,
 				30575A931C38BD370009C8A7 /* AABB2.h in Headers */,
 				306B0E631C567D05005C75C1 /* DrawNode.h in Headers */,
+				304B27591C9384A600BA162D /* Size3.h in Headers */,
 				303B754B1C2A3C9200FEDE92 /* Texture.h in Headers */,
 				303B75521C2A3CB700FEDE92 /* Matrix4.h in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.h in Headers */,
@@ -965,6 +976,7 @@
 				3047F75B1C4C4FBA00774E3D /* Scale.h in Headers */,
 				30575A941C38BD370009C8A7 /* AABB2.h in Headers */,
 				306B0E641C567D05005C75C1 /* DrawNode.h in Headers */,
+				304B275A1C9384A600BA162D /* Size3.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
 				303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */,
 				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
@@ -1100,6 +1112,7 @@
 				3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */,
 				3047F7591C4C4FBA00774E3D /* Scale.h in Headers */,
 				3031A0B01C3731A2004D3514 /* ColorPSOGLES.h in Headers */,
+				304B27581C9384A600BA162D /* Size3.h in Headers */,
 				3031A0B31C3731A2004D3514 /* ColorVSOGLES.h in Headers */,
 				304A8E841C24814F008B1151 /* RenderTargetOGL.h in Headers */,
 				3047F7611C4C60B900774E3D /* Fade.h in Headers */,
@@ -1254,6 +1267,7 @@
 				30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B75401C2A3C9200FEDE92 /* Image.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
+				304B27561C9384A600BA162D /* Size3.cpp in Sources */,
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */,
 				303B753E1C2A3C9200FEDE92 /* Color.cpp in Sources */,
@@ -1322,6 +1336,7 @@
 				303B764B1C355A3B00FEDE92 /* Image.cpp in Sources */,
 				30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
+				304B27571C9384A600BA162D /* Size3.cpp in Sources */,
 				303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */,
 				30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B764E1C355A3B00FEDE92 /* Color.cpp in Sources */,
@@ -1351,6 +1366,7 @@
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				303B751D1C29EDEE00FEDE92 /* main.mm in Sources */,
+				304B27551C9384A600BA162D /* Size3.cpp in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
 				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
