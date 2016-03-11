@@ -173,6 +173,9 @@
     <ClCompile Include="..\ouzel\win\WindowWin.cpp">
       <Filter>win</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\Size3.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -380,6 +383,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\win\WindowWin.h">
       <Filter>win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Size3.h">
+      <Filter>math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
