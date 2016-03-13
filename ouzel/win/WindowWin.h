@@ -21,7 +21,7 @@ namespace ouzel
 
         void handleResize(INT width, INT height);
 
-        HWND getWindow() const { return _window; }
+        HWND getNativeWindow() const { return _window; }
         HMONITOR getMonitor() const;
 
     protected:

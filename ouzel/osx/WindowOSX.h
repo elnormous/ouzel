@@ -35,6 +35,8 @@ namespace ouzel
         void handleClose();
         void handleFullscreenChange(bool fullscreen);
         
+        NSWindowPtr getNativeWindow() const { return _window; }
+        
     protected:
         WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
         virtual bool init() override;

@@ -106,7 +106,7 @@ namespace ouzel
             swapChainDesc.SampleDesc.Quality = 0;
             swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
             swapChainDesc.BufferCount = 1;
-            swapChainDesc.OutputWindow = windowWin->getWindow();
+            swapChainDesc.OutputWindow = windowWin->getNativeWindow();
             swapChainDesc.Windowed = _fullscreen == false;
             swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
             swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
@@ -118,7 +118,7 @@ namespace ouzel
                 return false;
             }
 
-            factory->MakeWindowAssociation(windowWin->getWindow(), DXGI_MWA_NO_ALT_ENTER);
+            factory->MakeWindowAssociation(windowWin->getNativeWindow(), DXGI_MWA_NO_ALT_ENTER);
 
             factory->Release();
             dxgiDevice->Release();
