@@ -321,6 +321,12 @@
 		304B27581C9384A600BA162D /* Size3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size3.h */; };
 		304B27591C9384A600BA162D /* Size3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size3.h */; };
 		304B275A1C9384A600BA162D /* Size3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size3.h */; };
+		304B27791C95C54D00BA162D /* EditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27771C95C54D00BA162D /* EditBox.cpp */; };
+		304B277A1C95C54D00BA162D /* EditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27771C95C54D00BA162D /* EditBox.cpp */; };
+		304B277B1C95C54D00BA162D /* EditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27771C95C54D00BA162D /* EditBox.cpp */; };
+		304B277C1C95C54D00BA162D /* EditBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27781C95C54D00BA162D /* EditBox.h */; };
+		304B277D1C95C54D00BA162D /* EditBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27781C95C54D00BA162D /* EditBox.h */; };
+		304B277E1C95C54D00BA162D /* EditBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27781C95C54D00BA162D /* EditBox.h */; };
 		30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
 		30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
 		30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
@@ -537,6 +543,8 @@
 		304A8EA11C270833008B1151 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
 		304B27531C9384A600BA162D /* Size3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Size3.cpp; sourceTree = "<group>"; };
 		304B27541C9384A600BA162D /* Size3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Size3.h; sourceTree = "<group>"; };
+		304B27771C95C54D00BA162D /* EditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditBox.cpp; sourceTree = "<group>"; };
+		304B27781C95C54D00BA162D /* EditBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBox.h; sourceTree = "<group>"; };
 		30575A8D1C38BD370009C8A7 /* AABB2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB2.cpp; sourceTree = "<group>"; };
 		30575A8E1C38BD370009C8A7 /* AABB2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AABB2.h; sourceTree = "<group>"; };
 		30575A9C1C39CB790009C8A7 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
@@ -869,6 +877,8 @@
 				305B999B1C42A695008589E1 /* BMFont.h */,
 				30575AC31C3B17540009C8A7 /* Button.cpp */,
 				30575AC41C3B17540009C8A7 /* Button.h */,
+				304B27771C95C54D00BA162D /* EditBox.cpp */,
+				304B27781C95C54D00BA162D /* EditBox.h */,
 				30575ACB1C3B175D0009C8A7 /* Label.cpp */,
 				30575ACC1C3B175D0009C8A7 /* Label.h */,
 				305B99871C41EFFA008589E1 /* Menu.cpp */,
@@ -959,6 +969,7 @@
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
 				300934201C88698500CC50D3 /* Window.h in Headers */,
+				304B277D1C95C54D00BA162D /* EditBox.h in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
 				303647201C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */,
@@ -1035,6 +1046,7 @@
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
 				300934211C88698500CC50D3 /* Window.h in Headers */,
+				304B277E1C95C54D00BA162D /* EditBox.h in Headers */,
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
 				303647211C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				30575AE61C3C91A40009C8A7 /* InputApple.h in Headers */,
@@ -1073,6 +1085,7 @@
 				305B99941C41F06F008589E1 /* Widget.h in Headers */,
 				304A8E5D1C237C70008B1151 /* Node.h in Headers */,
 				304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */,
+				304B277C1C95C54D00BA162D /* EditBox.h in Headers */,
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
 				304A8E751C237C70008B1151 /* Vector4.h in Headers */,
 				30B328871C4E9EAC00040927 /* Ease.h in Headers */,
@@ -1234,6 +1247,7 @@
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
+				304B277A1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				3047F7701C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				30575AE21C3C91A40009C8A7 /* InputApple.mm in Sources */,
@@ -1303,6 +1317,7 @@
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
+				304B277B1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				3047F7711C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
 				30575AE31C3C91A40009C8A7 /* InputApple.mm in Sources */,
@@ -1396,6 +1411,7 @@
 				3047F7561C4C4FBA00774E3D /* Scale.cpp in Sources */,
 				304A8E701C237C70008B1151 /* Vector2.cpp in Sources */,
 				3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */,
+				304B27791C95C54D00BA162D /* EditBox.cpp in Sources */,
 				304A8E511C237C70008B1151 /* Camera.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				303B75211C29EFEC00FEDE92 /* AppDelegate.mm in Sources */,
