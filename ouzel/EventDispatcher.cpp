@@ -59,6 +59,10 @@ namespace ouzel
                 case Event::Type::WINDOW_FULLSCREEN_CHANGE:
                     dispatchWindowEvent(std::static_pointer_cast<WindowEvent>(eventPair.first), eventPair.second);
                     break;
+                case Event::Type::LOW_MEMORY:
+                case Event::Type::OPEN_FILE:
+                    dispatchSystemEvent(std::static_pointer_cast<SystemEvent>(eventPair.first), eventPair.second);
+                    break;
             }
         }
         
@@ -193,6 +197,24 @@ namespace ouzel
             if (!eventHandler->_remove && eventHandler->windowHandler)
             {
                 if (!eventHandler->windowHandler(event, sender))
+                {
+                    break;
+                }
+            }
+        }
+        
+        unlock();
+    }
+    
+    void EventDispatcher::dispatchSystemEvent(const SystemEventPtr& event, const VoidPtr& sender)
+    {
+        lock();
+        
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        {
+            if (!eventHandler->_remove && eventHandler->systemHandler)
+            {
+                if (!eventHandler->systemHandler(event, sender))
                 {
                     break;
                 }

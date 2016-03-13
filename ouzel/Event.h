@@ -33,7 +33,9 @@ namespace ouzel
             GAMEPAD_BUTTON_CHANGE,
             WINDOW_SIZE_CHANGE,
             WINDOW_TITLE_CHANGE,
-            WINDOW_FULLSCREEN_CHANGE
+            WINDOW_FULLSCREEN_CHANGE,
+            LOW_MEMORY,
+            OPEN_FILE
         };
         
         enum Modifiers
@@ -83,5 +85,11 @@ namespace ouzel
         Size2 size;
         std::string title;
         bool fullscreen = false;
+    };
+    
+    struct SystemEvent: public Event
+    {
+        Size2 size;
+        std::string filename;
     };
 }

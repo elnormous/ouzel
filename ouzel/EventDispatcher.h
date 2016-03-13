@@ -39,6 +39,7 @@ namespace ouzel
         void dispatchTouchEvent(const TouchEventPtr& event, const VoidPtr& sender);
         void dispatchGamepadEvent(const GamepadEventPtr& event, const VoidPtr& sender);
         void dispatchWindowEvent(const WindowEventPtr& event, const VoidPtr& sender);
+        void dispatchSystemEvent(const SystemEventPtr& event, const VoidPtr& sender);
         
         void lock();
         void unlock();

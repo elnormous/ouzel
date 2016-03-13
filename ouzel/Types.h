@@ -76,6 +76,8 @@ namespace ouzel
     typedef std::shared_ptr<GamepadEvent> GamepadEventPtr;
     struct WindowEvent;
     typedef std::shared_ptr<WindowEvent> WindowEventPtr;
+    struct SystemEvent;
+    typedef std::shared_ptr<SystemEvent> SystemEventPtr;
     
     namespace scene
     {

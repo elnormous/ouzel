@@ -172,7 +172,7 @@ namespace ouzel
     {
         if (_title != title)
         {
-            NSString* title = [NSString stringWithCString:_title.c_str() encoding:NSASCIIStringEncoding];
+            NSString* title = [NSString stringWithCString:_title.c_str() encoding:NSUTF8StringEncoding];
             
             if ([NSThread isMainThread])
             {
