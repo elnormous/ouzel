@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <string>
 #include "Widget.h"
 
 namespace ouzel
@@ -11,7 +12,15 @@ namespace ouzel
     {
         class EditBox: public Widget
         {
+        public:
+            EditBox();
+            virtual ~EditBox();
             
+            void setValue(const std::string& value);
+            const std::string& getValue() const { return _value; }
+            
+        private:
+            std::string _value;
         };
     } // namespace gui
 } // namespace ouzel

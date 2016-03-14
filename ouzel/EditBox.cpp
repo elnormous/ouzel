@@ -7,6 +7,20 @@ namespace ouzel
 {
     namespace gui
     {
+        EditBox::EditBox()
+        {
+            
+        }
+        
+        EditBox::~EditBox()
+        {
+            
+        }
+        
+        void EditBox::setValue(const std::string& value)
+        {
+            _value = value;
+        }
         
     } // namespace gui
 } // namespace ouzel
