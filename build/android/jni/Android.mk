@@ -33,7 +33,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Matrix4.cpp \
     ../../../ouzel/Menu.cpp \
     ../../../ouzel/MeshBuffer.cpp \
-    ../../../ouzel/MeshBufferOGL.cpp \
+    ../../../ouzel/opengl/MeshBufferOGL.cpp \
     ../../../ouzel/Move.cpp \
     ../../../ouzel/Node.cpp \
     ../../../ouzel/NodeContainer.cpp \
@@ -41,9 +41,9 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/ParticleSystem.cpp \
     ../../../ouzel/Rectangle.cpp \
     ../../../ouzel/Renderer.cpp \
-    ../../../ouzel/RendererOGL.cpp \
+    ../../../ouzel/opengl/RendererOGL.cpp \
     ../../../ouzel/RenderTarget.cpp \
-    ../../../ouzel/RenderTargetOGL.cpp \
+    ../../../ouzel/opengl/RenderTargetOGL.cpp \
     ../../../ouzel/Repeat.cpp \
 	../../../ouzel/Rotate.cpp \
 	../../../ouzel/Scale.cpp \
@@ -51,11 +51,11 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/SceneManager.cpp \
     ../../../ouzel/Sequence.cpp \
     ../../../ouzel/Shader.cpp \
-    ../../../ouzel/ShaderOGL.cpp \
+    ../../../ouzel/opengl/ShaderOGL.cpp \
     ../../../ouzel/Size2.cpp \
     ../../../ouzel/Sprite.cpp \
     ../../../ouzel/Texture.cpp \
-    ../../../ouzel/TextureOGL.cpp \
+    ../../../ouzel/opengl/TextureOGL.cpp \
     ../../../ouzel/Utils.cpp \
     ../../../ouzel/Vector2.cpp \
     ../../../ouzel/Vector3.cpp \
