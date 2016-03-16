@@ -6,8 +6,8 @@
 #include <cstdint>
 #include "Vector2.h"
 
-#define RANDOM_MINUS1_1()      ((2.0f * ((float)rand() / RAND_MAX)) - 1.0f) // Returns a random float between -1 and 1.
-#define RANDOM_0_1()           ((float)rand()/RAND_MAX) // Returns a random float between 0 and 1.
+#define RANDOM_MINUS1_1()      ((2.0f * (static_cast<float>(rand()) / RAND_MAX)) - 1.0f) // Returns a random float between -1 and 1.
+#define RANDOM_0_1()           (static_cast<float>(rand()) / RAND_MAX) // Returns a random float between 0 and 1.
 
 namespace ouzel
 {

@@ -658,7 +658,7 @@ namespace ouzel
 
     void Matrix4::transformVector(float x, float y, float z, float w, Vector3& dst) const
     {
-        transformVector4(m, x, y, z, w, (float*)&dst);
+        transformVector4(m, x, y, z, w, reinterpret_cast<float*>(&dst));
     }
 
     void Matrix4::transformVector(Vector4& vector) const
@@ -668,7 +668,7 @@ namespace ouzel
 
     void Matrix4::transformVector(const Vector4& vector, Vector4& dst) const
     {
-        transformVector4(m, (const float*) &vector, (float*)&dst);
+        transformVector4(m, reinterpret_cast<const float*>(&vector), reinterpret_cast<float*>(&dst));
     }
 
     void Matrix4::translate(float x, float y, float z)
