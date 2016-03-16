@@ -1469,11 +1469,6 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EXECUTABLE_PREFIX = lib;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					../external/stb/,
-					../external/rapidjson/include/,
-				);
 				PRODUCT_NAME = ouzel_ios;
 				SDKROOT = iphoneos;
 			};
@@ -1484,11 +1479,6 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EXECUTABLE_PREFIX = lib;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					../external/stb/,
-					../external/rapidjson/include/,
-				);
 				PRODUCT_NAME = ouzel_ios;
 				SDKROOT = iphoneos;
 			};
@@ -1499,11 +1489,6 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EXECUTABLE_PREFIX = lib;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					../external/stb/,
-					../external/rapidjson/include/,
-				);
 				PRODUCT_NAME = ouzel_tvos;
 				SDKROOT = appletvos;
 			};
@@ -1514,11 +1499,6 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EXECUTABLE_PREFIX = lib;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					../external/stb/,
-					../external/rapidjson/include/,
-				);
 				PRODUCT_NAME = ouzel_tvos;
 				SDKROOT = appletvos;
 			};
@@ -1558,6 +1538,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../external/stb/,
+					../external/rapidjson/include/,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1593,6 +1577,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../external/stb/,
+					../external/rapidjson/include/,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
@@ -1603,11 +1591,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					../external/stb/,
-					../external/rapidjson/include/,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = ouzel_osx;
 			};
@@ -1617,11 +1600,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					../external/stb/,
-					../external/rapidjson/include/,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = ouzel_osx;
 			};
