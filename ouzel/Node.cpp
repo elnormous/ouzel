@@ -34,7 +34,6 @@ namespace ouzel
             
             if (_visible)
             {
-                bool dirty = _transformDirty;
                 if (_transformDirty)
                 {
                     calculateTransform();
@@ -70,7 +69,7 @@ namespace ouzel
                         {
                             if (node->getZ() < 0.0f)
                             {
-                                node->visit(_transform, dirty);
+                                node->visit(_transform, _updateChildrenTransform);
                             }
                             else
                             {
@@ -89,12 +88,14 @@ namespace ouzel
                         if (!node->_remove)
                         {
                             node = *i;
-                            node->visit(_transform, dirty);
+                            node->visit(_transform, _updateChildrenTransform);
                         }
                     }
                     
                     unlock();
                 }
+
+                _updateChildrenTransform = false;
             }
         }
         
@@ -439,6 +440,8 @@ namespace ouzel
             
             _transform = _parentTransform * _localTransform;
             _transformDirty = false;
+            
+            _updateChildrenTransform = true;
         }
         
         void Node::calculateInverseTransform() const

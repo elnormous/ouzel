@@ -102,6 +102,8 @@ namespace ouzel
             
             mutable Matrix4 _localTransform;
             mutable bool _localTransformDirty = true;
+
+            mutable bool _updateChildrenTransform = true;
             
             //TODO: transform to parent and transform to parent
             
