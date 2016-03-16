@@ -95,8 +95,8 @@ namespace ouzel
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
             memset(&swapChainDesc, 0, sizeof(swapChainDesc));
 
-            swapChainDesc.BufferDesc.Width = (int)_size.width;
-            swapChainDesc.BufferDesc.Height = (int)_size.height;
+            swapChainDesc.BufferDesc.Width = static_cast<UINT>(_size.width);
+            swapChainDesc.BufferDesc.Height = static_cast<UINT>(_size.height);
             swapChainDesc.BufferDesc.RefreshRate.Numerator = _fullscreen ? 60 : 0; // TODO refresh rate?
             swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
             swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -107,7 +107,7 @@ namespace ouzel
             swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
             swapChainDesc.BufferCount = 1;
             swapChainDesc.OutputWindow = windowWin->getNativeWindow();
-            swapChainDesc.Windowed = _fullscreen == false;
+            swapChainDesc.Windowed = static_cast<BOOL>(!_fullscreen);
             swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
             swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
@@ -124,7 +124,7 @@ namespace ouzel
             dxgiDevice->Release();
 
             // Backbuffer
-            hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&_backBuffer);
+            hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&_backBuffer));
             if (FAILED(hr) || !_backBuffer)
             {
                 log("Failed to retrieve D3D11 backbuffer");
@@ -345,8 +345,8 @@ namespace ouzel
 
             if (_swapChain)
             {
-                UINT width = size.width;
-                UINT height = size.height;
+                UINT width = static_cast<UINT>(size.width);
+                UINT height = static_cast<UINT>(size.height);
 
                 if (_rtView)
                 {
