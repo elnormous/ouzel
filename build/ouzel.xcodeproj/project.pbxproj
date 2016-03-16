@@ -337,6 +337,36 @@
 		304B281C1C9A0BF800BA162D /* TextureVSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27E81C9A0BF800BA162D /* TextureVSOGLES.h */; };
 		304B281D1C9A0BF800BA162D /* TextureVSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27E81C9A0BF800BA162D /* TextureVSOGLES.h */; };
 		304B281E1C9A0BF800BA162D /* TextureVSOGLES.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B27E81C9A0BF800BA162D /* TextureVSOGLES.h */; };
+		304B28211C9A0C3D00BA162D /* RendererMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B281F1C9A0C3D00BA162D /* RendererMetal.h */; };
+		304B28221C9A0C3D00BA162D /* RendererMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B281F1C9A0C3D00BA162D /* RendererMetal.h */; };
+		304B28231C9A0C3D00BA162D /* RendererMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B281F1C9A0C3D00BA162D /* RendererMetal.h */; };
+		304B28241C9A0C3D00BA162D /* RendererMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B28201C9A0C3D00BA162D /* RendererMetal.mm */; };
+		304B28251C9A0C3D00BA162D /* RendererMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B28201C9A0C3D00BA162D /* RendererMetal.mm */; };
+		304B28261C9A0C3D00BA162D /* RendererMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B28201C9A0C3D00BA162D /* RendererMetal.mm */; };
+		304B282F1C9A0CA200BA162D /* MeshBufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B28271C9A0CA100BA162D /* MeshBufferMetal.mm */; };
+		304B28301C9A0CA200BA162D /* MeshBufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B28271C9A0CA100BA162D /* MeshBufferMetal.mm */; };
+		304B28311C9A0CA200BA162D /* MeshBufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B28271C9A0CA100BA162D /* MeshBufferMetal.mm */; };
+		304B28321C9A0CA200BA162D /* MeshBufferMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B28281C9A0CA100BA162D /* MeshBufferMetal.h */; };
+		304B28331C9A0CA200BA162D /* MeshBufferMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B28281C9A0CA100BA162D /* MeshBufferMetal.h */; };
+		304B28341C9A0CA200BA162D /* MeshBufferMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B28281C9A0CA100BA162D /* MeshBufferMetal.h */; };
+		304B28351C9A0CA200BA162D /* RenderTargetMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B28291C9A0CA100BA162D /* RenderTargetMetal.mm */; };
+		304B28361C9A0CA200BA162D /* RenderTargetMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B28291C9A0CA100BA162D /* RenderTargetMetal.mm */; };
+		304B28371C9A0CA200BA162D /* RenderTargetMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B28291C9A0CA100BA162D /* RenderTargetMetal.mm */; };
+		304B28381C9A0CA200BA162D /* RenderTargetMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B282A1C9A0CA100BA162D /* RenderTargetMetal.h */; };
+		304B28391C9A0CA200BA162D /* RenderTargetMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B282A1C9A0CA100BA162D /* RenderTargetMetal.h */; };
+		304B283A1C9A0CA200BA162D /* RenderTargetMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B282A1C9A0CA100BA162D /* RenderTargetMetal.h */; };
+		304B283B1C9A0CA200BA162D /* ShaderMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B282B1C9A0CA100BA162D /* ShaderMetal.mm */; };
+		304B283C1C9A0CA200BA162D /* ShaderMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B282B1C9A0CA100BA162D /* ShaderMetal.mm */; };
+		304B283D1C9A0CA200BA162D /* ShaderMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B282B1C9A0CA100BA162D /* ShaderMetal.mm */; };
+		304B283E1C9A0CA200BA162D /* ShaderMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B282C1C9A0CA100BA162D /* ShaderMetal.h */; };
+		304B283F1C9A0CA200BA162D /* ShaderMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B282C1C9A0CA100BA162D /* ShaderMetal.h */; };
+		304B28401C9A0CA200BA162D /* ShaderMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B282C1C9A0CA100BA162D /* ShaderMetal.h */; };
+		304B28411C9A0CA200BA162D /* TextureMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B282D1C9A0CA100BA162D /* TextureMetal.mm */; };
+		304B28421C9A0CA200BA162D /* TextureMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B282D1C9A0CA100BA162D /* TextureMetal.mm */; };
+		304B28431C9A0CA200BA162D /* TextureMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 304B282D1C9A0CA100BA162D /* TextureMetal.mm */; };
+		304B28441C9A0CA200BA162D /* TextureMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B282E1C9A0CA100BA162D /* TextureMetal.h */; };
+		304B28451C9A0CA200BA162D /* TextureMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B282E1C9A0CA100BA162D /* TextureMetal.h */; };
+		304B28461C9A0CA200BA162D /* TextureMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 304B282E1C9A0CA100BA162D /* TextureMetal.h */; };
 		30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
 		30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
 		30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
@@ -421,12 +451,6 @@
 		30DADE9F1C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
 		30DADEA01C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
 		30DADEA11C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
-		30FA80D31C8A782400F2695E /* RendererMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30FA80D11C8A782400F2695E /* RendererMetal.h */; };
-		30FA80D41C8A782400F2695E /* RendererMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30FA80D11C8A782400F2695E /* RendererMetal.h */; };
-		30FA80D51C8A782400F2695E /* RendererMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30FA80D11C8A782400F2695E /* RendererMetal.h */; };
-		30FA80D61C8A782400F2695E /* RendererMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30FA80D21C8A782400F2695E /* RendererMetal.mm */; };
-		30FA80D71C8A782400F2695E /* RendererMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30FA80D21C8A782400F2695E /* RendererMetal.mm */; };
-		30FA80D81C8A782400F2695E /* RendererMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30FA80D21C8A782400F2695E /* RendererMetal.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -561,6 +585,16 @@
 		304B27E61C9A0BF800BA162D /* TexturePSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TexturePSOGLES.h; path = opengl/TexturePSOGLES.h; sourceTree = "<group>"; };
 		304B27E71C9A0BF800BA162D /* TextureVSOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureVSOGL.h; path = opengl/TextureVSOGL.h; sourceTree = "<group>"; };
 		304B27E81C9A0BF800BA162D /* TextureVSOGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureVSOGLES.h; path = opengl/TextureVSOGLES.h; sourceTree = "<group>"; };
+		304B281F1C9A0C3D00BA162D /* RendererMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RendererMetal.h; path = metal/RendererMetal.h; sourceTree = "<group>"; };
+		304B28201C9A0C3D00BA162D /* RendererMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RendererMetal.mm; path = metal/RendererMetal.mm; sourceTree = "<group>"; };
+		304B28271C9A0CA100BA162D /* MeshBufferMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MeshBufferMetal.mm; path = metal/MeshBufferMetal.mm; sourceTree = "<group>"; };
+		304B28281C9A0CA100BA162D /* MeshBufferMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeshBufferMetal.h; path = metal/MeshBufferMetal.h; sourceTree = "<group>"; };
+		304B28291C9A0CA100BA162D /* RenderTargetMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RenderTargetMetal.mm; path = metal/RenderTargetMetal.mm; sourceTree = "<group>"; };
+		304B282A1C9A0CA100BA162D /* RenderTargetMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTargetMetal.h; path = metal/RenderTargetMetal.h; sourceTree = "<group>"; };
+		304B282B1C9A0CA100BA162D /* ShaderMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ShaderMetal.mm; path = metal/ShaderMetal.mm; sourceTree = "<group>"; };
+		304B282C1C9A0CA100BA162D /* ShaderMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderMetal.h; path = metal/ShaderMetal.h; sourceTree = "<group>"; };
+		304B282D1C9A0CA100BA162D /* TextureMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TextureMetal.mm; path = metal/TextureMetal.mm; sourceTree = "<group>"; };
+		304B282E1C9A0CA100BA162D /* TextureMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureMetal.h; path = metal/TextureMetal.h; sourceTree = "<group>"; };
 		30575A8D1C38BD370009C8A7 /* AABB2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB2.cpp; sourceTree = "<group>"; };
 		30575A8E1C38BD370009C8A7 /* AABB2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AABB2.h; sourceTree = "<group>"; };
 		30575A9C1C39CB790009C8A7 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
@@ -592,8 +626,6 @@
 		30C8B6211C6D0E350031B64F /* UpdateCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UpdateCallback.h; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
-		30FA80D11C8A782400F2695E /* RendererMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererMetal.h; sourceTree = "<group>"; };
-		30FA80D21C8A782400F2695E /* RendererMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererMetal.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -922,8 +954,16 @@
 		30FA80D01C8A77F000F2695E /* metal */ = {
 			isa = PBXGroup;
 			children = (
-				30FA80D11C8A782400F2695E /* RendererMetal.h */,
-				30FA80D21C8A782400F2695E /* RendererMetal.mm */,
+				304B28281C9A0CA100BA162D /* MeshBufferMetal.h */,
+				304B28271C9A0CA100BA162D /* MeshBufferMetal.mm */,
+				304B281F1C9A0C3D00BA162D /* RendererMetal.h */,
+				304B28201C9A0C3D00BA162D /* RendererMetal.mm */,
+				304B282A1C9A0CA100BA162D /* RenderTargetMetal.h */,
+				304B28291C9A0CA100BA162D /* RenderTargetMetal.mm */,
+				304B282C1C9A0CA100BA162D /* ShaderMetal.h */,
+				304B282B1C9A0CA100BA162D /* ShaderMetal.mm */,
+				304B282E1C9A0CA100BA162D /* TextureMetal.h */,
+				304B282D1C9A0CA100BA162D /* TextureMetal.mm */,
 			);
 			name = metal;
 			sourceTree = "<group>";
@@ -946,15 +986,18 @@
 				30575AA21C39CB790009C8A7 /* Scene.h in Headers */,
 				303B753F1C2A3C9200FEDE92 /* Color.h in Headers */,
 				303B75471C2A3C9200FEDE92 /* RenderTarget.h in Headers */,
+				304B28391C9A0CA200BA162D /* RenderTargetMetal.h in Headers */,
 				303B762F1C3559B900FEDE92 /* ViewController.h in Headers */,
 				3047F76B1C4D2C2000774E3D /* Sequence.h in Headers */,
 				30575AAA1C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.h in Headers */,
+				304B28221C9A0C3D00BA162D /* RendererMetal.h in Headers */,
 				303B75F41C335B7D00FEDE92 /* File.h in Headers */,
 				303B755C1C2A3CB700FEDE92 /* Vector4.h in Headers */,
 				303B756E1C2A3CCA00FEDE92 /* Utils.h in Headers */,
 				303B75431C2A3C9200FEDE92 /* MeshBuffer.h in Headers */,
 				30575AD11C3B175D0009C8A7 /* Label.h in Headers */,
+				304B28331C9A0CA200BA162D /* MeshBufferMetal.h in Headers */,
 				304B27F31C9A0BF800BA162D /* ColorVSOGLES.h in Headers */,
 				303647181C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				304B28111C9A0BF800BA162D /* TextureOGL.h in Headers */,
@@ -971,8 +1014,8 @@
 				3047F77B1C4D39C500774E3D /* Repeat.h in Headers */,
 				3047F7621C4C60B900774E3D /* Fade.h in Headers */,
 				303647651C3F218E0024DB5B /* Settings.h in Headers */,
-				30FA80D41C8A782400F2695E /* RendererMetal.h in Headers */,
 				305B99951C41F06F008589E1 /* Widget.h in Headers */,
+				304B283F1C9A0CA200BA162D /* ShaderMetal.h in Headers */,
 				303B760B1C34A92B00FEDE92 /* Input.h in Headers */,
 				303B75541C2A3CB700FEDE92 /* Rectangle.h in Headers */,
 				303B753B1C2A3C8200FEDE92 /* Noncopyable.h in Headers */,
@@ -988,6 +1031,7 @@
 				30575ADC1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				303B75561C2A3CB700FEDE92 /* Size2.h in Headers */,
 				304B281A1C9A0BF800BA162D /* TextureVSOGL.h in Headers */,
+				304B28451C9A0CA200BA162D /* TextureMetal.h in Headers */,
 				303B75491C2A3C9200FEDE92 /* Shader.h in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.h in Headers */,
 				304B28141C9A0BF800BA162D /* TexturePSOGL.h in Headers */,
@@ -1029,15 +1073,18 @@
 				30575AA31C39CB790009C8A7 /* Scene.h in Headers */,
 				303B765B1C355A3B00FEDE92 /* Color.h in Headers */,
 				303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */,
+				304B283A1C9A0CA200BA162D /* RenderTargetMetal.h in Headers */,
 				303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */,
 				3047F76C1C4D2C2000774E3D /* Sequence.h in Headers */,
 				30575AAB1C39D1FF0009C8A7 /* Layer.h in Headers */,
 				303B765F1C355A3B00FEDE92 /* File.h in Headers */,
+				304B28231C9A0C3D00BA162D /* RendererMetal.h in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
 				303B76611C355A3B00FEDE92 /* Utils.h in Headers */,
 				303B76621C355A3B00FEDE92 /* MeshBuffer.h in Headers */,
 				303B76631C355A3B00FEDE92 /* Engine.h in Headers */,
 				30575AD21C3B175D0009C8A7 /* Label.h in Headers */,
+				304B28341C9A0CA200BA162D /* MeshBufferMetal.h in Headers */,
 				304B27F41C9A0BF800BA162D /* ColorVSOGLES.h in Headers */,
 				303647191C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				304B28121C9A0BF800BA162D /* TextureOGL.h in Headers */,
@@ -1053,9 +1100,9 @@
 				304B27F11C9A0BF800BA162D /* ColorVSOGL.h in Headers */,
 				3047F77C1C4D39C500774E3D /* Repeat.h in Headers */,
 				3047F7631C4C60B900774E3D /* Fade.h in Headers */,
-				30FA80D51C8A782400F2695E /* RendererMetal.h in Headers */,
 				303647661C3F218E0024DB5B /* Settings.h in Headers */,
 				303B76681C355A3B00FEDE92 /* Input.h in Headers */,
+				304B28401C9A0CA200BA162D /* ShaderMetal.h in Headers */,
 				305B99961C41F06F008589E1 /* Widget.h in Headers */,
 				303B76691C355A3B00FEDE92 /* Rectangle.h in Headers */,
 				303B766B1C355A3B00FEDE92 /* Noncopyable.h in Headers */,
@@ -1071,6 +1118,7 @@
 				30575ADD1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				303B76741C355A3B00FEDE92 /* Shader.h in Headers */,
 				304B281B1C9A0BF800BA162D /* TextureVSOGL.h in Headers */,
+				304B28461C9A0CA200BA162D /* TextureMetal.h in Headers */,
 				303B76761C355A3B00FEDE92 /* Vertex.h in Headers */,
 				303B76771C355A3B00FEDE92 /* Camera.h in Headers */,
 				304B28151C9A0BF800BA162D /* TexturePSOGL.h in Headers */,
@@ -1124,6 +1172,7 @@
 				304A8E711C237C70008B1151 /* Vector2.h in Headers */,
 				305B99941C41F06F008589E1 /* Widget.h in Headers */,
 				304A8E5D1C237C70008B1151 /* Node.h in Headers */,
+				304B28441C9A0CA200BA162D /* TextureMetal.h in Headers */,
 				304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */,
 				304B277C1C95C54D00BA162D /* EditBox.h in Headers */,
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
@@ -1132,6 +1181,7 @@
 				30B328871C4E9EAC00040927 /* Ease.h in Headers */,
 				304A8E9F1C27081B008B1151 /* Color.h in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */,
+				304B28321C9A0CA200BA162D /* MeshBufferMetal.h in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
 				30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
@@ -1143,9 +1193,9 @@
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
 				30575AD01C3B175D0009C8A7 /* Label.h in Headers */,
 				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
-				30FA80D31C8A782400F2695E /* RendererMetal.h in Headers */,
 				306B0E621C567D05005C75C1 /* DrawNode.h in Headers */,
 				304B280A1C9A0BF800BA162D /* ShaderOGL.h in Headers */,
+				304B283E1C9A0CA200BA162D /* ShaderMetal.h in Headers */,
 				3047F7411C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
@@ -1158,6 +1208,7 @@
 				303647601C3F210F0024DB5B /* App.h in Headers */,
 				304A8E571C237C70008B1151 /* MathUtils.h in Headers */,
 				304A8E691C237C70008B1151 /* Shader.h in Headers */,
+				304B28211C9A0C3D00BA162D /* RendererMetal.h in Headers */,
 				304B28191C9A0BF800BA162D /* TextureVSOGL.h in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.h in Headers */,
 				3047F76A1C4D2C2000774E3D /* Sequence.h in Headers */,
@@ -1171,6 +1222,7 @@
 				3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */,
 				3047F7591C4C4FBA00774E3D /* Scale.h in Headers */,
 				304B27581C9384A600BA162D /* Size3.h in Headers */,
+				304B28381C9A0CA200BA162D /* RenderTargetMetal.h in Headers */,
 				3047F7611C4C60B900774E3D /* Fade.h in Headers */,
 				304A8E621C237C70008B1151 /* Rectangle.h in Headers */,
 				304A8E671C237C70008B1151 /* SceneManager.h in Headers */,
@@ -1277,13 +1329,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				304B28361C9A0CA200BA162D /* RenderTargetMetal.mm in Sources */,
 				303B76301C3559B900FEDE92 /* ViewController.m in Sources */,
 				306B0E601C567D05005C75C1 /* DrawNode.cpp in Sources */,
+				304B28251C9A0C3D00BA162D /* RendererMetal.mm in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */,
-				30FA80D71C8A782400F2695E /* RendererMetal.mm in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
+				304B283C1C9A0CA200BA162D /* ShaderMetal.mm in Sources */,
 				304B27F61C9A0BF800BA162D /* MeshBufferOGL.cpp in Sources */,
 				3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */,
@@ -1303,6 +1357,7 @@
 				303B75481C2A3C9200FEDE92 /* Shader.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
 				304B28081C9A0BF800BA162D /* ShaderOGL.cpp in Sources */,
+				304B28301C9A0CA200BA162D /* MeshBufferMetal.mm in Sources */,
 				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
 				305B99921C41F06F008589E1 /* Widget.cpp in Sources */,
 				305B998A1C41EFFA008589E1 /* Menu.cpp in Sources */,
@@ -1311,6 +1366,7 @@
 				303B754F1C2A3CB700FEDE92 /* Matrix3.cpp in Sources */,
 				303B754A1C2A3C9200FEDE92 /* Texture.cpp in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
+				304B28421C9A0CA200BA162D /* TextureMetal.mm in Sources */,
 				303B75711C2A3D7F00FEDE92 /* main.mm in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
 				3009341D1C88698500CC50D3 /* Window.cpp in Sources */,
@@ -1348,13 +1404,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				304B28371C9A0CA200BA162D /* RenderTargetMetal.mm in Sources */,
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				306B0E611C567D05005C75C1 /* DrawNode.cpp in Sources */,
+				304B28261C9A0C3D00BA162D /* RendererMetal.mm in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
-				30FA80D81C8A782400F2695E /* RendererMetal.mm in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
+				304B283D1C9A0CA200BA162D /* ShaderMetal.mm in Sources */,
 				304B27F71C9A0BF800BA162D /* MeshBufferOGL.cpp in Sources */,
 				3036471E1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */,
@@ -1374,6 +1432,7 @@
 				3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				303B763D1C355A3B00FEDE92 /* Shader.cpp in Sources */,
 				304B28091C9A0BF800BA162D /* ShaderOGL.cpp in Sources */,
+				304B28311C9A0CA200BA162D /* MeshBufferMetal.mm in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
 				305B99931C41F06F008589E1 /* Widget.cpp in Sources */,
@@ -1382,6 +1441,7 @@
 				30575AC71C3B17540009C8A7 /* Button.cpp in Sources */,
 				303B76421C355A3B00FEDE92 /* Matrix3.cpp in Sources */,
 				303B76431C355A3B00FEDE92 /* Texture.cpp in Sources */,
+				304B28431C9A0CA200BA162D /* TextureMetal.mm in Sources */,
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
 				303B768A1C355A5800FEDE92 /* ViewController.m in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
@@ -1419,7 +1479,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30FA80D61C8A782400F2695E /* RendererMetal.mm in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				30575ABC1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
@@ -1450,6 +1509,7 @@
 				304A8E6C1C237C70008B1151 /* Texture.cpp in Sources */,
 				304B27FB1C9A0BF800BA162D /* RendererOGL.cpp in Sources */,
 				300934261C88950200CC50D3 /* WindowOSX.mm in Sources */,
+				304B282F1C9A0CA200BA162D /* MeshBufferMetal.mm in Sources */,
 				304B280D1C9A0BF800BA162D /* TextureOGL.cpp in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
 				3047F76F1C4D2C3900774E3D /* Parallel.cpp in Sources */,
@@ -1457,9 +1517,11 @@
 				304A8E701C237C70008B1151 /* Vector2.cpp in Sources */,
 				3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */,
 				304B27791C95C54D00BA162D /* EditBox.cpp in Sources */,
+				304B283B1C9A0CA200BA162D /* ShaderMetal.mm in Sources */,
 				304A8E511C237C70008B1151 /* Camera.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				303B75211C29EFEC00FEDE92 /* AppDelegate.mm in Sources */,
+				304B28411C9A0CA200BA162D /* TextureMetal.mm in Sources */,
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
 				30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
@@ -1470,6 +1532,7 @@
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				304A8E681C237C70008B1151 /* Shader.cpp in Sources */,
 				304A8E531C237C70008B1151 /* Engine.cpp in Sources */,
+				304B28351C9A0CA200BA162D /* RenderTargetMetal.mm in Sources */,
 				303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,
 				304A8E741C237C70008B1151 /* Vector4.cpp in Sources */,
@@ -1480,6 +1543,7 @@
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
 				30575AE11C3C91A40009C8A7 /* InputApple.mm in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix4.cpp in Sources */,
+				304B28241C9A0C3D00BA162D /* RendererMetal.mm in Sources */,
 				304A8EA21C270833008B1151 /* Vertex.cpp in Sources */,
 				303B75F11C335B7D00FEDE92 /* File.cpp in Sources */,
 			);
