@@ -7,25 +7,25 @@
 #include "Cache.h"
 
 #if defined(OUZEL_PLATFORM_OSX)
-#include "WindowOSX.h"
+#include "osx/WindowOSX.h"
 #elif defined(OUZEL_PLATFORM_IOS)
-#include "WindowIOS.h"
+#include "ios/WindowIOS.h"
 #elif defined(OUZEL_PLATFORM_TVOS)
-#include "WindowTVOS.h"
+#include "tvos/WindowTVOS.h"
 #elif defined(OUZEL_PLATFORM_ANDROID)
-#include "WindowAndroid.h"
+#include "android/WindowAndroid.h"
 #elif defined(OUZEL_PLATFORM_LINUX)
-#include "WindowLinux.h"
+#include "linux/WindowLinux.h"
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-#include "WindowWin.h"
+#include "win/WindowWin.h"
 #endif
 
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-#include "RendererOGL.h"
+#include "opengl/RendererOGL.h"
 #endif
 
 #if defined(SUPPORTS_DIRECT3D11)
-#include "RendererD3D11.h"
+#include "direct3d11/RendererD3D11.h"
 #endif
 
 #if defined(SUPPORTS_METAL)
@@ -37,9 +37,9 @@
 #include "FileSystem.h"
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-#include "InputApple.h"
+#include "apple/InputApple.h"
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-#include "InputWin.h"
+#include "win/InputWin.h"
 #endif
 
 namespace ouzel
