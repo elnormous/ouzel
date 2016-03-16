@@ -5,8 +5,9 @@
 #import "AppDelegate.h"
 #include <vector>
 #include "Engine.h"
+#include "Utils.h"
 
-int main(int argc, const char * argv[])
+int main(int argc, const char* argv[])
 {
     std::vector<std::string> args;
     
@@ -15,13 +16,13 @@ int main(int argc, const char * argv[])
         args.push_back(argv[i]);
     }
     
-    ouzel::Engine::getInstance()->setArgs(args);
+    ouzel::setArgs(args);
     
     @autoreleasepool
     {
         NSApplication* application = [NSApplication sharedApplication];
         
-        AppDelegate *appDelegate = [[AppDelegate alloc] init];
+        AppDelegate* appDelegate = [[AppDelegate alloc] init];
         [application setDelegate:appDelegate];
         [application run];
     }

@@ -60,13 +60,13 @@ using namespace ouzel;
 -(void)dealloc
 {
     [_displayLink invalidate];
-    [_displayLink dealloc];
+    [_displayLink release];
     
     if ([EAGLContext currentContext] == _context)
     {
         [EAGLContext setCurrentContext:nil];
     }
-    [EAGLContext dealloc];
+    [_context release];
     
     if (_frameBuffer) glDeleteFramebuffers(1, &_frameBuffer);
     _frameBuffer = 0;
@@ -93,7 +93,7 @@ using namespace ouzel;
     [_displayLink setFrameInterval: 1.0f];
     [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
-    std::shared_ptr<RendererOGL> renderer = std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer());
+    std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(Engine::getInstance()->getRenderer());
     renderer->initOpenGL(_frameBuffer);
 }
 

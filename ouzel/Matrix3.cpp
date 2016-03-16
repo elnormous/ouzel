@@ -312,7 +312,7 @@ namespace ouzel
 
     void Matrix3::transformVector(float x, float y, float z, Vector2& dst) const
     {
-        transformVector3(m, x, y, z, (float*)&dst);
+        transformVector3(m, x, y, z, reinterpret_cast<float*>(&dst));
     }
 
     void Matrix3::transformVector(Vector3* vector) const
@@ -322,7 +322,7 @@ namespace ouzel
 
     void Matrix3::transformVector(const Vector3& vector, Vector3& dst) const
     {
-        transformVector3(m, (const float*) &vector, (float*)&dst);
+        transformVector3(m, reinterpret_cast<const float*>(&vector), reinterpret_cast<float*>(&dst));
     }
 
     void Matrix3::translate(float x, float y)

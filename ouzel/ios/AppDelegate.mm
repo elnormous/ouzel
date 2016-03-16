@@ -6,12 +6,15 @@
 #import "OpenGLView.h"
 #include "Engine.h"
 #include "Cache.h"
+#include "Utils.h"
 
 @implementation AppDelegate
 
+void ouzelMain(const std::vector<std::string>& args);
+
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    ouzel::Engine::getInstance()->init();
+    ouzelMain(ouzel::getArgs());
     
     return YES;
 }
@@ -43,7 +46,10 @@
 
 -(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    ouzel::Engine::getInstance()->getCache()->releaseTextures();
+    ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
+    event->type = ouzel::Event::Type::LOW_MEMORY;
+    
+    ouzel::Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, ouzel::Engine::getInstance()->getInput());
 }
 
 @end

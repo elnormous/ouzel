@@ -5,64 +5,67 @@
 
 namespace ouzel
 {
-    Repeat::Repeat(const AnimatorPtr& animator, uint32_t count):
-        Animator(animator->getLength() * static_cast<float>(count)), _animator(animator), _count(count)
+    namespace scene
     {
-        
-    }
-    
-    void Repeat::update(float delta)
-    {
-        if (_running)
+        Repeat::Repeat(const AnimatorPtr& animator, uint32_t count):
+            Animator(animator->getLength() * static_cast<float>(count)), _animator(animator), _count(count)
         {
-            if (!_animator || !_animator->getLength())
+            
+        }
+        
+        void Repeat::update(float delta)
+        {
+            if (_running)
             {
-                _currentCount = _count;
-                _done = true;
-                _running = false;
-                _currentTime = _length;
-                setProgress(1.0f);
-            }
-            else
-            {
-                _currentTime += delta;
-                _currentCount = static_cast<uint32_t>(_currentTime / _animator->getLength());
-                
-                if (_count == 0 || _currentCount < _count)
+                if (!_animator || !_animator->getLength())
                 {
-                    float remainingTime = _currentTime - _animator->getLength() * _currentCount;
-                    _animator->setProgress(remainingTime / _animator->getLength());
-                }
-                else
-                {
+                    _currentCount = _count;
                     _done = true;
                     _running = false;
                     _currentTime = _length;
                     setProgress(1.0f);
                 }
+                else
+                {
+                    _currentTime += delta;
+                    _currentCount = static_cast<uint32_t>(_currentTime / _animator->getLength());
+                    
+                    if (_count == 0 || _currentCount < _count)
+                    {
+                        float remainingTime = _currentTime - _animator->getLength() * _currentCount;
+                        _animator->setProgress(remainingTime / _animator->getLength());
+                    }
+                    else
+                    {
+                        _done = true;
+                        _running = false;
+                        _currentTime = _length;
+                        setProgress(1.0f);
+                    }
+                }
             }
         }
-    }
-    
-    void Repeat::start(const NodePtr& node)
-    {
-        Animator::start(node);
         
-        if (_animator)
+        void Repeat::start(const NodePtr& node)
         {
-            _animator->start(node);
-        }
-    }
-    
-    void Repeat::reset()
-    {
-        Animator::reset();
-        
-        if (_animator)
-        {
-            _animator->reset();
+            Animator::start(node);
+            
+            if (_animator)
+            {
+                _animator->start(node);
+            }
         }
         
-        _currentCount = 0;
-    }
-}
+        void Repeat::reset()
+        {
+            Animator::reset();
+            
+            if (_animator)
+            {
+                _animator->reset();
+            }
+            
+            _currentCount = 0;
+        }
+    } // namespace scene
+} // namespace ouzel

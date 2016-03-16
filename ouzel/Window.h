@@ -10,15 +10,13 @@
 
 namespace ouzel
 {
-    class Engine;
-    
     class Window: public Noncopyable
     {
         friend Engine;
     public:
         virtual ~Window();
         
-        virtual bool init();
+        virtual void close();
         
         virtual const Size2& getSize() const { return _size; }
         virtual void setSize(const Size2& size);
@@ -32,6 +30,7 @@ namespace ouzel
         
     protected:
         Window(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
+        virtual bool init();
         
         Size2 _size;
         bool _resizable = false;

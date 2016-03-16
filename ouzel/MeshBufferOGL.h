@@ -32,33 +32,36 @@
 
 namespace ouzel
 {
-    class RendererOGL;
-
-    class MeshBufferOGL: public MeshBuffer
+    namespace video
     {
-        friend RendererOGL;
-    public:
-        virtual ~MeshBufferOGL();
+        class RendererOGL;
 
-        virtual bool initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes) override;
+        class MeshBufferOGL: public MeshBuffer
+        {
+            friend RendererOGL;
+        public:
+            virtual ~MeshBufferOGL();
 
-        virtual bool uploadIndices(const void* indices, uint32_t indexCount) override;
-        virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
+            virtual bool initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes) override;
 
-        GLuint getIndexBufferId() const { return _indexBufferId; }
-        GLuint getVertexArrayId() const { return _vertexArrayId; }
+            virtual bool uploadIndices(const void* indices, uint32_t indexCount) override;
+            virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
 
-        GLenum getIndexFormat() const { return _indexFormat; }
+            GLuint getIndexBufferId() const { return _indexBufferId; }
+            GLuint getVertexArrayId() const { return _vertexArrayId; }
 
-    protected:
-        MeshBufferOGL();
+            GLenum getIndexFormat() const { return _indexFormat; }
 
-        void clean();
+        protected:
+            MeshBufferOGL();
 
-        GLuint _vertexArrayId = 0;
-        GLuint _indexBufferId = 0;
-        GLuint _vertexBufferId = 0;
+            void clean();
 
-        GLenum _indexFormat = 0;
-    };
-}
+            GLuint _vertexArrayId = 0;
+            GLuint _indexBufferId = 0;
+            GLuint _vertexBufferId = 0;
+
+            GLenum _indexFormat = 0;
+        };
+    } // namespace video
+} // namespace ouzel

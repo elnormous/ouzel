@@ -12,33 +12,31 @@
 
 namespace ouzel
 {
-    class Engine;
-    class Camera;
-    class Node;
-    class Scene;
-    
-    class SceneManager: public Noncopyable
+    namespace scene
     {
-        friend Engine;
-    public:
-        virtual ~SceneManager();
-        
-        void draw();
-        
-        void setScene(const ScenePtr& scene);
-        const ScenePtr& getScene() const { return _scene; }
-        
-        virtual void recalculateProjection();
-        
-    protected:
-        SceneManager();
-        
-        void lock();
-        void unlock();
-        
-        ScenePtr _scene;
-        
-        ScenePtr _newScene;
-        int32_t _locked = 0;
-    };
-}
+        class SceneManager: public Noncopyable
+        {
+            friend Engine;
+        public:
+            virtual ~SceneManager();
+            
+            void draw();
+            
+            void setScene(const ScenePtr& scene);
+            const ScenePtr& getScene() const { return _scene; }
+            
+            virtual void recalculateProjection();
+            
+        protected:
+            SceneManager();
+            
+            void lock();
+            void unlock();
+            
+            ScenePtr _scene;
+            
+            ScenePtr _newScene;
+            int32_t _locked = 0;
+        };
+    } // namespace scene
+} // namespace ouzel

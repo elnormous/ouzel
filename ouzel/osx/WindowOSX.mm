@@ -61,9 +61,9 @@ namespace ouzel
     
     WindowOSX::~WindowOSX()
     {
-        [_openGLView dealloc];
-        [_windowDelegate dealloc];
-        [_window dealloc];
+        [_openGLView release];
+        [_window.delegate release];
+        [_window release];
     }
     
     bool WindowOSX::init()
@@ -87,14 +87,14 @@ namespace ouzel
                                                  backing:NSBackingStoreBuffered
                                                    defer:NO
                                                   screen:screen];
+        [_window setReleasedWhenClosed:NO];
         
         _window.backgroundColor = [NSColor blackColor];
         _window.acceptsMouseMovedEvents = YES;
         
-        _windowDelegate = [[WindowDelegate alloc] initWithWindow: this];
+        WindowDelegate* windowDelegate = [[WindowDelegate alloc] initWithWindow: this];
+        _window.delegate = windowDelegate;
         
-        _window.delegate = _windowDelegate;
-        [_window setBackgroundColor:[NSColor blueColor]];
         [_window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
         
         if (_fullscreen)
@@ -114,6 +114,12 @@ namespace ouzel
         [_window makeKeyAndOrderFront:Nil];
         
         return Window::init();
+    }
+    
+    void WindowOSX::close()
+    {
+        [_openGLView close];
+        [_window close];
     }
     
     void WindowOSX::setSize(const Size2& size)
@@ -166,7 +172,7 @@ namespace ouzel
     {
         if (_title != title)
         {
-            NSString* title = [NSString stringWithCString:_title.c_str() encoding:NSASCIIStringEncoding];
+            NSString* title = [NSString stringWithCString:_title.c_str() encoding:NSUTF8StringEncoding];
             
             if ([NSThread isMainThread])
             {
@@ -199,7 +205,6 @@ namespace ouzel
     void WindowOSX::handleClose()
     {
         [_openGLView close];
-        _window = Nil;
     }
     
     void WindowOSX::handleFullscreenChange(bool fullscreen)

@@ -31,6 +31,11 @@ namespace ouzel
         return true;
     }
     
+    void Window::close()
+    {
+        
+    }
+    
     void Window::setSize(const Size2& size)
     {
         if (_size != size)

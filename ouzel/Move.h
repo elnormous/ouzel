@@ -8,20 +8,23 @@
 
 namespace ouzel
 {
-    class Move: public Animator
+    namespace scene
     {
-    public:
-        Move(float length, const Vector2& position, bool relative = false);
-        
-        virtual void start(const NodePtr& node) override;
-        
-        virtual void setProgress(float progress) override;
-        
-    protected:
-        Vector2 _position;
-        Vector2 _startPosition;
-        Vector2 _targetPosition;
-        Vector2 _diff;
-        bool _relative;
-    };
-}
+        class Move: public Animator
+        {
+        public:
+            Move(float length, const Vector2& position, bool relative = false);
+            
+            virtual void start(const NodePtr& node) override;
+            
+            virtual void setProgress(float progress) override;
+            
+        protected:
+            Vector2 _position;
+            Vector2 _startPosition;
+            Vector2 _targetPosition;
+            Vector2 _diff;
+            bool _relative;
+        };
+    } // namespace scene
+} // namespace ouzel

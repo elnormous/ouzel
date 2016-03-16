@@ -9,77 +9,80 @@
 
 namespace ouzel
 {
-    InputWin::InputWin()
+    namespace input
     {
-        
-    }
-    
-    InputWin::~InputWin()
-    {
-        
-    }
-
-    void InputWin::update()
-    {
-        for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+        InputWin::InputWin()
         {
-            XINPUT_STATE state;
 
-            memset(&state, 0, sizeof(XINPUT_STATE));
+        }
 
-            DWORD result = XInputGetState(i, &state);
+        InputWin::~InputWin()
+        {
 
-            if (result == ERROR_SUCCESS)
+        }
+
+        void InputWin::update()
+        {
+            for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
             {
-                if (!_gamepads[i])
+                XINPUT_STATE state;
+
+                memset(&state, 0, sizeof(XINPUT_STATE));
+
+                DWORD result = XInputGetState(i, &state);
+
+                if (result == ERROR_SUCCESS)
                 {
-                    _gamepads[i].reset(new GamepadWin(static_cast<int32_t>(i)));
+                    if (!_gamepads[i])
+                    {
+                        _gamepads[i].reset(new GamepadWin(static_cast<int32_t>(i)));
 
-                    GamepadEventPtr event = std::make_shared<GamepadEvent>();
-                    event->type = Event::Type::GAMEPAD_CONNECT;
-                    event->gamepad = _gamepads[i];
+                        GamepadEventPtr event = std::make_shared<GamepadEvent>();
+                        event->type = Event::Type::GAMEPAD_CONNECT;
+                        event->gamepad = _gamepads[i];
 
-                    Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
+                        Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
+                    }
+
+                    _gamepads[i]->update(state);
                 }
-                
-                _gamepads[i]->update(state);
+                else if (result == ERROR_DEVICE_NOT_CONNECTED)
+                {
+                    if (_gamepads[i])
+                    {
+                        GamepadEventPtr event = std::make_shared<GamepadEvent>();
+                        event->type = Event::Type::GAMEPAD_DISCONNECT;
+                        event->gamepad = _gamepads[i];
+
+                        Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
+
+                        _gamepads[i].reset();
+                    }
+                }
+                else
+                {
+                    log("Failed to get state for gamepad %d", i);
+                }
             }
-            else if (result == ERROR_DEVICE_NOT_CONNECTED)
+        }
+
+        void InputWin::setCursorVisible(bool visible)
+        {
+            _cursorVisible = visible;
+
+            if (_cursorVisible)
             {
-                if (_gamepads[i])
-                {
-                    GamepadEventPtr event = std::make_shared<GamepadEvent>();
-                    event->type = Event::Type::GAMEPAD_DISCONNECT;
-                    event->gamepad = _gamepads[i];
-
-                    Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
-
-                    _gamepads[i].reset();
-                }
+                SetCursor(LoadCursor(nullptr, IDC_ARROW));
             }
             else
             {
-                log("Failed to get state for gamepad %d", i);
+                SetCursor(nullptr);
             }
         }
-    }
 
-    void InputWin::setCursorVisible(bool visible)
-    {
-        _cursorVisible = visible;
-
-        if (_cursorVisible)
+        bool InputWin::isCursorVisible() const
         {
-            SetCursor(LoadCursor(nullptr, IDC_ARROW));
+            return _cursorVisible;
         }
-        else
-        {
-            SetCursor(nullptr);
-        }
-    }
-
-    bool InputWin::isCursorVisible() const
-    {
-        return _cursorVisible;
-    }
-}
+    } // namespace input
+} // namespace ouzel

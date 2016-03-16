@@ -5,54 +5,57 @@
 
 namespace ouzel
 {
-    Parallel::Parallel(const std::vector<AnimatorPtr>& animators):
-        Animator(0.0f), _animators(animators)
+    namespace scene
     {
-        for (auto& animator : _animators)
+        Parallel::Parallel(const std::vector<AnimatorPtr>& animators):
+            Animator(0.0f), _animators(animators)
         {
-            if (animator->getLength() > _length)
+            for (auto& animator : _animators)
             {
-                _length = animator->getLength();
+                if (animator->getLength() > _length)
+                {
+                    _length = animator->getLength();
+                }
             }
         }
-    }
-    
-    void Parallel::start(const NodePtr& node)
-    {
-        Animator::start(node);
         
-        for (auto& animator : _animators)
+        void Parallel::start(const NodePtr& node)
         {
-            animator->start(node);
-        }
-    }
-    
-    void Parallel::reset()
-    {
-        Animator::reset();
-        
-        for (auto& animator : _animators)
-        {
-            animator->reset();
-        }
-    }
-    
-    void Parallel::setProgress(float progress)
-    {
-        Animator::setProgress(progress);
-        
-        for (auto& animator : _animators)
-        {
-            float animationLength = animator->getLength();
+            Animator::start(node);
             
-            if (!animationLength || _currentTime > animationLength)
+            for (auto& animator : _animators)
             {
-                animator->setProgress(1.0f);
-            }
-            else
-            {
-                animator->setProgress(_currentTime / animationLength);
+                animator->start(node);
             }
         }
-    }
-}
+        
+        void Parallel::reset()
+        {
+            Animator::reset();
+            
+            for (auto& animator : _animators)
+            {
+                animator->reset();
+            }
+        }
+        
+        void Parallel::setProgress(float progress)
+        {
+            Animator::setProgress(progress);
+            
+            for (auto& animator : _animators)
+            {
+                float animationLength = animator->getLength();
+                
+                if (!animationLength || _currentTime > animationLength)
+                {
+                    animator->setProgress(1.0f);
+                }
+                else
+                {
+                    animator->setProgress(_currentTime / animationLength);
+                }
+            }
+        }
+    } // namespace scene
+} // namespace ouzel

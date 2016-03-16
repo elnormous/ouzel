@@ -69,7 +69,7 @@ namespace ouzel
         
         FSFindFolder( kUserDomain, folderType, kCreateFolder, &ref );
         
-        FSRefMakePath( &ref, (UInt8*)&TEMP_BUFFER, sizeof(TEMP_BUFFER));
+        FSRefMakePath(&ref, reinterpret_cast<UInt8*>(&TEMP_BUFFER), sizeof(TEMP_BUFFER));
         
         path = TEMP_BUFFER;
         

@@ -14,12 +14,14 @@ namespace ouzel
     public:
         virtual ~WindowWin();
 
+        virtual void close() override;
+
         virtual void setSize(const Size2& size) override;
         virtual void setTitle(const std::string& title) override;
 
         void handleResize(INT width, INT height);
 
-        HWND getWindow() const { return _window; }
+        HWND getNativeWindow() const { return _window; }
         HMONITOR getMonitor() const;
 
     protected:

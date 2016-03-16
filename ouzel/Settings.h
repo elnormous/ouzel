@@ -7,7 +7,7 @@ namespace ouzel
 {
     struct Settings
     {
-        Renderer::Driver driver = Renderer::Driver::NONE;
+        video::Renderer::Driver driver = video::Renderer::Driver::NONE;
         Size2 size;
         bool resizable = false;
         bool fullscreen = false;

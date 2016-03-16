@@ -13,15 +13,6 @@ namespace ouzel
         Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
     
-    Settings Application::getSettings()
-    {
-        Settings settings;
-        settings.size = ouzel::Size2(800.0f, 600.0f);
-        settings.resizable = true;
-        
-        return settings;
-    }
-    
     void Application::begin()
     {
         _eventHandler = make_shared<EventHandler>();
@@ -33,68 +24,68 @@ namespace ouzel
         
         Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
         
-        Engine::getInstance()->getRenderer()->setClearColor(Color(64, 0, 0));
-        Engine::getInstance()->getRenderer()->setTitle("Sample");
+        Engine::getInstance()->getRenderer()->setClearColor(video::Color(64, 0, 0));
+        Engine::getInstance()->getWindow()->setTitle("Sample");
         
-        ScenePtr scene = make_shared<Scene>();
+        scene::ScenePtr scene = make_shared<scene::Scene>();
         Engine::getInstance()->getSceneManager()->setScene(scene);
         
-        _layer = Layer::create();
+        _layer = scene::Layer::create();
         scene->addLayer(_layer);
         
-        _uiLayer = Layer::create();
+        _uiLayer = scene::Layer::create();
         scene->addLayer(_uiLayer);
         
-        DrawNodePtr drawNode = std::make_shared<DrawNode>();
-        drawNode->rectangle(Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
-        drawNode->rectangle(Rectangle(100.0f, 100.0f), Color(255, 255, 255, 255), false);
-        drawNode->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color(0, 255, 255, 255));
-        drawNode->point(Vector2(75.0f, 75.0f), Color(255, 0, 0, 255));
+        scene::DrawNodePtr drawNode = std::make_shared<scene::DrawNode>();
+        drawNode->rectangle(Rectangle(100.0f, 100.0f), video::Color(0, 128, 128, 255), true);
+        drawNode->rectangle(Rectangle(100.0f, 100.0f), video::Color(255, 255, 255, 255), false);
+        drawNode->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), video::Color(0, 255, 255, 255));
+        drawNode->point(Vector2(75.0f, 75.0f), video::Color(255, 0, 0, 255));
         
-        drawNode->circle(Vector2(75.0f, 75.0f), 20.0f, Color(0, 0, 255, 255));
-        drawNode->circle(Vector2(25.0f, 75.0f), 20.0f, Color(0, 0, 255, 255), true);
+        drawNode->circle(Vector2(75.0f, 75.0f), 20.0f, video::Color(0, 0, 255, 255));
+        drawNode->circle(Vector2(25.0f, 75.0f), 20.0f, video::Color(0, 0, 255, 255), true);
         
         drawNode->setPosition(Vector2(-300, 0.0f));
         _layer->addChild(drawNode);
         
-        _sprite = Sprite::createFromFile("run.json");
+        _sprite = scene::Sprite::createFromFile("run.json");
         _sprite->play(true);
         _layer->addChild(_sprite);
         _sprite->setPosition(Vector2(-300.0f, 0.0f));
 
-        std::vector<AnimatorPtr> sequence = {
-            make_shared<Move>(4.0f, Vector2(300.0f, 0.0f)),
-            make_shared<Fade>(2.0f, 0.4f)
+        std::vector<scene::AnimatorPtr> sequence = {
+            make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f)),
+            make_shared<scene::Fade>(2.0f, 0.4f)
         };
 
-        _sprite->animate(make_shared<Sequence>(sequence));
+        _sprite->animate(make_shared<scene::Sequence>(sequence));
         
-        SpritePtr fire = Sprite::createFromFile("fire.json");
+        scene::SpritePtr fire = scene::Sprite::createFromFile("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
         _layer->addChild(fire);
-        fire->animate(make_shared<Fade>(5.0f, 0.5f));
+        fire->animate(make_shared<scene::Fade>(5.0f, 0.5f));
         
-        _flame = ParticleSystem::createFromFile("flame.json");
+        _flame = scene::ParticleSystem::createFromFile("flame.json");
         _layer->addChild(_flame);
         
-        _witch = Sprite::createFromFile("witch.png");
+        _witch = scene::Sprite::createFromFile("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
-        _witch->setColor(Color(128, 0, 255, 255));
+        _witch->setColor(video::Color(128, 0, 255, 255));
         _layer->addChild(_witch);
-        _witch->animate(make_shared<Repeat>(make_shared<Rotate>(1.0f, TAU, false), 3));
+        _witch->animate(make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3));
         
-        LabelPtr label = Label::create("font.fnt", "testing fonts");
+        gui::LabelPtr label = gui::Label::create("font.fnt", "testing fonts");
         _uiLayer->addChild(label);
 
-        std::vector<AnimatorPtr> sequence2 = {
-            make_shared<Animator>(1.0f), // delay
-            make_shared<Ease>(make_shared<Move>(2.0f, Vector2(0.0f, -240.0f), false), Ease::Type::OUT, Ease::Func::BOUNCE)
+        std::vector<scene::AnimatorPtr> sequence2 = {
+            make_shared<scene::Animator>(1.0f), // delay
+            make_shared<scene::Ease>(make_shared<scene::Move>(2.0f, Vector2(0.0f, -240.0f), false), scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE)
         };
 
-        label->animate(make_shared<Sequence>(sequence2));
+        label->animate(make_shared<scene::Sequence>(sequence2));
         
-        _button = Button::create("button.png", "button.png", "button_down.png", "button_disabled.png", [this](VoidPtr sender) {
+        _button = gui::Button::create("button.png", "button.png", "button_down.png", "button_disabled.png", "", video::Color(), "", [this](VoidPtr sender) {
             _sprite->setVisible(!_sprite->isVisible());
         });
         _button->setPosition(Vector2(-200.0f, 200.0f));
@@ -111,25 +102,25 @@ namespace ouzel
             
             switch (event->key)
             {
-                case KeyboardKey::UP:
+                case input::KeyboardKey::UP:
                     position.y += 10.0f;
                     break;
-                case KeyboardKey::DOWN:
+                case input::KeyboardKey::DOWN:
                     position.y -= 10.0f;
                     break;
-                case KeyboardKey::LEFT:
+                case input::KeyboardKey::LEFT:
                     position.x -= 10.0f;
                     break;
-                case KeyboardKey::RIGHT:
+                case input::KeyboardKey::RIGHT:
                     position.x += 10.0f;
                     break;
-                case KeyboardKey::SPACE:
+                case input::KeyboardKey::SPACE:
                     _witch->setVisible(!_witch->isVisible());
                     break;
-                case KeyboardKey::RETURN:
-                    Engine::getInstance()->getRenderer()->resize(Size2(640.0f, 480.0f));
+                case input::KeyboardKey::RETURN:
+                    Engine::getInstance()->getWindow()->setSize(Size2(640.0f, 480.0f));
                     break;
-                case KeyboardKey::TAB:
+                case input::KeyboardKey::TAB:
                     _button->setEnabled(!_button->isEnabled());
                     break;
                 default:
@@ -180,27 +171,27 @@ namespace ouzel
             
             switch (event->button)
             {
-                case GamepadButton::DPAD_UP:
-                case GamepadButton::LEFT_THUMB_UP:
-                case GamepadButton::RIGHT_THUMB_UP:
+                case input::GamepadButton::DPAD_UP:
+                case input::GamepadButton::LEFT_THUMB_UP:
+                case input::GamepadButton::RIGHT_THUMB_UP:
                     position.y = event->value;
                     break;
-                case GamepadButton::DPAD_DOWN:
-                case GamepadButton::LEFT_THUMB_DOWN:
-                case GamepadButton::RIGHT_THUMB_DOWN:
+                case input::GamepadButton::DPAD_DOWN:
+                case input::GamepadButton::LEFT_THUMB_DOWN:
+                case input::GamepadButton::RIGHT_THUMB_DOWN:
                     position.y = -event->value;
                     break;
-                case GamepadButton::DPAD_LEFT:
-                case GamepadButton::LEFT_THUMB_LEFT:
-                case GamepadButton::RIGHT_THUMB_LEFT:
+                case input::GamepadButton::DPAD_LEFT:
+                case input::GamepadButton::LEFT_THUMB_LEFT:
+                case input::GamepadButton::RIGHT_THUMB_LEFT:
                     position.x = -event->value;
                     break;
-                case GamepadButton::DPAD_RIGHT:
-                case GamepadButton::LEFT_THUMB_RIGHT:
-                case GamepadButton::RIGHT_THUMB_RIGHT:
+                case input::GamepadButton::DPAD_RIGHT:
+                case input::GamepadButton::LEFT_THUMB_RIGHT:
+                case input::GamepadButton::RIGHT_THUMB_RIGHT:
                     position.x = event->value;
                     break;
-                case GamepadButton::A:
+                case input::GamepadButton::A:
                     _witch->setVisible(!event->pressed);
                     break;
                 default:

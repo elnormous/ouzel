@@ -19,15 +19,7 @@ Xcode and Visual Studio project files are located in the build folder.
 The following code will open a 640px x 480px window:
 
     class Application: public ouzel::Noncopyable, public ouzel::App
-    {
-        virtual ouzel::Settings getSettings() override
-        {
-            ouzel::Settings settings;
-            settings.size = ouzel::Size2(640.0f, 480.0f);
-        
-            return settings;
-        }
-        
+    {        
         virtual void begin() override
         {
         }
@@ -35,9 +27,11 @@ The following code will open a 640px x 480px window:
 
     ouzel::AppPtr ouzelMain(const std::vector<std::string>& args)
     {
-        std::shared_ptr<Application> application = std::make_shared<Application>();
-    
-        return application;
+        ouzel::Settings settings;
+        settings.size = ouzel::Size2(640.0f, 480.0f);
+        ouzel::Engine::getInstance()->init(settings);
+            
+        ouzel::Engine::getInstance()->setApp(std::make_shared<Application>());
     }
 
 ## Features

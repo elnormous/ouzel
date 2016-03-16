@@ -5,8 +5,9 @@
 #import "AppDelegate.h"
 #include <vector>
 #include "Engine.h"
+#include "Utils.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     std::vector<std::string> args;
     
@@ -15,7 +16,7 @@ int main(int argc, char *argv[])
         args.push_back(argv[i]);
     }
     
-    ouzel::Engine::getInstance()->setArgs(args);
+    ouzel::setArgs(args);
     
     @autoreleasepool
     {

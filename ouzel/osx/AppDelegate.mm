@@ -7,12 +7,15 @@
 #include "Renderer.h"
 #include "WindowOSX.h"
 #include "Size2.h"
+#include "Utils.h"
 
 @implementation AppDelegate
 
+void ouzelMain(const std::vector<std::string>& args);
+
 -(void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    ouzel::Engine::getInstance()->init();
+    ouzelMain(ouzel::getArgs());
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -26,6 +29,17 @@
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
 {
+    return YES;
+}
+
+-(BOOL)application:(NSApplication *)sender openFile:(NSString *)filename
+{
+    ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
+    event->type = ouzel::Event::Type::OPEN_FILE;
+    event->filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    ouzel::Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, ouzel::Engine::getInstance()->getInput());
+    
     return YES;
 }
 

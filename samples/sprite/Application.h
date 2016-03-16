@@ -10,8 +10,6 @@ namespace ouzel
     public:
         virtual ~Application();
         
-        virtual Settings getSettings() override;
-        
         virtual void begin() override;
         
         bool handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const;
@@ -20,14 +18,14 @@ namespace ouzel
         bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender) const;
         
     protected:
-        LayerPtr _layer;
-        LayerPtr _uiLayer;
+        scene::LayerPtr _layer;
+        scene::LayerPtr _uiLayer;
         
-        SpritePtr _sprite;
-        SpritePtr _witch;
-        ParticleSystemPtr _flame;
+        scene::SpritePtr _sprite;
+        scene::SpritePtr _witch;
+        scene::ParticleSystemPtr _flame;
         
-        ButtonPtr _button;
+        gui::ButtonPtr _button;
         
         EventHandlerPtr _eventHandler;
     };

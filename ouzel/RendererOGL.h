@@ -45,41 +45,44 @@
 
 namespace ouzel
 {
-    class RendererOGL: public Renderer
+    namespace video
     {
-        friend Engine;
-    public:
-        virtual ~RendererOGL();
+        class RendererOGL: public Renderer
+        {
+            friend Engine;
+        public:
+            virtual ~RendererOGL();
 
-        bool initOpenGL(GLuint framebuffer);
-        bool checkOpenGLErrors();
+            bool initOpenGL(GLuint framebuffer);
+            bool checkOpenGLErrors();
 
-        virtual void setClearColor(Color color) override;
+            virtual void setClearColor(Color color) override;
 
-        virtual void clear() override;
-        virtual void flush() override;
+            virtual void clear() override;
+            virtual void flush() override;
 
-        virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true) override;
-        virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
-        virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
-        virtual bool activateTexture(const TexturePtr& texture, uint32_t layer) override;
-        virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer) override;
-        virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget) override;
+            virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true) override;
+            virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
+            virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
+            virtual bool activateTexture(const TexturePtr& texture, uint32_t layer) override;
+            virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer) override;
+            virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget) override;
 
-        virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes) override;
-        virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
-        virtual bool activateShader(const ShaderPtr& shader) override;
+            virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes) override;
+            virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
+            virtual bool activateShader(const ShaderPtr& shader) override;
 
-        virtual MeshBufferPtr createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes) override;
-        virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST) override;
+            virtual MeshBufferPtr createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes) override;
+            virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST) override;
 
-        virtual bool saveScreenshot(const std::string& filename) override;
+            virtual bool saveScreenshot(const std::string& filename) override;
 
-    private:
-        RendererOGL();
-        virtual void setSize(const Size2& size) override;
+        private:
+            RendererOGL();
+            virtual void setSize(const Size2& size) override;
 
-        bool _ready = false;
-        GLuint _framebuffer = 0;
-    };
-}
+            bool _ready = false;
+            GLuint _framebuffer = 0;
+        };
+    } // namespace video
+} // namespace ouzel

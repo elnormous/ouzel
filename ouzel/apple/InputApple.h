@@ -17,31 +17,33 @@ typedef id ConnectDelegatePtr;
 
 namespace ouzel
 {
-    class Engine;
-    class GamepadApple;
-    
-    class InputApple: public Input
+    namespace input
     {
-        friend Engine;
-    public:
-        virtual ~InputApple();
+        class GamepadApple;
         
-        virtual void setCursorVisible(bool visible) override;
-        virtual bool isCursorVisible() const override;
-        
-        virtual void startGamepadDiscovery() override;
-        virtual void stopGamepadDiscovery() override;
-        
-        void handleGamepadDiscoveryCompleted();
-        void handleGamepadConnected(id controller);
-        void handleGamepadDisconnected(id controller);
-        
-    protected:
-        InputApple();
-        
-        ConnectDelegatePtr _connectDelegate = nullptr;
-        std::vector<std::shared_ptr<GamepadApple>> _gamepads;
-        
-        bool _discovering = false;
-    };
-}
+        class InputApple: public Input
+        {
+            friend Engine;
+        public:
+            virtual ~InputApple();
+            
+            virtual void setCursorVisible(bool visible) override;
+            virtual bool isCursorVisible() const override;
+            
+            virtual void startGamepadDiscovery() override;
+            virtual void stopGamepadDiscovery() override;
+            
+            void handleGamepadDiscoveryCompleted();
+            void handleGamepadConnected(id controller);
+            void handleGamepadDisconnected(id controller);
+            
+        protected:
+            InputApple();
+            
+            ConnectDelegatePtr _connectDelegate = nullptr;
+            std::vector<std::shared_ptr<GamepadApple>> _gamepads;
+            
+            bool _discovering = false;
+        };
+    } // namespace input
+} // namespace ouzel

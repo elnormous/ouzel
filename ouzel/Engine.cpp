@@ -42,8 +42,6 @@
 #include "InputWin.h"
 #endif
 
-ouzel::AppPtr ouzelMain(const std::vector<std::string>& args);
-
 namespace ouzel
 {
     static EnginePtr sharedEngine;
@@ -68,40 +66,27 @@ namespace ouzel
 
     }
 
-    void Engine::setArgs(const std::vector<std::string>& args)
+    std::set<video::Renderer::Driver> Engine::getAvailableDrivers() const
     {
-        _args = args;
-    }
-
-    std::set<Renderer::Driver> Engine::getAvailableDrivers() const
-    {
-        std::set<Renderer::Driver> availableDrivers;
+        std::set<video::Renderer::Driver> availableDrivers;
 
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-        availableDrivers.insert(Renderer::Driver::OPENGL);
+        availableDrivers.insert(video::Renderer::Driver::OPENGL);
 #elif defined(SUPPORTS_DIRECT3D11)
-        availableDrivers.insert(Renderer::Driver::DIRECT3D11);
+        availableDrivers.insert(video::Renderer::Driver::DIRECT3D11);
 #endif
 
         return availableDrivers;
     }
 
-    bool Engine::init()
+    bool Engine::init(Settings& settings)
     {
-        _app = ouzelMain(_args);
-
-        if (!_app)
-        {
-            return false;
-        }
-
-        Settings settings = _app->getSettings();
         _targetFPS = settings.targetFPS;
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
-        settings.driver = Renderer::Driver::OPENGL;
+        settings.driver = video::Renderer::Driver::OPENGL;
 #elif defined(SUPPORTS_DIRECT3D11)
-        settings.driver = Renderer::Driver::DIRECT3D11;
+        settings.driver = video::Renderer::Driver::DIRECT3D11;
 #endif
 
 #if defined(OUZEL_PLATFORM_OSX)
@@ -121,26 +106,26 @@ namespace ouzel
         _eventDispatcher.reset(new EventDispatcher());
         _cache.reset(new Cache());
         _fileSystem.reset(new FileSystem());
-        _sceneManager.reset(new SceneManager());
+        _sceneManager.reset(new scene::SceneManager());
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        _input.reset(new InputApple());
+        _input.reset(new input::InputApple());
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-        _input.reset(new InputWin());
+        _input.reset(new input::InputWin());
 #else
-        _input.reset(new Input());
+        _input.reset(new input::Input());
 #endif
 
         switch (settings.driver)
         {
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-            case Renderer::Driver::OPENGL:
-                _renderer.reset(new RendererOGL());
+            case video::Renderer::Driver::OPENGL:
+                _renderer.reset(new video::RendererOGL());
 				break;
 #endif
 #if defined(SUPPORTS_DIRECT3D11)
-            case Renderer::Driver::DIRECT3D11:
-                _renderer.reset(new RendererD3D11());
+            case video::Renderer::Driver::DIRECT3D11:
+                _renderer.reset(new video::RendererD3D11());
                 break;
 #endif
 #if defined(SUPPORTS_METAL)
@@ -149,7 +134,7 @@ namespace ouzel
                 break;
 #endif
             default:
-                _renderer.reset(new Renderer());
+                _renderer.reset(new video::Renderer());
                 break;
         }
 
@@ -170,14 +155,20 @@ namespace ouzel
 
     void Engine::begin()
     {
-        _app->begin();
+        _running = true;
+        
+        if (_app)
+        {
+            _app->begin();
+        }
     }
 
     void Engine::end()
     {
         _app.reset();
+        _window->close();
         // remove the active scene
-        _sceneManager->setScene(ScenePtr());
+        _sceneManager->setScene(nullptr);
         _cache.reset();
         _renderer.reset();
         _window.reset();
@@ -244,6 +235,16 @@ namespace ouzel
             {
                 _updateCallbacks.erase(i);
             }
+        }
+    }
+    
+    void Engine::setApp(const AppPtr &app)
+    {
+        _app = app;
+        
+        if (_running && _app)
+        {
+            _app->begin();
         }
     }
 

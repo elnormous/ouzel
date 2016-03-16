@@ -33,7 +33,9 @@ namespace ouzel
             GAMEPAD_BUTTON_CHANGE,
             WINDOW_SIZE_CHANGE,
             WINDOW_TITLE_CHANGE,
-            WINDOW_FULLSCREEN_CHANGE
+            WINDOW_FULLSCREEN_CHANGE,
+            LOW_MEMORY,
+            OPEN_FILE
         };
         
         enum Modifiers
@@ -54,12 +56,12 @@ namespace ouzel
     
     struct KeyboardEvent: public Event
     {
-        KeyboardKey key = KeyboardKey::NONE;
+        input::KeyboardKey key = input::KeyboardKey::NONE;
     };
     
     struct MouseEvent: public Event
     {
-        MouseButton button = MouseButton::NONE;
+        input::MouseButton button = input::MouseButton::NONE;
         Vector2 position;
         Vector2 scroll;
     };
@@ -70,12 +72,10 @@ namespace ouzel
         Vector2 position;
     };
     
-    class Gamepad;
-    
     struct GamepadEvent: public Event
     {
-        GamepadPtr gamepad;
-        GamepadButton button = GamepadButton::NONE;
+        input::GamepadPtr gamepad;
+        input::GamepadButton button = input::GamepadButton::NONE;
         bool pressed = false;
         float value = 0.0f;
     };
@@ -85,5 +85,11 @@ namespace ouzel
         Size2 size;
         std::string title;
         bool fullscreen = false;
+    };
+    
+    struct SystemEvent: public Event
+    {
+        Size2 size;
+        std::string filename;
     };
 }

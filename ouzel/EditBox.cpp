@@ -1,0 +1,26 @@
+// Copyright (C) 2016 Elviss Strazdins
+// This file is part of the Ouzel engine.
+
+#include "EditBox.h"
+
+namespace ouzel
+{
+    namespace gui
+    {
+        EditBox::EditBox()
+        {
+            
+        }
+        
+        EditBox::~EditBox()
+        {
+            
+        }
+        
+        void EditBox::setValue(const std::string& value)
+        {
+            _value = value;
+        }
+        
+    } // namespace gui
+} // namespace ouzel

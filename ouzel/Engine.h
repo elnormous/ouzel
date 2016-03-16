@@ -24,20 +24,17 @@ namespace ouzel
         
         virtual ~Engine();
         
-        void setArgs(const std::vector<std::string>& args);
-        const std::vector<std::string>& getArgs() { return _args; }
+        std::set<video::Renderer::Driver> getAvailableDrivers() const;
         
-        std::set<Renderer::Driver> getAvailableDrivers() const;
-        
-        bool init();
+        bool init(Settings& settings);
 
         const EventDispatcherPtr& getEventDispatcher() const { return _eventDispatcher; }
         const CachePtr& getCache() const { return _cache; }
         const WindowPtr& getWindow() const { return _window; }
-        const RendererPtr& getRenderer() const { return _renderer; }
-        const SceneManagerPtr& getSceneManager() const { return _sceneManager; }
+        const video::RendererPtr& getRenderer() const { return _renderer; }
+        const scene::SceneManagerPtr& getSceneManager() const { return _sceneManager; }
         const FileSystemPtr& getFileSystem() const { return _fileSystem; }
-        const InputPtr& getInput() const { return _input; }
+        const input::InputPtr& getInput() const { return _input; }
         
         void exit();
         
@@ -51,23 +48,23 @@ namespace ouzel
         void scheduleUpdate(const UpdateCallbackPtr& callback);
         void unscheduleUpdate(const UpdateCallbackPtr& callback);
         
-        void lock();
-        void unlock();
+        void setApp(const AppPtr& app);
+        const AppPtr& getApp() const { return _app; }
         
     protected:
         Engine();
-        
-        std::vector<std::string> _args;
+        void lock();
+        void unlock();
         
         AppPtr _app;
         
         EventDispatcherPtr _eventDispatcher;
         CachePtr _cache;
         WindowPtr _window;
-        RendererPtr _renderer;
-        SceneManagerPtr _sceneManager;
+        video::RendererPtr _renderer;
+        scene::SceneManagerPtr _sceneManager;
         FileSystemPtr _fileSystem;
-        InputPtr _input;
+        input::InputPtr _input;
         
         float _targetFPS;
         float _currentFPS = 0.0f;
@@ -78,6 +75,7 @@ namespace ouzel
         std::set<UpdateCallbackPtr> _updateCallbackRemoveList;
         
         int32_t _locked = 0;
+        bool _running = false;
         bool _active = true;
     };
 }

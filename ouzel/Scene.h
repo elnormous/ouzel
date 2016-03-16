@@ -12,34 +12,37 @@
 
 namespace ouzel
 {
-    class Layer;
-    
-    class Scene: public Noncopyable, public std::enable_shared_from_this<Scene>
+    namespace scene
     {
-    public:
-        Scene();
-        virtual ~Scene();
+        class Layer;
         
-        virtual void draw();
-        
-        void addLayer(const LayerPtr& layer);
-        void removeLayer(const LayerPtr& layer);
-        bool hasLayer(const LayerPtr& layer) const;
-        const std::vector<LayerPtr>& getLayers() const { return _layers; }
-        
-        virtual void recalculateProjection();
-        
-        virtual void reorderLayers();
-        
-    protected:
-        void lock();
-        void unlock();
-        
-        std::vector<LayerPtr> _layers;
-        bool _reorderLayers = false;
-        
-        std::set<LayerPtr> _layerAddList;
-        std::set<LayerPtr> _layerRemoveList;
-        int32_t _locked = 0;
-    };
-}
+        class Scene: public Noncopyable, public std::enable_shared_from_this<Scene>
+        {
+        public:
+            Scene();
+            virtual ~Scene();
+            
+            virtual void draw();
+            
+            void addLayer(const LayerPtr& layer);
+            void removeLayer(const LayerPtr& layer);
+            bool hasLayer(const LayerPtr& layer) const;
+            const std::vector<LayerPtr>& getLayers() const { return _layers; }
+            
+            virtual void recalculateProjection();
+            
+            virtual void reorderLayers();
+            
+        protected:
+            void lock();
+            void unlock();
+            
+            std::vector<LayerPtr> _layers;
+            bool _reorderLayers = false;
+            
+            std::set<LayerPtr> _layerAddList;
+            std::set<LayerPtr> _layerRemoveList;
+            int32_t _locked = 0;
+        };
+    } // namespace scene
+} // namespace ouzel

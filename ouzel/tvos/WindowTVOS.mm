@@ -16,16 +16,15 @@ namespace ouzel
     
     WindowTVOS::~WindowTVOS()
     {
-        [_openGLView dealloc];
-        [_window.rootViewController dealloc];
-        [_window dealloc];
+        [_openGLView release];
+        [_window release];
     }
     
     bool WindowTVOS::init()
     {
         _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         
-        UIViewController* viewController = [[ViewController alloc] init];
+        UIViewController* viewController = [[[ViewController alloc] init] autorelease];
         _window.rootViewController = viewController;
         
         _openGLView = [[OpenGLView alloc] initWithFrame:[_window bounds]];
