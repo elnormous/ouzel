@@ -276,7 +276,7 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    WindowWin* windowWin = (WindowWin*)GetWindowLongPtr(window, GWLP_USERDATA);
+    WindowWin* windowWin = reinterpret_cast<WindowWin*>(GetWindowLongPtr(window, GWLP_USERDATA));
 
     switch (msg)
     {
@@ -443,7 +443,7 @@ namespace ouzel
             x = 0;
             y = 0;
         }
-        RECT windowRect = { 0, 0, (int)_size.width, (int)_size.height };
+        RECT windowRect = { 0, 0, static_cast<LONG>(_size.width), static_cast<LONG>(_size.height) };
         AdjustWindowRect(&windowRect, _windowStyle, FALSE);
 
         wchar_t titleBuffer[256];
@@ -469,7 +469,7 @@ namespace ouzel
             return false;
         }
 
-        SetWindowLongPtr(_window, GWLP_USERDATA, (LONG_PTR)this);
+        SetWindowLongPtr(_window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
         ShowWindow(_window, SW_SHOW);
 
         return Window::init();
