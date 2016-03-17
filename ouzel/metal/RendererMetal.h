@@ -3,6 +3,16 @@
 
 #pragma once
 
+#ifdef __OBJC__
+#import <Metal/Metal.h>
+typedef id<MTLDevice> MetalDevicePtr;
+typedef id<MTLCommandQueue> MetalCommandQueuePtr;
+#else
+#include <objc/objc.h>
+typedef id MetalDevicePtr;
+typedef id MetalCommandQueuePtr;
+#endif
+
 #include "Renderer.h"
 
 namespace ouzel
@@ -14,6 +24,8 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~RendererMetal();
+            
+            virtual bool init(const Size2& size, bool fullscreen) override;
             
             virtual void setClearColor(Color color) override;
             
@@ -33,6 +45,11 @@ namespace ouzel
             
         private:
             RendererMetal();
+            
+            void clean();
+            
+            MetalDevicePtr _device = Nil;
+            MetalCommandQueuePtr _commandQueue = Nil;
         };
     } // namespace video
 } // namespace ouzel

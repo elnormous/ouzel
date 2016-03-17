@@ -21,12 +21,20 @@ namespace ouzel
             
         }
         
+        void ShaderMetal::clean()
+        {
+            if (_vertexShader) [_vertexShader release];
+            if (_fragmentShader) [_fragmentShader release];
+        }
+        
         bool ShaderMetal::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
         {
             if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
             {
                 return false;
             }
+            
+            clean();
             
             return true;
         }

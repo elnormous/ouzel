@@ -22,12 +22,19 @@ namespace ouzel
             
         }
         
+        void TextureMetal::clean()
+        {
+            if (_texture) [_texture release];
+        }
+        
         bool TextureMetal::init(const Size2& size, bool dynamic, bool mipmaps)
         {
             if (!Texture::init(size, dynamic, mipmaps))
             {
                 return false;
             }
+            
+            clean();
             
             return true;
         }

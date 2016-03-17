@@ -6,6 +6,14 @@
 #include "CompileConfig.h"
 #include "MeshBuffer.h"
 
+#ifdef __OBJC__
+#import <Metal/Metal.h>
+typedef id<MTLBuffer> MetalBufferPtr;
+#else
+#include <objc/objc.h>
+typedef id MetalBufferPtr;
+#endif
+
 namespace ouzel
 {
     namespace video
@@ -25,6 +33,11 @@ namespace ouzel
 
         protected:
             MeshBufferMetal();
+            
+            void clean();
+            
+            MetalBufferPtr _indexBuffer = Nil;
+            MetalBufferPtr _vertexBuffer = Nil;
         };
     } // namespace video
 } // namespace ouzel

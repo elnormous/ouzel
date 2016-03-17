@@ -3,6 +3,14 @@
 
 #pragma once
 
+#ifdef __OBJC__
+#import <Metal/Metal.h>
+typedef id<MTLTexture> MetalTexturePtr;
+#else
+#include <objc/objc.h>
+typedef id MetalTexturePtr;
+#endif
+
 #include "CompileConfig.h"
 #include "Texture.h"
 
@@ -19,7 +27,7 @@ namespace ouzel
             friend RenderTargetMetal;
         public:
             virtual ~TextureMetal();
-
+            
             virtual bool init(const Size2& size, bool dynamic, bool mipmaps = true) override;
             virtual bool initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
 
@@ -27,6 +35,10 @@ namespace ouzel
 
         protected:
             TextureMetal();
+            
+            void clean();
+            
+            MetalTexturePtr _texture = Nil;
         };
     } // namespace video
 } // namespace ouzel

@@ -6,6 +6,14 @@
 #include "CompileConfig.h"
 #include "Shader.h"
 
+#ifdef __OBJC__
+#import <Metal/Metal.h>
+typedef id<MTLFunction> MetalFunctionPtr;
+#else
+#include <objc/objc.h>
+typedef id MetalFunctionPtr;
+#endif
+
 namespace ouzel
 {
     namespace video
@@ -32,6 +40,11 @@ namespace ouzel
 
         protected:
             ShaderMetal();
+            
+            void clean();
+            
+            MetalFunctionPtr _vertexShader = Nil;
+            MetalFunctionPtr _fragmentShader = Nil;
         };
     } // namespace video
 } // namespace ouzel

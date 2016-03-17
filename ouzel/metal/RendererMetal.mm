@@ -17,7 +17,24 @@ namespace ouzel
         
         RendererMetal::~RendererMetal()
         {
+            clean();
+        }
+        
+        void RendererMetal::clean()
+        {
+            if (_commandQueue) [_commandQueue release];
+            if (_device) [_device release];
+        }
+        
+        bool RendererMetal::init(const Size2& size, bool fullscreen)
+        {
+            clean();
             
+            _device = MTLCreateSystemDefaultDevice();
+            
+            _commandQueue = [_device newCommandQueue];
+            
+            return true;
         }
         
         void RendererMetal::setClearColor(Color color)
