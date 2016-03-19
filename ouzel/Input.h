@@ -225,6 +225,7 @@ namespace ouzel
             virtual void startGamepadDiscovery();
             virtual void stopGamepadDiscovery();
             
+            const Vector2& getMousePosition() const { return _mousePosition; }
             bool isKeyboardKeyDown(KeyboardKey key) const { return _keyboardKeyStates[static_cast<uint32_t>(key)]; }
             bool isMouseButtonDown(MouseButton button) const { return _mouseButtonStates[static_cast<uint32_t>(button)]; }
             
@@ -244,6 +245,7 @@ namespace ouzel
         protected:
             Input();
             
+            Vector2 _mousePosition;
             bool _keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
             bool _mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
         };
