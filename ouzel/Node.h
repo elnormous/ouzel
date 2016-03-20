@@ -85,6 +85,9 @@ namespace ouzel
             virtual void stopAnimation();
             virtual void removeAnimation();
             
+            void receiveInput(bool receiveInput) { _receiveInput = receiveInput; }
+            bool isReceivingInput() const { return _receiveInput; }
+            
         protected:
             virtual void addToLayer(const LayerWeakPtr& layer);
             virtual void removeFromLayer();
@@ -120,8 +123,8 @@ namespace ouzel
             bool _flipY = false;
             
             bool _pickable = true;
-            
             bool _visible = true;
+            bool _receiveInput = false;
             
             NodeContainerWeakPtr _parent;
             LayerWeakPtr _layer;
