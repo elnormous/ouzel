@@ -114,7 +114,7 @@ namespace ouzel
             _localTransformDirty = false;
         }
 
-        Vector2 Camera::screenToWorldLocation(const Vector2& position)
+        Vector2 Camera::convertScreenToWorld(const Vector2& position)
         {
             Matrix4 projViewMatrix = _projection * getTransform();
             Matrix4 inverseViewMatrix = projViewMatrix;
@@ -126,7 +126,7 @@ namespace ouzel
             return Vector2(result.x, result.y);
         }
 
-        Vector2 Camera::worldToScreenLocation(const Vector2& position)
+        Vector2 Camera::convertWorldToScreen(const Vector2& position)
         {
             Matrix4 projViewMatrix = _projection * getTransform();
 

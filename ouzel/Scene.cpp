@@ -138,9 +138,17 @@ namespace ouzel
         {
             for (std::vector<LayerPtr>::const_reverse_iterator i = _layers.rbegin(); i != _layers.rend(); ++i)
             {
-                if (NodePtr result = (*i)->pickNode(position))
+                LayerPtr layer = *i;
+                CameraPtr camera = layer->getCamera();
+
+                if (camera)
                 {
-                    return result;
+                    Vector2 worldPosition = camera->convertScreenToWorld(position);
+
+                    if (NodePtr result = layer->pickNode(worldPosition))
+                    {
+                        return result;
+                    }
                 }
             }
 
@@ -153,6 +161,8 @@ namespace ouzel
 
             for (std::vector<LayerPtr>::const_reverse_iterator i = _layers.rbegin(); i != _layers.rend(); ++i)
             {
+                // TODO: use projection
+                
                 std::set<NodePtr> nodes = (*i)->pickNodes(rectangle);
 
                 result.insert(nodes.begin(), nodes.end());

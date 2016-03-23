@@ -33,8 +33,8 @@ namespace ouzel
 
             const Matrix4& getViewProjection() const;
 
-            Vector2 screenToWorldLocation(const Vector2& position);
-            Vector2 worldToScreenLocation(const Vector2& position);
+            Vector2 convertScreenToWorld(const Vector2& position);
+            Vector2 convertWorldToScreen(const Vector2& position);
 
             Vector2 projectPoint(const Vector3& src) const;
 
