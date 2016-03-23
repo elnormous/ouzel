@@ -133,5 +133,33 @@ namespace ouzel
                 }
             }
         }
+
+        NodePtr Scene::pickNode(const Vector2& position) const
+        {
+            for (std::vector<LayerPtr>::const_reverse_iterator i = _layers.rbegin(); i != _layers.rend(); ++i)
+            {
+                if (NodePtr result = (*i)->pickNode(position))
+                {
+                    return result;
+                }
+            }
+
+            return nullptr;
+        }
+
+        std::set<NodePtr> Scene::pickNodes(const Rectangle& rectangle) const
+        {
+            std::set<NodePtr> result;
+
+            for (std::vector<LayerPtr>::const_reverse_iterator i = _layers.rbegin(); i != _layers.rend(); ++i)
+            {
+                std::set<NodePtr> nodes = (*i)->pickNodes(rectangle);
+
+                result.insert(nodes.begin(), nodes.end());
+            }
+
+            return result;
+        }
+
     } // namespace scene
 } // namespace ouzel

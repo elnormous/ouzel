@@ -97,7 +97,7 @@ namespace ouzel
             _camera = camera;
         }
 
-        NodePtr Layer::pickNode(const Vector2& position)
+        NodePtr Layer::pickNode(const Vector2& position) const
         {
             for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
             {
@@ -112,7 +112,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::set<NodePtr> Layer::pickNodes(const Rectangle& rectangle)
+        std::set<NodePtr> Layer::pickNodes(const Rectangle& rectangle) const
         {
             std::set<NodePtr> result;
 

@@ -39,8 +39,8 @@ namespace ouzel
             const CameraPtr& getCamera() const { return _camera; }
             void setCamera(const CameraPtr& camera);
 
-            NodePtr pickNode(const Vector2& position);
-            std::set<NodePtr> pickNodes(const Rectangle& rectangle);
+            NodePtr pickNode(const Vector2& position) const;
+            std::set<NodePtr> pickNodes(const Rectangle& rectangle) const;
 
             int32_t getOrder() const { return _order; }
             void setOrder(int32_t order);

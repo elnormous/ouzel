@@ -9,6 +9,7 @@
 #include <cstdint>
 #include "Types.h"
 #include "Noncopyable.h"
+#include "Rectangle.h"
 
 namespace ouzel
 {
@@ -32,6 +33,9 @@ namespace ouzel
             virtual void recalculateProjection();
 
             virtual void reorderLayers();
+
+            NodePtr pickNode(const Vector2& position) const;
+            std::set<NodePtr> pickNodes(const Rectangle& rectangle) const;
 
         protected:
             void lock();
