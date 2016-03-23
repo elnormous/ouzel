@@ -6,7 +6,7 @@
 
 @interface OpenGLView : NSOpenGLView
 {
-@private    
+@private
     CVDisplayLinkRef _displayLink;
     CGDirectDisplayID _displayId;
     BOOL _running;

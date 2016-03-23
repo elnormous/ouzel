@@ -15,7 +15,7 @@ static CVReturn renderCallback(CVDisplayLinkRef displayLink,
                                void *displayLinkContext)
 {
     [(__bridge OpenGLView*)displayLinkContext draw];
-    
+
     return kCVReturnSuccess;
 }
 
@@ -35,34 +35,34 @@ using namespace ouzel;
         NSOpenGLPFADepthSize, 32, // set depth buffer size
         0
     };
-    
+
     NSOpenGLPixelFormat* pixelFormat = [[[NSOpenGLPixelFormat alloc] initWithAttributes:attributes] autorelease];
-    
+
     self = [super initWithFrame:frameRect pixelFormat:pixelFormat];
     if (self != nil)
     {
         _running = NO;
         _resized = NO;
-        
+
         // Create OpenGL context
         self.openGLContext = [[NSOpenGLContext alloc] initWithFormat:self.pixelFormat shareContext:NULL];
         [self.openGLContext setView:self];
         [self.openGLContext makeCurrentContext];
-        
+
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
-        
+
         NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Ouzel" action:nil keyEquivalent:@""] autorelease];
         [mainMenu addItem:mainMenuItem];
-        
+
         NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:@"Ouzel"] autorelease];
         [mainMenuItem setSubmenu:subMenu];
-        
+
         NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
         [subMenu addItem:quitItem];
-        
+
         [NSApplication sharedApplication].mainMenu = mainMenu;
     }
-    
+
     return self;
 }
 
@@ -70,7 +70,7 @@ using namespace ouzel;
 {
     if (_displayLink) CVDisplayLinkRelease(_displayLink);
     [self.openGLContext release];
-    
+
     [super dealloc];
 }
 
@@ -88,17 +88,17 @@ using namespace ouzel;
 {
     std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(Engine::getInstance()->getRenderer());
     renderer->initOpenGL(0);
-    
+
     GLint swapInt = 1;
     [self.openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
-    
+
     _displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription]objectForKey:@"NSScreenNumber"] unsignedIntValue];
-    
+
     CVDisplayLinkCreateWithCGDisplay(_displayId, &_displayLink);
     CVDisplayLinkSetOutputCallback(_displayLink, renderCallback, (__bridge void *)self);
-    
+
     CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_displayLink, [self.openGLContext CGLContextObj], [self.pixelFormat CGLPixelFormatObj]);
-    
+
     CVDisplayLinkStart(_displayLink);
     _running = YES;
 }
@@ -108,13 +108,13 @@ using namespace ouzel;
     if (_displayLink)
     {
         _running = NO;
-        
+
         CGLLockContext([self.openGLContext CGLContextObj]);
         [self.openGLContext makeCurrentContext];
-        
+
         CVDisplayLinkRelease(_displayLink);
         _displayLink = Nil;
-        
+
         CGLUnlockContext([self.openGLContext CGLContextObj]);
     }
 }
@@ -122,7 +122,7 @@ using namespace ouzel;
 -(void)changeDisplay
 {
     CGDirectDisplayID displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-    
+
     if(displayId != 0 && _displayId != displayId)
     {
         CVDisplayLinkSetCurrentCGDisplay(_displayLink, displayId);
@@ -149,7 +149,7 @@ using namespace ouzel;
 -(void)setFrameSize:(NSSize)newSize
 {
     [super setFrameSize:newSize];
-    
+
     _resized = YES;
 }
 
@@ -160,7 +160,7 @@ using namespace ouzel;
     {
         [self.openGLContext setView:self];
     }
-    
+
     [self.openGLContext makeCurrentContext];
 }
 
@@ -168,15 +168,15 @@ using namespace ouzel;
 {
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    
+
     _resized = NO;
-    
+
     bool quit = !Engine::getInstance()->run();
 
     [self.openGLContext flushBuffer];
-    
+
     CGLUnlockContext([self.openGLContext CGLContextObj]);
-    
+
     if (quit)
     {
         if ([NSThread isMainThread])
@@ -200,20 +200,20 @@ using namespace ouzel;
 static uint32_t getModifiers(NSEvent* theEvent, bool includeMouse = false)
 {
     uint32_t modifiers = 0;
-    
+
     if (theEvent.modifierFlags & NSShiftKeyMask) modifiers |= Event::SHIFT_DOWN;
     if (theEvent.modifierFlags & NSAlternateKeyMask) modifiers |= Event::ALT_DOWN;
     if (theEvent.modifierFlags & NSControlKeyMask) modifiers |= Event::CONTROL_DOWN;
     if (theEvent.modifierFlags & NSCommandKeyMask) modifiers |= Event::COMMAND_DOWN;
     if (theEvent.modifierFlags & NSFunctionKeyMask) modifiers |= Event::FUNCTION_DOWN;
-    
+
     if (includeMouse)
     {
         if (NSEvent.pressedMouseButtons & (1 << 0)) modifiers |= Event::LEFT_MOUSE_DOWN;
         if (NSEvent.pressedMouseButtons & (1 << 1)) modifiers |= Event::RIGHT_MOUSE_DOWN;
         if (NSEvent.pressedMouseButtons & (1 << 2)) modifiers |= Event::MIDDLE_MOUSE_DOWN;
     }
-    
+
     return modifiers;
 }
 
@@ -400,7 +400,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
         case kVK_Shift: return input::KeyboardKey::SHIFT;
         case kVK_RightShift: return input::KeyboardKey::RSHIFT;
         case kVK_Space: return input::KeyboardKey::SPACE;
-            
+
         case kVK_ANSI_A: return input::KeyboardKey::KEY_A;
         case kVK_ANSI_B: return input::KeyboardKey::KEY_B;
         case kVK_ANSI_C: return input::KeyboardKey::KEY_C;
@@ -427,7 +427,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
         case kVK_ANSI_X: return input::KeyboardKey::KEY_X;
         case kVK_ANSI_Y: return input::KeyboardKey::KEY_Y;
         case kVK_ANSI_Z: return input::KeyboardKey::KEY_Z;
-            
+
         case kVK_ANSI_0: return input::KeyboardKey::KEY_0;
         case kVK_ANSI_1: return input::KeyboardKey::KEY_1;
         case kVK_ANSI_2: return input::KeyboardKey::KEY_2;
@@ -438,13 +438,13 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
         case kVK_ANSI_7: return input::KeyboardKey::KEY_7;
         case kVK_ANSI_8: return input::KeyboardKey::KEY_8;
         case kVK_ANSI_9: return input::KeyboardKey::KEY_9;
-            
+
         case kVK_ANSI_Slash: return input::KeyboardKey::DIVIDE;
         case kVK_ANSI_Comma: return input::KeyboardKey::COMMA;
         case kVK_ANSI_Period: return input::KeyboardKey::PERIOD;
         case kVK_PageUp: return input::KeyboardKey::PRIOR;
         case kVK_PageDown: return input::KeyboardKey::NEXT;
-            
+
         case kVK_ANSI_Keypad0: return input::KeyboardKey::NUMPAD0;
         case kVK_ANSI_Keypad1: return input::KeyboardKey::NUMPAD1;
         case kVK_ANSI_Keypad2: return input::KeyboardKey::NUMPAD2;
@@ -455,7 +455,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
         case kVK_ANSI_Keypad7: return input::KeyboardKey::NUMPAD7;
         case kVK_ANSI_Keypad8: return input::KeyboardKey::NUMPAD8;
         case kVK_ANSI_Keypad9: return input::KeyboardKey::NUMPAD9;
-            
+
         case kVK_ANSI_KeypadDecimal: return input::KeyboardKey::DECIMAL;
         case kVK_ANSI_KeypadMultiply: return input::KeyboardKey::MULTIPLY;
         case kVK_ANSI_KeypadPlus: return input::KeyboardKey::PLUS;
@@ -470,7 +470,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 -(void)keyDown:(NSEvent*)theEvent
 {
     if (!_running) return;
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->keyDown(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
@@ -480,7 +480,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 -(void)keyUp:(NSEvent*)theEvent
 {
     if (!_running) return;
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->keyUp(convertKeyCode(theEvent.keyCode), getModifiers(theEvent));
@@ -491,7 +491,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseDown(input::MouseButton::LEFT,
@@ -504,7 +504,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseUp(input::MouseButton::LEFT,
@@ -517,7 +517,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseDown(input::MouseButton::RIGHT,
@@ -530,7 +530,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseUp(input::MouseButton::RIGHT,
@@ -543,7 +543,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseDown(input::MouseButton::MIDDLE,
@@ -556,7 +556,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseUp(input::MouseButton::MIDDLE,
@@ -568,9 +568,9 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 -(void)mouseMoved:(NSEvent*)theEvent
 {
     if (!_running) return;
-    
+
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
@@ -582,7 +582,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
@@ -594,7 +594,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
@@ -606,7 +606,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)),
@@ -618,7 +618,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
     NSPoint location = [self convertPoint:theEvent.locationInWindow fromView: nil];
-    
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
     Engine::getInstance()->getInput()->mouseScroll(Vector2(theEvent.scrollingDeltaX, theEvent.scrollingDeltaY),
@@ -629,17 +629,17 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)swipeWithEvent:(NSEvent*)theEvent
 {
-    
+
 }
 
 -(void)rotateWithEvent:(NSEvent*)theEvent
 {
-    
+
 }
 
 -(void)magnifyWithEvent:(NSEvent*)theEvent
 {
-    
+
 }
 
 @end

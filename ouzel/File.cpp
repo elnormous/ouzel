@@ -10,7 +10,7 @@ namespace ouzel
     File::File(const std::string& filename, Mode mode, bool binary)
     {
         std::string modeStr;
-        
+
         switch (mode)
         {
             case Mode::READ:
@@ -23,20 +23,20 @@ namespace ouzel
                 modeStr = "a";
                 break;
         }
-        
+
         if (binary)
         {
             modeStr += "b";
         }
-        
+
         _file.reset(fopen(Engine::getInstance()->getFileSystem()->getPath(filename).c_str(), modeStr.c_str()), std::fclose);
     }
-    
+
     int64_t File::read(char* buffer, uint32_t size)
     {
         return static_cast<int64_t>(fread(buffer, size, 1, _file.get()));
     }
-    
+
     int64_t File::write(const char* buffer, uint32_t size)
     {
         return static_cast<int64_t>(fwrite(buffer, size, 1, _file.get()));

@@ -18,35 +18,35 @@ namespace ouzel
                 }
             }
         }
-        
+
         void Parallel::start(const NodePtr& node)
         {
             Animator::start(node);
-            
+
             for (auto& animator : _animators)
             {
                 animator->start(node);
             }
         }
-        
+
         void Parallel::reset()
         {
             Animator::reset();
-            
+
             for (auto& animator : _animators)
             {
                 animator->reset();
             }
         }
-        
+
         void Parallel::setProgress(float progress)
         {
             Animator::setProgress(progress);
-            
+
             for (auto& animator : _animators)
             {
                 float animationLength = animator->getLength();
-                
+
                 if (!animationLength || _currentTime > animationLength)
                 {
                     animator->setProgress(1.0f);

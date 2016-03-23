@@ -30,11 +30,11 @@ namespace ouzel
     {
         va_list list;
         va_start(list, format);
-        
+
         vsprintf(TEMP_BUFFER, format, list);
-        
+
         va_end(list);
-        
+
 #if defined(OUZEL_PLATFORM_OSX)
         printf("%s\n", TEMP_BUFFER);
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
@@ -49,19 +49,19 @@ namespace ouzel
         __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", TEMP_BUFFER);
 #endif
     }
-    
+
     uint64_t getCurrentMicroSeconds()
     {
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID)
         struct timeval currentTime;
-        
+
         gettimeofday(&currentTime, NULL);
         return currentTime.tv_sec * 1000000L + currentTime.tv_usec;
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-        
+
         static double invFrequency = 0.0;
         LARGE_INTEGER li;
-        
+
         if (invFrequency == 0.0f)
         {
             if (!QueryPerformanceFrequency(&li))
@@ -71,22 +71,22 @@ namespace ouzel
             }
             invFrequency = 1000000.0 / li.QuadPart;
         }
-        
+
         QueryPerformanceCounter(&li);
-        
+
         return static_cast<uint64_t>(li.QuadPart * invFrequency);
 #else
         return 0;
 #endif
     }
-    
+
     std::vector<std::string> ARGS;
-    
+
     void setArgs(const std::vector<std::string>& args)
     {
         ARGS = args;
     }
-    
+
     const std::vector<std::string>& getArgs()
     {
         return ARGS;

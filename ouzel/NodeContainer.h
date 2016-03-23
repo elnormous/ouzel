@@ -15,25 +15,25 @@ namespace ouzel
     {
         class Layer;
         class Node;
-        
+
         class NodeContainer: public Noncopyable, public std::enable_shared_from_this<NodeContainer>
         {
         public:
             NodeContainer();
             virtual ~NodeContainer();
-            
+
             virtual bool addChild(const NodePtr& node);
             virtual bool removeChild(const NodePtr& node);
             virtual void removeAllChildren();
             virtual bool hasChild(const NodePtr& node) const;
             virtual const std::vector<NodePtr>& getChildren() const { return _children; }
-            
+
         protected:
             void lock();
             void unlock();
-            
+
             std::vector<NodePtr> _children;
-            
+
             std::set<NodePtr> _nodeAddList;
             std::set<NodePtr> _nodeRemoveList;
             int32_t _locked = 0;

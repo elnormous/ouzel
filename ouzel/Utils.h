@@ -12,7 +12,7 @@
 namespace ouzel
 {
     extern char TEMP_BUFFER[65536];
-    
+
     template<typename T> size_t vectorDataSize(const typename std::vector<T>& vec)
     {
         return sizeof(T) * vec.size();
@@ -20,7 +20,7 @@ namespace ouzel
 
     void log(const char* format, ...);
     uint64_t getCurrentMicroSeconds();
-    
+
     void setArgs(const std::vector<std::string>& args);
     const std::vector<std::string>& getArgs();
 }

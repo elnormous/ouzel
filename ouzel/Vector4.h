@@ -17,7 +17,7 @@ namespace ouzel
         static Vector4 UNIT_Y;
         static Vector4 UNIT_Z;
         static Vector4 UNIT_W;
-        
+
         /**
          * The x-coordinate.
          */
@@ -111,7 +111,7 @@ namespace ouzel
          *
          * @param v1 The first vector.
          * @param v2 The second vector.
-         * 
+         *
          * @return The angle between the two vectors (in radians).
          */
         static float angle(const Vector4& v1, const Vector4& v2);
@@ -154,9 +154,9 @@ namespace ouzel
          * Returns the distance between this vector and v.
          *
          * @param v The other vector.
-         * 
+         *
          * @return The distance between this vector and v.
-         * 
+         *
          * @see distanceSquared
          */
         float distance(const Vector4& v) const;
@@ -170,9 +170,9 @@ namespace ouzel
          * this method instead of distance.
          *
          * @param v The other vector.
-         * 
+         *
          * @return The squared distance between this vector and v.
-         * 
+         *
          * @see distance
          */
         float distanceSquared(const Vector4& v) const;
@@ -181,7 +181,7 @@ namespace ouzel
          * Returns the dot product of this vector and the specified vector.
          *
          * @param v The vector to compute the dot product with.
-         * 
+         *
          * @return The dot product.
          */
         float dot(const Vector4& v) const;
@@ -191,7 +191,7 @@ namespace ouzel
          *
          * @param v1 The first vector.
          * @param v2 The second vector.
-         * 
+         *
          * @return The dot product between the vectors.
          */
         static float dot(const Vector4& v1, const Vector4& v2);
@@ -200,7 +200,7 @@ namespace ouzel
          * Computes the length of this vector.
          *
          * @return The length of the vector.
-         * 
+         *
          * @see lengthSquared
          */
         float length() const;
@@ -214,7 +214,7 @@ namespace ouzel
          * instead of length.
          *
          * @return The squared length of the vector.
-         * 
+         *
          * @see length
          */
         float lengthSquared() const;
@@ -232,7 +232,7 @@ namespace ouzel
          * after calling this method will be 1.0f). If the vector
          * already has unit length or if the length of the vector
          * is zero, this method does nothing.
-         * 
+         *
          * @return This vector, after the normalization occurs.
          */
         Vector4& normalize();
@@ -281,7 +281,7 @@ namespace ouzel
 
         /**
          * Sets this vector to the directional vector between the specified points.
-         * 
+         *
          * @param p1 The first point.
          * @param p2 The second point.
          */
@@ -307,9 +307,9 @@ namespace ouzel
 
         /**
          * Calculates the sum of this vector with the given vector.
-         * 
+         *
          * Note: this does not modify this vector.
-         * 
+         *
          * @param v The vector to add.
          * @return The vector sum.
          */
@@ -322,7 +322,7 @@ namespace ouzel
 
         /**
          * Adds the given vector to this vector.
-         * 
+         *
          * @param v The vector to add.
          * @return This vector, after the addition occurs.
          */
@@ -334,9 +334,9 @@ namespace ouzel
 
         /**
          * Calculates the sum of this vector with the given vector.
-         * 
+         *
          * Note: this does not modify this vector.
-         * 
+         *
          * @param v The vector to add.
          * @return The vector sum.
          */
@@ -349,7 +349,7 @@ namespace ouzel
 
         /**
          * Subtracts the given vector from this vector.
-         * 
+         *
          * @param v The vector to subtract.
          * @return This vector, after the subtraction occurs.
          */
@@ -361,9 +361,9 @@ namespace ouzel
 
         /**
          * Calculates the negation of this vector.
-         * 
+         *
          * Note: this does not modify this vector.
-         * 
+         *
          * @return The negation of this vector.
          */
         inline const Vector4 operator-() const
@@ -375,9 +375,9 @@ namespace ouzel
 
         /**
          * Calculates the scalar product of this vector with the given value.
-         * 
+         *
          * Note: this does not modify this vector.
-         * 
+         *
          * @param x The value to scale by.
          * @return The scaled vector.
          */
@@ -390,7 +390,7 @@ namespace ouzel
 
         /**
          * Scales this vector by the given value.
-         * 
+         *
          * @param x The value to scale by.
          * @return This vector, after the scale occurs.
          */
@@ -399,7 +399,7 @@ namespace ouzel
             scale(x);
             return *this;
         }
-        
+
         /**
          * Returns the components of this vector divided by the given constant
          *
@@ -412,7 +412,7 @@ namespace ouzel
         {
             return Vector4(this->x / x, this->y / x, this->z / x, this->w / x);
         }
-        
+
         inline Vector4& operator/=(float scalar)
         {
             x /= scalar;
@@ -424,9 +424,9 @@ namespace ouzel
 
         /**
          * Determines if this vector is less than the given vector.
-         * 
+         *
          * @param v The vector to compare against.
-         * 
+         *
          * @return True if this vector is less than the given vector, false otherwise.
          */
         inline bool operator<(const Vector4& v) const
@@ -448,9 +448,9 @@ namespace ouzel
 
         /**
          * Determines if this vector is equal to the given vector.
-         * 
+         *
          * @param v The vector to compare against.
-         * 
+         *
          * @return True if this vector is equal to the given vector, false otherwise.
          */
         inline bool operator==(const Vector4& v) const
@@ -460,9 +460,9 @@ namespace ouzel
 
         /**
          * Determines if this vector is not equal to the given vector.
-         * 
+         *
          * @param v The vector to compare against.
-         * 
+         *
          * @return True if this vector is not equal to the given vector, false otherwise.
          */
         inline bool operator!=(const Vector4& v) const
@@ -473,7 +473,7 @@ namespace ouzel
 
     /**
      * Calculates the scalar product of the given vector with the given value.
-     * 
+     *
      * @param x The value to scale by.
      * @param v The vector to scale.
      * @return The scaled vector.

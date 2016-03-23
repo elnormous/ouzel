@@ -15,12 +15,12 @@ namespace ouzel
             _updateCallback = std::make_shared<UpdateCallback>();
             _updateCallback->callback = std::bind(&Animator::update, this, std::placeholders::_1);
         }
-        
+
         Animator::~Animator()
         {
             Engine::getInstance()->unscheduleUpdate(_updateCallback);
         }
-        
+
         void Animator::update(float delta)
         {
             if (_running)
@@ -38,18 +38,18 @@ namespace ouzel
                 }
             }
         }
-        
+
         void Animator::start(const NodePtr& node)
         {
             if (!_running)
             {
                 _running = true;
                 _node = node;
-                
+
                 Engine::getInstance()->scheduleUpdate(_updateCallback);
             }
         }
-        
+
         void Animator::resume()
         {
             if (!_running)
@@ -58,7 +58,7 @@ namespace ouzel
                 Engine::getInstance()->scheduleUpdate(_updateCallback);
             }
         }
-        
+
         void Animator::stop(bool resetAnimation)
         {
             if (_running)
@@ -66,20 +66,20 @@ namespace ouzel
                 _running = false;
                 Engine::getInstance()->unscheduleUpdate(_updateCallback);
             }
-            
+
             if (resetAnimation)
             {
                 reset();
             }
         }
-        
+
         void Animator::reset()
         {
             _done = false;
             _currentTime = 0.0f;
             setProgress(0.0f);
         }
-        
+
         void Animator::setProgress(float progress)
         {
             _progress = progress;

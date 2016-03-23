@@ -18,7 +18,7 @@ namespace ouzel
     namespace input
     {
         class InputApple;
-        
+
         class GamepadApple: public Gamepad
         {
             friend InputApple;
@@ -26,15 +26,15 @@ namespace ouzel
             virtual bool isAttached() const override;
             virtual void setAbsoluteDpadValues(bool absoluteDpadValues) override;
             virtual bool isAbsoluteDpadValues() const override;
-            
+
             virtual int32_t getPlayerIndex() const override;
             virtual bool setPlayerIndex(int32_t playerIndex) override;
-            
+
             GCControllerPtr getController() const { return _controller; }
-            
+
         protected:
             GamepadApple(GCControllerPtr controller);
-            
+
             GCControllerPtr _controller;
         };
     } // namespace input

@@ -37,7 +37,7 @@ namespace ouzel
             LOW_MEMORY,
             OPEN_FILE
         };
-        
+
         enum Modifiers
         {
             SHIFT_DOWN          = 0x0001,
@@ -49,29 +49,29 @@ namespace ouzel
             RIGHT_MOUSE_DOWN    = 0x0040,
             MIDDLE_MOUSE_DOWN   = 0x0080,
         };
-        
+
         Type type;
         uint32_t modifiers = 0;
     };
-    
+
     struct KeyboardEvent: public Event
     {
         input::KeyboardKey key = input::KeyboardKey::NONE;
     };
-    
+
     struct MouseEvent: public Event
     {
         input::MouseButton button = input::MouseButton::NONE;
         Vector2 position;
         Vector2 scroll;
     };
-    
+
     struct TouchEvent: public Event
     {
         uint64_t touchId = 0;
         Vector2 position;
     };
-    
+
     struct GamepadEvent: public Event
     {
         input::GamepadPtr gamepad;
@@ -79,14 +79,14 @@ namespace ouzel
         bool pressed = false;
         float value = 0.0f;
     };
-    
+
     struct WindowEvent: public Event
     {
         Size2 size;
         std::string title;
         bool fullscreen = false;
     };
-    
+
     struct SystemEvent: public Event
     {
         Size2 size;

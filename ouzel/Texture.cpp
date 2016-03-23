@@ -13,23 +13,23 @@ namespace ouzel
     {
         Texture::Texture()
         {
-            
+
         }
 
         Texture::~Texture()
         {
 
         }
-        
+
         bool Texture::init(const Size2& size, bool dynamic, bool mipmaps)
         {
             _size = size;
             _dynamic = dynamic;
             _mipmaps = mipmaps;
-            
+
             return true;
         }
-        
+
         bool Texture::initFromFile(const std::string& filename, bool dynamic, bool mipmaps)
         {
             _filename = filename;
@@ -48,25 +48,25 @@ namespace ouzel
         bool Texture::initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
         {
             OUZEL_UNUSED(data);
-            
+
             _size = size;
             _dynamic = dynamic;
             _mipmaps = mipmaps;
 
             return true;
         }
-        
+
         bool Texture::upload(const void* data, const Size2& size)
         {
             OUZEL_UNUSED(data);
-            
+
             _size = size;
-            
+
             if (!_dynamic)
             {
                 return false;
             }
-            
+
             return true;
         }
     } // namespace video

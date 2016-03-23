@@ -8,14 +8,14 @@ namespace ouzel
     WindowAndroid::WindowAndroid(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
         Window(size, resizable, fullscreen, title)
     {
-        
+
     }
-    
+
     WindowAndroid::~WindowAndroid()
     {
 
     }
-    
+
     bool WindowTVOS::init()
     {
         return Window::init();

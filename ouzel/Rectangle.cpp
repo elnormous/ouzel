@@ -22,16 +22,16 @@ namespace ouzel
         x(x), y(y), width(width), height(height)
     {
     }
-    
+
     Rectangle::Rectangle(const Vector2& position, float width, float height):
         x(position.x), y(position.y), width(width), height(height)
     {
     }
-    
+
     Rectangle::Rectangle(const Vector2& position, const Size2& size):
         x(position.x), y(position.y), width(size.width), height(size.height)
     {
-        
+
     }
 
     Rectangle::Rectangle(const Rectangle& copy)
@@ -60,7 +60,7 @@ namespace ouzel
         this->width = width;
         this->height = height;
     }
-    
+
     void Rectangle::set(const Vector2& position, float width, float height)
     {
         this->x = position.x;
@@ -74,7 +74,7 @@ namespace ouzel
         this->x = x;
         this->y = y;
     }
-        
+
     void Rectangle::setPosition(const Vector2 position)
     {
         this->x = position.x;
@@ -105,7 +105,7 @@ namespace ouzel
     {
         return (x >= this->x && x <= (this->x + width) && y >= this->y && y <= (this->y + height));
     }
-    
+
     bool Rectangle::containsPoint(const Vector2& point) const
     {
         return (point.x >= this->x && point.x <= (this->x + width) && point.y >= this->y && point.y <= (this->y + height));

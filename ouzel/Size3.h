@@ -13,16 +13,16 @@ namespace ouzel
         float width;
         float height;
         float depth;
-        
+
         Size3();
         Size3(float width, float height, float depth);
-        
+
         Size3& operator=(const Vector3& point);
         Size3 operator+(const Size3& right) const;
         Size3 operator-(const Size3& right) const;
         Size3 operator*(float a) const;
         Size3 operator/(float a) const;
-        
+
         inline bool operator==(const Size3& right) const
         {
             return width == right.width && height == right.height && depth == right.depth;
@@ -32,7 +32,7 @@ namespace ouzel
         {
             return width != right.width || height != right.height || depth != right.depth;
         }
-        
+
         bool isZero() const;
     };
 }

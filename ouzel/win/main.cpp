@@ -59,6 +59,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
     }
 
     ouzel::Engine::getInstance()->end();
-    
+
     return 0;
 }

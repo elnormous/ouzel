@@ -11,10 +11,10 @@ namespace ouzel
     {
     public:
         virtual ~App() = 0;
-        
+
         virtual void begin() = 0;
     };
-    
+
     inline App::~App()
     {
     }

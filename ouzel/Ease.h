@@ -19,7 +19,7 @@ namespace ouzel
                 OUT,
                 INOUT
             };
-            
+
             enum class Func
             {
                 SINE,
@@ -33,14 +33,14 @@ namespace ouzel
                 ELASTIC,
                 BOUNCE
             };
-            
+
             Ease(const AnimatorPtr& animator, Type type, Func func);
-            
+
             virtual void start(const NodePtr& node) override;
             virtual void reset() override;
-            
+
             virtual void setProgress(float progress) override;
-            
+
         protected:
             AnimatorPtr _animator;
             Type _type;

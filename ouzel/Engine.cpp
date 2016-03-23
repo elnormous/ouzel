@@ -98,7 +98,7 @@ namespace ouzel
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         _window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #endif
-        
+
         _eventDispatcher.reset(new EventDispatcher());
         _cache.reset(new Cache());
         _fileSystem.reset(new FileSystem());
@@ -147,7 +147,7 @@ namespace ouzel
     void Engine::begin()
     {
         _running = true;
-        
+
         if (_app)
         {
             _app->begin();
@@ -228,11 +228,11 @@ namespace ouzel
             }
         }
     }
-    
+
     void Engine::setApp(const AppPtr &app)
     {
         _app = app;
-        
+
         if (_running && _app)
         {
             _app->begin();

@@ -8,7 +8,7 @@
 namespace ouzel
 {
     class Matrix;
-    
+
     /**
      * Defines a 3-element floating point vector.
      *
@@ -26,27 +26,27 @@ namespace ouzel
         static Vector3 UNIT_X;
         static Vector3 UNIT_Y;
         static Vector3 UNIT_Z;
-        
+
         /**
          * The x-coordinate.
          */
         float x;
-        
+
         /**
          * The y-coordinate.
          */
         float y;
-        
+
         /**
          * The z-coordinate.
          */
         float z;
-        
+
         /**
          * Constructs a new vector initialized to all zeros.
          */
         Vector3();
-        
+
         /**
          * Constructs a new vector initialized to the specified values.
          *
@@ -55,14 +55,14 @@ namespace ouzel
          * @param z The z coordinate.
          */
         Vector3(float x, float y, float z);
-        
+
         /**
          * Constructs a new vector from the values in the specified array.
          *
          * @param array An array containing the elements of the vector in the order x, y, z.
          */
         Vector3(const float* array);
-        
+
         /**
          * Constructs a vector that describes the direction between the specified points.
          *
@@ -70,18 +70,18 @@ namespace ouzel
          * @param p2 The second point.
          */
         Vector3(const Vector3& p1, const Vector3& p2);
-        
+
         /**
          * Constructs a new vector that is a copy of the specified vector.
          *
          * @param copy The vector to copy.
          */
         Vector3(const Vector3& copy);
-        
+
         Vector3(const Vector2& v);
-        
+
         Vector3& operator=(const Vector2& v);
-        
+
         /**
          * Creates a new vector from an integer interpreted as an RGB value.
          * E.g. 0xff0000 represents red or the vector (1, 0, 0).
@@ -91,12 +91,12 @@ namespace ouzel
          * @return A vector corresponding to the interpreted RGB color.
          */
         static Vector3 fromColor(unsigned int color);
-        
+
         /**
          * Destructor.
          */
         ~Vector3();
-        
+
         /**
          * Indicates whether this vector contains all zeros.
          *
@@ -106,7 +106,7 @@ namespace ouzel
         {
             return x == 0.0f && y == 0.0f && z == 0.0f;
         }
-        
+
         /**
          * Indicates whether this vector contains all ones.
          *
@@ -116,7 +116,7 @@ namespace ouzel
         {
             return x == 1.0f && y == 1.0f && z == 1.0f;
         }
-        
+
         /**
          * Returns the angle (in radians) between the specified vectors.
          *
@@ -126,15 +126,15 @@ namespace ouzel
          * @return The angle between the two vectors (in radians).
          */
         static float angle(const Vector3& v1, const Vector3& v2);
-        
-        
+
+
         /**
          * Adds the elements of the specified vector to this one.
          *
          * @param v The vector to add.
          */
         void add(const Vector3& v);
-        
+
         /**
          * Adds the specified vectors and stores the result in dst.
          *
@@ -143,7 +143,7 @@ namespace ouzel
          * @param dst A vector to store the result in.
          */
         static void add(const Vector3& v1, const Vector3& v2, Vector3& dst);
-        
+
         /**
          * Clamps this vector within the specified range.
          *
@@ -151,7 +151,7 @@ namespace ouzel
          * @param max The maximum value.
          */
         void clamp(const Vector3& min, const Vector3& max);
-        
+
         /**
          * Clamps the specified vector within the specified range and returns it in dst.
          *
@@ -161,14 +161,14 @@ namespace ouzel
          * @param dst A vector to store the result in.
          */
         static void clamp(const Vector3& v, const Vector3& min, const Vector3& max, Vector3& dst);
-        
+
         /**
          * Sets this vector to the cross product between itself and the specified vector.
          *
          * @param v The vector to compute the cross product with.
          */
         void cross(const Vector3& v);
-        
+
         /**
          * Computes the cross product of the specified vectors and stores the result in dst.
          *
@@ -177,7 +177,7 @@ namespace ouzel
          * @param dst A vector to store the result in.
          */
         static void cross(const Vector3& v1, const Vector3& v2, Vector3& dst);
-        
+
         /**
          * Returns the distance between this vector and v.
          *
@@ -188,7 +188,7 @@ namespace ouzel
          * @see distanceSquared
          */
         float distance(const Vector3& v) const;
-        
+
         /**
          * Returns the squared distance between this vector and v.
          *
@@ -204,7 +204,7 @@ namespace ouzel
          * @see distance
          */
         float distanceSquared(const Vector3& v) const;
-        
+
         /**
          * Returns the dot product of this vector and the specified vector.
          *
@@ -213,7 +213,7 @@ namespace ouzel
          * @return The dot product.
          */
         float dot(const Vector3& v) const;
-        
+
         /**
          * Returns the dot product between the specified vectors.
          *
@@ -223,7 +223,7 @@ namespace ouzel
          * @return The dot product between the vectors.
          */
         static float dot(const Vector3& v1, const Vector3& v2);
-        
+
         /**
          * Computes the length of this vector.
          *
@@ -232,7 +232,7 @@ namespace ouzel
          * @see lengthSquared
          */
         float length() const;
-        
+
         /**
          * Returns the squared length of this vector.
          *
@@ -246,12 +246,12 @@ namespace ouzel
          * @see length
          */
         float lengthSquared() const;
-        
+
         /**
          * Negates this vector.
          */
         void negate();
-        
+
         /**
          * Normalizes this vector.
          *
@@ -264,7 +264,7 @@ namespace ouzel
          * @return This vector, after the normalization occurs.
          */
         Vector3& normalize();
-        
+
         /**
          * Normalizes this vector and stores the result in dst.
          *
@@ -275,14 +275,14 @@ namespace ouzel
          * @param dst The destination vector.
          */
         void normalize(Vector3& dst) const;
-        
+
         /**
          * Scales all elements of this vector by the specified value.
          *
          * @param scalar The scalar value.
          */
         void scale(float scalar);
-        
+
         /**
          * Sets the elements of this vector to the specified values.
          *
@@ -291,26 +291,26 @@ namespace ouzel
          * @param z The new z coordinate.
          */
         void set(float x, float y, float z);
-        
+
         /**
          * Sets the elements of this vector from the values in the specified array.
          *
          * @param array An array containing the elements of the vector in the order x, y, z.
          */
         void set(const float* array);
-        
+
         /**
          * Sets the elements of this vector to those in the specified vector.
          *
          * @param v The vector to copy.
          */
         void set(const Vector3& v);
-        
+
         /**
          * Sets this vector to the directional vector between the specified points.
          */
         void set(const Vector3& p1, const Vector3& p2);
-        
+
         /**
          * Subtracts this vector and the specified vector as (this - v)
          * and stores the result in this vector.
@@ -318,7 +318,7 @@ namespace ouzel
          * @param v The vector to subtract.
          */
         void subtract(const Vector3& v);
-        
+
         /**
          * Subtracts the specified vectors and stores the result in dst.
          * The resulting vector is computed as (v1 - v2).
@@ -328,7 +328,7 @@ namespace ouzel
          * @param dst The destination vector.
          */
         static void subtract(const Vector3& v1, const Vector3& v2, Vector3& dst);
-        
+
         /**
          * Updates this vector towards the given target using a smoothing function.
          * The given response time determines the amount of smoothing (lag). A longer
@@ -341,7 +341,7 @@ namespace ouzel
          * @param responseTime response time (in the same units as elapsedTime).
          */
         void smooth(const Vector3& target, float elapsedTime, float responseTime);
-        
+
         /**
          * Calculates the sum of this vector with the given vector.
          *
@@ -354,7 +354,7 @@ namespace ouzel
         {
             return Vector3(x + v.x, y + v.y, z + v.z);
         }
-        
+
         /**
          * Adds the given vector to this vector.
          *
@@ -368,7 +368,7 @@ namespace ouzel
             z += v.z;
             return *this;
         }
-        
+
         /**
          * Calculates the difference of this vector with the given vector.
          *
@@ -381,7 +381,7 @@ namespace ouzel
         {
             return Vector3(x - v.x, y - v.y, z - v.z);
         }
-        
+
         /**
          * Subtracts the given vector from this vector.
          *
@@ -395,7 +395,7 @@ namespace ouzel
             z -= v.z;
             return *this;
         }
-        
+
         /**
          * Calculates the negation of this vector.
          *
@@ -407,12 +407,12 @@ namespace ouzel
         {
             return Vector3(-x, -y, -z);
         }
-        
+
         /**
          * Calculates the scalar product of this vector with the given value.
-         * 
+         *
          * Note: this does not modify this vector.
-         * 
+         *
          * @param scalar The value to scale by.
          * @return The scaled vector.
          */
@@ -420,10 +420,10 @@ namespace ouzel
         {
             return Vector3(x * scalar, y * scalar, z * scalar);
         }
-        
+
         /**
          * Scales this vector by the given value.
-         * 
+         *
          * @param scalar The value to scale by.
          * @return This vector, after the scale occurs.
          */
@@ -434,7 +434,7 @@ namespace ouzel
             z *= scalar;
             return *this;
         }
-        
+
         /**
          * Returns the components of this vector divided by the given constant
          *
@@ -447,7 +447,7 @@ namespace ouzel
         {
             return Vector3(x / scalar, y / scalar, z / scalar);
         }
-        
+
         inline Vector3& operator/=(float scalar)
         {
             x /= scalar;
@@ -455,12 +455,12 @@ namespace ouzel
             z /= scalar;
             return *this;
         }
-        
+
         /**
          * Determines if this vector is less than the given vector.
-         * 
+         *
          * @param v The vector to compare against.
-         * 
+         *
          * @return True if this vector is less than the given vector, false otherwise.
          */
         inline bool operator<(const Vector3& v) const
@@ -475,24 +475,24 @@ namespace ouzel
             }
             return x < v.x;
         }
-        
+
         /**
          * Determines if this vector is equal to the given vector.
-         * 
+         *
          * @param v The vector to compare against.
-         * 
+         *
          * @return True if this vector is equal to the given vector, false otherwise.
          */
         inline bool operator==(const Vector3& v) const
         {
             return x==v.x && y==v.y && z==v.z;
         }
-        
+
         /**
          * Determines if this vector is not equal to the given vector.
-         * 
+         *
          * @param v The vector to compare against.
-         * 
+         *
          * @return True if this vector is not equal to the given vector, false otherwise.
          */
         inline bool operator!=(const Vector3& v) const
@@ -500,10 +500,10 @@ namespace ouzel
             return x!=v.x || y!=v.y || z!=v.z;
         }
     };
-    
+
     /**
      * Calculates the scalar product of the given vector with the given value.
-     * 
+     *
      * @param scalar The value to scale by.
      * @param v The vector to scale.
      * @return The scaled vector.

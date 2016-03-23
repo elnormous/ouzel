@@ -163,10 +163,10 @@ namespace ouzel
             ZOOM,           // Zoom key
             PA1,            // PA1 key
             OEM_CLEAR,      // Clear key
-            
+
             KEY_COUNT
         };
-        
+
         enum class MouseButton
         {
             NONE,
@@ -175,10 +175,10 @@ namespace ouzel
             MIDDLE,         // Middle mouse button (three-button mouse)
             X1,             // Windows 2000/XP: X1 mouse button
             X2,              // Windows 2000/XP: X2 mouse button
-            
+
             BUTTON_COUNT
         };
-        
+
         enum class GamepadButton
         {
             NONE,
@@ -196,7 +196,7 @@ namespace ouzel
             RIGHT_TRIGGER,  // R2 for Apple
             LEFT_THUMB,
             RIGHT_THUMB,
-            START, 
+            START,
             BACK,
             PAUSE,
             LEFT_THUMB_LEFT,
@@ -207,44 +207,44 @@ namespace ouzel
             RIGHT_THUMB_RIGHT,
             RIGHT_THUMB_UP,
             RIGHT_THUMB_DOWN,
-            
+
             BUTTON_COUNT
         };
-        
+
         class Input: public Noncopyable, public std::enable_shared_from_this<Input>
         {
             friend Engine;
         public:
             virtual ~Input();
-            
+
             virtual void update();
-            
+
             virtual void setCursorVisible(bool visible);
             virtual bool isCursorVisible() const;
-            
+
             virtual void startGamepadDiscovery();
             virtual void stopGamepadDiscovery();
-            
+
             const Vector2& getCursorPosition() const { return _cursorPosition; }
             bool isKeyboardKeyDown(KeyboardKey key) const { return _keyboardKeyStates[static_cast<uint32_t>(key)]; }
             bool isMouseButtonDown(MouseButton button) const { return _mouseButtonStates[static_cast<uint32_t>(button)]; }
-            
+
             virtual void keyDown(KeyboardKey key, uint32_t modifiers);
             virtual void keyUp(KeyboardKey key, uint32_t modifiers);
-            
+
             virtual void mouseDown(MouseButton button, const Vector2& position, uint32_t modifiers);
             virtual void mouseUp(MouseButton button, const Vector2& position, uint32_t modifiers);
             virtual void mouseMove(const Vector2& position, uint32_t modifiers);
             virtual void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
-            
+
             virtual void touchBegin(uint64_t touchId, const Vector2& position);
             virtual void touchEnd(uint64_t touchId, const Vector2& position);
             virtual void touchMove(uint64_t touchId, const Vector2& position);
             virtual void touchCancel(uint64_t touchId, const Vector2& position);
-            
+
         protected:
             Input();
-            
+
             Vector2 _cursorPosition;
             bool _keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
             bool _mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];

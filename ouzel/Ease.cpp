@@ -13,27 +13,27 @@ namespace ouzel
         {
             return 1.0f - cosf(t * PI_2);
         }
-        
+
         static float sineOut(float t)
         {
             return sinf(t * PI_2);
         }
-        
+
         static float sineInOut(float t)
         {
             return -0.5f * (cosf(PI * t) - 1.0f);
         }
-        
+
         static float quadIn(float t)
         {
             return t * t;
         }
-        
+
         static float quadOut(float t)
         {
             return t * (2.0f - t);
         }
-        
+
         static float quadInOut(float t)
         {
             if (t < 0.5f)
@@ -41,18 +41,18 @@ namespace ouzel
             else
                 return (-1.0f + (4.0f - 2.0f * t) * t);
         }
-        
+
         static float cubicIn(float t)
         {
             return t * t * t;
         }
-        
+
         static float cubicOut(float t)
         {
             t -= 1.0f;
             return t * t * t + 1.0f;
         }
-        
+
         static float cubicInOut(float t)
         {
             if (t < 0.5f)
@@ -60,18 +60,18 @@ namespace ouzel
             else
                 return (t - 1.0f) * (2.0f * t - 2.0f) * (2.0f * t - 2.0f) + 1.0f;
         }
-        
+
         static float quartIn(float t)
         {
             return t * t * t * t;
         }
-        
+
         static float quartOut(float t)
         {
             t -= 1.0f;
             return 1.0f - t * t * t;
         }
-        
+
         static float quartInOut(float t)
         {
             if (t < 0.5f)
@@ -82,18 +82,18 @@ namespace ouzel
                 return 1.0f - 8.0f * t * t * t * t;
             }
         }
-        
+
         static float quintIn(float t)
         {
             return t * t * t * t * t;
         }
-        
+
         static float quintOut(float t)
         {
             t -= 1.0f;
             return 1.0f + t * t * t * t * t;
         }
-        
+
         static float quintInOut(float t)
         {
             if (t < 0.5f)
@@ -104,17 +104,17 @@ namespace ouzel
                 return 1.0f + 16.0f * t * t * t * t * t;
             }
         }
-        
+
         static float expoIn(float t)
         {
             return powf(2.0f, 10.0f * (t - 1.0f));
         }
-        
+
         static float expoOut(float t)
         {
             return 1.0f - powf(2.0f, -10.0f * t);
         }
-        
+
         static float expoInOut(float t)
         {
             if (t < 0.5f)
@@ -122,18 +122,18 @@ namespace ouzel
             else
                 return 0.5f * (powf(2.0f, -10.0f * (t * 2.0f - 1.0f)) - 2.0f);
         }
-        
+
         static float circIn(float t)
         {
             return 1.0f - sqrtf(1.0f - t * t);
         }
-        
+
         static float circOut(float t)
         {
             t -= 1.0f;
             return sqrtf(1.0f - t * t);
         }
-        
+
         static float circInOut(float t)
         {
             if (t < 0.5f)
@@ -147,20 +147,20 @@ namespace ouzel
                 return 0.5f * (sqrtf(1.0f - t * t) + 1.0f);
             }
         }
-        
+
         static float backIn(float t)
         {
             const float s = 1.70158f;
             return t * t * ((s + 1.0f) * t - s);
         }
-        
+
         static float backOut(float t)
         {
             const float s = 1.70158f;
             t -= 1.0f;
             return t * t * ((s + 1.0f) * t + s) + 1.0f;
         }
-        
+
         static float backInOut(float t)
         {
             const float s = 1.70158f * 1.525f;
@@ -175,36 +175,36 @@ namespace ouzel
                 return 0.5f * (t * t * ((s + 1.0f) * t + s) + 2.0f);
             }
         }
-        
+
         static float elasticIn(float t)
         {
             if (t == 0.0f) return 0.0f;
             if (t == 1.0f) return 1.0f;
-            
+
             float p = 0.3f;
-            
+
             t -= 1.0f;
-            
+
             return -powf(2.0f, 10.0f * t) * sinf((t - p / 4.0f) * (2.0f * PI) / p);
         }
-        
+
         static float elasticOut(float t)
         {
             if (t == 0.0f) return 0.0f;
             if (t == 1.0f) return 1.0f;
-            
+
             float p = 0.3f;
-            
+
             return powf(2.0f, -10.0f * t) * sinf((t - p / 4.0f) * (2.0f * PI) / p) + 1.0f;
         }
-        
+
         static float elasticInOut(float t)
         {
             if (t == 0.0f) return 0.0f;
             if (t == 1.0f) return 1.0f;
-            
+
             float p = 0.3f * 1.5f;
-            
+
             if (t < 0.5f)
             {
                 t = t * 2.0f - 1.0f;
@@ -216,7 +216,7 @@ namespace ouzel
                 return 0.5f * powf(2.0f, -10.0f * t) * sinf((t - p / 4.0f) * (2.0f * PI) / p) + 1.0f;
             }
         }
-        
+
         static float bounceOut(float t)
         {
             if (t < (1.0f / 2.75f))
@@ -238,15 +238,15 @@ namespace ouzel
                 t -= 2.625f / 2.75f;
                 return 7.5625f * t * t + 0.984375f;
             }
-            
+
             return t;
         }
-        
+
         static float bounceIn(float t)
         {
             return 1.0f - bounceOut(1.0f - t);
         }
-        
+
         static float bounceInOut(float t)
         {
             if (t < 0.5f)
@@ -254,31 +254,31 @@ namespace ouzel
             else
                 return bounceOut(t * 2.0f - 1.0f) * 0.5f + 0.5f;
         }
-        
+
         Ease::Ease(const AnimatorPtr& animator, Type type, Func func):
             Animator(animator->getLength()), _animator(animator), _type(type), _func(func)
         {
 
         }
-        
+
         void Ease::start(const NodePtr& node)
         {
             Animator::start(node);
-            
+
             _animator->start(node);
         }
-        
+
         void Ease::reset()
         {
             Animator::reset();
-            
+
             _animator->reset();
         }
-        
+
         void Ease::setProgress(float progress)
         {
             Animator::setProgress(progress);
-            
+
             switch (_type)
             {
                 case Type::IN:
@@ -298,7 +298,7 @@ namespace ouzel
                     }
                     break;
                 }
-                    
+
                 case Type::OUT:
                 {
                     switch (_func)
@@ -316,7 +316,7 @@ namespace ouzel
                     }
                     break;
                 }
-                    
+
                 case Type::INOUT:
                 {
                     switch (_func)
@@ -335,7 +335,7 @@ namespace ouzel
                     break;
                 }
             }
-            
+
             _animator->setProgress(progress);
         }
     } // namespace scene

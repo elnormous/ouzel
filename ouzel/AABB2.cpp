@@ -28,7 +28,7 @@ namespace ouzel
         Vector2 center;
         center.x = 0.5f * (min.x + max.x);
         center.y = 0.5f * (min.y + max.y);
-        
+
         return center;
     }
 
@@ -65,7 +65,7 @@ namespace ouzel
         // Calculate the new minimum point.
         min.x = std::min(min.x, box.min.x);
         min.y = std::min(min.y, box.min.y);
-        
+
         // Calculate the new maximum point.
         max.x = std::max(max.x, box.max.x);
         max.y = std::max(max.y, box.max.y);
@@ -95,21 +95,21 @@ namespace ouzel
             // Leftmost point.
             if (points[i].x < min.x)
                 min.x = points[i].x;
-            
+
             // Lowest point.
             if (points[i].y < min.y)
                 min.y = points[i].y;
-            
+
             // Rightmost point.
             if (points[i].x > max.x)
                 max.x = points[i].x;
-            
+
             // Highest point.
             if (points[i].y > max.y)
                 max.y = points[i].y;
         }
     }
-    
+
     void AABB2::insertPoint(const Vector2& point)
     {
         if (point.x < min.x) min.x = point.x;

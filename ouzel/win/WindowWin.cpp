@@ -168,24 +168,24 @@ static input::KeyboardKey winKeyToEngineCode(WPARAM wParam, LPARAM lParam)
 static uint32_t getKeyboardModifiers(WPARAM wParam)
 {
     uint32_t modifiers = 0;
-    
+
     if (wParam & MK_SHIFT) modifiers |= Event::SHIFT_DOWN;
     if (wParam & MK_ALT) modifiers |= Event::ALT_DOWN;
     if (wParam & MK_CONTROL) modifiers |= Event::CONTROL_DOWN;
-    
+
     return modifiers;
 }
 
 static uint32_t getMouseModifiers(WPARAM wParam)
 {
     uint32_t modifiers = 0;
-    
+
     if (wParam & MK_SHIFT) modifiers |= Event::SHIFT_DOWN;
     if (wParam & MK_CONTROL) modifiers |= Event::CONTROL_DOWN;
     if (wParam & MK_LBUTTON) modifiers |= Event::LEFT_MOUSE_DOWN;
     if (wParam & MK_RBUTTON) modifiers |= Event::RIGHT_MOUSE_DOWN;
     if (wParam & MK_MBUTTON) modifiers |= Event::MIDDLE_MOUSE_DOWN;
-    
+
     return modifiers;
 }
 
@@ -474,7 +474,7 @@ namespace ouzel
 
         return Window::init();
     }
-    
+
     void WindowWin::close()
     {
         SendMessage(_window, WM_CLOSE, 0, 0);

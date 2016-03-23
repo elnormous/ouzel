@@ -26,7 +26,7 @@ namespace ouzel
         RendererD3D11::RendererD3D11():
             Renderer(Driver::DIRECT3D11)
         {
-        
+
         }
 
         RendererD3D11::~RendererD3D11()
@@ -247,7 +247,7 @@ namespace ouzel
         void RendererD3D11::clear()
         {
             Renderer::clear();
-        
+
             float color[4] = { _clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA() };
 
             if (_activeRenderTarget)
@@ -265,7 +265,7 @@ namespace ouzel
         void RendererD3D11::present()
         {
             Renderer::present();
-        
+
             _swapChain->Present(1 /* TODO vsync off? */, 0);
         }
 
@@ -296,7 +296,7 @@ namespace ouzel
                 }
 
                 output->Release();
-            
+
                 ++i;
             }
 
@@ -313,7 +313,7 @@ namespace ouzel
             {
                 return result;
             }
-        
+
             UINT numModes = 0;
             DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
             HRESULT hr = output->GetDisplayModeList(format, 0, &numModes, nullptr);
@@ -436,7 +436,7 @@ namespace ouzel
 
                     setSize(Size2(closestDisplayMode.Width, closestDisplayMode.Height));
                     _swapChain->SetFullscreenState(TRUE, output);
-            
+
                     output->Release();
                 }
                 else
@@ -488,7 +488,7 @@ namespace ouzel
             {
                 return true;
             }
-        
+
             if (!Renderer::activateTexture(texture, layer))
             {
                 return false;
@@ -528,7 +528,7 @@ namespace ouzel
             {
                 return true;
             }
-        
+
             if (!Renderer::activateRenderTarget(renderTarget))
             {
                 return false;
@@ -580,7 +580,7 @@ namespace ouzel
             {
                 return true;
             }
-        
+
             if (!Renderer::activateShader(shader))
             {
                 return false;
@@ -633,7 +633,7 @@ namespace ouzel
             _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
 
             std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(meshBuffer);
-            
+
             if (indexCount == 0)
             {
                 indexCount = meshBufferD3D11->getIndexCount();
@@ -648,9 +648,9 @@ namespace ouzel
             UINT offset = 0;
             _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
             _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
-            
+
             D3D_PRIMITIVE_TOPOLOGY topology;
-            
+
             switch (drawMode)
             {
                 case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
@@ -659,11 +659,11 @@ namespace ouzel
                 case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
                 case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
             }
-            
+
             _context->IASetPrimitiveTopology(topology);
 
             _context->DrawIndexed(indexCount, 0, 0);
-        
+
             return true;
         }
 
@@ -708,7 +708,7 @@ namespace ouzel
             }
 
             uint32_t size = desc.Height * mappedSubresource.RowPitch;
-        
+
             stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, size);
 
             _context->Unmap(texture, 0);

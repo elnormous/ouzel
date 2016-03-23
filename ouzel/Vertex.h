@@ -19,28 +19,28 @@ namespace ouzel
             VERTEX_TEXCOORD0 = 0x08,
             VERTEX_TEXCOORD1 = 0x10
         };
-        
+
         class VertexPC
         {
         public:
             static const uint32_t ATTRIBUTES = VERTEX_POSITION | VERTEX_COLOR;
-            
+
             Vector3 position;
             Color color;
-            
+
             VertexPC();
             VertexPC(Vector3 position, Color color);
         };
-        
+
         class VertexPCT
         {
         public:
             static const uint32_t ATTRIBUTES = VERTEX_POSITION | VERTEX_COLOR | VERTEX_TEXCOORD0;
-            
+
             Vector3 position;
             Color color;
             Vector2 texCoord;
-            
+
             VertexPCT();
             VertexPCT(Vector3 position, Color color, Vector2 texCoord);
         };

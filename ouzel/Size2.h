@@ -12,16 +12,16 @@ namespace ouzel
     public:
         float width;
         float height;
-        
+
         Size2();
         Size2(float width, float height);
-        
+
         Size2& operator=(const Vector2& point);
         Size2 operator+(const Size2& right) const;
         Size2 operator-(const Size2& right) const;
         Size2 operator*(float a) const;
         Size2 operator/(float a) const;
-        
+
         inline bool operator==(const Size2& right) const
         {
             return width == right.width && height == right.height;
@@ -31,7 +31,7 @@ namespace ouzel
         {
             return width != right.width || height != right.height;
         }
-        
+
         bool isZero() const;
     };
 }

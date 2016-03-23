@@ -12,9 +12,9 @@ namespace ouzel
     {
         RenderTargetD3D11::RenderTargetD3D11()
         {
-        
+
         }
-    
+
         RenderTargetD3D11::~RenderTargetD3D11()
         {
             clean();

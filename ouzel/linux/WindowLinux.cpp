@@ -8,14 +8,14 @@ namespace ouzel
     WindowLinux::WindowLinux(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
         Window(size, resizable, fullscreen, title)
     {
-        
+
     }
-    
+
     WindowLinux::~WindowLinux()
     {
 
     }
-    
+
     bool WindowLinux::init()
     {
         return Window::init();

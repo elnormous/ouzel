@@ -15,28 +15,28 @@ void ouzelMain(const std::vector<std::string>& args);
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     ouzelMain(ouzel::getArgs());
-    
+
     return YES;
 }
 
 -(void)applicationWillResignActive:(UIApplication *)application
 {
-    
+
 }
 
 -(void)applicationDidEnterBackground:(UIApplication *)application
 {
-    
+
 }
 
 -(void)applicationWillEnterForeground:(UIApplication *)application
 {
-    
+
 }
 
 -(void)applicationDidBecomeActive:(UIApplication *)application
 {
-    
+
 }
 
 -(void)applicationWillTerminate:(UIApplication *)application
@@ -48,7 +48,7 @@ void ouzelMain(const std::vector<std::string>& args);
 {
     ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
     event->type = ouzel::Event::Type::LOW_MEMORY;
-    
+
     ouzel::Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, ouzel::Engine::getInstance()->getInput());
 }
 

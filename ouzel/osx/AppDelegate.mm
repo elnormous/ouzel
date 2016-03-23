@@ -37,9 +37,9 @@ void ouzelMain(const std::vector<std::string>& args);
     ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
     event->type = ouzel::Event::Type::OPEN_FILE;
     event->filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
-    
+
     ouzel::Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, ouzel::Engine::getInstance()->getInput());
-    
+
     return YES;
 }
 

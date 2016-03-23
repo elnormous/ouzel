@@ -11,7 +11,7 @@
     EAGLContext* _context;
     GLuint _colorRenderBuffer;
     GLuint _frameBuffer;
-    
+
     CADisplayLink* _displayLink;
 }
 

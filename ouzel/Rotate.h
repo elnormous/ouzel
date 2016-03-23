@@ -13,11 +13,11 @@ namespace ouzel
         {
         public:
             Rotate(float length, float rotation, bool relative);
-            
+
             virtual void start(const NodePtr& node) override;
-            
+
             virtual void setProgress(float progress) override;
-            
+
         protected:
             float _rotation;
             float _startRotation = 0.0f;

@@ -23,11 +23,11 @@ namespace ouzel
         friend Engine;
     public:
         virtual ~WindowTVOS();
-        
+
     protected:
         WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
         virtual bool init() override;
-        
+
         UIWindowPtr _window;
         OpenGLViewPtr _openGLView;
     };

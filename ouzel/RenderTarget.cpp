@@ -9,19 +9,19 @@ namespace ouzel
     {
         RenderTarget::RenderTarget()
         {
-            
+
         }
-        
+
         RenderTarget::~RenderTarget()
         {
-            
+
         }
-        
+
         bool RenderTarget::init(const Size2& size, bool depthBuffer)
         {
             _size = size;
             _depthBuffer = depthBuffer;
-            
+
             return true;
         }
     } // namespace video

@@ -141,7 +141,7 @@ namespace ouzel
             log("Failed to open %s", filename.c_str());
             return nullptr;
         }
-        
+
         rapidjson::FileReadStream is(file.getFile().get(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
 
         rapidjson::Document document;
@@ -234,7 +234,7 @@ namespace ouzel
         if (document.HasMember("finishColorVarianceAlpha")) result->finishColorAlphaVariance = static_cast<float>(document["finishColorVarianceAlpha"].GetDouble());
 
         if (document.HasMember("textureFileName")) result->textureFilename = document["textureFileName"].GetString();
-        
+
         result->emissionRate = static_cast<float>(result->maxParticles) / result->particleLifespan;
 
         return result;

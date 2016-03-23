@@ -12,7 +12,7 @@ namespace ouzel
     Vector2 Vector2::ONE(1.0f, 1.0f);
     Vector2 Vector2::UNIT_X(1.0f, 0.0f);
     Vector2 Vector2::UNIT_Y(0.0f, 1.0f);
-    
+
     Vector2::Vector2():
         x(0.0f), y(0.0f)
     {

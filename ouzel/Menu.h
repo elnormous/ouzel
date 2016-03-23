@@ -12,7 +12,7 @@ namespace ouzel
         class Menu: public Widget
         {
         public:
-            
+
         };
     } // namespace gui
 } // namespace ouzel

@@ -14,11 +14,11 @@ namespace ouzel
         {
         public:
             Scale(float length, const Vector2& scale, bool relative);
-            
+
             virtual void start(const NodePtr& node) override;
-            
+
             virtual void setProgress(float progress) override;
-            
+
         protected:
             Vector2 _scale;
             Vector2 _startScale;

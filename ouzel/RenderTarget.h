@@ -15,23 +15,23 @@ namespace ouzel
     {
         class Renderer;
         class Texture;
-        
+
         class RenderTarget: public Noncopyable
         {
             friend Renderer;
         public:
             virtual ~RenderTarget();
-            
+
             virtual bool init(const Size2& size, bool depthBuffer);
-            
+
             TexturePtr getTexture() const { return _texture; }
-            
+
         protected:
             RenderTarget();
-            
+
             Size2 _size;
             bool _depthBuffer = false;
-            
+
             TexturePtr _texture;
         };
     } // namespace video

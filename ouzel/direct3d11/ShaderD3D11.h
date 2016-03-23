@@ -18,9 +18,9 @@ namespace ouzel
             friend RendererD3D11;
         public:
             virtual ~ShaderD3D11();
-        
+
             virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
-        
+
             virtual ID3D11PixelShader* getPixelShader() const { return _pixelShader; }
             virtual ID3D11VertexShader* getVertexShader() const { return _vertexShader; }
 
@@ -37,7 +37,7 @@ namespace ouzel
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices);
-        
+
         protected:
             ShaderD3D11();
 

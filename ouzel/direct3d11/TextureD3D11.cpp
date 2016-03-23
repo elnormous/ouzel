@@ -15,9 +15,9 @@ namespace ouzel
     {
         TextureD3D11::TextureD3D11()
         {
-        
+
         }
-    
+
         TextureD3D11::~TextureD3D11()
         {
             clean();
@@ -151,7 +151,7 @@ namespace ouzel
             {
                 UINT oldMipWidth = width;
                 UINT oldMipHeight = height;
-            
+
                 UINT mipWidth = width >> 1;
                 UINT mipHeight = height >> 1;
                 UINT mipLevel = 1;
@@ -166,7 +166,7 @@ namespace ouzel
                 {
                     if (mipWidth < 1) mipWidth = 1;
                     if (mipHeight < 1) mipHeight = 1;
-            
+
                     stbir_resize_uint8_generic(oldMipMapData, oldMipWidth, oldMipHeight, 0,
                                                newMipMapData, mipWidth, mipHeight, 0, 4,
                                                3, 0, STBIR_EDGE_CLAMP,
@@ -181,7 +181,7 @@ namespace ouzel
                     mipHeight >>= 1;
                     mipLevel++;
                     mipRowPitch = mipWidth * 4;
-                
+
                     uint8_t* temp = oldMipMapData;
                     oldMipMapData = newMipMapData;
                     newMipMapData = temp;

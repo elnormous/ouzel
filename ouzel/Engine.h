@@ -21,11 +21,11 @@ namespace ouzel
     {
     public:
         static EnginePtr getInstance();
-        
+
         virtual ~Engine();
-        
+
         std::set<video::Renderer::Driver> getAvailableDrivers() const;
-        
+
         bool init(Settings& settings);
 
         const EventDispatcherPtr& getEventDispatcher() const { return _eventDispatcher; }
@@ -35,29 +35,29 @@ namespace ouzel
         const scene::SceneManagerPtr& getSceneManager() const { return _sceneManager; }
         const FileSystemPtr& getFileSystem() const { return _fileSystem; }
         const input::InputPtr& getInput() const { return _input; }
-        
+
         void exit();
-        
+
         void begin();
         void end();
         bool run();
-        
+
         float getTargetFPS() const { return _targetFPS; }
         float getFPS() const { return _currentFPS; }
-        
+
         void scheduleUpdate(const UpdateCallbackPtr& callback);
         void unscheduleUpdate(const UpdateCallbackPtr& callback);
-        
+
         void setApp(const AppPtr& app);
         const AppPtr& getApp() const { return _app; }
-        
+
     protected:
         Engine();
         void lock();
         void unlock();
-        
+
         AppPtr _app;
-        
+
         EventDispatcherPtr _eventDispatcher;
         CachePtr _cache;
         WindowPtr _window;
@@ -65,15 +65,15 @@ namespace ouzel
         scene::SceneManagerPtr _sceneManager;
         FileSystemPtr _fileSystem;
         input::InputPtr _input;
-        
+
         float _targetFPS;
         float _currentFPS = 0.0f;
         uint64_t _previousFrameTime;
-        
+
         std::vector<UpdateCallbackPtr> _updateCallbacks;
         std::set<UpdateCallbackPtr> _updateCallbackAddList;
         std::set<UpdateCallbackPtr> _updateCallbackRemoveList;
-        
+
         int32_t _locked = 0;
         bool _running = false;
         bool _active = true;

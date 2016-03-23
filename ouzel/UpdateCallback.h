@@ -6,7 +6,7 @@
 namespace ouzel
 {
     class Egnine;
-    
+
     class UpdateCallback
     {
         friend Engine;

@@ -13,12 +13,12 @@ namespace ouzel
     public:
         static Matrix4 IDENTITY;
         static Matrix4 ZERO;
-        
+
         /**
          * Stores the columns of this 4x4 matrix.
          * */
         float m[16];
-        
+
         /**
          * Constructs a matrix initialized to the identity matrix:
          *
@@ -28,7 +28,7 @@ namespace ouzel
          * 0  0  0  1
          */
         Matrix4();
-        
+
         /**
          * Constructs a matrix initialized to the specified value.
          *
@@ -51,7 +51,7 @@ namespace ouzel
          */
         Matrix4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
                float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44);
-        
+
         /**
          * Creates a matrix initialized to the specified column-major array.
          *
@@ -65,19 +65,19 @@ namespace ouzel
          * @param m An array containing 16 elements in column-major order.
          */
         Matrix4(const float* m);
-        
+
         /**
          * Constructs a new matrix by copying the values from the specified matrix.
          *
          * @param copy The matrix to copy.
          */
         Matrix4(const Matrix4& copy);
-        
+
         /**
          * Destructor.
          */
         ~Matrix4();
-        
+
         /**
          * Creates a view matrix based on the specified input parameters.
          *
@@ -87,7 +87,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst);
-        
+
         /**
          * Creates a view matrix based on the specified input parameters.
          *
@@ -105,7 +105,7 @@ namespace ouzel
         static void createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
                                  float targetCenterX, float targetCenterY, float targetCenterZ,
                                  float upX, float upY, float upZ, Matrix4& dst);
-        
+
         /**
          * Builds a perspective projection matrix based on a field of view and returns by value.
          *
@@ -121,7 +121,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createPerspective(float fieldOfView, float aspectRatio, float zNearPlane, float zFarPlane, Matrix4& dst);
-        
+
         /**
          * Creates an orthographic projection matrix.
          *
@@ -132,7 +132,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createOrthographic(float width, float height, float zNearPlane, float zFarPlane, Matrix4& dst);
-        
+
         /**
          * Creates an orthographic projection matrix.
          *
@@ -163,7 +163,7 @@ namespace ouzel
          */
         static void createOrthographicOffCenter(float left, float right, float bottom, float top,
                                                 float zNearPlane, float zFarPlane, Matrix4& dst);
-        
+
         /**
          * Creates a spherical billboard that rotates around a specified object position.
          *
@@ -180,7 +180,7 @@ namespace ouzel
          */
         static void createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
                                     const Vector3& cameraUpVector, Matrix4& dst);
-        
+
         /**
          * Creates a spherical billboard that rotates around a specified object position with
          * provision for a safe default orientation.
@@ -200,7 +200,7 @@ namespace ouzel
         static void createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
                                     const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
                                     Matrix4& dst);
-        
+
         /**
          * Creates a scale matrix.
          *
@@ -208,7 +208,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createScale(const Vector3& scale, Matrix4& dst);
-        
+
         /**
          * Creates a scale matrix.
          *
@@ -218,7 +218,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createScale(float xScale, float yScale, float zScale, Matrix4& dst);
-        
+
         /**
          * Creates a rotation matrix from the specified axis and angle.
          *
@@ -227,7 +227,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createRotation(const Vector3& axis, float angle, Matrix4& dst);
-        
+
         /**
          * Creates a matrix describing a rotation around the x-axis.
          *
@@ -235,7 +235,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createRotationX(float angle, Matrix4& dst);
-        
+
         /**
          * Creates a matrix describing a rotation around the y-axis.
          *
@@ -243,7 +243,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createRotationY(float angle, Matrix4& dst);
-        
+
         /**
          * Creates a matrix describing a rotation around the z-axis.
          *
@@ -251,7 +251,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createRotationZ(float angle, Matrix4& dst);
-        
+
         /**
          * Creates a translation matrix.
          *
@@ -259,7 +259,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createTranslation(const Vector3& translation, Matrix4& dst);
-        
+
         /**
          * Creates a translation matrix.
          *
@@ -269,14 +269,14 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst);
-        
+
         /**
          * Adds a scalar value to each component of this matrix.
          *
          * @param scalar The scalar to add.
          */
         void add(float scalar);
-        
+
         /**
          * Adds a scalar value to each component of this matrix and stores the result in dst.
          *
@@ -284,14 +284,14 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void add(float scalar, Matrix4& dst);
-        
+
         /**
          * Adds the specified matrix to this matrix.
          *
          * @param m The matrix to add.
          */
         void add(const Matrix4& m);
-        
+
         /**
          * Adds the specified matrices and stores the result in dst.
          *
@@ -300,63 +300,63 @@ namespace ouzel
          * @param dst The destination matrix to add to.
          */
         static void add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst);
-        
+
         /**
          * Computes the determinant of this matrix.
          *
          * @return The determinant.
          */
         float determinant() const;
-        
+
         /**
          * Gets the up vector of this matrix.
          *
          * @param dst The destination vector.
          */
         void getUpVector(Vector3& dst) const;
-        
+
         /**
          * Gets the down vector of this matrix.
          *
          * @param dst The destination vector.
          */
         void getDownVector(Vector3& dst) const;
-        
+
         /**
          * Gets the left vector of this matrix.
          *
          * @param dst The destination vector.
          */
         void getLeftVector(Vector3& dst) const;
-        
+
         /**
          * Gets the right vector of this matrix.
          *
          * @param dst The destination vector.
          */
         void getRightVector(Vector3& dst) const;
-        
+
         /**
          * Gets the forward vector of this matrix.
          *
          * @param dst The destination vector.
          */
         void getForwardVector(Vector3& dst) const;
-        
+
         /**
          * Gets the backward vector of this matrix.
          *
          * @param dst The destination vector.
          */
         void getBackVector(Vector3& dst) const;
-        
+
         /**
          * Inverts this matrix.
          *
          * @return true if the the matrix can be inverted, false otherwise.
          */
         bool invert();
-        
+
         /**
          * Stores the inverse of this matrix in the specified matrix.
          *
@@ -365,21 +365,21 @@ namespace ouzel
          * @return true if the the matrix can be inverted, false otherwise.
          */
         bool invert(Matrix4& dst) const;
-        
+
         /**
          * Determines if this matrix is equal to the identity matrix.
          *
          * @return true if the matrix is an identity matrix, false otherwise.
          */
         bool isIdentity() const;
-        
+
         /**
          * Multiplies the components of this matrix by the specified scalar.
          *
          * @param scalar The scalar value.
          */
         void multiply(float scalar);
-        
+
         /**
          * Multiplies the components of this matrix by a scalar and stores the result in dst.
          *
@@ -387,7 +387,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void multiply(float scalar, Matrix4& dst) const;
-        
+
         /**
          * Multiplies the components of the specified matrix by a scalar and stores the result in dst.
          *
@@ -396,14 +396,14 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void multiply(const Matrix4& m, float scalar, Matrix4& dst);
-        
+
         /**
          * Multiplies this matrix by the specified one.
          *
          * @param m The matrix to multiply.
          */
         void multiply(const Matrix4& m);
-        
+
         /**
          * Multiplies m1 by m2 and stores the result in dst.
          *
@@ -412,19 +412,19 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst);
-        
+
         /**
          * Negates this matrix.
          */
         void negate();
-        
+
         /**
          * Negates this matrix and stores the result in dst.
          *
          * @param dst A matrix to store the result in.
          */
         void negate(Matrix4& dst) const;
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified rotation about the specified axis.
@@ -433,7 +433,7 @@ namespace ouzel
          * @param angle The angle (in radians).
          */
         void rotate(const Vector3& axis, float angle);
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the specified
          * rotation about the specified axis and stores the result in dst.
@@ -443,7 +443,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void rotate(const Vector3& axis, float angle, Matrix4& dst) const;
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified rotation around the x-axis.
@@ -451,7 +451,7 @@ namespace ouzel
          * @param angle The angle (in radians).
          */
         void rotateX(float angle);
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified rotation around the x-axis and stores the result in dst.
@@ -460,7 +460,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void rotateX(float angle, Matrix4& dst) const;
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified rotation around the y-axis.
@@ -468,7 +468,7 @@ namespace ouzel
          * @param angle The angle (in radians).
          */
         void rotateY(float angle);
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified rotation around the y-axis and stores the result in dst.
@@ -477,7 +477,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void rotateY(float angle, Matrix4& dst) const;
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified rotation around the z-axis.
@@ -485,7 +485,7 @@ namespace ouzel
          * @param angle The angle (in radians).
          */
         void rotateZ(float angle);
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified rotation around the z-axis and stores the result in dst.
@@ -494,7 +494,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void rotateZ(float angle, Matrix4& dst) const;
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified scale transformation.
@@ -502,7 +502,7 @@ namespace ouzel
          * @param value The amount to scale along all axes.
          */
         void scale(float value);
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified scale transformation and stores the result in dst.
@@ -511,7 +511,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void scale(float value, Matrix4& dst) const;
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified scale transformation.
@@ -521,7 +521,7 @@ namespace ouzel
          * @param zScale The amount to scale along the z-axis.
          */
         void scale(float xScale, float yScale, float zScale);
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified scale transformation and stores the result in dst.
@@ -532,7 +532,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void scale(float xScale, float yScale, float zScale, Matrix4& dst) const;
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified scale transformation.
@@ -540,7 +540,7 @@ namespace ouzel
          * @param s The scale values along the x, y and z axes.
          */
         void scale(const Vector3& s);
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified scale transformation and stores the result in dst.
@@ -549,7 +549,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void scale(const Vector3& s, Matrix4& dst) const;
-        
+
         /**
          * Sets the values of this matrix.
          *
@@ -572,38 +572,38 @@ namespace ouzel
          */
         void set(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
                  float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44);
-        
+
         /**
          * Sets the values of this matrix to those in the specified column-major array.
          *
          * @param m An array containing 16 elements in column-major format.
          */
         void set(const float* m);
-        
+
         /**
          * Sets the values of this matrix to those of the specified matrix.
          *
          * @param m The source matrix.
          */
         void set(const Matrix4& m);
-        
+
         /**
          * Sets this matrix to the identity matrix.
          */
         void setIdentity();
-        
+
         /**
          * Sets all elements of the current matrix to zero.
          */
         void setZero();
-        
+
         /**
          * Subtracts the specified matrix from the current matrix.
          *
          * @param m The matrix to subtract.
          */
         void subtract(const Matrix4& m);
-        
+
         /**
          * Subtracts the specified matrix from the current matrix.
          *
@@ -612,7 +612,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         static void subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst);
-        
+
         /**
          * Transforms the specified point by this matrix.
          *
@@ -621,7 +621,7 @@ namespace ouzel
          * @param point The point to transform and also a vector to hold the result in.
          */
         void transformPoint(Vector3& point) const;
-        
+
         /**
          * Transforms the specified point by this matrix, and stores
          * the result in dst.
@@ -630,7 +630,7 @@ namespace ouzel
          * @param dst A vector to store the transformed point in.
          */
         void transformPoint(const Vector3& point, Vector3& dst) const;
-        
+
         /**
          * Transforms the specified vector by this matrix by
          * treating the fourth (w) coordinate as zero.
@@ -640,7 +640,7 @@ namespace ouzel
          * @param vector The vector to transform and also a vector to hold the result in.
          */
         void transformVector(Vector3& vector) const;
-        
+
         /**
          * Transforms the specified vector by this matrix by
          * treating the fourth (w) coordinate as zero, and stores the
@@ -650,7 +650,7 @@ namespace ouzel
          * @param dst A vector to store the transformed vector in.
          */
         void transformVector(const Vector3& vector, Vector3& dst) const;
-        
+
         /**
          * Transforms the specified vector by this matrix.
          *
@@ -661,7 +661,7 @@ namespace ouzel
          * @param dst A vector to store the transformed point in.
          */
         void transformVector(float x, float y, float z, float w, Vector3& dst) const;
-        
+
         /**
          * Transforms the specified vector by this matrix.
          *
@@ -670,7 +670,7 @@ namespace ouzel
          * @param vector The vector to transform.
          */
         void transformVector(Vector4& vector) const;
-        
+
         /**
          * Transforms the specified vector by this matrix.
          *
@@ -678,7 +678,7 @@ namespace ouzel
          * @param dst A vector to store the transformed point in.
          */
         void transformVector(const Vector4& vector, Vector4& dst) const;
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified translation.
@@ -688,7 +688,7 @@ namespace ouzel
          * @param z The amount to translate along the z-axis.
          */
         void translate(float x, float y, float z);
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified translation and stores the result in dst.
@@ -699,7 +699,7 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void translate(float x, float y, float z, Matrix4& dst) const;
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified translation.
@@ -707,7 +707,7 @@ namespace ouzel
          * @param t The translation values along the x, y and z axes.
          */
         void translate(const Vector3& t);
-        
+
         /**
          * Post-multiplies this matrix by the matrix corresponding to the
          * specified translation and stores the result in dst.
@@ -716,69 +716,69 @@ namespace ouzel
          * @param dst A matrix to store the result in.
          */
         void translate(const Vector3& t, Matrix4& dst) const;
-        
+
         /**
          * Transposes this matrix.
          */
         void transpose();
-        
+
         /**
          * Transposes this matrix and stores the result in dst.
          *
          * @param dst A matrix to store the result in.
          */
         void transpose(Matrix4& dst) const;
-        
+
         /**
          * Calculates the sum of this matrix with the given matrix.
-         * 
+         *
          * Note: this does not modify this matrix.
-         * 
+         *
          * @param m The matrix to add.
          * @return The matrix sum.
          */
         inline const Matrix operator+(const Matrix4& m) const;
-        
+
         /**
          * Adds the given matrix to this matrix.
-         * 
+         *
          * @param m The matrix to add.
          * @return This matrix, after the addition occurs.
          */
         inline Matrix4& operator+=(const Matrix4& m);
-        
+
         /**
          * Calculates the difference of this matrix with the given matrix.
-         * 
+         *
          * Note: this does not modify this matrix.
-         * 
+         *
          * @param m The matrix to subtract.
          * @return The matrix difference.
          */
         inline const Matrix4 operator-(const Matrix4& m) const;
-        
+
         /**
          * Subtracts the given matrix from this matrix.
-         * 
+         *
          * @param m The matrix to subtract.
          * @return This matrix, after the subtraction occurs.
          */
         inline Matrix4& operator-=(const Matrix4& m);
-        
+
         /**
          * Calculates the negation of this matrix.
-         * 
+         *
          * Note: this does not modify this matrix.
-         * 
+         *
          * @return The negation of this matrix.
          */
         inline const Matrix4 operator-() const;
-        
+
         /**
          * Calculates the matrix product of this matrix with the given matrix.
-         * 
+         *
          * Note: this does not modify this matrix.
-         * 
+         *
          * @param m The matrix to multiply by.
          * @return The matrix product.
          */
@@ -788,10 +788,10 @@ namespace ouzel
             result.multiply(m);
             return result;
         }
-        
+
         /**
          * Right-multiplies this matrix by the given matrix.
-         * 
+         *
          * @param m The matrix to multiply by.
          * @return This matrix, after the multiplication occurs.
          */
@@ -800,19 +800,19 @@ namespace ouzel
             multiply(m);
             return *this;
         }
-        
+
     private:
-        
+
         static void createBillboardHelper(const Vector3& objectPosition, const Vector3& cameraPosition,
                                           const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
                                           Matrix4& dst);
     };
-    
+
     /**
      * Transforms the given vector by the given matrix.
-     * 
+     *
      * Note: this treats the given vector as a vector and not as a point.
-     * 
+     *
      * @param v The vector to transform.
      * @param m The matrix to transform by.
      * @return This vector, after the transformation occurs.
@@ -822,12 +822,12 @@ namespace ouzel
         m.transformVector(v);
         return v;
     }
-    
+
     /**
      * Transforms the given vector by the given matrix.
-     * 
+     *
      * Note: this treats the given vector as a vector and not as a point.
-     * 
+     *
      * @param m The matrix to transform by.
      * @param v The vector to transform.
      * @return The resulting transformed vector.
@@ -838,7 +838,7 @@ namespace ouzel
         m.transformVector(v, x);
         return x;
     }
-    
+
     /**
      * Transforms the given vector by the given matrix.
      *
@@ -853,7 +853,7 @@ namespace ouzel
         m.transformVector(v);
         return v;
     }
-    
+
     /**
      * Transforms the given vector by the given matrix.
      *

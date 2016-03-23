@@ -12,27 +12,27 @@ namespace ouzel
     {
         Scene::Scene()
         {
-            
+
         }
-        
+
         Scene::~Scene()
         {
 
         }
-        
+
         void Scene::draw()
         {
             lock();
-            
+
             if (_reorderLayers)
             {
                 std::sort(_layers.begin(), _layers.end(), [](LayerPtr a, LayerPtr b) {
                     return a->getOrder() > b->getOrder();
                 });
-                
+
                 _reorderLayers = false;
             }
-            
+
             for (LayerPtr layer : _layers)
             {
                 if (!layer->_remove)
@@ -40,10 +40,10 @@ namespace ouzel
                     layer->draw();
                 }
             }
-            
+
             unlock();
         }
-        
+
         void Scene::addLayer(const LayerPtr& layer)
         {
             if (_locked)
@@ -55,14 +55,14 @@ namespace ouzel
                 layer->_remove = false;
                 _layers.push_back(layer);
                 layer->addToScene(shared_from_this());
-                
+
                 if (CameraPtr camera = layer->getCamera())
                 {
                     camera->recalculateProjection();
                 }
             }
         }
-        
+
         void Scene::removeLayer(const LayerPtr& layer)
         {
             if (_locked)
@@ -73,7 +73,7 @@ namespace ouzel
             else
             {
                 std::vector<LayerPtr>::iterator i = std::find(_layers.begin(), _layers.end(), layer);
-                
+
                 if (i != _layers.end())
                 {
                     layer->removeFromScene();
@@ -81,14 +81,14 @@ namespace ouzel
                 }
             }
         }
-        
+
         bool Scene::hasLayer(const LayerPtr& layer) const
         {
             std::vector<LayerPtr>::const_iterator i = std::find(_layers.begin(), _layers.end(), layer);
-            
+
             return i != _layers.end();
         }
-        
+
         void Scene::recalculateProjection()
         {
             for (LayerPtr layer : _layers)
@@ -99,17 +99,17 @@ namespace ouzel
                 }
             }
         }
-        
+
         void Scene::reorderLayers()
         {
             _reorderLayers = true;
         }
-        
+
         void Scene::lock()
         {
             ++_locked;
         }
-        
+
         void Scene::unlock()
         {
             if (--_locked == 0)
@@ -122,7 +122,7 @@ namespace ouzel
                     }
                     _layerAddList.clear();
                 }
-                
+
                 if (!_layerRemoveList.empty())
                 {
                     for (const LayerPtr& layer : _layerRemoveList)

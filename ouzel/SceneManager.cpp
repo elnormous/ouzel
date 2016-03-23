@@ -10,14 +10,14 @@ namespace ouzel
     {
         SceneManager::SceneManager()
         {
-            
+
         }
-        
+
         SceneManager::~SceneManager()
         {
-            
+
         }
-        
+
         void SceneManager::setScene(const ScenePtr& scene)
         {
             if (scene != _scene)
@@ -29,7 +29,7 @@ namespace ouzel
                 else
                 {
                     _scene = scene;
-                    
+
                     if (_scene)
                     {
                         _scene->recalculateProjection();
@@ -37,19 +37,19 @@ namespace ouzel
                 }
             }
         }
-        
+
         void SceneManager::draw()
         {
             if (_scene)
             {
                 lock();
-                
+
                 _scene->draw();
-                
+
                 unlock();
             }
         }
-        
+
         void SceneManager::recalculateProjection()
         {
             if (_scene)
@@ -57,12 +57,12 @@ namespace ouzel
                 _scene->recalculateProjection();
             }
         }
-        
+
         void SceneManager::lock()
         {
             ++_locked;
         }
-        
+
         void SceneManager::unlock()
         {
             if (--_locked == 0 && _newScene)

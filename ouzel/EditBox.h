@@ -15,10 +15,10 @@ namespace ouzel
         public:
             EditBox();
             virtual ~EditBox();
-            
+
             void setValue(const std::string& value);
             const std::string& getValue() const { return _value; }
-            
+
         private:
             std::string _value;
         };

@@ -12,7 +12,7 @@ namespace ouzel
         friend Engine;
     public:
         virtual ~WindowLinux();
-        
+
     protected:
         WindowLinux(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
         virtual bool init() override;

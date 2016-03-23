@@ -30,7 +30,7 @@ namespace ouzel
             if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
             if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
         }
-    
+
         bool ShaderD3D11::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
         {
             if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
@@ -102,7 +102,7 @@ namespace ouzel
                 log("Failed to create D3D11 input layout for vertex shader");
                 return false;
             }
-        
+
             if (!createPixelShaderConstantBuffer(sizeof(Matrix4)))
             {
                 return false;
@@ -160,7 +160,7 @@ namespace ouzel
             memcpy(_pixelShaderData.data() + index, matrices.data(), vectorDataSize(matrices));
             return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
         }
-    
+
         uint32_t ShaderD3D11::getVertexShaderConstantId(const std::string& name)
         {
             log("getVertexShaderConstantId not available for D3D11");

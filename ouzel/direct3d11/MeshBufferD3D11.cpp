@@ -12,9 +12,9 @@ namespace ouzel
     {
         MeshBufferD3D11::MeshBufferD3D11()
         {
-        
+
         }
-    
+
         MeshBufferD3D11::~MeshBufferD3D11()
         {
             clean();
@@ -25,7 +25,7 @@ namespace ouzel
             if (_indexBuffer) _indexBuffer->Release();
             if (_vertexBuffer) _vertexBuffer->Release();
         }
-    
+
         bool MeshBufferD3D11::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
         {
             if (!MeshBuffer::initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
@@ -65,7 +65,7 @@ namespace ouzel
             {
                 return false;
             }
-        
+
             return true;
         }
 
@@ -75,7 +75,7 @@ namespace ouzel
             {
                 return false;
             }
-        
+
             if (_indexSize * indexCount > _indexBufferSize)
             {
                 if (_indexBuffer) _indexBuffer->Release();
@@ -93,7 +93,7 @@ namespace ouzel
             {
                 return false;
             }
-        
+
             if (_vertexSize * vertexCount > _vertexBufferSize)
             {
                 if (_vertexBuffer) _vertexBuffer->Release();

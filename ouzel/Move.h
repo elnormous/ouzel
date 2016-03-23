@@ -14,11 +14,11 @@ namespace ouzel
         {
         public:
             Move(float length, const Vector2& position, bool relative = false);
-            
+
             virtual void start(const NodePtr& node) override;
-            
+
             virtual void setProgress(float progress) override;
-            
+
         protected:
             Vector2 _position;
             Vector2 _startPosition;

@@ -108,7 +108,7 @@ namespace ouzel
         void Input::mouseMove(const Vector2& position, uint32_t modifiers)
         {
             _cursorPosition = position;
-            
+
             MouseEventPtr event = std::make_shared<MouseEvent>();
             event->type = Event::Type::MOUSE_MOVE;
             event->position = position;

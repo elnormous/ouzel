@@ -11,7 +11,7 @@
 namespace ouzel
 {
     class FileSystem;
-    
+
     class File
     {
     public:
@@ -21,25 +21,25 @@ namespace ouzel
             WRITE,
             APPEND
         };
-        
+
         File(const std::string& filename, Mode mode, bool binary);
-        
+
         operator bool() const
         {
             return static_cast<bool>(_file);
         }
-        
+
         bool isOpen() const
         {
             return static_cast<bool>(_file);
         }
-        
+
         const std::shared_ptr<FILE>& getFile() const { return _file; }
-        
+
         int64_t read(char* buffer, uint32_t size);
         int64_t write(const char* buffer, uint32_t size);
-        
-    protected:        
+
+    protected:
         std::shared_ptr<FILE> _file;
     };
 }

@@ -39,19 +39,19 @@ namespace ouzel
     public:
         BMFont();
         ~BMFont();
-        
+
         bool loadFont(const std::string& filename);
         float getHeight() { return _lineHeight; }
-        
+
         void getVertices(const std::string& text, const video::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<video::VertexPCT>& vertices);
-        
+
         const video::TexturePtr& getTexture() const { return _texture; }
 
     private:
         bool parseFont(const std::string& filename);
         int32_t getKerningPair(int32_t, int32_t);
         float getStringWidth(const std::string& text);
-        
+
         int16_t _lineHeight = 0;
         int16_t _base = 0;
         int16_t _width = 0;
