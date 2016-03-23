@@ -12,6 +12,8 @@ namespace ouzel
         class Widget: public scene::Node
         {
         public:
+            Widget();
+            
             virtual void setEnabled(bool enabled);
             bool isEnabled() const { return _enabled; }
 

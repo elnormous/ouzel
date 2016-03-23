@@ -25,6 +25,7 @@ namespace ouzel
         std::function<bool(const GamepadEventPtr&, const VoidPtr&)> gamepadHandler;
         std::function<bool(const WindowEventPtr&, const VoidPtr&)> windowHandler;
         std::function<bool(const SystemEventPtr&, const VoidPtr&)> systemHandler;
+        std::function<bool(const UIEventPtr&, const VoidPtr&)> uiHandler;
 
     protected:
         int32_t _priority;

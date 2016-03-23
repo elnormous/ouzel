@@ -33,8 +33,8 @@ namespace ouzel
 
         protected:
             bool handleMouse(const MouseEventPtr& event, const VoidPtr& sender);
-            bool handleTouch(const TouchEventPtr& event, const VoidPtr& sender);
             bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender);
+            bool handleUI(const UIEventPtr& event, const VoidPtr& sender);
 
             void checkPointer(const Vector2& worldLocation);
             void updateSprite();

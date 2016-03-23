@@ -5,6 +5,7 @@
 
 #include <memory>
 #include "Noncopyable.h"
+#include "Types.h"
 #include "Vector2.h"
 
 namespace ouzel
@@ -245,9 +246,17 @@ namespace ouzel
         protected:
             Input();
 
+            void mouseEnterNode(const scene::NodePtr& node, const Vector2& position);
+            void mouseLeaveNode(const scene::NodePtr& node, const Vector2& position);
+            void mouseDownOnNode(const scene::NodePtr& node, const Vector2& position);
+            void mouseUpOnNode(const scene::NodePtr& node, const Vector2& position);
+
             Vector2 _cursorPosition;
             bool _keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
             bool _mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
+
+            scene::NodeWeakPtr _mouseOnNode;
+            scene::NodeWeakPtr _mouseDownOnNode;
         };
     } // namespace input
 } // namespace ouzel

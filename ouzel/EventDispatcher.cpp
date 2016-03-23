@@ -63,6 +63,13 @@ namespace ouzel
                 case Event::Type::OPEN_FILE:
                     dispatchSystemEvent(std::static_pointer_cast<SystemEvent>(eventPair.first), eventPair.second);
                     break;
+                case Event::Type::UI_ENTER_NODE:
+                case Event::Type::UI_LEAVE_NODE:
+                case Event::Type::UI_PRESS_NODE:
+                case Event::Type::UI_RELEASE_NODE:
+                case Event::Type::UI_CLICK_NODE:
+                    dispatchUIEvent(std::static_pointer_cast<UIEvent>(eventPair.first), eventPair.second);
+                    break;
             }
         }
 
@@ -122,7 +129,7 @@ namespace ouzel
 
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (!eventHandler->_remove && eventHandler->keyboardHandler)
+            if (eventHandler && !eventHandler->_remove && eventHandler->keyboardHandler)
             {
                 if (!eventHandler->keyboardHandler(event, sender))
                 {
@@ -140,7 +147,7 @@ namespace ouzel
 
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (!eventHandler->_remove && eventHandler->mouseHandler)
+            if (eventHandler && !eventHandler->_remove && eventHandler->mouseHandler)
             {
                 if (!eventHandler->mouseHandler(event, sender))
                 {
@@ -158,7 +165,7 @@ namespace ouzel
 
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (!eventHandler->_remove && eventHandler->touchHandler)
+            if (eventHandler && !eventHandler->_remove && eventHandler->touchHandler)
             {
                 if (!eventHandler->touchHandler(event, sender))
                 {
@@ -176,7 +183,7 @@ namespace ouzel
 
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (!eventHandler->_remove && eventHandler->gamepadHandler)
+            if (eventHandler && !eventHandler->_remove && eventHandler->gamepadHandler)
             {
                 if (!eventHandler->gamepadHandler(event, sender))
                 {
@@ -194,7 +201,7 @@ namespace ouzel
 
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (!eventHandler->_remove && eventHandler->windowHandler)
+            if (eventHandler && !eventHandler->_remove && eventHandler->windowHandler)
             {
                 if (!eventHandler->windowHandler(event, sender))
                 {
@@ -212,9 +219,27 @@ namespace ouzel
 
         for (const EventHandlerPtr& eventHandler : _eventHandlers)
         {
-            if (!eventHandler->_remove && eventHandler->systemHandler)
+            if (eventHandler && !eventHandler->_remove && eventHandler->systemHandler)
             {
                 if (!eventHandler->systemHandler(event, sender))
+                {
+                    break;
+                }
+            }
+        }
+
+        unlock();
+    }
+
+    void EventDispatcher::dispatchUIEvent(const UIEventPtr& event, const VoidPtr& sender)
+    {
+        lock();
+
+        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        {
+            if (eventHandler && !eventHandler->_remove && eventHandler->uiHandler)
+            {
+                if (!eventHandler->uiHandler(event, sender))
                 {
                     break;
                 }

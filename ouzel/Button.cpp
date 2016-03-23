@@ -46,8 +46,8 @@ namespace ouzel
             _eventHandler = std::make_shared<EventHandler>();
 
             _eventHandler->mouseHandler = std::bind(&Button::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
-            _eventHandler->touchHandler = std::bind(&Button::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
             _eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
+            _eventHandler->uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
             Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
 
@@ -67,6 +67,7 @@ namespace ouzel
                 if (_selectedSprite->initFromFile(selected, false))
                 {
                     _boundingBox.merge(_selectedSprite->getBoundingBox());
+                    _selectedSprite->setPickable(false);
                     addChild(_selectedSprite);
                 }
             }
@@ -77,6 +78,7 @@ namespace ouzel
                 if (_pressedSprite->initFromFile(pressed, false))
                 {
                     _boundingBox.merge(_pressedSprite->getBoundingBox());
+                    _pressedSprite->setPickable(false);
                     addChild(_pressedSprite);
                 }
             }
@@ -87,6 +89,7 @@ namespace ouzel
                 if (_disabledSprite->initFromFile(disabled, false))
                 {
                     _boundingBox.merge(_disabledSprite->getBoundingBox());
+                    _disabledSprite->setPickable(false);
                     addChild(_disabledSprite);
                 }
             }
@@ -98,6 +101,7 @@ namespace ouzel
                 {
                     _boundingBox.merge(_label->getBoundingBox());
                     _label->setColor(labelColor);
+                    _label->setPickable(false);
                     addChild(_label);
                 }
             }
@@ -122,103 +126,13 @@ namespace ouzel
 
         bool Button::handleMouse(const MouseEventPtr& event, const VoidPtr& sender)
         {
-            OUZEL_UNUSED(sender);
-
-            if (!_enabled) return true;
-
-            switch (event->type)
+            if (event->type == Event::Type::MOUSE_UP)
             {
-                case Event::Type::MOUSE_DOWN:
+                if (_pressed)
                 {
-                    if (_pointerOver)
-                    {
-                        _pressed = true;
-                        updateSprite();
-                    }
-                    break;
+                    _pressed = false;
+                    updateSprite();
                 }
-                case Event::Type::MOUSE_UP:
-                {
-                    if (_pointerOver && _pressed)
-                    {
-                        _pressed = false;
-                        updateSprite();
-
-                        if (_callback)
-                        {
-                            _callback(shared_from_this());
-                        }
-                    }
-                    break;
-                }
-                case Event::Type::MOUSE_MOVE:
-                {
-                    if (scene::LayerPtr layer = _layer.lock())
-                    {
-                        Vector2 worldLocation = layer->getCamera()->screenToWorldLocation(event->position);
-                        checkPointer(worldLocation);
-                        updateSprite();
-                    }
-                    break;
-                }
-                default:
-                    break;
-            }
-
-            return true;
-        }
-
-        bool Button::handleTouch(const TouchEventPtr& event, const VoidPtr& sender)
-        {
-            OUZEL_UNUSED(sender);
-
-            if (!_enabled) return true;
-
-            switch (event->type)
-            {
-                case Event::Type::TOUCH_BEGIN:
-                {
-                    if (scene::LayerPtr layer = _layer.lock())
-                    {
-                        Vector2 worldLocation = layer->getCamera()->screenToWorldLocation(event->position);
-                        checkPointer(worldLocation);
-
-                        if (_pointerOver)
-                        {
-                            _pressed = true;
-                        }
-
-                        updateSprite();
-                    }
-                    break;
-                }
-                case Event::Type::TOUCH_MOVE:
-                {
-                    if (scene::LayerPtr layer = _layer.lock())
-                    {
-                        Vector2 worldLocation = layer->getCamera()->screenToWorldLocation(event->position);
-                        checkPointer(worldLocation);
-                        updateSprite();
-                    }
-                    break;
-                }
-                case Event::Type::TOUCH_END:
-                {
-                    if (_pointerOver && _pressed)
-                    {
-                        _pressed = false;
-                        updateSprite();
-
-                        if (_callback)
-                        {
-                            _callback(shared_from_this());
-                        }
-                    }
-
-                    break;
-                }
-                default:
-                    break;
             }
 
             return true;
@@ -228,6 +142,39 @@ namespace ouzel
         {
             OUZEL_UNUSED(event);
             OUZEL_UNUSED(sender);
+
+            return true;
+        }
+
+        bool Button::handleUI(const UIEventPtr& event, const VoidPtr& sender)
+        {
+            if (!_enabled) return true;
+
+            if (sender.get() == this)
+            {
+                if (event->type == Event::Type::UI_ENTER_NODE)
+                {
+                    _pointerOver = true;
+                    updateSprite();
+                }
+                else if (event->type == Event::Type::UI_LEAVE_NODE)
+                {
+                    _pointerOver = false;
+                    updateSprite();
+                }
+                else if (event->type == Event::Type::UI_PRESS_NODE)
+                {
+                    _pressed = true;
+                    updateSprite();
+                }
+                else if (event->type == Event::Type::UI_CLICK_NODE)
+                {
+                    if (_callback)
+                    {
+                        _callback(shared_from_this());
+                    }
+                }
+            }
 
             return true;
         }

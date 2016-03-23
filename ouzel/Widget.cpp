@@ -7,6 +7,11 @@ namespace ouzel
 {
     namespace gui
     {
+        Widget::Widget()
+        {
+            _receiveInput = true;
+        }
+
         void Widget::setEnabled(bool enabled)
         {
             _enabled = enabled;

@@ -35,7 +35,13 @@ namespace ouzel
             WINDOW_TITLE_CHANGE,
             WINDOW_FULLSCREEN_CHANGE,
             LOW_MEMORY,
-            OPEN_FILE
+            OPEN_FILE,
+
+            UI_ENTER_NODE, // mouse or touch entered the scene node
+            UI_LEAVE_NODE, // mouse or touch left the scene node
+            UI_PRESS_NODE, // mouse or touch pressed on scene node
+            UI_RELEASE_NODE,  // mouse or touch released on scene node
+            UI_CLICK_NODE, // mouse or touch clicked on scene node
         };
 
         enum Modifiers
@@ -91,5 +97,10 @@ namespace ouzel
     {
         Size2 size;
         std::string filename;
+    };
+
+    struct UIEvent: public Event
+    {
+
     };
 }
