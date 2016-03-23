@@ -9,7 +9,7 @@ void ouzelMain(const std::vector<std::string>& args)
     settings.size = ouzel::Size2(800.0f, 600.0f);
     settings.resizable = true;
     ouzel::Engine::getInstance()->init(settings);
-    
+
     std::shared_ptr<ouzel::Application> application = std::make_shared<ouzel::Application>();
     ouzel::Engine::getInstance()->setApp(application);
 }

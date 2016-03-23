@@ -12,7 +12,7 @@ extern "C"
     {
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
-    
+
         ouzel::Engine::getInstance()->begin();
     }
 
@@ -20,7 +20,7 @@ extern "C"
     {
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
-    
+
         ouzel::Engine::getInstance()->getRenderer()->resize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
     }
 
@@ -28,7 +28,7 @@ extern "C"
     {
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
-    
+
         ouzel::Engine::getInstance()->run();
     }
 }

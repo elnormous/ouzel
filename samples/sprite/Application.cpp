@@ -7,47 +7,47 @@
 using namespace std;
 
 namespace ouzel
-{    
+{
     Application::~Application()
     {
         Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
     }
-    
+
     void Application::begin()
     {
         _eventHandler = make_shared<EventHandler>();
-        
+
         _eventHandler->keyboardHandler = std::bind(&Application::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->mouseHandler = std::bind(&Application::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->touchHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
-        
+
         Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
-        
+
         Engine::getInstance()->getRenderer()->setClearColor(video::Color(64, 0, 0));
         Engine::getInstance()->getWindow()->setTitle("Sample");
-        
+
         scene::ScenePtr scene = make_shared<scene::Scene>();
         Engine::getInstance()->getSceneManager()->setScene(scene);
-        
+
         _layer = scene::Layer::create();
         scene->addLayer(_layer);
-        
+
         _uiLayer = scene::Layer::create();
         scene->addLayer(_uiLayer);
-        
+
         scene::DrawNodePtr drawNode = std::make_shared<scene::DrawNode>();
         drawNode->rectangle(Rectangle(100.0f, 100.0f), video::Color(0, 128, 128, 255), true);
         drawNode->rectangle(Rectangle(100.0f, 100.0f), video::Color(255, 255, 255, 255), false);
         drawNode->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), video::Color(0, 255, 255, 255));
         drawNode->point(Vector2(75.0f, 75.0f), video::Color(255, 0, 0, 255));
-        
+
         drawNode->circle(Vector2(75.0f, 75.0f), 20.0f, video::Color(0, 0, 255, 255));
         drawNode->circle(Vector2(25.0f, 75.0f), 20.0f, video::Color(0, 0, 255, 255), true);
-        
+
         drawNode->setPosition(Vector2(-300, 0.0f));
         _layer->addChild(drawNode);
-        
+
         _sprite = scene::Sprite::createFromFile("run.json");
         _sprite->play(true);
         _layer->addChild(_sprite);
@@ -59,22 +59,22 @@ namespace ouzel
         };
 
         _sprite->animate(make_shared<scene::Sequence>(sequence));
-        
+
         scene::SpritePtr fire = scene::Sprite::createFromFile("fire.json");
         fire->play(true);
         fire->setPosition(Vector2(-100.0f, -100.0f));
         _layer->addChild(fire);
         fire->animate(make_shared<scene::Fade>(5.0f, 0.5f));
-        
+
         _flame = scene::ParticleSystem::createFromFile("flame.json");
         _layer->addChild(_flame);
-        
+
         _witch = scene::Sprite::createFromFile("witch.png");
         _witch->setPosition(Vector2(100.0f, 100.0f));
         _witch->setColor(video::Color(128, 0, 255, 255));
         _layer->addChild(_witch);
         _witch->animate(make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3));
-        
+
         gui::LabelPtr label = gui::Label::create("font.fnt", "testing fonts");
         _uiLayer->addChild(label);
 
@@ -84,22 +84,22 @@ namespace ouzel
         };
 
         label->animate(make_shared<scene::Sequence>(sequence2));
-        
+
         _button = gui::Button::create("button.png", "button.png", "button_down.png", "button_disabled.png", "", video::Color(), "", [this](VoidPtr sender) {
             _sprite->setVisible(!_sprite->isVisible());
         });
         _button->setPosition(Vector2(-200.0f, 200.0f));
         _uiLayer->addChild(_button);
-        
+
         Engine::getInstance()->getInput()->startGamepadDiscovery();
     }
-    
+
     bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const
     {
         if (event->type == Event::Type::KEY_DOWN)
         {
             Vector2 position = _layer->getCamera()->getPosition();
-            
+
             switch (event->key)
             {
                 case input::KeyboardKey::UP:
@@ -126,13 +126,13 @@ namespace ouzel
                 default:
                     break;
             }
-            
+
             _layer->getCamera()->setPosition(position);
         }
-        
+
         return true;
     }
-    
+
     bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender) const
     {
         switch (event->type)
@@ -151,24 +151,24 @@ namespace ouzel
             default:
                 break;
         }
-        
+
         return true;
     }
-    
+
     bool Application::handleTouch(const TouchEventPtr& event, const VoidPtr& sender) const
     {
         Vector2 worldLocation = _layer->getCamera()->screenToWorldLocation(event->position);
         _flame->setPosition(worldLocation);
-        
+
         return true;
     }
-    
+
     bool Application::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender) const
     {
         if (event->type == Event::Type::GAMEPAD_BUTTON_CHANGE)
         {
             Vector2 position = _layer->getCamera()->worldToScreenLocation(_flame->getPosition());
-            
+
             switch (event->button)
             {
                 case input::GamepadButton::DPAD_UP:
@@ -197,11 +197,11 @@ namespace ouzel
                 default:
                     break;
             }
-            
+
             Vector2 worldLocation = _layer->getCamera()->screenToWorldLocation(position);
             _flame->setPosition(worldLocation);
         }
-        
+
         return true;
     }
 }
