@@ -59,7 +59,7 @@ namespace ouzel
 
     void Matrix3::createScale(float xScale, float yScale, Matrix3& dst)
     {
-		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
         dst.m[0] = xScale;
         dst.m[4] = yScale;

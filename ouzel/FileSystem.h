@@ -15,7 +15,7 @@ namespace ouzel
     {
         friend Engine;
     public:
-		static const std::string DIRECTORY_SEPARATOR;
+        static const std::string DIRECTORY_SEPARATOR;
 
         virtual ~FileSystem();
 

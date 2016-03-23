@@ -22,11 +22,11 @@
     #include <EGL/egl.h>
 #elif defined(OUZEL_PLATFORM_LINUX)
     #include <GL/gl.h>
-	#include <GL/glx.h>
-	#ifndef GL_GLEXT_PROTOTYPES
+    #include <GL/glx.h>
+    #ifndef GL_GLEXT_PROTOTYPES
         #define GL_GLEXT_PROTOTYPES 1
     #endif
-	#include <GL/glext.h>
+    #include <GL/glext.h>
 #endif
 
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)

@@ -393,8 +393,8 @@ int main(int argc, char **argv)
             XDestroyWindow(display, window);
         }
 
-	    XCloseDisplay(display);
-	}
+        XCloseDisplay(display);
+    }
 
     ouzel::Engine::getInstance()->end();
 

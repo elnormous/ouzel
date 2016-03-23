@@ -141,7 +141,7 @@ namespace ouzel
         assert(top != bottom);
         assert(zFarPlane != zNearPlane);
 
-		memset(&dst, 0, sizeof(dst));
+        memset(&dst, 0, sizeof(dst));
         dst.m[0] = 2.0f / (right - left);
         dst.m[5] = 2.0f / (top - bottom);
         dst.m[10] = 1.0f / (zFarPlane - zNearPlane);
@@ -199,7 +199,7 @@ namespace ouzel
 
     void Matrix4::createScale(const Vector3& scale, Matrix4& dst)
     {
-		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
         dst.m[0] = scale.x;
         dst.m[5] = scale.y;
@@ -208,7 +208,7 @@ namespace ouzel
 
     void Matrix4::createScale(float xScale, float yScale, float zScale, Matrix4& dst)
     {
-		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
         dst.m[0] = xScale;
         dst.m[5] = yScale;
@@ -274,7 +274,7 @@ namespace ouzel
 
     void Matrix4::createRotationX(float angle, Matrix4& dst)
     {
-		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
         float c = cos(angle);
         float s = sin(angle);
@@ -287,7 +287,7 @@ namespace ouzel
 
     void Matrix4::createRotationY(float angle, Matrix4& dst)
     {
-		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
         float c = cos(angle);
         float s = sin(angle);
@@ -300,7 +300,7 @@ namespace ouzel
 
     void Matrix4::createRotationZ(float angle, Matrix4& dst)
     {
-		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
         float c = cos(angle);
         float s = sin(angle);
@@ -313,7 +313,7 @@ namespace ouzel
 
     void Matrix4::createTranslation(const Vector3& translation, Matrix4& dst)
     {
-		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
         dst.m[12] = translation.x;
         dst.m[13] = translation.y;
@@ -322,7 +322,7 @@ namespace ouzel
 
     void Matrix4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst)
     {
-		memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
         dst.m[12] = xTranslation;
         dst.m[13] = yTranslation;

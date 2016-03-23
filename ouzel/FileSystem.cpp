@@ -25,12 +25,12 @@
 namespace ouzel
 {
 #ifdef OUZEL_PLATFORM_WINDOWS
-	const std::string FileSystem::DIRECTORY_SEPARATOR = "\\";
+    const std::string FileSystem::DIRECTORY_SEPARATOR = "\\";
 #else
-	const std::string FileSystem::DIRECTORY_SEPARATOR = "/";
+    const std::string FileSystem::DIRECTORY_SEPARATOR = "/";
 #endif
 
-	FileSystem::FileSystem()
+    FileSystem::FileSystem()
     {
 
     }
@@ -136,7 +136,7 @@ namespace ouzel
 
     std::string FileSystem::getPath(const std::string& filename) const
     {
-		std::string appPath;
+        std::string appPath;
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         CFURLRef resourcesUrlRef = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());

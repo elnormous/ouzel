@@ -117,7 +117,7 @@ namespace ouzel
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             case video::Renderer::Driver::OPENGL:
                 _renderer.reset(new video::RendererOGL());
-				break;
+                break;
 #endif
 #if defined(SUPPORTS_DIRECT3D11)
             case video::Renderer::Driver::DIRECT3D11:
