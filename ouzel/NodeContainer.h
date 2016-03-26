@@ -25,7 +25,7 @@ namespace ouzel
             virtual bool addChild(const NodePtr& node);
             virtual bool removeChild(const NodePtr& node);
             virtual void removeAllChildren();
-            virtual bool hasChild(const NodePtr& node) const;
+            virtual bool hasChild(const NodePtr& node, bool recursive = false) const;
             virtual const std::vector<NodePtr>& getChildren() const { return _children; }
 
         protected:

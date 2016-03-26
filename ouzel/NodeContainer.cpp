@@ -87,11 +87,19 @@ namespace ouzel
             unlock();
         }
 
-        bool NodeContainer::hasChild(const NodePtr& node) const
+        bool NodeContainer::hasChild(const NodePtr& node, bool recursive) const
         {
-            std::vector<NodePtr>::const_iterator i = std::find(_children.begin(), _children.end(), node);
+            for (std::vector<NodePtr>::const_iterator i = _children.begin(); i != _children.end(); ++i)
+            {
+                const NodePtr& child = *i;
 
-            return i != _children.end();
+                if (child == node || (recursive && child->hasChild(node, true)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         void NodeContainer::lock()
