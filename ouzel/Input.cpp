@@ -192,12 +192,18 @@ namespace ouzel
         {
             scene::NodePtr mouseOnNode = _mouseOnNode.lock();
 
-            if (mouseOnNode && mouseOnNode == node)
+            if (mouseOnNode)
             {
-                return;
+                if (mouseOnNode == node)
+                {
+                    return;
+                }
+                else
+                {
+                    mouseLeaveNode(mouseOnNode, position);
+                }
             }
 
-            mouseLeaveNode(mouseOnNode, position);
             _mouseOnNode = node;
 
             if (node && node->isReceivingInput())
