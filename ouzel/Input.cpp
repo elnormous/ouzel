@@ -238,24 +238,24 @@ namespace ouzel
 
         void Input::mouseUpOnNode(const scene::NodePtr& node, const Vector2& position)
         {
-            if (node && node->isReceivingInput())
+            scene::NodePtr mouseDownOnNode = _mouseDownOnNode.lock();
+
+            if (mouseDownOnNode && mouseDownOnNode->isReceivingInput())
             {
                 MouseEventPtr pressEvent = std::make_shared<MouseEvent>();
                 pressEvent->type = Event::Type::UI_RELEASE_NODE;
-                pressEvent->position = node->convertWorldToLocal(position);
+                pressEvent->position = mouseDownOnNode->convertWorldToLocal(position);
 
-                Engine::getInstance()->getEventDispatcher()->dispatchEvent(pressEvent, node);
-            }
+                Engine::getInstance()->getEventDispatcher()->dispatchEvent(pressEvent, mouseDownOnNode);
 
-            scene::NodePtr mouseDownOnNode = _mouseDownOnNode.lock();
+                if (mouseDownOnNode == node)
+                {
+                    MouseEventPtr clickEvent = std::make_shared<MouseEvent>();
+                    clickEvent->type = Event::Type::UI_CLICK_NODE;
+                    clickEvent->position = mouseDownOnNode->convertWorldToLocal(position);
 
-            if (mouseDownOnNode && mouseDownOnNode == node && node->isReceivingInput())
-            {
-                MouseEventPtr clickEvent = std::make_shared<MouseEvent>();
-                clickEvent->type = Event::Type::UI_CLICK_NODE;
-                clickEvent->position = node->convertWorldToLocal(position);
-
-                Engine::getInstance()->getEventDispatcher()->dispatchEvent(clickEvent, node);
+                    Engine::getInstance()->getEventDispatcher()->dispatchEvent(clickEvent, mouseDownOnNode);
+                }
             }
 
             _mouseDownOnNode.reset();

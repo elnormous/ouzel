@@ -44,7 +44,6 @@ namespace ouzel
         {
             _eventHandler = std::make_shared<EventHandler>();
 
-            _eventHandler->mouseHandler = std::bind(&Button::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
             _eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
             _eventHandler->uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
@@ -122,20 +121,6 @@ namespace ouzel
             updateSprite();
         }
 
-        bool Button::handleMouse(const MouseEventPtr& event, const VoidPtr& sender)
-        {
-            if (event->type == Event::Type::MOUSE_UP)
-            {
-                if (_pressed)
-                {
-                    _pressed = false;
-                    updateSprite();
-                }
-            }
-
-            return true;
-        }
-
         bool Button::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender)
         {
             OUZEL_UNUSED(event);
@@ -164,6 +149,14 @@ namespace ouzel
                 {
                     _pressed = true;
                     updateSprite();
+                }
+                else if (event->type == Event::Type::UI_RELEASE_NODE)
+                {
+                    if (_pressed)
+                    {
+                        _pressed = false;
+                        updateSprite();
+                    }
                 }
                 else if (event->type == Event::Type::UI_CLICK_NODE)
                 {
