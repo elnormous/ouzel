@@ -21,6 +21,7 @@ namespace ouzel
         _eventHandler->mouseHandler = std::bind(&Application::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->touchHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
         _eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
+        _eventHandler->uiHandler = std::bind(&Application::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
         Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
 
@@ -85,9 +86,7 @@ namespace ouzel
 
         label->animate(make_shared<scene::Sequence>(sequence2));
 
-        _button = gui::Button::create("button.png", "button.png", "button_down.png", "button_disabled.png", "", video::Color(), "", [this](VoidPtr sender) {
-            _sprite->setVisible(!_sprite->isVisible());
-        });
+        _button = gui::Button::create("button.png", "button.png", "button_down.png", "button_disabled.png", "", video::Color(), "");
         _button->setPosition(Vector2(-200.0f, 200.0f));
         _uiLayer->addChild(_button);
 
@@ -144,7 +143,7 @@ namespace ouzel
             }
             case Event::Type::MOUSE_MOVE:
             {
-                Vector2 worldLocation = _layer->getCamera()->screenToWorldLocation(event->position);
+                Vector2 worldLocation = _layer->getCamera()->convertScreenToWorld(event->position);
                 _flame->setPosition(worldLocation);
                 break;
             }
@@ -157,7 +156,7 @@ namespace ouzel
 
     bool Application::handleTouch(const TouchEventPtr& event, const VoidPtr& sender) const
     {
-        Vector2 worldLocation = _layer->getCamera()->screenToWorldLocation(event->position);
+        Vector2 worldLocation = _layer->getCamera()->convertScreenToWorld(event->position);
         _flame->setPosition(worldLocation);
 
         return true;
@@ -167,7 +166,7 @@ namespace ouzel
     {
         if (event->type == Event::Type::GAMEPAD_BUTTON_CHANGE)
         {
-            Vector2 position = _layer->getCamera()->worldToScreenLocation(_flame->getPosition());
+            Vector2 position = _layer->getCamera()->convertWorldToScreen(_flame->getPosition());
 
             switch (event->button)
             {
@@ -198,8 +197,18 @@ namespace ouzel
                     break;
             }
 
-            Vector2 worldLocation = _layer->getCamera()->screenToWorldLocation(position);
+            Vector2 worldLocation = _layer->getCamera()->convertScreenToWorld(position);
             _flame->setPosition(worldLocation);
+        }
+
+        return true;
+    }
+
+    bool Application::handleUI(const UIEventPtr& event, const VoidPtr& sender) const
+    {
+        if (event->type == Event::Type::UI_CLICK_NODE && sender == _button)
+        {
+            _sprite->setVisible(!_sprite->isVisible());
         }
 
         return true;

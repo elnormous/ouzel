@@ -17,12 +17,11 @@ namespace ouzel
     namespace gui
     {
         std::shared_ptr<Button> Button::create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
-                                               const std::string& label, const video::Color& labelColor, const std::string& font,
-                                               const std::function<void(const VoidPtr&)>& callback)
+                                               const std::string& label, const video::Color& labelColor, const std::string& font)
         {
             std::shared_ptr<Button> result = std::make_shared<Button>();
 
-            if (!result->init(normal, selected, pressed, disabled, label, labelColor, font, callback))
+            if (!result->init(normal, selected, pressed, disabled, label, labelColor, font))
             {
                 result.reset();
             }
@@ -41,7 +40,7 @@ namespace ouzel
         }
 
         bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
-                          const std::string& label, const video::Color& labelColor, const std::string& font, const std::function<void(const VoidPtr&)>& callback)
+                          const std::string& label, const video::Color& labelColor, const std::string& font)
         {
             _eventHandler = std::make_shared<EventHandler>();
 
@@ -57,6 +56,7 @@ namespace ouzel
                 if (_normalSprite->initFromFile(normal, false))
                 {
                     _boundingBox = _normalSprite->getBoundingBox();
+                    _normalSprite->setPickable(false);
                     addChild(_normalSprite);
                 }
             }
@@ -105,8 +105,6 @@ namespace ouzel
                     addChild(_label);
                 }
             }
-
-            _callback = callback;
 
             updateSprite();
 
@@ -169,9 +167,10 @@ namespace ouzel
                 }
                 else if (event->type == Event::Type::UI_CLICK_NODE)
                 {
-                    if (_callback)
+                    if (_pressed)
                     {
-                        _callback(shared_from_this());
+                        _pressed = false;
+                        updateSprite();
                     }
                 }
             }

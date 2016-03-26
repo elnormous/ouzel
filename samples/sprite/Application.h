@@ -16,6 +16,7 @@ namespace ouzel
         bool handleMouse(const MouseEventPtr& event, const VoidPtr& sender) const;
         bool handleTouch(const TouchEventPtr& event, const VoidPtr& sender) const;
         bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender) const;
+        bool handleUI(const UIEventPtr& event, const VoidPtr& sender) const;
 
     protected:
         scene::LayerPtr _layer;
