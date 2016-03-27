@@ -3,31 +3,28 @@
 
 #pragma once
 
-namespace ouzel
+class Application: public ouzel::Noncopyable, public ouzel::App
 {
-    class Application: public Noncopyable, public App
-    {
-    public:
-        virtual ~Application();
+public:
+    virtual ~Application();
 
-        virtual void begin() override;
+    virtual void begin() override;
 
-        bool handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const;
-        bool handleMouse(const MouseEventPtr& event, const VoidPtr& sender) const;
-        bool handleTouch(const TouchEventPtr& event, const VoidPtr& sender) const;
-        bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender) const;
-        bool handleUI(const UIEventPtr& event, const VoidPtr& sender) const;
+    bool handleKeyboard(const ouzel::KeyboardEventPtr& event, const ouzel::VoidPtr& sender) const;
+    bool handleMouse(const ouzel::MouseEventPtr& event, const ouzel::VoidPtr& sender) const;
+    bool handleTouch(const ouzel::TouchEventPtr& event, const ouzel::VoidPtr& sender) const;
+    bool handleGamepad(const ouzel::GamepadEventPtr& event, const ouzel::VoidPtr& sender) const;
+    bool handleUI(const ouzel::UIEventPtr& event, const ouzel::VoidPtr& sender) const;
 
-    protected:
-        scene::LayerPtr _layer;
-        scene::LayerPtr _uiLayer;
+protected:
+    ouzel::scene::LayerPtr _layer;
+    ouzel::scene::LayerPtr _uiLayer;
 
-        scene::SpritePtr _sprite;
-        scene::SpritePtr _witch;
-        scene::ParticleSystemPtr _flame;
+    ouzel::scene::SpritePtr _sprite;
+    ouzel::scene::SpritePtr _witch;
+    ouzel::scene::ParticleSystemPtr _flame;
 
-        gui::ButtonPtr _button;
+    ouzel::gui::ButtonPtr _button;
 
-        EventHandlerPtr _eventHandler;
-    };
-}
+    ouzel::EventHandlerPtr _eventHandler;
+};
