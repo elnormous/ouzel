@@ -176,6 +176,21 @@
     <ClCompile Include="..\ouzel\direct3d11\TextureD3D11.cpp">
       <Filter>video\direct3d11</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\ScrollBar.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\ComboBox.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\EditBox.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Popup.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\ScrollArea.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -386,6 +401,21 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\TextureVSD3D11.h">
       <Filter>video\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\ScrollBar.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\ComboBox.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\EditBox.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Popup.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\ScrollArea.h">
+      <Filter>gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

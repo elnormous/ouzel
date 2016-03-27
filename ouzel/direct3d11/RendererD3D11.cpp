@@ -14,7 +14,7 @@
 #include "ColorVSD3D11.h"
 #include "Camera.h"
 #include "Cache.h"
-#include "WindowWin.h"
+#include "win/WindowWin.h"
 #include "stb_image_write.h"
 
 using namespace ouzel;

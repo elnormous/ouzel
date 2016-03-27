@@ -26,6 +26,7 @@
     <ClCompile Include="..\ouzel\Cache.cpp" />
     <ClCompile Include="..\ouzel\Camera.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
+    <ClCompile Include="..\ouzel\ComboBox.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\MeshBufferD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\RendererD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\RenderTargetD3D11.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="..\ouzel\direct3d11\TextureD3D11.cpp" />
     <ClCompile Include="..\ouzel\DrawNode.cpp" />
     <ClCompile Include="..\ouzel\Ease.cpp" />
+    <ClCompile Include="..\ouzel\EditBox.cpp" />
     <ClCompile Include="..\ouzel\Engine.cpp" />
     <ClCompile Include="..\ouzel\EventDispatcher.cpp" />
     <ClCompile Include="..\ouzel\Fade.cpp" />
@@ -53,6 +55,7 @@
     <ClCompile Include="..\ouzel\NodeContainer.cpp" />
     <ClCompile Include="..\ouzel\Parallel.cpp" />
     <ClCompile Include="..\ouzel\ParticleSystem.cpp" />
+    <ClCompile Include="..\ouzel\Popup.cpp" />
     <ClCompile Include="..\ouzel\Rectangle.cpp" />
     <ClCompile Include="..\ouzel\Renderer.cpp" />
     <ClCompile Include="..\ouzel\RenderTarget.cpp" />
@@ -61,6 +64,8 @@
     <ClCompile Include="..\ouzel\Scale.cpp" />
     <ClCompile Include="..\ouzel\Scene.cpp" />
     <ClCompile Include="..\ouzel\SceneManager.cpp" />
+    <ClCompile Include="..\ouzel\ScrollArea.cpp" />
+    <ClCompile Include="..\ouzel\ScrollBar.cpp" />
     <ClCompile Include="..\ouzel\Sequence.cpp" />
     <ClCompile Include="..\ouzel\Shader.cpp" />
     <ClCompile Include="..\ouzel\Size2.cpp" />
@@ -88,6 +93,7 @@
     <ClInclude Include="..\ouzel\Cache.h" />
     <ClInclude Include="..\ouzel\Camera.h" />
     <ClInclude Include="..\ouzel\Color.h" />
+    <ClInclude Include="..\ouzel\ComboBox.h" />
     <ClInclude Include="..\ouzel\CompileConfig.h" />
     <ClInclude Include="..\ouzel\direct3d11\ColorPSD3D11.h" />
     <ClInclude Include="..\ouzel\direct3d11\ColorVSD3D11.h" />
@@ -100,6 +106,7 @@
     <ClInclude Include="..\ouzel\direct3d11\TextureVSD3D11.h" />
     <ClInclude Include="..\ouzel\DrawNode.h" />
     <ClInclude Include="..\ouzel\Ease.h" />
+    <ClInclude Include="..\ouzel\EditBox.h" />
     <ClInclude Include="..\ouzel\Engine.h" />
     <ClInclude Include="..\ouzel\Event.h" />
     <ClInclude Include="..\ouzel\EventDispatcher.h" />
@@ -125,6 +132,7 @@
     <ClInclude Include="..\ouzel\Parallel.h" />
     <ClInclude Include="..\ouzel\ParticleDefinition.h" />
     <ClInclude Include="..\ouzel\ParticleSystem.h" />
+    <ClInclude Include="..\ouzel\Popup.h" />
     <ClInclude Include="..\ouzel\Rectangle.h" />
     <ClInclude Include="..\ouzel\Renderer.h" />
     <ClInclude Include="..\ouzel\RenderTarget.h" />
@@ -133,6 +141,8 @@
     <ClInclude Include="..\ouzel\Scale.h" />
     <ClInclude Include="..\ouzel\Scene.h" />
     <ClInclude Include="..\ouzel\SceneManager.h" />
+    <ClInclude Include="..\ouzel\ScrollArea.h" />
+    <ClInclude Include="..\ouzel\ScrollBar.h" />
     <ClInclude Include="..\ouzel\Sequence.h" />
     <ClInclude Include="..\ouzel\Settings.h" />
     <ClInclude Include="..\ouzel\Shader.h" />
