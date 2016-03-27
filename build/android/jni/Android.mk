@@ -16,8 +16,10 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Cache.cpp \
     ../../../ouzel/Camera.cpp \
     ../../../ouzel/Color.cpp \
+    ../../../ouzel/ComboBox.cpp \
     ../../../ouzel/DrawNode.cpp \
     ../../../ouzel/Ease.cpp \
+    ../../../ouzel/EditBox.cpp \
     ../../../ouzel/Engine.cpp \
     ../../../ouzel/EventDispatcher.cpp \
 	../../../ouzel/Fade.cpp \
@@ -33,7 +35,6 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Matrix4.cpp \
     ../../../ouzel/Menu.cpp \
     ../../../ouzel/MeshBuffer.cpp \
-    ../../../ouzel/opengl/MeshBufferOGL.cpp \
     ../../../ouzel/Move.cpp \
     ../../../ouzel/Node.cpp \
     ../../../ouzel/NodeContainer.cpp \
@@ -41,21 +42,20 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/ParticleSystem.cpp \
     ../../../ouzel/Rectangle.cpp \
     ../../../ouzel/Renderer.cpp \
-    ../../../ouzel/opengl/RendererOGL.cpp \
     ../../../ouzel/RenderTarget.cpp \
-    ../../../ouzel/opengl/RenderTargetOGL.cpp \
+    ../../../ouzel/Popup.cpp \
     ../../../ouzel/Repeat.cpp \
 	../../../ouzel/Rotate.cpp \
 	../../../ouzel/Scale.cpp \
     ../../../ouzel/Scene.cpp \
     ../../../ouzel/SceneManager.cpp \
+    ../../../ouzel/ScrollArea.cpp \
+    ../../../ouzel/ScrollBar.cpp \
     ../../../ouzel/Sequence.cpp \
     ../../../ouzel/Shader.cpp \
-    ../../../ouzel/opengl/ShaderOGL.cpp \
     ../../../ouzel/Size2.cpp \
     ../../../ouzel/Sprite.cpp \
     ../../../ouzel/Texture.cpp \
-    ../../../ouzel/opengl/TextureOGL.cpp \
     ../../../ouzel/Utils.cpp \
     ../../../ouzel/Vector2.cpp \
     ../../../ouzel/Vector3.cpp \
@@ -63,6 +63,11 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Vertex.cpp \
     ../../../ouzel/Widget.cpp \
     ../../../ouzel/Window.cpp \
-    ../../../ouzel/WindowAndroid.cpp
+    ../../../ouzel/android/WindowAndroid.cpp \
+    ../../../ouzel/opengl/MeshBufferOGL.cpp \
+    ../../../ouzel/opengl/RendererOGL.cpp \
+    ../../../ouzel/opengl/RenderTargetOGL.cpp \
+    ../../../ouzel/opengl/ShaderOGL.cpp \
+    ../../../ouzel/opengl/TextureOGL.cpp
 
 include $(BUILD_STATIC_LIBRARY)
