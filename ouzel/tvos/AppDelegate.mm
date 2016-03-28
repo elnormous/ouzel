@@ -10,8 +10,6 @@
 
 @implementation AppDelegate
 
-void ouzelMain(const std::vector<std::string>& args);
-
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     ouzelMain(ouzel::getArgs());

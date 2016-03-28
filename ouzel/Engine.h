@@ -15,6 +15,8 @@
 #include "UpdateCallback.h"
 #include "App.h"
 
+void ouzelMain(const std::vector<std::string>& args);
+
 namespace ouzel
 {
     class Engine: public Noncopyable

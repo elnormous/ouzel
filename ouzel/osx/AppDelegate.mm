@@ -11,8 +11,6 @@
 
 @implementation AppDelegate
 
-void ouzelMain(const std::vector<std::string>& args);
-
 -(void)applicationWillFinishLaunching:(NSNotification*)notification
 {
     OUZEL_UNUSED(notification);
