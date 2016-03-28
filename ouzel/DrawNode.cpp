@@ -127,7 +127,7 @@ namespace ouzel
             {
                 command.mode = video::Renderer::DrawMode::TRIANGLE_STRIP;
 
-                for(uint32_t i = 1; i <= segments; ++i)
+                for(uint16_t i = 1; i <= segments; ++i)
                 {
                     indices.push_back(i);
 
@@ -143,7 +143,7 @@ namespace ouzel
             {
                 command.mode = video::Renderer::DrawMode::LINE_STRIP;
 
-                for(uint32_t i = 0; i <= segments; ++i)
+                for(uint16_t i = 0; i <= segments; ++i)
                 {
                     indices.push_back(i);
                 }

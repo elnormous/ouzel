@@ -388,16 +388,17 @@ namespace ouzel
                 return false;
             }
 
-            int32_t w = width;
-            int32_t h = height;
+            uint32_t w = static_cast<uint32_t>(width);
+            uint32_t h = static_cast<uint32_t>(height);
             uint8_t temp;
-            int32_t depth = 3;
+            uint32_t depth = 3;
 
-            for (int32_t row = 0; row < (h>>1); row++)
+            for (uint32_t row = 0; row < (h>>1); row++)
             {
-                for (int32_t col = 0; col < w; col++)
+                for (uint32_t col = 0; col < w; col++)
                 {
-                    for (int32_t z = 0; z < depth; z++) {
+                    for (uint32_t z = 0; z < depth; z++)
+                    {
                         temp = data[(row * w + col) * depth + z];
                         data[(row * w + col) * depth + z] = data[((h - row - 1) * w + col) * depth + z];
                         data[((h - row - 1) * w + col) * depth + z] = temp;

@@ -153,13 +153,13 @@ namespace ouzel
             return nullptr;
         }
 
-        if (document.HasMember("blendFuncSource")) result->blendFuncSource = document["blendFuncSource"].GetInt();
-        if (document.HasMember("blendFuncDestination")) result->blendFuncDestination = document["blendFuncDestination"].GetInt();
+        if (document.HasMember("blendFuncSource")) result->blendFuncSource = static_cast<uint32_t>(document["blendFuncSource"].GetInt());
+        if (document.HasMember("blendFuncDestination")) result->blendFuncDestination = static_cast<uint32_t>(document["blendFuncDestination"].GetInt());
 
 
         if (document.HasMember("emitterType"))
         {
-            uint32_t emitterType = document["emitterType"].GetInt();
+            uint32_t emitterType = static_cast<uint32_t>(document["emitterType"].GetInt());
 
             switch (emitterType)
             {
@@ -168,7 +168,7 @@ namespace ouzel
             }
         }
 
-        if (document.HasMember("maxParticles")) result->maxParticles = document["maxParticles"].GetInt();
+        if (document.HasMember("maxParticles")) result->maxParticles = static_cast<uint32_t>(document["maxParticles"].GetInt());
 
         if (document.HasMember("duration")) result->duration = static_cast<float>(document["duration"].GetDouble());
         if (document.HasMember("particleLifespan")) result->particleLifespan = static_cast<float>(document["particleLifespan"].GetDouble());
@@ -208,7 +208,7 @@ namespace ouzel
         if (document.HasMember("tangentialAcceleration")) result->tangentialAcceleration = static_cast<float>(document["tangentialAcceleration"].GetDouble());
         if (document.HasMember("tangentialAccelVariance")) result->tangentialAccelVariance = static_cast<float>(document["tangentialAccelVariance"].GetDouble());
 
-        if (document.HasMember("rotationIsDir")) result->rotationIsDir = static_cast<float>(document["rotationIsDir"].GetBool());
+        if (document.HasMember("rotationIsDir")) result->rotationIsDir = document["rotationIsDir"].GetBool();
 
         if (document.HasMember("gravityx")) result->gravity.x = static_cast<float>(document["gravityx"].GetDouble());
         if (document.HasMember("gravityy")) result->gravity.y = static_cast<float>(document["gravityy"].GetDouble());

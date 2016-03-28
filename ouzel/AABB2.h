@@ -26,7 +26,7 @@ namespace ouzel
          * Constructor.
          * @lua new
          */
-        AABB2(const Vector2& min, const Vector2& max);
+        AABB2(const Vector2& pMin, const Vector2& pMax);
 
         /**
          * Constructor.
@@ -65,7 +65,7 @@ namespace ouzel
         /**
          * Sets this bounding box to the specified values.
          */
-        void set(const Vector2& min, const Vector2& max);
+        void set(const Vector2& pMin, const Vector2& pMax);
 
         /**
          * Reset min and max value.If you invoke this method, isEmpty() shall return true.

@@ -86,7 +86,7 @@ namespace ouzel
 
         void ParticleSystem::update(float delta)
         {
-            if (_running && _particleDefinition.emissionRate)
+            if (_running && _particleDefinition.emissionRate > 0.0f)
             {
                 float rate = 1.0f / _particleDefinition.emissionRate;
 
@@ -97,7 +97,7 @@ namespace ouzel
                         _emitCounter = 0.f;
                 }
 
-                int emitCount = fminf(_particleDefinition.maxParticles - _particleCount, _emitCounter / rate);
+                uint32_t emitCount = static_cast<uint32_t>(fminf(_particleDefinition.maxParticles - _particleCount, _emitCounter / rate));
                 emitParticles(emitCount);
                 _emitCounter -= rate * emitCount;
 
@@ -124,8 +124,10 @@ namespace ouzel
 
             if (_active)
             {
-                for (int32_t i = _particleCount - 1; i >= 0; --i)
+                for (uint32_t counter = _particleCount; counter > 0; --counter)
                 {
+                    size_t i = counter - 1;
+
                     _particles[i].life -= delta;
 
                     if (_particles[i].life >= 0.0f)
@@ -135,7 +137,7 @@ namespace ouzel
                             Vector2 tmp, radial, tangential;
 
                             // radial acceleration
-                            if (_particles[i].position.x || _particles[i].position.y)
+                            if (_particles[i].position.x == 0.0f || _particles[i].position.y == 0.0f)
                             {
                                 radial = _particles[i].position;
                                 radial.normalize();
@@ -202,7 +204,7 @@ namespace ouzel
                 {
                     const Matrix4& inverseTransform = getInverseTransform();
 
-                    for (int32_t i = 0; i < _particleCount; i++)
+                    for (uint32_t i = 0; i < _particleCount; i++)
                     {
                         Vector3 position = _particles[i].position;
                         inverseTransform.transformPoint(position);
@@ -211,7 +213,7 @@ namespace ouzel
                 }
                 else if (_particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    for (int32_t i = 0; i < _particleCount; i++)
+                    for (uint32_t i = 0; i < _particleCount; i++)
                     {
                         _boundingBox.insertPoint(_particles[i].position);
                     }
@@ -278,7 +280,7 @@ namespace ouzel
             _indices.reserve(_particleDefinition.maxParticles * 6);
             _vertices.reserve(_particleDefinition.maxParticles * 4);
 
-            for (int32_t i = 0; i < _particleDefinition.maxParticles; ++i)
+            for (uint16_t i = 0; i < _particleDefinition.maxParticles; ++i)
             {
                 _indices.push_back(i * 4 + 0);
                 _indices.push_back(i * 4 + 1);
@@ -304,8 +306,10 @@ namespace ouzel
 
         void ParticleSystem::updateParticleMesh()
         {
-            for (int32_t i = _particleCount - 1; i >= 0; --i)
+            for (uint32_t counter = _particleCount; counter > 0; --counter)
             {
+                size_t i = counter - 1;
+
                 Vector2 position;
 
                 if (_positionType == ParticleDefinition::PositionType::FREE)
@@ -330,10 +334,10 @@ namespace ouzel
                 Vector2 c(v2.x * cr - v2.y * sr, v2.x * sr + v2.y * cr);
                 Vector2 d(v1.x * cr - v2.y * sr, v1.x * sr + v2.y * cr);
 
-                video::Color color(_particles[i].colorRed * 255,
-                                   _particles[i].colorGreen * 255,
-                                   _particles[i].colorBlue * 255,
-                                   _particles[i].colorAlpha * 255);
+                video::Color color(static_cast<uint8_t>(_particles[i].colorRed * 255),
+                                   static_cast<uint8_t>(_particles[i].colorGreen * 255),
+                                   static_cast<uint8_t>(_particles[i].colorBlue * 255),
+                                   static_cast<uint8_t>(_particles[i].colorAlpha * 255));
 
                 _vertices[i * 4 + 0].position = a + position;
                 _vertices[i * 4 + 0].color = color;

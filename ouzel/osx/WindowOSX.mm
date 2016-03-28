@@ -178,16 +178,16 @@ namespace ouzel
     {
         if (_title != title)
         {
-            NSString* title = [NSString stringWithCString:_title.c_str() encoding:NSUTF8StringEncoding];
+            NSString* objCTitle = [NSString stringWithCString:_title.c_str() encoding:NSUTF8StringEncoding];
 
             if ([NSThread isMainThread])
             {
-                _window.title = title;
+                _window.title = objCTitle;
             }
             else
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    _window.title = title;
+                    _window.title = objCTitle;
                 });
             }
         }
@@ -200,7 +200,8 @@ namespace ouzel
         NSRect frame = [NSWindow contentRectForFrameRect:[_window frame]
                                                styleMask:[_window styleMask]];
 
-        Window::setSize(Size2(frame.size.width, frame.size.height));
+        Window::setSize(Size2(static_cast<float>(frame.size.width),
+                              static_cast<float>(frame.size.height)));
     }
 
     void WindowOSX::handleDisplayChange()

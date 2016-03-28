@@ -41,7 +41,7 @@ namespace ouzel
 
             std::vector<char> fragmentShaderBuffer(fragmentShaderSize);
 
-            fragmentShaderFile.read(fragmentShaderBuffer.data(), fragmentShaderSize);
+            fragmentShaderFile.read(fragmentShaderBuffer.data(), static_cast<std::streamsize>(fragmentShaderSize));
 
             std::ifstream vertexShaderFile(Engine::getInstance()->getFileSystem()->getPath(vertexShader));
 
@@ -59,10 +59,10 @@ namespace ouzel
 
             std::vector<char> vertexShaderBuffer(vertexShaderSize);
 
-            vertexShaderFile.read(vertexShaderBuffer.data(), vertexShaderSize);
+            vertexShaderFile.read(vertexShaderBuffer.data(), static_cast<std::streamsize>(vertexShaderSize));
 
-            return initFromBuffers(reinterpret_cast<const uint8_t*>(fragmentShaderBuffer.data()), static_cast<int32_t>(fragmentShaderSize),
-                                   reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<int32_t>(vertexShaderSize), vertexAttributes);
+            return initFromBuffers(reinterpret_cast<const uint8_t*>(fragmentShaderBuffer.data()), static_cast<uint32_t>(fragmentShaderSize),
+                                   reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<uint32_t>(vertexShaderSize), vertexAttributes);
         }
 
         bool Shader::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)

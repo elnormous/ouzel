@@ -13,14 +13,15 @@ namespace ouzel
         reset();
     }
 
-    AABB2::AABB2(const Vector2& min, const Vector2& max)
+    AABB2::AABB2(const Vector2& pMin, const Vector2& pMax):
+        min(pMin), max(pMax)
     {
-        set(min, max);
+
     }
 
     AABB2::AABB2(const AABB2& box)
     {
-        set(box.min,box.max);
+        set(box.min, box.max);
     }
 
     Vector2 AABB2::getCenter()
@@ -71,10 +72,10 @@ namespace ouzel
         max.y = std::max(max.y, box.max.y);
     }
 
-    void AABB2::set(const Vector2& min, const Vector2& max)
+    void AABB2::set(const Vector2& pMin, const Vector2& pMax)
     {
-        this->min = min;
-        this->max = max;
+        min = pMin;
+        max = pMax;
     }
 
     void AABB2::reset()

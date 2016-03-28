@@ -44,7 +44,7 @@ namespace ouzel
             {
                 float animationLength = animator->getLength();
 
-                if (animationLength == 0.0f || _currentTime > time + animationLength)
+                if (animationLength <= 0.0f || _currentTime > time + animationLength)
                 {
                     animator->setProgress(1.0f);
                 }

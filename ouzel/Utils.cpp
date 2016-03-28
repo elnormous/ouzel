@@ -57,7 +57,7 @@ namespace ouzel
         struct timeval currentTime;
 
         gettimeofday(&currentTime, NULL);
-        return currentTime.tv_sec * 1000000L + currentTime.tv_usec;
+        return static_cast<uint64_t>(currentTime.tv_sec) * 1000000UL + static_cast<uint64_t>(currentTime.tv_usec);
 #elif defined(OUZEL_PLATFORM_WINDOWS)
 
         static double invFrequency = 0.0;
