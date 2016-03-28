@@ -10,8 +10,8 @@
 
 #define OUZEL_UNUSED(x) (void)(x)
 
-#define RANDOM_MINUS1_1() ((2.0f * (static_cast<float>(random()) / UINT_MAX)) - 1.0f) // Returns a random float between -1 and 1.
-#define RANDOM_0_1()      (static_cast<float>(random()) / UINT_MAX) // Returns a random float between 0 and 1.
+#define RANDOM_MINUS1_1() ((2.0f * (static_cast<float>(ouzel::random()) / UINT_MAX)) - 1.0f) // Returns a random float between -1 and 1.
+#define RANDOM_0_1()      (static_cast<float>(ouzel::random()) / UINT_MAX) // Returns a random float between 0 and 1.
 
 namespace ouzel
 {
