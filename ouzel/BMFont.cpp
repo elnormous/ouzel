@@ -245,7 +245,7 @@ namespace ouzel
                 f = &iter->second;
             }
 
-            uint16_t startIndex = vertices.size();
+            uint16_t startIndex = static_cast<uint16_t>(vertices.size());
             indices.push_back(startIndex + 0);
             indices.push_back(startIndex + 1);
             indices.push_back(startIndex + 2);

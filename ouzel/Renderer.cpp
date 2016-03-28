@@ -69,7 +69,7 @@ namespace ouzel
         TexturePtr Renderer::createTexture(const Size2& size, bool dynamic, bool mipmaps)
         {
             TexturePtr texture(new Texture());
-            texture->init(size, dynamic);
+            texture->init(size, dynamic, mipmaps);
 
             return texture;
         }
@@ -85,7 +85,7 @@ namespace ouzel
         {
             TexturePtr texture(new Texture());
 
-            if (!texture->initFromFile(filename, dynamic))
+            if (!texture->initFromFile(filename, dynamic, mipmaps))
             {
                 texture.reset();
             }
@@ -97,7 +97,7 @@ namespace ouzel
         {
             TexturePtr texture(new Texture());
 
-            if (!texture->initFromData(data, size, dynamic))
+            if (!texture->initFromData(data, size, dynamic, mipmaps))
             {
                 texture.reset();
             }

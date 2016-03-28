@@ -15,7 +15,7 @@ namespace ouzel
         float depth;
 
         Size3();
-        Size3(float width, float height, float depth);
+        Size3(float w, float h, float d);
 
         Size3& operator=(const Vector3& point);
         Size3 operator+(const Size3& right) const;

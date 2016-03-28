@@ -241,7 +241,7 @@ namespace ouzel
         {
             _layer = layer;
 
-            if (LayerPtr layer = _layer.lock())
+            if (!layer.expired())
             {
                 for (const NodePtr& child : _children)
                 {

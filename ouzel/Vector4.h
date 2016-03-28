@@ -378,25 +378,25 @@ namespace ouzel
          *
          * Note: this does not modify this vector.
          *
-         * @param x The value to scale by.
+         * @param scalar The value to scale by.
          * @return The scaled vector.
          */
-        inline const Vector4 operator*(float x) const
+        inline const Vector4 operator*(float scalar) const
         {
             Vector4 result(*this);
-            result.scale(x);
+            result.scale(scalar);
             return result;
         }
 
         /**
          * Scales this vector by the given value.
          *
-         * @param x The value to scale by.
+         * @param scalar The value to scale by.
          * @return This vector, after the scale occurs.
          */
-        inline Vector4& operator*=(float x)
+        inline Vector4& operator*=(float scalar)
         {
-            scale(x);
+            scale(scalar);
             return *this;
         }
 
@@ -405,12 +405,12 @@ namespace ouzel
          *
          * Note: this does not modify this vector.
          *
-         * @param x the constant to divide this vector with
+         * @param d the constant to divide this vector with
          * @return a smaller vector
          */
-        inline const Vector4 operator/(float x) const
+        inline const Vector4 operator/(float scalar) const
         {
-            return Vector4(this->x / x, this->y / x, this->z / x, this->w / x);
+            return Vector4(x / scalar, y / scalar, z / scalar, w / scalar);
         }
 
         inline Vector4& operator/=(float scalar)

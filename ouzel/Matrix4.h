@@ -779,25 +779,25 @@ namespace ouzel
          *
          * Note: this does not modify this matrix.
          *
-         * @param m The matrix to multiply by.
+         * @param matrix The matrix to multiply by.
          * @return The matrix product.
          */
-        inline const Matrix4 operator*(const Matrix4& m) const
+        inline const Matrix4 operator*(const Matrix4& matrix) const
         {
             Matrix4 result(*this);
-            result.multiply(m);
+            result.multiply(matrix);
             return result;
         }
 
         /**
          * Right-multiplies this matrix by the given matrix.
          *
-         * @param m The matrix to multiply by.
+         * @param matrix The matrix to multiply by.
          * @return This matrix, after the multiplication occurs.
          */
-        inline Matrix4& operator*=(const Matrix4& m)
+        inline Matrix4& operator*=(const Matrix4& matrix)
         {
-            multiply(m);
+            multiply(matrix);
             return *this;
         }
 

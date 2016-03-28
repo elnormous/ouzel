@@ -13,27 +13,33 @@
 
 void ouzelMain(const std::vector<std::string>& args);
 
--(void)applicationWillFinishLaunching:(NSNotification *)notification
+-(void)applicationWillFinishLaunching:(NSNotification*)notification
 {
+    OUZEL_UNUSED(notification);
     ouzelMain(ouzel::getArgs());
 }
 
--(void)applicationDidFinishLaunching:(NSNotification *)aNotification
+-(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
+    OUZEL_UNUSED(notification);
 }
 
--(void)applicationWillTerminate:(NSNotification *)aNotification
+-(void)applicationWillTerminate:(NSNotification*)notification
 {
+    OUZEL_UNUSED(notification);
     ouzel::Engine::getInstance()->end();
 }
 
--(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+-(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)sender
 {
+    OUZEL_UNUSED(sender);
     return YES;
 }
 
 -(BOOL)application:(NSApplication *)sender openFile:(NSString *)filename
 {
+    OUZEL_UNUSED(sender);
+
     ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
     event->type = ouzel::Event::Type::OPEN_FILE;
     event->filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];

@@ -11,8 +11,8 @@ namespace ouzel
 
     }
 
-    Size3::Size3(float width, float height, float depth):
-        width(width), height(height), depth(depth)
+    Size3::Size3(float w, float h, float d):
+        width(w), height(h), depth(d)
     {
 
     }

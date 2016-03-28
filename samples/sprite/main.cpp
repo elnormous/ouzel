@@ -5,6 +5,8 @@
 
 void ouzelMain(const std::vector<std::string>& args)
 {
+    OUZEL_UNUSED(args);
+
     ouzel::Settings settings;
     settings.size = ouzel::Size2(800.0f, 600.0f);
     settings.resizable = true;

@@ -40,8 +40,8 @@ namespace ouzel
 
             if (size.width > 0.0f && size.height > 0.0f)
             {
-                GLint oldTextureId;
-                glGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTextureId);
+                GLuint oldTextureId;
+                glGetIntegerv(GL_TEXTURE_BINDING_2D, reinterpret_cast<GLint*>(&oldTextureId));
 
                 glBindTexture(GL_TEXTURE_2D, _textureId);
 
@@ -70,8 +70,8 @@ namespace ouzel
 
             clean();
 
-            GLint oldTextureId;
-            glGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTextureId);
+            GLuint oldTextureId;
+            glGetIntegerv(GL_TEXTURE_BINDING_2D, reinterpret_cast<GLint*>(&oldTextureId));
 
             glGenTextures(1, &_textureId);
 
@@ -114,8 +114,8 @@ namespace ouzel
                 return false;
             }
 
-            GLint oldTextureId;
-            glGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTextureId);
+            GLuint oldTextureId;
+            glGetIntegerv(GL_TEXTURE_BINDING_2D, reinterpret_cast<GLint*>(&oldTextureId));
 
             if (oldTextureId != _textureId) glBindTexture(GL_TEXTURE_2D, _textureId);
 
@@ -136,7 +136,7 @@ namespace ouzel
                 GLint mipLevel = 1;
 
                 uint8_t* oldMipMapData = new uint8_t[width * height * 4];
-                memcpy(oldMipMapData, data, width * height * 4);
+                memcpy(oldMipMapData, data, static_cast<size_t>(width * height * 4));
 
                 uint8_t* newMipMapData = new uint8_t[mipWidth * mipHeight * 4];
 

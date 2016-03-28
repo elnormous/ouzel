@@ -4,6 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #include "WindowOSX.h"
 #include "OpenGLView.h"
+#include "Utils.h"
 
 @interface WindowDelegate: NSObject <NSWindowDelegate>
 {
@@ -26,26 +27,31 @@
 
 -(void)windowDidResize:(NSNotification *)notification
 {
+    OUZEL_UNUSED(notification);
     _window->handleResize();
 }
 
 -(void)windowDidChangeScreen:(NSNotification *)notification
 {
+    OUZEL_UNUSED(notification);
     _window->handleDisplayChange();
 }
 
 -(void)windowWillClose:(NSNotification *)notification
 {
+    OUZEL_UNUSED(notification);
     _window->handleClose();
 }
 
 -(void)windowDidEnterFullScreen:(NSNotification *)notification
 {
+    OUZEL_UNUSED(notification);
     _window->handleFullscreenChange(true);
 }
 
 -(void)windowDidExitFullScreen:(NSNotification *)notification
 {
+    OUZEL_UNUSED(notification);
     _window->handleFullscreenChange(false);
 }
 
