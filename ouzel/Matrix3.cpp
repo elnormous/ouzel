@@ -4,6 +4,7 @@
 #include <cstring>
 #include <memory>
 #include <cmath>
+#include <cassert>
 #include "Matrix3.h"
 #include "MathUtils.h"
 
@@ -35,9 +36,9 @@ namespace ouzel
         set(m11, m12, m13, m21, m22, m23, m31, m32, m33);
     }
 
-    Matrix3::Matrix3(const float* m)
+    Matrix3::Matrix3(const float* array)
     {
-        set(m);
+        set(array);
     }
 
     Matrix3::Matrix3(const Matrix3& copy)
@@ -67,8 +68,8 @@ namespace ouzel
 
     void Matrix3::createRotation(float angle, Matrix3& dst)
     {
-        float c = cos(angle);
-        float s = sin(angle);
+        float c = cosf(angle);
+        float s = sinf(angle);
 
         dst.m[0] = c;
         dst.m[1] = -s;
@@ -109,9 +110,9 @@ namespace ouzel
         addMatrix3(m, scalar, dst.m);
     }
 
-    void Matrix3::add(const Matrix3& m)
+    void Matrix3::add(const Matrix3& matrix)
     {
-        add(*this, m, *this);
+        add(*this, matrix, *this);
     }
 
     void Matrix3::add(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
@@ -177,14 +178,14 @@ namespace ouzel
         multiply(*this, scalar, dst);
     }
 
-    void Matrix3::multiply(const Matrix3& m, float scalar, Matrix3& dst)
+    void Matrix3::multiply(const Matrix3& matrix, float scalar, Matrix3& dst)
     {
-        multiplyMatrix3(m.m, scalar, dst.m);
+        multiplyMatrix3(matrix.m, scalar, dst.m);
     }
 
-    void Matrix3::multiply(const Matrix3& m)
+    void Matrix3::multiply(const Matrix3& matrix)
     {
-        multiply(*this, m, *this);
+        multiply(*this, matrix, *this);
     }
 
     void Matrix3::multiply(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
@@ -260,14 +261,15 @@ namespace ouzel
         m[8]  = m33;
     }
 
-    void Matrix3::set(const float* m)
+    void Matrix3::set(const float* array)
     {
-        memcpy(this->m, m, sizeof(this->m));
+        assert(array);
+        memcpy(m, array, sizeof(m));
     }
 
-    void Matrix3::set(const Matrix3& m)
+    void Matrix3::set(const Matrix3& matrix)
     {
-        memcpy(this->m, m.m, sizeof(this->m));
+        memcpy(m, matrix.m, sizeof(m));
     }
 
     void Matrix3::setIdentity()
@@ -280,9 +282,9 @@ namespace ouzel
         memset(m, 0, sizeof(m));
     }
 
-    void Matrix3::subtract(const Matrix3& m)
+    void Matrix3::subtract(const Matrix3& matrix)
     {
-        subtract(*this, m, *this);
+        subtract(*this, matrix, *this);
     }
 
     void Matrix3::subtract(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)

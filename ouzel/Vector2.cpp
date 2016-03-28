@@ -18,8 +18,8 @@ namespace ouzel
     {
     }
 
-    Vector2::Vector2(float x, float y):
-        x(x), y(y)
+    Vector2::Vector2(float pX, float pY):
+        x(pX), y(pY)
     {
     }
 
@@ -199,10 +199,10 @@ namespace ouzel
         }
     }
 
-    void Vector2::set(float x, float y)
+    void Vector2::set(float pX, float pY)
     {
-        this->x = x;
-        this->y = y;
+        x = pX;
+        y = pY;
     }
 
     void Vector2::set(const float* array)

@@ -286,11 +286,11 @@ namespace ouzel
         /**
          * Sets the elements of this vector to the specified values.
          *
-         * @param x The new x coordinate.
-         * @param y The new y coordinate.
-         * @param z The new z coordinate.
+         * @param pX The new x coordinate.
+         * @param pY The new y coordinate.
+         * @param pZ The new z coordinate.
          */
-        void set(float x, float y, float z);
+        void set(float pX, float pY, float pZ);
 
         /**
          * Sets the elements of this vector from the values in the specified array.

@@ -62,9 +62,9 @@ namespace ouzel
          *     2   6   10  14
          *     3   7   11  15
          *
-         * @param m An array containing 16 elements in column-major order.
+         * @param array An array containing 16 elements in column-major order.
          */
-        Matrix4(const float* m);
+        Matrix4(const float* array);
 
         /**
          * Constructs a new matrix by copying the values from the specified matrix.
@@ -288,9 +288,9 @@ namespace ouzel
         /**
          * Adds the specified matrix to this matrix.
          *
-         * @param m The matrix to add.
+         * @param matrix The matrix to add.
          */
-        void add(const Matrix4& m);
+        void add(const Matrix4& matrix);
 
         /**
          * Adds the specified matrices and stores the result in dst.
@@ -400,9 +400,9 @@ namespace ouzel
         /**
          * Multiplies this matrix by the specified one.
          *
-         * @param m The matrix to multiply.
+         * @param matrix The matrix to multiply.
          */
-        void multiply(const Matrix4& m);
+        void multiply(const Matrix4& matrix);
 
         /**
          * Multiplies m1 by m2 and stores the result in dst.
@@ -576,16 +576,16 @@ namespace ouzel
         /**
          * Sets the values of this matrix to those in the specified column-major array.
          *
-         * @param m An array containing 16 elements in column-major format.
+         * @param array An array containing 16 elements in column-major format.
          */
-        void set(const float* m);
+        void set(const float* array);
 
         /**
          * Sets the values of this matrix to those of the specified matrix.
          *
-         * @param m The source matrix.
+         * @param matrix The source matrix.
          */
-        void set(const Matrix4& m);
+        void set(const Matrix4& matrix);
 
         /**
          * Sets this matrix to the identity matrix.
@@ -600,9 +600,9 @@ namespace ouzel
         /**
          * Subtracts the specified matrix from the current matrix.
          *
-         * @param m The matrix to subtract.
+         * @param matrix The matrix to subtract.
          */
-        void subtract(const Matrix4& m);
+        void subtract(const Matrix4& matrix);
 
         /**
          * Subtracts the specified matrix from the current matrix.

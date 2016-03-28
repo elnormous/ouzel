@@ -240,11 +240,11 @@ namespace ouzel
         z *= scalar;
     }
 
-    void Vector3::set(float x, float y, float z)
+    void Vector3::set(float pX, float pY, float pZ)
     {
-        this->x = x;
-        this->y = y;
-        this->z = z;
+        x = pX;
+        y = pY;
+        z = pZ;
     }
 
     void Vector3::set(const float* array)
@@ -291,5 +291,4 @@ namespace ouzel
             *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
     }
-
 }

@@ -36,10 +36,10 @@ namespace ouzel
         /**
          * Constructs a new vector initialized to the specified values.
          *
-         * @param x The x coordinate.
-         * @param y The y coordinate.
+         * @param pX The x coordinate.
+         * @param pY The y coordinate.
          */
-        Vector2(float x, float y);
+        Vector2(float pX, float pY);
 
         /**
          * Constructs a new vector from the values in the specified array.
@@ -255,10 +255,10 @@ namespace ouzel
         /**
          * Sets the elements of this vector to the specified values.
          *
-         * @param x The new x coordinate.
-         * @param y The new y coordinate.
+         * @param pX The new x coordinate.
+         * @param pY The new y coordinate.
          */
-        void set(float x, float y);
+        void set(float pX, float pY);
 
         /**
          * Sets the elements of this vector from the values in the specified array.

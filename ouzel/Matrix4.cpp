@@ -39,9 +39,9 @@ namespace ouzel
         set(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
     }
 
-    Matrix4::Matrix4(const float* m)
+    Matrix4::Matrix4(const float* array)
     {
-        set(m);
+        set(array);
     }
 
     Matrix4::Matrix4(const Matrix4& copy)
@@ -108,12 +108,12 @@ namespace ouzel
 
         float f_n = 1.0f / (zFarPlane - zNearPlane);
         float theta = degToRad(fieldOfView) * 0.5f;
-        if (fabs(fmod(theta, PIOVER2)) < EPSILON)
+        if (fabsf(fmodf(theta, PIOVER2)) < EPSILON)
         {
-            //GP_ERROR("Invalid field of view value (%d) causes attempted calculation tan(%d), which is undefined.", fieldOfView, theta);
+            //GP_ERROR("Invalid field of view value (%d) causes attempted calculation tanf(%d), which is undefined.", fieldOfView, theta);
             return;
         }
-        float divisor = tan(theta);
+        float divisor = tanf(theta);
         assert(divisor);
         float factor = 1.0f / divisor;
 
@@ -237,8 +237,8 @@ namespace ouzel
             }
         }
 
-        float c = cos(angle);
-        float s = sin(angle);
+        float c = cosf(angle);
+        float s = sinf(angle);
 
         float t = 1.0f - c;
         float tx = t * x;
@@ -276,8 +276,8 @@ namespace ouzel
     {
         memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
-        float c = cos(angle);
-        float s = sin(angle);
+        float c = cosf(angle);
+        float s = sinf(angle);
 
         dst.m[5]  = c;
         dst.m[6]  = s;
@@ -289,8 +289,8 @@ namespace ouzel
     {
         memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
-        float c = cos(angle);
-        float s = sin(angle);
+        float c = cosf(angle);
+        float s = sinf(angle);
 
         dst.m[0]  = c;
         dst.m[2]  = -s;
@@ -302,8 +302,8 @@ namespace ouzel
     {
         memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
 
-        float c = cos(angle);
-        float s = sin(angle);
+        float c = cosf(angle);
+        float s = sinf(angle);
 
         dst.m[0] = c;
         dst.m[1] = s;
@@ -339,9 +339,9 @@ namespace ouzel
         addMatrix4(m, scalar, dst.m);
     }
 
-    void Matrix4::add(const Matrix4& m)
+    void Matrix4::add(const Matrix4& matrix)
     {
-        add(*this, m, *this);
+        add(*this, matrix, *this);
     }
 
     void Matrix4::add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
@@ -484,9 +484,9 @@ namespace ouzel
         multiplyMatrix4(m.m, scalar, dst.m);
     }
 
-    void Matrix4::multiply(const Matrix4& m)
+    void Matrix4::multiply(const Matrix4& matrix)
     {
-        multiply(*this, m, *this);
+        multiply(*this, matrix, *this);
     }
 
     void Matrix4::multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
@@ -605,15 +605,15 @@ namespace ouzel
         m[15] = m44;
     }
 
-    void Matrix4::set(const float* m)
+    void Matrix4::set(const float* array)
     {
-        assert(m);
-        memcpy(this->m, m, sizeof(this->m));
+        assert(array);
+        memcpy(m, array, sizeof(m));
     }
 
-    void Matrix4::set(const Matrix4& m)
+    void Matrix4::set(const Matrix4& matrix)
     {
-        memcpy(this->m, m.m, sizeof(this->m));
+        memcpy(m, matrix.m, sizeof(m));
     }
 
     void Matrix4::setIdentity()
@@ -626,9 +626,9 @@ namespace ouzel
         memset(m, 0, sizeof(m));
     }
 
-    void Matrix4::subtract(const Matrix4& m)
+    void Matrix4::subtract(const Matrix4& matrix)
     {
-        subtract(*this, m, *this);
+        subtract(*this, matrix, *this);
     }
 
     void Matrix4::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)

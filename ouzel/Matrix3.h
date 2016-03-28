@@ -62,9 +62,9 @@ namespace ouzel
          *     2   6   10  14
          *     3   7   11  15
          *
-         * @param m An array containing 16 elements in column-major order.
+         * @param array An array containing 16 elements in column-major order.
          */
-        Matrix3(const float* m);
+        Matrix3(const float* array);
 
         /**
          * Constructs a new matrix by copying the values from the specified matrix.
@@ -138,9 +138,9 @@ namespace ouzel
         /**
          * Adds the specified matrix to this matrix.
          *
-         * @param m The matrix to add.
+         * @param matrix The matrix to add.
          */
-        void add(const Matrix3& m);
+        void add(const Matrix3& matrix);
 
         /**
          * Adds the specified matrices and stores the result in dst.
@@ -199,18 +199,18 @@ namespace ouzel
         /**
          * Multiplies the components of the specified matrix by a scalar and stores the result in dst.
          *
-         * @param m The matrix.
+         * @param matrix The matrix.
          * @param scalar The scalar value.
          * @param dst A matrix to store the result in.
          */
-        static void multiply(const Matrix3& m, float scalar, Matrix3& dst);
+        static void multiply(const Matrix3& matrix, float scalar, Matrix3& dst);
 
         /**
          * Multiplies this matrix by the specified one.
          *
-         * @param m The matrix to multiply.
+         * @param matrix The matrix to multiply.
          */
-        void multiply(const Matrix3& m);
+        void multiply(const Matrix3& matrix);
 
         /**
          * Multiplies m1 by m2 and stores the result in dst.
@@ -322,16 +322,16 @@ namespace ouzel
         /**
          * Sets the values of this matrix to those in the specified column-major array.
          *
-         * @param m An array containing 16 elements in column-major format.
+         * @param array An array containing 16 elements in column-major format.
          */
-        void set(const float* m);
+        void set(const float* array);
 
         /**
          * Sets the values of this matrix to those of the specified matrix.
          *
-         * @param m The source matrix.
+         * @param matrix The source matrix.
          */
-        void set(const Matrix3& m);
+        void set(const Matrix3& matrix);
 
         /**
          * Sets this matrix to the identity matrix.
@@ -346,9 +346,9 @@ namespace ouzel
         /**
          * Subtracts the specified matrix from the current matrix.
          *
-         * @param m The matrix to subtract.
+         * @param matrix The matrix to subtract.
          */
-        void subtract(const Matrix3& m);
+        void subtract(const Matrix3& matrix);
 
         /**
          * Subtracts the specified matrix from the current matrix.
