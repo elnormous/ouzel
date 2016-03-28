@@ -377,25 +377,25 @@ namespace ouzel
                     {
                         if (_particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
                         {
-                            _particles[i].life = fmaxf(_particleDefinition.particleLifespan + _particleDefinition.particleLifespanVariance * RANDOM_MINUS1_1(), 0.0f);
+                            _particles[i].life = fmaxf(_particleDefinition.particleLifespan + _particleDefinition.particleLifespanVariance * randomf(-1.0f, 1.0f), 0.0f);
 
-                            _particles[i].position = _particleDefinition.sourcePosition + position + Vector2(_particleDefinition.sourcePositionVariance.x * RANDOM_MINUS1_1(),
-                                                                                                             _particleDefinition.sourcePositionVariance.y * RANDOM_MINUS1_1());
+                            _particles[i].position = _particleDefinition.sourcePosition + position + Vector2(_particleDefinition.sourcePositionVariance.x * randomf(-1.0f, 1.0f),
+                                                                                                             _particleDefinition.sourcePositionVariance.y * randomf(-1.0f, 1.0f));
 
-                            _particles[i].size = fmaxf(_particleDefinition.startParticleSize + _particleDefinition.startParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
+                            _particles[i].size = fmaxf(_particleDefinition.startParticleSize + _particleDefinition.startParticleSizeVariance * randomf(-1.0f, 1.0f), 0.0f);
 
-                            float finishSize = fmaxf(_particleDefinition.finishParticleSize + _particleDefinition.finishParticleSizeVariance * RANDOM_MINUS1_1(), 0.0f);
+                            float finishSize = fmaxf(_particleDefinition.finishParticleSize + _particleDefinition.finishParticleSizeVariance * randomf(-1.0f, 1.0f), 0.0f);
                             _particles[i].deltaSize = (finishSize - _particles[i].size) / _particles[i].life;
 
-                            _particles[i].colorRed = clamp(_particleDefinition.startColorRed + _particleDefinition.startColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                            _particles[i].colorGreen = clamp(_particleDefinition.startColorGreen + _particleDefinition.startColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                            _particles[i].colorBlue = clamp(_particleDefinition.startColorBlue + _particleDefinition.startColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                            _particles[i].colorAlpha = clamp(_particleDefinition.startColorAlpha + _particleDefinition.startColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                            _particles[i].colorRed = clamp(_particleDefinition.startColorRed + _particleDefinition.startColorRedVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            _particles[i].colorGreen = clamp(_particleDefinition.startColorGreen + _particleDefinition.startColorGreenVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            _particles[i].colorBlue = clamp(_particleDefinition.startColorBlue + _particleDefinition.startColorBlueVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            _particles[i].colorAlpha = clamp(_particleDefinition.startColorAlpha + _particleDefinition.startColorAlphaVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
 
-                            float finishColorRed = clamp(_particleDefinition.finishColorRed + _particleDefinition.finishColorRedVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                            float finishColorGreen = clamp(_particleDefinition.finishColorGreen + _particleDefinition.finishColorGreenVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                            float finishColorBlue = clamp(_particleDefinition.finishColorBlue + _particleDefinition.finishColorBlueVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
-                            float finishColorAlpha = clamp(_particleDefinition.finishColorAlpha + _particleDefinition.finishColorAlphaVariance * RANDOM_MINUS1_1(), 0.0f, 1.0f);
+                            float finishColorRed = clamp(_particleDefinition.finishColorRed + _particleDefinition.finishColorRedVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            float finishColorGreen = clamp(_particleDefinition.finishColorGreen + _particleDefinition.finishColorGreenVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            float finishColorBlue = clamp(_particleDefinition.finishColorBlue + _particleDefinition.finishColorBlueVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            float finishColorAlpha = clamp(_particleDefinition.finishColorAlpha + _particleDefinition.finishColorAlphaVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
 
                             _particles[i].deltaColorRed = (finishColorRed - _particles[i].colorRed) / _particles[i].life;
                             _particles[i].deltaColorGreen = (finishColorGreen - _particles[i].colorGreen) / _particles[i].life;
@@ -404,39 +404,39 @@ namespace ouzel
 
                             //_particles[i].finishColor = finishColor;
 
-                            _particles[i].rotation = _particleDefinition.startRotation + _particleDefinition.startRotationVariance * RANDOM_MINUS1_1();
+                            _particles[i].rotation = _particleDefinition.startRotation + _particleDefinition.startRotationVariance * randomf(-1.0f, 1.0f);
 
-                            float finishRotation = _particleDefinition.finishRotation + _particleDefinition.finishRotationVariance * RANDOM_MINUS1_1();
+                            float finishRotation = _particleDefinition.finishRotation + _particleDefinition.finishRotationVariance * randomf(-1.0f, 1.0f);
                             _particles[i].deltaRotation = (finishRotation - _particles[i].rotation) / _particles[i].life;
 
-                            _particles[i].radialAcceleration = _particleDefinition.radialAcceleration + _particleDefinition.radialAcceleration * RANDOM_MINUS1_1();
-                            _particles[i].tangentialAcceleration = _particleDefinition.tangentialAcceleration + _particleDefinition.tangentialAcceleration * RANDOM_MINUS1_1();
+                            _particles[i].radialAcceleration = _particleDefinition.radialAcceleration + _particleDefinition.radialAcceleration * randomf(-1.0f, 1.0f);
+                            _particles[i].tangentialAcceleration = _particleDefinition.tangentialAcceleration + _particleDefinition.tangentialAcceleration * randomf(-1.0f, 1.0f);
 
                             if (_particleDefinition.rotationIsDir)
                             {
-                                float a = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * RANDOM_MINUS1_1());
+                                float a = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
                                 Vector2 v(cosf(a), sinf(a));
-                                float s = _particleDefinition.speed + _particleDefinition.speedVariance * RANDOM_MINUS1_1();
+                                float s = _particleDefinition.speed + _particleDefinition.speedVariance * randomf(-1.0f, 1.0f);
                                 Vector2 dir = v * s;
                                 _particles[i].direction = dir;
                                 _particles[i].rotation = -radToDeg(dir.getAngle());
                             }
                             else
                             {
-                                float a = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * RANDOM_MINUS1_1());
+                                float a = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
                                 Vector2 v(cosf(a), sinf(a));
-                                float s = _particleDefinition.speed + _particleDefinition.speedVariance * RANDOM_MINUS1_1();
+                                float s = _particleDefinition.speed + _particleDefinition.speedVariance * randomf(-1.0f, 1.0f);
                                 Vector2 dir = v * s;
                                 _particles[i].direction = dir;
                             }
                         }
                         else
                         {
-                            _particles[i].radius = _particleDefinition.maxRadius + _particleDefinition.maxRadiusVariance * RANDOM_MINUS1_1();
-                            _particles[i].angle = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * RANDOM_MINUS1_1());
-                            _particles[i].degreesPerSecond = degToRad(_particleDefinition.rotatePerSecond + _particleDefinition.rotatePerSecondVariance * RANDOM_MINUS1_1());
+                            _particles[i].radius = _particleDefinition.maxRadius + _particleDefinition.maxRadiusVariance * randomf(-1.0f, 1.0f);
+                            _particles[i].angle = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
+                            _particles[i].degreesPerSecond = degToRad(_particleDefinition.rotatePerSecond + _particleDefinition.rotatePerSecondVariance * randomf(-1.0f, 1.0f));
 
-                            float endRadius = _particleDefinition.minRadius + _particleDefinition.minRadiusVariance * RANDOM_MINUS1_1();
+                            float endRadius = _particleDefinition.minRadius + _particleDefinition.minRadiusVariance * randomf(-1.0f, 1.0f);
                             _particles[i].deltaRadius = (endRadius - _particles[i].radius) / _particles[i].life;
                         }
                     }

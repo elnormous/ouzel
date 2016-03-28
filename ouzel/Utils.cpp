@@ -99,4 +99,13 @@ namespace ouzel
     {
         return std::uniform_int_distribution<uint32_t>{min, max}(engine);
     }
+
+    float randomf(float min, float max)
+    {
+        float diff = max - min;
+
+        float rand = static_cast<float>(engine()) / engine.max();
+
+        return rand * diff + min;
+    }
 }
