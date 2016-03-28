@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <random>
 #include "CompileConfig.h"
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
@@ -90,5 +91,12 @@ namespace ouzel
     const std::vector<std::string>& getArgs()
     {
         return ARGS;
+    }
+
+    static std::mt19937 engine(std::random_device{}());
+
+    uint32_t random(uint32_t min, uint32_t max)
+    {
+        return std::uniform_int_distribution<uint32_t>{min, max}(engine);
     }
 }
