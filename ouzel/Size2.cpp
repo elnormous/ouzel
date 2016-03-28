@@ -11,8 +11,8 @@ namespace ouzel
 
     }
 
-    Size2::Size2(float width, float height):
-        width(width), height(height)
+    Size2::Size2(float w, float h):
+        width(w), height(h)
     {
 
     }

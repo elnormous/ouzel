@@ -96,7 +96,7 @@ namespace ouzel
 
         bool RendererOGL::checkOpenGLErrors()
         {
-            bool error = false;
+            bool gotError = false;
 
             while (GLenum error = glGetError() != GL_NO_ERROR)
             {
@@ -113,10 +113,10 @@ namespace ouzel
 
                 log("OpenGL error: %s (%x)", errorStr, error);
 
-                error = true;
+                gotError = true;
             }
 
-            return error;
+            return gotError;
         }
 
         void RendererOGL::setClearColor(Color color)
@@ -354,7 +354,7 @@ namespace ouzel
 
             glBindVertexArray(meshBufferOGL->getVertexArrayId());
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-            glDrawElements(mode, indexCount, meshBufferOGL->getIndexFormat(), nullptr);
+            glDrawElements(mode, static_cast<GLsizei>(indexCount), meshBufferOGL->getIndexFormat(), nullptr);
 
             if (checkOpenGLErrors())
             {
@@ -371,8 +371,8 @@ namespace ouzel
                 return false;
             }
 
-            GLint oldFrameBufferId;
-            glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFrameBufferId);
+            GLuint oldFrameBufferId;
+            glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));
 
             glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
 

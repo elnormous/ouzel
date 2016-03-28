@@ -55,6 +55,8 @@ namespace ouzel
             WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
             return TEMP_BUFFER;
         }
+#elif defined(OUZEL_PLATFORM_LINUX)
+        //TODO: implement
 #endif
         return "";
     }
@@ -64,6 +66,9 @@ namespace ouzel
         std::string path;
 
 #if defined(OUZEL_PLATFORM_OSX)
+        OUZEL_UNUSED(developer);
+        OUZEL_UNUSED(app);
+
         FSRef ref;
         OSType folderType = kApplicationSupportFolderType;
 
@@ -84,6 +89,8 @@ namespace ouzel
             mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
         }
 #elif  defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+        OUZEL_UNUSED(developer);
+        OUZEL_UNUSED(app);
         //TODO: implement
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         WCHAR szBuffer[MAX_PATH];
@@ -108,6 +115,14 @@ namespace ouzel
             MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, szBuffer, MAX_PATH);
             CreateDirectory(szBuffer, NULL);
         }
+#elif defined(OUZEL_PLATFORM_ANDROID)
+        OUZEL_UNUSED(developer);
+        OUZEL_UNUSED(app);
+        //TODO: implement
+#elif defined(OUZEL_PLATFORM_LINUX)
+        OUZEL_UNUSED(developer);
+        OUZEL_UNUSED(app);
+        //TODO: implement
 #endif
         return path;
     }

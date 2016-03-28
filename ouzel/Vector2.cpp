@@ -101,7 +101,7 @@ namespace ouzel
         float dx = v.x - x;
         float dy = v.y - y;
 
-        return sqrt(dx * dx + dy * dy);
+        return sqrtf(dx * dx + dy * dy);
     }
 
     float Vector2::distanceSquared(const Vector2& v) const
@@ -123,7 +123,7 @@ namespace ouzel
 
     float Vector2::length() const
     {
-        return sqrt(x * x + y * y);
+        return sqrtf(x * x + y * y);
     }
 
     float Vector2::lengthSquared() const
@@ -156,7 +156,7 @@ namespace ouzel
         if (n == 1.0f)
             return;
 
-        n = sqrt(n);
+        n = sqrtf(n);
         // Too close to zero.
         if (n < TOLERANCE)
             return;

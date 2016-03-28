@@ -33,8 +33,8 @@ namespace ouzel
 
             clean();
 
-            GLint oldFrameBufferId;
-            glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFrameBufferId);
+            GLuint oldFrameBufferId;
+            glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));
 
             glGenFramebuffers(1, &_framebufferId);
             glBindFramebuffer(GL_FRAMEBUFFER, _framebufferId);
@@ -48,8 +48,8 @@ namespace ouzel
 
             _texture = textureOGL;
 
-            GLint oldTextureId;
-            glGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTextureId);
+            GLuint oldTextureId;
+            glGetIntegerv(GL_TEXTURE_BINDING_2D, reinterpret_cast<GLint*>(&oldTextureId));
 
             glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
 

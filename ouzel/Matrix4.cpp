@@ -226,7 +226,7 @@ namespace ouzel
         if (n != 1.0f)
         {
             // Not normalized.
-            n = sqrt(n);
+            n = sqrtf(n);
             // Prevent divide too close to zero.
             if (n > 0.000001f)
             {

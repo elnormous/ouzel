@@ -13,8 +13,8 @@ namespace ouzel
     {
     }
 
-    Rectangle::Rectangle(float width, float height) :
-        x(0), y(0), width(width), height(height)
+    Rectangle::Rectangle(float w, float h) :
+        x(0), y(0), width(w), height(h)
     {
     }
 

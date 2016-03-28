@@ -14,7 +14,7 @@ namespace ouzel
         float height;
 
         Size2();
-        Size2(float width, float height);
+        Size2(float w, float h);
 
         Size2& operator=(const Vector2& point);
         Size2 operator+(const Size2& right) const;

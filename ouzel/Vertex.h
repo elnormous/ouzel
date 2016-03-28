@@ -29,7 +29,7 @@ namespace ouzel
             Color color;
 
             VertexPC();
-            VertexPC(Vector3 position, Color color);
+            VertexPC(Vector3 pPosition, Color pColor);
         };
 
         class VertexPCT
@@ -42,7 +42,7 @@ namespace ouzel
             Vector2 texCoord;
 
             VertexPCT();
-            VertexPCT(Vector3 position, Color color, Vector2 texCoord);
+            VertexPCT(Vector3 pPosition, Color pColor, Vector2 pTexCoord);
         };
     } // namespace video
 } // namespace ouzel

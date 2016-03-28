@@ -75,7 +75,7 @@ namespace ouzel
         float dy = v1.w * v2.y - v1.y * v2.w - v1.z * v2.x + v1.x * v2.z;
         float dz = v1.w * v2.z - v1.z * v2.w - v1.x * v2.y + v1.y * v2.x;
 
-        return atan2f(sqrt(dx * dx + dy * dy + dz * dz) + FLOAT_SMALL, dot(v1, v2));
+        return atan2f(sqrtf(dx * dx + dy * dy + dz * dz) + FLOAT_SMALL, dot(v1, v2));
     }
 
     void Vector4::add(const Vector4& v)
@@ -163,7 +163,7 @@ namespace ouzel
         float dz = v.z - z;
         float dw = v.w - w;
 
-        return sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+        return sqrtf(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
     float Vector4::distanceSquared(const Vector4& v) const
@@ -188,7 +188,7 @@ namespace ouzel
 
     float Vector4::length() const
     {
-        return sqrt(x * x + y * y + z * z + w * w);
+        return sqrtf(x * x + y * y + z * z + w * w);
     }
 
 
@@ -226,7 +226,7 @@ namespace ouzel
         if (n == 1.0f)
             return;
 
-        n = sqrt(n);
+        n = sqrtf(n);
         // Too close to zero.
         if (n < TOLERANCE)
             return;

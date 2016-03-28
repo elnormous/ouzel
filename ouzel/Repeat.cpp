@@ -17,7 +17,7 @@ namespace ouzel
         {
             if (_running)
             {
-                if (!_animator || !_animator->getLength())
+                if (!_animator || _animator->getLength() == 0.0f)
                 {
                     _currentCount = _count;
                     _done = true;

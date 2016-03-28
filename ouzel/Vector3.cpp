@@ -19,8 +19,8 @@ namespace ouzel
     {
     }
 
-    Vector3::Vector3(float x, float y, float z):
-        x(x), y(y), z(z)
+    Vector3::Vector3(float pX, float pY, float pZ):
+        x(pX), y(pY), z(pZ)
     {
     }
 
@@ -78,7 +78,7 @@ namespace ouzel
         float dy = v1.z * v2.x - v1.x * v2.z;
         float dz = v1.x * v2.y - v1.y * v2.x;
 
-        return atan2f(sqrt(dx * dx + dy * dy + dz * dz) + FLOAT_SMALL, dot(v1, v2));
+        return atan2f(sqrtf(dx * dx + dy * dy + dz * dz) + FLOAT_SMALL, dot(v1, v2));
     }
 
     void Vector3::add(const Vector3& v)
@@ -163,7 +163,7 @@ namespace ouzel
         float dy = v.y - y;
         float dz = v.z - z;
 
-        return sqrt(dx * dx + dy * dy + dz * dz);
+        return sqrtf(dx * dx + dy * dy + dz * dz);
     }
 
     float Vector3::distanceSquared(const Vector3& v) const
@@ -187,7 +187,7 @@ namespace ouzel
 
     float Vector3::length() const
     {
-        return sqrt(x * x + y * y + z * z);
+        return sqrtf(x * x + y * y + z * z);
     }
 
     float Vector3::lengthSquared() const
@@ -222,7 +222,7 @@ namespace ouzel
         if (n == 1.0f)
             return;
 
-        n = sqrt(n);
+        n = sqrtf(n);
         // Too close to zero.
         if (n < TOLERANCE)
             return;

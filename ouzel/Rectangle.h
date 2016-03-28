@@ -44,10 +44,10 @@ public:
     /**
      * Constructs a new rectangle with the x = 0, y = 0 and the specified width and height.
      *
-     * @param width The width of the rectangle.
-     * @param height The height of the rectangle.
+     * @param w The width of the rectangle.
+     * @param h The height of the rectangle.
      */
-    Rectangle(float width, float height);
+    Rectangle(float w, float h);
 
     /**
      * Constructs a new rectangle with the specified x, y, width and height.

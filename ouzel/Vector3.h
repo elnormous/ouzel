@@ -50,11 +50,11 @@ namespace ouzel
         /**
          * Constructs a new vector initialized to the specified values.
          *
-         * @param x The x coordinate.
-         * @param y The y coordinate.
-         * @param z The z coordinate.
+         * @param pX The x coordinate.
+         * @param pY The y coordinate.
+         * @param pZ The z coordinate.
          */
-        Vector3(float x, float y, float z);
+        Vector3(float pX, float pY, float pZ);
 
         /**
          * Constructs a new vector from the values in the specified array.
