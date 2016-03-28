@@ -44,22 +44,22 @@ public:
     /**
      * Constructs a new rectangle with the x = 0, y = 0 and the specified width and height.
      *
-     * @param w The width of the rectangle.
-     * @param h The height of the rectangle.
+     * @param pWidth The width of the rectangle.
+     * @param pHeight The height of the rectangle.
      */
-    Rectangle(float w, float h);
+    Rectangle(float pWidth, float pHeight);
 
     /**
      * Constructs a new rectangle with the specified x, y, width and height.
      *
-     * @param x The x-coordinate of the rectangle.
-     * @param y The y-coordinate of the rectangle.
-     * @param width The width of the rectangle.
-     * @param height The height of the rectangle.
+     * @param pX The x-coordinate of the rectangle.
+     * @param pY The y-coordinate of the rectangle.
+     * @param pWidth The width of the rectangle.
+     * @param pHeight The height of the rectangle.
      */
-    Rectangle(float x, float y, float width, float height);
+    Rectangle(float pX, float pY, float pWidth, float pHeight);
 
-    Rectangle(const Vector2& position, float width, float height);
+    Rectangle(const Vector2& position, float pWidth, float pHeight);
 
     Rectangle(const Vector2& position, const Size2& size);
 
@@ -85,14 +85,14 @@ public:
     /**
      * Sets the values of this rectangle to the specified values.
      *
-     * @param x The x-coordinate of the rectangle.
-     * @param y The y-coordinate of the rectangle.
-     * @param width The width of the rectangle.
-     * @param height The height of the rectangle.
+     * @param pX The x-coordinate of the rectangle.
+     * @param pY The y-coordinate of the rectangle.
+     * @param pWidth The width of the rectangle.
+     * @param pHeight The height of the rectangle.
      */
-    void set(float x, float y, float width, float height);
+    void set(float pX, float pY, float pWidth, float pHeight);
 
-    void set(const Vector2& position, float width, float height);
+    void set(const Vector2& position, float pWidth, float pHeight);
 
     /**
      * Sets the values of this rectangle to those in the specified rectangle.
@@ -104,10 +104,10 @@ public:
     /**
      * Sets the x-coordinate and y-coordinate values of this rectangle to the specified values.
      *
-     * @param x The x-coordinate of the rectangle.
-     * @param y The y-coordinate of the rectangle.
+     * @param pX The x-coordinate of the rectangle.
+     * @param pY The y-coordinate of the rectangle.
      */
-    void setPosition(float x, float y);
+    void setPosition(float pX, float pY);
 
     void setPosition(const Vector2 position);
 
@@ -142,27 +142,27 @@ public:
     /**
      * Determines whether this rectangle contains a specified point.
      *
-     * @param x The x-coordinate of the point.
-     * @param y The y-coordinate of the point.
+     * @param pX The x-coordinate of the point.
+     * @param pY The y-coordinate of the point.
      *
      * @return true if the rectangle contains the point, false otherwise.
      */
-    bool containsPoint(float x, float y) const;
+    bool containsPoint(float pX, float pY) const;
 
     bool containsPoint(const Vector2& point) const;
 
     /**
      * Determines whether this rectangle contains a specified rectangle.
      *
-     * @param x The x-coordinate of the rectangle.
-     * @param y The y-coordinate of the rectangle.
-     * @param width The width of the rectangle.
-     * @param height The height of the rectangle.
+     * @param pX The x-coordinate of the rectangle.
+     * @param pY The y-coordinate of the rectangle.
+     * @param pWidth The width of the rectangle.
+     * @param pHeight The height of the rectangle.
      *
      * @return true if the rectangle contains the specified rectangle, false
      * otherwise.
      */
-    bool contains(float x, float y, float width, float height) const;
+    bool contains(float pX, float pY, float pWidth, float pHeight) const;
 
     /**
      * Determines whether this rectangle contains a specified rectangle.
@@ -178,14 +178,14 @@ public:
      * Determines whether a specified rectangle intersects with this rectangle.
      * Rectangles intersect if there is a common point that is contained in both rectangles.
      *
-     * @param x The x-coordinate of the rectangle.
-     * @param y The y-coordinate of the rectangle.
-     * @param width The width of the rectangle.
-     * @param height The height of the rectangle.
+     * @param pX The x-coordinate of the rectangle.
+     * @param pY The y-coordinate of the rectangle.
+     * @param pWidth The width of the rectangle.
+     * @param pHeight The height of the rectangle.
      *
      * @return true if the specified Rectangle intersects with this one, false otherwise.
      */
-    bool intersects(float x, float y, float width, float height) const;
+    bool intersects(float pX, float pY, float pWidth, float pHeight) const;
 
     /**
      * Determines whether a specified rectangle intersects with this rectangle.

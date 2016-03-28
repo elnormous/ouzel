@@ -13,18 +13,18 @@ namespace ouzel
     {
     }
 
-    Rectangle::Rectangle(float w, float h) :
-        x(0), y(0), width(w), height(h)
+    Rectangle::Rectangle(float pWidth, float pHeight):
+        x(0), y(0), width(pWidth), height(pHeight)
     {
     }
 
-    Rectangle::Rectangle(float x, float y, float width, float height) :
-        x(x), y(y), width(width), height(height)
+    Rectangle::Rectangle(float pX, float pY, float pWidth, float pHeight):
+        x(pX), y(pY), width(pWidth), height(pHeight)
     {
     }
 
-    Rectangle::Rectangle(const Vector2& position, float width, float height):
-        x(position.x), y(position.y), width(width), height(height)
+    Rectangle::Rectangle(const Vector2& position, float pWidth, float pHeight):
+        x(position.x), y(position.y), width(pWidth), height(pHeight)
     {
     }
 
@@ -53,26 +53,26 @@ namespace ouzel
         set(r.x, r.y, r.width, r.height);
     }
 
-    void Rectangle::set(float x, float y, float width, float height)
+    void Rectangle::set(float pX, float pY, float pWidth, float pHeight)
     {
-        this->x = x;
-        this->y = y;
-        this->width = width;
-        this->height = height;
+        this->x = pX;
+        this->y = pY;
+        this->width = pWidth;
+        this->height = pHeight;
     }
 
-    void Rectangle::set(const Vector2& position, float width, float height)
+    void Rectangle::set(const Vector2& position, float pWidth, float pHeight)
     {
         this->x = position.x;
         this->y = position.y;
-        this->width = width;
-        this->height = height;
+        this->width = pWidth;
+        this->height = pHeight;
     }
 
-    void Rectangle::setPosition(float x, float y)
+    void Rectangle::setPosition(float pX, float pY)
     {
-        this->x = x;
-        this->y = y;
+        x = pX;
+        y = pY;
     }
 
     void Rectangle::setPosition(const Vector2 position)
@@ -101,9 +101,9 @@ namespace ouzel
         return y + height;
     }
 
-    bool Rectangle::containsPoint(float x, float y) const
+    bool Rectangle::containsPoint(float pX, float pY) const
     {
-        return (x >= this->x && x <= (this->x + width) && y >= this->y && y <= (this->y + height));
+        return (pX >= x && pX <= (x + width) && pY >= y && pY <= (y + height));
     }
 
     bool Rectangle::containsPoint(const Vector2& point) const
@@ -111,9 +111,9 @@ namespace ouzel
         return (point.x >= this->x && point.x <= (this->x + width) && point.y >= this->y && point.y <= (this->y + height));
     }
 
-    bool Rectangle::contains(float x, float y, float width, float height) const
+    bool Rectangle::contains(float pX, float pY, float pWidth, float pHeight) const
     {
-        return (containsPoint(x, y) && containsPoint(x + width, y + height));
+        return (containsPoint(pX, pY) && containsPoint(pX + pWidth, pY + pHeight));
     }
 
     bool Rectangle::contains(const Rectangle& r) const
@@ -121,12 +121,12 @@ namespace ouzel
         return contains(r.x, r.y, r.width, r.height);
     }
 
-    bool Rectangle::intersects(float x, float y, float width, float height) const
+    bool Rectangle::intersects(float pX, float pY, float pWidth, float pHeight) const
     {
         float t;
-        if ((t = x - this->x) > this->width || -t > width)
+        if ((t = pX - x) > width || -t > pWidth)
             return false;
-        if ((t = y - this->y) > this->height || -t > height)
+        if ((t = pY - y) > height || -t > pHeight)
             return false;
         return true;
     }
