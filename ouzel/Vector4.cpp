@@ -20,8 +20,8 @@ namespace ouzel
     {
     }
 
-    Vector4::Vector4(float x, float y, float z, float w):
-        x(x), y(y), z(z), w(w)
+    Vector4::Vector4(float pX, float pY, float pZ, float pW):
+        x(pX), y(pY), z(pZ), w(pW)
     {
     }
 
@@ -246,12 +246,12 @@ namespace ouzel
         w *= scalar;
     }
 
-    void Vector4::set(float x, float y, float z, float w)
+    void Vector4::set(float pX, float pY, float pZ, float pW)
     {
-        this->x = x;
-        this->y = y;
-        this->z = z;
-        this->w = w;
+        x = pX;
+        y = pY;
+        z = pZ;
+        w = pW;
     }
 
     void Vector4::set(const float* array)
