@@ -15,6 +15,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Button.cpp \
     ../../../ouzel/Cache.cpp \
     ../../../ouzel/Camera.cpp \
+    ../../../ouzel/CheckBox.cpp \
     ../../../ouzel/Color.cpp \
     ../../../ouzel/ComboBox.cpp \
     ../../../ouzel/DrawNode.cpp \

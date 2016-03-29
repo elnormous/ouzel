@@ -415,6 +415,12 @@
 		30B328871C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
 		30B328881C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
 		30B328891C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
+		30C56C5B1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
+		30C56C5C1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
+		30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
+		30C56C5E1CAA88F8007AEF8F /* CheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C5A1CAA88F8007AEF8F /* CheckBox.h */; };
+		30C56C5F1CAA88F8007AEF8F /* CheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C5A1CAA88F8007AEF8F /* CheckBox.h */; };
+		30C56C601CAA88F8007AEF8F /* CheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C5A1CAA88F8007AEF8F /* CheckBox.h */; };
 		30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
@@ -607,6 +613,8 @@
 		309ACD261C70DA73005325D3 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
+		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
+		30C56C5A1CAA88F8007AEF8F /* CheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
 		30C8B6211C6D0E350031B64F /* UpdateCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UpdateCallback.h; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
@@ -919,6 +927,8 @@
 				305B999B1C42A695008589E1 /* BMFont.h */,
 				30575AC31C3B17540009C8A7 /* Button.cpp */,
 				30575AC41C3B17540009C8A7 /* Button.h */,
+				30C56C591CAA88F8007AEF8F /* CheckBox.cpp */,
+				30C56C5A1CAA88F8007AEF8F /* CheckBox.h */,
 				30EF36611CA845DC00F04F29 /* ComboBox.cpp */,
 				30EF36621CA845DC00F04F29 /* ComboBox.h */,
 				304B27771C95C54D00BA162D /* EditBox.cpp */,
@@ -980,6 +990,7 @@
 				303B755C1C2A3CB700FEDE92 /* Vector4.h in Headers */,
 				303B756E1C2A3CCA00FEDE92 /* Utils.h in Headers */,
 				303B75431C2A3C9200FEDE92 /* MeshBuffer.h in Headers */,
+				30C56C5F1CAA88F8007AEF8F /* CheckBox.h in Headers */,
 				30575AD11C3B175D0009C8A7 /* Label.h in Headers */,
 				303647181C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				30DADEA01C5167BC001A63B4 /* Cache.h in Headers */,
@@ -1066,6 +1077,7 @@
 				303B76611C355A3B00FEDE92 /* Utils.h in Headers */,
 				303B76621C355A3B00FEDE92 /* MeshBuffer.h in Headers */,
 				303B76631C355A3B00FEDE92 /* Engine.h in Headers */,
+				30C56C601CAA88F8007AEF8F /* CheckBox.h in Headers */,
 				30575AD21C3B175D0009C8A7 /* Label.h in Headers */,
 				303647191C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				30DADEA11C5167BC001A63B4 /* Cache.h in Headers */,
@@ -1143,6 +1155,7 @@
 				30575ABF1C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				303647641C3F218E0024DB5B /* Settings.h in Headers */,
 				30DADE9F1C5167BC001A63B4 /* Cache.h in Headers */,
+				30C56C5E1CAA88F8007AEF8F /* CheckBox.h in Headers */,
 				3047F7721C4D2C3900774E3D /* Parallel.h in Headers */,
 				3036471F1C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				3009341F1C88698500CC50D3 /* Window.h in Headers */,
@@ -1324,6 +1337,7 @@
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				30575AE21C3C91A40009C8A7 /* InputApple.mm in Sources */,
 				304B27AE1C9A063300BA162D /* MeshBufferOGL.cpp in Sources */,
+				30C56C5C1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
 				30EF365C1CA76B9E00F04F29 /* Popup.cpp in Sources */,
@@ -1398,6 +1412,7 @@
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
 				30575AE31C3C91A40009C8A7 /* InputApple.mm in Sources */,
 				304B27AF1C9A063300BA162D /* MeshBufferOGL.cpp in Sources */,
+				30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
 				30EF365D1CA76B9E00F04F29 /* Popup.cpp in Sources */,
@@ -1504,6 +1519,7 @@
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
 				30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
+				30C56C5B1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
 				306B0E5F1C567D05005C75C1 /* DrawNode.cpp in Sources */,
 				304B27AD1C9A063300BA162D /* MeshBufferOGL.cpp in Sources */,
 				30575ACD1C3B175D0009C8A7 /* Label.cpp in Sources */,
