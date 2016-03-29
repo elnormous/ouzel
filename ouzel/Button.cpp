@@ -117,6 +117,7 @@ namespace ouzel
             _selected = false;
             _pointerOver = false;
             _pressed = false;
+            _receiveInput = enabled;
 
             updateSprite();
         }
@@ -205,9 +206,16 @@ namespace ouzel
                     _normalSprite->setVisible(true);
                 }
             }
-            else if (_disabledSprite)
+            else
             {
-                _disabledSprite->setVisible(true);
+                if (_disabledSprite)
+                {
+                    _disabledSprite->setVisible(true);
+                }
+                else if (_normalSprite)
+                {
+                    _normalSprite->setVisible(true);
+                }
             }
         }
     } // namespace gui

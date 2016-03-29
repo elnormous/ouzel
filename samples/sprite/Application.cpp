@@ -85,8 +85,9 @@ void Application::begin()
 
     label->animate(make_shared<scene::Sequence>(sequence2));
 
-    _button = gui::Button::create("button.png", "button.png", "button_down.png", "button_disabled.png", "", video::Color(), "");
+    _button = gui::Button::create("button.png", "button.png", "button_down.png", "", "", video::Color(), "");
     _button->setPosition(Vector2(-200.0f, 200.0f));
+    _button->setEnabled(false);
     _uiLayer->addChild(_button);
 
     Engine::getInstance()->getInput()->startGamepadDiscovery();
