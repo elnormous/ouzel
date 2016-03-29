@@ -3,11 +3,13 @@
 
 #pragma once
 
+#include "Widget.h"
+
 namespace ouzel
 {
     namespace gui
     {
-        class CheckBox
+        class CheckBox: public Widget
         {
         public:
             virtual ~CheckBox() {}
