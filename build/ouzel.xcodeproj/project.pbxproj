@@ -421,6 +421,12 @@
 		30C56C5E1CAA88F8007AEF8F /* CheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C5A1CAA88F8007AEF8F /* CheckBox.h */; };
 		30C56C5F1CAA88F8007AEF8F /* CheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C5A1CAA88F8007AEF8F /* CheckBox.h */; };
 		30C56C601CAA88F8007AEF8F /* CheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C5A1CAA88F8007AEF8F /* CheckBox.h */; };
+		30C56C651CAB3F2D007AEF8F /* RadioButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */; };
+		30C56C661CAB3F2D007AEF8F /* RadioButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */; };
+		30C56C671CAB3F2D007AEF8F /* RadioButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */; };
+		30C56C681CAB3F2D007AEF8F /* RadioButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C641CAB3F2D007AEF8F /* RadioButton.h */; };
+		30C56C691CAB3F2D007AEF8F /* RadioButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C641CAB3F2D007AEF8F /* RadioButton.h */; };
+		30C56C6A1CAB3F2D007AEF8F /* RadioButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C641CAB3F2D007AEF8F /* RadioButton.h */; };
 		30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
@@ -615,6 +621,8 @@
 		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
 		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
 		30C56C5A1CAA88F8007AEF8F /* CheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
+		30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButton.cpp; sourceTree = "<group>"; };
+		30C56C641CAB3F2D007AEF8F /* RadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioButton.h; sourceTree = "<group>"; };
 		30C8B6211C6D0E350031B64F /* UpdateCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UpdateCallback.h; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
@@ -939,6 +947,8 @@
 				305B99881C41EFFA008589E1 /* Menu.h */,
 				30EF36591CA76B9E00F04F29 /* Popup.cpp */,
 				30EF365A1CA76B9E00F04F29 /* Popup.h */,
+				30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */,
+				30C56C641CAB3F2D007AEF8F /* RadioButton.h */,
 				30EF36491CA76ACD00F04F29 /* ScrollArea.cpp */,
 				30EF364A1CA76ACD00F04F29 /* ScrollArea.h */,
 				30EF36511CA76AE200F04F29 /* ScrollBar.cpp */,
@@ -975,6 +985,7 @@
 				306B0E631C567D05005C75C1 /* DrawNode.h in Headers */,
 				304B27591C9384A600BA162D /* Size3.h in Headers */,
 				303B754B1C2A3C9200FEDE92 /* Texture.h in Headers */,
+				30C56C691CAB3F2D007AEF8F /* RadioButton.h in Headers */,
 				303B75521C2A3CB700FEDE92 /* Matrix4.h in Headers */,
 				30EF364F1CA76ACD00F04F29 /* ScrollArea.h in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.h in Headers */,
@@ -1062,6 +1073,7 @@
 				306B0E641C567D05005C75C1 /* DrawNode.h in Headers */,
 				304B275A1C9384A600BA162D /* Size3.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
+				30C56C6A1CAB3F2D007AEF8F /* RadioButton.h in Headers */,
 				303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */,
 				30EF36501CA76ACD00F04F29 /* ScrollArea.h in Headers */,
 				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
@@ -1193,6 +1205,7 @@
 				305B998C1C41EFFA008589E1 /* Menu.h in Headers */,
 				304B27A41C9A063300BA162D /* ColorPSOGLES.h in Headers */,
 				303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */,
+				30C56C681CAB3F2D007AEF8F /* RadioButton.h in Headers */,
 				304A8E591C237C70008B1151 /* Matrix3.h in Headers */,
 				303647601C3F210F0024DB5B /* App.h in Headers */,
 				30EF365E1CA76B9E00F04F29 /* Popup.h in Headers */,
@@ -1376,6 +1389,7 @@
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */,
 				303B753E1C2A3C9200FEDE92 /* Color.cpp in Sources */,
+				30C56C661CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
 				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				3009342A1C88964700CC50D3 /* WindowIOS.mm in Sources */,
@@ -1451,6 +1465,7 @@
 				303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */,
 				30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B764E1C355A3B00FEDE92 /* Color.cpp in Sources */,
+				30C56C671CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
 				303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */,
 				30575ADA1C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
@@ -1514,6 +1529,7 @@
 				3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */,
 				304B27791C95C54D00BA162D /* EditBox.cpp in Sources */,
 				304A8E511C237C70008B1151 /* Camera.cpp in Sources */,
+				30C56C651CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				303B75211C29EFEC00FEDE92 /* AppDelegate.mm in Sources */,
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,

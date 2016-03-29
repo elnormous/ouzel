@@ -41,6 +41,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/NodeContainer.cpp \
     ../../../ouzel/Parallel.cpp \
     ../../../ouzel/ParticleSystem.cpp \
+    ../../../ouzel/RadioButton.cpp \
     ../../../ouzel/Rectangle.cpp \
     ../../../ouzel/Renderer.cpp \
     ../../../ouzel/RenderTarget.cpp \
