@@ -135,5 +135,26 @@ namespace ouzel
 
         class Button;
         typedef std::shared_ptr<Button> ButtonPtr;
+
+        class CheckBox;
+        typedef std::shared_ptr<CheckBox> CheckBoxPtr;
+
+        class RadioButton;
+        typedef std::shared_ptr<RadioButton> RadioButtonPtr;
+
+        class ComboBox;
+        typedef std::shared_ptr<ComboBox> ComboBoxPtr;
+
+        class Popup;
+        typedef std::shared_ptr<Popup> PopupPtr;
+
+        class EditBox;
+        typedef std::shared_ptr<EditBox> EditBoxPtr;
+
+        class ScrollArea;
+        typedef std::shared_ptr<ScrollArea> ScrollAreaPtr;
+
+        class ScrollBar;
+        typedef std::shared_ptr<ScrollBar> ScrollBarPtr;
     } // namespace gui
 } // namespace ouzel

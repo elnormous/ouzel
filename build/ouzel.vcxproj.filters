@@ -194,6 +194,9 @@
     <ClCompile Include="..\ouzel\CheckBox.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\RadioButton.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -421,6 +424,9 @@
       <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\CheckBox.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\RadioButton.h">
       <Filter>gui</Filter>
     </ClInclude>
   </ItemGroup>

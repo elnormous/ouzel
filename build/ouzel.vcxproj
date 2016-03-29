@@ -57,6 +57,7 @@
     <ClCompile Include="..\ouzel\Parallel.cpp" />
     <ClCompile Include="..\ouzel\ParticleSystem.cpp" />
     <ClCompile Include="..\ouzel\Popup.cpp" />
+    <ClCompile Include="..\ouzel\RadioButton.cpp" />
     <ClCompile Include="..\ouzel\Rectangle.cpp" />
     <ClCompile Include="..\ouzel\Renderer.cpp" />
     <ClCompile Include="..\ouzel\RenderTarget.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="..\ouzel\ParticleDefinition.h" />
     <ClInclude Include="..\ouzel\ParticleSystem.h" />
     <ClInclude Include="..\ouzel\Popup.h" />
+    <ClInclude Include="..\ouzel\RadioButton.h" />
     <ClInclude Include="..\ouzel\Rectangle.h" />
     <ClInclude Include="..\ouzel\Renderer.h" />
     <ClInclude Include="..\ouzel\RenderTarget.h" />
