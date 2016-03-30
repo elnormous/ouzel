@@ -497,10 +497,13 @@ namespace ouzel
 
     void WindowWin::setTitle(const std::string& title)
     {
-        wchar_t titleBuffer[256];
-        MultiByteToWideChar(CP_UTF8, 0, _title.c_str(), -1, titleBuffer, 256);
+        if (_title != title)
+        {
+            wchar_t titleBuffer[256];
+            MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256);
 
-        SetWindowTextW(_window, titleBuffer);
+            SetWindowTextW(_window, titleBuffer);
+        }
 
         Window::setTitle(title);
     }
