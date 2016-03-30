@@ -272,7 +272,7 @@ namespace ouzel
             _mouseDownOnNode.reset();
         }
 
-        void mouseDragNode(const scene::NodePtr& node, const Vector2& position)
+        void Input::mouseDragNode(const scene::NodePtr& node, const Vector2& position)
         {
             MouseEventPtr enterEvent = std::make_shared<MouseEvent>();
             enterEvent->type = Event::Type::UI_DRAG_NODE;
