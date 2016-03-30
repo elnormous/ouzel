@@ -427,6 +427,12 @@
 		30C56C681CAB3F2D007AEF8F /* RadioButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C641CAB3F2D007AEF8F /* RadioButton.h */; };
 		30C56C691CAB3F2D007AEF8F /* RadioButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C641CAB3F2D007AEF8F /* RadioButton.h */; };
 		30C56C6A1CAB3F2D007AEF8F /* RadioButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C641CAB3F2D007AEF8F /* RadioButton.h */; };
+		30C56C951CAC3ECE007AEF8F /* SlideBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C931CAC3ECE007AEF8F /* SlideBar.cpp */; };
+		30C56C961CAC3ECE007AEF8F /* SlideBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C931CAC3ECE007AEF8F /* SlideBar.cpp */; };
+		30C56C971CAC3ECE007AEF8F /* SlideBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C931CAC3ECE007AEF8F /* SlideBar.cpp */; };
+		30C56C981CAC3ECE007AEF8F /* SlideBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C941CAC3ECE007AEF8F /* SlideBar.h */; };
+		30C56C991CAC3ECE007AEF8F /* SlideBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C941CAC3ECE007AEF8F /* SlideBar.h */; };
+		30C56C9A1CAC3ECE007AEF8F /* SlideBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C56C941CAC3ECE007AEF8F /* SlideBar.h */; };
 		30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
@@ -623,6 +629,8 @@
 		30C56C5A1CAA88F8007AEF8F /* CheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
 		30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButton.cpp; sourceTree = "<group>"; };
 		30C56C641CAB3F2D007AEF8F /* RadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioButton.h; sourceTree = "<group>"; };
+		30C56C931CAC3ECE007AEF8F /* SlideBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SlideBar.cpp; sourceTree = "<group>"; };
+		30C56C941CAC3ECE007AEF8F /* SlideBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideBar.h; sourceTree = "<group>"; };
 		30C8B6211C6D0E350031B64F /* UpdateCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UpdateCallback.h; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
@@ -955,6 +963,8 @@
 				30EF36521CA76AE200F04F29 /* ScrollBar.h */,
 				305B998F1C41F06F008589E1 /* Widget.cpp */,
 				305B99901C41F06F008589E1 /* Widget.h */,
+				30C56C931CAC3ECE007AEF8F /* SlideBar.cpp */,
+				30C56C941CAC3ECE007AEF8F /* SlideBar.h */,
 			);
 			name = gui;
 			sourceTree = "<group>";
@@ -1029,6 +1039,7 @@
 				303B75411C2A3C9200FEDE92 /* Image.h in Headers */,
 				304B27CF1C9A063300BA162D /* TexturePSOGLES.h in Headers */,
 				303B75451C2A3C9200FEDE92 /* Renderer.h in Headers */,
+				30C56C991CAC3ECE007AEF8F /* SlideBar.h in Headers */,
 				30575ADC1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				303B75561C2A3CB700FEDE92 /* Size2.h in Headers */,
 				304B27BD1C9A063300BA162D /* RenderTargetOGL.h in Headers */,
@@ -1117,6 +1128,7 @@
 				303B76721C355A3B00FEDE92 /* Renderer.h in Headers */,
 				304B27D01C9A063300BA162D /* TexturePSOGLES.h in Headers */,
 				303B76731C355A3B00FEDE92 /* Size2.h in Headers */,
+				30C56C9A1CAC3ECE007AEF8F /* SlideBar.h in Headers */,
 				30575ADD1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				303B76741C355A3B00FEDE92 /* Shader.h in Headers */,
 				304B27BE1C9A063300BA162D /* RenderTargetOGL.h in Headers */,
@@ -1216,6 +1228,7 @@
 				304B27CB1C9A063300BA162D /* TexturePSOGL.h in Headers */,
 				3047F76A1C4D2C2000774E3D /* Sequence.h in Headers */,
 				304A8E931C26ED32008B1151 /* MeshBuffer.h in Headers */,
+				30C56C981CAC3ECE007AEF8F /* SlideBar.h in Headers */,
 				304A8E8B1C2486C6008B1151 /* RenderTarget.h in Headers */,
 				304A8E6F1C237C70008B1151 /* Utils.h in Headers */,
 				303B75011C28208800FEDE92 /* FileSystem.h in Headers */,
@@ -1359,6 +1372,7 @@
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
 				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
 				305B99921C41F06F008589E1 /* Widget.cpp in Sources */,
+				30C56C961CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
 				305B998A1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				303B756D1C2A3CCA00FEDE92 /* Utils.cpp in Sources */,
 				30575AC61C3B17540009C8A7 /* Button.cpp in Sources */,
@@ -1435,6 +1449,7 @@
 				303B763D1C355A3B00FEDE92 /* Shader.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
+				30C56C971CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
 				305B99931C41F06F008589E1 /* Widget.cpp in Sources */,
 				305B998B1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */,
@@ -1542,6 +1557,7 @@
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				304A8E681C237C70008B1151 /* Shader.cpp in Sources */,
+				30C56C951CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
 				304A8E531C237C70008B1151 /* Engine.cpp in Sources */,
 				303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,
