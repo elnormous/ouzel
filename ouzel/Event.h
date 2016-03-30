@@ -42,6 +42,7 @@ namespace ouzel
             UI_PRESS_NODE, // mouse or touch pressed on scene node
             UI_RELEASE_NODE,  // mouse or touch released on scene node
             UI_CLICK_NODE, // mouse or touch clicked on scene node
+            UI_DRAG_NODE, // mouse or touch dragged scene node
         };
 
         enum Modifiers

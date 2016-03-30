@@ -250,6 +250,7 @@ namespace ouzel
             void mouseLeaveNode(const scene::NodePtr& node, const Vector2& position);
             void mouseDownOnNode(const scene::NodePtr& node, const Vector2& position);
             void mouseUpOnNode(const scene::NodePtr& node, const Vector2& position);
+            void mouseDragNode(const scene::NodePtr& node, const Vector2& position);
 
             Vector2 _cursorPosition;
             bool _keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];

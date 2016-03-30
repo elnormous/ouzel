@@ -135,6 +135,11 @@ namespace ouzel
                 scene::NodePtr node = scene->pickNode(position);
                 mouseEnterNode(node, position);
             }
+
+            if (!_mouseDownOnNode.expired())
+            {
+                mouseDragNode(_mouseDownOnNode.lock(), position);
+            }
         }
 
         void Input::mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers)
@@ -265,6 +270,15 @@ namespace ouzel
             }
 
             _mouseDownOnNode.reset();
+        }
+
+        void mouseDragNode(const scene::NodePtr& node, const Vector2& position)
+        {
+            MouseEventPtr enterEvent = std::make_shared<MouseEvent>();
+            enterEvent->type = Event::Type::UI_DRAG_NODE;
+            enterEvent->position = node->convertWorldToLocal(position);
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(enterEvent, node);
         }
 
     } // namespace input
