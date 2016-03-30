@@ -41,7 +41,7 @@ namespace ouzel
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, indices,
                          _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -62,7 +62,7 @@ namespace ouzel
             glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, vertices,
                          _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -116,7 +116,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -139,7 +139,7 @@ namespace ouzel
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexSize * indexCount, indices,
                          _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -158,7 +158,7 @@ namespace ouzel
             glBufferData(GL_ARRAY_BUFFER, _vertexSize * vertexCount, vertices,
                          _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }

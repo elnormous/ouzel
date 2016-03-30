@@ -26,7 +26,7 @@ namespace ouzel
 
     bool BMFont::parseFont(const std::string& filename)
     {
-        std::ifstream stream(Engine::getInstance()->getFileSystem()->getPath(filename));
+        std::ifstream stream(sharedEngine->getFileSystem()->getPath(filename));
         std::string line;
         std::string read, key, value;
         std::size_t i;
@@ -69,7 +69,7 @@ namespace ouzel
                             value = value.substr(1, value.length() - 2);
                         }
 
-                        _texture = Engine::getInstance()->getCache()->getTexture(value, false, true);
+                        _texture = sharedEngine->getCache()->getTexture(value, false, true);
                     }
                 }
             }

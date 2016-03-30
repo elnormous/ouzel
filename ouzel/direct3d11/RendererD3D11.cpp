@@ -90,7 +90,7 @@ namespace ouzel
                 return false;
             }
 
-            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(Engine::getInstance()->getWindow());
+            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(sharedEngine->getWindow());
 
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
             memset(&swapChainDesc, 0, sizeof(swapChainDesc));
@@ -220,7 +220,7 @@ namespace ouzel
 
             if (textureShader)
             {
-                Engine::getInstance()->getCache()->setShader(SHADER_TEXTURE, textureShader);
+                sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
             }
 
             ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
@@ -229,7 +229,7 @@ namespace ouzel
 
             if (colorShader)
             {
-                Engine::getInstance()->getCache()->setShader(SHADER_COLOR, colorShader);
+                sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
             }
 
             D3D11_VIEWPORT viewport = { 0, 0, _size.width, _size.height, 0.0f, 1.0f };
@@ -271,7 +271,7 @@ namespace ouzel
 
         IDXGIOutput* RendererD3D11::getOutput() const
         {
-            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(Engine::getInstance()->getWindow());
+            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(sharedEngine->getWindow());
 
             HMONITOR monitor = windowWin->getMonitor();
 

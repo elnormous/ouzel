@@ -29,7 +29,7 @@ namespace ouzel
             modeStr += "b";
         }
 
-        _file.reset(fopen(Engine::getInstance()->getFileSystem()->getPath(filename).c_str(), modeStr.c_str()), std::fclose);
+        _file.reset(fopen(sharedEngine->getFileSystem()->getPath(filename).c_str(), modeStr.c_str()), std::fclose);
     }
 
     int64_t File::read(char* buffer, uint32_t size)

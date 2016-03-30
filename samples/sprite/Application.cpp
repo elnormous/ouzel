@@ -9,7 +9,7 @@ using namespace ouzel;
 
 Application::~Application()
 {
-    Engine::getInstance()->getEventDispatcher()->removeEventHandler(_eventHandler);
+    sharedEngine->getEventDispatcher()->removeEventHandler(_eventHandler);
 }
 
 void Application::begin()
@@ -22,13 +22,13 @@ void Application::begin()
     _eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
     _eventHandler->uiHandler = std::bind(&Application::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
-    Engine::getInstance()->getEventDispatcher()->addEventHandler(_eventHandler);
+    sharedEngine->getEventDispatcher()->addEventHandler(_eventHandler);
 
-    Engine::getInstance()->getRenderer()->setClearColor(video::Color(64, 0, 0));
-    Engine::getInstance()->getWindow()->setTitle("Sample");
+    sharedEngine->getRenderer()->setClearColor(video::Color(64, 0, 0));
+    sharedEngine->getWindow()->setTitle("Sample");
 
     scene::ScenePtr scene = make_shared<scene::Scene>();
-    Engine::getInstance()->getSceneManager()->setScene(scene);
+    sharedEngine->getSceneManager()->setScene(scene);
 
     _layer = scene::Layer::create();
     scene->addLayer(_layer);
@@ -89,7 +89,7 @@ void Application::begin()
     _button->setPosition(Vector2(-200.0f, 200.0f));
     _uiLayer->addChild(_button);
 
-    Engine::getInstance()->getInput()->startGamepadDiscovery();
+    sharedEngine->getInput()->startGamepadDiscovery();
 }
 
 bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const
@@ -116,7 +116,7 @@ bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& s
                 _witch->setVisible(!_witch->isVisible());
                 break;
             case input::KeyboardKey::RETURN:
-                Engine::getInstance()->getWindow()->setSize(Size2(640.0f, 480.0f));
+                sharedEngine->getWindow()->setSize(Size2(640.0f, 480.0f));
                 break;
             case input::KeyboardKey::TAB:
                 _button->setEnabled(!_button->isEnabled());
@@ -137,7 +137,7 @@ bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender)
     {
         case Event::Type::MOUSE_DOWN:
         {
-            Engine::getInstance()->getInput()->setCursorVisible(!Engine::getInstance()->getInput()->isCursorVisible());
+            sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
             break;
         }
         case Event::Type::MOUSE_MOVE:

@@ -16,7 +16,7 @@ namespace ouzel
     {
         DrawNode::DrawNode()
         {
-            _shader = Engine::getInstance()->getCache()->getShader(video::SHADER_COLOR);
+            _shader = sharedEngine->getCache()->getShader(video::SHADER_COLOR);
 
 #ifdef OUZEL_PLATFORM_WINDOWS
             _uniModelViewProj = 0;
@@ -33,7 +33,7 @@ namespace ouzel
 
             if (_shader && layer)
             {
-                Engine::getInstance()->getRenderer()->activateShader(_shader);
+                sharedEngine->getRenderer()->activateShader(_shader);
 
                 Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
 
@@ -41,7 +41,7 @@ namespace ouzel
 
                 for (const DrawCommand& drawCommand : _drawCommands)
                 {
-                    Engine::getInstance()->getRenderer()->drawMeshBuffer(drawCommand.mesh, 0, drawCommand.mode);
+                    sharedEngine->getRenderer()->drawMeshBuffer(drawCommand.mesh, 0, drawCommand.mode);
                 }
             }
         }
@@ -64,7 +64,7 @@ namespace ouzel
             DrawCommand command;
 
             command.mode = video::Renderer::DrawMode::POINT_LIST;
-            command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                   static_cast<uint32_t>(indices.size()), false,
                                                                                   vertices.data(), sizeof(video::VertexPC),
                                                                                   static_cast<uint32_t>(vertices.size()), false,
@@ -87,7 +87,7 @@ namespace ouzel
             DrawCommand command;
 
             command.mode = video::Renderer::DrawMode::LINE_STRIP;
-            command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                   static_cast<uint32_t>(indices.size()), false,
                                                                                   vertices.data(), sizeof(video::VertexPC),
                                                                                   static_cast<uint32_t>(vertices.size()), false,
@@ -149,7 +149,7 @@ namespace ouzel
                 }
             }
 
-            command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                   static_cast<uint32_t>(indices.size()), false,
                                                                                   vertices.data(), sizeof(video::VertexPC),
                                                                                   static_cast<uint32_t>(vertices.size()), false,
@@ -185,7 +185,7 @@ namespace ouzel
                 indices.assign({0, 1, 3, 2, 0});
             }
 
-            command.mesh = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                   static_cast<uint32_t>(indices.size()), false,
                                                                                   vertices.data(), sizeof(video::VertexPC),
                                                                                   static_cast<uint32_t>(vertices.size()), false,

@@ -193,11 +193,11 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (msg == WM_KEYDOWN)
     {
-        Engine::getInstance()->getInput()->keyDown(winKeyToEngineCode(wParam, lParam), getKeyboardModifiers(wParam));
+        sharedEngine->getInput()->keyDown(winKeyToEngineCode(wParam, lParam), getKeyboardModifiers(wParam));
     }
     else if (msg == WM_KEYUP)
     {
-        Engine::getInstance()->getInput()->keyUp(winKeyToEngineCode(wParam, lParam), getKeyboardModifiers(wParam));
+        sharedEngine->getInput()->keyUp(winKeyToEngineCode(wParam, lParam), getKeyboardModifiers(wParam));
     }
 }
 
@@ -206,7 +206,7 @@ static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
                 static_cast<float>(GET_Y_LPARAM(lParam)));
 
-    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                                  getMouseModifiers(wParam));
 }
 
@@ -243,14 +243,14 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
-        Engine::getInstance()->getInput()->mouseDown(button,
-                                                     Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+        sharedEngine->getInput()->mouseDown(button,
+                                                     sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                                      getMouseModifiers(wParam));
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
-        Engine::getInstance()->getInput()->mouseUp(button,
-                                                   Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+        sharedEngine->getInput()->mouseUp(button,
+                                                   sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                                    getMouseModifiers(wParam));
     }
 }
@@ -262,14 +262,14 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_MOUSEWHEEL)
     {
-        Engine::getInstance()->getInput()->mouseScroll(Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA)),
-                                                       Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+        sharedEngine->getInput()->mouseScroll(Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA)),
+                                                       sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                                        getMouseModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
-        Engine::getInstance()->getInput()->mouseScroll(Vector2(-static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA), 0.0f),
-                                                       Engine::getInstance()->getRenderer()->viewToScreenLocation(pos),
+        sharedEngine->getInput()->mouseScroll(Vector2(-static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA), 0.0f),
+                                                       sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                                        getMouseModifiers(wParam));
     }
 }
@@ -331,7 +331,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             if (LOWORD(lParam) == HTCLIENT)
             {
-                if (!Engine::getInstance()->getInput()->isCursorVisible())
+                if (!sharedEngine->getInput()->isCursorVisible())
                 {
                     SetCursor(nullptr);
                     return TRUE;

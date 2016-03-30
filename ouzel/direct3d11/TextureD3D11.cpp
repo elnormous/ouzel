@@ -84,7 +84,7 @@ namespace ouzel
 
         bool TextureD3D11::createTexture(const void* data, UINT width, UINT height)
         {
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(Engine::getInstance()->getRenderer());
+            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
             D3D11_TEXTURE2D_DESC textureDesc;
             memset(&textureDesc, 0, sizeof(textureDesc));
@@ -140,7 +140,7 @@ namespace ouzel
 
         bool TextureD3D11::uploadData(const void* data, UINT width, UINT height)
         {
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(Engine::getInstance()->getRenderer());
+            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
             UINT rowPitch = static_cast<UINT>(width * 4);
             rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);

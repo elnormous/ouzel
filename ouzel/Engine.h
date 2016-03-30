@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <set>
 #include "Types.h"
@@ -19,11 +20,12 @@ void ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
+    extern const EnginePtr sharedEngine;
+
     class Engine: public Noncopyable
     {
     public:
-        static EnginePtr getInstance();
-
+        Engine();
         virtual ~Engine();
 
         std::set<video::Renderer::Driver> getAvailableDrivers() const;
@@ -54,7 +56,6 @@ namespace ouzel
         const AppPtr& getApp() const { return _app; }
 
     protected:
-        Engine();
         void lock();
         void unlock();
 

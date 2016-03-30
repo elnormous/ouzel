@@ -35,7 +35,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     ouzel::setArgs(args);
     ouzelMain(ouzel::getArgs());
-    ouzel::Engine::getInstance()->begin();
+    ouzel::sharedEngine->begin();
 
     MSG msg;
 
@@ -52,13 +52,13 @@ int WINAPI WinMain(HINSTANCE hInstance,
             break;
         }
 
-        if (!ouzel::Engine::getInstance()->run())
+        if (!ouzel::sharedEngine->run())
         {
             break;
         }
     }
 
-    ouzel::Engine::getInstance()->end();
+    ouzel::sharedEngine->end();
 
     return 0;
 }

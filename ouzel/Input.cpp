@@ -60,12 +60,12 @@ namespace ouzel
                 _keyboardKeyStates[static_cast<uint32_t>(key)] = true;
 
                 event->type = Event::Type::KEY_DOWN;
-                Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+                sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
             }
             else
             {
                 event->type = Event::Type::KEY_REPEAT;
-                Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+                sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
             }
         }
 
@@ -78,7 +78,7 @@ namespace ouzel
             event->key = key;
             event->modifiers = modifiers;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
         }
 
         void Input::mouseDown(MouseButton button, const Vector2& position, uint32_t modifiers)
@@ -91,9 +91,9 @@ namespace ouzel
             event->position = position;
             event->modifiers = modifiers;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
 
-            if (scene::ScenePtr scene = Engine::getInstance()->getSceneManager()->getScene())
+            if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
             {
                 scene::NodePtr node = scene->pickNode(position);
                 mouseDownOnNode(node, position);
@@ -110,9 +110,9 @@ namespace ouzel
             event->position = position;
             event->modifiers = modifiers;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
 
-            if (scene::ScenePtr scene = Engine::getInstance()->getSceneManager()->getScene())
+            if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
             {
                 scene::NodePtr node = scene->pickNode(position);
                 mouseUpOnNode(node, position);
@@ -128,9 +128,9 @@ namespace ouzel
             event->position = position;
             event->modifiers = modifiers;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
 
-            if (scene::ScenePtr scene = Engine::getInstance()->getSceneManager()->getScene())
+            if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
             {
                 scene::NodePtr node = scene->pickNode(position);
                 mouseEnterNode(node, position);
@@ -145,7 +145,7 @@ namespace ouzel
             event->scroll = scroll;
             event->modifiers = modifiers;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
         }
 
         void Input::touchBegin(uint64_t touchId, const Vector2& position)
@@ -155,7 +155,7 @@ namespace ouzel
             event->touchId = touchId;
             event->position = position;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
         }
 
         void Input::touchEnd(uint64_t touchId, const Vector2& position)
@@ -165,7 +165,7 @@ namespace ouzel
             event->touchId = touchId;
             event->position = position;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
         }
 
         void Input::touchMove(uint64_t touchId, const Vector2& position)
@@ -175,7 +175,7 @@ namespace ouzel
             event->touchId = touchId;
             event->position = position;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
         }
 
         void Input::touchCancel(uint64_t touchId, const Vector2& position)
@@ -185,7 +185,7 @@ namespace ouzel
             event->touchId = touchId;
             event->position = position;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
         }
 
         void Input::mouseEnterNode(const scene::NodePtr& node, const Vector2& position)
@@ -212,7 +212,7 @@ namespace ouzel
                 enterEvent->type = Event::Type::UI_ENTER_NODE;
                 enterEvent->position = node->convertWorldToLocal(position);
 
-                Engine::getInstance()->getEventDispatcher()->dispatchEvent(enterEvent, node);
+                sharedEngine->getEventDispatcher()->dispatchEvent(enterEvent, node);
             }
         }
 
@@ -224,7 +224,7 @@ namespace ouzel
                 leaveEvent->type = Event::Type::UI_LEAVE_NODE;
                 leaveEvent->position = node->convertWorldToLocal(position);
 
-                Engine::getInstance()->getEventDispatcher()->dispatchEvent(leaveEvent, node);
+                sharedEngine->getEventDispatcher()->dispatchEvent(leaveEvent, node);
             }
         }
 
@@ -238,7 +238,7 @@ namespace ouzel
                 enterEvent->type = Event::Type::UI_PRESS_NODE;
                 enterEvent->position = node->convertWorldToLocal(position);
 
-                Engine::getInstance()->getEventDispatcher()->dispatchEvent(enterEvent, node);
+                sharedEngine->getEventDispatcher()->dispatchEvent(enterEvent, node);
             }
         }
 
@@ -252,7 +252,7 @@ namespace ouzel
                 pressEvent->type = Event::Type::UI_RELEASE_NODE;
                 pressEvent->position = mouseDownOnNode->convertWorldToLocal(position);
 
-                Engine::getInstance()->getEventDispatcher()->dispatchEvent(pressEvent, mouseDownOnNode);
+                sharedEngine->getEventDispatcher()->dispatchEvent(pressEvent, mouseDownOnNode);
 
                 if (mouseDownOnNode == node)
                 {
@@ -260,7 +260,7 @@ namespace ouzel
                     clickEvent->type = Event::Type::UI_CLICK_NODE;
                     clickEvent->position = mouseDownOnNode->convertWorldToLocal(position);
 
-                    Engine::getInstance()->getEventDispatcher()->dispatchEvent(clickEvent, mouseDownOnNode);
+                    sharedEngine->getEventDispatcher()->dispatchEvent(clickEvent, mouseDownOnNode);
                 }
             }
 

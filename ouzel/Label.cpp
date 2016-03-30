@@ -28,7 +28,7 @@ namespace ouzel
 
         Label::Label()
         {
-            _shader = Engine::getInstance()->getCache()->getShader(video::SHADER_TEXTURE);
+            _shader = sharedEngine->getCache()->getShader(video::SHADER_TEXTURE);
 
     #ifdef OUZEL_PLATFORM_WINDOWS
             _uniModelViewProj = 0;
@@ -67,14 +67,14 @@ namespace ouzel
 
             if (_shader && _texture && layer && _meshBuffer)
             {
-                Engine::getInstance()->getRenderer()->activateTexture(_texture, 0);
-                Engine::getInstance()->getRenderer()->activateShader(_shader);
+                sharedEngine->getRenderer()->activateTexture(_texture, 0);
+                sharedEngine->getRenderer()->activateShader(_shader);
 
                 Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
 
                 _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
 
-                Engine::getInstance()->getRenderer()->drawMeshBuffer(_meshBuffer);
+                sharedEngine->getRenderer()->drawMeshBuffer(_meshBuffer);
             }
         }
 
@@ -106,7 +106,7 @@ namespace ouzel
 
             _font.getVertices(_text, _color, _textAnchor, indices, vertices);
 
-            _meshBuffer = Engine::getInstance()->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
+            _meshBuffer = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
                                                                                  vertices.data(), sizeof(video::VertexPCT), static_cast<uint32_t>(vertices.size()), false,
                                                                                  video::VertexPCT::ATTRIBUTES);
 

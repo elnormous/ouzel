@@ -18,7 +18,7 @@ namespace ouzel
 
         Animator::~Animator()
         {
-            Engine::getInstance()->unscheduleUpdate(_updateCallback);
+            sharedEngine->unscheduleUpdate(_updateCallback);
         }
 
         void Animator::update(float delta)
@@ -30,7 +30,7 @@ namespace ouzel
                     _done = true;
                     _running = false;
                     setProgress(1.0f);
-                    Engine::getInstance()->unscheduleUpdate(_updateCallback);
+                    sharedEngine->unscheduleUpdate(_updateCallback);
                 }
                 else
                 {
@@ -46,7 +46,7 @@ namespace ouzel
                 _running = true;
                 _node = node;
 
-                Engine::getInstance()->scheduleUpdate(_updateCallback);
+                sharedEngine->scheduleUpdate(_updateCallback);
             }
         }
 
@@ -55,7 +55,7 @@ namespace ouzel
             if (!_running)
             {
                 _running = true;
-                Engine::getInstance()->scheduleUpdate(_updateCallback);
+                sharedEngine->scheduleUpdate(_updateCallback);
             }
         }
 
@@ -64,7 +64,7 @@ namespace ouzel
             if (_running)
             {
                 _running = false;
-                Engine::getInstance()->unscheduleUpdate(_updateCallback);
+                sharedEngine->unscheduleUpdate(_updateCallback);
             }
 
             if (resetAnimation)

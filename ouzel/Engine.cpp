@@ -40,21 +40,11 @@
 
 namespace ouzel
 {
-    static EnginePtr sharedEngine;
-
-    EnginePtr Engine::getInstance()
-    {
-        if (!sharedEngine)
-        {
-            sharedEngine.reset(new Engine());
-        }
-
-        return sharedEngine;
-    }
+    const EnginePtr sharedEngine(new Engine());
 
     Engine::Engine()
     {
-
+        
     }
 
     Engine::~Engine()

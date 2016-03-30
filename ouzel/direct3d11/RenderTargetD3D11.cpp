@@ -43,7 +43,7 @@ namespace ouzel
 
             _texture = textureD3D11;
 
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(Engine::getInstance()->getRenderer());
+            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
             D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
             renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // TODO: use this in D3D11Texture

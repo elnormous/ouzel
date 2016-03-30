@@ -31,7 +31,7 @@ namespace ouzel
 
         if (i == _textures.end())
         {
-            video::TexturePtr texture = Engine::getInstance()->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
+            video::TexturePtr texture = sharedEngine->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
 
             if (texture)
             {
@@ -52,7 +52,7 @@ namespace ouzel
         }
         else
         {
-            result = Engine::getInstance()->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
+            result = sharedEngine->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
 
             if (result)
             {

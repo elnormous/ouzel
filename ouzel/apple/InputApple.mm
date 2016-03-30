@@ -25,13 +25,13 @@
 
 -(void)handleControllerConnected:(NSNotification*)notification
 {
-    std::shared_ptr<ouzel::input::InputApple> inputApple = std::static_pointer_cast<ouzel::input::InputApple>(ouzel::Engine::getInstance()->getInput());
+    std::shared_ptr<ouzel::input::InputApple> inputApple = std::static_pointer_cast<ouzel::input::InputApple>(ouzel::sharedEngine->getInput());
     inputApple->handleGamepadConnected(notification.object);
 }
 
 -(void)handleControllerDisconnected:(NSNotification*)notification
 {
-    std::shared_ptr<ouzel::input::InputApple> inputApple = std::static_pointer_cast<ouzel::input::InputApple>(ouzel::Engine::getInstance()->getInput());
+    std::shared_ptr<ouzel::input::InputApple> inputApple = std::static_pointer_cast<ouzel::input::InputApple>(ouzel::sharedEngine->getInput());
     inputApple->handleGamepadDisconnected(notification.object);
 }
 
@@ -136,7 +136,7 @@ namespace ouzel
             event->type = Event::Type::GAMEPAD_CONNECT;
             event->gamepad = gamepad;
 
-            Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
         }
 
         void InputApple::handleGamepadDisconnected(id controller)
@@ -151,7 +151,7 @@ namespace ouzel
                 event->type = Event::Type::GAMEPAD_DISCONNECT;
                 event->gamepad = *i;
 
-                Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, Engine::getInstance()->getInput());
+                sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
 
                 _gamepads.erase(i);
             }

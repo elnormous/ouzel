@@ -385,7 +385,7 @@ namespace ouzel
                     return true;
                 }
 
-                return Engine::getInstance()->getRenderer()->checkVisibility(getTransform(), _boundingBox, layer->getCamera());
+                return sharedEngine->getRenderer()->checkVisibility(getTransform(), _boundingBox, layer->getCamera());
             }
 
             return false;

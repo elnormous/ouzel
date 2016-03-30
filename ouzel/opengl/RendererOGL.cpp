@@ -53,7 +53,7 @@ namespace ouzel
 
         bool RendererOGL::initOpenGL(GLuint framebuffer)
         {
-            Size2 size = Engine::getInstance()->getWindow()->getSize();
+            Size2 size = sharedEngine->getWindow()->getSize();
 
             _framebuffer = framebuffer;
 
@@ -76,20 +76,20 @@ namespace ouzel
             ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
             if (textureShader)
             {
-                Engine::getInstance()->getCache()->setShader(SHADER_TEXTURE, textureShader);
+                sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
             }
 
             ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
             if (colorShader)
             {
-                Engine::getInstance()->getCache()->setShader(SHADER_COLOR, colorShader);
+                sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
             }
 
             _ready = true;
 
             setSize(size);
 
-            Engine::getInstance()->begin();
+            sharedEngine->begin();
 
             return true;
         }

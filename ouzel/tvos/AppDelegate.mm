@@ -39,7 +39,7 @@
 
 -(void)applicationWillTerminate:(UIApplication *)application
 {
-    ouzel::Engine::getInstance()->end();
+    ouzel::sharedEngine->end();
 }
 
 -(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
@@ -47,7 +47,7 @@
     ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
     event->type = ouzel::Event::Type::LOW_MEMORY;
 
-    ouzel::Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, ouzel::Engine::getInstance()->getInput());
+    ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event, ouzel::sharedEngine->getInput());
 }
 
 @end

@@ -94,7 +94,7 @@ using namespace ouzel;
 
 -(void)prepareOpenGL
 {
-    std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(Engine::getInstance()->getRenderer());
+    std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(sharedEngine->getRenderer());
     renderer->initOpenGL(0);
 
     GLint swapInt = 1;
@@ -181,7 +181,7 @@ using namespace ouzel;
 
     _resized = NO;
 
-    bool quit = !Engine::getInstance()->run();
+    bool quit = !sharedEngine->run();
 
     [self.openGLContext flushBuffer];
 
@@ -483,7 +483,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->keyDown(convertKeyCode(event.keyCode), getModifiers(event));
+    sharedEngine->getInput()->keyDown(convertKeyCode(event.keyCode), getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
@@ -493,7 +493,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->keyUp(convertKeyCode(event.keyCode), getModifiers(event));
+    sharedEngine->getInput()->keyUp(convertKeyCode(event.keyCode), getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
 }
 
@@ -504,8 +504,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseDown(input::MouseButton::LEFT,
-                                                 Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseDown(input::MouseButton::LEFT,
+                                                 sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                     static_cast<float>(location.y))),
                                                  getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -518,8 +518,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseUp(input::MouseButton::LEFT,
-                                               Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseUp(input::MouseButton::LEFT,
+                                               sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                   static_cast<float>(location.y))),
                                                getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -532,8 +532,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseDown(input::MouseButton::RIGHT,
-                                                 Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseDown(input::MouseButton::RIGHT,
+                                                 sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                     static_cast<float>(location.y))),
                                                  getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -546,8 +546,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseUp(input::MouseButton::RIGHT,
-                                               Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseUp(input::MouseButton::RIGHT,
+                                               sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                   static_cast<float>(location.y))),
                                                getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -560,8 +560,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseDown(input::MouseButton::MIDDLE,
-                                                 Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseDown(input::MouseButton::MIDDLE,
+                                                 sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                     static_cast<float>(location.y))),
                                                  getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -574,8 +574,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseUp(input::MouseButton::MIDDLE,
-                                               Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseUp(input::MouseButton::MIDDLE,
+                                               sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                   static_cast<float>(location.y))),
                                                getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -589,7 +589,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                     static_cast<float>(location.y))),
                                                  getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -602,7 +602,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                     static_cast<float>(location.y))),
                                                  getModifiers(event, true));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -615,7 +615,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                     static_cast<float>(location.y))),
                                                  getModifiers(event, true));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -628,7 +628,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseMove(Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                     static_cast<float>(location.y))),
                                                  getModifiers(event, true));
     CGLUnlockContext([self.openGLContext CGLContextObj]);
@@ -641,9 +641,9 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
-    Engine::getInstance()->getInput()->mouseScroll(Vector2(static_cast<float>(event.scrollingDeltaX),
+    sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(event.scrollingDeltaX),
                                                            static_cast<float>(event.scrollingDeltaY)),
-                                                   Engine::getInstance()->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+                                                   sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                       static_cast<float>(location.y))),
                                                    getModifiers(event));
     CGLUnlockContext([self.openGLContext CGLContextObj]);

@@ -25,7 +25,7 @@
 -(void)applicationWillTerminate:(NSNotification*)notification
 {
     OUZEL_UNUSED(notification);
-    ouzel::Engine::getInstance()->end();
+    ouzel::sharedEngine->end();
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)sender
@@ -42,7 +42,7 @@
     event->type = ouzel::Event::Type::OPEN_FILE;
     event->filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
 
-    ouzel::Engine::getInstance()->getEventDispatcher()->dispatchEvent(event, ouzel::Engine::getInstance()->getInput());
+    ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event, ouzel::sharedEngine->getInput());
 
     return YES;
 }

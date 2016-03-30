@@ -46,7 +46,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -64,7 +64,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -128,7 +128,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -146,7 +146,7 @@ namespace ouzel
 
             glUseProgram(oldProgram);
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -159,7 +159,7 @@ namespace ouzel
             glDeleteShader(_fragmentShaderId);
             _fragmentShaderId = 0;
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }

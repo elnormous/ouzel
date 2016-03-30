@@ -52,7 +52,7 @@ namespace ouzel
 
                 glBindTexture(GL_TEXTURE_2D, oldTextureId);
 
-                if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+                if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
                 {
                     return false;
                 }
@@ -85,7 +85,7 @@ namespace ouzel
 
             glBindTexture(GL_TEXTURE_2D, oldTextureId);
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -177,7 +177,7 @@ namespace ouzel
 
             if (oldTextureId != _textureId) glBindTexture(GL_TEXTURE_2D, oldTextureId);
 
-            if (std::static_pointer_cast<RendererOGL>(Engine::getInstance()->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
