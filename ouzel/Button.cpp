@@ -42,7 +42,7 @@ namespace ouzel
         bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
                           const std::string& label, const video::Color& labelColor, const std::string& font)
         {
-            _eventHandler = std::make_shared<EventHandler>();
+            _eventHandler = std::make_shared<EventHandler>(EventHandler::PRIORITY_MAX + 1);
 
             _eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
             _eventHandler->uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
@@ -170,18 +170,6 @@ namespace ouzel
             }
 
             return true;
-        }
-
-        void Button::checkPointer(const Vector2& worldLocation)
-        {
-            if (pointOn(worldLocation))
-            {
-                _pointerOver = true;
-            }
-            else
-            {
-                _pointerOver = false;
-            }
         }
 
         void Button::updateSprite()

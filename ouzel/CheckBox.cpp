@@ -7,6 +7,15 @@ namespace ouzel
 {
     namespace gui
     {
+        CheckBox::CheckBox()
+        {
 
+        }
+
+        CheckBox::~CheckBox()
+        {
+
+        }
+        
     } // namespace gui
 } // namespace ouzel

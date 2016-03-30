@@ -66,21 +66,21 @@
 		305B99B71C433061008589E1 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B21C433061008589E1 /* button.png */; };
 		305B99B81C433061008589E1 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B21C433061008589E1 /* button.png */; };
 		305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305F6DBA1C66C50000B76A03 /* CoreVideo.framework */; };
-		30C56C741CAB48A4007AEF8F /* checkbox_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C6F1CAB48A4007AEF8F /* checkbox_checked.png */; };
-		30C56C751CAB48A4007AEF8F /* checkbox_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C6F1CAB48A4007AEF8F /* checkbox_checked.png */; };
-		30C56C761CAB48A4007AEF8F /* checkbox_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C6F1CAB48A4007AEF8F /* checkbox_checked.png */; };
 		30C56C771CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
 		30C56C781CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
 		30C56C791CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
 		30C56C7A1CAB48A4007AEF8F /* edit_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C711CAB48A4007AEF8F /* edit_box.png */; };
 		30C56C7B1CAB48A4007AEF8F /* edit_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C711CAB48A4007AEF8F /* edit_box.png */; };
 		30C56C7C1CAB48A4007AEF8F /* edit_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C711CAB48A4007AEF8F /* edit_box.png */; };
-		30C56C7D1CAB48A4007AEF8F /* radio_button_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C721CAB48A4007AEF8F /* radio_button_checked.png */; };
-		30C56C7E1CAB48A4007AEF8F /* radio_button_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C721CAB48A4007AEF8F /* radio_button_checked.png */; };
-		30C56C7F1CAB48A4007AEF8F /* radio_button_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C721CAB48A4007AEF8F /* radio_button_checked.png */; };
 		30C56C801CAB48A4007AEF8F /* radio_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C731CAB48A4007AEF8F /* radio_button.png */; };
 		30C56C811CAB48A4007AEF8F /* radio_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C731CAB48A4007AEF8F /* radio_button.png */; };
 		30C56C821CAB48A4007AEF8F /* radio_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C731CAB48A4007AEF8F /* radio_button.png */; };
+		30C56C871CAB4E4E007AEF8F /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C851CAB4E4E007AEF8F /* dot.png */; };
+		30C56C881CAB4E4E007AEF8F /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C851CAB4E4E007AEF8F /* dot.png */; };
+		30C56C891CAB4E4E007AEF8F /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C851CAB4E4E007AEF8F /* dot.png */; };
+		30C56C8A1CAB4E4E007AEF8F /* tick.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C861CAB4E4E007AEF8F /* tick.png */; };
+		30C56C8B1CAB4E4E007AEF8F /* tick.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C861CAB4E4E007AEF8F /* tick.png */; };
+		30C56C8C1CAB4E4E007AEF8F /* tick.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C861CAB4E4E007AEF8F /* tick.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,11 +150,11 @@
 		305B99B11C433061008589E1 /* button_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_down.png; sourceTree = "<group>"; };
 		305B99B21C433061008589E1 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		305F6DBA1C66C50000B76A03 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		30C56C6F1CAB48A4007AEF8F /* checkbox_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked.png; sourceTree = "<group>"; };
 		30C56C701CAB48A4007AEF8F /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		30C56C711CAB48A4007AEF8F /* edit_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_box.png; sourceTree = "<group>"; };
-		30C56C721CAB48A4007AEF8F /* radio_button_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_button_checked.png; sourceTree = "<group>"; };
 		30C56C731CAB48A4007AEF8F /* radio_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_button.png; sourceTree = "<group>"; };
+		30C56C851CAB4E4E007AEF8F /* dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dot.png; sourceTree = "<group>"; };
+		30C56C861CAB4E4E007AEF8F /* tick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,9 +273,10 @@
 		304A8EB21C2765C4008B1151 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				30C56C851CAB4E4E007AEF8F /* dot.png */,
+				30C56C861CAB4E4E007AEF8F /* tick.png */,
 				305B99B11C433061008589E1 /* button_down.png */,
 				305B99B21C433061008589E1 /* button.png */,
-				30C56C6F1CAB48A4007AEF8F /* checkbox_checked.png */,
 				30C56C701CAB48A4007AEF8F /* checkbox.png */,
 				30C56C711CAB48A4007AEF8F /* edit_box.png */,
 				303B75F51C33756100FEDE92 /* fire.json */,
@@ -284,7 +285,6 @@
 				303B76021C349CA800FEDE92 /* flame.png */,
 				305B99A51C42B3F6008589E1 /* font.fnt */,
 				305B99A61C42B3F6008589E1 /* font.png */,
-				30C56C721CAB48A4007AEF8F /* radio_button_checked.png */,
 				30C56C731CAB48A4007AEF8F /* radio_button.png */,
 				303B75EB1C33581700FEDE92 /* run.json */,
 				303B75EC1C33581700FEDE92 /* run.png */,
@@ -448,14 +448,14 @@
 				303B76181C34CFE300FEDE92 /* flame.json in Resources */,
 				303B76191C34CFE300FEDE92 /* fire.json in Resources */,
 				30C56C781CAB48A4007AEF8F /* checkbox.png in Resources */,
-				30C56C751CAB48A4007AEF8F /* checkbox_checked.png in Resources */,
 				303B761A1C34CFE300FEDE92 /* run.json in Resources */,
 				305B99A81C42B3F6008589E1 /* font.fnt in Resources */,
 				305B99AB1C42B3F6008589E1 /* font.png in Resources */,
 				30C56C811CAB48A4007AEF8F /* radio_button.png in Resources */,
-				30C56C7E1CAB48A4007AEF8F /* radio_button_checked.png in Resources */,
+				30C56C8B1CAB4E4E007AEF8F /* tick.png in Resources */,
 				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
+				30C56C881CAB4E4E007AEF8F /* dot.png in Resources */,
 				30C56C7B1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
 			);
@@ -472,14 +472,14 @@
 				303B76981C355AA400FEDE92 /* flame.json in Resources */,
 				303B76991C355AA400FEDE92 /* fire.json in Resources */,
 				30C56C791CAB48A4007AEF8F /* checkbox.png in Resources */,
-				30C56C761CAB48A4007AEF8F /* checkbox_checked.png in Resources */,
 				303B769A1C355AA400FEDE92 /* run.json in Resources */,
 				305B99A91C42B3F6008589E1 /* font.fnt in Resources */,
 				305B99AC1C42B3F6008589E1 /* font.png in Resources */,
 				30C56C821CAB48A4007AEF8F /* radio_button.png in Resources */,
-				30C56C7F1CAB48A4007AEF8F /* radio_button_checked.png in Resources */,
+				30C56C8C1CAB4E4E007AEF8F /* tick.png in Resources */,
 				303B769B1C355AA400FEDE92 /* run.png in Resources */,
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
+				30C56C891CAB4E4E007AEF8F /* dot.png in Resources */,
 				30C56C7C1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
 			);
@@ -496,14 +496,14 @@
 				303B76031C349CA800FEDE92 /* flame.json in Resources */,
 				303B75F71C33756100FEDE92 /* fire.json in Resources */,
 				30C56C771CAB48A4007AEF8F /* checkbox.png in Resources */,
-				30C56C741CAB48A4007AEF8F /* checkbox_checked.png in Resources */,
 				303B75ED1C33581700FEDE92 /* run.json in Resources */,
 				305B99A71C42B3F6008589E1 /* font.fnt in Resources */,
 				305B99AA1C42B3F6008589E1 /* font.png in Resources */,
 				30C56C801CAB48A4007AEF8F /* radio_button.png in Resources */,
-				30C56C7D1CAB48A4007AEF8F /* radio_button_checked.png in Resources */,
+				30C56C8A1CAB4E4E007AEF8F /* tick.png in Resources */,
 				303B75EE1C33581700FEDE92 /* run.png in Resources */,
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
+				30C56C871CAB4E4E007AEF8F /* dot.png in Resources */,
 				30C56C7A1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B75F81C33756100FEDE92 /* fire.png in Resources */,
 			);

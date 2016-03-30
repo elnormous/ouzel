@@ -33,7 +33,6 @@ namespace ouzel
             bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender);
             bool handleUI(const UIEventPtr& event, const VoidPtr& sender);
 
-            void checkPointer(const Vector2& worldLocation);
             void updateSprite();
 
             scene::SpritePtr _normalSprite;

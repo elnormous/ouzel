@@ -87,7 +87,6 @@ void Application::begin()
 
     _button = gui::Button::create("button.png", "button.png", "button_down.png", "", "", video::Color(), "");
     _button->setPosition(Vector2(-200.0f, 200.0f));
-    _button->setEnabled(false);
     _uiLayer->addChild(_button);
 
     Engine::getInstance()->getInput()->startGamepadDiscovery();
