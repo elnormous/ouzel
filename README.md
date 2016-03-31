@@ -29,9 +29,9 @@ The following code will open a 640px x 480px window:
     {
         ouzel::Settings settings;
         settings.size = ouzel::Size2(640.0f, 480.0f);
-        ouzel::Engine::getInstance()->init(settings);
+        ouzel::sharedEngine->init(settings);
             
-        ouzel::Engine::getInstance()->setApp(std::make_shared<Application>());
+        ouzel::sharedEngine->setApp(std::make_shared<Application>());
     }
 
 ## Showcase
