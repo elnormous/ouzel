@@ -36,7 +36,7 @@ The following code will open a 640px x 480px window:
 
 ## Showcase
 
-2D platformer [Bear Slayer!](http://steamcommunity.com/sharedfiles/filedetails/?id=624656569) is being developed using ouzel engine.
+2D platformer [Bear Slayer](http://steamcommunity.com/sharedfiles/filedetails/?id=624656569) is being developed using ouzel engine.
 
 [![Bear Slayer](https://img.youtube.com/vi/n-c-7E141kI/0.jpg)](https://www.youtube.com/watch?v=n-c-7E141kI)
 
