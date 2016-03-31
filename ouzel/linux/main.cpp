@@ -5,6 +5,7 @@
 #include <X11/X.h>
 #include <X11/keysym.h>
 #include "Engine.h"
+#include "Window.h"
 #include "Utils.h"
 
 void ouzelMain(const std::vector<std::string>& args);
@@ -276,7 +277,7 @@ int main(int argc, char **argv)
     swa.colormap = cmap;
     swa.border_pixel = 0;
     swa.event_mask = KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
-    Window window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
+    ::Window window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
                                   300, 300, 0, vi->depth, InputOutput, vi->visual,
                                   CWBorderPixel | CWColormap | CWEventMask, &swa);
     XSetStandardProperties(display, window, "ouzel", "ouzel", None, argv, argc, NULL);
@@ -361,7 +362,7 @@ int main(int argc, char **argv)
                 }
                 case ConfigureNotify:
                 {
-                    ouzel::sharedEngine->getRenderer()->resize(ouzel::Size2(event.xconfigure.width, event.xconfigure.height));
+                    ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(event.xconfigure.width, event.xconfigure.height));
                     //needRedraw = true;
                     break;
                 }

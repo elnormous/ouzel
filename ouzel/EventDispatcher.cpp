@@ -68,6 +68,7 @@ namespace ouzel
                 case Event::Type::UI_PRESS_NODE:
                 case Event::Type::UI_RELEASE_NODE:
                 case Event::Type::UI_CLICK_NODE:
+                case Event::Type::UI_DRAG_NODE:
                     dispatchUIEvent(std::static_pointer_cast<UIEvent>(eventPair.first), eventPair.second);
                     break;
             }
