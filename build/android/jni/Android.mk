@@ -30,7 +30,9 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Image.cpp \
     ../../../ouzel/Input.cpp \
     ../../../ouzel/Label.cpp \
+    ../../../ouzel/Language.cpp \
     ../../../ouzel/Layer.cpp \
+    ../../../ouzel/Localization.cpp \
     ../../../ouzel/MathUtils.cpp \
     ../../../ouzel/Matrix3.cpp \
     ../../../ouzel/Matrix4.cpp \
