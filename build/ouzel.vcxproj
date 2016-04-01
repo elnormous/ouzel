@@ -45,7 +45,9 @@
     <ClCompile Include="..\ouzel\Image.cpp" />
     <ClCompile Include="..\ouzel\Input.cpp" />
     <ClCompile Include="..\ouzel\Label.cpp" />
+    <ClCompile Include="..\ouzel\Language.cpp" />
     <ClCompile Include="..\ouzel\Layer.cpp" />
+    <ClCompile Include="..\ouzel\Localization.cpp" />
     <ClCompile Include="..\ouzel\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\Matrix3.cpp" />
     <ClCompile Include="..\ouzel\Matrix4.cpp" />
@@ -122,7 +124,9 @@
     <ClInclude Include="..\ouzel\Image.h" />
     <ClInclude Include="..\ouzel\Input.h" />
     <ClInclude Include="..\ouzel\Label.h" />
+    <ClCompile Include="..\ouzel\Language.h" />
     <ClInclude Include="..\ouzel\Layer.h" />
+    <ClCompile Include="..\ouzel\Localization.h" />
     <ClInclude Include="..\ouzel\MathUtils.h" />
     <ClInclude Include="..\ouzel\Matrix3.h" />
     <ClInclude Include="..\ouzel\Matrix4.h" />

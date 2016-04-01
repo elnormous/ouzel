@@ -200,6 +200,12 @@
     <ClCompile Include="..\ouzel\SlideBar.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClInclude Include="..\ouzel\Language.cpp">
+      <Filter>localization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Localization.cpp">
+      <Filter>localization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -435,6 +441,12 @@
     <ClInclude Include="..\ouzel\SlideBar.h">
       <Filter>gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\Language.h">
+      <Filter>localization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Localization.h">
+      <Filter>localization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
@@ -451,6 +463,9 @@
     </Filter>
     <Filter Include="input">
       <UniqueIdentifier>{ff9cfd6e-7ace-4eee-b658-c01b8916acec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="localization">
+      <UniqueIdentifier>{e19ea449-6ce7-4f83-977f-0818348a426c}</UniqueIdentifier>
     </Filter>
     <Filter Include="math">
       <UniqueIdentifier>{d9c57c8a-5454-4ebc-94ca-a8771b71b0e6}</UniqueIdentifier>
