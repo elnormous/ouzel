@@ -409,6 +409,12 @@
 		306B0E621C567D05005C75C1 /* DrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DrawNode.h */; };
 		306B0E631C567D05005C75C1 /* DrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DrawNode.h */; };
 		306B0E641C567D05005C75C1 /* DrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DrawNode.h */; };
+		30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
+		30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
+		30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
+		30A9C1341CAE80570084C4BF /* Localization.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1301CAE80570084C4BF /* Localization.h */; };
+		30A9C1351CAE80570084C4BF /* Localization.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1301CAE80570084C4BF /* Localization.h */; };
+		30A9C1361CAE80570084C4BF /* Localization.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1301CAE80570084C4BF /* Localization.h */; };
 		30B328841C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328851C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328861C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
@@ -623,6 +629,8 @@
 		306B0E5D1C567D05005C75C1 /* DrawNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawNode.cpp; sourceTree = "<group>"; };
 		306B0E5E1C567D05005C75C1 /* DrawNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawNode.h; sourceTree = "<group>"; };
 		309ACD261C70DA73005325D3 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
+		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
+		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
 		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
@@ -766,6 +774,8 @@
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
+				30A9C12F1CAE80570084C4BF /* Localization.cpp */,
+				30A9C1301CAE80570084C4BF /* Localization.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				303647631C3F218E0024DB5B /* Settings.h */,
 				305B99C71C451962008589E1 /* Types.h */,
@@ -1037,6 +1047,7 @@
 				3009342B1C88964700CC50D3 /* WindowIOS.h in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.h in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.h in Headers */,
+				30A9C1351CAE80570084C4BF /* Localization.h in Headers */,
 				304B27CF1C9A063300BA162D /* TexturePSOGLES.h in Headers */,
 				303B75451C2A3C9200FEDE92 /* Renderer.h in Headers */,
 				30C56C991CAC3ECE007AEF8F /* SlideBar.h in Headers */,
@@ -1126,6 +1137,7 @@
 				3047F74B1C4C350D00774E3D /* Move.h in Headers */,
 				303B76711C355A3B00FEDE92 /* Image.h in Headers */,
 				303B76721C355A3B00FEDE92 /* Renderer.h in Headers */,
+				30A9C1361CAE80570084C4BF /* Localization.h in Headers */,
 				304B27D01C9A063300BA162D /* TexturePSOGLES.h in Headers */,
 				303B76731C355A3B00FEDE92 /* Size2.h in Headers */,
 				30C56C9A1CAC3ECE007AEF8F /* SlideBar.h in Headers */,
@@ -1206,6 +1218,7 @@
 				3047F7491C4C350D00774E3D /* Move.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
+				30A9C1341CAE80570084C4BF /* Localization.h in Headers */,
 				30575AD01C3B175D0009C8A7 /* Label.h in Headers */,
 				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
 				306B0E621C567D05005C75C1 /* DrawNode.h in Headers */,
@@ -1395,6 +1408,7 @@
 				3047F7471C4C350D00774E3D /* Move.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rectangle.cpp in Sources */,
 				303B75761C2A3E3000FEDE92 /* AppDelegate.mm in Sources */,
+				30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */,
 				30575ACE1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B75401C2A3C9200FEDE92 /* Image.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
@@ -1472,6 +1486,7 @@
 				3047F7581C4C4FBA00774E3D /* Scale.cpp in Sources */,
 				3047F7481C4C350D00774E3D /* Move.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,
+				30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */,
 				303B764B1C355A3B00FEDE92 /* Image.cpp in Sources */,
 				30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
@@ -1519,6 +1534,7 @@
 				305B99891C41EFFA008589E1 /* Menu.cpp in Sources */,
 				3047F7671C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
+				30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,

@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "CompileConfig.h"
 #include "Cache.h"
+#include "Localization.h"
 
 #if defined(OUZEL_PLATFORM_OSX)
 #include "osx/WindowOSX.h"
@@ -101,6 +102,8 @@ namespace ouzel
 #else
         _input.reset(new input::Input());
 #endif
+
+        _localization.reset(new Localization());
 
         switch (settings.driver)
         {

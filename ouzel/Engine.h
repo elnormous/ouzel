@@ -39,6 +39,7 @@ namespace ouzel
         const scene::SceneManagerPtr& getSceneManager() const { return _sceneManager; }
         const FileSystemPtr& getFileSystem() const { return _fileSystem; }
         const input::InputPtr& getInput() const { return _input; }
+        const LocalizationPtr& getLocalization() const { return _localization; }
 
         void exit();
 
@@ -68,6 +69,7 @@ namespace ouzel
         scene::SceneManagerPtr _sceneManager;
         FileSystemPtr _fileSystem;
         input::InputPtr _input;
+        LocalizationPtr _localization;
 
         float _targetFPS;
         float _currentFPS = 0.0f;

@@ -28,6 +28,9 @@ namespace ouzel
     class Cache;
     typedef std::shared_ptr<Cache> CachePtr;
 
+    class Localization;
+    typedef std::shared_ptr<Localization> LocalizationPtr;
+
     namespace video
     {
         class Renderer;
