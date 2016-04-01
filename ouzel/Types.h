@@ -31,6 +31,9 @@ namespace ouzel
     class Localization;
     typedef std::shared_ptr<Localization> LocalizationPtr;
 
+    class Language;
+    typedef std::shared_ptr<Language> LanguagePtr;
+
     namespace video
     {
         class Renderer;

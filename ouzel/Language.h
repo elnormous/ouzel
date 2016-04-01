@@ -5,18 +5,15 @@
 
 #include <map>
 #include <string>
-#include "Types.h"
 
 namespace ouzel
 {
-    class Localization
+    class Language
     {
     public:
-        void setLanguage(const std::string& language);
         std::string getString(const std::string& str);
 
     private:
-        std::map<std::string, LanguagePtr> _languages;
-        LanguagePtr _language;
+        std::map<std::string, std::string> _strings;
     };
 }

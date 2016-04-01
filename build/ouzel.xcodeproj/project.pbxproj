@@ -415,6 +415,12 @@
 		30A9C1341CAE80570084C4BF /* Localization.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1301CAE80570084C4BF /* Localization.h */; };
 		30A9C1351CAE80570084C4BF /* Localization.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1301CAE80570084C4BF /* Localization.h */; };
 		30A9C1361CAE80570084C4BF /* Localization.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1301CAE80570084C4BF /* Localization.h */; };
+		30A9C13A1CAEBA540084C4BF /* Language.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C1381CAEBA540084C4BF /* Language.cpp */; };
+		30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C1381CAEBA540084C4BF /* Language.cpp */; };
+		30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C1381CAEBA540084C4BF /* Language.cpp */; };
+		30A9C13D1CAEBA540084C4BF /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.h */; };
+		30A9C13E1CAEBA540084C4BF /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.h */; };
+		30A9C13F1CAEBA540084C4BF /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.h */; };
 		30B328841C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328851C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328861C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
@@ -631,6 +637,8 @@
 		309ACD261C70DA73005325D3 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
 		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
+		30A9C1381CAEBA540084C4BF /* Language.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Language.cpp; sourceTree = "<group>"; };
+		30A9C1391CAEBA540084C4BF /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
 		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
@@ -774,8 +782,6 @@
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
-				30A9C12F1CAE80570084C4BF /* Localization.cpp */,
-				30A9C1301CAE80570084C4BF /* Localization.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				303647631C3F218E0024DB5B /* Settings.h */,
 				305B99C71C451962008589E1 /* Types.h */,
@@ -930,10 +936,10 @@
 				303B75111C28838C00FEDE92 /* core */,
 				30575AD51C3B485F0009C8A7 /* events */,
 				303B75121C2883C800FEDE92 /* files */,
-				303B75101C28830A00FEDE92 /* video */,
 				30575AC21C3B17430009C8A7 /* gui */,
 				303B76051C34A91B00FEDE92 /* input */,
 				303B756F1C2A3D0300FEDE92 /* ios */,
+				30A9C1371CAEBA420084C4BF /* localization */,
 				303B750F1C2882CA00FEDE92 /* math */,
 				303B751B1C29EDD900FEDE92 /* osx */,
 				304A8E2A1C237C70008B1151 /* ouzel.h */,
@@ -941,6 +947,7 @@
 				303B76311C355A3400FEDE92 /* tvos */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.h */,
+				303B75101C28830A00FEDE92 /* video */,
 			);
 			name = ouzel;
 			path = ../ouzel;
@@ -988,6 +995,17 @@
 				304A8E2F1C237C70008B1151 /* EventHander.h */,
 			);
 			name = events;
+			sourceTree = "<group>";
+		};
+		30A9C1371CAEBA420084C4BF /* localization */ = {
+			isa = PBXGroup;
+			children = (
+				30A9C1381CAEBA540084C4BF /* Language.cpp */,
+				30A9C1391CAEBA540084C4BF /* Language.h */,
+				30A9C12F1CAE80570084C4BF /* Localization.cpp */,
+				30A9C1301CAE80570084C4BF /* Localization.h */,
+			);
+			name = localization;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1065,6 +1083,7 @@
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				304B27C31C9A063300BA162D /* ShaderOGL.h in Headers */,
 				304B27A21C9A063300BA162D /* ColorPSOGL.h in Headers */,
+				30A9C13E1CAEBA540084C4BF /* Language.h in Headers */,
 				304B27AB1C9A063300BA162D /* ColorVSOGLES.h in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
 				300934201C88698500CC50D3 /* Window.h in Headers */,
@@ -1155,6 +1174,7 @@
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				304B27C41C9A063300BA162D /* ShaderOGL.h in Headers */,
 				304B27A31C9A063300BA162D /* ColorPSOGL.h in Headers */,
+				30A9C13F1CAEBA540084C4BF /* Language.h in Headers */,
 				304B27AC1C9A063300BA162D /* ColorVSOGLES.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
 				300934211C88698500CC50D3 /* Window.h in Headers */,
@@ -1247,6 +1267,7 @@
 				303B75011C28208800FEDE92 /* FileSystem.h in Headers */,
 				303B760A1C34A92B00FEDE92 /* Input.h in Headers */,
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
+				30A9C13D1CAEBA540084C4BF /* Language.h in Headers */,
 				3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */,
 				304B27B61C9A063300BA162D /* RendererOGL.h in Headers */,
 				3047F7591C4C4FBA00774E3D /* Scale.h in Headers */,
@@ -1361,6 +1382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				303B76301C3559B900FEDE92 /* ViewController.m in Sources */,
+				30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */,
 				306B0E601C567D05005C75C1 /* DrawNode.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */,
@@ -1439,6 +1461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
+				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
 				306B0E611C567D05005C75C1 /* DrawNode.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
@@ -1524,6 +1547,7 @@
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				304B27C51C9A063300BA162D /* TextureOGL.cpp in Sources */,
 				303B751D1C29EDEE00FEDE92 /* main.mm in Sources */,
+				30A9C13A1CAEBA540084C4BF /* Language.cpp in Sources */,
 				304B27551C9384A600BA162D /* Size3.cpp in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
 				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
