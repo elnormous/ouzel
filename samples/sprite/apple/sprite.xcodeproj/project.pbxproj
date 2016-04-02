@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30324D9D1CAFB20900601A64 /* lv.mo in Resources */ = {isa = PBXBuildFile; fileRef = 30324D9C1CAFB20900601A64 /* lv.mo */; };
+		30324D9E1CAFB20900601A64 /* lv.mo in Resources */ = {isa = PBXBuildFile; fileRef = 30324D9C1CAFB20900601A64 /* lv.mo */; };
+		30324D9F1CAFB20900601A64 /* lv.mo in Resources */ = {isa = PBXBuildFile; fileRef = 30324D9C1CAFB20900601A64 /* lv.mo */; };
 		303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3036479F1C414EF50024DB5B /* Assets.xcassets */; };
 		303647A21C418E790024DB5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304A8E161C237B96008B1151 /* Assets.xcassets */; };
 		303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 303647A01C414F120024DB5B /* Assets.xcassets */; };
@@ -108,6 +111,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		30324D9C1CAFB20900601A64 /* lv.mo */ = {isa = PBXFileReference; lastKnownFileType = file; path = lv.mo; sourceTree = "<group>"; };
 		3036479F1C414EF50024DB5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ios/Assets.xcassets; sourceTree = "<group>"; };
 		303647A01C414F120024DB5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		303B74ED1C27F6A100FEDE92 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -285,6 +289,7 @@
 				303B76021C349CA800FEDE92 /* flame.png */,
 				305B99A51C42B3F6008589E1 /* font.fnt */,
 				305B99A61C42B3F6008589E1 /* font.png */,
+				30324D9C1CAFB20900601A64 /* lv.mo */,
 				30C56C731CAB48A4007AEF8F /* radio_button.png */,
 				303B75EB1C33581700FEDE92 /* run.json */,
 				303B75EC1C33581700FEDE92 /* run.png */,
@@ -444,6 +449,7 @@
 				305B99B41C433061008589E1 /* button_down.png in Resources */,
 				305B99B71C433061008589E1 /* button.png in Resources */,
 				303B76161C34CFE300FEDE92 /* flame.png in Resources */,
+				30324D9E1CAFB20900601A64 /* lv.mo in Resources */,
 				303B76171C34CFE300FEDE92 /* witch.png in Resources */,
 				303B76181C34CFE300FEDE92 /* flame.json in Resources */,
 				303B76191C34CFE300FEDE92 /* fire.json in Resources */,
@@ -468,6 +474,7 @@
 				305B99B51C433061008589E1 /* button_down.png in Resources */,
 				305B99B81C433061008589E1 /* button.png in Resources */,
 				303B76961C355AA400FEDE92 /* flame.png in Resources */,
+				30324D9F1CAFB20900601A64 /* lv.mo in Resources */,
 				303B76971C355AA400FEDE92 /* witch.png in Resources */,
 				303B76981C355AA400FEDE92 /* flame.json in Resources */,
 				303B76991C355AA400FEDE92 /* fire.json in Resources */,
@@ -492,6 +499,7 @@
 				305B99B31C433061008589E1 /* button_down.png in Resources */,
 				305B99B61C433061008589E1 /* button.png in Resources */,
 				303B76041C349CA800FEDE92 /* flame.png in Resources */,
+				30324D9D1CAFB20900601A64 /* lv.mo in Resources */,
 				303B75091C286F8D00FEDE92 /* witch.png in Resources */,
 				303B76031C349CA800FEDE92 /* flame.json in Resources */,
 				303B75F71C33756100FEDE92 /* fire.json in Resources */,

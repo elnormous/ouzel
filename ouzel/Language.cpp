@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include "Language.h"
+#include "Engine.h"
 
 namespace ouzel
 {
@@ -32,7 +33,7 @@ namespace ouzel
 
     bool Language::initFromFile(const std::string& filename)
     {
-        std::ifstream file(filename, std::ios::binary);
+        std::ifstream file(sharedEngine->getFileSystem()->getPath(filename), std::ios::binary);
         file >> std::noskipws;
 
         if (!file)

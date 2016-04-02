@@ -14,6 +14,9 @@ Application::~Application()
 
 void Application::begin()
 {
+    sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
+    sharedEngine->getLocalization()->setLanguage("latvian");
+
     _eventHandler = make_shared<EventHandler>();
 
     _eventHandler->keyboardHandler = std::bind(&Application::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2);
@@ -75,7 +78,7 @@ void Application::begin()
     _layer->addChild(_witch);
     _witch->animate(make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3));
 
-    gui::LabelPtr label = gui::Label::create("font.fnt", "testing fonts");
+    gui::LabelPtr label = gui::Label::create("font.fnt", sharedEngine->getLocalization()->getString("Test"));
     _uiLayer->addChild(label);
 
     std::vector<scene::AnimatorPtr> sequence2 = {

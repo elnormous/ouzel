@@ -22,6 +22,7 @@
 #include "Size2.h"
 #include "Rectangle.h"
 #include "SceneManager.h"
+#include "Localization.h"
 #include "Scene.h"
 #include "Layer.h"
 #include "FileSystem.h"
