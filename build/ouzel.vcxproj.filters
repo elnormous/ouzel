@@ -200,12 +200,12 @@
     <ClCompile Include="..\ouzel\SlideBar.cpp">
       <Filter>gui</Filter>
     </ClCompile>
-    <ClInclude Include="..\ouzel\Language.cpp">
+    <ClCompile Include="..\ouzel\Language.cpp">
       <Filter>localization</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\Localization.cpp">
+    </ClCompile>
+    <ClCompile Include="..\ouzel\Localization.cpp">
       <Filter>localization</Filter>
-    </ClInclude>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />

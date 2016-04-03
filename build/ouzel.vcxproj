@@ -124,9 +124,9 @@
     <ClInclude Include="..\ouzel\Image.h" />
     <ClInclude Include="..\ouzel\Input.h" />
     <ClInclude Include="..\ouzel\Label.h" />
-    <ClCompile Include="..\ouzel\Language.h" />
+    <ClInclude Include="..\ouzel\Language.h" />
     <ClInclude Include="..\ouzel\Layer.h" />
-    <ClCompile Include="..\ouzel\Localization.h" />
+    <ClInclude Include="..\ouzel\Localization.h" />
     <ClInclude Include="..\ouzel\MathUtils.h" />
     <ClInclude Include="..\ouzel\Matrix3.h" />
     <ClInclude Include="..\ouzel\Matrix4.h" />
