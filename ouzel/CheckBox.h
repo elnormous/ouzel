@@ -20,6 +20,17 @@ namespace ouzel
             virtual bool init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::string& tick);
 
             virtual void setEnabled(bool enabled) override;
+
+            virtual void setChecked(bool checked);
+            virtual bool isChecked() const { return _checked; }
+
+        protected:
+            bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender);
+            bool handleUI(const UIEventPtr& event, const VoidPtr& sender);
+
+            bool _checked = false;
+
+            EventHandlerPtr _eventHandler;
         };
     } // namespace gui
 } // namespace ouzel
