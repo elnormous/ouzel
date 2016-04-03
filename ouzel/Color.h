@@ -25,6 +25,11 @@ namespace ouzel
             float getG() const;
             float getB() const;
             float getA() const;
+
+            uint32_t getIntValue() const
+            {
+                return (r << 24) | (g << 16) | (b << 8) | a;
+            }
         };
     } // namespace video
 } // namespace ouzel
