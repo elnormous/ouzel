@@ -78,10 +78,6 @@ namespace ouzel
                 case BlendFactor::SRC_ALPHA_SAT: return D3D11_BLEND_SRC_ALPHA_SAT;
                 case BlendFactor::BLEND_FACTOR: return D3D11_BLEND_BLEND_FACTOR;
                 case BlendFactor::INV_BLEND_FACTOR: return D3D11_BLEND_INV_BLEND_FACTOR;
-                case BlendFactor::SRC1_COLOR: return D3D11_BLEND_SRC1_COLOR;
-                case BlendFactor::INV_SRC1_COLOR: return D3D11_BLEND_INV_SRC1_COLOR;
-                case BlendFactor::SRC1_ALPHA: return D3D11_BLEND_SRC1_ALPHA;
-                case BlendFactor::INV_SRC1_ALPHA: return D3D11_BLEND_INV_SRC1_ALPHA;
             }
 
             return D3D11_BLEND_ZERO;

@@ -61,6 +61,13 @@ namespace ouzel
             virtual void clear() override;
             virtual void flush() override;
 
+            virtual BlendStatePtr createBlendState(bool enableBlending,
+                                                   BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
+                                                   BlendState::BlendOperation colorOperation,
+                                                   BlendState::BlendFactor alphaBlendSource, BlendState::BlendFactor alphaBlendDest,
+                                                   BlendState::BlendOperation alphaOperation) override;
+            virtual bool activateBlendState(BlendStatePtr blendState) override;
+
             virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true) override;
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
             virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;

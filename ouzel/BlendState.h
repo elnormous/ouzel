@@ -29,11 +29,7 @@ namespace ouzel
                 INV_DEST_COLOR    = 10,
                 SRC_ALPHA_SAT     = 11,
                 BLEND_FACTOR      = 14,
-                INV_BLEND_FACTOR  = 15,
-                SRC1_COLOR        = 16,
-                INV_SRC1_COLOR    = 17,
-                SRC1_ALPHA        = 18,
-                INV_SRC1_ALPHA    = 19
+                INV_BLEND_FACTOR  = 15
             };
 
             enum class BlendOperation
@@ -52,6 +48,14 @@ namespace ouzel
                               BlendOperation colorOperation,
                               BlendFactor alphaBlendSource, BlendFactor alphaBlendDest,
                               BlendOperation alphaOperation);
+
+            bool isBlendingEnabled() const { return _enableBlending; }
+            BlendFactor getColorBlendSource() const { return _colorBlendSource; }
+            BlendFactor getColorBlendDest() const { return _colorBlendDest; }
+            BlendOperation getColorOperation() const { return _colorOperation; }
+            BlendFactor getAlphaBlendSource() const { return _alphaBlendSource; }
+            BlendFactor getAlphaBlendDest() const { return _alphaBlendDest; }
+            BlendOperation getAlphaOperation() const { return _alphaOperation; }
 
         protected:
             BlendState();

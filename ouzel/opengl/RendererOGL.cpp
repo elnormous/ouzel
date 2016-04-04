@@ -6,6 +6,7 @@
 #include "RenderTargetOGL.h"
 #include "ShaderOGL.h"
 #include "MeshBufferOGL.h"
+#include "BlendStateOGL.h"
 #include "Engine.h"
 #include "Window.h"
 #include "Cache.h"
@@ -60,15 +61,13 @@ namespace ouzel
             //glEnable(GL_DEPTH_TEST);
             glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
 
-            glEnable(GL_BLEND);
-            glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-            glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
-
-            // precomputed alpha
-            //glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-            //glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
-
-            if (checkOpenGLErrors())
+            // Blend state
+            BlendStatePtr blendState = createBlendState(true,
+                                                        BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                                        BlendState::BlendOperation::ADD,
+                                                        BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                        BlendState::BlendOperation::ADD);
+            if (!activateBlendState(blendState))
             {
                 return false;
             }
@@ -152,6 +151,69 @@ namespace ouzel
 
             glFlush();
             checkOpenGLErrors();
+        }
+
+        BlendStatePtr RendererOGL::createBlendState(bool enableBlending,
+                                                    BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
+                                                    BlendState::BlendOperation colorOperation,
+                                                    BlendState::BlendFactor alphaBlendSource, BlendState::BlendFactor alphaBlendDest,
+                                                    BlendState::BlendOperation alphaOperation)
+        {
+            std::shared_ptr<BlendStateOGL> blendState(new BlendStateOGL());
+
+            if (!blendState->init(enableBlending,
+                                  colorBlendSource, colorBlendDest,
+                                  colorOperation,
+                                  alphaBlendSource, alphaBlendDest,
+                                  alphaOperation))
+            {
+                blendState.reset();
+            }
+
+            return blendState;
+        }
+
+        bool RendererOGL::activateBlendState(BlendStatePtr blendState)
+        {
+            if (!Renderer::activateBlendState(blendState))
+            {
+                return false;
+            }
+
+            if (blendState)
+            {
+                std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(_activeBlendState);
+
+                if (blendStateOGL->isBlendingEnabled())
+                {
+                    glEnable(GL_BLEND);
+                }
+                else
+                {
+                    glDisable(GL_BLEND);
+                }
+
+                glBlendEquationSeparate(BlendStateOGL::getBlendOperation(blendStateOGL->getColorOperation()),
+                                        BlendStateOGL::getBlendOperation(blendStateOGL->getAlphaOperation()));
+
+                glBlendFuncSeparate(BlendStateOGL::getBlendFactor(blendStateOGL->getColorBlendSource()),
+                                    BlendStateOGL::getBlendFactor(blendStateOGL->getColorBlendDest()),
+                                    BlendStateOGL::getBlendFactor(blendStateOGL->getAlphaBlendSource()),
+                                    BlendStateOGL::getBlendFactor(blendStateOGL->getAlphaBlendDest()));
+            }
+            else
+            {
+                glDisable(GL_BLEND);
+                glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+                glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ONE, GL_ZERO);
+            }
+
+            if (checkOpenGLErrors())
+            {
+                return false;
+            }
+
+            return true;
         }
 
         TexturePtr RendererOGL::createTexture(const Size2& size, bool dynamic, bool mipmaps)
