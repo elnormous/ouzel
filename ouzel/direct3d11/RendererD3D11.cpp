@@ -540,11 +540,11 @@ namespace ouzel
 
                 ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
 
-                _context->OMGetRenderTargets(1, &renderTargetView, nullptr);
+                _context->OMSetRenderTargets(1, &renderTargetView, nullptr);
             }
             else
             {
-                _context->OMGetRenderTargets(1, nullptr, nullptr);
+                _context->OMSetRenderTargets(1, nullptr, nullptr);
             }
 
             return true;
