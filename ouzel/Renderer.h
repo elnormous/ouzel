@@ -16,6 +16,7 @@
 #include "AABB2.h"
 #include "Vertex.h"
 #include "Shader.h"
+#include "BlendState.h"
 
 namespace ouzel
 {
@@ -64,7 +65,11 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
-            virtual BlendStatePtr createBlendState();
+            virtual BlendStatePtr createBlendState(bool enableBlending,
+                                                   BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
+                                                   BlendState::BlendOperation colorOperation,
+                                                   BlendState::BlendFactor alphaBlendSource, BlendState::BlendFactor alphaBlendDest,
+                                                   BlendState::BlendOperation alphaOperation);
 
             virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true);
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false, bool mipmaps = true);

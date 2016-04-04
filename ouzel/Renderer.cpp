@@ -13,7 +13,6 @@
 #include "MeshBuffer.h"
 #include "EventDispatcher.h"
 #include "RenderTarget.h"
-#include "BlendState.h"
 
 namespace ouzel
 {
@@ -67,10 +66,18 @@ namespace ouzel
             _fullscreen = fullscreen;
         }
 
-        BlendStatePtr Renderer::createBlendState()
+        BlendStatePtr Renderer::createBlendState(bool enableBlending,
+                                                 BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
+                                                 BlendState::BlendOperation colorOperation,
+                                                 BlendState::BlendFactor alphaBlendSource, BlendState::BlendFactor alphaBlendDest,
+                                                 BlendState::BlendOperation alphaOperation)
         {
             BlendStatePtr blendState(new BlendState());
-            if (!blendState->init())
+            if (!blendState->init(enableBlending,
+                                  colorBlendSource, colorBlendDest,
+                                  colorOperation,
+                                  alphaBlendSource, alphaBlendDest,
+                                  alphaOperation))
             {
                 blendState.reset();
             }
