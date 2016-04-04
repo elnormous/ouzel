@@ -198,6 +198,8 @@ namespace ouzel
                 return false;
             }
 
+            glActiveTexture(GL_TEXTURE0 + layer);
+
             if (_activeTextures[layer])
             {
                 std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
@@ -206,7 +208,7 @@ namespace ouzel
             }
             else
             {
-                glBindTexture(GL_TEXTURE_2D, _framebuffer);
+                glBindTexture(GL_TEXTURE_2D, 0);
             }
 
             if (checkOpenGLErrors())
