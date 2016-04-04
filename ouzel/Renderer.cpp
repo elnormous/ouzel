@@ -13,6 +13,7 @@
 #include "MeshBuffer.h"
 #include "EventDispatcher.h"
 #include "RenderTarget.h"
+#include "BlendState.h"
 
 namespace ouzel
 {
@@ -66,10 +67,24 @@ namespace ouzel
             _fullscreen = fullscreen;
         }
 
+        BlendStatePtr Renderer::createBlendState()
+        {
+            BlendStatePtr blendState(new BlendState());
+            if (!blendState->init())
+            {
+                blendState.reset();
+            }
+
+            return blendState;
+        }
+
         TexturePtr Renderer::createTexture(const Size2& size, bool dynamic, bool mipmaps)
         {
             TexturePtr texture(new Texture());
-            texture->init(size, dynamic, mipmaps);
+            if (!texture->init(size, dynamic, mipmaps))
+            {
+                texture.reset();
+            }
 
             return texture;
         }

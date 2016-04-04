@@ -13,6 +13,8 @@ namespace ouzel
         {
         public:
             virtual ~BlendState() {}
+
+            virtual bool init();
         };
     } // namespace video
 } // namespace ouzel

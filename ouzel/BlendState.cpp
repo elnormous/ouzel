@@ -7,6 +7,10 @@ namespace ouzel
 {
     namespace video
     {
+        bool BlendState::init()
+        {
+            return true;
+        }
 
     } // namespace video
 } // namespace ouzel

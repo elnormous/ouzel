@@ -39,6 +39,10 @@ namespace ouzel
         class Renderer;
         typedef std::shared_ptr<Renderer> RendererPtr;
 
+        class BlendState;
+        typedef std::shared_ptr<BlendState> BlendStatePtr;
+        typedef std::weak_ptr<BlendState> BlendStateWeakPtr;
+
         class Texture;
         typedef std::shared_ptr<Texture> TexturePtr;
         typedef std::weak_ptr<Texture> TextureWeakPtr;

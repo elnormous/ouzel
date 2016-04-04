@@ -64,6 +64,8 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
+            virtual BlendStatePtr createBlendState();
+
             virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true);
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false, bool mipmaps = true);
             virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic = false, bool mipmaps = true);
