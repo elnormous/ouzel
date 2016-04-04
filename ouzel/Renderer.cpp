@@ -85,6 +85,13 @@ namespace ouzel
             return blendState;
         }
 
+        bool Renderer::activateBlendState(BlendStatePtr blendState)
+        {
+            _activeBlendState = blendState;
+
+            return true;
+        }
+
         TexturePtr Renderer::createTexture(const Size2& size, bool dynamic, bool mipmaps)
         {
             TexturePtr texture(new Texture());

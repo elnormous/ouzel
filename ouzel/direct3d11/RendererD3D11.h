@@ -26,6 +26,13 @@ namespace ouzel
 
             virtual void setFullscreen(bool fullscreen) override;
 
+            virtual BlendStatePtr createBlendState(bool enableBlending,
+                                                   BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
+                                                   BlendState::BlendOperation colorOperation,
+                                                   BlendState::BlendFactor alphaBlendSource, BlendState::BlendFactor alphaBlendDest,
+                                                   BlendState::BlendOperation alphaOperation) override;
+            virtual bool activateBlendState(BlendStatePtr blendState) override;
+
             virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true) override;
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
             virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
@@ -62,7 +69,7 @@ namespace ouzel
             ID3D11RenderTargetView* _rtView = nullptr;
             ID3D11SamplerState* _samplerState = nullptr;
             ID3D11RasterizerState* _rasterizerState = nullptr;
-            ID3D11BlendState* _blendState = nullptr;
+            
             ID3D11DepthStencilState* _depthStencilState = nullptr;
 
             ID3D11ShaderResourceView* _resourceViews[TEXTURE_LAYERS];

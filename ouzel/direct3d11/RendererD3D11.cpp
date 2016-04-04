@@ -14,6 +14,7 @@
 #include "ColorVSD3D11.h"
 #include "Camera.h"
 #include "Cache.h"
+#include "BlendStateD3D11.h"
 #include "win/WindowWin.h"
 #include "stb_image_write.h"
 
@@ -37,7 +38,6 @@ namespace ouzel
         void RendererD3D11::clean()
         {
             if (_depthStencilState) _depthStencilState->Release();
-            if (_blendState) _blendState->Release();
             if (_rasterizerState) _rasterizerState->Release();
             if (_samplerState) _samplerState->Release();
             if (_rtView) _rtView->Release();
@@ -183,23 +183,13 @@ namespace ouzel
                 return false;
             }
 
-            // Blending state
-            D3D11_BLEND_DESC blendStateDesc = { FALSE, FALSE }; // alpha to coverage, independent blend
-            D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc =
-            {
-                TRUE, // enable blending
-                D3D11_BLEND_SRC_ALPHA, D3D11_BLEND_INV_SRC_ALPHA, D3D11_BLEND_OP_ADD, // color blend source/dest factors, op
-                D3D11_BLEND_ONE, D3D11_BLEND_ZERO, D3D11_BLEND_OP_ADD, // alpha blend source/dest factors, op
-                D3D11_COLOR_WRITE_ENABLE_ALL, // color write mask
-            };
-            blendStateDesc.RenderTarget[0] = targetBlendDesc;
-
-            hr = _device->CreateBlendState(&blendStateDesc, &_blendState);
-            if (FAILED(hr) || !_blendState)
-            {
-                log("Failed to create D3D11 blend state");
-                return false;
-            }
+            // Blend state
+            BlendStatePtr blendState = createBlendState(true,
+                                                        BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                                        BlendState::BlendOperation::ADD,
+                                                        BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                        BlendState::BlendOperation::ADD);
+            activateBlendState(blendState);
 
             // Depth/stencil state
             D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc =
@@ -446,6 +436,47 @@ namespace ouzel
             }
         }
 
+        BlendStatePtr RendererD3D11::createBlendState(bool enableBlending,
+                                                      BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
+                                                      BlendState::BlendOperation colorOperation,
+                                                      BlendState::BlendFactor alphaBlendSource, BlendState::BlendFactor alphaBlendDest,
+                                                      BlendState::BlendOperation alphaOperation)
+        {
+            std::shared_ptr<BlendStateD3D11> blendState(new BlendStateD3D11());
+
+            if (!blendState->init(enableBlending,
+                                  colorBlendSource, colorBlendDest,
+                                  colorOperation,
+                                  alphaBlendSource, alphaBlendDest,
+                                  alphaOperation))
+            {
+                blendState.reset();
+            }
+
+            return blendState;
+        }
+
+        bool RendererD3D11::activateBlendState(BlendStatePtr blendState)
+        {
+            if (!Renderer::activateBlendState(blendState))
+            {
+                return false;
+            }
+
+            if (blendState)
+            {
+                std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(_activeBlendState);
+
+                _context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
+            }
+            else
+            {
+                _context->OMSetBlendState(NULL, NULL, 0xffffffff);
+            }
+
+            return true;
+        }
+
         TexturePtr RendererD3D11::createTexture(const Size2& size, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
@@ -640,7 +671,6 @@ namespace ouzel
             }
 
             _context->RSSetState(_rasterizerState);
-            _context->OMSetBlendState(_blendState, NULL, 0xffffffff);
             _context->OMSetDepthStencilState(_depthStencilState, 0);
 
             ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };

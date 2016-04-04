@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\ouzel\AABB2.cpp" />
     <ClCompile Include="..\ouzel\Animator.cpp" />
+    <ClCompile Include="..\ouzel\BlendState.cpp" />
     <ClCompile Include="..\ouzel\BMFont.cpp" />
     <ClCompile Include="..\ouzel\Button.cpp" />
     <ClCompile Include="..\ouzel\Cache.cpp" />
@@ -28,6 +29,7 @@
     <ClCompile Include="..\ouzel\CheckBox.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
     <ClCompile Include="..\ouzel\ComboBox.cpp" />
+    <ClCompile Include="..\ouzel\direct3d11\BlendStateD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\MeshBufferD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\RendererD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\RenderTargetD3D11.cpp" />
@@ -93,6 +95,7 @@
     <ClInclude Include="..\ouzel\AABB2.h" />
     <ClInclude Include="..\ouzel\Animator.h" />
     <ClInclude Include="..\ouzel\App.h" />
+    <ClInclude Include="..\ouzel\BlendState.h" />
     <ClInclude Include="..\ouzel\BMFont.h" />
     <ClInclude Include="..\ouzel\Button.h" />
     <ClInclude Include="..\ouzel\Cache.h" />
@@ -101,6 +104,7 @@
     <ClInclude Include="..\ouzel\Color.h" />
     <ClInclude Include="..\ouzel\ComboBox.h" />
     <ClInclude Include="..\ouzel\CompileConfig.h" />
+    <ClInclude Include="..\ouzel\direct3d11\BlendStateD3D11.h" />
     <ClInclude Include="..\ouzel\direct3d11\ColorPSD3D11.h" />
     <ClInclude Include="..\ouzel\direct3d11\ColorVSD3D11.h" />
     <ClInclude Include="..\ouzel\direct3d11\MeshBufferD3D11.h" />

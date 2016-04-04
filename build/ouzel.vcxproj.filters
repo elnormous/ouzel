@@ -206,6 +206,12 @@
     <ClCompile Include="..\ouzel\Localization.cpp">
       <Filter>localization</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\direct3d11\BlendStateD3D11.cpp">
+      <Filter>video\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\BlendState.cpp">
+      <Filter>video</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -446,6 +452,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\Localization.h">
       <Filter>localization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\direct3d11\BlendStateD3D11.h">
+      <Filter>video\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\BlendState.h">
+      <Filter>video</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

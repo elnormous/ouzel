@@ -70,6 +70,7 @@ namespace ouzel
                                                    BlendState::BlendOperation colorOperation,
                                                    BlendState::BlendFactor alphaBlendSource, BlendState::BlendFactor alphaBlendDest,
                                                    BlendState::BlendOperation alphaOperation);
+            virtual bool activateBlendState(BlendStatePtr blendState);
 
             virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true);
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false, bool mipmaps = true);
@@ -108,6 +109,7 @@ namespace ouzel
 
             Color _clearColor;
 
+            BlendStatePtr _activeBlendState;
             TexturePtr _activeTextures[TEXTURE_LAYERS];
             ShaderPtr _activeShader;
             RenderTargetPtr _activeRenderTarget;
