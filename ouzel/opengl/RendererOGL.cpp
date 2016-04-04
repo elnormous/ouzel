@@ -198,22 +198,15 @@ namespace ouzel
                 return false;
             }
 
-            glActiveTexture(GL_TEXTURE0 + layer);
-
             if (_activeTextures[layer])
             {
                 std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
 
-                glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
+                bindTexture(textureOGL->getTextureId(), layer);
             }
             else
             {
-                glBindTexture(GL_TEXTURE_2D, 0);
-            }
-
-            if (checkOpenGLErrors())
-            {
-                return false;
+                bindTexture(0, layer);
             }
 
             return true;
@@ -247,16 +240,11 @@ namespace ouzel
             {
                 std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
 
-                glBindFramebuffer(GL_FRAMEBUFFER, renderTargetOGL->getFrameBufferId());
+                bindFramebuffer(renderTargetOGL->getFrameBufferId());
             }
             else
             {
-                glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-            }
-
-            if (checkOpenGLErrors())
-            {
-                return false;
+                bindFramebuffer(_framebuffer);
             }
 
             return true;
@@ -302,16 +290,11 @@ namespace ouzel
             {
                 std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
 
-                glUseProgram(shaderOGL->getProgramId());
+                bindProgram(shaderOGL->getProgramId());
             }
             else
             {
-                glUseProgram(0);
-            }
-
-            if (checkOpenGLErrors())
-            {
-                return false;
+                bindProgram(0);
             }
 
             return true;
@@ -334,6 +317,42 @@ namespace ouzel
             if (!Renderer::drawMeshBuffer(meshBuffer))
             {
                 return false;
+            }
+
+            if (_activeRenderTarget)
+            {
+                std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+
+                bindFramebuffer(renderTargetOGL->getFrameBufferId());
+            }
+            else
+            {
+                bindFramebuffer(_framebuffer);
+            }
+
+            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+            {
+                if (_activeTextures[layer])
+                {
+                    std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
+
+                    bindTexture(textureOGL->getTextureId(), layer);
+                }
+                else
+                {
+                    bindTexture(0, layer);
+                }
+            }
+
+            if (_activeShader)
+            {
+                std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
+
+                bindProgram(shaderOGL->getProgramId());
+            }
+            else
+            {
+                bindProgram(0);
             }
 
             std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(meshBuffer);
@@ -373,10 +392,7 @@ namespace ouzel
                 return false;
             }
 
-            GLuint oldFrameBufferId;
-            glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));
-
-            glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+            bindFramebuffer(_framebuffer);
 
             GLsizei width = static_cast<GLsizei>(_size.width);
             GLsizei height = static_cast<GLsizei>(_size.height);
@@ -414,12 +430,61 @@ namespace ouzel
                 return false;
             }
 
-            if (oldFrameBufferId != _framebuffer)
+            return true;
+        }
+
+        GLuint RendererOGL::_currentTextureId[TEXTURE_LAYERS] = { 0 };
+        GLuint RendererOGL::_currentProgramId = 0;
+        GLuint RendererOGL::_currentFrambufferId = 0;
+
+        bool RendererOGL::bindTexture(GLuint textureId, uint32_t layer)
+        {
+            if (_currentTextureId[layer] != textureId)
             {
-                glBindFramebuffer(GL_FRAMEBUFFER, oldFrameBufferId);
+                glActiveTexture(GL_TEXTURE0 + layer);
+                glBindTexture(GL_TEXTURE_2D, textureId);
+                _currentTextureId[layer] = textureId;
+
+                if (checkOpenGLErrors())
+                {
+                    return false;
+                }
             }
 
             return true;
         }
+
+        bool RendererOGL::bindProgram(GLuint programId)
+        {
+            if (_currentProgramId != programId)
+            {
+                glUseProgram(programId);
+                _currentProgramId = programId;
+
+                if (checkOpenGLErrors())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::bindFramebuffer(GLuint framebufferId)
+        {
+            if (_currentFrambufferId != framebufferId)
+            {
+                glBindFramebuffer(GL_FRAMEBUFFER, framebufferId);
+                _currentFrambufferId = framebufferId;
+
+                if (checkOpenGLErrors())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
     } // namespace video
 } // namespace ouzel

@@ -54,7 +54,7 @@ namespace ouzel
             virtual ~RendererOGL();
 
             bool initOpenGL(GLuint framebuffer);
-            bool checkOpenGLErrors();
+            static bool checkOpenGLErrors();
 
             virtual void setClearColor(Color color) override;
 
@@ -77,12 +77,20 @@ namespace ouzel
 
             virtual bool saveScreenshot(const std::string& filename) override;
 
+            static bool bindTexture(GLuint textureId, uint32_t layer);
+            static bool bindProgram(GLuint programId);
+            static bool bindFramebuffer(GLuint framebufferId);
+
         private:
             RendererOGL();
             virtual void setSize(const Size2& size) override;
 
             bool _ready = false;
             GLuint _framebuffer = 0;
+
+            static GLuint _currentTextureId[TEXTURE_LAYERS];
+            static GLuint _currentProgramId;
+            static GLuint _currentFrambufferId;
         };
     } // namespace video
 } // namespace ouzel

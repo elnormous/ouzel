@@ -3,6 +3,8 @@
 
 #include "RenderTargetOGL.h"
 #include "TextureOGL.h"
+#include "Engine.h"
+#include "RendererOGL.h"
 
 namespace ouzel
 {
@@ -37,7 +39,8 @@ namespace ouzel
             glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));
 
             glGenFramebuffers(1, &_framebufferId);
-            glBindFramebuffer(GL_FRAMEBUFFER, _framebufferId);
+            
+            RendererOGL::bindFramebuffer(_framebufferId);
 
             std::shared_ptr<TextureOGL> textureOGL(new TextureOGL());
 
@@ -48,10 +51,7 @@ namespace ouzel
 
             _texture = textureOGL;
 
-            GLuint oldTextureId;
-            glGetIntegerv(GL_TEXTURE_BINDING_2D, reinterpret_cast<GLint*>(&oldTextureId));
-
-            glBindTexture(GL_TEXTURE_2D, textureOGL->getTextureId());
+            RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
                          static_cast<GLsizei>(_size.width),
@@ -83,9 +83,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            glBindFramebuffer(GL_TEXTURE_2D, oldTextureId);
-            glBindFramebuffer(GL_FRAMEBUFFER, oldFrameBufferId);
 
             return true;
         }
