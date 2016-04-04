@@ -12,6 +12,7 @@ LOCAL_C_INCLUDES += ../../../ouzel \
 LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
 	../../../ouzel/Animator.cpp \
     ../../../ouzel/BMFont.cpp \
+    ../../../ouzel/BlendState.cpp \
     ../../../ouzel/Button.cpp \
     ../../../ouzel/Cache.cpp \
     ../../../ouzel/Camera.cpp \
@@ -68,6 +69,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Widget.cpp \
     ../../../ouzel/Window.cpp \
     ../../../ouzel/android/WindowAndroid.cpp \
+    ../../../ouzel/opengl/BlendStateOGL.cpp \
     ../../../ouzel/opengl/MeshBufferOGL.cpp \
     ../../../ouzel/opengl/RendererOGL.cpp \
     ../../../ouzel/opengl/RenderTargetOGL.cpp \

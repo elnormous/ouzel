@@ -19,6 +19,18 @@
 		3009342B1C88964700CC50D3 /* WindowIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 300934291C88964700CC50D3 /* WindowIOS.h */; };
 		3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009342C1C88978D00CC50D3 /* WindowTVOS.mm */; };
 		3009342F1C88978D00CC50D3 /* WindowTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009342D1C88978D00CC50D3 /* WindowTVOS.h */; };
+		30324E141CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
+		30324E151CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
+		30324E161CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
+		30324E171CB2898E00601A64 /* BlendState.h in Headers */ = {isa = PBXBuildFile; fileRef = 30324E131CB2898E00601A64 /* BlendState.h */; };
+		30324E181CB2898E00601A64 /* BlendState.h in Headers */ = {isa = PBXBuildFile; fileRef = 30324E131CB2898E00601A64 /* BlendState.h */; };
+		30324E191CB2898E00601A64 /* BlendState.h in Headers */ = {isa = PBXBuildFile; fileRef = 30324E131CB2898E00601A64 /* BlendState.h */; };
+		30324E1C1CB28A4400601A64 /* BlendStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E1A1CB28A4400601A64 /* BlendStateOGL.cpp */; };
+		30324E1D1CB28A4400601A64 /* BlendStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E1A1CB28A4400601A64 /* BlendStateOGL.cpp */; };
+		30324E1E1CB28A4400601A64 /* BlendStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E1A1CB28A4400601A64 /* BlendStateOGL.cpp */; };
+		30324E1F1CB28A4400601A64 /* BlendStateOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30324E1B1CB28A4400601A64 /* BlendStateOGL.h */; };
+		30324E201CB28A4400601A64 /* BlendStateOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30324E1B1CB28A4400601A64 /* BlendStateOGL.h */; };
+		30324E211CB28A4400601A64 /* BlendStateOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30324E1B1CB28A4400601A64 /* BlendStateOGL.h */; };
 		303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303647121C3DFEAF0024DB5B /* Gamepad.cpp */; };
 		303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303647121C3DFEAF0024DB5B /* Gamepad.cpp */; };
 		303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303647121C3DFEAF0024DB5B /* Gamepad.cpp */; };
@@ -486,6 +498,10 @@
 		300934291C88964700CC50D3 /* WindowIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowIOS.h; sourceTree = "<group>"; };
 		3009342C1C88978D00CC50D3 /* WindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowTVOS.mm; sourceTree = "<group>"; };
 		3009342D1C88978D00CC50D3 /* WindowTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowTVOS.h; sourceTree = "<group>"; };
+		30324E121CB2898E00601A64 /* BlendState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendState.cpp; sourceTree = "<group>"; };
+		30324E131CB2898E00601A64 /* BlendState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendState.h; sourceTree = "<group>"; };
+		30324E1A1CB28A4400601A64 /* BlendStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BlendStateOGL.cpp; path = opengl/BlendStateOGL.cpp; sourceTree = "<group>"; };
+		30324E1B1CB28A4400601A64 /* BlendStateOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlendStateOGL.h; path = opengl/BlendStateOGL.h; sourceTree = "<group>"; };
 		303647121C3DFEAF0024DB5B /* Gamepad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gamepad.cpp; sourceTree = "<group>"; };
 		303647131C3DFEAF0024DB5B /* Gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamepad.h; sourceTree = "<group>"; };
 		3036471A1C3E058E0024DB5B /* GamepadApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GamepadApple.mm; path = apple/GamepadApple.mm; sourceTree = "<group>"; };
@@ -752,13 +768,15 @@
 		303B75101C28830A00FEDE92 /* video */ = {
 			isa = PBXGroup;
 			children = (
-				303B75131C288CCE00FEDE92 /* opengl */,
+				30324E121CB2898E00601A64 /* BlendState.cpp */,
+				30324E131CB2898E00601A64 /* BlendState.h */,
 				304A8E9C1C27081B008B1151 /* Color.cpp */,
 				304A8E9D1C27081B008B1151 /* Color.h */,
 				303B74E11C277A7500FEDE92 /* Image.cpp */,
 				303B74E21C277A7500FEDE92 /* Image.h */,
 				304A8E901C26ED32008B1151 /* MeshBuffer.cpp */,
 				304A8E911C26ED32008B1151 /* MeshBuffer.h */,
+				303B75131C288CCE00FEDE92 /* opengl */,
 				304A8E3E1C237C70008B1151 /* Renderer.cpp */,
 				304A8E3F1C237C70008B1151 /* Renderer.h */,
 				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
@@ -806,6 +824,8 @@
 		303B75131C288CCE00FEDE92 /* opengl */ = {
 			isa = PBXGroup;
 			children = (
+				30324E1A1CB28A4400601A64 /* BlendStateOGL.cpp */,
+				30324E1B1CB28A4400601A64 /* BlendStateOGL.h */,
 				304B278F1C9A063300BA162D /* ColorPSOGL.h */,
 				304B27901C9A063300BA162D /* ColorPSOGLES.h */,
 				304B27911C9A063300BA162D /* ColorVSOGL.h */,
@@ -1045,6 +1065,7 @@
 				30DADEA01C5167BC001A63B4 /* Cache.h in Headers */,
 				30575AC91C3B17540009C8A7 /* Button.h in Headers */,
 				304B27B11C9A063300BA162D /* MeshBufferOGL.h in Headers */,
+				30324E181CB2898E00601A64 /* BlendState.h in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.h in Headers */,
 				303B75661C2A3CBF00FEDE92 /* SceneManager.h in Headers */,
 				3047F7421C4C344A00774E3D /* Animator.h in Headers */,
@@ -1081,6 +1102,7 @@
 				303B75371C2A3C8200FEDE92 /* CompileConfig.h in Headers */,
 				3047F7731C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
+				30324E201CB28A4400601A64 /* BlendStateOGL.h in Headers */,
 				304B27C31C9A063300BA162D /* ShaderOGL.h in Headers */,
 				304B27A21C9A063300BA162D /* ColorPSOGL.h in Headers */,
 				30A9C13E1CAEBA540084C4BF /* Language.h in Headers */,
@@ -1136,6 +1158,7 @@
 				30DADEA11C5167BC001A63B4 /* Cache.h in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.h in Headers */,
 				304B27B21C9A063300BA162D /* MeshBufferOGL.h in Headers */,
+				30324E191CB2898E00601A64 /* BlendState.h in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.h in Headers */,
 				3047F7431C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC11C39D9850009C8A7 /* NodeContainer.h in Headers */,
@@ -1172,6 +1195,7 @@
 				303B76791C355A3B00FEDE92 /* Sprite.h in Headers */,
 				3047F7741C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
+				30324E211CB28A4400601A64 /* BlendStateOGL.h in Headers */,
 				304B27C41C9A063300BA162D /* ShaderOGL.h in Headers */,
 				304B27A31C9A063300BA162D /* ColorPSOGL.h in Headers */,
 				30A9C13F1CAEBA540084C4BF /* Language.h in Headers */,
@@ -1207,6 +1231,7 @@
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				304A8E6D1C237C70008B1151 /* Texture.h in Headers */,
 				3047F77A1C4D39C500774E3D /* Repeat.h in Headers */,
+				30324E171CB2898E00601A64 /* BlendState.h in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.h in Headers */,
 				30575ABF1C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				303647641C3F218E0024DB5B /* Settings.h in Headers */,
@@ -1230,6 +1255,7 @@
 				30EF36561CA76AE200F04F29 /* ScrollBar.h in Headers */,
 				304A8E9F1C27081B008B1151 /* Color.h in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */,
+				30324E1F1CB28A4400601A64 /* BlendStateOGL.h in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
 				304B27A71C9A063300BA162D /* ColorVSOGL.h in Headers */,
@@ -1421,6 +1447,7 @@
 				3009341D1C88698500CC50D3 /* Window.cpp in Sources */,
 				30B328851C4E9EAC00040927 /* Ease.cpp in Sources */,
 				303B76C21C35630B00FEDE92 /* OpenGLView.mm in Sources */,
+				30324E1D1CB28A4400601A64 /* BlendStateOGL.cpp in Sources */,
 				303B75461C2A3C9200FEDE92 /* RenderTarget.cpp in Sources */,
 				30EF36641CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				30EF36541CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
@@ -1453,6 +1480,7 @@
 				303B75611C2A3CBF00FEDE92 /* Node.cpp in Sources */,
 				30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				303B75F21C335B7D00FEDE92 /* File.cpp in Sources */,
+				30324E151CB2898E00601A64 /* BlendState.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1500,6 +1528,7 @@
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
 				3009341E1C88698500CC50D3 /* Window.cpp in Sources */,
 				30B328861C4E9EAC00040927 /* Ease.cpp in Sources */,
+				30324E1E1CB28A4400601A64 /* BlendStateOGL.cpp in Sources */,
 				303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */,
 				30EF36651CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				30EF36551CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
@@ -1532,6 +1561,7 @@
 				303B76881C355A5800FEDE92 /* main.mm in Sources */,
 				30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				303B76551C355A3B00FEDE92 /* File.cpp in Sources */,
+				30324E161CB2898E00601A64 /* BlendState.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1600,7 +1630,9 @@
 				30C56C951CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
 				304A8E531C237C70008B1151 /* Engine.cpp in Sources */,
 				303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
+				30324E141CB2898E00601A64 /* BlendState.cpp in Sources */,
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,
+				30324E1C1CB28A4400601A64 /* BlendStateOGL.cpp in Sources */,
 				304A8E741C237C70008B1151 /* Vector4.cpp in Sources */,
 				3047F75E1C4C60B900774E3D /* Fade.cpp in Sources */,
 				305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */,
