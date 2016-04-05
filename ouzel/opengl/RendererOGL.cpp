@@ -62,16 +62,48 @@ namespace ouzel
             glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
 
             ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
-            if (textureShader)
+
+            if (!textureShader)
             {
-                sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
+                return false;
             }
 
+            sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
+
             ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
-            if (colorShader)
+
+            if (!colorShader)
             {
-                sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
+                return false;
             }
+
+            sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
+
+            BlendStatePtr noBlendState = createBlendState(false,
+                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                          BlendState::BlendOperation::ADD,
+                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                          BlendState::BlendOperation::ADD);
+
+            if (!noBlendState)
+            {
+                return false;
+            }
+
+            sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
+
+            BlendStatePtr alphaBlendState = createBlendState(true,
+                                                             BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                                             BlendState::BlendOperation::ADD,
+                                                             BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                             BlendState::BlendOperation::ADD);
+
+            if (!alphaBlendState)
+            {
+                return false;
+            }
+
+            sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             _ready = true;
 

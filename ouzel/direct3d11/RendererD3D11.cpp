@@ -200,19 +200,49 @@ namespace ouzel
                 TEXTURE_VERTEX_SHADER_D3D11, sizeof(TEXTURE_VERTEX_SHADER_D3D11),
                 VertexPCT::ATTRIBUTES);
 
-            if (textureShader)
+            if (!textureShader)
             {
-                sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
+                return false;
             }
+            
+            sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
                 COLOR_VERTEX_SHADER_D3D11, sizeof(COLOR_VERTEX_SHADER_D3D11),
                 VertexPC::ATTRIBUTES);
 
-            if (colorShader)
+            if (!colorShader)
             {
-                sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
+                return false;
             }
+            
+            sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
+            
+            BlendStatePtr noBlendState = createBlendState(false,
+                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                          BlendState::BlendOperation::ADD,
+                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                          BlendState::BlendOperation::ADD);
+
+            if (!noBlendState)
+            {
+                return false;
+            }
+            
+            sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
+
+            BlendStatePtr alphaBlendState = createBlendState(true,
+                                                             BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                                             BlendState::BlendOperation::ADD,
+                                                             BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                             BlendState::BlendOperation::ADD);
+
+            if (!alphaBlendState)
+            {
+                return false;
+            }
+
+            sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             D3D11_VIEWPORT viewport = { 0, 0, _size.width, _size.height, 0.0f, 1.0f };
             _context->RSSetViewports(1, &viewport);
