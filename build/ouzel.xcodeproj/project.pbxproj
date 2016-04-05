@@ -385,6 +385,12 @@
 		30547E641CB3D6C00055EE79 /* BlendStateMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30547E601CB3D6C00055EE79 /* BlendStateMetal.h */; };
 		30547E651CB3D6C00055EE79 /* BlendStateMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30547E601CB3D6C00055EE79 /* BlendStateMetal.h */; };
 		30547E661CB3D6C00055EE79 /* BlendStateMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30547E601CB3D6C00055EE79 /* BlendStateMetal.h */; };
+		30547E781CB47E050055EE79 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30547E761CB47E050055EE79 /* Shake.cpp */; };
+		30547E791CB47E050055EE79 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30547E761CB47E050055EE79 /* Shake.cpp */; };
+		30547E7A1CB47E050055EE79 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30547E761CB47E050055EE79 /* Shake.cpp */; };
+		30547E7B1CB47E050055EE79 /* Shake.h in Headers */ = {isa = PBXBuildFile; fileRef = 30547E771CB47E050055EE79 /* Shake.h */; };
+		30547E7C1CB47E050055EE79 /* Shake.h in Headers */ = {isa = PBXBuildFile; fileRef = 30547E771CB47E050055EE79 /* Shake.h */; };
+		30547E7D1CB47E050055EE79 /* Shake.h in Headers */ = {isa = PBXBuildFile; fileRef = 30547E771CB47E050055EE79 /* Shake.h */; };
 		30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
 		30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
 		30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A8D1C38BD370009C8A7 /* AABB2.cpp */; };
@@ -673,6 +679,8 @@
 		30547E3F1CB3D6720055EE79 /* TextureMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TextureMetal.mm; path = metal/TextureMetal.mm; sourceTree = "<group>"; };
 		30547E5F1CB3D6C00055EE79 /* BlendStateMetal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BlendStateMetal.cpp; path = metal/BlendStateMetal.cpp; sourceTree = "<group>"; };
 		30547E601CB3D6C00055EE79 /* BlendStateMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlendStateMetal.h; path = metal/BlendStateMetal.h; sourceTree = "<group>"; };
+		30547E761CB47E050055EE79 /* Shake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shake.cpp; sourceTree = "<group>"; };
+		30547E771CB47E050055EE79 /* Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shake.h; sourceTree = "<group>"; };
 		30575A8D1C38BD370009C8A7 /* AABB2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB2.cpp; sourceTree = "<group>"; };
 		30575A8E1C38BD370009C8A7 /* AABB2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AABB2.h; sourceTree = "<group>"; };
 		30575A9C1C39CB790009C8A7 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
@@ -975,6 +983,8 @@
 				3047F7551C4C4FBA00774E3D /* Scale.h */,
 				3047F7651C4D2C2000774E3D /* Sequence.cpp */,
 				3047F7661C4D2C2000774E3D /* Sequence.h */,
+				30547E761CB47E050055EE79 /* Shake.cpp */,
+				30547E771CB47E050055EE79 /* Shake.h */,
 			);
 			name = animators;
 			sourceTree = "<group>";
@@ -1121,6 +1131,7 @@
 				303B762F1C3559B900FEDE92 /* ViewController.h in Headers */,
 				3047F76B1C4D2C2000774E3D /* Sequence.h in Headers */,
 				30575AAA1C39D1FF0009C8A7 /* Layer.h in Headers */,
+				30547E7C1CB47E050055EE79 /* Shake.h in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.h in Headers */,
 				303B75F41C335B7D00FEDE92 /* File.h in Headers */,
 				304B27B71C9A063300BA162D /* RendererOGL.h in Headers */,
@@ -1220,6 +1231,7 @@
 				303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */,
 				3047F76C1C4D2C2000774E3D /* Sequence.h in Headers */,
 				30575AAB1C39D1FF0009C8A7 /* Layer.h in Headers */,
+				30547E7D1CB47E050055EE79 /* Shake.h in Headers */,
 				303B765F1C355A3B00FEDE92 /* File.h in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
 				304B27B81C9A063300BA162D /* RendererOGL.h in Headers */,
@@ -1382,6 +1394,7 @@
 				30A9C13D1CAEBA540084C4BF /* Language.h in Headers */,
 				3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */,
 				304B27B61C9A063300BA162D /* RendererOGL.h in Headers */,
+				30547E7B1CB47E050055EE79 /* Shake.h in Headers */,
 				3047F7591C4C4FBA00774E3D /* Scale.h in Headers */,
 				304B27581C9384A600BA162D /* Size3.h in Headers */,
 				3047F7611C4C60B900774E3D /* Fade.h in Headers */,
@@ -1555,6 +1568,7 @@
 				304B27561C9384A600BA162D /* Size3.cpp in Sources */,
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30547E4A1CB3D6720055EE79 /* RendererMetal.mm in Sources */,
+				30547E791CB47E050055EE79 /* Shake.cpp in Sources */,
 				303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */,
 				303B753E1C2A3C9200FEDE92 /* Color.cpp in Sources */,
 				30C56C661CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
@@ -1642,6 +1656,7 @@
 				304B27571C9384A600BA162D /* Size3.cpp in Sources */,
 				303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */,
 				30547E4B1CB3D6720055EE79 /* RendererMetal.mm in Sources */,
+				30547E7A1CB47E050055EE79 /* Shake.cpp in Sources */,
 				30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B764E1C355A3B00FEDE92 /* Color.cpp in Sources */,
 				30C56C671CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
@@ -1689,6 +1704,7 @@
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
+				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,
 				30547E611CB3D6C00055EE79 /* BlendStateMetal.cpp in Sources */,

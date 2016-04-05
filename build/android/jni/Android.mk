@@ -58,6 +58,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/ScrollBar.cpp \
     ../../../ouzel/Sequence.cpp \
     ../../../ouzel/Shader.cpp \
+    ../../../ouzel/Shake.cpp \
     ../../../ouzel/Size2.cpp \
     ../../../ouzel/Sprite.cpp \
     ../../../ouzel/Texture.cpp \
