@@ -29,6 +29,10 @@
 #include "direct3d11/RendererD3D11.h"
 #endif
 
+#if defined(SUPPORTS_METAL)
+#include "RendererMetal.h"
+#endif
+
 #include "Utils.h"
 #include "Renderer.h"
 #include "FileSystem.h"
@@ -115,6 +119,11 @@ namespace ouzel
 #if defined(SUPPORTS_DIRECT3D11)
             case video::Renderer::Driver::DIRECT3D11:
                 _renderer.reset(new video::RendererD3D11());
+                break;
+#endif
+#if defined(SUPPORTS_METAL)
+            case Renderer::Driver::METAL:
+                _renderer.reset(new RendererMetal());
                 break;
 #endif
             default:
