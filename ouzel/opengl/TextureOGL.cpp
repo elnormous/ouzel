@@ -155,7 +155,7 @@ namespace ouzel
                 delete [] oldMipMapData;
                 delete [] newMipMapData;
 
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
             }
             else
             {
