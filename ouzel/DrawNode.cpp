@@ -211,7 +211,18 @@ namespace ouzel
             }
 
             DrawCommand command;
-            command.mode = fill ? video::Renderer::DrawMode::TRIANGLE_STRIP : video::Renderer::DrawMode::LINE_STRIP;
+
+            if (fill)
+            {
+                command.mode = video::Renderer::DrawMode::TRIANGLE_LIST;
+            }
+            else
+            {
+                command.mode = video::Renderer::DrawMode::LINE_STRIP;
+                indices.push_back(0);
+                _boundingBox.insertPoint(positions[0]);
+            }
+
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                          static_cast<uint32_t>(indices.size()), false,
                                                                          vertices.data(), sizeof(video::VertexPC),
