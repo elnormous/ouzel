@@ -74,6 +74,7 @@
     <ClCompile Include="..\ouzel\ScrollBar.cpp" />
     <ClCompile Include="..\ouzel\Sequence.cpp" />
     <ClCompile Include="..\ouzel\Shader.cpp" />
+    <ClCompile Include="..\ouzel\Shake.cpp" />
     <ClCompile Include="..\ouzel\Size2.cpp" />
     <ClCompile Include="..\ouzel\Size3.cpp" />
     <ClCompile Include="..\ouzel\SlideBar.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="..\ouzel\Sequence.h" />
     <ClInclude Include="..\ouzel\Settings.h" />
     <ClInclude Include="..\ouzel\Shader.h" />
+    <ClInclude Include="..\ouzel\Shake.h" />
     <ClInclude Include="..\ouzel\Size2.h" />
     <ClInclude Include="..\ouzel\Size3.h" />
     <ClInclude Include="..\ouzel\SlideBar.h" />

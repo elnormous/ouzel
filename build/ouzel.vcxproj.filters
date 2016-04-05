@@ -212,6 +212,9 @@
     <ClCompile Include="..\ouzel\BlendState.cpp">
       <Filter>video</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\Shake.cpp">
+      <Filter>animators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -458,6 +461,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\BlendState.h">
       <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\Shake.h">
+      <Filter>animators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
