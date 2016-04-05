@@ -44,7 +44,7 @@ using namespace ouzel;
 
         // frame buffer
         glGenFramebuffers(1, &_frameBuffer);
-        RendererOGL::bindFramebuffer(_frameBuffer);
+        video::RendererOGL::bindFramebuffer(_frameBuffer);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                   GL_RENDERBUFFER, _colorRenderBuffer);
 

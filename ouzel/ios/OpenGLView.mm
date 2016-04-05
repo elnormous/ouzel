@@ -45,7 +45,7 @@ using namespace ouzel;
 
         // frame buffer
         glGenFramebuffers(1, &_frameBuffer);
-        RendererOGL::bindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
+        video::RendererOGL::bindFramebuffer(_frameBuffer);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                   GL_RENDERBUFFER, _colorRenderBuffer);
 
@@ -110,7 +110,7 @@ using namespace ouzel;
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
--(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
+-(void)touchesBegan:(NSSet*)touches withEvent:(::UIEvent*)event
 {
     for (UITouch* touch in touches)
     {
@@ -121,7 +121,7 @@ using namespace ouzel;
     }
 }
 
--(void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event
+-(void)touchesMoved:(NSSet*)touches withEvent:(::UIEvent*)event
 {
     for (UITouch* touch in touches)
     {
@@ -132,7 +132,7 @@ using namespace ouzel;
     }
 }
 
--(void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
+-(void)touchesEnded:(NSSet*)touches withEvent:(::UIEvent*)event
 {
     for (UITouch* touch in touches)
     {
@@ -143,7 +143,7 @@ using namespace ouzel;
     }
 }
 
--(void)touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)event
+-(void)touchesCancelled:(NSSet*)touches withEvent:(::UIEvent*)event
 {
     for (UITouch* touch in touches)
     {

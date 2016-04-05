@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "CompileConfig.h"
 #include "BlendStateOGL.h"
 
 namespace ouzel
@@ -36,8 +37,10 @@ namespace ouzel
                 case BlendOperation::ADD: return GL_FUNC_ADD;
                 case BlendOperation::SUBTRACT: return GL_FUNC_SUBTRACT;
                 case BlendOperation::REV_SUBTRACT: return GL_FUNC_REVERSE_SUBTRACT;
+#ifdef OUZEL_SUPPORTS_OPENGL
                 case BlendOperation::MIN: return GL_MIN;
                 case BlendOperation::MAX: return GL_MAX;
+#endif
             }
 
             return GL_FUNC_ADD;
