@@ -13,6 +13,7 @@
 #include "MeshBuffer.h"
 #include "EventDispatcher.h"
 #include "RenderTarget.h"
+#include "Cache.h"
 
 namespace ouzel
 {
@@ -33,6 +34,22 @@ namespace ouzel
         {
             _size = size;
             _fullscreen = fullscreen;
+
+            BlendStatePtr noBlendState = createBlendState(false,
+                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                          BlendState::BlendOperation::ADD,
+                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                          BlendState::BlendOperation::ADD);
+
+            sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
+
+            BlendStatePtr alphaBlendState = createBlendState(true,
+                                                             BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                                             BlendState::BlendOperation::ADD,
+                                                             BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                             BlendState::BlendOperation::ADD);
+
+            sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             return true;
         }

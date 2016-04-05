@@ -76,6 +76,13 @@ namespace ouzel
                 addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
             }
 
+            _blendState = sharedEngine->getCache()->getBlendState(video::BLEND_ALPHA);
+
+            if (!_blendState)
+            {
+                return false;
+            }
+
             _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
                              Vector2(_size.width / 2.0f, _size.height / 2.0f));
 
@@ -250,8 +257,9 @@ namespace ouzel
 
             LayerPtr layer = _layer.lock();
 
-            if (_shader && _texture && layer)
+            if (_texture && layer)
             {
+                sharedEngine->getRenderer()->activateBlendState(_blendState);
                 sharedEngine->getRenderer()->activateTexture(_texture, 0);
                 sharedEngine->getRenderer()->activateShader(_shader);
 

@@ -27,6 +27,9 @@ namespace ouzel
         void preloadParticleDefinition(const std::string& filename);
         scene::ParticleDefinitionPtr getParticleDefinition(const std::string& filename) const;
 
+        video::BlendStatePtr getBlendState(const std::string& blendStateName) const;
+        void setBlendState(const std::string& blendStateName, const video::BlendStatePtr& blendState);
+
     protected:
         Cache();
 
@@ -35,5 +38,6 @@ namespace ouzel
         mutable std::unordered_map<std::string, video::TexturePtr> _textures;
         mutable std::unordered_map<std::string, video::ShaderPtr> _shaders;
         mutable std::unordered_map<std::string, scene::ParticleDefinitionPtr> _particleDefinitions;
+        mutable std::unordered_map<std::string, video::BlendStatePtr> _blendStates;
     };
 }

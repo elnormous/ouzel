@@ -183,14 +183,6 @@ namespace ouzel
                 return false;
             }
 
-            // Blend state
-            BlendStatePtr blendState = createBlendState(true,
-                                                        BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
-                                                        BlendState::BlendOperation::ADD,
-                                                        BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                                                        BlendState::BlendOperation::ADD);
-            activateBlendState(blendState);
-
             // Depth/stencil state
             D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc =
             {
@@ -458,6 +450,11 @@ namespace ouzel
 
         bool RendererD3D11::activateBlendState(BlendStatePtr blendState)
         {
+            if (_activeBlendState == blendState)
+            {
+                return true;
+            }
+            
             if (!Renderer::activateBlendState(blendState))
             {
                 return false;

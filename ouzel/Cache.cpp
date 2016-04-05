@@ -239,4 +239,23 @@ namespace ouzel
 
         return result;
     }
+
+    video::BlendStatePtr Cache::getBlendState(const std::string& blendStateName) const
+    {
+        std::unordered_map<std::string, video::BlendStatePtr>::const_iterator i = _blendStates.find(blendStateName);
+
+        if (i != _blendStates.end())
+        {
+            return i->second;
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+
+    void Cache::setBlendState(const std::string& blendStateName, const video::BlendStatePtr& blendState)
+    {
+        _blendStates[blendStateName] = blendState;
+    }
 }

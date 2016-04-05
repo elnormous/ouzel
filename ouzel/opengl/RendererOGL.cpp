@@ -61,17 +61,6 @@ namespace ouzel
             //glEnable(GL_DEPTH_TEST);
             glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
 
-            // Blend state
-            BlendStatePtr blendState = createBlendState(true,
-                                                        BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
-                                                        BlendState::BlendOperation::ADD,
-                                                        BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                                                        BlendState::BlendOperation::ADD);
-            if (!activateBlendState(blendState))
-            {
-                return false;
-            }
-
             ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
             if (textureShader)
             {
@@ -175,6 +164,11 @@ namespace ouzel
 
         bool RendererOGL::activateBlendState(BlendStatePtr blendState)
         {
+            if (_activeBlendState == blendState)
+            {
+                return true;
+            }
+
             if (!Renderer::activateBlendState(blendState))
             {
                 return false;

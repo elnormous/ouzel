@@ -53,6 +53,7 @@ namespace ouzel
 
             video::TexturePtr _texture;
             video::ShaderPtr _shader;
+            video::BlendStatePtr _blendState;
 
             Size2 _size;
 
