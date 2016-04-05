@@ -26,6 +26,7 @@ namespace ouzel
             void line(const Vector2& start, const Vector2& finish, const video::Color& color);
             void circle(const Vector2& position, float radius, const video::Color& color, bool fill = false, uint32_t segments = 20);
             void rectangle(const Rectangle& rectangle, const video::Color& color, bool fill = false);
+            void triangle(const Vector2 (&positions)[3], const video::Color& color, bool fill = false);
 
         protected:
             struct DrawCommand

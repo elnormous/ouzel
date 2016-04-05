@@ -196,5 +196,30 @@ namespace ouzel
             _boundingBox.insertPoint(Vector2(rectangle.x, rectangle.y));
             _boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
         }
+
+        void DrawNode::triangle(const Vector2 (&positions)[3], const video::Color& color, bool fill)
+        {
+            std::vector<uint16_t> indices;
+            std::vector<video::VertexPC> vertices;
+
+            for(uint32_t i = 0; i < 3; ++i)
+            {
+                indices.push_back(i);
+
+                vertices.push_back(video::VertexPC(positions[i], color));
+                _boundingBox.insertPoint(positions[i]);
+            }
+
+            DrawCommand command;
+            command.mode = fill ? video::Renderer::DrawMode::TRIANGLE_STRIP : video::Renderer::DrawMode::LINE_STRIP;
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
+                                                                         static_cast<uint32_t>(indices.size()), false,
+                                                                         vertices.data(), sizeof(video::VertexPC),
+                                                                         static_cast<uint32_t>(vertices.size()), false,
+                                                                         video::VertexPC::ATTRIBUTES);
+
+            _drawCommands.push_back(command);
+        }
+
     } // namespace scene
 } // namespace ouzel
