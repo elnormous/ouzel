@@ -379,9 +379,9 @@
 		30547E5B1CB3D6720055EE79 /* TextureMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30547E3F1CB3D6720055EE79 /* TextureMetal.mm */; };
 		30547E5C1CB3D6720055EE79 /* TextureMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30547E3F1CB3D6720055EE79 /* TextureMetal.mm */; };
 		30547E5D1CB3D6720055EE79 /* TextureMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30547E3F1CB3D6720055EE79 /* TextureMetal.mm */; };
-		30547E611CB3D6C00055EE79 /* BlendStateMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30547E5F1CB3D6C00055EE79 /* BlendStateMetal.cpp */; };
-		30547E621CB3D6C00055EE79 /* BlendStateMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30547E5F1CB3D6C00055EE79 /* BlendStateMetal.cpp */; };
-		30547E631CB3D6C00055EE79 /* BlendStateMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30547E5F1CB3D6C00055EE79 /* BlendStateMetal.cpp */; };
+		30547E611CB3D6C00055EE79 /* BlendStateMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30547E5F1CB3D6C00055EE79 /* BlendStateMetal.mm */; };
+		30547E621CB3D6C00055EE79 /* BlendStateMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30547E5F1CB3D6C00055EE79 /* BlendStateMetal.mm */; };
+		30547E631CB3D6C00055EE79 /* BlendStateMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30547E5F1CB3D6C00055EE79 /* BlendStateMetal.mm */; };
 		30547E641CB3D6C00055EE79 /* BlendStateMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30547E601CB3D6C00055EE79 /* BlendStateMetal.h */; };
 		30547E651CB3D6C00055EE79 /* BlendStateMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30547E601CB3D6C00055EE79 /* BlendStateMetal.h */; };
 		30547E661CB3D6C00055EE79 /* BlendStateMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30547E601CB3D6C00055EE79 /* BlendStateMetal.h */; };
@@ -677,7 +677,7 @@
 		30547E3D1CB3D6720055EE79 /* ShaderMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ShaderMetal.mm; path = metal/ShaderMetal.mm; sourceTree = "<group>"; };
 		30547E3E1CB3D6720055EE79 /* TextureMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureMetal.h; path = metal/TextureMetal.h; sourceTree = "<group>"; };
 		30547E3F1CB3D6720055EE79 /* TextureMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TextureMetal.mm; path = metal/TextureMetal.mm; sourceTree = "<group>"; };
-		30547E5F1CB3D6C00055EE79 /* BlendStateMetal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BlendStateMetal.cpp; path = metal/BlendStateMetal.cpp; sourceTree = "<group>"; };
+		30547E5F1CB3D6C00055EE79 /* BlendStateMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = BlendStateMetal.mm; path = metal/BlendStateMetal.mm; sourceTree = "<group>"; };
 		30547E601CB3D6C00055EE79 /* BlendStateMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlendStateMetal.h; path = metal/BlendStateMetal.h; sourceTree = "<group>"; };
 		30547E761CB47E050055EE79 /* Shake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shake.cpp; sourceTree = "<group>"; };
 		30547E771CB47E050055EE79 /* Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shake.h; sourceTree = "<group>"; };
@@ -1035,8 +1035,8 @@
 		30547E351CB3D6570055EE79 /* metal */ = {
 			isa = PBXGroup;
 			children = (
-				30547E5F1CB3D6C00055EE79 /* BlendStateMetal.cpp */,
 				30547E601CB3D6C00055EE79 /* BlendStateMetal.h */,
+				30547E5F1CB3D6C00055EE79 /* BlendStateMetal.mm */,
 				30547E361CB3D6720055EE79 /* MeshBufferMetal.h */,
 				30547E371CB3D6720055EE79 /* MeshBufferMetal.mm */,
 				30547E381CB3D6720055EE79 /* RendererMetal.h */,
@@ -1519,7 +1519,7 @@
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
-				30547E621CB3D6C00055EE79 /* BlendStateMetal.cpp in Sources */,
+				30547E621CB3D6C00055EE79 /* BlendStateMetal.mm in Sources */,
 				304B277A1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				3047F7701C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				30547E501CB3D6720055EE79 /* RenderTargetMetal.mm in Sources */,
@@ -1607,7 +1607,7 @@
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
-				30547E631CB3D6C00055EE79 /* BlendStateMetal.cpp in Sources */,
+				30547E631CB3D6C00055EE79 /* BlendStateMetal.mm in Sources */,
 				304B277B1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				3047F7711C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				30547E511CB3D6720055EE79 /* RenderTargetMetal.mm in Sources */,
@@ -1707,7 +1707,7 @@
 				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,
-				30547E611CB3D6C00055EE79 /* BlendStateMetal.cpp in Sources */,
+				30547E611CB3D6C00055EE79 /* BlendStateMetal.mm in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
 				30EF36631CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,
