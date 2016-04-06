@@ -52,22 +52,9 @@ using namespace ouzel;
         _resized = NO;
 
         // Create OpenGL context
-        self.openGLContext = [[NSOpenGLContext alloc] initWithFormat:self.pixelFormat shareContext:NULL];
+        /*self.openGLContext = [[NSOpenGLContext alloc] initWithFormat:self.pixelFormat shareContext:NULL];
         [self.openGLContext setView:self];
-        [self.openGLContext makeCurrentContext];
-
-        NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
-
-        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Ouzel" action:nil keyEquivalent:@""] autorelease];
-        [mainMenu addItem:mainMenuItem];
-
-        NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:@"Ouzel"] autorelease];
-        [mainMenuItem setSubmenu:subMenu];
-
-        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
-        [subMenu addItem:quitItem];
-
-        [NSApplication sharedApplication].mainMenu = mainMenu;
+        [self.openGLContext makeCurrentContext];*/
     }
 
     return self;
@@ -75,8 +62,7 @@ using namespace ouzel;
 
 -(void)dealloc
 {
-    if (_displayLink) CVDisplayLinkRelease(_displayLink);
-    [self.openGLContext release];
+    [self close];
 
     [super dealloc];
 }
@@ -113,10 +99,10 @@ using namespace ouzel;
 
 -(void)close
 {
+    _running = NO;
+
     if (_displayLink)
     {
-        _running = NO;
-
         CGLLockContext([self.openGLContext CGLContextObj]);
         [self.openGLContext makeCurrentContext];
 
@@ -125,6 +111,12 @@ using namespace ouzel;
 
         CGLUnlockContext([self.openGLContext CGLContextObj]);
     }
+
+    /*if (self.openGLContext)
+    {
+        [self.openGLContext release];
+        self.openGLContext = Nil;
+    }*/
 }
 
 -(void)changeDisplay
@@ -135,24 +127,6 @@ using namespace ouzel;
     {
         CVDisplayLinkSetCurrentCGDisplay(_displayLink, displayId);
         _displayId = displayId;
-    }
-}
-
--(void)handleQuit:(id)sender
-{
-    OUZEL_UNUSED(sender);
-
-    if ([NSThread isMainThread])
-    {
-        [self close];
-        [self.window close];
-    }
-    else
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self close];
-            [self.window close];
-        });
     }
 }
 
@@ -176,6 +150,8 @@ using namespace ouzel;
 
 -(void)draw
 {
+    if (!_running) return;
+
     CGLLockContext([self.openGLContext CGLContextObj]);
     [self.openGLContext makeCurrentContext];
 

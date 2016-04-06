@@ -15,6 +15,22 @@
 
 @implementation WindowDelegate
 
+-(void)handleQuit:(id)sender
+{
+    OUZEL_UNUSED(sender);
+
+    if ([NSThread isMainThread])
+    {
+        [_window->getNativeWindow() close];
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_window->getNativeWindow() close];
+        });
+    }
+}
+
 -(id)initWithWindow:(ouzel::WindowOSX*)window
 {
     if (self = [super init])
@@ -67,9 +83,7 @@ namespace ouzel
 
     WindowOSX::~WindowOSX()
     {
-        [_openGLView release];
-        [_window.delegate release];
-        [_window release];
+        close();
     }
 
     bool WindowOSX::init()
@@ -119,13 +133,37 @@ namespace ouzel
 
         [_window makeKeyAndOrderFront:Nil];
 
+        NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
+
+        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Ouzel" action:nil keyEquivalent:@""] autorelease];
+        [mainMenu addItem:mainMenuItem];
+
+        NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:@"Ouzel"] autorelease];
+        [mainMenuItem setSubmenu:subMenu];
+
+        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
+        [subMenu addItem:quitItem];
+
+        [NSApplication sharedApplication].mainMenu = mainMenu;
+
         return Window::init();
     }
 
     void WindowOSX::close()
     {
-        [_openGLView close];
-        [_window close];
+        if (_openGLView)
+        {
+            [_openGLView close];
+            [_openGLView release];
+            _openGLView = Nil;
+        }
+
+        if (_window)
+        {
+            [_window.delegate release];
+            [_window release];
+            _window = Nil;
+        }
     }
 
     void WindowOSX::setSize(const Size2& size)
@@ -211,7 +249,7 @@ namespace ouzel
 
     void WindowOSX::handleClose()
     {
-        [_openGLView close];
+        close();
     }
 
     void WindowOSX::handleFullscreenChange(bool fullscreen)
