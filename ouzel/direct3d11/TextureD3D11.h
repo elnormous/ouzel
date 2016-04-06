@@ -31,7 +31,7 @@ namespace ouzel
         protected:
             TextureD3D11();
 
-            void clean();
+            void destroy();
             bool createTexture(const void* data, UINT width, UINT height);
             bool uploadData(const void* data, UINT width, UINT height);
 

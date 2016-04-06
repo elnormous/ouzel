@@ -55,7 +55,7 @@ namespace ouzel
         protected:
             RendererD3D11();
 
-            void clean();
+            void destroy();
             virtual bool init(const Size2& size, bool fullscreen) override;
 
             IDXGIOutput* getOutput() const;

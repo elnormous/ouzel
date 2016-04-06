@@ -32,10 +32,10 @@ namespace ouzel
 
         RendererD3D11::~RendererD3D11()
         {
-            clean();
+            destroy();
         }
 
-        void RendererD3D11::clean()
+        void RendererD3D11::destroy()
         {
             if (_depthStencilState) _depthStencilState->Release();
             if (_rasterizerState) _rasterizerState->Release();
@@ -53,7 +53,7 @@ namespace ouzel
                 return false;
             }
 
-            clean();
+            destroy();
 
             UINT deviceCreationFlags = 0;
     #if D3D11_DEBUG

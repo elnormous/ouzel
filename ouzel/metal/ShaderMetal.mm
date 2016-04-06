@@ -18,10 +18,10 @@ namespace ouzel
 
         ShaderMetal::~ShaderMetal()
         {
-            
+            destroy();
         }
         
-        void ShaderMetal::clean()
+        void ShaderMetal::destroy()
         {
             if (_vertexShader) [_vertexShader release];
             if (_fragmentShader) [_fragmentShader release];
@@ -34,7 +34,7 @@ namespace ouzel
                 return false;
             }
             
-            clean();
+            destroy();
             
             return true;
         }

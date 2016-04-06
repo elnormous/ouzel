@@ -54,7 +54,7 @@ namespace ouzel
         protected:
             TextureOGL();
 
-            void clean();
+            void destroy();
 
             bool uploadData(const void* data, GLsizei width, GLsizei height);
 

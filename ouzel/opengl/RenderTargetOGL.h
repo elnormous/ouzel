@@ -42,14 +42,14 @@ namespace ouzel
         public:
             virtual ~RenderTargetOGL();
 
-            void clean();
-
             virtual bool init(const Size2& size, bool depthBuffer) override;
 
             GLuint getFrameBufferId() const { return _framebufferId; }
 
         protected:
             RenderTargetOGL();
+
+            void destroy();
 
             GLuint _framebufferId = 0;
             GLuint _depthBufferId = 0;

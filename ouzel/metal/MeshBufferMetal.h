@@ -34,7 +34,7 @@ namespace ouzel
         protected:
             MeshBufferMetal();
             
-            void clean();
+            void destroy();
             
             MetalBufferPtr _indexBuffer = Nil;
             MetalBufferPtr _vertexBuffer = Nil;

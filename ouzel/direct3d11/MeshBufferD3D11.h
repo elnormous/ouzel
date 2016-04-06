@@ -31,7 +31,7 @@ namespace ouzel
         protected:
             MeshBufferD3D11();
 
-            void clean();
+            void destroy();
             bool createIndexBuffer(const void* indices, uint32_t size);
             bool createVertexBuffer(const void* vertices, uint32_t size);
             bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);

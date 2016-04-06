@@ -17,10 +17,10 @@ namespace ouzel
         
         RendererMetal::~RendererMetal()
         {
-            clean();
+            destroy();
         }
         
-        void RendererMetal::clean()
+        void RendererMetal::destroy()
         {
             if (_commandQueue) [_commandQueue release];
             if (_device) [_device release];
@@ -28,7 +28,7 @@ namespace ouzel
         
         bool RendererMetal::init(const Size2& size, bool fullscreen)
         {
-            clean();
+            destroy();
             
             _device = MTLCreateSystemDefaultDevice();
             

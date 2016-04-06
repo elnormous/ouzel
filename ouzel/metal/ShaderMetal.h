@@ -41,7 +41,7 @@ namespace ouzel
         protected:
             ShaderMetal();
             
-            void clean();
+            void destroy();
             
             MetalFunctionPtr _vertexShader = Nil;
             MetalFunctionPtr _fragmentShader = Nil;

@@ -17,10 +17,10 @@ namespace ouzel
 
         RenderTargetOGL::~RenderTargetOGL()
         {
-            clean();
+            destroy();
         }
 
-        void RenderTargetOGL::clean()
+        void RenderTargetOGL::destroy()
         {
             if (_depthBufferId) glDeleteRenderbuffers(1, &_depthBufferId);
             if (_framebufferId) glDeleteFramebuffers(1, &_framebufferId);
@@ -33,7 +33,7 @@ namespace ouzel
                 return false;
             }
 
-            clean();
+            destroy();
 
             GLuint oldFrameBufferId;
             glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));

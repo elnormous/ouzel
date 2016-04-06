@@ -46,7 +46,7 @@ namespace ouzel
         private:
             RendererMetal();
             
-            void clean();
+            void destroy();
             
             MetalDevicePtr _device = Nil;
             MetalCommandQueuePtr _commandQueue = Nil;

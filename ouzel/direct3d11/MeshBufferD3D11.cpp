@@ -17,10 +17,10 @@ namespace ouzel
 
         MeshBufferD3D11::~MeshBufferD3D11()
         {
-            clean();
+            destroy();
         }
 
-        void MeshBufferD3D11::clean()
+        void MeshBufferD3D11::destroy()
         {
             if (_indexBuffer) _indexBuffer->Release();
             if (_vertexBuffer) _vertexBuffer->Release();
@@ -33,7 +33,7 @@ namespace ouzel
                 return false;
             }
 
-            clean();
+            destroy();
 
             if (!createIndexBuffer(indices, _indexSize * indexCount))
             {

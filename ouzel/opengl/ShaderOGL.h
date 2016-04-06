@@ -59,7 +59,7 @@ namespace ouzel
         protected:
             ShaderOGL();
 
-            void clean();
+            void destroy();
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage(GLuint programId);
 

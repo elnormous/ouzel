@@ -36,7 +36,7 @@ namespace ouzel
         protected:
             TextureMetal();
             
-            void clean();
+            void destroy();
             
             MetalTexturePtr _texture = Nil;
         };

@@ -17,10 +17,10 @@ namespace ouzel
         
         MeshBufferMetal::~MeshBufferMetal()
         {
-            
+            destroy();
         }
         
-        void MeshBufferMetal::clean()
+        void MeshBufferMetal::destroy()
         {
             if (_indexBuffer) [_indexBuffer release];
             if (_vertexBuffer) [_vertexBuffer release];
@@ -32,6 +32,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            destroy();
             
             return true;
         }

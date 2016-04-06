@@ -20,10 +20,10 @@ namespace ouzel
 
         TextureD3D11::~TextureD3D11()
         {
-            clean();
+            destroy();
         }
 
-        void TextureD3D11::clean()
+        void TextureD3D11::destroy()
         {
             if (_resourceView) _resourceView->Release();
             if (_texture) _texture->Release();
@@ -36,7 +36,7 @@ namespace ouzel
                 return false;
             }
 
-            clean();
+            destroy();
 
             return createTexture(nullptr,
                                  static_cast<UINT>(size.width),
@@ -50,7 +50,7 @@ namespace ouzel
                 return false;
             }
 
-            clean();
+            destroy();
 
             return createTexture(data,
                                  static_cast<UINT>(size.width),

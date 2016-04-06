@@ -55,7 +55,7 @@ namespace ouzel
         protected:
             MeshBufferOGL();
 
-            void clean();
+            void destroy();
 
             GLuint _vertexArrayId = 0;
             GLuint _indexBufferId = 0;

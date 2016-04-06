@@ -32,7 +32,7 @@ namespace ouzel
         protected:
             BlendStateD3D11();
 
-            void clean();
+            void destroy();
 
             ID3D11BlendState* _blendState = nullptr;
         };

@@ -19,14 +19,14 @@ namespace ouzel
         public:
             virtual ~RenderTargetD3D11();
 
-            void clean();
-
             virtual bool init(const Size2& size, bool depthBuffer);
 
             ID3D11RenderTargetView* getRenderTargetView() const { return _renderTargetView; }
 
         protected:
             RenderTargetD3D11();
+            
+            void destroy();
 
             ID3D11RenderTargetView* _renderTargetView = nullptr;
         };

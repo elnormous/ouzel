@@ -17,10 +17,10 @@ namespace ouzel
 
         RenderTargetD3D11::~RenderTargetD3D11()
         {
-            clean();
+            destroy();
         }
 
-        void RenderTargetD3D11::clean()
+        void RenderTargetD3D11::destroy()
         {
             if (_renderTargetView) _renderTargetView->Release();
         }
@@ -32,7 +32,7 @@ namespace ouzel
                 return false;
             }
 
-            clean();
+            destroy();
 
             std::shared_ptr<TextureD3D11> textureD3D11(new TextureD3D11());
 

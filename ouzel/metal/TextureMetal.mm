@@ -19,10 +19,10 @@ namespace ouzel
         
         TextureMetal::~TextureMetal()
         {
-            
+            destroy();
         }
         
-        void TextureMetal::clean()
+        void TextureMetal::destroy()
         {
             if (_texture) [_texture release];
         }
@@ -34,7 +34,7 @@ namespace ouzel
                 return false;
             }
             
-            clean();
+            destroy();
             
             return true;
         }
@@ -45,6 +45,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            destroy();
             
             return true;
         }
