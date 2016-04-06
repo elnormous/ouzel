@@ -127,9 +127,9 @@ namespace ouzel
         NSRect windowFrame = [NSWindow contentRectForFrameRect:[_window frame]
                                                      styleMask:[_window styleMask]];
 
-        _openGLView = [[OpenGLView alloc] initWithFrame:windowFrame];
+        _view = [[OpenGLView alloc] initWithFrame:windowFrame];
 
-        [_window setContentView:_openGLView];
+        [_window setContentView:_view];
 
         [_window makeKeyAndOrderFront:Nil];
 
@@ -151,11 +151,11 @@ namespace ouzel
 
     void WindowOSX::close()
     {
-        if (_openGLView)
+        if (_view)
         {
-            [_openGLView close];
-            [_openGLView release];
-            _openGLView = Nil;
+            [_view close];
+            [_view release];
+            _view = Nil;
         }
 
         if (_window)
@@ -244,7 +244,7 @@ namespace ouzel
 
     void WindowOSX::handleDisplayChange()
     {
-        [_openGLView changeDisplay];
+        [_view changeDisplay];
     }
 
     void WindowOSX::handleClose()

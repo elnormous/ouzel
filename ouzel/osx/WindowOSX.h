@@ -6,14 +6,13 @@
 #include "Window.h"
 
 #ifdef __OBJC__
-@class NSWindow;
+#include <Cocoa/Cocoa.h>
 typedef NSWindow* NSWindowPtr;
-@class OpenGLView;
-typedef OpenGLView* OpenGLViewPtr;
+typedef NSView* NSViewPtr;
 #else
 #include <objc/objc.h>
 typedef id NSWindowPtr;
-typedef id OpenGLViewPtr;
+typedef id NSViewPtr;
 #endif
 
 namespace ouzel
@@ -42,6 +41,6 @@ namespace ouzel
         virtual bool init() override;
 
         NSWindowPtr _window = Nil;
-        OpenGLViewPtr _openGLView = Nil;
+        NSViewPtr _view = Nil;
     };
 }

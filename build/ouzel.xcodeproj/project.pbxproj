@@ -475,6 +475,7 @@
 		30A9C13D1CAEBA540084C4BF /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.h */; };
 		30A9C13E1CAEBA540084C4BF /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.h */; };
 		30A9C13F1CAEBA540084C4BF /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.h */; };
+		30AFE12F1CB5D5FE00478AA2 /* MetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30AFE12E1CB5D5FE00478AA2 /* MetalView.m */; };
 		30B328841C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328851C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328861C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
@@ -711,6 +712,8 @@
 		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
 		30A9C1381CAEBA540084C4BF /* Language.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Language.cpp; sourceTree = "<group>"; };
 		30A9C1391CAEBA540084C4BF /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
+		30AFE12E1CB5D5FE00478AA2 /* MetalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalView.m; sourceTree = "<group>"; };
+		30AFE1301CB5D61500478AA2 /* MetalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalView.h; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
 		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
@@ -911,6 +914,8 @@
 				303B751E1C29EFEC00FEDE92 /* AppDelegate.h */,
 				303B751F1C29EFEC00FEDE92 /* AppDelegate.mm */,
 				303B751C1C29EDEE00FEDE92 /* main.mm */,
+				30AFE1301CB5D61500478AA2 /* MetalView.h */,
+				30AFE12E1CB5D5FE00478AA2 /* MetalView.m */,
 				304A8E391C237C70008B1151 /* OpenGLView.h */,
 				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
 				300934231C8894D800CC50D3 /* WindowOSX.h */,
@@ -1743,6 +1748,7 @@
 				30547E491CB3D6720055EE79 /* RendererMetal.mm in Sources */,
 				30547E551CB3D6720055EE79 /* ShaderMetal.mm in Sources */,
 				304B27AD1C9A063300BA162D /* MeshBufferOGL.cpp in Sources */,
+				30AFE12F1CB5D5FE00478AA2 /* MetalView.m in Sources */,
 				30575ACD1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,

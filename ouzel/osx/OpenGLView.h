@@ -1,8 +1,8 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <Cocoa/Cocoa.h>
-#include <CoreVideo/CoreVideo.h>
+#import <Cocoa/Cocoa.h>
+#import <CoreVideo/CoreVideo.h>
 
 @interface OpenGLView : NSOpenGLView
 {
