@@ -14,18 +14,6 @@ namespace ouzel
 {
     namespace scene
     {
-        std::shared_ptr<Layer> Layer::create()
-        {
-            std::shared_ptr<Layer> result = std::make_shared<Layer>();
-
-            if (!result->init())
-            {
-                result.reset();
-            }
-
-            return result;
-        }
-
         Layer::Layer()
         {
 
@@ -34,14 +22,6 @@ namespace ouzel
         Layer::~Layer()
         {
 
-        }
-
-        bool Layer::init()
-        {
-            _camera = std::make_shared<Camera>();
-            _camera->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
-
-            return true;
         }
 
         void Layer::draw()
@@ -95,6 +75,12 @@ namespace ouzel
         void Layer::setCamera(const CameraPtr& camera)
         {
             _camera = camera;
+
+            if (_camera)
+            {
+                _camera->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
+                _camera->recalculateProjection();
+            }
         }
 
         NodePtr Layer::pickNode(const Vector2& position) const

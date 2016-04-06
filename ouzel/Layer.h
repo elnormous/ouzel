@@ -23,12 +23,8 @@ namespace ouzel
         {
             friend Scene;
         public:
-            static std::shared_ptr<Layer> create();
-
             Layer();
             virtual ~Layer();
-
-            virtual bool init();
 
             virtual void draw();
 

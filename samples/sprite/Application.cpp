@@ -33,11 +33,13 @@ void Application::begin()
     scene::ScenePtr scene = make_shared<scene::Scene>();
     sharedEngine->getSceneManager()->setScene(scene);
 
-    _layer = scene::Layer::create();
+    _layer = std::make_shared<scene::Layer>();
     scene->addLayer(_layer);
+    _layer->setCamera(std::make_shared<scene::Camera>());
 
-    _uiLayer = scene::Layer::create();
+    _uiLayer = std::make_shared<scene::Layer>();
     scene->addLayer(_uiLayer);
+    _uiLayer->setCamera(std::make_shared<scene::Camera>());
 
     scene::DrawNodePtr drawNode = std::make_shared<scene::DrawNode>();
     drawNode->rectangle(Rectangle(100.0f, 100.0f), video::Color(0, 128, 128, 255), true);
