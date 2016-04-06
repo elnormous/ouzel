@@ -8,8 +8,8 @@
 
 namespace ouzel
 {
-    WindowTVOS::WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
-        Window(size, resizable, fullscreen, title)
+    WindowTVOS::WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver):
+        Window(size, resizable, fullscreen, title, driver)
     {
 
     }

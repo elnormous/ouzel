@@ -75,8 +75,8 @@
 
 namespace ouzel
 {
-    WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
-        Window(size, resizable, fullscreen, title)
+    WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver):
+        Window(size, resizable, fullscreen, title, driver)
     {
 
     }

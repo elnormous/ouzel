@@ -14,7 +14,7 @@ namespace ouzel
         virtual ~WindowAndroid();
 
     protected:
-        WindowAndroid(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
+        WindowAndroid(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver);
         virtual bool init() override;
     };
 }

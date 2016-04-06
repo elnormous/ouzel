@@ -37,7 +37,7 @@ namespace ouzel
         NSWindowPtr getNativeWindow() const { return _window; }
 
     protected:
-        WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
+        WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver);
         virtual bool init() override;
 
         NSWindowPtr _window = Nil;

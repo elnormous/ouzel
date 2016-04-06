@@ -8,12 +8,13 @@
 
 namespace ouzel
 {
-    Window::Window(const Size2& size, bool resizable, bool fullscreen, const std::string& title)
+    Window::Window(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver)
     {
         _size = size;
         _resizable = resizable;
         _fullscreen = fullscreen;
         _title = title;
+        _driver = driver;
     }
 
     Window::~Window()

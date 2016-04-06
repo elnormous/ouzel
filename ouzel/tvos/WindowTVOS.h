@@ -25,7 +25,7 @@ namespace ouzel
         virtual ~WindowTVOS();
 
     protected:
-        WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
+        WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver);
         virtual bool init() override;
 
         UIWindowPtr _window;
