@@ -61,12 +61,12 @@ namespace ouzel
             BlendState();
 
             bool _enableBlending = false;
-            BlendFactor _colorBlendSource;
-            BlendFactor _colorBlendDest;
-            BlendOperation _colorOperation;
-            BlendFactor _alphaBlendSource;
-            BlendFactor _alphaBlendDest;
-            BlendOperation _alphaOperation;
+            BlendFactor _colorBlendSource = BlendFactor::ONE;
+            BlendFactor _colorBlendDest = BlendFactor::ZERO;
+            BlendOperation _colorOperation = BlendOperation::ADD;
+            BlendFactor _alphaBlendSource = BlendFactor::ONE;
+            BlendFactor _alphaBlendDest = BlendFactor::ZERO;
+            BlendOperation _alphaOperation = BlendOperation::ADD;
 
         };
     } // namespace video
