@@ -66,9 +66,8 @@ namespace ouzel
             command.mode = video::Renderer::DrawMode::POINT_LIST;
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                   static_cast<uint32_t>(indices.size()), false,
-                                                                                  vertices.data(), sizeof(video::VertexPC),
-                                                                                  static_cast<uint32_t>(vertices.size()), false,
-                                                                                  video::VertexPC::ATTRIBUTES);
+                                                                                  vertices.data(), video::VertexPC::ATTRIBUTES,
+                                                                                  static_cast<uint32_t>(vertices.size()), false);
 
             _drawCommands.push_back(command);
 
@@ -89,9 +88,8 @@ namespace ouzel
             command.mode = video::Renderer::DrawMode::LINE_STRIP;
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                   static_cast<uint32_t>(indices.size()), false,
-                                                                                  vertices.data(), sizeof(video::VertexPC),
-                                                                                  static_cast<uint32_t>(vertices.size()), false,
-                                                                                  video::VertexPC::ATTRIBUTES);
+                                                                                  vertices.data(), video::VertexPC::ATTRIBUTES,
+                                                                                  static_cast<uint32_t>(vertices.size()), false);
 
             _drawCommands.push_back(command);
 
@@ -151,9 +149,8 @@ namespace ouzel
 
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                   static_cast<uint32_t>(indices.size()), false,
-                                                                                  vertices.data(), sizeof(video::VertexPC),
-                                                                                  static_cast<uint32_t>(vertices.size()), false,
-                                                                                  video::VertexPC::ATTRIBUTES);
+                                                                                  vertices.data(), video::VertexPC::ATTRIBUTES,
+                                                                                  static_cast<uint32_t>(vertices.size()), false);
 
             _drawCommands.push_back(command);
 
@@ -187,9 +184,8 @@ namespace ouzel
 
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                   static_cast<uint32_t>(indices.size()), false,
-                                                                                  vertices.data(), sizeof(video::VertexPC),
-                                                                                  static_cast<uint32_t>(vertices.size()), false,
-                                                                                  video::VertexPC::ATTRIBUTES);
+                                                                                  vertices.data(), video::VertexPC::ATTRIBUTES,
+                                                                                  static_cast<uint32_t>(vertices.size()), false);
 
             _drawCommands.push_back(command);
 
@@ -225,9 +221,8 @@ namespace ouzel
 
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                          static_cast<uint32_t>(indices.size()), false,
-                                                                         vertices.data(), sizeof(video::VertexPC),
-                                                                         static_cast<uint32_t>(vertices.size()), false,
-                                                                         video::VertexPC::ATTRIBUTES);
+                                                                         vertices.data(), video::VertexPC::ATTRIBUTES,
+                                                                         static_cast<uint32_t>(vertices.size()), false);
 
             _drawCommands.push_back(command);
         }

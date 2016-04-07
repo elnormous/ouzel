@@ -107,8 +107,7 @@ namespace ouzel
             _font.getVertices(_text, _color, _textAnchor, indices, vertices);
 
             _meshBuffer = sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
-                                                                                 vertices.data(), sizeof(video::VertexPCT), static_cast<uint32_t>(vertices.size()), false,
-                                                                                 video::VertexPCT::ATTRIBUTES);
+                                                                                 vertices.data(), video::VertexPCT::ATTRIBUTES, static_cast<uint32_t>(vertices.size()), false);
 
             _boundingBox.reset();
 

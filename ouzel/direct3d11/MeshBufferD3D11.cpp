@@ -26,7 +26,7 @@ namespace ouzel
             if (_vertexBuffer) _vertexBuffer->Release();
         }
 
-        bool MeshBufferD3D11::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+        bool MeshBufferD3D11::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
             if (!MeshBuffer::initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
             {
@@ -45,20 +45,6 @@ namespace ouzel
                 case 2: _indexFormat = DXGI_FORMAT_R16_UINT; break;
                 case 4: _indexFormat = DXGI_FORMAT_R32_UINT; break;
                 default: log("Invalid index size"); return false;
-            }
-
-            uint32_t size = 0;
-
-            if (vertexAttributes & VERTEX_POSITION) size += 3 * sizeof(float);
-            if (vertexAttributes & VERTEX_COLOR) size += 4 * sizeof(uint8_t);
-            if (vertexAttributes & VERTEX_NORMAL) size += 3 * sizeof(float);
-            if (vertexAttributes & VERTEX_TEXCOORD0) size += 2 * sizeof(float);
-            if (vertexAttributes & VERTEX_TEXCOORD1) size += 2 * sizeof(float);
-
-            if (size != _vertexSize)
-            {
-                log("Invalid vertex size");
-                return false;
             }
 
             if (!createVertexBuffer(vertices, _vertexSize * vertexCount))

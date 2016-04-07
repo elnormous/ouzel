@@ -297,9 +297,8 @@ namespace ouzel
 
             _mesh = sharedEngine->getRenderer()->createMeshBuffer(_indices.data(), sizeof(uint16_t),
                                                                            static_cast<uint32_t>(_indices.size()), false,
-                                                                           _vertices.data(), sizeof(video::VertexPCT),
-                                                                           static_cast<uint32_t>(_vertices.size()), true,
-                                                                           video::VertexPCT::ATTRIBUTES);
+                                                                           _vertices.data(), video::VertexPCT::ATTRIBUTES,
+                                                                           static_cast<uint32_t>(_vertices.size()), true);
 
             _particles.resize(_particleDefinition.maxParticles);
         }

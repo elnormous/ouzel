@@ -18,7 +18,7 @@ namespace ouzel
 
         }
 
-        bool MeshBuffer::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+        bool MeshBuffer::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
             OUZEL_UNUSED(indices);
             OUZEL_UNUSED(indexCount);
@@ -30,10 +30,9 @@ namespace ouzel
             _dynamicIndexBuffer = dynamicIndexBuffer;
 
             _vertexCount = vertexCount;
-            _vertexSize = vertexSize;
-            _dynamicVertexBuffer = dynamicVertexBuffer;
-
             _vertexAttributes = vertexAttributes;
+            _dynamicVertexBuffer = dynamicVertexBuffer;
+            updateVertexSize();
 
             return true;
         }
@@ -64,6 +63,44 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        bool MeshBuffer::setVertexAttributes(uint32_t vertexAttributes)
+        {
+            _vertexAttributes = vertexAttributes;
+            updateVertexSize();
+
+            return true;
+        }
+
+        void MeshBuffer::updateVertexSize()
+        {
+            _vertexSize = 0;
+
+            if (_vertexAttributes & VERTEX_POSITION)
+            {
+                _vertexSize += 3 * sizeof(float);
+            }
+
+            if (_vertexAttributes & VERTEX_COLOR)
+            {
+                _vertexSize += 4 * sizeof(uint8_t);
+            }
+
+            if (_vertexAttributes & VERTEX_NORMAL)
+            {
+                _vertexSize += 3 * sizeof(float);
+            }
+
+            if (_vertexAttributes & VERTEX_TEXCOORD0)
+            {
+                _vertexSize += 2 * sizeof(float);
+            }
+
+            if (_vertexAttributes & VERTEX_TEXCOORD1)
+            {
+                _vertexSize += 2 * sizeof(float);
+            }
         }
     } // namespace video
 } // namespace ouzel

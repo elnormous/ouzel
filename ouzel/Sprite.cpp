@@ -219,9 +219,8 @@ namespace ouzel
 
             _frameMeshBuffers.push_back(sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
                                                                                                static_cast<uint32_t>(indices.size()), false,
-                                                                                               vertices.data(), sizeof(video::VertexPCT),
-                                                                                               static_cast<uint32_t>(vertices.size()), true,
-                                                                                               video::VertexPCT::ATTRIBUTES));
+                                                                                               vertices.data(), video::VertexPCT::ATTRIBUTES,
+                                                                                               static_cast<uint32_t>(vertices.size()), true));
 
             _frameCount++;
         }

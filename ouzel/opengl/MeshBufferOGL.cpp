@@ -27,9 +27,9 @@ namespace ouzel
             if (_indexBufferId) glDeleteBuffers(1, &_indexBufferId);
         }
 
-        bool MeshBufferOGL::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexSize, uint32_t vertexCount, bool dynamicVertexBuffer, uint32_t vertexAttributes)
+        bool MeshBufferOGL::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
-            if (!MeshBuffer::initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexSize, vertexCount, dynamicVertexBuffer, vertexAttributes))
+            if (!MeshBuffer::initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer))
             {
                 return false;
             }
@@ -59,7 +59,7 @@ namespace ouzel
 
             glGenBuffers(1, &_vertexBufferId);
             glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
-            glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, vertices,
+            glBufferData(GL_ARRAY_BUFFER, _vertexSize * vertexCount, vertices,
                          _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
@@ -67,56 +67,7 @@ namespace ouzel
                 return false;
             }
 
-            GLuint index = 0;
-            GLuint offset = 0;
-
-            if (vertexAttributes & VERTEX_POSITION)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 3 * sizeof(float);
-                index++;
-            }
-
-            if (vertexAttributes & VERTEX_COLOR)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 4 * sizeof(uint8_t);
-                index++;
-            }
-
-            if (vertexAttributes & VERTEX_NORMAL)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 3 * sizeof(float);
-                index++;
-            }
-
-            if (vertexAttributes & VERTEX_TEXCOORD0)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 2 * sizeof(float);
-                index++;
-            }
-
-            if (vertexAttributes & VERTEX_TEXCOORD1)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 2 * sizeof(float);
-                index++;
-            }
-
-            if (offset != _vertexSize)
-            {
-                log("Invalid vertex size");
-                return false;
-            }
-
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (!updateVertexAttributes())
             {
                 return false;
             }
@@ -165,5 +116,74 @@ namespace ouzel
 
             return true;
         }
+
+        bool MeshBufferOGL::setVertexAttributes(uint32_t vertexAttributes)
+        {
+            MeshBuffer::setVertexAttributes(vertexAttributes);
+
+            return updateVertexAttributes();
+        }
+
+        bool MeshBufferOGL::updateVertexAttributes()
+        {
+            glBindVertexArray(_vertexArrayId);
+
+            GLuint index = 0;
+            GLuint offset = 0;
+
+            if (_vertexAttributes & VERTEX_POSITION)
+            {
+                glEnableVertexAttribArray(index);
+                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                offset += 3 * sizeof(float);
+                index++;
+            }
+
+            if (_vertexAttributes & VERTEX_COLOR)
+            {
+                glEnableVertexAttribArray(index);
+                glVertexAttribPointer(index, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                offset += 4 * sizeof(uint8_t);
+                index++;
+            }
+
+            if (_vertexAttributes & VERTEX_NORMAL)
+            {
+                glEnableVertexAttribArray(index);
+                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                offset += 3 * sizeof(float);
+                index++;
+            }
+
+            if (_vertexAttributes & VERTEX_TEXCOORD0)
+            {
+                glEnableVertexAttribArray(index);
+                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                offset += 2 * sizeof(float);
+                index++;
+            }
+
+            if (_vertexAttributes & VERTEX_TEXCOORD1)
+            {
+                glEnableVertexAttribArray(index);
+                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                offset += 2 * sizeof(float);
+                index++;
+            }
+
+            if (offset != _vertexSize)
+            {
+                log("Invalid vertex size");
+                return false;
+            }
+
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     } // namespace video
 } // namespace ouzel
