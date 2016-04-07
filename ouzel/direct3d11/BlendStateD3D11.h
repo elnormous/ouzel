@@ -16,7 +16,7 @@ namespace ouzel
         {
             friend RendererD3D11;
         public:
-            virtual ~BlendStateD3D11() {}
+            virtual ~BlendStateD3D11();
 
             virtual bool init(bool enableBlending,
                               BlendFactor colorBlendSource, BlendFactor colorBlendDest,
