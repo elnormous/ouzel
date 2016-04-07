@@ -5,4 +5,14 @@
 
 @implementation MetalView
 
+-(void)close
+{
+
+}
+
+-(void)changeDisplay
+{
+    
+}
+
 @end
