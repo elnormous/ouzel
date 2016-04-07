@@ -4,6 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #include "WindowOSX.h"
 #include "OpenGLView.h"
+#include "MetalView.h"
 #include "Utils.h"
 
 @interface WindowDelegate: NSObject <NSWindowDelegate>
@@ -127,7 +128,17 @@ namespace ouzel
         NSRect windowFrame = [NSWindow contentRectForFrameRect:[_window frame]
                                                      styleMask:[_window styleMask]];
 
-        _view = [[OpenGLView alloc] initWithFrame:windowFrame];
+        switch (_driver)
+        {
+            case video::Renderer::Driver::OPENGL:
+                _view = [[OpenGLView alloc] initWithFrame:windowFrame];
+                break;
+            case video::Renderer::Driver::METAL:
+                _view = [[MetalView alloc] initWithFrame:windowFrame];
+                break;
+            default:
+                return false;
+        }
 
         [_window setContentView:_view];
 
