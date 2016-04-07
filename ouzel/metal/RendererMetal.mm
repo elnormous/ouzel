@@ -109,6 +109,11 @@ namespace ouzel
         {
             std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
 
+            if (!meshBuffer->init())
+            {
+                meshBuffer.reset();
+            }
+
             return meshBuffer;
         }
 

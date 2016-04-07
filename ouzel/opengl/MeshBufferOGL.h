@@ -42,6 +42,7 @@ namespace ouzel
         public:
             virtual ~MeshBufferOGL();
 
+            virtual bool init() override;
             virtual bool initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer) override;
 
             virtual bool setIndexSize(uint32_t indexSize) override;

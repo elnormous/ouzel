@@ -392,6 +392,11 @@ namespace ouzel
         {
             std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
 
+            if (!meshBuffer->init())
+            {
+                meshBuffer.reset();
+            }
+
             return meshBuffer;
         }
 

@@ -671,6 +671,11 @@ namespace ouzel
         {
             std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
 
+            if (!meshBuffer->init())
+            {
+                meshBuffer.reset();
+            }
+
             return meshBuffer;
         }
 

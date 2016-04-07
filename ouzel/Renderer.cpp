@@ -188,6 +188,11 @@ namespace ouzel
         {
             MeshBufferPtr meshBuffer(new MeshBuffer());
 
+            if (!meshBuffer->init())
+            {
+                meshBuffer.reset();
+            }
+
             return meshBuffer;
         }
 

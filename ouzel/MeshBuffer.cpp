@@ -18,6 +18,11 @@ namespace ouzel
 
         }
 
+        bool MeshBuffer::init()
+        {
+            return true;
+        }
+
         bool MeshBuffer::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
             OUZEL_UNUSED(indices);

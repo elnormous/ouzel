@@ -27,6 +27,19 @@ namespace ouzel
             if (_indexBufferId) glDeleteBuffers(1, &_indexBufferId);
         }
 
+        bool MeshBufferOGL::init()
+        {
+            glGenBuffers(1, &_indexBufferId);
+            glGenVertexArrays(1, &_vertexArrayId);
+
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         bool MeshBufferOGL::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
             if (!MeshBuffer::initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer))
@@ -68,10 +81,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-            glBindVertexArray(0);
 
             return true;
         }
