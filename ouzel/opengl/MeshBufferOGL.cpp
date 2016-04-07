@@ -30,7 +30,13 @@ namespace ouzel
         bool MeshBufferOGL::init()
         {
             glGenBuffers(1, &_indexBufferId);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
+
             glGenVertexArrays(1, &_vertexArrayId);
+            glBindVertexArray(_vertexArrayId);
+
+            glGenBuffers(1, &_vertexBufferId);
+            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
@@ -160,6 +166,7 @@ namespace ouzel
         bool MeshBufferOGL::updateVertexAttributes()
         {
             glBindVertexArray(_vertexArrayId);
+            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
 
             GLuint index = 0;
             GLuint offset = 0;
@@ -217,6 +224,5 @@ namespace ouzel
 
             return true;
         }
-
     } // namespace video
 } // namespace ouzel
