@@ -46,12 +46,9 @@ namespace ouzel
                 return false;
             }
 
-            switch (_indexSize)
+            if (!updateIndexFormat())
             {
-                case 1: _indexFormat = GL_UNSIGNED_BYTE; break;
-                case 2: _indexFormat = GL_UNSIGNED_SHORT; break;
-                case 4: _indexFormat = GL_UNSIGNED_INT; break;
-                default: log("Invalid index size"); return false;
+                return false;
             }
 
             glGenVertexArrays(1, &_vertexArrayId);
@@ -77,6 +74,27 @@ namespace ouzel
             glBindVertexArray(0);
 
             return true;
+        }
+
+
+        bool MeshBufferOGL::setIndexSize(uint32_t indexSize)
+        {
+            if (!MeshBuffer::setIndexSize(indexSize))
+            {
+                return false;
+            }
+
+            return updateIndexFormat();
+        }
+
+        bool MeshBufferOGL::setVertexAttributes(uint32_t vertexAttributes)
+        {
+            if (!MeshBuffer::setVertexAttributes(vertexAttributes))
+            {
+                return false;
+            }
+
+            return updateVertexAttributes();
         }
 
         bool MeshBufferOGL::uploadIndices(const void* indices, uint32_t indexCount)
@@ -117,11 +135,17 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferOGL::setVertexAttributes(uint32_t vertexAttributes)
+        bool MeshBufferOGL::updateIndexFormat()
         {
-            MeshBuffer::setVertexAttributes(vertexAttributes);
+            switch (_indexSize)
+            {
+                case 1: _indexFormat = GL_UNSIGNED_BYTE; break;
+                case 2: _indexFormat = GL_UNSIGNED_SHORT; break;
+                case 4: _indexFormat = GL_UNSIGNED_INT; break;
+                default: log("Invalid index size"); return false;
+            }
 
-            return updateVertexAttributes();
+            return true;
         }
 
         bool MeshBufferOGL::updateVertexAttributes()

@@ -44,10 +44,11 @@ namespace ouzel
 
             virtual bool initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer) override;
 
+            virtual bool setIndexSize(uint32_t indexSize) override;
+            virtual bool setVertexAttributes(uint32_t vertexAttributes) override;
+
             virtual bool uploadIndices(const void* indices, uint32_t indexCount) override;
             virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
-
-            virtual bool setVertexAttributes(uint32_t vertexAttributes) override;
             
             GLuint getIndexBufferId() const { return _indexBufferId; }
             GLuint getVertexArrayId() const { return _vertexArrayId; }
@@ -56,9 +57,10 @@ namespace ouzel
 
         protected:
             MeshBufferOGL();
-            bool updateVertexAttributes();
 
             void destroy();
+            bool updateIndexFormat();
+            bool updateVertexAttributes();
 
             GLuint _vertexArrayId = 0;
             GLuint _indexBufferId = 0;

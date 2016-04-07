@@ -40,11 +40,9 @@ namespace ouzel
                 return false;
             }
 
-            switch (_indexSize)
+            if (!updateIndexFormat())
             {
-                case 2: _indexFormat = DXGI_FORMAT_R16_UINT; break;
-                case 4: _indexFormat = DXGI_FORMAT_R32_UINT; break;
-                default: log("Invalid index size"); return false;
+                return false;
             }
 
             if (!createVertexBuffer(vertices, _vertexSize * vertexCount))
@@ -53,6 +51,16 @@ namespace ouzel
             }
 
             return true;
+        }
+        
+        bool MeshBufferD3D11::setIndexSize(uint32_t indexSize)
+        {
+            if (!MeshBuffer::setIndexSize(indexSize))
+            {
+                return false;
+            }
+
+            return updateIndexFormat();
         }
 
         bool MeshBufferD3D11::uploadIndices(const void* indices, uint32_t indexCount)
@@ -89,6 +97,18 @@ namespace ouzel
             {
                 return uploadData(_vertexBuffer, vertices, _vertexSize * vertexCount);
             }
+        }
+        
+        bool MeshBufferD3D11::updateIndexFormat()
+        {
+            switch (_indexSize)
+            {
+                case 2: _indexFormat = DXGI_FORMAT_R16_UINT; break;
+                case 4: _indexFormat = DXGI_FORMAT_R32_UINT; break;
+                default: log("Invalid index size"); return false;
+            }
+
+            return true;
         }
 
         bool MeshBufferD3D11::createIndexBuffer(const void* indices, uint32_t size)

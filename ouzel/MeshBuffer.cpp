@@ -65,6 +65,12 @@ namespace ouzel
             return true;
         }
 
+        bool MeshBuffer::setIndexSize(uint32_t indexSize)
+        {
+            _indexSize = indexSize;
+            return true;
+        }
+
         bool MeshBuffer::setVertexAttributes(uint32_t vertexAttributes)
         {
             _vertexAttributes = vertexAttributes;
