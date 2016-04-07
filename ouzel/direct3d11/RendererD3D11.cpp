@@ -667,8 +667,14 @@ namespace ouzel
 
             return true;
         }
+        MeshBufferPtr RendererD3D11::createMeshBuffer()
+        {
+            std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
 
-        MeshBufferPtr RendererD3D11::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
+            return meshBuffer;
+        }
+
+        MeshBufferPtr RendererD3D11::createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
             std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
 

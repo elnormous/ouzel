@@ -184,7 +184,14 @@ namespace ouzel
             return true;
         }
 
-        MeshBufferPtr Renderer::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
+        MeshBufferPtr Renderer::createMeshBuffer()
+        {
+            MeshBufferPtr meshBuffer(new MeshBuffer());
+
+            return meshBuffer;
+        }
+
+        MeshBufferPtr Renderer::createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
             MeshBufferPtr meshBuffer(new MeshBuffer());
 

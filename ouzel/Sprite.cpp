@@ -217,10 +217,10 @@ namespace ouzel
 
             _frameVertices.push_back(vertices);
 
-            _frameMeshBuffers.push_back(sharedEngine->getRenderer()->createMeshBuffer(indices.data(), sizeof(uint16_t),
-                                                                                               static_cast<uint32_t>(indices.size()), false,
-                                                                                               vertices.data(), video::VertexPCT::ATTRIBUTES,
-                                                                                               static_cast<uint32_t>(vertices.size()), true));
+            _frameMeshBuffers.push_back(sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+                                                                                              static_cast<uint32_t>(indices.size()), false,
+                                                                                              vertices.data(), video::VertexPCT::ATTRIBUTES,
+                                                                                              static_cast<uint32_t>(vertices.size()), true));
 
             _frameCount++;
         }

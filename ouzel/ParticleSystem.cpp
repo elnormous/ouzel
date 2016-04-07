@@ -295,10 +295,10 @@ namespace ouzel
                 _vertices.push_back(video::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  video::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
             }
 
-            _mesh = sharedEngine->getRenderer()->createMeshBuffer(_indices.data(), sizeof(uint16_t),
-                                                                           static_cast<uint32_t>(_indices.size()), false,
-                                                                           _vertices.data(), video::VertexPCT::ATTRIBUTES,
-                                                                           static_cast<uint32_t>(_vertices.size()), true);
+            _mesh = sharedEngine->getRenderer()->createMeshBufferFromData(_indices.data(), sizeof(uint16_t),
+                                                                          static_cast<uint32_t>(_indices.size()), false,
+                                                                          _vertices.data(), video::VertexPCT::ATTRIBUTES,
+                                                                          static_cast<uint32_t>(_vertices.size()), true);
 
             _particles.resize(_particleDefinition.maxParticles);
         }

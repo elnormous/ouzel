@@ -40,11 +40,11 @@ namespace ouzel
 
             uint32_t _indexCount = 0;
             uint32_t _indexSize = 0;
-            bool _dynamicIndexBuffer = false;
+            bool _dynamicIndexBuffer = true;
 
             uint32_t _vertexCount = 0;
             uint32_t _vertexSize = 0;
-            bool _dynamicVertexBuffer = false;
+            bool _dynamicVertexBuffer = true;
 
 
             uint32_t _vertexAttributes;

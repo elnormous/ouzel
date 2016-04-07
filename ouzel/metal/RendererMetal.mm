@@ -57,7 +57,7 @@ namespace ouzel
 
         }
         
-        std::shared_ptr<Texture> RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
+        TexturePtr RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<TextureMetal> texture(new TextureMetal());
             
@@ -69,7 +69,7 @@ namespace ouzel
             return texture;
         }
         
-        std::shared_ptr<Texture> RendererMetal::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
+        TexturePtr RendererMetal::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<TextureMetal> texture(new TextureMetal());
             
@@ -81,7 +81,7 @@ namespace ouzel
             return texture;
         }
         
-        std::shared_ptr<Shader> RendererMetal::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+        ShaderPtr RendererMetal::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
         {
             std::shared_ptr<ShaderMetal> shader(new ShaderMetal());
             
@@ -93,7 +93,7 @@ namespace ouzel
             return shader;
         }
         
-        std::shared_ptr<Shader> RendererMetal::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+        ShaderPtr RendererMetal::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
         {
             std::shared_ptr<ShaderMetal> shader(new ShaderMetal());
             
@@ -104,8 +104,15 @@ namespace ouzel
             
             return shader;
         }
-        
-        std::shared_ptr<MeshBuffer> RendererMetal::createMeshBuffer(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
+
+        MeshBufferPtr RendererMetal::createMeshBuffer()
+        {
+            std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
+
+            return meshBuffer;
+        }
+
+        MeshBufferPtr RendererMetal::createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
             std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
             
