@@ -8,6 +8,7 @@
 #include "MeshBufferMetal.h"
 #include "WindowOSX.h"
 #include "Engine.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -37,6 +38,7 @@ namespace ouzel
 
             if (!_device)
             {
+                log("Failed to create Metal device");
                 return false;
             }
 
@@ -45,6 +47,12 @@ namespace ouzel
             view.device = _device;
 
             _commandQueue = [_device newCommandQueue];
+
+            if (!_commandQueue)
+            {
+                log("Failed to create command queue");
+                return false;
+            }
 
             return true;
         }
