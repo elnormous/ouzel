@@ -54,12 +54,28 @@ namespace ouzel
                 return false;
             }
 
+            MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+            pipelineStateDescriptor.label = @"MyPipeline";
+            pipelineStateDescriptor.sampleCount = view.sampleCount;
+            //pipelineStateDescriptor.vertexFunction = vertexProgram;
+            //pipelineStateDescriptor.fragmentFunction = fragmentProgram;
+            //pipelineStateDescriptor.vertexDescriptor = vertexDescriptor;
+            pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
+            pipelineStateDescriptor.depthAttachmentPixelFormat = view.depthStencilPixelFormat;
+            pipelineStateDescriptor.stencilAttachmentPixelFormat = view.depthStencilPixelFormat;
+
             return true;
         }
 
         void RendererMetal::setClearColor(Color color)
         {
+            std::shared_ptr<WindowOSX> windowOSX = std::static_pointer_cast<WindowOSX>(sharedEngine->getWindow());
+            MTKView* view = windowOSX->getNativeView();
+            MTLRenderPassDescriptor* renderPassDescriptor = view.currentRenderPassDescriptor;
 
+            //renderPassDescriptor.colorAttachments[0].texture = _texture;
+            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(color.getR(), color.getG(), color.getB(), color.getA());
         }
 
         void RendererMetal::setSize(const Size2& size)
