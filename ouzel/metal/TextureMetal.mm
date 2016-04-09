@@ -14,31 +14,31 @@ namespace ouzel
     {
         TextureMetal::TextureMetal()
         {
-            
+
         }
-        
+
         TextureMetal::~TextureMetal()
         {
             destroy();
         }
-        
+
         void TextureMetal::destroy()
         {
             if (_texture) [_texture release];
         }
-        
+
         bool TextureMetal::init(const Size2& size, bool dynamic, bool mipmaps)
         {
             if (!Texture::init(size, dynamic, mipmaps))
             {
                 return false;
             }
-            
+
             destroy();
-            
+
             return true;
         }
-        
+
         bool TextureMetal::initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
         {
             if (!Texture::initFromData(data, size, dynamic, mipmaps))
@@ -47,17 +47,17 @@ namespace ouzel
             }
 
             destroy();
-            
+
             return true;
         }
-        
+
         bool TextureMetal::upload(const void* data, const Size2& size)
         {
             if (!Texture::upload(data, size))
             {
                 return false;
             }
-            
+
             return true;
         }
     } // namespace video

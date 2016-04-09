@@ -70,7 +70,7 @@ namespace ouzel
             ID3D11RenderTargetView* _rtView = nullptr;
             ID3D11SamplerState* _samplerState = nullptr;
             ID3D11RasterizerState* _rasterizerState = nullptr;
-            
+
             ID3D11DepthStencilState* _depthStencilState = nullptr;
 
             ID3D11ShaderResourceView* _resourceViews[TEXTURE_LAYERS];

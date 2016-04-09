@@ -13,7 +13,7 @@ namespace ouzel
         {
         public:
             Widget();
-            
+
             virtual void setEnabled(bool enabled);
             bool isEnabled() const { return _enabled; }
 

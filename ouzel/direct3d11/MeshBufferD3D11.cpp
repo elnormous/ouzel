@@ -52,7 +52,7 @@ namespace ouzel
 
             return true;
         }
-        
+
         bool MeshBufferD3D11::setIndexSize(uint32_t indexSize)
         {
             if (!MeshBuffer::setIndexSize(indexSize))
@@ -98,7 +98,7 @@ namespace ouzel
                 return uploadData(_vertexBuffer, vertices, _vertexSize * vertexCount);
             }
         }
-        
+
         bool MeshBufferD3D11::updateIndexFormat()
         {
             switch (_indexSize)

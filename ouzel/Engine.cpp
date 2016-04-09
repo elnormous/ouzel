@@ -49,7 +49,7 @@ namespace ouzel
 
     Engine::Engine()
     {
-        
+
     }
 
     Engine::~Engine()

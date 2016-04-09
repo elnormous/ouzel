@@ -15,7 +15,7 @@ namespace ouzel
         {
 
         }
-        
+
         BlendStateD3D11::~BlendStateD3D11()
         {
             destroy();

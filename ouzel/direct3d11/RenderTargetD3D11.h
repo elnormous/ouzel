@@ -25,7 +25,7 @@ namespace ouzel
 
         protected:
             RenderTargetD3D11();
-            
+
             void destroy();
 
             ID3D11RenderTargetView* _renderTargetView = nullptr;

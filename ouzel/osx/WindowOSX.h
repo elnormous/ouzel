@@ -35,6 +35,7 @@ namespace ouzel
         void handleFullscreenChange(bool fullscreen);
 
         NSWindowPtr getNativeWindow() const { return _window; }
+        NSViewPtr getNativeView() const { return _view; }
 
     protected:
         WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver);

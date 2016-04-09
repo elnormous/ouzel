@@ -204,7 +204,7 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_D3D11, sizeof(COLOR_PIXEL_SHADER_D3D11),
@@ -215,9 +215,9 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
-            
+
             BlendStatePtr noBlendState = createBlendState(false,
                                                           BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
                                                           BlendState::BlendOperation::ADD,
@@ -228,7 +228,7 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
             BlendStatePtr alphaBlendState = createBlendState(true,
@@ -484,7 +484,7 @@ namespace ouzel
             {
                 return true;
             }
-            
+
             if (!Renderer::activateBlendState(blendState))
             {
                 return false;

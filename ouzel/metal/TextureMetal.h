@@ -27,7 +27,7 @@ namespace ouzel
             friend RenderTargetMetal;
         public:
             virtual ~TextureMetal();
-            
+
             virtual bool init(const Size2& size, bool dynamic, bool mipmaps = true) override;
             virtual bool initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
 
@@ -35,9 +35,9 @@ namespace ouzel
 
         protected:
             TextureMetal();
-            
+
             void destroy();
-            
+
             MetalTexturePtr _texture = Nil;
         };
     } // namespace video

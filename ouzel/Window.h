@@ -37,7 +37,7 @@ namespace ouzel
         bool _fullscreen = false;
 
         std::string _title;
-        
+
         video::Renderer::Driver _driver;
     };
 }

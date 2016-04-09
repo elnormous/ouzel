@@ -39,7 +39,7 @@ namespace ouzel
             glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));
 
             glGenFramebuffers(1, &_framebufferId);
-            
+
             RendererOGL::bindFramebuffer(_framebufferId);
 
             std::shared_ptr<TextureOGL> textureOGL(new TextureOGL());

@@ -10,21 +10,21 @@ namespace ouzel
     {
         RenderTargetMetal::RenderTargetMetal()
         {
-            
+
         }
-        
+
         RenderTargetMetal::~RenderTargetMetal()
         {
-            
+
         }
-        
+
         bool RenderTargetMetal::init(const Size2& size, bool depthBuffer)
         {
             if (RenderTarget::init(size, depthBuffer))
             {
                 return false;
             }
-            
+
             return true;
         }
     } // namespace video

@@ -86,10 +86,10 @@ namespace ouzel
 
             std::istream_iterator<char> isi(file);
             std::copy_n(isi, translations[i].stringLength, std::insert_iterator<std::string>(str, str.begin()));
-            
+
             file.seekg(translations[i].translationOffset);
             std::string translation;
-            
+
             isi = std::istream_iterator<char>(file);
             std::copy_n(isi, translations[i].translationLength, std::insert_iterator<std::string>(translation, translation.begin()));
 

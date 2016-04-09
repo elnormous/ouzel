@@ -20,60 +20,60 @@ namespace ouzel
         {
             destroy();
         }
-        
+
         void ShaderMetal::destroy()
         {
             if (_vertexShader) [_vertexShader release];
             if (_fragmentShader) [_fragmentShader release];
         }
-        
+
         bool ShaderMetal::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
         {
             if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
             {
                 return false;
             }
-            
+
             destroy();
-            
+
             return true;
         }
-        
+
         uint32_t ShaderMetal::getPixelShaderConstantId(const std::string& name)
         {
             return 0;
         }
-        
+
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
             return true;
         }
-        
+
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
             return true;
         }
-        
+
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
             return true;
         }
-        
+
         uint32_t ShaderMetal::getVertexShaderConstantId(const std::string& name)
         {
             return 0;
         }
-        
+
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
             return true;
         }
-        
+
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
             return true;
         }
-        
+
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
             return true;
