@@ -17,6 +17,7 @@ namespace ouzel
 #endif
 
         Size2 size;
+        uint32_t sampleCount = 1; // MSAA sample count
         bool resizable = false;
         bool fullscreen = false;
         float targetFPS = 60.0f;
