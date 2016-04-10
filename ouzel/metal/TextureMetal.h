@@ -5,10 +5,10 @@
 
 #ifdef __OBJC__
 #import <Metal/Metal.h>
-typedef id<MTLTexture> MetalTexturePtr;
+typedef id<MTLTexture> MTLTexturePtr;
 #else
 #include <objc/objc.h>
-typedef id MetalTexturePtr;
+typedef id MTLTexturePtr;
 #endif
 
 #include "CompileConfig.h"
@@ -38,7 +38,7 @@ namespace ouzel
 
             void destroy();
 
-            MetalTexturePtr _texture = Nil;
+            MTLTexturePtr _texture = Nil;
         };
     } // namespace video
 } // namespace ouzel

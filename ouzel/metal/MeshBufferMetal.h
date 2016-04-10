@@ -8,10 +8,10 @@
 
 #ifdef __OBJC__
 #import <Metal/Metal.h>
-typedef id<MTLBuffer> MetalBufferPtr;
+typedef id<MTLBuffer> MTLBufferPtr;
 #else
 #include <objc/objc.h>
-typedef id MetalBufferPtr;
+typedef id MTLBufferPtr;
 #endif
 
 namespace ouzel
@@ -36,8 +36,8 @@ namespace ouzel
 
             void destroy();
 
-            MetalBufferPtr _indexBuffer = Nil;
-            MetalBufferPtr _vertexBuffer = Nil;
+            MTLBufferPtr _indexBuffer = Nil;
+            MTLBufferPtr _vertexBuffer = Nil;
         };
     } // namespace video
 } // namespace ouzel

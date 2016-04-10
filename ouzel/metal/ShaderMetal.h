@@ -8,10 +8,10 @@
 
 #ifdef __OBJC__
 #import <Metal/Metal.h>
-typedef id<MTLFunction> MetalFunctionPtr;
+typedef id<MTLFunction> MTLFunctionPtr;
 #else
 #include <objc/objc.h>
-typedef id MetalFunctionPtr;
+typedef id MTLFunctionPtr;
 #endif
 
 namespace ouzel
@@ -43,8 +43,8 @@ namespace ouzel
 
             void destroy();
 
-            MetalFunctionPtr _vertexShader = Nil;
-            MetalFunctionPtr _fragmentShader = Nil;
+            MTLFunctionPtr _vertexShader = Nil;
+            MTLFunctionPtr _fragmentShader = Nil;
         };
     } // namespace video
 } // namespace ouzel

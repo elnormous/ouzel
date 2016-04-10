@@ -5,12 +5,12 @@
 
 #ifdef __OBJC__
 #import <Metal/Metal.h>
-typedef id<MTLDevice> MetalDevicePtr;
-typedef id<MTLCommandQueue> MetalCommandQueuePtr;
+typedef id<MTLDevice> MTLDevicePtr;
+typedef id<MTLCommandQueue> MTLCommandQueuePtr;
 #else
 #include <objc/objc.h>
-typedef id MetalDevicePtr;
-typedef id MetalCommandQueuePtr;
+typedef id MTLDevicePtr;
+typedef id MTLCommandQueuePtr;
 #endif
 
 #include "Renderer.h"
@@ -49,8 +49,8 @@ namespace ouzel
 
             void destroy();
 
-            MetalDevicePtr _device = Nil;
-            MetalCommandQueuePtr _commandQueue = Nil;
+            MTLDevicePtr _device = Nil;
+            MTLCommandQueuePtr _commandQueue = Nil;
         };
     } // namespace video
 } // namespace ouzel
