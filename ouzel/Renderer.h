@@ -87,15 +87,15 @@ namespace ouzel
             virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader,
                                                   const std::string& vertexShader,
                                                   uint32_t vertexAttributes,
-                                                  const std::string& fragmentShaderFunction = "main",
-                                                  const std::string& vertexShaderFunction = "main");
+                                                  const std::string& fragmentShaderFunction = "",
+                                                  const std::string& vertexShaderFunction = "");
             virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader,
                                                     uint32_t fragmentShaderSize,
                                                     const uint8_t* vertexShader,
                                                     uint32_t vertexShaderSize,
                                                     uint32_t vertexAttributes,
-                                                    const std::string& fragmentShaderFunction = "main",
-                                                    const std::string& vertexShaderFunction = "main");
+                                                    const std::string& fragmentShaderFunction = "",
+                                                    const std::string& vertexShaderFunction = "");
             virtual bool activateShader(const ShaderPtr& shader);
             virtual ShaderPtr getActiveShader() const { return _activeShader; }
 

@@ -26,15 +26,15 @@ namespace ouzel
             virtual bool initFromFiles(const std::string& fragmentShader,
                                        const std::string& vertexShader,
                                        uint32_t vertexAttributes,
-                                       const std::string& fragmentShaderFunction = "main",
-                                       const std::string& vertexShaderFunction = "main");
+                                       const std::string& fragmentShaderFunction = "",
+                                       const std::string& vertexShaderFunction = "");
             virtual bool initFromBuffers(const uint8_t* fragmentShader,
                                          uint32_t fragmentShaderSize,
                                          const uint8_t* vertexShader,
                                          uint32_t vertexShaderSize,
                                          uint32_t vertexAttributes,
-                                         const std::string& fragmentShaderFunction = "main",
-                                         const std::string& vertexShaderFunction = "main");
+                                         const std::string& fragmentShaderFunction = "",
+                                         const std::string& vertexShaderFunction = "");
 
             uint32_t getVertexAttributes() const { return _vertexAttributes; }
 

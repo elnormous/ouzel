@@ -40,15 +40,15 @@ namespace ouzel
             virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader,
                                                   const std::string& vertexShader,
                                                   uint32_t vertexAttributes,
-                                                  const std::string& fragmentShaderFunction = "main",
-                                                  const std::string& vertexShaderFunction = "main") override;
+                                                  const std::string& fragmentShaderFunction = "",
+                                                  const std::string& vertexShaderFunction = "") override;
             virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader,
                                                     uint32_t fragmentShaderSize,
                                                     const uint8_t* vertexShader,
                                                     uint32_t vertexShaderSize,
                                                     uint32_t vertexAttributes,
-                                                    const std::string& fragmentShaderFunction = "main",
-                                                    const std::string& vertexShaderFunction = "main") override;
+                                                    const std::string& fragmentShaderFunction = "",
+                                                    const std::string& vertexShaderFunction = "") override;
 
             virtual MeshBufferPtr createMeshBuffer() override;
             virtual MeshBufferPtr createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer) override;

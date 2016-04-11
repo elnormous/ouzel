@@ -31,8 +31,8 @@ namespace ouzel
                                          const uint8_t* vertexShader,
                                          uint32_t vertexShaderSize,
                                          uint32_t vertexAttributes,
-                                         const std::string& fragmentShaderFunction = "main",
-                                         const std::string& vertexShaderFunction = "main") override;
+                                         const std::string& fragmentShaderFunction = "",
+                                         const std::string& vertexShaderFunction = "") override;
 
             virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
