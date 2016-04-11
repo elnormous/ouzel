@@ -608,11 +608,15 @@ namespace ouzel
             return true;
         }
 
-        ShaderPtr RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+        ShaderPtr RendererD3D11::loadShaderFromFiles(const std::string& fragmentShader,
+                                                     const std::string& vertexShader,
+                                                     uint32_t vertexAttributes,
+                                                     const std::string& fragmentShaderFunction,
+                                                     const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderD3D11> shader(new ShaderD3D11());
 
-            if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes))
+            if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
             {
                 shader.reset();
             }
@@ -620,11 +624,17 @@ namespace ouzel
             return shader;
         }
 
-        ShaderPtr RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+        ShaderPtr RendererD3D11::loadShaderFromBuffers(const uint8_t* fragmentShader,
+                                                       uint32_t fragmentShaderSize,
+                                                       const uint8_t* vertexShader,
+                                                       uint32_t vertexShaderSize,
+                                                       uint32_t vertexAttributes,
+                                                       const std::string& fragmentShaderFunction,
+                                                       const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderD3D11> shader(new ShaderD3D11());
 
-            if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
+            if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
             {
                 shader.reset();
             }
@@ -667,6 +677,7 @@ namespace ouzel
 
             return true;
         }
+
         MeshBufferPtr RendererD3D11::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());

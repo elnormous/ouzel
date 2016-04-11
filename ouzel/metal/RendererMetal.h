@@ -37,8 +37,18 @@ namespace ouzel
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
             virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
 
-            virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes) override;
-            virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
+            virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader,
+                                                  const std::string& vertexShader,
+                                                  uint32_t vertexAttributes,
+                                                  const std::string& fragmentShaderFunction = "main",
+                                                  const std::string& vertexShaderFunction = "main") override;
+            virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader,
+                                                    uint32_t fragmentShaderSize,
+                                                    const uint8_t* vertexShader,
+                                                    uint32_t vertexShaderSize,
+                                                    uint32_t vertexAttributes,
+                                                    const std::string& fragmentShaderFunction = "main",
+                                                    const std::string& vertexShaderFunction = "main") override;
 
             virtual MeshBufferPtr createMeshBuffer() override;
             virtual MeshBufferPtr createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer) override;

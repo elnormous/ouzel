@@ -31,9 +31,15 @@ namespace ouzel
             if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
         }
 
-        bool ShaderD3D11::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+        bool ShaderD3D11::initFromBuffers(const uint8_t* fragmentShader,
+                                          uint32_t fragmentShaderSize,
+                                          const uint8_t* vertexShader,
+                                          uint32_t vertexShaderSize,
+                                          uint32_t vertexAttributes,
+                                          const std::string& fragmentShaderFunction,
+                                          const std::string& vertexShaderFunction)
         {
-            if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes))
+            if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
             {
                 return false;
             }

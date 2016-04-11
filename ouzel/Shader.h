@@ -23,8 +23,18 @@ namespace ouzel
         public:
             virtual ~Shader();
 
-            virtual bool initFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes);
-            virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes);
+            virtual bool initFromFiles(const std::string& fragmentShader,
+                                       const std::string& vertexShader,
+                                       uint32_t vertexAttributes,
+                                       const std::string& fragmentShaderFunction = "main",
+                                       const std::string& vertexShaderFunction = "main");
+            virtual bool initFromBuffers(const uint8_t* fragmentShader,
+                                         uint32_t fragmentShaderSize,
+                                         const uint8_t* vertexShader,
+                                         uint32_t vertexShaderSize,
+                                         uint32_t vertexAttributes,
+                                         const std::string& fragmentShaderFunction = "main",
+                                         const std::string& vertexShaderFunction = "main");
 
             uint32_t getVertexAttributes() const { return _vertexAttributes; }
 

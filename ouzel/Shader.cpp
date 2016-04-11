@@ -22,7 +22,11 @@ namespace ouzel
 
         }
 
-        bool Shader::initFromFiles(const std::string& fragmentShader, const std::string& vertexShader, uint32_t vertexAttributes)
+        bool Shader::initFromFiles(const std::string& fragmentShader,
+                                   const std::string& vertexShader,
+                                   uint32_t vertexAttributes,
+                                   const std::string& fragmentShaderFunction,
+                                   const std::string& vertexShaderFunction)
         {
             _fragmentShaderFilename = fragmentShader;
             _vertexShaderFilename = vertexShader;
@@ -62,15 +66,24 @@ namespace ouzel
             vertexShaderFile.read(vertexShaderBuffer.data(), static_cast<std::streamsize>(vertexShaderSize));
 
             return initFromBuffers(reinterpret_cast<const uint8_t*>(fragmentShaderBuffer.data()), static_cast<uint32_t>(fragmentShaderSize),
-                                   reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<uint32_t>(vertexShaderSize), vertexAttributes);
+                                   reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<uint32_t>(vertexShaderSize), vertexAttributes,
+                                   fragmentShaderFunction, vertexShaderFunction);
         }
 
-        bool Shader::initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes)
+        bool Shader::initFromBuffers(const uint8_t* fragmentShader,
+                                     uint32_t fragmentShaderSize,
+                                     const uint8_t* vertexShader,
+                                     uint32_t vertexShaderSize,
+                                     uint32_t vertexAttributes,
+                                     const std::string& fragmentShaderFunction,
+                                     const std::string& vertexShaderFunction)
         {
             OUZEL_UNUSED(fragmentShader);
             OUZEL_UNUSED(fragmentShaderSize);
             OUZEL_UNUSED(vertexShader);
             OUZEL_UNUSED(vertexShaderSize);
+            OUZEL_UNUSED(fragmentShaderFunction);
+            OUZEL_UNUSED(vertexShaderFunction);
 
             _vertexAttributes = vertexAttributes;
 

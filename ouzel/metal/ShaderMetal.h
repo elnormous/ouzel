@@ -26,7 +26,13 @@ namespace ouzel
         public:
             virtual ~ShaderMetal();
 
-            virtual bool initFromBuffers(const uint8_t* fragmentShader, uint32_t fragmentShaderSize, const uint8_t* vertexShader, uint32_t vertexShaderSize, uint32_t vertexAttributes) override;
+            virtual bool initFromBuffers(const uint8_t* fragmentShader,
+                                         uint32_t fragmentShaderSize,
+                                         const uint8_t* vertexShader,
+                                         uint32_t vertexShaderSize,
+                                         uint32_t vertexAttributes,
+                                         const std::string& fragmentShaderFunction = "main",
+                                         const std::string& vertexShaderFunction = "main") override;
 
             virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
