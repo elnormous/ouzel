@@ -157,12 +157,7 @@ namespace ouzel
 
         [NSApplication sharedApplication].mainMenu = mainMenu;
 
-        if (!Window::init())
-        {
-            return false;
-        }
-
-        return true;
+        return Window::init();
     }
 
     void WindowOSX::close()

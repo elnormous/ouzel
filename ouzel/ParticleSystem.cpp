@@ -35,11 +35,14 @@ namespace ouzel
         {
             _shader = sharedEngine->getCache()->getShader(video::SHADER_TEXTURE);
 
-    #ifdef OUZEL_PLATFORM_WINDOWS
-            _uniModelViewProj = 0;
-    #else
-            _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
-    #endif
+            if (sharedEngine->getRenderer()->getDriver() == video::Renderer::Driver::OPENGL)
+            {
+                _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
+            }
+            else
+            {
+                _uniModelViewProj = 0;
+            }
 
             _updateCallback = std::make_shared<UpdateCallback>();
             _updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);

@@ -18,11 +18,14 @@ namespace ouzel
         {
             _shader = sharedEngine->getCache()->getShader(video::SHADER_COLOR);
 
-#ifdef OUZEL_PLATFORM_WINDOWS
-            _uniModelViewProj = 0;
-#else
-            _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
-#endif
+            if (sharedEngine->getRenderer()->getDriver() == video::Renderer::Driver::OPENGL)
+            {
+                _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
+            }
+            else
+            {
+                _uniModelViewProj = 0;
+            }
         }
 
         void DrawNode::draw()

@@ -125,7 +125,7 @@ namespace ouzel
 
             if (!_fragmentShader)
             {
-                log("Failed to load fragment shader");
+                log("Failed to get function from shader");
                 return false;
             }
 
@@ -146,7 +146,7 @@ namespace ouzel
 
             if (!_vertexShader)
             {
-                log("Failed to load vertex shader");
+                log("Failed to get function from shader");
                 return false;
             }
 

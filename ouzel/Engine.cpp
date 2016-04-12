@@ -25,11 +25,11 @@
 #include "opengl/RendererOGL.h"
 #endif
 
-#if defined(SUPPORTS_DIRECT3D11)
+#if defined(OUZEL_SUPPORTS_DIRECT3D11)
 #include "direct3d11/RendererD3D11.h"
 #endif
 
-#if defined(SUPPORTS_METAL)
+#if defined(OUZEL_SUPPORTS_METAL)
 #include "RendererMetal.h"
 #endif
 
@@ -63,7 +63,7 @@ namespace ouzel
 
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
         availableDrivers.insert(video::Renderer::Driver::OPENGL);
-#elif defined(SUPPORTS_DIRECT3D11)
+#elif defined(OUZEL_SUPPORTS_DIRECT3D11)
         availableDrivers.insert(video::Renderer::Driver::DIRECT3D11);
 #endif
 
@@ -110,14 +110,14 @@ namespace ouzel
                 _renderer.reset(new video::RendererOGL());
                 break;
 #endif
-#if defined(SUPPORTS_DIRECT3D11)
+#if defined(OUZEL_SUPPORTS_DIRECT3D11)
             case video::Renderer::Driver::DIRECT3D11:
                 _renderer.reset(new video::RendererD3D11());
                 break;
 #endif
-#if defined(SUPPORTS_METAL)
-            case Renderer::Driver::METAL:
-                _renderer.reset(new RendererMetal());
+#if defined(OUZEL_SUPPORTS_METAL)
+            case video::Renderer::Driver::METAL:
+                _renderer.reset(new video::RendererMetal());
                 break;
 #endif
             default:

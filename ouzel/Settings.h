@@ -12,7 +12,7 @@ namespace ouzel
         video::Renderer::Driver driver =
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
         video::Renderer::Driver::OPENGL;
-#elif defined(SUPPORTS_DIRECT3D11)
+#elif defined(OUZEL_SUPPORTS_DIRECT3D11)
         video::Renderer::Driver::DIRECT3D11;
 #endif
 
