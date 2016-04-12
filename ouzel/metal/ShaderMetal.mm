@@ -5,6 +5,7 @@
 #include "RendererMetal.h"
 #include "FileSystem.h"
 #include "ShaderMetal.h"
+#include "RendererMetal.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -41,6 +42,36 @@ namespace ouzel
             }
 
             destroy();
+
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            NSError* err = Nil;
+
+            dispatch_data_t fragmentShaderData = dispatch_data_create(fragmentShader, fragmentShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            id<MTLLibrary> fragmentShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:fragmentShaderData error:&err];
+
+            if (err != Nil)
+            {
+                log("Failed to load fragment shader");
+                return false;
+            }
+
+            _fragmentShader = [fragmentShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:fragmentShaderFunction.c_str()]];
+
+            [fragmentShaderLibrary release];
+
+            dispatch_data_t vertexShaderData = dispatch_data_create(vertexShader, vertexShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderData error:&err];
+
+            if (err != Nil)
+            {
+                log("Failed to load vertex shader");
+                return false;
+            }
+
+            _vertexShader = [vertexShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:vertexShaderFunction.c_str()]];
+
+            [vertexShaderLibrary release];
 
             return true;
         }
