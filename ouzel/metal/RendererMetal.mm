@@ -78,7 +78,7 @@ namespace ouzel
 
             if (!_commandQueue)
             {
-                log("Failed to create command queue");
+                log("Failed to create Metal command queue");
                 return false;
             }
 
@@ -99,6 +99,13 @@ namespace ouzel
             samplerDescriptor.tAddressMode = MTLSamplerAddressModeRepeat;
 
             _samplerState = [_device newSamplerStateWithDescriptor:samplerDescriptor];
+            [samplerDescriptor release];
+
+            if (!_samplerState)
+            {
+                log("Failed to create Metal sampler state");
+                return false;
+            }
 
             return true;
         }

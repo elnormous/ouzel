@@ -110,6 +110,7 @@ namespace ouzel
 
             dispatch_data_t fragmentShaderData = dispatch_data_create(fragmentShader, fragmentShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
             id<MTLLibrary> fragmentShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:fragmentShaderData error:&err];
+            [fragmentShaderData release];
 
             if (err != Nil)
             {
@@ -130,6 +131,7 @@ namespace ouzel
 
             dispatch_data_t vertexShaderData = dispatch_data_create(vertexShader, vertexShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
             id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderData error:&err];
+            [vertexShaderData release];
 
             if (err != Nil)
             {
