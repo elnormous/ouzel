@@ -24,7 +24,11 @@ namespace ouzel
 
         void TextureOGL::destroy()
         {
-            if (_textureId) glDeleteTextures(1, &_textureId);
+            if (_textureId)
+            {
+                glDeleteTextures(1, &_textureId);
+                _textureId = 0;
+            }
         }
 
         bool TextureOGL::init(const Size2& size, bool dynamic, bool mipmaps)

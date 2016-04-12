@@ -6,14 +6,13 @@
 #include "Window.h"
 
 #ifdef __OBJC__
-@class UIWindow;
+#import "UIKit/UIKit.h"
 typedef UIWindow* UIWindowPtr;
-@class OpenGLView;
-typedef OpenGLView* OpenGLViewPtr;
+typedef UIView* UIViewPtr;
 #else
 #include <objc/objc.h>
 typedef id UIWindowPtr;
-typedef id OpenGLViewPtr;
+typedef id UIViewPtr;
 #endif
 
 namespace ouzel
@@ -24,11 +23,14 @@ namespace ouzel
     public:
         virtual ~WindowIOS();
 
+        UIWindowPtr getNativeWindow() const { return _window; }
+        UIViewPtr getNativeView() const { return _view; }
+
     protected:
         WindowIOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver);
         virtual bool init() override;
 
         UIWindowPtr _window;
-        OpenGLViewPtr _openGLView;
+        UIViewPtr _view;
     };
 }

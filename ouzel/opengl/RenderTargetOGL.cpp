@@ -22,8 +22,17 @@ namespace ouzel
 
         void RenderTargetOGL::destroy()
         {
-            if (_depthBufferId) glDeleteRenderbuffers(1, &_depthBufferId);
-            if (_framebufferId) glDeleteFramebuffers(1, &_framebufferId);
+            if (_depthBufferId)
+            {
+                glDeleteRenderbuffers(1, &_depthBufferId);
+                _depthBufferId = 0;
+            }
+
+            if (_frameBufferId)
+            {
+                glDeleteFramebuffers(1, &_frameBufferId);
+                _frameBufferId = 0;
+            }
         }
 
         bool RenderTargetOGL::init(const Size2& size, bool depthBuffer)
@@ -38,9 +47,9 @@ namespace ouzel
             GLuint oldFrameBufferId;
             glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));
 
-            glGenFramebuffers(1, &_framebufferId);
+            glGenFramebuffers(1, &_frameBufferId);
 
-            RendererOGL::bindFramebuffer(_framebufferId);
+            RendererOGL::bindFrameBuffer(_frameBufferId);
 
             std::shared_ptr<TextureOGL> textureOGL(new TextureOGL());
 

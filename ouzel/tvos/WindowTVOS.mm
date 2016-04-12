@@ -16,7 +16,7 @@ namespace ouzel
 
     WindowTVOS::~WindowTVOS()
     {
-        [_openGLView release];
+        [_view release];
         [_window release];
     }
 
@@ -27,15 +27,16 @@ namespace ouzel
         UIViewController* viewController = [[[ViewController alloc] init] autorelease];
         _window.rootViewController = viewController;
 
-        _openGLView = [[OpenGLView alloc] initWithFrame:[_window bounds]];
-        viewController.view = _openGLView;
+        OpenGLView* openGLView = [[OpenGLView alloc] initWithFrame:[_window bounds]];
+        _view = openGLView;
+        viewController.view = _view;
 
         [_window makeKeyAndVisible];
 
-        _size.width = _openGLView.backingWidth;
-        _size.height = _openGLView.backingHeight;
+        _size.width = openGLView.backingWidth;
+        _size.height = openGLView.backingHeight;
 
-        [_openGLView prepareOpenGL];
+        [openGLView prepareOpenGL];
 
         return Window::init();
     }

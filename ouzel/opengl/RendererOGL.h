@@ -9,8 +9,8 @@
 #if defined(OUZEL_PLATFORM_OSX)
     #include <OpenGL/gl3.h>
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-    #import <OpenGLES/ES2/gl.h>
-    #import <OpenGLES/ES2/glext.h>
+    #include <OpenGLES/ES2/gl.h>
+    #include <OpenGLES/ES2/glext.h>
 #elif defined(OUZEL_PLATFORM_ANDROID)
     #include <GLES2/gl2platform.h>
     #ifndef GL_GLEXT_PROTOTYPES
@@ -97,18 +97,18 @@ namespace ouzel
 
             static bool bindTexture(GLuint textureId, uint32_t layer);
             static bool bindProgram(GLuint programId);
-            static bool bindFramebuffer(GLuint framebufferId);
+            static bool bindFrameBuffer(GLuint frameBufferId);
 
         private:
             RendererOGL();
             virtual void setSize(const Size2& size) override;
 
             bool _ready = false;
-            GLuint _framebuffer = 0;
+            GLuint _frameBuffer = 0;
 
             static GLuint _currentTextureId[TEXTURE_LAYERS];
             static GLuint _currentProgramId;
-            static GLuint _currentFrambufferId;
+            static GLuint _currentFramBufferId;
         };
     } // namespace video
 } // namespace ouzel

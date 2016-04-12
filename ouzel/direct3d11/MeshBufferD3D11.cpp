@@ -22,8 +22,17 @@ namespace ouzel
 
         void MeshBufferD3D11::destroy()
         {
-            if (_indexBuffer) _indexBuffer->Release();
-            if (_vertexBuffer) _vertexBuffer->Release();
+            if (_indexBuffer)
+            {
+                _indexBuffer->Release();
+                _indexBuffer = nullptr;
+            }
+
+            if (_vertexBuffer)
+            {
+                _vertexBuffer->Release();
+                _vertexBuffer = nullptr;
+            }
         }
 
         bool MeshBufferD3D11::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)

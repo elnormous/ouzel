@@ -23,7 +23,11 @@ namespace ouzel
 
         void BlendStateD3D11::destroy()
         {
-            if (_blendState) _blendState->Release();
+            if (_blendState)
+            {
+                _blendState->Release();
+                _blendState = nullptr;
+            }
         }
 
         bool BlendStateD3D11::init(bool enableBlending,

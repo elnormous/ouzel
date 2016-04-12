@@ -2,11 +2,19 @@
 // This file is part of the Ouzel engine.
 
 #import <MetalKit/MTKView.h>
+#include "CompileConfig.h"
 #include "RendererMetal.h"
 #include "TextureMetal.h"
 #include "ShaderMetal.h"
 #include "MeshBufferMetal.h"
-#include "WindowOSX.h"
+#ifdef OUZEL_PLATFORM_OSX
+    #include "WindowOSX.h"
+#elif OUZEL_PLATFORM_TVOS
+    #include "WindowTVOS.h"
+#elif OUZEL_PLATFORM_IOS
+    #include "WindowIOS.h"
+#endif
+
 #include "Engine.h"
 #include "Utils.h"
 
@@ -41,9 +49,14 @@ namespace ouzel
                 log("Failed to create Metal device");
                 return false;
             }
-
-            std::shared_ptr<WindowOSX> windowOSX = std::static_pointer_cast<WindowOSX>(sharedEngine->getWindow());
-            MTKView* view = windowOSX->getNativeView();
+#ifdef OUZEL_PLATFORM_OSX
+            std::shared_ptr<WindowOSX> window = std::static_pointer_cast<WindowOSX>(sharedEngine->getWindow());
+#elif OUZEL_PLATFORM_TVOS
+            std::shared_ptr<WindowTVOS> window = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow());
+#elif OUZEL_PLATFORM_IOS
+            std::shared_ptr<WindowIOS> window = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow());
+#endif
+            MTKView* view = window->getNativeView();
             view.device = _device;
 
             _commandQueue = [_device newCommandQueue];
@@ -69,13 +82,13 @@ namespace ouzel
 
         void RendererMetal::setClearColor(Color color)
         {
-            std::shared_ptr<WindowOSX> windowOSX = std::static_pointer_cast<WindowOSX>(sharedEngine->getWindow());
+            /*std::shared_ptr<WindowOSX> windowOSX = std::static_pointer_cast<WindowOSX>(sharedEngine->getWindow());
             MTKView* view = windowOSX->getNativeView();
             MTLRenderPassDescriptor* renderPassDescriptor = view.currentRenderPassDescriptor;
 
             //renderPassDescriptor.colorAttachments[0].texture = _texture;
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(color.getR(), color.getG(), color.getB(), color.getA());
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(color.getR(), color.getG(), color.getB(), color.getA());*/
         }
 
         void RendererMetal::setSize(const Size2& size)

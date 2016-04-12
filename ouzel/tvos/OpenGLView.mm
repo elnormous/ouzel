@@ -32,6 +32,7 @@ using namespace ouzel;
         if (![EAGLContext setCurrentContext:_context])
         {
             NSLog(@"Failed to set current OpenGL context");
+            return Nil;
         }
 
         // render buffer
@@ -44,13 +45,14 @@ using namespace ouzel;
 
         // frame buffer
         glGenFramebuffers(1, &_frameBuffer);
-        video::RendererOGL::bindFramebuffer(_frameBuffer);
+        video::RendererOGL::bindFrameBuffer(_frameBuffer);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                   GL_RENDERBUFFER, _colorRenderBuffer);
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
             log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+            return Nil;
         }
     }
 

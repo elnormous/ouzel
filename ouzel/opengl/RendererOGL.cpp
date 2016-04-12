@@ -52,11 +52,11 @@ namespace ouzel
 
         }
 
-        bool RendererOGL::initOpenGL(GLuint framebuffer)
+        bool RendererOGL::initOpenGL(GLuint frameBuffer)
         {
             Size2 size = sharedEngine->getWindow()->getSize();
 
-            _framebuffer = framebuffer;
+            _frameBuffer = frameBuffer;
 
             //glEnable(GL_DEPTH_TEST);
             glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
@@ -328,11 +328,11 @@ namespace ouzel
             {
                 std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
 
-                bindFramebuffer(renderTargetOGL->getFrameBufferId());
+                bindFrameBuffer(renderTargetOGL->getFrameBufferId());
             }
             else
             {
-                bindFramebuffer(_framebuffer);
+                bindFrameBuffer(_frameBuffer);
             }
 
             return true;
@@ -433,11 +433,11 @@ namespace ouzel
             {
                 std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
 
-                bindFramebuffer(renderTargetOGL->getFrameBufferId());
+                bindFrameBuffer(renderTargetOGL->getFrameBufferId());
             }
             else
             {
-                bindFramebuffer(_framebuffer);
+                bindFrameBuffer(_frameBuffer);
             }
 
             for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
@@ -502,7 +502,7 @@ namespace ouzel
                 return false;
             }
 
-            bindFramebuffer(_framebuffer);
+            bindFrameBuffer(_frameBuffer);
 
             GLsizei width = static_cast<GLsizei>(_size.width);
             GLsizei height = static_cast<GLsizei>(_size.height);
@@ -545,7 +545,7 @@ namespace ouzel
 
         GLuint RendererOGL::_currentTextureId[TEXTURE_LAYERS] = { 0 };
         GLuint RendererOGL::_currentProgramId = 0;
-        GLuint RendererOGL::_currentFrambufferId = 0;
+        GLuint RendererOGL::_currentFramBufferId = 0;
 
         bool RendererOGL::bindTexture(GLuint textureId, uint32_t layer)
         {
@@ -580,12 +580,12 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGL::bindFramebuffer(GLuint framebufferId)
+        bool RendererOGL::bindFrameBuffer(GLuint frameBufferId)
         {
-            if (_currentFrambufferId != framebufferId)
+            if (_currentFramBufferId != frameBufferId)
             {
-                glBindFramebuffer(GL_FRAMEBUFFER, framebufferId);
-                _currentFrambufferId = framebufferId;
+                glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
+                _currentFramBufferId = frameBufferId;
 
                 if (checkOpenGLErrors())
                 {

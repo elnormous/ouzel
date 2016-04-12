@@ -23,9 +23,23 @@ namespace ouzel
 
         void ShaderOGL::destroy()
         {
-            if (_programId) glDeleteProgram(_programId);
-            if (_vertexShaderId) glDeleteShader(_vertexShaderId);
-            if (_fragmentShaderId) glDeleteShader(_fragmentShaderId);
+            if (_programId)
+            {
+                glDeleteProgram(_programId);
+                _programId = 0;
+            }
+            
+            if (_vertexShaderId)
+            {
+                glDeleteShader(_vertexShaderId);
+                _vertexShaderId = 0;
+            }
+
+            if (_fragmentShaderId)
+            {
+                glDeleteShader(_fragmentShaderId);
+                _fragmentShaderId = 0;
+            }
         }
 
         bool ShaderOGL::initFromBuffers(const uint8_t* fragmentShader,

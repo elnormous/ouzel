@@ -22,7 +22,11 @@ namespace ouzel
 
         void RenderTargetD3D11::destroy()
         {
-            if (_renderTargetView) _renderTargetView->Release();
+            if (_renderTargetView)
+            {
+                _renderTargetView->Release();
+                _renderTargetView = nullptr;
+            }
         }
 
         bool RenderTargetD3D11::init(const Size2& size, bool depthBuffer)

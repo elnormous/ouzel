@@ -23,12 +23,35 @@ namespace ouzel
 
         void ShaderD3D11::destroy()
         {
-            if (_pixelShader) _pixelShader->Release();
-            if (_vertexShader) _vertexShader->Release();
-            if (_inputLayout) _inputLayout->Release();
+            if (_pixelShader)
+            {
+                _pixelShader->Release();
+                _pixelShader = nullptr;
+            }
 
-            if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
-            if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
+            if (_vertexShader)
+            {
+                _vertexShader->Release();
+                _vertexShader = nullptr;
+            }
+
+            if (_inputLayout)
+            {
+                _inputLayout->Release();
+                _inputLayout = nullptr;
+            }
+
+            if (_pixelShaderConstantBuffer)
+            {
+                _pixelShaderConstantBuffer->Release();
+                _pixelShaderConstantBuffer = nullptr;
+            }
+
+            if (_vertexShaderConstantBuffer)
+            {
+                _vertexShaderConstantBuffer->Release();
+                _vertexShaderConstantBuffer = nullptr;
+            }
         }
 
         bool ShaderD3D11::initFromBuffers(const uint8_t* fragmentShader,

@@ -37,13 +37,47 @@ namespace ouzel
 
         void RendererD3D11::destroy()
         {
-            if (_depthStencilState) _depthStencilState->Release();
-            if (_rasterizerState) _rasterizerState->Release();
-            if (_samplerState) _samplerState->Release();
-            if (_rtView) _rtView->Release();
-            if (_backBuffer) _backBuffer->Release();
-            if (_swapChain) _swapChain->Release();
-            if (_adapter) _adapter->Release();
+            if (_depthStencilState)
+            {
+                _depthStencilState->Release();
+                _depthStencilState = nullptr;
+            }
+
+            if (_rasterizerState)
+            {
+                _rasterizerState->Release();
+                _rasterizerState = nullptr;
+            }
+
+            if (_samplerState)
+            {
+                _samplerState->Release();
+                _samplerState = nullptr;
+            }
+
+            if (_rtView)
+            {
+                _rtView->Release();
+                _rtView = nullptr;
+            }
+
+            if (_backBuffer)
+            {
+                _backBuffer->Release();
+                _backBuffer= nullptr;
+            }
+
+            if (_swapChain)
+            {
+                _swapChain->Release();
+                _swapChain = nullptr;
+            }
+
+            if (_adapter)
+            {
+                _adapter->Release();
+                _adapter = nullptr;
+            }
         }
 
         bool RendererD3D11::init(const Size2& size, bool fullscreen)

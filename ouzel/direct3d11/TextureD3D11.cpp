@@ -25,8 +25,17 @@ namespace ouzel
 
         void TextureD3D11::destroy()
         {
-            if (_resourceView) _resourceView->Release();
-            if (_texture) _texture->Release();
+            if (_resourceView)
+            {
+                _resourceView->Release();
+                _resourceView = nullptr;
+            }
+
+            if (_texture)
+            {
+                _texture->Release();
+                _texture = nullptr;
+            }
         }
 
         bool TextureD3D11::init(const Size2& size, bool dynamic, bool mipmaps)

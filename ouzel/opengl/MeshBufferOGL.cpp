@@ -22,9 +22,23 @@ namespace ouzel
 
         void MeshBufferOGL::destroy()
         {
-            if (_vertexArrayId) glDeleteVertexArrays(1, &_vertexArrayId);
-            if (_vertexBufferId) glDeleteBuffers(1, &_vertexBufferId);
-            if (_indexBufferId) glDeleteBuffers(1, &_indexBufferId);
+            if (_vertexArrayId)
+            {
+                glDeleteVertexArrays(1, &_vertexArrayId);
+                _vertexArrayId = 0;
+            }
+
+            if (_vertexBufferId)
+            {
+                glDeleteBuffers(1, &_vertexBufferId);
+                _vertexBufferId = 0;
+            }
+
+            if (_indexBufferId)
+            {
+                glDeleteBuffers(1, &_indexBufferId);
+                _indexBufferId = 0;
+            }
         }
 
         bool MeshBufferOGL::init()
