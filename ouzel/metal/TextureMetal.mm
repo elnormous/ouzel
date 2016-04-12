@@ -36,6 +36,17 @@ namespace ouzel
 
             destroy();
 
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+                                                                                                         width:static_cast<NSUInteger>(size.width)
+                                                                                                        height:static_cast<NSUInteger>(size.height)
+                                                                                                     mipmapped:mipmaps ? YES : NO];
+            textureDescriptor.textureType = MTLTextureType2D;
+            textureDescriptor.usage = MTLTextureUsageShaderRead;
+
+            _texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+
             return true;
         }
 
@@ -47,6 +58,17 @@ namespace ouzel
             }
 
             destroy();
+
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+                                                                                                         width:static_cast<NSUInteger>(size.width)
+                                                                                                        height:static_cast<NSUInteger>(size.height)
+                                                                                                     mipmapped:mipmaps ? YES : NO];
+            textureDescriptor.textureType = MTLTextureType2D;
+            textureDescriptor.usage = MTLTextureUsageShaderRead;
+
+            _texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
             return true;
         }
