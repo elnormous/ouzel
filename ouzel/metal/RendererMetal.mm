@@ -14,8 +14,12 @@
 #elif OUZEL_PLATFORM_IOS
     #include "WindowIOS.h"
 #endif
-
+#include "ColorPS.h"
+#include "ColorVS.h"
+#include "TexturePS.h"
+#include "TextureVS.h"
 #include "Engine.h"
+#include "Cache.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -106,6 +110,24 @@ namespace ouzel
                 log("Failed to create Metal sampler state");
                 return false;
             }
+
+            ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_METAL, sizeof(TEXTURE_PIXEL_SHADER_METAL), TEXTURE_VERTEX_SHADER_METAL, sizeof(TEXTURE_VERTEX_SHADER_METAL), VertexPCT::ATTRIBUTES);
+
+            if (!textureShader)
+            {
+                return false;
+            }
+
+            sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
+
+            ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_METAL, sizeof(COLOR_PIXEL_SHADER_METAL), COLOR_VERTEX_SHADER_METAL, sizeof(COLOR_VERTEX_SHADER_METAL), VertexPC::ATTRIBUTES);
+
+            if (!colorShader)
+            {
+                return false;
+            }
+
+            sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             return true;
         }

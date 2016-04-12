@@ -31,6 +31,18 @@
 		30324E1F1CB28A4400601A64 /* BlendStateOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30324E1B1CB28A4400601A64 /* BlendStateOGL.h */; };
 		30324E201CB28A4400601A64 /* BlendStateOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30324E1B1CB28A4400601A64 /* BlendStateOGL.h */; };
 		30324E211CB28A4400601A64 /* BlendStateOGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30324E1B1CB28A4400601A64 /* BlendStateOGL.h */; };
+		3033C9271CBDAE42003307D1 /* ColorPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9231CBDAE41003307D1 /* ColorPS.h */; };
+		3033C9281CBDAE42003307D1 /* ColorPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9231CBDAE41003307D1 /* ColorPS.h */; };
+		3033C9291CBDAE42003307D1 /* ColorPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9231CBDAE41003307D1 /* ColorPS.h */; };
+		3033C92A1CBDAE42003307D1 /* ColorVS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9241CBDAE42003307D1 /* ColorVS.h */; };
+		3033C92B1CBDAE42003307D1 /* ColorVS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9241CBDAE42003307D1 /* ColorVS.h */; };
+		3033C92C1CBDAE42003307D1 /* ColorVS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9241CBDAE42003307D1 /* ColorVS.h */; };
+		3033C92D1CBDAE42003307D1 /* TexturePS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9251CBDAE42003307D1 /* TexturePS.h */; };
+		3033C92E1CBDAE42003307D1 /* TexturePS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9251CBDAE42003307D1 /* TexturePS.h */; };
+		3033C92F1CBDAE42003307D1 /* TexturePS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9251CBDAE42003307D1 /* TexturePS.h */; };
+		3033C9301CBDAE42003307D1 /* TextureVS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9261CBDAE42003307D1 /* TextureVS.h */; };
+		3033C9311CBDAE42003307D1 /* TextureVS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9261CBDAE42003307D1 /* TextureVS.h */; };
+		3033C9321CBDAE42003307D1 /* TextureVS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3033C9261CBDAE42003307D1 /* TextureVS.h */; };
 		303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303647121C3DFEAF0024DB5B /* Gamepad.cpp */; };
 		303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303647121C3DFEAF0024DB5B /* Gamepad.cpp */; };
 		303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303647121C3DFEAF0024DB5B /* Gamepad.cpp */; };
@@ -545,6 +557,10 @@
 		30324E131CB2898E00601A64 /* BlendState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendState.h; sourceTree = "<group>"; };
 		30324E1A1CB28A4400601A64 /* BlendStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BlendStateOGL.cpp; path = opengl/BlendStateOGL.cpp; sourceTree = "<group>"; };
 		30324E1B1CB28A4400601A64 /* BlendStateOGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlendStateOGL.h; path = opengl/BlendStateOGL.h; sourceTree = "<group>"; };
+		3033C9231CBDAE41003307D1 /* ColorPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorPS.h; path = metal/ColorPS.h; sourceTree = "<group>"; };
+		3033C9241CBDAE42003307D1 /* ColorVS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorVS.h; path = metal/ColorVS.h; sourceTree = "<group>"; };
+		3033C9251CBDAE42003307D1 /* TexturePS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TexturePS.h; path = metal/TexturePS.h; sourceTree = "<group>"; };
+		3033C9261CBDAE42003307D1 /* TextureVS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureVS.h; path = metal/TextureVS.h; sourceTree = "<group>"; };
 		303647121C3DFEAF0024DB5B /* Gamepad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gamepad.cpp; sourceTree = "<group>"; };
 		303647131C3DFEAF0024DB5B /* Gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamepad.h; sourceTree = "<group>"; };
 		3036471A1C3E058E0024DB5B /* GamepadApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GamepadApple.mm; path = apple/GamepadApple.mm; sourceTree = "<group>"; };
@@ -1042,6 +1058,8 @@
 			children = (
 				30547E601CB3D6C00055EE79 /* BlendStateMetal.h */,
 				30547E5F1CB3D6C00055EE79 /* BlendStateMetal.mm */,
+				3033C9231CBDAE41003307D1 /* ColorPS.h */,
+				3033C9241CBDAE42003307D1 /* ColorVS.h */,
 				30547E361CB3D6720055EE79 /* MeshBufferMetal.h */,
 				30547E371CB3D6720055EE79 /* MeshBufferMetal.mm */,
 				30547E381CB3D6720055EE79 /* RendererMetal.h */,
@@ -1052,6 +1070,8 @@
 				30547E3D1CB3D6720055EE79 /* ShaderMetal.mm */,
 				30547E3E1CB3D6720055EE79 /* TextureMetal.h */,
 				30547E3F1CB3D6720055EE79 /* TextureMetal.mm */,
+				3033C9251CBDAE42003307D1 /* TexturePS.h */,
+				3033C9261CBDAE42003307D1 /* TextureVS.h */,
 			);
 			name = metal;
 			sourceTree = "<group>";
@@ -1139,6 +1159,8 @@
 				30547E7C1CB47E050055EE79 /* Shake.h in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.h in Headers */,
 				303B75F41C335B7D00FEDE92 /* File.h in Headers */,
+				3033C92E1CBDAE42003307D1 /* TexturePS.h in Headers */,
+				3033C9311CBDAE42003307D1 /* TextureVS.h in Headers */,
 				304B27B71C9A063300BA162D /* RendererOGL.h in Headers */,
 				303B755C1C2A3CB700FEDE92 /* Vector4.h in Headers */,
 				303B756E1C2A3CCA00FEDE92 /* Utils.h in Headers */,
@@ -1189,9 +1211,11 @@
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				30324E201CB28A4400601A64 /* BlendStateOGL.h in Headers */,
 				304B27C31C9A063300BA162D /* ShaderOGL.h in Headers */,
+				3033C9281CBDAE42003307D1 /* ColorPS.h in Headers */,
 				304B27A21C9A063300BA162D /* ColorPSOGL.h in Headers */,
 				30A9C13E1CAEBA540084C4BF /* Language.h in Headers */,
 				304B27AB1C9A063300BA162D /* ColorVSOGLES.h in Headers */,
+				3033C92B1CBDAE42003307D1 /* ColorVS.h in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
 				30547E411CB3D6720055EE79 /* MeshBufferMetal.h in Headers */,
 				30547E531CB3D6720055EE79 /* ShaderMetal.h in Headers */,
@@ -1239,6 +1263,8 @@
 				30547E7D1CB47E050055EE79 /* Shake.h in Headers */,
 				303B765F1C355A3B00FEDE92 /* File.h in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
+				3033C92F1CBDAE42003307D1 /* TexturePS.h in Headers */,
+				3033C9321CBDAE42003307D1 /* TextureVS.h in Headers */,
 				304B27B81C9A063300BA162D /* RendererOGL.h in Headers */,
 				303B76611C355A3B00FEDE92 /* Utils.h in Headers */,
 				303B76621C355A3B00FEDE92 /* MeshBuffer.h in Headers */,
@@ -1289,9 +1315,11 @@
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				30324E211CB28A4400601A64 /* BlendStateOGL.h in Headers */,
 				304B27C41C9A063300BA162D /* ShaderOGL.h in Headers */,
+				3033C9291CBDAE42003307D1 /* ColorPS.h in Headers */,
 				304B27A31C9A063300BA162D /* ColorPSOGL.h in Headers */,
 				30A9C13F1CAEBA540084C4BF /* Language.h in Headers */,
 				304B27AC1C9A063300BA162D /* ColorVSOGLES.h in Headers */,
+				3033C92C1CBDAE42003307D1 /* ColorVS.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
 				30547E421CB3D6720055EE79 /* MeshBufferMetal.h in Headers */,
 				30547E541CB3D6720055EE79 /* ShaderMetal.h in Headers */,
@@ -1325,6 +1353,7 @@
 				304A8E5E1C237C70008B1151 /* Noncopyable.h in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix4.h in Headers */,
 				303B75781C2A419F00FEDE92 /* CompileConfig.h in Headers */,
+				3033C92A1CBDAE42003307D1 /* ColorVS.h in Headers */,
 				303B75F31C335B7D00FEDE92 /* File.h in Headers */,
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				30547E641CB3D6C00055EE79 /* BlendStateMetal.h in Headers */,
@@ -1348,7 +1377,9 @@
 				304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */,
 				304B27C81C9A063300BA162D /* TextureOGL.h in Headers */,
 				304B277C1C95C54D00BA162D /* EditBox.h in Headers */,
+				3033C9301CBDAE42003307D1 /* TextureVS.h in Headers */,
 				304B27BC1C9A063300BA162D /* RenderTargetOGL.h in Headers */,
+				3033C92D1CBDAE42003307D1 /* TexturePS.h in Headers */,
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
 				304A8E751C237C70008B1151 /* Vector4.h in Headers */,
 				30B328871C4E9EAC00040927 /* Ease.h in Headers */,
@@ -1374,6 +1405,7 @@
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
 				300934271C88950500CC50D3 /* WindowOSX.h in Headers */,
 				305B998C1C41EFFA008589E1 /* Menu.h in Headers */,
+				3033C9271CBDAE42003307D1 /* ColorPS.h in Headers */,
 				304B27A41C9A063300BA162D /* ColorPSOGLES.h in Headers */,
 				303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */,
 				30C56C681CAB3F2D007AEF8F /* RadioButton.h in Headers */,
