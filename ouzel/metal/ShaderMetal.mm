@@ -109,6 +109,12 @@ namespace ouzel
 
             [fragmentShaderLibrary release];
 
+            if (!_fragmentShader)
+            {
+                log("Failed to load fragment shader");
+                return false;
+            }
+
             dispatch_data_t vertexShaderData = dispatch_data_create(vertexShader, vertexShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
             id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderData error:&err];
 
@@ -121,6 +127,12 @@ namespace ouzel
             _vertexShader = [vertexShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:vertexShaderFunction.c_str()]];
 
             [vertexShaderLibrary release];
+
+            if (!_vertexShader)
+            {
+                log("Failed to load vertex shader");
+                return false;
+            }
 
             if (!createPixelShaderConstantBuffer(sizeof(Matrix4)))
             {
