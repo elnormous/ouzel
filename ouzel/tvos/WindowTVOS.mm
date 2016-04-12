@@ -36,8 +36,13 @@ namespace ouzel
         _size.width = openGLView.backingWidth;
         _size.height = openGLView.backingHeight;
 
+        if (!Window::init())
+        {
+            return false;
+        }
+
         [openGLView prepareOpenGL];
 
-        return Window::init();
+        return true;
     }
 }

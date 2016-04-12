@@ -1,7 +1,6 @@
 // Copyright (C) 2015 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#import <MetalKit/MTKView.h>
 #include "CompileConfig.h"
 #include "RendererMetal.h"
 #include "TextureMetal.h"
@@ -38,6 +37,12 @@ namespace ouzel
 
         void RendererMetal::destroy()
         {
+            if (_currentCommandBuffer)
+            {
+                [_currentCommandBuffer release];
+                _currentCommandBuffer = Nil;
+            }
+
             if (_commandQueue)
             {
                 [_commandQueue release];
@@ -75,8 +80,8 @@ namespace ouzel
 #elif OUZEL_PLATFORM_IOS
             std::shared_ptr<WindowIOS> window = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow());
 #endif
-            MTKView* view = window->getNativeView();
-            view.device = _device;
+            _view = window->getNativeView();
+            _view.device = _device;
 
             _commandQueue = [_device newCommandQueue];
 
@@ -134,9 +139,7 @@ namespace ouzel
 
         void RendererMetal::setClearColor(Color color)
         {
-            /*std::shared_ptr<WindowOSX> windowOSX = std::static_pointer_cast<WindowOSX>(sharedEngine->getWindow());
-            MTKView* view = windowOSX->getNativeView();
-            MTLRenderPassDescriptor* renderPassDescriptor = view.currentRenderPassDescriptor;
+            /*MTLRenderPassDescriptor* renderPassDescriptor = _view.currentRenderPassDescriptor;
 
             //renderPassDescriptor.colorAttachments[0].texture = _texture;
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
@@ -155,7 +158,12 @@ namespace ouzel
 
         void RendererMetal::flush()
         {
-
+            if (_currentCommandBuffer)
+            {
+                [_currentCommandBuffer commit];
+                [_currentCommandBuffer release];
+                _currentCommandBuffer = Nil;
+            }
         }
 
         TexturePtr RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
@@ -245,6 +253,28 @@ namespace ouzel
             if (!Renderer::drawMeshBuffer(meshBuffer, indexCount, drawMode))
             {
                 return false;
+            }
+
+            if (!_currentCommandBuffer)
+            {
+                _currentCommandBuffer = [_commandQueue commandBuffer];
+
+                if (!_currentCommandBuffer)
+                {
+                    log("Failed to create Metal command buffer");
+                    return false;
+                }
+
+                MTLRenderPassDescriptor* renderPassDescriptor = _view.currentRenderPassDescriptor;
+
+                if (!renderPassDescriptor)
+                {
+                    log("Failed to get Metal render pass descriptor");
+                    return false;
+                }
+
+                renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
             }
 
             return true;

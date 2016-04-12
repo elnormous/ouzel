@@ -5,14 +5,19 @@
 
 #ifdef __OBJC__
 #import <Metal/Metal.h>
+#import <MetalKit/MTKView.h>
+typedef MTKView* MTKViewPtr;
 typedef id<MTLDevice> MTLDevicePtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
 typedef id<MTLCommandQueue> MTLCommandQueuePtr;
+typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
 #else
 #include <objc/objc.h>
+typedef id MTKViewPtr;
 typedef id MTLDevicePtr;
 typedef id MTLSamplerStatePtr;
 typedef id MTLCommandQueuePtr;
+typedef id MTLCommandBufferPtr;
 #endif
 
 #include "Renderer.h"
@@ -63,9 +68,14 @@ namespace ouzel
 
             void destroy();
 
+            MTKViewPtr _view = Nil;
+
             MTLDevicePtr _device = Nil;
+
             MTLSamplerStatePtr _samplerState = Nil;
             MTLCommandQueuePtr _commandQueue = Nil;
+
+            MTLCommandBufferPtr _currentCommandBuffer = Nil;
         };
     } // namespace video
 } // namespace ouzel
