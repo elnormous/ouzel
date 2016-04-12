@@ -294,12 +294,10 @@ namespace ouzel
         {
             _shader = shader;
 
-    #ifndef OUZEL_PLATFORM_WINDOWS
-            if (_shader)
+            if (_shader && sharedEngine->getRenderer()->getDriver() == video::Renderer::Driver::OPENGL)
             {
                 _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
             }
-    #endif
         }
 
         void Sprite::setColor(const video::Color& color)
