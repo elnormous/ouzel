@@ -134,7 +134,7 @@ namespace ouzel
                 return false;
             }
 
-            _indexBufferSize = static_cast<uint32_t>(size);
+            _indexBufferSize = size;
 
             return true;
         }
@@ -162,7 +162,7 @@ namespace ouzel
                 return false;
             }
 
-            _vertexBufferSize = static_cast<uint32_t>(size);
+            _vertexBufferSize = size;
 
             return true;
         }

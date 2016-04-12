@@ -35,7 +35,32 @@ namespace ouzel
 
             destroy();
 
+            if (!createIndexBuffer(indices, _indexSize * indexCount))
+            {
+                return false;
+            }
+
+            if (!updateIndexFormat())
+            {
+                return false;
+            }
+
+            if (!createVertexBuffer(vertices, _vertexSize * vertexCount))
+            {
+                return false;
+            }
+
             return true;
+        }
+
+        bool MeshBufferMetal::setIndexSize(uint32_t indexSize)
+        {
+            if (!MeshBuffer::setIndexSize(indexSize))
+            {
+                return false;
+            }
+
+            return updateIndexFormat();
         }
 
         bool MeshBufferMetal::uploadIndices(const void* indices, uint32_t indexCount)
@@ -54,6 +79,61 @@ namespace ouzel
             {
                 return false;
             }
+
+            return true;
+        }
+
+        bool MeshBufferMetal::updateIndexFormat()
+        {
+            switch (_indexSize)
+            {
+                case 2: _indexFormat = MTLIndexTypeUInt16; break;
+                case 4: _indexFormat = MTLIndexTypeUInt32; break;
+                default: log("Invalid index size"); return false;
+            }
+
+            return true;
+        }
+
+        bool MeshBufferMetal::createIndexBuffer(const void* indices, uint32_t size)
+        {
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            _indexBuffer = [rendererMetal->getDevice() newBufferWithLength:sizeof(indices)
+                                                                   options:MTLResourceCPUCacheModeWriteCombined];
+
+            if (_indexBuffer == Nil)
+            {
+                log("Failed to create D3D11 index buffer");
+                return false;
+            }
+
+            _indexBufferSize = size;
+
+            return true;
+        }
+
+        bool MeshBufferMetal::createVertexBuffer(const void* vertices, uint32_t size)
+        {
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            _vertexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
+                                                                    options:MTLResourceCPUCacheModeWriteCombined];
+
+            if (_vertexBuffer == Nil)
+            {
+                log("Failed to create D3D11 vertex buffer");
+                return false;
+            }
+
+            _vertexBufferSize = size;
+
+            return true;
+        }
+
+        bool MeshBufferMetal::uploadData(MTLBufferPtr buffer, const void* data, uint32_t size)
+        {
+            memcpy([buffer contents], data, size);
 
             return true;
         }
