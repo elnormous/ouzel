@@ -19,7 +19,11 @@ namespace ouzel
 
         void BlendStateMetal::destroy()
         {
-            if (_blendState) [_blendState release];
+            if (_blendState)
+            {
+                [_blendState release];
+                _blendState = Nil;
+            }
         }
     } // namespace video
 } // namespace ouzel

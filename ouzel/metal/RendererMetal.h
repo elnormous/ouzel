@@ -6,10 +6,12 @@
 #ifdef __OBJC__
 #import <Metal/Metal.h>
 typedef id<MTLDevice> MTLDevicePtr;
+typedef id<MTLSamplerState> MTLSamplerStatePtr;
 typedef id<MTLCommandQueue> MTLCommandQueuePtr;
 #else
 #include <objc/objc.h>
 typedef id MTLDevicePtr;
+typedef id MTLSamplerStatePtr;
 typedef id MTLCommandQueuePtr;
 #endif
 
@@ -62,6 +64,7 @@ namespace ouzel
             void destroy();
 
             MTLDevicePtr _device = Nil;
+            MTLSamplerStatePtr _samplerState = Nil;
             MTLCommandQueuePtr _commandQueue = Nil;
         };
     } // namespace video

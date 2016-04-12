@@ -22,8 +22,17 @@ namespace ouzel
 
         void MeshBufferMetal::destroy()
         {
-            if (_indexBuffer) [_indexBuffer release];
-            if (_vertexBuffer) [_vertexBuffer release];
+            if (_indexBuffer)
+            {
+                [_indexBuffer release];
+                _indexBuffer = Nil;
+            }
+
+            if (_vertexBuffer)
+            {
+                [_vertexBuffer release];
+                _vertexBuffer = Nil;
+            }
         }
 
         bool MeshBufferMetal::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)

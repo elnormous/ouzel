@@ -151,7 +151,7 @@ namespace ouzel
         {
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
-            UINT rowPitch = static_cast<UINT>(width * 4);
+            UINT rowPitch = width * 4;
             rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);
 
             _mipLevels = 1;

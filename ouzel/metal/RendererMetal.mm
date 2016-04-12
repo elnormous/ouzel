@@ -34,8 +34,23 @@ namespace ouzel
 
         void RendererMetal::destroy()
         {
-            if (_commandQueue) [_commandQueue release];
-            if (_device) [_device release];
+            if (_commandQueue)
+            {
+                [_commandQueue release];
+                _commandQueue = Nil;
+            }
+
+            if (_samplerState)
+            {
+                [_samplerState release];
+                _samplerState = Nil;
+            }
+
+            if (_device)
+            {
+                [_device release];
+                _device = Nil;
+            }
         }
 
         bool RendererMetal::init(const Size2& size, bool fullscreen)
@@ -67,7 +82,7 @@ namespace ouzel
                 return false;
             }
 
-            MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+            /*MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
             pipelineStateDescriptor.label = @"MyPipeline";
             pipelineStateDescriptor.sampleCount = view.sampleCount;
             //pipelineStateDescriptor.vertexFunction = vertexProgram;
@@ -75,7 +90,15 @@ namespace ouzel
             //pipelineStateDescriptor.vertexDescriptor = vertexDescriptor;
             pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
             pipelineStateDescriptor.depthAttachmentPixelFormat = view.depthStencilPixelFormat;
-            pipelineStateDescriptor.stencilAttachmentPixelFormat = view.depthStencilPixelFormat;
+            pipelineStateDescriptor.stencilAttachmentPixelFormat = view.depthStencilPixelFormat;*/
+
+            MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
+            samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
+            samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
+            samplerDescriptor.sAddressMode = MTLSamplerAddressModeRepeat;
+            samplerDescriptor.tAddressMode = MTLSamplerAddressModeRepeat;
+
+            _samplerState = [_device newSamplerStateWithDescriptor:samplerDescriptor];
 
             return true;
         }

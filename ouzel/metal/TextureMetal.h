@@ -38,7 +38,10 @@ namespace ouzel
 
             void destroy();
 
+            bool uploadData(const void* data, NSUInteger width, NSUInteger height);
+
             MTLTexturePtr _texture = Nil;
+            NSUInteger _mipLevels = 0;
         };
     } // namespace video
 } // namespace ouzel

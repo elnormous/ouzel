@@ -113,11 +113,11 @@ namespace ouzel
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
                          0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-    #ifdef OUZEL_SUPPORTS_OPENGLES
+#ifdef OUZEL_SUPPORTS_OPENGLES
             if (_mipmaps && isPOT(width) && isPOT(height))
-    #else
+#else
             if (_mipmaps)
-    #endif
+#endif
             {
                 GLsizei oldMipWidth = width;
                 GLsizei oldMipHeight = height;

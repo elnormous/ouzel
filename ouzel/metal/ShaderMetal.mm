@@ -24,9 +24,21 @@ namespace ouzel
 
         void ShaderMetal::destroy()
         {
-            if (_vertexShader) [_vertexShader release];
-            if (_fragmentShader) [_fragmentShader release];
-            if (_vertexDescriptor) [_vertexDescriptor release];
+            if (_vertexShader)
+            {
+                [_vertexShader release];
+                _vertexShader = Nil;
+            }
+            if (_fragmentShader)
+            {
+                [_fragmentShader release];
+                _fragmentShader = Nil;
+            }
+            if (_vertexDescriptor)
+            {
+                [_vertexDescriptor release];
+                _vertexDescriptor = Nil;
+            }
         }
 
         bool ShaderMetal::initFromBuffers(const uint8_t* fragmentShader,

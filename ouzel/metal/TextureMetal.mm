@@ -24,7 +24,11 @@ namespace ouzel
 
         void TextureMetal::destroy()
         {
-            if (_texture) [_texture release];
+            if (_texture)
+            {
+                [_texture release];
+                _texture = Nil;
+            }
         }
 
         bool TextureMetal::init(const Size2& size, bool dynamic, bool mipmaps)
@@ -70,15 +74,9 @@ namespace ouzel
 
             _texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
-            NSUInteger width = static_cast<NSUInteger>(size.width);
-            NSUInteger height = static_cast<NSUInteger>(size.height);
-            NSUInteger bytesPerRow = width * 4;
-
-            [_texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:bytesPerRow];
-
-            // TODO: generate mipmaps
-
-            return true;
+            return uploadData(data,
+                              static_cast<NSUInteger>(size.width),
+                              static_cast<NSUInteger>(size.height));
         }
 
         bool TextureMetal::upload(const void* data, const Size2& size)
@@ -88,15 +86,66 @@ namespace ouzel
                 return false;
             }
 
-            NSUInteger width = static_cast<NSUInteger>(size.width);
-            NSUInteger height = static_cast<NSUInteger>(size.height);
-            NSUInteger bytesPerRow = width * 4;
+            return uploadData(data,
+                              static_cast<NSUInteger>(size.width),
+                              static_cast<NSUInteger>(size.height));
+        }
 
+        bool TextureMetal::uploadData(const void* data, NSUInteger width, NSUInteger height)
+        {
+            NSUInteger bytesPerRow = width * 4;
             [_texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:bytesPerRow];
 
-            // TODO: generate mipmaps
-            
+            _mipLevels = 1;
+
+            if (_mipmaps)
+            {
+                NSUInteger oldMipWidth = width;
+                NSUInteger oldMipHeight = height;
+
+                NSUInteger mipWidth = width >> 1;
+                NSUInteger mipHeight = height >> 1;
+                NSUInteger mipLevel = 1;
+                NSUInteger mipBytesPerRow = mipWidth * 4;
+
+                uint8_t* oldMipMapData = new uint8_t[width * height * 4];
+                memcpy(oldMipMapData, data, width * height * 4);
+
+                uint8_t* newMipMapData = new uint8_t[mipWidth * mipHeight * 4];
+
+                while (mipWidth >= 1 || mipHeight >= 1)
+                {
+                    if (mipWidth < 1) mipWidth = 1;
+                    if (mipHeight < 1) mipHeight = 1;
+
+                    stbir_resize_uint8_generic(oldMipMapData, oldMipWidth, oldMipHeight, 0,
+                                               newMipMapData, mipWidth, mipHeight, 0, 4,
+                                               3, 0, STBIR_EDGE_CLAMP,
+                                               STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
+
+                    [_texture replaceRegion:MTLRegionMake2D(0, 0, mipWidth, mipHeight) mipmapLevel:mipLevel withBytes:newMipMapData bytesPerRow:mipBytesPerRow];
+
+                    oldMipWidth = mipWidth;
+                    oldMipHeight = mipHeight;
+
+                    mipWidth >>= 1;
+                    mipHeight >>= 1;
+                    mipLevel++;
+                    mipBytesPerRow = mipWidth * 4;
+
+                    uint8_t* temp = oldMipMapData;
+                    oldMipMapData = newMipMapData;
+                    newMipMapData = temp;
+                }
+                
+                delete [] oldMipMapData;
+                delete [] newMipMapData;
+                
+                _mipLevels = mipLevel;
+            }
+
             return true;
         }
+
     } // namespace video
 } // namespace ouzel
