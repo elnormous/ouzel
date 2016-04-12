@@ -80,7 +80,6 @@ namespace ouzel
 
         CFStringRef bundleIdentifier = CFBundleGetIdentifier(CFBundleGetMainBundle());
         CFStringGetCString(bundleIdentifier, TEMP_BUFFER, sizeof(TEMP_BUFFER), kCFStringEncodingUTF8);
-        CFRelease(bundleIdentifier);
 
         path += DIRECTORY_SEPARATOR + TEMP_BUFFER;
 
