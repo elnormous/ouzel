@@ -9,10 +9,12 @@
 #include <Cocoa/Cocoa.h>
 typedef NSWindow* NSWindowPtr;
 typedef NSView* NSViewPtr;
+typedef id<NSWindowDelegate> NSWindowDelegatePtr;
 #else
 #include <objc/objc.h>
 typedef id NSWindowPtr;
 typedef id NSViewPtr;
+typedef id NSWindowDelegatePtr;
 #endif
 
 namespace ouzel
@@ -43,5 +45,6 @@ namespace ouzel
 
         NSWindowPtr _window = Nil;
         NSViewPtr _view = Nil;
+        NSWindowDelegatePtr _windowDelegate = Nil;
     };
 }

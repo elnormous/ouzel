@@ -7,7 +7,7 @@
 #include "MetalView.h"
 #include "Utils.h"
 
-@interface WindowDelegate: NSObject <NSWindowDelegate>
+@interface WindowDelegate: NSObject<NSWindowDelegate>
 {
     ouzel::WindowOSX* _window;
 }
@@ -113,8 +113,8 @@ namespace ouzel
         _window.backgroundColor = [NSColor blackColor];
         _window.acceptsMouseMovedEvents = YES;
 
-        WindowDelegate* windowDelegate = [[WindowDelegate alloc] initWithWindow: this];
-        _window.delegate = windowDelegate;
+        _windowDelegate = [[WindowDelegate alloc] initWithWindow: this];
+        _window.delegate = _windowDelegate;
 
         [_window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
 
@@ -169,9 +169,15 @@ namespace ouzel
             _view = Nil;
         }
 
+        if (_windowDelegate)
+        {
+            [_windowDelegate release];
+            _windowDelegate = Nil;
+        }
+
         if (_window)
         {
-            [_window.delegate release];
+            _window.delegate = Nil;
             [_window release];
             _window = Nil;
         }

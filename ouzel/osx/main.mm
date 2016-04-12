@@ -25,6 +25,7 @@ int main(int argc, const char* argv[])
         AppDelegate* appDelegate = [[AppDelegate alloc] init];
         [application setDelegate:appDelegate];
         [application run];
+        [appDelegate release];
     }
 
     return 0;

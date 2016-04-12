@@ -29,12 +29,16 @@ using namespace ouzel;
 @end
 
 @implementation MetalView
+{
+    id<MTKViewDelegate> _viewDelegate;
+}
 
 -(id)initWithFrame:(CGRect)frameRect
 {
     if (self = [super initWithFrame:frameRect])
     {
-        self.delegate = [[ViewDelegate alloc] init];
+        _viewDelegate = [[ViewDelegate alloc] init];
+        self.delegate = _viewDelegate;
         _running = YES;
     }
 
@@ -44,13 +48,18 @@ using namespace ouzel;
 -(void)dealloc
 {
     [self close];
-    [self.delegate release];
-    
     [super dealloc];
 }
 
 -(void)close
 {
+    if (_viewDelegate)
+    {
+        [_viewDelegate release];
+        _viewDelegate = Nil;
+        self.delegate = Nil;
+    }
+
     _running = NO;
 }
 
