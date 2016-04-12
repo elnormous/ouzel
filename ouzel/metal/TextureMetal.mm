@@ -70,6 +70,14 @@ namespace ouzel
 
             _texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
+            NSUInteger width = static_cast<NSUInteger>(size.width);
+            NSUInteger height = static_cast<NSUInteger>(size.height);
+            NSUInteger bytesPerRow = width * 4;
+
+            [_texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:bytesPerRow];
+
+            // TODO: generate mipmaps
+
             return true;
         }
 
@@ -80,6 +88,14 @@ namespace ouzel
                 return false;
             }
 
+            NSUInteger width = static_cast<NSUInteger>(size.width);
+            NSUInteger height = static_cast<NSUInteger>(size.height);
+            NSUInteger bytesPerRow = width * 4;
+
+            [_texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:bytesPerRow];
+
+            // TODO: generate mipmaps
+            
             return true;
         }
     } // namespace video

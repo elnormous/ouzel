@@ -26,6 +26,7 @@ namespace ouzel
         {
             if (_vertexShader) [_vertexShader release];
             if (_fragmentShader) [_fragmentShader release];
+            if (_vertexDescriptor) [_vertexDescriptor release];
         }
 
         bool ShaderMetal::initFromBuffers(const uint8_t* fragmentShader,
@@ -44,6 +45,54 @@ namespace ouzel
             destroy();
 
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            NSUInteger offset = 0;
+            
+            _vertexDescriptor = [MTLVertexDescriptor new];
+
+            if (vertexAttributes & VERTEX_POSITION)
+            {
+                _vertexDescriptor.attributes[0].format = MTLVertexFormatFloat3;
+                _vertexDescriptor.attributes[0].offset = offset;
+                _vertexDescriptor.attributes[0].bufferIndex = 0;
+                offset += 3 * sizeof(float);
+            }
+
+            if (vertexAttributes & VERTEX_COLOR)
+            {
+                _vertexDescriptor.attributes[1].format = MTLVertexFormatUChar4;
+                _vertexDescriptor.attributes[1].offset = offset;
+                _vertexDescriptor.attributes[1].bufferIndex = 0;
+                offset += 4 * sizeof(uint8_t);
+            }
+
+            if (vertexAttributes & VERTEX_NORMAL)
+            {
+                _vertexDescriptor.attributes[1].format = MTLVertexFormatFloat3;
+                _vertexDescriptor.attributes[1].offset = offset;
+                _vertexDescriptor.attributes[1].bufferIndex = 0;
+                offset += 3 * sizeof(float);
+            }
+
+            if (vertexAttributes & VERTEX_TEXCOORD0)
+            {
+                _vertexDescriptor.attributes[2].format = MTLVertexFormatFloat2;
+                _vertexDescriptor.attributes[2].offset = offset;
+                _vertexDescriptor.attributes[2].bufferIndex = 0;
+                offset += 2 * sizeof(float);
+            }
+
+            if (vertexAttributes & VERTEX_TEXCOORD1)
+            {
+                _vertexDescriptor.attributes[2].format = MTLVertexFormatFloat2;
+                _vertexDescriptor.attributes[2].offset = offset;
+                _vertexDescriptor.attributes[2].bufferIndex = 0;
+                offset += 2 * sizeof(float);
+            }
+
+            _vertexDescriptor.layouts[0].stride = offset;
+            _vertexDescriptor.layouts[0].stepRate = 1;
+            _vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
 
             NSError* err = Nil;
 

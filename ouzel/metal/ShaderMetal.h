@@ -9,10 +9,12 @@
 #ifdef __OBJC__
 #import <Metal/Metal.h>
 typedef id<MTLFunction> MTLFunctionPtr;
+typedef MTLVertexDescriptor* MTLVertexDescriptorPtr;
 typedef id<MTLBuffer> MTLBufferPtr;
 #else
 #include <objc/objc.h>
 typedef id MTLFunctionPtr;
+typedef id MTLVertexDescriptorPtr;
 typedef id MTLBufferPtr;
 #endif
 
@@ -63,6 +65,8 @@ namespace ouzel
 
             MTLBufferPtr _vertexShaderConstantBuffer = Nil;
             std::vector<char> _vertexShaderData;
+
+            MTLVertexDescriptorPtr _vertexDescriptor = Nil;
         };
     } // namespace video
 } // namespace ouzel
