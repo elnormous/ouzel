@@ -73,46 +73,149 @@ namespace ouzel
 
             [vertexShaderLibrary release];
 
+            if (!createPixelShaderConstantBuffer(sizeof(Matrix4)))
+            {
+                return false;
+            }
+
+            if (!createVertexShaderConstantBuffer(sizeof(Matrix4)))
+            {
+                return false;
+            }
+
             return true;
         }
 
         uint32_t ShaderMetal::getPixelShaderConstantId(const std::string& name)
         {
+            log("getPixelShaderConstantId not available for Metal");
             return 0;
         }
 
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
-            return true;
+            uint32_t size = index + vectorDataSize(vectors);
+            if (size > _pixelShaderData.size())
+            {
+                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
+                createPixelShaderConstantBuffer(size);
+            }
+
+            memcpy(_pixelShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
         }
 
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
-            return true;
+            uint32_t size = index + vectorDataSize(vectors);
+            if (size > _pixelShaderData.size())
+            {
+                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
+                createPixelShaderConstantBuffer(size);
+            }
+
+            memcpy(_pixelShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
         }
 
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
-            return true;
+            uint32_t size = index + vectorDataSize(matrices);
+            if (size > _pixelShaderData.size())
+            {
+                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
+                createPixelShaderConstantBuffer(size);
+            }
+
+            memcpy(_pixelShaderData.data() + index, matrices.data(), vectorDataSize(matrices));
+            return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
         }
 
         uint32_t ShaderMetal::getVertexShaderConstantId(const std::string& name)
         {
+            log("getVertexShaderConstantId not available for Metal");
             return 0;
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
-            return true;
+            uint32_t size = index + vectorDataSize(vectors);
+            if (size > _vertexShaderData.size())
+            {
+                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
+                createVertexShaderConstantBuffer(size);
+            }
+
+            memcpy(_vertexShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
-            return true;
+            uint32_t size = index + vectorDataSize(vectors);
+            if (size > _vertexShaderData.size())
+            {
+                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
+                createVertexShaderConstantBuffer(size);
+            }
+
+            memcpy(_vertexShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
+            uint32_t size = index + vectorDataSize(matrices);
+            if (size > _vertexShaderData.size())
+            {
+                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
+                createVertexShaderConstantBuffer(size);
+            }
+
+            memcpy(_vertexShaderData.data() + index, matrices.data(), vectorDataSize(matrices));
+            return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
+        }
+
+        bool ShaderMetal::createPixelShaderConstantBuffer(uint32_t size)
+        {
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            _pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:size
+                                                                                 options:MTLResourceCPUCacheModeWriteCombined];
+
+            if (_pixelShaderConstantBuffer == Nil)
+            {
+                log("Failed to create Metal index buffer");
+                return false;
+            }
+
+            _pixelShaderData.resize(size);
+
+            return true;
+        }
+
+        bool ShaderMetal::createVertexShaderConstantBuffer(uint32_t size)
+        {
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            _vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:size
+                                                                                  options:MTLResourceCPUCacheModeWriteCombined];
+
+            if (_vertexShaderConstantBuffer == Nil)
+            {
+                log("Failed to create Metal constant buffer");
+                return false;
+            }
+
+            _vertexShaderData.resize(size);
+
+            return true;
+        }
+
+        bool ShaderMetal::uploadData(MTLBufferPtr buffer, const void* data, uint32_t size)
+        {
+            memcpy([buffer contents], data, size);
+
             return true;
         }
     } // namespace video

@@ -99,12 +99,12 @@ namespace ouzel
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            _indexBuffer = [rendererMetal->getDevice() newBufferWithLength:sizeof(indices)
+            _indexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
                                                                    options:MTLResourceCPUCacheModeWriteCombined];
 
             if (_indexBuffer == Nil)
             {
-                log("Failed to create D3D11 index buffer");
+                log("Failed to create Metal index buffer");
                 return false;
             }
 
@@ -122,7 +122,7 @@ namespace ouzel
 
             if (_vertexBuffer == Nil)
             {
-                log("Failed to create D3D11 vertex buffer");
+                log("Failed to create Metal vertex buffer");
                 return false;
             }
 

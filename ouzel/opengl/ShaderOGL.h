@@ -69,8 +69,8 @@ namespace ouzel
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage(GLuint programId);
 
-            GLuint _vertexShaderId = 0;
             GLuint _fragmentShaderId = 0;
+            GLuint _vertexShaderId = 0;
             GLuint _programId = 0;
         };
     } // namespace video

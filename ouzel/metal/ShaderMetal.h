@@ -9,9 +9,11 @@
 #ifdef __OBJC__
 #import <Metal/Metal.h>
 typedef id<MTLFunction> MTLFunctionPtr;
+typedef id<MTLBuffer> MTLBufferPtr;
 #else
 #include <objc/objc.h>
 typedef id MTLFunctionPtr;
+typedef id MTLBufferPtr;
 #endif
 
 namespace ouzel
@@ -48,9 +50,19 @@ namespace ouzel
             ShaderMetal();
 
             void destroy();
+            bool createPixelShaderConstantBuffer(uint32_t size);
+            bool createVertexShaderConstantBuffer(uint32_t size);
 
-            MTLFunctionPtr _vertexShader = Nil;
+            bool uploadData(MTLBufferPtr buffer, const void* data, uint32_t size);
+
             MTLFunctionPtr _fragmentShader = Nil;
+            MTLFunctionPtr _vertexShader = Nil;
+
+            MTLBufferPtr _pixelShaderConstantBuffer = Nil;
+            std::vector<char> _pixelShaderData;
+
+            MTLBufferPtr _vertexShaderConstantBuffer = Nil;
+            std::vector<char> _vertexShaderData;
         };
     } // namespace video
 } // namespace ouzel
