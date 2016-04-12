@@ -101,6 +101,7 @@ namespace ouzel
 
             if (err != Nil)
             {
+                if (fragmentShaderLibrary) [fragmentShaderLibrary release];
                 log("Failed to load fragment shader");
                 return false;
             }
@@ -120,6 +121,7 @@ namespace ouzel
 
             if (err != Nil)
             {
+                if (vertexShaderLibrary) [vertexShaderLibrary release];
                 log("Failed to load vertex shader");
                 return false;
             }
