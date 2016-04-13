@@ -4,7 +4,7 @@
 #import <Metal/Metal.h>
 #import <MetalKit/MTKView.h>
 
-@interface MetalView : MTKView
+@interface MetalView: MTKView
 {
     BOOL _running;
 }

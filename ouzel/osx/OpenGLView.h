@@ -4,7 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #import <CoreVideo/CoreVideo.h>
 
-@interface OpenGLView : NSOpenGLView
+@interface OpenGLView: NSOpenGLView
 {
 @private
     CVDisplayLinkRef _displayLink;

@@ -8,7 +8,7 @@
 
 using namespace ouzel;
 
-@interface ViewDelegate : NSObject<MTKViewDelegate>
+@interface ViewDelegate: NSObject<MTKViewDelegate>
 
 @end
 
