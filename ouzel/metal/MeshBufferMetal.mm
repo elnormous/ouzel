@@ -137,7 +137,7 @@ namespace ouzel
 
             _indexBufferSize = size;
 
-            return true;
+            return uploadData(_indexBuffer, indices, size);
         }
 
         bool MeshBufferMetal::createVertexBuffer(const void* vertices, uint32_t size)
@@ -155,7 +155,7 @@ namespace ouzel
 
             _vertexBufferSize = size;
 
-            return true;
+            return uploadData(_vertexBuffer, vertices, size);
         }
 
         bool MeshBufferMetal::uploadData(MTLBufferPtr buffer, const void* data, uint32_t size)
