@@ -29,10 +29,10 @@ namespace ouzel
                 [_vertexShader release];
                 _vertexShader = Nil;
             }
-            if (_fragmentShader)
+            if (_pixelShader)
             {
-                [_fragmentShader release];
-                _fragmentShader = Nil;
+                [_pixelShader release];
+                _pixelShader = Nil;
             }
             if (_vertexDescriptor)
             {
@@ -119,11 +119,11 @@ namespace ouzel
                 return false;
             }
 
-            _fragmentShader = [fragmentShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:fragmentShaderFunction.c_str()]];
+            _pixelShader = [fragmentShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:fragmentShaderFunction.c_str()]];
 
             [fragmentShaderLibrary release];
 
-            if (!_fragmentShader)
+            if (!_pixelShader)
             {
                 log("Failed to get function from shader");
                 return false;

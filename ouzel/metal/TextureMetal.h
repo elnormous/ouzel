@@ -33,6 +33,8 @@ namespace ouzel
 
             virtual bool upload(const void* data, const Size2& size) override;
 
+            MTLTexturePtr getTexture() const { return _texture; }
+
         protected:
             TextureMetal();
 

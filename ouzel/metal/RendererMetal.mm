@@ -6,6 +6,7 @@
 #include "TextureMetal.h"
 #include "ShaderMetal.h"
 #include "MeshBufferMetal.h"
+#include "BlendStateMetal.h"
 #ifdef OUZEL_PLATFORM_OSX
     #include "WindowOSX.h"
 #elif OUZEL_PLATFORM_TVOS
@@ -41,6 +42,12 @@ namespace ouzel
             {
                 [_currentCommandBuffer release];
                 _currentCommandBuffer = Nil;
+            }
+
+            if (_pipelineState)
+            {
+                [_pipelineState release];
+                _pipelineState = Nil;
             }
 
             if (_commandQueue)
@@ -91,16 +98,6 @@ namespace ouzel
                 return false;
             }
 
-            /*MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-            pipelineStateDescriptor.label = @"MyPipeline";
-            pipelineStateDescriptor.sampleCount = view.sampleCount;
-            //pipelineStateDescriptor.vertexFunction = vertexProgram;
-            //pipelineStateDescriptor.fragmentFunction = fragmentProgram;
-            //pipelineStateDescriptor.vertexDescriptor = vertexDescriptor;
-            pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
-            pipelineStateDescriptor.depthAttachmentPixelFormat = view.depthStencilPixelFormat;
-            pipelineStateDescriptor.stencilAttachmentPixelFormat = view.depthStencilPixelFormat;*/
-
             MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
             samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
@@ -134,6 +131,65 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
+            BlendStatePtr noBlendState = createBlendState(false,
+                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                          BlendState::BlendOperation::ADD,
+                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                          BlendState::BlendOperation::ADD);
+
+            if (!noBlendState)
+            {
+                return false;
+            }
+
+            sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
+
+            BlendStatePtr alphaBlendState = createBlendState(true,
+                                                             BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                                             BlendState::BlendOperation::ADD,
+                                                             BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                                                             BlendState::BlendOperation::ADD);
+
+            if (!alphaBlendState)
+            {
+                return false;
+            }
+
+            sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
+
+            std::shared_ptr<ShaderMetal> textureShaderMetal = std::static_pointer_cast<ShaderMetal>(textureShader);
+
+            MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+            pipelineStateDescriptor.sampleCount = _view.sampleCount;
+            pipelineStateDescriptor.vertexFunction = textureShaderMetal->getVertexShader();
+            pipelineStateDescriptor.fragmentFunction = textureShaderMetal->getPixelShader();
+            pipelineStateDescriptor.vertexDescriptor = textureShaderMetal->getVertexDescriptor();
+            pipelineStateDescriptor.colorAttachments[0].pixelFormat = _view.colorPixelFormat;
+            pipelineStateDescriptor.depthAttachmentPixelFormat = _view.depthStencilPixelFormat;
+            pipelineStateDescriptor.stencilAttachmentPixelFormat = _view.depthStencilPixelFormat;
+
+            // blending
+            pipelineStateDescriptor.colorAttachments[0].blendingEnabled = alphaBlendState->isBlendingEnabled() ? YES : NO;
+
+            pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = BlendStateMetal::getBlendFactor(alphaBlendState->getColorBlendSource());
+            pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = BlendStateMetal::getBlendFactor(alphaBlendState->getColorBlendDest());
+            pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = BlendStateMetal::getBlendOperation(alphaBlendState->getColorOperation());
+
+            pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = BlendStateMetal::getBlendFactor(alphaBlendState->getAlphaBlendSource());
+            pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = BlendStateMetal::getBlendFactor(alphaBlendState->getAlphaBlendDest());
+            pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = BlendStateMetal::getBlendOperation(alphaBlendState->getAlphaOperation());
+
+            pipelineStateDescriptor.colorAttachments[0].writeMask = MTLColorWriteMaskAll;
+
+            NSError* error = Nil;
+            _pipelineState = [_device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
+            [pipelineStateDescriptor release];
+            if (!_pipelineState)
+            {
+                log("Failed to created Metal pipeline state");
+                return false;
+            }
+
             ouzel::sharedEngine->begin();
 
             return true;
@@ -141,11 +197,7 @@ namespace ouzel
 
         void RendererMetal::setClearColor(Color color)
         {
-            /*MTLRenderPassDescriptor* renderPassDescriptor = _view.currentRenderPassDescriptor;
 
-            //renderPassDescriptor.colorAttachments[0].texture = _texture;
-            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(color.getR(), color.getG(), color.getB(), color.getA());*/
         }
 
         void RendererMetal::setSize(const Size2& size)
@@ -162,10 +214,14 @@ namespace ouzel
         {
             if (_currentCommandBuffer)
             {
+                [_currentCommandBuffer presentDrawable:_view.currentDrawable];
+                
                 [_currentCommandBuffer commit];
                 [_currentCommandBuffer release];
                 _currentCommandBuffer = Nil;
             }
+
+            _currentRenderPassDescriptor = Nil;
         }
 
         TexturePtr RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
@@ -259,7 +315,7 @@ namespace ouzel
 
             if (!_currentCommandBuffer)
             {
-                _currentCommandBuffer = [_commandQueue commandBuffer];
+                _currentCommandBuffer = [[_commandQueue commandBuffer] retain];
 
                 if (!_currentCommandBuffer)
                 {
@@ -267,17 +323,71 @@ namespace ouzel
                     return false;
                 }
 
-                MTLRenderPassDescriptor* renderPassDescriptor = _view.currentRenderPassDescriptor;
+                _currentRenderPassDescriptor = _view.currentRenderPassDescriptor;
 
-                if (!renderPassDescriptor)
+                if (!_currentRenderPassDescriptor)
                 {
                     log("Failed to get Metal render pass descriptor");
                     return false;
                 }
 
-                renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
+                _currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                _currentRenderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
             }
+
+            std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(meshBuffer);
+
+            id<MTLRenderCommandEncoder> renderEncoder = [_currentCommandBuffer renderCommandEncoderWithDescriptor:_currentRenderPassDescriptor];
+
+            [renderEncoder setRenderPipelineState:_pipelineState];
+            [renderEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
+
+            if (_activeShader)
+            {
+                std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(_activeShader);
+                [renderEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer() offset:0 atIndex:1];
+                [renderEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer() offset:0 atIndex:1];
+            }
+
+            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+            {
+                if (_activeTextures[layer])
+                {
+                    std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(_activeTextures[layer]);
+                    
+                    [renderEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
+                }
+                else
+                {
+                    [renderEncoder setFragmentTexture:Nil atIndex:layer];
+                }
+            }
+
+            [renderEncoder setFragmentSamplerState:_samplerState atIndex:0];
+
+            if (indexCount == 0)
+            {
+                indexCount = meshBufferMetal->getIndexCount();
+            }
+
+            MTLPrimitiveType primitiveType;
+
+            switch (drawMode)
+            {
+                case DrawMode::POINT_LIST: primitiveType = MTLPrimitiveTypePoint; break;
+                case DrawMode::LINE_LIST: primitiveType = MTLPrimitiveTypeLine; break;
+                case DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
+                case DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
+                case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
+            }
+
+            [renderEncoder drawIndexedPrimitives:primitiveType
+                                      indexCount:indexCount
+                                       indexType:meshBufferMetal->getIndexFormat()
+                                     indexBuffer:meshBufferMetal->getIndexBuffer()
+                               indexBufferOffset:0];
+
+            [renderEncoder endEncoding];
 
             return true;
         }

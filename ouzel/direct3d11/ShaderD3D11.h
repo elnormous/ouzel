@@ -27,13 +27,6 @@ namespace ouzel
                                          const std::string& fragmentShaderFunction = "",
                                          const std::string& vertexShaderFunction = "") override;
 
-            virtual ID3D11PixelShader* getPixelShader() const { return _pixelShader; }
-            virtual ID3D11VertexShader* getVertexShader() const { return _vertexShader; }
-
-            virtual ID3D11Buffer* getPixelShaderConstantBuffer() const { return _pixelShaderConstantBuffer; }
-            virtual ID3D11Buffer* getVertexShaderConstantBuffer() const { return _vertexShaderConstantBuffer; }
-            virtual ID3D11InputLayout* getInputLayout() const { return _inputLayout;  }
-
             virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
@@ -43,6 +36,13 @@ namespace ouzel
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices);
+            
+            virtual ID3D11PixelShader* getPixelShader() const { return _pixelShader; }
+            virtual ID3D11VertexShader* getVertexShader() const { return _vertexShader; }
+            
+            virtual ID3D11Buffer* getPixelShaderConstantBuffer() const { return _pixelShaderConstantBuffer; }
+            virtual ID3D11Buffer* getVertexShaderConstantBuffer() const { return _vertexShaderConstantBuffer; }
+            virtual ID3D11InputLayout* getInputLayout() const { return _inputLayout;  }
 
         protected:
             ShaderD3D11();

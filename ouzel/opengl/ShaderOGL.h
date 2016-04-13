@@ -50,8 +50,6 @@ namespace ouzel
                                          const std::string& fragmentShaderFunction = "",
                                          const std::string& vertexShaderFunction = "") override;
 
-            GLuint getProgramId() const { return _programId; }
-
             virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
@@ -62,6 +60,8 @@ namespace ouzel
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
 
+            GLuint getProgramId() const { return _programId; }
+
         protected:
             ShaderOGL();
 
@@ -69,7 +69,7 @@ namespace ouzel
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage(GLuint programId);
 
-            GLuint _fragmentShaderId = 0;
+            GLuint _pixelShaderId = 0;
             GLuint _vertexShaderId = 0;
             GLuint _programId = 0;
         };

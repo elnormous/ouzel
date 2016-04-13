@@ -8,10 +8,10 @@
 
 #ifdef __OBJC__
 #import <Metal/Metal.h>
-typedef MTLRenderPipelineColorAttachmentDescriptor* MTLRenderPipelineColorAttachmentDescriptorPtr;
 #else
 #include <objc/objc.h>
-typedef id MTLRenderPipelineColorAttachmentDescriptorPtr;
+typedef NSUInteger MTLBlendFactor;
+typedef NSUInteger MTLBlendOperation;
 #endif
 
 namespace ouzel
@@ -26,12 +26,11 @@ namespace ouzel
         public:
             virtual ~BlendStateMetal();
 
+            static MTLBlendFactor getBlendFactor(BlendFactor blendFactor);
+            static MTLBlendOperation getBlendOperation(BlendOperation blendOperation);
+
         protected:
             BlendStateMetal();
-
-            void destroy();
-
-            MTLRenderPipelineColorAttachmentDescriptorPtr _blendState = Nil;
         };
     } // namespace video
 } // namespace ouzel

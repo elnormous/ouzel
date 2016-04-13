@@ -35,10 +35,10 @@ namespace ouzel
                 _vertexShaderId = 0;
             }
 
-            if (_fragmentShaderId)
+            if (_pixelShaderId)
             {
-                glDeleteShader(_fragmentShaderId);
-                _fragmentShaderId = 0;
+                glDeleteShader(_pixelShaderId);
+                _pixelShaderId = 0;
             }
         }
 
@@ -71,14 +71,14 @@ namespace ouzel
                 return false;
             }
 
-            _fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-            glShaderSource(_fragmentShaderId, 1, reinterpret_cast<const GLchar**>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
-            glCompileShader(_fragmentShaderId);
+            _pixelShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+            glShaderSource(_pixelShaderId, 1, reinterpret_cast<const GLchar**>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
+            glCompileShader(_pixelShaderId);
 
-            printShaderMessage(_fragmentShaderId);
+            printShaderMessage(_pixelShaderId);
 
             GLint status;
-            glGetShaderiv(_fragmentShaderId, GL_COMPILE_STATUS, &status);
+            glGetShaderiv(_pixelShaderId, GL_COMPILE_STATUS, &status);
             if (status == GL_FALSE)
             {
                 return false;
@@ -104,7 +104,7 @@ namespace ouzel
 
             _programId = glCreateProgram();
             glAttachShader(_programId, _vertexShaderId);
-            glAttachShader(_programId, _fragmentShaderId);
+            glAttachShader(_programId, _pixelShaderId);
 
             GLuint index = 0;
 
@@ -170,9 +170,9 @@ namespace ouzel
             glDeleteShader(_vertexShaderId);
             _vertexShaderId = 0;
 
-            glDetachShader(_programId, _fragmentShaderId);
-            glDeleteShader(_fragmentShaderId);
-            _fragmentShaderId = 0;
+            glDetachShader(_programId, _pixelShaderId);
+            glDeleteShader(_pixelShaderId);
+            _pixelShaderId = 0;
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {

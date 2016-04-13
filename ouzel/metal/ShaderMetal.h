@@ -48,6 +48,13 @@ namespace ouzel
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
 
+            virtual MTLFunctionPtr getPixelShader() const { return _pixelShader; }
+            virtual MTLFunctionPtr getVertexShader() const { return _vertexShader; }
+
+            virtual MTLBufferPtr getPixelShaderConstantBuffer() const { return _pixelShaderConstantBuffer; }
+            virtual MTLBufferPtr getVertexShaderConstantBuffer() const { return _vertexShaderConstantBuffer; }
+            virtual MTLVertexDescriptorPtr getVertexDescriptor() const { return _vertexDescriptor;  }
+
         protected:
             ShaderMetal();
 
@@ -57,7 +64,7 @@ namespace ouzel
 
             bool uploadData(MTLBufferPtr buffer, const void* data, uint32_t size);
 
-            MTLFunctionPtr _fragmentShader = Nil;
+            MTLFunctionPtr _pixelShader = Nil;
             MTLFunctionPtr _vertexShader = Nil;
 
             MTLBufferPtr _pixelShaderConstantBuffer = Nil;

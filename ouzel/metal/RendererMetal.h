@@ -10,14 +10,18 @@ typedef MTKView* MTKViewPtr;
 typedef id<MTLDevice> MTLDevicePtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
 typedef id<MTLCommandQueue> MTLCommandQueuePtr;
+typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
 typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
+typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 #else
 #include <objc/objc.h>
 typedef id MTKViewPtr;
 typedef id MTLDevicePtr;
 typedef id MTLSamplerStatePtr;
 typedef id MTLCommandQueuePtr;
+typedef id MTLRenderPipelineStatePtr;
 typedef id MTLCommandBufferPtr;
+typedef id MTLRenderPassDescriptorPtr;
 #endif
 
 #include "Renderer.h"
@@ -74,8 +78,10 @@ namespace ouzel
 
             MTLSamplerStatePtr _samplerState = Nil;
             MTLCommandQueuePtr _commandQueue = Nil;
+            MTLRenderPipelineStatePtr _pipelineState = Nil;
 
             MTLCommandBufferPtr _currentCommandBuffer = Nil;
+            MTLRenderPassDescriptorPtr _currentRenderPassDescriptor = Nil;
         };
     } // namespace video
 } // namespace ouzel

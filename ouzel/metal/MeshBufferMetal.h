@@ -12,6 +12,7 @@ typedef id<MTLBuffer> MTLBufferPtr;
 #else
 #include <objc/objc.h>
 typedef id MTLBufferPtr;
+typedef NSUInteger MTLIndexType;
 #endif
 
 namespace ouzel
@@ -36,7 +37,7 @@ namespace ouzel
             MTLBufferPtr getIndexBuffer() const { return _indexBuffer; }
             MTLBufferPtr getVertexBuffer() const { return _vertexBuffer; }
 
-            NSUInteger getIndexFormat() const { return _indexFormat; }
+            MTLIndexType getIndexFormat() const { return _indexFormat; }
 
         protected:
             MeshBufferMetal();
@@ -53,7 +54,7 @@ namespace ouzel
             MTLBufferPtr _vertexBuffer = Nil;
             uint32_t _vertexBufferSize = 0;
 
-            NSUInteger _indexFormat;
+            MTLIndexType _indexFormat;
         };
     } // namespace video
 } // namespace ouzel
