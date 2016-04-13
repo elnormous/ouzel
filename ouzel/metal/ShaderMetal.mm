@@ -60,47 +60,53 @@ namespace ouzel
 
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
+            uint32_t index = 0;
             NSUInteger offset = 0;
             
             _vertexDescriptor = [MTLVertexDescriptor new];
 
             if (vertexAttributes & VERTEX_POSITION)
             {
-                _vertexDescriptor.attributes[0].format = MTLVertexFormatFloat3;
-                _vertexDescriptor.attributes[0].offset = offset;
-                _vertexDescriptor.attributes[0].bufferIndex = 0;
+                _vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
+                _vertexDescriptor.attributes[index].offset = offset;
+                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                index++;
                 offset += 3 * sizeof(float);
             }
 
             if (vertexAttributes & VERTEX_COLOR)
             {
-                _vertexDescriptor.attributes[1].format = MTLVertexFormatUChar4;
-                _vertexDescriptor.attributes[1].offset = offset;
-                _vertexDescriptor.attributes[1].bufferIndex = 0;
+                _vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4;
+                _vertexDescriptor.attributes[index].offset = offset;
+                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                index++;
                 offset += 4 * sizeof(uint8_t);
             }
 
             if (vertexAttributes & VERTEX_NORMAL)
             {
-                _vertexDescriptor.attributes[1].format = MTLVertexFormatFloat3;
-                _vertexDescriptor.attributes[1].offset = offset;
-                _vertexDescriptor.attributes[1].bufferIndex = 0;
+                _vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
+                _vertexDescriptor.attributes[index].offset = offset;
+                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                index++;
                 offset += 3 * sizeof(float);
             }
 
             if (vertexAttributes & VERTEX_TEXCOORD0)
             {
-                _vertexDescriptor.attributes[2].format = MTLVertexFormatFloat2;
-                _vertexDescriptor.attributes[2].offset = offset;
-                _vertexDescriptor.attributes[2].bufferIndex = 0;
+                _vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
+                _vertexDescriptor.attributes[index].offset = offset;
+                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                index++;
                 offset += 2 * sizeof(float);
             }
 
             if (vertexAttributes & VERTEX_TEXCOORD1)
             {
-                _vertexDescriptor.attributes[2].format = MTLVertexFormatFloat2;
-                _vertexDescriptor.attributes[2].offset = offset;
-                _vertexDescriptor.attributes[2].bufferIndex = 0;
+                _vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
+                _vertexDescriptor.attributes[index].offset = offset;
+                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                index++;
                 offset += 2 * sizeof(float);
             }
 
