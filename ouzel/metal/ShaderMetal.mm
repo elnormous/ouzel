@@ -12,6 +12,8 @@ namespace ouzel
 {
     namespace video
     {
+        static const size_t BufferSize = 1024 * 1024;
+
         ShaderMetal::ShaderMetal():
             Shader()
         {
@@ -150,12 +152,12 @@ namespace ouzel
                 return false;
             }
 
-            if (!createPixelShaderConstantBuffer(sizeof(Matrix4)))
+            if (!createPixelShaderConstantBuffer(BufferSize))
             {
                 return false;
             }
 
-            if (!createVertexShaderConstantBuffer(sizeof(Matrix4)))
+            if (!createVertexShaderConstantBuffer(BufferSize))
             {
                 return false;
             }

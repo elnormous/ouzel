@@ -212,6 +212,12 @@ namespace ouzel
 
         void RendererMetal::flush()
         {
+            if (_currentRenderCommandEncoder)
+            {
+                [_currentRenderCommandEncoder endEncoding];
+                _currentRenderCommandEncoder = Nil;
+            }
+
             if (_currentCommandBuffer)
             {
                 [_currentCommandBuffer presentDrawable:_view.currentDrawable];
@@ -313,6 +319,11 @@ namespace ouzel
                 return false;
             }
 
+            if (!_activeShader || _activeShader->getVertexAttributes() != VertexPCT::ATTRIBUTES)
+            {
+                return false;
+            }
+
             if (!_currentCommandBuffer)
             {
                 _currentCommandBuffer = [[_commandQueue commandBuffer] retain];
@@ -337,16 +348,19 @@ namespace ouzel
 
             std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(meshBuffer);
 
-            id<MTLRenderCommandEncoder> renderEncoder = [_currentCommandBuffer renderCommandEncoderWithDescriptor:_currentRenderPassDescriptor];
+            if (!_currentRenderCommandEncoder)
+            {
+                _currentRenderCommandEncoder = [_currentCommandBuffer renderCommandEncoderWithDescriptor:_currentRenderPassDescriptor];
+            }
 
-            [renderEncoder setRenderPipelineState:_pipelineState];
-            [renderEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
+            [_currentRenderCommandEncoder setRenderPipelineState:_pipelineState];
+            [_currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
             if (_activeShader)
             {
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(_activeShader);
-                [renderEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer() offset:0 atIndex:1];
-                [renderEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer() offset:0 atIndex:1];
+                [_currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer() offset:0 atIndex:1];
+                [_currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer() offset:0 atIndex:1];
             }
 
             for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
@@ -355,15 +369,15 @@ namespace ouzel
                 {
                     std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(_activeTextures[layer]);
                     
-                    [renderEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
+                    [_currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
                 }
                 else
                 {
-                    [renderEncoder setFragmentTexture:Nil atIndex:layer];
+                    [_currentRenderCommandEncoder setFragmentTexture:Nil atIndex:layer];
                 }
             }
 
-            [renderEncoder setFragmentSamplerState:_samplerState atIndex:0];
+            [_currentRenderCommandEncoder setFragmentSamplerState:_samplerState atIndex:0];
 
             if (indexCount == 0)
             {
@@ -381,13 +395,11 @@ namespace ouzel
                 case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
             }
 
-            [renderEncoder drawIndexedPrimitives:primitiveType
-                                      indexCount:indexCount
-                                       indexType:meshBufferMetal->getIndexFormat()
-                                     indexBuffer:meshBufferMetal->getIndexBuffer()
-                               indexBufferOffset:0];
-
-            [renderEncoder endEncoding];
+            [_currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
+                                                     indexCount:indexCount
+                                                      indexType:meshBufferMetal->getIndexFormat()
+                                                    indexBuffer:meshBufferMetal->getIndexBuffer()
+                                              indexBufferOffset:0];
 
             return true;
         }
