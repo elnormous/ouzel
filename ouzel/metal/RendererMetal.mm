@@ -73,6 +73,8 @@ namespace ouzel
         {
             destroy();
 
+            _inflightSemaphore = dispatch_semaphore_create(3);
+
             _device = MTLCreateSystemDefaultDevice();
 
             if (!_device)
@@ -207,7 +209,40 @@ namespace ouzel
 
         void RendererMetal::clear()
         {
+            dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
 
+            _currentCommandBuffer = [_commandQueue commandBuffer];
+
+            if (!_currentCommandBuffer)
+            {
+                log("Failed to create Metal command buffer");
+                return;
+            }
+
+            __block dispatch_semaphore_t blockSemaphore = _inflightSemaphore;
+            [_currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer> buffer)
+             {
+                 dispatch_semaphore_signal(blockSemaphore);
+             }];
+
+            _currentRenderPassDescriptor = _view.currentRenderPassDescriptor;
+
+            if (!_currentRenderPassDescriptor)
+            {
+                log("Failed to get Metal render pass descriptor");
+                return;
+            }
+
+            _currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+            _currentRenderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
+
+            _currentRenderCommandEncoder = [_currentCommandBuffer renderCommandEncoderWithDescriptor:_currentRenderPassDescriptor];
+
+            if (!_currentRenderCommandEncoder)
+            {
+                log("Failed to create Metal render command encoder");
+                return;
+            }
         }
 
         void RendererMetal::flush()
@@ -223,7 +258,6 @@ namespace ouzel
                 [_currentCommandBuffer presentDrawable:_view.currentDrawable];
                 
                 [_currentCommandBuffer commit];
-                [_currentCommandBuffer release];
                 _currentCommandBuffer = Nil;
             }
 
@@ -324,34 +358,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!_currentCommandBuffer)
-            {
-                _currentCommandBuffer = [[_commandQueue commandBuffer] retain];
-
-                if (!_currentCommandBuffer)
-                {
-                    log("Failed to create Metal command buffer");
-                    return false;
-                }
-
-                _currentRenderPassDescriptor = _view.currentRenderPassDescriptor;
-
-                if (!_currentRenderPassDescriptor)
-                {
-                    log("Failed to get Metal render pass descriptor");
-                    return false;
-                }
-
-                _currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                _currentRenderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
-            }
-
             std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(meshBuffer);
-
-            if (!_currentRenderCommandEncoder)
-            {
-                _currentRenderCommandEncoder = [_currentCommandBuffer renderCommandEncoderWithDescriptor:_currentRenderPassDescriptor];
-            }
 
             [_currentRenderCommandEncoder setRenderPipelineState:_pipelineState];
             [_currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];

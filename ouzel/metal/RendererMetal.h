@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <dispatch/dispatch.h>
+
 #ifdef __OBJC__
 #import <Metal/Metal.h>
 #import <MetalKit/MTKView.h>
@@ -85,6 +87,8 @@ namespace ouzel
             MTLCommandBufferPtr _currentCommandBuffer = Nil;
             MTLRenderPassDescriptorPtr _currentRenderPassDescriptor = Nil;
             MTLRenderCommandEncoderPtr _currentRenderCommandEncoder = Nil;
+
+            dispatch_semaphore_t _inflightSemaphore;
         };
     } // namespace video
 } // namespace ouzel

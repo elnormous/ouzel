@@ -3,6 +3,7 @@
 
 #import "MetalView.h"
 #include "Engine.h"
+#include "Window.h"
 #include "Utils.h"
 
 using namespace ouzel;
@@ -15,7 +16,7 @@ using namespace ouzel;
 
 -(void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
 {
-
+    sharedEngine->getWindow()->setSize(Size2(size.width, size.height));
 }
 
 -(void)drawInMTKView:(nonnull MTKView*)view
