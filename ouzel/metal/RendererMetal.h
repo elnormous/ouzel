@@ -15,7 +15,6 @@ typedef id<MTLCommandQueue> MTLCommandQueuePtr;
 typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
 typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
 typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
-typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 #else
 #include <objc/objc.h>
 typedef id MTKViewPtr;
@@ -25,7 +24,6 @@ typedef id MTLCommandQueuePtr;
 typedef id MTLRenderPipelineStatePtr;
 typedef id MTLCommandBufferPtr;
 typedef id MTLRenderCommandEncoderPtr;
-typedef id MTLRenderPassDescriptorPtr;
 #endif
 
 #include "Renderer.h"
@@ -47,7 +45,7 @@ namespace ouzel
             virtual void setSize(const Size2& size) override;
 
             virtual void clear() override;
-            virtual void flush() override;
+            virtual void present() override;
 
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
             virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
@@ -85,7 +83,6 @@ namespace ouzel
             MTLRenderPipelineStatePtr _pipelineState = Nil;
 
             MTLCommandBufferPtr _currentCommandBuffer = Nil;
-            MTLRenderPassDescriptorPtr _currentRenderPassDescriptor = Nil;
             MTLRenderCommandEncoderPtr _currentRenderCommandEncoder = Nil;
 
             dispatch_semaphore_t _inflightSemaphore;

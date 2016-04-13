@@ -44,6 +44,12 @@ namespace ouzel
                 _currentCommandBuffer = Nil;
             }
 
+            if (_currentRenderCommandEncoder)
+            {
+                [_currentRenderCommandEncoder release];
+                _currentRenderCommandEncoder = Nil;
+            }
+
             if (_pipelineState)
             {
                 [_pipelineState release];
@@ -167,8 +173,8 @@ namespace ouzel
             pipelineStateDescriptor.fragmentFunction = textureShaderMetal->getPixelShader();
             pipelineStateDescriptor.vertexDescriptor = textureShaderMetal->getVertexDescriptor();
             pipelineStateDescriptor.colorAttachments[0].pixelFormat = _view.colorPixelFormat;
-            pipelineStateDescriptor.depthAttachmentPixelFormat = _view.depthStencilPixelFormat;
-            pipelineStateDescriptor.stencilAttachmentPixelFormat = _view.depthStencilPixelFormat;
+            //pipelineStateDescriptor.depthAttachmentPixelFormat = _view.depthStencilPixelFormat;
+            //pipelineStateDescriptor.stencilAttachmentPixelFormat = _view.depthStencilPixelFormat;
 
             // blending
             pipelineStateDescriptor.colorAttachments[0].blendingEnabled = alphaBlendState->isBlendingEnabled() ? YES : NO;
@@ -186,7 +192,7 @@ namespace ouzel
             NSError* error = Nil;
             _pipelineState = [_device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
             [pipelineStateDescriptor release];
-            if (!_pipelineState)
+            if (error || !_pipelineState)
             {
                 log("Failed to created Metal pipeline state");
                 return false;
@@ -199,19 +205,21 @@ namespace ouzel
 
         void RendererMetal::setClearColor(Color color)
         {
-
+            Renderer::setClearColor(color);
         }
 
         void RendererMetal::setSize(const Size2& size)
         {
-
+            Renderer::setSize(size);
         }
 
         void RendererMetal::clear()
         {
-            dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
+            //dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
 
-            _currentCommandBuffer = [_commandQueue commandBuffer];
+            if (_currentCommandBuffer) [_currentCommandBuffer release];
+
+            _currentCommandBuffer = [[_commandQueue commandBuffer] retain];
 
             if (!_currentCommandBuffer)
             {
@@ -219,24 +227,26 @@ namespace ouzel
                 return;
             }
 
-            __block dispatch_semaphore_t blockSemaphore = _inflightSemaphore;
+            /*__block dispatch_semaphore_t blockSemaphore = _inflightSemaphore;
             [_currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer> buffer)
              {
                  dispatch_semaphore_signal(blockSemaphore);
-             }];
+             }];*/
 
-            _currentRenderPassDescriptor = _view.currentRenderPassDescriptor;
+            MTLRenderPassDescriptor* renderPassDescriptor = _view.currentRenderPassDescriptor;
 
-            if (!_currentRenderPassDescriptor)
+            if (!renderPassDescriptor)
             {
                 log("Failed to get Metal render pass descriptor");
                 return;
             }
 
-            _currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            _currentRenderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
+            if (_currentRenderCommandEncoder) [_currentRenderCommandEncoder release];
 
-            _currentRenderCommandEncoder = [_currentCommandBuffer renderCommandEncoderWithDescriptor:_currentRenderPassDescriptor];
+            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
+
+            _currentRenderCommandEncoder = [[_currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor] retain];
 
             if (!_currentRenderCommandEncoder)
             {
@@ -245,11 +255,14 @@ namespace ouzel
             }
         }
 
-        void RendererMetal::flush()
+        void RendererMetal::present()
         {
+            Renderer::present();
+
             if (_currentRenderCommandEncoder)
             {
                 [_currentRenderCommandEncoder endEncoding];
+                [_currentRenderCommandEncoder release];
                 _currentRenderCommandEncoder = Nil;
             }
 
@@ -258,10 +271,9 @@ namespace ouzel
                 [_currentCommandBuffer presentDrawable:_view.currentDrawable];
                 
                 [_currentCommandBuffer commit];
+                [_currentCommandBuffer release];
                 _currentCommandBuffer = Nil;
             }
-
-            _currentRenderPassDescriptor = Nil;
         }
 
         TexturePtr RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
