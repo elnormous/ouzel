@@ -97,6 +97,7 @@ namespace ouzel
 #endif
             _view = window->getNativeView();
             _view.device = _device;
+            //_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 
             _commandQueue = [_device newCommandQueue];
 
@@ -172,9 +173,10 @@ namespace ouzel
             pipelineStateDescriptor.vertexFunction = textureShaderMetal->getVertexShader();
             pipelineStateDescriptor.fragmentFunction = textureShaderMetal->getPixelShader();
             pipelineStateDescriptor.vertexDescriptor = textureShaderMetal->getVertexDescriptor();
+            pipelineStateDescriptor.depthAttachmentPixelFormat = _view.depthStencilPixelFormat;
+            pipelineStateDescriptor.stencilAttachmentPixelFormat = _view.depthStencilPixelFormat;
+
             pipelineStateDescriptor.colorAttachments[0].pixelFormat = _view.colorPixelFormat;
-            //pipelineStateDescriptor.depthAttachmentPixelFormat = _view.depthStencilPixelFormat;
-            //pipelineStateDescriptor.stencilAttachmentPixelFormat = _view.depthStencilPixelFormat;
 
             // blending
             pipelineStateDescriptor.colorAttachments[0].blendingEnabled = alphaBlendState->isBlendingEnabled() ? YES : NO;
@@ -197,6 +199,8 @@ namespace ouzel
                 log("Failed to created Metal pipeline state");
                 return false;
             }
+
+            setSize(size);
 
             ouzel::sharedEngine->begin();
 
