@@ -140,8 +140,7 @@ namespace ouzel
                 return false;
         }
 
-        [_window setContentView:_view];
-
+        _window.contentView = _view;
         [_window makeKeyAndOrderFront:Nil];
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];

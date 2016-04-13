@@ -79,7 +79,15 @@ namespace ouzel
                 return false;
             }
 
-            return true;
+            if (_indexSize * indexCount > _indexBufferSize)
+            {
+                if (_indexBuffer) [_indexBuffer release];
+                return createIndexBuffer(indices, _indexSize * indexCount);
+            }
+            else
+            {
+                return uploadData(_indexBuffer, indices, _indexSize * indexCount);
+            }
         }
 
         bool MeshBufferMetal::uploadVertices(const void* vertices, uint32_t vertexCount)
@@ -87,6 +95,16 @@ namespace ouzel
             if (!MeshBuffer::uploadVertices(vertices, vertexCount))
             {
                 return false;
+            }
+
+            if (_vertexSize * vertexCount > _vertexBufferSize)
+            {
+                if (_vertexBuffer) [_vertexBuffer release];
+                return createVertexBuffer(vertices, _vertexSize * vertexCount);
+            }
+            else
+            {
+                return uploadData(_vertexBuffer, vertices, _vertexSize * vertexCount);
             }
 
             return true;
