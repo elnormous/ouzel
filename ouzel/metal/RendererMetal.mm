@@ -26,7 +26,8 @@ namespace ouzel
 {
     namespace video
     {
-        RendererMetal::RendererMetal()
+        RendererMetal::RendererMetal():
+            Renderer(Driver::METAL)
         {
 
         }
