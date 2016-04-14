@@ -105,6 +105,9 @@ namespace ouzel
 
         switch (settings.driver)
         {
+            case video::Renderer::Driver::NONE:
+                _renderer.reset(new video::Renderer());
+                break;
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             case video::Renderer::Driver::OPENGL:
                 _renderer.reset(new video::RendererOGL());
@@ -121,8 +124,8 @@ namespace ouzel
                 break;
 #endif
             default:
-                _renderer.reset(new video::Renderer());
-                break;
+                log("Unsupported render driver");
+                return false;
         }
 
         if (!_window->init())
