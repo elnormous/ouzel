@@ -42,15 +42,15 @@ namespace ouzel
             }
         }
 
-        bool ShaderOGL::initFromBuffers(const uint8_t* fragmentShader,
-                                        uint32_t fragmentShaderSize,
+        bool ShaderOGL::initFromBuffers(const uint8_t* pixelShader,
+                                        uint32_t pixelShaderSize,
                                         const uint8_t* vertexShader,
                                         uint32_t vertexShaderSize,
                                         uint32_t vertexAttributes,
-                                        const std::string& fragmentShaderFunction,
+                                        const std::string& pixelShaderFunction,
                                         const std::string& vertexShaderFunction)
         {
-            if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
+            if (!Shader::initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 return false;
             }
@@ -72,7 +72,7 @@ namespace ouzel
             }
 
             _pixelShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-            glShaderSource(_pixelShaderId, 1, reinterpret_cast<const GLchar**>(&fragmentShader), reinterpret_cast<const GLint*>(&fragmentShaderSize));
+            glShaderSource(_pixelShaderId, 1, reinterpret_cast<const GLchar**>(&pixelShader), reinterpret_cast<const GLint*>(&pixelShaderSize));
             glCompileShader(_pixelShaderId);
 
             printShaderMessage(_pixelShaderId);
@@ -214,60 +214,118 @@ namespace ouzel
             }
         }
 
-        uint32_t ShaderOGL::getPixelShaderConstantId(const std::string& name)
+        bool ShaderOGL::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
         {
-            return static_cast<uint32_t>(glGetUniformLocation(_programId, name.c_str()));
+            Shader::setPixelShaderConstantInfo(constantInfo);
+
+            _pixelShaderConstantLocations.reserve(constantInfo.size());
+
+            for (const ConstantInfo& info : _pixelShaderConstantInfo)
+            {
+                GLint location = glGetUniformLocation(_programId, info.name.c_str());
+
+                if (location == -1)
+                {
+                    RendererOGL::checkOpenGLErrors();
+                    return false;
+                }
+
+                _pixelShaderConstantLocations.push_back(location);
+            }
+
+            return true;
+        }
+
+        bool ShaderOGL::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        {
+            Shader::setVertexShaderConstantInfo(constantInfo);
+
+            _vertexShaderConstantLocations.reserve(constantInfo.size());
+
+            for (const ConstantInfo& info : _vertexShaderConstantInfo)
+            {
+                GLint location = glGetUniformLocation(_programId, info.name.c_str());
+
+                if (location == -1)
+                {
+                    RendererOGL::checkOpenGLErrors();
+                    return false;
+                }
+
+                _vertexShaderConstantLocations.push_back(location);
+            }
+
+            return true;
         }
 
         bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
+            if (index >= _pixelShaderConstantLocations.size()) return false;
+
             RendererOGL::bindProgram(_programId);
-            glUniform3fv(static_cast<GLint>(index), static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+
+            GLint location = _pixelShaderConstantLocations[index];
+            glUniform3fv(location, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
 
             return true;
         }
 
         bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
+            if (index >= _pixelShaderConstantLocations.size()) return false;
+
             RendererOGL::bindProgram(_programId);
-            glUniform4fv(static_cast<GLint>(index), static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+
+            GLint location = _pixelShaderConstantLocations[index];
+            glUniform4fv(location, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
 
             return true;
         }
 
         bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
+            if (index >= _pixelShaderConstantLocations.size()) return false;
+
             RendererOGL::bindProgram(_programId);
-            glUniformMatrix4fv(static_cast<GLint>(index), static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
+
+            GLint location = _pixelShaderConstantLocations[index];
+            glUniformMatrix4fv(location, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
 
             return true;
         }
 
-        uint32_t ShaderOGL::getVertexShaderConstantId(const std::string& name)
-        {
-            return static_cast<uint32_t>(glGetUniformLocation(_programId, name.c_str()));
-        }
-
         bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
+            if (index >= _vertexShaderConstantLocations.size()) return false;
+
             RendererOGL::bindProgram(_programId);
-            glUniform3fv(static_cast<GLint>(index), static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+
+            GLint location = _vertexShaderConstantLocations[index];
+            glUniform3fv(location, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
 
             return true;
         }
 
         bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
+            if (index >= _vertexShaderConstantLocations.size()) return false;
+
             RendererOGL::bindProgram(_programId);
-            glUniform4fv(static_cast<GLint>(index), static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+
+            GLint location = _vertexShaderConstantLocations[index];
+            glUniform4fv(location, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
 
             return true;
         }
 
         bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
+            if (index >= _vertexShaderConstantLocations.size()) return false;
+
             RendererOGL::bindProgram(_programId);
-            glUniformMatrix4fv(static_cast<GLint>(index), static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
+
+            GLint location = _vertexShaderConstantLocations[index];
+            glUniformMatrix4fv(location, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
 
             return true;
         }

@@ -37,8 +37,6 @@ namespace ouzel
 
             video::ShaderPtr _shader;
             std::vector<DrawCommand> _drawCommands;
-
-            uint32_t _uniModelViewProj;
         };
     } // namespace scene
 } // namespace ouzel

@@ -42,20 +42,21 @@ namespace ouzel
         public:
             virtual ~ShaderOGL();
 
-            virtual bool initFromBuffers(const uint8_t* fragmentShader,
-                                         uint32_t fragmentShaderSize,
+            virtual bool initFromBuffers(const uint8_t* pixelShader,
+                                         uint32_t pixelShaderSize,
                                          const uint8_t* vertexShader,
                                          uint32_t vertexShaderSize,
                                          uint32_t vertexAttributes,
-                                         const std::string& fragmentShaderFunction = "",
+                                         const std::string& pixelShaderFunction = "",
                                          const std::string& vertexShaderFunction = "") override;
 
-            virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
+            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo) override;
+            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo) override;
+
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
 
-            virtual uint32_t getVertexShaderConstantId(const std::string& name) override;
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
@@ -72,6 +73,9 @@ namespace ouzel
             GLuint _pixelShaderId = 0;
             GLuint _vertexShaderId = 0;
             GLuint _programId = 0;
+
+            std::vector<GLint> _pixelShaderConstantLocations;
+            std::vector<GLint> _vertexShaderConstantLocations;
         };
     } // namespace video
 } // namespace ouzel

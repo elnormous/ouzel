@@ -35,15 +35,6 @@ namespace ouzel
         {
             _shader = sharedEngine->getCache()->getShader(video::SHADER_TEXTURE);
 
-            if (sharedEngine->getRenderer()->getDriver() == video::Renderer::Driver::OPENGL)
-            {
-                _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
-            }
-            else
-            {
-                _uniModelViewProj = 0;
-            }
-
             _updateCallback = std::make_shared<UpdateCallback>();
             _updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
         }
@@ -81,7 +72,7 @@ namespace ouzel
                     transform = layer->getCamera()->getViewProjection() * getTransform();
                 }
 
-                _shader->setVertexShaderConstant(_uniModelViewProj, { transform });
+                _shader->setVertexShaderConstant(0, { transform });
 
                 sharedEngine->getRenderer()->drawMeshBuffer(_mesh, _particleCount * 6);
             }

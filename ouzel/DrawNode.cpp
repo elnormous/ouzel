@@ -17,15 +17,6 @@ namespace ouzel
         DrawNode::DrawNode()
         {
             _shader = sharedEngine->getCache()->getShader(video::SHADER_COLOR);
-
-            if (sharedEngine->getRenderer()->getDriver() == video::Renderer::Driver::OPENGL)
-            {
-                _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
-            }
-            else
-            {
-                _uniModelViewProj = 0;
-            }
         }
 
         void DrawNode::draw()
@@ -40,7 +31,7 @@ namespace ouzel
 
                 Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
 
-                _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
+                _shader->setVertexShaderConstant(0, { modelViewProj });
 
                 for (const DrawCommand& drawCommand : _drawCommands)
                 {

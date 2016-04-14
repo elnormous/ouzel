@@ -43,15 +43,15 @@ namespace ouzel
             }
         }
 
-        bool ShaderMetal::initFromBuffers(const uint8_t* fragmentShader,
-                                          uint32_t fragmentShaderSize,
+        bool ShaderMetal::initFromBuffers(const uint8_t* pixelShader,
+                                          uint32_t pixelShaderSize,
                                           const uint8_t* vertexShader,
                                           uint32_t vertexShaderSize,
                                           uint32_t vertexAttributes,
-                                          const std::string& fragmentShaderFunction,
+                                          const std::string& pixelShaderFunction,
                                           const std::string& vertexShaderFunction)
         {
-            if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
+            if (!Shader::initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 return false;
             }
@@ -116,20 +116,20 @@ namespace ouzel
 
             NSError* err = Nil;
 
-            dispatch_data_t fragmentShaderData = dispatch_data_create(fragmentShader, fragmentShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-            id<MTLLibrary> fragmentShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:fragmentShaderData error:&err];
-            [fragmentShaderData release];
+            dispatch_data_t pixelShaderData = dispatch_data_create(pixelShader, pixelShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderData error:&err];
+            [pixelShaderData release];
 
             if (err != Nil)
             {
-                if (fragmentShaderLibrary) [fragmentShaderLibrary release];
-                log("Failed to load fragment shader");
+                if (pixelShaderLibrary) [pixelShaderLibrary release];
+                log("Failed to load pixel shader");
                 return false;
             }
 
-            _pixelShader = [fragmentShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:fragmentShaderFunction.c_str()]];
+            _pixelShader = [pixelShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:pixelShaderFunction.c_str()]];
 
-            [fragmentShaderLibrary release];
+            [pixelShaderLibrary release];
 
             if (!_pixelShader)
             {
@@ -171,93 +171,109 @@ namespace ouzel
             return true;
         }
 
-        uint32_t ShaderMetal::getPixelShaderConstantId(const std::string& name)
+        bool ShaderMetal::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
         {
-            log("getPixelShaderConstantId not available for Metal");
-            return 0;
+            Shader::setPixelShaderConstantInfo(constantInfo);
+
+            _pixelShaderConstantLocations.reserve(constantInfo.size());
+
+            uint32_t offset = 0;
+
+            for (const ConstantInfo& info : _pixelShaderConstantInfo)
+            {
+                _pixelShaderConstantLocations.push_back(offset);
+                offset += info.size;
+            }
+
+            if (offset > _pixelShaderData.size())
+            {
+                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
+                createPixelShaderConstantBuffer(offset);
+            }
+
+            return true;
+        }
+
+        bool ShaderMetal::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        {
+            Shader::setVertexShaderConstantInfo(constantInfo);
+
+            _vertexShaderConstantLocations.reserve(constantInfo.size());
+
+            uint32_t offset = 0;
+
+            for (const ConstantInfo& info : _vertexShaderConstantInfo)
+            {
+                _vertexShaderConstantLocations.push_back(offset);
+                offset += info.size;
+            }
+
+            if (offset > _vertexShaderData.size())
+            {
+                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
+                createVertexShaderConstantBuffer(offset);
+            }
+
+            return true;
         }
 
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
-            uint32_t size = index + vectorDataSize(vectors);
-            if (size > _pixelShaderData.size())
-            {
-                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
-                createPixelShaderConstantBuffer(size);
-            }
+            if (index >= _pixelShaderConstantLocations.size()) return false;
 
-            memcpy(_pixelShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            uint32_t location = _pixelShaderConstantLocations[index];
+            memcpy(_pixelShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
+
             return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
         }
 
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
-            uint32_t size = index + vectorDataSize(vectors);
-            if (size > _pixelShaderData.size())
-            {
-                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
-                createPixelShaderConstantBuffer(size);
-            }
+            if (index >= _pixelShaderConstantLocations.size()) return false;
 
-            memcpy(_pixelShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            uint32_t location = _pixelShaderConstantLocations[index];
+            memcpy(_pixelShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
+
             return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
         }
 
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
-            uint32_t size = index + vectorDataSize(matrices);
-            if (size > _pixelShaderData.size())
-            {
-                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
-                createPixelShaderConstantBuffer(size);
-            }
+            if (index >= _pixelShaderConstantLocations.size()) return false;
 
-            memcpy(_pixelShaderData.data() + index, matrices.data(), vectorDataSize(matrices));
+            uint32_t location = _pixelShaderConstantLocations[index];
+            memcpy(_pixelShaderData.data() + location, matrices.data(), vectorDataSize(matrices));
+
             return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
-        }
-
-        uint32_t ShaderMetal::getVertexShaderConstantId(const std::string& name)
-        {
-            log("getVertexShaderConstantId not available for Metal");
-            return 0;
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
-            uint32_t size = index + vectorDataSize(vectors);
-            if (size > _vertexShaderData.size())
-            {
-                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
-                createVertexShaderConstantBuffer(size);
-            }
+            if (index >= _vertexShaderConstantLocations.size()) return false;
 
-            memcpy(_vertexShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            uint32_t location = _vertexShaderConstantLocations[index];
+            memcpy(_vertexShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
+
             return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
-            uint32_t size = index + vectorDataSize(vectors);
-            if (size > _vertexShaderData.size())
-            {
-                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
-                createVertexShaderConstantBuffer(size);
-            }
+            if (index >= _vertexShaderConstantLocations.size()) return false;
 
-            memcpy(_vertexShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            uint32_t location = _vertexShaderConstantLocations[index];
+            memcpy(_vertexShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
+
             return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
-            uint32_t size = index + vectorDataSize(matrices);
-            if (size > _vertexShaderData.size())
-            {
-                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
-                createVertexShaderConstantBuffer(size);
-            }
+            if (index >= _vertexShaderConstantLocations.size()) return false;
 
-            memcpy(_vertexShaderData.data() + index, matrices.data(), vectorDataSize(matrices));
+            uint32_t location = _vertexShaderConstantLocations[index];
+            memcpy(_vertexShaderData.data() + location, matrices.data(), vectorDataSize(matrices));
+
             return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
         }
 

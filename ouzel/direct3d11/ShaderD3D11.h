@@ -19,20 +19,21 @@ namespace ouzel
         public:
             virtual ~ShaderD3D11();
 
-            virtual bool initFromBuffers(const uint8_t* fragmentShader,
-                                         uint32_t fragmentShaderSize,
+            virtual bool initFromBuffers(const uint8_t* pixelShader,
+                                         uint32_t pixelShaderSize,
                                          const uint8_t* vertexShader,
                                          uint32_t vertexShaderSize,
                                          uint32_t vertexAttributes,
-                                         const std::string& fragmentShaderFunction = "",
+                                         const std::string& pixelShaderFunction = "",
                                          const std::string& vertexShaderFunction = "") override;
 
-            virtual uint32_t getPixelShaderConstantId(const std::string& name) override;
+            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo) override;
+            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo) override;
+
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices);
 
-            virtual uint32_t getVertexShaderConstantId(const std::string& name) override;
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
             virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices);
@@ -62,6 +63,9 @@ namespace ouzel
 
             ID3D11Buffer* _vertexShaderConstantBuffer = nullptr;
             std::vector<char> _vertexShaderData;
+
+            std::vector<uint32_t> _pixelShaderConstantLocations;
+            std::vector<uint32_t> _vertexShaderConstantLocations;
         };
     } // namespace video
 } // namespace ouzel

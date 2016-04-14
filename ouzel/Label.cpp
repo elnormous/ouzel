@@ -29,15 +29,6 @@ namespace ouzel
         Label::Label()
         {
             _shader = sharedEngine->getCache()->getShader(video::SHADER_TEXTURE);
-
-            if (sharedEngine->getRenderer()->getDriver() == video::Renderer::Driver::OPENGL)
-            {
-                _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
-            }
-            else
-            {
-                _uniModelViewProj = 0;
-            }
         }
 
         Label::~Label()
@@ -75,7 +66,7 @@ namespace ouzel
 
                 Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
 
-                _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
+                _shader->setVertexShaderConstant(0, { modelViewProj });
 
                 sharedEngine->getRenderer()->drawMeshBuffer(_meshBuffer);
             }

@@ -130,6 +130,8 @@ namespace ouzel
                 return false;
             }
 
+            textureShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
+
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_METAL, sizeof(COLOR_PIXEL_SHADER_METAL), COLOR_VERTEX_SHADER_METAL, sizeof(COLOR_VERTEX_SHADER_METAL), VertexPC::ATTRIBUTES, "main_ps", "main_vs");
@@ -138,6 +140,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            colorShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
@@ -291,15 +295,15 @@ namespace ouzel
             return texture;
         }
 
-        ShaderPtr RendererMetal::loadShaderFromFiles(const std::string& fragmentShader,
+        ShaderPtr RendererMetal::loadShaderFromFiles(const std::string& pixelShader,
                                                      const std::string& vertexShader,
                                                      uint32_t vertexAttributes,
-                                                     const std::string& fragmentShaderFunction,
+                                                     const std::string& pixelShaderFunction,
                                                      const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderMetal> shader(new ShaderMetal());
 
-            if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
+            if (!shader->initFromFiles(pixelShader, vertexShader, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 shader.reset();
             }
@@ -307,17 +311,17 @@ namespace ouzel
             return shader;
         }
 
-        ShaderPtr RendererMetal::loadShaderFromBuffers(const uint8_t* fragmentShader,
-                                                       uint32_t fragmentShaderSize,
+        ShaderPtr RendererMetal::loadShaderFromBuffers(const uint8_t* pixelShader,
+                                                       uint32_t pixelShaderSize,
                                                        const uint8_t* vertexShader,
                                                        uint32_t vertexShaderSize,
                                                        uint32_t vertexAttributes,
-                                                       const std::string& fragmentShaderFunction,
+                                                       const std::string& pixelShaderFunction,
                                                        const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderMetal> shader(new ShaderMetal());
 
-            if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
+            if (!shader->initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 shader.reset();
             }

@@ -94,8 +94,6 @@ namespace ouzel
 
             video::MeshBufferPtr _mesh;
 
-            uint32_t _uniModelViewProj;
-
             std::vector<uint16_t> _indices;
             std::vector<video::VertexPCT> _vertices;
 

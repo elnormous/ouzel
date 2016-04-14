@@ -54,15 +54,15 @@ namespace ouzel
             }
         }
 
-        bool ShaderD3D11::initFromBuffers(const uint8_t* fragmentShader,
-                                          uint32_t fragmentShaderSize,
+        bool ShaderD3D11::initFromBuffers(const uint8_t* pixelShader,
+                                          uint32_t pixelShaderSize,
                                           const uint8_t* vertexShader,
                                           uint32_t vertexShaderSize,
                                           uint32_t vertexAttributes,
-                                          const std::string& fragmentShaderFunction,
+                                          const std::string& pixelShaderFunction,
                                           const std::string& vertexShaderFunction)
         {
-            if (!Shader::initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
+            if (!Shader::initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 return false;
             }
@@ -71,7 +71,7 @@ namespace ouzel
 
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
-            HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(fragmentShader, fragmentShaderSize, NULL, &_pixelShader);
+            HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShader, pixelShaderSize, NULL, &_pixelShader);
             if (FAILED(hr) || !_pixelShader)
             {
                 log("Failed to create a D3D11 pixel shader");
@@ -145,93 +145,109 @@ namespace ouzel
             return true;
         }
 
-        uint32_t ShaderD3D11::getPixelShaderConstantId(const std::string& name)
+        bool ShaderD3D11::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
         {
-            log("getPixelShaderConstantId not available for D3D11");
-            return 0;
+            Shader::setPixelShaderConstantInfo(constantInfo);
+
+            _pixelShaderConstantLocations.reserve(constantInfo.size());
+
+            uint32_t offset = 0;
+
+            for (const ConstantInfo& info : _pixelShaderConstantInfo)
+            {
+                _pixelShaderConstantLocations.push_back(offset);
+                offset += info.size;
+            }
+
+            if (offset > _pixelShaderData.size())
+            {
+                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
+                createPixelShaderConstantBuffer(offset);
+            }
+
+            return true;
+        }
+
+        bool ShaderD3D11::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        {
+            Shader::setVertexShaderConstantInfo(constantInfo);
+
+            _vertexShaderConstantLocations.reserve(constantInfo.size());
+
+            uint32_t offset = 0;
+
+            for (const ConstantInfo& info : _vertexShaderConstantInfo)
+            {
+                _vertexShaderConstantLocations.push_back(offset);
+                offset += info.size;
+            }
+
+            if (offset > _vertexShaderData.size())
+            {
+                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
+                createVertexShaderConstantBuffer(offset);
+            }
+
+            return true;
         }
 
         bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
-            uint32_t size = index + vectorDataSize(vectors);
-            if (size > _pixelShaderData.size())
-            {
-                if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
-                createPixelShaderConstantBuffer(size);
-            }
+            if (index >= _pixelShaderConstantLocations.size()) return false;
 
-            memcpy(_pixelShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            uint32_t location = _pixelShaderConstantLocations[index];
+            memcpy(_pixelShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
+
             return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
         }
 
         bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
-            uint32_t size = index + vectorDataSize(vectors);
-            if (size > _pixelShaderData.size())
-            {
-                if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
-                createPixelShaderConstantBuffer(size);
-            }
+            if (index >= _pixelShaderConstantLocations.size()) return false;
 
-            memcpy(_pixelShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            uint32_t location = _pixelShaderConstantLocations[index];
+            memcpy(_pixelShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
+
             return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
         }
 
         bool ShaderD3D11::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
-            uint32_t size = index + vectorDataSize(matrices);
-            if (size > _pixelShaderData.size())
-            {
-                if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
-                createPixelShaderConstantBuffer(size);
-            }
+            if (index >= _pixelShaderConstantLocations.size()) return false;
 
-            memcpy(_pixelShaderData.data() + index, matrices.data(), vectorDataSize(matrices));
+            uint32_t location = _pixelShaderConstantLocations[index];
+            memcpy(_pixelShaderData.data() + location, matrices.data(), vectorDataSize(matrices));
+
             return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
-        }
-
-        uint32_t ShaderD3D11::getVertexShaderConstantId(const std::string& name)
-        {
-            log("getVertexShaderConstantId not available for D3D11");
-            return 0;
         }
 
         bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
-            uint32_t size = index + vectorDataSize(vectors);
-            if (size > _vertexShaderData.size())
-            {
-                if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
-                createVertexShaderConstantBuffer(size);
-            }
+           if (index >= _vertexShaderConstantLocations.size()) return false;
 
-            memcpy(_vertexShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            uint32_t location = _vertexShaderConstantLocations[index];
+            memcpy(_vertexShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
+
             return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
         }
 
         bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
         {
-            uint32_t size = index + vectorDataSize(vectors);
-            if (size > _vertexShaderData.size())
-            {
-                if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
-                createVertexShaderConstantBuffer(size);
-            }
+            if (index >= _vertexShaderConstantLocations.size()) return false;
 
-            memcpy(_vertexShaderData.data() + index, vectors.data(), vectorDataSize(vectors));
+            uint32_t location = _vertexShaderConstantLocations[index];
+            memcpy(_vertexShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
+            
             return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
         }
 
         bool ShaderD3D11::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
         {
-            uint32_t size = index + vectorDataSize(matrices);
-            if (size > _vertexShaderData.size())
-            {
-                if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
-                createVertexShaderConstantBuffer(size);
-            }
+            if (index >= _vertexShaderConstantLocations.size()) return false;
 
-            memcpy(_vertexShaderData.data() + index, matrices.data(), vectorDataSize(matrices));
+            uint32_t location = _vertexShaderConstantLocations[index];
+            memcpy(_vertexShaderData.data() + location, matrices.data(), vectorDataSize(matrices));
+            
             return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
         }
 

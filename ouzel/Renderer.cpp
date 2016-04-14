@@ -153,15 +153,15 @@ namespace ouzel
             return true;
         }
 
-        ShaderPtr Renderer::loadShaderFromFiles(const std::string& fragmentShader,
+        ShaderPtr Renderer::loadShaderFromFiles(const std::string& pixelShader,
                                                 const std::string& vertexShader,
                                                 uint32_t vertexAttributes,
-                                                const std::string& fragmentShaderFunction,
+                                                const std::string& pixelShaderFunction,
                                                 const std::string& vertexShaderFunction)
         {
             ShaderPtr shader(new Shader());
 
-            if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
+            if (!shader->initFromFiles(pixelShader, vertexShader, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 shader.reset();
             }
@@ -169,17 +169,17 @@ namespace ouzel
             return shader;
         }
 
-        ShaderPtr Renderer::loadShaderFromBuffers(const uint8_t* fragmentShader,
-                                                  uint32_t fragmentShaderSize,
+        ShaderPtr Renderer::loadShaderFromBuffers(const uint8_t* pixelShader,
+                                                  uint32_t pixelShaderSize,
                                                   const uint8_t* vertexShader,
                                                   uint32_t vertexShaderSize,
                                                   uint32_t vertexAttributes,
-                                                  const std::string& fragmentShaderFunction,
+                                                  const std::string& pixelShaderFunction,
                                                   const std::string& vertexShaderFunction)
         {
             ShaderPtr shader(new Shader());
 
-            if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
+            if (!shader->initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 shader.reset();
             }

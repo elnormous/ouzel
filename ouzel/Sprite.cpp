@@ -93,15 +93,6 @@ namespace ouzel
                 return false;
             }
 
-            if (sharedEngine->getRenderer()->getDriver() == video::Renderer::Driver::OPENGL)
-            {
-                _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
-            }
-            else
-            {
-                _uniModelViewProj = 0;
-            }
-
             return true;
         }
 
@@ -267,7 +258,7 @@ namespace ouzel
 
                 Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
 
-                _shader->setVertexShaderConstant(_uniModelViewProj, { modelViewProj });
+                _shader->setVertexShaderConstant(0, { modelViewProj });
 
                 if (_currentFrame < _frameCount)
                 {
@@ -293,11 +284,6 @@ namespace ouzel
         void Sprite::setShader(const video::ShaderPtr& shader)
         {
             _shader = shader;
-
-            if (_shader && sharedEngine->getRenderer()->getDriver() == video::Renderer::Driver::OPENGL)
-            {
-                _uniModelViewProj = _shader->getVertexShaderConstantId("modelViewProj");
-            }
         }
 
         void Sprite::setColor(const video::Color& color)

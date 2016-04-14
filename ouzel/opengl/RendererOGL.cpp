@@ -68,6 +68,8 @@ namespace ouzel
                 return false;
             }
 
+            textureShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
+
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
@@ -76,6 +78,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            colorShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
@@ -338,15 +342,15 @@ namespace ouzel
             return true;
         }
 
-        ShaderPtr RendererOGL::loadShaderFromFiles(const std::string& fragmentShader,
+        ShaderPtr RendererOGL::loadShaderFromFiles(const std::string& pixelShader,
                                                    const std::string& vertexShader,
                                                    uint32_t vertexAttributes,
-                                                   const std::string& fragmentShaderFunction,
+                                                   const std::string& pixelShaderFunction,
                                                    const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
 
-            if (!shader->initFromFiles(fragmentShader, vertexShader, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
+            if (!shader->initFromFiles(pixelShader, vertexShader, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 shader.reset();
             }
@@ -354,17 +358,17 @@ namespace ouzel
             return shader;
         }
 
-        ShaderPtr RendererOGL::loadShaderFromBuffers(const uint8_t* fragmentShader,
-                                                     uint32_t fragmentShaderSize,
+        ShaderPtr RendererOGL::loadShaderFromBuffers(const uint8_t* pixelShader,
+                                                     uint32_t pixelShaderSize,
                                                      const uint8_t* vertexShader,
                                                      uint32_t vertexShaderSize,
                                                      uint32_t vertexAttributes,
-                                                     const std::string& fragmentShaderFunction,
+                                                     const std::string& pixelShaderFunction,
                                                      const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
 
-            if (!shader->initFromBuffers(fragmentShader, fragmentShaderSize, vertexShader, vertexShaderSize, vertexAttributes, fragmentShaderFunction, vertexShaderFunction))
+            if (!shader->initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 shader.reset();
             }

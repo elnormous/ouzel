@@ -68,8 +68,6 @@ namespace ouzel
             bool _repeat = false;
             float _timeSinceLastFrame = 0.0f;
 
-            uint32_t _uniModelViewProj;
-
             UpdateCallbackPtr _updateCallback;
         };
     } // namespace scene

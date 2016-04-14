@@ -35,8 +35,7 @@ namespace ouzel
             video::TexturePtr _texture;
             video::MeshBufferPtr _meshBuffer;
             video::ShaderPtr _shader;
-
-            uint32_t _uniModelViewProj;
+            
             BMFont _font;
             Vector2 _textAnchor;
             std::string _text;

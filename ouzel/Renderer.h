@@ -84,17 +84,17 @@ namespace ouzel
             virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer);
             virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget);
 
-            virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader,
+            virtual ShaderPtr loadShaderFromFiles(const std::string& pixelShader,
                                                   const std::string& vertexShader,
                                                   uint32_t vertexAttributes,
-                                                  const std::string& fragmentShaderFunction = "",
+                                                  const std::string& pixelShaderFunction = "",
                                                   const std::string& vertexShaderFunction = "");
-            virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader,
-                                                    uint32_t fragmentShaderSize,
+            virtual ShaderPtr loadShaderFromBuffers(const uint8_t* pixelShader,
+                                                    uint32_t pixelShaderSize,
                                                     const uint8_t* vertexShader,
                                                     uint32_t vertexShaderSize,
                                                     uint32_t vertexAttributes,
-                                                    const std::string& fragmentShaderFunction = "",
+                                                    const std::string& pixelShaderFunction = "",
                                                     const std::string& vertexShaderFunction = "");
             virtual bool activateShader(const ShaderPtr& shader);
             virtual ShaderPtr getActiveShader() const { return _activeShader; }

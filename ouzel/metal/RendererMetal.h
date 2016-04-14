@@ -54,17 +54,17 @@ namespace ouzel
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
             virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
 
-            virtual ShaderPtr loadShaderFromFiles(const std::string& fragmentShader,
+            virtual ShaderPtr loadShaderFromFiles(const std::string& pixelShader,
                                                   const std::string& vertexShader,
                                                   uint32_t vertexAttributes,
-                                                  const std::string& fragmentShaderFunction = "",
+                                                  const std::string& pixelShaderFunction = "",
                                                   const std::string& vertexShaderFunction = "") override;
-            virtual ShaderPtr loadShaderFromBuffers(const uint8_t* fragmentShader,
-                                                    uint32_t fragmentShaderSize,
+            virtual ShaderPtr loadShaderFromBuffers(const uint8_t* pixelShader,
+                                                    uint32_t pixelShaderSize,
                                                     const uint8_t* vertexShader,
                                                     uint32_t vertexShaderSize,
                                                     uint32_t vertexAttributes,
-                                                    const std::string& fragmentShaderFunction = "",
+                                                    const std::string& pixelShaderFunction = "",
                                                     const std::string& vertexShaderFunction = "") override;
 
             virtual MeshBufferPtr createMeshBuffer() override;
