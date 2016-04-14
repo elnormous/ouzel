@@ -13,7 +13,7 @@ typedef struct __attribute__((__aligned__(256)))
 typedef struct
 {
     float3 position [[attribute(0)]];
-    uchar4 color [[attribute(1)]];
+    half4 color [[attribute(1)]];
     float2 texCoords [[attribute(2)]];
 } VertexPCT;
 
@@ -33,7 +33,7 @@ vertex ColorInOut main_vs(VertexPCT vert [[stage_in]],
     float4 in_position = float4(vert.position, 1.0);
     out.position = uniforms.modelViewProj * in_position;
 
-    out.color = half4(vert.color / 255);
+    out.color = half4(vert.color);
     out.texCoords = vert.texCoords;
     return out;
 }

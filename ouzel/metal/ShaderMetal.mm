@@ -76,7 +76,7 @@ namespace ouzel
 
             if (vertexAttributes & VERTEX_COLOR)
             {
-                _vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4;
+                _vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4Normalized;
                 _vertexDescriptor.attributes[index].offset = offset;
                 _vertexDescriptor.attributes[index].bufferIndex = 0;
                 index++;
