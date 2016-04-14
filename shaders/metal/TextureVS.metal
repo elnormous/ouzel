@@ -33,7 +33,7 @@ vertex ColorInOut main_vs(VertexPCT vert [[stage_in]],
     float4 in_position = float4(vert.position, 1.0);
     out.position = uniforms.modelViewProj * in_position;
 
-    out.color = half4(vert.color);
+    out.color = vert.color;
     out.texCoords = vert.texCoords;
     return out;
 }
