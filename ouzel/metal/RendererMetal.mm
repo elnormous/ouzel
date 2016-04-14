@@ -50,11 +50,12 @@ namespace ouzel
                 _currentRenderCommandEncoder = Nil;
             }
 
-            if (_pipelineState)
+            for (auto pipelineState : _pipelineStates)
             {
-                [_pipelineState release];
-                _pipelineState = Nil;
+                [pipelineState.second release];
             }
+
+            _pipelineStates.clear();
 
             if (_commandQueue)
             {
@@ -166,38 +167,24 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            std::shared_ptr<ShaderMetal> textureShaderMetal = std::static_pointer_cast<ShaderMetal>(textureShader);
-
-            MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-            pipelineStateDescriptor.sampleCount = _view.sampleCount;
-            pipelineStateDescriptor.vertexFunction = textureShaderMetal->getVertexShader();
-            pipelineStateDescriptor.fragmentFunction = textureShaderMetal->getPixelShader();
-            pipelineStateDescriptor.vertexDescriptor = textureShaderMetal->getVertexDescriptor();
-            pipelineStateDescriptor.depthAttachmentPixelFormat = _view.depthStencilPixelFormat;
-            pipelineStateDescriptor.stencilAttachmentPixelFormat = _view.depthStencilPixelFormat;
-
-            pipelineStateDescriptor.colorAttachments[0].pixelFormat = _view.colorPixelFormat;
-
-            // blending
-            pipelineStateDescriptor.colorAttachments[0].blendingEnabled = alphaBlendState->isBlendingEnabled() ? YES : NO;
-
-            pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = BlendStateMetal::getBlendFactor(alphaBlendState->getColorBlendSource());
-            pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = BlendStateMetal::getBlendFactor(alphaBlendState->getColorBlendDest());
-            pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = BlendStateMetal::getBlendOperation(alphaBlendState->getColorOperation());
-
-            pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = BlendStateMetal::getBlendFactor(alphaBlendState->getAlphaBlendSource());
-            pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = BlendStateMetal::getBlendFactor(alphaBlendState->getAlphaBlendDest());
-            pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = BlendStateMetal::getBlendOperation(alphaBlendState->getAlphaOperation());
-
-            pipelineStateDescriptor.colorAttachments[0].writeMask = MTLColorWriteMaskAll;
-
-            NSError* error = Nil;
-            _pipelineState = [_device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
-            [pipelineStateDescriptor release];
-            if (error || !_pipelineState)
+            for (ShaderPtr shader : {textureShader, colorShader})
             {
-                log("Failed to created Metal pipeline state");
-                return false;
+                std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(shader);
+
+                for (BlendStatePtr blendState : {noBlendState, alphaBlendState})
+                {
+                    std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(blendState);
+
+                    if (!createPipelineState(blendStateMetal, shaderMetal))
+                    {
+                        return false;
+                    }
+                }
+
+                if (!createPipelineState(nullptr, shaderMetal))
+                {
+                    return false;
+                }
             }
 
             setSize(size);
@@ -219,7 +206,7 @@ namespace ouzel
 
         void RendererMetal::clear()
         {
-            //dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
+            dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
 
             if (_currentCommandBuffer) [_currentCommandBuffer release];
 
@@ -231,11 +218,11 @@ namespace ouzel
                 return;
             }
 
-            /*__block dispatch_semaphore_t blockSemaphore = _inflightSemaphore;
+            __block dispatch_semaphore_t blockSemaphore = _inflightSemaphore;
             [_currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer> buffer)
              {
                  dispatch_semaphore_signal(blockSemaphore);
-             }];*/
+             }];
 
             MTLRenderPassDescriptor* renderPassDescriptor = _view.currentRenderPassDescriptor;
 
@@ -369,21 +356,37 @@ namespace ouzel
                 return false;
             }
 
-            if (!_activeShader || _activeShader->getVertexAttributes() != VertexPCT::ATTRIBUTES)
+            if (!_activeShader)
             {
                 return false;
             }
 
             std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(meshBuffer);
 
-            [_currentRenderCommandEncoder setRenderPipelineState:_pipelineState];
             [_currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
-            if (_activeShader)
+            std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(_activeShader);
+            [_currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer() offset:0 atIndex:1];
+            [_currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer() offset:0 atIndex:1];
+
+            std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(_activeBlendState);
+
+            auto pipelineStateIterator = _pipelineStates.find(std::make_pair(blendStateMetal, shaderMetal));
+
+            if (pipelineStateIterator != _pipelineStates.end())
             {
-                std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(_activeShader);
-                [_currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer() offset:0 atIndex:1];
-                [_currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer() offset:0 atIndex:1];
+                [_currentRenderCommandEncoder setRenderPipelineState:pipelineStateIterator->second];
+            }
+            else
+            {
+                id<MTLRenderPipelineState> pipelineState = createPipelineState(blendStateMetal, shaderMetal);
+
+                if (!pipelineState)
+                {
+                    return false;
+                }
+
+                [_currentRenderCommandEncoder setRenderPipelineState:pipelineState];
             }
 
             for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
@@ -426,5 +429,61 @@ namespace ouzel
 
             return true;
         }
+
+        MTLRenderPipelineStatePtr RendererMetal::createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
+                                                                     const std::shared_ptr<ShaderMetal>& shader)
+        {
+            MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+            pipelineStateDescriptor.sampleCount = _view.sampleCount;
+            pipelineStateDescriptor.vertexFunction = shader->getVertexShader();
+            pipelineStateDescriptor.fragmentFunction = shader->getPixelShader();
+            pipelineStateDescriptor.vertexDescriptor = shader->getVertexDescriptor();
+            pipelineStateDescriptor.depthAttachmentPixelFormat = _view.depthStencilPixelFormat;
+            pipelineStateDescriptor.stencilAttachmentPixelFormat = _view.depthStencilPixelFormat;
+
+            pipelineStateDescriptor.colorAttachments[0].pixelFormat = _view.colorPixelFormat;
+
+            // blending
+            if (!blendState)
+            {
+                pipelineStateDescriptor.colorAttachments[0].blendingEnabled = NO;
+
+                pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactorOne;
+                pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = MTLBlendFactorZero;
+                pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = MTLBlendOperationAdd;
+
+                pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = MTLBlendFactorOne;
+                pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactorZero;
+                pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = MTLBlendOperationAdd;
+            }
+            else
+            {
+                pipelineStateDescriptor.colorAttachments[0].blendingEnabled = blendState->isBlendingEnabled() ? YES : NO;
+
+                pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = BlendStateMetal::getBlendFactor(blendState->getColorBlendSource());
+                pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = BlendStateMetal::getBlendFactor(blendState->getColorBlendDest());
+                pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = BlendStateMetal::getBlendOperation(blendState->getColorOperation());
+
+                pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = BlendStateMetal::getBlendFactor(blendState->getAlphaBlendSource());
+                pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = BlendStateMetal::getBlendFactor(blendState->getAlphaBlendDest());
+                pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = BlendStateMetal::getBlendOperation(blendState->getAlphaOperation());
+            }
+
+            pipelineStateDescriptor.colorAttachments[0].writeMask = MTLColorWriteMaskAll;
+
+            NSError* error = Nil;
+            id<MTLRenderPipelineState> pipelineState = [_device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
+            [pipelineStateDescriptor release];
+            if (error || !pipelineState)
+            {
+                log("Failed to created Metal pipeline state");
+                return Nil;
+            }
+
+            _pipelineStates[std::make_pair(blendState, shader)] = pipelineState;
+
+            return pipelineState;
+        }
+
     } // namespace video
 } // namespace ouzel

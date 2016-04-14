@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <map>
 #include <dispatch/dispatch.h>
 
 #ifdef __OBJC__
@@ -32,6 +33,9 @@ namespace ouzel
 {
     namespace video
     {
+        class BlendStateMetal;
+        class ShaderMetal;
+
         class RendererMetal: public Renderer
         {
             friend Engine;
@@ -73,6 +77,8 @@ namespace ouzel
             RendererMetal();
 
             void destroy();
+            MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
+                                                          const std::shared_ptr<ShaderMetal>& shader);
 
             MTKViewPtr _view = Nil;
 
@@ -80,12 +86,13 @@ namespace ouzel
 
             MTLSamplerStatePtr _samplerState = Nil;
             MTLCommandQueuePtr _commandQueue = Nil;
-            MTLRenderPipelineStatePtr _pipelineState = Nil;
 
             MTLCommandBufferPtr _currentCommandBuffer = Nil;
             MTLRenderCommandEncoderPtr _currentRenderCommandEncoder = Nil;
 
             dispatch_semaphore_t _inflightSemaphore;
+
+            std::map<std::pair<std::shared_ptr<BlendStateMetal>, std::shared_ptr<ShaderMetal>>, MTLRenderPipelineStatePtr> _pipelineStates;
         };
     } // namespace video
 } // namespace ouzel
