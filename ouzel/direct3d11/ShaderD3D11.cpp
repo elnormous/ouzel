@@ -161,7 +161,7 @@ namespace ouzel
 
             if (offset > _pixelShaderData.size())
             {
-                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
+                if (_pixelShaderConstantBuffer) _pixelShaderConstantBuffer->Release();
                 createPixelShaderConstantBuffer(offset);
             }
 
@@ -184,7 +184,7 @@ namespace ouzel
 
             if (offset > _vertexShaderData.size())
             {
-                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
+                if (_vertexShaderConstantBuffer) _vertexShaderConstantBuffer->Release();
                 createVertexShaderConstantBuffer(offset);
             }
 
