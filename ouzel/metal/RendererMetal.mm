@@ -437,10 +437,7 @@ namespace ouzel
                                                     indexBuffer:meshBufferMetal->getIndexBuffer()
                                               indexBufferOffset:0];
 
-            if (_activeShader)
-            {
-                _activeShader->nextBuffers();
-            }
+            shaderMetal->nextBuffers();
 
             return true;
         }

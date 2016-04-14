@@ -102,10 +102,6 @@ namespace ouzel
             return true;
         }
 
-        void Shader::nextBuffers()
-        {
-        }
-
         bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
             OUZEL_UNUSED(index);

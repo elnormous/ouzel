@@ -786,8 +786,6 @@ namespace ouzel
 
             _context->DrawIndexed(indexCount, 0, 0);
 
-            _activeShader->nextBuffers();
-
             return true;
         }
 

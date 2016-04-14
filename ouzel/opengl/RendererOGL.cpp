@@ -492,12 +492,7 @@ namespace ouzel
             {
                 return false;
             }
-
-            if (_activeShader)
-            {
-                _activeShader->nextBuffers();
-            }
-
+            
             return true;
         }
 
