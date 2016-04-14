@@ -69,8 +69,19 @@ using namespace ouzel;
 
 }
 
+-(BOOL)isFlipped
+{
+    return YES;
+}
+
 -(BOOL)acceptsFirstResponder
 {
+    return YES;
+}
+
+-(BOOL)acceptsFirstMouse:(NSEvent*)event
+{
+    OUZEL_UNUSED(event);
     return YES;
 }
 
