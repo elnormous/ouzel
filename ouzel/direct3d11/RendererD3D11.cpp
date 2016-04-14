@@ -747,6 +747,11 @@ namespace ouzel
                 return false;
             }
 
+            if (!_activeShader)
+            {
+                return false;
+            }
+
             _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
             _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
 
@@ -780,6 +785,8 @@ namespace ouzel
             _context->IASetPrimitiveTopology(topology);
 
             _context->DrawIndexed(indexCount, 0, 0);
+
+            _activeShader->nextBuffers();
 
             return true;
         }

@@ -42,6 +42,8 @@ namespace ouzel
             virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo) override;
             virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo) override;
 
+            virtual void nextBuffers() override;
+
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
@@ -57,6 +59,9 @@ namespace ouzel
             virtual MTLBufferPtr getVertexShaderConstantBuffer() const { return _vertexShaderConstantBuffer; }
             virtual MTLVertexDescriptorPtr getVertexDescriptor() const { return _vertexDescriptor;  }
 
+            uint32_t getPixelShaderConstantBufferOffset() const { return _pixelShaderConstantBufferOffset; }
+            uint32_t getVertexShaderConstantBufferOffset() const { return _vertexShaderConstantBufferOffset; }
+
         protected:
             ShaderMetal();
 
@@ -64,7 +69,7 @@ namespace ouzel
             bool createPixelShaderConstantBuffer(uint32_t size);
             bool createVertexShaderConstantBuffer(uint32_t size);
 
-            bool uploadData(MTLBufferPtr buffer, const void* data, uint32_t size);
+            bool uploadData(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size);
 
             MTLFunctionPtr _pixelShader = Nil;
             MTLFunctionPtr _vertexShader = Nil;
@@ -79,6 +84,8 @@ namespace ouzel
 
             std::vector<uint32_t> _pixelShaderConstantLocations;
             std::vector<uint32_t> _vertexShaderConstantLocations;
+            uint32_t _pixelShaderConstantBufferOffset = 0;
+            uint32_t _vertexShaderConstantBufferOffset = 0;
         };
     } // namespace video
 } // namespace ouzel

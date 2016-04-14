@@ -158,12 +158,12 @@ namespace ouzel
                 return false;
             }
 
-            if (!createPixelShaderConstantBuffer(BufferSize))
+            if (!createPixelShaderConstantBuffer(sizeof(Matrix4)))
             {
                 return false;
             }
 
-            if (!createVertexShaderConstantBuffer(BufferSize))
+            if (!createVertexShaderConstantBuffer(sizeof(Matrix4)))
             {
                 return false;
             }
@@ -217,6 +217,25 @@ namespace ouzel
             return true;
         }
 
+        void ShaderMetal::nextBuffers()
+        {
+            _pixelShaderConstantBufferOffset += _pixelShaderData.size();
+            _pixelShaderConstantBufferOffset = (_pixelShaderConstantBufferOffset / 256 + 1) * 256;
+
+            if (BufferSize - _pixelShaderConstantBufferOffset < 256)
+            {
+                _pixelShaderConstantBufferOffset = 0;
+            }
+
+            _vertexShaderConstantBufferOffset += _vertexShaderData.size();
+            _vertexShaderConstantBufferOffset = (_vertexShaderConstantBufferOffset / 256 + 1) * 256;
+
+            if (BufferSize - _vertexShaderConstantBufferOffset < 256)
+            {
+                _vertexShaderConstantBufferOffset = 0;
+            }
+        }
+
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
         {
             if (index >= _pixelShaderConstantLocations.size()) return false;
@@ -224,7 +243,10 @@ namespace ouzel
             uint32_t location = _pixelShaderConstantLocations[index];
             memcpy(_pixelShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
 
-            return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
+            return uploadData(_pixelShaderConstantBuffer,
+                              _pixelShaderConstantBufferOffset,
+                              _pixelShaderData.data(),
+                              _pixelShaderData.size());
         }
 
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
@@ -234,7 +256,10 @@ namespace ouzel
             uint32_t location = _pixelShaderConstantLocations[index];
             memcpy(_pixelShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
 
-            return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
+            return uploadData(_pixelShaderConstantBuffer,
+                              _pixelShaderConstantBufferOffset,
+                              _pixelShaderData.data(),
+                              _pixelShaderData.size());
         }
 
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
@@ -244,7 +269,10 @@ namespace ouzel
             uint32_t location = _pixelShaderConstantLocations[index];
             memcpy(_pixelShaderData.data() + location, matrices.data(), vectorDataSize(matrices));
 
-            return uploadData(_pixelShaderConstantBuffer, _pixelShaderData.data(), _pixelShaderData.size());
+            return uploadData(_pixelShaderConstantBuffer,
+                              _pixelShaderConstantBufferOffset,
+                              _pixelShaderData.data(),
+                              _pixelShaderData.size());
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
@@ -254,7 +282,10 @@ namespace ouzel
             uint32_t location = _vertexShaderConstantLocations[index];
             memcpy(_vertexShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
 
-            return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
+            return uploadData(_vertexShaderConstantBuffer,
+                              _vertexShaderConstantBufferOffset,
+                              _vertexShaderData.data(),
+                              _vertexShaderData.size());
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
@@ -264,7 +295,10 @@ namespace ouzel
             uint32_t location = _vertexShaderConstantLocations[index];
             memcpy(_vertexShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
 
-            return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
+            return uploadData(_vertexShaderConstantBuffer,
+                              _vertexShaderConstantBufferOffset,
+                              _vertexShaderData.data(),
+                              _vertexShaderData.size());
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
@@ -274,14 +308,17 @@ namespace ouzel
             uint32_t location = _vertexShaderConstantLocations[index];
             memcpy(_vertexShaderData.data() + location, matrices.data(), vectorDataSize(matrices));
 
-            return uploadData(_vertexShaderConstantBuffer, _vertexShaderData.data(), _vertexShaderData.size());
+            return uploadData(_vertexShaderConstantBuffer,
+                              _vertexShaderConstantBufferOffset,
+                              _vertexShaderData.data(),
+                              _vertexShaderData.size());
         }
 
         bool ShaderMetal::createPixelShaderConstantBuffer(uint32_t size)
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            _pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:size
+            _pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
                                                                                  options:MTLResourceCPUCacheModeWriteCombined];
 
             if (_pixelShaderConstantBuffer == Nil)
@@ -299,7 +336,7 @@ namespace ouzel
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            _vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:size
+            _vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
                                                                                   options:MTLResourceCPUCacheModeWriteCombined];
 
             if (_vertexShaderConstantBuffer == Nil)
@@ -313,9 +350,10 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderMetal::uploadData(MTLBufferPtr buffer, const void* data, uint32_t size)
+        bool ShaderMetal::uploadData(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size)
         {
-            memcpy([buffer contents], data, size);
+            char* contents = static_cast<char*>([buffer contents]);
+            memcpy((contents + offset), data, size);
 
             return true;
         }

@@ -433,6 +433,11 @@ namespace ouzel
                 return false;
             }
 
+            if (!_activeShader)
+            {
+                return false;
+            }
+
             if (_activeRenderTarget)
             {
                 std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
@@ -458,16 +463,8 @@ namespace ouzel
                 }
             }
 
-            if (_activeShader)
-            {
-                std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
-
-                bindProgram(shaderOGL->getProgramId());
-            }
-            else
-            {
-                bindProgram(0);
-            }
+            std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
+            bindProgram(shaderOGL->getProgramId());
 
             std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(meshBuffer);
 
@@ -494,6 +491,11 @@ namespace ouzel
             if (checkOpenGLErrors())
             {
                 return false;
+            }
+
+            if (_activeShader)
+            {
+                _activeShader->nextBuffers();
             }
 
             return true;

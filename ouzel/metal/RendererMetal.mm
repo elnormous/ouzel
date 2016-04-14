@@ -370,8 +370,12 @@ namespace ouzel
             [_currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
             std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(_activeShader);
-            [_currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer() offset:0 atIndex:1];
-            [_currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer() offset:0 atIndex:1];
+            [_currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
+                                                     offset:shaderMetal->getPixelShaderConstantBufferOffset()
+                                                    atIndex:1];
+            [_currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
+                                                   offset:shaderMetal->getVertexShaderConstantBufferOffset()
+                                                  atIndex:1];
 
             std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(_activeBlendState);
 
@@ -430,6 +434,11 @@ namespace ouzel
                                                       indexType:meshBufferMetal->getIndexFormat()
                                                     indexBuffer:meshBufferMetal->getIndexBuffer()
                                               indexBufferOffset:0];
+
+            if (_activeShader)
+            {
+                _activeShader->nextBuffers();
+            }
 
             return true;
         }
