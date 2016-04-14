@@ -175,6 +175,7 @@ namespace ouzel
                 {
                     if (mipWidth < 1) mipWidth = 1;
                     if (mipHeight < 1) mipHeight = 1;
+                    mipRowPitch = mipWidth * 4;
 
                     stbir_resize_uint8_generic(oldMipMapData, oldMipWidth, oldMipHeight, 0,
                                                newMipMapData, mipWidth, mipHeight, 0, 4,
@@ -189,7 +190,6 @@ namespace ouzel
                     mipWidth >>= 1;
                     mipHeight >>= 1;
                     mipLevel++;
-                    mipRowPitch = mipWidth * 4;
 
                     uint8_t* temp = oldMipMapData;
                     oldMipMapData = newMipMapData;
