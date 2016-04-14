@@ -31,10 +31,9 @@ namespace ouzel
 
                 Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
 
-                _shader->setVertexShaderConstant(0, { modelViewProj });
-
                 for (const DrawCommand& drawCommand : _drawCommands)
                 {
+                    _shader->setVertexShaderConstant(0, { modelViewProj });
                     sharedEngine->getRenderer()->drawMeshBuffer(drawCommand.mesh, 0, drawCommand.mode);
                 }
             }
