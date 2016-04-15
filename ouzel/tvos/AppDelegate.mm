@@ -13,7 +13,6 @@
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     ouzelMain(ouzel::getArgs());
-
     return YES;
 }
 
