@@ -90,15 +90,45 @@ namespace ouzel
             return  true;
         }
 
-        bool Shader::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        bool Shader::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
             _pixelShaderConstantInfo = constantInfo;
+
+            if (alignment)
+            {
+                _pixelShaderAlignment = alignment;
+            }
+            else
+            {
+                _pixelShaderAlignment = 0;
+
+                for (const ConstantInfo& info : _pixelShaderConstantInfo)
+                {
+                    _pixelShaderAlignment += info.size;
+                }
+            }
+
             return true;
         }
 
-        bool Shader::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        bool Shader::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
             _vertexShaderConstantInfo = constantInfo;
+
+            if (alignment)
+            {
+                _vertexShaderAlignment = alignment;
+            }
+            else
+            {
+                _vertexShaderAlignment = 0;
+
+                for (const ConstantInfo& info : _pixelShaderConstantInfo)
+                {
+                    _vertexShaderAlignment += info.size;
+                }
+            }
+
             return true;
         }
 

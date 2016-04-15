@@ -44,8 +44,8 @@ namespace ouzel
 
             uint32_t getVertexAttributes() const { return _vertexAttributes; }
 
-            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo);
-            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo);
+            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
+            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
             
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
             virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
@@ -64,7 +64,9 @@ namespace ouzel
             uint32_t _vertexAttributes;
 
             std::vector<ConstantInfo> _pixelShaderConstantInfo;
+            uint32_t _pixelShaderAlignment = 0;
             std::vector<ConstantInfo> _vertexShaderConstantInfo;
+            uint32_t _vertexShaderAlignment = 0;
         };
     } // namespace video
 } // namespace ouzel

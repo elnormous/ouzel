@@ -39,8 +39,8 @@ namespace ouzel
                                          const std::string& vertexShaderFunction = "") override;
 
 
-            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo) override;
-            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo) override;
+            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
+            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
 
             void nextBuffers();
 

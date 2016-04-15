@@ -145,9 +145,9 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderD3D11::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        bool ShaderD3D11::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
-            Shader::setPixelShaderConstantInfo(constantInfo);
+            Shader::setPixelShaderConstantInfo(constantInfo, alignment);
 
             _pixelShaderConstantLocations.reserve(constantInfo.size());
 
@@ -168,9 +168,9 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderD3D11::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        bool ShaderD3D11::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
-            Shader::setVertexShaderConstantInfo(constantInfo);
+            Shader::setVertexShaderConstantInfo(constantInfo, alignment);
 
             _vertexShaderConstantLocations.reserve(constantInfo.size());
 

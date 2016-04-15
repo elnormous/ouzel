@@ -171,9 +171,9 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderMetal::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        bool ShaderMetal::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
-            Shader::setPixelShaderConstantInfo(constantInfo);
+            Shader::setPixelShaderConstantInfo(constantInfo, alignment);
 
             _pixelShaderConstantLocations.reserve(constantInfo.size());
 
@@ -194,9 +194,9 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderMetal::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        bool ShaderMetal::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
-            Shader::setVertexShaderConstantInfo(constantInfo);
+            Shader::setVertexShaderConstantInfo(constantInfo, alignment);
 
             _vertexShaderConstantLocations.reserve(constantInfo.size());
 
@@ -219,20 +219,26 @@ namespace ouzel
 
         void ShaderMetal::nextBuffers()
         {
-            _pixelShaderConstantBufferOffset += _pixelShaderData.size();
-            _pixelShaderConstantBufferOffset = (_pixelShaderConstantBufferOffset / 256 + 1) * 256;
-
-            if (BufferSize - _pixelShaderConstantBufferOffset < 256)
+            if (_pixelShaderAlignment)
             {
-                _pixelShaderConstantBufferOffset = 0;
+                _pixelShaderConstantBufferOffset += _pixelShaderData.size();
+                _pixelShaderConstantBufferOffset = (_pixelShaderConstantBufferOffset / _pixelShaderAlignment + 1) * _pixelShaderAlignment;
+
+                if (BufferSize - _pixelShaderConstantBufferOffset < _pixelShaderAlignment)
+                {
+                    _pixelShaderConstantBufferOffset = 0;
+                }
             }
 
-            _vertexShaderConstantBufferOffset += _vertexShaderData.size();
-            _vertexShaderConstantBufferOffset = (_vertexShaderConstantBufferOffset / 256 + 1) * 256;
-
-            if (BufferSize - _vertexShaderConstantBufferOffset < 256)
+            if (_vertexShaderAlignment)
             {
-                _vertexShaderConstantBufferOffset = 0;
+                _vertexShaderConstantBufferOffset += _vertexShaderData.size();
+                _vertexShaderConstantBufferOffset = (_vertexShaderConstantBufferOffset / _vertexShaderAlignment + 1) * _vertexShaderAlignment;
+
+                if (BufferSize - _vertexShaderConstantBufferOffset < _vertexShaderAlignment)
+                {
+                    _vertexShaderConstantBufferOffset = 0;
+                }
             }
         }
 

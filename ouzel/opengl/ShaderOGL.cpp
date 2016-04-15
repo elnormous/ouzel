@@ -214,9 +214,9 @@ namespace ouzel
             }
         }
 
-        bool ShaderOGL::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        bool ShaderOGL::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
-            Shader::setPixelShaderConstantInfo(constantInfo);
+            Shader::setPixelShaderConstantInfo(constantInfo, alignment);
 
             _pixelShaderConstantLocations.reserve(constantInfo.size());
 
@@ -236,9 +236,9 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderOGL::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo)
+        bool ShaderOGL::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
-            Shader::setVertexShaderConstantInfo(constantInfo);
+            Shader::setVertexShaderConstantInfo(constantInfo, alignment);
 
             _vertexShaderConstantLocations.reserve(constantInfo.size());
 
