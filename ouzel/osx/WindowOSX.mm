@@ -110,7 +110,6 @@ namespace ouzel
                                                   screen:screen];
         [_window setReleasedWhenClosed:NO];
 
-        _window.backgroundColor = [NSColor blackColor];
         _window.acceptsMouseMovedEvents = YES;
 
         _windowDelegate = [[WindowDelegate alloc] initWithWindow: this];
