@@ -50,7 +50,6 @@ namespace ouzel
                 _view = openGLView;
                 _size.width = openGLView.backingWidth;
                 _size.height = openGLView.backingHeight;
-                [openGLView prepareOpenGL];
                 break;
             }
             case video::Renderer::Driver::METAL:
@@ -60,13 +59,10 @@ namespace ouzel
                 return false;
         }
 
+        _viewController.view = _view;
+
         [_window makeKeyAndVisible];
 
-        if (!Window::init())
-        {
-            return false;
-        }
-
-        return true;
+        return Window::init();
     }
 }

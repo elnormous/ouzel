@@ -55,6 +55,19 @@ using namespace ouzel;
             log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
             return Nil;
         }
+
+        if (![EAGLContext setCurrentContext:_context])
+        {
+            ouzel::log("Failed to set current OpenGL context");
+        }
+
+        // display link
+        _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
+        [_displayLink setFrameInterval:1.0f];
+        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
+        std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(sharedEngine->getRenderer());
+        renderer->setFrameBuffer(_frameBuffer);
     }
 
     return self;
@@ -82,22 +95,6 @@ using namespace ouzel;
 +(Class)layerClass
 {
     return [CAEAGLLayer class];
-}
-
--(void)prepareOpenGL
-{
-    if (![EAGLContext setCurrentContext:_context])
-    {
-        ouzel::log("Failed to set current OpenGL context");
-    }
-
-    // display link
-    _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
-    [_displayLink setFrameInterval:1.0f];
-    [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-
-    std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(sharedEngine->getRenderer());
-    renderer->setFrameBuffer(_frameBuffer);
 }
 
 -(void)idle:(id)sender
