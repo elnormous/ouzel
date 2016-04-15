@@ -26,13 +26,13 @@ using namespace ouzel;
 
         if (!_context)
         {
-            NSLog(@"Failed to initialize OpenGLES 2.0 context");
+            ouzel::log("Failed to initialize OpenGLES 2.0 context");
             return Nil;
         }
 
         if (![EAGLContext setCurrentContext:_context])
         {
-            NSLog(@"Failed to set current OpenGL context");
+            ouzel::log("Failed to set current OpenGL context");
             return Nil;
         }
 
@@ -88,23 +88,24 @@ using namespace ouzel;
 {
     if (![EAGLContext setCurrentContext:_context])
     {
-        NSLog(@"Failed to set current OpenGL context");
+        ouzel::log("Failed to set current OpenGL context");
     }
 
     // display link
     _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
-    [_displayLink setFrameInterval: 1.0f];
+    [_displayLink setFrameInterval:1.0f];
     [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 
     std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(sharedEngine->getRenderer());
-    renderer->initOpenGL(_frameBuffer);
+    renderer->setFrameBuffer(_frameBuffer);
 }
 
 -(void)idle:(id)sender
 {
+    OUZEL_UNUSED(sender);
     if (![EAGLContext setCurrentContext:_context])
     {
-        NSLog(@"Failed to set current OpenGL context");
+        ouzel::log("Failed to set current OpenGL context");
     }
 
     sharedEngine->run();
@@ -114,6 +115,7 @@ using namespace ouzel;
 
 -(void)touchesBegan:(NSSet*)touches withEvent:(::UIEvent*)event
 {
+    OUZEL_UNUSED(event);
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
@@ -125,6 +127,7 @@ using namespace ouzel;
 
 -(void)touchesMoved:(NSSet*)touches withEvent:(::UIEvent*)event
 {
+    OUZEL_UNUSED(event);
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
@@ -136,6 +139,7 @@ using namespace ouzel;
 
 -(void)touchesEnded:(NSSet*)touches withEvent:(::UIEvent*)event
 {
+    OUZEL_UNUSED(event);
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
@@ -147,6 +151,7 @@ using namespace ouzel;
 
 -(void)touchesCancelled:(NSSet*)touches withEvent:(::UIEvent*)event
 {
+    OUZEL_UNUSED(event);
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];

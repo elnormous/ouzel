@@ -4,9 +4,11 @@
 #import <Cocoa/Cocoa.h>
 #import <CoreVideo/CoreVideo.h>
 
-@interface OpenGLView: NSOpenGLView
+@interface OpenGLView: NSView
 {
 @private
+    NSOpenGLPixelFormat* _pixelFormat;
+    NSOpenGLContext* _openGLContext;
     CVDisplayLinkRef _displayLink;
     CGDirectDisplayID _displayId;
     BOOL _running;

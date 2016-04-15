@@ -3,7 +3,20 @@
 
 #include "WindowIOS.h"
 #import "OpenGLView.h"
-#import "ViewController.h"
+#import "MetalView.h"
+
+@interface ViewController: UIViewController
+
+@end
+
+@implementation ViewController
+
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
+@end
 
 namespace ouzel
 {
@@ -15,32 +28,44 @@ namespace ouzel
 
     WindowIOS::~WindowIOS()
     {
-        [_view release];
-        [_window release];
+        if (_viewController) [_viewController release];
+        if (_view) [_view release];
+        if (_window) [_window release];
     }
 
     bool WindowIOS::init()
     {
         _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-        UIViewController* viewController = [[[ViewController alloc] init] autorelease];
-        _window.rootViewController = viewController;
+        _viewController = [[[ViewController alloc] init] autorelease];
+        _window.rootViewController = _viewController;
 
-        OpenGLView* openGLView = [[OpenGLView alloc] initWithFrame:[_window bounds]];
-        _view = openGLView;
-        viewController.view = _view;
+        CGRect windowFrame = [_window bounds];
+
+        switch (_driver)
+        {
+            case video::Renderer::Driver::OPENGL:
+            {
+                OpenGLView* openGLView = [[OpenGLView alloc] initWithFrame:windowFrame];
+                _view = openGLView;
+                _size.width = openGLView.backingWidth;
+                _size.height = openGLView.backingHeight;
+                [openGLView prepareOpenGL];
+                break;
+            }
+            case video::Renderer::Driver::METAL:
+                _view = [[MetalView alloc] initWithFrame:windowFrame];
+                break;
+            default:
+                return false;
+        }
 
         [_window makeKeyAndVisible];
-
-        _size.width = openGLView.backingWidth;
-        _size.height = openGLView.backingHeight;
 
         if (!Window::init())
         {
             return false;
         }
-
-        [openGLView prepareOpenGL];
 
         return true;
     }

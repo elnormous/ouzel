@@ -72,7 +72,7 @@ namespace ouzel
 
         void InputApple::setCursorVisible(bool visible)
         {
-    #ifdef OUZEL_PLATFORM_OSX
+#ifdef OUZEL_PLATFORM_OSX
             if (visible)
             {
                 [NSCursor unhide];
@@ -81,16 +81,18 @@ namespace ouzel
             {
                 [NSCursor hide];
             }
-    #endif
+#else
+            OUZEL_UNUSED(visible);
+#endif
         }
 
         bool InputApple::isCursorVisible() const
         {
-    #ifdef OUZEL_PLATFORM_OSX
+#ifdef OUZEL_PLATFORM_OSX
             return CGCursorIsVisible();
-    #else
+#else
             return false;
-    #endif
+#endif
         }
 
         void InputApple::startGamepadDiscovery()

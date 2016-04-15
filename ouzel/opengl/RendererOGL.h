@@ -53,7 +53,7 @@ namespace ouzel
         public:
             virtual ~RendererOGL();
 
-            bool initOpenGL(GLuint framebuffer);
+            void setFrameBuffer(GLuint frameBuffer);
             static bool checkOpenGLErrors();
 
             virtual void setClearColor(Color color) override;
@@ -101,6 +101,9 @@ namespace ouzel
 
         private:
             RendererOGL();
+
+            virtual bool init(const Size2& size, bool fullscreen) override;
+
             virtual void setSize(const Size2& size) override;
 
             bool _ready = false;

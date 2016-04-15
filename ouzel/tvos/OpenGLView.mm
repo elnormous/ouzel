@@ -25,13 +25,13 @@ using namespace ouzel;
 
         if (!_context)
         {
-            NSLog(@"Failed to initialize OpenGLES 2.0 context");
+            ouzel::log("Failed to initialize OpenGLES 2.0 context");
             return Nil;
         }
 
         if (![EAGLContext setCurrentContext:_context])
         {
-            NSLog(@"Failed to set current OpenGL context");
+            ouzel::log("Failed to set current OpenGL context");
             return Nil;
         }
 
@@ -51,9 +51,22 @@ using namespace ouzel;
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
-            log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+            ouzel::log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
             return Nil;
         }
+
+        if (![EAGLContext setCurrentContext:_context])
+        {
+            ouzel::log("Failed to set current OpenGL context");
+        }
+
+        // display link
+        _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
+        [_displayLink setFrameInterval:1.0f];
+        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
+        std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(sharedEngine->getRenderer());
+        renderer->setFrameBuffer(_frameBuffer);
     }
 
     return self;
@@ -83,27 +96,11 @@ using namespace ouzel;
     return [CAEAGLLayer class];
 }
 
--(void)prepareOpenGL
-{
-    if (![EAGLContext setCurrentContext:_context])
-    {
-        NSLog(@"Failed to set current OpenGL context");
-    }
-
-    // display link
-    _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
-    [_displayLink setFrameInterval: 1.0f];
-    [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-
-    std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(sharedEngine->getRenderer());
-    renderer->initOpenGL(_frameBuffer);
-}
-
 -(void)idle:(id)sender
 {
     if (![EAGLContext setCurrentContext:_context])
     {
-        NSLog(@"Failed to set current OpenGL context");
+        ouzel::log("Failed to set current OpenGL context");
     }
 
     sharedEngine->run();

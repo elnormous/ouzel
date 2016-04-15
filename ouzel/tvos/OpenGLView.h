@@ -16,7 +16,6 @@
 }
 
 -(id)initWithFrame:(CGRect)frameRect;
--(void)prepareOpenGL;
 
 @property (readonly) GLint backingWidth;
 @property (readonly) GLint backingHeight;

@@ -20,6 +20,7 @@
 {
     OUZEL_UNUSED(notification);
     ouzelMain(ouzel::getArgs());
+    ouzel::sharedEngine->begin();
 }
 
 -(void)applicationWillTerminate:(NSNotification*)notification

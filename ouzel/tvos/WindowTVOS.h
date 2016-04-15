@@ -6,13 +6,15 @@
 #include "Window.h"
 
 #ifdef __OBJC__
-#import "UIKit/UIKit.h"
+#import <UIKit/UIKit.h>
 typedef UIWindow* UIWindowPtr;
 typedef UIView* UIViewPtr;
+typedef UIViewController* UIViewControllerPtr;
 #else
 #include <objc/objc.h>
 typedef id UIWindowPtr;
 typedef id UIViewPtr;
+typedef id UIViewControllerPtr;
 #endif
 
 namespace ouzel
@@ -30,7 +32,8 @@ namespace ouzel
         WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver);
         virtual bool init() override;
 
-        UIWindowPtr _window;
-        UIViewPtr _view;
+        UIWindowPtr _window = Nil;
+        UIViewPtr _view = Nil;
+        UIViewControllerPtr _viewController = Nil;
     };
 }

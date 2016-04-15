@@ -191,7 +191,7 @@ namespace ouzel
             std::vector<uint16_t> indices;
             std::vector<video::VertexPC> vertices;
 
-            for(uint32_t i = 0; i < 3; ++i)
+            for(uint16_t i = 0; i < 3; ++i)
             {
                 indices.push_back(i);
 

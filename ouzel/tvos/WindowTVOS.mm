@@ -1,10 +1,17 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#import <UIKit/UIKit.h>
 #include "WindowTVOS.h"
 #import "OpenGLView.h"
-#import "ViewController.h"
+#import "MetalView.h"
+
+@interface ViewController: UIViewController
+
+@end
+
+@implementation ViewController
+
+@end
 
 namespace ouzel
 {
@@ -16,32 +23,46 @@ namespace ouzel
 
     WindowTVOS::~WindowTVOS()
     {
-        [_view release];
-        [_window release];
+        if (_viewController) [_viewController release];
+        if (_view) [_view release];
+        if (_window) [_window release];
     }
 
     bool WindowTVOS::init()
     {
         _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-        UIViewController* viewController = [[[ViewController alloc] init] autorelease];
-        _window.rootViewController = viewController;
+        _viewController = [[[ViewController alloc] init] autorelease];
+        _window.rootViewController = _viewController;
 
-        OpenGLView* openGLView = [[OpenGLView alloc] initWithFrame:[_window bounds]];
-        _view = openGLView;
-        viewController.view = _view;
+        CGRect windowFrame = [_window bounds];
+
+        switch (_driver)
+        {
+            case video::Renderer::Driver::OPENGL:
+            {
+                OpenGLView* openGLView = [[OpenGLView alloc] initWithFrame:windowFrame];
+                _view = openGLView;
+                _size.width = openGLView.backingWidth;
+                _size.height = openGLView.backingHeight;
+                [openGLView prepareOpenGL];
+                break;
+            }
+            case video::Renderer::Driver::METAL:
+                _view = [[MetalView alloc] initWithFrame:windowFrame];
+                break;
+            default:
+                return false;
+        }
+
+        _viewController.view = _view;
 
         [_window makeKeyAndVisible];
-
-        _size.width = openGLView.backingWidth;
-        _size.height = openGLView.backingHeight;
 
         if (!Window::init())
         {
             return false;
         }
-
-        [openGLView prepareOpenGL];
 
         return true;
     }

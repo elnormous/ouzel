@@ -40,11 +40,11 @@ namespace ouzel
         RendererOGL::RendererOGL():
             Renderer(Driver::OPENGL)
         {
-    #if defined(OUZEL_PLATFORM_ANDROID)
+#if defined(OUZEL_PLATFORM_ANDROID)
             glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
             glBindVertexArrayOESEXT = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
             glDeleteVertexArraysOESEXT = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
-    #endif
+#endif
         }
 
         RendererOGL::~RendererOGL()
@@ -52,11 +52,9 @@ namespace ouzel
 
         }
 
-        bool RendererOGL::initOpenGL(GLuint frameBuffer)
+        bool RendererOGL::init(const Size2& size, bool fullscreen)
         {
-            Size2 size = sharedEngine->getWindow()->getSize();
-
-            _frameBuffer = frameBuffer;
+            OUZEL_UNUSED(fullscreen);
 
             //glEnable(GL_DEPTH_TEST);
             glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
@@ -106,16 +104,19 @@ namespace ouzel
             {
                 return false;
             }
-
+            
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
-
+            
             _ready = true;
-
+            
             setSize(size);
 
-            sharedEngine->begin();
-
             return true;
+        }
+
+        void RendererOGL::setFrameBuffer(GLuint frameBuffer)
+        {
+            _frameBuffer = frameBuffer;
         }
 
         bool RendererOGL::checkOpenGLErrors()

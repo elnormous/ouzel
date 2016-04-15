@@ -195,8 +195,6 @@ namespace ouzel
 
             setSize(size);
 
-            ouzel::sharedEngine->begin();
-
             return true;
         }
 
