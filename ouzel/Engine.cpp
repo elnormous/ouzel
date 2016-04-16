@@ -63,8 +63,17 @@ namespace ouzel
 
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
         availableDrivers.insert(video::Renderer::Driver::OPENGL);
-#elif defined(OUZEL_SUPPORTS_DIRECT3D11)
+#endif
+
+#if defined(OUZEL_SUPPORTS_DIRECT3D11)
         availableDrivers.insert(video::Renderer::Driver::DIRECT3D11);
+#endif
+
+#if defined(OUZEL_SUPPORTS_METAL)
+        if (video::RendererMetal::available())
+        {
+            availableDrivers.insert(video::Renderer::Driver::METAL);
+        }
 #endif
 
         return availableDrivers;
@@ -76,10 +85,23 @@ namespace ouzel
 
         if (settings.driver == video::Renderer::Driver::DEFAULT)
         {
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
-            settings.driver = video::Renderer::Driver::OPENGL;
+            settings.driver == video::Renderer::Driver::NONE;
+
+#if defined(OUZEL_SUPPORTS_METAL)
+            if (video::RendererMetal::available())
+            {
+                settings.driver = video::Renderer::Driver::METAL;
+            }
+    #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
+            else
+            {
+                settings.driver = video::Renderer::Driver::OPENGL;
+            }
+    #endif
 #elif defined(OUZEL_SUPPORTS_DIRECT3D11)
             settings.driver = video::Renderer::Driver::DIRECT3D11;
+#elif defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
+            settings.driver = video::Renderer::Driver::OPENGL;
 #endif
         }
 
@@ -115,20 +137,24 @@ namespace ouzel
         switch (settings.driver)
         {
             case video::Renderer::Driver::NONE:
+                log("Using NULL render driver");
                 _renderer.reset(new video::Renderer());
                 break;
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             case video::Renderer::Driver::OPENGL:
+                log("Using OpenGL render driver");
                 _renderer.reset(new video::RendererOGL());
                 break;
 #endif
 #if defined(OUZEL_SUPPORTS_DIRECT3D11)
             case video::Renderer::Driver::DIRECT3D11:
+                log("Using Direct3D 11 render driver");
                 _renderer.reset(new video::RendererD3D11());
                 break;
 #endif
 #if defined(OUZEL_SUPPORTS_METAL)
             case video::Renderer::Driver::METAL:
+                log("Using Metal render driver");
                 _renderer.reset(new video::RendererMetal());
                 break;
 #endif

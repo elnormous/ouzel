@@ -40,6 +40,8 @@ namespace ouzel
         {
             friend Engine;
         public:
+            static bool available();
+
             virtual ~RendererMetal();
 
             virtual bool init(const Size2& size, bool fullscreen) override;

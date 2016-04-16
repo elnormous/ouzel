@@ -34,6 +34,19 @@ namespace ouzel
 {
     namespace video
     {
+        bool RendererMetal::available()
+        {
+            id<MTLDevice> device = MTLCreateSystemDefaultDevice();
+
+            if (device)
+            {
+                [device release];
+                return true;
+            }
+
+            return false;
+        }
+
         RendererMetal::RendererMetal():
             Renderer(Driver::METAL)
         {
