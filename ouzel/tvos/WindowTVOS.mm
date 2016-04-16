@@ -38,16 +38,13 @@ namespace ouzel
 
         CGRect windowFrame = [_window bounds];
 
+        _size = Size2(windowFrame.size.width, windowFrame.size.height);
+
         switch (_driver)
         {
             case video::Renderer::Driver::OPENGL:
-            {
-                OpenGLView* openGLView = [[OpenGLView alloc] initWithFrame:windowFrame];
-                _view = openGLView;
-                _size.width = openGLView.backingWidth;
-                _size.height = openGLView.backingHeight;
+                _view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 break;
-            }
             case video::Renderer::Driver::METAL:
                 _view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
