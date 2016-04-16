@@ -9,15 +9,23 @@
 #include "BlendStateMetal.h"
 #ifdef OUZEL_PLATFORM_OSX
     #include "WindowOSX.h"
+    #include "ColorPSOSX.h"
+    #include "ColorVSOSX.h"
+    #include "TexturePSOSX.h"
+    #include "TextureVSOSX.h"
 #elif OUZEL_PLATFORM_TVOS
     #include "WindowTVOS.h"
+    #include "ColorPSTVOS.h"
+    #include "ColorVSTVOS.h"
+    #include "TexturePSTVOS.h"
+    #include "TextureVSTVOS.h"
 #elif OUZEL_PLATFORM_IOS
     #include "WindowIOS.h"
+    #include "ColorPSIOS.h"
+    #include "ColorVSIOS.h"
+    #include "TexturePSIOS.h"
+    #include "TextureVSIOS.h"
 #endif
-#include "ColorPS.h"
-#include "ColorVS.h"
-#include "TexturePS.h"
-#include "TextureVS.h"
 #include "Engine.h"
 #include "Cache.h"
 #include "Utils.h"
