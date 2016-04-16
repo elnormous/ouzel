@@ -5,8 +5,5 @@
 #import <MetalKit/MTKView.h>
 
 @interface MetalView: MTKView
-{
-    BOOL _running;
-}
 
 @end

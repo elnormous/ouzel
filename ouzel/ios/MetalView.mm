@@ -40,7 +40,6 @@ using namespace ouzel;
     {
         _viewDelegate = [[ViewDelegate alloc] init];
         self.delegate = _viewDelegate;
-        _running = YES;
     }
 
     return self;
@@ -60,23 +59,54 @@ using namespace ouzel;
         _viewDelegate = Nil;
         self.delegate = Nil;
     }
-
-    _running = NO;
 }
 
--(void)changeDisplay
+-(void)touchesBegan:(NSSet*)touches withEvent:(::UIEvent*)event
 {
+    OUZEL_UNUSED(event);
+    for (UITouch* touch in touches)
+    {
+        CGPoint location = [touch locationInView:self];
 
+        sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
+                                             sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+    }
 }
 
--(BOOL)isFlipped
+-(void)touchesMoved:(NSSet*)touches withEvent:(::UIEvent*)event
 {
-    return YES;
+    OUZEL_UNUSED(event);
+    for (UITouch* touch in touches)
+    {
+        CGPoint location = [touch locationInView:self];
+
+        sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
+                                            sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+    }
 }
 
--(BOOL)acceptsFirstResponder
+-(void)touchesEnded:(NSSet*)touches withEvent:(::UIEvent*)event
 {
-    return YES;
+    OUZEL_UNUSED(event);
+    for (UITouch* touch in touches)
+    {
+        CGPoint location = [touch locationInView:self];
+
+        sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
+                                           sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+    }
+}
+
+-(void)touchesCancelled:(NSSet*)touches withEvent:(::UIEvent*)event
+{
+    OUZEL_UNUSED(event);
+    for (UITouch* touch in touches)
+    {
+        CGPoint location = [touch locationInView:self];
+
+        sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
+                                              sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+    }
 }
 
 @end

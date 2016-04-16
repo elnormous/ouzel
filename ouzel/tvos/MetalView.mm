@@ -40,7 +40,6 @@ using namespace ouzel;
     {
         _viewDelegate = [[ViewDelegate alloc] init];
         self.delegate = _viewDelegate;
-        _running = YES;
     }
 
     return self;
@@ -60,23 +59,6 @@ using namespace ouzel;
         _viewDelegate = Nil;
         self.delegate = Nil;
     }
-
-    _running = NO;
-}
-
--(void)changeDisplay
-{
-
-}
-
--(BOOL)isFlipped
-{
-    return YES;
-}
-
--(BOOL)acceptsFirstResponder
-{
-    return YES;
 }
 
 @end
