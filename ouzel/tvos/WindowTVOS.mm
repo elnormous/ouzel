@@ -4,6 +4,7 @@
 #include "WindowTVOS.h"
 #import "OpenGLView.h"
 #import "MetalView.h"
+#include "Utils.h"
 
 @interface ViewController: UIViewController
 
