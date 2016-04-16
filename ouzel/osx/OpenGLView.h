@@ -7,7 +7,6 @@
 @interface OpenGLView: NSView
 {
 @private
-    NSOpenGLPixelFormat* _pixelFormat;
     NSOpenGLContext* _openGLContext;
     CVDisplayLinkRef _displayLink;
     CGDirectDisplayID _displayId;

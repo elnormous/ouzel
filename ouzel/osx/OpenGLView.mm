@@ -45,10 +45,10 @@ using namespace ouzel;
             0
         };
 
-        _pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
+        NSOpenGLPixelFormat* pixelFormat = [[[NSOpenGLPixelFormat alloc] initWithAttributes:attributes] autorelease];
 
         // Create OpenGL context
-        _openGLContext = [[NSOpenGLContext alloc] initWithFormat:_pixelFormat shareContext:NULL];
+        _openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
         [_openGLContext setView:self];
         [_openGLContext makeCurrentContext];
 
@@ -62,7 +62,7 @@ using namespace ouzel;
         CVDisplayLinkCreateWithCGDisplay(_displayId, &_displayLink);
         CVDisplayLinkSetOutputCallback(_displayLink, renderCallback, (__bridge void *)self);
 
-        CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_displayLink, [_openGLContext CGLContextObj], [_pixelFormat CGLPixelFormatObj]);
+        CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_displayLink, [_openGLContext CGLContextObj], [pixelFormat CGLPixelFormatObj]);
 
         CVDisplayLinkStart(_displayLink);
     }
@@ -112,12 +112,6 @@ using namespace ouzel;
     {
         [_openGLContext release];
         _openGLContext = Nil;
-    }
-
-    if (_pixelFormat)
-    {
-        [_pixelFormat release];
-        _pixelFormat = Nil;
     }
 }
 
