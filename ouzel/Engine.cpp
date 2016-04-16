@@ -85,7 +85,7 @@ namespace ouzel
 
         if (settings.driver == video::Renderer::Driver::DEFAULT)
         {
-            settings.driver == video::Renderer::Driver::NONE;
+            settings.driver = video::Renderer::Driver::NONE;
 
 #if defined(OUZEL_SUPPORTS_METAL)
             if (video::RendererMetal::available())
