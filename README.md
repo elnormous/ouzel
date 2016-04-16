@@ -1,6 +1,6 @@
 <img src="https://github.com/elvman/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.12
+# Ouzel v0.13
 Ouzel is a game engine mainly targeted for development of 2D games, but also 3D games can be created with it.
 
 ## Supported platforms
@@ -42,7 +42,7 @@ The following code will open a 640px x 480px window:
 ## Features
 
 * Direct3D 11, Metal and OpenGL renderer support
-* Cross-platform (Windows, OS X, iOS, tvOS)
+* Cross-platform (Windows, OS X, iOS, tvOS supported, Android and Linux targets under development)
 * Scene management
 * GUI helper classes and management
 * Bitmap font support
