@@ -74,6 +74,15 @@ namespace ouzel
     {
         _targetFPS = settings.targetFPS;
 
+        if (settings.driver == video::Renderer::Driver::DEFAULT)
+        {
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
+            settings.driver = video::Renderer::Driver::OPENGL;
+#elif defined(OUZEL_SUPPORTS_DIRECT3D11)
+            settings.driver = video::Renderer::Driver::DIRECT3D11;
+#endif
+        }
+
 #if defined(OUZEL_PLATFORM_OSX)
         _window.reset(new WindowOSX(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
 #elif defined(OUZEL_PLATFORM_IOS)

@@ -9,12 +9,7 @@ namespace ouzel
 {
     struct Settings
     {
-        video::Renderer::Driver driver =
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
-        video::Renderer::Driver::OPENGL;
-#elif defined(OUZEL_SUPPORTS_DIRECT3D11)
-        video::Renderer::Driver::DIRECT3D11;
-#endif
+        video::Renderer::Driver driver = video::Renderer::Driver::DEFAULT;
 
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
