@@ -10,7 +10,7 @@
 
 using namespace ouzel;
 
-static input::KeyboardKey winKeyToEngineCode(WPARAM wParam, LPARAM lParam)
+static input::KeyboardKey winKeyToEngineCode(WPARAM wParam)
 {
     switch (wParam)
     {
@@ -191,23 +191,27 @@ static uint32_t getMouseModifiers(WPARAM wParam)
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    OUZEL_UNUSED(lParam);
+
     if (msg == WM_KEYDOWN)
     {
-        sharedEngine->getInput()->keyDown(winKeyToEngineCode(wParam, lParam), getKeyboardModifiers(wParam));
+        sharedEngine->getInput()->keyDown(winKeyToEngineCode(wParam), getKeyboardModifiers(wParam));
     }
     else if (msg == WM_KEYUP)
     {
-        sharedEngine->getInput()->keyUp(winKeyToEngineCode(wParam, lParam), getKeyboardModifiers(wParam));
+        sharedEngine->getInput()->keyUp(winKeyToEngineCode(wParam), getKeyboardModifiers(wParam));
     }
 }
 
 static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    OUZEL_UNUSED(msg);
+
     Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
                 static_cast<float>(GET_Y_LPARAM(lParam)));
 
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos),
-                                                 getMouseModifiers(wParam));
+                                        getMouseModifiers(wParam));
 }
 
 static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -482,8 +486,8 @@ namespace ouzel
 
     void WindowWin::setSize(const Size2& size)
     {
-        UINT width = size.width;
-        UINT height = size.height;
+        UINT width = static_cast<UINT>(size.width);
+        UINT height = static_cast<UINT>(size.height);
 
         UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
@@ -510,7 +514,7 @@ namespace ouzel
 
     void WindowWin::handleResize(INT width, INT height)
     {
-        setSize(Size2(width, height));
+        setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
     }
 
     HMONITOR WindowWin::getMonitor() const

@@ -12,6 +12,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
     LPSTR lpCmdLine,
     int nCmdShow)
 {
+    OUZEL_UNUSED(hInstance);
+    OUZEL_UNUSED(hPrevInstance);
+    OUZEL_UNUSED(lpCmdLine);
+    OUZEL_UNUSED(nCmdShow);
+
     LPWSTR* argList;
     int nArgs;
     int i;
@@ -39,7 +44,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     MSG msg;
 
-    while (true)
+    for (;;)
     {
         while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {

@@ -380,7 +380,8 @@ namespace ouzel
 
                 for (const DXGI_MODE_DESC& displayMode : displayModes)
                 {
-                    result.push_back(Size2(displayMode.Width, displayMode.Height));
+                    result.push_back(Size2(static_cast<float>(displayMode.Width),
+                                           static_cast<float>(displayMode.Height)));
                 }
             }
 
@@ -439,7 +440,7 @@ namespace ouzel
             BOOL isFullscreen;
             _swapChain->GetFullscreenState(&isFullscreen, nullptr);
 
-            if (static_cast<bool>(isFullscreen) != _fullscreen)
+            if (isFullscreen != static_cast<BOOL>(_fullscreen))
             {
                 if (_fullscreen)
                 {
@@ -484,7 +485,8 @@ namespace ouzel
                         return;
                     }
 
-                    setSize(Size2(closestDisplayMode.Width, closestDisplayMode.Height));
+                    setSize(Size2(static_cast<float>(closestDisplayMode.Width),
+                                  static_cast<float>(closestDisplayMode.Height)));
                     _swapChain->SetFullscreenState(TRUE, output);
 
                     output->Release();

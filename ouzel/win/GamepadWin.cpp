@@ -105,7 +105,7 @@ namespace ouzel
         {
             if ((state.Gamepad.wButtons & mask) != (_state.Gamepad.wButtons & mask))
             {
-                bool pressed = (state.Gamepad.wButtons & mask);
+                bool pressed = ((state.Gamepad.wButtons & mask) == mask);
                 handleButtonValueChange(button, pressed, pressed ? 1.0f : 0.0f);
             }
         }
@@ -115,14 +115,14 @@ namespace ouzel
             switch (motor)
             {
             case Motor::ALL:
-                _vibration.wLeftMotorSpeed = speed;
-                _vibration.wRightMotorSpeed = speed;
+                _vibration.wLeftMotorSpeed = static_cast<WORD>(speed);
+                _vibration.wRightMotorSpeed = static_cast<WORD>(speed);
                 break;
             case Motor::LEFT:
-                _vibration.wLeftMotorSpeed = speed;
+                _vibration.wLeftMotorSpeed = static_cast<WORD>(speed);
                 break;
             case Motor::RIGHT:
-                _vibration.wRightMotorSpeed = speed;
+                _vibration.wRightMotorSpeed = static_cast<WORD>(speed);
                 break;
             }
 

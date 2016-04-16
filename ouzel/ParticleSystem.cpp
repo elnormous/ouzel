@@ -91,7 +91,7 @@ namespace ouzel
                         _emitCounter = 0.f;
                 }
 
-                uint32_t emitCount = static_cast<uint32_t>(fminf(_particleDefinition.maxParticles - _particleCount, _emitCounter / rate));
+                uint32_t emitCount = static_cast<uint32_t>(fminf(static_cast<float>(_particleDefinition.maxParticles - _particleCount), _emitCounter / rate));
                 emitParticles(emitCount);
                 _emitCounter -= rate * emitCount;
 
