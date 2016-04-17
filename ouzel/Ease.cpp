@@ -238,8 +238,6 @@ namespace ouzel
                 t -= 2.625f / 2.75f;
                 return 7.5625f * t * t + 0.984375f;
             }
-
-            return t;
         }
 
         static float bounceIn(float t)

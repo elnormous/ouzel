@@ -239,6 +239,8 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
             button = input::MouseButton::X1;
         else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
             button = input::MouseButton::X2;
+        else
+            return;
     }
     else
     {

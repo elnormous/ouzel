@@ -99,6 +99,8 @@ void Application::begin()
 
 bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const
 {
+    OUZEL_UNUSED(sender);
+
     if (event->type == Event::Type::KEY_DOWN)
     {
         Vector2 position = _layer->getCamera()->getPosition();
@@ -138,6 +140,8 @@ bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& s
 
 bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender) const
 {
+    OUZEL_UNUSED(sender);
+
     switch (event->type)
     {
         case Event::Type::MOUSE_DOWN:
@@ -160,6 +164,8 @@ bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender)
 
 bool Application::handleTouch(const TouchEventPtr& event, const VoidPtr& sender) const
 {
+    OUZEL_UNUSED(sender);
+
     Vector2 worldLocation = _layer->getCamera()->convertScreenToWorld(event->position);
     _flame->setPosition(worldLocation);
 
@@ -168,6 +174,8 @@ bool Application::handleTouch(const TouchEventPtr& event, const VoidPtr& sender)
 
 bool Application::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender) const
 {
+    OUZEL_UNUSED(sender);
+
     if (event->type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         Vector2 position = _layer->getCamera()->convertWorldToScreen(_flame->getPosition());
