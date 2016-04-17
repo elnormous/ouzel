@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <iterator>
+#include <algorithm>
 #include "Language.h"
 #include "Engine.h"
 
