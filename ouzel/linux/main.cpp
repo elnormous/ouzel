@@ -291,7 +291,7 @@ int main(int argc, char **argv)
 
     XEvent event;
 
-    while (true)
+    for (;;)
     {
         do
         {
