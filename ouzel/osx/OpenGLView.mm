@@ -130,7 +130,16 @@ using namespace ouzel;
 {
     [super setFrameSize:newSize];
 
-    _resized = YES;
+    if (!_running) return;
+
+    CGLLockContext([_openGLContext CGLContextObj]);
+    [_openGLContext makeCurrentContext];
+
+    [_openGLContext update];
+
+    sharedEngine->getWindow()->setSize(Size2(newSize.width, newSize.height));
+
+    CGLUnlockContext([_openGLContext CGLContextObj]);
 }
 
 -(void)lockFocus
@@ -150,8 +159,6 @@ using namespace ouzel;
 
     CGLLockContext([_openGLContext CGLContextObj]);
     [_openGLContext makeCurrentContext];
-
-    _resized = NO;
 
     bool quit = !sharedEngine->run();
 
