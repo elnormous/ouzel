@@ -14,13 +14,13 @@
 -(void)applicationWillFinishLaunching:(NSNotification*)notification
 {
     OUZEL_UNUSED(notification);
+    ouzelMain(ouzel::getArgs());
+    ouzel::sharedEngine->begin();
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     OUZEL_UNUSED(notification);
-    ouzelMain(ouzel::getArgs());
-    ouzel::sharedEngine->begin();
 }
 
 -(void)applicationWillTerminate:(NSNotification*)notification

@@ -8,12 +8,19 @@
 
 @implementation AppDelegate
 
--(BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+-(BOOL)application:(UIApplication*)application willFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
     OUZEL_UNUSED(application);
     OUZEL_UNUSED(launchOptions);
     ouzelMain(ouzel::getArgs());
     ouzel::sharedEngine->begin();
+    return YES;
+}
+
+-(BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+{
+    OUZEL_UNUSED(application);
+    OUZEL_UNUSED(launchOptions);
     return YES;
 }
 
