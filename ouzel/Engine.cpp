@@ -30,7 +30,7 @@
 #endif
 
 #if defined(OUZEL_SUPPORTS_METAL)
-#include "RendererMetal.h"
+#include "metal/RendererMetal.h"
 #endif
 
 #include "Utils.h"
