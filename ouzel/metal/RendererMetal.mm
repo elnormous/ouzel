@@ -448,6 +448,7 @@ namespace ouzel
                 case DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
                 case DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
                 case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
+                default: return false;
             }
 
             [_currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
