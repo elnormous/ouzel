@@ -13,6 +13,7 @@
 #include "MeshBuffer.h"
 #include "EventDispatcher.h"
 #include "RenderTarget.h"
+#include "BlendState.h"
 
 namespace ouzel
 {

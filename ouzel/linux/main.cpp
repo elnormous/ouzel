@@ -8,8 +8,6 @@
 #include "Window.h"
 #include "Utils.h"
 
-void ouzelMain(const std::vector<std::string>& args);
-
 using namespace ouzel;
 
 static uint32_t getModifiers(unsigned int state)
