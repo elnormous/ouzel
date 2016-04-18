@@ -28,7 +28,10 @@ namespace ouzel
 
             uint32_t getIntValue() const
             {
-                return static_cast<uint32_t>((r << 24) | (g << 16) | (b << 8) | a);
+                return ((static_cast<uint32_t>(r) << 24) |
+                        (static_cast<uint32_t>(g) << 16) |
+                        (static_cast<uint32_t>(b) << 8) |
+                        static_cast<uint32_t>(a));
             }
         };
     } // namespace video
