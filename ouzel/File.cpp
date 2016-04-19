@@ -4,6 +4,7 @@
 #include "File.h"
 #include "Engine.h"
 #include "FileSystem.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -29,7 +30,15 @@ namespace ouzel
             modeStr += "b";
         }
 
-        _file.reset(fopen(sharedEngine->getFileSystem()->getPath(filename).c_str(), modeStr.c_str()), std::fclose);
+        if (FILE* file = fopen(sharedEngine->getFileSystem()->getPath(filename).c_str(), modeStr.c_str()))
+        {
+            _file.reset(file, std::fclose);
+        }
+        else
+        {
+            _file.reset();
+            log("Failed to open file %s", filename.c_str());
+        }
     }
 
     int64_t File::read(char* buffer, uint32_t size)
