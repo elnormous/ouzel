@@ -26,5 +26,9 @@
     #define OUZEL_SUPPORTS_OPENGLES 1
 #elif defined(__linux__)
     #define OUZEL_PLATFORM_LINUX 1
-    #define OUZEL_SUPPORTS_OPENGL 1
+    #if defined(__i386__) || defined(__x86_64__)
+        #define OUZEL_SUPPORTS_OPENGL 1
+    #else defined(__arm__) || defined(__aarch64__)
+        #define OUZEL_SUPPORTS_OPENGLES 1
+    #endif
 #endif
