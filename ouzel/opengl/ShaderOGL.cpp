@@ -28,7 +28,7 @@ namespace ouzel
                 glDeleteProgram(_programId);
                 _programId = 0;
             }
-            
+
             if (_vertexShaderId)
             {
                 glDeleteShader(_vertexShaderId);
@@ -192,7 +192,7 @@ namespace ouzel
                 char* logMessage = new char[logLength];
                 glGetShaderInfoLog(shaderId, logLength, nullptr, logMessage);
 
-                log("%s", logMessage);
+                log("Shader compilation error: %s", logMessage);
 
                 delete [] logMessage;
             }
@@ -208,7 +208,7 @@ namespace ouzel
                 char* logMessage = new char[logLength];
                 glGetProgramInfoLog(programId, logLength, nullptr, logMessage);
 
-                log("%s", logMessage);
+                log("Shader linking error: %s", logMessage);
 
                 delete [] logMessage;
             }
