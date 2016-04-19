@@ -33,7 +33,7 @@ namespace ouzel
 
         if (!stream)
         {
-            log("Failed to open font file");
+            log("Failed to open font file %s", filename.c_str());
             return false;
         }
 

@@ -2,13 +2,13 @@
 // This file is part of the Ouzel engine.
 
 #include <fstream>
-#include <iostream>
 #include <vector>
 #include <map>
 #include <iterator>
 #include <algorithm>
 #include "Language.h"
 #include "Engine.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -40,7 +40,7 @@ namespace ouzel
 
         if (!file)
         {
-            std::cerr << "Failed to open file" << std::endl;
+            log("Failed to open file %s", filename.c_str());
             return false;
         }
 
@@ -49,7 +49,7 @@ namespace ouzel
 
         if (magic != 0x950412DE)
         {
-            std::cerr << "Wrong magic" << std::endl;
+            log("Wrong magic %x", magic);
             return false;
         }
 
