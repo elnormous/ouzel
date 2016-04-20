@@ -5,7 +5,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         Color::Color():
             r(0), g(0), b(0), a(0)
@@ -47,5 +47,5 @@ namespace ouzel
         {
             return a / 255.0f;
         }
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

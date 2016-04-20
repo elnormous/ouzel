@@ -31,7 +31,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class BlendStateOGL: public BlendState
         {
@@ -41,5 +41,5 @@ namespace ouzel
             static GLenum getBlendFactor(BlendFactor blendFactor);
             static GLenum getBlendOperation(BlendOperation blendOperation);
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

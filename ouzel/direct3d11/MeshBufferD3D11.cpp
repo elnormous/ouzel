@@ -8,7 +8,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         MeshBufferD3D11::MeshBufferD3D11()
         {
@@ -194,5 +194,5 @@ namespace ouzel
 
             return true;
         }
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

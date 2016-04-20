@@ -6,7 +6,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         MeshBuffer::MeshBuffer()
         {
@@ -113,5 +113,5 @@ namespace ouzel
                 _vertexSize += 2 * sizeof(float);
             }
         }
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

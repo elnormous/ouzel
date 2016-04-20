@@ -31,7 +31,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererOGL;
 
@@ -53,5 +53,5 @@ namespace ouzel
             GLuint _frameBufferId = 0;
             GLuint _depthBufferId = 0;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

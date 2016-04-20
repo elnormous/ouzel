@@ -34,7 +34,7 @@ namespace ouzel
     class Language;
     typedef std::shared_ptr<Language> LanguagePtr;
 
-    namespace video
+    namespace graphics
     {
         class Renderer;
         typedef std::shared_ptr<Renderer> RendererPtr;

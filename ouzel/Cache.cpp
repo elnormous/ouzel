@@ -27,11 +27,11 @@ namespace ouzel
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
-        std::unordered_map<std::string, video::TexturePtr>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = _textures.find(filename);
 
         if (i == _textures.end())
         {
-            video::TexturePtr texture = sharedEngine->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
+            graphics::TexturePtr texture = sharedEngine->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
 
             if (texture)
             {
@@ -40,11 +40,11 @@ namespace ouzel
         }
     }
 
-    video::TexturePtr Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
+    graphics::TexturePtr Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
     {
-        video::TexturePtr result;
+        graphics::TexturePtr result;
 
-        std::unordered_map<std::string, video::TexturePtr>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = _textures.find(filename);
 
         if (i != _textures.end())
         {
@@ -63,7 +63,7 @@ namespace ouzel
         return result;
     }
 
-    void Cache::setTexture(const std::string& filename, const video::TexturePtr& texture)
+    void Cache::setTexture(const std::string& filename, const graphics::TexturePtr& texture)
     {
         _textures[filename] = texture;
     }
@@ -73,9 +73,9 @@ namespace ouzel
         _textures.clear();
     }
 
-    video::ShaderPtr Cache::getShader(const std::string& shaderName) const
+    graphics::ShaderPtr Cache::getShader(const std::string& shaderName) const
     {
-        std::unordered_map<std::string, video::ShaderPtr>::const_iterator i = _shaders.find(shaderName);
+        std::unordered_map<std::string, graphics::ShaderPtr>::const_iterator i = _shaders.find(shaderName);
 
         if (i != _shaders.end())
         {
@@ -87,7 +87,7 @@ namespace ouzel
         }
     }
 
-    void Cache::setShader(const std::string& shaderName, const video::ShaderPtr& shader)
+    void Cache::setShader(const std::string& shaderName, const graphics::ShaderPtr& shader)
     {
         _shaders[shaderName] = shader;
     }
@@ -240,9 +240,9 @@ namespace ouzel
         return result;
     }
 
-    video::BlendStatePtr Cache::getBlendState(const std::string& blendStateName) const
+    graphics::BlendStatePtr Cache::getBlendState(const std::string& blendStateName) const
     {
-        std::unordered_map<std::string, video::BlendStatePtr>::const_iterator i = _blendStates.find(blendStateName);
+        std::unordered_map<std::string, graphics::BlendStatePtr>::const_iterator i = _blendStates.find(blendStateName);
 
         if (i != _blendStates.end())
         {
@@ -254,7 +254,7 @@ namespace ouzel
         }
     }
 
-    void Cache::setBlendState(const std::string& blendStateName, const video::BlendStatePtr& blendState)
+    void Cache::setBlendState(const std::string& blendStateName, const graphics::BlendStatePtr& blendState)
     {
         _blendStates[blendStateName] = blendState;
     }

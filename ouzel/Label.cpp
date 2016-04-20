@@ -28,7 +28,7 @@ namespace ouzel
 
         Label::Label()
         {
-            _shader = sharedEngine->getCache()->getShader(video::SHADER_TEXTURE);
+            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
         }
 
         Label::~Label()
@@ -86,7 +86,7 @@ namespace ouzel
             }
         }
 
-        void Label::setColor(const video::Color& color)
+        void Label::setColor(const graphics::Color& color)
         {
             _color = color;
 
@@ -96,16 +96,16 @@ namespace ouzel
         void Label::updateMesh()
         {
             std::vector<uint16_t> indices;
-            std::vector<video::VertexPCT> vertices;
+            std::vector<graphics::VertexPCT> vertices;
 
             _font.getVertices(_text, _color, _textAnchor, indices, vertices);
 
             _meshBuffer = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
-                                                                                vertices.data(), video::VertexPCT::ATTRIBUTES, static_cast<uint32_t>(vertices.size()), false);
+                                                                                vertices.data(), graphics::VertexPCT::ATTRIBUTES, static_cast<uint32_t>(vertices.size()), false);
 
             _boundingBox.reset();
 
-            for (const video::VertexPCT& vertex : vertices)
+            for (const graphics::VertexPCT& vertex : vertices)
             {
                 _boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
             }

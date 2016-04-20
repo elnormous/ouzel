@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         enum VertexAttributes
         {
@@ -44,5 +44,5 @@ namespace ouzel
             VertexPCT();
             VertexPCT(Vector3 pPosition, Color pColor, Vector2 pTexCoord);
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

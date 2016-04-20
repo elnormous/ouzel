@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererD3D11;
 
@@ -30,5 +30,5 @@ namespace ouzel
 
             ID3D11RenderTargetView* _renderTargetView = nullptr;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

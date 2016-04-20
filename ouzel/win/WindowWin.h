@@ -25,7 +25,7 @@ namespace ouzel
         HMONITOR getMonitor() const;
 
     protected:
-        WindowWin(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver);
+        WindowWin(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver);
         virtual bool init() override;
 
         ATOM _windowClass = 0;

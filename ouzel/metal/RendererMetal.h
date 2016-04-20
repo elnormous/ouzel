@@ -31,7 +31,7 @@ typedef id MTLRenderCommandEncoderPtr;
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class BlendStateMetal;
         class ShaderMetal;
@@ -96,5 +96,5 @@ namespace ouzel
 
             std::map<std::pair<std::shared_ptr<BlendStateMetal>, std::shared_ptr<ShaderMetal>>, MTLRenderPipelineStatePtr> _pipelineStates;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

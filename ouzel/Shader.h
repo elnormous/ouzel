@@ -13,7 +13,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class Renderer;
 
@@ -68,5 +68,5 @@ namespace ouzel
             std::vector<ConstantInfo> _vertexShaderConstantInfo;
             uint32_t _vertexShaderAlignment = 0;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

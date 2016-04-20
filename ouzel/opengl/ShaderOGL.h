@@ -31,7 +31,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererOGL;
 
@@ -76,5 +76,5 @@ namespace ouzel
             std::vector<GLint> _pixelShaderConstantLocations;
             std::vector<GLint> _vertexShaderConstantLocations;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

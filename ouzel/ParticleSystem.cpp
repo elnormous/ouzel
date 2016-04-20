@@ -33,7 +33,7 @@ namespace ouzel
 
         ParticleSystem::ParticleSystem()
         {
-            _shader = sharedEngine->getCache()->getShader(video::SHADER_TEXTURE);
+            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
 
             _updateCallback = std::make_shared<UpdateCallback>();
             _updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
@@ -283,15 +283,15 @@ namespace ouzel
                 _indices.push_back(i * 4 + 3);
                 _indices.push_back(i * 4 + 2);
 
-                _vertices.push_back(video::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), video::Color(255, 255, 255, 255), Vector2(0.0f, 1.0f)));
-                _vertices.push_back(video::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), video::Color(255, 255, 255, 255), Vector2(1.0f, 1.0f)));
-                _vertices.push_back(video::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  video::Color(255, 255, 255, 255), Vector2(0.0f, 0.0f)));
-                _vertices.push_back(video::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  video::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
+                _vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), graphics::Color(255, 255, 255, 255), Vector2(0.0f, 1.0f)));
+                _vertices.push_back(graphics::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), graphics::Color(255, 255, 255, 255), Vector2(1.0f, 1.0f)));
+                _vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(0.0f, 0.0f)));
+                _vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
             }
 
             _mesh = sharedEngine->getRenderer()->createMeshBufferFromData(_indices.data(), sizeof(uint16_t),
                                                                           static_cast<uint32_t>(_indices.size()), false,
-                                                                          _vertices.data(), video::VertexPCT::ATTRIBUTES,
+                                                                          _vertices.data(), graphics::VertexPCT::ATTRIBUTES,
                                                                           static_cast<uint32_t>(_vertices.size()), true);
 
             _particles.resize(_particleDefinition.maxParticles);
@@ -327,7 +327,7 @@ namespace ouzel
                 Vector2 c(v2.x * cr - v2.y * sr, v2.x * sr + v2.y * cr);
                 Vector2 d(v1.x * cr - v2.y * sr, v1.x * sr + v2.y * cr);
 
-                video::Color color(static_cast<uint8_t>(_particles[i].colorRed * 255),
+                graphics::Color color(static_cast<uint8_t>(_particles[i].colorRed * 255),
                                    static_cast<uint8_t>(_particles[i].colorGreen * 255),
                                    static_cast<uint8_t>(_particles[i].colorBlue * 255),
                                    static_cast<uint8_t>(_particles[i].colorAlpha * 255));

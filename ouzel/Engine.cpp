@@ -57,22 +57,22 @@ namespace ouzel
 
     }
 
-    std::set<video::Renderer::Driver> Engine::getAvailableDrivers() const
+    std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers() const
     {
-        std::set<video::Renderer::Driver> availableDrivers;
+        std::set<graphics::Renderer::Driver> availableDrivers;
 
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-        availableDrivers.insert(video::Renderer::Driver::OPENGL);
+        availableDrivers.insert(graphics::Renderer::Driver::OPENGL);
 #endif
 
 #if defined(OUZEL_SUPPORTS_DIRECT3D11)
-        availableDrivers.insert(video::Renderer::Driver::DIRECT3D11);
+        availableDrivers.insert(graphics::Renderer::Driver::DIRECT3D11);
 #endif
 
 #if defined(OUZEL_SUPPORTS_METAL)
-        if (video::RendererMetal::available())
+        if (graphics::RendererMetal::available())
         {
-            availableDrivers.insert(video::Renderer::Driver::METAL);
+            availableDrivers.insert(graphics::Renderer::Driver::METAL);
         }
 #endif
 
@@ -83,25 +83,25 @@ namespace ouzel
     {
         _targetFPS = settings.targetFPS;
 
-        if (settings.driver == video::Renderer::Driver::DEFAULT)
+        if (settings.driver == graphics::Renderer::Driver::DEFAULT)
         {
-            settings.driver = video::Renderer::Driver::NONE;
+            settings.driver = graphics::Renderer::Driver::NONE;
 
 #if defined(OUZEL_SUPPORTS_METAL)
-            if (video::RendererMetal::available())
+            if (graphics::RendererMetal::available())
             {
-                settings.driver = video::Renderer::Driver::METAL;
+                settings.driver = graphics::Renderer::Driver::METAL;
             }
     #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             else
             {
-                settings.driver = video::Renderer::Driver::OPENGL;
+                settings.driver = graphics::Renderer::Driver::OPENGL;
             }
     #endif
 #elif defined(OUZEL_SUPPORTS_DIRECT3D11)
-            settings.driver = video::Renderer::Driver::DIRECT3D11;
+            settings.driver = graphics::Renderer::Driver::DIRECT3D11;
 #elif defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-            settings.driver = video::Renderer::Driver::OPENGL;
+            settings.driver = graphics::Renderer::Driver::OPENGL;
 #endif
         }
 
@@ -136,26 +136,26 @@ namespace ouzel
 
         switch (settings.driver)
         {
-            case video::Renderer::Driver::NONE:
+            case graphics::Renderer::Driver::NONE:
                 log("Using NULL render driver");
-                _renderer.reset(new video::Renderer());
+                _renderer.reset(new graphics::Renderer());
                 break;
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-            case video::Renderer::Driver::OPENGL:
+            case graphics::Renderer::Driver::OPENGL:
                 log("Using OpenGL render driver");
-                _renderer.reset(new video::RendererOGL());
+                _renderer.reset(new graphics::RendererOGL());
                 break;
 #endif
 #if defined(OUZEL_SUPPORTS_DIRECT3D11)
-            case video::Renderer::Driver::DIRECT3D11:
+            case graphics::Renderer::Driver::DIRECT3D11:
                 log("Using Direct3D 11 render driver");
-                _renderer.reset(new video::RendererD3D11());
+                _renderer.reset(new graphics::RendererD3D11());
                 break;
 #endif
 #if defined(OUZEL_SUPPORTS_METAL)
-            case video::Renderer::Driver::METAL:
+            case graphics::Renderer::Driver::METAL:
                 log("Using Metal render driver");
-                _renderer.reset(new video::RendererMetal());
+                _renderer.reset(new graphics::RendererMetal());
                 break;
 #endif
             default:

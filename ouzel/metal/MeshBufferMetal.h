@@ -17,7 +17,7 @@ typedef NSUInteger MTLIndexType;
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererMetal;
 
@@ -56,5 +56,5 @@ namespace ouzel
 
             MTLIndexType _indexFormat;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class Renderer;
 
@@ -50,5 +50,5 @@ namespace ouzel
 
             uint32_t _vertexAttributes;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

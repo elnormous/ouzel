@@ -31,7 +31,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererOGL;
         class RenderTargetOGL;
@@ -59,5 +59,5 @@ namespace ouzel
 
             GLuint _textureId = 0;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

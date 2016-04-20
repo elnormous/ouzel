@@ -52,7 +52,7 @@ using namespace ouzel;
         [_openGLContext setView:self];
         [_openGLContext makeCurrentContext];
 
-        std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(sharedEngine->getRenderer());
+        std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
 
         GLint swapInt = 1;
         [_openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];

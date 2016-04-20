@@ -5,7 +5,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         BlendState::BlendState()
         {
@@ -29,5 +29,5 @@ namespace ouzel
             return true;
         }
 
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

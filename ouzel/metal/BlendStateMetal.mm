@@ -5,7 +5,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         BlendStateMetal::BlendStateMetal()
         {
@@ -53,5 +53,5 @@ namespace ouzel
             return MTLBlendOperationAdd;
         }
 
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

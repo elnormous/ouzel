@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class Image: public Noncopyable
         {
@@ -28,5 +28,5 @@ namespace ouzel
 
             void* _data = nullptr;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

@@ -7,7 +7,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class Color
         {
@@ -34,5 +34,5 @@ namespace ouzel
                         static_cast<uint32_t>(a));
             }
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

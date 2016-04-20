@@ -17,7 +17,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         Renderer::Renderer(Driver driver):
             _driver(driver)
@@ -301,5 +301,5 @@ namespace ouzel
 
             return true;
         }
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

@@ -8,7 +8,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererD3D11;
 
@@ -36,5 +36,5 @@ namespace ouzel
 
             ID3D11BlendState* _blendState = nullptr;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

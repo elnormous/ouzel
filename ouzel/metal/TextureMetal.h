@@ -16,7 +16,7 @@ typedef id MTLTexturePtr;
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererMetal;
         class RenderTargetMetal;
@@ -45,5 +45,5 @@ namespace ouzel
             MTLTexturePtr _texture = Nil;
             NSUInteger _mipLevels = 0;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

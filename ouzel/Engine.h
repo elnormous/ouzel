@@ -28,14 +28,14 @@ namespace ouzel
         Engine();
         virtual ~Engine();
 
-        std::set<video::Renderer::Driver> getAvailableDrivers() const;
+        std::set<graphics::Renderer::Driver> getAvailableDrivers() const;
 
         bool init(Settings& settings);
 
         const EventDispatcherPtr& getEventDispatcher() const { return _eventDispatcher; }
         const CachePtr& getCache() const { return _cache; }
         const WindowPtr& getWindow() const { return _window; }
-        const video::RendererPtr& getRenderer() const { return _renderer; }
+        const graphics::RendererPtr& getRenderer() const { return _renderer; }
         const scene::SceneManagerPtr& getSceneManager() const { return _sceneManager; }
         const FileSystemPtr& getFileSystem() const { return _fileSystem; }
         const input::InputPtr& getInput() const { return _input; }
@@ -65,7 +65,7 @@ namespace ouzel
         EventDispatcherPtr _eventDispatcher;
         CachePtr _cache;
         WindowPtr _window;
-        video::RendererPtr _renderer;
+        graphics::RendererPtr _renderer;
         scene::SceneManagerPtr _sceneManager;
         FileSystemPtr _fileSystem;
         input::InputPtr _input;

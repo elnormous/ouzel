@@ -20,7 +20,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         const std::string SHADER_TEXTURE = "shaderTexture";
         const std::string SHADER_COLOR = "shaderColor";
@@ -134,5 +134,5 @@ namespace ouzel
 
             uint32_t _drawCallCount = 0;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

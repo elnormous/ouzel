@@ -31,7 +31,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererOGL;
 
@@ -68,5 +68,5 @@ namespace ouzel
 
             GLenum _indexFormat = 0;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

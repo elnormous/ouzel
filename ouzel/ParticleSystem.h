@@ -87,15 +87,15 @@ namespace ouzel
             ParticleDefinition _particleDefinition;
             ParticleDefinition::PositionType _positionType;
 
-            video::ShaderPtr _shader;
-            video::TexturePtr _texture;
+            graphics::ShaderPtr _shader;
+            graphics::TexturePtr _texture;
 
             std::vector<Particle> _particles;
 
-            video::MeshBufferPtr _mesh;
+            graphics::MeshBufferPtr _mesh;
 
             std::vector<uint16_t> _indices;
-            std::vector<video::VertexPCT> _vertices;
+            std::vector<graphics::VertexPCT> _vertices;
 
             uint32_t _particleCount = 0;
 

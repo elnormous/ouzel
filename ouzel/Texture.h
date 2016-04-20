@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class Renderer;
 
@@ -40,5 +40,5 @@ namespace ouzel
             bool _dynamic = false;
             bool _mipmaps = false;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

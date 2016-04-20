@@ -29,16 +29,16 @@ namespace ouzel
 
             virtual void setOpacity(float opacity) override;
 
-            virtual video::TexturePtr getTexture() const { return _texture; }
-            virtual void setTexture(const video::TexturePtr& texture);
+            virtual graphics::TexturePtr getTexture() const { return _texture; }
+            virtual void setTexture(const graphics::TexturePtr& texture);
 
-            virtual video::ShaderPtr getShader() const { return _shader; }
-            virtual void setShader(const video::ShaderPtr& shader);
+            virtual graphics::ShaderPtr getShader() const { return _shader; }
+            virtual void setShader(const graphics::ShaderPtr& shader);
 
             virtual const Size2& getSize() const { return _size; }
 
-            virtual const video::Color& getColor() const { return _color; }
-            virtual void setColor(const video::Color& color);
+            virtual const graphics::Color& getColor() const { return _color; }
+            virtual void setColor(const graphics::Color& color);
 
             virtual void play(bool repeat = true, float frameInterval = 0.1f);
             virtual void stop(bool resetAnimation = true);
@@ -51,16 +51,16 @@ namespace ouzel
 
             void updateVertexColor();
 
-            video::TexturePtr _texture;
-            video::ShaderPtr _shader;
-            video::BlendStatePtr _blendState;
+            graphics::TexturePtr _texture;
+            graphics::ShaderPtr _shader;
+            graphics::BlendStatePtr _blendState;
 
             Size2 _size;
 
             uint32_t _frameCount = 0;
-            std::vector<std::vector<video::VertexPCT>> _frameVertices;
-            std::vector<video::MeshBufferPtr> _frameMeshBuffers;
-            video::Color _color = video::Color(255, 255, 255, 255);
+            std::vector<std::vector<graphics::VertexPCT>> _frameVertices;
+            std::vector<graphics::MeshBufferPtr> _frameMeshBuffers;
+            graphics::Color _color = graphics::Color(255, 255, 255, 255);
 
             uint32_t _currentFrame = 0;
             float _frameInterval = 0.0f;

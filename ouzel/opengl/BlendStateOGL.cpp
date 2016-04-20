@@ -5,7 +5,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         GLenum BlendStateOGL::getBlendFactor(BlendFactor blendFactor)
         {
@@ -45,5 +45,5 @@ namespace ouzel
             return GL_FUNC_ADD;
         }
 
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

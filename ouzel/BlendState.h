@@ -7,7 +7,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class Renderer;
 
@@ -69,5 +69,5 @@ namespace ouzel
             BlendOperation _alphaOperation = BlendOperation::ADD;
 
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

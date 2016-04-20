@@ -32,7 +32,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         bool RendererMetal::available()
         {
@@ -543,5 +543,5 @@ namespace ouzel
             return pipelineState;
         }
 
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

@@ -5,7 +5,7 @@
 
 namespace ouzel
 {
-    WindowLinux::WindowLinux(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver):
+    WindowLinux::WindowLinux(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver):
         Window(size, resizable, fullscreen, title, driver)
     {
 

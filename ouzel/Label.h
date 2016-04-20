@@ -26,21 +26,21 @@ namespace ouzel
             virtual void setText(const std::string& text);
             virtual const std::string& getText() const { return _text; }
 
-            virtual const video::Color& getColor() const { return _color; }
-            virtual void setColor(const video::Color& color);
+            virtual const graphics::Color& getColor() const { return _color; }
+            virtual void setColor(const graphics::Color& color);
 
         protected:
             void updateMesh();
 
-            video::TexturePtr _texture;
-            video::MeshBufferPtr _meshBuffer;
-            video::ShaderPtr _shader;
+            graphics::TexturePtr _texture;
+            graphics::MeshBufferPtr _meshBuffer;
+            graphics::ShaderPtr _shader;
             
             BMFont _font;
             Vector2 _textAnchor;
             std::string _text;
 
-            video::Color _color = video::Color(255, 255, 255, 255);
+            graphics::Color _color = graphics::Color(255, 255, 255, 255);
         };
     } // namespace gui
 } // namespace ouzel

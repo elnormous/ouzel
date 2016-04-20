@@ -16,7 +16,7 @@ typedef NSUInteger MTLBlendOperation;
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class MetalRenderer;
 
@@ -32,5 +32,5 @@ namespace ouzel
         protected:
             BlendStateMetal();
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

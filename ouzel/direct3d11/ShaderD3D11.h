@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererD3D11;
 
@@ -67,5 +67,5 @@ namespace ouzel
             std::vector<uint32_t> _pixelShaderConstantLocations;
             std::vector<uint32_t> _vertexShaderConstantLocations;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

@@ -8,7 +8,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererD3D11;
 
@@ -47,5 +47,5 @@ namespace ouzel
 
             DXGI_FORMAT _indexFormat = DXGI_FORMAT_UNKNOWN;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

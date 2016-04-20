@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         BlendStateD3D11::BlendStateD3D11()
         {
@@ -106,5 +106,5 @@ namespace ouzel
             return D3D11_BLEND_OP_ADD;
         }
 
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

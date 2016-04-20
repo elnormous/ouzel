@@ -20,7 +20,7 @@ typedef id MTLBufferPtr;
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererMetal;
 
@@ -87,5 +87,5 @@ namespace ouzel
             uint32_t _pixelShaderConstantBufferOffset = 0;
             uint32_t _vertexShaderConstantBufferOffset = 0;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

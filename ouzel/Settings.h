@@ -9,7 +9,7 @@ namespace ouzel
 {
     struct Settings
     {
-        video::Renderer::Driver driver = video::Renderer::Driver::DEFAULT;
+        graphics::Renderer::Driver driver = graphics::Renderer::Driver::DEFAULT;
 
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count

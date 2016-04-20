@@ -76,7 +76,7 @@ namespace ouzel
                 addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
             }
 
-            _blendState = sharedEngine->getCache()->getBlendState(video::BLEND_ALPHA);
+            _blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
             if (!_blendState)
             {
@@ -86,7 +86,7 @@ namespace ouzel
             _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
                              Vector2(_size.width / 2.0f, _size.height / 2.0f));
 
-            _shader = sharedEngine->getCache()->getShader(video::SHADER_TEXTURE);
+            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
 
             if (!_shader)
             {
@@ -202,18 +202,18 @@ namespace ouzel
                 textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             }
 
-            std::vector<video::VertexPCT> vertices = {
-                video::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), _color, textCoords[0]),
-                video::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), _color, textCoords[1]),
-                video::VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[2]),
-                video::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[3])
+            std::vector<graphics::VertexPCT> vertices = {
+                graphics::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), _color, textCoords[0]),
+                graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), _color, textCoords[1]),
+                graphics::VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[2]),
+                graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[3])
             };
 
             _frameVertices.push_back(vertices);
 
             _frameMeshBuffers.push_back(sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
                                                                                               static_cast<uint32_t>(indices.size()), false,
-                                                                                              vertices.data(), video::VertexPCT::ATTRIBUTES,
+                                                                                              vertices.data(), graphics::VertexPCT::ATTRIBUTES,
                                                                                               static_cast<uint32_t>(vertices.size()), true));
 
             _frameCount++;
@@ -262,7 +262,7 @@ namespace ouzel
 
                 if (_currentFrame < _frameCount)
                 {
-                    video::MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
+                    graphics::MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
 
                     sharedEngine->getRenderer()->drawMeshBuffer(meshBuffer);
                 }
@@ -276,17 +276,17 @@ namespace ouzel
             updateVertexColor();
         }
 
-        void Sprite::setTexture(const video::TexturePtr& texture)
+        void Sprite::setTexture(const graphics::TexturePtr& texture)
         {
             _texture = texture;
         }
 
-        void Sprite::setShader(const video::ShaderPtr& shader)
+        void Sprite::setShader(const graphics::ShaderPtr& shader)
         {
             _shader = shader;
         }
 
-        void Sprite::setColor(const video::Color& color)
+        void Sprite::setColor(const graphics::Color& color)
         {
             _color = color;
 
@@ -297,7 +297,7 @@ namespace ouzel
         {
             for (uint32_t i = 0; i < _frameMeshBuffers.size(); ++i)
             {
-                for (video::VertexPCT& vertex : _frameVertices[i])
+                for (graphics::VertexPCT& vertex : _frameVertices[i])
                 {
                     vertex.color.r = _color.r;
                     vertex.color.g = _color.g;
@@ -305,7 +305,7 @@ namespace ouzel
                     vertex.color.a = static_cast<uint8_t>(_opacity * _color.a);
                 }
 
-                video::MeshBufferPtr meshBuffer = _frameMeshBuffers[i];
+                graphics::MeshBufferPtr meshBuffer = _frameMeshBuffers[i];
                 meshBuffer->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
             }
         }

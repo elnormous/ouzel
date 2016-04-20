@@ -22,20 +22,20 @@ namespace ouzel
 
             void clear();
 
-            void point(const Vector2& position, const video::Color& color);
-            void line(const Vector2& start, const Vector2& finish, const video::Color& color);
-            void circle(const Vector2& position, float radius, const video::Color& color, bool fill = false, uint32_t segments = 20);
-            void rectangle(const Rectangle& rectangle, const video::Color& color, bool fill = false);
-            void triangle(const Vector2 (&positions)[3], const video::Color& color, bool fill = false);
+            void point(const Vector2& position, const graphics::Color& color);
+            void line(const Vector2& start, const Vector2& finish, const graphics::Color& color);
+            void circle(const Vector2& position, float radius, const graphics::Color& color, bool fill = false, uint32_t segments = 20);
+            void rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill = false);
+            void triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill = false);
 
         protected:
             struct DrawCommand
             {
-                video::Renderer::DrawMode mode;
-                video::MeshBufferPtr mesh;
+                graphics::Renderer::DrawMode mode;
+                graphics::MeshBufferPtr mesh;
             };
 
-            video::ShaderPtr _shader;
+            graphics::ShaderPtr _shader;
             std::vector<DrawCommand> _drawCommands;
         };
     } // namespace scene

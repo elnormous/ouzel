@@ -17,27 +17,27 @@ namespace ouzel
         virtual ~Cache();
 
         void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
-        video::TexturePtr getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
-        void setTexture(const std::string& filename, const video::TexturePtr& texture);
+        graphics::TexturePtr getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
+        void setTexture(const std::string& filename, const graphics::TexturePtr& texture);
         virtual void releaseTextures();
 
-        video::ShaderPtr getShader(const std::string& shaderName) const;
-        void setShader(const std::string& shaderName, const video::ShaderPtr& shader);
+        graphics::ShaderPtr getShader(const std::string& shaderName) const;
+        void setShader(const std::string& shaderName, const graphics::ShaderPtr& shader);
 
         void preloadParticleDefinition(const std::string& filename);
         scene::ParticleDefinitionPtr getParticleDefinition(const std::string& filename) const;
 
-        video::BlendStatePtr getBlendState(const std::string& blendStateName) const;
-        void setBlendState(const std::string& blendStateName, const video::BlendStatePtr& blendState);
+        graphics::BlendStatePtr getBlendState(const std::string& blendStateName) const;
+        void setBlendState(const std::string& blendStateName, const graphics::BlendStatePtr& blendState);
 
     protected:
         Cache();
 
         scene::ParticleDefinitionPtr loadParticleDefinition(const std::string& filename) const;
 
-        mutable std::unordered_map<std::string, video::TexturePtr> _textures;
-        mutable std::unordered_map<std::string, video::ShaderPtr> _shaders;
+        mutable std::unordered_map<std::string, graphics::TexturePtr> _textures;
+        mutable std::unordered_map<std::string, graphics::ShaderPtr> _shaders;
         mutable std::unordered_map<std::string, scene::ParticleDefinitionPtr> _particleDefinitions;
-        mutable std::unordered_map<std::string, video::BlendStatePtr> _blendStates;
+        mutable std::unordered_map<std::string, graphics::BlendStatePtr> _blendStates;
     };
 }

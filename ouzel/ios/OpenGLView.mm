@@ -46,7 +46,7 @@ using namespace ouzel;
 
         // frame buffer
         glGenFramebuffers(1, &_frameBuffer);
-        video::RendererOGL::bindFrameBuffer(_frameBuffer);
+        graphics::RendererOGL::bindFrameBuffer(_frameBuffer);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                   GL_RENDERBUFFER, _colorRenderBuffer);
 
@@ -66,7 +66,7 @@ using namespace ouzel;
         [_displayLink setFrameInterval:1.0f];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 
-        std::shared_ptr<video::RendererOGL> renderer = std::static_pointer_cast<video::RendererOGL>(sharedEngine->getRenderer());
+        std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
         renderer->setFrameBuffer(_frameBuffer);
     }
 

@@ -395,7 +395,7 @@ const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {
-    WindowWin::WindowWin(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver):
+    WindowWin::WindowWin(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver):
         Window(size, resizable, fullscreen, title, driver)
     {
 

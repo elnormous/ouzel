@@ -43,9 +43,9 @@ namespace ouzel
         bool loadFont(const std::string& filename);
         float getHeight() { return _lineHeight; }
 
-        void getVertices(const std::string& text, const video::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<video::VertexPCT>& vertices);
+        void getVertices(const std::string& text, const graphics::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices);
 
-        const video::TexturePtr& getTexture() const { return _texture; }
+        const graphics::TexturePtr& getTexture() const { return _texture; }
 
     private:
         bool parseFont(const std::string& filename);
@@ -61,6 +61,6 @@ namespace ouzel
         uint16_t _kernCount = 0;
         std::map<int32_t, CharDescriptor> _chars;
         std::map<std::pair<int32_t, int32_t>, KerningInfo> _kern;
-        video::TexturePtr _texture;
+        graphics::TexturePtr _texture;
     };
 }

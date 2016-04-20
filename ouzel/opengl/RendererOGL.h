@@ -44,7 +44,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererOGL: public Renderer
         {
@@ -112,5 +112,5 @@ namespace ouzel
             static GLuint _currentProgramId;
             static GLuint _currentFramBufferId;
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

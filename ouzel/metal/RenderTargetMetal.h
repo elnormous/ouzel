@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererMetal;
 
@@ -24,5 +24,5 @@ namespace ouzel
         protected:
             RenderTargetMetal();
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

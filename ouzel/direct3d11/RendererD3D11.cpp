@@ -22,7 +22,7 @@ using namespace ouzel;
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         RendererD3D11::RendererD3D11():
             Renderer(Driver::DIRECT3D11)
@@ -868,5 +868,5 @@ namespace ouzel
 
             return true;
         }
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

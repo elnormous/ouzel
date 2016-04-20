@@ -8,7 +8,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         MeshBufferMetal::MeshBufferMetal()
         {
@@ -164,5 +164,5 @@ namespace ouzel
 
             return true;
         }
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

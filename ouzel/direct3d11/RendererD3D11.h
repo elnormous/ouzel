@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         class RendererD3D11: public Renderer
         {
@@ -85,5 +85,5 @@ namespace ouzel
             ID3D11ShaderResourceView* _resourceViews[TEXTURE_LAYERS];
             ID3D11SamplerState* _samplerStates[TEXTURE_LAYERS];
         };
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

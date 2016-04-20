@@ -75,7 +75,7 @@
 
 namespace ouzel
 {
-    WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver):
+    WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver):
         Window(size, resizable, fullscreen, title, driver)
     {
 
@@ -128,10 +128,10 @@ namespace ouzel
 
         switch (_driver)
         {
-            case video::Renderer::Driver::OPENGL:
+            case graphics::Renderer::Driver::OPENGL:
                 _view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 break;
-            case video::Renderer::Driver::METAL:
+            case graphics::Renderer::Driver::METAL:
                 _view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
             default:

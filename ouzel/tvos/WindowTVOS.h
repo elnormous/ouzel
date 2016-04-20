@@ -29,7 +29,7 @@ namespace ouzel
         UIViewPtr getNativeView() const { return _view; }
 
     protected:
-        WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver);
+        WindowTVOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver);
         virtual bool init() override;
 
         UIWindowPtr _window = Nil;

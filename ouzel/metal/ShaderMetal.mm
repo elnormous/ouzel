@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    namespace video
+    namespace graphics
     {
         static const size_t BufferSize = 1024 * 1024;
 
@@ -363,5 +363,5 @@ namespace ouzel
 
             return true;
         }
-    } // namespace video
+    } // namespace graphics
 } // namespace ouzel

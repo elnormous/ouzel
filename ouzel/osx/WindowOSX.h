@@ -40,7 +40,7 @@ namespace ouzel
         NSViewPtr getNativeView() const { return _view; }
 
     protected:
-        WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title, video::Renderer::Driver driver);
+        WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver);
         virtual bool init() override;
 
         NSWindowPtr _window = Nil;
