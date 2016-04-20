@@ -15,7 +15,7 @@ $ git submodule init
 $ git submodule update
 ```
 
-Xcode and Visual Studio project files are located in the build folder.
+Xcode and Visual Studio project files are located in the build directory.
 
 ## System requirements
 * Windows 7+ with Visual Studio 2013 or Visual Studio 2015
