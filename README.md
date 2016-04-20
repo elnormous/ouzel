@@ -8,6 +8,13 @@ Currently Windows 7+ with Direct3D11 backend and OS X 10.8, iOS 7+ and tvOS 9.0+
 
 ## Compilation
 
+Ouzel uses rapidjson and stb submodules. The following commands have to be run after cloning Ouzel engine:
+
+```
+$ git submodule init
+$ git submodule update
+```
+
 Xcode and Visual Studio project files are located in the build folder.
 
 ## System requirements
