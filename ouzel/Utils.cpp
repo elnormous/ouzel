@@ -52,7 +52,7 @@ namespace ouzel
 
     uint64_t getCurrentMicroSeconds()
     {
-        auto t = std::chrono::high_resolution_clock::now();
+        auto t = std::chrono::steady_clock::now();
         auto micros = std::chrono::duration_cast<std::chrono::microseconds>(t.time_since_epoch());
 
         return micros.count();
