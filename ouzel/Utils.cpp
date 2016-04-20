@@ -5,7 +5,7 @@
 #include <random>
 #include "CompileConfig.h"
 
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
 #include <sys/time.h>
 #endif
 
@@ -55,7 +55,7 @@ namespace ouzel
 
     uint64_t getCurrentMicroSeconds()
     {
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID)
+#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS) || defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_LINUX)
         struct timeval currentTime;
 
         gettimeofday(&currentTime, NULL);
