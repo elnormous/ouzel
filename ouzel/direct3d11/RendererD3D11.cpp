@@ -768,7 +768,7 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool RendererD3D11::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode)
+        bool RendererD3D11::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t indexOffset)
         {
             if (!Renderer::drawMeshBuffer(meshBuffer))
             {
@@ -813,7 +813,7 @@ namespace ouzel
 
             _context->IASetPrimitiveTopology(topology);
 
-            _context->DrawIndexed(indexCount, 0, 0);
+            _context->DrawIndexed(indexCount, static_cast<UINT>(indexOffset), 0);
 
             return true;
         }

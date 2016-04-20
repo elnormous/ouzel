@@ -400,7 +400,7 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool RendererMetal::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode)
+        bool RendererMetal::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t indexOffset)
         {
             if (!Renderer::drawMeshBuffer(meshBuffer, indexCount, drawMode))
             {
@@ -481,7 +481,7 @@ namespace ouzel
                                                      indexCount:indexCount
                                                       indexType:meshBufferMetal->getIndexFormat()
                                                     indexBuffer:meshBufferMetal->getIndexBuffer()
-                                              indexBufferOffset:0];
+                                              indexBufferOffset:static_cast<NSUInteger>(indexOffset)];
 
             shaderMetal->nextBuffers();
 

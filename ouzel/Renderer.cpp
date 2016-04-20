@@ -219,9 +219,10 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool Renderer::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode)
+        bool Renderer::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t indexOffset)
         {
             OUZEL_UNUSED(drawMode);
+            OUZEL_UNUSED(indexOffset);
 
             if (_activeShader)
             {
