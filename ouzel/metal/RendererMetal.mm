@@ -400,7 +400,7 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool RendererMetal::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t indexOffset)
+        bool RendererMetal::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t startIndex)
         {
             if (!Renderer::drawMeshBuffer(meshBuffer, indexCount, drawMode))
             {
@@ -462,7 +462,7 @@ namespace ouzel
 
             if (indexCount == 0)
             {
-                indexCount = meshBufferMetal->getIndexCount();
+                indexCount = meshBufferMetal->getIndexCount() - startIndex;
             }
 
             MTLPrimitiveType primitiveType;
@@ -481,7 +481,7 @@ namespace ouzel
                                                      indexCount:indexCount
                                                       indexType:meshBufferMetal->getIndexFormat()
                                                     indexBuffer:meshBufferMetal->getIndexBuffer()
-                                              indexBufferOffset:static_cast<NSUInteger>(indexOffset)];
+                                              indexBufferOffset:static_cast<NSUInteger>(startIndex * meshBuffer->getIndexSize())];
 
             shaderMetal->nextBuffers();
 

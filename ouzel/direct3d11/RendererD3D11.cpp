@@ -768,7 +768,7 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool RendererD3D11::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t indexOffset)
+        bool RendererD3D11::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t startIndex)
         {
             if (!Renderer::drawMeshBuffer(meshBuffer))
             {
@@ -787,7 +787,7 @@ namespace ouzel
 
             if (indexCount == 0)
             {
-                indexCount = meshBufferD3D11->getIndexCount();
+                indexCount = meshBufferD3D11->getIndexCount() - startIndex;
             }
 
             _context->RSSetState(_rasterizerState);
@@ -813,7 +813,7 @@ namespace ouzel
 
             _context->IASetPrimitiveTopology(topology);
 
-            _context->DrawIndexed(indexCount, static_cast<UINT>(indexOffset), 0);
+            _context->DrawIndexed(indexCount, static_cast<UINT>(startIndex * meshBuffer->getIndexSize()), 0);
 
             return true;
         }

@@ -453,7 +453,7 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool RendererOGL::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t indexOffset)
+        bool RendererOGL::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t startIndex)
         {
             if (!Renderer::drawMeshBuffer(meshBuffer))
             {
@@ -497,7 +497,7 @@ namespace ouzel
 
             if (indexCount == 0)
             {
-                indexCount = meshBufferOGL->getIndexCount();
+                indexCount = meshBufferOGL->getIndexCount() - startIndex;
             }
 
             GLenum mode;
@@ -514,7 +514,7 @@ namespace ouzel
 
             glBindVertexArray(meshBufferOGL->getVertexArrayId());
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
-            glDrawElements(mode, static_cast<GLsizei>(indexCount), meshBufferOGL->getIndexFormat(), static_cast<const char*>(nullptr) + indexOffset);
+            glDrawElements(mode, static_cast<GLsizei>(indexCount), meshBufferOGL->getIndexFormat(), static_cast<const char*>(nullptr) + (startIndex * meshBuffer->getIndexSize()));
 
             if (checkOpenGLErrors())
             {
