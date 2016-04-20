@@ -26,6 +26,8 @@ namespace ouzel
         const std::string SHADER_COLOR = "shaderColor";
 
         const std::string BLEND_NO_BLEND = "blendNoBlend";
+        const std::string BLEND_ADD = "blendAdd";
+        const std::string BLEND_MULTIPLY = "blendMultiply";
         const std::string BLEND_ALPHA = "blendAlpha";
 
         class MeshBuffer;

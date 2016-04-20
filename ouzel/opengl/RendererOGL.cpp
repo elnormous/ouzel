@@ -94,6 +94,32 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
+            BlendStatePtr addBlendState = createBlendState(true,
+                                                           BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                                           BlendState::BlendOperation::ADD,
+                                                           BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                                           BlendState::BlendOperation::ADD);
+
+            if (!addBlendState)
+            {
+                return false;
+            }
+
+            sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
+
+            BlendStatePtr multiplyBlendState = createBlendState(true,
+                                                                BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
+                                                                BlendState::BlendOperation::ADD,
+                                                                BlendState::BlendFactor::DEST_ALPHA, BlendState::BlendFactor::ZERO,
+                                                                BlendState::BlendOperation::ADD);
+
+            if (!multiplyBlendState)
+            {
+                return false;
+            }
+
+            sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
+
             BlendStatePtr alphaBlendState = createBlendState(true,
                                                              BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
                                                              BlendState::BlendOperation::ADD,
