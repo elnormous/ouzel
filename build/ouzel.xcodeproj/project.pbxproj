@@ -872,7 +872,7 @@
 			name = math;
 			sourceTree = "<group>";
 		};
-		303B75101C28830A00FEDE92 /* video */ = {
+		303B75101C28830A00FEDE92 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
 				30324E121CB2898E00601A64 /* BlendState.cpp */,
@@ -896,7 +896,7 @@
 				304A8EA01C270833008B1151 /* Vertex.cpp */,
 				304A8EA11C270833008B1151 /* Vertex.h */,
 			);
-			name = video;
+			name = graphics;
 			sourceTree = "<group>";
 		};
 		303B75111C28838C00FEDE92 /* core */ = {
@@ -1068,6 +1068,7 @@
 				303B75111C28838C00FEDE92 /* core */,
 				30575AD51C3B485F0009C8A7 /* events */,
 				303B75121C2883C800FEDE92 /* files */,
+				303B75101C28830A00FEDE92 /* graphics */,
 				30575AC21C3B17430009C8A7 /* gui */,
 				303B76051C34A91B00FEDE92 /* input */,
 				303B756F1C2A3D0300FEDE92 /* ios */,
@@ -1079,7 +1080,6 @@
 				303B76311C355A3400FEDE92 /* tvos */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.h */,
-				303B75101C28830A00FEDE92 /* video */,
 			);
 			name = ouzel;
 			path = ../ouzel;
