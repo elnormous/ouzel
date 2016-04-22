@@ -10,9 +10,6 @@ namespace ouzel
 {
     typedef std::shared_ptr<void> VoidPtr;
 
-    class Engine;
-    typedef std::unique_ptr<Engine> EnginePtr;
-
     class UpdateCallback;
     typedef std::shared_ptr<UpdateCallback> UpdateCallbackPtr;
 

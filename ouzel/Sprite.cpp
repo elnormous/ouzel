@@ -42,7 +42,7 @@ namespace ouzel
 
         Sprite::~Sprite()
         {
-            sharedEngine->unscheduleUpdate(_updateCallback);
+            sharedEngine.unscheduleUpdate(_updateCallback);
         }
 
         bool Sprite::initFromFile(const std::string& filename, bool mipmaps)
@@ -51,7 +51,7 @@ namespace ouzel
             _frameVertices.clear();
             _frameMeshBuffers.clear();
 
-            std::string extension = sharedEngine->getFileSystem()->getExtension(filename);
+            std::string extension = sharedEngine.getFileSystem()->getExtension(filename);
 
             if (extension == "json")
             {
@@ -62,7 +62,7 @@ namespace ouzel
             }
             else
             {
-                _texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                _texture = sharedEngine.getCache()->getTexture(filename, false, mipmaps);
 
                 if (!_texture)
                 {
@@ -76,7 +76,7 @@ namespace ouzel
                 addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
             }
 
-            _blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            _blendState = sharedEngine.getCache()->getBlendState(graphics::BLEND_ALPHA);
 
             if (!_blendState)
             {
@@ -86,7 +86,7 @@ namespace ouzel
             _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
                              Vector2(_size.width / 2.0f, _size.height / 2.0f));
 
-            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            _shader = sharedEngine.getCache()->getShader(graphics::SHADER_TEXTURE);
 
             if (!_shader)
             {
@@ -123,7 +123,7 @@ namespace ouzel
             Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
                               static_cast<float>(sizeObject["h"].GetInt()));
 
-            _texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
+            _texture = sharedEngine.getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
 
             const rapidjson::Value& framesArray = document["frames"];
 
@@ -211,7 +211,7 @@ namespace ouzel
 
             _frameVertices.push_back(vertices);
 
-            _frameMeshBuffers.push_back(sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+            _frameMeshBuffers.push_back(sharedEngine.getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
                                                                                               static_cast<uint32_t>(indices.size()), false,
                                                                                               vertices.data(), graphics::VertexPCT::ATTRIBUTES,
                                                                                               static_cast<uint32_t>(vertices.size()), true));
@@ -238,7 +238,7 @@ namespace ouzel
                     {
                         _currentFrame = _frameCount - 1;
                         _playing = false;
-                        sharedEngine->unscheduleUpdate(_updateCallback);
+                        sharedEngine.unscheduleUpdate(_updateCallback);
                     }
                 }
             }
@@ -252,9 +252,9 @@ namespace ouzel
 
             if (_texture && layer)
             {
-                sharedEngine->getRenderer()->activateBlendState(_blendState);
-                sharedEngine->getRenderer()->activateTexture(_texture, 0);
-                sharedEngine->getRenderer()->activateShader(_shader);
+                sharedEngine.getRenderer()->activateBlendState(_blendState);
+                sharedEngine.getRenderer()->activateTexture(_texture, 0);
+                sharedEngine.getRenderer()->activateShader(_shader);
 
                 Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
 
@@ -264,7 +264,7 @@ namespace ouzel
                 {
                     graphics::MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
 
-                    sharedEngine->getRenderer()->drawMeshBuffer(meshBuffer);
+                    sharedEngine.getRenderer()->drawMeshBuffer(meshBuffer);
                 }
             }
         }
@@ -325,7 +325,7 @@ namespace ouzel
                     _timeSinceLastFrame = 0.0f;
                 }
 
-                sharedEngine->scheduleUpdate(_updateCallback);
+                sharedEngine.scheduleUpdate(_updateCallback);
             }
         }
 
@@ -334,7 +334,7 @@ namespace ouzel
             if (_playing)
             {
                 _playing = false;
-                sharedEngine->unscheduleUpdate(_updateCallback);
+                sharedEngine.unscheduleUpdate(_updateCallback);
             }
 
             if (resetAnimation)

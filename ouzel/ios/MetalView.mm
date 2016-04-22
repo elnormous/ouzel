@@ -16,12 +16,12 @@ using namespace ouzel;
 
 -(void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
 {
-    sharedEngine->getWindow()->setSize(Size2(size.width, size.height));
+    sharedEngine.getWindow()->setSize(Size2(size.width, size.height));
 }
 
 -(void)drawInMTKView:(nonnull MTKView*)view
 {
-    if (!sharedEngine->run())
+    if (!sharedEngine.run())
     {
         [view.window close];
     }
@@ -68,8 +68,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
 
-        sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                             sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+        sharedEngine.getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
+                                             sharedEngine.getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -80,8 +80,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
 
-        sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                            sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+        sharedEngine.getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
+                                            sharedEngine.getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -92,8 +92,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
 
-        sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                           sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+        sharedEngine.getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
+                                           sharedEngine.getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -104,8 +104,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
 
-        sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                              sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+        sharedEngine.getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
+                                              sharedEngine.getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 

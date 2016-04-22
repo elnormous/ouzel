@@ -15,7 +15,7 @@
 {
     OUZEL_UNUSED(notification);
     ouzelMain(ouzel::getArgs());
-    ouzel::sharedEngine->begin();
+    ouzel::sharedEngine.begin();
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
@@ -26,7 +26,7 @@
 -(void)applicationWillTerminate:(NSNotification*)notification
 {
     OUZEL_UNUSED(notification);
-    ouzel::sharedEngine->end();
+    ouzel::sharedEngine.end();
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)sender
@@ -43,7 +43,7 @@
     event->type = ouzel::Event::Type::OPEN_FILE;
     event->filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
 
-    ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event, ouzel::sharedEngine->getInput());
+    ouzel::sharedEngine.getEventDispatcher()->dispatchEvent(event, ouzel::sharedEngine.getInput());
 
     return YES;
 }

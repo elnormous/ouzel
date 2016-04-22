@@ -30,7 +30,7 @@ namespace ouzel
             modeStr += "b";
         }
 
-        if (FILE* file = fopen(sharedEngine->getFileSystem()->getPath(filename).c_str(), modeStr.c_str()))
+        if (FILE* file = fopen(sharedEngine.getFileSystem()->getPath(filename).c_str(), modeStr.c_str()))
         {
             _file.reset(file, std::fclose);
         }

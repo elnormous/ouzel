@@ -45,7 +45,7 @@
 
 namespace ouzel
 {
-    const EnginePtr sharedEngine(new Engine());
+    Engine sharedEngine;
 
     Engine::Engine()
     {

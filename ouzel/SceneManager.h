@@ -12,6 +12,8 @@
 
 namespace ouzel
 {
+    class Engine;
+    
     namespace scene
     {
         class SceneManager: public Noncopyable

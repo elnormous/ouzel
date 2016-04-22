@@ -20,7 +20,7 @@ void ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
-    extern const EnginePtr sharedEngine;
+    extern Engine sharedEngine;
 
     class Engine: public Noncopyable
     {

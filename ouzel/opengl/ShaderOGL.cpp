@@ -66,7 +66,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine.getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -84,7 +84,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine.getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -148,7 +148,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine.getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -161,7 +161,7 @@ namespace ouzel
             GLint texture1Location = glGetUniformLocation(_programId, "texture1");
             if (texture1Location != -1) glUniform1i(texture1Location, 1);
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine.getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -174,7 +174,7 @@ namespace ouzel
             glDeleteShader(_pixelShaderId);
             _pixelShaderId = 0;
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine.getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }

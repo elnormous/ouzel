@@ -52,7 +52,7 @@ namespace ouzel
                              static_cast<GLsizei>(size.height),
                              0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
-                if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+                if (std::static_pointer_cast<RendererOGL>(sharedEngine.getRenderer())->checkOpenGLErrors())
                 {
                     return false;
                 }
@@ -80,7 +80,7 @@ namespace ouzel
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine.getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }
@@ -167,7 +167,7 @@ namespace ouzel
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             }
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine.getRenderer())->checkOpenGLErrors())
             {
                 return false;
             }

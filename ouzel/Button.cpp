@@ -36,7 +36,7 @@ namespace ouzel
 
         Button::~Button()
         {
-            sharedEngine->getEventDispatcher()->removeEventHandler(_eventHandler);
+            sharedEngine.getEventDispatcher()->removeEventHandler(_eventHandler);
         }
 
         bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
@@ -47,7 +47,7 @@ namespace ouzel
             _eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
             _eventHandler->uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
-            sharedEngine->getEventDispatcher()->addEventHandler(_eventHandler);
+            sharedEngine.getEventDispatcher()->addEventHandler(_eventHandler);
 
             if (!normal.empty())
             {

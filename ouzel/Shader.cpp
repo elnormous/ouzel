@@ -31,7 +31,7 @@ namespace ouzel
             _pixelShaderFilename = pixelShader;
             _vertexShaderFilename = vertexShader;
 
-            std::ifstream pixelShaderFile(sharedEngine->getFileSystem()->getPath(pixelShader));
+            std::ifstream pixelShaderFile(sharedEngine.getFileSystem()->getPath(pixelShader));
 
             if (!pixelShaderFile)
             {
@@ -47,7 +47,7 @@ namespace ouzel
 
             pixelShaderFile.read(pixelShaderBuffer.data(), static_cast<std::streamsize>(pixelShaderSize));
 
-            std::ifstream vertexShaderFile(sharedEngine->getFileSystem()->getPath(vertexShader));
+            std::ifstream vertexShaderFile(sharedEngine.getFileSystem()->getPath(vertexShader));
 
             if (!vertexShaderFile)
             {

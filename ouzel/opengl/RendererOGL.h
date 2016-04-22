@@ -44,6 +44,8 @@
 
 namespace ouzel
 {
+    class Engine;
+    
     namespace graphics
     {
         class RendererOGL: public Renderer

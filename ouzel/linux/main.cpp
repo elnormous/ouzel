@@ -287,7 +287,7 @@ int main(int argc, char **argv)
     XMapWindow(display, window);
 
     ouzelMain(getArgs());
-    ouzel::sharedEngine->begin();
+    ouzel::sharedEngine.begin();
 
     XEvent event;
 
@@ -305,11 +305,11 @@ int main(int argc, char **argv)
 
                     if (event.type == KeyPress)
                     {
-                        sharedEngine->getInput()->keyDown(convertKeyCode(keySym), getModifiers(event.xkey.state));
+                        sharedEngine.getInput()->keyDown(convertKeyCode(keySym), getModifiers(event.xkey.state));
                     }
                     else
                     {
-                        sharedEngine->getInput()->keyUp(convertKeyCode(keySym), getModifiers(event.xkey.state));
+                        sharedEngine.getInput()->keyUp(convertKeyCode(keySym), getModifiers(event.xkey.state));
                     }
                     break;
                 }
@@ -336,14 +336,14 @@ int main(int argc, char **argv)
 
                     if (event.type == ButtonPress)
                     {
-                        sharedEngine->getInput()->mouseDown(button,
-                                                                     sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                        sharedEngine.getInput()->mouseDown(button,
+                                                                     sharedEngine.getRenderer()->viewToScreenLocation(pos),
                                                                      getModifiers(event.xbutton.state));
                     }
                     else
                     {
-                        sharedEngine->getInput()->mouseUp(button,
-                                                                   sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                        sharedEngine.getInput()->mouseUp(button,
+                                                                   sharedEngine.getRenderer()->viewToScreenLocation(pos),
                                                                    getModifiers(event.xbutton.state));
                     }
                     break;
@@ -353,14 +353,14 @@ int main(int argc, char **argv)
                     Vector2 pos(static_cast<float>(event.xmotion.x),
                                 static_cast<float>(event.xmotion.y));
 
-                    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                    sharedEngine.getInput()->mouseMove(sharedEngine.getRenderer()->viewToScreenLocation(pos),
                                                                  getModifiers(event.xmotion.state));
 
                     break;
                 }
                 case ConfigureNotify:
                 {
-                    ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(event.xconfigure.width, event.xconfigure.height));
+                    ouzel::sharedEngine.getWindow()->setSize(ouzel::Size2(event.xconfigure.width, event.xconfigure.height));
                     //needRedraw = true;
                     break;
                 }
@@ -373,7 +373,7 @@ int main(int argc, char **argv)
         }
         while (XPending(display)); /* loop to compress events */
 
-        if (!ouzel::sharedEngine->run())
+        if (!ouzel::sharedEngine.run())
         {
             break;
         }
@@ -395,7 +395,7 @@ int main(int argc, char **argv)
         XCloseDisplay(display);
     }
 
-    ouzel::sharedEngine->end();
+    ouzel::sharedEngine.end();
 
     return 0;
 }

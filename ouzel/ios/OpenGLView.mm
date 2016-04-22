@@ -66,7 +66,7 @@ using namespace ouzel;
         [_displayLink setFrameInterval:1.0f];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 
-        std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
+        std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine.getRenderer());
         renderer->setFrameBuffer(_frameBuffer);
     }
 
@@ -105,7 +105,7 @@ using namespace ouzel;
         ouzel::log("Failed to set current OpenGL context");
     }
 
-    sharedEngine->run();
+    sharedEngine.run();
 
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
@@ -117,8 +117,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
 
-        sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                                      sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+        sharedEngine.getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
+                                                      sharedEngine.getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -129,8 +129,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
 
-        sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                                     sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+        sharedEngine.getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
+                                                     sharedEngine.getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -141,8 +141,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
 
-        sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                                    sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+        sharedEngine.getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
+                                                    sharedEngine.getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -153,8 +153,8 @@ using namespace ouzel;
     {
         CGPoint location = [touch locationInView:self];
 
-        sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                                       sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+        sharedEngine.getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
+                                                       sharedEngine.getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 

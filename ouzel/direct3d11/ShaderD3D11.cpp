@@ -69,7 +69,7 @@ namespace ouzel
 
             destroy();
 
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine.getRenderer());
 
             HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShader, pixelShaderSize, NULL, &_pixelShader);
             if (FAILED(hr) || !_pixelShader)
@@ -253,7 +253,7 @@ namespace ouzel
 
         bool ShaderD3D11::createPixelShaderConstantBuffer(uint32_t size)
         {
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine.getRenderer());
 
             D3D11_BUFFER_DESC pixelShaderConstantBufferDesc;
             memset(&pixelShaderConstantBufferDesc, 0, sizeof(pixelShaderConstantBufferDesc));
@@ -277,7 +277,7 @@ namespace ouzel
 
         bool ShaderD3D11::createVertexShaderConstantBuffer(uint32_t size)
         {
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine.getRenderer());
 
             D3D11_BUFFER_DESC vertexShaderConstantBufferDesc;
             memset(&vertexShaderConstantBufferDesc, 0, sizeof(vertexShaderConstantBufferDesc));
@@ -301,7 +301,7 @@ namespace ouzel
 
         bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)
         {
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine.getRenderer());
 
             D3D11_MAPPED_SUBRESOURCE mappedSubresource;
             HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);

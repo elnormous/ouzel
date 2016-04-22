@@ -31,6 +31,8 @@ typedef id MTLRenderCommandEncoderPtr;
 
 namespace ouzel
 {
+    class Engine;
+    
     namespace graphics
     {
         class BlendStateMetal;

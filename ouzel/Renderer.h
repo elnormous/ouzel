@@ -20,6 +20,8 @@
 
 namespace ouzel
 {
+    class Engine;
+
     namespace graphics
     {
         const std::string SHADER_TEXTURE = "shaderTexture";

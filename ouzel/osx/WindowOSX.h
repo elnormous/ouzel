@@ -19,6 +19,8 @@ typedef id NSWindowDelegatePtr;
 
 namespace ouzel
 {
+    class Engine;
+    
     class WindowOSX: public Window
     {
         friend Engine;

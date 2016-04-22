@@ -16,7 +16,7 @@ namespace ouzel
     {
         DrawNode::DrawNode()
         {
-            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
+            _shader = sharedEngine.getCache()->getShader(graphics::SHADER_COLOR);
         }
 
         void DrawNode::draw()
@@ -27,14 +27,14 @@ namespace ouzel
 
             if (_shader && layer)
             {
-                sharedEngine->getRenderer()->activateShader(_shader);
+                sharedEngine.getRenderer()->activateShader(_shader);
 
                 Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
 
                 for (const DrawCommand& drawCommand : _drawCommands)
                 {
                     _shader->setVertexShaderConstant(0, { modelViewProj });
-                    sharedEngine->getRenderer()->drawMeshBuffer(drawCommand.mesh, 0, drawCommand.mode);
+                    sharedEngine.getRenderer()->drawMeshBuffer(drawCommand.mesh, 0, drawCommand.mode);
                 }
             }
         }
@@ -57,7 +57,7 @@ namespace ouzel
             DrawCommand command;
 
             command.mode = graphics::Renderer::DrawMode::POINT_LIST;
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+            command.mesh = sharedEngine.getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
                                                                                  static_cast<uint32_t>(indices.size()), false,
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);
@@ -79,7 +79,7 @@ namespace ouzel
             DrawCommand command;
 
             command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+            command.mesh = sharedEngine.getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
                                                                                  static_cast<uint32_t>(indices.size()), false,
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);
@@ -140,7 +140,7 @@ namespace ouzel
                 }
             }
 
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+            command.mesh = sharedEngine.getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
                                                                                  static_cast<uint32_t>(indices.size()), false,
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);
@@ -175,7 +175,7 @@ namespace ouzel
                 indices.assign({0, 1, 3, 2, 0});
             }
 
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+            command.mesh = sharedEngine.getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
                                                                                  static_cast<uint32_t>(indices.size()), false,
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);
@@ -212,7 +212,7 @@ namespace ouzel
                 _boundingBox.insertPoint(positions[0]);
             }
 
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+            command.mesh = sharedEngine.getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
                                                                                  static_cast<uint32_t>(indices.size()), false,
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);

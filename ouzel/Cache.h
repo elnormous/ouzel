@@ -10,6 +10,8 @@
 
 namespace ouzel
 {
+    class Engine;
+    
     class Cache: public Noncopyable
     {
         friend Engine;

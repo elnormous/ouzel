@@ -41,7 +41,7 @@ namespace ouzel
                         event->type = Event::Type::GAMEPAD_CONNECT;
                         event->gamepad = _gamepads[i];
 
-                        sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
+                        sharedEngine.getEventDispatcher()->dispatchEvent(event, sharedEngine.getInput());
                     }
 
                     _gamepads[i]->update(state);
@@ -54,7 +54,7 @@ namespace ouzel
                         event->type = Event::Type::GAMEPAD_DISCONNECT;
                         event->gamepad = _gamepads[i];
 
-                        sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
+                        sharedEngine.getEventDispatcher()->dispatchEvent(event, sharedEngine.getInput());
 
                         _gamepads[i].reset();
                     }
