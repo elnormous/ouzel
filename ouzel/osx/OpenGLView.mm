@@ -137,7 +137,8 @@ using namespace ouzel;
 
     [_openGLContext update];
 
-    sharedEngine->getWindow()->setSize(Size2(newSize.width, newSize.height));
+    sharedEngine->getWindow()->setSize(Size2(static_cast<float>(newSize.width),
+                                             static_cast<float>(newSize.height)));
 
     CGLUnlockContext([_openGLContext CGLContextObj]);
 }

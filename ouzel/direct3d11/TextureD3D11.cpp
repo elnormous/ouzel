@@ -164,7 +164,7 @@ namespace ouzel
                 UINT mipWidth = width >> 1;
                 UINT mipHeight = height >> 1;
                 UINT mipLevel = 1;
-                UINT mipRowPitch = mipWidth * 4;
+                UINT mipRowPitch;
 
                 uint8_t* oldMipMapData = new uint8_t[width * height * 4];
                 memcpy(oldMipMapData, data, width * height * 4);

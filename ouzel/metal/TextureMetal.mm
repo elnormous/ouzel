@@ -106,7 +106,7 @@ namespace ouzel
                 NSUInteger mipWidth = width >> 1;
                 NSUInteger mipHeight = height >> 1;
                 NSUInteger mipLevel = 1;
-                NSUInteger mipBytesPerRow = mipWidth * 4;
+                NSUInteger mipBytesPerRow;
 
                 uint8_t* oldMipMapData = new uint8_t[width * height * 4];
                 memcpy(oldMipMapData, data, width * height * 4);

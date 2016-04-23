@@ -534,6 +534,8 @@ namespace ouzel
             [pipelineStateDescriptor release];
             if (error || !pipelineState)
             {
+                if (pipelineState) [pipelineState release];
+                
                 log("Failed to created Metal pipeline state");
                 return Nil;
             }
