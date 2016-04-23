@@ -58,13 +58,13 @@ namespace ouzel
         void unlock();
 
         EventDispatcherPtr _eventDispatcher;
+        input::InputPtr _input;
         CachePtr _cache;
         WindowPtr _window;
+        FileSystemPtr _fileSystem;
+        LocalizationPtr _localization;
         graphics::RendererPtr _renderer;
         scene::SceneManagerPtr _sceneManager;
-        FileSystemPtr _fileSystem;
-        input::InputPtr _input;
-        LocalizationPtr _localization;
 
         float _targetFPS;
         float _currentFPS = 0.0f;
