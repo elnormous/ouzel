@@ -3,12 +3,12 @@
 
 #pragma once
 
-class Application: public ouzel::Noncopyable, public ouzel::App
+class Application: public ouzel::Noncopyable
 {
 public:
     virtual ~Application();
 
-    virtual void begin() override;
+    void begin();
 
     bool handleKeyboard(const ouzel::KeyboardEventPtr& event, const ouzel::VoidPtr& sender) const;
     bool handleMouse(const ouzel::MouseEventPtr& event, const ouzel::VoidPtr& sender) const;

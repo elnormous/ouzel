@@ -16,9 +16,6 @@ namespace ouzel
     class Window;
     typedef std::shared_ptr<Window> WindowPtr;
 
-    class App;
-    typedef std::shared_ptr<App> AppPtr;
-
     class EventDispatcher;
     typedef std::shared_ptr<EventDispatcher> EventDispatcherPtr;
 

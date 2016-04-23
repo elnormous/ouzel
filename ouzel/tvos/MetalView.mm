@@ -16,12 +16,12 @@ using namespace ouzel;
 
 -(void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
 {
-    sharedEngine.getWindow()->setSize(Size2(size.width, size.height));
+    sharedEngine->getWindow()->setSize(Size2(size.width, size.height));
 }
 
 -(void)drawInMTKView:(nonnull MTKView*)view
 {
-    if (!sharedEngine.run())
+    if (!sharedEngine->run())
     {
         [view.window close];
     }

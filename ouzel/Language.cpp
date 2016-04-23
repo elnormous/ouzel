@@ -35,7 +35,7 @@ namespace ouzel
 
     bool Language::initFromFile(const std::string& filename)
     {
-        std::ifstream file(sharedEngine.getFileSystem()->getPath(filename), std::ios::binary);
+        std::ifstream file(sharedEngine->getFileSystem()->getPath(filename), std::ios::binary);
         file >> std::noskipws;
 
         if (!file)

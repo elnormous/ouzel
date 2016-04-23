@@ -24,7 +24,7 @@ namespace ouzel
 
     bool Window::init()
     {
-        if (!sharedEngine.getRenderer()->init(_size, _fullscreen))
+        if (!sharedEngine->getRenderer()->init(_size, _fullscreen))
         {
             return false;
         }
@@ -42,8 +42,8 @@ namespace ouzel
         if (_size != size)
         {
             _size = size;
-            sharedEngine.getRenderer()->setSize(_size);
-            sharedEngine.getSceneManager()->recalculateProjection();
+            sharedEngine->getRenderer()->setSize(_size);
+            sharedEngine->getSceneManager()->recalculateProjection();
 
             WindowEventPtr event = std::make_shared<WindowEvent>();
             event->type = Event::Type::WINDOW_SIZE_CHANGE;
@@ -51,7 +51,7 @@ namespace ouzel
             event->title = _title;
             event->fullscreen = _fullscreen;
 
-            sharedEngine.getEventDispatcher()->dispatchEvent(event, sharedEngine.getRenderer());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getRenderer());
         }
     }
 
@@ -61,7 +61,7 @@ namespace ouzel
         {
             _fullscreen = fullscreen;
 
-            sharedEngine.getRenderer()->setFullscreen(_fullscreen);
+            sharedEngine->getRenderer()->setFullscreen(_fullscreen);
 
             WindowEventPtr event = std::make_shared<WindowEvent>();
             event->type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
@@ -69,7 +69,7 @@ namespace ouzel
             event->title = _title;
             event->fullscreen = _fullscreen;
 
-            sharedEngine.getEventDispatcher()->dispatchEvent(event, sharedEngine.getRenderer());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getRenderer());
         }
     }
 
@@ -85,7 +85,7 @@ namespace ouzel
             event->title = _title;
             event->fullscreen = _fullscreen;
 
-            sharedEngine.getEventDispatcher()->dispatchEvent(event, sharedEngine.getRenderer());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getRenderer());
         }
     }
 }

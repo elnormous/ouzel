@@ -14,13 +14,13 @@
 #include "Input.h"
 #include "EventDispatcher.h"
 #include "UpdateCallback.h"
-#include "App.h"
+#include "Settings.h"
 
 void ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
-    extern Engine sharedEngine;
+    extern Engine* sharedEngine;
 
     class Engine: public Noncopyable
     {
@@ -53,14 +53,9 @@ namespace ouzel
         void scheduleUpdate(const UpdateCallbackPtr& callback);
         void unscheduleUpdate(const UpdateCallbackPtr& callback);
 
-        void setApp(const AppPtr& app);
-        const AppPtr& getApp() const { return _app; }
-
     protected:
         void lock();
         void unlock();
-
-        AppPtr _app;
 
         EventDispatcherPtr _eventDispatcher;
         CachePtr _cache;

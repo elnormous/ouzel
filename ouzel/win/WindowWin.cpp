@@ -195,11 +195,11 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_KEYDOWN)
     {
-        sharedEngine.getInput()->keyDown(winKeyToEngineCode(wParam), getKeyboardModifiers(wParam));
+        sharedEngine->getInput()->keyDown(winKeyToEngineCode(wParam), getKeyboardModifiers(wParam));
     }
     else if (msg == WM_KEYUP)
     {
-        sharedEngine.getInput()->keyUp(winKeyToEngineCode(wParam), getKeyboardModifiers(wParam));
+        sharedEngine->getInput()->keyUp(winKeyToEngineCode(wParam), getKeyboardModifiers(wParam));
     }
 }
 
@@ -210,7 +210,7 @@ static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
                 static_cast<float>(GET_Y_LPARAM(lParam)));
 
-    sharedEngine.getInput()->mouseMove(sharedEngine.getRenderer()->viewToScreenLocation(pos),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                         getMouseModifiers(wParam));
 }
 
@@ -249,14 +249,14 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
-        sharedEngine.getInput()->mouseDown(button,
-                                                     sharedEngine.getRenderer()->viewToScreenLocation(pos),
+        sharedEngine->getInput()->mouseDown(button,
+                                                     sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                                      getMouseModifiers(wParam));
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
-        sharedEngine.getInput()->mouseUp(button,
-                                                   sharedEngine.getRenderer()->viewToScreenLocation(pos),
+        sharedEngine->getInput()->mouseUp(button,
+                                                   sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                                    getMouseModifiers(wParam));
     }
 }
@@ -268,14 +268,14 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_MOUSEWHEEL)
     {
-        sharedEngine.getInput()->mouseScroll(Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA)),
-                                                       sharedEngine.getRenderer()->viewToScreenLocation(pos),
+        sharedEngine->getInput()->mouseScroll(Vector2(0.0f, static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA)),
+                                                       sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                                        getMouseModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
-        sharedEngine.getInput()->mouseScroll(Vector2(-static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA), 0.0f),
-                                                       sharedEngine.getRenderer()->viewToScreenLocation(pos),
+        sharedEngine->getInput()->mouseScroll(Vector2(-static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA), 0.0f),
+                                                       sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                                        getMouseModifiers(wParam));
     }
 }
@@ -337,7 +337,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             if (LOWORD(lParam) == HTCLIENT)
             {
-                if (!sharedEngine.getInput()->isCursorVisible())
+                if (!sharedEngine->getInput()->isCursorVisible())
                 {
                     SetCursor(nullptr);
                     return TRUE;

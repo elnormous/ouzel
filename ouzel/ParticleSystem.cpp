@@ -33,7 +33,7 @@ namespace ouzel
 
         ParticleSystem::ParticleSystem()
         {
-            _shader = sharedEngine.getCache()->getShader(graphics::SHADER_TEXTURE);
+            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
 
             _updateCallback = std::make_shared<UpdateCallback>();
             _updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
@@ -41,7 +41,7 @@ namespace ouzel
 
         ParticleSystem::~ParticleSystem()
         {
-            sharedEngine.unscheduleUpdate(_updateCallback);
+            sharedEngine->unscheduleUpdate(_updateCallback);
         }
 
         void ParticleSystem::draw()
@@ -58,8 +58,8 @@ namespace ouzel
                     _needsMeshUpdate = false;
                 }
 
-                sharedEngine.getRenderer()->activateTexture(_texture, 0);
-                sharedEngine.getRenderer()->activateShader(_shader);
+                sharedEngine->getRenderer()->activateTexture(_texture, 0);
+                sharedEngine->getRenderer()->activateShader(_shader);
 
                 Matrix4 transform;
 
@@ -74,7 +74,7 @@ namespace ouzel
 
                 _shader->setVertexShaderConstant(0, { transform });
 
-                sharedEngine.getRenderer()->drawMeshBuffer(_mesh, _particleCount * 6);
+                sharedEngine->getRenderer()->drawMeshBuffer(_mesh, _particleCount * 6);
             }
         }
 
@@ -107,7 +107,7 @@ namespace ouzel
             else if (_active && !_particleCount)
             {
                 _active = false;
-                sharedEngine.unscheduleUpdate(_updateCallback);
+                sharedEngine->unscheduleUpdate(_updateCallback);
 
                 if (_finished && _removeOnFinish)
                 {
@@ -219,7 +219,7 @@ namespace ouzel
 
         bool ParticleSystem::initFromFile(const std::string& filename)
         {
-            ParticleDefinitionPtr particleDefinition = sharedEngine.getCache()->getParticleDefinition(filename);
+            ParticleDefinitionPtr particleDefinition = sharedEngine->getCache()->getParticleDefinition(filename);
 
             if (!particleDefinition)
             {
@@ -228,7 +228,7 @@ namespace ouzel
 
             _particleDefinition = *particleDefinition;
             _positionType = _particleDefinition.positionType;
-            _texture = sharedEngine.getCache()->getTexture(_particleDefinition.textureFilename);
+            _texture = sharedEngine->getCache()->getTexture(_particleDefinition.textureFilename);
 
             if (!_texture)
             {
@@ -251,7 +251,7 @@ namespace ouzel
                 if (!_active)
                 {
                     _active = true;
-                    sharedEngine.scheduleUpdate(_updateCallback);
+                    sharedEngine->scheduleUpdate(_updateCallback);
                 }
             }
         }
@@ -289,7 +289,7 @@ namespace ouzel
                 _vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
             }
 
-            _mesh = sharedEngine.getRenderer()->createMeshBufferFromData(_indices.data(), sizeof(uint16_t),
+            _mesh = sharedEngine->getRenderer()->createMeshBufferFromData(_indices.data(), sizeof(uint16_t),
                                                                           static_cast<uint32_t>(_indices.size()), false,
                                                                           _vertices.data(), graphics::VertexPCT::ATTRIBUTES,
                                                                           static_cast<uint32_t>(_vertices.size()), true);

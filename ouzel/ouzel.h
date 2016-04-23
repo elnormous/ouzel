@@ -7,7 +7,6 @@
 #include "Types.h"
 #include "Engine.h"
 #include "UpdateCallback.h"
-#include "App.h"
 #include "Settings.h"
 #include "Cache.h"
 #include "Renderer.h"

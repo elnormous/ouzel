@@ -65,7 +65,7 @@ using namespace ouzel;
         [_displayLink setFrameInterval:1.0f];
         [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 
-        std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine.getRenderer());
+        std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
         renderer->setFrameBuffer(_frameBuffer);
     }
 
@@ -103,7 +103,7 @@ using namespace ouzel;
         ouzel::log("Failed to set current OpenGL context");
     }
 
-    sharedEngine.run();
+    sharedEngine->run();
 
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }

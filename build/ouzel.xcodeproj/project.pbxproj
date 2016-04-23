@@ -43,9 +43,6 @@
 		3036471F1C3E058E0024DB5B /* GamepadApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 3036471B1C3E058E0024DB5B /* GamepadApple.h */; };
 		303647201C3E058E0024DB5B /* GamepadApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 3036471B1C3E058E0024DB5B /* GamepadApple.h */; };
 		303647211C3E058E0024DB5B /* GamepadApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 3036471B1C3E058E0024DB5B /* GamepadApple.h */; };
-		303647601C3F210F0024DB5B /* App.h in Headers */ = {isa = PBXBuildFile; fileRef = 3036475F1C3F210F0024DB5B /* App.h */; };
-		303647611C3F210F0024DB5B /* App.h in Headers */ = {isa = PBXBuildFile; fileRef = 3036475F1C3F210F0024DB5B /* App.h */; };
-		303647621C3F210F0024DB5B /* App.h in Headers */ = {isa = PBXBuildFile; fileRef = 3036475F1C3F210F0024DB5B /* App.h */; };
 		303647641C3F218E0024DB5B /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647631C3F218E0024DB5B /* Settings.h */; };
 		303647651C3F218E0024DB5B /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647631C3F218E0024DB5B /* Settings.h */; };
 		303647661C3F218E0024DB5B /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647631C3F218E0024DB5B /* Settings.h */; };
@@ -585,7 +582,6 @@
 		303647131C3DFEAF0024DB5B /* Gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamepad.h; sourceTree = "<group>"; };
 		3036471A1C3E058E0024DB5B /* GamepadApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GamepadApple.mm; path = apple/GamepadApple.mm; sourceTree = "<group>"; };
 		3036471B1C3E058E0024DB5B /* GamepadApple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamepadApple.h; path = apple/GamepadApple.h; sourceTree = "<group>"; };
-		3036475F1C3F210F0024DB5B /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
 		303647631C3F218E0024DB5B /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		303B74E11C277A7500FEDE92 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		303B74E21C277A7500FEDE92 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
@@ -902,7 +898,6 @@
 		303B75111C28838C00FEDE92 /* core */ = {
 			isa = PBXGroup;
 			children = (
-				3036475F1C3F210F0024DB5B /* App.h */,
 				30DADE9A1C5167BC001A63B4 /* Cache.cpp */,
 				30DADE9B1C5167BC001A63B4 /* Cache.h */,
 				304A8E871C248204008B1151 /* CompileConfig.h */,
@@ -1224,7 +1219,6 @@
 				30575AC01C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Node.h in Headers */,
 				30D0FB501CC2C99600477DB0 /* ColorVSOSX.h in Headers */,
-				303647611C3F210F0024DB5B /* App.h in Headers */,
 				3047F77B1C4D39C500774E3D /* Repeat.h in Headers */,
 				3047F7621C4C60B900774E3D /* Fade.h in Headers */,
 				303647651C3F218E0024DB5B /* Settings.h in Headers */,
@@ -1336,7 +1330,6 @@
 				30575AC11C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
 				30D0FB511CC2C99600477DB0 /* ColorVSOSX.h in Headers */,
-				303647621C3F210F0024DB5B /* App.h in Headers */,
 				3009342F1C88978D00CC50D3 /* WindowTVOS.h in Headers */,
 				3047F77C1C4D39C500774E3D /* Repeat.h in Headers */,
 				3047F7631C4C60B900774E3D /* Fade.h in Headers */,
@@ -1470,7 +1463,6 @@
 				303B75201C29EFEC00FEDE92 /* AppDelegate.h in Headers */,
 				30C56C681CAB3F2D007AEF8F /* RadioButton.h in Headers */,
 				304A8E591C237C70008B1151 /* Matrix3.h in Headers */,
-				303647601C3F210F0024DB5B /* App.h in Headers */,
 				30EF365E1CA76B9E00F04F29 /* Popup.h in Headers */,
 				30D0FB581CC2C99600477DB0 /* TexturePSOSX.h in Headers */,
 				304A8E571C237C70008B1151 /* MathUtils.h in Headers */,

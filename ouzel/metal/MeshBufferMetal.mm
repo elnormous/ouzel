@@ -124,7 +124,7 @@ namespace ouzel
 
         bool MeshBufferMetal::createIndexBuffer(const void* indices, uint32_t size)
         {
-            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine.getRenderer());
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
             _indexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
                                                                    options:MTLResourceCPUCacheModeWriteCombined];
@@ -142,7 +142,7 @@ namespace ouzel
 
         bool MeshBufferMetal::createVertexBuffer(const void* vertices, uint32_t size)
         {
-            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine.getRenderer());
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
             _vertexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
                                                                     options:MTLResourceCPUCacheModeWriteCombined];

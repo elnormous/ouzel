@@ -16,12 +16,12 @@ using namespace ouzel;
 
 -(void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
 {
-    sharedEngine.getWindow()->setSize(Size2(size.width, size.height));
+    sharedEngine->getWindow()->setSize(Size2(size.width, size.height));
 }
 
 -(void)drawInMTKView:(nonnull MTKView*)view
 {
-    if (!sharedEngine.run())
+    if (!sharedEngine->run())
     {
         [view.window close];
     }
@@ -359,14 +359,14 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 {
     if (!_running) return;
 
-    sharedEngine.getInput()->keyDown(convertKeyCode(event.keyCode), getModifiers(event));
+    sharedEngine->getInput()->keyDown(convertKeyCode(event.keyCode), getModifiers(event));
 }
 
 -(void)keyUp:(NSEvent*)event
 {
     if (!_running) return;
 
-    sharedEngine.getInput()->keyUp(convertKeyCode(event.keyCode), getModifiers(event));
+    sharedEngine->getInput()->keyUp(convertKeyCode(event.keyCode), getModifiers(event));
 }
 
 -(void)mouseDown:(NSEvent*)event
@@ -374,8 +374,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseDown(input::MouseButton::LEFT,
-                                        sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseDown(input::MouseButton::LEFT,
+                                        sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         getModifiers(event));
 }
@@ -385,8 +385,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseUp(input::MouseButton::LEFT,
-                                      sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseUp(input::MouseButton::LEFT,
+                                      sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                 static_cast<float>(location.y))),
                                       getModifiers(event));
 }
@@ -396,8 +396,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseDown(input::MouseButton::RIGHT,
-                                        sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseDown(input::MouseButton::RIGHT,
+                                        sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         getModifiers(event));
 }
@@ -407,8 +407,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseUp(input::MouseButton::RIGHT,
-                                      sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseUp(input::MouseButton::RIGHT,
+                                      sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                 static_cast<float>(location.y))),
                                       getModifiers(event));
 }
@@ -418,8 +418,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseDown(input::MouseButton::MIDDLE,
-                                        sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseDown(input::MouseButton::MIDDLE,
+                                        sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         getModifiers(event));
 }
@@ -429,8 +429,8 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseUp(input::MouseButton::MIDDLE,
-                                      sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseUp(input::MouseButton::MIDDLE,
+                                      sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                 static_cast<float>(location.y))),
                                       getModifiers(event));
 }
@@ -441,7 +441,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseMove(sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         getModifiers(event));
 }
@@ -451,7 +451,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseMove(sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         getModifiers(event, true));
 }
@@ -461,7 +461,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseMove(sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         getModifiers(event, true));
 }
@@ -471,7 +471,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseMove(sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         getModifiers(event, true));
 }
@@ -481,9 +481,9 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
     if (!_running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine.getInput()->mouseScroll(Vector2(static_cast<float>(event.scrollingDeltaX),
+    sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(event.scrollingDeltaX),
                                                   static_cast<float>(event.scrollingDeltaY)),
-                                          sharedEngine.getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
+                                          sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                     static_cast<float>(location.y))),
                                           getModifiers(event));
 }

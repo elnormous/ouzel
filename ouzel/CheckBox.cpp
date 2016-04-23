@@ -15,7 +15,7 @@ namespace ouzel
 
         CheckBox::~CheckBox()
         {
-            sharedEngine.getEventDispatcher()->removeEventHandler(_eventHandler);
+            sharedEngine->getEventDispatcher()->removeEventHandler(_eventHandler);
         }
 
         bool CheckBox::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::string& tick)
@@ -25,7 +25,7 @@ namespace ouzel
             _eventHandler->gamepadHandler = std::bind(&CheckBox::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
             _eventHandler->uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
-            sharedEngine.getEventDispatcher()->addEventHandler(_eventHandler);
+            sharedEngine->getEventDispatcher()->addEventHandler(_eventHandler);
 
             return true;
         }

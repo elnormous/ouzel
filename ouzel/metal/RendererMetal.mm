@@ -112,11 +112,11 @@ namespace ouzel
                 return false;
             }
 #ifdef OUZEL_PLATFORM_OSX
-            std::shared_ptr<WindowOSX> window = std::static_pointer_cast<WindowOSX>(sharedEngine.getWindow());
+            std::shared_ptr<WindowOSX> window = std::static_pointer_cast<WindowOSX>(sharedEngine->getWindow());
 #elif OUZEL_PLATFORM_TVOS
-            std::shared_ptr<WindowTVOS> window = std::static_pointer_cast<WindowTVOS>(sharedEngine.getWindow());
+            std::shared_ptr<WindowTVOS> window = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow());
 #elif OUZEL_PLATFORM_IOS
-            std::shared_ptr<WindowIOS> window = std::static_pointer_cast<WindowIOS>(sharedEngine.getWindow());
+            std::shared_ptr<WindowIOS> window = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow());
 #endif
             _view = window->getNativeView();
             _view.device = _device;
@@ -155,7 +155,7 @@ namespace ouzel
 
             textureShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}}, 256);
 
-            sharedEngine.getCache()->setShader(SHADER_TEXTURE, textureShader);
+            sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_METAL, sizeof(COLOR_PIXEL_SHADER_METAL), COLOR_VERTEX_SHADER_METAL, sizeof(COLOR_VERTEX_SHADER_METAL), VertexPC::ATTRIBUTES, "main_ps", "main_vs");
 
@@ -166,7 +166,7 @@ namespace ouzel
 
             colorShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}}, 256);
 
-            sharedEngine.getCache()->setShader(SHADER_COLOR, colorShader);
+            sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             BlendStatePtr noBlendState = createBlendState(false,
                                                           BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
@@ -179,7 +179,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine.getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
+            sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
             BlendStatePtr addBlendState = createBlendState(true,
                                                            BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
@@ -192,7 +192,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine.getCache()->setBlendState(BLEND_ADD, addBlendState);
+            sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
             BlendStatePtr multiplyBlendState = createBlendState(true,
                                                                 BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
@@ -205,7 +205,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine.getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
+            sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
             BlendStatePtr alphaBlendState = createBlendState(true,
                                                              BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
@@ -218,7 +218,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine.getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
+            sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             for (ShaderPtr shader : {textureShader, colorShader})
             {

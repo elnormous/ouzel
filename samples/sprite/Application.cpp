@@ -9,13 +9,13 @@ using namespace ouzel;
 
 Application::~Application()
 {
-    sharedEngine.getEventDispatcher()->removeEventHandler(_eventHandler);
+    sharedEngine->getEventDispatcher()->removeEventHandler(_eventHandler);
 }
 
 void Application::begin()
 {
-    sharedEngine.getLocalization()->addLanguage("latvian", "lv.mo");
-    sharedEngine.getLocalization()->setLanguage("latvian");
+    sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
+    sharedEngine->getLocalization()->setLanguage("latvian");
 
     _eventHandler = make_shared<EventHandler>();
 
@@ -25,13 +25,13 @@ void Application::begin()
     _eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
     _eventHandler->uiHandler = std::bind(&Application::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
-    sharedEngine.getEventDispatcher()->addEventHandler(_eventHandler);
+    sharedEngine->getEventDispatcher()->addEventHandler(_eventHandler);
 
-    sharedEngine.getRenderer()->setClearColor(graphics::Color(64, 0, 0));
-    sharedEngine.getWindow()->setTitle("Sample");
+    sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
+    sharedEngine->getWindow()->setTitle("Sample");
 
     scene::ScenePtr scene = make_shared<scene::Scene>();
-    sharedEngine.getSceneManager()->setScene(scene);
+    sharedEngine->getSceneManager()->setScene(scene);
 
     _layer = std::make_shared<scene::Layer>();
     scene->addLayer(_layer);
@@ -80,7 +80,7 @@ void Application::begin()
     _layer->addChild(_witch);
     _witch->animate(make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3));
 
-    gui::LabelPtr label = gui::Label::create("font.fnt", sharedEngine.getLocalization()->getString("Test"));
+    gui::LabelPtr label = gui::Label::create("font.fnt", sharedEngine->getLocalization()->getString("Test"));
     _uiLayer->addChild(label);
 
     std::vector<scene::AnimatorPtr> sequence2 = {
@@ -94,7 +94,7 @@ void Application::begin()
     _button->setPosition(Vector2(-200.0f, 200.0f));
     _uiLayer->addChild(_button);
 
-    sharedEngine.getInput()->startGamepadDiscovery();
+    sharedEngine->getInput()->startGamepadDiscovery();
 }
 
 bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const
@@ -123,7 +123,7 @@ bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& s
                 _witch->setVisible(!_witch->isVisible());
                 break;
             case input::KeyboardKey::RETURN:
-                sharedEngine.getWindow()->setSize(Size2(640.0f, 480.0f));
+                sharedEngine->getWindow()->setSize(Size2(640.0f, 480.0f));
                 break;
             case input::KeyboardKey::TAB:
                 _button->setEnabled(!_button->isEnabled());
@@ -146,7 +146,7 @@ bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender)
     {
         case Event::Type::MOUSE_DOWN:
         {
-            sharedEngine.getInput()->setCursorVisible(!sharedEngine.getInput()->isCursorVisible());
+            sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
             break;
         }
         case Event::Type::MOUSE_MOVE:

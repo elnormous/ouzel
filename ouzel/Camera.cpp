@@ -37,7 +37,7 @@ namespace ouzel
 
         void Camera::recalculateProjection()
         {
-            Size2 screenSize = sharedEngine.getRenderer()->getSize();
+            Size2 screenSize = sharedEngine->getRenderer()->getSize();
 
             if (screenSize.width == 0.0f || screenSize.height == 0.0f)
             {
@@ -142,7 +142,7 @@ namespace ouzel
 
             if (LayerPtr layer = _layer.lock())
             {
-                auto viewport = sharedEngine.getRenderer()->getSize();
+                auto viewport = sharedEngine->getRenderer()->getSize();
                 Vector4 clipPos;
 
                 getViewProjection().transformVector(Vector4(src.x, src.y, src.z, 1.0f), clipPos);

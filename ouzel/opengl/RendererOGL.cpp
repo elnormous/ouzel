@@ -68,7 +68,7 @@ namespace ouzel
 
             textureShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
 
-            sharedEngine.getCache()->setShader(SHADER_TEXTURE, textureShader);
+            sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
 
@@ -79,7 +79,7 @@ namespace ouzel
 
             colorShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
 
-            sharedEngine.getCache()->setShader(SHADER_COLOR, colorShader);
+            sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             BlendStatePtr noBlendState = createBlendState(false,
                                                           BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
@@ -92,7 +92,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine.getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
+            sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
             BlendStatePtr addBlendState = createBlendState(true,
                                                            BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
@@ -105,7 +105,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine.getCache()->setBlendState(BLEND_ADD, addBlendState);
+            sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
             BlendStatePtr multiplyBlendState = createBlendState(true,
                                                                 BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
@@ -118,7 +118,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine.getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
+            sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
             BlendStatePtr alphaBlendState = createBlendState(true,
                                                              BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
@@ -131,7 +131,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine.getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
+            sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             _ready = true;
 

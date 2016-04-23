@@ -3,6 +3,9 @@
 
 #include "Application.h"
 
+ouzel::Engine engine;
+Application application;
+
 void ouzelMain(const std::vector<std::string>& args)
 {
     OUZEL_UNUSED(args);
@@ -10,8 +13,7 @@ void ouzelMain(const std::vector<std::string>& args)
     ouzel::Settings settings;
     settings.size = ouzel::Size2(800.0f, 600.0f);
     settings.resizable = true;
-    ouzel::sharedEngine.init(settings);
+    engine.init(settings);
 
-    std::shared_ptr<Application> application = std::make_shared<Application>();
-    ouzel::sharedEngine.setApp(application);
+    application.begin();
 }

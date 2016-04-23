@@ -58,7 +58,7 @@ namespace ouzel
 
             destroy();
 
-            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine.getRenderer());
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
             uint32_t index = 0;
             NSUInteger offset = 0;
@@ -322,7 +322,7 @@ namespace ouzel
 
         bool ShaderMetal::createPixelShaderConstantBuffer(uint32_t size)
         {
-            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine.getRenderer());
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
             _pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
                                                                                  options:MTLResourceCPUCacheModeWriteCombined];
@@ -340,7 +340,7 @@ namespace ouzel
 
         bool ShaderMetal::createVertexShaderConstantBuffer(uint32_t size)
         {
-            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine.getRenderer());
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
             _vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
                                                                                   options:MTLResourceCPUCacheModeWriteCombined];

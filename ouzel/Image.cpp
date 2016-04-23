@@ -33,7 +33,7 @@ namespace ouzel
         {
             _filename = filename;
 
-            std::string path = sharedEngine.getFileSystem()->getPath(filename);
+            std::string path = sharedEngine->getFileSystem()->getPath(filename);
 
             int width;
             int height;

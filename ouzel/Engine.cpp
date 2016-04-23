@@ -45,11 +45,11 @@
 
 namespace ouzel
 {
-    Engine sharedEngine;
-
+    ouzel::Engine* sharedEngine = nullptr;
+    
     Engine::Engine()
     {
-
+        sharedEngine = this;
     }
 
     Engine::~Engine()
@@ -181,22 +181,11 @@ namespace ouzel
     void Engine::begin()
     {
         _running = true;
-
-        if (_app)
-        {
-            _app->begin();
-        }
     }
 
     void Engine::end()
     {
-        _app.reset();
-        _window->close();
-        // remove the active scene
-        _sceneManager->setScene(nullptr);
-        _cache.reset();
-        _renderer.reset();
-        _window.reset();
+
     }
 
     bool Engine::run()
@@ -260,16 +249,6 @@ namespace ouzel
             {
                 _updateCallbacks.erase(i);
             }
-        }
-    }
-
-    void Engine::setApp(const AppPtr &app)
-    {
-        _app = app;
-
-        if (_running && _app)
-        {
-            _app->begin();
         }
     }
 
