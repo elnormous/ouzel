@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "DrawNode.h"
+#include "DebugDrawable.h"
 #include "CompileConfig.h"
 #include "Engine.h"
 #include "Renderer.h"
@@ -14,22 +14,20 @@ namespace ouzel
 {
     namespace scene
     {
-        DrawNode::DrawNode()
+        DebugDrawable::DebugDrawable()
         {
             _shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
         }
 
-        void DrawNode::draw()
+        void DebugDrawable::draw(const Matrix4& projection, const Matrix4& transform)
         {
-            Node::draw();
+            Drawable::draw(projection, transform);
 
-            LayerPtr layer = _layer.lock();
-
-            if (_shader && layer)
+            if (_shader)
             {
                 sharedEngine->getRenderer()->activateShader(_shader);
 
-                Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
+                Matrix4 modelViewProj = projection * transform;
 
                 for (const DrawCommand& drawCommand : _drawCommands)
                 {
@@ -39,14 +37,14 @@ namespace ouzel
             }
         }
 
-        void DrawNode::clear()
+        void DebugDrawable::clear()
         {
             _boundingBox = AABB2();
 
             _drawCommands.clear();
         }
 
-        void DrawNode::point(const Vector2& position, const graphics::Color& color)
+        void DebugDrawable::point(const Vector2& position, const graphics::Color& color)
         {
             std::vector<uint16_t> indices = {0};
 
@@ -67,7 +65,7 @@ namespace ouzel
             _boundingBox.insertPoint(position);
         }
 
-        void DrawNode::line(const Vector2& start, const Vector2& finish, const graphics::Color& color)
+        void DebugDrawable::line(const Vector2& start, const Vector2& finish, const graphics::Color& color)
         {
             std::vector<uint16_t> indices = {0, 1};
 
@@ -90,7 +88,7 @@ namespace ouzel
             _boundingBox.insertPoint(finish);
         }
 
-        void DrawNode::circle(const Vector2& position, float radius, const graphics::Color& color, bool fill, uint32_t segments)
+        void DebugDrawable::circle(const Vector2& position, float radius, const graphics::Color& color, bool fill, uint32_t segments)
         {
             if (segments < 3)
             {
@@ -151,7 +149,7 @@ namespace ouzel
             _boundingBox.insertPoint(Vector2(position.x + radius, position.y + radius));
         }
 
-        void DrawNode::rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill)
+        void DebugDrawable::rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill)
         {
             std::vector<uint16_t> indices;
 
@@ -186,7 +184,7 @@ namespace ouzel
             _boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
         }
 
-        void DrawNode::triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill)
+        void DebugDrawable::triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill)
         {
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPC> vertices;

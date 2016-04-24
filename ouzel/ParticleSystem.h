@@ -6,7 +6,8 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "Node.h"
+#include "Drawable.h"
+#include "Types.h"
 #include "ParticleDefinition.h"
 #include "Vector2.h"
 #include "Color.h"
@@ -52,7 +53,7 @@ namespace ouzel
             float deltaRadius = 0.0f;
         };
 
-        class ParticleSystem: public Node
+        class ParticleSystem: public Drawable
         {
         public:
             static std::shared_ptr<ParticleSystem> createFromFile(const std::string& filename);
@@ -60,7 +61,7 @@ namespace ouzel
             ParticleSystem();
             virtual ~ParticleSystem();
 
-            virtual void draw();
+            virtual void draw(const Matrix4& projection, const Matrix4& transform);
             virtual void update(float delta);
 
             virtual bool initFromFile(const std::string& filename);

@@ -19,6 +19,18 @@
 		3009342B1C88964700CC50D3 /* WindowIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 300934291C88964700CC50D3 /* WindowIOS.h */; };
 		3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009342C1C88978D00CC50D3 /* WindowTVOS.mm */; };
 		3009342F1C88978D00CC50D3 /* WindowTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009342D1C88978D00CC50D3 /* WindowTVOS.h */; };
+		301EB3A21CCD691800466E92 /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Drawable.cpp */; };
+		301EB3A31CCD691800466E92 /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Drawable.cpp */; };
+		301EB3A41CCD691800466E92 /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Drawable.cpp */; };
+		301EB3A51CCD691800466E92 /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A11CCD691800466E92 /* Drawable.h */; };
+		301EB3A61CCD691800466E92 /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A11CCD691800466E92 /* Drawable.h */; };
+		301EB3A71CCD691800466E92 /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A11CCD691800466E92 /* Drawable.h */; };
+		301EB3AA1CCD77F600466E92 /* TextDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A81CCD77F600466E92 /* TextDrawable.cpp */; };
+		301EB3AB1CCD77F600466E92 /* TextDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A81CCD77F600466E92 /* TextDrawable.cpp */; };
+		301EB3AC1CCD77F600466E92 /* TextDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A81CCD77F600466E92 /* TextDrawable.cpp */; };
+		301EB3AD1CCD77F600466E92 /* TextDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A91CCD77F600466E92 /* TextDrawable.h */; };
+		301EB3AE1CCD77F600466E92 /* TextDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A91CCD77F600466E92 /* TextDrawable.h */; };
+		301EB3AF1CCD77F600466E92 /* TextDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A91CCD77F600466E92 /* TextDrawable.h */; };
 		30324E141CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
 		30324E151CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
 		30324E161CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
@@ -450,12 +462,12 @@
 		305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
 		305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
 		305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
-		306B0E5F1C567D05005C75C1 /* DrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DrawNode.cpp */; };
-		306B0E601C567D05005C75C1 /* DrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DrawNode.cpp */; };
-		306B0E611C567D05005C75C1 /* DrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DrawNode.cpp */; };
-		306B0E621C567D05005C75C1 /* DrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DrawNode.h */; };
-		306B0E631C567D05005C75C1 /* DrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DrawNode.h */; };
-		306B0E641C567D05005C75C1 /* DrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DrawNode.h */; };
+		306B0E5F1C567D05005C75C1 /* DebugDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */; };
+		306B0E601C567D05005C75C1 /* DebugDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */; };
+		306B0E611C567D05005C75C1 /* DebugDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */; };
+		306B0E621C567D05005C75C1 /* DebugDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DebugDrawable.h */; };
+		306B0E631C567D05005C75C1 /* DebugDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DebugDrawable.h */; };
+		306B0E641C567D05005C75C1 /* DebugDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DebugDrawable.h */; };
 		30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
 		30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
 		30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
@@ -574,6 +586,10 @@
 		300934291C88964700CC50D3 /* WindowIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowIOS.h; sourceTree = "<group>"; };
 		3009342C1C88978D00CC50D3 /* WindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowTVOS.mm; sourceTree = "<group>"; };
 		3009342D1C88978D00CC50D3 /* WindowTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowTVOS.h; sourceTree = "<group>"; };
+		301EB3A01CCD691800466E92 /* Drawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawable.cpp; sourceTree = "<group>"; };
+		301EB3A11CCD691800466E92 /* Drawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Drawable.h; sourceTree = "<group>"; };
+		301EB3A81CCD77F600466E92 /* TextDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextDrawable.cpp; sourceTree = "<group>"; };
+		301EB3A91CCD77F600466E92 /* TextDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextDrawable.h; sourceTree = "<group>"; };
 		30324E121CB2898E00601A64 /* BlendState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendState.cpp; sourceTree = "<group>"; };
 		30324E131CB2898E00601A64 /* BlendState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendState.h; sourceTree = "<group>"; };
 		30324E1A1CB28A4400601A64 /* BlendStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BlendStateOGL.cpp; path = opengl/BlendStateOGL.cpp; sourceTree = "<group>"; };
@@ -733,8 +749,8 @@
 		305B999A1C42A695008589E1 /* BMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFont.cpp; sourceTree = "<group>"; };
 		305B999B1C42A695008589E1 /* BMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMFont.h; sourceTree = "<group>"; };
 		305B99C71C451962008589E1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
-		306B0E5D1C567D05005C75C1 /* DrawNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawNode.cpp; sourceTree = "<group>"; };
-		306B0E5E1C567D05005C75C1 /* DrawNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawNode.h; sourceTree = "<group>"; };
+		306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugDrawable.cpp; sourceTree = "<group>"; };
+		306B0E5E1C567D05005C75C1 /* DebugDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugDrawable.h; sourceTree = "<group>"; };
 		309ACD261C70DA73005325D3 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
 		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
@@ -820,8 +836,10 @@
 			children = (
 				304A8E2B1C237C70008B1151 /* Camera.cpp */,
 				304A8E2C1C237C70008B1151 /* Camera.h */,
-				306B0E5D1C567D05005C75C1 /* DrawNode.cpp */,
-				306B0E5E1C567D05005C75C1 /* DrawNode.h */,
+				301EB3A01CCD691800466E92 /* Drawable.cpp */,
+				301EB3A11CCD691800466E92 /* Drawable.h */,
+				306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */,
+				306B0E5E1C567D05005C75C1 /* DebugDrawable.h */,
 				30575AA41C39D1FF0009C8A7 /* Layer.cpp */,
 				30575AA51C39D1FF0009C8A7 /* Layer.h */,
 				304A8E361C237C70008B1151 /* Node.cpp */,
@@ -837,6 +855,8 @@
 				304A8E411C237C70008B1151 /* SceneManager.h */,
 				304A8E441C237C70008B1151 /* Sprite.cpp */,
 				304A8E451C237C70008B1151 /* Sprite.h */,
+				301EB3A81CCD77F600466E92 /* TextDrawable.cpp */,
+				301EB3A91CCD77F600466E92 /* TextDrawable.h */,
 			);
 			name = scene;
 			sourceTree = "<group>";
@@ -1179,7 +1199,7 @@
 				3047F75A1C4C4FBA00774E3D /* Scale.h in Headers */,
 				30575A931C38BD370009C8A7 /* AABB2.h in Headers */,
 				30EF36671CA845DC00F04F29 /* ComboBox.h in Headers */,
-				306B0E631C567D05005C75C1 /* DrawNode.h in Headers */,
+				306B0E631C567D05005C75C1 /* DebugDrawable.h in Headers */,
 				304B27591C9384A600BA162D /* Size3.h in Headers */,
 				303B754B1C2A3C9200FEDE92 /* Texture.h in Headers */,
 				30C56C691CAB3F2D007AEF8F /* RadioButton.h in Headers */,
@@ -1188,6 +1208,7 @@
 				30EF364F1CA76ACD00F04F29 /* ScrollArea.h in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.h in Headers */,
 				30575AA21C39CB790009C8A7 /* Scene.h in Headers */,
+				301EB3AE1CCD77F600466E92 /* TextDrawable.h in Headers */,
 				303B753F1C2A3C9200FEDE92 /* Color.h in Headers */,
 				303B75471C2A3C9200FEDE92 /* RenderTarget.h in Headers */,
 				30D0FB5F1CC2C99600477DB0 /* TextureVSIOS.h in Headers */,
@@ -1262,6 +1283,7 @@
 				30547E531CB3D6720055EE79 /* ShaderMetal.h in Headers */,
 				300934201C88698500CC50D3 /* Window.h in Headers */,
 				304B277D1C95C54D00BA162D /* EditBox.h in Headers */,
+				301EB3A61CCD691800466E92 /* Drawable.h in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
 				30547E4D1CB3D6720055EE79 /* RenderTargetMetal.h in Headers */,
 				304B27A81C9A063300BA162D /* ColorVSOGL.h in Headers */,
@@ -1290,7 +1312,7 @@
 				3047F75B1C4C4FBA00774E3D /* Scale.h in Headers */,
 				30575A941C38BD370009C8A7 /* AABB2.h in Headers */,
 				30EF36681CA845DC00F04F29 /* ComboBox.h in Headers */,
-				306B0E641C567D05005C75C1 /* DrawNode.h in Headers */,
+				306B0E641C567D05005C75C1 /* DebugDrawable.h in Headers */,
 				304B275A1C9384A600BA162D /* Size3.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
 				30C56C6A1CAB3F2D007AEF8F /* RadioButton.h in Headers */,
@@ -1299,6 +1321,7 @@
 				30EF36501CA76ACD00F04F29 /* ScrollArea.h in Headers */,
 				303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */,
 				30575AA31C39CB790009C8A7 /* Scene.h in Headers */,
+				301EB3AF1CCD77F600466E92 /* TextDrawable.h in Headers */,
 				303B765B1C355A3B00FEDE92 /* Color.h in Headers */,
 				303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */,
 				30D0FB601CC2C99600477DB0 /* TextureVSIOS.h in Headers */,
@@ -1373,6 +1396,7 @@
 				30547E421CB3D6720055EE79 /* MeshBufferMetal.h in Headers */,
 				30547E541CB3D6720055EE79 /* ShaderMetal.h in Headers */,
 				300934211C88698500CC50D3 /* Window.h in Headers */,
+				301EB3A71CCD691800466E92 /* Drawable.h in Headers */,
 				304B277E1C95C54D00BA162D /* EditBox.h in Headers */,
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
 				30547E4E1CB3D6720055EE79 /* RenderTargetMetal.h in Headers */,
@@ -1449,7 +1473,7 @@
 				30A9C1341CAE80570084C4BF /* Localization.h in Headers */,
 				30575AD01C3B175D0009C8A7 /* Label.h in Headers */,
 				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
-				306B0E621C567D05005C75C1 /* DrawNode.h in Headers */,
+				306B0E621C567D05005C75C1 /* DebugDrawable.h in Headers */,
 				3047F7411C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
 				30D0FB431CC2C99600477DB0 /* ColorPSIOS.h in Headers */,
@@ -1490,6 +1514,7 @@
 				304B27581C9384A600BA162D /* Size3.h in Headers */,
 				3047F7611C4C60B900774E3D /* Fade.h in Headers */,
 				304A8E621C237C70008B1151 /* Rectangle.h in Headers */,
+				301EB3AD1CCD77F600466E92 /* TextDrawable.h in Headers */,
 				304A8E671C237C70008B1151 /* SceneManager.h in Headers */,
 				30575AE41C3C91A40009C8A7 /* InputApple.h in Headers */,
 				304B27C21C9A063300BA162D /* ShaderOGL.h in Headers */,
@@ -1497,6 +1522,7 @@
 				304A8E521C237C70008B1151 /* Camera.h in Headers */,
 				304B27B01C9A063300BA162D /* MeshBufferOGL.h in Headers */,
 				304B27CE1C9A063300BA162D /* TexturePSOGLES.h in Headers */,
+				301EB3A51CCD691800466E92 /* Drawable.h in Headers */,
 				30D0FB461CC2C99600477DB0 /* ColorPSOSX.h in Headers */,
 				304A8E551C237C70008B1151 /* EventHander.h in Headers */,
 				30D0FB521CC2C99600477DB0 /* ColorVSTVOS.h in Headers */,
@@ -1601,7 +1627,7 @@
 			files = (
 				30547E441CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
 				30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */,
-				306B0E601C567D05005C75C1 /* DrawNode.cpp in Sources */,
+				306B0E601C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
@@ -1622,7 +1648,9 @@
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
 				30EF365C1CA76B9E00F04F29 /* Popup.cpp in Sources */,
+				301EB3A31CCD691800466E92 /* Drawable.cpp in Sources */,
 				3047F74F1C4C4FAF00774E3D /* Rotate.cpp in Sources */,
+				301EB3AB1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				303B75481C2A3C9200FEDE92 /* Shader.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
 				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
@@ -1690,7 +1718,7 @@
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				30547E451CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
-				306B0E611C567D05005C75C1 /* DrawNode.cpp in Sources */,
+				306B0E611C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
@@ -1710,7 +1738,9 @@
 				30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
+				301EB3A41CCD691800466E92 /* Drawable.cpp in Sources */,
 				30EF365D1CA76B9E00F04F29 /* Popup.cpp in Sources */,
+				301EB3AC1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */,
 				3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				303B763D1C355A3B00FEDE92 /* Shader.cpp in Sources */,
@@ -1798,7 +1828,9 @@
 				30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
+				301EB3A21CCD691800466E92 /* Drawable.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
+				301EB3AA1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,
 				30547E611CB3D6C00055EE79 /* BlendStateMetal.mm in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
@@ -1832,7 +1864,7 @@
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
 				30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				30C56C5B1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
-				306B0E5F1C567D05005C75C1 /* DrawNode.cpp in Sources */,
+				306B0E5F1C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
 				30547E491CB3D6720055EE79 /* RendererMetal.mm in Sources */,
 				30547E551CB3D6720055EE79 /* ShaderMetal.mm in Sources */,
 				304B27AD1C9A063300BA162D /* MeshBufferOGL.cpp in Sources */,

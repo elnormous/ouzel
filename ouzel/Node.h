@@ -65,8 +65,6 @@ namespace ouzel
             virtual void setVisible(bool visible);
             virtual bool isVisible() const { return _visible; }
 
-            virtual const AABB2& getBoundingBox() const { return _boundingBox; }
-
             virtual bool pointOn(const Vector2& position) const;
             virtual bool rectangleOverlaps(const Rectangle& rectangle) const;
 
@@ -87,6 +85,11 @@ namespace ouzel
 
             void receiveInput(bool receiveInput) { _receiveInput = receiveInput; }
             bool isReceivingInput() const { return _receiveInput; }
+
+            const std::vector<DrawablePtr> getDrawables() const { return _drawables; }
+            void addDrawable(DrawablePtr drawable);
+            void removeDrawable(uint32_t index);
+            void removeDrawable(DrawablePtr drawable);
 
         protected:
             virtual void addToLayer(const LayerWeakPtr& layer);
@@ -117,8 +120,6 @@ namespace ouzel
             float _z = 0.0f;
             bool _globalOrder = true;
 
-            AABB2 _boundingBox;
-
             bool _flipX = false;
             bool _flipY = false;
 
@@ -131,6 +132,8 @@ namespace ouzel
 
             AnimatorPtr _currentAnimator;
             bool _remove = false;
+
+            std::vector<DrawablePtr> _drawables;
         };
     } // namespace scene
 } // namespace ouzel

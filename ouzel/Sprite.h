@@ -3,7 +3,8 @@
 
 #pragma once
 
-#include "Node.h"
+#include "Drawable.h"
+#include "Types.h"
 #include "Size2.h"
 #include "MeshBuffer.h"
 #include "Rectangle.h"
@@ -14,7 +15,7 @@ namespace ouzel
     {
         class SceneManager;
 
-        class Sprite: public Node
+        class Sprite: public Drawable
         {
         public:
             static std::shared_ptr<Sprite> createFromFile(const std::string& filename, bool mipmaps = true);
@@ -25,9 +26,9 @@ namespace ouzel
             virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
 
             virtual void update(float delta);
-            virtual void draw() override;
+            virtual void draw(const Matrix4& projection, const Matrix4& transform) override;
 
-            virtual void setOpacity(float opacity) override;
+            virtual void setOpacity(float opacity);
 
             virtual graphics::TexturePtr getTexture() const { return _texture; }
             virtual void setTexture(const graphics::TexturePtr& texture);

@@ -455,5 +455,36 @@ namespace ouzel
             _inverseTransform.invert();
             _inverseTransformDirty = false;
         }
+
+        void Node::addDrawable(DrawablePtr drawable)
+        {
+            _drawables.push_back(drawable);
+        }
+
+        void Node::removeDrawable(uint32_t index)
+        {
+            if (index >= _drawables.size())
+            {
+                return;
+            }
+
+            _drawables.erase(_drawables.begin() + index);
+        }
+
+        void Node::removeDrawable(DrawablePtr drawable)
+        {
+            for (auto i = _drawables.begin(); i != _drawables.end())
+            {
+                if (*i == drawable)
+                {
+                    i = _drawables.erase(i);
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+
     } // namespace scene
 } // namespace ouzel

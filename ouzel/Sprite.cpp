@@ -244,19 +244,17 @@ namespace ouzel
             }
         }
 
-        void Sprite::draw()
+        void Sprite::draw(const Matrix4& projection, const Matrix4& transform)
         {
-            Node::draw();
+            Drawable::draw(projection, transform);
 
-            LayerPtr layer = _layer.lock();
-
-            if (_texture && layer)
+            if (_texture)
             {
                 sharedEngine->getRenderer()->activateBlendState(_blendState);
                 sharedEngine->getRenderer()->activateTexture(_texture, 0);
                 sharedEngine->getRenderer()->activateShader(_shader);
 
-                Matrix4 modelViewProj = layer->getCamera()->getViewProjection() * _transform;
+                Matrix4 modelViewProj = projection * transform;
 
                 _shader->setVertexShaderConstant(0, { modelViewProj });
 
@@ -271,7 +269,7 @@ namespace ouzel
 
         void Sprite::setOpacity(float opacity)
         {
-            Node::setOpacity(opacity);
+            //Node::setOpacity(opacity);
 
             updateVertexColor();
         }

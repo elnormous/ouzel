@@ -5,7 +5,7 @@
 
 #include <vector>
 #include "Types.h"
-#include "Node.h"
+#include "Drawable.h"
 #include "Renderer.h"
 #include "Color.h"
 
@@ -13,12 +13,12 @@ namespace ouzel
 {
     namespace scene
     {
-        class DrawNode: public Node
+        class DebugDrawable: public Drawable
         {
         public:
-            DrawNode();
+            DebugDrawable();
 
-            virtual void draw();
+            virtual void draw(const Matrix4& projection, const Matrix4& transform) override;
 
             void clear();
 

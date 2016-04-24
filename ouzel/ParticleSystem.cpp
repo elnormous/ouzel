@@ -44,13 +44,11 @@ namespace ouzel
             sharedEngine->unscheduleUpdate(_updateCallback);
         }
 
-        void ParticleSystem::draw()
+        void ParticleSystem::draw(const Matrix4& projection, const Matrix4& transform)
         {
-            Node::draw();
+            Drawable::draw(projection, transform);
 
-            LayerPtr layer = _layer.lock();
-
-            if (_shader && _texture && layer && _particleCount)
+            if (_shader && _texture && _particleCount)
             {
                 if (_needsMeshUpdate)
                 {
@@ -65,11 +63,11 @@ namespace ouzel
 
                 if (_positionType == ParticleDefinition::PositionType::FREE || _positionType == ParticleDefinition::PositionType::RELATIVE)
                 {
-                    transform = layer->getCamera()->getViewProjection();
+                    transform = projection;
                 }
                 else if (_positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    transform = layer->getCamera()->getViewProjection() * getTransform();
+                    transform = projection * transform;
                 }
 
                 _shader->setVertexShaderConstant(0, { transform });
