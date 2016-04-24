@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "Label.h"
 #include "Utils.h"
+#include "TextDrawable.h"
 
 namespace ouzel
 {
@@ -87,7 +88,7 @@ namespace ouzel
 
             if (!label.empty())
             {
-                _label = Label::create(font, label);
+                _label = scene::TextDrawable::create(font, label);
                 if (_label)
                 {
                     _label->setColor(labelColor);

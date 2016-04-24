@@ -8,6 +8,10 @@ namespace ouzel
 {
     namespace scene
     {
+        Drawable::~Drawable()
+        {
+        }
+
         void Drawable::draw(const Matrix4& projection, const Matrix4& transform)
         {
             OUZEL_UNUSED(projection);

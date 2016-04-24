@@ -124,6 +124,9 @@ namespace ouzel
         class DebugDrawable;
         typedef std::shared_ptr<DebugDrawable> DebugDrawablePtr;
 
+        class TextDrawable;
+        typedef std::shared_ptr<TextDrawable> TextDrawablePtr;
+
         class Animator;
         typedef std::shared_ptr<Animator> AnimatorPtr;
         typedef std::weak_ptr<Animator> AnimatorWeakPtr;

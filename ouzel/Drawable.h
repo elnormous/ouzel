@@ -14,14 +14,20 @@ namespace ouzel
         class Drawable: public ouzel::Noncopyable
         {
         public:
+            virtual ~Drawable();
+
             virtual void draw(const Matrix4& projection, const Matrix4& transform);
 
             virtual const AABB2& getBoundingBox() const { return _boundingBox; }
 
             virtual bool pointOn(const Vector2& position) const;
+
+            bool isVisible() const { return _visible; }
+            virtual void setVisible(bool visible) { _visible = visible; }
             
         protected:
             AABB2 _boundingBox;
+            bool _visible = true;
         };
     } // namespace scene
 } // namespace ouzel

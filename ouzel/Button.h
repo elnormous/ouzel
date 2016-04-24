@@ -39,7 +39,7 @@ namespace ouzel
             scene::SpritePtr _selectedSprite;
             scene::SpritePtr _pressedSprite;
             scene::SpritePtr _disabledSprite;
-            LabelPtr _label;
+            scene::TextDrawablePtr _label;
 
             EventHandlerPtr _eventHandler;
 

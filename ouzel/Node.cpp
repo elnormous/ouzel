@@ -159,7 +159,10 @@ namespace ouzel
                 {
                     for (const DrawablePtr& drawable : _drawables)
                     {
-                        drawable->draw(layer->getCamera()->getProjection(), _transform);
+                        if (drawable->isVisible())
+                        {
+                            drawable->draw(layer->getCamera()->getProjection(), _transform);
+                        }
                     }
                 }
             }
@@ -289,7 +292,7 @@ namespace ouzel
 
         bool Node::rectangleOverlaps(const Rectangle& rectangle) const
         {
-            Matrix4 inverse = getInverseTransform();
+            /*Matrix4 inverse = getInverseTransform();
 
             Vector3 corners[4] = {
                 Vector3(rectangle.left(), rectangle.bottom(), 0.0f),
@@ -342,7 +345,7 @@ namespace ouzel
                 {
                     return true;
                 }
-            }
+            }*/
 
             return false;
         }
@@ -404,8 +407,9 @@ namespace ouzel
             {
                 for (const DrawablePtr& drawable : _drawables)
                 {
-                    if (drawable->getBoundingBox().isEmpty() ||
-                        sharedEngine->getRenderer()->checkVisibility(getTransform(), drawable->getBoundingBox(), layer->getCamera()))
+                    if (drawable->isVisible() &&
+                        (drawable->getBoundingBox().isEmpty() ||
+                         sharedEngine->getRenderer()->checkVisibility(getTransform(), drawable->getBoundingBox(), layer->getCamera())))
                     {
                         return true;
                     }
