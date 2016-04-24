@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "Utils.h"
 #include "MathUtils.h"
+#include "Drawable.h"
 
 namespace ouzel
 {
@@ -262,7 +263,17 @@ namespace ouzel
 
         bool Node::pointOn(const Vector2& position) const
         {
-            return _boundingBox.containPoint(convertWorldToLocal(position));
+            Vector2 localPosition = convertWorldToLocal(position);
+
+            for (const DrawablePtr& drawable : _drawables)
+            {
+                if (drawable->pointOn(localPosition))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         bool Node::rectangleOverlaps(const Rectangle& rectangle) const

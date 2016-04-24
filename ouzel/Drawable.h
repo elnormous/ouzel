@@ -17,6 +17,8 @@ namespace ouzel
             virtual void draw(const Matrix4& projection, const Matrix4& transform);
 
             virtual const AABB2& getBoundingBox() const { return _boundingBox; }
+
+            virtual bool pointOn(const Vector2& position) const;
             
         protected:
             AABB2 _boundingBox;

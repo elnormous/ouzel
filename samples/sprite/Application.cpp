@@ -41,42 +41,56 @@ void Application::begin()
     scene->addLayer(_uiLayer);
     _uiLayer->setCamera(std::make_shared<scene::Camera>());
 
-    scene::DrawNodePtr drawNode = std::make_shared<scene::DrawNode>();
-    drawNode->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(0, 128, 128, 255), true);
-    drawNode->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(255, 255, 255, 255), false);
-    drawNode->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), graphics::Color(0, 255, 255, 255));
-    drawNode->point(Vector2(75.0f, 75.0f), graphics::Color(255, 0, 0, 255));
+    scene::DebugDrawablePtr debugDrawable = std::make_shared<scene::DebugDrawable>();
+    debugDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(0, 128, 128, 255), true);
+    debugDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(255, 255, 255, 255), false);
+    debugDrawable->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), graphics::Color(0, 255, 255, 255));
+    debugDrawable->point(Vector2(75.0f, 75.0f), graphics::Color(255, 0, 0, 255));
 
-    drawNode->circle(Vector2(75.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255));
-    drawNode->circle(Vector2(25.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255), true);
+    debugDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255));
+    debugDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255), true);
 
+    scene::NodePtr drawNode = std::make_shared<scene::Node>();
+    drawNode->addDrawable(debugDrawable);
     drawNode->setPosition(Vector2(-300, 0.0f));
     _layer->addChild(drawNode);
 
-    _sprite = scene::Sprite::createFromFile("run.json");
-    _sprite->play(true);
-    _layer->addChild(_sprite);
-    _sprite->setPosition(Vector2(-300.0f, 0.0f));
+    scene::SpritePtr characterSprite = scene::Sprite::createFromFile("run.json");
+    characterSprite->play(true);
+
+    _character = std::make_shared<scene::Node>();
+    _character->addDrawable(characterSprite);
+    _layer->addChild(_character);
+    _character->setPosition(Vector2(-300.0f, 0.0f));
 
     std::vector<scene::AnimatorPtr> sequence = {
         make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f)),
         make_shared<scene::Fade>(2.0f, 0.4f)
     };
 
-    _sprite->animate(make_shared<scene::Sequence>(sequence));
+    _character->animate(make_shared<scene::Sequence>(sequence));
 
-    scene::SpritePtr fire = scene::Sprite::createFromFile("fire.json");
-    fire->play(true);
-    fire->setPosition(Vector2(-100.0f, -100.0f));
-    _layer->addChild(fire);
-    fire->animate(make_shared<scene::Fade>(5.0f, 0.5f));
+    scene::SpritePtr fireSprite = scene::Sprite::createFromFile("fire.json");
+    fireSprite->play(true);
 
-    _flame = scene::ParticleSystem::createFromFile("flame.json");
+    scene::NodePtr fireNode = std::make_shared<scene::Node>();
+    fireNode->addDrawable(fireSprite);
+    fireNode->setPosition(Vector2(-100.0f, -100.0f));
+    _layer->addChild(fireNode);
+    fireNode->animate(make_shared<scene::Fade>(5.0f, 0.5f));
+
+    scene::ParticleSystemPtr flameParticleSystem = scene::ParticleSystem::createFromFile("flame.json");
+
+    _flame = std::make_shared<scene::Node>();
+    _flame->addDrawable(flameParticleSystem);
     _layer->addChild(_flame);
 
-    _witch = scene::Sprite::createFromFile("witch.png");
+    scene::SpritePtr witchSprite = scene::Sprite::createFromFile("witch.png");
+    witchSprite->setColor(graphics::Color(128, 0, 255, 255));
+
+    _witch = std::make_shared<scene::Node>();
+    _witch->addDrawable(witchSprite);
     _witch->setPosition(Vector2(100.0f, 100.0f));
-    _witch->setColor(graphics::Color(128, 0, 255, 255));
     _layer->addChild(_witch);
     _witch->animate(make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3));
 
@@ -220,7 +234,7 @@ bool Application::handleUI(const UIEventPtr& event, const VoidPtr& sender) const
 {
     if (event->type == Event::Type::UI_CLICK_NODE && sender == _button)
     {
-        _sprite->setVisible(!_sprite->isVisible());
+        _character->setVisible(!_character->isVisible());
     }
 
     return true;

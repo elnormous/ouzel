@@ -13,5 +13,10 @@ namespace ouzel
             OUZEL_UNUSED(projection);
             OUZEL_UNUSED(transform);
         }
+
+        bool Drawable::pointOn(const Vector2& position) const
+        {
+            return _boundingBox.containPoint(position);
+        }
     } // namespace scene
 } // namespace ouzel

@@ -56,6 +56,7 @@ namespace ouzel
             graphics::ShaderPtr _shader;
             graphics::BlendStatePtr _blendState;
 
+            float _opacity = 1.0f;
             Size2 _size;
 
             uint32_t _frameCount = 0;

@@ -20,9 +20,9 @@ protected:
     ouzel::scene::LayerPtr _layer;
     ouzel::scene::LayerPtr _uiLayer;
 
-    ouzel::scene::SpritePtr _sprite;
-    ouzel::scene::SpritePtr _witch;
-    ouzel::scene::ParticleSystemPtr _flame;
+    ouzel::scene::NodePtr _character;
+    ouzel::scene::NodePtr _witch;
+    ouzel::scene::NodePtr _flame;
 
     ouzel::gui::ButtonPtr _button;
 
