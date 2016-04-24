@@ -54,9 +54,7 @@ namespace ouzel
                 _normalSprite = std::make_shared<scene::Sprite>();
                 if (_normalSprite->initFromFile(normal, false))
                 {
-                    _boundingBox = _normalSprite->getBoundingBox();
-                    _normalSprite->setPickable(false);
-                    addChild(_normalSprite);
+                    addDrawable(_normalSprite);
                 }
             }
 
@@ -65,9 +63,7 @@ namespace ouzel
                 _selectedSprite = std::make_shared<scene::Sprite>();
                 if (_selectedSprite->initFromFile(selected, false))
                 {
-                    _boundingBox.merge(_selectedSprite->getBoundingBox());
-                    _selectedSprite->setPickable(false);
-                    addChild(_selectedSprite);
+                    addDrawable(_selectedSprite);
                 }
             }
 
@@ -76,9 +72,7 @@ namespace ouzel
                 _pressedSprite = std::make_shared<scene::Sprite>();
                 if (_pressedSprite->initFromFile(pressed, false))
                 {
-                    _boundingBox.merge(_pressedSprite->getBoundingBox());
-                    _pressedSprite->setPickable(false);
-                    addChild(_pressedSprite);
+                    addDrawable(_pressedSprite);
                 }
             }
 
@@ -87,9 +81,7 @@ namespace ouzel
                 _disabledSprite = std::make_shared<scene::Sprite>();
                 if (_disabledSprite->initFromFile(disabled, false))
                 {
-                    _boundingBox.merge(_disabledSprite->getBoundingBox());
-                    _disabledSprite->setPickable(false);
-                    addChild(_disabledSprite);
+                    addDrawable(_disabledSprite);
                 }
             }
 
@@ -98,10 +90,8 @@ namespace ouzel
                 _label = Label::create(font, label);
                 if (_label)
                 {
-                    _boundingBox.merge(_label->getBoundingBox());
                     _label->setColor(labelColor);
-                    _label->setPickable(false);
-                    addChild(_label);
+                    addDrawable(_label);
                 }
             }
 

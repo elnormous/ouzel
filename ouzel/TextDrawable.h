@@ -3,13 +3,16 @@
 
 #pragma once
 
+#include "Drawable.h"
+
 namespace ouzel
 {
     namespace scene
     {
-        class TextDrawable
+        class TextDrawable: public Drawable
         {
         public:
+            virtual void draw(const Matrix4& projection, const Matrix4& transform) override;
         };
     } // namespace scene
 } // namespace ouzel

@@ -106,12 +106,6 @@ namespace ouzel
             {
                 _active = false;
                 sharedEngine->unscheduleUpdate(_updateCallback);
-
-                if (_finished && _removeOnFinish)
-                {
-                    removeFromParent();
-                    return;
-                }
             }
 
             if (_active)

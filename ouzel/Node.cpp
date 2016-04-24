@@ -391,12 +391,14 @@ namespace ouzel
         {
             if (const LayerPtr& layer = _layer.lock())
             {
-                if (_boundingBox.isEmpty())
+                for (const DrawablePtr& drawable : _drawables)
                 {
-                    return true;
+                    if (drawable->getBoundingBox().isEmpty() ||
+                        sharedEngine->getRenderer()->checkVisibility(getTransform(), drawable->getBoundingBox(), layer->getCamera()))
+                    {
+                        return true;
+                    }
                 }
-
-                return sharedEngine->getRenderer()->checkVisibility(getTransform(), _boundingBox, layer->getCamera());
             }
 
             return false;
