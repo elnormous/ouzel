@@ -152,6 +152,17 @@ namespace ouzel
             {
                 calculateTransform();
             }
+
+            if (LayerPtr layer = _layer.lock())
+            {
+                if (layer->getCamera())
+                {
+                    for (const DrawablePtr& drawable : _drawables)
+                    {
+                        drawable->draw(layer->getCamera()->getProjection(), _transform);
+                    }
+                }
+            }
         }
 
         bool Node::addChild(const NodePtr& node)
@@ -486,7 +497,7 @@ namespace ouzel
 
         void Node::removeDrawable(DrawablePtr drawable)
         {
-            for (auto i = _drawables.begin(); i != _drawables.end())
+            for (auto i = _drawables.begin(); i != _drawables.end();)
             {
                 if (*i == drawable)
                 {
