@@ -487,6 +487,7 @@ namespace ouzel
         void Node::addDrawable(DrawablePtr drawable)
         {
             _drawables.push_back(drawable);
+            drawable->setParentNode(std::static_pointer_cast<Node>(shared_from_this()));
         }
 
         void Node::removeDrawable(uint32_t index)

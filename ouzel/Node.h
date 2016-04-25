@@ -91,6 +91,8 @@ namespace ouzel
             void removeDrawable(uint32_t index);
             void removeDrawable(DrawablePtr drawable);
 
+            LayerPtr getLayer() const { return _layer.lock(); }
+
         protected:
             virtual void addToLayer(const LayerWeakPtr& layer);
             virtual void removeFromLayer();

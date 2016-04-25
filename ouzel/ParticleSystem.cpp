@@ -188,13 +188,16 @@ namespace ouzel
 
                 if (_positionType == ParticleDefinition::PositionType::FREE || _positionType == ParticleDefinition::PositionType::RELATIVE)
                 {
-                    const Matrix4& inverseTransform = getInverseTransform();
-
-                    for (uint32_t i = 0; i < _particleCount; i++)
+                    if (NodePtr parentNode = _parentNode.lock())
                     {
-                        Vector3 position = _particles[i].position;
-                        inverseTransform.transformPoint(position);
-                        _boundingBox.insertPoint(Vector2(position.x, position.y));
+                        const Matrix4& inverseTransform = parentNode->getInverseTransform();
+
+                        for (uint32_t i = 0; i < _particleCount; i++)
+                        {
+                            Vector3 position = _particles[i].position;
+                            inverseTransform.transformPoint(position);
+                            _boundingBox.insertPoint(Vector2(position.x, position.y));
+                        }
                     }
                 }
                 else if (_particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
@@ -291,53 +294,56 @@ namespace ouzel
 
         void ParticleSystem::updateParticleMesh()
         {
-            for (uint32_t counter = _particleCount; counter > 0; --counter)
+            if (NodePtr parentNode = _parentNode.lock())
             {
-                size_t i = counter - 1;
-
-                Vector2 position;
-
-                if (_positionType == ParticleDefinition::PositionType::FREE)
+                for (uint32_t counter = _particleCount; counter > 0; --counter)
                 {
-                    position = _particles[i].position;
+                    size_t i = counter - 1;
+
+                    Vector2 position;
+
+                    if (_positionType == ParticleDefinition::PositionType::FREE)
+                    {
+                        position = _particles[i].position;
+                    }
+                    else if (_positionType == ParticleDefinition::PositionType::RELATIVE)
+                    {
+                        position = parentNode->getPosition() + _particles[i].position;
+                    }
+
+                    float size_2 = _particles[i].size / 2.0f;
+                    Vector2 v1(-size_2, -size_2);
+                    Vector2 v2(size_2, size_2);
+
+                    float r = -degToRad(_particles[i].rotation);
+                    float cr = cosf(r);
+                    float sr = sinf(r);
+
+                    Vector2 a(v1.x * cr - v1.y * sr, v1.x * sr + v1.y * cr);
+                    Vector2 b(v2.x * cr - v1.y * sr, v2.x * sr + v1.y * cr);
+                    Vector2 c(v2.x * cr - v2.y * sr, v2.x * sr + v2.y * cr);
+                    Vector2 d(v1.x * cr - v2.y * sr, v1.x * sr + v2.y * cr);
+
+                    graphics::Color color(static_cast<uint8_t>(_particles[i].colorRed * 255),
+                                       static_cast<uint8_t>(_particles[i].colorGreen * 255),
+                                       static_cast<uint8_t>(_particles[i].colorBlue * 255),
+                                       static_cast<uint8_t>(_particles[i].colorAlpha * 255));
+
+                    _vertices[i * 4 + 0].position = a + position;
+                    _vertices[i * 4 + 0].color = color;
+
+                    _vertices[i * 4 + 1].position = b + position;
+                    _vertices[i * 4 + 1].color = color;
+
+                    _vertices[i * 4 + 2].position = d + position;
+                    _vertices[i * 4 + 2].color = color;
+
+                    _vertices[i * 4 + 3].position = c + position;
+                    _vertices[i * 4 + 3].color = color;
                 }
-                else if (_positionType == ParticleDefinition::PositionType::RELATIVE)
-                {
-                    position = _position + _particles[i].position;
-                }
 
-                float size_2 = _particles[i].size / 2.0f;
-                Vector2 v1(-size_2, -size_2);
-                Vector2 v2(size_2, size_2);
-
-                float r = -degToRad(_particles[i].rotation);
-                float cr = cosf(r);
-                float sr = sinf(r);
-
-                Vector2 a(v1.x * cr - v1.y * sr, v1.x * sr + v1.y * cr);
-                Vector2 b(v2.x * cr - v1.y * sr, v2.x * sr + v1.y * cr);
-                Vector2 c(v2.x * cr - v2.y * sr, v2.x * sr + v2.y * cr);
-                Vector2 d(v1.x * cr - v2.y * sr, v1.x * sr + v2.y * cr);
-
-                graphics::Color color(static_cast<uint8_t>(_particles[i].colorRed * 255),
-                                   static_cast<uint8_t>(_particles[i].colorGreen * 255),
-                                   static_cast<uint8_t>(_particles[i].colorBlue * 255),
-                                   static_cast<uint8_t>(_particles[i].colorAlpha * 255));
-
-                _vertices[i * 4 + 0].position = a + position;
-                _vertices[i * 4 + 0].color = color;
-
-                _vertices[i * 4 + 1].position = b + position;
-                _vertices[i * 4 + 1].color = color;
-
-                _vertices[i * 4 + 2].position = d + position;
-                _vertices[i * 4 + 2].color = color;
-
-                _vertices[i * 4 + 3].position = c + position;
-                _vertices[i * 4 + 3].color = color;
+                _mesh->uploadVertices(_vertices.data(), static_cast<uint32_t>(_vertices.size()));
             }
-
-            _mesh->uploadVertices(_vertices.data(), static_cast<uint32_t>(_vertices.size()));
         }
 
         void ParticleSystem::emitParticles(uint32_t particles)
@@ -349,17 +355,25 @@ namespace ouzel
 
             if (particles)
             {
-                if (LayerPtr layer = _layer.lock())
+                LayerPtr layer;
+                NodePtr parentNode = _parentNode.lock();
+
+                if (parentNode)
+                {
+                    layer = parentNode->getLayer();
+                }
+
+                if (layer)
                 {
                     Vector2 position;
 
                     if (_positionType == ParticleDefinition::PositionType::FREE)
                     {
-                        position = convertLocalToWorld(Vector2::ZERO);
+                        position = parentNode->convertLocalToWorld(Vector2::ZERO);
                     }
                     else if (_positionType == ParticleDefinition::PositionType::RELATIVE)
                     {
-                        position = convertLocalToWorld(Vector2::ZERO) - _position;
+                        position = parentNode->convertLocalToWorld(Vector2::ZERO) - parentNode->getPosition();
                     }
 
                     for (uint32_t i = _particleCount; i < _particleCount + particles; ++i)

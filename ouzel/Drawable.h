@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Noncopyable.h"
+#include "Types.h"
 #include "AABB2.h"
 #include "Matrix4.h"
 
@@ -24,10 +25,15 @@ namespace ouzel
 
             bool isVisible() const { return _visible; }
             virtual void setVisible(bool visible) { _visible = visible; }
-            
+
+            void setParentNode(const NodePtr parentNode) { _parentNode = parentNode; }
+            NodePtr getParentNode() const { return _parentNode.lock(); }
+
         protected:
             AABB2 _boundingBox;
             bool _visible = true;
+
+            NodeWeakPtr _parentNode;
         };
     } // namespace scene
 } // namespace ouzel
