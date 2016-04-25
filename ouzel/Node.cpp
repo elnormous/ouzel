@@ -161,7 +161,7 @@ namespace ouzel
                     {
                         if (drawable->isVisible())
                         {
-                            drawable->draw(layer->getCamera()->getProjection(), _transform);
+                            drawable->draw(layer->getCamera()->getViewProjection(), _transform);
                         }
                     }
                 }
