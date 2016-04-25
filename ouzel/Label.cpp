@@ -47,6 +47,8 @@ namespace ouzel
                 return false;
             }
 
+            addDrawable(_textDrawable);
+
             _textDrawable->setText(_text);
 
             return true;

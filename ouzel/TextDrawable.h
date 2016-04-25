@@ -16,12 +16,12 @@ namespace ouzel
         class TextDrawable: public Drawable
         {
         public:
-            static std::shared_ptr<TextDrawable> create(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2());
+            static std::shared_ptr<TextDrawable> create(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
 
             TextDrawable();
             virtual ~TextDrawable();
 
-            bool init(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2());
+            bool init(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
 
             virtual void draw(const Matrix4& projection, const Matrix4& transform) override;
 
