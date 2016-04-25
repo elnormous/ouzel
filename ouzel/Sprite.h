@@ -46,6 +46,9 @@ namespace ouzel
             virtual void reset();
             virtual bool isPlaying() const { return _playing; }
 
+            const Vector2& getOffset() const { return _offset; }
+            void setOffset(const Vector2& offset);
+
         protected:
             bool loadSpriteSheet(const std::string& filename, bool mipmaps);
             void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot);
@@ -60,6 +63,7 @@ namespace ouzel
             Size2 _size;
 
             uint32_t _frameCount = 0;
+            std::vector<Rectangle> _frameRectangles;
             std::vector<std::vector<graphics::VertexPCT>> _frameVertices;
             std::vector<graphics::MeshBufferPtr> _frameMeshBuffers;
             graphics::Color _color = graphics::Color(255, 255, 255, 255);
@@ -71,6 +75,8 @@ namespace ouzel
             float _timeSinceLastFrame = 0.0f;
 
             UpdateCallbackPtr _updateCallback;
+
+            Vector2 _offset;
         };
     } // namespace scene
 } // namespace ouzel

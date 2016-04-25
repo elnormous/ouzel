@@ -119,11 +119,11 @@ public:
     float left() const;
 
     /**
-     * Returns the y-coordinate of the top of the rectangle.
+     * Returns the y-coordinate of the bottom of the rectangle.
      *
-     * @return The y-coordinate of the top of the rectangle.
+     * @return The y-coordinate of the bottom of the rectangle.
      */
-    float top() const;
+    float bottom() const;
 
     /**
      * Returns the x-coordinate of the right side of the rectangle.
@@ -133,11 +133,14 @@ public:
     float right() const;
 
     /**
-     * Returns the y-coordinate of the bottom of the rectangle.
+     * Returns the y-coordinate of the top of the rectangle.
      *
-     * @return The y-coordinate of the bottom of the rectangle.
+     * @return The y-coordinate of the top of the rectangle.
      */
-    float bottom() const;
+    float top() const;
+
+    Vector2 bottomLeft() const;
+    Vector2 topRight() const;
 
     /**
      * Determines whether this rectangle contains a specified point.

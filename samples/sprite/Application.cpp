@@ -57,6 +57,7 @@ void Application::begin()
 
     scene::SpritePtr characterSprite = scene::Sprite::createFromFile("run.json");
     characterSprite->play(true);
+    characterSprite->setOffset(Vector2(0.0f, -100.0f));
 
     _character = std::make_shared<scene::Node>();
     _character->addDrawable(characterSprite);

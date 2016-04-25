@@ -51,6 +51,8 @@ namespace ouzel
             _frameVertices.clear();
             _frameMeshBuffers.clear();
 
+            _boundingBox.reset();
+
             std::string extension = sharedEngine->getFileSystem()->getExtension(filename);
 
             if (extension == "json")
@@ -82,9 +84,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            _boundingBox.set(Vector2(-_size.width / 2.0f, -_size.height / 2.0f),
-                             Vector2(_size.width / 2.0f, _size.height / 2.0f));
 
             _shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
 
@@ -175,6 +174,8 @@ namespace ouzel
             Vector2 realOffset(-sourceSize.width * pivot.x + offset.x,
                                -sourceSize.height * pivot.y + (sourceSize.height - rectangle.height - offset.y));
 
+            realOffset += _offset;
+
             if (!rotated)
             {
                 Vector2 leftTop(rectangle.x / textureSize.width,
@@ -202,6 +203,9 @@ namespace ouzel
                 textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             }
 
+            _frameRectangles.push_back(Rectangle(realOffset.x, realOffset.y,
+                                                 rectangle.width, rectangle.height));
+
             std::vector<graphics::VertexPCT> vertices = {
                 graphics::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), _color, textCoords[0]),
                 graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), _color, textCoords[1]),
@@ -217,6 +221,9 @@ namespace ouzel
                                                                                               static_cast<uint32_t>(vertices.size()), true));
 
             _frameCount++;
+
+            _boundingBox.insertPoint(realOffset);
+            _boundingBox.insertPoint(realOffset + Vector2(rectangle.width, rectangle.height));
         }
 
         void Sprite::update(float delta)
@@ -346,6 +353,34 @@ namespace ouzel
             _playing = false;
             _currentFrame = 0;
             _timeSinceLastFrame = 0.0f;
+        }
+
+        void Sprite::setOffset(const Vector2& offset)
+        {
+            _offset = offset;
+            _boundingBox.reset();
+
+            for (size_t i = 0; i < _frameVertices.size(); ++i)
+            {
+                Rectangle rectangle = _frameRectangles[i];
+
+                _frameVertices[i][0].position.x = rectangle.x + offset.x;
+                _frameVertices[i][0].position.y = rectangle.y + offset.y;
+
+                _frameVertices[i][1].position.x = rectangle.x + offset.x + rectangle.width;
+                _frameVertices[i][1].position.y = rectangle.y + offset.y;
+
+                _frameVertices[i][2].position.x = rectangle.x + offset.x;
+                _frameVertices[i][2].position.y = rectangle.y + offset.y + rectangle.height;
+
+                _frameVertices[i][3].position.x = rectangle.x + offset.x + rectangle.width;
+                _frameVertices[i][3].position.y = rectangle.y + offset.y + rectangle.height;
+
+                _frameMeshBuffers[i]->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
+
+                _boundingBox.insertPoint(rectangle.bottomLeft() + offset);
+                _boundingBox.insertPoint(rectangle.topRight() + offset);
+            }
         }
     } // namespace scene
 } // namespace ouzel

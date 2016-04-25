@@ -86,7 +86,7 @@ namespace ouzel
         return x;
     }
 
-    float Rectangle::top() const
+    float Rectangle::bottom() const
     {
         return y;
     }
@@ -96,9 +96,19 @@ namespace ouzel
         return x + width;
     }
 
-    float Rectangle::bottom() const
+    float Rectangle::top() const
     {
         return y + height;
+    }
+
+    Vector2 Rectangle::bottomLeft() const
+    {
+        return Vector2(x, y);
+    }
+
+    Vector2 Rectangle::topRight() const
+    {
+        return Vector2(x + width, y + height);
     }
 
     bool Rectangle::containsPoint(float pX, float pY) const
