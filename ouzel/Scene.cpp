@@ -155,15 +155,13 @@ namespace ouzel
             return nullptr;
         }
 
-        std::set<NodePtr> Scene::pickNodes(const Rectangle& rectangle) const
+        std::set<NodePtr> Scene::pickNodes(const std::vector<Vector2>& edges) const
         {
             std::set<NodePtr> result;
 
             for (std::vector<LayerPtr>::const_reverse_iterator i = _layers.rbegin(); i != _layers.rend(); ++i)
             {
-                // TODO: use projection
-
-                std::set<NodePtr> nodes = (*i)->pickNodes(rectangle);
+                std::set<NodePtr> nodes = (*i)->pickNodes(edges);
 
                 result.insert(nodes.begin(), nodes.end());
             }

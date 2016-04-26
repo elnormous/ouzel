@@ -98,7 +98,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::set<NodePtr> Layer::pickNodes(const Rectangle& rectangle) const
+        std::set<NodePtr> Layer::pickNodes(const std::vector<Vector2>& edges) const
         {
             std::set<NodePtr> result;
 
@@ -106,7 +106,7 @@ namespace ouzel
             {
                 NodePtr node = *i;
 
-                if (node->isVisible() && node->isPickable() && node->rectangleOverlaps(rectangle))
+                if (node->isVisible() && node->isPickable() && node->shapeOverlaps(edges))
                 {
                     result.insert(node);
                 }

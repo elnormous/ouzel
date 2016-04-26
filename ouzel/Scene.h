@@ -35,7 +35,7 @@ namespace ouzel
             virtual void reorderLayers();
 
             NodePtr pickNode(const Vector2& position) const;
-            std::set<NodePtr> pickNodes(const Rectangle& rectangle) const;
+            std::set<NodePtr> pickNodes(const std::vector<Vector2>& edges) const;
 
         protected:
             void lock();

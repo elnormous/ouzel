@@ -298,62 +298,28 @@ namespace ouzel
             return false;
         }
 
-        bool Node::rectangleOverlaps(const Rectangle& rectangle) const
+        bool Node::shapeOverlaps(const std::vector<Vector2>& edges) const
         {
-            /*Matrix4 inverse = getInverseTransform();
+            Matrix4 inverse = getInverseTransform();
 
-            Vector3 corners[4] = {
-                Vector3(rectangle.left(), rectangle.bottom(), 0.0f),
-                Vector3(rectangle.right(), rectangle.bottom(), 0.0f),
-                Vector3(rectangle.right(), rectangle.top(), 0.0f),
-                Vector3(rectangle.left(), rectangle.top(), 0.0f)
-            };
+            std::vector<Vector2> transformedEdges;
 
-            uint8_t inCorners = 0;
-
-            for (Vector3& corner : corners)
+            for (const Vector2& edge : edges)
             {
-                inverse.transformPoint(corner);
+                Vector3 transformedEdge = edge;
 
-                if (corner.x >= _boundingBox.min.x &&
-                    corner.x <= _boundingBox.max.x &&
-                    corner.y >= _boundingBox.min.y &&
-                    corner.y <= _boundingBox.max.y)
+                inverse.transformPoint(transformedEdge);
+
+                transformedEdges.push_back(Vector2(transformedEdge.x, transformedEdge.y));
+            }
+
+            for (const DrawablePtr& drawable : _drawables)
+            {
+                if (drawable->shapeOverlaps(transformedEdges))
                 {
                     return true;
                 }
-
-                if (corner.x < _boundingBox.min.x && corner.y < _boundingBox.min.y) inCorners |= 0x01;
-                if (corner.x > _boundingBox.max.x && corner.y < _boundingBox.min.y) inCorners |= 0x02;
-                if (corner.x > _boundingBox.max.x && corner.y > _boundingBox.max.y) inCorners |= 0x04;
-                if (corner.x < _boundingBox.min.x && corner.y > _boundingBox.max.y) inCorners |= 0x08;
             }
-
-            // bounding box is bigger than rectangle
-            if (inCorners == 0x0F)
-            {
-                return true;
-            }
-
-            Vector2 boundingBoxCorners[4] = {
-                Vector2(_boundingBox.min),
-                Vector2(_boundingBox.max.x, _boundingBox.min.y),
-                Vector2(_boundingBox.max),
-                Vector2(_boundingBox.min.x, _boundingBox.max.y)
-            };
-
-            for (uint32_t current = 0; current < 4; ++current)
-            {
-                uint32_t next = (current == 3) ? 0 : current + 1;
-
-                if (linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), boundingBoxCorners[0], boundingBoxCorners[1]) || // left
-                    linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), boundingBoxCorners[1], boundingBoxCorners[2]) || // top
-                    linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), boundingBoxCorners[2], boundingBoxCorners[3]) || // right
-                    linesIntersect(Vector2(corners[current].x, corners[current].y), Vector2(corners[next].x, corners[next].y), boundingBoxCorners[3], boundingBoxCorners[0])) // bottom
-                {
-                    return true;
-                }
-            }*/
 
             return false;
         }

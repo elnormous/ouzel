@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <vector>
 #include "Noncopyable.h"
 #include "Types.h"
 #include "AABB2.h"
@@ -23,6 +24,7 @@ namespace ouzel
             virtual const AABB2& getBoundingBox() const { return _boundingBox; }
 
             virtual bool pointOn(const Vector2& position) const;
+            virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
 
             bool isVisible() const { return _visible; }
             virtual void setVisible(bool visible) { _visible = visible; }

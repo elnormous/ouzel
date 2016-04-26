@@ -70,7 +70,7 @@ namespace ouzel
             virtual bool isVisible() const { return _visible; }
 
             virtual bool pointOn(const Vector2& position) const;
-            virtual bool rectangleOverlaps(const Rectangle& rectangle) const;
+            virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
 
             virtual const Matrix4& getTransform() const;
             const Matrix4& getInverseTransform() const;
