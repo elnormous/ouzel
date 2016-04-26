@@ -70,10 +70,10 @@ namespace ouzel
                     transform = projection * transform;
                 }
 
-                std::vector<float> colorVector = { color.getR(), color.getG(), color.getB(), color.getA() };
+                float colorVector[] = { color.getR(), color.getG(), color.getB(), color.getA() };
 
                 _shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, transform.m);
-                _shader->setPixelShaderConstant(0, vectorDataSize(colorVector), 1, colorVector.data());
+                _shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
 
                 sharedEngine->getRenderer()->drawMeshBuffer(_mesh, _particleCount * 6);
             }

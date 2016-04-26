@@ -262,10 +262,10 @@ namespace ouzel
                 sharedEngine->getRenderer()->activateShader(_shader);
 
                 Matrix4 modelViewProj = projection * transform;
-                std::vector<float> colorVector = { color.getR(), color.getG(), color.getB(), color.getA() };
+                float colorVector[] = { color.getR(), color.getG(), color.getB(), color.getA() };
 
                 _shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
-                _shader->setPixelShaderConstant(0, vectorDataSize(colorVector), 1, colorVector.data());
+                _shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
 
                 graphics::MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
                 sharedEngine->getRenderer()->drawMeshBuffer(meshBuffer);
