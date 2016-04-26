@@ -29,13 +29,14 @@
     <ClCompile Include="..\ouzel\CheckBox.cpp" />
     <ClCompile Include="..\ouzel\Color.cpp" />
     <ClCompile Include="..\ouzel\ComboBox.cpp" />
+    <ClCompile Include="..\ouzel\DebugDrawable.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\BlendStateD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\MeshBufferD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\RendererD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\RenderTargetD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\ShaderD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\TextureD3D11.cpp" />
-    <ClCompile Include="..\ouzel\DrawNode.cpp" />
+    <ClCompile Include="..\ouzel\Drawable.cpp" />
     <ClCompile Include="..\ouzel\Ease.cpp" />
     <ClCompile Include="..\ouzel\EditBox.cpp" />
     <ClCompile Include="..\ouzel\Engine.cpp" />
@@ -79,6 +80,7 @@
     <ClCompile Include="..\ouzel\Size3.cpp" />
     <ClCompile Include="..\ouzel\SlideBar.cpp" />
     <ClCompile Include="..\ouzel\Sprite.cpp" />
+    <ClCompile Include="..\ouzel\TextDrawable.cpp" />
     <ClCompile Include="..\ouzel\Texture.cpp" />
     <ClCompile Include="..\ouzel\Utils.cpp" />
     <ClCompile Include="..\ouzel\Vector2.cpp" />
@@ -105,6 +107,7 @@
     <ClInclude Include="..\ouzel\Color.h" />
     <ClInclude Include="..\ouzel\ComboBox.h" />
     <ClInclude Include="..\ouzel\CompileConfig.h" />
+    <ClInclude Include="..\ouzel\DebugDrawable.h" />
     <ClInclude Include="..\ouzel\direct3d11\BlendStateD3D11.h" />
     <ClInclude Include="..\ouzel\direct3d11\ColorPSD3D11.h" />
     <ClInclude Include="..\ouzel\direct3d11\ColorVSD3D11.h" />
@@ -115,7 +118,7 @@
     <ClInclude Include="..\ouzel\direct3d11\TextureD3D11.h" />
     <ClInclude Include="..\ouzel\direct3d11\TexturePSD3D11.h" />
     <ClInclude Include="..\ouzel\direct3d11\TextureVSD3D11.h" />
-    <ClInclude Include="..\ouzel\DrawNode.h" />
+    <ClInclude Include="..\ouzel\Drawable.h" />
     <ClInclude Include="..\ouzel\Ease.h" />
     <ClInclude Include="..\ouzel\EditBox.h" />
     <ClInclude Include="..\ouzel\Engine.h" />
@@ -165,6 +168,7 @@
     <ClInclude Include="..\ouzel\Size3.h" />
     <ClInclude Include="..\ouzel\SlideBar.h" />
     <ClInclude Include="..\ouzel\Sprite.h" />
+    <ClInclude Include="..\ouzel\TextDrawable.h" />
     <ClInclude Include="..\ouzel\Texture.h" />
     <ClInclude Include="..\ouzel\Types.h" />
     <ClInclude Include="..\ouzel\Utils.h" />

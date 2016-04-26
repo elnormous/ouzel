@@ -276,7 +276,7 @@ namespace ouzel
 
         void Sprite::setOpacity(float opacity)
         {
-            //Node::setOpacity(opacity);
+			_opacity = opacity;
 
             updateVertexColor();
         }
