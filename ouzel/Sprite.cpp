@@ -251,26 +251,24 @@ namespace ouzel
             }
         }
 
-        void Sprite::draw(const Matrix4& projection, const Matrix4& transform)
+        void Sprite::draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color)
         {
-            Drawable::draw(projection, transform);
+            Drawable::draw(projection, transform, color);
 
-            if (_texture)
+            if (_texture && _currentFrame < _frameCount)
             {
                 sharedEngine->getRenderer()->activateBlendState(_blendState);
                 sharedEngine->getRenderer()->activateTexture(_texture, 0);
                 sharedEngine->getRenderer()->activateShader(_shader);
 
                 Matrix4 modelViewProj = projection * transform;
+                std::vector<float> colorVector = { color.getR(), color.getG(), color.getB(), color.getA() };
 
-                _shader->setVertexShaderConstant(0, { modelViewProj });
+                _shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
+                _shader->setPixelShaderConstant(0, vectorDataSize(colorVector), 1, colorVector.data());
 
-                if (_currentFrame < _frameCount)
-                {
-                    graphics::MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
-
-                    sharedEngine->getRenderer()->drawMeshBuffer(meshBuffer);
-                }
+                graphics::MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
+                sharedEngine->getRenderer()->drawMeshBuffer(meshBuffer);
             }
         }
 

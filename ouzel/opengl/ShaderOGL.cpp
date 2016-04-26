@@ -258,74 +258,78 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
+        bool ShaderOGL::setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
         {
             if (index >= _pixelShaderConstantLocations.size()) return false;
 
             RendererOGL::bindProgram(_programId);
 
             GLint location = _pixelShaderConstantLocations[index];
-            glUniform3fv(location, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
+
+            uint32_t components = size / 4;
+
+            switch (components)
+            {
+                case 1:
+                    glUniform1fv(location, static_cast<GLsizei>(count), value);
+                    break;
+                case 2:
+                    glUniform2fv(location, static_cast<GLsizei>(count), value);
+                    break;
+                case 3:
+                    glUniform3fv(location, static_cast<GLsizei>(count), value);
+                    break;
+                case 4:
+                    glUniform4fv(location, static_cast<GLsizei>(count), value);
+                    break;
+                case 9:
+                    glUniformMatrix3fv(location, static_cast<GLsizei>(count), GL_FALSE, value);
+                    break;
+                case 16:
+                    glUniformMatrix4fv(location, static_cast<GLsizei>(count), GL_FALSE, value);
+                    break;
+                default:
+                    log("Unsupported uniform size");
+                    return false;
+            }
 
             return true;
         }
 
-        bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
-        {
-            if (index >= _pixelShaderConstantLocations.size()) return false;
-
-            RendererOGL::bindProgram(_programId);
-
-            GLint location = _pixelShaderConstantLocations[index];
-            glUniform4fv(location, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
-
-            return true;
-        }
-
-        bool ShaderOGL::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
-        {
-            if (index >= _pixelShaderConstantLocations.size()) return false;
-
-            RendererOGL::bindProgram(_programId);
-
-            GLint location = _pixelShaderConstantLocations[index];
-            glUniformMatrix4fv(location, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
-
-            return true;
-        }
-
-        bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
-        {
-            if (index >= _vertexShaderConstantLocations.size()) return false;
-
-            RendererOGL::bindProgram(_programId);
-
-            GLint location = _vertexShaderConstantLocations[index];
-            glUniform3fv(location, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
-
-            return true;
-        }
-
-        bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
+        bool ShaderOGL::setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
         {
             if (index >= _vertexShaderConstantLocations.size()) return false;
 
             RendererOGL::bindProgram(_programId);
 
             GLint location = _vertexShaderConstantLocations[index];
-            glUniform4fv(location, static_cast<GLsizei>(vectors.size()), reinterpret_cast<const float*>(vectors.data()));
 
-            return true;
-        }
+            uint32_t components = size / 4;
 
-        bool ShaderOGL::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
-        {
-            if (index >= _vertexShaderConstantLocations.size()) return false;
-
-            RendererOGL::bindProgram(_programId);
-
-            GLint location = _vertexShaderConstantLocations[index];
-            glUniformMatrix4fv(location, static_cast<GLsizei>(matrices.size()), GL_FALSE, reinterpret_cast<const float*>(matrices.data()));
+            switch (components)
+            {
+                case 1:
+                    glUniform1fv(location, static_cast<GLsizei>(count), value);
+                    break;
+                case 2:
+                    glUniform2fv(location, static_cast<GLsizei>(count), value);
+                    break;
+                case 3:
+                    glUniform3fv(location, static_cast<GLsizei>(count), value);
+                    break;
+                case 4:
+                    glUniform4fv(location, static_cast<GLsizei>(count), value);
+                    break;
+                case 9:
+                    glUniformMatrix3fv(location, static_cast<GLsizei>(count), GL_FALSE, value);
+                    break;
+                case 16:
+                    glUniformMatrix4fv(location, static_cast<GLsizei>(count), GL_FALSE, value);
+                    break;
+                default:
+                    log("Unsupported uniform size");
+                    return false;
+            }
 
             return true;
         }

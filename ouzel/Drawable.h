@@ -7,6 +7,7 @@
 #include "Types.h"
 #include "AABB2.h"
 #include "Matrix4.h"
+#include "Color.h"
 
 namespace ouzel
 {
@@ -17,7 +18,7 @@ namespace ouzel
         public:
             virtual ~Drawable();
 
-            virtual void draw(const Matrix4& projection, const Matrix4& transform);
+            virtual void draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color);
 
             virtual const AABB2& getBoundingBox() const { return _boundingBox; }
 

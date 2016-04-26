@@ -18,7 +18,7 @@ namespace ouzel
         public:
             DebugDrawable();
 
-            virtual void draw(const Matrix4& projection, const Matrix4& transform) override;
+            virtual void draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color) override;
 
             void clear();
 

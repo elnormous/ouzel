@@ -44,9 +44,9 @@ namespace ouzel
             sharedEngine->unscheduleUpdate(_updateCallback);
         }
 
-        void ParticleSystem::draw(const Matrix4& projection, const Matrix4& transform)
+        void ParticleSystem::draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color)
         {
-            Drawable::draw(projection, transform);
+            Drawable::draw(projection, transform, color);
 
             if (_shader && _texture && _particleCount)
             {
@@ -70,7 +70,10 @@ namespace ouzel
                     transform = projection * transform;
                 }
 
-                _shader->setVertexShaderConstant(0, { transform });
+                std::vector<float> colorVector = { color.getR(), color.getG(), color.getB(), color.getA() };
+
+                _shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, transform.m);
+                _shader->setPixelShaderConstant(0, vectorDataSize(colorVector), 1, colorVector.data());
 
                 sharedEngine->getRenderer()->drawMeshBuffer(_mesh, _particleCount * 6);
             }

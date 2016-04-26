@@ -242,12 +242,12 @@ namespace ouzel
             }
         }
 
-        bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
+        bool ShaderMetal::setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
         {
             if (index >= _pixelShaderConstantLocations.size()) return false;
 
             uint32_t location = _pixelShaderConstantLocations[index];
-            memcpy(_pixelShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
+            memcpy(_pixelShaderData.data() + location, value, size * count);
 
             return uploadData(_pixelShaderConstantBuffer,
                               _pixelShaderConstantBufferOffset,
@@ -255,64 +255,12 @@ namespace ouzel
                               _pixelShaderData.size());
         }
 
-        bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
-        {
-            if (index >= _pixelShaderConstantLocations.size()) return false;
-
-            uint32_t location = _pixelShaderConstantLocations[index];
-            memcpy(_pixelShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
-
-            return uploadData(_pixelShaderConstantBuffer,
-                              _pixelShaderConstantBufferOffset,
-                              _pixelShaderData.data(),
-                              _pixelShaderData.size());
-        }
-
-        bool ShaderMetal::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
-        {
-            if (index >= _pixelShaderConstantLocations.size()) return false;
-
-            uint32_t location = _pixelShaderConstantLocations[index];
-            memcpy(_pixelShaderData.data() + location, matrices.data(), vectorDataSize(matrices));
-
-            return uploadData(_pixelShaderConstantBuffer,
-                              _pixelShaderConstantBufferOffset,
-                              _pixelShaderData.data(),
-                              _pixelShaderData.size());
-        }
-
-        bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
+        bool ShaderMetal::setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
         {
             if (index >= _vertexShaderConstantLocations.size()) return false;
 
             uint32_t location = _vertexShaderConstantLocations[index];
-            memcpy(_vertexShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
-
-            return uploadData(_vertexShaderConstantBuffer,
-                              _vertexShaderConstantBufferOffset,
-                              _vertexShaderData.data(),
-                              _vertexShaderData.size());
-        }
-
-        bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
-        {
-            if (index >= _vertexShaderConstantLocations.size()) return false;
-
-            uint32_t location = _vertexShaderConstantLocations[index];
-            memcpy(_vertexShaderData.data() + location, vectors.data(), vectorDataSize(vectors));
-
-            return uploadData(_vertexShaderConstantBuffer,
-                              _vertexShaderConstantBufferOffset,
-                              _vertexShaderData.data(),
-                              _vertexShaderData.size());
-        }
-
-        bool ShaderMetal::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
-        {
-            if (index >= _vertexShaderConstantLocations.size()) return false;
-
-            uint32_t location = _vertexShaderConstantLocations[index];
-            memcpy(_vertexShaderData.data() + location, matrices.data(), vectorDataSize(matrices));
+            memcpy(_vertexShaderData.data() + location, value, size * count);
 
             return uploadData(_vertexShaderConstantBuffer,
                               _vertexShaderConstantBufferOffset,

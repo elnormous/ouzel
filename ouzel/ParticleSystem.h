@@ -61,7 +61,7 @@ namespace ouzel
             ParticleSystem();
             virtual ~ParticleSystem();
 
-            virtual void draw(const Matrix4& projection, const Matrix4& transform);
+            virtual void draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color);
             virtual void update(float delta);
 
             virtual bool initFromFile(const std::string& filename);

@@ -157,11 +157,14 @@ namespace ouzel
             {
                 if (layer->getCamera())
                 {
+                    graphics::Color color = _color;
+                    color.a = static_cast<uint8_t>(_color.a * _opacity);
+
                     for (const DrawablePtr& drawable : _drawables)
                     {
                         if (drawable->isVisible())
                         {
-                            drawable->draw(layer->getCamera()->getViewProjection(), _transform);
+                            drawable->draw(layer->getCamera()->getViewProjection(), _transform, color);
                         }
                     }
                 }
@@ -226,6 +229,11 @@ namespace ouzel
             _scale = scale;
 
             _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
+        }
+
+        void Node::setColor(const graphics::Color& color)
+        {
+            _color = color;
         }
 
         void Node::setOpacity(float opacity)

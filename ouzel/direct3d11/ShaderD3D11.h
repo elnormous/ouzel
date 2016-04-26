@@ -30,13 +30,8 @@ namespace ouzel
             virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
             virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
 
-            virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
-            virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
-            virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices);
-
-            virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors);
-            virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors);
-            virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices);
+            virtual bool setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
+            virtual bool setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
             
             virtual ID3D11PixelShader* getPixelShader() const { return _pixelShader; }
             virtual ID3D11VertexShader* getVertexShader() const { return _vertexShader; }

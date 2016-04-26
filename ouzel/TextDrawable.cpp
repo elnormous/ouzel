@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Renderer.h"
 #include "Cache.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -49,9 +50,9 @@ namespace ouzel
             return true;
         }
 
-        void TextDrawable::draw(const Matrix4& projection, const Matrix4& transform)
+        void TextDrawable::draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color)
         {
-            Drawable::draw(projection, transform);
+            Drawable::draw(projection, transform, color);
 
             if (_shader && _texture && _meshBuffer)
             {
@@ -59,8 +60,10 @@ namespace ouzel
                 sharedEngine->getRenderer()->activateShader(_shader);
 
                 Matrix4 modelViewProj = projection * transform;
+                std::vector<float> colorVector = { color.getR(), color.getG(), color.getB(), color.getA() };
 
-                _shader->setVertexShaderConstant(0, { modelViewProj });
+                _shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
+                _shader->setPixelShaderConstant(0, vectorDataSize(colorVector), 1, colorVector.data());
 
                 sharedEngine->getRenderer()->drawMeshBuffer(_meshBuffer);
             }

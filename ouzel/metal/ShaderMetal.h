@@ -44,13 +44,8 @@ namespace ouzel
 
             void nextBuffers();
 
-            virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
-            virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
-            virtual bool setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
-
-            virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors) override;
-            virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors) override;
-            virtual bool setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices) override;
+            virtual bool setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
+            virtual bool setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
 
             virtual MTLFunctionPtr getPixelShader() const { return _pixelShader; }
             virtual MTLFunctionPtr getVertexShader() const { return _vertexShader; }

@@ -10,6 +10,7 @@
 #include "Matrix4.h"
 #include "Rectangle.h"
 #include "AABB2.h"
+#include "Color.h"
 
 namespace ouzel
 {
@@ -49,6 +50,9 @@ namespace ouzel
 
             virtual void setScale(const Vector2& scale);
             virtual const Vector2& getScale() const { return _scale; }
+
+            virtual void setColor(const graphics::Color& color);
+            virtual const graphics::Color& getColor() const { return _color; }
 
             virtual void setOpacity(float opacity);
             virtual float getOpacity() const { return _opacity; }
@@ -118,6 +122,7 @@ namespace ouzel
             Vector2 _position;
             float _rotation = 0.0f;
             Vector2 _scale = Vector2(1.0f, 1.0f);
+            graphics::Color _color = graphics::Color(255, 255, 255, 255);
             float _opacity = 1.0f;
             float _z = 0.0f;
             bool _globalOrder = true;

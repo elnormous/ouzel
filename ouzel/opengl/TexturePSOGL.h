@@ -3,11 +3,12 @@
 
 const uint8_t TEXTURE_PIXEL_SHADER_OGL[] =
     "#version 330\n"
+    "uniform vec4 color;\n"
     "uniform sampler2D texture0;\n"
     "in vec4 ex_Color;\n"
     "in vec2 ex_TexCoord;\n"
     "out vec4 out_Color;\n"
     "void main(void)\n"
     "{\n"
-    "    out_Color = texture(texture0, ex_TexCoord) * ex_Color;\n"
+    "    out_Color = texture(texture0, ex_TexCoord) * ex_Color * color;\n"
     "}";

@@ -26,7 +26,7 @@ namespace ouzel
             virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
 
             virtual void update(float delta);
-            virtual void draw(const Matrix4& projection, const Matrix4& transform) override;
+            virtual void draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color) override;
 
             virtual void setOpacity(float opacity);
 

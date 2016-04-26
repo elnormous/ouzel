@@ -132,50 +132,22 @@ namespace ouzel
             return true;
         }
 
-        bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
+        bool Shader::setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
         {
             OUZEL_UNUSED(index);
-            OUZEL_UNUSED(vectors);
+            OUZEL_UNUSED(size);
+            OUZEL_UNUSED(count);
+            OUZEL_UNUSED(value);
 
             return true;
         }
 
-        bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
+        bool Shader::setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
         {
             OUZEL_UNUSED(index);
-            OUZEL_UNUSED(vectors);
-
-            return true;
-        }
-
-        bool Shader::setPixelShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
-        {
-            OUZEL_UNUSED(index);
-            OUZEL_UNUSED(matrices);
-
-            return true;
-        }
-
-        bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector3>& vectors)
-        {
-            OUZEL_UNUSED(index);
-            OUZEL_UNUSED(vectors);
-
-            return true;
-        }
-
-        bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Vector4>& vectors)
-        {
-            OUZEL_UNUSED(index);
-            OUZEL_UNUSED(vectors);
-
-            return true;
-        }
-
-        bool Shader::setVertexShaderConstant(uint32_t index, const std::vector<Matrix4>& matrices)
-        {
-            OUZEL_UNUSED(index);
-            OUZEL_UNUSED(matrices);
+            OUZEL_UNUSED(size);
+            OUZEL_UNUSED(count);
+            OUZEL_UNUSED(value);
 
             return true;
         }

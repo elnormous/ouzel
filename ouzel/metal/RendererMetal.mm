@@ -154,6 +154,7 @@ namespace ouzel
             }
 
             textureShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}}, 256);
+            textureShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
@@ -165,6 +166,7 @@ namespace ouzel
             }
 
             colorShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}}, 256);
+            colorShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 

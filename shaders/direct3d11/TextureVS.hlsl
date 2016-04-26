@@ -8,21 +8,21 @@ cbuffer Constants : register(b0)
 
 struct VSInput
 {
-    float3 Position : POSITION;
-    float4 Color : COLOR;
-    float2 TexCoord0 : TEXCOORD0;
+    float3 position : POSITION;
+    float4 color : COLOR;
+    float2 texCoord0 : TEXCOORD0;
 };
 
 struct VS2PS
 {
-    float4 Position : SV_POSITION;
-    float4 Color : COLOR;
-    float2 TexCoord : TEXCOORD;
+    float4 position : SV_POSITION;
+    float4 color : COLOR;
+    float2 texCoord : TEXCOORD;
 };
 
 void main(in VSInput input, out VS2PS output)
 {
-    output.Position = mul(modelViewProj, float4(input.Position, 1));
-    output.Color = input.Color;
-    output.TexCoord = input.TexCoord0;
+    output.position = mul(modelViewProj, float4(input.position, 1));
+    output.color = input.color;
+    output.texCoord = input.texCoord0;
 }
