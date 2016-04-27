@@ -42,7 +42,10 @@ namespace ouzel
             virtual ~MeshBufferOGL();
 
             virtual bool init() override;
-            virtual bool initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer) override;
+            virtual bool initFromData(const void* newIndices, uint32_t newIndexSize,
+                                      uint32_t newIndexCount, bool newDynamicIndexBuffer,
+                                      const void* newVertices, uint32_t newVertexAttributes,
+                                      uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
 
             virtual bool setIndexSize(uint32_t indexSize) override;
             virtual bool setVertexAttributes(uint32_t vertexAttributes) override;
@@ -50,10 +53,10 @@ namespace ouzel
             virtual bool uploadIndices(const void* indices, uint32_t indexCount) override;
             virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
 
-            GLuint getIndexBufferId() const { return _indexBufferId; }
-            GLuint getVertexArrayId() const { return _vertexArrayId; }
+            GLuint getIndexBufferId() const { return indexBufferId; }
+            GLuint getVertexArrayId() const { return vertexArrayId; }
 
-            GLenum getIndexFormat() const { return _indexFormat; }
+            GLenum getIndexFormat() const { return indexFormat; }
 
         protected:
             MeshBufferOGL();
@@ -62,11 +65,11 @@ namespace ouzel
             bool updateIndexFormat();
             bool updateVertexAttributes();
 
-            GLuint _vertexArrayId = 0;
-            GLuint _indexBufferId = 0;
-            GLuint _vertexBufferId = 0;
+            GLuint vertexArrayId = 0;
+            GLuint indexBufferId = 0;
+            GLuint vertexBufferId = 0;
 
-            GLenum _indexFormat = 0;
+            GLenum indexFormat = 0;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -17,9 +17,9 @@ namespace ouzel
 
         }
 
-        void EditBox::setValue(const std::string& value)
+        void EditBox::setValue(const std::string& newValue)
         {
-            _value = value;
+            value = newValue;
         }
 
     } // namespace gui

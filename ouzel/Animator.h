@@ -12,36 +12,36 @@ namespace ouzel
         class Animator
         {
         public:
-            Animator(float length);
+            Animator(float pLength);
             virtual ~Animator();
 
             virtual void update(float delta);
 
-            virtual void start(const NodePtr& node);
+            virtual void start(const NodePtr& targetNode);
 
             virtual void resume();
             virtual void stop(bool resetAnimation = false);
             virtual void reset();
 
-            bool isRunning() const { return _running; }
-            bool isDone() const { return _done; }
+            bool isRunning() const { return running; }
+            bool isDone() const { return done; }
 
-            float getLength() const { return _length; }
-            float getCurrentTime() const { return _currentTime; }
+            float getLength() const { return length; }
+            float getCurrentTime() const { return currentTime; }
 
-            float getProgress() const { return _progress; }
-            virtual void setProgress(float progress);
+            float getProgress() const { return progress; }
+            virtual void setProgress(float newProgress);
 
         protected:
-            float _length = 0.0f;
-            float _currentTime = 0.0f;
-            float _progress = 0.0f;
-            bool _done = false;
-            bool _running = false;
+            float length = 0.0f;
+            float currentTime = 0.0f;
+            float progress = 0.0f;
+            bool done = false;
+            bool running = false;
 
-            NodeWeakPtr _node;
+            NodeWeakPtr node;
 
-            UpdateCallbackPtr _updateCallback;
+            UpdateCallbackPtr updateCallback;
         };
     } // namespace scene
 } // namespace ouzel

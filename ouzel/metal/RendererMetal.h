@@ -46,11 +46,11 @@ namespace ouzel
 
             virtual ~RendererMetal();
 
-            virtual bool init(const Size2& size, bool fullscreen) override;
+            virtual bool init(const Size2& newSize, bool newFullscreen) override;
 
-            virtual void setClearColor(Color color) override;
+            virtual void setClearColor(Color newColor) override;
 
-            virtual void setSize(const Size2& size) override;
+            virtual void setSize(const Size2& newSize) override;
 
             virtual void clear() override;
             virtual void present() override;
@@ -75,7 +75,7 @@ namespace ouzel
             virtual MeshBufferPtr createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer) override;
             virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST, uint32_t startIndex = 0) override;
 
-            MTLDevicePtr getDevice() const { return _device; }
+            MTLDevicePtr getDevice() const { return device; }
 
         private:
             RendererMetal();
@@ -84,19 +84,19 @@ namespace ouzel
             MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                           const std::shared_ptr<ShaderMetal>& shader);
 
-            MTKViewPtr _view = Nil;
+            MTKViewPtr view = Nil;
 
-            MTLDevicePtr _device = Nil;
+            MTLDevicePtr device = Nil;
 
-            MTLSamplerStatePtr _samplerState = Nil;
-            MTLCommandQueuePtr _commandQueue = Nil;
+            MTLSamplerStatePtr samplerState = Nil;
+            MTLCommandQueuePtr commandQueue = Nil;
 
-            MTLCommandBufferPtr _currentCommandBuffer = Nil;
-            MTLRenderCommandEncoderPtr _currentRenderCommandEncoder = Nil;
+            MTLCommandBufferPtr currentCommandBuffer = Nil;
+            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
 
-            dispatch_semaphore_t _inflightSemaphore;
+            dispatch_semaphore_t inflightSemaphore;
 
-            std::map<std::pair<std::shared_ptr<BlendStateMetal>, std::shared_ptr<ShaderMetal>>, MTLRenderPipelineStatePtr> _pipelineStates;
+            std::map<std::pair<std::shared_ptr<BlendStateMetal>, std::shared_ptr<ShaderMetal>>, MTLRenderPipelineStatePtr> pipelineStates;
         };
     } // namespace graphics
 } // namespace ouzel

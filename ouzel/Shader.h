@@ -29,20 +29,20 @@ namespace ouzel
 
             virtual ~Shader();
 
-            virtual bool initFromFiles(const std::string& pixelShader,
-                                       const std::string& vertexShader,
-                                       uint32_t vertexAttributes,
+            virtual bool initFromFiles(const std::string& newPixelShader,
+                                       const std::string& newVertexShader,
+                                       uint32_t newVertexAttributes,
                                        const std::string& pixelShaderFunction = "",
                                        const std::string& vertexShaderFunction = "");
-            virtual bool initFromBuffers(const uint8_t* pixelShader,
-                                         uint32_t pixelShaderSize,
-                                         const uint8_t* vertexShader,
-                                         uint32_t vertexShaderSize,
-                                         uint32_t vertexAttributes,
+            virtual bool initFromBuffers(const uint8_t* newPixelShader,
+                                         uint32_t newPixelShaderSize,
+                                         const uint8_t* newVertexShader,
+                                         uint32_t newVertexShaderSize,
+                                         uint32_t newVertexAttributes,
                                          const std::string& pixelShaderFunction = "",
                                          const std::string& vertexShaderFunction = "");
 
-            uint32_t getVertexAttributes() const { return _vertexAttributes; }
+            uint32_t getVertexAttributes() const { return vertexAttributes; }
 
             virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
             virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
@@ -53,15 +53,15 @@ namespace ouzel
         protected:
             Shader();
 
-            std::string _pixelShaderFilename;
-            std::string _vertexShaderFilename;
+            std::string pixelShaderFilename;
+            std::string vertexShaderFilename;
 
-            uint32_t _vertexAttributes;
+            uint32_t vertexAttributes;
 
-            std::vector<ConstantInfo> _pixelShaderConstantInfo;
-            uint32_t _pixelShaderAlignment = 0;
-            std::vector<ConstantInfo> _vertexShaderConstantInfo;
-            uint32_t _vertexShaderAlignment = 0;
+            std::vector<ConstantInfo> pixelShaderConstantInfo;
+            uint32_t pixelShaderAlignment = 0;
+            std::vector<ConstantInfo> vertexShaderConstantInfo;
+            uint32_t vertexShaderAlignment = 0;
         };
     } // namespace graphics
 } // namespace ouzel

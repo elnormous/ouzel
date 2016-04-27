@@ -14,9 +14,10 @@ using namespace ouzel;
 
 @implementation ViewDelegate
 
--(void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
+-(void)mtkView:(nonnull MTKView*)view drawableSizeWillChange:(CGSize)size
 {
-    sharedEngine->getWindow()->setSize(Size2(size.width, size.height));
+    OUZEL_UNUSED(view);
+    sharedEngine->getWindow()->setSize(Size2(static_cast<float>(size.width), static_cast<float>(size.height)));
 }
 
 -(void)drawInMTKView:(nonnull MTKView*)view
@@ -31,16 +32,16 @@ using namespace ouzel;
 
 @implementation MetalView
 {
-    id<MTKViewDelegate> _viewDelegate;
+    id<MTKViewDelegate> viewDelegate;
 }
 
 -(id)initWithFrame:(CGRect)frameRect
 {
     if (self = [super initWithFrame:frameRect])
     {
-        _viewDelegate = [[ViewDelegate alloc] init];
-        self.delegate = _viewDelegate;
-        _running = YES;
+        viewDelegate = [[ViewDelegate alloc] init];
+        self.delegate = viewDelegate;
+        running = YES;
     }
 
     return self;
@@ -54,14 +55,14 @@ using namespace ouzel;
 
 -(void)close
 {
-    if (_viewDelegate)
+    if (viewDelegate)
     {
-        [_viewDelegate release];
-        _viewDelegate = Nil;
+        [viewDelegate release];
+        viewDelegate = Nil;
         self.delegate = Nil;
     }
 
-    _running = NO;
+    running = NO;
 }
 
 -(void)changeDisplay
@@ -357,21 +358,21 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)keyDown:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
 
     sharedEngine->getInput()->keyDown(convertKeyCode(event.keyCode), getModifiers(event));
 }
 
 -(void)keyUp:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
 
     sharedEngine->getInput()->keyUp(convertKeyCode(event.keyCode), getModifiers(event));
 }
 
 -(void)mouseDown:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::LEFT,
@@ -382,7 +383,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)mouseUp:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::LEFT,
@@ -393,7 +394,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)rightMouseDown:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::RIGHT,
@@ -404,7 +405,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)rightMouseUp:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::RIGHT,
@@ -415,7 +416,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)otherMouseDown:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::MIDDLE,
@@ -426,7 +427,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)otherMouseUp:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::MIDDLE,
@@ -437,7 +438,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)mouseMoved:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
 
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -448,7 +449,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)mouseDragged:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
@@ -458,7 +459,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)rightMouseDragged:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
@@ -468,7 +469,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)otherMouseDragged:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
@@ -478,7 +479,7 @@ static input::KeyboardKey convertKeyCode(unsigned short keyCode)
 
 -(void)scrollWheel:(NSEvent*)event
 {
-    if (!_running) return;
+    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(event.scrollingDeltaX),

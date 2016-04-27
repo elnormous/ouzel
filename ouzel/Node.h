@@ -32,73 +32,74 @@ namespace ouzel
             virtual void draw();
 
             virtual bool addChild(const NodePtr& node) override;
-            virtual bool hasParent() const { return !_parent.expired(); }
-            virtual NodeContainerPtr getParent() const { return _parent.lock(); }
+            virtual bool hasParent() const { return !parent.expired(); }
+            virtual NodeContainerPtr getParent() const { return parent.lock(); }
             virtual bool removeFromParent();
 
-            virtual void setZ(float z);
-            virtual float getZ() const { return _z; }
+            virtual void setZ(float newZ);
+            virtual float getZ() const { return z; }
 
-            virtual void setGlobalOrder(bool globalOrder);
-            virtual bool isGlobalOrder() const { return _globalOrder; }
+            virtual void setGlobalOrder(bool newGlobalOrder);
+            virtual bool isGlobalOrder() const { return globalOrder; }
 
-            virtual void setPosition(const Vector2& position);
-            virtual const Vector2& getPosition() const { return _position; }
+            virtual void setPosition(const Vector2& newPosition);
+            virtual const Vector2& getPosition() const { return position; }
 
-            virtual void setRotation(float rotation);
-            virtual float getRotation() const { return _rotation; }
+            virtual void setRotation(float newRotation);
+            virtual float getRotation() const { return rotation; }
 
-            virtual void setScale(const Vector2& scale);
-            virtual const Vector2& getScale() const { return _scale; }
+            virtual void setScale(const Vector2& newScale);
+            virtual const Vector2& getScale() const { return scale; }
 
-            virtual void setColor(const graphics::Color& color);
-            virtual const graphics::Color& getColor() const { return _color; }
+            virtual void setColor(const graphics::Color& newColor);
+            virtual const graphics::Color& getColor() const { return color; }
 
-            virtual void setOpacity(float opacity);
-            virtual float getOpacity() const { return _opacity; }
+            virtual void setOpacity(float newOpacity);
+            virtual float getOpacity() const { return opacity; }
 
-            virtual void setFlipX(bool flipX);
-            virtual bool getFlipX() const { return _flipX; }
+            virtual void setFlipX(bool newFlipX);
+            virtual bool getFlipX() const { return flipX; }
 
-            virtual void setFlipY(bool flipY);
-            virtual bool getFlipY() const { return _flipY; }
+            virtual void setFlipY(bool newFlipY);
+            virtual bool getFlipY() const { return flipY; }
 
-            virtual void setPickable(bool pickable) { _pickable = pickable; }
-            virtual bool isPickable() const { return _pickable; }
+            virtual void setPickable(bool newPickable) { pickable = newPickable; }
+            virtual bool isPickable() const { return pickable; }
 
-            virtual void setVisible(bool visible);
-            virtual bool isVisible() const { return _visible; }
+            virtual void setVisible(bool newVisible);
+            virtual bool isVisible() const { return visible; }
 
-            virtual bool pointOn(const Vector2& position) const;
+            virtual bool pointOn(const Vector2& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
 
             virtual const Matrix4& getTransform() const;
             const Matrix4& getInverseTransform() const;
 
-            virtual void updateTransform(const Matrix4& parentTransform);
+            virtual void updateTransform(const Matrix4& newParentTransform);
 
-            Vector2 convertWorldToLocal(const Vector2& position) const;
-            Vector2 convertLocalToWorld(const Vector2& position) const;
+            Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
+            Vector2 convertLocalToWorld(const Vector2& localPosition) const;
 
             virtual bool checkVisibility() const;
 
             virtual void animate(const AnimatorPtr& animator);
-            virtual AnimatorPtr getAnimator() const { return _currentAnimator; }
+            virtual AnimatorPtr getAnimator() const { return currentAnimator; }
             virtual void stopAnimation();
             virtual void removeAnimation();
 
-            void receiveInput(bool receiveInput) { _receiveInput = receiveInput; }
-            bool isReceivingInput() const { return _receiveInput; }
+            void setReceiveInput(bool newReceiveInput) { receiveInput = newReceiveInput; }
+            bool isReceivingInput() const { return receiveInput; }
 
-            const std::vector<DrawablePtr> getDrawables() const { return _drawables; }
+            const std::vector<DrawablePtr> getDrawables() const { return drawables; }
             void addDrawable(DrawablePtr drawable);
             void removeDrawable(uint32_t index);
             void removeDrawable(DrawablePtr drawable);
+            void removeAllDrawables();
 
-            LayerPtr getLayer() const { return _layer.lock(); }
+            LayerPtr getLayer() const { return layer.lock(); }
 
         protected:
-            virtual void addToLayer(const LayerWeakPtr& layer);
+            virtual void addToLayer(const LayerWeakPtr& newLayer);
             virtual void removeFromLayer();
 
             virtual void calculateLocalTransform() const;
@@ -106,41 +107,41 @@ namespace ouzel
 
             virtual void calculateInverseTransform() const;
 
-            Matrix4 _parentTransform = Matrix4::IDENTITY;
-            mutable Matrix4 _transform;
-            mutable bool _transformDirty = true;
-            mutable Matrix4 _inverseTransform;
-            mutable bool _inverseTransformDirty = true;
+            Matrix4 parentTransform = Matrix4::IDENTITY;
+            mutable Matrix4 transform;
+            mutable bool transformDirty = true;
+            mutable Matrix4 inverseTransform;
+            mutable bool inverseTransformDirty = true;
 
-            mutable Matrix4 _localTransform;
-            mutable bool _localTransformDirty = true;
+            mutable Matrix4 localTransform;
+            mutable bool localTransformDirty = true;
 
-            mutable bool _updateChildrenTransform = true;
+            mutable bool updateChildrenTransform = true;
 
             //TODO: transform to parent and transform to parent
 
-            Vector2 _position;
-            float _rotation = 0.0f;
-            Vector2 _scale = Vector2(1.0f, 1.0f);
-            graphics::Color _color = graphics::Color(255, 255, 255, 255);
-            float _opacity = 1.0f;
-            float _z = 0.0f;
-            bool _globalOrder = true;
+            Vector2 position;
+            float rotation = 0.0f;
+            Vector2 scale = Vector2(1.0f, 1.0f);
+            graphics::Color color = graphics::Color(255, 255, 255, 255);
+            float opacity = 1.0f;
+            float z = 0.0f;
+            bool globalOrder = true;
 
-            bool _flipX = false;
-            bool _flipY = false;
+            bool flipX = false;
+            bool flipY = false;
 
-            bool _pickable = true;
-            bool _visible = true;
-            bool _receiveInput = false;
+            bool pickable = true;
+            bool visible = true;
+            bool receiveInput = false;
 
-            NodeContainerWeakPtr _parent;
-            LayerWeakPtr _layer;
+            NodeContainerWeakPtr parent;
+            LayerWeakPtr layer;
 
-            AnimatorPtr _currentAnimator;
-            bool _remove = false;
+            AnimatorPtr currentAnimator;
+            bool remove = false;
 
-            std::vector<DrawablePtr> _drawables;
+            std::vector<DrawablePtr> drawables;
         };
     } // namespace scene
 } // namespace ouzel

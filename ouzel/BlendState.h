@@ -43,30 +43,30 @@ namespace ouzel
 
             virtual ~BlendState() {}
 
-            virtual bool init(bool enableBlending,
-                              BlendFactor colorBlendSource, BlendFactor colorBlendDest,
-                              BlendOperation colorOperation,
-                              BlendFactor alphaBlendSource, BlendFactor alphaBlendDest,
-                              BlendOperation alphaOperation);
+            virtual bool init(bool newEnableBlending,
+                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
+                              BlendOperation newColorOperation,
+                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
+                              BlendOperation newAlphaOperation);
 
-            bool isBlendingEnabled() const { return _enableBlending; }
-            BlendFactor getColorBlendSource() const { return _colorBlendSource; }
-            BlendFactor getColorBlendDest() const { return _colorBlendDest; }
-            BlendOperation getColorOperation() const { return _colorOperation; }
-            BlendFactor getAlphaBlendSource() const { return _alphaBlendSource; }
-            BlendFactor getAlphaBlendDest() const { return _alphaBlendDest; }
-            BlendOperation getAlphaOperation() const { return _alphaOperation; }
+            bool isBlendingEnabled() const { return enableBlending; }
+            BlendFactor getColorBlendSource() const { return colorBlendSource; }
+            BlendFactor getColorBlendDest() const { return colorBlendDest; }
+            BlendOperation getColorOperation() const { return colorOperation; }
+            BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
+            BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
+            BlendOperation getAlphaOperation() const { return alphaOperation; }
 
         protected:
             BlendState();
 
-            bool _enableBlending = false;
-            BlendFactor _colorBlendSource = BlendFactor::ONE;
-            BlendFactor _colorBlendDest = BlendFactor::ZERO;
-            BlendOperation _colorOperation = BlendOperation::ADD;
-            BlendFactor _alphaBlendSource = BlendFactor::ONE;
-            BlendFactor _alphaBlendDest = BlendFactor::ZERO;
-            BlendOperation _alphaOperation = BlendOperation::ADD;
+            bool enableBlending = false;
+            BlendFactor colorBlendSource = BlendFactor::ONE;
+            BlendFactor colorBlendDest = BlendFactor::ZERO;
+            BlendOperation colorOperation = BlendOperation::ADD;
+            BlendFactor alphaBlendSource = BlendFactor::ONE;
+            BlendFactor alphaBlendDest = BlendFactor::ZERO;
+            BlendOperation alphaOperation = BlendOperation::ADD;
 
         };
     } // namespace graphics

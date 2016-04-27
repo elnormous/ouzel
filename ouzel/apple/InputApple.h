@@ -40,10 +40,10 @@ namespace ouzel
         protected:
             InputApple();
 
-            ConnectDelegatePtr _connectDelegate = nullptr;
-            std::vector<std::shared_ptr<GamepadApple>> _gamepads;
+            ConnectDelegatePtr connectDelegate = nullptr;
+            std::vector<std::shared_ptr<GamepadApple>> gamepads;
 
-            bool _discovering = false;
+            bool discovering = false;
         };
     } // namespace input
 } // namespace ouzel

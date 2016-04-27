@@ -226,9 +226,9 @@ namespace ouzel
             virtual void startGamepadDiscovery();
             virtual void stopGamepadDiscovery();
 
-            const Vector2& getCursorPosition() const { return _cursorPosition; }
-            bool isKeyboardKeyDown(KeyboardKey key) const { return _keyboardKeyStates[static_cast<uint32_t>(key)]; }
-            bool isMouseButtonDown(MouseButton button) const { return _mouseButtonStates[static_cast<uint32_t>(button)]; }
+            const Vector2& getCursorPosition() const { return cursorPosition; }
+            bool isKeyboardKeyDown(KeyboardKey key) const { return keyboardKeyStates[static_cast<uint32_t>(key)]; }
+            bool isMouseButtonDown(MouseButton button) const { return mouseButtonStates[static_cast<uint32_t>(button)]; }
 
             virtual void keyDown(KeyboardKey key, uint32_t modifiers);
             virtual void keyUp(KeyboardKey key, uint32_t modifiers);
@@ -252,12 +252,12 @@ namespace ouzel
             void mouseUpOnNode(const scene::NodePtr& node, const Vector2& position);
             void mouseDragNode(const scene::NodePtr& node, const Vector2& position);
 
-            Vector2 _cursorPosition;
-            bool _keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
-            bool _mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
+            Vector2 cursorPosition;
+            bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)] = { 0 };
+            bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)] = { 0 };
 
-            scene::NodeWeakPtr _mouseOnNode;
-            scene::NodeWeakPtr _mouseDownOnNode;
+            scene::NodeWeakPtr mouseNode;
+            scene::NodeWeakPtr mouseDownNode;
         };
     } // namespace input
 } // namespace ouzel

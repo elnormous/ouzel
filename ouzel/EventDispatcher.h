@@ -45,12 +45,12 @@ namespace ouzel
         void lock();
         void unlock();
 
-        std::vector<EventHandlerPtr> _eventHandlers;
-        std::set<EventHandlerPtr> _eventHandlerAddList;
-        std::set<EventHandlerPtr> _eventHandlerRemoveList;
+        std::vector<EventHandlerPtr> eventHandlers;
+        std::set<EventHandlerPtr> eventHandlerAddList;
+        std::set<EventHandlerPtr> eventHandlerRemoveList;
 
-        std::queue<std::pair<EventPtr, VoidPtr>> _eventQueue;
-        std::mutex _mutex;
-        int32_t _locked = 0;
+        std::queue<std::pair<EventPtr, VoidPtr>> eventQueue;
+        std::mutex mutex;
+        int32_t locked = 0;
     };
 }

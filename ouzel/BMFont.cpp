@@ -69,7 +69,7 @@ namespace ouzel
                             value = value.substr(1, value.length() - 2);
                         }
 
-                        _texture = sharedEngine->getCache()->getTexture(value, false, true);
+                        texture = sharedEngine->getCache()->getTexture(value, false, true);
                     }
                 }
             }
@@ -86,12 +86,12 @@ namespace ouzel
 
                     //assign the correct value
                     converter << value;
-                    if (key == "lineHeight") converter >> _lineHeight;
-                    else if (key == "base") converter >> _base;
-                    else if (key == "scaleW") converter >> _width;
-                    else if (key == "scaleH") converter >> _height;
-                    else if (key == "pages") converter >> _pages;
-                    else if (key == "outline") converter >> _outline;
+                    if (key == "lineHeight") converter >> lineHeight;
+                    else if (key == "base") converter >> base;
+                    else if (key == "scaleW") converter >> width;
+                    else if (key == "scaleH") converter >> height;
+                    else if (key == "pages") converter >> pages;
+                    else if (key == "outline") converter >> outline;
                 }
             }
             else if (read == "char")
@@ -120,7 +120,7 @@ namespace ouzel
                     else if (key == "page") converter >> c.page;
                 }
 
-                _chars.insert(std::map<int32_t, CharDescriptor>::value_type(charId, c));
+                chars.insert(std::map<int32_t, CharDescriptor>::value_type(charId, c));
             }
             else if (read == "kernings")
             {
@@ -134,7 +134,7 @@ namespace ouzel
 
                     //assign the correct value
                     converter << value;
-                    if (key == "count") converter >> _kernCount;
+                    if (key == "count") converter >> kernCount;
                 }
             }
             else if (read == "kerning")
@@ -153,7 +153,7 @@ namespace ouzel
                     else if (key == "second") converter >> k.second;
                     else if (key == "amount") converter >> k.amount;
                 }
-                _kern[std::make_pair(k.first, k.second)] = k;
+                kern[std::make_pair(k.first, k.second)] = k;
             }
         }
 
@@ -164,9 +164,9 @@ namespace ouzel
 
     int32_t BMFont::getKerningPair(int32_t first, int32_t second)
     {
-        std::map<std::pair<int32_t, int32_t>, KerningInfo>::iterator i = _kern.find(std::make_pair(first, second));
+        std::map<std::pair<int32_t, int32_t>, KerningInfo>::iterator i = kern.find(std::make_pair(first, second));
 
-        if (i != _kern.end())
+        if (i != kern.end())
         {
             return i->second.amount;
         }
@@ -181,9 +181,9 @@ namespace ouzel
 
         for (uint32_t i = 0; i < static_cast<uint32_t>(text.length()); i++)
         {
-            std::map<int32_t, CharDescriptor>::iterator iter = _chars.find(text[i]);
+            std::map<int32_t, CharDescriptor>::iterator iter = chars.find(text[i]);
 
-            if (iter == _chars.end())
+            if (iter == chars.end())
             {
                 continue;
             }
@@ -203,12 +203,12 @@ namespace ouzel
             return false;
         }
 
-        if (!_texture)
+        if (!texture)
         {
             return false;
         }
 
-        _kernCount = static_cast<uint16_t>(_kern.size());
+        kernCount = static_cast<uint16_t>(kern.size());
 
         return true;
     }
@@ -220,7 +220,7 @@ namespace ouzel
         CharDescriptor  *f;
 
         float x = 0.0f;
-        float y = _lineHeight * (1.0f - anchor.y);
+        float y = lineHeight * (1.0f - anchor.y);
 
         flen = static_cast<uint32_t>(text.length());
 
@@ -234,9 +234,9 @@ namespace ouzel
 
         for (uint32_t i = 0; i != flen; ++i)
         {
-            std::map<int32_t, CharDescriptor>::iterator iter = _chars.find(text[i]);
+            std::map<int32_t, CharDescriptor>::iterator iter = chars.find(text[i]);
 
-            if (iter == _chars.end())
+            if (iter == chars.end())
             {
                 continue;
             }
@@ -254,11 +254,11 @@ namespace ouzel
             indices.push_back(startIndex + 3);
             indices.push_back(startIndex + 2);
 
-            Vector2 leftTop(f->x / static_cast<float>(_width),
-                            f->y / static_cast<float>(_height));
+            Vector2 leftTop(f->x / static_cast<float>(width),
+                            f->y / static_cast<float>(height));
 
-            Vector2 rightBottom((f->x + f->width) / static_cast<float>(_width),
-                                (f->y + f->height) / static_cast<float>(_height));
+            Vector2 rightBottom((f->x + f->width) / static_cast<float>(width),
+                                (f->y + f->height) / static_cast<float>(height));
 
             textCoords[0] = Vector2(leftTop.x, leftTop.y);
             textCoords[1] = Vector2(rightBottom.x, leftTop.y);
@@ -287,11 +287,11 @@ namespace ouzel
             x +=  f->xAdvance;
         }
 
-        float width = x;
+        float totalWidth = x;
 
         for (graphics::VertexPCT& vertex : vertices)
         {
-            vertex.position.x -= width * anchor.x;
+            vertex.position.x -= totalWidth * anchor.x;
         }
     }
 }

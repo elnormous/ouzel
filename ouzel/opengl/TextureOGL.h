@@ -48,7 +48,7 @@ namespace ouzel
 
             virtual bool upload(const void* data, const Size2& size) override;
 
-            GLuint getTextureId() const { return _textureId; }
+            GLuint getTextureId() const { return textureId; }
 
         protected:
             TextureOGL();
@@ -57,7 +57,7 @@ namespace ouzel
 
             bool uploadData(const void* data, GLsizei width, GLsizei height);
 
-            GLuint _textureId = 0;
+            GLuint textureId = 0;
         };
     } // namespace graphics
 } // namespace ouzel

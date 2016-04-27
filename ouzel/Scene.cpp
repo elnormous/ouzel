@@ -24,18 +24,18 @@ namespace ouzel
         {
             lock();
 
-            if (_reorderLayers)
+            if (reorder)
             {
-                std::sort(_layers.begin(), _layers.end(), [](LayerPtr a, LayerPtr b) {
+                std::sort(layers.begin(), layers.end(), [](LayerPtr a, LayerPtr b) {
                     return a->getOrder() > b->getOrder();
                 });
 
-                _reorderLayers = false;
+                reorder = false;
             }
 
-            for (LayerPtr layer : _layers)
+            for (LayerPtr layer : layers)
             {
-                if (!layer->_remove)
+                if (!layer->remove)
                 {
                     layer->draw();
                 }
@@ -46,14 +46,14 @@ namespace ouzel
 
         void Scene::addLayer(const LayerPtr& layer)
         {
-            if (_locked)
+            if (locked)
             {
-                _layerAddList.insert(layer);
+                layerAddList.insert(layer);
             }
             else if (!hasLayer(layer) && !layer->getScene())
             {
-                layer->_remove = false;
-                _layers.push_back(layer);
+                layer->remove = false;
+                layers.push_back(layer);
                 layer->addToScene(shared_from_this());
 
                 if (CameraPtr camera = layer->getCamera())
@@ -65,33 +65,33 @@ namespace ouzel
 
         void Scene::removeLayer(const LayerPtr& layer)
         {
-            if (_locked)
+            if (locked)
             {
-                layer->_remove = true;
-                _layerRemoveList.insert(layer);
+                layer->remove = true;
+                layerRemoveList.insert(layer);
             }
             else
             {
-                std::vector<LayerPtr>::iterator i = std::find(_layers.begin(), _layers.end(), layer);
+                std::vector<LayerPtr>::iterator i = std::find(layers.begin(), layers.end(), layer);
 
-                if (i != _layers.end())
+                if (i != layers.end())
                 {
                     layer->removeFromScene();
-                    _layers.erase(i);
+                    layers.erase(i);
                 }
             }
         }
 
         bool Scene::hasLayer(const LayerPtr& layer) const
         {
-            std::vector<LayerPtr>::const_iterator i = std::find(_layers.begin(), _layers.end(), layer);
+            std::vector<LayerPtr>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
 
-            return i != _layers.end();
+            return i != layers.end();
         }
 
         void Scene::recalculateProjection()
         {
-            for (LayerPtr layer : _layers)
+            for (LayerPtr layer : layers)
             {
                 if (CameraPtr camera = layer->getCamera())
                 {
@@ -102,41 +102,41 @@ namespace ouzel
 
         void Scene::reorderLayers()
         {
-            _reorderLayers = true;
+            reorder = true;
         }
 
         void Scene::lock()
         {
-            ++_locked;
+            ++locked;
         }
 
         void Scene::unlock()
         {
-            if (--_locked == 0)
+            if (--locked == 0)
             {
-                if (!_layerAddList.empty())
+                if (!layerAddList.empty())
                 {
-                    for (const LayerPtr& layer : _layerAddList)
+                    for (const LayerPtr& layer : layerAddList)
                     {
                         addLayer(layer);
                     }
-                    _layerAddList.clear();
+                    layerAddList.clear();
                 }
 
-                if (!_layerRemoveList.empty())
+                if (!layerRemoveList.empty())
                 {
-                    for (const LayerPtr& layer : _layerRemoveList)
+                    for (const LayerPtr& layer : layerRemoveList)
                     {
                         removeLayer(layer);
                     }
-                    _layerRemoveList.clear();
+                    layerRemoveList.clear();
                 }
             }
         }
 
         NodePtr Scene::pickNode(const Vector2& position) const
         {
-            for (std::vector<LayerPtr>::const_reverse_iterator i = _layers.rbegin(); i != _layers.rend(); ++i)
+            for (std::vector<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 LayerPtr layer = *i;
                 CameraPtr camera = layer->getCamera();
@@ -159,7 +159,7 @@ namespace ouzel
         {
             std::set<NodePtr> result;
 
-            for (std::vector<LayerPtr>::const_reverse_iterator i = _layers.rbegin(); i != _layers.rend(); ++i)
+            for (std::vector<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 std::set<NodePtr> nodes = (*i)->pickNodes(edges);
 

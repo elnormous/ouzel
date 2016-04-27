@@ -24,10 +24,10 @@ namespace ouzel
 
         void TextureMetal::destroy()
         {
-            if (_texture)
+            if (texture)
             {
-                [_texture release];
-                _texture = Nil;
+                [texture release];
+                texture = Nil;
             }
         }
 
@@ -49,7 +49,7 @@ namespace ouzel
             textureDescriptor.textureType = MTLTextureType2D;
             textureDescriptor.usage = MTLTextureUsageShaderRead;
 
-            _texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+            texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
             return true;
         }
@@ -72,7 +72,7 @@ namespace ouzel
             textureDescriptor.textureType = MTLTextureType2D;
             textureDescriptor.usage = MTLTextureUsageShaderRead;
 
-            _texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+            texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
             return uploadData(data,
                               static_cast<NSUInteger>(size.width),
@@ -94,11 +94,11 @@ namespace ouzel
         bool TextureMetal::uploadData(const void* data, NSUInteger width, NSUInteger height)
         {
             NSUInteger bytesPerRow = width * 4;
-            [_texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:bytesPerRow];
+            [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:bytesPerRow];
 
-            _mipLevels = 1;
+            mipLevels = 1;
 
-            if (_mipmaps)
+            if (mipmaps)
             {
                 NSUInteger oldMipWidth = width;
                 NSUInteger oldMipHeight = height;
@@ -119,12 +119,12 @@ namespace ouzel
                     if (mipHeight < 1) mipHeight = 1;
                     mipBytesPerRow = mipWidth * 4;
 
-                    stbir_resize_uint8_generic(oldMipMapData, oldMipWidth, oldMipHeight, 0,
-                                               newMipMapData, mipWidth, mipHeight, 0, 4,
+                    stbir_resize_uint8_generic(oldMipMapData, static_cast<int>(oldMipWidth), static_cast<int>(oldMipHeight), 0,
+                                               newMipMapData, static_cast<int>(mipWidth), static_cast<int>(mipHeight), 0, 4,
                                                3, 0, STBIR_EDGE_CLAMP,
                                                STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
 
-                    [_texture replaceRegion:MTLRegionMake2D(0, 0, mipWidth, mipHeight) mipmapLevel:mipLevel withBytes:newMipMapData bytesPerRow:mipBytesPerRow];
+                    [texture replaceRegion:MTLRegionMake2D(0, 0, mipWidth, mipHeight) mipmapLevel:mipLevel withBytes:newMipMapData bytesPerRow:mipBytesPerRow];
 
                     oldMipWidth = mipWidth;
                     oldMipHeight = mipHeight;
@@ -141,7 +141,7 @@ namespace ouzel
                 delete [] oldMipMapData;
                 delete [] newMipMapData;
                 
-                _mipLevels = mipLevel;
+                mipLevels = mipLevel;
             }
 
             return true;

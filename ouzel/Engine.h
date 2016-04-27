@@ -32,14 +32,14 @@ namespace ouzel
 
         bool init(Settings& settings);
 
-        const EventDispatcherPtr& getEventDispatcher() const { return _eventDispatcher; }
-        const CachePtr& getCache() const { return _cache; }
-        const WindowPtr& getWindow() const { return _window; }
-        const graphics::RendererPtr& getRenderer() const { return _renderer; }
-        const scene::SceneManagerPtr& getSceneManager() const { return _sceneManager; }
-        const FileSystemPtr& getFileSystem() const { return _fileSystem; }
-        const input::InputPtr& getInput() const { return _input; }
-        const LocalizationPtr& getLocalization() const { return _localization; }
+        const EventDispatcherPtr& getEventDispatcher() const { return eventDispatcher; }
+        const CachePtr& getCache() const { return cache; }
+        const WindowPtr& getWindow() const { return window; }
+        const graphics::RendererPtr& getRenderer() const { return renderer; }
+        const scene::SceneManagerPtr& getSceneManager() const { return sceneManager; }
+        const FileSystemPtr& getFileSystem() const { return fileSystem; }
+        const input::InputPtr& getInput() const { return input; }
+        const LocalizationPtr& getLocalization() const { return localization; }
 
         void exit();
 
@@ -47,8 +47,8 @@ namespace ouzel
         void end();
         bool run();
 
-        float getTargetFPS() const { return _targetFPS; }
-        float getFPS() const { return _currentFPS; }
+        float getTargetFPS() const { return targetFPS; }
+        float getFPS() const { return currentFPS; }
 
         void scheduleUpdate(const UpdateCallbackPtr& callback);
         void unscheduleUpdate(const UpdateCallbackPtr& callback);
@@ -57,25 +57,25 @@ namespace ouzel
         void lock();
         void unlock();
 
-        EventDispatcherPtr _eventDispatcher;
-        input::InputPtr _input;
-        CachePtr _cache;
-        WindowPtr _window;
-        FileSystemPtr _fileSystem;
-        LocalizationPtr _localization;
-        graphics::RendererPtr _renderer;
-        scene::SceneManagerPtr _sceneManager;
+        EventDispatcherPtr eventDispatcher;
+        input::InputPtr input;
+        CachePtr cache;
+        WindowPtr window;
+        FileSystemPtr fileSystem;
+        LocalizationPtr localization;
+        graphics::RendererPtr renderer;
+        scene::SceneManagerPtr sceneManager;
 
-        float _targetFPS;
-        float _currentFPS = 0.0f;
-        uint64_t _previousFrameTime;
+        float targetFPS;
+        float currentFPS = 0.0f;
+        uint64_t previousFrameTime;
 
-        std::vector<UpdateCallbackPtr> _updateCallbacks;
-        std::set<UpdateCallbackPtr> _updateCallbackAddList;
-        std::set<UpdateCallbackPtr> _updateCallbackRemoveList;
+        std::vector<UpdateCallbackPtr> updateCallbacks;
+        std::set<UpdateCallbackPtr> updateCallbackAddList;
+        std::set<UpdateCallbackPtr> updateCallbackRemoveList;
 
-        int32_t _locked = 0;
-        bool _running = false;
-        bool _active = true;
+        int32_t locked = 0;
+        bool running = false;
+        bool active = true;
     };
 }

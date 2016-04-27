@@ -15,17 +15,17 @@ namespace ouzel
 
         CheckBox::~CheckBox()
         {
-            sharedEngine->getEventDispatcher()->removeEventHandler(_eventHandler);
+            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
         }
 
         bool CheckBox::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::string& tick)
         {
-            _eventHandler = std::make_shared<EventHandler>(EventHandler::PRIORITY_MAX + 1);
+            eventHandler = std::make_shared<EventHandler>(EventHandler::PRIORITY_MAX + 1);
 
-            _eventHandler->gamepadHandler = std::bind(&CheckBox::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
-            _eventHandler->uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler->gamepadHandler = std::bind(&CheckBox::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler->uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
-            sharedEngine->getEventDispatcher()->addEventHandler(_eventHandler);
+            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
             return true;
         }
@@ -35,9 +35,9 @@ namespace ouzel
             Widget::setEnabled(enabled);
         }
 
-        void CheckBox::setChecked(bool checked)
+        void CheckBox::setChecked(bool newChecked)
         {
-            _checked = checked;
+            checked = newChecked;
         }
 
         bool CheckBox::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender)

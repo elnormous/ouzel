@@ -55,7 +55,7 @@ namespace ouzel
         auto t = std::chrono::steady_clock::now();
         auto micros = std::chrono::duration_cast<std::chrono::microseconds>(t.time_since_epoch());
 
-        return micros.count();
+        return static_cast<uint64_t>(micros.count());
     }
 
     std::vector<std::string> ARGS;

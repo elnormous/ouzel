@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Sequence::Sequence(const std::vector<AnimatorPtr>& animators):
-            Animator(std::accumulate(animators.begin(), animators.end(), 0.0f, [](float a, const AnimatorPtr& b) { return a + b->getLength(); })), _animators(animators)
+        Sequence::Sequence(const std::vector<AnimatorPtr>& pAnimators):
+            Animator(std::accumulate(pAnimators.begin(), pAnimators.end(), 0.0f, [](float a, const AnimatorPtr& b) { return a + b->getLength(); })), animators(pAnimators)
         {
 
         }
@@ -18,7 +18,7 @@ namespace ouzel
         {
             Animator::start(node);
 
-            for (auto& animator : _animators)
+            for (auto& animator : animators)
             {
                 animator->start(node);
             }
@@ -28,7 +28,7 @@ namespace ouzel
         {
             Animator::reset();
 
-            for (auto& animator : _animators)
+            for (auto& animator : animators)
             {
                 animator->reset();
             }
@@ -40,21 +40,21 @@ namespace ouzel
 
             float time = 0.0f;
 
-            for (auto& animator : _animators)
+            for (auto& animator : animators)
             {
                 float animationLength = animator->getLength();
 
-                if (animationLength <= 0.0f || _currentTime > time + animationLength)
+                if (animationLength <= 0.0f || currentTime > time + animationLength)
                 {
                     animator->setProgress(1.0f);
                 }
-                else if (_currentTime <= time)
+                else if (currentTime <= time)
                 {
                     animator->setProgress(0.0f);
                 }
                 else
                 {
-                    animator->setProgress((_currentTime - time) / animationLength);
+                    animator->setProgress((currentTime - time) / animationLength);
                 }
 
                 time += animator->getLength();

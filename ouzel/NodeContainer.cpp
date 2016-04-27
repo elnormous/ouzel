@@ -16,26 +16,26 @@ namespace ouzel
 
         NodeContainer::~NodeContainer()
         {
-            for (NodePtr node : _children)
+            for (NodePtr node : children)
             {
-                node->_parent.reset();
-                node->_layer.reset();
+                node->parent.reset();
+                node->layer.reset();
             }
         }
 
         bool NodeContainer::addChild(const NodePtr& node)
         {
-            if (_locked)
+            if (locked)
             {
-                _nodeAddList.insert(node);
+                nodeAddList.insert(node);
                 return false;
             }
 
             if (!hasChild(node) && !node->hasParent())
             {
-                node->_remove = false;
-                node->_parent = shared_from_this();
-                _children.push_back(node);
+                node->remove = false;
+                node->parent = shared_from_this();
+                children.push_back(node);
 
                 return true;
             }
@@ -47,21 +47,21 @@ namespace ouzel
 
         bool NodeContainer::removeChild(const NodePtr& node)
         {
-            if (_locked)
+            if (locked)
             {
-                node->_remove = true;
-                _nodeRemoveList.insert(node);
+                node->remove = true;
+                nodeRemoveList.insert(node);
                 return false;
             }
 
-            std::vector<NodePtr>::iterator i = std::find(_children.begin(), _children.end(), node);
+            std::vector<NodePtr>::iterator i = std::find(children.begin(), children.end(), node);
 
-            if (i != _children.end())
+            if (i != children.end())
             {
                 node->removeFromLayer();
-                node->_parent.reset();
-                node->_layer.reset();
-                _children.erase(i);
+                node->parent.reset();
+                node->layer.reset();
+                children.erase(i);
 
                 return true;
             }
@@ -75,21 +75,21 @@ namespace ouzel
         {
             lock();
 
-            for (auto& node : _children)
+            for (auto& node : children)
             {
                 node->removeFromLayer();
-                node->_parent.reset();
-                node->_layer.reset();
+                node->parent.reset();
+                node->layer.reset();
             }
 
-            _children.clear();
+            children.clear();
 
             unlock();
         }
 
         bool NodeContainer::hasChild(const NodePtr& node, bool recursive) const
         {
-            for (std::vector<NodePtr>::const_iterator i = _children.begin(); i != _children.end(); ++i)
+            for (std::vector<NodePtr>::const_iterator i = children.begin(); i != children.end(); ++i)
             {
                 const NodePtr& child = *i;
 
@@ -104,29 +104,29 @@ namespace ouzel
 
         void NodeContainer::lock()
         {
-            ++_locked;
+            ++locked;
         }
 
         void NodeContainer::unlock()
         {
-            if (--_locked == 0)
+            if (--locked == 0)
             {
-                if (!_nodeAddList.empty())
+                if (!nodeAddList.empty())
                 {
-                    for (const NodePtr& node : _nodeAddList)
+                    for (const NodePtr& node : nodeAddList)
                     {
                         addChild(node);
                     }
-                    _nodeAddList.clear();
+                    nodeAddList.clear();
                 }
 
-                if (!_nodeRemoveList.empty())
+                if (!nodeRemoveList.empty())
                 {
-                    for (const NodePtr& node : _nodeRemoveList)
+                    for (const NodePtr& node : nodeRemoveList)
                     {
                         removeChild(node);
                     }
-                    _nodeRemoveList.clear();
+                    nodeRemoveList.clear();
                 }
             }
         }

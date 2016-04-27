@@ -19,8 +19,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        Renderer::Renderer(Driver driver):
-            _driver(driver)
+        Renderer::Renderer(Driver pDriver):
+            driver(pDriver)
         {
 
         }
@@ -30,17 +30,17 @@ namespace ouzel
 
         }
 
-        bool Renderer::init(const Size2& size, bool fullscreen)
+        bool Renderer::init(const Size2& newSize, bool newFullscreen)
         {
-            _size = size;
-            _fullscreen = fullscreen;
+            size = newSize;
+            fullscreen = newFullscreen;
 
             return true;
         }
 
         void Renderer::clear()
         {
-            _drawCallCount = 0;
+            drawCallCount = 0;
         }
 
         void Renderer::present()
@@ -57,14 +57,14 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        void Renderer::setSize(const Size2& size)
+        void Renderer::setSize(const Size2& newSize)
         {
-            _size = size;
+            size = newSize;
         }
 
-        void Renderer::setFullscreen(bool fullscreen)
+        void Renderer::setFullscreen(bool newFullscreen)
         {
-            _fullscreen = fullscreen;
+            fullscreen = newFullscreen;
         }
 
         BlendStatePtr Renderer::createBlendState(bool enableBlending,
@@ -88,15 +88,15 @@ namespace ouzel
 
         bool Renderer::activateBlendState(BlendStatePtr blendState)
         {
-            _activeBlendState = blendState;
+            activeBlendState = blendState;
 
             return true;
         }
 
-        TexturePtr Renderer::createTexture(const Size2& size, bool dynamic, bool mipmaps)
+        TexturePtr Renderer::createTexture(const Size2& textureSize, bool dynamic, bool mipmaps)
         {
             TexturePtr texture(new Texture());
-            if (!texture->init(size, dynamic, mipmaps))
+            if (!texture->init(textureSize, dynamic, mipmaps))
             {
                 texture.reset();
             }
@@ -106,7 +106,7 @@ namespace ouzel
 
         bool Renderer::activateTexture(const TexturePtr& texture, uint32_t layer)
         {
-            _activeTextures[layer] = texture;
+            activeTextures[layer] = texture;
 
             return true;
         }
@@ -123,11 +123,11 @@ namespace ouzel
             return texture;
         }
 
-        TexturePtr Renderer::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
+        TexturePtr Renderer::loadTextureFromData(const void* data, const Size2& textureSize, bool dynamic, bool mipmaps)
         {
             TexturePtr texture(new Texture());
 
-            if (!texture->initFromData(data, size, dynamic, mipmaps))
+            if (!texture->initFromData(data, textureSize, dynamic, mipmaps))
             {
                 texture.reset();
             }
@@ -135,11 +135,11 @@ namespace ouzel
             return texture;
         }
 
-        RenderTargetPtr Renderer::createRenderTarget(const Size2& size, bool depthBuffer)
+        RenderTargetPtr Renderer::createRenderTarget(const Size2& renderTargetSize, bool depthBuffer)
         {
             RenderTargetPtr renderTarget(new RenderTarget());
 
-            if (!renderTarget->init(size, depthBuffer))
+            if (!renderTarget->init(renderTargetSize, depthBuffer))
             {
                 renderTarget.reset();
             }
@@ -149,7 +149,7 @@ namespace ouzel
 
         bool Renderer::activateRenderTarget(const RenderTargetPtr& renderTarget)
         {
-            _activeRenderTarget = renderTarget;
+            activeRenderTarget = renderTarget;
 
             return true;
         }
@@ -190,7 +190,7 @@ namespace ouzel
 
         bool Renderer::activateShader(const ShaderPtr& shader)
         {
-            _activeShader = shader;
+            activeShader = shader;
 
             return true;
         }
@@ -224,9 +224,9 @@ namespace ouzel
             OUZEL_UNUSED(drawMode);
             OUZEL_UNUSED(startIndex);
 
-            if (_activeShader)
+            if (activeShader)
             {
-                if (meshBuffer->getVertexAttributes() != _activeShader->getVertexAttributes())
+                if (meshBuffer->getVertexAttributes() != activeShader->getVertexAttributes())
                 {
                     return false;
                 }
@@ -241,30 +241,30 @@ namespace ouzel
                 return false;
             }
 
-            _drawCallCount++;
+            drawCallCount++;
 
             return true;
         }
 
         Vector2 Renderer::viewToScreenLocation(const Vector2& position)
         {
-            float x = 2.0f * position.x / _size.width - 1.0f;
-            float y = 2.0f * (_size.height - position.y) / _size.height - 1.0f;
+            float x = 2.0f * position.x / size.width - 1.0f;
+            float y = 2.0f * (size.height - position.y) / size.height - 1.0f;
 
             return Vector2(x, y);
         }
 
         Vector2 Renderer::screenToViewLocation(const Vector2& position)
         {
-            float x = (position.x + 1.0f) / 2.0f * _size.width;
-            float y = _size.height - (position.y + 1.0f) / 2.0f * _size.height;
+            float x = (position.x + 1.0f) / 2.0f * size.width;
+            float y = size.height - (position.y + 1.0f) / 2.0f * size.height;
 
             return Vector2(x, y);
         }
 
         bool Renderer::checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const scene::CameraPtr& camera)
         {
-            Rectangle visibleRect(0.0f, 0.0f, _size.width, _size.height);
+            Rectangle visibleRect(0.0f, 0.0f, size.width, size.height);
 
             // transform center point to screen space
             Vector2 diff = boundingBox.max - boundingBox.min;

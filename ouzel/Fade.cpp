@@ -8,22 +8,22 @@ namespace ouzel
 {
     namespace scene
     {
-        Fade::Fade(float length, float rotation, bool relative):
-            Animator(length), _opacity(rotation), _relative(relative)
+        Fade::Fade(float pLength, float pOpacity, bool pRelative):
+            Animator(pLength), opacity(pOpacity), relative(pRelative)
         {
 
         }
 
-        void Fade::start(const NodePtr& node)
+        void Fade::start(const NodePtr& targetNode)
         {
-            Animator::start(node);
+            Animator::start(targetNode);
 
-            if (node)
+            if (targetNode)
             {
-                _startOpacity = node->getOpacity();
-                _targetOpacity = _relative ? _startOpacity + _opacity : _opacity;
+                startOpacity = targetNode->getOpacity();
+                targetOpacity = relative ? startOpacity + opacity : opacity;
 
-                _diff = _targetOpacity - _startOpacity;
+                diff = targetOpacity - startOpacity;
             }
         }
 
@@ -31,9 +31,9 @@ namespace ouzel
         {
             Animator::setProgress(progress);
 
-            if (NodePtr node = _node.lock())
+            if (NodePtr targetNode = node.lock())
             {
-                node->setOpacity(_startOpacity + (_diff * _progress));
+                targetNode->setOpacity(startOpacity + (diff * progress));
             }
         }
     } // namespace scene

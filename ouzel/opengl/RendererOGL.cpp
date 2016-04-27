@@ -57,7 +57,7 @@ namespace ouzel
             OUZEL_UNUSED(fullscreen);
 
             //glEnable(GL_DEPTH_TEST);
-            glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
+            glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
 
             ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
 
@@ -176,18 +176,18 @@ namespace ouzel
         {
             Renderer::setClearColor(color);
 
-            glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
+            glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
         }
 
-        void RendererOGL::setSize(const Size2& size)
+        void RendererOGL::setSize(const Size2& newSize)
         {
-            Renderer::setSize(size);
+            Renderer::setSize(newSize);
 
             if (_ready)
             {
                 glViewport(0, 0,
-                           static_cast<GLsizei>(_size.width),
-                           static_cast<GLsizei>(_size.height));
+                           static_cast<GLsizei>(size.width),
+                           static_cast<GLsizei>(size.height));
             }
         }
 
@@ -229,7 +229,7 @@ namespace ouzel
 
         bool RendererOGL::activateBlendState(BlendStatePtr blendState)
         {
-            if (_activeBlendState == blendState)
+            if (activeBlendState == blendState)
             {
                 return true;
             }
@@ -239,9 +239,9 @@ namespace ouzel
                 return false;
             }
 
-            if (blendState)
+            if (activeBlendState)
             {
-                std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(_activeBlendState);
+                std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(activeBlendState);
 
                 if (blendStateOGL->isBlendingEnabled())
                 {
@@ -309,7 +309,7 @@ namespace ouzel
 
         bool RendererOGL::activateTexture(const TexturePtr& texture, uint32_t layer)
         {
-            if (_activeTextures[layer] == texture)
+            if (activeTextures[layer] == texture)
             {
                 return true;
             }
@@ -319,9 +319,9 @@ namespace ouzel
                 return false;
             }
 
-            if (_activeTextures[layer])
+            if (activeTextures[layer])
             {
-                std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
+                std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTextures[layer]);
 
                 bindTexture(textureOGL->getTextureId(), layer);
             }
@@ -347,7 +347,7 @@ namespace ouzel
 
         bool RendererOGL::activateRenderTarget(const RenderTargetPtr& renderTarget)
         {
-            if (_activeRenderTarget == renderTarget)
+            if (activeRenderTarget == renderTarget)
             {
                 return true;
             }
@@ -357,9 +357,9 @@ namespace ouzel
                 return false;
             }
 
-            if (_activeRenderTarget)
+            if (activeRenderTarget)
             {
-                std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+                std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(activeRenderTarget);
 
                 bindFrameBuffer(renderTargetOGL->getFrameBufferId());
             }
@@ -407,7 +407,7 @@ namespace ouzel
 
         bool RendererOGL::activateShader(const ShaderPtr& shader)
         {
-            if (_activeShader == shader)
+            if (activeShader == shader)
             {
                 return true;
             }
@@ -417,9 +417,9 @@ namespace ouzel
                 return false;
             }
 
-            if (_activeShader)
+            if (activeShader)
             {
-                std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
+                std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(activeShader);
 
                 bindProgram(shaderOGL->getProgramId());
             }
@@ -462,14 +462,14 @@ namespace ouzel
                 return false;
             }
 
-            if (!_activeShader)
+            if (!activeShader)
             {
                 return false;
             }
 
-            if (_activeRenderTarget)
+            if (activeRenderTarget)
             {
-                std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(_activeRenderTarget);
+                std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(activeRenderTarget);
 
                 bindFrameBuffer(renderTargetOGL->getFrameBufferId());
             }
@@ -480,9 +480,9 @@ namespace ouzel
 
             for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
             {
-                if (_activeTextures[layer])
+                if (activeTextures[layer])
                 {
-                    std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(_activeTextures[layer]);
+                    std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTextures[layer]);
 
                     bindTexture(textureOGL->getTextureId(), layer);
                 }
@@ -492,7 +492,7 @@ namespace ouzel
                 }
             }
 
-            std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(_activeShader);
+            std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(activeShader);
             bindProgram(shaderOGL->getProgramId());
 
             std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(meshBuffer);
@@ -535,8 +535,8 @@ namespace ouzel
 
             bindFrameBuffer(_frameBuffer);
 
-            GLsizei width = static_cast<GLsizei>(_size.width);
-            GLsizei height = static_cast<GLsizei>(_size.height);
+            GLsizei width = static_cast<GLsizei>(size.width);
+            GLsizei height = static_cast<GLsizei>(size.height);
 
             std::unique_ptr<uint8_t[]> data(new uint8_t[3 * width * height]);
 

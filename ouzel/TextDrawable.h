@@ -21,28 +21,28 @@ namespace ouzel
             TextDrawable();
             virtual ~TextDrawable();
 
-            bool init(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
+            bool init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor = Vector2(0.5f, 0.5f));
 
-            virtual void draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color) override;
+            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color) override;
 
-            virtual void setText(const std::string& text);
-            virtual const std::string& getText() const { return _text; }
+            virtual void setText(const std::string& newText);
+            virtual const std::string& getText() const { return text; }
 
-            virtual const graphics::Color& getColor() const { return _color; }
-            virtual void setColor(const graphics::Color& color);
+            virtual const graphics::Color& getColor() const { return textColor; }
+            virtual void setColor(const graphics::Color& newColor);
 
         protected:
             void updateMesh();
 
-            graphics::TexturePtr _texture;
-            graphics::MeshBufferPtr _meshBuffer;
-            graphics::ShaderPtr _shader;
+            graphics::TexturePtr texture;
+            graphics::MeshBufferPtr meshBuffer;
+            graphics::ShaderPtr shader;
 
-            BMFont _font;
-            Vector2 _textAnchor;
-            std::string _text;
+            BMFont font;
+            Vector2 textAnchor;
+            std::string text;
 
-            graphics::Color _color = graphics::Color(255, 255, 255, 255);
+            graphics::Color textColor = graphics::Color(255, 255, 255, 255);
         };
     } // namespace scene
 } // namespace ouzel

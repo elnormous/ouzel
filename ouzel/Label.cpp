@@ -9,7 +9,7 @@
 #include "Camera.h"
 #include "BMFont.h"
 #include "Cache.h"
-#include "TextDrawable.h";
+#include "TextDrawable.h"
 
 namespace ouzel
 {
@@ -37,33 +37,33 @@ namespace ouzel
 
         }
 
-        bool Label::init(const std::string& font, const std::string& text, const Vector2& textAnchor)
+        bool Label::init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor)
         {
-            _text = text;
-            _textDrawable = scene::TextDrawable::create(font, text, textAnchor);
+            text = newText;
+            textDrawable = scene::TextDrawable::create(fontFile, text, newTextAnchor);
 
-            if (!_textDrawable)
+            if (!textDrawable)
             {
                 return false;
             }
 
-            addDrawable(_textDrawable);
+            addDrawable(textDrawable);
 
-            _textDrawable->setText(_text);
+            textDrawable->setText(text);
 
             return true;
         }
 
-        void Label::setText(const std::string& text)
+        void Label::setText(const std::string& newText)
         {
-            _text = text;
-            _textDrawable->setText(_text);
+            text = newText;
+            textDrawable->setText(text);
         }
 
-        void Label::setColor(const graphics::Color& color)
+        void Label::setColor(const graphics::Color& newColor)
         {
-            _color = color;
-            _textDrawable->setColor(_color);
+            color = newColor;
+            textDrawable->setColor(color);
         }
     } // namespace gui
 } // namespace ouzel

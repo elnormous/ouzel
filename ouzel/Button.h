@@ -35,17 +35,17 @@ namespace ouzel
 
             void updateSprite();
 
-            scene::SpritePtr _normalSprite;
-            scene::SpritePtr _selectedSprite;
-            scene::SpritePtr _pressedSprite;
-            scene::SpritePtr _disabledSprite;
-            scene::TextDrawablePtr _label;
+            scene::SpritePtr normalSprite;
+            scene::SpritePtr selectedSprite;
+            scene::SpritePtr pressedSprite;
+            scene::SpritePtr disabledSprite;
+            scene::TextDrawablePtr labelDrawable;
 
-            EventHandlerPtr _eventHandler;
+            EventHandlerPtr eventHandler;
 
-            bool _selected = false;
-            bool _pointerOver = false;
-            bool _pressed = false;
+            bool selected = false;
+            bool pointerOver = false;
+            bool pressed = false;
         };
     } // namespace gui
 } // namespace ouzel

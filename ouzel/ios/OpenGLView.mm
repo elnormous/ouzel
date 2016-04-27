@@ -17,38 +17,38 @@ using namespace ouzel;
 {
     if (self = [super initWithFrame:frameRect])
     {
-        _eaglLayer = (CAEAGLLayer*)self.layer;
-        _eaglLayer.opaque = YES;
-        _eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+        eaglLayer = (CAEAGLLayer*)self.layer;
+        eaglLayer.opaque = YES;
+        eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                          [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 
-        _context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
-        if (!_context)
+        if (!context)
         {
             ouzel::log("Failed to initialize OpenGLES 2.0 context");
             return Nil;
         }
 
-        if (![EAGLContext setCurrentContext:_context])
+        if (![EAGLContext setCurrentContext:context])
         {
             ouzel::log("Failed to set current OpenGL context");
             return Nil;
         }
 
         // render buffer
-        glGenRenderbuffers(1, &_colorRenderBuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
-        [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
+        glGenRenderbuffers(1, &colorRenderBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
+        [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
 
         glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_backingWidth);
         glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_backingHeight);
 
         // frame buffer
-        glGenFramebuffers(1, &_frameBuffer);
-        graphics::RendererOGL::bindFrameBuffer(_frameBuffer);
+        glGenFramebuffers(1, &frameBuffer);
+        graphics::RendererOGL::bindFrameBuffer(frameBuffer);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                  GL_RENDERBUFFER, _colorRenderBuffer);
+                                  GL_RENDERBUFFER, colorRenderBuffer);
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
@@ -56,18 +56,18 @@ using namespace ouzel;
             return Nil;
         }
 
-        if (![EAGLContext setCurrentContext:_context])
+        if (![EAGLContext setCurrentContext:context])
         {
             ouzel::log("Failed to set current OpenGL context");
         }
 
         // display link
-        _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
-        [_displayLink setFrameInterval:1.0f];
-        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
+        [displayLink setFrameInterval:1.0f];
+        [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 
         std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
-        renderer->setFrameBuffer(_frameBuffer);
+        renderer->setFrameBuffer(frameBuffer);
     }
 
     return self;
@@ -75,19 +75,19 @@ using namespace ouzel;
 
 -(void)dealloc
 {
-    [_displayLink invalidate];
-    [_displayLink release];
+    [displayLink invalidate];
+    [displayLink release];
 
-    if ([EAGLContext currentContext] == _context)
+    if ([EAGLContext currentContext] == context)
     {
         [EAGLContext setCurrentContext:nil];
     }
-    [_context release];
+    [context release];
 
-    if (_frameBuffer) glDeleteFramebuffers(1, &_frameBuffer);
-    _frameBuffer = 0;
-    if (_colorRenderBuffer) glDeleteRenderbuffers(1, &_colorRenderBuffer);
-    _colorRenderBuffer = 0;
+    if (frameBuffer) glDeleteFramebuffers(1, &frameBuffer);
+    frameBuffer = 0;
+    if (colorRenderBuffer) glDeleteRenderbuffers(1, &colorRenderBuffer);
+    colorRenderBuffer = 0;
 
     [super dealloc];
 }
@@ -100,14 +100,14 @@ using namespace ouzel;
 -(void)idle:(id)sender
 {
     OUZEL_UNUSED(sender);
-    if (![EAGLContext setCurrentContext:_context])
+    if (![EAGLContext setCurrentContext:context])
     {
         ouzel::log("Failed to set current OpenGL context");
     }
 
     sharedEngine->run();
 
-    [_context presentRenderbuffer:GL_RENDERBUFFER];
+    [context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
 -(void)touchesBegan:(NSSet*)touches withEvent:(::UIEvent*)event
@@ -118,7 +118,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                                      sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+                                             sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -130,7 +130,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                                     sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+                                            sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -142,7 +142,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                                    sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+                                           sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -154,7 +154,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                                       sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
+                                              sharedEngine->getRenderer()->viewToScreenLocation(Vector2(location.x, location.y)));
     }
 }
 

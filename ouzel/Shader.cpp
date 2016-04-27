@@ -22,20 +22,20 @@ namespace ouzel
 
         }
 
-        bool Shader::initFromFiles(const std::string& pixelShader,
-                                   const std::string& vertexShader,
-                                   uint32_t vertexAttributes,
+        bool Shader::initFromFiles(const std::string& newPixelShader,
+                                   const std::string& newVertexShader,
+                                   uint32_t newVertexAttributes,
                                    const std::string& pixelShaderFunction,
                                    const std::string& vertexShaderFunction)
         {
-            _pixelShaderFilename = pixelShader;
-            _vertexShaderFilename = vertexShader;
+            pixelShaderFilename = newPixelShader;
+            vertexShaderFilename = newVertexShader;
 
-            std::ifstream pixelShaderFile(sharedEngine->getFileSystem()->getPath(pixelShader));
+            std::ifstream pixelShaderFile(sharedEngine->getFileSystem()->getPath(newPixelShader));
 
             if (!pixelShaderFile)
             {
-                log("Failed to open pixel shader file %s", pixelShader.c_str());
+                log("Failed to open pixel shader file %s", newPixelShader.c_str());
                 return false;
             }
 
@@ -47,11 +47,11 @@ namespace ouzel
 
             pixelShaderFile.read(pixelShaderBuffer.data(), static_cast<std::streamsize>(pixelShaderSize));
 
-            std::ifstream vertexShaderFile(sharedEngine->getFileSystem()->getPath(vertexShader));
+            std::ifstream vertexShaderFile(sharedEngine->getFileSystem()->getPath(newVertexShader));
 
             if (!vertexShaderFile)
             {
-                log("Failed to open vertex shader file %s", pixelShader.c_str());
+                log("Failed to open vertex shader file %s", newVertexShader.c_str());
                 return false;
             }
 
@@ -66,45 +66,45 @@ namespace ouzel
             vertexShaderFile.read(vertexShaderBuffer.data(), static_cast<std::streamsize>(vertexShaderSize));
 
             return initFromBuffers(reinterpret_cast<const uint8_t*>(pixelShaderBuffer.data()), static_cast<uint32_t>(pixelShaderSize),
-                                   reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<uint32_t>(vertexShaderSize), vertexAttributes,
+                                   reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<uint32_t>(vertexShaderSize), newVertexAttributes,
                                    pixelShaderFunction, vertexShaderFunction);
         }
 
-        bool Shader::initFromBuffers(const uint8_t* pixelShader,
-                                     uint32_t pixelShaderSize,
-                                     const uint8_t* vertexShader,
-                                     uint32_t vertexShaderSize,
-                                     uint32_t vertexAttributes,
+        bool Shader::initFromBuffers(const uint8_t* newPixelShader,
+                                     uint32_t newPixelShaderSize,
+                                     const uint8_t* newVertexShader,
+                                     uint32_t newVertexShaderSize,
+                                     uint32_t newVertexAttributes,
                                      const std::string& pixelShaderFunction,
                                      const std::string& vertexShaderFunction)
         {
-            OUZEL_UNUSED(pixelShader);
-            OUZEL_UNUSED(pixelShaderSize);
-            OUZEL_UNUSED(vertexShader);
-            OUZEL_UNUSED(vertexShaderSize);
+            OUZEL_UNUSED(newPixelShader);
+            OUZEL_UNUSED(newPixelShaderSize);
+            OUZEL_UNUSED(newVertexShader);
+            OUZEL_UNUSED(newVertexShaderSize);
             OUZEL_UNUSED(pixelShaderFunction);
             OUZEL_UNUSED(vertexShaderFunction);
 
-            _vertexAttributes = vertexAttributes;
+            vertexAttributes = newVertexAttributes;
 
             return  true;
         }
 
         bool Shader::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
-            _pixelShaderConstantInfo = constantInfo;
+            pixelShaderConstantInfo = constantInfo;
 
             if (alignment)
             {
-                _pixelShaderAlignment = alignment;
+                pixelShaderAlignment = alignment;
             }
             else
             {
-                _pixelShaderAlignment = 0;
+                pixelShaderAlignment = 0;
 
-                for (const ConstantInfo& info : _pixelShaderConstantInfo)
+                for (const ConstantInfo& info : pixelShaderConstantInfo)
                 {
-                    _pixelShaderAlignment += info.size;
+                    pixelShaderAlignment += info.size;
                 }
             }
 
@@ -113,19 +113,19 @@ namespace ouzel
 
         bool Shader::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
-            _vertexShaderConstantInfo = constantInfo;
+            vertexShaderConstantInfo = constantInfo;
 
             if (alignment)
             {
-                _vertexShaderAlignment = alignment;
+                vertexShaderAlignment = alignment;
             }
             else
             {
-                _vertexShaderAlignment = 0;
+                vertexShaderAlignment = 0;
 
-                for (const ConstantInfo& info : _pixelShaderConstantInfo)
+                for (const ConstantInfo& info : pixelShaderConstantInfo)
                 {
-                    _vertexShaderAlignment += info.size;
+                    vertexShaderAlignment += info.size;
                 }
             }
 

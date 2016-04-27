@@ -54,7 +54,7 @@ namespace ouzel
 
     Engine::~Engine()
     {
-		_sceneManager->setScene(nullptr);
+		sceneManager->setScene(nullptr);
     }
 
     std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers() const
@@ -81,7 +81,7 @@ namespace ouzel
 
     bool Engine::init(Settings& settings)
     {
-        _targetFPS = settings.targetFPS;
+        targetFPS = settings.targetFPS;
 
         if (settings.driver == graphics::Renderer::Driver::DEFAULT)
         {
@@ -106,56 +106,56 @@ namespace ouzel
         }
 
 #if defined(OUZEL_PLATFORM_OSX)
-        _window.reset(new WindowOSX(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowOSX(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
 #elif defined(OUZEL_PLATFORM_IOS)
-        _window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
 #elif defined(OUZEL_PLATFORM_TVOS)
-        _window.reset(new WindowTVOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowTVOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
 #elif defined(OUZEL_PLATFORM_ANDROID)
-        _window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
 #elif defined(OUZEL_PLATFORM_LINUX)
-        _window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-        _window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
 #endif
 
-        _eventDispatcher.reset(new EventDispatcher());
-        _cache.reset(new Cache());
-        _fileSystem.reset(new FileSystem());
-        _sceneManager.reset(new scene::SceneManager());
+        eventDispatcher.reset(new EventDispatcher());
+        cache.reset(new Cache());
+        fileSystem.reset(new FileSystem());
+        sceneManager.reset(new scene::SceneManager());
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-        _input.reset(new input::InputApple());
+        input.reset(new input::InputApple());
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-        _input.reset(new input::InputWin());
+        input.reset(new input::InputWin());
 #else
-        _input.reset(new input::Input());
+        input.reset(new input::Input());
 #endif
 
-        _localization.reset(new Localization());
+        localization.reset(new Localization());
 
         switch (settings.driver)
         {
             case graphics::Renderer::Driver::NONE:
                 log("Using NULL render driver");
-                _renderer.reset(new graphics::Renderer());
+                renderer.reset(new graphics::Renderer());
                 break;
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             case graphics::Renderer::Driver::OPENGL:
                 log("Using OpenGL render driver");
-                _renderer.reset(new graphics::RendererOGL());
+                renderer.reset(new graphics::RendererOGL());
                 break;
 #endif
 #if defined(OUZEL_SUPPORTS_DIRECT3D11)
             case graphics::Renderer::Driver::DIRECT3D11:
                 log("Using Direct3D 11 render driver");
-                _renderer.reset(new graphics::RendererD3D11());
+                renderer.reset(new graphics::RendererD3D11());
                 break;
 #endif
 #if defined(OUZEL_SUPPORTS_METAL)
             case graphics::Renderer::Driver::METAL:
                 log("Using Metal render driver");
-                _renderer.reset(new graphics::RendererMetal());
+                renderer.reset(new graphics::RendererMetal());
                 break;
 #endif
             default:
@@ -163,24 +163,24 @@ namespace ouzel
                 return false;
         }
 
-        if (!_window->init())
+        if (!window->init())
         {
             return false;
         }
 
-        _previousFrameTime = getCurrentMicroSeconds();
+        previousFrameTime = getCurrentMicroSeconds();
 
         return true;
     }
 
     void Engine::exit()
     {
-        _active = false;
+        active = false;
     }
 
     void Engine::begin()
     {
-        _running = true;
+        running = true;
     }
 
     void Engine::end()
@@ -191,92 +191,92 @@ namespace ouzel
     bool Engine::run()
     {
         uint64_t currentTime = getCurrentMicroSeconds();
-        float delta = static_cast<float>((currentTime - _previousFrameTime)) / 1000000.0f;
-        _previousFrameTime = currentTime;
+        float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
+        previousFrameTime = currentTime;
 
-        _currentFPS = 1.0f / delta;
+        currentFPS = 1.0f / delta;
 
-        _input->update();
-        _eventDispatcher->update();
+        input->update();
+        eventDispatcher->update();
 
         lock();
-        for (const UpdateCallbackPtr& updateCallback : _updateCallbacks)
+        for (const UpdateCallbackPtr& updateCallback : updateCallbacks)
         {
-            if (!updateCallback->_remove && updateCallback->callback)
+            if (!updateCallback->remove && updateCallback->callback)
             {
                 updateCallback->callback(delta);
             }
         }
         unlock();
 
-        _renderer->clear();
-        _sceneManager->draw();
-        _renderer->present();
+        renderer->clear();
+        sceneManager->draw();
+        renderer->present();
 
-        return _active;
+        return active;
     }
 
     void Engine::scheduleUpdate(const UpdateCallbackPtr& callback)
     {
-        if (_locked)
+        if (locked)
         {
-            _updateCallbackAddList.insert(callback);
+            updateCallbackAddList.insert(callback);
         }
         else
         {
-            std::vector<UpdateCallbackPtr>::iterator i = std::find(_updateCallbacks.begin(), _updateCallbacks.end(), callback);
+            std::vector<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
 
-            if (i == _updateCallbacks.end())
+            if (i == updateCallbacks.end())
             {
-                callback->_remove = false;
-                _updateCallbacks.push_back(callback);
+                callback->remove = false;
+                updateCallbacks.push_back(callback);
             }
         }
     }
 
     void Engine::unscheduleUpdate(const UpdateCallbackPtr& callback)
     {
-        if (_locked)
+        if (locked)
         {
-            callback->_remove = true;
-            _updateCallbackRemoveList.insert(callback);
+            callback->remove = true;
+            updateCallbackRemoveList.insert(callback);
         }
         else
         {
-            std::vector<UpdateCallbackPtr>::iterator i = std::find(_updateCallbacks.begin(), _updateCallbacks.end(), callback);
+            std::vector<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
 
-            if (i != _updateCallbacks.end())
+            if (i != updateCallbacks.end())
             {
-                _updateCallbacks.erase(i);
+                updateCallbacks.erase(i);
             }
         }
     }
 
     void Engine::lock()
     {
-        ++_locked;
+        ++locked;
     }
 
     void Engine::unlock()
     {
-        if (--_locked == 0)
+        if (--locked == 0)
         {
-            if (!_updateCallbackAddList.empty())
+            if (!updateCallbackAddList.empty())
             {
-                for (const UpdateCallbackPtr& updateCallback : _updateCallbackAddList)
+                for (const UpdateCallbackPtr& updateCallback : updateCallbackAddList)
                 {
                     scheduleUpdate(updateCallback);
                 }
-                _updateCallbackAddList.clear();
+                updateCallbackAddList.clear();
             }
 
-            if (!_updateCallbackRemoveList.empty())
+            if (!updateCallbackRemoveList.empty())
             {
-                for (const UpdateCallbackPtr& updateCallback : _updateCallbackRemoveList)
+                for (const UpdateCallbackPtr& updateCallback : updateCallbackRemoveList)
                 {
                     unscheduleUpdate(updateCallback);
                 }
-                _updateCallbackRemoveList.clear();
+                updateCallbackRemoveList.clear();
             }
         }
     }

@@ -6,7 +6,7 @@
 
 @interface MetalView: MTKView
 {
-    BOOL _running;
+    BOOL running;
 }
 
 @end

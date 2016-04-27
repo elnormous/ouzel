@@ -20,19 +20,19 @@ namespace ouzel
             Label();
             virtual ~Label();
 
-            virtual bool init(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
+            virtual bool init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor = Vector2(0.5f, 0.5f));
 
-            virtual void setText(const std::string& text);
-            virtual const std::string& getText() const { return _text; }
+            virtual void setText(const std::string& newText);
+            virtual const std::string& getText() const { return text; }
 
-            virtual const graphics::Color& getColor() const { return _color; }
-            virtual void setColor(const graphics::Color& color);
+            virtual const graphics::Color& getColor() const { return color; }
+            virtual void setColor(const graphics::Color& newColor);
 
         protected:
-            std::string _text;
-            graphics::Color _color = graphics::Color(255, 255, 255, 255);
+            std::string text;
+            graphics::Color color = graphics::Color(255, 255, 255, 255);
 
-            scene::TextDrawablePtr _textDrawable;
+            scene::TextDrawablePtr textDrawable;
         };
     } // namespace gui
 } // namespace ouzel

@@ -17,14 +17,14 @@ public:
     bool handleUI(const ouzel::UIEventPtr& event, const ouzel::VoidPtr& sender) const;
 
 protected:
-    ouzel::scene::LayerPtr _layer;
-    ouzel::scene::LayerPtr _uiLayer;
+    ouzel::scene::LayerPtr layer;
+    ouzel::scene::LayerPtr uiLayer;
 
-    ouzel::scene::NodePtr _character;
-    ouzel::scene::NodePtr _witch;
-    ouzel::scene::NodePtr _flame;
+    ouzel::scene::NodePtr character;
+    ouzel::scene::NodePtr witch;
+    ouzel::scene::NodePtr flame;
 
-    ouzel::gui::ButtonPtr _button;
+    ouzel::gui::ButtonPtr button;
 
-    ouzel::EventHandlerPtr _eventHandler;
+    ouzel::EventHandlerPtr eventHandler;
 };

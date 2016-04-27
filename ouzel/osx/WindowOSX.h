@@ -29,24 +29,24 @@ namespace ouzel
 
         virtual void close() override;
 
-        virtual void setSize(const Size2& size) override;
-        virtual void setFullscreen(bool fullscreen) override;
-        virtual void setTitle(const std::string& title) override;
+        virtual void setSize(const Size2& newSize) override;
+        virtual void setFullscreen(bool newFullscreen) override;
+        virtual void setTitle(const std::string& newTitle) override;
 
         void handleResize();
         void handleDisplayChange();
         void handleClose();
         void handleFullscreenChange(bool fullscreen);
 
-        NSWindowPtr getNativeWindow() const { return _window; }
-        NSViewPtr getNativeView() const { return _view; }
+        NSWindowPtr getNativeWindow() const { return window; }
+        NSViewPtr getNativeView() const { return view; }
 
     protected:
         WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver);
         virtual bool init() override;
 
-        NSWindowPtr _window = Nil;
-        NSViewPtr _view = Nil;
-        NSWindowDelegatePtr _windowDelegate = Nil;
+        NSWindowPtr window = Nil;
+        NSViewPtr view = Nil;
+        NSWindowDelegatePtr windowDelegate = Nil;
     };
 }

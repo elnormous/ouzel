@@ -23,31 +23,31 @@ namespace ouzel
 
         Image::~Image()
         {
-            if (_data)
+            if (data)
             {
-                stbi_image_free(_data);
+                stbi_image_free(data);
             }
         }
 
-        bool Image::initFromFile(const std::string& filename)
+        bool Image::initFromFile(const std::string& newFilename)
         {
-            _filename = filename;
+            filename = newFilename;
 
             std::string path = sharedEngine->getFileSystem()->getPath(filename);
 
             int width;
             int height;
             int comp;
-            _data = stbi_load(path.c_str(), &width, &height, &comp, STBI_rgb_alpha);
+            data = stbi_load(path.c_str(), &width, &height, &comp, STBI_rgb_alpha);
 
-            if (!_data)
+            if (!data)
             {
                 log("Failed to open texture file %s, reason: %s", filename.c_str(), stbi_failure_reason());
                 return false;
             }
 
-            _size.width = static_cast<float>(width);
-            _size.height = static_cast<float>(height);
+            size.width = static_cast<float>(width);
+            size.height = static_cast<float>(height);
 
             return true;
         }

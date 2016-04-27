@@ -17,7 +17,7 @@ namespace ouzel
         std::string getString(const std::string& str);
 
     private:
-        std::map<std::string, LanguagePtr> _languages;
-        LanguagePtr _language;
+        std::map<std::string, LanguagePtr> languages;
+        LanguagePtr currentLanguage;
     };
 }

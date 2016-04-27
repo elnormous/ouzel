@@ -7,10 +7,10 @@
 @interface OpenGLView: NSView
 {
 @private
-    NSOpenGLContext* _openGLContext;
-    CVDisplayLinkRef _displayLink;
-    CGDirectDisplayID _displayId;
-    BOOL _running;
+    NSOpenGLContext* openGLContext;
+    CVDisplayLinkRef displayLink;
+    CGDirectDisplayID displayId;
+    BOOL running;
 }
 
 -(id)initWithFrame:(NSRect)frameRect;

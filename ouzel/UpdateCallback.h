@@ -13,6 +13,6 @@ namespace ouzel
     public:
         std::function<void(float)> callback;
     protected:
-        bool _remove = false;
+        bool remove = false;
     };
 }

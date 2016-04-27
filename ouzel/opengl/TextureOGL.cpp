@@ -25,10 +25,10 @@ namespace ouzel
 
         void TextureOGL::destroy()
         {
-            if (_textureId)
+            if (textureId)
             {
-                glDeleteTextures(1, &_textureId);
-                _textureId = 0;
+                glDeleteTextures(1, &textureId);
+                textureId = 0;
             }
         }
 
@@ -41,11 +41,11 @@ namespace ouzel
 
             destroy();
 
-            glGenTextures(1, &_textureId);
+            glGenTextures(1, &textureId);
 
             if (size.width > 0.0f && size.height > 0.0f)
             {
-                RendererOGL::bindTexture(_textureId, 0);
+                RendererOGL::bindTexture(textureId, 0);
 
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
                              static_cast<GLsizei>(size.width),
@@ -70,9 +70,9 @@ namespace ouzel
 
             destroy();
 
-            glGenTextures(1, &_textureId);
+            glGenTextures(1, &textureId);
 
-            RendererOGL::bindTexture(_textureId, 0);
+            RendererOGL::bindTexture(textureId, 0);
 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -109,15 +109,15 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindTexture(_textureId, 0);
+            RendererOGL::bindTexture(textureId, 0);
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
                          0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 #ifdef OUZEL_SUPPORTS_OPENGLES
-            if (_mipmaps && isPOT(width) && isPOT(height))
+            if (mipmaps && isPOT(width) && isPOT(height))
 #else
-            if (_mipmaps)
+            if (mipmaps)
 #endif
             {
                 GLsizei oldMipWidth = width;

@@ -37,62 +37,62 @@ namespace ouzel
 
         Button::~Button()
         {
-            sharedEngine->getEventDispatcher()->removeEventHandler(_eventHandler);
+            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
         }
 
-        bool Button::init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
+        bool Button::init(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
                           const std::string& label, const graphics::Color& labelColor, const std::string& font)
         {
-            _eventHandler = std::make_shared<EventHandler>(EventHandler::PRIORITY_MAX + 1);
+            eventHandler = std::make_shared<EventHandler>(EventHandler::PRIORITY_MAX + 1);
 
-            _eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
-            _eventHandler->uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler->uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
-            sharedEngine->getEventDispatcher()->addEventHandler(_eventHandler);
+            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-            if (!normal.empty())
+            if (!normalImage.empty())
             {
-                _normalSprite = std::make_shared<scene::Sprite>();
-                if (_normalSprite->initFromFile(normal, false))
+                normalSprite = std::make_shared<scene::Sprite>();
+                if (normalSprite->initFromFile(normalImage, false))
                 {
-                    addDrawable(_normalSprite);
+                    addDrawable(normalSprite);
                 }
             }
 
-            if (!selected.empty())
+            if (!selectedImage.empty())
             {
-                _selectedSprite = std::make_shared<scene::Sprite>();
-                if (_selectedSprite->initFromFile(selected, false))
+                selectedSprite = std::make_shared<scene::Sprite>();
+                if (selectedSprite->initFromFile(selectedImage, false))
                 {
-                    addDrawable(_selectedSprite);
+                    addDrawable(selectedSprite);
                 }
             }
 
-            if (!pressed.empty())
+            if (!pressedImage.empty())
             {
-                _pressedSprite = std::make_shared<scene::Sprite>();
-                if (_pressedSprite->initFromFile(pressed, false))
+                pressedSprite = std::make_shared<scene::Sprite>();
+                if (pressedSprite->initFromFile(pressedImage, false))
                 {
-                    addDrawable(_pressedSprite);
+                    addDrawable(pressedSprite);
                 }
             }
 
-            if (!disabled.empty())
+            if (!disabledImage.empty())
             {
-                _disabledSprite = std::make_shared<scene::Sprite>();
-                if (_disabledSprite->initFromFile(disabled, false))
+                disabledSprite = std::make_shared<scene::Sprite>();
+                if (disabledSprite->initFromFile(disabledImage, false))
                 {
-                    addDrawable(_disabledSprite);
+                    addDrawable(disabledSprite);
                 }
             }
 
             if (!label.empty())
             {
-                _label = scene::TextDrawable::create(font, label);
-                if (_label)
+                labelDrawable = scene::TextDrawable::create(font, label);
+                if (labelDrawable)
                 {
-                    _label->setColor(labelColor);
-                    addDrawable(_label);
+                    labelDrawable->setColor(labelColor);
+                    addDrawable(labelDrawable);
                 }
             }
 
@@ -105,10 +105,10 @@ namespace ouzel
         {
             Widget::setEnabled(enabled);
 
-            _selected = false;
-            _pointerOver = false;
-            _pressed = false;
-            _receiveInput = enabled;
+            selected = false;
+            pointerOver = false;
+            pressed = false;
+            receiveInput = enabled;
 
             updateSprite();
         }
@@ -123,38 +123,38 @@ namespace ouzel
 
         bool Button::handleUI(const UIEventPtr& event, const VoidPtr& sender)
         {
-            if (!_enabled) return true;
+            if (!enabled) return true;
 
             if (sender.get() == this)
             {
                 if (event->type == Event::Type::UI_ENTER_NODE)
                 {
-                    _pointerOver = true;
+                    pointerOver = true;
                     updateSprite();
                 }
                 else if (event->type == Event::Type::UI_LEAVE_NODE)
                 {
-                    _pointerOver = false;
+                    pointerOver = false;
                     updateSprite();
                 }
                 else if (event->type == Event::Type::UI_PRESS_NODE)
                 {
-                    _pressed = true;
+                    pressed = true;
                     updateSprite();
                 }
                 else if (event->type == Event::Type::UI_RELEASE_NODE)
                 {
-                    if (_pressed)
+                    if (pressed)
                     {
-                        _pressed = false;
+                        pressed = false;
                         updateSprite();
                     }
                 }
                 else if (event->type == Event::Type::UI_CLICK_NODE)
                 {
-                    if (_pressed)
+                    if (pressed)
                     {
-                        _pressed = false;
+                        pressed = false;
                         updateSprite();
                     }
                 }
@@ -165,35 +165,35 @@ namespace ouzel
 
         void Button::updateSprite()
         {
-            if (_normalSprite) _normalSprite->setVisible(false);
-            if (_selectedSprite) _selectedSprite->setVisible(false);
-            if (_pressedSprite) _pressedSprite->setVisible(false);
-            if (_disabledSprite) _disabledSprite->setVisible(false);
+            if (normalSprite) normalSprite->setVisible(false);
+            if (selectedSprite) selectedSprite->setVisible(false);
+            if (pressedSprite) pressedSprite->setVisible(false);
+            if (disabledSprite) disabledSprite->setVisible(false);
 
-            if (_enabled)
+            if (enabled)
             {
-                if (_pressed && _pointerOver && _pressedSprite)
+                if (pressed && pointerOver && pressedSprite)
                 {
-                    _pressedSprite->setVisible(true);
+                    pressedSprite->setVisible(true);
                 }
-                else if (_selected && _selectedSprite)
+                else if (selected && selectedSprite)
                 {
-                    _selectedSprite->setVisible(true);
+                    selectedSprite->setVisible(true);
                 }
-                else if (_normalSprite)
+                else if (normalSprite)
                 {
-                    _normalSprite->setVisible(true);
+                    normalSprite->setVisible(true);
                 }
             }
             else
             {
-                if (_disabledSprite)
+                if (disabledSprite)
                 {
-                    _disabledSprite->setVisible(true);
+                    disabledSprite->setVisible(true);
                 }
-                else if (_normalSprite)
+                else if (normalSprite)
                 {
-                    _normalSprite->setVisible(true);
+                    normalSprite->setVisible(true);
                 }
             }
         }

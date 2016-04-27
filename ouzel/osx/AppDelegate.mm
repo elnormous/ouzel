@@ -35,7 +35,7 @@
     return YES;
 }
 
--(BOOL)application:(NSApplication *)sender openFile:(NSString *)filename
+-(BOOL)application:(NSApplication*)sender openFile:(NSString*)filename
 {
     OUZEL_UNUSED(sender);
 

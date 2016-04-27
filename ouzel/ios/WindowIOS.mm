@@ -29,38 +29,38 @@ namespace ouzel
 
     WindowIOS::~WindowIOS()
     {
-        if (_viewController) [_viewController release];
-        if (_view) [_view release];
-        if (_window) [_window release];
+        if (viewController) [viewController release];
+        if (view) [view release];
+        if (window) [window release];
     }
 
     bool WindowIOS::init()
     {
-        _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-        _viewController = [[[ViewController alloc] init] autorelease];
-        _window.rootViewController = _viewController;
+        viewController = [[[ViewController alloc] init] autorelease];
+        window.rootViewController = viewController;
 
-        CGRect windowFrame = [_window bounds];
+        CGRect windowFrame = [window bounds];
 
-        _size = Size2(windowFrame.size.width, windowFrame.size.height);
+        size = Size2(windowFrame.size.width, windowFrame.size.height);
         
-        switch (_driver)
+        switch (driver)
         {
             case graphics::Renderer::Driver::OPENGL:
-                _view = [[OpenGLView alloc] initWithFrame:windowFrame];
+                view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 break;
             case graphics::Renderer::Driver::METAL:
-                _view = [[MetalView alloc] initWithFrame:windowFrame];
+                view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
             default:
                 log("Unsupported render driver");
                 return false;
         }
 
-        _viewController.view = _view;
+        viewController.view = view;
 
-        [_window makeKeyAndVisible];
+        [window makeKeyAndVisible];
 
         return Window::init();
     }

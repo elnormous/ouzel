@@ -9,62 +9,62 @@ namespace ouzel
 {
     namespace scene
     {
-        Animator::Animator(float length):
-            _length(length)
+        Animator::Animator(float pLength):
+            length(pLength)
         {
-            _updateCallback = std::make_shared<UpdateCallback>();
-            _updateCallback->callback = std::bind(&Animator::update, this, std::placeholders::_1);
+            updateCallback = std::make_shared<UpdateCallback>();
+            updateCallback->callback = std::bind(&Animator::update, this, std::placeholders::_1);
         }
 
         Animator::~Animator()
         {
-            sharedEngine->unscheduleUpdate(_updateCallback);
+            sharedEngine->unscheduleUpdate(updateCallback);
         }
 
         void Animator::update(float delta)
         {
-            if (_running)
+            if (running)
             {
-                if (_currentTime + delta >= _length)
+                if (currentTime + delta >= length)
                 {
-                    _done = true;
-                    _running = false;
+                    done = true;
+                    running = false;
                     setProgress(1.0f);
-                    sharedEngine->unscheduleUpdate(_updateCallback);
+                    sharedEngine->unscheduleUpdate(updateCallback);
                 }
                 else
                 {
-                    setProgress((_currentTime + delta) / _length);
+                    setProgress((currentTime + delta) / length);
                 }
             }
         }
 
-        void Animator::start(const NodePtr& node)
+        void Animator::start(const NodePtr& targetNode)
         {
-            if (!_running)
+            if (!running)
             {
-                _running = true;
-                _node = node;
+                running = true;
+                node = targetNode;
 
-                sharedEngine->scheduleUpdate(_updateCallback);
+                sharedEngine->scheduleUpdate(updateCallback);
             }
         }
 
         void Animator::resume()
         {
-            if (!_running)
+            if (!running)
             {
-                _running = true;
-                sharedEngine->scheduleUpdate(_updateCallback);
+                running = true;
+                sharedEngine->scheduleUpdate(updateCallback);
             }
         }
 
         void Animator::stop(bool resetAnimation)
         {
-            if (_running)
+            if (running)
             {
-                _running = false;
-                sharedEngine->unscheduleUpdate(_updateCallback);
+                running = false;
+                sharedEngine->unscheduleUpdate(updateCallback);
             }
 
             if (resetAnimation)
@@ -75,15 +75,15 @@ namespace ouzel
 
         void Animator::reset()
         {
-            _done = false;
-            _currentTime = 0.0f;
+            done = false;
+            currentTime = 0.0f;
             setProgress(0.0f);
         }
 
-        void Animator::setProgress(float progress)
+        void Animator::setProgress(float newProgress)
         {
-            _progress = progress;
-            _currentTime = _progress * _length;
+            progress = newProgress;
+            currentTime = progress * length;
         }
     } // namespace scene
 } // namespace ouzel

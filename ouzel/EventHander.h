@@ -17,7 +17,7 @@ namespace ouzel
     public:
         static const int32_t PRIORITY_MAX = 0x1000;
 
-        EventHandler(int32_t priority = 0): _priority(priority) { }
+        EventHandler(int32_t pPriority = 0): priority(pPriority) { }
 
         std::function<bool(const KeyboardEventPtr&, const VoidPtr&)> keyboardHandler;
         std::function<bool(const MouseEventPtr&, const VoidPtr&)> mouseHandler;
@@ -28,7 +28,7 @@ namespace ouzel
         std::function<bool(const UIEventPtr&, const VoidPtr&)> uiHandler;
 
     protected:
-        int32_t _priority;
-        bool _remove = false;
+        int32_t priority;
+        bool remove = false;
     };
 }

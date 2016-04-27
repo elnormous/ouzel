@@ -25,15 +25,15 @@ namespace ouzel
     public:
         virtual ~WindowIOS();
 
-        UIWindowPtr getNativeWindow() const { return _window; }
-        UIViewPtr getNativeView() const { return _view; }
+        UIWindowPtr getNativeWindow() const { return window; }
+        UIViewPtr getNativeView() const { return view; }
 
     protected:
         WindowIOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver);
         virtual bool init() override;
 
-        UIWindowPtr _window = Nil;
-        UIViewPtr _view = Nil;
-        UIViewControllerPtr _viewController = Nil;
+        UIWindowPtr window = Nil;
+        UIViewPtr view = Nil;
+        UIViewControllerPtr viewController = Nil;
     };
 }

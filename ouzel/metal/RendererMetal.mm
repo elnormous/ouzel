@@ -60,53 +60,55 @@ namespace ouzel
 
         void RendererMetal::destroy()
         {
-            if (_currentCommandBuffer)
+            if (currentCommandBuffer)
             {
-                [_currentCommandBuffer release];
-                _currentCommandBuffer = Nil;
+                [currentCommandBuffer release];
+                currentCommandBuffer = Nil;
             }
 
-            if (_currentRenderCommandEncoder)
+            if (currentRenderCommandEncoder)
             {
-                [_currentRenderCommandEncoder release];
-                _currentRenderCommandEncoder = Nil;
+                [currentRenderCommandEncoder release];
+                currentRenderCommandEncoder = Nil;
             }
 
-            for (auto pipelineState : _pipelineStates)
+            for (auto pipelineState : pipelineStates)
             {
                 [pipelineState.second release];
             }
 
-            _pipelineStates.clear();
+            pipelineStates.clear();
 
-            if (_commandQueue)
+            if (commandQueue)
             {
-                [_commandQueue release];
-                _commandQueue = Nil;
+                [commandQueue release];
+                commandQueue = Nil;
             }
 
-            if (_samplerState)
+            if (samplerState)
             {
-                [_samplerState release];
-                _samplerState = Nil;
+                [samplerState release];
+                samplerState = Nil;
             }
 
-            if (_device)
+            if (device)
             {
-                [_device release];
-                _device = Nil;
+                [device release];
+                device = Nil;
             }
         }
 
-        bool RendererMetal::init(const Size2& size, bool fullscreen)
+        bool RendererMetal::init(const Size2& newSize, bool newFullscreen)
         {
+            OUZEL_UNUSED(newFullscreen);
+
             destroy();
 
-            _inflightSemaphore = dispatch_semaphore_create(3);
+            inflightSemaphore = dispatch_semaphore_create(3);
 
-            _device = MTLCreateSystemDefaultDevice();
+            device = MTLCreateSystemDefaultDevice();
 
-            if (!_device)
+            if (!device)
             {
                 log("Failed to create Metal device");
                 return false;
@@ -118,13 +120,13 @@ namespace ouzel
 #elif OUZEL_PLATFORM_IOS
             std::shared_ptr<WindowIOS> window = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow());
 #endif
-            _view = window->getNativeView();
-            _view.device = _device;
+            view = window->getNativeView();
+            view.device = device;
             //_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 
-            _commandQueue = [_device newCommandQueue];
+            commandQueue = [device newCommandQueue];
 
-            if (!_commandQueue)
+            if (!commandQueue)
             {
                 log("Failed to create Metal command queue");
                 return false;
@@ -137,10 +139,10 @@ namespace ouzel
             samplerDescriptor.sAddressMode = MTLSamplerAddressModeRepeat;
             samplerDescriptor.tAddressMode = MTLSamplerAddressModeRepeat;
 
-            _samplerState = [_device newSamplerStateWithDescriptor:samplerDescriptor];
+            samplerState = [device newSamplerStateWithDescriptor:samplerDescriptor];
             [samplerDescriptor release];
 
-            if (!_samplerState)
+            if (!samplerState)
             {
                 log("Failed to create Metal sampler state");
                 return false;
@@ -242,42 +244,43 @@ namespace ouzel
                 }
             }
 
-            setSize(size);
+            setSize(newSize);
 
             return true;
         }
 
-        void RendererMetal::setClearColor(Color color)
+        void RendererMetal::setClearColor(Color newColor)
         {
-            Renderer::setClearColor(color);
+            Renderer::setClearColor(newColor);
         }
 
-        void RendererMetal::setSize(const Size2& size)
+        void RendererMetal::setSize(const Size2& newSize)
         {
-            Renderer::setSize(size);
+            Renderer::setSize(newSize);
         }
 
         void RendererMetal::clear()
         {
-            dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
+            dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
-            if (_currentCommandBuffer) [_currentCommandBuffer release];
+            if (currentCommandBuffer) [currentCommandBuffer release];
 
-            _currentCommandBuffer = [[_commandQueue commandBuffer] retain];
+            currentCommandBuffer = [[commandQueue commandBuffer] retain];
 
-            if (!_currentCommandBuffer)
+            if (!currentCommandBuffer)
             {
                 log("Failed to create Metal command buffer");
                 return;
             }
 
-            __block dispatch_semaphore_t blockSemaphore = _inflightSemaphore;
-            [_currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer> buffer)
+            __block dispatch_semaphore_t blockSemaphore = inflightSemaphore;
+            [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer> buffer)
              {
+                 OUZEL_UNUSED(buffer);
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
-            MTLRenderPassDescriptor* renderPassDescriptor = _view.currentRenderPassDescriptor;
+            MTLRenderPassDescriptor* renderPassDescriptor = view.currentRenderPassDescriptor;
 
             if (!renderPassDescriptor)
             {
@@ -285,14 +288,14 @@ namespace ouzel
                 return;
             }
 
-            if (_currentRenderCommandEncoder) [_currentRenderCommandEncoder release];
+            if (currentRenderCommandEncoder) [currentRenderCommandEncoder release];
 
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
 
-            _currentRenderCommandEncoder = [[_currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor] retain];
+            currentRenderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor] retain];
 
-            if (!_currentRenderCommandEncoder)
+            if (!currentRenderCommandEncoder)
             {
                 log("Failed to create Metal render command encoder");
                 return;
@@ -303,20 +306,20 @@ namespace ouzel
         {
             Renderer::present();
 
-            if (_currentRenderCommandEncoder)
+            if (currentRenderCommandEncoder)
             {
-                [_currentRenderCommandEncoder endEncoding];
-                [_currentRenderCommandEncoder release];
-                _currentRenderCommandEncoder = Nil;
+                [currentRenderCommandEncoder endEncoding];
+                [currentRenderCommandEncoder release];
+                currentRenderCommandEncoder = Nil;
             }
 
-            if (_currentCommandBuffer)
+            if (currentCommandBuffer)
             {
-                [_currentCommandBuffer presentDrawable:_view.currentDrawable];
+                [currentCommandBuffer presentDrawable:view.currentDrawable];
                 
-                [_currentCommandBuffer commit];
-                [_currentCommandBuffer release];
-                _currentCommandBuffer = Nil;
+                [currentCommandBuffer commit];
+                [currentCommandBuffer release];
+                currentCommandBuffer = Nil;
             }
         }
 
@@ -409,30 +412,30 @@ namespace ouzel
                 return false;
             }
 
-            if (!_activeShader)
+            if (!activeShader)
             {
                 return false;
             }
 
             std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(meshBuffer);
 
-            [_currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
+            [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
-            std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(_activeShader);
-            [_currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
+            std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(activeShader);
+            [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
                                                      offset:shaderMetal->getPixelShaderConstantBufferOffset()
                                                     atIndex:1];
-            [_currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
+            [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
                                                    offset:shaderMetal->getVertexShaderConstantBufferOffset()
                                                   atIndex:1];
 
-            std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(_activeBlendState);
+            std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(activeBlendState);
 
-            auto pipelineStateIterator = _pipelineStates.find(std::make_pair(blendStateMetal, shaderMetal));
+            auto pipelineStateIterator = pipelineStates.find(std::make_pair(blendStateMetal, shaderMetal));
 
-            if (pipelineStateIterator != _pipelineStates.end())
+            if (pipelineStateIterator != pipelineStates.end())
             {
-                [_currentRenderCommandEncoder setRenderPipelineState:pipelineStateIterator->second];
+                [currentRenderCommandEncoder setRenderPipelineState:pipelineStateIterator->second];
             }
             else
             {
@@ -443,24 +446,24 @@ namespace ouzel
                     return false;
                 }
 
-                [_currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+                [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
             }
 
             for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
             {
-                if (_activeTextures[layer])
+                if (activeTextures[layer])
                 {
-                    std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(_activeTextures[layer]);
+                    std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(activeTextures[layer]);
                     
-                    [_currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
+                    [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
                 }
                 else
                 {
-                    [_currentRenderCommandEncoder setFragmentTexture:Nil atIndex:layer];
+                    [currentRenderCommandEncoder setFragmentTexture:Nil atIndex:layer];
                 }
             }
 
-            [_currentRenderCommandEncoder setFragmentSamplerState:_samplerState atIndex:0];
+            [currentRenderCommandEncoder setFragmentSamplerState:samplerState atIndex:0];
 
             if (indexCount == 0)
             {
@@ -479,7 +482,7 @@ namespace ouzel
                 default: return false;
             }
 
-            [_currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
+            [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
                                                      indexCount:indexCount
                                                       indexType:meshBufferMetal->getIndexFormat()
                                                     indexBuffer:meshBufferMetal->getIndexBuffer()
@@ -494,14 +497,14 @@ namespace ouzel
                                                                      const std::shared_ptr<ShaderMetal>& shader)
         {
             MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-            pipelineStateDescriptor.sampleCount = _view.sampleCount;
+            pipelineStateDescriptor.sampleCount = view.sampleCount;
             pipelineStateDescriptor.vertexFunction = shader->getVertexShader();
             pipelineStateDescriptor.fragmentFunction = shader->getPixelShader();
             pipelineStateDescriptor.vertexDescriptor = shader->getVertexDescriptor();
-            pipelineStateDescriptor.depthAttachmentPixelFormat = _view.depthStencilPixelFormat;
-            pipelineStateDescriptor.stencilAttachmentPixelFormat = _view.depthStencilPixelFormat;
+            pipelineStateDescriptor.depthAttachmentPixelFormat = view.depthStencilPixelFormat;
+            pipelineStateDescriptor.stencilAttachmentPixelFormat = view.depthStencilPixelFormat;
 
-            pipelineStateDescriptor.colorAttachments[0].pixelFormat = _view.colorPixelFormat;
+            pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
 
             // blending
             if (!blendState)
@@ -532,7 +535,7 @@ namespace ouzel
             pipelineStateDescriptor.colorAttachments[0].writeMask = MTLColorWriteMaskAll;
 
             NSError* error = Nil;
-            id<MTLRenderPipelineState> pipelineState = [_device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
+            id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
             [pipelineStateDescriptor release];
             if (error || !pipelineState)
             {
@@ -542,7 +545,7 @@ namespace ouzel
                 return Nil;
             }
 
-            _pipelineStates[std::make_pair(blendState, shader)] = pipelineState;
+            pipelineStates[std::make_pair(blendState, shader)] = pipelineState;
 
             return pipelineState;
         }

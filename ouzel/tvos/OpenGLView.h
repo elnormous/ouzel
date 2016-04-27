@@ -7,12 +7,12 @@
 @interface OpenGLView: UIView
 {
 @private
-    CAEAGLLayer* _eaglLayer;
-    EAGLContext* _context;
-    GLuint _colorRenderBuffer;
-    GLuint _frameBuffer;
+    CAEAGLLayer* eaglLayer;
+    EAGLContext* context;
+    GLuint colorRenderBuffer;
+    GLuint frameBuffer;
 
-    CADisplayLink* _displayLink;
+    CADisplayLink* displayLink;
 }
 
 -(id)initWithFrame:(CGRect)frameRect;

@@ -23,62 +23,65 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBuffer::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
+        bool MeshBuffer::initFromData(const void* newIndices, uint32_t newIndexSize,
+                                      uint32_t newIndexCount, bool newDynamicIndexBuffer,
+                                      const void* newVertices, uint32_t newVertexAttributes,
+                                      uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
-            OUZEL_UNUSED(indices);
-            OUZEL_UNUSED(indexCount);
-            OUZEL_UNUSED(vertices);
-            OUZEL_UNUSED(vertexCount);
+            OUZEL_UNUSED(newIndices);
+            OUZEL_UNUSED(newIndexCount);
+            OUZEL_UNUSED(newVertices);
+            OUZEL_UNUSED(newVertexCount);
 
-            _indexCount = indexCount;
-            _indexSize = indexSize;
-            _dynamicIndexBuffer = dynamicIndexBuffer;
+            indexCount = newIndexCount;
+            indexSize = newIndexSize;
+            dynamicIndexBuffer = newDynamicIndexBuffer;
 
-            _vertexCount = vertexCount;
-            _vertexAttributes = vertexAttributes;
-            _dynamicVertexBuffer = dynamicVertexBuffer;
+            vertexCount = newVertexCount;
+            vertexAttributes = newVertexAttributes;
+            dynamicVertexBuffer = newDynamicVertexBuffer;
             updateVertexSize();
 
             return true;
         }
 
-        bool MeshBuffer::uploadIndices(const void* indices, uint32_t indexCount)
+        bool MeshBuffer::uploadIndices(const void* newIndices, uint32_t newIndexCount)
         {
-            OUZEL_UNUSED(indices);
+            OUZEL_UNUSED(newIndices);
 
-            _indexCount = indexCount;
-
-            if (!_dynamicIndexBuffer)
+            if (!dynamicIndexBuffer)
             {
                 return false;
             }
 
+            indexCount = newIndexCount;
+
             return true;
         }
 
-        bool MeshBuffer::uploadVertices(const void* vertices, uint32_t vertexCount)
+        bool MeshBuffer::uploadVertices(const void* newVertices, uint32_t newVertexCount)
         {
-            OUZEL_UNUSED(vertices);
+            OUZEL_UNUSED(newVertices);
 
-            _vertexCount = vertexCount;
-
-            if (!_dynamicVertexBuffer)
+            if (!dynamicVertexBuffer)
             {
                 return false;
             }
 
+            vertexCount = newVertexCount;
+
             return true;
         }
 
-        bool MeshBuffer::setIndexSize(uint32_t indexSize)
+        bool MeshBuffer::setIndexSize(uint32_t newIndexSize)
         {
-            _indexSize = indexSize;
+            indexSize = newIndexSize;
             return true;
         }
 
-        bool MeshBuffer::setVertexAttributes(uint32_t vertexAttributes)
+        bool MeshBuffer::setVertexAttributes(uint32_t newVertexAttributes)
         {
-            _vertexAttributes = vertexAttributes;
+            vertexAttributes = newVertexAttributes;
             updateVertexSize();
 
             return true;
@@ -86,31 +89,31 @@ namespace ouzel
 
         void MeshBuffer::updateVertexSize()
         {
-            _vertexSize = 0;
+            vertexSize = 0;
 
-            if (_vertexAttributes & VERTEX_POSITION)
+            if (vertexAttributes & VERTEX_POSITION)
             {
-                _vertexSize += 3 * sizeof(float);
+                vertexSize += 3 * sizeof(float);
             }
 
-            if (_vertexAttributes & VERTEX_COLOR)
+            if (vertexAttributes & VERTEX_COLOR)
             {
-                _vertexSize += 4 * sizeof(uint8_t);
+                vertexSize += 4 * sizeof(uint8_t);
             }
 
-            if (_vertexAttributes & VERTEX_NORMAL)
+            if (vertexAttributes & VERTEX_NORMAL)
             {
-                _vertexSize += 3 * sizeof(float);
+                vertexSize += 3 * sizeof(float);
             }
 
-            if (_vertexAttributes & VERTEX_TEXCOORD0)
+            if (vertexAttributes & VERTEX_TEXCOORD0)
             {
-                _vertexSize += 2 * sizeof(float);
+                vertexSize += 2 * sizeof(float);
             }
 
-            if (_vertexAttributes & VERTEX_TEXCOORD1)
+            if (vertexAttributes & VERTEX_TEXCOORD1)
             {
-                _vertexSize += 2 * sizeof(float);
+                vertexSize += 2 * sizeof(float);
             }
         }
     } // namespace graphics

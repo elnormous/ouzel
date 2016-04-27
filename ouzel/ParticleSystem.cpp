@@ -33,202 +33,202 @@ namespace ouzel
 
         ParticleSystem::ParticleSystem()
         {
-            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
 
-            _updateCallback = std::make_shared<UpdateCallback>();
-            _updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
+            updateCallback = std::make_shared<UpdateCallback>();
+            updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
         }
 
         ParticleSystem::~ParticleSystem()
         {
-            sharedEngine->unscheduleUpdate(_updateCallback);
+            sharedEngine->unscheduleUpdate(updateCallback);
         }
 
-        void ParticleSystem::draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color)
+        void ParticleSystem::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color)
         {
-            Drawable::draw(projection, transform, color);
+            Drawable::draw(projectionMatrix, transformMatrix, color);
 
-            if (_shader && _texture && _particleCount)
+            if (shader && texture && particleCount)
             {
-                if (_needsMeshUpdate)
+                if (needsMeshUpdate)
                 {
                     updateParticleMesh();
-                    _needsMeshUpdate = false;
+                    needsMeshUpdate = false;
                 }
 
-                sharedEngine->getRenderer()->activateTexture(_texture, 0);
-                sharedEngine->getRenderer()->activateShader(_shader);
+                sharedEngine->getRenderer()->activateTexture(texture, 0);
+                sharedEngine->getRenderer()->activateShader(shader);
 
                 Matrix4 transform;
 
-                if (_positionType == ParticleDefinition::PositionType::FREE || _positionType == ParticleDefinition::PositionType::RELATIVE)
+                if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
                 {
-                    transform = projection;
+                    transform = projectionMatrix;
                 }
-                else if (_positionType == ParticleDefinition::PositionType::GROUPED)
+                else if (positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    transform = projection * transform;
+                    transform = projectionMatrix * transformMatrix;
                 }
 
                 float colorVector[] = { color.getR(), color.getG(), color.getB(), color.getA() };
 
-                _shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, transform.m);
-                _shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
+                shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, transform.m);
+                shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
 
-                sharedEngine->getRenderer()->drawMeshBuffer(_mesh, _particleCount * 6);
+                sharedEngine->getRenderer()->drawMeshBuffer(mesh, particleCount * 6);
             }
         }
 
         void ParticleSystem::update(float delta)
         {
-            if (_running && _particleDefinition.emissionRate > 0.0f)
+            if (running && particleDefinition.emissionRate > 0.0f)
             {
-                float rate = 1.0f / _particleDefinition.emissionRate;
+                float rate = 1.0f / particleDefinition.emissionRate;
 
-                if (_particleCount < _particleDefinition.maxParticles)
+                if (particleCount < particleDefinition.maxParticles)
                 {
-                    _emitCounter += delta;
-                    if (_emitCounter < 0.f)
-                        _emitCounter = 0.f;
+                    emitCounter += delta;
+                    if (emitCounter < 0.f)
+                        emitCounter = 0.f;
                 }
 
-                uint32_t emitCount = static_cast<uint32_t>(fminf(static_cast<float>(_particleDefinition.maxParticles - _particleCount), _emitCounter / rate));
+                uint32_t emitCount = static_cast<uint32_t>(fminf(static_cast<float>(particleDefinition.maxParticles - particleCount), emitCounter / rate));
                 emitParticles(emitCount);
-                _emitCounter -= rate * emitCount;
+                emitCounter -= rate * emitCount;
 
-                _elapsed += delta;
-                if (_elapsed < 0.f)
-                    _elapsed = 0.f;
-                if (_particleDefinition.duration >= 0.0f && _particleDefinition.duration < _elapsed)
+                elapsed += delta;
+                if (elapsed < 0.f)
+                    elapsed = 0.f;
+                if (particleDefinition.duration >= 0.0f && particleDefinition.duration < elapsed)
                 {
-                    _finished = true;
+                    finished = true;
                     stop();
                 }
             }
-            else if (_active && !_particleCount)
+            else if (active && !particleCount)
             {
-                _active = false;
-                sharedEngine->unscheduleUpdate(_updateCallback);
+                active = false;
+                sharedEngine->unscheduleUpdate(updateCallback);
             }
 
-            if (_active)
+            if (active)
             {
-                for (uint32_t counter = _particleCount; counter > 0; --counter)
+                for (uint32_t counter = particleCount; counter > 0; --counter)
                 {
                     size_t i = counter - 1;
 
-                    _particles[i].life -= delta;
+                    particles[i].life -= delta;
 
-                    if (_particles[i].life >= 0.0f)
+                    if (particles[i].life >= 0.0f)
                     {
-                        if (_particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
+                        if (particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
                         {
                             Vector2 tmp, radial, tangential;
 
                             // radial acceleration
-                            if (_particles[i].position.x == 0.0f || _particles[i].position.y == 0.0f)
+                            if (particles[i].position.x == 0.0f || particles[i].position.y == 0.0f)
                             {
-                                radial = _particles[i].position;
+                                radial = particles[i].position;
                                 radial.normalize();
                             }
                             tangential = radial;
-                            radial.x *= _particles[i].radialAcceleration;
-                            radial.y *= _particles[i].radialAcceleration;
+                            radial.x *= particles[i].radialAcceleration;
+                            radial.y *= particles[i].radialAcceleration;
 
                             // tangential acceleration
                             std::swap(tangential.x, tangential.y);
-                            tangential.x *= - _particles[i].tangentialAcceleration;
-                            tangential.y *= _particles[i].tangentialAcceleration;
+                            tangential.x *= - particles[i].tangentialAcceleration;
+                            tangential.y *= particles[i].tangentialAcceleration;
 
                             // (gravity + radial + tangential) * delta
-                            tmp.x = radial.x + tangential.x + _particleDefinition.gravity.x;
-                            tmp.y = radial.y + tangential.y + _particleDefinition.gravity.y;
+                            tmp.x = radial.x + tangential.x + particleDefinition.gravity.x;
+                            tmp.y = radial.y + tangential.y + particleDefinition.gravity.y;
                             tmp.x *= delta;
                             tmp.y *= delta;
 
-                            _particles[i].direction.x += tmp.x;
-                            _particles[i].direction.y += tmp.y;
+                            particles[i].direction.x += tmp.x;
+                            particles[i].direction.y += tmp.y;
 
                             // this is cocos2d-x v3.0
-                            // if (_configName.length()>0 && _yCoordFlipped != -1)
+                            // if (configName.length()>0 && yCoordFlipped != -1)
 
                             // this is cocos2d-x v3.0
-                            tmp.x = _particles[i].direction.x * delta * _particleDefinition.yCoordFlipped;
-                            tmp.y = _particles[i].direction.y * delta * _particleDefinition.yCoordFlipped;
-                            _particles[i].position.x += tmp.x;
-                            _particles[i].position.y += tmp.y;
+                            tmp.x = particles[i].direction.x * delta * particleDefinition.yCoordFlipped;
+                            tmp.y = particles[i].direction.y * delta * particleDefinition.yCoordFlipped;
+                            particles[i].position.x += tmp.x;
+                            particles[i].position.y += tmp.y;
                         }
                         else
                         {
-                            _particles[i].angle += _particles[i].degreesPerSecond * delta;
-                            _particles[i].radius += _particles[i].deltaRadius * delta;
-                            _particles[i].position.x = -cosf(_particles[i].angle) * _particles[i].radius;
-                            _particles[i].position.y = -sinf(_particles[i].angle) * _particles[i].radius * _particleDefinition.yCoordFlipped;
+                            particles[i].angle += particles[i].degreesPerSecond * delta;
+                            particles[i].radius += particles[i].deltaRadius * delta;
+                            particles[i].position.x = -cosf(particles[i].angle) * particles[i].radius;
+                            particles[i].position.y = -sinf(particles[i].angle) * particles[i].radius * particleDefinition.yCoordFlipped;
                         }
 
                         //color r,g,b,a
-                        _particles[i].colorRed += _particles[i].deltaColorRed * delta;
-                        _particles[i].colorGreen += _particles[i].deltaColorGreen * delta;
-                        _particles[i].colorBlue += _particles[i].deltaColorBlue * delta;
-                        _particles[i].colorAlpha += _particles[i].deltaColorAlpha * delta;
+                        particles[i].colorRed += particles[i].deltaColorRed * delta;
+                        particles[i].colorGreen += particles[i].deltaColorGreen * delta;
+                        particles[i].colorBlue += particles[i].deltaColorBlue * delta;
+                        particles[i].colorAlpha += particles[i].deltaColorAlpha * delta;
 
                         //size
-                        _particles[i].size += (_particles[i].deltaSize * delta);
-                        _particles[i].size = fmaxf(0.0f, _particles[i].size);
+                        particles[i].size += (particles[i].deltaSize * delta);
+                        particles[i].size = fmaxf(0.0f, particles[i].size);
 
                         //angle
-                        _particles[i].rotation += _particles[i].deltaRotation * delta;
+                        particles[i].rotation += particles[i].deltaRotation * delta;
                     }
                     else
                     {
-                        _particles[i] = _particles[_particleCount - 1];
-                        _particleCount--;
+                        particles[i] = particles[particleCount - 1];
+                        particleCount--;
                     }
                 }
 
                 // Update bounding box
-                _boundingBox.reset();
+                boundingBox.reset();
 
-                if (_positionType == ParticleDefinition::PositionType::FREE || _positionType == ParticleDefinition::PositionType::RELATIVE)
+                if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
                 {
-                    if (NodePtr parentNode = _parentNode.lock())
+                    if (NodePtr parent = parentNode.lock())
                     {
-                        const Matrix4& inverseTransform = parentNode->getInverseTransform();
+                        const Matrix4& inverseTransform = parent->getInverseTransform();
 
-                        for (uint32_t i = 0; i < _particleCount; i++)
+                        for (uint32_t i = 0; i < particleCount; i++)
                         {
-                            Vector3 position = _particles[i].position;
+                            Vector3 position = particles[i].position;
                             inverseTransform.transformPoint(position);
-                            _boundingBox.insertPoint(Vector2(position.x, position.y));
+                            boundingBox.insertPoint(Vector2(position.x, position.y));
                         }
                     }
                 }
-                else if (_particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
+                else if (particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    for (uint32_t i = 0; i < _particleCount; i++)
+                    for (uint32_t i = 0; i < particleCount; i++)
                     {
-                        _boundingBox.insertPoint(_particles[i].position);
+                        boundingBox.insertPoint(particles[i].position);
                     }
                 }
 
-                _needsMeshUpdate = true;
+                needsMeshUpdate = true;
             }
         }
 
         bool ParticleSystem::initFromFile(const std::string& filename)
         {
-            ParticleDefinitionPtr particleDefinition = sharedEngine->getCache()->getParticleDefinition(filename);
+            ParticleDefinitionPtr newParticleDefinition = sharedEngine->getCache()->getParticleDefinition(filename);
 
-            if (!particleDefinition)
+            if (!newParticleDefinition)
             {
                 return false;
             }
 
-            _particleDefinition = *particleDefinition;
-            _positionType = _particleDefinition.positionType;
-            _texture = sharedEngine->getCache()->getTexture(_particleDefinition.textureFilename);
+            particleDefinition = *newParticleDefinition;
+            positionType = particleDefinition.positionType;
+            texture = sharedEngine->getCache()->getTexture(particleDefinition.textureFilename);
 
-            if (!_texture)
+            if (!texture)
             {
                 return false;
             }
@@ -241,84 +241,84 @@ namespace ouzel
 
         void ParticleSystem::resume()
         {
-            if (!_running)
+            if (!running)
             {
-                _finished = false;
-                _running = true;
+                finished = false;
+                running = true;
 
-                if (!_active)
+                if (!active)
                 {
-                    _active = true;
-                    sharedEngine->scheduleUpdate(_updateCallback);
+                    active = true;
+                    sharedEngine->scheduleUpdate(updateCallback);
                 }
             }
         }
 
         void ParticleSystem::stop()
         {
-            _running = false;
+            running = false;
         }
 
         void ParticleSystem::reset()
         {
-            _emitCounter = 0.0f;
-            _elapsed = 0.0f;
-            _particleCount = 0;
-            _finished = false;
+            emitCounter = 0.0f;
+            elapsed = 0.0f;
+            particleCount = 0;
+            finished = false;
         }
 
         void ParticleSystem::createParticleMesh()
         {
-            _indices.reserve(_particleDefinition.maxParticles * 6);
-            _vertices.reserve(_particleDefinition.maxParticles * 4);
+            indices.reserve(particleDefinition.maxParticles * 6);
+            vertices.reserve(particleDefinition.maxParticles * 4);
 
-            for (uint16_t i = 0; i < _particleDefinition.maxParticles; ++i)
+            for (uint16_t i = 0; i < particleDefinition.maxParticles; ++i)
             {
-                _indices.push_back(i * 4 + 0);
-                _indices.push_back(i * 4 + 1);
-                _indices.push_back(i * 4 + 2);
-                _indices.push_back(i * 4 + 1);
-                _indices.push_back(i * 4 + 3);
-                _indices.push_back(i * 4 + 2);
+                indices.push_back(i * 4 + 0);
+                indices.push_back(i * 4 + 1);
+                indices.push_back(i * 4 + 2);
+                indices.push_back(i * 4 + 1);
+                indices.push_back(i * 4 + 3);
+                indices.push_back(i * 4 + 2);
 
-                _vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), graphics::Color(255, 255, 255, 255), Vector2(0.0f, 1.0f)));
-                _vertices.push_back(graphics::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), graphics::Color(255, 255, 255, 255), Vector2(1.0f, 1.0f)));
-                _vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(0.0f, 0.0f)));
-                _vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), graphics::Color(255, 255, 255, 255), Vector2(0.0f, 1.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), graphics::Color(255, 255, 255, 255), Vector2(1.0f, 1.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(0.0f, 0.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
             }
 
-            _mesh = sharedEngine->getRenderer()->createMeshBufferFromData(_indices.data(), sizeof(uint16_t),
-                                                                          static_cast<uint32_t>(_indices.size()), false,
-                                                                          _vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                                                          static_cast<uint32_t>(_vertices.size()), true);
+            mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+                                                                          static_cast<uint32_t>(indices.size()), false,
+                                                                          vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                                                          static_cast<uint32_t>(vertices.size()), true);
 
-            _particles.resize(_particleDefinition.maxParticles);
+            particles.resize(particleDefinition.maxParticles);
         }
 
         void ParticleSystem::updateParticleMesh()
         {
-            if (NodePtr parentNode = _parentNode.lock())
+            if (NodePtr parent = parentNode.lock())
             {
-                for (uint32_t counter = _particleCount; counter > 0; --counter)
+                for (uint32_t counter = particleCount; counter > 0; --counter)
                 {
                     size_t i = counter - 1;
 
                     Vector2 position;
 
-                    if (_positionType == ParticleDefinition::PositionType::FREE)
+                    if (positionType == ParticleDefinition::PositionType::FREE)
                     {
-                        position = _particles[i].position;
+                        position = particles[i].position;
                     }
-                    else if (_positionType == ParticleDefinition::PositionType::RELATIVE)
+                    else if (positionType == ParticleDefinition::PositionType::RELATIVE)
                     {
-                        position = parentNode->getPosition() + _particles[i].position;
+                        position = parent->getPosition() + particles[i].position;
                     }
 
-                    float size_2 = _particles[i].size / 2.0f;
+                    float size_2 = particles[i].size / 2.0f;
                     Vector2 v1(-size_2, -size_2);
                     Vector2 v2(size_2, size_2);
 
-                    float r = -degToRad(_particles[i].rotation);
+                    float r = -degToRad(particles[i].rotation);
                     float cr = cosf(r);
                     float sr = sinf(r);
 
@@ -327,127 +327,127 @@ namespace ouzel
                     Vector2 c(v2.x * cr - v2.y * sr, v2.x * sr + v2.y * cr);
                     Vector2 d(v1.x * cr - v2.y * sr, v1.x * sr + v2.y * cr);
 
-                    graphics::Color color(static_cast<uint8_t>(_particles[i].colorRed * 255),
-                                       static_cast<uint8_t>(_particles[i].colorGreen * 255),
-                                       static_cast<uint8_t>(_particles[i].colorBlue * 255),
-                                       static_cast<uint8_t>(_particles[i].colorAlpha * 255));
+                    graphics::Color color(static_cast<uint8_t>(particles[i].colorRed * 255),
+                                       static_cast<uint8_t>(particles[i].colorGreen * 255),
+                                       static_cast<uint8_t>(particles[i].colorBlue * 255),
+                                       static_cast<uint8_t>(particles[i].colorAlpha * 255));
 
-                    _vertices[i * 4 + 0].position = a + position;
-                    _vertices[i * 4 + 0].color = color;
+                    vertices[i * 4 + 0].position = a + position;
+                    vertices[i * 4 + 0].color = color;
 
-                    _vertices[i * 4 + 1].position = b + position;
-                    _vertices[i * 4 + 1].color = color;
+                    vertices[i * 4 + 1].position = b + position;
+                    vertices[i * 4 + 1].color = color;
 
-                    _vertices[i * 4 + 2].position = d + position;
-                    _vertices[i * 4 + 2].color = color;
+                    vertices[i * 4 + 2].position = d + position;
+                    vertices[i * 4 + 2].color = color;
 
-                    _vertices[i * 4 + 3].position = c + position;
-                    _vertices[i * 4 + 3].color = color;
+                    vertices[i * 4 + 3].position = c + position;
+                    vertices[i * 4 + 3].color = color;
                 }
 
-                _mesh->uploadVertices(_vertices.data(), static_cast<uint32_t>(_vertices.size()));
+                mesh->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
             }
         }
 
-        void ParticleSystem::emitParticles(uint32_t particles)
+        void ParticleSystem::emitParticles(uint32_t count)
         {
-            if (_particleCount + particles > _particleDefinition.maxParticles)
+            if (particleCount + count > particleDefinition.maxParticles)
             {
-                particles = _particleDefinition.maxParticles - _particleCount;
+                count = particleDefinition.maxParticles - particleCount;
             }
 
-            if (particles)
+            if (count)
             {
                 LayerPtr layer;
-                NodePtr parentNode = _parentNode.lock();
+                NodePtr parent = parentNode.lock();
 
-                if (parentNode)
+                if (parent)
                 {
-                    layer = parentNode->getLayer();
+                    layer = parent->getLayer();
                 }
 
                 if (layer)
                 {
                     Vector2 position;
 
-                    if (_positionType == ParticleDefinition::PositionType::FREE)
+                    if (positionType == ParticleDefinition::PositionType::FREE)
                     {
-                        position = parentNode->convertLocalToWorld(Vector2::ZERO);
+                        position = parent->convertLocalToWorld(Vector2::ZERO);
                     }
-                    else if (_positionType == ParticleDefinition::PositionType::RELATIVE)
+                    else if (positionType == ParticleDefinition::PositionType::RELATIVE)
                     {
-                        position = parentNode->convertLocalToWorld(Vector2::ZERO) - parentNode->getPosition();
+                        position = parent->convertLocalToWorld(Vector2::ZERO) - parent->getPosition();
                     }
 
-                    for (uint32_t i = _particleCount; i < _particleCount + particles; ++i)
+                    for (uint32_t i = particleCount; i < particleCount + count; ++i)
                     {
-                        if (_particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
+                        if (particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
                         {
-                            _particles[i].life = fmaxf(_particleDefinition.particleLifespan + _particleDefinition.particleLifespanVariance * randomf(-1.0f, 1.0f), 0.0f);
+                            particles[i].life = fmaxf(particleDefinition.particleLifespan + particleDefinition.particleLifespanVariance * randomf(-1.0f, 1.0f), 0.0f);
 
-                            _particles[i].position = _particleDefinition.sourcePosition + position + Vector2(_particleDefinition.sourcePositionVariance.x * randomf(-1.0f, 1.0f),
-                                                                                                             _particleDefinition.sourcePositionVariance.y * randomf(-1.0f, 1.0f));
+                            particles[i].position = particleDefinition.sourcePosition + position + Vector2(particleDefinition.sourcePositionVariance.x * randomf(-1.0f, 1.0f),
+                                                                                                             particleDefinition.sourcePositionVariance.y * randomf(-1.0f, 1.0f));
 
-                            _particles[i].size = fmaxf(_particleDefinition.startParticleSize + _particleDefinition.startParticleSizeVariance * randomf(-1.0f, 1.0f), 0.0f);
+                            particles[i].size = fmaxf(particleDefinition.startParticleSize + particleDefinition.startParticleSizeVariance * randomf(-1.0f, 1.0f), 0.0f);
 
-                            float finishSize = fmaxf(_particleDefinition.finishParticleSize + _particleDefinition.finishParticleSizeVariance * randomf(-1.0f, 1.0f), 0.0f);
-                            _particles[i].deltaSize = (finishSize - _particles[i].size) / _particles[i].life;
+                            float finishSize = fmaxf(particleDefinition.finishParticleSize + particleDefinition.finishParticleSizeVariance * randomf(-1.0f, 1.0f), 0.0f);
+                            particles[i].deltaSize = (finishSize - particles[i].size) / particles[i].life;
 
-                            _particles[i].colorRed = clamp(_particleDefinition.startColorRed + _particleDefinition.startColorRedVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            _particles[i].colorGreen = clamp(_particleDefinition.startColorGreen + _particleDefinition.startColorGreenVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            _particles[i].colorBlue = clamp(_particleDefinition.startColorBlue + _particleDefinition.startColorBlueVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            _particles[i].colorAlpha = clamp(_particleDefinition.startColorAlpha + _particleDefinition.startColorAlphaVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            particles[i].colorRed = clamp(particleDefinition.startColorRed + particleDefinition.startColorRedVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            particles[i].colorGreen = clamp(particleDefinition.startColorGreen + particleDefinition.startColorGreenVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            particles[i].colorBlue = clamp(particleDefinition.startColorBlue + particleDefinition.startColorBlueVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            particles[i].colorAlpha = clamp(particleDefinition.startColorAlpha + particleDefinition.startColorAlphaVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
 
-                            float finishColorRed = clamp(_particleDefinition.finishColorRed + _particleDefinition.finishColorRedVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            float finishColorGreen = clamp(_particleDefinition.finishColorGreen + _particleDefinition.finishColorGreenVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            float finishColorBlue = clamp(_particleDefinition.finishColorBlue + _particleDefinition.finishColorBlueVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            float finishColorAlpha = clamp(_particleDefinition.finishColorAlpha + _particleDefinition.finishColorAlphaVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            float finishColorRed = clamp(particleDefinition.finishColorRed + particleDefinition.finishColorRedVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            float finishColorGreen = clamp(particleDefinition.finishColorGreen + particleDefinition.finishColorGreenVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            float finishColorBlue = clamp(particleDefinition.finishColorBlue + particleDefinition.finishColorBlueVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            float finishColorAlpha = clamp(particleDefinition.finishColorAlpha + particleDefinition.finishColorAlphaVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
 
-                            _particles[i].deltaColorRed = (finishColorRed - _particles[i].colorRed) / _particles[i].life;
-                            _particles[i].deltaColorGreen = (finishColorGreen - _particles[i].colorGreen) / _particles[i].life;
-                            _particles[i].deltaColorBlue = (finishColorBlue - _particles[i].colorBlue) / _particles[i].life;
-                            _particles[i].deltaColorAlpha = (finishColorAlpha - _particles[i].colorAlpha) / _particles[i].life;
+                            particles[i].deltaColorRed = (finishColorRed - particles[i].colorRed) / particles[i].life;
+                            particles[i].deltaColorGreen = (finishColorGreen - particles[i].colorGreen) / particles[i].life;
+                            particles[i].deltaColorBlue = (finishColorBlue - particles[i].colorBlue) / particles[i].life;
+                            particles[i].deltaColorAlpha = (finishColorAlpha - particles[i].colorAlpha) / particles[i].life;
 
                             //_particles[i].finishColor = finishColor;
 
-                            _particles[i].rotation = _particleDefinition.startRotation + _particleDefinition.startRotationVariance * randomf(-1.0f, 1.0f);
+                            particles[i].rotation = particleDefinition.startRotation + particleDefinition.startRotationVariance * randomf(-1.0f, 1.0f);
 
-                            float finishRotation = _particleDefinition.finishRotation + _particleDefinition.finishRotationVariance * randomf(-1.0f, 1.0f);
-                            _particles[i].deltaRotation = (finishRotation - _particles[i].rotation) / _particles[i].life;
+                            float finishRotation = particleDefinition.finishRotation + particleDefinition.finishRotationVariance * randomf(-1.0f, 1.0f);
+                            particles[i].deltaRotation = (finishRotation - particles[i].rotation) / particles[i].life;
 
-                            _particles[i].radialAcceleration = _particleDefinition.radialAcceleration + _particleDefinition.radialAcceleration * randomf(-1.0f, 1.0f);
-                            _particles[i].tangentialAcceleration = _particleDefinition.tangentialAcceleration + _particleDefinition.tangentialAcceleration * randomf(-1.0f, 1.0f);
+                            particles[i].radialAcceleration = particleDefinition.radialAcceleration + particleDefinition.radialAcceleration * randomf(-1.0f, 1.0f);
+                            particles[i].tangentialAcceleration = particleDefinition.tangentialAcceleration + particleDefinition.tangentialAcceleration * randomf(-1.0f, 1.0f);
 
-                            if (_particleDefinition.rotationIsDir)
+                            if (particleDefinition.rotationIsDir)
                             {
-                                float a = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
+                                float a = degToRad(particleDefinition.angle + particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
                                 Vector2 v(cosf(a), sinf(a));
-                                float s = _particleDefinition.speed + _particleDefinition.speedVariance * randomf(-1.0f, 1.0f);
+                                float s = particleDefinition.speed + particleDefinition.speedVariance * randomf(-1.0f, 1.0f);
                                 Vector2 dir = v * s;
-                                _particles[i].direction = dir;
-                                _particles[i].rotation = -radToDeg(dir.getAngle());
+                                particles[i].direction = dir;
+                                particles[i].rotation = -radToDeg(dir.getAngle());
                             }
                             else
                             {
-                                float a = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
+                                float a = degToRad(particleDefinition.angle + particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
                                 Vector2 v(cosf(a), sinf(a));
-                                float s = _particleDefinition.speed + _particleDefinition.speedVariance * randomf(-1.0f, 1.0f);
+                                float s = particleDefinition.speed + particleDefinition.speedVariance * randomf(-1.0f, 1.0f);
                                 Vector2 dir = v * s;
-                                _particles[i].direction = dir;
+                                particles[i].direction = dir;
                             }
                         }
                         else
                         {
-                            _particles[i].radius = _particleDefinition.maxRadius + _particleDefinition.maxRadiusVariance * randomf(-1.0f, 1.0f);
-                            _particles[i].angle = degToRad(_particleDefinition.angle + _particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
-                            _particles[i].degreesPerSecond = degToRad(_particleDefinition.rotatePerSecond + _particleDefinition.rotatePerSecondVariance * randomf(-1.0f, 1.0f));
+                            particles[i].radius = particleDefinition.maxRadius + particleDefinition.maxRadiusVariance * randomf(-1.0f, 1.0f);
+                            particles[i].angle = degToRad(particleDefinition.angle + particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
+                            particles[i].degreesPerSecond = degToRad(particleDefinition.rotatePerSecond + particleDefinition.rotatePerSecondVariance * randomf(-1.0f, 1.0f));
 
-                            float endRadius = _particleDefinition.minRadius + _particleDefinition.minRadiusVariance * randomf(-1.0f, 1.0f);
-                            _particles[i].deltaRadius = (endRadius - _particles[i].radius) / _particles[i].life;
+                            float endRadius = particleDefinition.minRadius + particleDefinition.minRadiusVariance * randomf(-1.0f, 1.0f);
+                            particles[i].deltaRadius = (endRadius - particles[i].radius) / particles[i].life;
                         }
                     }
 
-                    _particleCount += particles;
+                    particleCount += count;
                 }
             }
         }

@@ -26,20 +26,20 @@ namespace ouzel
 
         operator bool() const
         {
-            return static_cast<bool>(_file);
+            return static_cast<bool>(file);
         }
 
         bool isOpen() const
         {
-            return static_cast<bool>(_file);
+            return static_cast<bool>(file);
         }
 
-        const std::shared_ptr<FILE>& getFile() const { return _file; }
+        const std::shared_ptr<FILE>& getFile() const { return file; }
 
         int64_t read(char* buffer, uint32_t size);
         int64_t write(const char* buffer, uint32_t size);
 
     protected:
-        std::shared_ptr<FILE> _file;
+        std::shared_ptr<FILE> file;
     };
 }

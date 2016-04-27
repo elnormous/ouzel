@@ -30,12 +30,12 @@ namespace ouzel
             virtual int32_t getPlayerIndex() const override;
             virtual bool setPlayerIndex(int32_t playerIndex) override;
 
-            GCControllerPtr getController() const { return _controller; }
+            GCControllerPtr getController() const { return controller; }
 
         protected:
             GamepadApple(GCControllerPtr controller);
 
-            GCControllerPtr _controller;
+            GCControllerPtr controller;
         };
     } // namespace input
 } // namespace ouzel

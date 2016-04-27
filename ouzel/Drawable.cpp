@@ -13,16 +13,16 @@ namespace ouzel
         {
         }
 
-        void Drawable::draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color)
+        void Drawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color)
         {
-            OUZEL_UNUSED(projection);
-            OUZEL_UNUSED(transform);
+            OUZEL_UNUSED(projectionMatrix);
+            OUZEL_UNUSED(transformMatrix);
             OUZEL_UNUSED(color);
         }
 
         bool Drawable::pointOn(const Vector2& position) const
         {
-            return _boundingBox.containPoint(position);
+            return boundingBox.containPoint(position);
         }
 
         bool Drawable::shapeOverlaps(const std::vector<Vector2>& edges) const
@@ -31,18 +31,18 @@ namespace ouzel
 
             for (const Vector2& corner : edges)
             {
-                if (corner.x >= _boundingBox.min.x &&
-                    corner.x <= _boundingBox.max.x &&
-                    corner.y >= _boundingBox.min.y &&
-                    corner.y <= _boundingBox.max.y)
+                if (corner.x >= boundingBox.min.x &&
+                    corner.x <= boundingBox.max.x &&
+                    corner.y >= boundingBox.min.y &&
+                    corner.y <= boundingBox.max.y)
                 {
                     return true;
                 }
 
-                if (corner.x < _boundingBox.min.x && corner.y < _boundingBox.min.y) inCorners |= 0x01;
-                if (corner.x > _boundingBox.max.x && corner.y < _boundingBox.min.y) inCorners |= 0x02;
-                if (corner.x > _boundingBox.max.x && corner.y > _boundingBox.max.y) inCorners |= 0x04;
-                if (corner.x < _boundingBox.min.x && corner.y > _boundingBox.max.y) inCorners |= 0x08;
+                if (corner.x < boundingBox.min.x && corner.y < boundingBox.min.y) inCorners |= 0x01;
+                if (corner.x > boundingBox.max.x && corner.y < boundingBox.min.y) inCorners |= 0x02;
+                if (corner.x > boundingBox.max.x && corner.y > boundingBox.max.y) inCorners |= 0x04;
+                if (corner.x < boundingBox.min.x && corner.y > boundingBox.max.y) inCorners |= 0x08;
             }
 
             // bounding box is bigger than rectangle
@@ -52,10 +52,10 @@ namespace ouzel
             }
 
             Vector2 boundingBoxCorners[4] = {
-                Vector2(_boundingBox.min),
-                Vector2(_boundingBox.max.x, _boundingBox.min.y),
-                Vector2(_boundingBox.max),
-                Vector2(_boundingBox.min.x, _boundingBox.max.y)
+                Vector2(boundingBox.min),
+                Vector2(boundingBox.max.x, boundingBox.min.y),
+                Vector2(boundingBox.max),
+                Vector2(boundingBox.min.x, boundingBox.max.y)
             };
 
             for (uint32_t current = 0; current < edges.size(); ++current)

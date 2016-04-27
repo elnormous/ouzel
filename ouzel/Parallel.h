@@ -14,15 +14,15 @@ namespace ouzel
         class Parallel: public Animator
         {
         public:
-            Parallel(const std::vector<AnimatorPtr>& animators);
+            Parallel(const std::vector<AnimatorPtr>& pAnimators);
 
-            virtual void start(const NodePtr& node) override;
+            virtual void start(const NodePtr& targetNode) override;
             virtual void reset() override;
 
             virtual void setProgress(float progress) override;
 
         protected:
-            std::vector<AnimatorPtr> _animators;
+            std::vector<AnimatorPtr> animators;
         };
     } // namespace scene
 } // namespace ouzel

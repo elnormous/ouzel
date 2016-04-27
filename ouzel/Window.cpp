@@ -8,13 +8,14 @@
 
 namespace ouzel
 {
-    Window::Window(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver)
+    Window::Window(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver):
+        size(size),
+        resizable(resizable),
+        fullscreen(fullscreen),
+        title(title),
+        driver(driver)
     {
-        _size = size;
-        _resizable = resizable;
-        _fullscreen = fullscreen;
-        _title = title;
-        _driver = driver;
+
     }
 
     Window::~Window()
@@ -24,7 +25,7 @@ namespace ouzel
 
     bool Window::init()
     {
-        if (!sharedEngine->getRenderer()->init(_size, _fullscreen))
+        if (!sharedEngine->getRenderer()->init(size, fullscreen))
         {
             return false;
         }
@@ -37,53 +38,53 @@ namespace ouzel
 
     }
 
-    void Window::setSize(const Size2& size)
+    void Window::setSize(const Size2& newSize)
     {
-        if (_size != size)
+        if (size != newSize)
         {
-            _size = size;
-            sharedEngine->getRenderer()->setSize(_size);
+            size = newSize;
+            sharedEngine->getRenderer()->setSize(size);
             sharedEngine->getSceneManager()->recalculateProjection();
 
             WindowEventPtr event = std::make_shared<WindowEvent>();
             event->type = Event::Type::WINDOW_SIZE_CHANGE;
-            event->size = _size;
-            event->title = _title;
-            event->fullscreen = _fullscreen;
+            event->size = size;
+            event->title = title;
+            event->fullscreen = fullscreen;
 
             sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getRenderer());
         }
     }
 
-    void Window::setFullscreen(bool fullscreen)
+    void Window::setFullscreen(bool newFullscreen)
     {
-        if (fullscreen != _fullscreen)
+        if (fullscreen != newFullscreen)
         {
-            _fullscreen = fullscreen;
+            fullscreen = newFullscreen;
 
-            sharedEngine->getRenderer()->setFullscreen(_fullscreen);
+            sharedEngine->getRenderer()->setFullscreen(fullscreen);
 
             WindowEventPtr event = std::make_shared<WindowEvent>();
             event->type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
-            event->size = _size;
-            event->title = _title;
-            event->fullscreen = _fullscreen;
+            event->size = size;
+            event->title = title;
+            event->fullscreen = fullscreen;
 
             sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getRenderer());
         }
     }
 
-    void Window::setTitle(const std::string& title)
+    void Window::setTitle(const std::string& newTitle)
     {
-        if (_title != title)
+        if (title != newTitle)
         {
-            _title = title;
+            title = newTitle;
 
             WindowEventPtr event = std::make_shared<WindowEvent>();
             event->type = Event::Type::WINDOW_TITLE_CHANGE;
-            event->size = _size;
-            event->title = _title;
-            event->fullscreen = _fullscreen;
+            event->size = size;
+            event->title = title;
+            event->fullscreen = fullscreen;
 
             sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getRenderer());
         }

@@ -9,12 +9,12 @@ namespace ouzel
     {
         Widget::Widget()
         {
-            _receiveInput = true;
+            receiveInput = true;
         }
 
-        void Widget::setEnabled(bool enabled)
+        void Widget::setEnabled(bool newEnabled)
         {
-            _enabled = enabled;
+            enabled = newEnabled;
         }
     } // namespace gui
 } // namespace ouzel

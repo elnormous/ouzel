@@ -220,7 +220,7 @@ namespace ouzel
 
             _pixelShaderConstantLocations.reserve(constantInfo.size());
 
-            for (const ConstantInfo& info : _pixelShaderConstantInfo)
+            for (const ConstantInfo& info : pixelShaderConstantInfo)
             {
                 GLint location = glGetUniformLocation(_programId, info.name.c_str());
 
@@ -242,7 +242,7 @@ namespace ouzel
 
             _vertexShaderConstantLocations.reserve(constantInfo.size());
 
-            for (const ConstantInfo& info : _vertexShaderConstantInfo)
+            for (const ConstantInfo& info : vertexShaderConstantInfo)
             {
                 GLint location = glGetUniformLocation(_programId, info.name.c_str());
 

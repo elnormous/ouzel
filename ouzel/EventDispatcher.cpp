@@ -20,14 +20,14 @@ namespace ouzel
     {
         lock();
 
-        while (!_eventQueue.empty())
+        while (!eventQueue.empty())
         {
-            _mutex.lock();
+            mutex.lock();
 
-            auto eventPair = _eventQueue.front();
-            _eventQueue.pop();
+            auto eventPair = eventQueue.front();
+            eventQueue.pop();
 
-            _mutex.unlock();
+            mutex.unlock();
 
             switch (eventPair.first->type)
             {
@@ -79,21 +79,21 @@ namespace ouzel
 
     void EventDispatcher::addEventHandler(const EventHandlerPtr& eventHandler)
     {
-        if (_locked)
+        if (locked)
         {
-            _eventHandlerAddList.insert(eventHandler);
+            eventHandlerAddList.insert(eventHandler);
         }
         else
         {
-            std::vector<EventHandlerPtr>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
+            std::vector<EventHandlerPtr>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
 
-            if (i == _eventHandlers.end())
+            if (i == eventHandlers.end())
             {
-                eventHandler->_remove = false;
-                _eventHandlers.push_back(eventHandler);
+                eventHandler->remove = false;
+                eventHandlers.push_back(eventHandler);
 
-                std::sort(_eventHandlers.begin(), _eventHandlers.end(), [](const EventHandlerPtr& a, const EventHandlerPtr& b) {
-                    return a->_priority < b->_priority;
+                std::sort(eventHandlers.begin(), eventHandlers.end(), [](const EventHandlerPtr& a, const EventHandlerPtr& b) {
+                    return a->priority < b->priority;
                 });
             }
         }
@@ -101,36 +101,36 @@ namespace ouzel
 
     void EventDispatcher::removeEventHandler(const EventHandlerPtr& eventHandler)
     {
-        if (_locked)
+        if (locked)
         {
-            eventHandler->_remove = true;
-            _eventHandlerRemoveList.insert(eventHandler);
+            eventHandler->remove = true;
+            eventHandlerRemoveList.insert(eventHandler);
         }
         else
         {
-            std::vector<EventHandlerPtr>::iterator i = std::find(_eventHandlers.begin(), _eventHandlers.end(), eventHandler);
+            std::vector<EventHandlerPtr>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
 
-            if (i != _eventHandlers.end())
+            if (i != eventHandlers.end())
             {
-                _eventHandlers.erase(i);
+                eventHandlers.erase(i);
             }
         }
     }
 
     void EventDispatcher::dispatchEvent(const EventPtr& event, const VoidPtr& sender)
     {
-        std::lock_guard<std::mutex> mutexLock(_mutex);
+        std::lock_guard<std::mutex> mutexLock(mutex);
 
-        _eventQueue.push(std::make_pair(event, sender));
+        eventQueue.push(std::make_pair(event, sender));
     }
 
     void EventDispatcher::dispatchKeyboardEvent(const KeyboardEventPtr& event, const VoidPtr& sender)
     {
         lock();
 
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        for (const EventHandlerPtr& eventHandler : eventHandlers)
         {
-            if (eventHandler && !eventHandler->_remove && eventHandler->keyboardHandler)
+            if (eventHandler && !eventHandler->remove && eventHandler->keyboardHandler)
             {
                 if (!eventHandler->keyboardHandler(event, sender))
                 {
@@ -146,9 +146,9 @@ namespace ouzel
     {
         lock();
 
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        for (const EventHandlerPtr& eventHandler : eventHandlers)
         {
-            if (eventHandler && !eventHandler->_remove && eventHandler->mouseHandler)
+            if (eventHandler && !eventHandler->remove && eventHandler->mouseHandler)
             {
                 if (!eventHandler->mouseHandler(event, sender))
                 {
@@ -164,9 +164,9 @@ namespace ouzel
     {
         lock();
 
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        for (const EventHandlerPtr& eventHandler : eventHandlers)
         {
-            if (eventHandler && !eventHandler->_remove && eventHandler->touchHandler)
+            if (eventHandler && !eventHandler->remove && eventHandler->touchHandler)
             {
                 if (!eventHandler->touchHandler(event, sender))
                 {
@@ -182,9 +182,9 @@ namespace ouzel
     {
         lock();
 
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        for (const EventHandlerPtr& eventHandler : eventHandlers)
         {
-            if (eventHandler && !eventHandler->_remove && eventHandler->gamepadHandler)
+            if (eventHandler && !eventHandler->remove && eventHandler->gamepadHandler)
             {
                 if (!eventHandler->gamepadHandler(event, sender))
                 {
@@ -200,9 +200,9 @@ namespace ouzel
     {
         lock();
 
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        for (const EventHandlerPtr& eventHandler : eventHandlers)
         {
-            if (eventHandler && !eventHandler->_remove && eventHandler->windowHandler)
+            if (eventHandler && !eventHandler->remove && eventHandler->windowHandler)
             {
                 if (!eventHandler->windowHandler(event, sender))
                 {
@@ -218,9 +218,9 @@ namespace ouzel
     {
         lock();
 
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        for (const EventHandlerPtr& eventHandler : eventHandlers)
         {
-            if (eventHandler && !eventHandler->_remove && eventHandler->systemHandler)
+            if (eventHandler && !eventHandler->remove && eventHandler->systemHandler)
             {
                 if (!eventHandler->systemHandler(event, sender))
                 {
@@ -236,9 +236,9 @@ namespace ouzel
     {
         lock();
 
-        for (const EventHandlerPtr& eventHandler : _eventHandlers)
+        for (const EventHandlerPtr& eventHandler : eventHandlers)
         {
-            if (eventHandler && !eventHandler->_remove && eventHandler->uiHandler)
+            if (eventHandler && !eventHandler->remove && eventHandler->uiHandler)
             {
                 if (!eventHandler->uiHandler(event, sender))
                 {
@@ -252,29 +252,29 @@ namespace ouzel
 
     void EventDispatcher::lock()
     {
-        ++_locked;
+        ++locked;
     }
 
     void EventDispatcher::unlock()
     {
-        if (--_locked == 0)
+        if (--locked == 0)
         {
-            if (!_eventHandlerAddList.empty())
+            if (!eventHandlerAddList.empty())
             {
-                for (const EventHandlerPtr& eventHandler : _eventHandlerAddList)
+                for (const EventHandlerPtr& eventHandler : eventHandlerAddList)
                 {
                     addEventHandler(eventHandler);
                 }
-                _eventHandlerAddList.clear();
+                eventHandlerAddList.clear();
             }
 
-            if (!_eventHandlerRemoveList.empty())
+            if (!eventHandlerRemoveList.empty())
             {
-                for (const EventHandlerPtr& eventHandler : _eventHandlerRemoveList)
+                for (const EventHandlerPtr& eventHandler : eventHandlerRemoveList)
                 {
                     removeEventHandler(eventHandler);
                 }
-                _eventHandlerRemoveList.clear();
+                eventHandlerRemoveList.clear();
             }
         }
     }

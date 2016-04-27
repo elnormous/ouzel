@@ -30,11 +30,11 @@ namespace ouzel
         public:
             virtual ~ShaderMetal();
 
-            virtual bool initFromBuffers(const uint8_t* pixelShader,
-                                         uint32_t pixelShaderSize,
-                                         const uint8_t* vertexShader,
-                                         uint32_t vertexShaderSize,
-                                         uint32_t vertexAttributes,
+            virtual bool initFromBuffers(const uint8_t* newPixelShader,
+                                         uint32_t newPixelShaderSize,
+                                         const uint8_t* newVertexShader,
+                                         uint32_t newVertexShaderSize,
+                                         uint32_t newVertexAttributes,
                                          const std::string& pixelShaderFunction = "",
                                          const std::string& vertexShaderFunction = "") override;
 
@@ -47,15 +47,15 @@ namespace ouzel
             virtual bool setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
             virtual bool setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
 
-            virtual MTLFunctionPtr getPixelShader() const { return _pixelShader; }
-            virtual MTLFunctionPtr getVertexShader() const { return _vertexShader; }
+            virtual MTLFunctionPtr getPixelShader() const { return pixelShader; }
+            virtual MTLFunctionPtr getVertexShader() const { return vertexShader; }
 
-            virtual MTLBufferPtr getPixelShaderConstantBuffer() const { return _pixelShaderConstantBuffer; }
-            virtual MTLBufferPtr getVertexShaderConstantBuffer() const { return _vertexShaderConstantBuffer; }
-            virtual MTLVertexDescriptorPtr getVertexDescriptor() const { return _vertexDescriptor;  }
+            virtual MTLBufferPtr getPixelShaderConstantBuffer() const { return pixelShaderConstantBuffer; }
+            virtual MTLBufferPtr getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
+            virtual MTLVertexDescriptorPtr getVertexDescriptor() const { return vertexDescriptor;  }
 
-            uint32_t getPixelShaderConstantBufferOffset() const { return _pixelShaderConstantBufferOffset; }
-            uint32_t getVertexShaderConstantBufferOffset() const { return _vertexShaderConstantBufferOffset; }
+            uint32_t getPixelShaderConstantBufferOffset() const { return pixelShaderConstantBufferOffset; }
+            uint32_t getVertexShaderConstantBufferOffset() const { return vertexShaderConstantBufferOffset; }
 
         protected:
             ShaderMetal();
@@ -66,21 +66,21 @@ namespace ouzel
 
             bool uploadData(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size);
 
-            MTLFunctionPtr _pixelShader = Nil;
-            MTLFunctionPtr _vertexShader = Nil;
+            MTLFunctionPtr pixelShader = Nil;
+            MTLFunctionPtr vertexShader = Nil;
 
-            MTLBufferPtr _pixelShaderConstantBuffer = Nil;
-            std::vector<char> _pixelShaderData;
+            MTLBufferPtr pixelShaderConstantBuffer = Nil;
+            std::vector<char> pixelShaderData;
 
-            MTLBufferPtr _vertexShaderConstantBuffer = Nil;
-            std::vector<char> _vertexShaderData;
+            MTLBufferPtr vertexShaderConstantBuffer = Nil;
+            std::vector<char> vertexShaderData;
 
-            MTLVertexDescriptorPtr _vertexDescriptor = Nil;
+            MTLVertexDescriptorPtr vertexDescriptor = Nil;
 
-            std::vector<uint32_t> _pixelShaderConstantLocations;
-            std::vector<uint32_t> _vertexShaderConstantLocations;
-            uint32_t _pixelShaderConstantBufferOffset = 0;
-            uint32_t _vertexShaderConstantBufferOffset = 0;
+            std::vector<uint32_t> pixelShaderConstantLocations;
+            std::vector<uint32_t> vertexShaderConstantLocations;
+            uint32_t pixelShaderConstantBufferOffset = 0;
+            uint32_t vertexShaderConstantBufferOffset = 0;
         };
     } // namespace graphics
 } // namespace ouzel

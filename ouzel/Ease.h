@@ -34,17 +34,17 @@ namespace ouzel
                 BOUNCE
             };
 
-            Ease(const AnimatorPtr& animator, Type type, Func func);
+            Ease(const AnimatorPtr& pAnimator, Type pType, Func pFunc);
 
-            virtual void start(const NodePtr& node) override;
+            virtual void start(const NodePtr& targetNode) override;
             virtual void reset() override;
 
             virtual void setProgress(float progress) override;
 
         protected:
-            AnimatorPtr _animator;
-            Type _type;
-            Func _func;
+            AnimatorPtr animator;
+            Type type;
+            Func func;
         };
     } // namespace scene
 } // namespace ouzel

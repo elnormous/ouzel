@@ -61,7 +61,7 @@ namespace ouzel
             ParticleSystem();
             virtual ~ParticleSystem();
 
-            virtual void draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color);
+            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color);
             virtual void update(float delta);
 
             virtual bool initFromFile(const std::string& filename);
@@ -70,42 +70,42 @@ namespace ouzel
             void stop();
             void reset();
 
-            bool isRunning() const { return _running; }
-            bool isActive() const { return _active; }
+            bool isRunning() const { return running; }
+            bool isActive() const { return active; }
 
-            void setPositionType(ParticleDefinition::PositionType positionType) { _positionType = positionType; }
-            ParticleDefinition::PositionType getPositionType() const { return _positionType; }
+            void setPositionType(ParticleDefinition::PositionType newPositionType) { positionType = newPositionType; }
+            ParticleDefinition::PositionType getPositionType() const { return positionType; }
 
         protected:
             void createParticleMesh();
             void updateParticleMesh();
 
-            void emitParticles(uint32_t particles);
+            void emitParticles(uint32_t count);
 
-            ParticleDefinition _particleDefinition;
-            ParticleDefinition::PositionType _positionType;
+            ParticleDefinition particleDefinition;
+            ParticleDefinition::PositionType positionType;
 
-            graphics::ShaderPtr _shader;
-            graphics::TexturePtr _texture;
+            graphics::ShaderPtr shader;
+            graphics::TexturePtr texture;
 
-            std::vector<Particle> _particles;
+            std::vector<Particle> particles;
 
-            graphics::MeshBufferPtr _mesh;
+            graphics::MeshBufferPtr mesh;
 
-            std::vector<uint16_t> _indices;
-            std::vector<graphics::VertexPCT> _vertices;
+            std::vector<uint16_t> indices;
+            std::vector<graphics::VertexPCT> vertices;
 
-            uint32_t _particleCount = 0;
+            uint32_t particleCount = 0;
 
-            float _emitCounter = 0.0f;
-            float _elapsed = 0.0f;
-            bool _active = false;
-            bool _running = false;
-            bool _finished = false;
+            float emitCounter = 0.0f;
+            float elapsed = 0.0f;
+            bool active = false;
+            bool running = false;
+            bool finished = false;
 
-            bool _needsMeshUpdate = false;
+            bool needsMeshUpdate = false;
 
-            UpdateCallbackPtr _updateCallback;
+            UpdateCallbackPtr updateCallback;
         };
     } // namespace scene
 } // namespace ouzel

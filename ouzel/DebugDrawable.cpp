@@ -17,24 +17,24 @@ namespace ouzel
     {
         DebugDrawable::DebugDrawable()
         {
-            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
         }
 
-        void DebugDrawable::draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color)
+        void DebugDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color)
         {
-            Drawable::draw(projection, transform, color);
+            Drawable::draw(projectionMatrix, transformMatrix, color);
 
-            if (_shader)
+            if (shader)
             {
-                sharedEngine->getRenderer()->activateShader(_shader);
+                sharedEngine->getRenderer()->activateShader(shader);
 
-                Matrix4 modelViewProj = projection * transform;
+                Matrix4 modelViewProj = projectionMatrix * transformMatrix;
                 float colorVector[] = { color.getR(), color.getG(), color.getB(), color.getA() };
 
-                for (const DrawCommand& drawCommand : _drawCommands)
+                for (const DrawCommand& drawCommand : drawCommands)
                 {
-                    _shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
-                    _shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
+                    shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
+                    shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
                     
                     sharedEngine->getRenderer()->drawMeshBuffer(drawCommand.mesh, 0, drawCommand.mode);
                 }
@@ -43,9 +43,9 @@ namespace ouzel
 
         void DebugDrawable::clear()
         {
-            _boundingBox = AABB2();
+            boundingBox = AABB2();
 
-            _drawCommands.clear();
+            drawCommands.clear();
         }
 
         void DebugDrawable::point(const Vector2& position, const graphics::Color& color)
@@ -64,9 +64,9 @@ namespace ouzel
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);
 
-            _drawCommands.push_back(command);
+            drawCommands.push_back(command);
 
-            _boundingBox.insertPoint(position);
+            boundingBox.insertPoint(position);
         }
 
         void DebugDrawable::line(const Vector2& start, const Vector2& finish, const graphics::Color& color)
@@ -86,10 +86,10 @@ namespace ouzel
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);
 
-            _drawCommands.push_back(command);
+            drawCommands.push_back(command);
 
-            _boundingBox.insertPoint(start);
-            _boundingBox.insertPoint(finish);
+            boundingBox.insertPoint(start);
+            boundingBox.insertPoint(finish);
         }
 
         void DebugDrawable::circle(const Vector2& position, float radius, const graphics::Color& color, bool fill, uint32_t segments)
@@ -147,10 +147,10 @@ namespace ouzel
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);
 
-            _drawCommands.push_back(command);
+            drawCommands.push_back(command);
 
-            _boundingBox.insertPoint(Vector2(position.x - radius, position.y - radius));
-            _boundingBox.insertPoint(Vector2(position.x + radius, position.y + radius));
+            boundingBox.insertPoint(Vector2(position.x - radius, position.y - radius));
+            boundingBox.insertPoint(Vector2(position.x + radius, position.y + radius));
         }
 
         void DebugDrawable::rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill)
@@ -182,10 +182,10 @@ namespace ouzel
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);
 
-            _drawCommands.push_back(command);
+            drawCommands.push_back(command);
 
-            _boundingBox.insertPoint(Vector2(rectangle.x, rectangle.y));
-            _boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
+            boundingBox.insertPoint(Vector2(rectangle.x, rectangle.y));
+            boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
         }
 
         void DebugDrawable::triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill)
@@ -198,7 +198,7 @@ namespace ouzel
                 indices.push_back(i);
 
                 vertices.push_back(graphics::VertexPC(positions[i], color));
-                _boundingBox.insertPoint(positions[i]);
+                boundingBox.insertPoint(positions[i]);
             }
 
             DrawCommand command;
@@ -211,7 +211,7 @@ namespace ouzel
             {
                 command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
                 indices.push_back(0);
-                _boundingBox.insertPoint(positions[0]);
+                boundingBox.insertPoint(positions[0]);
             }
 
             command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
@@ -219,7 +219,7 @@ namespace ouzel
                                                                                  vertices.data(), graphics::VertexPC::ATTRIBUTES,
                                                                                  static_cast<uint32_t>(vertices.size()), false);
 
-            _drawCommands.push_back(command);
+            drawCommands.push_back(command);
         }
 
     } // namespace scene

@@ -8,22 +8,22 @@ namespace ouzel
 {
     namespace scene
     {
-        Rotate::Rotate(float length, float rotation, bool relative):
-            Animator(length), _rotation(rotation), _relative(relative)
+        Rotate::Rotate(float pLength, float pRotation, bool pRelative):
+            Animator(pLength), rotation(pRotation), relative(pRelative)
         {
 
         }
 
-        void Rotate::start(const NodePtr& node)
+        void Rotate::start(const NodePtr& targetNode)
         {
-            Animator::start(node);
+            Animator::start(targetNode);
 
-            if (node)
+            if (targetNode)
             {
-                _startRotation = node->getRotation();
-                _targetRotation = _relative ? _startRotation + _rotation : _rotation;
+                startRotation = targetNode->getRotation();
+                targetRotation = relative ? startRotation + rotation : rotation;
 
-                _diff = _targetRotation - _startRotation;
+                diff = targetRotation - startRotation;
             }
         }
 
@@ -31,9 +31,9 @@ namespace ouzel
         {
             Animator::setProgress(progress);
 
-            if (NodePtr node = _node.lock())
+            if (NodePtr targetNode = node.lock())
             {
-                node->setRotation(_startRotation + (_diff * _progress));
+                targetNode->setRotation(startRotation + (diff * progress));
             }
         }
     } // namespace scene

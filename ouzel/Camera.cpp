@@ -23,16 +23,16 @@ namespace ouzel
 
         }
 
-        void Camera::setZoom(float zoom)
+        void Camera::setZoom(float newZoom)
         {
-            _zoom = zoom;
+            zoom = newZoom;
 
-            if (_zoom < 0.1f)
+            if (zoom < 0.1f)
             {
-                _zoom = 0.1f;
+                zoom = 0.1f;
             }
 
-            _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
         void Camera::recalculateProjection()
@@ -44,13 +44,13 @@ namespace ouzel
                 return;
             }
 
-            if (_targetContentSize.width != 0.0f && _targetContentSize.height != 0.0f)
+            if (targetContentSize.width != 0.0f && targetContentSize.height != 0.0f)
             {
-                _contentSize = _targetContentSize;
-                _contentScale.x = screenSize.width / _contentSize.width;
-                _contentScale.y = screenSize.height / _contentSize.height;
+                contentSize = targetContentSize;
+                contentScale.x = screenSize.width / contentSize.width;
+                contentScale.y = screenSize.height / contentSize.height;
 
-                switch (_scaleMode)
+                switch (scaleMode)
                 {
                     case ScaleMode::None:
                     {
@@ -58,65 +58,65 @@ namespace ouzel
                     }
                     case ScaleMode::ExactFit:
                     {
-                        _contentScale.x = 1.0f;
-                        _contentScale.y = 1.0f;
+                        contentScale.x = 1.0f;
+                        contentScale.y = 1.0f;
                         break;
                     }
                     case ScaleMode::NoBorder:
                     {
-                        _contentScale.x = _contentScale.y = fmaxf(_contentScale.x, _contentScale.y);
+                        contentScale.x = contentScale.y = fmaxf(contentScale.x, contentScale.y);
                         break;
                     }
                     case ScaleMode::ShowAll:
                     {
-                        _contentScale.x = _contentScale.y = fminf(_contentScale.x, _contentScale.y);
+                        contentScale.x = contentScale.y = fminf(contentScale.x, contentScale.y);
                         break;
                     }
                 }
             }
             else
             {
-                _contentSize = screenSize;
-                _contentScale = Vector2(1.0f, 1.0f);
+                contentSize = screenSize;
+                contentScale = Vector2(1.0f, 1.0f);
             }
 
-            Matrix4::createOrthographic(screenSize.width / _contentScale.x, screenSize.height / _contentScale.y, -1.0f, 1.0f, _projection);
+            Matrix4::createOrthographic(screenSize.width / contentScale.x, screenSize.height / contentScale.y, -1.0f, 1.0f, projection);
 
-            _inverseProjection = _projection;
-            _inverseProjection.invert();
+            inverseProjection = projection;
+            inverseProjection.invert();
 
-            _viewProjectionDirty = true;
+            viewProjectionDirty = true;
         }
 
         const Matrix4& Camera::getViewProjection() const
         {
-            if (_viewProjectionDirty || _transformDirty)
+            if (viewProjectionDirty || transformDirty)
             {
-                _viewProjection = _projection * getTransform();
+                viewProjection = projection * getTransform();
             }
 
-            return _viewProjection;
+            return viewProjection;
         }
 
         void Camera::calculateLocalTransform() const
         {
-            Matrix4 translation;
-            translation.translate(-_position.x, -_position.y, 0.0f);
+            Matrix4 translationMatrix;
+            translationMatrix.translate(-position.x, -position.y, 0.0f);
 
-            Matrix4 rotation;
-            rotation.rotate(Vector3(0.0f, 0.0f, -1.0f), -_rotation);
+            Matrix4 rotationMatrix;
+            rotationMatrix.rotate(Vector3(0.0f, 0.0f, -1.0f), -rotation);
 
-            Matrix4 scale;
-            scale.scale(_zoom);
+            Matrix4 scaleMatrix;
+            scaleMatrix.scale(zoom);
 
-            _localTransform = scale * rotation * translation;
+            localTransform = scaleMatrix * rotationMatrix * translationMatrix;
 
-            _localTransformDirty = false;
+            localTransformDirty = false;
         }
 
         Vector2 Camera::convertScreenToWorld(const Vector2& position)
         {
-            Matrix4 projViewMatrix = _projection * getTransform();
+            Matrix4 projViewMatrix = projection * getTransform();
             Matrix4 inverseViewMatrix = projViewMatrix;
             inverseViewMatrix.invert();
 
@@ -128,7 +128,7 @@ namespace ouzel
 
         Vector2 Camera::convertWorldToScreen(const Vector2& position)
         {
-            Matrix4 projViewMatrix = _projection * getTransform();
+            Matrix4 projViewMatrix = projection * getTransform();
 
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             projViewMatrix.transformPoint(result);
@@ -140,32 +140,29 @@ namespace ouzel
         {
             Vector2 screenPos;
 
-            if (LayerPtr layer = _layer.lock())
-            {
-                auto viewport = sharedEngine->getRenderer()->getSize();
-                Vector4 clipPos;
+            auto viewport = sharedEngine->getRenderer()->getSize();
+            Vector4 clipPos;
 
-                getViewProjection().transformVector(Vector4(src.x, src.y, src.z, 1.0f), clipPos);
+            getViewProjection().transformVector(Vector4(src.x, src.y, src.z, 1.0f), clipPos);
 
-                assert(clipPos.w != 0.0f);
-                Vector2 ndc(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
+            assert(clipPos.w != 0.0f);
+            Vector2 ndc(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
 
-                screenPos.x = (ndc.x + 1.0f) * 0.5f * viewport.width;
-                screenPos.y = (ndc.y + 1.0f) * 0.5f * viewport.height;
-            }
+            screenPos.x = (ndc.x + 1.0f) * 0.5f * viewport.width;
+            screenPos.y = (ndc.y + 1.0f) * 0.5f * viewport.height;
 
             return screenPos;
         }
 
-        void Camera::setScaleMode(ScaleMode scaleMode)
+        void Camera::setScaleMode(ScaleMode newScaleMode)
         {
-            _scaleMode = scaleMode;
+            scaleMode = newScaleMode;
             recalculateProjection();
         }
 
-        void Camera::setTargetContentSize(const Size2& targetContentSize)
+        void Camera::setTargetContentSize(const Size2& newTargetContentSize)
         {
-            _targetContentSize = targetContentSize;
+            targetContentSize = newTargetContentSize;
             recalculateProjection();
         }
     } // namespace scene

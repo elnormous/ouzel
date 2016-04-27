@@ -36,22 +36,22 @@ namespace ouzel
 
         Sprite::Sprite()
         {
-            _updateCallback = std::make_shared<UpdateCallback>();
-            _updateCallback->callback = std::bind(&Sprite::update, this, std::placeholders::_1);
+            updateCallback = std::make_shared<UpdateCallback>();
+            updateCallback->callback = std::bind(&Sprite::update, this, std::placeholders::_1);
         }
 
         Sprite::~Sprite()
         {
-            sharedEngine->unscheduleUpdate(_updateCallback);
+            sharedEngine->unscheduleUpdate(updateCallback);
         }
 
         bool Sprite::initFromFile(const std::string& filename, bool mipmaps)
         {
-            _frameCount = 0;
-            _frameVertices.clear();
-            _frameMeshBuffers.clear();
+            frameCount = 0;
+            frameVertices.clear();
+            frameMeshBuffers.clear();
 
-            _boundingBox.reset();
+            boundingBox.reset();
 
             std::string extension = sharedEngine->getFileSystem()->getExtension(filename);
 
@@ -64,30 +64,30 @@ namespace ouzel
             }
             else
             {
-                _texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
-                if (!_texture)
+                if (!texture)
                 {
                     return false;
                 }
 
-                _size = _texture->getSize();
+                size = texture->getSize();
 
-                Rectangle rectangle(0, 0, _size.width, _size.height);
+                Rectangle rectangle(0, 0, size.width, size.height);
 
-                addFrame(rectangle, _size, false, _size, Vector2(), Vector2(0.5f, 0.5f));
+                addFrame(rectangle, size, false, size, Vector2(), Vector2(0.5f, 0.5f));
             }
 
-            _blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
-            if (!_blendState)
+            if (!blendState)
             {
                 return false;
             }
 
-            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
 
-            if (!_shader)
+            if (!shader)
             {
                 return false;
             }
@@ -122,12 +122,12 @@ namespace ouzel
             Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
                               static_cast<float>(sizeObject["h"].GetInt()));
 
-            _texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
+            texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
 
             const rapidjson::Value& framesArray = document["frames"];
 
-            _frameVertices.reserve(framesArray.Size());
-            _frameMeshBuffers.reserve(framesArray.Size());
+            frameVertices.reserve(framesArray.Size());
+            frameMeshBuffers.reserve(framesArray.Size());
 
             for (uint32_t index = 0; index < static_cast<uint32_t>(framesArray.Size()); ++index)
             {
@@ -147,8 +147,8 @@ namespace ouzel
                 Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].GetInt()),
                                  static_cast<float>(sourceSizeObject["h"].GetInt()));
 
-                if (sourceSize.width > _size.width) _size.width = sourceSize.width;
-                if (sourceSize.height > _size.height) _size.height = sourceSize.height;
+                if (sourceSize.width > size.width) size.width = sourceSize.width;
+                if (sourceSize.height > size.height) size.height = sourceSize.height;
 
                 const rapidjson::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
 
@@ -174,7 +174,7 @@ namespace ouzel
             Vector2 realOffset(-sourceSize.width * pivot.x + offset.x,
                                -sourceSize.height * pivot.y + (sourceSize.height - rectangle.height - offset.y));
 
-            realOffset += _offset;
+            realOffset += offset;
 
             if (!rotated)
             {
@@ -203,141 +203,147 @@ namespace ouzel
                 textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             }
 
-            _frameRectangles.push_back(Rectangle(realOffset.x, realOffset.y,
+            frameRectangles.push_back(Rectangle(realOffset.x, realOffset.y,
                                                  rectangle.width, rectangle.height));
 
             std::vector<graphics::VertexPCT> vertices = {
-                graphics::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), _color, textCoords[0]),
-                graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), _color, textCoords[1]),
-                graphics::VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[2]),
-                graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  _color, textCoords[3])
+                graphics::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), color, textCoords[0]),
+                graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), color, textCoords[1]),
+                graphics::VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  color, textCoords[2]),
+                graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  color, textCoords[3])
             };
 
-            _frameVertices.push_back(vertices);
+            frameVertices.push_back(vertices);
 
-            _frameMeshBuffers.push_back(sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+            frameMeshBuffers.push_back(sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
                                                                                               static_cast<uint32_t>(indices.size()), false,
                                                                                               vertices.data(), graphics::VertexPCT::ATTRIBUTES,
                                                                                               static_cast<uint32_t>(vertices.size()), true));
 
-            _frameCount++;
+            frameCount++;
 
-            _boundingBox.insertPoint(realOffset);
-            _boundingBox.insertPoint(realOffset + Vector2(rectangle.width, rectangle.height));
+            boundingBox.insertPoint(realOffset);
+            boundingBox.insertPoint(realOffset + Vector2(rectangle.width, rectangle.height));
         }
 
         void Sprite::update(float delta)
         {
-            if (_playing)
+            if (playing)
             {
-                _timeSinceLastFrame += delta;
+                timeSinceLastFrame += delta;
 
-                while (_timeSinceLastFrame > _frameInterval)
+                while (timeSinceLastFrame > frameInterval)
                 {
-                    _timeSinceLastFrame -= _frameInterval;
-                    _currentFrame++;
+                    timeSinceLastFrame -= frameInterval;
+                    currentFrame++;
 
-                    if (_repeat && _currentFrame >= _frameCount)
+                    if (repeat && currentFrame >= frameCount)
                     {
-                        _currentFrame = 0;
+                        currentFrame = 0;
                     }
-                    else if (!_repeat && _currentFrame >= _frameCount - 1)
+                    else if (!repeat && currentFrame >= frameCount - 1)
                     {
-                        _currentFrame = _frameCount - 1;
-                        _playing = false;
-                        sharedEngine->unscheduleUpdate(_updateCallback);
+                        currentFrame = frameCount - 1;
+                        playing = false;
+                        sharedEngine->unscheduleUpdate(updateCallback);
                     }
                 }
             }
         }
 
-        void Sprite::draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color)
+        void Sprite::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color)
         {
-            Drawable::draw(projection, transform, color);
+            Drawable::draw(projectionMatrix, transformMatrix, color);
 
-            if (_texture && _currentFrame < _frameCount)
+            if (texture && currentFrame < frameCount)
             {
-                sharedEngine->getRenderer()->activateBlendState(_blendState);
-                sharedEngine->getRenderer()->activateTexture(_texture, 0);
-                sharedEngine->getRenderer()->activateShader(_shader);
+                sharedEngine->getRenderer()->activateBlendState(blendState);
+                sharedEngine->getRenderer()->activateTexture(texture, 0);
+                sharedEngine->getRenderer()->activateShader(shader);
 
-                Matrix4 modelViewProj = projection * transform;
+                Matrix4 modelViewProj = projectionMatrix * transformMatrix;
                 float colorVector[] = { color.getR(), color.getG(), color.getB(), color.getA() };
 
-                _shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
-                _shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
+                shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
+                shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
 
-                graphics::MeshBufferPtr meshBuffer = _frameMeshBuffers[_currentFrame];
-                sharedEngine->getRenderer()->drawMeshBuffer(meshBuffer);
+                graphics::MeshBufferPtr frameMeshBuffer = frameMeshBuffers[currentFrame];
+                sharedEngine->getRenderer()->drawMeshBuffer(frameMeshBuffer);
             }
         }
 
         void Sprite::setOpacity(float opacity)
         {
-			_opacity = opacity;
+            opacity = opacity;
 
             updateVertexColor();
         }
 
-        void Sprite::setTexture(const graphics::TexturePtr& texture)
+        void Sprite::setTexture(const graphics::TexturePtr& newTexture)
         {
-            _texture = texture;
+            texture = newTexture;
         }
 
-        void Sprite::setShader(const graphics::ShaderPtr& shader)
+        void Sprite::setShader(const graphics::ShaderPtr& newShader)
         {
-            _shader = shader;
+            shader = newShader;
         }
 
-        void Sprite::setColor(const graphics::Color& color)
+        void Sprite::setColor(const graphics::Color& newColor)
         {
-            _color = color;
+            color = newColor;
 
             updateVertexColor();
         }
 
         void Sprite::updateVertexColor()
         {
-            for (uint32_t i = 0; i < _frameMeshBuffers.size(); ++i)
+            for (uint32_t i = 0; i < frameMeshBuffers.size(); ++i)
             {
-                for (graphics::VertexPCT& vertex : _frameVertices[i])
+                for (graphics::VertexPCT& vertex : frameVertices[i])
                 {
-                    vertex.color.r = _color.r;
-                    vertex.color.g = _color.g;
-                    vertex.color.b = _color.b;
-                    vertex.color.a = static_cast<uint8_t>(_opacity * _color.a);
+                    vertex.color.r = color.r;
+                    vertex.color.g = color.g;
+                    vertex.color.b = color.b;
+                    vertex.color.a = static_cast<uint8_t>(opacity * color.a);
                 }
 
-                graphics::MeshBufferPtr meshBuffer = _frameMeshBuffers[i];
-                meshBuffer->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
+                graphics::MeshBufferPtr meshBuffer = frameMeshBuffers[i];
+                meshBuffer->uploadVertices(frameVertices[i].data(), static_cast<uint32_t>(frameVertices[i].size()));
             }
         }
 
-        void Sprite::play(bool repeat, float frameInterval)
+        void Sprite::play(bool pRepeat, float newFrameInterval)
         {
-            _repeat = repeat;
-            _frameInterval = frameInterval;
-
-            if (!_playing && _frameCount > 1)
+            if (newFrameInterval == 0.0f)
             {
-                _playing = true;
+                playing = false;
+                return;
+            }
 
-                if (_currentFrame >= _frameCount - 1)
+            repeat = pRepeat;
+            frameInterval = newFrameInterval;
+
+            if (!playing && frameCount > 1)
+            {
+                playing = true;
+
+                if (currentFrame >= frameCount - 1)
                 {
-                    _currentFrame = 0;
-                    _timeSinceLastFrame = 0.0f;
+                    currentFrame = 0;
+                    timeSinceLastFrame = 0.0f;
                 }
 
-                sharedEngine->scheduleUpdate(_updateCallback);
+                sharedEngine->scheduleUpdate(updateCallback);
             }
         }
 
         void Sprite::stop(bool resetAnimation)
         {
-            if (_playing)
+            if (playing)
             {
-                _playing = false;
-                sharedEngine->unscheduleUpdate(_updateCallback);
+                playing = false;
+                sharedEngine->unscheduleUpdate(updateCallback);
             }
 
             if (resetAnimation)
@@ -348,36 +354,36 @@ namespace ouzel
 
         void Sprite::reset()
         {
-            _playing = false;
-            _currentFrame = 0;
-            _timeSinceLastFrame = 0.0f;
+            playing = false;
+            currentFrame = 0;
+            timeSinceLastFrame = 0.0f;
         }
 
-        void Sprite::setOffset(const Vector2& offset)
+        void Sprite::setOffset(const Vector2& newOffset)
         {
-            _offset = offset;
-            _boundingBox.reset();
+            offset = newOffset;
+            boundingBox.reset();
 
-            for (size_t i = 0; i < _frameVertices.size(); ++i)
+            for (size_t i = 0; i < frameVertices.size(); ++i)
             {
-                Rectangle rectangle = _frameRectangles[i];
+                Rectangle rectangle = frameRectangles[i];
 
-                _frameVertices[i][0].position.x = rectangle.x + offset.x;
-                _frameVertices[i][0].position.y = rectangle.y + offset.y;
+                frameVertices[i][0].position.x = rectangle.x + offset.x;
+                frameVertices[i][0].position.y = rectangle.y + offset.y;
 
-                _frameVertices[i][1].position.x = rectangle.x + offset.x + rectangle.width;
-                _frameVertices[i][1].position.y = rectangle.y + offset.y;
+                frameVertices[i][1].position.x = rectangle.x + offset.x + rectangle.width;
+                frameVertices[i][1].position.y = rectangle.y + offset.y;
 
-                _frameVertices[i][2].position.x = rectangle.x + offset.x;
-                _frameVertices[i][2].position.y = rectangle.y + offset.y + rectangle.height;
+                frameVertices[i][2].position.x = rectangle.x + offset.x;
+                frameVertices[i][2].position.y = rectangle.y + offset.y + rectangle.height;
 
-                _frameVertices[i][3].position.x = rectangle.x + offset.x + rectangle.width;
-                _frameVertices[i][3].position.y = rectangle.y + offset.y + rectangle.height;
+                frameVertices[i][3].position.x = rectangle.x + offset.x + rectangle.width;
+                frameVertices[i][3].position.y = rectangle.y + offset.y + rectangle.height;
 
-                _frameMeshBuffers[i]->uploadVertices(_frameVertices[i].data(), static_cast<uint32_t>(_frameVertices[i].size()));
+                frameMeshBuffers[i]->uploadVertices(frameVertices[i].data(), static_cast<uint32_t>(frameVertices[i].size()));
 
-                _boundingBox.insertPoint(rectangle.bottomLeft() + offset);
-                _boundingBox.insertPoint(rectangle.topRight() + offset);
+                boundingBox.insertPoint(rectangle.bottomLeft() + offset);
+                boundingBox.insertPoint(rectangle.topRight() + offset);
             }
         }
     } // namespace scene

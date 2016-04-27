@@ -61,16 +61,16 @@ namespace ouzel
 
             virtual ~Renderer();
 
-            Driver getDriver() const { return _driver; }
+            Driver getDriver() const { return driver; }
 
-            virtual void setClearColor(Color color) { _clearColor = color; }
-            virtual Color getClearColor() const { return _clearColor; }
+            virtual void setClearColor(Color color) { clearColor = color; }
+            virtual Color getClearColor() const { return clearColor; }
 
             virtual void clear();
             virtual void present();
             virtual void flush();
 
-            const Size2& getSize() const { return _size; }
+            const Size2& getSize() const { return size; }
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
@@ -81,12 +81,12 @@ namespace ouzel
                                                    BlendState::BlendOperation alphaOperation);
             virtual bool activateBlendState(BlendStatePtr blendState);
 
-            virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true);
+            virtual TexturePtr createTexture(const Size2& textureSize, bool dynamic, bool mipmaps = true);
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false, bool mipmaps = true);
-            virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic = false, bool mipmaps = true);
+            virtual TexturePtr loadTextureFromData(const void* data, const Size2& textureSize, bool dynamic = false, bool mipmaps = true);
             virtual bool activateTexture(const TexturePtr& texture, uint32_t layer);
-            virtual TexturePtr getActiveTexture(uint32_t layer) const { return _activeTextures[layer]; }
-            virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer);
+            virtual TexturePtr getActiveTexture(uint32_t layer) const { return activeTextures[layer]; }
+            virtual RenderTargetPtr createRenderTarget(const Size2& renderTargetSize, bool depthBuffer);
             virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget);
 
             virtual ShaderPtr loadShaderFromFiles(const std::string& pixelShader,
@@ -102,7 +102,7 @@ namespace ouzel
                                                     const std::string& pixelShaderFunction = "",
                                                     const std::string& vertexShaderFunction = "");
             virtual bool activateShader(const ShaderPtr& shader);
-            virtual ShaderPtr getActiveShader() const { return _activeShader; }
+            virtual ShaderPtr getActiveShader() const { return activeShader; }
 
             virtual MeshBufferPtr createMeshBuffer();
             virtual MeshBufferPtr createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer);
@@ -114,27 +114,27 @@ namespace ouzel
 
             virtual bool saveScreenshot(const std::string& filename);
 
-            virtual uint32_t getDrawCallCount() const { return _drawCallCount; }
+            virtual uint32_t getDrawCallCount() const { return drawCallCount; }
 
         protected:
-            Renderer(Driver driver = Driver::NONE);
-            virtual bool init(const Size2& size, bool fullscreen);
+            Renderer(Driver pDriver = Driver::NONE);
+            virtual bool init(const Size2& newSize, bool newFullscreen);
 
-            virtual void setSize(const Size2& size);
-            virtual void setFullscreen(bool fullscreen);
+            virtual void setSize(const Size2& newSize);
+            virtual void setFullscreen(bool newFullscreen);
 
-            Driver _driver;
-            Size2 _size;
-            bool _fullscreen = false;
+            Driver driver;
+            Size2 size;
+            bool fullscreen = false;
 
-            Color _clearColor;
+            Color clearColor;
 
-            BlendStatePtr _activeBlendState;
-            TexturePtr _activeTextures[TEXTURE_LAYERS];
-            ShaderPtr _activeShader;
-            RenderTargetPtr _activeRenderTarget;
+            BlendStatePtr activeBlendState;
+            TexturePtr activeTextures[TEXTURE_LAYERS];
+            ShaderPtr activeShader;
+            RenderTargetPtr activeRenderTarget;
 
-            uint32_t _drawCallCount = 0;
+            uint32_t drawCallCount = 0;
         };
     } // namespace graphics
 } // namespace ouzel

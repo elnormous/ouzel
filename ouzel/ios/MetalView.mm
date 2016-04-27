@@ -31,15 +31,15 @@ using namespace ouzel;
 
 @implementation MetalView
 {
-    id<MTKViewDelegate> _viewDelegate;
+    id<MTKViewDelegate> viewDelegate;
 }
 
 -(id)initWithFrame:(CGRect)frameRect
 {
     if (self = [super initWithFrame:frameRect])
     {
-        _viewDelegate = [[ViewDelegate alloc] init];
-        self.delegate = _viewDelegate;
+        viewDelegate = [[ViewDelegate alloc] init];
+        self.delegate = viewDelegate;
     }
 
     return self;
@@ -53,10 +53,10 @@ using namespace ouzel;
 
 -(void)close
 {
-    if (_viewDelegate)
+    if (viewDelegate)
     {
-        [_viewDelegate release];
-        _viewDelegate = Nil;
+        [viewDelegate release];
+        viewDelegate = Nil;
         self.delegate = Nil;
     }
 }

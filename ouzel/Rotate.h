@@ -12,18 +12,18 @@ namespace ouzel
         class Rotate: public Animator
         {
         public:
-            Rotate(float length, float rotation, bool relative);
+            Rotate(float pLength, float pRotation, bool pRelative);
 
             virtual void start(const NodePtr& node) override;
 
             virtual void setProgress(float progress) override;
 
         protected:
-            float _rotation;
-            float _startRotation = 0.0f;
-            float _targetRotation = 0.0f;
-            float _diff = 0.0f;
-            bool _relative;
+            float rotation;
+            float startRotation = 0.0f;
+            float targetRotation = 0.0f;
+            float diff = 0.0f;
+            bool relative;
         };
     } // namespace scene
 } // namespace ouzel

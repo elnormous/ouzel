@@ -22,29 +22,29 @@ namespace ouzel
 
         void MeshBufferMetal::destroy()
         {
-            if (_indexBuffer)
+            if (indexBuffer)
             {
-                [_indexBuffer release];
-                _indexBuffer = Nil;
+                [indexBuffer release];
+                indexBuffer = Nil;
             }
 
-            if (_vertexBuffer)
+            if (vertexBuffer)
             {
-                [_vertexBuffer release];
-                _vertexBuffer = Nil;
+                [vertexBuffer release];
+                vertexBuffer = Nil;
             }
         }
 
-        bool MeshBufferMetal::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
+        bool MeshBufferMetal::initFromData(const void* newIndices, uint32_t newIndexSize, uint32_t newIndexCount, bool newDynamicIndexBuffer, const void* newVertices, uint32_t newVertexAttributes, uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
-            if (!MeshBuffer::initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer))
+            if (!MeshBuffer::initFromData(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))
             {
                 return false;
             }
 
             destroy();
 
-            if (!createIndexBuffer(indices, _indexSize * indexCount))
+            if (!createIndexBuffer(newIndices, indexSize * indexCount))
             {
                 return false;
             }
@@ -54,7 +54,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!createVertexBuffer(vertices, _vertexSize * vertexCount))
+            if (!createVertexBuffer(newVertices, vertexSize * vertexCount))
             {
                 return false;
             }
@@ -79,14 +79,14 @@ namespace ouzel
                 return false;
             }
 
-            if (_indexSize * indexCount > _indexBufferSize)
+            if (indexSize * indexCount > indexBufferSize)
             {
-                if (_indexBuffer) [_indexBuffer release];
-                return createIndexBuffer(indices, _indexSize * indexCount);
+                if (indexBuffer) [indexBuffer release];
+                return createIndexBuffer(indices, indexSize * indexCount);
             }
             else
             {
-                return uploadData(_indexBuffer, indices, _indexSize * indexCount);
+                return uploadData(indexBuffer, indices, indexSize * indexCount);
             }
         }
 
@@ -97,14 +97,14 @@ namespace ouzel
                 return false;
             }
 
-            if (_vertexSize * vertexCount > _vertexBufferSize)
+            if (vertexSize * vertexCount > vertexBufferSize)
             {
-                if (_vertexBuffer) [_vertexBuffer release];
-                return createVertexBuffer(vertices, _vertexSize * vertexCount);
+                if (vertexBuffer) [vertexBuffer release];
+                return createVertexBuffer(vertices, vertexSize * vertexCount);
             }
             else
             {
-                return uploadData(_vertexBuffer, vertices, _vertexSize * vertexCount);
+                return uploadData(vertexBuffer, vertices, vertexSize * vertexCount);
             }
 
             return true;
@@ -112,10 +112,10 @@ namespace ouzel
 
         bool MeshBufferMetal::updateIndexFormat()
         {
-            switch (_indexSize)
+            switch (indexSize)
             {
-                case 2: _indexFormat = MTLIndexTypeUInt16; break;
-                case 4: _indexFormat = MTLIndexTypeUInt32; break;
+                case 2: indexFormat = MTLIndexTypeUInt16; break;
+                case 4: indexFormat = MTLIndexTypeUInt32; break;
                 default: log("Invalid index size"); return false;
             }
 
@@ -126,36 +126,36 @@ namespace ouzel
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            _indexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
+            indexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
                                                                    options:MTLResourceCPUCacheModeWriteCombined];
 
-            if (_indexBuffer == Nil)
+            if (indexBuffer == Nil)
             {
                 log("Failed to create Metal index buffer");
                 return false;
             }
 
-            _indexBufferSize = size;
+            indexBufferSize = size;
 
-            return uploadData(_indexBuffer, indices, size);
+            return uploadData(indexBuffer, indices, size);
         }
 
         bool MeshBufferMetal::createVertexBuffer(const void* vertices, uint32_t size)
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            _vertexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
+            vertexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
                                                                     options:MTLResourceCPUCacheModeWriteCombined];
 
-            if (_vertexBuffer == Nil)
+            if (vertexBuffer == Nil)
             {
                 log("Failed to create Metal vertex buffer");
                 return false;
             }
 
-            _vertexBufferSize = size;
+            vertexBufferSize = size;
 
-            return uploadData(_vertexBuffer, vertices, size);
+            return uploadData(vertexBuffer, vertices, size);
         }
 
         bool MeshBufferMetal::uploadData(MTLBufferPtr buffer, const void* data, uint32_t size)

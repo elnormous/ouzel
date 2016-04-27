@@ -253,35 +253,35 @@ namespace ouzel
                 return bounceOut(t * 2.0f - 1.0f) * 0.5f + 0.5f;
         }
 
-        Ease::Ease(const AnimatorPtr& animator, Type type, Func func):
-            Animator(animator->getLength()), _animator(animator), _type(type), _func(func)
+        Ease::Ease(const AnimatorPtr& pAnimator, Type pType, Func pFunc):
+            Animator(pAnimator->getLength()), animator(pAnimator), type(pType), func(pFunc)
         {
 
         }
 
-        void Ease::start(const NodePtr& node)
+        void Ease::start(const NodePtr& targetNode)
         {
-            Animator::start(node);
+            Animator::start(targetNode);
 
-            _animator->start(node);
+            animator->start(targetNode);
         }
 
         void Ease::reset()
         {
             Animator::reset();
 
-            _animator->reset();
+            animator->reset();
         }
 
         void Ease::setProgress(float progress)
         {
             Animator::setProgress(progress);
 
-            switch (_type)
+            switch (type)
             {
                 case Type::IN:
                 {
-                    switch (_func)
+                    switch (func)
                     {
                         case Func::SINE: progress = sineIn(progress); break;
                         case Func::QUAD: progress = quadIn(progress); break;
@@ -299,7 +299,7 @@ namespace ouzel
 
                 case Type::OUT:
                 {
-                    switch (_func)
+                    switch (func)
                     {
                         case Func::SINE: progress = sineOut(progress); break;
                         case Func::QUAD: progress = quadOut(progress); break;
@@ -317,7 +317,7 @@ namespace ouzel
 
                 case Type::INOUT:
                 {
-                    switch (_func)
+                    switch (func)
                     {
                         case Func::SINE: progress = sineInOut(progress); break;
                         case Func::QUAD: progress = quadInOut(progress); break;
@@ -334,7 +334,7 @@ namespace ouzel
                 }
             }
 
-            _animator->setProgress(progress);
+            animator->setProgress(progress);
         }
     } // namespace scene
 } // namespace ouzel

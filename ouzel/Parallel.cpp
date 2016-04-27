@@ -7,25 +7,25 @@ namespace ouzel
 {
     namespace scene
     {
-        Parallel::Parallel(const std::vector<AnimatorPtr>& animators):
-            Animator(0.0f), _animators(animators)
+        Parallel::Parallel(const std::vector<AnimatorPtr>& pAnimators):
+            Animator(0.0f), animators(pAnimators)
         {
-            for (auto& animator : _animators)
+            for (auto& animator : animators)
             {
-                if (animator->getLength() > _length)
+                if (animator->getLength() > length)
                 {
-                    _length = animator->getLength();
+                    length = animator->getLength();
                 }
             }
         }
 
-        void Parallel::start(const NodePtr& node)
+        void Parallel::start(const NodePtr& targetNode)
         {
-            Animator::start(node);
+            Animator::start(targetNode);
 
-            for (auto& animator : _animators)
+            for (auto& animator : animators)
             {
-                animator->start(node);
+                animator->start(targetNode);
             }
         }
 
@@ -33,7 +33,7 @@ namespace ouzel
         {
             Animator::reset();
 
-            for (auto& animator : _animators)
+            for (auto& animator : animators)
             {
                 animator->reset();
             }
@@ -43,17 +43,17 @@ namespace ouzel
         {
             Animator::setProgress(progress);
 
-            for (auto& animator : _animators)
+            for (auto& animator : animators)
             {
                 float animationLength = animator->getLength();
 
-                if (animationLength <= 0.0f || _currentTime > animationLength)
+                if (animationLength <= 0.0f || currentTime > animationLength)
                 {
                     animator->setProgress(1.0f);
                 }
                 else
                 {
-                    animator->setProgress(_currentTime / animationLength);
+                    animator->setProgress(currentTime / animationLength);
                 }
             }
         }

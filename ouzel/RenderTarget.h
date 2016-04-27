@@ -22,17 +22,17 @@ namespace ouzel
         public:
             virtual ~RenderTarget();
 
-            virtual bool init(const Size2& size, bool depthBuffer);
+            virtual bool init(const Size2& newSize, bool useDepthBuffer);
 
-            TexturePtr getTexture() const { return _texture; }
+            TexturePtr getTexture() const { return texture; }
 
         protected:
             RenderTarget();
 
-            Size2 _size;
-            bool _depthBuffer = false;
+            Size2 size;
+            bool depthBuffer = false;
 
-            TexturePtr _texture;
+            TexturePtr texture;
         };
     } // namespace graphics
 } // namespace ouzel

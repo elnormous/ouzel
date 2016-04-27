@@ -32,27 +32,27 @@ namespace ouzel
 
             void addToDrawQueue(const NodePtr& node);
 
-            const CameraPtr& getCamera() const { return _camera; }
-            void setCamera(const CameraPtr& camera);
+            const CameraPtr& getCamera() const { return camera; }
+            void setCamera(const CameraPtr& newCamera);
 
             NodePtr pickNode(const Vector2& position) const;
             std::set<NodePtr> pickNodes(const std::vector<Vector2>& edges) const;
 
-            int32_t getOrder() const { return _order; }
-            void setOrder(int32_t order);
+            int32_t getOrder() const { return order; }
+            void setOrder(int32_t newOrder);
 
-            ScenePtr getScene() const { return _scene.lock(); }
+            ScenePtr getScene() const { return scene.lock(); }
 
         protected:
-            virtual void addToScene(const ScenePtr& scene);
+            virtual void addToScene(const ScenePtr& newScene);
             virtual void removeFromScene();
 
-            CameraPtr _camera;
-            std::vector<NodePtr> _drawQueue;
+            CameraPtr camera;
+            std::vector<NodePtr> drawQueue;
 
-            SceneWeakPtr _scene;
-            int32_t _order = 0;
-            bool _remove = false;
+            SceneWeakPtr scene;
+            int32_t order = 0;
+            bool remove = false;
         };
     } // namespace scene
 } // namespace ouzel

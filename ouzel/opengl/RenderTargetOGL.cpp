@@ -22,22 +22,22 @@ namespace ouzel
 
         void RenderTargetOGL::destroy()
         {
-            if (_depthBufferId)
+            if (depthBufferId)
             {
-                glDeleteRenderbuffers(1, &_depthBufferId);
-                _depthBufferId = 0;
+                glDeleteRenderbuffers(1, &depthBufferId);
+                depthBufferId = 0;
             }
 
-            if (_frameBufferId)
+            if (frameBufferId)
             {
-                glDeleteFramebuffers(1, &_frameBufferId);
-                _frameBufferId = 0;
+                glDeleteFramebuffers(1, &frameBufferId);
+                frameBufferId = 0;
             }
         }
 
-        bool RenderTargetOGL::init(const Size2& size, bool depthBuffer)
+        bool RenderTargetOGL::init(const Size2& newSize, bool depthBuffer)
         {
-            if (RenderTarget::init(size, depthBuffer))
+            if (RenderTarget::init(newSize, depthBuffer))
             {
                 return false;
             }
@@ -47,9 +47,9 @@ namespace ouzel
             GLuint oldFrameBufferId;
             glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));
 
-            glGenFramebuffers(1, &_frameBufferId);
+            glGenFramebuffers(1, &frameBufferId);
 
-            RendererOGL::bindFrameBuffer(_frameBufferId);
+            RendererOGL::bindFrameBuffer(frameBufferId);
 
             std::shared_ptr<TextureOGL> textureOGL(new TextureOGL());
 
@@ -58,13 +58,13 @@ namespace ouzel
                 return false;
             }
 
-            _texture = textureOGL;
+            texture = textureOGL;
 
             RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                         static_cast<GLsizei>(_size.width),
-                         static_cast<GLsizei>(_size.height),
+                         static_cast<GLsizei>(size.width),
+                         static_cast<GLsizei>(size.height),
                          0, GL_RGB, GL_UNSIGNED_BYTE, 0);
 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -72,12 +72,12 @@ namespace ouzel
 
             if (depthBuffer)
             {
-                glGenRenderbuffers(1, &_depthBufferId);
-                glBindRenderbuffer(GL_RENDERBUFFER, _depthBufferId);
+                glGenRenderbuffers(1, &depthBufferId);
+                glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
                 glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                      static_cast<GLsizei>(_size.width),
-                                      static_cast<GLsizei>(_size.height));
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthBufferId);
+                                      static_cast<GLsizei>(size.width),
+                                      static_cast<GLsizei>(size.height));
+                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
             }
 
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureOGL->getTextureId(), 0);

@@ -17,16 +17,16 @@ namespace ouzel
             Image();
             virtual ~Image();
 
-            const Size2& getSize() const { return _size; }
-            const void* getData() const { return _data; }
+            const Size2& getSize() const { return size; }
+            const void* getData() const { return data; }
 
-            virtual bool initFromFile(const std::string& filename);
+            virtual bool initFromFile(const std::string& newFilename);
 
         protected:
-            std::string _filename;
-            Size2 _size;
+            std::string filename;
+            Size2 size;
 
-            void* _data = nullptr;
+            void* data = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

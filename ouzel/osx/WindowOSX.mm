@@ -91,56 +91,56 @@ namespace ouzel
         NSScreen* screen = [NSScreen mainScreen];
         NSRect screenFrame = screen.frame;
 
-        NSRect frame = NSMakeRect(screenFrame.size.width / 2 - _size.width / 2,
-                                  screenFrame.size.height / 2 - _size.height / 2,
-                                  _size.width, _size.height);
+        NSRect frame = NSMakeRect(screenFrame.size.width / 2 - size.width / 2,
+                                  screenFrame.size.height / 2 - size.height / 2,
+                                  size.width, size.height);
 
         NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
 
-        if (_resizable)
+        if (resizable)
         {
             windowStyleMask |= NSResizableWindowMask;
         }
 
-        _window  = [[NSWindow alloc] initWithContentRect:frame
+        window  = [[NSWindow alloc] initWithContentRect:frame
                                                styleMask:windowStyleMask
                                                  backing:NSBackingStoreBuffered
                                                    defer:NO
                                                   screen:screen];
-        [_window setReleasedWhenClosed:NO];
+        [window setReleasedWhenClosed:NO];
 
-        _window.acceptsMouseMovedEvents = YES;
+        window.acceptsMouseMovedEvents = YES;
 
-        _windowDelegate = [[WindowDelegate alloc] initWithWindow: this];
-        _window.delegate = _windowDelegate;
+        windowDelegate = [[WindowDelegate alloc] initWithWindow: this];
+        window.delegate = windowDelegate;
 
-        [_window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
+        [window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
 
-        if (_fullscreen)
+        if (fullscreen)
         {
-            [_window toggleFullScreen:nil];
+            [window toggleFullScreen:nil];
         }
 
-        [_window setTitle:[NSString stringWithUTF8String:_title.c_str()]];
+        [window setTitle:[NSString stringWithUTF8String:title.c_str()]];
 
-        NSRect windowFrame = [NSWindow contentRectForFrameRect:[_window frame]
-                                                     styleMask:[_window styleMask]];
+        NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
+                                                     styleMask:[window styleMask]];
 
-        switch (_driver)
+        switch (driver)
         {
             case graphics::Renderer::Driver::OPENGL:
-                _view = [[OpenGLView alloc] initWithFrame:windowFrame];
+                view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 break;
             case graphics::Renderer::Driver::METAL:
-                _view = [[MetalView alloc] initWithFrame:windowFrame];
+                view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
             default:
                 log("Unsupported render driver");
                 return false;
         }
 
-        _window.contentView = _view;
-        [_window makeKeyAndOrderFront:Nil];
+        window.contentView = view;
+        [window makeKeyAndOrderFront:Nil];
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
 
@@ -160,66 +160,66 @@ namespace ouzel
 
     void WindowOSX::close()
     {
-        if (_view)
+        if (view)
         {
-            [_view close];
-            [_view release];
-            _view = Nil;
+            [view close];
+            [view release];
+            view = Nil;
         }
 
-        if (_windowDelegate)
+        if (windowDelegate)
         {
-            [_windowDelegate release];
-            _windowDelegate = Nil;
+            [windowDelegate release];
+            windowDelegate = Nil;
         }
 
-        if (_window)
+        if (window)
         {
-            _window.delegate = Nil;
-            [_window release];
-            _window = Nil;
+            window.delegate = Nil;
+            [window release];
+            window = Nil;
         }
     }
 
-    void WindowOSX::setSize(const Size2& size)
+    void WindowOSX::setSize(const Size2& newSize)
     {
-        NSRect frame = [NSWindow contentRectForFrameRect:[_window frame]
-                                               styleMask:[_window styleMask]];
+        NSRect frame = [NSWindow contentRectForFrameRect:[window frame]
+                                               styleMask:[window styleMask]];
 
         NSRect newFrame = [NSWindow frameRectForContentRect:
-                           NSMakeRect(NSMinX(frame), NSMaxY(frame) - _size.height, _size.width, _size.height)
-                                                  styleMask:[_window styleMask]];
+                           NSMakeRect(NSMinX(frame), NSMaxY(frame) - newSize.height, newSize.width, newSize.height)
+                                                  styleMask:[window styleMask]];
 
         if (frame.size.width != newFrame.size.width ||
             frame.size.height != newFrame.size.height)
         {
             if ([NSThread isMainThread])
             {
-                [_window setFrame:newFrame display:YES animate:NO];
+                [window setFrame:newFrame display:YES animate:NO];
             }
             else
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [_window setFrame:newFrame display:YES animate:NO];
+                    [window setFrame:newFrame display:YES animate:NO];
                 });
             }
         }
 
-        Window::setSize(size);
+        Window::setSize(newSize);
     }
 
-    void WindowOSX::setFullscreen(bool fullscreen)
+    void WindowOSX::setFullscreen(bool newFullscreen)
     {
-        if (_fullscreen != fullscreen)
+        if (fullscreen != newFullscreen)
         {
             if ([NSThread isMainThread])
             {
-                [_window toggleFullScreen:nil];
+                [window toggleFullScreen:nil];
             }
             else
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [_window toggleFullScreen:nil];
+                    [window toggleFullScreen:nil];
                 });
             }
         }
@@ -227,20 +227,20 @@ namespace ouzel
         Window::setFullscreen(fullscreen);
     }
 
-    void WindowOSX::setTitle(const std::string& title)
+    void WindowOSX::setTitle(const std::string& newTitle)
     {
-        if (_title != title)
+        if (title != newTitle)
         {
-            NSString* objCTitle = [NSString stringWithCString:title.c_str() encoding:NSUTF8StringEncoding];
+            NSString* objCTitle = [NSString stringWithCString:newTitle.c_str() encoding:NSUTF8StringEncoding];
 
             if ([NSThread isMainThread])
             {
-                _window.title = objCTitle;
+                window.title = objCTitle;
             }
             else
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    _window.title = objCTitle;
+                    window.title = objCTitle;
                 });
             }
         }
@@ -250,8 +250,8 @@ namespace ouzel
 
     void WindowOSX::handleResize()
     {
-        NSRect frame = [NSWindow contentRectForFrameRect:[_window frame]
-                                               styleMask:[_window styleMask]];
+        NSRect frame = [NSWindow contentRectForFrameRect:[window frame]
+                                               styleMask:[window styleMask]];
 
         Window::setSize(Size2(static_cast<float>(frame.size.width),
                               static_cast<float>(frame.size.height)));
@@ -259,7 +259,7 @@ namespace ouzel
 
     void WindowOSX::handleDisplayChange()
     {
-        [_view changeDisplay];
+        [view changeDisplay];
     }
 
     void WindowOSX::handleClose()

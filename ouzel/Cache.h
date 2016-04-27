@@ -37,9 +37,9 @@ namespace ouzel
 
         scene::ParticleDefinitionPtr loadParticleDefinition(const std::string& filename) const;
 
-        mutable std::unordered_map<std::string, graphics::TexturePtr> _textures;
-        mutable std::unordered_map<std::string, graphics::ShaderPtr> _shaders;
-        mutable std::unordered_map<std::string, scene::ParticleDefinitionPtr> _particleDefinitions;
-        mutable std::unordered_map<std::string, graphics::BlendStatePtr> _blendStates;
+        mutable std::unordered_map<std::string, graphics::TexturePtr> textures;
+        mutable std::unordered_map<std::string, graphics::ShaderPtr> shaders;
+        mutable std::unordered_map<std::string, scene::ParticleDefinitionPtr> particleDefinitions;
+        mutable std::unordered_map<std::string, graphics::BlendStatePtr> blendStates;
     };
 }

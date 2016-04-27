@@ -12,18 +12,18 @@ namespace ouzel
         class Fade: public Animator
         {
         public:
-            Fade(float length, float opacity, bool relative = false);
+            Fade(float pLength, float pOpacity, bool pRelative = false);
 
-            virtual void start(const NodePtr& node) override;
+            virtual void start(const NodePtr& targetNode) override;
 
             virtual void setProgress(float progress) override;
 
         protected:
-            float _opacity;
-            float _startOpacity = 0.0f;
-            float _targetOpacity = 0.0f;
-            float _diff = 0.0f;
-            bool _relative;
+            float opacity;
+            float startOpacity = 0.0f;
+            float targetOpacity = 0.0f;
+            float diff = 0.0f;
+            bool relative;
         };
     } // namespace scene
 } // namespace ouzel

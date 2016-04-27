@@ -33,7 +33,7 @@ namespace ouzel
 
             virtual bool upload(const void* data, const Size2& size) override;
 
-            MTLTexturePtr getTexture() const { return _texture; }
+            MTLTexturePtr getTexture() const { return texture; }
 
         protected:
             TextureMetal();
@@ -42,8 +42,8 @@ namespace ouzel
 
             bool uploadData(const void* data, NSUInteger width, NSUInteger height);
 
-            MTLTexturePtr _texture = Nil;
-            NSUInteger _mipLevels = 0;
+            MTLTexturePtr texture = Nil;
+            NSUInteger mipLevels = 0;
         };
     } // namespace graphics
 } // namespace ouzel

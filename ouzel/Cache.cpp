@@ -27,15 +27,15 @@ namespace ouzel
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
-        std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = textures.find(filename);
 
-        if (i == _textures.end())
+        if (i == textures.end())
         {
             graphics::TexturePtr texture = sharedEngine->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
 
             if (texture)
             {
-                _textures[filename] = texture;
+                textures[filename] = texture;
             }
         }
     }
@@ -44,9 +44,9 @@ namespace ouzel
     {
         graphics::TexturePtr result;
 
-        std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = _textures.find(filename);
+        std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = textures.find(filename);
 
-        if (i != _textures.end())
+        if (i != textures.end())
         {
             return i->second;
         }
@@ -56,7 +56,7 @@ namespace ouzel
 
             if (result)
             {
-                _textures[filename] = result;
+                textures[filename] = result;
             }
         }
 
@@ -65,19 +65,19 @@ namespace ouzel
 
     void Cache::setTexture(const std::string& filename, const graphics::TexturePtr& texture)
     {
-        _textures[filename] = texture;
+        textures[filename] = texture;
     }
 
     void Cache::releaseTextures()
     {
-        _textures.clear();
+        textures.clear();
     }
 
     graphics::ShaderPtr Cache::getShader(const std::string& shaderName) const
     {
-        std::unordered_map<std::string, graphics::ShaderPtr>::const_iterator i = _shaders.find(shaderName);
+        std::unordered_map<std::string, graphics::ShaderPtr>::const_iterator i = shaders.find(shaderName);
 
-        if (i != _shaders.end())
+        if (i != shaders.end())
         {
             return i->second;
         }
@@ -89,20 +89,20 @@ namespace ouzel
 
     void Cache::setShader(const std::string& shaderName, const graphics::ShaderPtr& shader)
     {
-        _shaders[shaderName] = shader;
+        shaders[shaderName] = shader;
     }
 
     void Cache::preloadParticleDefinition(const std::string& filename)
     {
-        std::unordered_map<std::string, scene::ParticleDefinitionPtr>::const_iterator i = _particleDefinitions.find(filename);
+        std::unordered_map<std::string, scene::ParticleDefinitionPtr>::const_iterator i = particleDefinitions.find(filename);
 
-        if (i == _particleDefinitions.end())
+        if (i == particleDefinitions.end())
         {
             scene::ParticleDefinitionPtr result = loadParticleDefinition(filename);
 
             if (result)
             {
-                _particleDefinitions[filename] = result;
+                particleDefinitions[filename] = result;
             }
         }
     }
@@ -111,9 +111,9 @@ namespace ouzel
     {
         scene::ParticleDefinitionPtr result;
 
-        std::unordered_map<std::string, scene::ParticleDefinitionPtr>::const_iterator i = _particleDefinitions.find(filename);
+        std::unordered_map<std::string, scene::ParticleDefinitionPtr>::const_iterator i = particleDefinitions.find(filename);
 
-        if (i != _particleDefinitions.end())
+        if (i != particleDefinitions.end())
         {
             return i->second;
         }
@@ -123,7 +123,7 @@ namespace ouzel
 
             if (result)
             {
-                _particleDefinitions[filename] = result;
+                particleDefinitions[filename] = result;
             }
         }
 
@@ -242,9 +242,9 @@ namespace ouzel
 
     graphics::BlendStatePtr Cache::getBlendState(const std::string& blendStateName) const
     {
-        std::unordered_map<std::string, graphics::BlendStatePtr>::const_iterator i = _blendStates.find(blendStateName);
+        std::unordered_map<std::string, graphics::BlendStatePtr>::const_iterator i = blendStates.find(blendStateName);
 
-        if (i != _blendStates.end())
+        if (i != blendStates.end())
         {
             return i->second;
         }
@@ -256,6 +256,6 @@ namespace ouzel
 
     void Cache::setBlendState(const std::string& blendStateName, const graphics::BlendStatePtr& blendState)
     {
-        _blendStates[blendStateName] = blendState;
+        blendStates[blendStateName] = blendState;
     }
 }

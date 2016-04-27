@@ -19,26 +19,26 @@ namespace ouzel
         public:
             virtual ~Texture();
 
-            virtual bool init(const Size2& size, bool dynamic, bool mipmaps = true);
-            virtual bool initFromFile(const std::string& filename, bool dynamic, bool mipmaps = true);
-            virtual bool initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true);
+            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true);
+            virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
+            virtual bool initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
 
-            const std::string& getFilename() const { return _filename; }
+            const std::string& getFilename() const { return filename; }
 
-            virtual bool upload(const void* data, const Size2& size);
+            virtual bool upload(const void* data, const Size2& newSize);
 
-            const Size2& getSize() const { return _size; }
+            const Size2& getSize() const { return size; }
 
-            bool isDynamic() const { return _dynamic; }
+            bool isDynamic() const { return dynamic; }
 
         protected:
             Texture();
 
-            std::string _filename;
+            std::string filename;
 
-            Size2 _size;
-            bool _dynamic = false;
-            bool _mipmaps = false;
+            Size2 size;
+            bool dynamic = false;
+            bool mipmaps = false;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -26,23 +26,23 @@ namespace ouzel
 
         void Layer::draw()
         {
-            _drawQueue.clear();
+            drawQueue.clear();
 
             // render only if there is an active camera
-            if (_camera)
+            if (camera)
             {
                 lock();
 
-                for (const NodePtr child : _children)
+                for (const NodePtr child : children)
                 {
                     child->visit(Matrix4::IDENTITY, false);
                 }
 
-                std::stable_sort(_drawQueue.begin(), _drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {
+                std::stable_sort(drawQueue.begin(), drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {
                     return a->getZ() > b->getZ();
                 });
 
-                for (const NodePtr& node : _drawQueue)
+                for (const NodePtr& node : drawQueue)
                 {
                     node->process();
                 }
@@ -69,23 +69,23 @@ namespace ouzel
 
         void Layer::addToDrawQueue(const NodePtr& node)
         {
-            _drawQueue.push_back(node);
+            drawQueue.push_back(node);
         }
 
-        void Layer::setCamera(const CameraPtr& camera)
+        void Layer::setCamera(const CameraPtr& newCamera)
         {
-            _camera = camera;
+            camera = newCamera;
 
-            if (_camera)
+            if (camera)
             {
-                _camera->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
-                _camera->recalculateProjection();
+                camera->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
+                camera->recalculateProjection();
             }
         }
 
         NodePtr Layer::pickNode(const Vector2& position) const
         {
-            for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
+            for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
             {
                 NodePtr node = *i;
 
@@ -102,7 +102,7 @@ namespace ouzel
         {
             std::set<NodePtr> result;
 
-            for (std::vector<NodePtr>::const_reverse_iterator i = _drawQueue.rbegin(); i != _drawQueue.rend(); ++i)
+            for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
             {
                 NodePtr node = *i;
 
@@ -115,24 +115,24 @@ namespace ouzel
             return result;
         }
 
-        void Layer::setOrder(int32_t order)
+        void Layer::setOrder(int32_t newOrder)
         {
-            _order = order;
+            order = newOrder;
 
-            if (ScenePtr scene = _scene.lock())
+            if (ScenePtr currentScene = scene.lock())
             {
-                scene->reorderLayers();
+                currentScene->reorderLayers();
             }
         }
 
-        void Layer::addToScene(const ScenePtr& scene)
+        void Layer::addToScene(const ScenePtr& newScene)
         {
-            _scene = scene;
+            scene = newScene;
         }
 
         void Layer::removeFromScene()
         {
-            _scene.reset();
+            scene.reset();
         }
     } // namespace scene
 } // namespace ouzel

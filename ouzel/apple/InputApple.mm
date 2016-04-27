@@ -43,17 +43,17 @@ namespace ouzel
     {
         InputApple::InputApple()
         {
-            _connectDelegate = [[ConnectDelegate alloc]init];
+            connectDelegate = [[ConnectDelegate alloc]init];
 
             //if GameController framework is available
             if ([GCController class])
             {
-                [[NSNotificationCenter defaultCenter] addObserver:_connectDelegate
+                [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
                                                          selector:@selector(handleControllerConnected:)
                                                              name:GCControllerDidConnectNotification
                                                            object:Nil];
 
-                [[NSNotificationCenter defaultCenter] addObserver:_connectDelegate
+                [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
                                                          selector:@selector(handleControllerDisconnected:)
                                                              name:GCControllerDidDisconnectNotification
                                                            object:Nil];
@@ -99,7 +99,7 @@ namespace ouzel
         {
             log("Started gamepad discovery");
 
-            _discovering = true;
+            discovering = true;
 
             if ([GCController class])
             {
@@ -112,27 +112,27 @@ namespace ouzel
         {
             log("Stopped gamepad discovery");
 
-            if (_discovering)
+            if (discovering)
             {
                 if ([GCController class])
                 {
                     [GCController stopWirelessControllerDiscovery];
                 }
 
-                _discovering = false;
+                discovering = false;
             }
         }
 
         void InputApple::handleGamepadDiscoveryCompleted()
         {
             log("Gamepad discovery completed");
-            _discovering = false;
+            discovering = false;
         }
 
         void InputApple::handleGamepadConnected(id controller)
         {
             std::shared_ptr<GamepadApple> gamepad(new GamepadApple(controller));
-            _gamepads.push_back(gamepad);
+            gamepads.push_back(gamepad);
 
             GamepadEventPtr event = std::make_shared<GamepadEvent>();
             event->type = Event::Type::GAMEPAD_CONNECT;
@@ -143,11 +143,11 @@ namespace ouzel
 
         void InputApple::handleGamepadDisconnected(id controller)
         {
-            std::vector<std::shared_ptr<GamepadApple>>::iterator i = std::find_if(_gamepads.begin(), _gamepads.end(), [controller](const std::shared_ptr<GamepadApple>& p) {
+            std::vector<std::shared_ptr<GamepadApple>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::shared_ptr<GamepadApple>& p) {
                 return p->getController() == controller;
             });
 
-            if (i != _gamepads.end())
+            if (i != gamepads.end())
             {
                 GamepadEventPtr event = std::make_shared<GamepadEvent>();
                 event->type = Event::Type::GAMEPAD_DISCONNECT;
@@ -155,7 +155,7 @@ namespace ouzel
 
                 sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
 
-                _gamepads.erase(i);
+                gamepads.erase(i);
             }
         }
     } // namespace input

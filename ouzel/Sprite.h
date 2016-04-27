@@ -26,28 +26,28 @@ namespace ouzel
             virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
 
             virtual void update(float delta);
-            virtual void draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color) override;
+            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color) override;
 
             virtual void setOpacity(float opacity);
 
-            virtual graphics::TexturePtr getTexture() const { return _texture; }
-            virtual void setTexture(const graphics::TexturePtr& texture);
+            virtual graphics::TexturePtr getTexture() const { return texture; }
+            virtual void setTexture(const graphics::TexturePtr& newTexture);
 
-            virtual graphics::ShaderPtr getShader() const { return _shader; }
-            virtual void setShader(const graphics::ShaderPtr& shader);
+            virtual graphics::ShaderPtr getShader() const { return shader; }
+            virtual void setShader(const graphics::ShaderPtr& newShader);
 
-            virtual const Size2& getSize() const { return _size; }
+            virtual const Size2& getSize() const { return size; }
 
-            virtual const graphics::Color& getColor() const { return _color; }
-            virtual void setColor(const graphics::Color& color);
+            virtual const graphics::Color& getColor() const { return color; }
+            virtual void setColor(const graphics::Color& newColor);
 
-            virtual void play(bool repeat = true, float frameInterval = 0.1f);
+            virtual void play(bool pRepeat = true, float newFrameInterval = 0.1f);
             virtual void stop(bool resetAnimation = true);
             virtual void reset();
-            virtual bool isPlaying() const { return _playing; }
+            virtual bool isPlaying() const { return playing; }
 
-            const Vector2& getOffset() const { return _offset; }
-            void setOffset(const Vector2& offset);
+            const Vector2& getOffset() const { return offset; }
+            void setOffset(const Vector2& newOffset);
 
         protected:
             bool loadSpriteSheet(const std::string& filename, bool mipmaps);
@@ -55,28 +55,28 @@ namespace ouzel
 
             void updateVertexColor();
 
-            graphics::TexturePtr _texture;
-            graphics::ShaderPtr _shader;
-            graphics::BlendStatePtr _blendState;
+            graphics::TexturePtr texture;
+            graphics::ShaderPtr shader;
+            graphics::BlendStatePtr blendState;
 
-            float _opacity = 1.0f;
-            Size2 _size;
+            float opacity = 1.0f;
+            Size2 size;
 
-            uint32_t _frameCount = 0;
-            std::vector<Rectangle> _frameRectangles;
-            std::vector<std::vector<graphics::VertexPCT>> _frameVertices;
-            std::vector<graphics::MeshBufferPtr> _frameMeshBuffers;
-            graphics::Color _color = graphics::Color(255, 255, 255, 255);
+            uint32_t frameCount = 0;
+            std::vector<Rectangle> frameRectangles;
+            std::vector<std::vector<graphics::VertexPCT>> frameVertices;
+            std::vector<graphics::MeshBufferPtr> frameMeshBuffers;
+            graphics::Color color = graphics::Color(255, 255, 255, 255);
 
-            uint32_t _currentFrame = 0;
-            float _frameInterval = 0.0f;
-            bool _playing = false;
-            bool _repeat = false;
-            float _timeSinceLastFrame = 0.0f;
+            uint32_t currentFrame = 0;
+            float frameInterval = 0.0f;
+            bool playing = false;
+            bool repeat = false;
+            float timeSinceLastFrame = 0.0f;
 
-            UpdateCallbackPtr _updateCallback;
+            UpdateCallbackPtr updateCallback;
 
-            Vector2 _offset;
+            Vector2 offset;
         };
     } // namespace scene
 } // namespace ouzel

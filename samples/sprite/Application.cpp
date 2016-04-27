@@ -9,7 +9,7 @@ using namespace ouzel;
 
 Application::~Application()
 {
-    sharedEngine->getEventDispatcher()->removeEventHandler(_eventHandler);
+    sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
 void Application::begin()
@@ -17,15 +17,15 @@ void Application::begin()
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
     sharedEngine->getLocalization()->setLanguage("latvian");
 
-    _eventHandler = make_shared<EventHandler>();
+    eventHandler = make_shared<EventHandler>();
 
-    _eventHandler->keyboardHandler = std::bind(&Application::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2);
-    _eventHandler->mouseHandler = std::bind(&Application::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
-    _eventHandler->touchHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
-    _eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
-    _eventHandler->uiHandler = std::bind(&Application::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+    eventHandler->keyboardHandler = std::bind(&Application::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2);
+    eventHandler->mouseHandler = std::bind(&Application::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
+    eventHandler->touchHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
+    eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
+    eventHandler->uiHandler = std::bind(&Application::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
-    sharedEngine->getEventDispatcher()->addEventHandler(_eventHandler);
+    sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
     sharedEngine->getWindow()->setTitle("Sample");
@@ -33,13 +33,13 @@ void Application::begin()
     scene::ScenePtr scene = make_shared<scene::Scene>();
     sharedEngine->getSceneManager()->setScene(scene);
 
-    _layer = std::make_shared<scene::Layer>();
-    scene->addLayer(_layer);
-    _layer->setCamera(std::make_shared<scene::Camera>());
+    layer = std::make_shared<scene::Layer>();
+    scene->addLayer(layer);
+    layer->setCamera(std::make_shared<scene::Camera>());
 
-    _uiLayer = std::make_shared<scene::Layer>();
-    scene->addLayer(_uiLayer);
-    _uiLayer->setCamera(std::make_shared<scene::Camera>());
+    uiLayer = std::make_shared<scene::Layer>();
+    scene->addLayer(uiLayer);
+    uiLayer->setCamera(std::make_shared<scene::Camera>());
 
     scene::DebugDrawablePtr debugDrawable = std::make_shared<scene::DebugDrawable>();
     debugDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(0, 128, 128, 255), true);
@@ -53,23 +53,23 @@ void Application::begin()
     scene::NodePtr drawNode = std::make_shared<scene::Node>();
     drawNode->addDrawable(debugDrawable);
     drawNode->setPosition(Vector2(-300, 0.0f));
-    _layer->addChild(drawNode);
+    layer->addChild(drawNode);
 
     scene::SpritePtr characterSprite = scene::Sprite::createFromFile("run.json");
     characterSprite->play(true);
     characterSprite->setOffset(Vector2(0.0f, -100.0f));
 
-    _character = std::make_shared<scene::Node>();
-    _character->addDrawable(characterSprite);
-    _layer->addChild(_character);
-    _character->setPosition(Vector2(-300.0f, 0.0f));
+    character = std::make_shared<scene::Node>();
+    character->addDrawable(characterSprite);
+    layer->addChild(character);
+    character->setPosition(Vector2(-300.0f, 0.0f));
 
     std::vector<scene::AnimatorPtr> sequence = {
         make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f)),
         make_shared<scene::Fade>(2.0f, 0.4f)
     };
 
-    _character->animate(make_shared<scene::Sequence>(sequence));
+    character->animate(make_shared<scene::Sequence>(sequence));
 
     scene::SpritePtr fireSprite = scene::Sprite::createFromFile("fire.json");
     fireSprite->play(true);
@@ -77,26 +77,26 @@ void Application::begin()
     scene::NodePtr fireNode = std::make_shared<scene::Node>();
     fireNode->addDrawable(fireSprite);
     fireNode->setPosition(Vector2(-100.0f, -100.0f));
-    _layer->addChild(fireNode);
+    layer->addChild(fireNode);
     fireNode->animate(make_shared<scene::Fade>(5.0f, 0.5f));
 
     scene::ParticleSystemPtr flameParticleSystem = scene::ParticleSystem::createFromFile("flame.json");
 
-    _flame = std::make_shared<scene::Node>();
-    _flame->addDrawable(flameParticleSystem);
-    _layer->addChild(_flame);
+    flame = std::make_shared<scene::Node>();
+    flame->addDrawable(flameParticleSystem);
+    layer->addChild(flame);
 
     scene::SpritePtr witchSprite = scene::Sprite::createFromFile("witch.png");
     witchSprite->setColor(graphics::Color(128, 0, 255, 255));
 
-    _witch = std::make_shared<scene::Node>();
-    _witch->addDrawable(witchSprite);
-    _witch->setPosition(Vector2(100.0f, 100.0f));
-    _layer->addChild(_witch);
-    _witch->animate(make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3));
+    witch = std::make_shared<scene::Node>();
+    witch->addDrawable(witchSprite);
+    witch->setPosition(Vector2(100.0f, 100.0f));
+    layer->addChild(witch);
+    witch->animate(make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3));
 
     gui::LabelPtr label = gui::Label::create("font.fnt", sharedEngine->getLocalization()->getString("Test"));
-    _uiLayer->addChild(label);
+    uiLayer->addChild(label);
 
     std::vector<scene::AnimatorPtr> sequence2 = {
         make_shared<scene::Animator>(1.0f), // delay
@@ -105,9 +105,9 @@ void Application::begin()
 
     label->animate(make_shared<scene::Sequence>(sequence2));
 
-    _button = gui::Button::create("button.png", "button.png", "button_down.png", "", "", graphics::Color(), "");
-    _button->setPosition(Vector2(-200.0f, 200.0f));
-    _uiLayer->addChild(_button);
+    button = gui::Button::create("button.png", "button.png", "button_down.png", "", "", graphics::Color(), "");
+    button->setPosition(Vector2(-200.0f, 200.0f));
+    uiLayer->addChild(button);
 
     sharedEngine->getInput()->startGamepadDiscovery();
 }
@@ -118,7 +118,7 @@ bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& s
 
     if (event->type == Event::Type::KEY_DOWN)
     {
-        Vector2 position = _layer->getCamera()->getPosition();
+        Vector2 position = layer->getCamera()->getPosition();
 
         switch (event->key)
         {
@@ -135,19 +135,19 @@ bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& s
                 position.x += 10.0f;
                 break;
             case input::KeyboardKey::SPACE:
-                _witch->setVisible(!_witch->isVisible());
+                witch->setVisible(!witch->isVisible());
                 break;
             case input::KeyboardKey::RETURN:
                 sharedEngine->getWindow()->setSize(Size2(640.0f, 480.0f));
                 break;
             case input::KeyboardKey::TAB:
-                _button->setEnabled(!_button->isEnabled());
+                button->setEnabled(!button->isEnabled());
                 break;
             default:
                 break;
         }
 
-        _layer->getCamera()->setPosition(position);
+        layer->getCamera()->setPosition(position);
     }
 
     return true;
@@ -166,8 +166,8 @@ bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender)
         }
         case Event::Type::MOUSE_MOVE:
         {
-            Vector2 worldLocation = _layer->getCamera()->convertScreenToWorld(event->position);
-            _flame->setPosition(worldLocation);
+            Vector2 worldLocation = layer->getCamera()->convertScreenToWorld(event->position);
+            flame->setPosition(worldLocation);
             break;
         }
         default:
@@ -181,8 +181,8 @@ bool Application::handleTouch(const TouchEventPtr& event, const VoidPtr& sender)
 {
     OUZEL_UNUSED(sender);
 
-    Vector2 worldLocation = _layer->getCamera()->convertScreenToWorld(event->position);
-    _flame->setPosition(worldLocation);
+    Vector2 worldLocation = layer->getCamera()->convertScreenToWorld(event->position);
+    flame->setPosition(worldLocation);
 
     return true;
 }
@@ -193,7 +193,7 @@ bool Application::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sen
 
     if (event->type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
-        Vector2 position = _layer->getCamera()->convertWorldToScreen(_flame->getPosition());
+        Vector2 position = layer->getCamera()->convertWorldToScreen(flame->getPosition());
 
         switch (event->button)
         {
@@ -218,14 +218,14 @@ bool Application::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sen
                 position.x = event->value;
                 break;
             case input::GamepadButton::A:
-                _witch->setVisible(!event->pressed);
+                witch->setVisible(!event->pressed);
                 break;
             default:
                 break;
         }
 
-        Vector2 worldLocation = _layer->getCamera()->convertScreenToWorld(position);
-        _flame->setPosition(worldLocation);
+        Vector2 worldLocation = layer->getCamera()->convertScreenToWorld(position);
+        flame->setPosition(worldLocation);
     }
 
     return true;
@@ -233,9 +233,9 @@ bool Application::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sen
 
 bool Application::handleUI(const UIEventPtr& event, const VoidPtr& sender) const
 {
-    if (event->type == Event::Type::UI_CLICK_NODE && sender == _button)
+    if (event->type == Event::Type::UI_CLICK_NODE && sender == button)
     {
-        _character->setVisible(!_character->isVisible());
+        character->setVisible(!character->isVisible());
     }
 
     return true;

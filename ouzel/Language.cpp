@@ -95,7 +95,7 @@ namespace ouzel
             isi = std::istream_iterator<char>(file);
             std::copy_n(isi, translations[i].translationLength, std::insert_iterator<std::string>(translation, translation.begin()));
 
-            _strings[str] = translation;
+            strings[str] = translation;
         }
 
         return true;
@@ -103,9 +103,9 @@ namespace ouzel
 
     std::string Language::getString(const std::string& str)
     {
-        auto i = _strings.find(str);
+        auto i = strings.find(str);
 
-        if (i != _strings.end())
+        if (i != strings.end())
         {
             return i->second;
         }

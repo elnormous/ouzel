@@ -16,11 +16,11 @@ namespace ouzel
             EditBox();
             virtual ~EditBox();
 
-            void setValue(const std::string& value);
-            const std::string& getValue() const { return _value; }
+            void setValue(const std::string& newValue);
+            const std::string& getValue() const { return value; }
 
         private:
-            std::string _value;
+            std::string value;
         };
     } // namespace gui
 } // namespace ouzel

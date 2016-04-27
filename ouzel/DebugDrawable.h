@@ -18,7 +18,7 @@ namespace ouzel
         public:
             DebugDrawable();
 
-            virtual void draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color) override;
+            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color) override;
 
             void clear();
 
@@ -35,8 +35,8 @@ namespace ouzel
                 graphics::MeshBufferPtr mesh;
             };
 
-            graphics::ShaderPtr _shader;
-            std::vector<DrawCommand> _drawCommands;
+            graphics::ShaderPtr shader;
+            std::vector<DrawCommand> drawCommands;
         };
     } // namespace scene
 } // namespace ouzel

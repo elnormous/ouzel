@@ -105,7 +105,7 @@ namespace ouzel
 
             virtual bool init(const Size2& size, bool fullscreen) override;
 
-            virtual void setSize(const Size2& size) override;
+            virtual void setSize(const Size2& newSize) override;
 
             bool _ready = false;
             GLuint _frameBuffer = 0;

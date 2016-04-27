@@ -33,44 +33,44 @@ namespace ouzel
                 updateTransform(parentTransform);
             }
 
-            if (_visible)
+            if (visible)
             {
-                if (_transformDirty)
+                if (transformDirty)
                 {
                     calculateTransform();
                 }
 
-                LayerPtr layer = _layer.lock();
-                // check if _parent is _layer
-                bool isRoot = !_parent.owner_before(_layer) && !_layer.owner_before(_parent);
+                LayerPtr currentLayer = layer.lock();
+                // check if parent is layer
+                bool isRoot = !parent.owner_before(layer) && !layer.owner_before(parent);
 
-                if (_children.empty())
+                if (children.empty())
                 {
-                    if (layer && (_globalOrder || isRoot) && checkVisibility())
+                    if (currentLayer && (globalOrder || isRoot) && checkVisibility())
                     {
-                        layer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
+                        currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
                     }
                 }
                 else
                 {
                     lock();
 
-                    std::stable_sort(_children.begin(), _children.end(), [](const NodePtr& a, const NodePtr& b) {
+                    std::stable_sort(children.begin(), children.end(), [](const NodePtr& a, const NodePtr& b) {
                         return a->getZ() > b->getZ();
                     });
 
-                    auto i = _children.begin();
+                    auto i = children.begin();
                     NodePtr node;
 
-                    for (; i != _children.end(); ++i)
+                    for (; i != children.end(); ++i)
                     {
                         node = *i;
 
-                        if (!node->_remove)
+                        if (!node->remove)
                         {
                             if (node->getZ() < 0.0f)
                             {
-                                node->visit(_transform, _updateChildrenTransform);
+                                node->visit(transform, updateChildrenTransform);
                             }
                             else
                             {
@@ -79,30 +79,30 @@ namespace ouzel
                         }
                     }
 
-                    if (layer && (_globalOrder || isRoot) && checkVisibility())
+                    if (currentLayer && (globalOrder || isRoot) && checkVisibility())
                     {
-                        layer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
+                        currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
                     }
 
-                    for (; i != _children.end(); ++i)
+                    for (; i != children.end(); ++i)
                     {
-                        if (!node->_remove)
+                        if (!node->remove)
                         {
                             node = *i;
-                            node->visit(_transform, _updateChildrenTransform);
+                            node->visit(transform, updateChildrenTransform);
                         }
                     }
 
                     unlock();
                 }
 
-                _updateChildrenTransform = false;
+                updateChildrenTransform = false;
             }
         }
 
         void Node::process()
         {
-            if (_children.empty())
+            if (children.empty())
             {
                 draw();
             }
@@ -110,10 +110,10 @@ namespace ouzel
             {
                 lock();
 
-                auto i = _children.begin();
+                auto i = children.begin();
                 NodePtr node;
 
-                for (; i != _children.end(); ++i)
+                for (; i != children.end(); ++i)
                 {
                     node = *i;
 
@@ -132,7 +132,7 @@ namespace ouzel
 
                 draw();
 
-                for (; i != _children.end(); ++i)
+                for (; i != children.end(); ++i)
                 {
                     node = *i;
 
@@ -148,23 +148,23 @@ namespace ouzel
 
         void Node::draw()
         {
-            if (_transformDirty)
+            if (transformDirty)
             {
                 calculateTransform();
             }
 
-            if (LayerPtr layer = _layer.lock())
+            if (LayerPtr currentLayer = layer.lock())
             {
-                if (layer->getCamera())
+                if (currentLayer->getCamera())
                 {
-                    graphics::Color color = _color;
-                    color.a = static_cast<uint8_t>(_color.a * _opacity);
+                    graphics::Color drawColor = color;
+                    drawColor.a = static_cast<uint8_t>(color.a * opacity);
 
-                    for (const DrawablePtr& drawable : _drawables)
+                    for (const DrawablePtr& drawable : drawables)
                     {
                         if (drawable->isVisible())
                         {
-                            drawable->draw(layer->getCamera()->getViewProjection(), _transform, color);
+                            drawable->draw(currentLayer->getCamera()->getViewProjection(), transform, color);
                         }
                     }
                 }
@@ -175,7 +175,7 @@ namespace ouzel
         {
             if (NodeContainer::addChild(node))
             {
-                node->addToLayer(_layer);
+                node->addToLayer(layer);
                 node->updateTransform(getTransform());
 
                 return true;
@@ -188,85 +188,85 @@ namespace ouzel
 
         bool Node::removeFromParent()
         {
-            if (NodeContainerPtr parent = _parent.lock())
+            if (NodeContainerPtr currentParent = parent.lock())
             {
-                parent->removeChild(std::static_pointer_cast<Node>(shared_from_this()));
+                currentParent->removeChild(std::static_pointer_cast<Node>(shared_from_this()));
                 return true;
             }
 
             return false;
         }
 
-        void Node::setZ(float z)
+        void Node::setZ(float newZ)
         {
-            _z = z;
+            z = newZ;
 
             // Currently z does not affect transformation
-            //_localTransformDirty = _transformDirty = _inverseTransformDirty = true;
+            //localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setGlobalOrder(bool globalOrder)
+        void Node::setGlobalOrder(bool newGlobalOrder)
         {
-            _globalOrder = globalOrder;
+            globalOrder = newGlobalOrder;
         }
 
-        void Node::setPosition(const Vector2& position)
+        void Node::setPosition(const Vector2& newPosition)
         {
-            _position = position;
+            position = newPosition;
 
-            _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setRotation(float rotation)
+        void Node::setRotation(float newRotation)
         {
-            _rotation = rotation;
+            rotation = newRotation;
 
-            _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setScale(const Vector2& scale)
+        void Node::setScale(const Vector2& newScale)
         {
-            _scale = scale;
+            scale = newScale;
 
-            _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setColor(const graphics::Color& color)
+        void Node::setColor(const graphics::Color& newColor)
         {
-            _color = color;
+            color = newColor;
         }
 
-        void Node::setOpacity(float opacity)
+        void Node::setOpacity(float newOpacity)
         {
-            _opacity = clamp(opacity, 0.0f, 1.0f);
+            opacity = clamp(newOpacity, 0.0f, 1.0f);
         }
 
-        void Node::setFlipX(bool flipX)
+        void Node::setFlipX(bool newFlipX)
         {
-            _flipX = flipX;
+            flipX = newFlipX;
 
-            _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setFlipY(bool flipY)
+        void Node::setFlipY(bool newFlipY)
         {
-            _flipY = flipY;
+            flipY = newFlipY;
 
-            _localTransformDirty = _transformDirty = _inverseTransformDirty = true;
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setVisible(bool visible)
+        void Node::setVisible(bool newVisible)
         {
-            _visible = visible;
+            visible = newVisible;
         }
 
-        void Node::addToLayer(const LayerWeakPtr& layer)
+        void Node::addToLayer(const LayerWeakPtr& newLayer)
         {
-            _layer = layer;
+            layer = newLayer;
 
             if (!layer.expired())
             {
-                for (const NodePtr& child : _children)
+                for (const NodePtr& child : children)
                 {
                     child->addToLayer(layer);
                 }
@@ -275,19 +275,19 @@ namespace ouzel
 
         void Node::removeFromLayer()
         {
-            for (const NodePtr& child : _children)
+            for (const NodePtr& child : children)
             {
                 child->removeFromLayer();
             }
 
-            _layer.reset();
+            layer.reset();
         }
 
-        bool Node::pointOn(const Vector2& position) const
+        bool Node::pointOn(const Vector2& worldPosition) const
         {
-            Vector2 localPosition = convertWorldToLocal(position);
+            Vector2 localPosition = convertWorldToLocal(worldPosition);
 
-            for (const DrawablePtr& drawable : _drawables)
+            for (const DrawablePtr& drawable : drawables)
             {
                 if (drawable->pointOn(localPosition))
                 {
@@ -313,7 +313,7 @@ namespace ouzel
                 transformedEdges.push_back(Vector2(transformedEdge.x, transformedEdge.y));
             }
 
-            for (const DrawablePtr& drawable : _drawables)
+            for (const DrawablePtr& drawable : drawables)
             {
                 if (drawable->shapeOverlaps(transformedEdges))
                 {
@@ -326,38 +326,38 @@ namespace ouzel
 
         const Matrix4& Node::getTransform() const
         {
-            if (_transformDirty)
+            if (transformDirty)
             {
                 calculateTransform();
             }
 
-            return _transform;
+            return transform;
         }
 
         const Matrix4& Node::getInverseTransform() const
         {
-            if (_transformDirty)
+            if (transformDirty)
             {
                 calculateTransform();
             }
 
-            if (_inverseTransformDirty)
+            if (inverseTransformDirty)
             {
                 calculateInverseTransform();
             }
 
-            return _inverseTransform;
+            return inverseTransform;
         }
 
-        void Node::updateTransform(const Matrix4& parentTransform)
+        void Node::updateTransform(const Matrix4& newParentTransform)
         {
-            _parentTransform = parentTransform;
-            _transformDirty = _inverseTransformDirty = true;
+            parentTransform = newParentTransform;
+            transformDirty = inverseTransformDirty = true;
         }
 
-        Vector2 Node::convertWorldToLocal(const Vector2& position) const
+        Vector2 Node::convertWorldToLocal(const Vector2& worldPosition) const
         {
-            Vector3 localPosition = position;
+            Vector3 localPosition = worldPosition;
 
             const Matrix4& inverseTransform = getInverseTransform();
             inverseTransform.transformPoint(localPosition);
@@ -365,9 +365,9 @@ namespace ouzel
             return Vector2(localPosition.x, localPosition.y);
         }
 
-        Vector2 Node::convertLocalToWorld(const Vector2& position) const
+        Vector2 Node::convertLocalToWorld(const Vector2& localPosition) const
         {
-            Vector3 worldPosition = position;
+            Vector3 worldPosition = localPosition;
 
             const Matrix4& transform = getTransform();
             transform.transformPoint(worldPosition);
@@ -377,13 +377,13 @@ namespace ouzel
 
         bool Node::checkVisibility() const
         {
-            if (const LayerPtr& layer = _layer.lock())
+            if (LayerPtr currentLayer = layer.lock())
             {
-                for (const DrawablePtr& drawable : _drawables)
+                for (const DrawablePtr& drawable : drawables)
                 {
                     if (drawable->isVisible() &&
                         (drawable->getBoundingBox().isEmpty() ||
-                         sharedEngine->getRenderer()->checkVisibility(getTransform(), drawable->getBoundingBox(), layer->getCamera())))
+                         sharedEngine->getRenderer()->checkVisibility(getTransform(), drawable->getBoundingBox(), currentLayer->getCamera())))
                     {
                         return true;
                     }
@@ -396,97 +396,102 @@ namespace ouzel
         void Node::animate(const AnimatorPtr& animator)
         {
             stopAnimation();
-            _currentAnimator = animator;
+            currentAnimator = animator;
 
-            if (_currentAnimator)
+            if (currentAnimator)
             {
-                _currentAnimator->start(std::static_pointer_cast<Node>(shared_from_this()));
+                currentAnimator->start(std::static_pointer_cast<Node>(shared_from_this()));
             }
         }
 
         void Node::stopAnimation()
         {
-            if (_currentAnimator)
+            if (currentAnimator)
             {
-                _currentAnimator->stop();
+                currentAnimator->stop();
                 removeAnimation();
             }
         }
 
         void Node::removeAnimation()
         {
-            _currentAnimator.reset();
+            currentAnimator.reset();
         }
 
         void Node::calculateLocalTransform() const
         {
-            _localTransform = Matrix4::IDENTITY;
-            _localTransform.translate(Vector3(_position.x, _position.y, 0.0f));
-            _localTransform.rotateZ(TAU - _rotation);
+            localTransform = Matrix4::IDENTITY;
+            localTransform.translate(Vector3(position.x, position.y, 0.0f));
+            localTransform.rotateZ(TAU - rotation);
 
-            Vector3 scale = Vector3(_scale.x * (_flipX ? -1.0f : 1.0f),
-                                    _scale.y * (_flipY ? -1.0f : 1.0f),
-                                    1.0f);
+            Vector3 realScale = Vector3(scale.x * (flipX ? -1.0f : 1.0f),
+                                        scale.y * (flipY ? -1.0f : 1.0f),
+                                        1.0f);
 
-            _localTransform.scale(scale);
+            localTransform.scale(realScale);
 
-            _localTransformDirty = false;
+            localTransformDirty = false;
         }
 
         void Node::calculateTransform() const
         {
-            if (_localTransformDirty)
+            if (localTransformDirty)
             {
                 calculateLocalTransform();
             }
 
-            _transform = _parentTransform * _localTransform;
-            _transformDirty = false;
+            transform = parentTransform * localTransform;
+            transformDirty = false;
 
-            _updateChildrenTransform = true;
+            updateChildrenTransform = true;
         }
 
         void Node::calculateInverseTransform() const
         {
-            if (_transformDirty)
+            if (transformDirty)
             {
                 calculateTransform();
             }
 
-            _inverseTransform = _transform;
-            _inverseTransform.invert();
-            _inverseTransformDirty = false;
+            inverseTransform = transform;
+            inverseTransform.invert();
+            inverseTransformDirty = false;
         }
 
         void Node::addDrawable(DrawablePtr drawable)
         {
-            _drawables.push_back(drawable);
+            drawables.push_back(drawable);
             drawable->setParentNode(std::static_pointer_cast<Node>(shared_from_this()));
         }
 
         void Node::removeDrawable(uint32_t index)
         {
-            if (index >= _drawables.size())
+            if (index >= drawables.size())
             {
                 return;
             }
 
-            _drawables.erase(_drawables.begin() + index);
+            drawables.erase(drawables.begin() + index);
         }
 
         void Node::removeDrawable(DrawablePtr drawable)
         {
-            for (auto i = _drawables.begin(); i != _drawables.end();)
+            for (auto i = drawables.begin(); i != drawables.end();)
             {
                 if (*i == drawable)
                 {
-                    i = _drawables.erase(i);
+                    i = drawables.erase(i);
                 }
                 else
                 {
                     ++i;
                 }
             }
+        }
+
+        void Node::removeAllDrawables()
+        {
+            drawables.clear();
         }
 
     } // namespace scene

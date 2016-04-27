@@ -25,7 +25,7 @@ namespace ouzel
 
         TextDrawable::TextDrawable()
         {
-            _shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
         }
 
         TextDrawable::~TextDrawable()
@@ -33,49 +33,49 @@ namespace ouzel
 
         }
 
-        bool TextDrawable::init(const std::string& font, const std::string& text, const Vector2& textAnchor)
+        bool TextDrawable::init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor)
         {
-            _font.loadFont(font);
-            _textAnchor = textAnchor;
+            font.loadFont(fontFile);
+            textAnchor = newTextAnchor;
 
-            _texture = _font.getTexture();
+            texture = font.getTexture();
 
-            if (!_texture)
+            if (!texture)
             {
                 return false;
             }
 
-            setText(text);
+            setText(newText);
 
             return true;
         }
 
-        void TextDrawable::draw(const Matrix4& projection, const Matrix4& transform, const graphics::Color& color)
+        void TextDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color)
         {
-            Drawable::draw(projection, transform, color);
+            Drawable::draw(projectionMatrix, transformMatrix, color);
 
-            if (_shader && _texture && _meshBuffer)
+            if (shader && texture && meshBuffer)
             {
-                sharedEngine->getRenderer()->activateTexture(_texture, 0);
-                sharedEngine->getRenderer()->activateShader(_shader);
+                sharedEngine->getRenderer()->activateTexture(texture, 0);
+                sharedEngine->getRenderer()->activateShader(shader);
 
-                Matrix4 modelViewProj = projection * transform;
+                Matrix4 modelViewProj = projectionMatrix * transformMatrix;
                 float colorVector[] = { color.getR(), color.getG(), color.getB(), color.getA() };
 
-                _shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
-                _shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
+                shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
+                shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
 
-                sharedEngine->getRenderer()->drawMeshBuffer(_meshBuffer);
+                sharedEngine->getRenderer()->drawMeshBuffer(meshBuffer);
             }
         }
 
-        void TextDrawable::setText(const std::string& text)
+        void TextDrawable::setText(const std::string& newText)
         {
-            _text = text;
+            text = newText;
 
-            if (_text.empty())
+            if (text.empty())
             {
-                _meshBuffer.reset();
+                meshBuffer.reset();
             }
             else
             {
@@ -83,9 +83,9 @@ namespace ouzel
             }
         }
 
-        void TextDrawable::setColor(const graphics::Color& color)
+        void TextDrawable::setColor(const graphics::Color& newColor)
         {
-            _color = color;
+            textColor = newColor;
 
             updateMesh();
         }
@@ -95,16 +95,16 @@ namespace ouzel
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPCT> vertices;
 
-            _font.getVertices(_text, _color, _textAnchor, indices, vertices);
+            font.getVertices(text, textColor, textAnchor, indices, vertices);
 
-            _meshBuffer = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
+            meshBuffer = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
                                                                                 vertices.data(), graphics::VertexPCT::ATTRIBUTES, static_cast<uint32_t>(vertices.size()), false);
             
-            _boundingBox.reset();
+            boundingBox.reset();
             
             for (const graphics::VertexPCT& vertex : vertices)
             {
-                _boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
+                boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
             }
         }
     } // namespace scene

@@ -24,8 +24,8 @@ namespace ouzel
 
             void draw();
 
-            void setScene(const ScenePtr& scene);
-            const ScenePtr& getScene() const { return _scene; }
+            void setScene(const ScenePtr& newScene);
+            const ScenePtr& getScene() const { return scene; }
 
             virtual void recalculateProjection();
 
@@ -35,10 +35,10 @@ namespace ouzel
             void lock();
             void unlock();
 
-            ScenePtr _scene;
+            ScenePtr scene;
 
-            ScenePtr _newScene;
-            int32_t _locked = 0;
+            ScenePtr nextScene;
+            int32_t locked = 0;
         };
     } // namespace scene
 } // namespace ouzel

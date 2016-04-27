@@ -14,11 +14,11 @@ namespace ouzel
         public:
             Widget();
 
-            virtual void setEnabled(bool enabled);
-            bool isEnabled() const { return _enabled; }
+            virtual void setEnabled(bool newEnabled);
+            bool isEnabled() const { return enabled; }
 
         protected:
-            bool _enabled = true;
+            bool enabled = true;
         };
     } // namespace gui
 } // namespace ouzel

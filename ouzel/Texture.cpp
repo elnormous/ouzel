@@ -21,20 +21,20 @@ namespace ouzel
 
         }
 
-        bool Texture::init(const Size2& size, bool dynamic, bool mipmaps)
+        bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            _size = size;
-            _dynamic = dynamic;
-            _mipmaps = mipmaps;
+            size = newSize;
+            dynamic = newDynamic;
+            mipmaps = newMipmaps;
 
             return true;
         }
 
-        bool Texture::initFromFile(const std::string& filename, bool dynamic, bool mipmaps)
+        bool Texture::initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps)
         {
-            _filename = filename;
-            _dynamic = dynamic;
-            _mipmaps = mipmaps;
+            filename = newFilename;
+            dynamic = newDynamic;
+            mipmaps = newMipmaps;
 
             Image image;
             if (!image.initFromFile(filename))
@@ -45,24 +45,24 @@ namespace ouzel
             return initFromData(image.getData(), image.getSize(), dynamic, mipmaps);
         }
 
-        bool Texture::initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
+        bool Texture::initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
             OUZEL_UNUSED(data);
 
-            _size = size;
-            _dynamic = dynamic;
-            _mipmaps = mipmaps;
+            size = newSize;
+            dynamic = newDynamic;
+            mipmaps = newMipmaps;
 
             return true;
         }
 
-        bool Texture::upload(const void* data, const Size2& size)
+        bool Texture::upload(const void* data, const Size2& newSize)
         {
             OUZEL_UNUSED(data);
 
-            _size = size;
+            size = newSize;
 
-            if (!_dynamic)
+            if (!dynamic)
             {
                 return false;
             }

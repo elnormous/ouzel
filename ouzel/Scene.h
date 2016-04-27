@@ -28,7 +28,7 @@ namespace ouzel
             void addLayer(const LayerPtr& layer);
             void removeLayer(const LayerPtr& layer);
             bool hasLayer(const LayerPtr& layer) const;
-            const std::vector<LayerPtr>& getLayers() const { return _layers; }
+            const std::vector<LayerPtr>& getLayers() const { return layers; }
 
             virtual void recalculateProjection();
 
@@ -41,12 +41,12 @@ namespace ouzel
             void lock();
             void unlock();
 
-            std::vector<LayerPtr> _layers;
-            bool _reorderLayers = false;
+            std::vector<LayerPtr> layers;
+            bool reorder = false;
 
-            std::set<LayerPtr> _layerAddList;
-            std::set<LayerPtr> _layerRemoveList;
-            int32_t _locked = 0;
+            std::set<LayerPtr> layerAddList;
+            std::set<LayerPtr> layerRemoveList;
+            int32_t locked = 0;
         };
     } // namespace scene
 } // namespace ouzel

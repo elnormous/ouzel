@@ -184,7 +184,7 @@ namespace ouzel
         }
         else
         {
-            for (const std::string& path : _resourcePaths)
+            for (const std::string& path : resourcePaths)
             {
                 str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
 
@@ -200,11 +200,11 @@ namespace ouzel
 
     void FileSystem::addResourcePath(const std::string& path)
     {
-        std::vector<std::string>::iterator i = std::find(_resourcePaths.begin(), _resourcePaths.end(), path);
+        std::vector<std::string>::iterator i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
 
-        if (i == _resourcePaths.end())
+        if (i == resourcePaths.end())
         {
-            _resourcePaths.push_back(path);
+            resourcePaths.push_back(path);
         }
     }
 

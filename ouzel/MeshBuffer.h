@@ -20,35 +20,37 @@ namespace ouzel
             virtual ~MeshBuffer();
 
             virtual bool init();
-            virtual bool initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer);
+            virtual bool initFromData(const void* newIndices, uint32_t newIndexSize,
+                                      uint32_t newIndexCount, bool newDynamicIndexBuffer,
+                                      const void* newVertices, uint32_t newVertexAttributes,
+                                      uint32_t newVertexCount, bool newDynamicVertexBuffer);
 
-            uint32_t getIndexCount() const { return _indexCount; }
-            virtual bool setIndexSize(uint32_t indexSize);
-            uint32_t getIndexSize() const { return _indexSize; }
+            uint32_t getIndexCount() const { return indexCount; }
+            virtual bool setIndexSize(uint32_t newIndexSize);
+            uint32_t getIndexSize() const { return indexSize; }
 
-            uint32_t getVertexCount() const { return _vertexCount; }
-            uint32_t getVertexSize() const { return _vertexSize; }
+            uint32_t getVertexCount() const { return vertexCount; }
+            uint32_t getVertexSize() const { return vertexSize; }
 
-            virtual bool setVertexAttributes(uint32_t vertexAttributes);
-            uint32_t getVertexAttributes() const { return _vertexAttributes; }
+            virtual bool setVertexAttributes(uint32_t newVertexAttributes);
+            uint32_t getVertexAttributes() const { return vertexAttributes; }
 
-            virtual bool uploadIndices(const void* indices, uint32_t indexCount);
-            virtual bool uploadVertices(const void* vertices, uint32_t vertexCount);
+            virtual bool uploadIndices(const void* newIndices, uint32_t newIndexCount);
+            virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount);
 
         protected:
             MeshBuffer();
             void updateVertexSize();
 
-            uint32_t _indexCount = 0;
-            uint32_t _indexSize = 0;
-            bool _dynamicIndexBuffer = true;
+            uint32_t indexCount = 0;
+            uint32_t indexSize = 0;
+            bool dynamicIndexBuffer = true;
 
-            uint32_t _vertexCount = 0;
-            uint32_t _vertexSize = 0;
-            bool _dynamicVertexBuffer = true;
+            uint32_t vertexCount = 0;
+            uint32_t vertexSize = 0;
+            bool dynamicVertexBuffer = true;
 
-
-            uint32_t _vertexAttributes;
+            uint32_t vertexAttributes;
         };
     } // namespace graphics
 } // namespace ouzel

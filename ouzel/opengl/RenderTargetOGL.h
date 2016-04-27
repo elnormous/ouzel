@@ -41,17 +41,17 @@ namespace ouzel
         public:
             virtual ~RenderTargetOGL();
 
-            virtual bool init(const Size2& size, bool depthBuffer) override;
+            virtual bool init(const Size2& newSize, bool depthBuffer) override;
 
-            GLuint getFrameBufferId() const { return _frameBufferId; }
+            GLuint getFrameBufferId() const { return frameBufferId; }
 
         protected:
             RenderTargetOGL();
 
             void destroy();
 
-            GLuint _frameBufferId = 0;
-            GLuint _depthBufferId = 0;
+            GLuint frameBufferId = 0;
+            GLuint depthBufferId = 0;
         };
     } // namespace graphics
 } // namespace ouzel

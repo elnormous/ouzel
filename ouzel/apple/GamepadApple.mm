@@ -13,173 +13,173 @@ namespace ouzel
     namespace input
     {
         GamepadApple::GamepadApple(GCControllerPtr controller):
-            _controller(controller)
+            controller(controller)
         {
-            if (_controller.extendedGamepad)
+            if (controller.extendedGamepad)
             {
                 // left thumbstick
-                _controller.extendedGamepad.leftThumbstick.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.leftThumbstick.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::LEFT_THUMB_UP, pressed, value);
                 };
-                _controller.extendedGamepad.leftThumbstick.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.leftThumbstick.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::LEFT_THUMB_DOWN, pressed, value);
                 };
-                _controller.extendedGamepad.leftThumbstick.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.leftThumbstick.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::LEFT_THUMB_LEFT, pressed, value);
                 };
-                _controller.extendedGamepad.leftThumbstick.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.leftThumbstick.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::LEFT_THUMB_RIGHT, pressed, value);
                 };
 
                 // right thumbstick
-                _controller.extendedGamepad.rightThumbstick.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.rightThumbstick.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::RIGHT_THUMB_UP, pressed, value);
                 };
-                _controller.extendedGamepad.rightThumbstick.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.rightThumbstick.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::RIGHT_THUMB_DOWN, pressed, value);
                 };
-                _controller.extendedGamepad.rightThumbstick.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.rightThumbstick.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::RIGHT_THUMB_LEFT, pressed, value);
                 };
-                _controller.extendedGamepad.rightThumbstick.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.rightThumbstick.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::RIGHT_THUMB_RIGHT, pressed, value);
                 };
 
                 // D-pad
-                _controller.extendedGamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_UP, pressed, value);
                 };
-                _controller.extendedGamepad.dpad.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.dpad.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_DOWN, pressed, value);
                 };
-                _controller.extendedGamepad.dpad.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.dpad.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_LEFT, pressed, value);
                 };
-                _controller.extendedGamepad.dpad.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.dpad.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_RIGHT, pressed, value);
                 };
 
                 // buttons
-                _controller.extendedGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::A, pressed, value);
                 };
-                _controller.extendedGamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::B, pressed, value);
                 };
-                _controller.extendedGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::X, pressed, value);
                 };
-                _controller.extendedGamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::Y, pressed, value);
                 };
 
                 // triggers and shoulders
-                _controller.extendedGamepad.leftShoulder.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.leftShoulder.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::LEFT_SHOULDER, pressed, value);
                 };
-                _controller.extendedGamepad.leftTrigger.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.leftTrigger.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::LEFT_TRIGGER, pressed, value);
                 };
-                _controller.extendedGamepad.rightShoulder.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.rightShoulder.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::RIGHT_SHOULDER, pressed, value);
                 };
-                _controller.extendedGamepad.rightTrigger.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.extendedGamepad.rightTrigger.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::RIGHT_TRIGGER, pressed, value);
                 };
 
             }
-            else if (_controller.gamepad)
+            else if (controller.gamepad)
             {
                 // D-pad
-                _controller.gamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.gamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_UP, pressed, value);
                 };
-                _controller.gamepad.dpad.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.gamepad.dpad.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_DOWN, pressed, value);
                 };
-                _controller.gamepad.dpad.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.gamepad.dpad.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_LEFT, pressed, value);
                 };
-                _controller.gamepad.dpad.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.gamepad.dpad.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_RIGHT, pressed, value);
                 };
 
                 // buttons
-                _controller.gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::A, pressed, value);
                 };
-                _controller.gamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.gamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::B, pressed, value);
                 };
-                _controller.gamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.gamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::X, pressed, value);
                 };
-                _controller.gamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.gamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::Y, pressed, value);
                 };
             }
 #if defined(OUZEL_PLATFORM_TVOS)
-            else if (_controller.microGamepad)
+            else if (controller.microGamepad)
             {
                 // D-pad
-                _controller.microGamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.microGamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_UP, pressed, value);
                 };
-                _controller.microGamepad.dpad.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.microGamepad.dpad.down.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_DOWN, pressed, value);
                 };
-                _controller.microGamepad.dpad.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.microGamepad.dpad.left.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_LEFT, pressed, value);
                 };
-                _controller.microGamepad.dpad.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.microGamepad.dpad.right.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::DPAD_RIGHT, pressed, value);
                 };
 
                 // buttons
-                _controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::A, pressed, value);
                 };
-                _controller.microGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.microGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
                     OUZEL_UNUSED(button);
                     handleButtonValueChange(GamepadButton::X, pressed, value);
                 };
             }
 #endif
 
-            _controller.controllerPausedHandler = ^(GCController* c) {
+            controller.controllerPausedHandler = ^(GCController* c) {
                 OUZEL_UNUSED(c);
                 handleButtonValueChange(GamepadButton::PAUSE, true, 1.0f);
                 handleButtonValueChange(GamepadButton::PAUSE, false, 0.0f);
@@ -188,13 +188,13 @@ namespace ouzel
 
         bool GamepadApple::isAttached() const
         {
-            return _controller.isAttachedToDevice == YES;
+            return controller.isAttachedToDevice == YES;
         }
 
         void GamepadApple::setAbsoluteDpadValues(bool absoluteDpadValues)
         {
 #if defined(OUZEL_PLATFORM_TVOS)
-            _controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
+            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
 #else
             OUZEL_UNUSED(absoluteDpadValues);
 #endif
@@ -203,7 +203,7 @@ namespace ouzel
         bool GamepadApple::isAbsoluteDpadValues() const
         {
 #if defined(OUZEL_PLATFORM_TVOS)
-            return _controller.microGamepad.reportsAbsoluteDpadValues == YES;
+            return controller.microGamepad.reportsAbsoluteDpadValues == YES;
 #else
             return false;
 #endif
@@ -211,12 +211,12 @@ namespace ouzel
 
         int32_t GamepadApple::getPlayerIndex() const
         {
-            return static_cast<int32_t>(_controller.playerIndex);
+            return static_cast<int32_t>(controller.playerIndex);
         }
 
         bool GamepadApple::setPlayerIndex(int32_t playerIndex)
         {
-            _controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndex);
+            controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndex);
 
             return true;
         }

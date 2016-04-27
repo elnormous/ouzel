@@ -34,6 +34,6 @@ namespace ouzel
     protected:
         FileSystem();
 
-        std::vector<std::string> _resourcePaths;
+        std::vector<std::string> resourcePaths;
     };
 }

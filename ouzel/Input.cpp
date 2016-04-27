@@ -15,8 +15,7 @@ namespace ouzel
     {
         Input::Input()
         {
-            memset(_keyboardKeyStates, 0, sizeof(_keyboardKeyStates));
-            memset(_mouseButtonStates, 0, sizeof(_mouseButtonStates));
+
         }
 
         Input::~Input()
@@ -55,9 +54,9 @@ namespace ouzel
             event->key = key;
             event->modifiers = modifiers;
 
-            if (!_keyboardKeyStates[static_cast<uint32_t>(key)])
+            if (!keyboardKeyStates[static_cast<uint32_t>(key)])
             {
-                _keyboardKeyStates[static_cast<uint32_t>(key)] = true;
+                keyboardKeyStates[static_cast<uint32_t>(key)] = true;
 
                 event->type = Event::Type::KEY_DOWN;
                 sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
@@ -71,7 +70,7 @@ namespace ouzel
 
         void Input::keyUp(KeyboardKey key, uint32_t modifiers)
         {
-            _keyboardKeyStates[static_cast<uint32_t>(key)] = false;
+            keyboardKeyStates[static_cast<uint32_t>(key)] = false;
 
             KeyboardEventPtr event = std::make_shared<KeyboardEvent>();
             event->type = Event::Type::KEY_UP;
@@ -83,7 +82,7 @@ namespace ouzel
 
         void Input::mouseDown(MouseButton button, const Vector2& position, uint32_t modifiers)
         {
-            _mouseButtonStates[static_cast<uint32_t>(button)] = true;
+            mouseButtonStates[static_cast<uint32_t>(button)] = true;
 
             MouseEventPtr event = std::make_shared<MouseEvent>();
             event->type = Event::Type::MOUSE_DOWN;
@@ -102,7 +101,7 @@ namespace ouzel
 
         void Input::mouseUp(MouseButton button, const Vector2& position, uint32_t modifiers)
         {
-            _mouseButtonStates[static_cast<uint32_t>(button)] = false;
+            mouseButtonStates[static_cast<uint32_t>(button)] = false;
 
             MouseEventPtr event = std::make_shared<MouseEvent>();
             event->type = Event::Type::MOUSE_UP;
@@ -121,7 +120,7 @@ namespace ouzel
 
         void Input::mouseMove(const Vector2& position, uint32_t modifiers)
         {
-            _cursorPosition = position;
+            cursorPosition = position;
 
             MouseEventPtr event = std::make_shared<MouseEvent>();
             event->type = Event::Type::MOUSE_MOVE;
@@ -136,9 +135,9 @@ namespace ouzel
                 mouseEnterNode(node, position);
             }
 
-            if (!_mouseDownOnNode.expired())
+            if (!mouseDownNode.expired())
             {
-                mouseDragNode(_mouseDownOnNode.lock(), position);
+                mouseDragNode(mouseDownNode.lock(), position);
             }
         }
 
@@ -195,7 +194,7 @@ namespace ouzel
 
         void Input::mouseEnterNode(const scene::NodePtr& node, const Vector2& position)
         {
-            scene::NodePtr mouseOnNode = _mouseOnNode.lock();
+            scene::NodePtr mouseOnNode = mouseNode.lock();
 
             if (mouseOnNode)
             {
@@ -209,7 +208,7 @@ namespace ouzel
                 }
             }
 
-            _mouseOnNode = node;
+            mouseNode = node;
 
             if (node && node->isReceivingInput())
             {
@@ -235,7 +234,7 @@ namespace ouzel
 
         void Input::mouseDownOnNode(const scene::NodePtr& node, const Vector2& position)
         {
-            _mouseDownOnNode = node;
+            mouseDownNode = node;
 
             if (node && node->isReceivingInput())
             {
@@ -249,7 +248,7 @@ namespace ouzel
 
         void Input::mouseUpOnNode(const scene::NodePtr& node, const Vector2& position)
         {
-            scene::NodePtr mouseDownOnNode = _mouseDownOnNode.lock();
+            scene::NodePtr mouseDownOnNode = mouseDownNode.lock();
 
             if (mouseDownOnNode && mouseDownOnNode->isReceivingInput())
             {
@@ -269,7 +268,7 @@ namespace ouzel
                 }
             }
 
-            _mouseDownOnNode.reset();
+            mouseDownNode.reset();
         }
 
         void Input::mouseDragNode(const scene::NodePtr& node, const Vector2& position)

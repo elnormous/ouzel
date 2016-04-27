@@ -78,7 +78,7 @@ namespace ouzel
         bool isEmpty() const;
 
         /**
-         * update the _min and _max from the given points.
+         * update the min and max from the given points.
          */
         void updateMinMax(const Vector2* points, uint32_t num);
 

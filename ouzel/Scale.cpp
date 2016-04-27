@@ -8,22 +8,22 @@ namespace ouzel
 {
     namespace scene
     {
-        Scale::Scale(float length, const Vector2& scale, bool relative):
-            Animator(length), _scale(scale), _relative(relative)
+        Scale::Scale(float pLength, const Vector2& pScale, bool pRelative):
+            Animator(pLength), scale(pScale), relative(pRelative)
         {
 
         }
 
-        void Scale::start(const NodePtr& node)
+        void Scale::start(const NodePtr& targetNode)
         {
-            Animator::start(node);
+            Animator::start(targetNode);
 
-            if (node)
+            if (targetNode)
             {
-                _startScale = node->getScale();
-                _targetScale = _relative ? _startScale + _scale : _scale;
+                startScale = targetNode->getScale();
+                targetScale = relative ? startScale + scale : scale;
 
-                _diff = _targetScale - _startScale;
+                diff = targetScale - startScale;
             }
         }
 
@@ -31,9 +31,9 @@ namespace ouzel
         {
             Animator::setProgress(progress);
 
-            if (NodePtr node = _node.lock())
+            if (NodePtr targetNode = node.lock())
             {
-                node->setScale(_startScale + (_diff * _progress));
+                targetNode->setScale(startScale + (diff * progress));
             }
         }
     } // namespace scene

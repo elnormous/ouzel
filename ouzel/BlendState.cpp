@@ -12,19 +12,19 @@ namespace ouzel
 
         }
 
-        bool BlendState::init(bool enableBlending,
-                              BlendFactor colorBlendSource, BlendFactor colorBlendDest,
-                              BlendOperation colorOperation,
-                              BlendFactor alphaBlendSource, BlendFactor alphaBlendDest,
-                              BlendOperation alphaOperation)
+        bool BlendState::init(bool newEnableBlending,
+                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
+                              BlendOperation newColorOperation,
+                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
+                              BlendOperation newAlphaOperation)
         {
-            _enableBlending = enableBlending;
-            _colorBlendSource = colorBlendSource;
-            _colorBlendDest = colorBlendDest;
-            _colorOperation = colorOperation;
-            _alphaBlendSource = alphaBlendSource;
-            _alphaBlendDest = alphaBlendDest;
-            _alphaOperation = alphaOperation;
+            enableBlending = newEnableBlending;
+            colorBlendSource = newColorBlendSource;
+            colorBlendDest = newColorBlendDest;
+            colorOperation = newColorOperation;
+            alphaBlendSource = newAlphaBlendSource;
+            alphaBlendDest = newAlphaBlendDest;
+            alphaOperation = newAlphaOperation;
 
             return true;
         }

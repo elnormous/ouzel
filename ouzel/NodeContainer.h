@@ -26,17 +26,17 @@ namespace ouzel
             virtual bool removeChild(const NodePtr& node);
             virtual void removeAllChildren();
             virtual bool hasChild(const NodePtr& node, bool recursive = false) const;
-            virtual const std::vector<NodePtr>& getChildren() const { return _children; }
+            virtual const std::vector<NodePtr>& getChildren() const { return children; }
 
         protected:
             void lock();
             void unlock();
 
-            std::vector<NodePtr> _children;
+            std::vector<NodePtr> children;
 
-            std::set<NodePtr> _nodeAddList;
-            std::set<NodePtr> _nodeRemoveList;
-            int32_t _locked = 0;
+            std::set<NodePtr> nodeAddList;
+            std::set<NodePtr> nodeRemoveList;
+            int32_t locked = 0;
         };
     } // namespace scene
 } // namespace ouzel

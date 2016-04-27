@@ -27,17 +27,17 @@ namespace ouzel
         public:
             virtual ~MeshBufferMetal();
 
-            virtual bool initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer) override;
+            virtual bool initFromData(const void* newIndices, uint32_t newIndexSize, uint32_t newIndexCount, bool newDynamicIndexBuffer, const void* newVertices, uint32_t newVertexAttributes, uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
 
             virtual bool setIndexSize(uint32_t indexSize) override;
 
             virtual bool uploadIndices(const void* indices, uint32_t indexCount) override;
             virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
 
-            MTLBufferPtr getIndexBuffer() const { return _indexBuffer; }
-            MTLBufferPtr getVertexBuffer() const { return _vertexBuffer; }
+            MTLBufferPtr getIndexBuffer() const { return indexBuffer; }
+            MTLBufferPtr getVertexBuffer() const { return vertexBuffer; }
 
-            MTLIndexType getIndexFormat() const { return _indexFormat; }
+            MTLIndexType getIndexFormat() const { return indexFormat; }
 
         protected:
             MeshBufferMetal();
@@ -48,13 +48,13 @@ namespace ouzel
             bool createVertexBuffer(const void* vertices, uint32_t size);
             bool uploadData(MTLBufferPtr buffer, const void* data, uint32_t size);
 
-            MTLBufferPtr _indexBuffer = Nil;
-            uint32_t _indexBufferSize = 0;
+            MTLBufferPtr indexBuffer = Nil;
+            uint32_t indexBufferSize = 0;
 
-            MTLBufferPtr _vertexBuffer = Nil;
-            uint32_t _vertexBufferSize = 0;
+            MTLBufferPtr vertexBuffer = Nil;
+            uint32_t vertexBufferSize = 0;
 
-            MTLIndexType _indexFormat;
+            MTLIndexType indexFormat;
         };
     } // namespace graphics
 } // namespace ouzel

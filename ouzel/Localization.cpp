@@ -12,29 +12,29 @@ namespace ouzel
 
         if (language)
         {
-            _languages[name] = language;
+            languages[name] = language;
         }
     }
 
     void Localization::setLanguage(const std::string& language)
     {
-        auto i = _languages.find(language);
+        auto i = languages.find(language);
 
-        if (i != _languages.end())
+        if (i != languages.end())
         {
-            _language = i->second;
+            currentLanguage = i->second;
         }
         else
         {
-            _language.reset();
+            currentLanguage.reset();
         }
     }
 
     std::string Localization::getString(const std::string& str)
     {
-        if (_language)
+        if (currentLanguage)
         {
-            return _language->getString(str);
+            return currentLanguage->getString(str);
         }
         else
         {

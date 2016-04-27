@@ -26,32 +26,32 @@ namespace ouzel
 
         void ShaderMetal::destroy()
         {
-            if (_vertexShader)
+            if (vertexShader)
             {
-                [_vertexShader release];
-                _vertexShader = Nil;
+                [vertexShader release];
+                vertexShader = Nil;
             }
-            if (_pixelShader)
+            if (pixelShader)
             {
-                [_pixelShader release];
-                _pixelShader = Nil;
+                [pixelShader release];
+                pixelShader = Nil;
             }
-            if (_vertexDescriptor)
+            if (vertexDescriptor)
             {
-                [_vertexDescriptor release];
-                _vertexDescriptor = Nil;
+                [vertexDescriptor release];
+                vertexDescriptor = Nil;
             }
         }
 
-        bool ShaderMetal::initFromBuffers(const uint8_t* pixelShader,
-                                          uint32_t pixelShaderSize,
-                                          const uint8_t* vertexShader,
-                                          uint32_t vertexShaderSize,
-                                          uint32_t vertexAttributes,
+        bool ShaderMetal::initFromBuffers(const uint8_t* newPixelShader,
+                                          uint32_t newPixelShaderSize,
+                                          const uint8_t* newVertexShader,
+                                          uint32_t newVertexShaderSize,
+                                          uint32_t newVertexAttributes,
                                           const std::string& pixelShaderFunction,
                                           const std::string& vertexShaderFunction)
         {
-            if (!Shader::initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
+            if (!Shader::initFromBuffers(newPixelShader, newPixelShaderSize, newVertexShader, newVertexShaderSize, newVertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 return false;
             }
@@ -63,60 +63,60 @@ namespace ouzel
             uint32_t index = 0;
             NSUInteger offset = 0;
             
-            _vertexDescriptor = [MTLVertexDescriptor new];
+            vertexDescriptor = [MTLVertexDescriptor new];
 
             if (vertexAttributes & VERTEX_POSITION)
             {
-                _vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
-                _vertexDescriptor.attributes[index].offset = offset;
-                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
+                vertexDescriptor.attributes[index].offset = offset;
+                vertexDescriptor.attributes[index].bufferIndex = 0;
                 index++;
                 offset += 3 * sizeof(float);
             }
 
             if (vertexAttributes & VERTEX_COLOR)
             {
-                _vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4Normalized;
-                _vertexDescriptor.attributes[index].offset = offset;
-                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4Normalized;
+                vertexDescriptor.attributes[index].offset = offset;
+                vertexDescriptor.attributes[index].bufferIndex = 0;
                 index++;
                 offset += 4 * sizeof(uint8_t);
             }
 
             if (vertexAttributes & VERTEX_NORMAL)
             {
-                _vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
-                _vertexDescriptor.attributes[index].offset = offset;
-                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
+                vertexDescriptor.attributes[index].offset = offset;
+                vertexDescriptor.attributes[index].bufferIndex = 0;
                 index++;
                 offset += 3 * sizeof(float);
             }
 
             if (vertexAttributes & VERTEX_TEXCOORD0)
             {
-                _vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
-                _vertexDescriptor.attributes[index].offset = offset;
-                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
+                vertexDescriptor.attributes[index].offset = offset;
+                vertexDescriptor.attributes[index].bufferIndex = 0;
                 index++;
                 offset += 2 * sizeof(float);
             }
 
             if (vertexAttributes & VERTEX_TEXCOORD1)
             {
-                _vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
-                _vertexDescriptor.attributes[index].offset = offset;
-                _vertexDescriptor.attributes[index].bufferIndex = 0;
+                vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
+                vertexDescriptor.attributes[index].offset = offset;
+                vertexDescriptor.attributes[index].bufferIndex = 0;
                 index++;
                 offset += 2 * sizeof(float);
             }
 
-            _vertexDescriptor.layouts[0].stride = offset;
-            _vertexDescriptor.layouts[0].stepRate = 1;
-            _vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
+            vertexDescriptor.layouts[0].stride = offset;
+            vertexDescriptor.layouts[0].stepRate = 1;
+            vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
 
             NSError* err = Nil;
 
-            dispatch_data_t pixelShaderData = dispatch_data_create(pixelShader, pixelShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            dispatch_data_t pixelShaderData = dispatch_data_create(newPixelShader, newPixelShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
             id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderData error:&err];
             [pixelShaderData release];
 
@@ -127,17 +127,17 @@ namespace ouzel
                 return false;
             }
 
-            _pixelShader = [pixelShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:pixelShaderFunction.c_str()]];
+            pixelShader = [pixelShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:pixelShaderFunction.c_str()]];
 
             [pixelShaderLibrary release];
 
-            if (!_pixelShader)
+            if (!pixelShader)
             {
                 log("Failed to get function from shader");
                 return false;
             }
 
-            dispatch_data_t vertexShaderData = dispatch_data_create(vertexShader, vertexShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            dispatch_data_t vertexShaderData = dispatch_data_create(newVertexShader, newVertexShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
             id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderData error:&err];
             [vertexShaderData release];
 
@@ -148,11 +148,11 @@ namespace ouzel
                 return false;
             }
 
-            _vertexShader = [vertexShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:vertexShaderFunction.c_str()]];
+            vertexShader = [vertexShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:vertexShaderFunction.c_str()]];
 
             [vertexShaderLibrary release];
 
-            if (!_vertexShader)
+            if (!vertexShader)
             {
                 log("Failed to get function from shader");
                 return false;
@@ -175,19 +175,19 @@ namespace ouzel
         {
             Shader::setPixelShaderConstantInfo(constantInfo, alignment);
 
-            _pixelShaderConstantLocations.reserve(constantInfo.size());
+            pixelShaderConstantLocations.reserve(constantInfo.size());
 
             uint32_t offset = 0;
 
-            for (const ConstantInfo& info : _pixelShaderConstantInfo)
+            for (const ConstantInfo& info : pixelShaderConstantInfo)
             {
-                _pixelShaderConstantLocations.push_back(offset);
+                pixelShaderConstantLocations.push_back(offset);
                 offset += info.size;
             }
 
-            if (offset > _pixelShaderData.size())
+            if (offset > pixelShaderData.size())
             {
-                if (_pixelShaderConstantBuffer) [_pixelShaderConstantBuffer release];
+                if (pixelShaderConstantBuffer) [pixelShaderConstantBuffer release];
                 createPixelShaderConstantBuffer(offset);
             }
 
@@ -198,19 +198,19 @@ namespace ouzel
         {
             Shader::setVertexShaderConstantInfo(constantInfo, alignment);
 
-            _vertexShaderConstantLocations.reserve(constantInfo.size());
+            vertexShaderConstantLocations.reserve(constantInfo.size());
 
             uint32_t offset = 0;
 
-            for (const ConstantInfo& info : _vertexShaderConstantInfo)
+            for (const ConstantInfo& info : vertexShaderConstantInfo)
             {
-                _vertexShaderConstantLocations.push_back(offset);
+                vertexShaderConstantLocations.push_back(offset);
                 offset += info.size;
             }
 
-            if (offset > _vertexShaderData.size())
+            if (offset > vertexShaderData.size())
             {
-                if (_vertexShaderConstantBuffer) [_vertexShaderConstantBuffer release];
+                if (vertexShaderConstantBuffer) [vertexShaderConstantBuffer release];
                 createVertexShaderConstantBuffer(offset);
             }
 
@@ -219,69 +219,69 @@ namespace ouzel
 
         void ShaderMetal::nextBuffers()
         {
-            if (_pixelShaderAlignment)
+            if (pixelShaderAlignment)
             {
-                _pixelShaderConstantBufferOffset += _pixelShaderData.size();
-                _pixelShaderConstantBufferOffset = (_pixelShaderConstantBufferOffset / _pixelShaderAlignment + 1) * _pixelShaderAlignment;
+                pixelShaderConstantBufferOffset += pixelShaderData.size();
+                pixelShaderConstantBufferOffset = (pixelShaderConstantBufferOffset / pixelShaderAlignment + 1) * pixelShaderAlignment;
 
-                if (BufferSize - _pixelShaderConstantBufferOffset < _pixelShaderAlignment)
+                if (BufferSize - pixelShaderConstantBufferOffset < pixelShaderAlignment)
                 {
-                    _pixelShaderConstantBufferOffset = 0;
+                    pixelShaderConstantBufferOffset = 0;
                 }
             }
 
-            if (_vertexShaderAlignment)
+            if (vertexShaderAlignment)
             {
-                _vertexShaderConstantBufferOffset += _vertexShaderData.size();
-                _vertexShaderConstantBufferOffset = (_vertexShaderConstantBufferOffset / _vertexShaderAlignment + 1) * _vertexShaderAlignment;
+                vertexShaderConstantBufferOffset += vertexShaderData.size();
+                vertexShaderConstantBufferOffset = (vertexShaderConstantBufferOffset / vertexShaderAlignment + 1) * vertexShaderAlignment;
 
-                if (BufferSize - _vertexShaderConstantBufferOffset < _vertexShaderAlignment)
+                if (BufferSize - vertexShaderConstantBufferOffset < vertexShaderAlignment)
                 {
-                    _vertexShaderConstantBufferOffset = 0;
+                    vertexShaderConstantBufferOffset = 0;
                 }
             }
         }
 
         bool ShaderMetal::setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
         {
-            if (index >= _pixelShaderConstantLocations.size()) return false;
+            if (index >= pixelShaderConstantLocations.size()) return false;
 
-            uint32_t location = _pixelShaderConstantLocations[index];
-            memcpy(_pixelShaderData.data() + location, value, size * count);
+            uint32_t location = pixelShaderConstantLocations[index];
+            memcpy(pixelShaderData.data() + location, value, size * count);
 
-            return uploadData(_pixelShaderConstantBuffer,
-                              _pixelShaderConstantBufferOffset,
-                              _pixelShaderData.data(),
-                              _pixelShaderData.size());
+            return uploadData(pixelShaderConstantBuffer,
+                              pixelShaderConstantBufferOffset,
+                              pixelShaderData.data(),
+                              pixelShaderData.size());
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
         {
-            if (index >= _vertexShaderConstantLocations.size()) return false;
+            if (index >= vertexShaderConstantLocations.size()) return false;
 
-            uint32_t location = _vertexShaderConstantLocations[index];
-            memcpy(_vertexShaderData.data() + location, value, size * count);
+            uint32_t location = vertexShaderConstantLocations[index];
+            memcpy(vertexShaderData.data() + location, value, size * count);
 
-            return uploadData(_vertexShaderConstantBuffer,
-                              _vertexShaderConstantBufferOffset,
-                              _vertexShaderData.data(),
-                              _vertexShaderData.size());
+            return uploadData(vertexShaderConstantBuffer,
+                              vertexShaderConstantBufferOffset,
+                              vertexShaderData.data(),
+                              vertexShaderData.size());
         }
 
         bool ShaderMetal::createPixelShaderConstantBuffer(uint32_t size)
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            _pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
+            pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
                                                                                  options:MTLResourceCPUCacheModeWriteCombined];
 
-            if (_pixelShaderConstantBuffer == Nil)
+            if (pixelShaderConstantBuffer == Nil)
             {
                 log("Failed to create Metal index buffer");
                 return false;
             }
 
-            _pixelShaderData.resize(size);
+            pixelShaderData.resize(size);
 
             return true;
         }
@@ -290,16 +290,16 @@ namespace ouzel
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            _vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
+            vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
                                                                                   options:MTLResourceCPUCacheModeWriteCombined];
 
-            if (_vertexShaderConstantBuffer == Nil)
+            if (vertexShaderConstantBuffer == Nil)
             {
                 log("Failed to create Metal constant buffer");
                 return false;
             }
 
-            _vertexShaderData.resize(size);
+            vertexShaderData.resize(size);
 
             return true;
         }

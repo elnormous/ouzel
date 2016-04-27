@@ -22,35 +22,35 @@ namespace ouzel
 
         void MeshBufferOGL::destroy()
         {
-            if (_vertexArrayId)
+            if (vertexArrayId)
             {
-                glDeleteVertexArrays(1, &_vertexArrayId);
-                _vertexArrayId = 0;
+                glDeleteVertexArrays(1, &vertexArrayId);
+                vertexArrayId = 0;
             }
 
-            if (_vertexBufferId)
+            if (vertexBufferId)
             {
-                glDeleteBuffers(1, &_vertexBufferId);
-                _vertexBufferId = 0;
+                glDeleteBuffers(1, &vertexBufferId);
+                vertexBufferId = 0;
             }
 
-            if (_indexBufferId)
+            if (indexBufferId)
             {
-                glDeleteBuffers(1, &_indexBufferId);
-                _indexBufferId = 0;
+                glDeleteBuffers(1, &indexBufferId);
+                indexBufferId = 0;
             }
         }
 
         bool MeshBufferOGL::init()
         {
-            glGenBuffers(1, &_indexBufferId);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
+            glGenBuffers(1, &indexBufferId);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
 
-            glGenVertexArrays(1, &_vertexArrayId);
-            glBindVertexArray(_vertexArrayId);
+            glGenVertexArrays(1, &vertexArrayId);
+            glBindVertexArray(vertexArrayId);
 
-            glGenBuffers(1, &_vertexBufferId);
-            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
+            glGenBuffers(1, &vertexBufferId);
+            glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
@@ -60,19 +60,22 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferOGL::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
+        bool MeshBufferOGL::initFromData(const void* newIndices, uint32_t newIndexSize,
+                                         uint32_t newIndexCount, bool newDynamicIndexBuffer,
+                                         const void* newVertices, uint32_t newVertexAttributes,
+                                         uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
-            if (!MeshBuffer::initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer))
+            if (!MeshBuffer::initFromData(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))
             {
                 return false;
             }
 
             destroy();
 
-            glGenBuffers(1, &_indexBufferId);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, indices,
-                         _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glGenBuffers(1, &indexBufferId);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, newIndices,
+                         dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
@@ -84,13 +87,13 @@ namespace ouzel
                 return false;
             }
 
-            glGenVertexArrays(1, &_vertexArrayId);
-            glBindVertexArray(_vertexArrayId);
+            glGenVertexArrays(1, &vertexArrayId);
+            glBindVertexArray(vertexArrayId);
 
-            glGenBuffers(1, &_vertexBufferId);
-            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
-            glBufferData(GL_ARRAY_BUFFER, _vertexSize * vertexCount, vertices,
-                         _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glGenBuffers(1, &vertexBufferId);
+            glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+            glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, newVertices,
+                         dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
@@ -133,9 +136,9 @@ namespace ouzel
                 return false;
             }
 
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferId);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexSize * indexCount, indices,
-                         _dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, indices,
+                         dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
@@ -152,9 +155,9 @@ namespace ouzel
                 return false;
             }
 
-            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
-            glBufferData(GL_ARRAY_BUFFER, _vertexSize * vertexCount, vertices,
-                         _dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+            glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, vertices,
+                         dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
@@ -166,11 +169,11 @@ namespace ouzel
 
         bool MeshBufferOGL::updateIndexFormat()
         {
-            switch (_indexSize)
+            switch (indexSize)
             {
-                case 1: _indexFormat = GL_UNSIGNED_BYTE; break;
-                case 2: _indexFormat = GL_UNSIGNED_SHORT; break;
-                case 4: _indexFormat = GL_UNSIGNED_INT; break;
+                case 1: indexFormat = GL_UNSIGNED_BYTE; break;
+                case 2: indexFormat = GL_UNSIGNED_SHORT; break;
+                case 4: indexFormat = GL_UNSIGNED_INT; break;
                 default: log("Invalid index size"); return false;
             }
 
@@ -179,53 +182,53 @@ namespace ouzel
 
         bool MeshBufferOGL::updateVertexAttributes()
         {
-            glBindVertexArray(_vertexArrayId);
-            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
+            glBindVertexArray(vertexArrayId);
+            glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
 
             GLuint index = 0;
             GLuint offset = 0;
 
-            if (_vertexAttributes & VERTEX_POSITION)
+            if (vertexAttributes & VERTEX_POSITION)
             {
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 3 * sizeof(float);
                 index++;
             }
 
-            if (_vertexAttributes & VERTEX_COLOR)
+            if (vertexAttributes & VERTEX_COLOR)
             {
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                glVertexAttribPointer(index, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 4 * sizeof(uint8_t);
                 index++;
             }
 
-            if (_vertexAttributes & VERTEX_NORMAL)
+            if (vertexAttributes & VERTEX_NORMAL)
             {
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 3 * sizeof(float);
                 index++;
             }
 
-            if (_vertexAttributes & VERTEX_TEXCOORD0)
+            if (vertexAttributes & VERTEX_TEXCOORD0)
             {
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 2 * sizeof(float);
                 index++;
             }
 
-            if (_vertexAttributes & VERTEX_TEXCOORD1)
+            if (vertexAttributes & VERTEX_TEXCOORD1)
             {
                 glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(_vertexSize), reinterpret_cast<const GLvoid*>(offset));
+                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 2 * sizeof(float);
                 index++;
             }
 
-            if (offset != _vertexSize)
+            if (offset != vertexSize)
             {
                 log("Invalid vertex size");
                 return false;

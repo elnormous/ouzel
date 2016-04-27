@@ -25,10 +25,10 @@ namespace ouzel
             Camera();
             virtual ~Camera();
 
-            float getZoom() const { return _zoom; }
-            void setZoom(float zoom);
+            float getZoom() const { return zoom; }
+            void setZoom(float newZoom);
 
-            const Matrix4& getProjection() const { return _projection; }
+            const Matrix4& getProjection() const { return projection; }
             virtual void recalculateProjection();
 
             const Matrix4& getViewProjection() const;
@@ -38,31 +38,31 @@ namespace ouzel
 
             Vector2 projectPoint(const Vector3& src) const;
 
-            virtual void setScaleMode(ScaleMode scaleMode);
-            virtual ScaleMode getScaleMode() const { return _scaleMode; }
+            virtual void setScaleMode(ScaleMode newScaleMode);
+            virtual ScaleMode getScaleMode() const { return scaleMode; }
 
-            virtual void setTargetContentSize(const Size2& targetContentSize);
-            const Size2& getTargetContentSize() const { return _targetContentSize; }
+            virtual void setTargetContentSize(const Size2& newTargetContentSize);
+            const Size2& getTargetContentSize() const { return targetContentSize; }
 
-            virtual const Size2& getContentSize() const { return _contentSize; }
-            virtual const Vector2& getContentScale() const { return _contentScale; }
+            virtual const Size2& getContentSize() const { return contentSize; }
+            virtual const Vector2& getContentScale() const { return contentScale; }
 
         protected:
             virtual void calculateLocalTransform() const override;
 
-            float _zoom = 1.0f;
+            float zoom = 1.0f;
 
-            Matrix4 _projection;
-            Matrix4 _inverseProjection;
+            Matrix4 projection;
+            Matrix4 inverseProjection;
 
-            Size2 _targetContentSize;
+            Size2 targetContentSize;
 
-            ScaleMode _scaleMode = ScaleMode::None;
-            Size2 _contentSize;
-            Vector2 _contentScale;
+            ScaleMode scaleMode = ScaleMode::None;
+            Size2 contentSize;
+            Vector2 contentScale;
 
-            bool _viewProjectionDirty = false;
-            mutable Matrix4 _viewProjection;
+            bool viewProjectionDirty = false;
+            mutable Matrix4 viewProjection;
         };
     } // namespace scene
 } // namespace ouzel

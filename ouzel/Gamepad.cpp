@@ -12,7 +12,7 @@ namespace ouzel
     {
         Gamepad::Gamepad()
         {
-            memset(_buttonStates, 0, sizeof(_buttonStates));
+
         }
 
         bool Gamepad::isAttached() const
@@ -44,7 +44,7 @@ namespace ouzel
 
         const GamepadButtonState& Gamepad::getButtonState(GamepadButton button) const
         {
-            return _buttonStates[static_cast<uint32_t>(button)];
+            return buttonStates[static_cast<uint32_t>(button)];
         }
 
         void Gamepad::handleButtonValueChange(GamepadButton button, bool pressed, float value)
@@ -58,8 +58,8 @@ namespace ouzel
 
             sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
 
-            _buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
-            _buttonStates[static_cast<uint32_t>(button)].value = value;
+            buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
+            buttonStates[static_cast<uint32_t>(button)].value = value;
         }
 
         void Gamepad::setVibration(Motor motor, float speed)

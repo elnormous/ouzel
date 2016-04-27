@@ -13,18 +13,18 @@ namespace ouzel
         class Scale: public Animator
         {
         public:
-            Scale(float length, const Vector2& scale, bool relative);
+            Scale(float pLength, const Vector2& pScale, bool pRelative);
 
-            virtual void start(const NodePtr& node) override;
+            virtual void start(const NodePtr& targetNode) override;
 
             virtual void setProgress(float progress) override;
 
         protected:
-            Vector2 _scale;
-            Vector2 _startScale;
-            Vector2 _targetScale;
-            Vector2 _diff;
-            bool _relative;
+            Vector2 scale;
+            Vector2 startScale;
+            Vector2 targetScale;
+            Vector2 diff;
+            bool relative;
         };
     } // namespace scene
 } // namespace ouzel
