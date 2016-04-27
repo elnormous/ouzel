@@ -157,14 +157,13 @@ namespace ouzel
             {
                 if (currentLayer->getCamera())
                 {
-                    graphics::Color drawColor = color;
-                    drawColor.a = static_cast<uint8_t>(color.a * opacity);
+                    graphics::Color drawColor(color.r, color.g, color.b, color.a * opacity);
 
                     for (const DrawablePtr& drawable : drawables)
                     {
                         if (drawable->isVisible())
                         {
-                            drawable->draw(currentLayer->getCamera()->getViewProjection(), transform, color);
+                            drawable->draw(currentLayer->getCamera()->getViewProjection(), transform, drawColor);
                         }
                     }
                 }
