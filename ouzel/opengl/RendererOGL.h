@@ -54,7 +54,7 @@ namespace ouzel
         public:
             virtual ~RendererOGL();
 
-            void setFrameBuffer(GLuint frameBuffer);
+            void setFrameBuffer(GLuint newFrameBuffer);
             static bool checkOpenGLErrors();
 
             virtual void setClearColor(Color color) override;
@@ -107,12 +107,12 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
-            bool _ready = false;
-            GLuint _frameBuffer = 0;
+            bool ready = false;
+            GLuint frameBuffer = 0;
 
-            static GLuint _currentTextureId[TEXTURE_LAYERS];
-            static GLuint _currentProgramId;
-            static GLuint _currentFramBufferId;
+            static GLuint currentTextureId[TEXTURE_LAYERS];
+            static GLuint currentProgramId;
+            static GLuint currentFramBufferId;
         };
     } // namespace graphics
 } // namespace ouzel

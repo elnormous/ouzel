@@ -8,7 +8,7 @@
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
 {
-    ouzel::WindowOSX* _window;
+    ouzel::WindowOSX* window;
 }
 
 @end
@@ -21,21 +21,21 @@
 
     if ([NSThread isMainThread])
     {
-        [_window->getNativeWindow() close];
+        [window->getNativeWindow() close];
     }
     else
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_window->getNativeWindow() close];
+            [window->getNativeWindow() close];
         });
     }
 }
 
--(id)initWithWindow:(ouzel::WindowOSX*)window
+-(id)initWithWindow:(ouzel::WindowOSX*)newWindow
 {
     if (self = [super init])
     {
-        _window = window;
+        window = newWindow;
     }
 
     return self;
@@ -44,31 +44,31 @@
 -(void)windowDidResize:(NSNotification *)notification
 {
     OUZEL_UNUSED(notification);
-    _window->handleResize();
+    window->handleResize();
 }
 
 -(void)windowDidChangeScreen:(NSNotification *)notification
 {
     OUZEL_UNUSED(notification);
-    _window->handleDisplayChange();
+    window->handleDisplayChange();
 }
 
 -(void)windowWillClose:(NSNotification *)notification
 {
     OUZEL_UNUSED(notification);
-    _window->handleClose();
+    window->handleClose();
 }
 
 -(void)windowDidEnterFullScreen:(NSNotification *)notification
 {
     OUZEL_UNUSED(notification);
-    _window->handleFullscreenChange(true);
+    window->handleFullscreenChange(true);
 }
 
 -(void)windowDidExitFullScreen:(NSNotification *)notification
 {
     OUZEL_UNUSED(notification);
-    _window->handleFullscreenChange(false);
+    window->handleFullscreenChange(false);
 }
 
 @end
