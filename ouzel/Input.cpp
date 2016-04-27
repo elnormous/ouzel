@@ -15,7 +15,8 @@ namespace ouzel
     {
         Input::Input()
         {
-
+			memset(keyboardKeyStates, 0, sizeof(keyboardKeyStates));
+			memset(mouseButtonStates, 0, sizeof(mouseButtonStates));
         }
 
         Input::~Input()

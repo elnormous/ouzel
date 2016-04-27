@@ -27,14 +27,14 @@ namespace ouzel
             static D3D11_BLEND getBlendFactor(BlendFactor blendFactor);
             static D3D11_BLEND_OP getBlendOperation(BlendOperation blendOperation);
 
-            ID3D11BlendState* getBlendState() const { return _blendState; }
+            ID3D11BlendState* getBlendState() const { return blendState; }
 
         protected:
             BlendStateD3D11();
 
             void destroy();
 
-            ID3D11BlendState* _blendState = nullptr;
+            ID3D11BlendState* blendState = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

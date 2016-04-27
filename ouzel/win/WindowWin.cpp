@@ -403,11 +403,11 @@ namespace ouzel
 
     WindowWin::~WindowWin()
     {
-        if (_window) DestroyWindow(_window);
-        if (_windowClass)
+        if (window) DestroyWindow(window);
+        if (windowClass)
         {
             UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
-            _windowClass = 0;
+            windowClass = 0;
         }
     }
 
@@ -427,39 +427,39 @@ namespace ouzel
         // Application icon should be the first resource
         wc.hIcon = LoadIconW(hInstance, MAKEINTRESOURCE(101));
 
-        _windowClass = RegisterClassExW(&wc);
-        if (!_windowClass)
+        windowClass = RegisterClassExW(&wc);
+        if (!windowClass)
         {
             log("Failed to register window class");
             return false;
         }
 
-        _windowStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+        windowStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
 
-        if (_resizable)
+        if (resizable)
         {
-            _windowStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
+            windowStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
         }
 
         int x = CW_USEDEFAULT;
         int y = CW_USEDEFAULT;
-        if (_fullscreen)
+        if (fullscreen)
         {
-            _windowStyle = WS_POPUP;
+            windowStyle = WS_POPUP;
             x = 0;
             y = 0;
         }
-        RECT windowRect = { 0, 0, static_cast<LONG>(_size.width), static_cast<LONG>(_size.height) };
-        AdjustWindowRect(&windowRect, _windowStyle, FALSE);
+        RECT windowRect = { 0, 0, static_cast<LONG>(size.width), static_cast<LONG>(size.height) };
+        AdjustWindowRect(&windowRect, windowStyle, FALSE);
 
         wchar_t titleBuffer[256];
-        MultiByteToWideChar(CP_UTF8, 0, _title.c_str(), -1, titleBuffer, 256);
+        MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256);
 
-        _window = CreateWindowExW(
+        window = CreateWindowExW(
             0,
             WINDOW_CLASS_NAME,
             titleBuffer,
-            _windowStyle,
+            windowStyle,
             x,
             y,
             windowRect.right - windowRect.left,
@@ -469,49 +469,49 @@ namespace ouzel
             hInstance,
             nullptr);
 
-        if (!_window)
+        if (!window)
         {
             log("Failed to create window");
             return false;
         }
 
-        SetWindowLongPtr(_window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-        ShowWindow(_window, SW_SHOW);
+        SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+        ShowWindow(window, SW_SHOW);
 
         return Window::init();
     }
 
     void WindowWin::close()
     {
-        SendMessage(_window, WM_CLOSE, 0, 0);
+        SendMessage(window, WM_CLOSE, 0, 0);
     }
 
-    void WindowWin::setSize(const Size2& size)
+    void WindowWin::setSize(const Size2& newSize)
     {
-        UINT width = static_cast<UINT>(size.width);
-        UINT height = static_cast<UINT>(size.height);
+        UINT width = static_cast<UINT>(newSize.width);
+        UINT height = static_cast<UINT>(newSize.height);
 
         UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
         RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-        AdjustWindowRect(&rect, _windowStyle, FALSE);
+        AdjustWindowRect(&rect, windowStyle, FALSE);
 
-        SetWindowPos(_window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
+        SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
 
-        Window::setSize(size);
+        Window::setSize(newSize);
     }
 
-    void WindowWin::setTitle(const std::string& title)
+    void WindowWin::setTitle(const std::string& newTitle)
     {
-        if (_title != title)
+        if (title != newTitle)
         {
             wchar_t titleBuffer[256];
-            MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256);
+            MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256);
 
-            SetWindowTextW(_window, titleBuffer);
+            SetWindowTextW(window, titleBuffer);
         }
 
-        Window::setTitle(title);
+        Window::setTitle(newTitle);
     }
 
     void WindowWin::handleResize(INT width, INT height)
@@ -521,6 +521,6 @@ namespace ouzel
 
     HMONITOR WindowWin::getMonitor() const
     {
-        return MonitorFromWindow(_window, MONITOR_DEFAULTTONULL);
+        return MonitorFromWindow(window, MONITOR_DEFAULTTONULL);
     }
 }

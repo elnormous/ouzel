@@ -25,22 +25,22 @@ namespace ouzel
 
         void TextureD3D11::destroy()
         {
-            if (_resourceView)
+            if (resourceView)
             {
-                _resourceView->Release();
-                _resourceView = nullptr;
+                resourceView->Release();
+                resourceView = nullptr;
             }
 
-            if (_texture)
+            if (texture)
             {
-                _texture->Release();
-                _texture = nullptr;
+                texture->Release();
+                texture = nullptr;
             }
         }
 
-        bool TextureD3D11::init(const Size2& size, bool dynamic, bool mipmaps)
+        bool TextureD3D11::init(const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            if (!Texture::init(size, dynamic, mipmaps))
+            if (!Texture::init(newSize, newDynamic, newMipmaps))
             {
                 return false;
             }
@@ -52,9 +52,9 @@ namespace ouzel
                                  static_cast<UINT>(size.height));
         }
 
-        bool TextureD3D11::initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
+        bool TextureD3D11::initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            if (!Texture::initFromData(data, size, dynamic, mipmaps))
+            if (!Texture::initFromData(data, newSize, newDynamic, newMipmaps))
             {
                 return false;
             }
@@ -66,18 +66,26 @@ namespace ouzel
                                  static_cast<UINT>(size.height));
         }
 
-        bool TextureD3D11::upload(const void* data, const Size2& size)
+        bool TextureD3D11::upload(const void* data, const Size2& newSize)
         {
-            if (!Texture::upload(data, size))
+            if (!Texture::upload(data, newSize))
             {
                 return false;
             }
 
-            if (static_cast<UINT>(size.width) != _width ||
-                static_cast<UINT>(size.height) != _height)
+            if (static_cast<UINT>(size.width) != width ||
+                static_cast<UINT>(size.height) != height)
             {
-                if (_resourceView) _resourceView->Release();
-                if (_texture) _texture->Release();
+				if (resourceView)
+				{
+					resourceView->Release();
+					resourceView = nullptr;
+				}
+				if (texture)
+				{
+					texture->Release();
+					texture = nullptr;
+				}
 
                 return createTexture(data,
                                      static_cast<UINT>(size.width),
@@ -91,26 +99,26 @@ namespace ouzel
             }
         }
 
-        bool TextureD3D11::createTexture(const void* data, UINT width, UINT height)
+        bool TextureD3D11::createTexture(const void* data, UINT newWidth, UINT newHeight)
         {
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
             D3D11_TEXTURE2D_DESC textureDesc;
             memset(&textureDesc, 0, sizeof(textureDesc));
-            textureDesc.Width = width;
-            textureDesc.Height = height;
+            textureDesc.Width = newWidth;
+            textureDesc.Height = newHeight;
             textureDesc.MipLevels = 0;
             textureDesc.ArraySize = 1;
             textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-            textureDesc.Usage = _dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
-            textureDesc.CPUAccessFlags = _dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+            textureDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+            textureDesc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
             textureDesc.SampleDesc.Count = 1;
             textureDesc.SampleDesc.Quality = 0;
             textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE; // | D3D11_BIND_RENDER_TARGET;
             textureDesc.MiscFlags = 0;
 
-            HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &_texture);
-            if (FAILED(hr) || !_texture)
+            HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
+            if (FAILED(hr) || !texture)
             {
                 log("Failed to create D3D11 texture");
                 return false;
@@ -118,13 +126,19 @@ namespace ouzel
 
             if (data)
             {
-                uploadData(data, width, height);
+				if (!uploadData(data, newWidth, newHeight))
+				{
+					return false;
+				}
             }
             else
             {
-                std::unique_ptr<uint8_t[]> emptyData(new uint8_t[width * height * 4]);
-                memset(emptyData.get(), 0, width * height * 4);
-                uploadData(emptyData.get(), width, height);
+                std::unique_ptr<uint8_t[]> emptyData(new uint8_t[newWidth * newHeight * 4]);
+                memset(emptyData.get(), 0, newWidth * newHeight * 4);
+				if (!uploadData(emptyData.get(), newWidth, newHeight))
+				{
+					return false;
+				}
             }
 
             D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -132,42 +146,42 @@ namespace ouzel
             srvDesc.Format = textureDesc.Format;
             srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
             srvDesc.Texture2D.MostDetailedMip = 0;
-            srvDesc.Texture2D.MipLevels = _mipLevels;
+            srvDesc.Texture2D.MipLevels = mipLevels;
 
-            hr = rendererD3D11->getDevice()->CreateShaderResourceView(_texture, &srvDesc, &_resourceView);
-            if (FAILED(hr) || !_resourceView)
+            hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
+            if (FAILED(hr) || !resourceView)
             {
                 log("Failed to create D3D11 shader resource view");
                 return false;
             }
 
-            _width = width;
-            _height = height;
+            width = newWidth;
+            height = newHeight;
 
             return true;
         }
 
-        bool TextureD3D11::uploadData(const void* data, UINT width, UINT height)
+        bool TextureD3D11::uploadData(const void* data, UINT newWidth, UINT newHeight)
         {
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
-            UINT rowPitch = width * 4;
-            rendererD3D11->getContext()->UpdateSubresource(_texture, 0, nullptr, data, rowPitch, 0);
+            UINT rowPitch = newWidth * 4;
+            rendererD3D11->getContext()->UpdateSubresource(texture, 0, nullptr, data, rowPitch, 0);
 
-            _mipLevels = 1;
+            mipLevels = 1;
 
-            if (_mipmaps)
+            if (mipmaps)
             {
-                UINT oldMipWidth = width;
-                UINT oldMipHeight = height;
+                UINT oldMipWidth = newWidth;
+                UINT oldMipHeight = newHeight;
 
-                UINT mipWidth = width >> 1;
-                UINT mipHeight = height >> 1;
+                UINT mipWidth = newWidth >> 1;
+                UINT mipHeight = newHeight >> 1;
                 UINT mipLevel = 1;
                 UINT mipRowPitch;
 
-                uint8_t* oldMipMapData = new uint8_t[width * height * 4];
-                memcpy(oldMipMapData, data, width * height * 4);
+                uint8_t* oldMipMapData = new uint8_t[newWidth * newHeight * 4];
+                memcpy(oldMipMapData, data, newWidth * newHeight * 4);
 
                 uint8_t* newMipMapData = new uint8_t[mipWidth * mipHeight * 4];
 
@@ -182,7 +196,7 @@ namespace ouzel
                                                3, 0, STBIR_EDGE_CLAMP,
                                                STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
 
-                    rendererD3D11->getContext()->UpdateSubresource(_texture, mipLevel, nullptr, newMipMapData, mipRowPitch, 0);
+                    rendererD3D11->getContext()->UpdateSubresource(texture, mipLevel, nullptr, newMipMapData, mipRowPitch, 0);
 
                     oldMipWidth = mipWidth;
                     oldMipHeight = mipHeight;
@@ -199,8 +213,11 @@ namespace ouzel
                 delete [] oldMipMapData;
                 delete [] newMipMapData;
 
-                _mipLevels = mipLevel;
+                mipLevels = mipLevel;
             }
+
+			width = newWidth;
+			height = newHeight;
 
             return true;
         }

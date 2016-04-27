@@ -23,10 +23,10 @@ namespace ouzel
 
         void BlendStateD3D11::destroy()
         {
-            if (_blendState)
+            if (blendState)
             {
-                _blendState->Release();
-                _blendState = nullptr;
+                blendState->Release();
+                blendState = nullptr;
             }
         }
 
@@ -60,8 +60,8 @@ namespace ouzel
             };
             blendStateDesc.RenderTarget[0] = targetBlendDesc;
 
-            HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &_blendState);
-            if (FAILED(hr) || !_blendState)
+            HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
+            if (FAILED(hr) || !blendState)
             {
                 log("Failed to create D3D11 blend state");
                 return false;

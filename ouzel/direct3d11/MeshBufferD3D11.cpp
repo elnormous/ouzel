@@ -22,29 +22,29 @@ namespace ouzel
 
         void MeshBufferD3D11::destroy()
         {
-            if (_indexBuffer)
+            if (indexBuffer)
             {
-                _indexBuffer->Release();
-                _indexBuffer = nullptr;
+                indexBuffer->Release();
+                indexBuffer = nullptr;
             }
 
-            if (_vertexBuffer)
+            if (vertexBuffer)
             {
-                _vertexBuffer->Release();
-                _vertexBuffer = nullptr;
+                vertexBuffer->Release();
+                vertexBuffer = nullptr;
             }
         }
 
-        bool MeshBufferD3D11::initFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
+        bool MeshBufferD3D11::initFromData(const void* newIndices, uint32_t newIndexSize, uint32_t newIndexCount, bool newDynamicIndexBuffer, const void* newVertices, uint32_t newVertexAttributes, uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
-            if (!MeshBuffer::initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer))
+            if (!MeshBuffer::initFromData(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))
             {
                 return false;
             }
 
             destroy();
 
-            if (!createIndexBuffer(indices, _indexSize * indexCount))
+            if (!createIndexBuffer(newIndices, indexSize * indexCount))
             {
                 return false;
             }
@@ -54,7 +54,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!createVertexBuffer(vertices, _vertexSize * vertexCount))
+            if (!createVertexBuffer(newVertices, vertexSize * vertexCount))
             {
                 return false;
             }
@@ -79,14 +79,18 @@ namespace ouzel
                 return false;
             }
 
-            if (_indexSize * indexCount > _indexBufferSize)
+            if (indexSize * indexCount > indexBufferSize)
             {
-                if (_indexBuffer) _indexBuffer->Release();
-                return createIndexBuffer(indices, _indexSize * indexCount);
+				if (indexBuffer)
+				{
+					indexBuffer->Release();
+					indexBuffer = nullptr;
+				}
+                return createIndexBuffer(indices, indexSize * indexCount);
             }
             else
             {
-                return uploadData(_indexBuffer, indices, _indexSize * indexCount);
+                return uploadData(indexBuffer, indices, indexSize * indexCount);
             }
         }
 
@@ -97,23 +101,27 @@ namespace ouzel
                 return false;
             }
 
-            if (_vertexSize * vertexCount > _vertexBufferSize)
+            if (vertexSize * vertexCount > vertexBufferSize)
             {
-                if (_vertexBuffer) _vertexBuffer->Release();
-                return createVertexBuffer(vertices, _vertexSize * vertexCount);
+				if (vertexBuffer)
+				{
+					vertexBuffer->Release();
+					vertexBuffer = nullptr;
+				}
+                return createVertexBuffer(vertices, vertexSize * vertexCount);
             }
             else
             {
-                return uploadData(_vertexBuffer, vertices, _vertexSize * vertexCount);
+                return uploadData(vertexBuffer, vertices, vertexSize * vertexCount);
             }
         }
 
         bool MeshBufferD3D11::updateIndexFormat()
         {
-            switch (_indexSize)
+            switch (indexSize)
             {
-                case 2: _indexFormat = DXGI_FORMAT_R16_UINT; break;
-                case 4: _indexFormat = DXGI_FORMAT_R32_UINT; break;
+                case 2: indexFormat = DXGI_FORMAT_R16_UINT; break;
+                case 4: indexFormat = DXGI_FORMAT_R32_UINT; break;
                 default: log("Invalid index size"); return false;
             }
 
@@ -128,22 +136,22 @@ namespace ouzel
             memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
 
             indexBufferDesc.ByteWidth = static_cast<UINT>(size);
-            indexBufferDesc.Usage = _dynamicIndexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+            indexBufferDesc.Usage = dynamicIndexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
             indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-            indexBufferDesc.CPUAccessFlags = _dynamicIndexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
+            indexBufferDesc.CPUAccessFlags = dynamicIndexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
 
             D3D11_SUBRESOURCE_DATA indexBufferResourceData;
             memset(&indexBufferResourceData, 0, sizeof(indexBufferResourceData));
             indexBufferResourceData.pSysMem = indices;
 
-            HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &_indexBuffer);
-            if (FAILED(hr) || !_indexBuffer)
+            HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &indexBuffer);
+            if (FAILED(hr) || !indexBuffer)
             {
                 log("Failed to create D3D11 index buffer");
                 return false;
             }
 
-            _indexBufferSize = size;
+            indexBufferSize = size;
 
             return true;
         }
@@ -156,22 +164,22 @@ namespace ouzel
             memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
 
             vertexBufferDesc.ByteWidth = static_cast<UINT>(size);
-            vertexBufferDesc.Usage = _dynamicVertexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+            vertexBufferDesc.Usage = dynamicVertexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
             vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-            vertexBufferDesc.CPUAccessFlags = _dynamicVertexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
+            vertexBufferDesc.CPUAccessFlags = dynamicVertexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
 
             D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
             memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));
             vertexBufferResourceData.pSysMem = vertices;
 
-            HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &_vertexBuffer);
-            if (FAILED(hr) || !_vertexBuffer)
+            HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &vertexBuffer);
+            if (FAILED(hr) || !vertexBuffer)
             {
                 log("Failed to create D3D11 vertex buffer");
                 return false;
             }
 
-            _vertexBufferSize = size;
+            vertexBufferSize = size;
 
             return true;
         }

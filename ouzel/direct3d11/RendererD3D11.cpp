@@ -37,52 +37,52 @@ namespace ouzel
 
         void RendererD3D11::destroy()
         {
-            if (_depthStencilState)
+            if (depthStencilState)
             {
-                _depthStencilState->Release();
-                _depthStencilState = nullptr;
+                depthStencilState->Release();
+                depthStencilState = nullptr;
             }
 
-            if (_rasterizerState)
+            if (rasterizerState)
             {
-                _rasterizerState->Release();
-                _rasterizerState = nullptr;
+                rasterizerState->Release();
+                rasterizerState = nullptr;
             }
 
-            if (_samplerState)
+            if (samplerState)
             {
-                _samplerState->Release();
-                _samplerState = nullptr;
+                samplerState->Release();
+                samplerState = nullptr;
             }
 
-            if (_rtView)
+            if (rtView)
             {
-                _rtView->Release();
-                _rtView = nullptr;
+                rtView->Release();
+                rtView = nullptr;
             }
 
-            if (_backBuffer)
+            if (backBuffer)
             {
-                _backBuffer->Release();
-                _backBuffer= nullptr;
+                backBuffer->Release();
+                backBuffer= nullptr;
             }
 
-            if (_swapChain)
+            if (swapChain)
             {
-                _swapChain->Release();
-                _swapChain = nullptr;
+                swapChain->Release();
+                swapChain = nullptr;
             }
 
-            if (_adapter)
+            if (adapter)
             {
-                _adapter->Release();
-                _adapter = nullptr;
+                adapter->Release();
+                adapter = nullptr;
             }
         }
 
-        bool RendererD3D11::init(const Size2& size, bool fullscreen)
+        bool RendererD3D11::init(const Size2& newSize, bool newFullscreen)
         {
-            if (!Renderer::init(size, fullscreen))
+            if (!Renderer::init(newSize, newFullscreen))
             {
                 return false;
             }
@@ -102,10 +102,10 @@ namespace ouzel
                 nullptr, // feature levels
                 0, // ^^
                 D3D11_SDK_VERSION,
-                &_device,
+                &device,
                 nullptr,
-                &_context
-                );
+                &context);
+
             if (FAILED(hr))
             {
                 log("Failed to create the D3D11 device");
@@ -115,9 +115,9 @@ namespace ouzel
             IDXGIDevice* dxgiDevice;
             IDXGIFactory* factory;
 
-            _device->QueryInterface(IID_IDXGIDevice, (void**)&dxgiDevice);
-            dxgiDevice->GetParent(IID_IDXGIAdapter, (void**)&_adapter);
-            hr = _adapter->GetParent(IID_IDXGIFactory, (void**)&factory);
+            device->QueryInterface(IID_IDXGIDevice, (void**)&dxgiDevice);
+            dxgiDevice->GetParent(IID_IDXGIAdapter, (void**)&adapter);
+            hr = adapter->GetParent(IID_IDXGIFactory, (void**)&factory);
             if (FAILED(hr))
             {
                 log("Failed to get the DXGI factory");
@@ -129,9 +129,9 @@ namespace ouzel
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
             memset(&swapChainDesc, 0, sizeof(swapChainDesc));
 
-            swapChainDesc.BufferDesc.Width = static_cast<UINT>(_size.width);
-            swapChainDesc.BufferDesc.Height = static_cast<UINT>(_size.height);
-            swapChainDesc.BufferDesc.RefreshRate.Numerator = _fullscreen ? 60 : 0; // TODO refresh rate?
+            swapChainDesc.BufferDesc.Width = static_cast<UINT>(size.width);
+            swapChainDesc.BufferDesc.Height = static_cast<UINT>(size.height);
+            swapChainDesc.BufferDesc.RefreshRate.Numerator = fullscreen ? 60 : 0; // TODO refresh rate?
             swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
             swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
             swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
@@ -141,11 +141,11 @@ namespace ouzel
             swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
             swapChainDesc.BufferCount = 1;
             swapChainDesc.OutputWindow = windowWin->getNativeWindow();
-            swapChainDesc.Windowed = static_cast<BOOL>(!_fullscreen);
+            swapChainDesc.Windowed = static_cast<BOOL>(!fullscreen);
             swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
             swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-            hr = factory->CreateSwapChain(_device, &swapChainDesc, &_swapChain);
+            hr = factory->CreateSwapChain(device, &swapChainDesc, &swapChain);
             if (FAILED(hr))
             {
                 log("Failed to create the D3D11 swap chain");
@@ -158,15 +158,15 @@ namespace ouzel
             dxgiDevice->Release();
 
             // Backbuffer
-            hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&_backBuffer));
-            if (FAILED(hr) || !_backBuffer)
+            hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer));
+            if (FAILED(hr) || !backBuffer)
             {
                 log("Failed to retrieve D3D11 backbuffer");
                 return false;
             }
 
-            hr = _device->CreateRenderTargetView(_backBuffer, nullptr, &_rtView);
-            if (FAILED(hr) || !_rtView)
+            hr = device->CreateRenderTargetView(backBuffer, nullptr, &rtView);
+            if (FAILED(hr) || !rtView)
             {
                 log("Failed to create D3D11 render target view");
                 return false;
@@ -190,8 +190,8 @@ namespace ouzel
             samplerStateDesc.MinLOD = 0.0f;
             samplerStateDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-            hr = _device->CreateSamplerState(&samplerStateDesc, &_samplerState);
-            if (FAILED(hr) || !_samplerState)
+            hr = device->CreateSamplerState(&samplerStateDesc, &samplerState);
+            if (FAILED(hr) || !samplerState)
             {
                 log("Failed to create D3D11 sampler state");
                 return false;
@@ -210,8 +210,8 @@ namespace ouzel
                 TRUE, // AA lines
             };
 
-            hr = _device->CreateRasterizerState(&rasterStateDesc, &_rasterizerState);
-            if (FAILED(hr) || !_rasterizerState)
+            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerState);
+            if (FAILED(hr) || !rasterizerState)
             {
                 log("Failed to create D3D11 rasterizer state");
                 return false;
@@ -220,11 +220,10 @@ namespace ouzel
             // Depth/stencil state
             D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc =
             {
-                FALSE, // enable depth?
-                       // ...
+                FALSE, // disable depth test
             };
-            hr = _device->CreateDepthStencilState(&depthStencilStateDesc, &_depthStencilState);
-            if (FAILED(hr) || !_depthStencilState)
+            hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState);
+            if (FAILED(hr) || !depthStencilState)
             {
                 log("Failed to create D3D11 depth stencil state");
                 return false;
@@ -310,14 +309,14 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            D3D11_VIEWPORT viewport = { 0, 0, _size.width, _size.height, 0.0f, 1.0f };
-            _context->RSSetViewports(1, &viewport);
-            _context->OMSetRenderTargets(1, &_rtView, nullptr);
+            D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
+            context->RSSetViewports(1, &viewport);
+            context->OMSetRenderTargets(1, &rtView, nullptr);
 
-            memset(&_resourceViews, 0, sizeof(_resourceViews));
-            memset(&_samplerStates, 0, sizeof(_samplerStates));
+            memset(&resourceViews, 0, sizeof(resourceViews));
+            memset(&samplerStates, 0, sizeof(samplerStates));
 
-            setSize(_size);
+            setSize(size);
 
             return true;
         }
@@ -326,17 +325,17 @@ namespace ouzel
         {
             Renderer::clear();
 
-            float color[4] = { _clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA() };
+            float color[4] = { clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA() };
 
-            if (_activeRenderTarget)
+            if (activeRenderTarget)
             {
-                std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+                std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(activeRenderTarget);
 
-                _context->ClearRenderTargetView(renderTargetD3D11->getRenderTargetView(), color);
+                context->ClearRenderTargetView(renderTargetD3D11->getRenderTargetView(), color);
             }
             else
             {
-                _context->ClearRenderTargetView(_rtView, color);
+                context->ClearRenderTargetView(rtView, color);
             }
         }
 
@@ -344,7 +343,7 @@ namespace ouzel
         {
             Renderer::present();
 
-            _swapChain->Present(1 /* TODO vsync off? */, 0);
+            swapChain->Present(1 /* vsync off? */, 0);
         }
 
         IDXGIOutput* RendererD3D11::getOutput() const
@@ -364,7 +363,7 @@ namespace ouzel
             DXGI_OUTPUT_DESC outputDesc;
             HRESULT hr;
 
-            while (_adapter->EnumOutputs(i, &output) != DXGI_ERROR_NOT_FOUND)
+            while (adapter->EnumOutputs(i, &output) != DXGI_ERROR_NOT_FOUND)
             {
                 hr = output->GetDesc(&outputDesc);
 
@@ -418,59 +417,59 @@ namespace ouzel
             return result;
         }
 
-        void RendererD3D11::setSize(const Size2& size)
+        void RendererD3D11::setSize(const Size2& newSize)
         {
-            Renderer::setSize(size);
+            Renderer::setSize(newSize);
 
-            if (_swapChain)
+            if (swapChain)
             {
                 UINT width = static_cast<UINT>(size.width);
                 UINT height = static_cast<UINT>(size.height);
 
-                if (_rtView)
+                if (rtView)
                 {
-                    _rtView->Release();
-                    _rtView = nullptr;
+                    rtView->Release();
+                    rtView = nullptr;
                 }
 
-                if (_backBuffer)
+                if (backBuffer)
                 {
-                    _backBuffer->Release();
-                    _backBuffer = nullptr;
+                    backBuffer->Release();
+                    backBuffer = nullptr;
                 }
 
-                _swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+                swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 
-                HRESULT hr = _swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&_backBuffer);
-                if (FAILED(hr) || !_backBuffer)
+                HRESULT hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
+                if (FAILED(hr) || !backBuffer)
                 {
                     log("Failed to retrieve D3D11 backbuffer");
                     return;
                 }
 
-                hr = _device->CreateRenderTargetView(_backBuffer, nullptr, &_rtView);
-                if (FAILED(hr) || !_rtView)
+                hr = device->CreateRenderTargetView(backBuffer, nullptr, &rtView);
+                if (FAILED(hr) || !rtView)
                 {
                     log("Failed to create D3D11 render target view");
                     return;
                 }
 
                 D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
-                _context->RSSetViewports(1, &viewport);
-                _context->OMSetRenderTargets(1, &_rtView, nullptr);
+                context->RSSetViewports(1, &viewport);
+                context->OMSetRenderTargets(1, &rtView, nullptr);
             }
         }
 
-        void RendererD3D11::setFullscreen(bool fullscreen)
+        void RendererD3D11::setFullscreen(bool newFullscreen)
         {
-            Renderer::setFullscreen(fullscreen);
+            Renderer::setFullscreen(newFullscreen);
 
             BOOL isFullscreen;
-            _swapChain->GetFullscreenState(&isFullscreen, nullptr);
+            swapChain->GetFullscreenState(&isFullscreen, nullptr);
 
-            if (isFullscreen != static_cast<BOOL>(_fullscreen))
+            if (isFullscreen != static_cast<BOOL>(fullscreen))
             {
-                if (_fullscreen)
+                if (fullscreen)
                 {
                     IDXGIOutput* output = getOutput();
 
@@ -515,13 +514,13 @@ namespace ouzel
 
                     setSize(Size2(static_cast<float>(closestDisplayMode.Width),
                                   static_cast<float>(closestDisplayMode.Height)));
-                    _swapChain->SetFullscreenState(TRUE, output);
+                    swapChain->SetFullscreenState(TRUE, output);
 
                     output->Release();
                 }
                 else
                 {
-                    _swapChain->SetFullscreenState(FALSE, nullptr);
+                    swapChain->SetFullscreenState(FALSE, nullptr);
                 }
             }
         }
@@ -548,7 +547,7 @@ namespace ouzel
 
         bool RendererD3D11::activateBlendState(BlendStatePtr blendState)
         {
-            if (_activeBlendState == blendState)
+            if (activeBlendState == blendState)
             {
                 return true;
             }
@@ -560,13 +559,13 @@ namespace ouzel
 
             if (blendState)
             {
-                std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(_activeBlendState);
+                std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(activeBlendState);
 
-                _context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
+                context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
             }
             else
             {
-                _context->OMSetBlendState(NULL, NULL, 0xffffffff);
+                context->OMSetBlendState(NULL, NULL, 0xffffffff);
             }
 
             return true;
@@ -610,7 +609,7 @@ namespace ouzel
 
         bool RendererD3D11::activateTexture(const TexturePtr& texture, uint32_t layer)
         {
-            if (_activeTextures[layer] == texture)
+            if (activeTextures[layer] == texture)
             {
                 return true;
             }
@@ -620,17 +619,17 @@ namespace ouzel
                 return false;
             }
 
-            if (_activeTextures[layer])
+            if (activeTextures[layer])
             {
-                std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(_activeTextures[layer]);
+                std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(activeTextures[layer]);
 
-                _resourceViews[layer] = textureD3D11->getResourceView();
-                _samplerStates[layer] = _samplerState;
+                resourceViews[layer] = textureD3D11->getResourceView();
+                samplerStates[layer] = samplerState;
             }
             else
             {
-                _resourceViews[layer] = nullptr;
-                _samplerStates[layer] = nullptr;
+                resourceViews[layer] = nullptr;
+                samplerStates[layer] = nullptr;
             }
 
             return true;
@@ -650,7 +649,7 @@ namespace ouzel
 
         bool RendererD3D11::activateRenderTarget(const RenderTargetPtr& renderTarget)
         {
-            if (_activeRenderTarget == renderTarget)
+            if (activeRenderTarget == renderTarget)
             {
                 return true;
             }
@@ -660,17 +659,17 @@ namespace ouzel
                 return false;
             }
 
-            if (_activeRenderTarget)
+            if (activeRenderTarget)
             {
-                std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(_activeRenderTarget);
+                std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(activeRenderTarget);
 
                 ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
 
-                _context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+                context->OMSetRenderTargets(1, &renderTargetView, nullptr);
             }
             else
             {
-                _context->OMSetRenderTargets(1, nullptr, nullptr);
+                context->OMSetRenderTargets(1, nullptr, nullptr);
             }
 
             return true;
@@ -712,7 +711,7 @@ namespace ouzel
 
         bool RendererD3D11::activateShader(const ShaderPtr& shader)
         {
-            if (_activeShader == shader)
+            if (activeShader == shader)
             {
                 return true;
             }
@@ -722,25 +721,25 @@ namespace ouzel
                 return false;
             }
 
-            if (_activeShader)
+            if (activeShader)
             {
-                std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(_activeShader);
+                std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(activeShader);
 
                 ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
-                _context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+                context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
 
                 ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
-                _context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+                context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
 
-                _context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
-                _context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+                context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+                context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
 
-                _context->IASetInputLayout(shaderD3D11->getInputLayout());
+                context->IASetInputLayout(shaderD3D11->getInputLayout());
             }
             else
             {
-                _context->PSSetShader(nullptr, nullptr, 0);
-                _context->VSSetShader(nullptr, nullptr, 0);
+                context->PSSetShader(nullptr, nullptr, 0);
+                context->VSSetShader(nullptr, nullptr, 0);
             }
 
             return true;
@@ -777,13 +776,13 @@ namespace ouzel
                 return false;
             }
 
-            if (!_activeShader)
+            if (!activeShader)
             {
                 return false;
             }
 
-            _context->PSSetShaderResources(0, TEXTURE_LAYERS, _resourceViews);
-            _context->PSSetSamplers(0, TEXTURE_LAYERS, _samplerStates);
+            context->PSSetShaderResources(0, TEXTURE_LAYERS, resourceViews);
+            context->PSSetSamplers(0, TEXTURE_LAYERS, samplerStates);
 
             std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(meshBuffer);
 
@@ -792,14 +791,14 @@ namespace ouzel
                 indexCount = meshBufferD3D11->getIndexCount() - startIndex;
             }
 
-            _context->RSSetState(_rasterizerState);
-            _context->OMSetDepthStencilState(_depthStencilState, 0);
+            context->RSSetState(rasterizerState);
+            context->OMSetDepthStencilState(depthStencilState, 0);
 
             ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
             UINT stride = meshBufferD3D11->getVertexSize();
             UINT offset = 0;
-            _context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
-            _context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+            context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
+            context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
 
             D3D_PRIMITIVE_TOPOLOGY topology;
 
@@ -813,9 +812,9 @@ namespace ouzel
                 default: return false;
             }
 
-            _context->IASetPrimitiveTopology(topology);
+            context->IASetPrimitiveTopology(topology);
 
-            _context->DrawIndexed(indexCount, static_cast<UINT>(startIndex * meshBuffer->getIndexSize()), 0);
+            context->DrawIndexed(indexCount, static_cast<UINT>(startIndex * meshBuffer->getIndexSize()), 0);
 
             return true;
         }
@@ -828,8 +827,8 @@ namespace ouzel
             }
 
             D3D11_TEXTURE2D_DESC desc;
-            desc.Width = static_cast<UINT>(_size.width);
-            desc.Height = static_cast<UINT>(_size.height);
+            desc.Width = static_cast<UINT>(size.width);
+            desc.Height = static_cast<UINT>(size.height);
             desc.MipLevels = 1;
             desc.ArraySize = 1;
             desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -842,17 +841,17 @@ namespace ouzel
 
             ID3D11Texture2D* texture;
 
-            HRESULT hr = _device->CreateTexture2D(&desc, nullptr, &texture);
+            HRESULT hr = device->CreateTexture2D(&desc, nullptr, &texture);
 
             if (FAILED(hr))
             {
                 return false;
             }
 
-            _context->CopyResource(texture, _backBuffer);
+            context->CopyResource(texture, backBuffer);
 
             D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-            hr = _context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
+            hr = context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
 
             if (FAILED(hr))
             {
@@ -864,7 +863,7 @@ namespace ouzel
 
             stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, size);
 
-            _context->Unmap(texture, 0);
+            context->Unmap(texture, 0);
 
             texture->Release();
 

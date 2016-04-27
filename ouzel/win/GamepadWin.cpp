@@ -12,63 +12,63 @@ namespace ouzel
         const int32_t MAX_THUMB_VALUE = 32767;
         const int32_t MIN_THUMB_VALUE = -32768;
 
-        GamepadWin::GamepadWin(int32_t playerIndex):
-            _playerIndex(playerIndex)
+        GamepadWin::GamepadWin(int32_t pPlayerIndex):
+            playerIndex(pPlayerIndex)
         {
-            memset(&_state, 0, sizeof(XINPUT_STATE));
-            memset(&_vibration, 0, sizeof(XINPUT_VIBRATION));
+            memset(&state, 0, sizeof(XINPUT_STATE));
+            memset(&vibration, 0, sizeof(XINPUT_VIBRATION));
         }
 
-        void GamepadWin::update(const XINPUT_STATE& state)
+        void GamepadWin::update(const XINPUT_STATE& newState)
         {
-            if (state.dwPacketNumber > _state.dwPacketNumber)
+            if (newState.dwPacketNumber > state.dwPacketNumber)
             {
                 // buttons
-                checkButton(state, XINPUT_GAMEPAD_DPAD_UP, GamepadButton::DPAD_UP);
-                checkButton(state, XINPUT_GAMEPAD_DPAD_DOWN, GamepadButton::DPAD_DOWN);
-                checkButton(state, XINPUT_GAMEPAD_DPAD_LEFT, GamepadButton::DPAD_LEFT);
-                checkButton(state, XINPUT_GAMEPAD_DPAD_RIGHT, GamepadButton::DPAD_RIGHT);
-                checkButton(state, XINPUT_GAMEPAD_START, GamepadButton::START);
-                checkButton(state, XINPUT_GAMEPAD_BACK, GamepadButton::BACK);
-                checkButton(state, XINPUT_GAMEPAD_LEFT_THUMB, GamepadButton::LEFT_THUMB);
-                checkButton(state, XINPUT_GAMEPAD_RIGHT_THUMB, GamepadButton::RIGHT_THUMB);
-                checkButton(state, XINPUT_GAMEPAD_LEFT_SHOULDER, GamepadButton::LEFT_SHOULDER);
-                checkButton(state, XINPUT_GAMEPAD_RIGHT_SHOULDER, GamepadButton::RIGHT_SHOULDER);
-                checkButton(state, XINPUT_GAMEPAD_A, GamepadButton::A);
-                checkButton(state, XINPUT_GAMEPAD_B, GamepadButton::B);
-                checkButton(state, XINPUT_GAMEPAD_X, GamepadButton::X);
-                checkButton(state, XINPUT_GAMEPAD_Y, GamepadButton::Y);
+                checkButton(newState, XINPUT_GAMEPAD_DPAD_UP, GamepadButton::DPAD_UP);
+                checkButton(newState, XINPUT_GAMEPAD_DPAD_DOWN, GamepadButton::DPAD_DOWN);
+                checkButton(newState, XINPUT_GAMEPAD_DPAD_LEFT, GamepadButton::DPAD_LEFT);
+                checkButton(newState, XINPUT_GAMEPAD_DPAD_RIGHT, GamepadButton::DPAD_RIGHT);
+                checkButton(newState, XINPUT_GAMEPAD_START, GamepadButton::START);
+                checkButton(newState, XINPUT_GAMEPAD_BACK, GamepadButton::BACK);
+                checkButton(newState, XINPUT_GAMEPAD_LEFT_THUMB, GamepadButton::LEFT_THUMB);
+                checkButton(newState, XINPUT_GAMEPAD_RIGHT_THUMB, GamepadButton::RIGHT_THUMB);
+                checkButton(newState, XINPUT_GAMEPAD_LEFT_SHOULDER, GamepadButton::LEFT_SHOULDER);
+                checkButton(newState, XINPUT_GAMEPAD_RIGHT_SHOULDER, GamepadButton::RIGHT_SHOULDER);
+                checkButton(newState, XINPUT_GAMEPAD_A, GamepadButton::A);
+                checkButton(newState, XINPUT_GAMEPAD_B, GamepadButton::B);
+                checkButton(newState, XINPUT_GAMEPAD_X, GamepadButton::X);
+                checkButton(newState, XINPUT_GAMEPAD_Y, GamepadButton::Y);
 
                 // triggers
-                if (state.Gamepad.bLeftTrigger != _state.Gamepad.bLeftTrigger)
+                if (newState.Gamepad.bLeftTrigger != state.Gamepad.bLeftTrigger)
                 {
                     handleButtonValueChange(GamepadButton::LEFT_TRIGGER,
-                        state.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
-                        static_cast<float>(state.Gamepad.bLeftTrigger) / 255.0f);
+						newState.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
+                        static_cast<float>(newState.Gamepad.bLeftTrigger) / 255.0f);
                 }
 
-                if (state.Gamepad.bRightTrigger != _state.Gamepad.bRightTrigger)
+                if (newState.Gamepad.bRightTrigger != state.Gamepad.bRightTrigger)
                 {
                     handleButtonValueChange(GamepadButton::RIGHT_TRIGGER,
-                        state.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
-                        static_cast<float>(state.Gamepad.bRightTrigger) / 255.0f);
+						newState.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
+                        static_cast<float>(newState.Gamepad.bRightTrigger) / 255.0f);
                 }
 
                 // left thumbstick
-                checkThumbAxis(_state.Gamepad.sThumbLX, state.Gamepad.sThumbLX, GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
-                checkThumbAxis(_state.Gamepad.sThumbLY, state.Gamepad.sThumbLY, GamepadButton::LEFT_THUMB_DOWN, GamepadButton::LEFT_THUMB_UP);
+                checkThumbAxis(state.Gamepad.sThumbLX, newState.Gamepad.sThumbLX, GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
+                checkThumbAxis(state.Gamepad.sThumbLY, newState.Gamepad.sThumbLY, GamepadButton::LEFT_THUMB_DOWN, GamepadButton::LEFT_THUMB_UP);
 
                 // right thumbstick
-                checkThumbAxis(_state.Gamepad.sThumbRX, state.Gamepad.sThumbRX, GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
-                checkThumbAxis(_state.Gamepad.sThumbRY, state.Gamepad.sThumbRY, GamepadButton::RIGHT_THUMB_DOWN, GamepadButton::RIGHT_THUMB_UP);
+                checkThumbAxis(state.Gamepad.sThumbRX, newState.Gamepad.sThumbRX, GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
+                checkThumbAxis(state.Gamepad.sThumbRY, newState.Gamepad.sThumbRY, GamepadButton::RIGHT_THUMB_DOWN, GamepadButton::RIGHT_THUMB_UP);
 
-                _state = state;
+                state = newState;
             }
         }
 
         int32_t GamepadWin::getPlayerIndex() const
         {
-            return _playerIndex;
+            return playerIndex;
         }
 
         void GamepadWin::checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton)
@@ -101,11 +101,11 @@ namespace ouzel
             }
         }
 
-        void GamepadWin::checkButton(const XINPUT_STATE& state, WORD mask, GamepadButton button)
+        void GamepadWin::checkButton(const XINPUT_STATE& newState, WORD mask, GamepadButton button)
         {
-            if ((state.Gamepad.wButtons & mask) != (_state.Gamepad.wButtons & mask))
+            if ((newState.Gamepad.wButtons & mask) != (state.Gamepad.wButtons & mask))
             {
-                bool pressed = ((state.Gamepad.wButtons & mask) == mask);
+                bool pressed = ((newState.Gamepad.wButtons & mask) == mask);
                 handleButtonValueChange(button, pressed, pressed ? 1.0f : 0.0f);
             }
         }
@@ -115,18 +115,18 @@ namespace ouzel
             switch (motor)
             {
             case Motor::ALL:
-                _vibration.wLeftMotorSpeed = static_cast<WORD>(speed);
-                _vibration.wRightMotorSpeed = static_cast<WORD>(speed);
+                vibration.wLeftMotorSpeed = static_cast<WORD>(speed);
+                vibration.wRightMotorSpeed = static_cast<WORD>(speed);
                 break;
             case Motor::LEFT:
-                _vibration.wLeftMotorSpeed = static_cast<WORD>(speed);
+                vibration.wLeftMotorSpeed = static_cast<WORD>(speed);
                 break;
             case Motor::RIGHT:
-                _vibration.wRightMotorSpeed = static_cast<WORD>(speed);
+                vibration.wRightMotorSpeed = static_cast<WORD>(speed);
                 break;
             }
 
-            XInputSetState(_playerIndex, &_vibration);
+            XInputSetState(playerIndex, &vibration);
         }
 
         float GamepadWin::getVibration(Motor motor)
@@ -135,10 +135,10 @@ namespace ouzel
             {
             case Motor::ALL:
             case Motor::LEFT:
-                return _vibration.wLeftMotorSpeed;
+                return vibration.wLeftMotorSpeed;
                 break;
             case Motor::RIGHT:
-                return _vibration.wRightMotorSpeed;
+                return vibration.wRightMotorSpeed;
             }
 
             return 0.0f;

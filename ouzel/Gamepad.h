@@ -44,7 +44,7 @@ namespace ouzel
 
             void handleButtonValueChange(GamepadButton button, bool pressed, float value);
 
-            GamepadButtonState buttonStates[static_cast<uint32_t>(GamepadButton::BUTTON_COUNT)] = { { false, 0.0f } };
+            GamepadButtonState buttonStates[static_cast<uint32_t>(GamepadButton::BUTTON_COUNT)];
         };
     } // namespace input
 } // namespace ouzel

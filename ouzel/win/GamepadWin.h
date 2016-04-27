@@ -17,7 +17,7 @@ namespace ouzel
         {
             friend InputWin;
         public:
-            void update(const XINPUT_STATE& state);
+            void update(const XINPUT_STATE& newState);
 
             virtual int32_t getPlayerIndex() const override;
 
@@ -25,14 +25,14 @@ namespace ouzel
             virtual float getVibration(Motor motor) override;
 
         protected:
-            GamepadWin(int32_t playerIndex);
+            GamepadWin(int32_t pPlayerIndex);
 
             void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
-            void checkButton(const XINPUT_STATE& state, WORD mask, GamepadButton button);
+            void checkButton(const XINPUT_STATE& newState, WORD mask, GamepadButton button);
 
-            XINPUT_STATE _state;
-            XINPUT_VIBRATION _vibration;
-            int32_t _playerIndex;
+            XINPUT_STATE state;
+            XINPUT_VIBRATION vibration;
+            int32_t playerIndex;
         };
     } // namespace input
 } // namespace ouzel
