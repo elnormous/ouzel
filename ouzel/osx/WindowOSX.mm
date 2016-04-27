@@ -245,7 +245,7 @@ namespace ouzel
             }
         }
 
-        Window::setTitle(title);
+        Window::setTitle(newTitle);
     }
 
     void WindowOSX::handleResize()
