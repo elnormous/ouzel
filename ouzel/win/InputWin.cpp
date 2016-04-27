@@ -68,9 +68,9 @@ namespace ouzel
 
         void InputWin::setCursorVisible(bool visible)
         {
-            _cursorVisible = visible;
+            cursorVisible = visible;
 
-            if (_cursorVisible)
+            if (cursorVisible)
             {
                 SetCursor(LoadCursor(nullptr, IDC_ARROW));
             }
@@ -82,7 +82,7 @@ namespace ouzel
 
         bool InputWin::isCursorVisible() const
         {
-            return _cursorVisible;
+            return cursorVisible;
         }
     } // namespace input
 } // namespace ouzel

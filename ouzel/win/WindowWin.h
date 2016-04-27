@@ -16,20 +16,20 @@ namespace ouzel
 
         virtual void close() override;
 
-        virtual void setSize(const Size2& size) override;
-        virtual void setTitle(const std::string& title) override;
+        virtual void setSize(const Size2& newSize) override;
+        virtual void setTitle(const std::string& newTitle) override;
 
         void handleResize(INT width, INT height);
 
-        HWND getNativeWindow() const { return _window; }
+        HWND getNativeWindow() const { return window; }
         HMONITOR getMonitor() const;
 
     protected:
         WindowWin(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver);
         virtual bool init() override;
 
-        ATOM _windowClass = 0;
-        HWND _window = 0;
-        DWORD _windowStyle;
+        ATOM windowClass = 0;
+        HWND window = 0;
+        DWORD windowStyle;
     };
 }

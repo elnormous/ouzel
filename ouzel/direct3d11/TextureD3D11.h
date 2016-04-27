@@ -20,27 +20,27 @@ namespace ouzel
         public:
             virtual ~TextureD3D11();
 
-            virtual bool init(const Size2& size, bool dynamic, bool mipmaps = true) override;
-            virtual bool initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
+            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
+            virtual bool initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
 
-            virtual bool upload(const void* data, const Size2& size) override;
+            virtual bool upload(const void* data, const Size2& newSize) override;
 
-            ID3D11Texture2D* getTexture() const { return _texture; }
-            ID3D11ShaderResourceView* getResourceView() const { return _resourceView; }
+            ID3D11Texture2D* getTexture() const { return texture; }
+            ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
 
         protected:
             TextureD3D11();
 
             void destroy();
-            bool createTexture(const void* data, UINT width, UINT height);
-            bool uploadData(const void* data, UINT width, UINT height);
+            bool createTexture(const void* data, UINT newWidth, UINT newHeight);
+            bool uploadData(const void* data, UINT newWidth, UINT newHeight);
 
-            ID3D11Texture2D* _texture = nullptr;
-            ID3D11ShaderResourceView* _resourceView = nullptr;
+            ID3D11Texture2D* texture = nullptr;
+            ID3D11ShaderResourceView* resourceView = nullptr;
 
-            UINT _width = 0;
-            UINT _height = 0;
-            UINT _mipLevels = 0;
+            UINT width = 0;
+            UINT height = 0;
+            UINT mipLevels = 0;
         };
     } // namespace graphics
 } // namespace ouzel

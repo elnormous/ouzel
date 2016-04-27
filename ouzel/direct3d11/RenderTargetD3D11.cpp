@@ -22,16 +22,16 @@ namespace ouzel
 
         void RenderTargetD3D11::destroy()
         {
-            if (_renderTargetView)
+            if (renderTargetView)
             {
-                _renderTargetView->Release();
-                _renderTargetView = nullptr;
+                renderTargetView->Release();
+                renderTargetView = nullptr;
             }
         }
 
-        bool RenderTargetD3D11::init(const Size2& size, bool depthBuffer)
+        bool RenderTargetD3D11::init(const Size2& newSize, bool depthBuffer)
         {
-            if (!RenderTarget::init(size, depthBuffer))
+            if (!RenderTarget::init(newSize, depthBuffer))
             {
                 return false;
             }
@@ -45,7 +45,7 @@ namespace ouzel
                 return false;
             }
 
-            _texture = textureD3D11;
+            texture = textureD3D11;
 
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
@@ -54,7 +54,7 @@ namespace ouzel
             renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
             renderTargetViewDesc.Texture2D.MipSlice = 0;
 
-            HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(textureD3D11->getTexture(), &renderTargetViewDesc, &_renderTargetView);
+            HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(textureD3D11->getTexture(), &renderTargetViewDesc, &renderTargetView);
             if (FAILED(hr))
             {
                 return false;

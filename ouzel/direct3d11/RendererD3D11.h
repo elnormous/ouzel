@@ -22,9 +22,9 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual void setSize(const Size2& size) override;
+            virtual void setSize(const Size2& newSize) override;
 
-            virtual void setFullscreen(bool fullscreen) override;
+            virtual void setFullscreen(bool newFullscreen) override;
 
             virtual BlendStatePtr createBlendState(bool enableBlending,
                                                    BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
@@ -59,31 +59,31 @@ namespace ouzel
 
             virtual bool saveScreenshot(const std::string& filename) override;
 
-            ID3D11Device* getDevice() const { return _device; }
-            ID3D11DeviceContext* getContext() const { return _context; }
+            ID3D11Device* getDevice() const { return device; }
+            ID3D11DeviceContext* getContext() const { return context; }
 
         protected:
             RendererD3D11();
 
             void destroy();
-            virtual bool init(const Size2& size, bool fullscreen) override;
+            virtual bool init(const Size2& newSize, bool newFullscreen) override;
 
             IDXGIOutput* getOutput() const;
 
         private:
-            ID3D11Device* _device = nullptr;
-            ID3D11DeviceContext* _context = nullptr;
-            IDXGISwapChain* _swapChain = nullptr;
-            IDXGIAdapter* _adapter = nullptr;
-            ID3D11Texture2D* _backBuffer = nullptr;
-            ID3D11RenderTargetView* _rtView = nullptr;
-            ID3D11SamplerState* _samplerState = nullptr;
-            ID3D11RasterizerState* _rasterizerState = nullptr;
+            ID3D11Device* device = nullptr;
+            ID3D11DeviceContext* context = nullptr;
+            IDXGISwapChain* swapChain = nullptr;
+            IDXGIAdapter* adapter = nullptr;
+            ID3D11Texture2D* backBuffer = nullptr;
+            ID3D11RenderTargetView* rtView = nullptr;
+            ID3D11SamplerState* samplerState = nullptr;
+            ID3D11RasterizerState* rasterizerState = nullptr;
 
-            ID3D11DepthStencilState* _depthStencilState = nullptr;
+            ID3D11DepthStencilState* depthStencilState = nullptr;
 
-            ID3D11ShaderResourceView* _resourceViews[TEXTURE_LAYERS];
-            ID3D11SamplerState* _samplerStates[TEXTURE_LAYERS];
+            ID3D11ShaderResourceView* resourceViews[TEXTURE_LAYERS];
+            ID3D11SamplerState* samplerStates[TEXTURE_LAYERS];
         };
     } // namespace graphics
 } // namespace ouzel

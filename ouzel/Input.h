@@ -253,8 +253,8 @@ namespace ouzel
             void mouseDragNode(const scene::NodePtr& node, const Vector2& position);
 
             Vector2 cursorPosition;
-            bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)] = { 0 };
-            bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)] = { 0 };
+            bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
+            bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
 
             scene::NodeWeakPtr mouseNode;
             scene::NodeWeakPtr mouseDownNode;

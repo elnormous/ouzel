@@ -19,16 +19,16 @@ namespace ouzel
         public:
             virtual ~RenderTargetD3D11();
 
-            virtual bool init(const Size2& size, bool depthBuffer);
+            virtual bool init(const Size2& newSize, bool depthBuffer);
 
-            ID3D11RenderTargetView* getRenderTargetView() const { return _renderTargetView; }
+            ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
 
         protected:
             RenderTargetD3D11();
 
             void destroy();
 
-            ID3D11RenderTargetView* _renderTargetView = nullptr;
+            ID3D11RenderTargetView* renderTargetView = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel
