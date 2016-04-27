@@ -79,9 +79,9 @@ namespace ouzel
                               static_cast<NSUInteger>(size.height));
         }
 
-        bool TextureMetal::upload(const void* data, const Size2& size)
+        bool TextureMetal::upload(const void* data, const Size2& newSize)
         {
-            if (!Texture::upload(data, size))
+            if (!Texture::upload(data, newSize))
             {
                 return false;
             }

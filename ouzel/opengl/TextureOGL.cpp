@@ -90,9 +90,9 @@ namespace ouzel
                               static_cast<GLsizei>(size.height));
         }
 
-        bool TextureOGL::upload(const void* data, const Size2& size)
+        bool TextureOGL::upload(const void* data, const Size2& newSize)
         {
-            if (!Texture::upload(data, size))
+            if (!Texture::upload(data, newSize))
             {
                 return false;
             }
