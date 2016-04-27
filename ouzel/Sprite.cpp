@@ -272,9 +272,9 @@ namespace ouzel
             }
         }
 
-        void Sprite::setOpacity(float opacity)
+        void Sprite::setOpacity(float newOpacity)
         {
-            opacity = opacity;
+            opacity = newOpacity;
 
             updateVertexColor();
         }

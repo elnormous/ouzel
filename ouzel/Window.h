@@ -31,7 +31,7 @@ namespace ouzel
         virtual void setTitle(const std::string& newTitle);
 
     protected:
-        Window(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver);
+        Window(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle, graphics::Renderer::Driver pDriver);
         virtual bool init();
 
         Size2 size;

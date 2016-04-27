@@ -28,7 +28,7 @@ namespace ouzel
             virtual void update(float delta);
             virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor) override;
 
-            virtual void setOpacity(float opacity);
+            virtual void setOpacity(float newOpacity);
 
             virtual graphics::TexturePtr getTexture() const { return texture; }
             virtual void setTexture(const graphics::TexturePtr& newTexture);

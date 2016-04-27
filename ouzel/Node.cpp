@@ -358,8 +358,8 @@ namespace ouzel
         {
             Vector3 localPosition = worldPosition;
 
-            const Matrix4& inverseTransform = getInverseTransform();
-            inverseTransform.transformPoint(localPosition);
+            const Matrix4& currentInverseTransform = getInverseTransform();
+            currentInverseTransform.transformPoint(localPosition);
 
             return Vector2(localPosition.x, localPosition.y);
         }
@@ -368,8 +368,8 @@ namespace ouzel
         {
             Vector3 worldPosition = localPosition;
 
-            const Matrix4& transform = getTransform();
-            transform.transformPoint(worldPosition);
+            const Matrix4& currentTransform = getTransform();
+            currentTransform.transformPoint(worldPosition);
 
             return Vector2(worldPosition.x, worldPosition.y);
         }

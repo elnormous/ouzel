@@ -116,9 +116,9 @@ namespace ouzel
 
             NSError* err = Nil;
 
-            dispatch_data_t pixelShaderData = dispatch_data_create(newPixelShader, newPixelShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-            id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderData error:&err];
-            [pixelShaderData release];
+            dispatch_data_t pixelShaderDispatchData = dispatch_data_create(newPixelShader, newPixelShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
+            dispatch_release(pixelShaderDispatchData);
 
             if (err != Nil)
             {
@@ -137,9 +137,9 @@ namespace ouzel
                 return false;
             }
 
-            dispatch_data_t vertexShaderData = dispatch_data_create(newVertexShader, newVertexShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-            id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderData error:&err];
-            [vertexShaderData release];
+            dispatch_data_t vertexShaderDispatchData = dispatch_data_create(newVertexShader, newVertexShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
+            dispatch_release(vertexShaderDispatchData);
 
             if (err != Nil)
             {
@@ -260,7 +260,7 @@ namespace ouzel
             return uploadData(pixelShaderConstantBuffer,
                               pixelShaderConstantBufferOffset,
                               pixelShaderData.data(),
-                              pixelShaderData.size());
+                              static_cast<uint32_t>(pixelShaderData.size()));
         }
 
         bool ShaderMetal::setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
@@ -273,7 +273,7 @@ namespace ouzel
             return uploadData(vertexShaderConstantBuffer,
                               vertexShaderConstantBufferOffset,
                               vertexShaderData.data(),
-                              vertexShaderData.size());
+                              static_cast<uint32_t>(vertexShaderData.size()));
         }
 
         bool ShaderMetal::createPixelShaderConstantBuffer(uint32_t size)
