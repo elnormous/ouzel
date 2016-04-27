@@ -18,9 +18,9 @@ namespace ouzel
 
         }
 
-        bool RenderTargetMetal::init(const Size2& size, bool depthBuffer)
+        bool RenderTargetMetal::init(const Size2& newSize, bool depthBuffer)
         {
-            if (RenderTarget::init(size, depthBuffer))
+            if (RenderTarget::init(newSize, depthBuffer))
             {
                 return false;
             }

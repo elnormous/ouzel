@@ -19,7 +19,7 @@ namespace ouzel
         public:
             virtual ~RenderTargetMetal();
 
-            virtual bool init(const Size2& size, bool depthBuffer) override;
+            virtual bool init(const Size2& newSize, bool depthBuffer) override;
 
         protected:
             RenderTargetMetal();
