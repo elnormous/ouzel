@@ -123,7 +123,7 @@ namespace ouzel
 #elif OUZEL_PLATFORM_IOS
             std::shared_ptr<WindowIOS> window = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow());
 #endif
-            view = window->getNativeView();
+            view = static_cast<MTKView*>(window->getNativeView());
             view.device = device;
             //_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 
