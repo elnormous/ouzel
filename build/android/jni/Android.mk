@@ -19,7 +19,8 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/CheckBox.cpp \
     ../../../ouzel/Color.cpp \
     ../../../ouzel/ComboBox.cpp \
-    ../../../ouzel/DrawNode.cpp \
+    ../../../ouzel/DebugDrawable.cpp \
+    ../../../ouzel/Drawable.cpp \
     ../../../ouzel/Ease.cpp \
     ../../../ouzel/EditBox.cpp \
     ../../../ouzel/Engine.cpp \
@@ -61,6 +62,7 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Shake.cpp \
     ../../../ouzel/Size2.cpp \
     ../../../ouzel/Sprite.cpp \
+    ../../../ouzel/TextDrawable.cpp \
     ../../../ouzel/Texture.cpp \
     ../../../ouzel/Utils.cpp \
     ../../../ouzel/Vector2.cpp \

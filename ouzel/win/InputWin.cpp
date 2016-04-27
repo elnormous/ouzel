@@ -33,30 +33,30 @@ namespace ouzel
 
                 if (result == ERROR_SUCCESS)
                 {
-                    if (!_gamepads[i])
+                    if (!gamepads[i])
                     {
-                        _gamepads[i].reset(new GamepadWin(static_cast<int32_t>(i)));
+                        gamepads[i].reset(new GamepadWin(static_cast<int32_t>(i)));
 
                         GamepadEventPtr event = std::make_shared<GamepadEvent>();
                         event->type = Event::Type::GAMEPAD_CONNECT;
-                        event->gamepad = _gamepads[i];
+                        event->gamepad = gamepads[i];
 
                         sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
                     }
 
-                    _gamepads[i]->update(state);
+                    gamepads[i]->update(state);
                 }
                 else if (result == ERROR_DEVICE_NOT_CONNECTED)
                 {
-                    if (_gamepads[i])
+                    if (gamepads[i])
                     {
                         GamepadEventPtr event = std::make_shared<GamepadEvent>();
                         event->type = Event::Type::GAMEPAD_DISCONNECT;
-                        event->gamepad = _gamepads[i];
+                        event->gamepad = gamepads[i];
 
                         sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
 
-                        _gamepads[i].reset();
+                        gamepads[i].reset();
                     }
                 }
                 else

@@ -14,7 +14,7 @@ namespace ouzel
         virtual ~WindowLinux();
 
     protected:
-        WindowLinux(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver);
+        WindowLinux(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle, graphics::Renderer::Driver pDriver);
         virtual bool init() override;
     };
 }
