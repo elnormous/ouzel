@@ -26,11 +26,11 @@ namespace ouzel
 
         }
 
-        void Node::visit(const Matrix4& parentTransform, bool parentTransformDirty)
+        void Node::visit(const Matrix4& newTransformMatrix, bool parentTransformDirty)
         {
             if (parentTransformDirty)
             {
-                updateTransform(parentTransform);
+                updateTransform(newTransformMatrix);
             }
 
             if (visible)

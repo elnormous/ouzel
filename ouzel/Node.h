@@ -27,7 +27,7 @@ namespace ouzel
             Node();
             virtual ~Node();
 
-            virtual void visit(const Matrix4& parentTransform, bool parentTransformDirty);
+            virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty);
             virtual void process();
             virtual void draw();
 
