@@ -81,7 +81,11 @@ namespace ouzel
 
             if (indexSize * indexCount > indexBufferSize)
             {
-                if (indexBuffer) [indexBuffer release];
+                if (indexBuffer)
+                {
+                    [indexBuffer release];
+                    indexBuffer = Nil;
+                }
                 return createIndexBuffer(indices, indexSize * indexCount);
             }
             else
@@ -99,7 +103,11 @@ namespace ouzel
 
             if (vertexSize * vertexCount > vertexBufferSize)
             {
-                if (vertexBuffer) [vertexBuffer release];
+                if (vertexBuffer)
+                {
+                    [vertexBuffer release];
+                    vertexBuffer = Nil;
+                }
                 return createVertexBuffer(vertices, vertexSize * vertexCount);
             }
             else
@@ -127,7 +135,7 @@ namespace ouzel
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
             indexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
-                                                                   options:MTLResourceCPUCacheModeWriteCombined];
+                                                                  options:MTLResourceCPUCacheModeWriteCombined];
 
             if (indexBuffer == Nil)
             {
@@ -145,7 +153,7 @@ namespace ouzel
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
             vertexBuffer = [rendererMetal->getDevice() newBufferWithLength:size
-                                                                    options:MTLResourceCPUCacheModeWriteCombined];
+                                                                   options:MTLResourceCPUCacheModeWriteCombined];
 
             if (vertexBuffer == Nil)
             {

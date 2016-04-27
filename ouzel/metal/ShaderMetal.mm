@@ -187,7 +187,11 @@ namespace ouzel
 
             if (offset > pixelShaderData.size())
             {
-                if (pixelShaderConstantBuffer) [pixelShaderConstantBuffer release];
+                if (pixelShaderConstantBuffer)
+                {
+                    [pixelShaderConstantBuffer release];
+                    pixelShaderConstantBuffer = Nil;
+                }
                 createPixelShaderConstantBuffer(offset);
             }
 
@@ -210,7 +214,11 @@ namespace ouzel
 
             if (offset > vertexShaderData.size())
             {
-                if (vertexShaderConstantBuffer) [vertexShaderConstantBuffer release];
+                if (vertexShaderConstantBuffer)
+                {
+                    [vertexShaderConstantBuffer release];
+                    vertexShaderConstantBuffer = Nil;
+                }
                 createVertexShaderConstantBuffer(offset);
             }
 
@@ -273,7 +281,7 @@ namespace ouzel
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
             pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
-                                                                                 options:MTLResourceCPUCacheModeWriteCombined];
+                                                                                options:MTLResourceCPUCacheModeWriteCombined];
 
             if (pixelShaderConstantBuffer == Nil)
             {
@@ -291,7 +299,7 @@ namespace ouzel
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
             vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
-                                                                                  options:MTLResourceCPUCacheModeWriteCombined];
+                                                                                 options:MTLResourceCPUCacheModeWriteCombined];
 
             if (vertexShaderConstantBuffer == Nil)
             {
