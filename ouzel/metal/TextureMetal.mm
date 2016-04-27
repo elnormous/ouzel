@@ -40,18 +40,9 @@ namespace ouzel
 
             destroy();
 
-            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
-
-            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
-                                                                                                         width:static_cast<NSUInteger>(size.width)
-                                                                                                        height:static_cast<NSUInteger>(size.height)
-                                                                                                     mipmapped:mipmaps ? YES : NO];
-            textureDescriptor.textureType = MTLTextureType2D;
-            textureDescriptor.usage = MTLTextureUsageShaderRead;
-
-            texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
-
-            return true;
+            return createTexture(nullptr,
+                                 static_cast<NSUInteger>(size.width),
+                                 static_cast<NSUInteger>(size.height));
         }
 
         bool TextureMetal::initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
@@ -63,20 +54,9 @@ namespace ouzel
 
             destroy();
 
-            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
-
-            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
-                                                                                                         width:static_cast<NSUInteger>(size.width)
-                                                                                                        height:static_cast<NSUInteger>(size.height)
-                                                                                                     mipmapped:mipmaps ? YES : NO];
-            textureDescriptor.textureType = MTLTextureType2D;
-            textureDescriptor.usage = MTLTextureUsageShaderRead;
-
-            texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
-
-            return uploadData(data,
-                              static_cast<NSUInteger>(size.width),
-                              static_cast<NSUInteger>(size.height));
+            return createTexture(data,
+                                 static_cast<NSUInteger>(size.width),
+                                 static_cast<NSUInteger>(size.height));
         }
 
         bool TextureMetal::upload(const void* data, const Size2& newSize)
@@ -86,30 +66,82 @@ namespace ouzel
                 return false;
             }
 
-            return uploadData(data,
-                              static_cast<NSUInteger>(size.width),
-                              static_cast<NSUInteger>(size.height));
+            if (static_cast<NSUInteger>(size.width) != width ||
+                static_cast<NSUInteger>(size.height) != height)
+            {
+                if (texture)
+                {
+                    [texture release];
+                    texture = Nil;
+                }
+
+                return createTexture(data,
+                                     static_cast<NSUInteger>(size.width),
+                                     static_cast<NSUInteger>(size.height));
+            }
+            else
+            {
+                return uploadData(data,
+                                  static_cast<NSUInteger>(size.width),
+                                  static_cast<NSUInteger>(size.height));
+            }
         }
 
-        bool TextureMetal::uploadData(const void* data, NSUInteger width, NSUInteger height)
+        bool TextureMetal::createTexture(const void* data, NSUInteger newWidth, NSUInteger newHeight)
         {
-            NSUInteger bytesPerRow = width * 4;
-            [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:bytesPerRow];
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+                                                                                                         width:newWidth
+                                                                                                        height:newHeight
+                                                                                                     mipmapped:mipmaps ? YES : NO];
+            textureDescriptor.textureType = MTLTextureType2D;
+            textureDescriptor.usage = MTLTextureUsageShaderRead;
+
+            texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+
+            if (data)
+            {
+                if (!uploadData(data, newWidth, newHeight))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                std::unique_ptr<uint8_t[]> emptyData(new uint8_t[newWidth * newHeight * 4]);
+                memset(emptyData.get(), 0, newWidth * newHeight * 4);
+                if (!uploadData(emptyData.get(), newWidth, newHeight))
+                {
+                    return false;
+                }
+            }
+
+            width = newWidth;
+            height = newHeight;
+
+            return true;
+        }
+
+        bool TextureMetal::uploadData(const void* data, NSUInteger newWidth, NSUInteger newHeight)
+        {
+            NSUInteger bytesPerRow = newWidth * 4;
+            [texture replaceRegion:MTLRegionMake2D(0, 0, newWidth, newHeight) mipmapLevel:0 withBytes:data bytesPerRow:bytesPerRow];
 
             mipLevels = 1;
 
             if (mipmaps)
             {
-                NSUInteger oldMipWidth = width;
-                NSUInteger oldMipHeight = height;
+                NSUInteger oldMipWidth = newWidth;
+                NSUInteger oldMipHeight = newHeight;
 
-                NSUInteger mipWidth = width >> 1;
-                NSUInteger mipHeight = height >> 1;
+                NSUInteger mipWidth = newWidth >> 1;
+                NSUInteger mipHeight = newHeight >> 1;
                 NSUInteger mipLevel = 1;
                 NSUInteger mipBytesPerRow;
 
-                uint8_t* oldMipMapData = new uint8_t[width * height * 4];
-                memcpy(oldMipMapData, data, width * height * 4);
+                uint8_t* oldMipMapData = new uint8_t[newWidth * newHeight * 4];
+                memcpy(oldMipMapData, data, newWidth * newHeight * 4);
 
                 uint8_t* newMipMapData = new uint8_t[mipWidth * mipHeight * 4];
 
@@ -143,6 +175,9 @@ namespace ouzel
                 
                 mipLevels = mipLevel;
             }
+
+            width = newWidth;
+            height = newHeight;
 
             return true;
         }

@@ -39,10 +39,13 @@ namespace ouzel
             TextureMetal();
 
             void destroy();
-
-            bool uploadData(const void* data, NSUInteger width, NSUInteger height);
+            bool createTexture(const void* data, NSUInteger newWidth, NSUInteger newHeight);
+            bool uploadData(const void* data, NSUInteger newWidth, NSUInteger newHeight);
 
             MTLTexturePtr texture = Nil;
+
+            NSUInteger width = 0;
+            NSUInteger height = 0;
             NSUInteger mipLevels = 0;
         };
     } // namespace graphics
