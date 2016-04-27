@@ -26,7 +26,7 @@ namespace ouzel
             virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
 
             virtual void update(float delta);
-            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color) override;
+            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor) override;
 
             virtual void setOpacity(float opacity);
 
@@ -51,7 +51,7 @@ namespace ouzel
 
         protected:
             bool loadSpriteSheet(const std::string& filename, bool mipmaps);
-            void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot);
+            void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot);
 
             void updateVertexColor();
 

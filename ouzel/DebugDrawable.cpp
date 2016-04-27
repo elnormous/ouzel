@@ -20,16 +20,16 @@ namespace ouzel
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
         }
 
-        void DebugDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color)
+        void DebugDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, color);
+            Drawable::draw(projectionMatrix, transformMatrix, drawColor);
 
             if (shader)
             {
                 sharedEngine->getRenderer()->activateShader(shader);
 
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
-                float colorVector[] = { color.getR(), color.getG(), color.getB(), color.getA() };
+                float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
                 for (const DrawCommand& drawCommand : drawCommands)
                 {

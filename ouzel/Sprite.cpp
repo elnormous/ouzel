@@ -152,27 +152,27 @@ namespace ouzel
 
                 const rapidjson::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
 
-                Vector2 offset(static_cast<float>(spriteSourceSizeObject["x"].GetInt()),
-                               static_cast<float>(spriteSourceSizeObject["y"].GetInt()));
+                Vector2 sourceOffset(static_cast<float>(spriteSourceSizeObject["x"].GetInt()),
+                                     static_cast<float>(spriteSourceSizeObject["y"].GetInt()));
 
                 const rapidjson::Value& pivotObject = frameObject["pivot"];
 
                 Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
                               static_cast<float>(pivotObject["y"].GetDouble()));
 
-                addFrame(rectangle, textureSize, rotated, sourceSize, offset, pivot);
+                addFrame(rectangle, textureSize, rotated, sourceSize, sourceOffset, pivot);
             }
 
             return true;
         }
 
-        void Sprite::addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& offset, const Vector2& pivot)
+        void Sprite::addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot)
         {
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
 
             Vector2 textCoords[4];
-            Vector2 realOffset(-sourceSize.width * pivot.x + offset.x,
-                               -sourceSize.height * pivot.y + (sourceSize.height - rectangle.height - offset.y));
+            Vector2 realOffset(-sourceSize.width * pivot.x + sourceOffset.x,
+                               -sourceSize.height * pivot.y + (sourceSize.height - rectangle.height - sourceOffset.y));
 
             realOffset += offset;
 
@@ -204,7 +204,7 @@ namespace ouzel
             }
 
             frameRectangles.push_back(Rectangle(realOffset.x, realOffset.y,
-                                                 rectangle.width, rectangle.height));
+                                                rectangle.width, rectangle.height));
 
             std::vector<graphics::VertexPCT> vertices = {
                 graphics::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), color, textCoords[0]),
@@ -251,9 +251,9 @@ namespace ouzel
             }
         }
 
-        void Sprite::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color)
+        void Sprite::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, color);
+            Drawable::draw(projectionMatrix, transformMatrix, drawColor);
 
             if (texture && currentFrame < frameCount)
             {
@@ -262,7 +262,7 @@ namespace ouzel
                 sharedEngine->getRenderer()->activateShader(shader);
 
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
-                float colorVector[] = { color.getR(), color.getG(), color.getB(), color.getA() };
+                float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
                 shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
                 shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);

@@ -23,12 +23,12 @@ namespace ouzel
 
             bool init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor = Vector2(0.5f, 0.5f));
 
-            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color) override;
+            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor) override;
 
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }
 
-            virtual const graphics::Color& getColor() const { return textColor; }
+            virtual const graphics::Color& getColor() const { return color; }
             virtual void setColor(const graphics::Color& newColor);
 
         protected:
@@ -42,7 +42,7 @@ namespace ouzel
             Vector2 textAnchor;
             std::string text;
 
-            graphics::Color textColor = graphics::Color(255, 255, 255, 255);
+            graphics::Color color = graphics::Color(255, 255, 255, 255);
         };
     } // namespace scene
 } // namespace ouzel

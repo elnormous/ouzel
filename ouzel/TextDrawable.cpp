@@ -50,9 +50,9 @@ namespace ouzel
             return true;
         }
 
-        void TextDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& color)
+        void TextDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, color);
+            Drawable::draw(projectionMatrix, transformMatrix, drawColor);
 
             if (shader && texture && meshBuffer)
             {
@@ -60,7 +60,7 @@ namespace ouzel
                 sharedEngine->getRenderer()->activateShader(shader);
 
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
-                float colorVector[] = { color.getR(), color.getG(), color.getB(), color.getA() };
+                float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
                 shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
                 shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
@@ -85,7 +85,7 @@ namespace ouzel
 
         void TextDrawable::setColor(const graphics::Color& newColor)
         {
-            textColor = newColor;
+            color = newColor;
 
             updateMesh();
         }
@@ -95,7 +95,7 @@ namespace ouzel
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPCT> vertices;
 
-            font.getVertices(text, textColor, textAnchor, indices, vertices);
+            font.getVertices(text, color, textAnchor, indices, vertices);
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
                                                                                 vertices.data(), graphics::VertexPCT::ATTRIBUTES, static_cast<uint32_t>(vertices.size()), false);
