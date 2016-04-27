@@ -32,9 +32,9 @@ namespace ouzel
             }
         }
 
-        bool TextureOGL::init(const Size2& size, bool dynamic, bool mipmaps)
+        bool TextureOGL::init(const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            if (!Texture::init(size, dynamic, mipmaps))
+            if (!Texture::init(newSize, newDynamic, newMipmaps))
             {
                 return false;
             }
@@ -61,9 +61,9 @@ namespace ouzel
             return true;
         }
 
-        bool TextureOGL::initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
+        bool TextureOGL::initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            if (!Texture::initFromData(data, size, dynamic, mipmaps))
+            if (!Texture::initFromData(data, newSize, newDynamic, newMipmaps))
             {
                 return false;
             }

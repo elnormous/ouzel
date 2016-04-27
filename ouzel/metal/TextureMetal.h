@@ -28,8 +28,8 @@ namespace ouzel
         public:
             virtual ~TextureMetal();
 
-            virtual bool init(const Size2& size, bool dynamic, bool mipmaps = true) override;
-            virtual bool initFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
+            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
+            virtual bool initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
 
             virtual bool upload(const void* data, const Size2& size) override;
 
