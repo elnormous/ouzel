@@ -103,7 +103,7 @@ namespace ouzel
         private:
             RendererOGL();
 
-            virtual bool init(const Size2& size, bool fullscreen) override;
+            virtual bool init(const Size2& newSize, bool newFullscreen) override;
 
             virtual void setSize(const Size2& newSize) override;
 

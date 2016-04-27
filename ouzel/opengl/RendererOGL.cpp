@@ -52,9 +52,12 @@ namespace ouzel
 
         }
 
-        bool RendererOGL::init(const Size2& size, bool fullscreen)
+        bool RendererOGL::init(const Size2& newSize, bool newFullscreen)
         {
-            OUZEL_UNUSED(fullscreen);
+            if (!Renderer::init(newSize, newFullscreen))
+            {
+                return false;
+            }
 
             //glEnable(GL_DEPTH_TEST);
             glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());

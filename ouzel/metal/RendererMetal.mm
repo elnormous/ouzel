@@ -100,7 +100,10 @@ namespace ouzel
 
         bool RendererMetal::init(const Size2& newSize, bool newFullscreen)
         {
-            OUZEL_UNUSED(newFullscreen);
+            if (!Renderer::init(newSize, newFullscreen))
+            {
+                return false;
+            }
 
             destroy();
 
@@ -244,7 +247,7 @@ namespace ouzel
                 }
             }
 
-            setSize(newSize);
+            setSize(size);
 
             return true;
         }
