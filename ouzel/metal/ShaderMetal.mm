@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        static const size_t BufferSize = 1024 * 1024;
+        static const size_t BUFFER_SIZE = 1024 * 1024;
 
         ShaderMetal::ShaderMetal():
             Shader()
@@ -232,7 +232,7 @@ namespace ouzel
                 pixelShaderConstantBufferOffset += pixelShaderData.size();
                 pixelShaderConstantBufferOffset = (pixelShaderConstantBufferOffset / pixelShaderAlignment + 1) * pixelShaderAlignment;
 
-                if (BufferSize - pixelShaderConstantBufferOffset < pixelShaderAlignment)
+                if (BUFFER_SIZE - pixelShaderConstantBufferOffset < pixelShaderAlignment)
                 {
                     pixelShaderConstantBufferOffset = 0;
                 }
@@ -243,7 +243,7 @@ namespace ouzel
                 vertexShaderConstantBufferOffset += vertexShaderData.size();
                 vertexShaderConstantBufferOffset = (vertexShaderConstantBufferOffset / vertexShaderAlignment + 1) * vertexShaderAlignment;
 
-                if (BufferSize - vertexShaderConstantBufferOffset < vertexShaderAlignment)
+                if (BUFFER_SIZE - vertexShaderConstantBufferOffset < vertexShaderAlignment)
                 {
                     vertexShaderConstantBufferOffset = 0;
                 }
@@ -280,7 +280,7 @@ namespace ouzel
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
+            pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
                                                                                 options:MTLResourceCPUCacheModeWriteCombined];
 
             if (pixelShaderConstantBuffer == Nil)
@@ -298,7 +298,7 @@ namespace ouzel
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BufferSize
+            vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
                                                                                  options:MTLResourceCPUCacheModeWriteCombined];
 
             if (vertexShaderConstantBuffer == Nil)
