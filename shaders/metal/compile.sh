@@ -56,3 +56,22 @@ $TVOS_PLATFORM/usr/bin/metallib -o TexturePSTVOS.metallib TexturePSTVOS.metalar
 $TVOS_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o TextureVSTVOS.air -std=ios-metal1.1 TextureVS.metal
 $TVOS_PLATFORM/usr/bin/metal-ar r TextureVSTVOS.metalar TextureVSTVOS.air
 $TVOS_PLATFORM/usr/bin/metallib -o TextureVSTVOS.metallib TextureVSTVOS.metalar
+
+xxd -i ColorPSOSX.metallib ../../ouzel/metal/ColorPSOSX.h
+xxd -i ColorVSOSX.metallib ../../ouzel/metal/ColorVSOSX.h
+xxd -i TexturePSOSX.metallib ../../ouzel/metal/TexturePSOSX.h
+xxd -i TextureVSOSX.metallib ../../ouzel/metal/TextureVSOSX.h
+
+xxd -i ColorPSIOS.metallib ../../ouzel/metal/ColorPSIOS.h
+xxd -i ColorVSIOS.metallib ../../ouzel/metal/ColorVSIOS.h
+xxd -i TexturePSIOS.metallib ../../ouzel/metal/TexturePSIOS.h
+xxd -i TextureVSIOS.metallib ../../ouzel/metal/TextureVSIOS.h
+
+xxd -i ColorPSTVOS.metallib ../../ouzel/metal/ColorPSTVOS.h
+xxd -i ColorVSTVOS.metallib ../../ouzel/metal/ColorVSTVOS.h
+xxd -i TexturePSTVOS.metallib ../../ouzel/metal/TexturePSTVOS.h
+xxd -i TextureVSTVOS.metallib ../../ouzel/metal/TextureVSTVOS.h
+
+rm -rf ./*.air
+rm -rf ./*.metalar
+rm -rf ./*.metallib

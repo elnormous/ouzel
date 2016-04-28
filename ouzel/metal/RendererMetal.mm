@@ -13,18 +13,30 @@
     #include "ColorVSOSX.h"
     #include "TexturePSOSX.h"
     #include "TextureVSOSX.h"
+    #define COLOR_PIXEL_SHADER_METAL ColorPSOSX_metallib
+    #define COLOR_VERTEX_SHADER_METAL ColorVSOSX_metallib
+    #define TEXTURE_PIXEL_SHADER_METAL TexturePSOSX_metallib
+    #define TEXTURE_VERTEX_SHADER_METAL TextureVSOSX_metallib
 #elif OUZEL_PLATFORM_TVOS
     #include "WindowTVOS.h"
     #include "ColorPSTVOS.h"
     #include "ColorVSTVOS.h"
     #include "TexturePSTVOS.h"
     #include "TextureVSTVOS.h"
+    #define COLOR_PIXEL_SHADER_METAL ColorPSTVOS_metallib
+    #define COLOR_VERTEX_SHADER_METAL ColorVSTVOS_metallib
+    #define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
+    #define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
 #elif OUZEL_PLATFORM_IOS
     #include "WindowIOS.h"
     #include "ColorPSIOS.h"
     #include "ColorVSIOS.h"
     #include "TexturePSIOS.h"
     #include "TextureVSIOS.h"
+    #define COLOR_PIXEL_SHADER_METAL ColorPSIOS_metallib
+    #define COLOR_VERTEX_SHADER_METAL ColorVSIOS_metallib
+    #define TEXTURE_PIXEL_SHADER_METAL TexturePSIOS_metallib
+    #define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
 #endif
 #include "Engine.h"
 #include "Cache.h"
