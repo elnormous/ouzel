@@ -60,6 +60,7 @@
     <ClCompile Include="..\ouzel\Node.cpp" />
     <ClCompile Include="..\ouzel\NodeContainer.cpp" />
     <ClCompile Include="..\ouzel\Parallel.cpp" />
+    <ClCompile Include="..\ouzel\ParticleDefinition.cpp" />
     <ClCompile Include="..\ouzel\ParticleSystem.cpp" />
     <ClCompile Include="..\ouzel\Popup.cpp" />
     <ClCompile Include="..\ouzel\RadioButton.cpp" />

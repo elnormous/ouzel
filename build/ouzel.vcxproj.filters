@@ -224,6 +224,9 @@
     <ClCompile Include="..\ouzel\SpriteFrame.cpp">
       <Filter>scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\ParticleDefinition.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
