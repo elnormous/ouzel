@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 #include "Types.h"
 #include "Noncopyable.h"
@@ -21,7 +22,12 @@ namespace ouzel
         void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
         graphics::TexturePtr getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
         void setTexture(const std::string& filename, const graphics::TexturePtr& texture);
-        virtual void releaseTextures();
+        void releaseTextures();
+
+        void preloadSpriteFrames(const std::string& filename, bool mipmaps = true);
+        std::vector<scene::SpriteFramePtr> getSpriteFrames(const std::string& filename) const;
+        void setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFramePtr>& spriteFrames);
+        void releaseSpriteFrames();
 
         graphics::ShaderPtr getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, const graphics::ShaderPtr& shader);
@@ -35,11 +41,10 @@ namespace ouzel
     protected:
         Cache();
 
-        scene::ParticleDefinitionPtr loadParticleDefinition(const std::string& filename) const;
-
         mutable std::unordered_map<std::string, graphics::TexturePtr> textures;
         mutable std::unordered_map<std::string, graphics::ShaderPtr> shaders;
         mutable std::unordered_map<std::string, scene::ParticleDefinitionPtr> particleDefinitions;
         mutable std::unordered_map<std::string, graphics::BlendStatePtr> blendStates;
+        mutable std::unordered_map<std::string, std::vector<scene::SpriteFramePtr>> spriteFrames;
     };
 }

@@ -37,6 +37,9 @@
 		302511AB1CD36FBA00D04209 /* SpriteFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 302511A71CD36FBA00D04209 /* SpriteFrame.h */; };
 		302511AC1CD36FBA00D04209 /* SpriteFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 302511A71CD36FBA00D04209 /* SpriteFrame.h */; };
 		302511AD1CD36FBA00D04209 /* SpriteFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 302511A71CD36FBA00D04209 /* SpriteFrame.h */; };
+		302511B01CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */; };
+		302511B11CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */; };
+		302511B21CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */; };
 		30324E141CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
 		30324E151CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
 		30324E161CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
@@ -598,6 +601,7 @@
 		301EB3A91CCD77F600466E92 /* TextDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextDrawable.h; sourceTree = "<group>"; };
 		302511A61CD36FBA00D04209 /* SpriteFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteFrame.cpp; sourceTree = "<group>"; };
 		302511A71CD36FBA00D04209 /* SpriteFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteFrame.h; sourceTree = "<group>"; };
+		302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleDefinition.cpp; sourceTree = "<group>"; };
 		30324E121CB2898E00601A64 /* BlendState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendState.cpp; sourceTree = "<group>"; };
 		30324E131CB2898E00601A64 /* BlendState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendState.h; sourceTree = "<group>"; };
 		30324E1A1CB28A4400601A64 /* BlendStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BlendStateOGL.cpp; path = opengl/BlendStateOGL.cpp; sourceTree = "<group>"; };
@@ -854,6 +858,7 @@
 				304A8E371C237C70008B1151 /* Node.h */,
 				30575ABA1C39D9850009C8A7 /* NodeContainer.cpp */,
 				30575ABB1C39D9850009C8A7 /* NodeContainer.h */,
+				302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */,
 				309ACD261C70DA73005325D3 /* ParticleDefinition.h */,
 				304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */,
 				304A8E951C26EDFB008B1151 /* ParticleSystem.h */,
@@ -1700,6 +1705,7 @@
 				303B75401C2A3C9200FEDE92 /* Image.cpp in Sources */,
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
 				304B27BA1C9A063300BA162D /* RenderTargetOGL.cpp in Sources */,
+				302511B11CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */,
 				304B27561C9384A600BA162D /* Size3.cpp in Sources */,
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30547E4A1CB3D6720055EE79 /* RendererMetal.mm in Sources */,
@@ -1791,6 +1797,7 @@
 				30575ACF1C3B175D0009C8A7 /* Label.cpp in Sources */,
 				303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */,
 				304B27BB1C9A063300BA162D /* RenderTargetOGL.cpp in Sources */,
+				302511B21CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */,
 				304B27571C9384A600BA162D /* Size3.cpp in Sources */,
 				303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */,
 				30547E4B1CB3D6720055EE79 /* RendererMetal.mm in Sources */,
@@ -1882,6 +1889,7 @@
 				30C56C5B1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
 				306B0E5F1C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
 				30547E491CB3D6720055EE79 /* RendererMetal.mm in Sources */,
+				302511B01CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */,
 				30547E551CB3D6720055EE79 /* ShaderMetal.mm in Sources */,
 				304B27AD1C9A063300BA162D /* MeshBufferOGL.cpp in Sources */,
 				30AFE12F1CB5D5FE00478AA2 /* MetalView.mm in Sources */,

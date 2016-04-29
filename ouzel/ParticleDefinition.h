@@ -3,12 +3,18 @@
 
 #pragma once
 
+#include <string>
+#include "Types.h"
+#include "Vector2.h"
+
 namespace ouzel
 {
     namespace scene
     {
         struct ParticleDefinition
         {
+            static ParticleDefinitionPtr loadParticleDefinition(const std::string& filename);
+
             enum class EmitterType
             {
                 GRAVITY,
