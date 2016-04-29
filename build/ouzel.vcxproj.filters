@@ -221,6 +221,9 @@
     <ClCompile Include="..\ouzel\TextDrawable.cpp">
       <Filter>scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\SpriteFrame.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -475,6 +478,9 @@
       <Filter>scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\TextDrawable.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\SpriteFrame.h">
       <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>

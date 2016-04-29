@@ -201,6 +201,7 @@ namespace ouzel
             }
 
             SpriteFrame frame;
+			frame.texture = texture;
             frame.rectangle = Rectangle(realOffset.x, realOffset.y,
                                         rectangle.width, rectangle.height);
 
@@ -239,7 +240,7 @@ namespace ouzel
                     }
                     else if (!repeat && currentFrame >= frames.size() - 1)
                     {
-                        currentFrame = frames.size() - 1;
+                        currentFrame = static_cast<uint32_t>(frames.size() - 1);
                         playing = false;
                         sharedEngine->unscheduleUpdate(updateCallback);
                     }
