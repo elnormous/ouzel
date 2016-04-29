@@ -8,6 +8,7 @@
 #include "Size2.h"
 #include "MeshBuffer.h"
 #include "Rectangle.h"
+#include "SpriteFrame.h"
 
 namespace ouzel
 {
@@ -62,10 +63,7 @@ namespace ouzel
             float opacity = 1.0f;
             Size2 size;
 
-            uint32_t frameCount = 0;
-            std::vector<Rectangle> frameRectangles;
-            std::vector<std::vector<graphics::VertexPCT>> frameVertices;
-            std::vector<graphics::MeshBufferPtr> frameMeshBuffers;
+            std::vector<SpriteFrame> frames;
             graphics::Color color = graphics::Color(255, 255, 255, 255);
 
             uint32_t currentFrame = 0;

@@ -31,6 +31,12 @@
 		301EB3AD1CCD77F600466E92 /* TextDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A91CCD77F600466E92 /* TextDrawable.h */; };
 		301EB3AE1CCD77F600466E92 /* TextDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A91CCD77F600466E92 /* TextDrawable.h */; };
 		301EB3AF1CCD77F600466E92 /* TextDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A91CCD77F600466E92 /* TextDrawable.h */; };
+		302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
+		302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
+		302511AA1CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
+		302511AB1CD36FBA00D04209 /* SpriteFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 302511A71CD36FBA00D04209 /* SpriteFrame.h */; };
+		302511AC1CD36FBA00D04209 /* SpriteFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 302511A71CD36FBA00D04209 /* SpriteFrame.h */; };
+		302511AD1CD36FBA00D04209 /* SpriteFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 302511A71CD36FBA00D04209 /* SpriteFrame.h */; };
 		30324E141CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
 		30324E151CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
 		30324E161CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
@@ -590,6 +596,8 @@
 		301EB3A11CCD691800466E92 /* Drawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Drawable.h; sourceTree = "<group>"; };
 		301EB3A81CCD77F600466E92 /* TextDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextDrawable.cpp; sourceTree = "<group>"; };
 		301EB3A91CCD77F600466E92 /* TextDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextDrawable.h; sourceTree = "<group>"; };
+		302511A61CD36FBA00D04209 /* SpriteFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteFrame.cpp; sourceTree = "<group>"; };
+		302511A71CD36FBA00D04209 /* SpriteFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteFrame.h; sourceTree = "<group>"; };
 		30324E121CB2898E00601A64 /* BlendState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendState.cpp; sourceTree = "<group>"; };
 		30324E131CB2898E00601A64 /* BlendState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendState.h; sourceTree = "<group>"; };
 		30324E1A1CB28A4400601A64 /* BlendStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BlendStateOGL.cpp; path = opengl/BlendStateOGL.cpp; sourceTree = "<group>"; };
@@ -836,10 +844,10 @@
 			children = (
 				304A8E2B1C237C70008B1151 /* Camera.cpp */,
 				304A8E2C1C237C70008B1151 /* Camera.h */,
-				301EB3A01CCD691800466E92 /* Drawable.cpp */,
-				301EB3A11CCD691800466E92 /* Drawable.h */,
 				306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */,
 				306B0E5E1C567D05005C75C1 /* DebugDrawable.h */,
+				301EB3A01CCD691800466E92 /* Drawable.cpp */,
+				301EB3A11CCD691800466E92 /* Drawable.h */,
 				30575AA41C39D1FF0009C8A7 /* Layer.cpp */,
 				30575AA51C39D1FF0009C8A7 /* Layer.h */,
 				304A8E361C237C70008B1151 /* Node.cpp */,
@@ -855,6 +863,8 @@
 				304A8E411C237C70008B1151 /* SceneManager.h */,
 				304A8E441C237C70008B1151 /* Sprite.cpp */,
 				304A8E451C237C70008B1151 /* Sprite.h */,
+				302511A61CD36FBA00D04209 /* SpriteFrame.cpp */,
+				302511A71CD36FBA00D04209 /* SpriteFrame.h */,
 				301EB3A81CCD77F600466E92 /* TextDrawable.cpp */,
 				301EB3A91CCD77F600466E92 /* TextDrawable.h */,
 			);
@@ -1265,6 +1275,7 @@
 				304B27BD1C9A063300BA162D /* RenderTargetOGL.h in Headers */,
 				303B75491C2A3C9200FEDE92 /* Shader.h in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.h in Headers */,
+				302511AC1CD36FBA00D04209 /* SpriteFrame.h in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.h in Headers */,
 				304B27C91C9A063300BA162D /* TextureOGL.h in Headers */,
 				303B76C11C35630B00FEDE92 /* OpenGLView.h in Headers */,
@@ -1378,6 +1389,7 @@
 				303B76741C355A3B00FEDE92 /* Shader.h in Headers */,
 				304B27BE1C9A063300BA162D /* RenderTargetOGL.h in Headers */,
 				303B76761C355A3B00FEDE92 /* Vertex.h in Headers */,
+				302511AD1CD36FBA00D04209 /* SpriteFrame.h in Headers */,
 				303B76771C355A3B00FEDE92 /* Camera.h in Headers */,
 				303B76781C355A3B00FEDE92 /* CompileConfig.h in Headers */,
 				304B27CA1C9A063300BA162D /* TextureOGL.h in Headers */,
@@ -1464,6 +1476,7 @@
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
 				304B27A71C9A063300BA162D /* ColorVSOGL.h in Headers */,
+				302511AB1CD36FBA00D04209 /* SpriteFrame.h in Headers */,
 				30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				30D0FB4F1CC2C99600477DB0 /* ColorVSOSX.h in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
@@ -1627,6 +1640,7 @@
 			files = (
 				30547E441CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
 				30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */,
+				302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				306B0E601C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */,
@@ -1717,6 +1731,7 @@
 			files = (
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				30547E451CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
+				302511AA1CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
 				306B0E611C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
@@ -1807,6 +1822,7 @@
 			files = (
 				30EF365B1CA76B9E00F04F29 /* Popup.cpp in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
+				302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				30575ABC1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
 				30EF36531CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,

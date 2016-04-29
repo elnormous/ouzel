@@ -47,9 +47,7 @@ namespace ouzel
 
         bool Sprite::initFromFile(const std::string& filename, bool mipmaps)
         {
-            frameCount = 0;
-            frameVertices.clear();
-            frameMeshBuffers.clear();
+            frames.clear();
 
             boundingBox.reset();
 
@@ -126,8 +124,7 @@ namespace ouzel
 
             const rapidjson::Value& framesArray = document["frames"];
 
-            frameVertices.reserve(framesArray.Size());
-            frameMeshBuffers.reserve(framesArray.Size());
+            frames.reserve(framesArray.Size());
 
             for (uint32_t index = 0; index < static_cast<uint32_t>(framesArray.Size()); ++index)
             {
@@ -203,24 +200,23 @@ namespace ouzel
                 textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             }
 
-            frameRectangles.push_back(Rectangle(realOffset.x, realOffset.y,
-                                                rectangle.width, rectangle.height));
+            SpriteFrame frame;
+            frame.rectangle = Rectangle(realOffset.x, realOffset.y,
+                                        rectangle.width, rectangle.height);
 
-            std::vector<graphics::VertexPCT> vertices = {
+            frame.vertices = {
                 graphics::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), color, textCoords[0]),
                 graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), color, textCoords[1]),
                 graphics::VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  color, textCoords[2]),
                 graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  color, textCoords[3])
             };
 
-            frameVertices.push_back(vertices);
+            frame.meshBuffer = (sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+                                                                                      static_cast<uint32_t>(indices.size()), false,
+                                                                                      frame.vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                                                                      static_cast<uint32_t>(frame.vertices.size()), true));
 
-            frameMeshBuffers.push_back(sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                                              static_cast<uint32_t>(indices.size()), false,
-                                                                                              vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                                                                              static_cast<uint32_t>(vertices.size()), true));
-
-            frameCount++;
+            frames.push_back(frame);
 
             boundingBox.insertPoint(realOffset);
             boundingBox.insertPoint(realOffset + Vector2(rectangle.width, rectangle.height));
@@ -237,13 +233,13 @@ namespace ouzel
                     timeSinceLastFrame -= frameInterval;
                     currentFrame++;
 
-                    if (repeat && currentFrame >= frameCount)
+                    if (repeat && currentFrame >= frames.size())
                     {
                         currentFrame = 0;
                     }
-                    else if (!repeat && currentFrame >= frameCount - 1)
+                    else if (!repeat && currentFrame >= frames.size() - 1)
                     {
-                        currentFrame = frameCount - 1;
+                        currentFrame = frames.size() - 1;
                         playing = false;
                         sharedEngine->unscheduleUpdate(updateCallback);
                     }
@@ -255,7 +251,7 @@ namespace ouzel
         {
             Drawable::draw(projectionMatrix, transformMatrix, drawColor);
 
-            if (texture && currentFrame < frameCount)
+            if (texture && currentFrame < frames.size())
             {
                 sharedEngine->getRenderer()->activateBlendState(blendState);
                 sharedEngine->getRenderer()->activateTexture(texture, 0);
@@ -267,7 +263,7 @@ namespace ouzel
                 shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
                 shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
 
-                graphics::MeshBufferPtr frameMeshBuffer = frameMeshBuffers[currentFrame];
+                graphics::MeshBufferPtr frameMeshBuffer = frames[currentFrame].meshBuffer;
                 sharedEngine->getRenderer()->drawMeshBuffer(frameMeshBuffer);
             }
         }
@@ -298,9 +294,9 @@ namespace ouzel
 
         void Sprite::updateVertexColor()
         {
-            for (uint32_t i = 0; i < frameMeshBuffers.size(); ++i)
+            for (uint32_t i = 0; i < frames.size(); ++i)
             {
-                for (graphics::VertexPCT& vertex : frameVertices[i])
+                for (graphics::VertexPCT& vertex : frames[i].vertices)
                 {
                     vertex.color.r = color.r;
                     vertex.color.g = color.g;
@@ -308,8 +304,8 @@ namespace ouzel
                     vertex.color.a = static_cast<uint8_t>(opacity * color.a);
                 }
 
-                graphics::MeshBufferPtr meshBuffer = frameMeshBuffers[i];
-                meshBuffer->uploadVertices(frameVertices[i].data(), static_cast<uint32_t>(frameVertices[i].size()));
+                graphics::MeshBufferPtr meshBuffer = frames[i].meshBuffer;
+                meshBuffer->uploadVertices(frames[i].vertices.data(), static_cast<uint32_t>(frames[i].vertices.size()));
             }
         }
 
@@ -324,11 +320,11 @@ namespace ouzel
             repeat = pRepeat;
             frameInterval = newFrameInterval;
 
-            if (!playing && frameCount > 1)
+            if (!playing && frames.size() > 1)
             {
                 playing = true;
 
-                if (currentFrame >= frameCount - 1)
+                if (currentFrame >= frames.size() - 1)
                 {
                     currentFrame = 0;
                     timeSinceLastFrame = 0.0f;
@@ -364,23 +360,23 @@ namespace ouzel
             offset = newOffset;
             boundingBox.reset();
 
-            for (size_t i = 0; i < frameVertices.size(); ++i)
+            for (size_t i = 0; i < frames.size(); ++i)
             {
-                Rectangle rectangle = frameRectangles[i];
+                Rectangle rectangle = frames[i].rectangle;
 
-                frameVertices[i][0].position.x = rectangle.x + offset.x;
-                frameVertices[i][0].position.y = rectangle.y + offset.y;
+                frames[i].vertices[0].position.x = rectangle.x + offset.x;
+                frames[i].vertices[0].position.y = rectangle.y + offset.y;
 
-                frameVertices[i][1].position.x = rectangle.x + offset.x + rectangle.width;
-                frameVertices[i][1].position.y = rectangle.y + offset.y;
+                frames[i].vertices[1].position.x = rectangle.x + offset.x + rectangle.width;
+                frames[i].vertices[1].position.y = rectangle.y + offset.y;
 
-                frameVertices[i][2].position.x = rectangle.x + offset.x;
-                frameVertices[i][2].position.y = rectangle.y + offset.y + rectangle.height;
+                frames[i].vertices[2].position.x = rectangle.x + offset.x;
+                frames[i].vertices[2].position.y = rectangle.y + offset.y + rectangle.height;
 
-                frameVertices[i][3].position.x = rectangle.x + offset.x + rectangle.width;
-                frameVertices[i][3].position.y = rectangle.y + offset.y + rectangle.height;
+                frames[i].vertices[3].position.x = rectangle.x + offset.x + rectangle.width;
+                frames[i].vertices[3].position.y = rectangle.y + offset.y + rectangle.height;
 
-                frameMeshBuffers[i]->uploadVertices(frameVertices[i].data(), static_cast<uint32_t>(frameVertices[i].size()));
+                frames[i].meshBuffer->uploadVertices(frames[i].vertices.data(), static_cast<uint32_t>(frames[i].vertices.size()));
 
                 boundingBox.insertPoint(rectangle.bottomLeft() + offset);
                 boundingBox.insertPoint(rectangle.topRight() + offset);
