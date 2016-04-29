@@ -31,9 +31,6 @@ namespace ouzel
 
             virtual void setOpacity(float newOpacity);
 
-            virtual graphics::TexturePtr getTexture() const { return texture; }
-            virtual void setTexture(const graphics::TexturePtr& newTexture);
-
             virtual graphics::ShaderPtr getShader() const { return shader; }
             virtual void setShader(const graphics::ShaderPtr& newShader);
 
@@ -52,11 +49,10 @@ namespace ouzel
 
         protected:
             bool loadSpriteSheet(const std::string& filename, bool mipmaps);
-            void addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot);
+            void addFrame(const Rectangle& rectangle, const graphics::TexturePtr& texture, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot);
 
             void updateVertexColor();
 
-            graphics::TexturePtr texture;
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;
 

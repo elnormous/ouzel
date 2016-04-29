@@ -62,7 +62,7 @@ namespace ouzel
             }
             else
             {
-                texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                graphics::TexturePtr texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
                 if (!texture)
                 {
@@ -73,7 +73,7 @@ namespace ouzel
 
                 Rectangle rectangle(0, 0, size.width, size.height);
 
-                addFrame(rectangle, size, false, size, Vector2(), Vector2(0.5f, 0.5f));
+                addFrame(rectangle, texture, false, size, Vector2(), Vector2(0.5f, 0.5f));
             }
 
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
@@ -120,7 +120,7 @@ namespace ouzel
             Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
                               static_cast<float>(sizeObject["h"].GetInt()));
 
-            texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
+            graphics::TexturePtr texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
 
             const rapidjson::Value& framesArray = document["frames"];
 
@@ -157,13 +157,13 @@ namespace ouzel
                 Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
                               static_cast<float>(pivotObject["y"].GetDouble()));
 
-                addFrame(rectangle, textureSize, rotated, sourceSize, sourceOffset, pivot);
+                addFrame(rectangle, texture, rotated, sourceSize, sourceOffset, pivot);
             }
 
             return true;
         }
 
-        void Sprite::addFrame(const Rectangle& rectangle, const Size2& textureSize, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot)
+        void Sprite::addFrame(const Rectangle& rectangle, const graphics::TexturePtr& texture, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot)
         {
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
 
@@ -172,6 +172,8 @@ namespace ouzel
                                -sourceSize.height * pivot.y + (sourceSize.height - rectangle.height - sourceOffset.y));
 
             realOffset += offset;
+
+            const Size2& textureSize = texture->getSize();
 
             if (!rotated)
             {
@@ -252,10 +254,9 @@ namespace ouzel
         {
             Drawable::draw(projectionMatrix, transformMatrix, drawColor);
 
-            if (texture && currentFrame < frames.size())
+            if (currentFrame < frames.size())
             {
                 sharedEngine->getRenderer()->activateBlendState(blendState);
-                sharedEngine->getRenderer()->activateTexture(texture, 0);
                 sharedEngine->getRenderer()->activateShader(shader);
 
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
@@ -264,8 +265,8 @@ namespace ouzel
                 shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
                 shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
 
-                graphics::MeshBufferPtr frameMeshBuffer = frames[currentFrame].meshBuffer;
-                sharedEngine->getRenderer()->drawMeshBuffer(frameMeshBuffer);
+                sharedEngine->getRenderer()->activateTexture(frames[currentFrame].texture, 0);
+                sharedEngine->getRenderer()->drawMeshBuffer(frames[currentFrame].meshBuffer);
             }
         }
 
@@ -274,11 +275,6 @@ namespace ouzel
             opacity = newOpacity;
 
             updateVertexColor();
-        }
-
-        void Sprite::setTexture(const graphics::TexturePtr& newTexture)
-        {
-            texture = newTexture;
         }
 
         void Sprite::setShader(const graphics::ShaderPtr& newShader)
