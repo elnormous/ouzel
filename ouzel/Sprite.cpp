@@ -136,8 +136,6 @@ namespace ouzel
             shader = newShader;
         }
 
-
-
         void Sprite::play(bool pRepeat, float newFrameInterval)
         {
             if (newFrameInterval == 0.0f)

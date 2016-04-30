@@ -62,7 +62,7 @@ namespace ouzel
 
             void destroy();
             void printShaderMessage(GLuint shaderId);
-            void printProgramMessage(GLuint programId);
+            void printProgramMessage();
 
             GLuint pixelShaderId = 0;
             GLuint vertexShaderId = 0;

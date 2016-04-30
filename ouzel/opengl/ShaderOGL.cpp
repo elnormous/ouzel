@@ -140,7 +140,7 @@ namespace ouzel
 
             glLinkProgram(programId);
 
-            printProgramMessage(programId);
+            printProgramMessage();
 
             glGetProgramiv(programId, GL_LINK_STATUS, &status);
             if (status == GL_FALSE)
@@ -198,7 +198,7 @@ namespace ouzel
             }
         }
 
-        void ShaderOGL::printProgramMessage(GLuint programId)
+        void ShaderOGL::printProgramMessage()
         {
             GLint logLength = 0;
             glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength);
