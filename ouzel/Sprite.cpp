@@ -65,7 +65,7 @@ namespace ouzel
                 
                 if (frame->getRectangle().height > size.height)
                 {
-                    size.width = frame->getRectangle().height;
+                    size.height = frame->getRectangle().height;
                 }
             }
 
