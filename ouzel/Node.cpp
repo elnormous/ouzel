@@ -376,6 +376,12 @@ namespace ouzel
 
         bool Node::checkVisibility() const
         {
+            // we must add this node to draw queue if it has children
+            if (!children.empty())
+            {
+                return true;
+            }
+
             if (LayerPtr currentLayer = layer.lock())
             {
                 for (const DrawablePtr& drawable : drawables)
