@@ -35,8 +35,8 @@ namespace ouzel
                 }
                 else
                 {
-                    progress = (currentTime + delta) / length;
                     currentTime += delta;
+                    progress = currentTime / length;
                 }
 
                 updateProgress();
