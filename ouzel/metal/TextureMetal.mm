@@ -137,13 +137,16 @@ namespace ouzel
 
                 NSUInteger mipWidth = newWidth >> 1;
                 NSUInteger mipHeight = newHeight >> 1;
+                if (mipWidth < 1) mipWidth = 1;
+                if (mipHeight < 1) mipHeight = 1;
+
                 NSUInteger mipLevel = 1;
                 NSUInteger mipBytesPerRow;
 
-                uint8_t* oldMipMapData = new uint8_t[newWidth * newHeight * 4];
-                memcpy(oldMipMapData, data, newWidth * newHeight * 4);
+                std::vector<uint8_t> oldMipMapData(newWidth * newHeight * 4);
+                memcpy(oldMipMapData.data(), data, newWidth * newHeight * 4);
 
-                uint8_t* newMipMapData = new uint8_t[mipWidth * mipHeight * 4];
+                std::vector<uint8_t> newMipMapData(mipWidth * mipHeight * 4);
 
                 while (mipWidth >= 1 || mipHeight >= 1)
                 {
@@ -151,12 +154,12 @@ namespace ouzel
                     if (mipHeight < 1) mipHeight = 1;
                     mipBytesPerRow = mipWidth * 4;
 
-                    stbir_resize_uint8_generic(oldMipMapData, static_cast<int>(oldMipWidth), static_cast<int>(oldMipHeight), 0,
-                                               newMipMapData, static_cast<int>(mipWidth), static_cast<int>(mipHeight), 0, 4,
+                    stbir_resize_uint8_generic(oldMipMapData.data(), static_cast<int>(oldMipWidth), static_cast<int>(oldMipHeight), 0,
+                                               newMipMapData.data(), static_cast<int>(mipWidth), static_cast<int>(mipHeight), 0, 4,
                                                3, 0, STBIR_EDGE_CLAMP,
                                                STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
 
-                    [texture replaceRegion:MTLRegionMake2D(0, 0, mipWidth, mipHeight) mipmapLevel:mipLevel withBytes:newMipMapData bytesPerRow:mipBytesPerRow];
+                    [texture replaceRegion:MTLRegionMake2D(0, 0, mipWidth, mipHeight) mipmapLevel:mipLevel withBytes:newMipMapData.data() bytesPerRow:mipBytesPerRow];
 
                     oldMipWidth = mipWidth;
                     oldMipHeight = mipHeight;
@@ -165,13 +168,8 @@ namespace ouzel
                     mipHeight >>= 1;
                     mipLevel++;
 
-                    uint8_t* temp = oldMipMapData;
-                    oldMipMapData = newMipMapData;
-                    newMipMapData = temp;
+                    newMipMapData.swap(oldMipMapData);
                 }
-                
-                delete [] oldMipMapData;
-                delete [] newMipMapData;
                 
                 mipLevels = mipLevel;
             }

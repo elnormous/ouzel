@@ -102,16 +102,16 @@ namespace ouzel
                               static_cast<GLsizei>(size.height));
         }
 
-        bool TextureOGL::uploadData(const void* data, GLsizei width, GLsizei height)
+        bool TextureOGL::uploadData(const void* data, GLsizei newWidth, GLsizei newHeight)
         {
-            if (width <= 0 || height <= 0)
+            if (newWidth <= 0 || newHeight <= 0)
             {
                 return false;
             }
 
             RendererOGL::bindTexture(textureId, 0);
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, newWidth, newHeight,
                          0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 #ifdef OUZEL_SUPPORTS_OPENGLES
@@ -120,30 +120,32 @@ namespace ouzel
             if (mipmaps)
 #endif
             {
-                GLsizei oldMipWidth = width;
-                GLsizei oldMipHeight = height;
+                GLsizei oldMipWidth = newWidth;
+                GLsizei oldMipHeight = newHeight;
 
-                GLsizei mipWidth = width >> 1;
-                GLsizei mipHeight = height >> 1;
+                GLsizei mipWidth = newWidth >> 1;
+                GLsizei mipHeight = newHeight >> 1;
+                if (mipWidth < 1) mipWidth = 1;
+                if (mipHeight < 1) mipHeight = 1;
                 GLint mipLevel = 1;
 
-                uint8_t* oldMipMapData = new uint8_t[width * height * 4];
-                memcpy(oldMipMapData, data, static_cast<size_t>(width * height * 4));
+                std::vector<uint8_t> oldMipMapData(newWidth * newHeight * 4);
+                memcpy(oldMipMapData.data(), data, newWidth * newHeight * 4);
 
-                uint8_t* newMipMapData = new uint8_t[mipWidth * mipHeight * 4];
+                std::vector<uint8_t> newMipMapData(mipWidth * mipHeight * 4);
 
                 while (mipWidth >= 1 || mipHeight >= 1)
                 {
                     if (mipWidth < 1) mipWidth = 1;
                     if (mipHeight < 1) mipHeight = 1;
 
-                    stbir_resize_uint8_generic(oldMipMapData, oldMipWidth, oldMipHeight, 0,
-                                               newMipMapData, mipWidth, mipHeight, 0, 4,
+                    stbir_resize_uint8_generic(oldMipMapData.data(), oldMipWidth, oldMipHeight, 0,
+                                               newMipMapData.data(), mipWidth, mipHeight, 0, 4,
                                                3, 0, STBIR_EDGE_CLAMP,
                                                STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
 
                     glTexImage2D(GL_TEXTURE_2D, mipLevel, GL_RGBA, mipWidth, mipHeight,
-                                 0, GL_RGBA, GL_UNSIGNED_BYTE, newMipMapData);
+                                 0, GL_RGBA, GL_UNSIGNED_BYTE, newMipMapData.data());
 
                     oldMipWidth = mipWidth;
                     oldMipHeight = mipHeight;
@@ -152,13 +154,8 @@ namespace ouzel
                     mipHeight >>= 1;
                     mipLevel++;
 
-                    uint8_t* temp = oldMipMapData;
-                    oldMipMapData = newMipMapData;
-                    newMipMapData = temp;
+                    newMipMapData.swap(oldMipMapData);
                 }
-
-                delete [] oldMipMapData;
-                delete [] newMipMapData;
 
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
             }

@@ -177,13 +177,16 @@ namespace ouzel
 
                 UINT mipWidth = newWidth >> 1;
                 UINT mipHeight = newHeight >> 1;
+                if (mipWidth < 1) mipWidth = 1;
+                if (mipHeight < 1) mipHeight = 1;
+    
                 UINT mipLevel = 1;
                 UINT mipRowPitch;
 
-                uint8_t* oldMipMapData = new uint8_t[newWidth * newHeight * 4];
-                memcpy(oldMipMapData, data, newWidth * newHeight * 4);
+                std::vector<uint8_t> oldMipMapData(newWidth * newHeight * 4);
+                memcpy(oldMipMapData.data(), data, newWidth * newHeight * 4);
 
-                uint8_t* newMipMapData = new uint8_t[mipWidth * mipHeight * 4];
+                std::vector<uint8_t> newMipMapData(mipWidth * mipHeight * 4);
 
                 while (mipWidth >= 1 || mipHeight >= 1)
                 {
@@ -191,12 +194,12 @@ namespace ouzel
                     if (mipHeight < 1) mipHeight = 1;
                     mipRowPitch = mipWidth * 4;
 
-                    stbir_resize_uint8_generic(oldMipMapData, oldMipWidth, oldMipHeight, 0,
-                                               newMipMapData, mipWidth, mipHeight, 0, 4,
+                    stbir_resize_uint8_generic(oldMipMapData.data(), oldMipWidth, oldMipHeight, 0,
+                                               newMipMapData.data(), mipWidth, mipHeight, 0, 4,
                                                3, 0, STBIR_EDGE_CLAMP,
                                                STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
 
-                    rendererD3D11->getContext()->UpdateSubresource(texture, mipLevel, nullptr, newMipMapData, mipRowPitch, 0);
+                    rendererD3D11->getContext()->UpdateSubresource(texture, mipLevel, nullptr, newMipMapData.data(), mipRowPitch, 0);
 
                     oldMipWidth = mipWidth;
                     oldMipHeight = mipHeight;
@@ -205,13 +208,8 @@ namespace ouzel
                     mipHeight >>= 1;
                     mipLevel++;
 
-                    uint8_t* temp = oldMipMapData;
-                    oldMipMapData = newMipMapData;
-                    newMipMapData = temp;
+                    newMipMapData.swap(oldMipMapData);
                 }
-
-                delete [] oldMipMapData;
-                delete [] newMipMapData;
 
                 mipLevels = mipLevel;
             }

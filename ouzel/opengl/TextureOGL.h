@@ -55,7 +55,7 @@ namespace ouzel
 
             void destroy();
 
-            bool uploadData(const void* data, GLsizei width, GLsizei height);
+            bool uploadData(const void* data, GLsizei newWidth, GLsizei newHeight);
 
             GLuint textureId = 0;
         };
