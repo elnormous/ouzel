@@ -100,7 +100,7 @@ namespace ouzel
             static bool bindProgram(GLuint programId);
             static bool bindFrameBuffer(GLuint frameBufferId);
 
-        private:
+        protected:
             RendererOGL();
 
             virtual bool init(const Size2& newSize, bool newFullscreen) override;

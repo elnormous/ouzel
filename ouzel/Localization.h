@@ -16,7 +16,7 @@ namespace ouzel
         void setLanguage(const std::string& language);
         std::string getString(const std::string& str);
 
-    private:
+    protected:
         std::map<std::string, LanguagePtr> languages;
         LanguagePtr currentLanguage;
     };

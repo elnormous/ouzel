@@ -18,7 +18,7 @@ namespace ouzel
 
         std::string getString(const std::string& str);
 
-    private:
+    protected:
         std::map<std::string, std::string> strings;
     };
 }

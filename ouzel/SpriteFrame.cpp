@@ -121,10 +121,8 @@ namespace ouzel
                 textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             }
 
-            SpriteFramePtr frame = std::make_shared<SpriteFrame>();
-            frame->texture = texture;
-            frame->rectangle = Rectangle(realOffset.x, realOffset.y,
-                                         rectangle.width, rectangle.height);
+            Rectangle newRectangle = Rectangle(realOffset.x, realOffset.y,
+                                               rectangle.width, rectangle.height);
 
             std::vector<graphics::VertexPCT> vertices = {
                 graphics::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
@@ -133,10 +131,12 @@ namespace ouzel
                 graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
             };
 
-            frame->meshBuffer = (sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                                       static_cast<uint32_t>(indices.size()), false,
-                                                                                       vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                                                                       static_cast<uint32_t>(vertices.size()), true));
+            graphics::MeshBufferPtr meshBuffer = (sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+                                                                                                        static_cast<uint32_t>(indices.size()), false,
+                                                                                                        vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                                                                                        static_cast<uint32_t>(vertices.size()), true));
+
+            SpriteFramePtr frame = std::make_shared<SpriteFrame>(newRectangle, meshBuffer, texture);
 
             return frame;
         }

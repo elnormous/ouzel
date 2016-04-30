@@ -55,17 +55,17 @@ namespace ouzel
 
             for (const SpriteFramePtr& frame : frames)
             {
-                boundingBox.insertPoint(frame->rectangle.bottomLeft());
-                boundingBox.insertPoint(frame->rectangle.topRight());
+                boundingBox.insertPoint(frame->getRectangle().bottomLeft());
+                boundingBox.insertPoint(frame->getRectangle().topRight());
 
-                if (frame->rectangle.width > size.width)
+                if (frame->getRectangle().width > size.width)
                 {
-                    size.width = frame->rectangle.width;
+                    size.width = frame->getRectangle().width;
                 }
                 
-                if (frame->rectangle.height > size.height)
+                if (frame->getRectangle().height > size.height)
                 {
-                    size.width = frame->rectangle.height;
+                    size.width = frame->getRectangle().height;
                 }
             }
 
@@ -126,8 +126,8 @@ namespace ouzel
                 shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
                 shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
 
-                sharedEngine->getRenderer()->activateTexture(frames[currentFrame]->texture, 0);
-                sharedEngine->getRenderer()->drawMeshBuffer(frames[currentFrame]->meshBuffer);
+                sharedEngine->getRenderer()->activateTexture(frames[currentFrame]->getRexture(), 0);
+                sharedEngine->getRenderer()->drawMeshBuffer(frames[currentFrame]->getMeshBuffer());
             }
         }
 

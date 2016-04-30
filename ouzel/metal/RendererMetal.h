@@ -77,7 +77,7 @@ namespace ouzel
 
             MTLDevicePtr getDevice() const { return device; }
 
-        private:
+        protected:
             RendererMetal();
 
             void destroy();

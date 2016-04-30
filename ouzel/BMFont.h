@@ -47,7 +47,7 @@ namespace ouzel
 
         const graphics::TexturePtr& getTexture() const { return texture; }
 
-    private:
+    protected:
         bool parseFont(const std::string& filename);
         int32_t getKerningPair(int32_t, int32_t);
         float getStringWidth(const std::string& text);
