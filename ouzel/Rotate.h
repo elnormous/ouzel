@@ -16,9 +16,9 @@ namespace ouzel
 
             virtual void start(const NodePtr& node) override;
 
-            virtual void setProgress(float progress) override;
-
         protected:
+            virtual void updateProgress() override;
+
             float rotation;
             float startRotation = 0.0f;
             float targetRotation = 0.0f;

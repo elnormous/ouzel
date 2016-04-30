@@ -34,9 +34,9 @@ namespace ouzel
             }
         }
 
-        void Sequence::setProgress(float progress)
+        void Sequence::updateProgress()
         {
-            Animator::setProgress(progress);
+            Animator::updateProgress();
 
             float time = 0.0f;
 

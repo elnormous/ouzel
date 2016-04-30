@@ -29,13 +29,17 @@ namespace ouzel
                 {
                     done = true;
                     running = false;
-                    setProgress(1.0f);
+                    progress = 1.0f;
+                    currentTime = length;
                     sharedEngine->unscheduleUpdate(updateCallback);
                 }
                 else
                 {
-                    setProgress((currentTime + delta) / length);
+                    progress = (currentTime + delta) / length;
+                    currentTime += delta;
                 }
+
+                updateProgress();
             }
         }
 
@@ -84,6 +88,13 @@ namespace ouzel
         {
             progress = newProgress;
             currentTime = progress * length;
+
+            updateProgress();
         }
+
+        void Animator::updateProgress()
+        {
+        }
+
     } // namespace scene
 } // namespace ouzel

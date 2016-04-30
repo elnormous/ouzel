@@ -19,9 +19,9 @@ namespace ouzel
             virtual void start(const NodePtr& node) override;
             virtual void reset() override;
 
-            virtual void setProgress(float progress) override;
-
         protected:
+            virtual void updateProgress() override;
+
             std::vector<AnimatorPtr> animators;
         };
     } // namespace scene

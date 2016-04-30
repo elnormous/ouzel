@@ -17,9 +17,9 @@ namespace ouzel
 
             virtual void start(const NodePtr& targetNode) override;
 
-            virtual void setProgress(float progress) override;
-
         protected:
+            virtual void updateProgress() override;
+
             Vector2 scale;
             Vector2 startScale;
             Vector2 targetScale;

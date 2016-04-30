@@ -7,5 +7,13 @@ namespace ouzel
 {
     namespace scene
     {
+        Shake::Shake(float pLength):
+            Animator(pLength)
+        {
+        }
+
+        void Shake::updateProgress()
+        {
+        }
     } // namespace scene
 } // namespace ouzel

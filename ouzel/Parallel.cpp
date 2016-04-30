@@ -39,9 +39,9 @@ namespace ouzel
             }
         }
 
-        void Parallel::setProgress(float progress)
+        void Parallel::updateProgress()
         {
-            Animator::setProgress(progress);
+            Animator::updateProgress();
 
             for (auto& animator : animators)
             {

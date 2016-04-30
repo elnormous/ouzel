@@ -11,9 +11,13 @@ namespace ouzel
 {
     namespace scene
     {
-        class Shake
+        class Shake: public Animator
         {
         public:
+            Shake(float pLength);
+
+        protected:
+            virtual void updateProgress() override;
         };
     } // namespace scene
 } // namespace ouzel

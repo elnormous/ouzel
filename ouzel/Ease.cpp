@@ -273,9 +273,9 @@ namespace ouzel
             animator->reset();
         }
 
-        void Ease::setProgress(float progress)
+        void Ease::updateProgress()
         {
-            Animator::setProgress(progress);
+            Animator::updateProgress();
 
             switch (type)
             {

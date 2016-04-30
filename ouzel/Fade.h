@@ -16,9 +16,9 @@ namespace ouzel
 
             virtual void start(const NodePtr& targetNode) override;
 
-            virtual void setProgress(float progress) override;
-
         protected:
+            virtual void updateProgress() override;
+
             float opacity;
             float startOpacity = 0.0f;
             float targetOpacity = 0.0f;

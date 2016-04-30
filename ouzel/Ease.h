@@ -39,9 +39,9 @@ namespace ouzel
             virtual void start(const NodePtr& targetNode) override;
             virtual void reset() override;
 
-            virtual void setProgress(float progress) override;
-
         protected:
+            virtual void updateProgress() override;
+            
             AnimatorPtr animator;
             Type type;
             Func func;

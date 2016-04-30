@@ -27,9 +27,9 @@ namespace ouzel
             }
         }
 
-        void Scale::setProgress(float progress)
+        void Scale::updateProgress()
         {
-            Animator::setProgress(progress);
+            Animator::updateProgress();
 
             if (NodePtr targetNode = node.lock())
             {

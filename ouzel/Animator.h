@@ -33,6 +33,8 @@ namespace ouzel
             virtual void setProgress(float newProgress);
 
         protected:
+            virtual void updateProgress();
+
             float length = 0.0f;
             float currentTime = 0.0f;
             float progress = 0.0f;
