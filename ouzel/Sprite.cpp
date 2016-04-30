@@ -131,41 +131,12 @@ namespace ouzel
             }
         }
 
-        /*void Sprite::setOpacity(float newOpacity)
-        {
-            opacity = newOpacity;
-
-            updateVertexColor();
-        }*/
-
         void Sprite::setShader(const graphics::ShaderPtr& newShader)
         {
             shader = newShader;
         }
 
-        /*void Sprite::setColor(const graphics::Color& newColor)
-        {
-            color = newColor;
 
-            updateVertexColor();
-        }
-
-        void Sprite::updateVertexColor()
-        {
-            for (uint32_t i = 0; i < frames.size(); ++i)
-            {
-                for (graphics::VertexPCT& vertex : frames[i].vertices)
-                {
-                    vertex.color.r = color.r;
-                    vertex.color.g = color.g;
-                    vertex.color.b = color.b;
-                    vertex.color.a = static_cast<uint8_t>(opacity * color.a);
-                }
-
-                graphics::MeshBufferPtr meshBuffer = frames[i].meshBuffer;
-                meshBuffer->uploadVertices(frames[i].vertices.data(), static_cast<uint32_t>(frames[i].vertices.size()));
-            }
-        }*/
 
         void Sprite::play(bool pRepeat, float newFrameInterval)
         {
@@ -212,33 +183,5 @@ namespace ouzel
             currentFrame = 0;
             timeSinceLastFrame = 0.0f;
         }
-
-        /*void Sprite::setOffset(const Vector2& newOffset)
-        {
-            offset = newOffset;
-            boundingBox.reset();
-
-            for (size_t i = 0; i < frames.size(); ++i)
-            {
-                Rectangle rectangle = frames[i].rectangle;
-
-                frames[i].vertices[0].position.x = rectangle.x + offset.x;
-                frames[i].vertices[0].position.y = rectangle.y + offset.y;
-
-                frames[i].vertices[1].position.x = rectangle.x + offset.x + rectangle.width;
-                frames[i].vertices[1].position.y = rectangle.y + offset.y;
-
-                frames[i].vertices[2].position.x = rectangle.x + offset.x;
-                frames[i].vertices[2].position.y = rectangle.y + offset.y + rectangle.height;
-
-                frames[i].vertices[3].position.x = rectangle.x + offset.x + rectangle.width;
-                frames[i].vertices[3].position.y = rectangle.y + offset.y + rectangle.height;
-
-                frames[i].meshBuffer->uploadVertices(frames[i].vertices.data(), static_cast<uint32_t>(frames[i].vertices.size()));
-
-                boundingBox.insertPoint(rectangle.bottomLeft() + offset);
-                boundingBox.insertPoint(rectangle.topRight() + offset);
-            }
-        }*/
     } // namespace scene
 } // namespace ouzel

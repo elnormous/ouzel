@@ -126,7 +126,7 @@ namespace ouzel
             frame->rectangle = Rectangle(realOffset.x, realOffset.y,
                                          rectangle.width, rectangle.height);
 
-            frame->vertices = {
+            std::vector<graphics::VertexPCT> vertices = {
                 graphics::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
                 graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
                 graphics::VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
@@ -135,8 +135,8 @@ namespace ouzel
 
             frame->meshBuffer = (sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
                                                                                        static_cast<uint32_t>(indices.size()), false,
-                                                                                       frame->vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                                                                       static_cast<uint32_t>(frame->vertices.size()), true));
+                                                                                       vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                                                                       static_cast<uint32_t>(vertices.size()), true));
 
             return frame;
         }
