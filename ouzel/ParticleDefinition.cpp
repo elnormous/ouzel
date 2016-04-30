@@ -39,7 +39,6 @@ namespace ouzel
             if (document.HasMember("blendFuncSource")) result->blendFuncSource = static_cast<uint32_t>(document["blendFuncSource"].GetInt());
             if (document.HasMember("blendFuncDestination")) result->blendFuncDestination = static_cast<uint32_t>(document["blendFuncDestination"].GetInt());
 
-
             if (document.HasMember("emitterType"))
             {
                 uint32_t emitterType = static_cast<uint32_t>(document["emitterType"].GetInt());

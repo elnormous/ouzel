@@ -191,7 +191,6 @@ namespace ouzel
         return sqrtf(x * x + y * y + z * z + w * w);
     }
 
-
     float Vector4::lengthSquared() const
     {
         return (x * x + y * y + z * z + w * w);

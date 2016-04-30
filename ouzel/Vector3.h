@@ -127,7 +127,6 @@ namespace ouzel
          */
         static float angle(const Vector3& v1, const Vector3& v2);
 
-
         /**
          * Adds the elements of the specified vector to this one.
          *

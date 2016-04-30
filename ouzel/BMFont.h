@@ -21,7 +21,6 @@ namespace ouzel
         int16_t amount = 0;
     };
 
-
     class CharDescriptor
     {
     public:
