@@ -97,15 +97,18 @@ namespace ouzel
                     timeSinceLastFrame -= frameInterval;
                     currentFrame++;
 
-                    if (repeat && currentFrame >= frames.size())
+                    if (currentFrame >= frames.size())
                     {
-                        currentFrame = 0;
-                    }
-                    else if (!repeat && currentFrame >= frames.size() - 1)
-                    {
-                        currentFrame = static_cast<uint32_t>(frames.size() - 1);
-                        playing = false;
-                        sharedEngine->unscheduleUpdate(updateCallback);
+                        if (repeat)
+                        {
+                            currentFrame = 0;
+                        }
+                        else
+                        {
+                            currentFrame = static_cast<uint32_t>(frames.size() - 1);
+                            playing = false;
+                            sharedEngine->unscheduleUpdate(updateCallback);
+                        }
                     }
                 }
             }
