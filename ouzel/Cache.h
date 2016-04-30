@@ -25,8 +25,8 @@ namespace ouzel
         void releaseTextures();
 
         void preloadSpriteFrames(const std::string& filename, bool mipmaps = true);
-        std::vector<scene::SpriteFramePtr> getSpriteFrames(const std::string& filename) const;
-        void setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFramePtr>& spriteFrames);
+        std::vector<scene::SpriteFramePtr> getSpriteFrames(const std::string& filename, bool mipmaps = true) const;
+        void setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFramePtr>& frames);
         void releaseSpriteFrames();
 
         graphics::ShaderPtr getShader(const std::string& shaderName) const;

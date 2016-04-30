@@ -57,7 +57,7 @@ void Application::begin()
 
     scene::SpritePtr characterSprite = scene::Sprite::createFromFile("run.json");
     characterSprite->play(true);
-    characterSprite->setOffset(Vector2(0.0f, -100.0f));
+    //characterSprite->setOffset(Vector2(0.0f, -100.0f));
 
     character = std::make_shared<scene::Node>();
     character->addDrawable(characterSprite);
@@ -87,7 +87,7 @@ void Application::begin()
     layer->addChild(flame);
 
     scene::SpritePtr witchSprite = scene::Sprite::createFromFile("witch.png");
-    witchSprite->setColor(graphics::Color(128, 0, 255, 255));
+    //witchSprite->setColor(graphics::Color(128, 0, 255, 255));
 
     witch = std::make_shared<scene::Node>();
     witch->addDrawable(witchSprite);

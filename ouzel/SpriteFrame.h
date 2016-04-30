@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <string>
 #include <vector>
 #include "Types.h"
 #include "Rectangle.h"
@@ -15,6 +16,9 @@ namespace ouzel
         class SpriteFrame
         {
         public:
+            static std::vector<SpriteFramePtr> loadSpriteFrames(const std::string& filename, bool mipmaps = true);
+            static SpriteFramePtr createSpriteFrame(const Rectangle& rectangle, const graphics::TexturePtr& texture, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot);
+
             Rectangle rectangle;
             std::vector<graphics::VertexPCT> vertices;
             graphics::MeshBufferPtr meshBuffer;

@@ -11,6 +11,7 @@
 #include "Shader.h"
 #include "File.h"
 #include "ParticleDefinition.h"
+#include "SpriteFrame.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -75,22 +76,72 @@ namespace ouzel
 
     void Cache::preloadSpriteFrames(const std::string& filename, bool mipmaps)
     {
-    }
+        std::string extension = sharedEngine->getFileSystem()->getExtension(filename);
 
-    std::vector<scene::SpriteFramePtr> Cache::getSpriteFrames(const std::string& filename) const
-    {
-        std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = textures.find(filename);
+        std::vector<scene::SpriteFramePtr> frames;
 
-        if (i == textures.end())
+        if (extension == "json")
         {
+            frames = scene::SpriteFrame::loadSpriteFrames(filename, mipmaps);
+        }
+        else
+        {
+            graphics::TexturePtr texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
+            if (!texture)
+            {
+                return;
+            }
+
+            Rectangle rectangle(0, 0, texture->getSize().width, texture->getSize().height);
+
+            scene::SpriteFramePtr frame = scene::SpriteFrame::createSpriteFrame(rectangle, texture, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+            frames.push_back(frame);
         }
 
-        return std::vector<scene::SpriteFramePtr>();
+        spriteFrames[filename] = frames;
     }
 
-    void Cache::setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFramePtr>& spriteFrames)
+    std::vector<scene::SpriteFramePtr> Cache::getSpriteFrames(const std::string& filename, bool mipmaps) const
     {
+        std::unordered_map<std::string, std::vector<scene::SpriteFramePtr>>::const_iterator i = spriteFrames.find(filename);
+
+        if (i != spriteFrames.end())
+        {
+            return i->second;
+        }
+        else
+        {
+            std::string extension = sharedEngine->getFileSystem()->getExtension(filename);
+
+            std::vector<scene::SpriteFramePtr> frames;
+
+            if (extension == "json")
+            {
+                frames = scene::SpriteFrame::loadSpriteFrames(filename, mipmaps);
+            }
+            else
+            {
+                graphics::TexturePtr texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+
+                if (!texture)
+                {
+                    return frames;
+                }
+
+                Rectangle rectangle(0, 0, texture->getSize().width, texture->getSize().height);
+
+                scene::SpriteFramePtr frame = scene::SpriteFrame::createSpriteFrame(rectangle, texture, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+                frames.push_back(frame);
+            }
+
+            return frames;
+        }
+    }
+
+    void Cache::setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFramePtr>& frames)
+    {
+        spriteFrames[filename] = frames;
     }
 
     void Cache::releaseSpriteFrames()
