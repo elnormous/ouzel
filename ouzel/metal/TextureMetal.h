@@ -46,7 +46,6 @@ namespace ouzel
 
             NSUInteger width = 0;
             NSUInteger height = 0;
-            NSUInteger mipLevels = 0;
         };
     } // namespace graphics
 } // namespace ouzel
