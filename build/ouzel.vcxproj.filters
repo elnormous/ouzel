@@ -21,28 +21,28 @@
       <Filter>gui</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Color.cpp">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Image.cpp">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\MeshBuffer.cpp">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Renderer.cpp">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\RenderTarget.cpp">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Shader.cpp">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Texture.cpp">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Vertex.cpp">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Gamepad.cpp">
       <Filter>input</Filter>
@@ -159,19 +159,19 @@
       <Filter>math</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\direct3d11\MeshBufferD3D11.cpp">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\direct3d11\RendererD3D11.cpp">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\direct3d11\RenderTargetD3D11.cpp">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\direct3d11\ShaderD3D11.cpp">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\direct3d11\TextureD3D11.cpp">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\ScrollBar.cpp">
       <Filter>gui</Filter>
@@ -204,10 +204,10 @@
       <Filter>localization</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\direct3d11\BlendStateD3D11.cpp">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\BlendState.cpp">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\Shake.cpp">
       <Filter>animators</Filter>
@@ -265,28 +265,28 @@
       <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Color.h">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Image.h">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\MeshBuffer.h">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Renderer.h">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\RenderTarget.h">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Shader.h">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Texture.h">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Vertex.h">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Gamepad.h">
       <Filter>input</Filter>
@@ -409,31 +409,31 @@
       <Filter>math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\ColorPSD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\ColorVSD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\MeshBufferD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\RendererD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\RenderTargetD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\ShaderD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\TextureD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\TexturePSD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\TextureVSD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\ScrollBar.h">
       <Filter>gui</Filter>
@@ -466,10 +466,10 @@
       <Filter>localization</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\direct3d11\BlendStateD3D11.h">
-      <Filter>video\direct3d11</Filter>
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\BlendState.h">
-      <Filter>video</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\Shake.h">
       <Filter>animators</Filter>
@@ -518,10 +518,10 @@
     <Filter Include="animators">
       <UniqueIdentifier>{a9680758-dcaa-488a-949b-ca09c57945a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="video">
+    <Filter Include="graphics">
       <UniqueIdentifier>{0877872b-c7d8-414e-a082-3147a5d62586}</UniqueIdentifier>
     </Filter>
-    <Filter Include="video\direct3d11">
+    <Filter Include="graphics\direct3d11">
       <UniqueIdentifier>{423e908c-7ccf-496a-bbee-22b3ab9c5b14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

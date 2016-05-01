@@ -59,12 +59,14 @@ namespace ouzel
 
         bool Texture::upload(const void* data, const Size2& newSize)
         {
+            OUZEL_UNUSED(data);
+
             if (!dynamic)
             {
                 return false;
             }
 
-            if (size.width <= 0.0f || size.height <= 0.0f)
+            if (newSize.width <= 0.0f || newSize.height <= 0.0f)
             {
                 return false;
             }
@@ -79,7 +81,9 @@ namespace ouzel
             mipmapSizes.clear();
             mipmapSizes.push_back(newSize);
 
-            uploadMipmap(0, data);
+            mipLevels = 0;
+            uploadMipmap(mipLevels, data);
+            ++mipLevels;
 
 #ifdef OUZEL_SUPPORTS_OPENGLES
             if (mipmaps && isPOT(width) && isPOT(height))
@@ -97,7 +101,6 @@ namespace ouzel
                 uint32_t mipHeight = newHeight >> 1;
                 if (mipWidth < 1) mipWidth = 1;
                 if (mipHeight < 1) mipHeight = 1;
-                uint32_t mipLevel = 1;
 
                 std::vector<uint8_t> oldMipMapData(newWidth * newHeight * 4);
                 memcpy(oldMipMapData.data(), data, newWidth * newHeight * 4);
@@ -116,14 +119,14 @@ namespace ouzel
 
                     mipmapSizes.push_back(Size2(static_cast<float>(mipWidth), static_cast<float>(mipHeight)));
 
-                    uploadMipmap(mipLevel, newMipMapData.data());
+                    uploadMipmap(mipLevels, newMipMapData.data());
                     
                     oldMipWidth = mipWidth;
                     oldMipHeight = mipHeight;
                     
                     mipWidth >>= 1;
                     mipHeight >>= 1;
-                    ++mipLevel;
+                    ++mipLevels;
                     
                     newMipMapData.swap(oldMipMapData);
                 }

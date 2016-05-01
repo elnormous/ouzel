@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include "Noncopyable.h"
@@ -44,6 +45,7 @@ namespace ouzel
             bool dynamic = false;
             bool mipmaps = false;
             std::vector<Size2> mipmapSizes;
+            uint32_t mipLevels = 0;
         };
     } // namespace graphics
 } // namespace ouzel

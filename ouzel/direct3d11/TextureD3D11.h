@@ -33,14 +33,13 @@ namespace ouzel
 
             void destroy();
             bool createTexture(UINT newWidth, UINT newHeight);
-            bool uploadData(const void* data, const Size2 newSize);
+            bool uploadData(const void* data, const Size2& newSize);
 
             ID3D11Texture2D* texture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;
 
             UINT width = 0;
             UINT height = 0;
-            UINT mipLevels = 0;
         };
     } // namespace graphics
 } // namespace ouzel
