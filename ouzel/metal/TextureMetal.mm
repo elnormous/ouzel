@@ -6,7 +6,6 @@
 #include "RendererMetal.h"
 #include "Image.h"
 #include "MathUtils.h"
-#include "stb_image_resize.h"
 
 namespace ouzel
 {
@@ -40,8 +39,7 @@ namespace ouzel
 
             destroy();
 
-            return createTexture(nullptr,
-                                 static_cast<NSUInteger>(size.width),
+            return createTexture(static_cast<NSUInteger>(size.width),
                                  static_cast<NSUInteger>(size.height));
         }
 
@@ -54,20 +52,35 @@ namespace ouzel
 
             destroy();
 
-            return createTexture(data,
-                                 static_cast<NSUInteger>(size.width),
-                                 static_cast<NSUInteger>(size.height));
-        }
-
-        bool TextureMetal::upload(const void* data, const Size2& newSize)
-        {
-            if (!Texture::upload(data, newSize))
+            if (!createTexture(static_cast<NSUInteger>(size.width),
+                               static_cast<NSUInteger>(size.height)))
             {
                 return false;
             }
 
-            if (static_cast<NSUInteger>(size.width) != width ||
-                static_cast<NSUInteger>(size.height) != height)
+            return uploadData(data, newSize);
+        }
+
+        bool TextureMetal::uploadMipmap(uint32_t level, const void* data)
+        {
+            if (!Texture::uploadMipmap(level, data))
+            {
+                return false;
+            }
+
+            NSUInteger newWidth = static_cast<NSUInteger>(mipmapSizes[level].width);
+            NSUInteger newHeight = static_cast<NSUInteger>(mipmapSizes[level].height);
+
+            NSUInteger bytesPerRow = newWidth * 4;
+            [texture replaceRegion:MTLRegionMake2D(0, 0, newWidth, newHeight) mipmapLevel:level withBytes:data bytesPerRow:bytesPerRow];
+
+            return true;
+        }
+
+        bool TextureMetal::uploadData(const void* data, const Size2& newSize)
+        {
+            if (static_cast<NSUInteger>(newSize.width) != width ||
+                static_cast<NSUInteger>(newSize.height) != height)
             {
                 if (texture)
                 {
@@ -75,19 +88,17 @@ namespace ouzel
                     texture = Nil;
                 }
 
-                return createTexture(data,
-                                     static_cast<NSUInteger>(size.width),
-                                     static_cast<NSUInteger>(size.height));
+                if (!createTexture(static_cast<NSUInteger>(newSize.width),
+                                   static_cast<NSUInteger>(newSize.height)))
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return uploadData(data,
-                                  static_cast<NSUInteger>(size.width),
-                                  static_cast<NSUInteger>(size.height));
-            }
+
+            return Texture::uploadData(data, newSize);
         }
 
-        bool TextureMetal::createTexture(const void* data, NSUInteger newWidth, NSUInteger newHeight)
+        bool TextureMetal::createTexture(NSUInteger newWidth, NSUInteger newHeight)
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
@@ -100,85 +111,15 @@ namespace ouzel
 
             texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
-            if (data)
+            if (!texture)
             {
-                if (!uploadData(data, newWidth, newHeight))
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                std::unique_ptr<uint8_t[]> emptyData(new uint8_t[newWidth * newHeight * 4]);
-                memset(emptyData.get(), 0, newWidth * newHeight * 4);
-                if (!uploadData(emptyData.get(), newWidth, newHeight))
-                {
-                    return false;
-                }
+                return false;
             }
 
             width = newWidth;
             height = newHeight;
-
+            
             return true;
         }
-
-        bool TextureMetal::uploadData(const void* data, NSUInteger newWidth, NSUInteger newHeight)
-        {
-            NSUInteger bytesPerRow = newWidth * 4;
-            [texture replaceRegion:MTLRegionMake2D(0, 0, newWidth, newHeight) mipmapLevel:0 withBytes:data bytesPerRow:bytesPerRow];
-
-            mipLevels = 1;
-
-            if (mipmaps)
-            {
-                NSUInteger oldMipWidth = newWidth;
-                NSUInteger oldMipHeight = newHeight;
-
-                NSUInteger mipWidth = newWidth >> 1;
-                NSUInteger mipHeight = newHeight >> 1;
-                if (mipWidth < 1) mipWidth = 1;
-                if (mipHeight < 1) mipHeight = 1;
-
-                NSUInteger mipLevel = 1;
-                NSUInteger mipBytesPerRow;
-
-                std::vector<uint8_t> oldMipMapData(newWidth * newHeight * 4);
-                memcpy(oldMipMapData.data(), data, newWidth * newHeight * 4);
-
-                std::vector<uint8_t> newMipMapData(mipWidth * mipHeight * 4);
-
-                while (mipWidth >= 1 || mipHeight >= 1)
-                {
-                    if (mipWidth < 1) mipWidth = 1;
-                    if (mipHeight < 1) mipHeight = 1;
-                    mipBytesPerRow = mipWidth * 4;
-
-                    stbir_resize_uint8_generic(oldMipMapData.data(), static_cast<int>(oldMipWidth), static_cast<int>(oldMipHeight), 0,
-                                               newMipMapData.data(), static_cast<int>(mipWidth), static_cast<int>(mipHeight), 0, 4,
-                                               3, 0, STBIR_EDGE_CLAMP,
-                                               STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
-
-                    [texture replaceRegion:MTLRegionMake2D(0, 0, mipWidth, mipHeight) mipmapLevel:mipLevel withBytes:newMipMapData.data() bytesPerRow:mipBytesPerRow];
-
-                    oldMipWidth = mipWidth;
-                    oldMipHeight = mipHeight;
-
-                    mipWidth >>= 1;
-                    mipHeight >>= 1;
-                    ++mipLevel;
-
-                    newMipMapData.swap(oldMipMapData);
-                }
-                
-                mipLevels = mipLevel;
-            }
-
-            width = newWidth;
-            height = newHeight;
-
-            return true;
-        }
-
     } // namespace graphics
 } // namespace ouzel

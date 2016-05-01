@@ -23,7 +23,7 @@ namespace ouzel
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
             virtual bool initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
 
-            virtual bool upload(const void* data, const Size2& newSize) override;
+            virtual bool uploadMipmap(uint32_t level, const void* data) override;
 
             ID3D11Texture2D* getTexture() const { return texture; }
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
@@ -32,8 +32,8 @@ namespace ouzel
             TextureD3D11();
 
             void destroy();
-            bool createTexture(const void* data, UINT newWidth, UINT newHeight);
-            bool uploadData(const void* data, UINT newWidth, UINT newHeight);
+            bool createTexture(UINT newWidth, UINT newHeight);
+            bool uploadData(const void* data, const Size2 newSize);
 
             ID3D11Texture2D* texture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;

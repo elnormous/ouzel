@@ -7,7 +7,6 @@
 #include "Image.h"
 #include "MathUtils.h"
 #include "Utils.h"
-#include "stb_image_resize.h"
 
 namespace ouzel
 {
@@ -47,8 +46,7 @@ namespace ouzel
 
             destroy();
 
-            return createTexture(nullptr,
-                                 static_cast<UINT>(size.width),
+            return createTexture(static_cast<UINT>(size.width),
                                  static_cast<UINT>(size.height));
         }
 
@@ -61,20 +59,19 @@ namespace ouzel
 
             destroy();
 
-            return createTexture(data,
-                                 static_cast<UINT>(size.width),
-                                 static_cast<UINT>(size.height));
-        }
-
-        bool TextureD3D11::upload(const void* data, const Size2& newSize)
-        {
-            if (!Texture::upload(data, newSize))
+            if (!createTexture(static_cast<UINT>(size.width),
+                               static_cast<UINT>(size.height)))
             {
                 return false;
             }
 
-            if (static_cast<UINT>(size.width) != width ||
-                static_cast<UINT>(size.height) != height)
+            return uploadData(data, newSize);
+        }
+
+        bool TextureD3D11::uploadData(const void* data, const Size2& newSize)
+        {
+            if (static_cast<UINT>(newSize.width) != width ||
+                static_cast<UINT>(newSize.height) != height)
             {
 				if (resourceView)
 				{
@@ -87,19 +84,34 @@ namespace ouzel
 					texture = nullptr;
 				}
 
-                return createTexture(data,
-                                     static_cast<UINT>(size.width),
-                                     static_cast<UINT>(size.height));
+                if (!createTexture(static_cast<UINT>(size.width),
+                                   static_cast<UINT>(size.height)))
+                {
+                    return false;
+                }
             }
-            else
+
+            return Texture::uploadData(data, newSize);
+        }
+        
+        bool TextureD3D11::uploadMipmap(uint32_t level, const void* data)
+        {
+            if (!Texture::uploadMipmap(level, data))
             {
-                return uploadData(data,
-                                  static_cast<UINT>(size.width),
-                                  static_cast<UINT>(size.height));
+                return false;
             }
+
+            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+
+            UINT newWidth = static_cast<UINT>(newSize.width);
+
+            UINT rowPitch = newWidth * 4;
+            rendererD3D11->getContext()->UpdateSubresource(texture, level, nullptr, data, rowPitch, 0);
+
+            return true;
         }
 
-        bool TextureD3D11::createTexture(const void* data, UINT newWidth, UINT newHeight)
+        bool TextureD3D11::createTexture(UINT newWidth, UINT newHeight)
         {
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
@@ -124,23 +136,6 @@ namespace ouzel
                 return false;
             }
 
-            if (data)
-            {
-				if (!uploadData(data, newWidth, newHeight))
-				{
-					return false;
-				}
-            }
-            else
-            {
-                std::unique_ptr<uint8_t[]> emptyData(new uint8_t[newWidth * newHeight * 4]);
-                memset(emptyData.get(), 0, newWidth * newHeight * 4);
-				if (!uploadData(emptyData.get(), newWidth, newHeight))
-				{
-					return false;
-				}
-            }
-
             D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
             memset(&srvDesc, 0, sizeof(srvDesc));
             srvDesc.Format = textureDesc.Format;
@@ -157,65 +152,6 @@ namespace ouzel
 
             width = newWidth;
             height = newHeight;
-
-            return true;
-        }
-
-        bool TextureD3D11::uploadData(const void* data, UINT newWidth, UINT newHeight)
-        {
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
-
-            UINT rowPitch = newWidth * 4;
-            rendererD3D11->getContext()->UpdateSubresource(texture, 0, nullptr, data, rowPitch, 0);
-
-            mipLevels = 1;
-
-            if (mipmaps)
-            {
-                UINT oldMipWidth = newWidth;
-                UINT oldMipHeight = newHeight;
-
-                UINT mipWidth = newWidth >> 1;
-                UINT mipHeight = newHeight >> 1;
-                if (mipWidth < 1) mipWidth = 1;
-                if (mipHeight < 1) mipHeight = 1;
-    
-                UINT mipLevel = 1;
-                UINT mipRowPitch;
-
-                std::vector<uint8_t> oldMipMapData(newWidth * newHeight * 4);
-                memcpy(oldMipMapData.data(), data, newWidth * newHeight * 4);
-
-                std::vector<uint8_t> newMipMapData(mipWidth * mipHeight * 4);
-
-                while (mipWidth >= 1 || mipHeight >= 1)
-                {
-                    if (mipWidth < 1) mipWidth = 1;
-                    if (mipHeight < 1) mipHeight = 1;
-                    mipRowPitch = mipWidth * 4;
-
-                    stbir_resize_uint8_generic(oldMipMapData.data(), oldMipWidth, oldMipHeight, 0,
-                                               newMipMapData.data(), mipWidth, mipHeight, 0, 4,
-                                               3, 0, STBIR_EDGE_CLAMP,
-                                               STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
-
-                    rendererD3D11->getContext()->UpdateSubresource(texture, mipLevel, nullptr, newMipMapData.data(), mipRowPitch, 0);
-
-                    oldMipWidth = mipWidth;
-                    oldMipHeight = mipHeight;
-
-                    mipWidth >>= 1;
-                    mipHeight >>= 1;
-                    ++mipLevel;
-
-                    newMipMapData.swap(oldMipMapData);
-                }
-
-                mipLevels = mipLevel;
-            }
-
-			width = newWidth;
-			height = newHeight;
 
             return true;
         }

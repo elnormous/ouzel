@@ -7,7 +7,6 @@
 #include "RendererOGL.h"
 #include "Image.h"
 #include "MathUtils.h"
-#include "stb_image_resize.h"
 
 namespace ouzel
 {
@@ -43,19 +42,9 @@ namespace ouzel
 
             glGenTextures(1, &textureId);
 
-            if (size.width > 0.0f && size.height > 0.0f)
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
-                RendererOGL::bindTexture(textureId, 0);
-
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                             static_cast<GLsizei>(size.width),
-                             static_cast<GLsizei>(size.height),
-                             0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-
-                if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
-                {
-                    return false;
-                }
+                return false;
             }
 
             return true;
@@ -85,88 +74,46 @@ namespace ouzel
                 return false;
             }
 
-            return uploadData(data,
-                              static_cast<GLsizei>(size.width),
-                              static_cast<GLsizei>(size.height));
+            return uploadData(data, size);
         }
 
-        bool TextureOGL::upload(const void* data, const Size2& newSize)
+        bool TextureOGL::uploadMipmap(uint32_t level, const void *data)
         {
-            if (!Texture::upload(data, newSize))
+            if (!Texture::uploadMipmap(level, data))
             {
                 return false;
             }
 
-            return uploadData(data,
-                              static_cast<GLsizei>(size.width),
-                              static_cast<GLsizei>(size.height));
-        }
-
-        bool TextureOGL::uploadData(const void* data, GLsizei newWidth, GLsizei newHeight)
-        {
-            if (newWidth <= 0 || newHeight <= 0)
-            {
-                return false;
-            }
+            GLsizei newWidth = static_cast<GLsizei>(mipmapSizes[level].width);
+            GLsizei newHeight = static_cast<GLsizei>(mipmapSizes[level].height);
 
             RendererOGL::bindTexture(textureId, 0);
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, newWidth, newHeight,
-                         0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            glTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, newWidth, newHeight, 0,
+                         GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-#ifdef OUZEL_SUPPORTS_OPENGLES
-            if (mipmaps && isPOT(width) && isPOT(height))
-#else
-            if (mipmaps)
-#endif
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
-                GLsizei oldMipWidth = newWidth;
-                GLsizei oldMipHeight = newHeight;
+                return false;
+            }
+            
+            return true;
+        }
 
-                GLsizei mipWidth = newWidth >> 1;
-                GLsizei mipHeight = newHeight >> 1;
-                if (mipWidth < 1) mipWidth = 1;
-                if (mipHeight < 1) mipHeight = 1;
-                GLint mipLevel = 1;
+        bool TextureOGL::uploadData(const void* data, const Size2& newSize)
+        {
+            if (!Texture::uploadData(data, newSize))
+            {
+                return false;
+            }
 
-                std::vector<uint8_t> oldMipMapData(newWidth * newHeight * 4);
-                memcpy(oldMipMapData.data(), data, newWidth * newHeight * 4);
-
-                std::vector<uint8_t> newMipMapData(mipWidth * mipHeight * 4);
-
-                while (mipWidth >= 1 || mipHeight >= 1)
-                {
-                    if (mipWidth < 1) mipWidth = 1;
-                    if (mipHeight < 1) mipHeight = 1;
-
-                    stbir_resize_uint8_generic(oldMipMapData.data(), oldMipWidth, oldMipHeight, 0,
-                                               newMipMapData.data(), mipWidth, mipHeight, 0, 4,
-                                               3, 0, STBIR_EDGE_CLAMP,
-                                               STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
-
-                    glTexImage2D(GL_TEXTURE_2D, mipLevel, GL_RGBA, mipWidth, mipHeight,
-                                 0, GL_RGBA, GL_UNSIGNED_BYTE, newMipMapData.data());
-
-                    oldMipWidth = mipWidth;
-                    oldMipHeight = mipHeight;
-
-                    mipWidth >>= 1;
-                    mipHeight >>= 1;
-                    ++mipLevel;
-
-                    newMipMapData.swap(oldMipMapData);
-                }
-
+            if (mipmapSizes.size() > 1) // has mip-maps
+            {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
             }
             else
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            }
-
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
-            {
-                return false;
             }
 
             return true;

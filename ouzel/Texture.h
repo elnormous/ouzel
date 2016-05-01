@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "Noncopyable.h"
 #include "Size2.h"
 
@@ -26,6 +27,7 @@ namespace ouzel
             const std::string& getFilename() const { return filename; }
 
             virtual bool upload(const void* data, const Size2& newSize);
+            virtual bool uploadMipmap(uint32_t level, const void* data);
 
             const Size2& getSize() const { return size; }
 
@@ -34,11 +36,14 @@ namespace ouzel
         protected:
             Texture();
 
+            virtual bool uploadData(const void* data, const Size2& newSize);
+
             std::string filename;
 
             Size2 size;
             bool dynamic = false;
             bool mipmaps = false;
+            std::vector<Size2> mipmapSizes;
         };
     } // namespace graphics
 } // namespace ouzel
