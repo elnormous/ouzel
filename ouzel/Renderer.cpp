@@ -241,7 +241,7 @@ namespace ouzel
                 return false;
             }
 
-            drawCallCount++;
+            ++drawCallCount;
 
             return true;
         }

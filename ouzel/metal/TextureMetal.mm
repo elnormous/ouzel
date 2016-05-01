@@ -166,7 +166,7 @@ namespace ouzel
 
                     mipWidth >>= 1;
                     mipHeight >>= 1;
-                    mipLevel++;
+                    ++mipLevel;
 
                     newMipMapData.swap(oldMipMapData);
                 }

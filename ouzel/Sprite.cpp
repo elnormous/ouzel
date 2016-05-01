@@ -95,7 +95,7 @@ namespace ouzel
                 while (timeSinceLastFrame > frameInterval)
                 {
                     timeSinceLastFrame -= frameInterval;
-                    currentFrame++;
+                    ++currentFrame;
 
                     if (currentFrame >= frames.size())
                     {

@@ -192,7 +192,7 @@ namespace ouzel
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 3 * sizeof(float);
-                index++;
+                ++index;
             }
 
             if (vertexAttributes & VERTEX_COLOR)
@@ -200,7 +200,7 @@ namespace ouzel
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 4 * sizeof(uint8_t);
-                index++;
+                ++index;
             }
 
             if (vertexAttributes & VERTEX_NORMAL)
@@ -208,7 +208,7 @@ namespace ouzel
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 3 * sizeof(float);
-                index++;
+                ++index;
             }
 
             if (vertexAttributes & VERTEX_TEXCOORD0)
@@ -216,7 +216,7 @@ namespace ouzel
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 2 * sizeof(float);
-                index++;
+                ++index;
             }
 
             if (vertexAttributes & VERTEX_TEXCOORD1)
@@ -224,7 +224,7 @@ namespace ouzel
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
                 offset += 2 * sizeof(float);
-                index++;
+                ++index;
             }
 
             if (offset != vertexSize)

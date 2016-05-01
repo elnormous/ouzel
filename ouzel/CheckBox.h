@@ -28,9 +28,17 @@ namespace ouzel
             bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender);
             bool handleUI(const UIEventPtr& event, const VoidPtr& sender);
 
-            bool checked = false;
+            void updateSprite();
+
+            scene::SpritePtr normalSprite;
+            scene::SpritePtr selectedSprite;
+            scene::SpritePtr pressedSprite;
+            scene::SpritePtr disabledSprite;
+            scene::TextDrawablePtr labelDrawable;
 
             EventHandlerPtr eventHandler;
+
+            bool checked = false;
         };
     } // namespace gui
 } // namespace ouzel

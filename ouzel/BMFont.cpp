@@ -179,7 +179,7 @@ namespace ouzel
         float total = 0;
         CharDescriptor* f;
 
-        for (uint32_t i = 0; i < static_cast<uint32_t>(text.length()); i++)
+        for (uint32_t i = 0; i < static_cast<uint32_t>(text.length()); ++i)
         {
             std::map<int32_t, CharDescriptor>::iterator iter = chars.find(text[i]);
 

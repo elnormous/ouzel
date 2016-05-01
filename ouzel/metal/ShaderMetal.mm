@@ -70,7 +70,7 @@ namespace ouzel
                 vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
                 vertexDescriptor.attributes[index].offset = offset;
                 vertexDescriptor.attributes[index].bufferIndex = 0;
-                index++;
+                ++index;
                 offset += 3 * sizeof(float);
             }
 
@@ -79,7 +79,7 @@ namespace ouzel
                 vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4Normalized;
                 vertexDescriptor.attributes[index].offset = offset;
                 vertexDescriptor.attributes[index].bufferIndex = 0;
-                index++;
+                ++index;
                 offset += 4 * sizeof(uint8_t);
             }
 
@@ -88,7 +88,7 @@ namespace ouzel
                 vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
                 vertexDescriptor.attributes[index].offset = offset;
                 vertexDescriptor.attributes[index].bufferIndex = 0;
-                index++;
+                ++index;
                 offset += 3 * sizeof(float);
             }
 
@@ -97,7 +97,7 @@ namespace ouzel
                 vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
                 vertexDescriptor.attributes[index].offset = offset;
                 vertexDescriptor.attributes[index].bufferIndex = 0;
-                index++;
+                ++index;
                 offset += 2 * sizeof(float);
             }
 
@@ -106,7 +106,7 @@ namespace ouzel
                 vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
                 vertexDescriptor.attributes[index].offset = offset;
                 vertexDescriptor.attributes[index].bufferIndex = 0;
-                index++;
+                ++index;
                 offset += 2 * sizeof(float);
             }
 

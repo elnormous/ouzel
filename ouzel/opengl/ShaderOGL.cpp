@@ -111,31 +111,31 @@ namespace ouzel
             if (vertexAttributes & VERTEX_POSITION)
             {
                 glBindAttribLocation(programId, index, "in_Position");
-                index++;
+                ++index;
             }
 
             if (vertexAttributes & VERTEX_COLOR)
             {
                 glBindAttribLocation(programId, index, "in_Color");
-                index++;
+                ++index;
             }
 
             if (vertexAttributes & VERTEX_NORMAL)
             {
                 glBindAttribLocation(programId, index, "in_Normal");
-                index++;
+                ++index;
             }
 
             if (vertexAttributes & VERTEX_TEXCOORD0)
             {
                 glBindAttribLocation(programId, index, "in_TexCoord0");
-                index++;
+                ++index;
             }
 
             if (vertexAttributes & VERTEX_TEXCOORD1)
             {
                 glBindAttribLocation(programId, index, "in_TexCoord1");
-                index++;
+                ++index;
             }
 
             glLinkProgram(programId);

@@ -555,11 +555,11 @@ namespace ouzel
             uint8_t temp;
             uint32_t depth = 3;
 
-            for (uint32_t row = 0; row < (h>>1); row++)
+            for (uint32_t row = 0; row < (h>>1); ++row)
             {
-                for (uint32_t col = 0; col < w; col++)
+                for (uint32_t col = 0; col < w; ++col)
                 {
-                    for (uint32_t z = 0; z < depth; z++)
+                    for (uint32_t z = 0; z < depth; ++z)
                     {
                         temp = data[(row * w + col) * depth + z];
                         data[(row * w + col) * depth + z] = data[((h - row - 1) * w + col) * depth + z];

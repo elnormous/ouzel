@@ -50,5 +50,8 @@ namespace ouzel
             return true;
         }
 
+        void CheckBox::updateSprite()
+        {
+        }
     } // namespace gui
 } // namespace ouzel
