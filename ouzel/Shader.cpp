@@ -85,6 +85,8 @@ namespace ouzel
             OUZEL_UNUSED(pixelShaderFunction);
             OUZEL_UNUSED(vertexShaderFunction);
 
+            pixelShaderFilename = std::string();
+            vertexShaderFilename = std::string();
             vertexAttributes = newVertexAttributes;
 
             return  true;
