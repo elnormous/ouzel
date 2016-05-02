@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cstring>
 #include "CompileConfig.h"
 #include "Texture.h"
 #include "Engine.h"
@@ -206,7 +207,7 @@ namespace ouzel
 
                         mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
                         uploadMipmap(mipLevels, newData.data());
-                        
+
                         ++mipLevels;
                     }
                 }
