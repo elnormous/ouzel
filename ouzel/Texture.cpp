@@ -142,7 +142,18 @@ namespace ouzel
                 uint32_t newHeight = static_cast<uint32_t>(newSize.height);
                 uint32_t pitch = newWidth * 4;
 
-                std::vector<uint8_t> newData(newWidth * newHeight * 4);
+                uint32_t bufferSize = newWidth * newHeight * 4;
+
+                if (newWidth == 1)
+                {
+                    bufferSize *= 2;
+                }
+                if (newHeight == 1)
+                {
+                    bufferSize *= 2;
+                }
+
+                std::vector<uint8_t> newData(bufferSize);
                 memcpy(newData.data(), data, newWidth * newHeight * 4);
 
                 while (newWidth >= 2 && newHeight >= 2)
