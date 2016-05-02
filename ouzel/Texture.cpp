@@ -132,14 +132,15 @@ namespace ouzel
             uploadMipmap(mipLevels, data);
             ++mipLevels;
 
+            uint32_t newWidth = static_cast<uint32_t>(newSize.width);
+            uint32_t newHeight = static_cast<uint32_t>(newSize.height);
+
 #ifdef OUZEL_SUPPORTS_OPENGLES
-            if (mipmaps && isPOT(width) && isPOT(height))
+            if (mipmaps && isPOT(newWidth) && isPOT(newHeight))
 #else
             if (mipmaps)
 #endif
             {
-                uint32_t newWidth = static_cast<uint32_t>(newSize.width);
-                uint32_t newHeight = static_cast<uint32_t>(newSize.height);
                 uint32_t pitch = newWidth * 4;
 
                 uint32_t bufferSize = newWidth * newHeight * 4;
