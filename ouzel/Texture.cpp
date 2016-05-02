@@ -193,10 +193,11 @@ namespace ouzel
                 {
                     for (; newHeight >= 2;)
                     {
-                        uint32_t* src = (uint32_t*)newData.data();
-                        for (uint32_t i = 0; i < newHeight; ++i, src += 2)
+                        uint32_t* src = reinterpret_cast<uint32_t*>(newData.data());
+                        for (uint32_t i = newHeight - 1; i >= 0; --i)
                         {
-                            src[1] = src[0];
+                            src[i * 2] = src[i];
+                            src[i * 2 + 1] = src[i];
                         }
 
                         imageRgba8Downsample2x2(2, newHeight, 8, newData.data(), newData.data());
