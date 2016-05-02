@@ -7,6 +7,7 @@
 #include "Renderer.h"
 #include "Image.h"
 #include "Utils.h"
+#include "MathUtils.h"
 
 namespace ouzel
 {

@@ -6,7 +6,6 @@
 #include "Engine.h"
 #include "RendererOGL.h"
 #include "Image.h"
-#include "MathUtils.h"
 
 namespace ouzel
 {
