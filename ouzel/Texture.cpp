@@ -6,7 +6,6 @@
 #include "Renderer.h"
 #include "Image.h"
 #include "Utils.h"
-#include "stb_image_resize.h"
 
 namespace ouzel
 {
@@ -74,79 +73,6 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::uploadData(const void* data, const Size2& newSize)
-        {
-            size = newSize;
-
-            mipmapSizes.clear();
-            mipmapSizes.push_back(newSize);
-
-            mipLevels = 0;
-            uploadMipmap(mipLevels, data);
-            ++mipLevels;
-
-#ifdef OUZEL_SUPPORTS_OPENGLES
-            if (mipmaps && isPOT(width) && isPOT(height))
-#else
-            if (mipmaps)
-#endif
-            {
-                uint32_t newWidth = static_cast<uint32_t>(newSize.width);
-                uint32_t newHeight = static_cast<uint32_t>(newSize.height);
-
-                uint32_t oldMipWidth = newWidth;
-                uint32_t oldMipHeight = newHeight;
-
-                uint32_t mipWidth = newWidth >> 1;
-                uint32_t mipHeight = newHeight >> 1;
-                if (mipWidth < 1) mipWidth = 1;
-                if (mipHeight < 1) mipHeight = 1;
-
-                std::vector<uint8_t> oldMipMapData(newWidth * newHeight * 4);
-                memcpy(oldMipMapData.data(), data, newWidth * newHeight * 4);
-
-                std::vector<uint8_t> newMipMapData(mipWidth * mipHeight * 4);
-
-                while (mipWidth >= 1 || mipHeight >= 1)
-                {
-                    if (mipWidth < 1) mipWidth = 1;
-                    if (mipHeight < 1) mipHeight = 1;
-
-                    stbir_resize_uint8_generic(oldMipMapData.data(), oldMipWidth, oldMipHeight, 0,
-                                               newMipMapData.data(), mipWidth, mipHeight, 0, 4,
-                                               3, 0, STBIR_EDGE_CLAMP,
-                                               STBIR_FILTER_TRIANGLE, STBIR_COLORSPACE_LINEAR, nullptr);
-
-                    mipmapSizes.push_back(Size2(static_cast<float>(mipWidth), static_cast<float>(mipHeight)));
-
-                    uploadMipmap(mipLevels, newMipMapData.data());
-                    
-                    oldMipWidth = mipWidth;
-                    oldMipHeight = mipHeight;
-                    
-                    mipWidth >>= 1;
-                    mipHeight >>= 1;
-                    ++mipLevels;
-                    
-                    newMipMapData.swap(oldMipMapData);
-                }
-            }
-
-            return true;
-        }
-
-        bool Texture::uploadMipmap(uint32_t level, const void* data)
-        {
-            OUZEL_UNUSED(data);
-
-            if (level >= mipmapSizes.size())
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         static void imageRgba8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
             const uint32_t dstwidth  = width / 2;
@@ -192,6 +118,98 @@ namespace ouzel
                     dst[3] = (uint8_t)a;
                 }
             }
+        }
+
+        bool Texture::uploadData(const void* data, const Size2& newSize)
+        {
+            size = newSize;
+
+            mipmapSizes.clear();
+            mipmapSizes.push_back(newSize);
+
+            mipLevels = 0;
+            uploadMipmap(mipLevels, data);
+            ++mipLevels;
+
+#ifdef OUZEL_SUPPORTS_OPENGLES
+            if (mipmaps && isPOT(width) && isPOT(height))
+#else
+            if (mipmaps)
+#endif
+            {
+                uint32_t newWidth = static_cast<uint32_t>(newSize.width);
+                uint32_t newHeight = static_cast<uint32_t>(newSize.height);
+                uint32_t pitch = newWidth * 4;
+
+                std::vector<uint8_t> newData(newWidth * newHeight * 4);
+                memcpy(newData.data(), data, newWidth * newHeight * 4);
+
+                while (newWidth >= 2 && newHeight >= 2)
+                {
+                    imageRgba8Downsample2x2(newWidth, newHeight, pitch, newData.data(), newData.data());
+
+                    newWidth >>= 1;
+                    newHeight >>= 1;
+
+                    mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
+                    uploadMipmap(mipLevels, newData.data());
+
+                    pitch = newWidth * 4;
+                    ++mipLevels;
+                }
+
+                if (newWidth > newHeight)
+                {
+                    for (; newWidth >= 2;)
+                    {
+                        memcpy(&newData.data()[newWidth*4], newData.data(), newWidth * 4);
+
+                        imageRgba8Downsample2x2(newWidth, 2, pitch, newData.data(), newData.data());
+
+                        newWidth >>= 1;
+
+                        mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
+                        uploadMipmap(mipLevels, newData.data());
+
+                        pitch = newWidth * 4;
+                        ++mipLevels;
+                    }
+                }
+                else
+                {
+                    for (; newHeight >= 2;)
+                    {
+                        uint32_t* src = (uint32_t*)newData.data();
+                        for (uint32_t i = 0; i < newHeight; ++i, src += 2)
+                        {
+                            src[1] = src[0];
+                        }
+
+                        imageRgba8Downsample2x2(2, newHeight, 8, newData.data(), newData.data());
+
+                        newHeight >>= 1;
+
+                        mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
+                        uploadMipmap(mipLevels, newData.data());
+                        
+                        ++mipLevels;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        bool Texture::uploadMipmap(uint32_t level, const void* data)
+        {
+            OUZEL_UNUSED(data);
+
+            if (level >= mipmapSizes.size())
+            {
+                return false;
+            }
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel
