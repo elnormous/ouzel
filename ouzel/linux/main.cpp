@@ -259,18 +259,18 @@ int main(int argc, char **argv)
         ouzel::log("TrueColor visual required for this program");
         return 1;
     }
-    
+
     GLXFBConfig* framebufferConfig = NULL;
     int fbcount = 0;
-    framebufferConfig = glXChooseFBConfig(GFX_Display, DefaultScreen(GFX_Display), NULL, &fbcount);
+    framebufferConfig = glXChooseFBConfig(display, DefaultScreen(display), NULL, &fbcount);
     if (!framebufferConfig)
     {
         ouzel::log("Failed to get framebuffer.");
     }
-    
+
     // create an OpenGL rendering context
-    GLXContext context = NULL; 
-    
+    GLXContext context = NULL;
+
     if (framebufferConfig)
     {
         static const int contextAttribs[] = {
@@ -282,21 +282,21 @@ int main(int argc, char **argv)
             3,
             0,
         };
-        
+
         context = glXCreateContextAttribsARB(display, framebufferConfig[0], NULL, GL_TRUE, contextAttribs);
-        
+
         if (!context)
         {
             ouzel::log("Failed to create OpenGL 3.3 context");
         }
     }
-    
+
     if (!context)
     {
         context = glXCreateContext(display, vi, /* no shared dlists */ None,
                                    /* direct rendering if possible */ GL_TRUE);
     }
-    
+
     if (!context)
     {
         ouzel::log("Failed to create rendering context");
