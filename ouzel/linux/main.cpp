@@ -1,9 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#ifndef GLX_GLXEXT_PROTOTYPES
-    #define GLX_GLXEXT_PROTOTYPES 1
-#endif
 #include <GL/glx.h>
 #include <X11/X.h>
 #include <X11/keysym.h>
@@ -286,11 +283,20 @@ int main(int argc, char **argv)
             0,
         };
 
-        context = glXCreateContextAttribsARB(display, framebufferConfig[0], NULL, GL_TRUE, contextAttribs);
+        PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB"));
 
-        if (!context)
+        if (!glXCreateContextAttribsARB)
         {
-            ouzel::log("Failed to create OpenGL 3.3 context");
+            log("Could not find glXCreateContextAttribsARB");
+        }
+        else
+        {
+            context = glXCreateContextAttribsARB(display, framebufferConfig[0], NULL, GL_TRUE, contextAttribs);
+
+            if (!context)
+            {
+                ouzel::log("Failed to create OpenGL 3.3 context");
+            }
         }
     }
 
