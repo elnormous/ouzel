@@ -1,7 +1,9 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#define GLX_GLXEXT_PROTOTYPES
+#ifndef GLX_GLXEXT_PROTOTYPES
+    #define GLX_GLXEXT_PROTOTYPES 1
+#endif
 #include <GL/glx.h>
 #include <X11/X.h>
 #include <X11/keysym.h>
