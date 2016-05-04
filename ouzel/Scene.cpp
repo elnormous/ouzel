@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "Layer.h"
 #include "Camera.h"
+#include "Engine.h"
 
 namespace ouzel
 {
@@ -32,6 +33,8 @@ namespace ouzel
 
                 reorder = false;
             }
+
+            sharedEngine->getRenderer()->activateRenderTarget(renderTarget);
 
             for (LayerPtr layer : layers)
             {
