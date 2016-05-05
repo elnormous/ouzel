@@ -183,11 +183,10 @@ namespace ouzel
 
     void WindowOSX::setSize(const Size2& newSize)
     {
-        NSRect frame = [NSWindow contentRectForFrameRect:[window frame]
-                                               styleMask:[window styleMask]];
+        NSRect frame = [window frame];
 
         NSRect newFrame = [NSWindow frameRectForContentRect:
-                           NSMakeRect(NSMinX(frame), NSMaxY(frame) - newSize.height, newSize.width, newSize.height)
+                           NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.width, newSize.height)
                                                   styleMask:[window styleMask]];
 
         if (frame.size.width != newFrame.size.width ||
