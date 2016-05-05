@@ -69,17 +69,17 @@ namespace ouzel
         return (x < lo) ? lo : ((x > hi) ? hi : x);
     }
 
-    static const uint64_t InitialFNV = 2166136261U;
-    static const uint64_t FNVMultiple = 16777619;
+    static const uint64_t INITIAL_FNV = 2166136261U;
+    static const uint64_t FNV_MULTIPLE = 16777619;
 
-    /* Fowler / Noll / Vo (FNV) Hash */
+    // Fowler / Noll / Vo (FNV) hash
     inline uint64_t fnvHash(uint64_t s)
     {
-        size_t hash = InitialFNV;
+        size_t hash = INITIAL_FNV;
         for(size_t i = 0; i < sizeof(uint64_t); i++)
         {
-            hash = hash ^ (reinterpret_cast<uint8_t*>(&s)[i]);       /* xor  the low 8 bits */
-            hash = hash * FNVMultiple;  /* multiply by the magic number */
+            hash = hash ^ (reinterpret_cast<uint8_t*>(&s)[i]); /* xor the low 8 bits */
+            hash = hash * FNV_MULTIPLE; /* multiply by the magic number */
         }
         return hash;
     }
