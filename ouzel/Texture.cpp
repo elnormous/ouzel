@@ -73,7 +73,7 @@ namespace ouzel
                 return false;
             }
 
-            return true;
+            return uploadData(data, newSize);
         }
 
         static void imageRgba8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)

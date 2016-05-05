@@ -53,7 +53,7 @@ namespace ouzel
 
             std::shared_ptr<TextureOGL> textureOGL(new TextureOGL());
 
-            if (!textureOGL->init(size, false))
+            if (!textureOGL->init(size, true, false))
             {
                 return false;
             }
