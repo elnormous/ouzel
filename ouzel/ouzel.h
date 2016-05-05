@@ -13,6 +13,7 @@
 #include "Window.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "RenderTarget.h"
 #include "Matrix3.h"
 #include "Matrix4.h"
 #include "Vector2.h"

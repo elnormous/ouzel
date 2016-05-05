@@ -17,7 +17,7 @@ namespace ouzel
         {
         public:
             static std::vector<SpriteFramePtr> loadSpriteFrames(const std::string& filename, bool mipmaps = true);
-            static SpriteFramePtr createSpriteFrame(const Rectangle& rectangle, const graphics::TexturePtr& texture, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot);
+            static SpriteFramePtr create(const Rectangle& rectangle, const graphics::TexturePtr& texture, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot);
 
             SpriteFrame(Rectangle pRectangle,
                         graphics::MeshBufferPtr pMeshBuffer,

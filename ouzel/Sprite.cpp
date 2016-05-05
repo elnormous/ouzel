@@ -22,6 +22,18 @@ namespace ouzel
 {
     namespace scene
     {
+        std::shared_ptr<Sprite> Sprite::createFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames)
+        {
+            std::shared_ptr<Sprite> result = std::make_shared<Sprite>();
+
+            if (!result->initFromSpriteFrames(spriteFrames))
+            {
+                result.reset();
+            }
+
+            return result;
+        }
+
         std::shared_ptr<Sprite> Sprite::createFromFile(const std::string& filename, bool mipmaps)
         {
             std::shared_ptr<Sprite> result = std::make_shared<Sprite>();
@@ -45,10 +57,50 @@ namespace ouzel
             sharedEngine->unscheduleUpdate(updateCallback);
         }
 
+        bool Sprite::initFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames)
+        {
+            size.width = size.height = 0.0f;
+            boundingBox.reset();
+
+            frames = spriteFrames;
+
+            for (const SpriteFramePtr& frame : frames)
+            {
+                boundingBox.insertPoint(frame->getRectangle().bottomLeft());
+                boundingBox.insertPoint(frame->getRectangle().topRight());
+
+                if (frame->getRectangle().width > size.width)
+                {
+                    size.width = frame->getRectangle().width;
+                }
+
+                if (frame->getRectangle().height > size.height)
+                {
+                    size.height = frame->getRectangle().height;
+                }
+            }
+
+            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+
+            if (!blendState)
+            {
+                return false;
+            }
+
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            
+            if (!shader)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         bool Sprite::initFromFile(const std::string& filename, bool mipmaps)
         {
             frames.clear();
-
+            size.width = size.height = 0.0f;
             boundingBox.reset();
 
             frames = sharedEngine->getCache()->getSpriteFrames(filename, mipmaps);

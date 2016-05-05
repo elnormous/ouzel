@@ -78,13 +78,13 @@ namespace ouzel
                 Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
                               static_cast<float>(pivotObject["y"].GetDouble()));
                 
-                frames.push_back(createSpriteFrame(rectangle, texture, rotated, sourceSize, sourceOffset, pivot));
+                frames.push_back(create(rectangle, texture, rotated, sourceSize, sourceOffset, pivot));
             }
 
             return frames;
         }
 
-        SpriteFramePtr SpriteFrame::createSpriteFrame(const Rectangle& rectangle, const graphics::TexturePtr& texture, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot)
+        SpriteFramePtr SpriteFrame::create(const Rectangle& rectangle, const graphics::TexturePtr& texture, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot)
         {
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
 

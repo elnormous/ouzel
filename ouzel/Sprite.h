@@ -19,11 +19,13 @@ namespace ouzel
         class Sprite: public Drawable
         {
         public:
+            static std::shared_ptr<Sprite> createFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames);
             static std::shared_ptr<Sprite> createFromFile(const std::string& filename, bool mipmaps = true);
 
             Sprite();
             virtual ~Sprite();
 
+            virtual bool initFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames);
             virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
 
             virtual void update(float delta);

@@ -20,10 +20,19 @@ namespace ouzel
 
         bool RenderTargetMetal::init(const Size2& newSize, bool depthBuffer)
         {
-            if (RenderTarget::init(newSize, depthBuffer))
+            if (!RenderTarget::init(newSize, depthBuffer))
             {
                 return false;
             }
+
+            std::shared_ptr<TextureMetal> textureMetal(new TextureMetal());
+
+            if (!textureMetal->init(size, false))
+            {
+                return false;
+            }
+
+            texture = textureMetal;
 
             return true;
         }

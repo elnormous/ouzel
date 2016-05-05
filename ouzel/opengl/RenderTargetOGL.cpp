@@ -37,7 +37,7 @@ namespace ouzel
 
         bool RenderTargetOGL::init(const Size2& newSize, bool depthBuffer)
         {
-            if (RenderTarget::init(newSize, depthBuffer))
+            if (!RenderTarget::init(newSize, depthBuffer))
             {
                 return false;
             }

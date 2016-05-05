@@ -4,6 +4,7 @@
 #include "CompileConfig.h"
 #include "RendererMetal.h"
 #include "TextureMetal.h"
+#include "RenderTargetMetal.h"
 #include "ShaderMetal.h"
 #include "MeshBufferMetal.h"
 #include "BlendStateMetal.h"
@@ -360,6 +361,18 @@ namespace ouzel
             }
 
             return texture;
+        }
+
+        RenderTargetPtr RendererMetal::createRenderTarget(const Size2& size, bool depthBuffer)
+        {
+            std::shared_ptr<RenderTargetMetal> renderTarget(new RenderTargetMetal());
+
+            if (!renderTarget->init(size, depthBuffer))
+            {
+                renderTarget.reset();
+            }
+
+            return renderTarget;
         }
 
         ShaderPtr RendererMetal::loadShaderFromFiles(const std::string& pixelShader,
