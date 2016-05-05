@@ -22,6 +22,17 @@ namespace ouzel
     const float PIX2 = 6.28318530717958647693f;
     const float EPSILON = 0.000001f;
 
+    inline float lerp(float v0, float v1, float t)
+    {
+        return (1.0f - t) * v0 + t * v1;
+    }
+
+    inline float smoothstep(float a, float b, float t )
+    {
+        float remapSmoothstep = t * t * ( 3 - 2 * t );
+        return lerp( a, b, remapSmoothstep);
+    }
+
     inline bool isPOT(int x)
     {
         return (x != 0) && (((x - 1) & x) == 0);
@@ -56,6 +67,21 @@ namespace ouzel
     inline float clamp(float x, float lo, float hi)
     {
         return (x < lo) ? lo : ((x > hi) ? hi : x);
+    }
+
+    static const uint64_t InitialFNV = 2166136261U;
+    static const uint64_t FNVMultiple = 16777619;
+
+    /* Fowler / Noll / Vo (FNV) Hash */
+    inline uint64_t fnvHash(uint64_t s)
+    {
+        size_t hash = InitialFNV;
+        for(size_t i = 0; i < sizeof(uint64_t); i++)
+        {
+            hash = hash ^ (reinterpret_cast<uint8_t*>(&s)[i]);       /* xor  the low 8 bits */
+            hash = hash * FNVMultiple;  /* multiply by the magic number */
+        }
+        return hash;
     }
 
     // Matrix3

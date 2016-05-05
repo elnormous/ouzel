@@ -47,5 +47,6 @@
 #include "Repeat.h"
 #include "Scale.h"
 #include "Sequence.h"
+#include "Shake.h"
 #include "Utils.h"
 #include "MathUtils.h"

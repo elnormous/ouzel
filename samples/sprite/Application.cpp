@@ -55,6 +55,8 @@ void Application::begin()
     drawNode->setPosition(Vector2(-300, 0.0f));
     layer->addChild(drawNode);
 
+    drawNode->animate(std::make_shared<ouzel::scene::Shake>(10.0f, Vector2(10.0f, 20.0f), 20.0f));
+
     scene::SpritePtr characterSprite = scene::Sprite::createFromFile("run.json");
     characterSprite->play(true);
     //characterSprite->setOffset(Vector2(0.0f, -100.0f));

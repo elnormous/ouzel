@@ -6,6 +6,7 @@
 #include <vector>
 #include "Animator.h"
 #include "Types.h"
+#include "Vector2.h"
 
 namespace ouzel
 {
@@ -14,10 +15,18 @@ namespace ouzel
         class Shake: public Animator
         {
         public:
-            Shake(float pLength);
+            Shake(float pLength, const Vector2& pDistance, float pTimeScale);
+
+            void start(const NodePtr& targetNode) override;
 
         protected:
             virtual void updateProgress() override;
+
+            uint32_t seedX;
+            uint32_t seedY;
+            Vector2 distance;
+            float timeScale;
+            Vector2 startPosition;
         };
     } // namespace scene
 } // namespace ouzel
