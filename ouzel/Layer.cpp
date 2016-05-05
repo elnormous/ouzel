@@ -31,9 +31,11 @@ namespace ouzel
             // render only if there is an active camera
             if (camera)
             {
+                sharedEngine->getRenderer()->activateRenderTarget(renderTarget);
+                
                 lock();
 
-                for (const NodePtr child : children)
+                for (const NodePtr& child : children)
                 {
                     child->visit(Matrix4::IDENTITY, false);
                 }

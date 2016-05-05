@@ -43,6 +43,9 @@ namespace ouzel
 
             ScenePtr getScene() const { return scene.lock(); }
 
+            void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget) { renderTarget = newRenderTarget; }
+            const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
+
         protected:
             virtual void addToScene(const ScenePtr& newScene);
             virtual void removeFromScene();
@@ -53,6 +56,8 @@ namespace ouzel
             SceneWeakPtr scene;
             int32_t order = 0;
             bool remove = false;
+
+            graphics::RenderTargetPtr renderTarget;
         };
     } // namespace scene
 } // namespace ouzel

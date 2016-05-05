@@ -15,8 +15,6 @@ namespace ouzel
 {
     namespace scene
     {
-        class Layer;
-
         class Scene: public Noncopyable, public std::enable_shared_from_this<Scene>
         {
         public:
@@ -25,11 +23,9 @@ namespace ouzel
 
             virtual void draw();
 
-            void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget) { renderTarget = newRenderTarget; }
-            const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
-
             void addLayer(const LayerPtr& layer);
             void removeLayer(const LayerPtr& layer);
+            void removeAllLayers();
             bool hasLayer(const LayerPtr& layer) const;
             const std::vector<LayerPtr>& getLayers() const { return layers; }
 
@@ -50,8 +46,6 @@ namespace ouzel
             std::set<LayerPtr> layerAddList;
             std::set<LayerPtr> layerRemoveList;
             int32_t locked = 0;
-
-            graphics::RenderTargetPtr renderTarget;
         };
     } // namespace scene
 } // namespace ouzel

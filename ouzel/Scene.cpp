@@ -34,8 +34,6 @@ namespace ouzel
                 reorder = false;
             }
 
-            sharedEngine->getRenderer()->activateRenderTarget(renderTarget);
-
             for (LayerPtr layer : layers)
             {
                 if (!layer->remove)
@@ -82,6 +80,22 @@ namespace ouzel
                     layer->removeFromScene();
                     layers.erase(i);
                 }
+            }
+        }
+
+        void Scene::removeAllLayers()
+        {
+            if (locked)
+            {
+                for (const LayerPtr& layer : layers)
+                {
+                    layer->remove = true;
+                    layerRemoveList.insert(layer);
+                }
+            }
+            else
+            {
+                layers.clear();
             }
         }
 
