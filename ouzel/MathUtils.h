@@ -75,8 +75,8 @@ namespace ouzel
     // Fowler / Noll / Vo (FNV) hash
     inline uint64_t fnvHash(uint64_t s)
     {
-        size_t hash = INITIAL_FNV;
-        for(size_t i = 0; i < sizeof(uint64_t); i++)
+        uint64_t hash = INITIAL_FNV;
+        for(uint64_t i = 0; i < sizeof(uint64_t); i++)
         {
             hash = hash ^ (reinterpret_cast<uint8_t*>(&s)[i]); /* xor the low 8 bits */
             hash = hash * FNV_MULTIPLE; /* multiply by the magic number */
