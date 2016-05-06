@@ -11,6 +11,7 @@
 #import <MetalKit/MTKView.h>
 typedef MTKView* MTKViewPtr;
 typedef id<MTLDevice> MTLDevicePtr;
+typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
 typedef id<MTLCommandQueue> MTLCommandQueuePtr;
 typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
@@ -20,6 +21,7 @@ typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
 #include <objc/objc.h>
 typedef id MTKViewPtr;
 typedef id MTLDevicePtr;
+typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLSamplerStatePtr;
 typedef id MTLCommandQueuePtr;
 typedef id MTLRenderPipelineStatePtr;
@@ -89,6 +91,7 @@ namespace ouzel
             MTKViewPtr view = Nil;
 
             MTLDevicePtr device = Nil;
+            MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
 
             MTLSamplerStatePtr samplerState = Nil;
             MTLCommandQueuePtr commandQueue = Nil;

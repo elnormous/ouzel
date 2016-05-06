@@ -104,6 +104,12 @@ namespace ouzel
                 samplerState = Nil;
             }
 
+            if (renderPassDescriptor)
+            {
+                [renderPassDescriptor release];
+                renderPassDescriptor = Nil;
+            }
+
             if (device)
             {
                 [device release];
@@ -139,6 +145,18 @@ namespace ouzel
             view = static_cast<MTKView*>(window->getNativeView());
             view.device = device;
             //_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
+
+            renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+
+            if (!renderPassDescriptor)
+            {
+                log("Failed to get Metal render pass descriptor");
+                return false;
+            }
+
+            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+            renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
 
             commandQueue = [device newCommandQueue];
 
@@ -268,6 +286,8 @@ namespace ouzel
         void RendererMetal::setClearColor(Color newColor)
         {
             Renderer::setClearColor(newColor);
+
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
         }
 
         void RendererMetal::setSize(const Size2& newSize)
@@ -277,6 +297,8 @@ namespace ouzel
 
         void RendererMetal::clear()
         {
+            renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable.texture;
+            
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
             if (currentCommandBuffer) [currentCommandBuffer release];
@@ -296,18 +318,7 @@ namespace ouzel
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
-            MTLRenderPassDescriptor* renderPassDescriptor = view.currentRenderPassDescriptor;
-
-            if (!renderPassDescriptor)
-            {
-                log("Failed to get Metal render pass descriptor");
-                return;
-            }
-
             if (currentRenderCommandEncoder) [currentRenderCommandEncoder release];
-
-            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
 
             currentRenderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor] retain];
 
@@ -451,11 +462,11 @@ namespace ouzel
 
             std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(activeShader);
             [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
-                                                     offset:shaderMetal->getPixelShaderConstantBufferOffset()
-                                                    atIndex:1];
+                                                    offset:shaderMetal->getPixelShaderConstantBufferOffset()
+                                                   atIndex:1];
             [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
-                                                   offset:shaderMetal->getVertexShaderConstantBufferOffset()
-                                                  atIndex:1];
+                                                  offset:shaderMetal->getVertexShaderConstantBufferOffset()
+                                                 atIndex:1];
 
             std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(activeBlendState);
 
