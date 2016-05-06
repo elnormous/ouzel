@@ -33,6 +33,12 @@ void Application::begin()
     scene::ScenePtr scene = make_shared<scene::Scene>();
     sharedEngine->getSceneManager()->setScene(scene);
 
+    rtLayer = std::make_shared<scene::Layer>();
+    scene->addLayer(rtLayer);
+    renderTarget = ouzel::sharedEngine->getRenderer()->createRenderTarget(Size2(256.0f, 256.0f), false);
+    rtLayer->setCamera(std::make_shared<scene::Camera>());
+    rtLayer->setRenderTarget(renderTarget);
+
     layer = std::make_shared<scene::Layer>();
     scene->addLayer(layer);
     layer->setCamera(std::make_shared<scene::Camera>());
@@ -59,7 +65,6 @@ void Application::begin()
 
     scene::SpritePtr characterSprite = scene::Sprite::createFromFile("run.json");
     characterSprite->play(true);
-    //characterSprite->setOffset(Vector2(0.0f, -100.0f));
 
     character = std::make_shared<scene::Node>();
     character->addDrawable(characterSprite);
@@ -110,6 +115,21 @@ void Application::begin()
     button = gui::Button::create("button.png", "button.png", "button_down.png", "", "", graphics::Color(), "");
     button->setPosition(Vector2(-200.0f, 200.0f));
     uiLayer->addChild(button);
+
+    // Render target
+
+    ouzel::scene::NodePtr rtCharacter = std::make_shared<scene::Node>();
+    rtCharacter->addDrawable(characterSprite);
+    rtCharacter->setPosition(Vector2(-50.0f, 0.0f));
+    rtLayer->addChild(rtCharacter);
+
+    ouzel::scene::SpriteFramePtr rtFrame = ouzel::scene::SpriteFrame::create(Rectangle(0.0f, 0.0f, 256.0f, 256.0f), renderTarget->getTexture(), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+
+    ouzel::scene::SpritePtr rtSprite = ouzel::scene::Sprite::createFromSpriteFrames({ rtFrame });
+    ouzel::scene::NodePtr rtNode = std::make_shared<ouzel::scene::Node>();
+    rtNode->addDrawable(rtSprite);
+    rtNode->setPosition(Vector2(200.0f, 200.0f));
+    layer->addChild(rtNode);
 
     sharedEngine->getInput()->startGamepadDiscovery();
 }

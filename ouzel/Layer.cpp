@@ -136,5 +136,16 @@ namespace ouzel
         {
             scene.reset();
         }
+
+        void Layer::setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget)
+        {
+            renderTarget = newRenderTarget;
+
+            if (camera)
+            {
+                camera->recalculateProjection();
+            }
+        }
+
     } // namespace scene
 } // namespace ouzel

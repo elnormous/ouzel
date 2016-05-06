@@ -17,6 +17,7 @@ public:
     bool handleUI(const ouzel::UIEventPtr& event, const ouzel::VoidPtr& sender) const;
 
 protected:
+    ouzel::scene::LayerPtr rtLayer;
     ouzel::scene::LayerPtr layer;
     ouzel::scene::LayerPtr uiLayer;
 
@@ -27,4 +28,6 @@ protected:
     ouzel::gui::ButtonPtr button;
 
     ouzel::EventHandlerPtr eventHandler;
+
+    ouzel::graphics::RenderTargetPtr renderTarget;
 };

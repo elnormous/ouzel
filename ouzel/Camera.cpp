@@ -6,6 +6,8 @@
 #include "Engine.h"
 #include "Renderer.h"
 #include "Layer.h"
+#include "Texture.h"
+#include "RenderTarget.h"
 #include "Matrix4.h"
 #include "Utils.h"
 
@@ -37,7 +39,23 @@ namespace ouzel
 
         void Camera::recalculateProjection()
         {
-            Size2 screenSize = sharedEngine->getRenderer()->getSize();
+            Size2 screenSize;
+
+            if (LayerPtr currentLayer = layer.lock())
+            {
+                if (const graphics::RenderTargetPtr& renderTarget = currentLayer->getRenderTarget())
+                {
+                    screenSize = renderTarget->getTexture()->getSize();
+                }
+                else
+                {
+                    screenSize = sharedEngine->getRenderer()->getSize();
+                }
+            }
+            else
+            {
+                return;
+            }
 
             if (screenSize.width == 0.0f || screenSize.height == 0.0f)
             {

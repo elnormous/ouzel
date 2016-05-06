@@ -43,7 +43,7 @@ namespace ouzel
 
             ScenePtr getScene() const { return scene.lock(); }
 
-            void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget) { renderTarget = newRenderTarget; }
+            void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
             const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
 
         protected:
