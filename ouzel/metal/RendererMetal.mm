@@ -150,7 +150,7 @@ namespace ouzel
 
             if (!renderPassDescriptor)
             {
-                log("Failed to get Metal render pass descriptor");
+                log("Failed to create Metal render pass descriptor");
                 return false;
             }
 
