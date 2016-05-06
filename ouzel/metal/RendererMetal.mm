@@ -126,7 +126,7 @@ namespace ouzel
 
             destroy();
 
-            inflightSemaphore = dispatch_semaphore_create(3);
+            inflightSemaphore = dispatch_semaphore_create(3); // allow encoding up to 3 command buffers simultaneously
 
             device = MTLCreateSystemDefaultDevice();
 
