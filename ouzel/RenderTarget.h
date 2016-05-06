@@ -8,6 +8,7 @@
 #include "Types.h"
 #include "Noncopyable.h"
 #include "Size2.h"
+#include "Color.h"
 
 namespace ouzel
 {
@@ -24,6 +25,9 @@ namespace ouzel
 
             virtual bool init(const Size2& newSize, bool useDepthBuffer);
 
+            virtual void setClearColor(Color color) { clearColor = color; }
+            virtual Color getClearColor() const { return clearColor; }
+
             TexturePtr getTexture() const { return texture; }
 
         protected:
@@ -32,6 +36,7 @@ namespace ouzel
             Size2 size;
             bool depthBuffer = false;
 
+            Color clearColor;
             TexturePtr texture;
         };
     } // namespace graphics
