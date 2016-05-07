@@ -97,8 +97,7 @@ namespace ouzel
             MTLCommandQueuePtr commandQueue = Nil;
 
             MTLCommandBufferPtr currentCommandBuffer = Nil;
-            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
-            std::map<MTLRenderPassDescriptorPtr, std::pair<MTLCommandBufferPtr, MTLRenderCommandEncoderPtr>> commandBuffers;
+            std::map<MTLRenderPassDescriptorPtr, MTLRenderCommandEncoderPtr> renderCommandEncoders;
 
             dispatch_semaphore_t inflightSemaphore;
 

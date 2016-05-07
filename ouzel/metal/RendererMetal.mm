@@ -73,16 +73,18 @@ namespace ouzel
 
         void RendererMetal::destroy()
         {
+            for (auto i : renderCommandEncoders)
+            {
+                auto renderCommandEncoder = i.second;
+                [renderCommandEncoder release];
+            }
+
+            renderCommandEncoders.clear();
+
             if (currentCommandBuffer)
             {
                 [currentCommandBuffer release];
                 currentCommandBuffer = Nil;
-            }
-
-            if (currentRenderCommandEncoder)
-            {
-                [currentRenderCommandEncoder release];
-                currentRenderCommandEncoder = Nil;
             }
 
             for (auto pipelineState : pipelineStates)
@@ -301,8 +303,6 @@ namespace ouzel
             
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
-            if (currentCommandBuffer) [currentCommandBuffer release];
-
             currentCommandBuffer = [[commandQueue commandBuffer] retain];
 
             if (!currentCommandBuffer)
@@ -318,32 +318,34 @@ namespace ouzel
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
-            if (currentRenderCommandEncoder) [currentRenderCommandEncoder release];
+            MTLRenderCommandEncoderPtr renderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor] retain];
 
-            currentRenderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor] retain];
-
-            if (!currentRenderCommandEncoder)
+            if (!renderCommandEncoder)
             {
                 log("Failed to create Metal render command encoder");
                 return;
             }
+
+            renderCommandEncoders[renderPassDescriptor] = renderCommandEncoder;
         }
 
         void RendererMetal::present()
         {
             Renderer::present();
 
-            if (currentRenderCommandEncoder)
+            for (auto i : renderCommandEncoders)
             {
-                [currentRenderCommandEncoder endEncoding];
-                [currentRenderCommandEncoder release];
-                currentRenderCommandEncoder = Nil;
+                auto renderCommandEncoder = i.second;
+                [renderCommandEncoder endEncoding];
+                [renderCommandEncoder release];
             }
+
+            renderCommandEncoders.clear();
 
             if (currentCommandBuffer)
             {
                 [currentCommandBuffer presentDrawable:view.currentDrawable];
-                
+
                 [currentCommandBuffer commit];
                 [currentCommandBuffer release];
                 currentCommandBuffer = Nil;
@@ -457,6 +459,15 @@ namespace ouzel
             }
 
             std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(meshBuffer);
+
+            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
+
+            auto i = renderCommandEncoders.find(renderPassDescriptor);
+
+            if (i != renderCommandEncoders.end())
+            {
+                currentRenderCommandEncoder = i->second;
+            }
 
             [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
