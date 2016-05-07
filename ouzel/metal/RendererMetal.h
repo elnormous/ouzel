@@ -88,6 +88,8 @@ namespace ouzel
             MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                           const std::shared_ptr<ShaderMetal>& shader);
 
+            MTLRenderCommandEncoderPtr createRenderCommandEncoder(MTLRenderPassDescriptorPtr renderPassDescriptor);
+
             MTKViewPtr view = Nil;
 
             MTLDevicePtr device = Nil;

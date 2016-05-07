@@ -318,15 +318,7 @@ namespace ouzel
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
-            MTLRenderCommandEncoderPtr renderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor] retain];
-
-            if (!renderCommandEncoder)
-            {
-                log("Failed to create Metal render command encoder");
-                return;
-            }
-
-            renderCommandEncoders[renderPassDescriptor] = renderCommandEncoder;
+            renderCommandEncoders[renderPassDescriptor] = createRenderCommandEncoder(renderPassDescriptor);
         }
 
         void RendererMetal::present()
@@ -468,6 +460,11 @@ namespace ouzel
             {
                 currentRenderCommandEncoder = i->second;
             }
+            else
+            {
+                currentRenderCommandEncoder = createRenderCommandEncoder(renderPassDescriptor);
+                renderCommandEncoders[renderPassDescriptor] = currentRenderCommandEncoder;
+            }
 
             [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
@@ -600,5 +597,23 @@ namespace ouzel
             return pipelineState;
         }
 
+        MTLRenderCommandEncoderPtr RendererMetal::createRenderCommandEncoder(MTLRenderPassDescriptorPtr renderPassDescriptor)
+        {
+            if (!currentCommandBuffer)
+            {
+                log("No active Metal render command buffer");
+                return Nil;
+            }
+
+            MTLRenderCommandEncoderPtr renderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor] retain];
+
+            if (!renderCommandEncoder)
+            {
+                log("Failed to create Metal render command encoder");
+                return Nil;
+            }
+
+            return renderCommandEncoder;
+        }
     } // namespace graphics
 } // namespace ouzel
