@@ -450,11 +450,20 @@ namespace ouzel
                 return false;
             }
 
+            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = renderPassDescriptor;
+
+            if (activeRenderTarget)
+            {
+                std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(activeRenderTarget);
+
+                currentRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+            }
+
             std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(meshBuffer);
 
             MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
 
-            auto i = renderCommandEncoders.find(renderPassDescriptor);
+            auto i = renderCommandEncoders.find(currentRenderPassDescriptor);
 
             if (i != renderCommandEncoders.end())
             {
@@ -462,8 +471,8 @@ namespace ouzel
             }
             else
             {
-                currentRenderCommandEncoder = createRenderCommandEncoder(renderPassDescriptor);
-                renderCommandEncoders[renderPassDescriptor] = currentRenderCommandEncoder;
+                //currentRenderCommandEncoder = createRenderCommandEncoder(currentRenderPassDescriptor);
+                //renderCommandEncoders[renderPassDescriptor] = currentRenderCommandEncoder;
             }
 
             [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
