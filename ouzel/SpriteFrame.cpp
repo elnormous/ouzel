@@ -89,46 +89,46 @@ namespace ouzel
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
 
             Vector2 textCoords[4];
-            Vector2 realOffset(-sourceSize.width * pivot.x + sourceOffset.x,
-                               -sourceSize.height * pivot.y + (sourceSize.height - rectangle.height - sourceOffset.y));
+            Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
+                                -sourceSize.height * pivot.y + (sourceSize.height - rectangle.height - sourceOffset.y));
 
             const Size2& textureSize = texture->getSize();
 
             if (!rotated)
             {
-                Vector2 leftTop(rectangle.x / textureSize.width,
-                                rectangle.y / textureSize.height);
+                Vector2 leftBottom(rectangle.x / textureSize.width,
+                                   (textureSize.height - rectangle.y) / textureSize.height);
 
-                Vector2 rightBottom((rectangle.x + rectangle.width) / textureSize.width,
-                                    (rectangle.y + rectangle.height) / textureSize.height);
+                Vector2 rightTop((rectangle.x + rectangle.width) / textureSize.width,
+                                 (textureSize.height - (rectangle.y + rectangle.height)) / textureSize.height);
 
-                textCoords[0] = Vector2(leftTop.x, rightBottom.y);
-                textCoords[1] = Vector2(rightBottom.x, rightBottom.y);
-                textCoords[2] = Vector2(leftTop.x, leftTop.y);
-                textCoords[3] = Vector2(rightBottom.x, leftTop.y);
+                textCoords[0] = Vector2(leftBottom.x, rightTop.y);
+                textCoords[1] = Vector2(rightTop.x, rightTop.y);
+                textCoords[2] = Vector2(leftBottom.x, leftBottom.y);
+                textCoords[3] = Vector2(rightTop.x, leftBottom.y);
             }
             else
             {
-                Vector2 leftTop = Vector2(rectangle.x / textureSize.width,
-                                          rectangle.y / textureSize.height);
+                Vector2 leftBottom = Vector2(rectangle.x / textureSize.width,
+                                             (textureSize.height - rectangle.y) / textureSize.height);
 
-                Vector2 rightBottom = Vector2((rectangle.x + rectangle.height) / textureSize.width,
-                                              (rectangle.y + rectangle.width) / textureSize.height);
+                Vector2 rightTop = Vector2((rectangle.x + rectangle.height) / textureSize.width,
+                                           (textureSize.height - (rectangle.y + rectangle.width)) / textureSize.height);
 
-                textCoords[0] = Vector2(leftTop.x, leftTop.y);
-                textCoords[1] = Vector2(leftTop.x, rightBottom.y);
-                textCoords[2] = Vector2(rightBottom.x, leftTop.y);
-                textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
+                textCoords[0] = Vector2(leftBottom.x, leftBottom.y);
+                textCoords[1] = Vector2(leftBottom.x, rightTop.y);
+                textCoords[2] = Vector2(rightTop.x, leftBottom.y);
+                textCoords[3] = Vector2(rightTop.x, rightTop.y);
             }
 
-            Rectangle newRectangle = Rectangle(realOffset.x, realOffset.y,
+            Rectangle newRectangle = Rectangle(finalOffset.x, finalOffset.y,
                                                rectangle.width, rectangle.height);
 
             std::vector<graphics::VertexPCT> vertices = {
-                graphics::VertexPCT(Vector3(realOffset.x, realOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
-                graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
-                graphics::VertexPCT(Vector3(realOffset.x, realOffset.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
-                graphics::VertexPCT(Vector3(realOffset.x + rectangle.width, realOffset.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
+                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
+                graphics::VertexPCT(Vector3(finalOffset.x + rectangle.width, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
+                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
+                graphics::VertexPCT(Vector3(finalOffset.x + rectangle.width, finalOffset.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
             };
 
             graphics::MeshBufferPtr meshBuffer = (sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),

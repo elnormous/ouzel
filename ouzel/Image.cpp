@@ -36,6 +36,7 @@ namespace ouzel
             int width;
             int height;
             int comp;
+            stbi_set_flip_vertically_on_load(1);
             data = stbi_load(path.c_str(), &width, &height, &comp, STBI_rgb_alpha);
 
             if (!data)
