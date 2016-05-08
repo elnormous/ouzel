@@ -52,7 +52,7 @@ namespace ouzel
                 return false;
             }
 
-            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad; //MTLLoadActionClear;
             renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
             renderPassDescriptor.colorAttachments[0].texture = textureMetal->getTexture();

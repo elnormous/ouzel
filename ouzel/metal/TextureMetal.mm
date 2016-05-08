@@ -98,12 +98,12 @@ namespace ouzel
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
                                                                                                          width:newWidth
                                                                                                         height:newHeight
                                                                                                      mipmapped:mipmaps ? YES : NO];
             textureDescriptor.textureType = MTLTextureType2D;
-            textureDescriptor.usage = MTLTextureUsageShaderRead;
+            textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
 
             texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 

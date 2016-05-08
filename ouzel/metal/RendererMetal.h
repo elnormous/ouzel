@@ -80,6 +80,7 @@ namespace ouzel
             virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST, uint32_t startIndex = 0) override;
 
             MTLDevicePtr getDevice() const { return device; }
+            MTKViewPtr getMetalView() const { return view; }
 
         protected:
             RendererMetal();
@@ -87,8 +88,6 @@ namespace ouzel
             void destroy();
             MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                           const std::shared_ptr<ShaderMetal>& shader);
-
-            MTLRenderCommandEncoderPtr createRenderCommandEncoder(MTLRenderPassDescriptorPtr renderPassDescriptor);
 
             MTKViewPtr view = Nil;
 
@@ -99,7 +98,9 @@ namespace ouzel
             MTLCommandQueuePtr commandQueue = Nil;
 
             MTLCommandBufferPtr currentCommandBuffer = Nil;
-            std::map<MTLRenderPassDescriptorPtr, MTLRenderCommandEncoderPtr> renderCommandEncoders;
+
+            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
+            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
 
             dispatch_semaphore_t inflightSemaphore;
 
