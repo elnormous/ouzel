@@ -861,7 +861,13 @@ namespace ouzel
                 return false;
             }
 
-            stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch));
+            if (!stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
+            {
+                context->Unmap(texture, 0);
+                texture->Release();
+                log("Failed to save screenshot to file");
+                return false;
+            }
 
             context->Unmap(texture, 0);
 
