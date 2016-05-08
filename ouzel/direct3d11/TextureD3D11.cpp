@@ -73,16 +73,7 @@ namespace ouzel
             if (static_cast<UINT>(newSize.width) != width ||
                 static_cast<UINT>(newSize.height) != height)
             {
-                if (resourceView)
-                {
-                    resourceView->Release();
-                    resourceView = nullptr;
-                }
-                if (texture)
-                {
-                    texture->Release();
-                    texture = nullptr;
-                }
+                destroy();
 
                 if (!createTexture(static_cast<UINT>(size.width),
                                    static_cast<UINT>(size.height)))
@@ -94,25 +85,6 @@ namespace ouzel
             if (!Texture::uploadData(data, newSize))
             {
                 return false;
-            }
-
-            if (!resourceView)
-            {
-                D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-                memset(&srvDesc, 0, sizeof(srvDesc));
-                srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-                srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-                srvDesc.Texture2D.MostDetailedMip = 0;
-                srvDesc.Texture2D.MipLevels = mipLevels;
-
-                std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
-
-                HRESULT hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
-                if (FAILED(hr))
-                {
-                    log("Failed to create D3D11 shader resource view");
-                    return false;
-                }
             }
 
             return true;
@@ -157,6 +129,20 @@ namespace ouzel
             if (FAILED(hr))
             {
                 log("Failed to create D3D11 texture");
+                return false;
+            }
+
+            D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+            memset(&srvDesc, 0, sizeof(srvDesc));
+            srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+            srvDesc.Texture2D.MostDetailedMip = 0;
+            srvDesc.Texture2D.MipLevels = mipmaps ? calculateMipLevels(newWidth, newHeight) : 1;
+
+            hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
+            if (FAILED(hr))
+            {
+                log("Failed to create D3D11 shader resource view");
                 return false;
             }
 

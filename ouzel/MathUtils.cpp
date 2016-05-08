@@ -8,6 +8,21 @@
 
 namespace ouzel
 {
+    uint32_t calculateMipLevels(uint32_t width, uint32_t height)
+    {
+        uint32_t result = 1;
+
+        while (width > 1 || height > 1)
+        {
+            width >>= 1;
+            height >>= 1;
+
+            ++result;
+        }
+
+        return result;
+    }
+
     void addMatrix3(const float* m, float scalar, float* dst)
     {
         dst[0]  = m[0]  + scalar;

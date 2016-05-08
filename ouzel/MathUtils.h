@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include "Vector2.h"
+#include "Size2.h"
 
 namespace ouzel
 {
@@ -83,6 +84,8 @@ namespace ouzel
         }
         return hash;
     }
+
+    uint32_t calculateMipLevels(uint32_t width, uint32_t height);
 
     // Matrix3
     void addMatrix3(const float* m, float scalar, float* dst);

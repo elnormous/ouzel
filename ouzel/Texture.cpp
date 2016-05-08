@@ -31,6 +31,20 @@ namespace ouzel
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
 
+#ifdef OUZEL_SUPPORTS_OPENGLES
+            if (mipmaps && isPOT(newWidth) && isPOT(newHeight))
+#else
+            if (mipmaps)
+#endif
+            {
+                mipLevels = calculateMipLevels(static_cast<uint32_t>(size.width),
+                                               static_cast<uint32_t>(size.height));
+            }
+            else
+            {
+                mipLevels = 1;
+            }
+
             return true;
         }
 
@@ -57,6 +71,20 @@ namespace ouzel
             size = newSize;
             dynamic = newDynamic;
             mipmaps = newMipmaps;
+
+#ifdef OUZEL_SUPPORTS_OPENGLES
+            if (mipmaps && isPOT(newWidth) && isPOT(newHeight))
+#else
+            if (mipmaps)
+#endif
+            {
+                mipLevels = calculateMipLevels(static_cast<uint32_t>(size.width),
+                                               static_cast<uint32_t>(size.height));
+            }
+            else
+            {
+                mipLevels = 1;
+            }
 
             return true;
         }
@@ -128,13 +156,26 @@ namespace ouzel
         bool Texture::uploadData(const void* data, const Size2& newSize)
         {
             size = newSize;
+#ifdef OUZEL_SUPPORTS_OPENGLES
+            if (mipmaps && isPOT(newWidth) && isPOT(newHeight))
+#else
+            if (mipmaps)
+#endif
+            {
+                mipLevels = calculateMipLevels(static_cast<uint32_t>(size.width),
+                                               static_cast<uint32_t>(size.height));
+            }
+            else
+            {
+                mipLevels = 1;
+            }
 
             mipmapSizes.clear();
             mipmapSizes.push_back(newSize);
 
-            mipLevels = 0;
-            uploadMipmap(mipLevels, data);
-            ++mipLevels;
+            uint32_t mipLevel = 0;
+            uploadMipmap(mipLevel, data);
+            ++mipLevel;
 
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
             uint32_t newHeight = static_cast<uint32_t>(newSize.height);
@@ -169,10 +210,10 @@ namespace ouzel
                     newHeight >>= 1;
 
                     mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
-                    uploadMipmap(mipLevels, newData.data());
+                    uploadMipmap(mipLevel, newData.data());
 
                     pitch = newWidth * 4;
-                    ++mipLevels;
+                    ++mipLevel;
                 }
 
                 if (newWidth > newHeight)
@@ -186,10 +227,10 @@ namespace ouzel
                         newWidth >>= 1;
 
                         mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
-                        uploadMipmap(mipLevels, newData.data());
+                        uploadMipmap(mipLevel, newData.data());
 
                         pitch = newWidth * 4;
-                        ++mipLevels;
+                        ++mipLevel;
                     }
                 }
                 else
@@ -208,9 +249,9 @@ namespace ouzel
                         newHeight >>= 1;
 
                         mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
-                        uploadMipmap(mipLevels, newData.data());
+                        uploadMipmap(mipLevel, newData.data());
 
-                        ++mipLevels;
+                        ++mipLevel;
                     }
                 }
             }
