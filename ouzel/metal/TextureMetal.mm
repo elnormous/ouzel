@@ -82,12 +82,8 @@ namespace ouzel
             if (static_cast<NSUInteger>(newSize.width) != width ||
                 static_cast<NSUInteger>(newSize.height) != height)
             {
-                if (texture)
-                {
-                    [texture release];
-                    texture = Nil;
-                }
-
+                destroy();
+                
                 if (!createTexture(static_cast<NSUInteger>(newSize.width),
                                    static_cast<NSUInteger>(newSize.height)))
                 {
