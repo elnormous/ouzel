@@ -120,7 +120,6 @@ void Application::begin()
 
     ouzel::scene::NodePtr rtCharacter = std::make_shared<scene::Node>();
     rtCharacter->addDrawable(characterSprite);
-    rtCharacter->setPosition(Vector2(-50.0f, 0.0f));
     rtLayer->addChild(rtCharacter);
 
     ouzel::scene::SpriteFramePtr rtFrame = ouzel::scene::SpriteFrame::create(Rectangle(0.0f, 0.0f, 256.0f, 256.0f), renderTarget->getTexture(), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
