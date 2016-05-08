@@ -31,20 +31,6 @@ namespace ouzel
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
 
-#ifdef OUZEL_SUPPORTS_OPENGLES
-            if (mipmaps && isPOT(newWidth) && isPOT(newHeight))
-#else
-            if (mipmaps)
-#endif
-            {
-                mipLevels = calculateMipLevels(static_cast<uint32_t>(size.width),
-                                               static_cast<uint32_t>(size.height));
-            }
-            else
-            {
-                mipLevels = 1;
-            }
-
             return true;
         }
 
@@ -71,20 +57,6 @@ namespace ouzel
             size = newSize;
             dynamic = newDynamic;
             mipmaps = newMipmaps;
-
-#ifdef OUZEL_SUPPORTS_OPENGLES
-            if (mipmaps && isPOT(newWidth) && isPOT(newHeight))
-#else
-            if (mipmaps)
-#endif
-            {
-                mipLevels = calculateMipLevels(static_cast<uint32_t>(size.width),
-                                               static_cast<uint32_t>(size.height));
-            }
-            else
-            {
-                mipLevels = 1;
-            }
 
             return true;
         }
@@ -156,19 +128,6 @@ namespace ouzel
         bool Texture::uploadData(const void* data, const Size2& newSize)
         {
             size = newSize;
-#ifdef OUZEL_SUPPORTS_OPENGLES
-            if (mipmaps && isPOT(newWidth) && isPOT(newHeight))
-#else
-            if (mipmaps)
-#endif
-            {
-                mipLevels = calculateMipLevels(static_cast<uint32_t>(size.width),
-                                               static_cast<uint32_t>(size.height));
-            }
-            else
-            {
-                mipLevels = 1;
-            }
 
             mipmapSizes.clear();
             mipmapSizes.push_back(newSize);

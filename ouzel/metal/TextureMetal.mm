@@ -83,7 +83,7 @@ namespace ouzel
                 static_cast<NSUInteger>(newSize.height) != height)
             {
                 destroy();
-                
+
                 if (!createTexture(static_cast<NSUInteger>(newSize.width),
                                    static_cast<NSUInteger>(newSize.height)))
                 {

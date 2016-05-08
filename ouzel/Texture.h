@@ -46,7 +46,6 @@ namespace ouzel
             bool mipmaps = false;
             bool renderTarget = false;
             std::vector<Size2> mipmapSizes;
-            uint32_t mipLevels = 0;
         };
     } // namespace graphics
 } // namespace ouzel
