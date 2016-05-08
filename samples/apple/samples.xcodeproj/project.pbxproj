@@ -42,9 +42,6 @@
 		303B769B1C355AA400FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
 		303B769C1C355AA400FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
 		304A8EAA1C27429A008B1151 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
-		304B80ED1C602047003A1188 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304B80E81C602035003A1188 /* libouzel_osx.a */; };
-		304B80EE1C60204C003A1188 /* libouzel_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304B80EA1C602035003A1188 /* libouzel_ios.a */; };
-		304B80EF1C602050003A1188 /* libouzel_tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304B80EC1C602035003A1188 /* libouzel_tvos.a */; };
 		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		305B99A71C42B3F6008589E1 /* font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A51C42B3F6008589E1 /* font.fnt */; };
 		305B99A81C42B3F6008589E1 /* font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A51C42B3F6008589E1 /* font.fnt */; };
@@ -75,6 +72,9 @@
 		30AFE14F1CB5DCF100478AA2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE14E1CB5DCF100478AA2 /* OpenGLES.framework */; };
 		30AFE1511CB5DCF900478AA2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1501CB5DCF900478AA2 /* QuartzCore.framework */; };
 		30AFE1531CB5DD0500478AA2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1521CB5DD0400478AA2 /* UIKit.framework */; };
+		30B492AC1CDF81C40021E170 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492A71CDF81700021E170 /* libouzel_osx.a */; };
+		30B492AD1CDF81C70021E170 /* libouzel_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492A91CDF81700021E170 /* libouzel_ios.a */; };
+		30B492AE1CDF81CA0021E170 /* libouzel_tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492AB1CDF81700021E170 /* libouzel_tvos.a */; };
 		30C56C771CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
 		30C56C781CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
 		30C56C791CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
@@ -93,23 +93,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		304B80E71C602035003A1188 /* PBXContainerItemProxy */ = {
+		30B492A61CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 304B80E11C602035003A1188 /* ouzel.xcodeproj */;
+			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 304A8E251C237C30008B1151;
 			remoteInfo = ouzel_osx;
 		};
-		304B80E91C602035003A1188 /* PBXContainerItemProxy */ = {
+		30B492A81CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 304B80E11C602035003A1188 /* ouzel.xcodeproj */;
+			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 303B75331C2A3C5800FEDE92;
 			remoteInfo = ouzel_ios;
 		};
-		304B80EB1C602035003A1188 /* PBXContainerItemProxy */ = {
+		30B492AA1CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 304B80E11C602035003A1188 /* ouzel.xcodeproj */;
+			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 303B76801C355A3B00FEDE92;
 			remoteInfo = ouzel_tvos;
@@ -131,17 +131,16 @@
 		303B75F61C33756100FEDE92 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
 		303B76011C349CA800FEDE92 /* flame.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = flame.json; sourceTree = "<group>"; };
 		303B76021C349CA800FEDE92 /* flame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flame.png; sourceTree = "<group>"; };
-		303B76201C34CFE300FEDE92 /* sprite_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B76201C34CFE300FEDE92 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B762B1C34D22700FEDE92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ios/Info.plist; sourceTree = "<group>"; };
 		303B762C1C34D22700FEDE92 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ios/Prefix.pch; sourceTree = "<group>"; };
-		303B76A01C355AA400FEDE92 /* sprite_tvos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_tvos.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		304A8E0A1C237B95008B1151 /* sprite_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sprite_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B76A01C355AA400FEDE92 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		304A8E0A1C237B95008B1151 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		304A8EA81C27429A008B1151 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../Application.cpp; sourceTree = "<group>"; };
 		304A8EA91C27429A008B1151 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../Application.h; sourceTree = "<group>"; };
 		304A8EAB1C2742D9008B1151 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		304B80E11C602035003A1188 /* ouzel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ouzel.xcodeproj; path = ../../../build/ouzel.xcodeproj; sourceTree = "<group>"; };
 		30575A961C38C90F0009C8A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30575A971C38C90F0009C8A7 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		30575AE71C3C98F50009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
@@ -166,6 +165,7 @@
 		30AFE14E1CB5DCF100478AA2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		30AFE1501CB5DCF900478AA2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		30AFE1521CB5DD0400478AA2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		30B492A01CDF816F0021E170 /* ouzel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ouzel.xcodeproj; path = ../../build/ouzel.xcodeproj; sourceTree = "<group>"; };
 		30C56C701CAB48A4007AEF8F /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		30C56C711CAB48A4007AEF8F /* edit_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_box.png; sourceTree = "<group>"; };
 		30C56C731CAB48A4007AEF8F /* radio_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_button.png; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304B80EE1C60204C003A1188 /* libouzel_ios.a in Frameworks */,
+				30B492AD1CDF81C70021E170 /* libouzel_ios.a in Frameworks */,
 				30AFE14D1CB5DCDC00478AA2 /* Foundation.framework in Frameworks */,
 				30AFE14B1CB5DCBD00478AA2 /* GameController.framework in Frameworks */,
 				30AFE13A1CB5DC6000478AA2 /* Metal.framework in Frameworks */,
@@ -193,7 +193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304B80EF1C602050003A1188 /* libouzel_tvos.a in Frameworks */,
+				30B492AE1CDF81CA0021E170 /* libouzel_tvos.a in Frameworks */,
 				30AFE1411CB5DC7B00478AA2 /* Foundation.framework in Frameworks */,
 				30AFE1431CB5DC8700478AA2 /* GameController.framework in Frameworks */,
 				30AFE13E1CB5DC6F00478AA2 /* Metal.framework in Frameworks */,
@@ -208,7 +208,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304B80ED1C602047003A1188 /* libouzel_osx.a in Frameworks */,
+				30B492AC1CDF81C40021E170 /* libouzel_osx.a in Frameworks */,
 				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
 				30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */,
@@ -264,7 +264,7 @@
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
-				304B80E11C602035003A1188 /* ouzel.xcodeproj */,
+				30B492A01CDF816F0021E170 /* ouzel.xcodeproj */,
 				304A8EA81C27429A008B1151 /* Application.cpp */,
 				304A8EA91C27429A008B1151 /* Application.h */,
 				303B762A1C34D21100FEDE92 /* ios */,
@@ -280,9 +280,9 @@
 		304A8E0B1C237B95008B1151 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				304A8E0A1C237B95008B1151 /* sprite_osx.app */,
-				303B76201C34CFE300FEDE92 /* sprite_ios.app */,
-				303B76A01C355AA400FEDE92 /* sprite_tvos.app */,
+				304A8E0A1C237B95008B1151 /* samples_osx.app */,
+				303B76201C34CFE300FEDE92 /* samples_osx.app */,
+				303B76A01C355AA400FEDE92 /* samples_osx.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -323,16 +323,6 @@
 			path = ../Resources;
 			sourceTree = "<group>";
 		};
-		304B80E21C602035003A1188 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				304B80E81C602035003A1188 /* libouzel_osx.a */,
-				304B80EA1C602035003A1188 /* libouzel_ios.a */,
-				304B80EC1C602035003A1188 /* libouzel_tvos.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		30575A951C38C8ED0009C8A7 /* tvos */ = {
 			isa = PBXGroup;
 			children = (
@@ -344,12 +334,22 @@
 			path = ../tvos;
 			sourceTree = "<group>";
 		};
+		30B492A11CDF816F0021E170 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				30B492A71CDF81700021E170 /* libouzel_osx.a */,
+				30B492A91CDF81700021E170 /* libouzel_ios.a */,
+				30B492AB1CDF81700021E170 /* libouzel_tvos.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		303B760C1C34CFE300FEDE92 /* sprite_ios */ = {
+		303B760C1C34CFE300FEDE92 /* samples_ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 303B761D1C34CFE300FEDE92 /* Build configuration list for PBXNativeTarget "sprite_ios" */;
+			buildConfigurationList = 303B761D1C34CFE300FEDE92 /* Build configuration list for PBXNativeTarget "samples_ios" */;
 			buildPhases = (
 				303B760D1C34CFE300FEDE92 /* Sources */,
 				303B76101C34CFE300FEDE92 /* Frameworks */,
@@ -359,14 +359,14 @@
 			);
 			dependencies = (
 			);
-			name = sprite_ios;
+			name = samples_ios;
 			productName = blackbird;
-			productReference = 303B76201C34CFE300FEDE92 /* sprite_ios.app */;
+			productReference = 303B76201C34CFE300FEDE92 /* samples_osx.app */;
 			productType = "com.apple.product-type.application";
 		};
-		303B768B1C355AA400FEDE92 /* sprite_tvos */ = {
+		303B768B1C355AA400FEDE92 /* samples_tvos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 303B769D1C355AA400FEDE92 /* Build configuration list for PBXNativeTarget "sprite_tvos" */;
+			buildConfigurationList = 303B769D1C355AA400FEDE92 /* Build configuration list for PBXNativeTarget "samples_tvos" */;
 			buildPhases = (
 				303B768C1C355AA400FEDE92 /* Sources */,
 				303B768F1C355AA400FEDE92 /* Frameworks */,
@@ -376,14 +376,14 @@
 			);
 			dependencies = (
 			);
-			name = sprite_tvos;
+			name = samples_tvos;
 			productName = blackbird;
-			productReference = 303B76A01C355AA400FEDE92 /* sprite_tvos.app */;
+			productReference = 303B76A01C355AA400FEDE92 /* samples_osx.app */;
 			productType = "com.apple.product-type.application";
 		};
-		304A8E091C237B95008B1151 /* sprite_osx */ = {
+		304A8E091C237B95008B1151 /* samples_osx */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "sprite_osx" */;
+			buildConfigurationList = 304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "samples_osx" */;
 			buildPhases = (
 				304A8E061C237B95008B1151 /* Sources */,
 				304A8E071C237B95008B1151 /* Frameworks */,
@@ -393,9 +393,9 @@
 			);
 			dependencies = (
 			);
-			name = sprite_osx;
+			name = samples_osx;
 			productName = blackbird;
-			productReference = 304A8E0A1C237B95008B1151 /* sprite_osx.app */;
+			productReference = 304A8E0A1C237B95008B1151 /* samples_osx.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -415,7 +415,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 304A8E051C237B95008B1151 /* Build configuration list for PBXProject "sprite" */;
+			buildConfigurationList = 304A8E051C237B95008B1151 /* Build configuration list for PBXProject "samples" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -428,39 +428,39 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 304B80E21C602035003A1188 /* Products */;
-					ProjectRef = 304B80E11C602035003A1188 /* ouzel.xcodeproj */;
+					ProductGroup = 30B492A11CDF816F0021E170 /* Products */;
+					ProjectRef = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				304A8E091C237B95008B1151 /* sprite_osx */,
-				303B760C1C34CFE300FEDE92 /* sprite_ios */,
-				303B768B1C355AA400FEDE92 /* sprite_tvos */,
+				304A8E091C237B95008B1151 /* samples_osx */,
+				303B760C1C34CFE300FEDE92 /* samples_ios */,
+				303B768B1C355AA400FEDE92 /* samples_tvos */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		304B80E81C602035003A1188 /* libouzel_osx.a */ = {
+		30B492A71CDF81700021E170 /* libouzel_osx.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libouzel_osx.a;
-			remoteRef = 304B80E71C602035003A1188 /* PBXContainerItemProxy */;
+			remoteRef = 30B492A61CDF81700021E170 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		304B80EA1C602035003A1188 /* libouzel_ios.a */ = {
+		30B492A91CDF81700021E170 /* libouzel_ios.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libouzel_ios.a;
-			remoteRef = 304B80E91C602035003A1188 /* PBXContainerItemProxy */;
+			remoteRef = 30B492A81CDF81700021E170 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		304B80EC1C602035003A1188 /* libouzel_tvos.a */ = {
+		30B492AB1CDF81700021E170 /* libouzel_tvos.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libouzel_tvos.a;
-			remoteRef = 304B80EB1C602035003A1188 /* PBXContainerItemProxy */;
+			remoteRef = 30B492AA1CDF81700021E170 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -587,7 +587,7 @@
 				INFOPLIST_FILE = ../ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = samples_osx;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -608,7 +608,7 @@
 				INFOPLIST_FILE = ../ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = samples_osx;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -629,7 +629,7 @@
 				INFOPLIST_FILE = ../tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = samples_osx;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				STRIP_PNG_TEXT = NO;
@@ -649,7 +649,7 @@
 				INFOPLIST_FILE = ../tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = samples_osx;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				STRIP_PNG_TEXT = NO;
@@ -703,7 +703,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = ../../../ouzel/;
+				HEADER_SEARCH_PATHS = ../../ouzel/;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -752,7 +752,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = ../../../ouzel/;
+				HEADER_SEARCH_PATHS = ../../ouzel/;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
@@ -769,7 +769,7 @@
 				INFOPLIST_FILE = ../osx/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = samples_osx;
 			};
 			name = Debug;
 		};
@@ -783,14 +783,14 @@
 				INFOPLIST_FILE = ../osx/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = samples_osx;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		303B761D1C34CFE300FEDE92 /* Build configuration list for PBXNativeTarget "sprite_ios" */ = {
+		303B761D1C34CFE300FEDE92 /* Build configuration list for PBXNativeTarget "samples_ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				303B761E1C34CFE300FEDE92 /* Debug */,
@@ -799,7 +799,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		303B769D1C355AA400FEDE92 /* Build configuration list for PBXNativeTarget "sprite_tvos" */ = {
+		303B769D1C355AA400FEDE92 /* Build configuration list for PBXNativeTarget "samples_tvos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				303B769E1C355AA400FEDE92 /* Debug */,
@@ -808,7 +808,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		304A8E051C237B95008B1151 /* Build configuration list for PBXProject "sprite" */ = {
+		304A8E051C237B95008B1151 /* Build configuration list for PBXProject "samples" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				304A8E1C1C237B96008B1151 /* Debug */,
@@ -817,7 +817,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "sprite_osx" */ = {
+		304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "samples_osx" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				304A8E1F1C237B96008B1151 /* Debug */,
