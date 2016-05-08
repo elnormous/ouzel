@@ -27,7 +27,7 @@ namespace ouzel
             }
         }
 
-        bool Image::initFromFile(const std::string& newFilename)
+        bool Image::initFromFile(const std::string& newFilename, bool flipped)
         {
             filename = newFilename;
 
@@ -36,7 +36,7 @@ namespace ouzel
             int width;
             int height;
             int comp;
-            stbi_set_flip_vertically_on_load(1);
+            stbi_set_flip_vertically_on_load(static_cast<int>(flipped));
             data = stbi_load(path.c_str(), &width, &height, &comp, STBI_rgb_alpha);
 
             if (!data)
