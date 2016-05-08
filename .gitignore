@@ -1,7 +1,7 @@
 build/ouzel.xcodeproj/xcuserdata
 build/ouzel.xcodeproj/project.xcworkspace
-samples/sprite/apple/sprite.xcodeproj/project.xcworkspace
-samples/sprite/apple/sprite.xcodeproj/xcuserdata
+samples/apple/samples.xcodeproj/project.xcworkspace
+samples/apple/samples.xcodeproj/xcuserdata
 build/android/obj
 build/Release/
 build/Debug/
@@ -13,12 +13,12 @@ samples/win/Release/
 samples/win/Debug/
 samples/win/x64/
 samples/win/ipch/
-samples/win/sprite.sdf
-samples/win/sprite.VC.opendb
+samples/win/samples.sdf
+samples/win/samples.VC.opendb
 samples/android/bin
 samples/android/gen
 samples/android/libs
 samples/android/obj
-samples/win/sprite.opensdf
-samples/win/sprite.VC.VC.opendb
-samples/win/sprite.VC.db
+samples/win/samples.opensdf
+samples/win/samples.VC.VC.opendb
+samples/win/samples.VC.db

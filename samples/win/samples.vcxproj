@@ -22,7 +22,7 @@
     <ProjectGuid>{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}</ProjectGuid>
     <RootNamespace>ouzel</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>sprite</ProjectName>
+    <ProjectName>samples</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -70,16 +70,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..;..\..\..\ouzel;$(IncludePath)</IncludePath>
+    <IncludePath>..;..\..\ouzel;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..;..\..\..\ouzel;$(IncludePath)</IncludePath>
+    <IncludePath>..;..\..\ouzel;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..;..\..\..\ouzel;$(IncludePath)</IncludePath>
+    <IncludePath>..;..\..\ouzel;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..;..\..\..\ouzel;$(IncludePath)</IncludePath>
+    <IncludePath>..;..\..\ouzel;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -162,10 +162,13 @@
     <Image Include="icon1.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="sprite.rc" />
+    <ResourceCompile Include="samples.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\build\ouzel.vcxproj">
+      <Project>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\build\ouzel.vcxproj">
       <Project>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</Project>
     </ProjectReference>
   </ItemGroup>
