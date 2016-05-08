@@ -73,16 +73,16 @@ namespace ouzel
             if (static_cast<UINT>(newSize.width) != width ||
                 static_cast<UINT>(newSize.height) != height)
             {
-				if (resourceView)
-				{
-					resourceView->Release();
-					resourceView = nullptr;
-				}
-				if (texture)
-				{
-					texture->Release();
-					texture = nullptr;
-				}
+                if (resourceView)
+                {
+                    resourceView->Release();
+                    resourceView = nullptr;
+                }
+                if (texture)
+                {
+                    texture->Release();
+                    texture = nullptr;
+                }
 
                 if (!createTexture(static_cast<UINT>(size.width),
                                    static_cast<UINT>(size.height)))

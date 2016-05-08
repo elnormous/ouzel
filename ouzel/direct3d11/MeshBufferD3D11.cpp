@@ -81,11 +81,11 @@ namespace ouzel
 
             if (indexSize * indexCount > indexBufferSize)
             {
-				if (indexBuffer)
-				{
-					indexBuffer->Release();
-					indexBuffer = nullptr;
-				}
+                if (indexBuffer)
+                {
+                    indexBuffer->Release();
+                    indexBuffer = nullptr;
+                }
                 return createIndexBuffer(indices, indexSize * indexCount);
             }
             else
@@ -103,11 +103,11 @@ namespace ouzel
 
             if (vertexSize * vertexCount > vertexBufferSize)
             {
-				if (vertexBuffer)
-				{
-					vertexBuffer->Release();
-					vertexBuffer = nullptr;
-				}
+                if (vertexBuffer)
+                {
+                    vertexBuffer->Release();
+                    vertexBuffer = nullptr;
+                }
                 return createVertexBuffer(vertices, vertexSize * vertexCount);
             }
             else

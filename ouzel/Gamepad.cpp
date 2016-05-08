@@ -12,7 +12,7 @@ namespace ouzel
     {
         Gamepad::Gamepad()
         {
-			memset(buttonStates, 0, sizeof(buttonStates));
+            memset(buttonStates, 0, sizeof(buttonStates));
         }
 
         bool Gamepad::isAttached() const

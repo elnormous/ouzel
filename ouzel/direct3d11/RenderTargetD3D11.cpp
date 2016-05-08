@@ -62,7 +62,7 @@ namespace ouzel
             HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(textureD3D11->getTexture(), &renderTargetViewDesc, &renderTargetView);
             if (FAILED(hr))
             {
-				log("Failed to create D3D11 render target view");
+                log("Failed to create D3D11 render target view");
                 return false;
             }
 

@@ -9,8 +9,8 @@ namespace ouzel
 {
     namespace input
     {
-        const int32_t MAX_THUMB_VALUE = 32767;
-        const int32_t MIN_THUMB_VALUE = -32768;
+        static const int32_t MAX_THUMB_VALUE = 32767;
+        static const int32_t MIN_THUMB_VALUE = -32768;
 
         GamepadWin::GamepadWin(int32_t pPlayerIndex):
             playerIndex(pPlayerIndex)
@@ -43,14 +43,14 @@ namespace ouzel
                 if (newState.Gamepad.bLeftTrigger != state.Gamepad.bLeftTrigger)
                 {
                     handleButtonValueChange(GamepadButton::LEFT_TRIGGER,
-						newState.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
+                        newState.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
                         static_cast<float>(newState.Gamepad.bLeftTrigger) / 255.0f);
                 }
 
                 if (newState.Gamepad.bRightTrigger != state.Gamepad.bRightTrigger)
                 {
                     handleButtonValueChange(GamepadButton::RIGHT_TRIGGER,
-						newState.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
+                        newState.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
                         static_cast<float>(newState.Gamepad.bRightTrigger) / 255.0f);
                 }
 
