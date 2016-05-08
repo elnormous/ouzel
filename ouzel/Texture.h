@@ -21,7 +21,7 @@ namespace ouzel
         public:
             virtual ~Texture();
 
-            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true);
+            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false);
             virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
             virtual bool initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
 
@@ -44,6 +44,7 @@ namespace ouzel
             Size2 size;
             bool dynamic = false;
             bool mipmaps = false;
+            bool renderTarget = false;
             std::vector<Size2> mipmapSizes;
             uint32_t mipLevels = 0;
         };

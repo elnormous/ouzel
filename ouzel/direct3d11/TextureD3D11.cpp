@@ -37,9 +37,9 @@ namespace ouzel
             }
         }
 
-        bool TextureD3D11::init(const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool TextureD3D11::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
         {
-            if (!Texture::init(newSize, newDynamic, newMipmaps))
+            if (!Texture::init(newSize, newDynamic, newMipmaps, newRenderTarget))
             {
                 return false;
             }
@@ -150,7 +150,7 @@ namespace ouzel
             textureDesc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
             textureDesc.SampleDesc.Count = 1;
             textureDesc.SampleDesc.Quality = 0;
-            textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE; // | D3D11_BIND_RENDER_TARGET;
+            textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (renderTarget ? D3D11_BIND_RENDER_TARGET : 0);
             textureDesc.MiscFlags = 0;
 
             HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);

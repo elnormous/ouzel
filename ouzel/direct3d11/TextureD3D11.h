@@ -20,7 +20,7 @@ namespace ouzel
         public:
             virtual ~TextureD3D11();
 
-            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
+            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
             virtual bool initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
 
             virtual bool uploadMipmap(uint32_t level, const void* data) override;

@@ -41,7 +41,7 @@ namespace ouzel
 
             std::shared_ptr<TextureD3D11> textureD3D11(new TextureD3D11());
 
-            if (!textureD3D11->init(size, false, false))
+            if (!textureD3D11->init(size, false, false, true))
             {
                 return false;
             }

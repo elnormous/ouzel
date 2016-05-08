@@ -30,9 +30,9 @@ namespace ouzel
             }
         }
 
-        bool TextureOGL::init(const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool TextureOGL::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
         {
-            if (!Texture::init(newSize, newDynamic, newMipmaps))
+            if (!Texture::init(newSize, newDynamic, newMipmaps, newRenderTarget))
             {
                 return false;
             }

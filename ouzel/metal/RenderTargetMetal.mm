@@ -37,7 +37,7 @@ namespace ouzel
 
             std::shared_ptr<TextureMetal> textureMetal(new TextureMetal());
 
-            if (!textureMetal->init(size, false, false))
+            if (!textureMetal->init(size, false, false, true))
             {
                 return false;
             }
