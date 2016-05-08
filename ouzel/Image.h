@@ -20,7 +20,7 @@ namespace ouzel
             const Size2& getSize() const { return size; }
             const void* getData() const { return data; }
 
-            virtual bool initFromFile(const std::string& newFilename, bool flipped = true);
+            virtual bool initFromFile(const std::string& newFilename);
 
         protected:
             std::string filename;
