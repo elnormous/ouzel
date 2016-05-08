@@ -309,10 +309,6 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
-            context->RSSetViewports(1, &viewport);
-            context->OMSetRenderTargets(1, &renderTargetView, nullptr);
-
             memset(&resourceViews, 0, sizeof(resourceViews));
             memset(&samplerStates, 0, sizeof(samplerStates));
 
