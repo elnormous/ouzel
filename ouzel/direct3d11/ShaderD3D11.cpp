@@ -72,14 +72,14 @@ namespace ouzel
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
             HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(newPixelShader, newPixelShaderSize, NULL, &pixelShader);
-            if (FAILED(hr) || !pixelShader)
+            if (FAILED(hr))
             {
                 log("Failed to create a D3D11 pixel shader");
                 return false;
             }
 
             hr = rendererD3D11->getDevice()->CreateVertexShader(newVertexShader, newVertexShaderSize, NULL, &vertexShader);
-            if (FAILED(hr) || !vertexShader)
+            if (FAILED(hr))
             {
                 log("Failed to create a D3D11 vertex shader");
                 return false;
@@ -126,7 +126,7 @@ namespace ouzel
                 newVertexShaderSize,
                 &inputLayout);
 
-            if (FAILED(hr) || !inputLayout)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 input layout for vertex shader");
                 return false;
@@ -232,7 +232,7 @@ namespace ouzel
             pixelShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
-            if (FAILED(hr) || !pixelShaderConstantBuffer)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 constant buffer");
                 return false;
@@ -256,7 +256,7 @@ namespace ouzel
             vertexShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
-            if (FAILED(hr) || !vertexShaderConstantBuffer)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 constant buffer");
                 return false;

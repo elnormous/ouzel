@@ -108,7 +108,7 @@ namespace ouzel
                 std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
                 HRESULT hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
-                if (FAILED(hr) || !resourceView)
+                if (FAILED(hr))
                 {
                     log("Failed to create D3D11 shader resource view");
                     return false;
@@ -154,7 +154,7 @@ namespace ouzel
             textureDesc.MiscFlags = 0;
 
             HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
-            if (FAILED(hr) || !texture)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 texture");
                 return false;

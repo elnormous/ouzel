@@ -145,7 +145,7 @@ namespace ouzel
             indexBufferResourceData.pSysMem = indices;
 
             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &indexBuffer);
-            if (FAILED(hr) || !indexBuffer)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 index buffer");
                 return false;
@@ -173,7 +173,7 @@ namespace ouzel
             vertexBufferResourceData.pSysMem = vertices;
 
             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &vertexBuffer);
-            if (FAILED(hr) || !vertexBuffer)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 vertex buffer");
                 return false;

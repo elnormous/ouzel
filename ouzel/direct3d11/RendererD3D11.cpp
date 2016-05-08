@@ -159,14 +159,14 @@ namespace ouzel
 
             // Backbuffer
             hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer));
-            if (FAILED(hr) || !backBuffer)
+            if (FAILED(hr))
             {
                 log("Failed to retrieve D3D11 backbuffer");
                 return false;
             }
 
             hr = device->CreateRenderTargetView(backBuffer, nullptr, &rtView);
-            if (FAILED(hr) || !rtView)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 render target view");
                 return false;
@@ -191,7 +191,7 @@ namespace ouzel
             samplerStateDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
             hr = device->CreateSamplerState(&samplerStateDesc, &samplerState);
-            if (FAILED(hr) || !samplerState)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 sampler state");
                 return false;
@@ -211,7 +211,7 @@ namespace ouzel
             };
 
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerState);
-            if (FAILED(hr) || !rasterizerState)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 rasterizer state");
                 return false;
@@ -223,7 +223,7 @@ namespace ouzel
                 FALSE, // disable depth test
             };
             hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState);
-            if (FAILED(hr) || !depthStencilState)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 depth stencil state");
                 return false;
@@ -441,14 +441,14 @@ namespace ouzel
                 swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 
                 HRESULT hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
-                if (FAILED(hr) || !backBuffer)
+                if (FAILED(hr))
                 {
                     log("Failed to retrieve D3D11 backbuffer");
                     return;
                 }
 
                 hr = device->CreateRenderTargetView(backBuffer, nullptr, &rtView);
-                if (FAILED(hr) || !rtView)
+                if (FAILED(hr))
                 {
                     log("Failed to create D3D11 render target view");
                     return;

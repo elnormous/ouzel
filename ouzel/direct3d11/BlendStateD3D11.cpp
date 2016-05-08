@@ -61,7 +61,7 @@ namespace ouzel
             blendStateDesc.RenderTarget[0] = targetBlendDesc;
 
             HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
-            if (FAILED(hr) || !blendState)
+            if (FAILED(hr))
             {
                 log("Failed to create D3D11 blend state");
                 return false;
