@@ -669,7 +669,7 @@ namespace ouzel
             }
             else
             {
-                context->OMSetRenderTargets(1, nullptr, nullptr);
+                context->OMSetRenderTargets(1, &rtView, nullptr);
             }
 
             return true;

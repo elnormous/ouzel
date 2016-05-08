@@ -50,11 +50,14 @@ namespace ouzel
 
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
+            D3D11_TEXTURE2D_DESC textureDesc;
+            textureD3D11->texture->GetDesc(&textureDesc);
+
             D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-			memset(&renderTargetViewDesc, 0, sizeof(renderTargetViewDesc));
-            renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            memset(&renderTargetViewDesc, 0, sizeof(renderTargetViewDesc));
+            renderTargetViewDesc.Format = textureDesc.Format;
             renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-            renderTargetViewDesc.Texture2D.MipSlice = 1;
+            renderTargetViewDesc.Texture2D.MipSlice = 0;
 
             HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(textureD3D11->getTexture(), &renderTargetViewDesc, &renderTargetView);
             if (FAILED(hr))
