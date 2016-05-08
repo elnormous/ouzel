@@ -136,7 +136,7 @@ namespace ouzel
             swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
             swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
             swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_STRETCHED;
-            swapChainDesc.SampleDesc.Count = 1; // TODO MSAA?
+            swapChainDesc.SampleDesc.Count = sampleCount;
             swapChainDesc.SampleDesc.Quality = 0;
             swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
             swapChainDesc.BufferCount = 1;
@@ -206,7 +206,7 @@ namespace ouzel
                 0, 0, 0, // depth bias, clamp, slope scale
                 FALSE, // depth clip
                 FALSE, // scissor test
-                FALSE, // TODO MSAA enable?
+                (sampleCount > 1) ? TRUE : FALSE, // MSAA
                 TRUE, // AA lines
             };
 
