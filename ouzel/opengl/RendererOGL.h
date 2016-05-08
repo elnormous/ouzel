@@ -113,6 +113,8 @@ namespace ouzel
             static GLuint currentTextureId[TEXTURE_LAYERS];
             static GLuint currentProgramId;
             static GLuint currentFramBufferId;
+
+            Rectangle viewport;
         };
     } // namespace graphics
 } // namespace ouzel

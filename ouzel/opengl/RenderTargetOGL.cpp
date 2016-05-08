@@ -44,6 +44,8 @@ namespace ouzel
 
             destroy();
 
+            viewport = Rectangle(0.0f, 0.0f, newSize.width, newSize.height);
+
             GLuint oldFrameBufferId;
             glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));
 

@@ -186,11 +186,14 @@ namespace ouzel
         {
             Renderer::setSize(newSize);
 
-            if (ready)
+            viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
+
+            if (ready && !activeRenderTarget)
             {
-                glViewport(0, 0,
-                           static_cast<GLsizei>(size.width),
-                           static_cast<GLsizei>(size.height));
+                glViewport(static_cast<GLsizei>(viewport.x),
+                           static_cast<GLsizei>(viewport.y),
+                           static_cast<GLsizei>(viewport.width),
+                           static_cast<GLsizei>(viewport.height));
             }
         }
 
@@ -365,10 +368,22 @@ namespace ouzel
                 std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(activeRenderTarget);
 
                 bindFrameBuffer(renderTargetOGL->getFrameBufferId());
+
+                Rectangle newViewport = renderTargetOGL->getViewport();
+
+                glViewport(static_cast<GLsizei>(newViewport.x),
+                           static_cast<GLsizei>(newViewport.y),
+                           static_cast<GLsizei>(newViewport.width),
+                           static_cast<GLsizei>(newViewport.height));
             }
             else
             {
                 bindFrameBuffer(frameBuffer);
+
+                glViewport(static_cast<GLsizei>(viewport.x),
+                           static_cast<GLsizei>(viewport.y),
+                           static_cast<GLsizei>(viewport.width),
+                           static_cast<GLsizei>(viewport.height));
             }
 
             return true;

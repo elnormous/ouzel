@@ -6,6 +6,7 @@
 #include "CompileConfig.h"
 #include "RenderTarget.h"
 #include "Size2.h"
+#include "Rectangle.h"
 
 #if defined(OUZEL_PLATFORM_OSX)
     #include <OpenGL/gl3.h>
@@ -44,6 +45,7 @@ namespace ouzel
             virtual bool init(const Size2& newSize, bool depthBuffer) override;
 
             GLuint getFrameBufferId() const { return frameBufferId; }
+            const Rectangle& getViewport() const { return viewport; }
 
         protected:
             RenderTargetOGL();
@@ -52,6 +54,7 @@ namespace ouzel
 
             GLuint frameBufferId = 0;
             GLuint depthBufferId = 0;
+            Rectangle viewport;
         };
     } // namespace graphics
 } // namespace ouzel
