@@ -55,10 +55,10 @@ namespace ouzel
                 samplerState = nullptr;
             }
 
-            if (rtView)
+            if (renderTargetView)
             {
-                rtView->Release();
-                rtView = nullptr;
+                renderTargetView->Release();
+                renderTargetView = nullptr;
             }
 
             if (backBuffer)
@@ -165,7 +165,7 @@ namespace ouzel
                 return false;
             }
 
-            hr = device->CreateRenderTargetView(backBuffer, nullptr, &rtView);
+            hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
             if (FAILED(hr))
             {
                 log("Failed to create D3D11 render target view");
@@ -311,7 +311,7 @@ namespace ouzel
 
             D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
             context->RSSetViewports(1, &viewport);
-            context->OMSetRenderTargets(1, &rtView, nullptr);
+            context->OMSetRenderTargets(1, &renderTargetView, nullptr);
 
             memset(&resourceViews, 0, sizeof(resourceViews));
             memset(&samplerStates, 0, sizeof(samplerStates));
@@ -335,7 +335,7 @@ namespace ouzel
             }
             else
             {
-                context->ClearRenderTargetView(rtView, color);
+                context->ClearRenderTargetView(renderTargetView, color);
             }
         }
 
@@ -426,10 +426,10 @@ namespace ouzel
                 UINT width = static_cast<UINT>(size.width);
                 UINT height = static_cast<UINT>(size.height);
 
-                if (rtView)
+                if (renderTargetView)
                 {
-                    rtView->Release();
-                    rtView = nullptr;
+                    renderTargetView->Release();
+                    renderTargetView = nullptr;
                 }
 
                 if (backBuffer)
@@ -447,7 +447,7 @@ namespace ouzel
                     return;
                 }
 
-                hr = device->CreateRenderTargetView(backBuffer, nullptr, &rtView);
+                hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
                 if (FAILED(hr))
                 {
                     log("Failed to create D3D11 render target view");
@@ -456,7 +456,11 @@ namespace ouzel
 
                 D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
                 context->RSSetViewports(1, &viewport);
-                context->OMSetRenderTargets(1, &rtView, nullptr);
+
+                if (!activeRenderTarget)
+                {
+                    context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+                }
             }
         }
 
@@ -663,13 +667,13 @@ namespace ouzel
             {
                 std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(activeRenderTarget);
 
-                ID3D11RenderTargetView* renderTargetView = renderTargetD3D11->getRenderTargetView();
+                ID3D11RenderTargetView* newRenderTargetView = renderTargetD3D11->getRenderTargetView();
 
-                context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+                context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
             }
             else
             {
-                context->OMSetRenderTargets(1, &rtView, nullptr);
+                context->OMSetRenderTargets(1, &renderTargetView, nullptr);
             }
 
             return true;

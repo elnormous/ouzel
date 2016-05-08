@@ -76,7 +76,7 @@ namespace ouzel
             IDXGISwapChain* swapChain = nullptr;
             IDXGIAdapter* adapter = nullptr;
             ID3D11Texture2D* backBuffer = nullptr;
-            ID3D11RenderTargetView* rtView = nullptr;
+            ID3D11RenderTargetView* renderTargetView = nullptr;
             ID3D11SamplerState* samplerState = nullptr;
             ID3D11RasterizerState* rasterizerState = nullptr;
 
