@@ -22,6 +22,7 @@ namespace ouzel
             virtual bool init(const Size2& newSize, bool depthBuffer);
 
             ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
+            const D3D11_VIEWPORT& getViewport() const { return viewport; }
 
         protected:
             RenderTargetD3D11();
@@ -29,6 +30,7 @@ namespace ouzel
             void destroy();
 
             ID3D11RenderTargetView* renderTargetView = nullptr;
+            D3D11_VIEWPORT viewport;
         };
     } // namespace graphics
 } // namespace ouzel

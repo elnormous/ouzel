@@ -309,7 +309,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
+            viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
             context->RSSetViewports(1, &viewport);
             context->OMSetRenderTargets(1, &renderTargetView, nullptr);
 
@@ -454,12 +454,12 @@ namespace ouzel
                     return;
                 }
 
-                D3D11_VIEWPORT viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
-                context->RSSetViewports(1, &viewport);
-
+                viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
+                
                 if (!activeRenderTarget)
                 {
                     context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+                    context->RSSetViewports(1, &viewport);
                 }
             }
         }
@@ -668,12 +668,16 @@ namespace ouzel
                 std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(activeRenderTarget);
 
                 ID3D11RenderTargetView* newRenderTargetView = renderTargetD3D11->getRenderTargetView();
+                const D3D11_VIEWPORT& newViewport = renderTargetD3D11->getViewport();
+
 
                 context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
+                context->RSSetViewports(1, &newViewport);
             }
             else
             {
                 context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+                context->RSSetViewports(1, &viewport);
             }
 
             return true;

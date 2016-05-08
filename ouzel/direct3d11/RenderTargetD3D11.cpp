@@ -39,6 +39,8 @@ namespace ouzel
 
             destroy();
 
+            viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
+
             std::shared_ptr<TextureD3D11> textureD3D11(new TextureD3D11());
 
             if (!textureD3D11->init(size, false, false, true))
