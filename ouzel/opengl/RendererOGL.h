@@ -60,6 +60,7 @@ namespace ouzel
             virtual void setClearColor(Color color) override;
 
             virtual void clear() override;
+            virtual void present() override;
             virtual void flush() override;
 
             virtual BlendStatePtr createBlendState(bool enableBlending,

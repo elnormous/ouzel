@@ -47,6 +47,8 @@ namespace ouzel
             {
                 return false;
             }
+            
+            textureD3D11->setFlipped(true);
 
             texture = textureD3D11;
 

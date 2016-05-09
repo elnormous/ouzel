@@ -260,17 +260,28 @@ namespace ouzel
             Vector2 rightBottom((f->x + f->width) / static_cast<float>(width),
                                 (f->y + f->height) / static_cast<float>(height));
 
+            textCoords[0] = Vector2(leftTop.x, leftTop.y);
+            textCoords[1] = Vector2(rightBottom.x, leftTop.y);
+            textCoords[2] = Vector2(leftTop.x, rightBottom.y);
+            textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
+
+            if (!texture->isFlipped())
+            {
+                leftTop.y = 1.0f - leftTop.y;
+                rightBottom.y = 1.0f - rightBottom.y;
+            }
+
             vertices.push_back(graphics::VertexPCT(Vector3(x + f->xOffset, y - f->yOffset, 0.0f),
-                                         color, Vector2(leftTop.x, leftTop.y)));
+                                         color, textCoords[0]));
 
             vertices.push_back(graphics::VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset, 0.0f),
-                                         color, Vector2(rightBottom.x, leftTop.y)));
+                                         color, textCoords[1]));
 
             vertices.push_back(graphics::VertexPCT(Vector3(x + f->xOffset, y - f->yOffset - f->height, 0.0f),
-                                         color, Vector2(leftTop.x, rightBottom.y)));
+                                         color, textCoords[2]));
 
             vertices.push_back(graphics::VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset - f->height, 0.0f),
-                                         color, Vector2(rightBottom.x, rightBottom.y)));
+                                         color, textCoords[3]));
 
             // Only check kerning if there is greater then 1 character and
             // if the check character is 1 less then the end of the string.

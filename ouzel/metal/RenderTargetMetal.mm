@@ -50,6 +50,8 @@ namespace ouzel
                 return false;
             }
 
+            textureMetal->setFlipped(true);
+
             texture = textureMetal;
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];

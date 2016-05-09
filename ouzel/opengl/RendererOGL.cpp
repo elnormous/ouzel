@@ -205,6 +205,11 @@ namespace ouzel
             checkOpenGLErrors();
         }
 
+        void RendererOGL::present()
+        {
+            Renderer::present();
+        }
+
         void RendererOGL::flush()
         {
             Renderer::flush();
