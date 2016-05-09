@@ -10,8 +10,10 @@
 #ifdef __OBJC__
 #import <Metal/Metal.h>
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
+typedef id <MTLTexture> MTLTexturePtr;
 #else
 typedef id MTLRenderPassDescriptorPtr;
+typedef id MTLTexturePtr;
 #endif
 
 namespace ouzel
@@ -36,6 +38,7 @@ namespace ouzel
             void destroy();
 
             MTLRenderPassDescriptorPtr renderPassDescriptor;
+            MTLTexturePtr msaaTexture;
         };
     } // namespace graphics
 } // namespace ouzel

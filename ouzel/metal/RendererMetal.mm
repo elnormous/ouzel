@@ -143,6 +143,7 @@ namespace ouzel
 #endif
             view = static_cast<MTKView*>(window->getNativeView());
             view.device = device;
+            view.sampleCount = sampleCount;
             //_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
@@ -154,8 +155,28 @@ namespace ouzel
             }
 
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
+
+            if (sampleCount > 1)
+            {
+                MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat: MTLPixelFormatBGRA8Unorm
+                                                                                                width: size.width
+                                                                                               height: size.height
+                                                                                            mipmapped: NO];
+                desc.textureType = MTLTextureType2DMultisample;
+                desc.storageMode = MTLStorageModePrivate;
+                desc.sampleCount = sampleCount;
+                desc.usage = MTLTextureUsageRenderTarget;
+
+                msaaTexture = [device newTextureWithDescriptor: desc];
+
+                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
+                renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
+            }
+            else
+            {
+                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+            }
 
             commandQueue = [device newCommandQueue];
 
@@ -296,7 +317,14 @@ namespace ouzel
 
         void RendererMetal::clear()
         {
-            renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable.texture;
+            if (sampleCount > 1)
+            {
+                renderPassDescriptor.colorAttachments[0].resolveTexture = view.currentDrawable.texture;
+            }
+            else
+            {
+                renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable.texture;
+            }
             
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 

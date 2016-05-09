@@ -3,6 +3,8 @@
 
 #include "RenderTargetMetal.h"
 #include "TextureMetal.h"
+#include "Engine.h"
+#include "RendererMetal.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -53,9 +55,32 @@ namespace ouzel
             }
 
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad; //MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
-            renderPassDescriptor.colorAttachments[0].texture = textureMetal->getTexture();
+
+            std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+            if (rendererMetal->getSampleCount() > 1)
+            {
+                MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat: MTLPixelFormatBGRA8Unorm
+                                                                                                width: size.width
+                                                                                               height: size.height
+                                                                                            mipmapped: NO];
+                desc.textureType = MTLTextureType2DMultisample;
+                desc.storageMode = MTLStorageModePrivate;
+                desc.sampleCount = rendererMetal->getSampleCount();
+                desc.usage = MTLTextureUsageRenderTarget;
+
+                msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];
+
+                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
+                renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
+                renderPassDescriptor.colorAttachments[0].resolveTexture = textureMetal->getTexture();
+            }
+            else
+            {
+                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+                renderPassDescriptor.colorAttachments[0].texture = textureMetal->getTexture();
+            }
 
             return true;
         }

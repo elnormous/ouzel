@@ -71,6 +71,7 @@ namespace ouzel
             virtual void flush();
 
             const Size2& getSize() const { return size; }
+            uint32_t getSampleCount() const { return sampleCount; }
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 

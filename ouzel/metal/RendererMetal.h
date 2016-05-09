@@ -17,6 +17,7 @@ typedef id<MTLCommandQueue> MTLCommandQueuePtr;
 typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
 typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
 typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
+typedef id <MTLTexture> MTLTexturePtr;
 #else
 #include <objc/objc.h>
 typedef id MTKViewPtr;
@@ -27,6 +28,7 @@ typedef id MTLCommandQueuePtr;
 typedef id MTLRenderPipelineStatePtr;
 typedef id MTLCommandBufferPtr;
 typedef id MTLRenderCommandEncoderPtr;
+typedef id MTLTexturePtr;
 #endif
 
 #include "Renderer.h"
@@ -96,6 +98,8 @@ namespace ouzel
 
             MTLSamplerStatePtr samplerState = Nil;
             MTLCommandQueuePtr commandQueue = Nil;
+
+            MTLTexturePtr msaaTexture = Nil;
 
             MTLCommandBufferPtr currentCommandBuffer = Nil;
 
