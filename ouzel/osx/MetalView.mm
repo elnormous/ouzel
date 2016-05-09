@@ -17,7 +17,6 @@ using namespace ouzel;
 -(void)mtkView:(nonnull MTKView*)view drawableSizeWillChange:(CGSize)size
 {
     OUZEL_UNUSED(view);
-    sharedEngine->getWindow()->setSize(Size2(static_cast<float>(size.width), static_cast<float>(size.height)));
 }
 
 -(void)drawInMTKView:(nonnull MTKView*)view
@@ -68,6 +67,16 @@ using namespace ouzel;
 -(void)changeDisplay
 {
 
+}
+
+-(void)setFrameSize:(NSSize)newSize
+{
+    [super setFrameSize:newSize];
+
+    if (!running) return;
+
+    sharedEngine->getWindow()->setSize(Size2(static_cast<float>(newSize.width),
+                                             static_cast<float>(newSize.height)));
 }
 
 -(BOOL)isFlipped

@@ -44,7 +44,6 @@ namespace ouzel
         {
             size = newSize;
             sharedEngine->getRenderer()->setSize(size);
-            sharedEngine->getSceneManager()->recalculateProjection();
 
             WindowEventPtr event = std::make_shared<WindowEvent>();
             event->type = Event::Type::WINDOW_SIZE_CHANGE;

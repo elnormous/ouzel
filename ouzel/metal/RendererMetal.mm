@@ -162,27 +162,7 @@ namespace ouzel
 
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
-
-            if (sampleCount > 1)
-            {
-                MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat: MTLPixelFormatBGRA8Unorm
-                                                                                                width: size.width
-                                                                                               height: size.height
-                                                                                            mipmapped: NO];
-                desc.textureType = MTLTextureType2DMultisample;
-                desc.storageMode = MTLStorageModePrivate;
-                desc.sampleCount = sampleCount;
-                desc.usage = MTLTextureUsageRenderTarget;
-
-                msaaTexture = [device newTextureWithDescriptor: desc];
-
-                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
-                renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
-            }
-            else
-            {
-                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-            }
+            renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
 
             commandQueue = [device newCommandQueue];
 
@@ -325,6 +305,31 @@ namespace ouzel
         {
             if (sampleCount > 1)
             {
+                if (!msaaTexture ||
+                    view.currentDrawable.texture.width != msaaTexture.width ||
+                    view.currentDrawable.texture.height != msaaTexture.height)
+                {
+                    if (msaaTexture)
+                    {
+                        [msaaTexture release];
+                        msaaTexture = Nil;
+                    }
+
+                    MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat: MTLPixelFormatBGRA8Unorm
+                                                                                                    width: view.currentDrawable.texture.width
+                                                                                                   height: view.currentDrawable.texture.height
+                                                                                                mipmapped: NO];
+                    desc.textureType = MTLTextureType2DMultisample;
+                    desc.storageMode = MTLStorageModePrivate;
+                    desc.sampleCount = sampleCount;
+                    desc.usage = MTLTextureUsageRenderTarget;
+
+                    msaaTexture = [device newTextureWithDescriptor: desc];
+
+                    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
+                    renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
+                }
+
                 renderPassDescriptor.colorAttachments[0].resolveTexture = view.currentDrawable.texture;
             }
             else

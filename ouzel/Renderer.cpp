@@ -61,6 +61,8 @@ namespace ouzel
         void Renderer::setSize(const Size2& newSize)
         {
             size = newSize;
+
+            sharedEngine->getSceneManager()->recalculateProjection();
         }
 
         void Renderer::setFullscreen(bool newFullscreen)
