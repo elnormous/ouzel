@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <set>
 #include "CompileConfig.h"
 #include "Renderer.h"
 
@@ -110,6 +111,7 @@ namespace ouzel
 
             bool ready = false;
             GLuint frameBuffer = 0;
+            std::set<GLuint> clearedFrameBuffers;
 
             static GLuint currentTextureId[TEXTURE_LAYERS];
             static GLuint currentProgramId;

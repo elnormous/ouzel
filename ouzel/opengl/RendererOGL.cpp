@@ -178,8 +178,6 @@ namespace ouzel
         void RendererOGL::setClearColor(Color color)
         {
             Renderer::setClearColor(color);
-
-            glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
         }
 
         void RendererOGL::setSize(const Size2& newSize)
@@ -201,8 +199,7 @@ namespace ouzel
         {
             Renderer::clear();
 
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            checkOpenGLErrors();
+            clearedFrameBuffers.clear();
         }
 
         void RendererOGL::present()
@@ -368,27 +365,39 @@ namespace ouzel
                 return false;
             }
 
+            GLuint newFrameBuffer = 0;
+            Color newClearColor;
+            Rectangle newViewport;
+
             if (activeRenderTarget)
             {
                 std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(activeRenderTarget);
+                newFrameBuffer = renderTargetOGL->getFrameBufferId();
+                newViewport = renderTargetOGL->getViewport();
+                newClearColor = renderTargetOGL->getClearColor();
 
-                bindFrameBuffer(renderTargetOGL->getFrameBufferId());
-
-                Rectangle newViewport = renderTargetOGL->getViewport();
-
-                glViewport(static_cast<GLsizei>(newViewport.x),
-                           static_cast<GLsizei>(newViewport.y),
-                           static_cast<GLsizei>(newViewport.width),
-                           static_cast<GLsizei>(newViewport.height));
             }
             else
             {
-                bindFrameBuffer(frameBuffer);
+                newFrameBuffer = frameBuffer;
+                newViewport = viewport;
+                newClearColor = clearColor;
+            }
 
-                glViewport(static_cast<GLsizei>(viewport.x),
-                           static_cast<GLsizei>(viewport.y),
-                           static_cast<GLsizei>(viewport.width),
-                           static_cast<GLsizei>(viewport.height));
+            glViewport(static_cast<GLsizei>(newViewport.x),
+                       static_cast<GLsizei>(newViewport.y),
+                       static_cast<GLsizei>(newViewport.width),
+                       static_cast<GLsizei>(newViewport.height));
+
+            bindFrameBuffer(newFrameBuffer);
+
+            if (clearedFrameBuffers.find(newFrameBuffer) == clearedFrameBuffers.end())
+            {
+                glClearColor(newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA());
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                checkOpenGLErrors();
+
+                clearedFrameBuffers.insert(newFrameBuffer);
             }
 
             return true;

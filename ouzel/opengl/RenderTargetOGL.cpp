@@ -66,7 +66,7 @@ namespace ouzel
 
             RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
                          static_cast<GLsizei>(size.width),
                          static_cast<GLsizei>(size.height),
                          0, GL_RGB, GL_UNSIGNED_BYTE, 0);
