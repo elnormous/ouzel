@@ -34,7 +34,6 @@ namespace ouzel
         dst[6]  = m[6]  + scalar;
         dst[7]  = m[7]  + scalar;
         dst[8]  = m[8]  + scalar;
-        dst[9]  = m[9]  + scalar;
     }
 
     void addMatrix3(const float* m1, const float* m2, float* dst)
@@ -48,7 +47,6 @@ namespace ouzel
         dst[6]  = m1[6]  + m2[6];
         dst[7]  = m1[7]  + m2[7];
         dst[8]  = m1[8]  + m2[8];
-        dst[9]  = m1[9]  + m2[9];
     }
 
     void subtractMatrix3(const float* m1, const float* m2, float* dst)
@@ -62,7 +60,6 @@ namespace ouzel
         dst[6]  = m1[6]  - m2[6];
         dst[7]  = m1[7]  - m2[7];
         dst[8]  = m1[8]  - m2[8];
-        dst[9]  = m1[9]  - m2[9];
     }
 
     void multiplyMatrix3(const float* m, float scalar, float* dst)
@@ -76,7 +73,6 @@ namespace ouzel
         dst[6]  = m[6]  * scalar;
         dst[7]  = m[7]  * scalar;
         dst[8]  = m[8]  * scalar;
-        dst[9]  = m[9]  * scalar;
     }
 
     void multiplyMatrix3(const float* m1, const float* m2, float* dst)
@@ -110,7 +106,6 @@ namespace ouzel
         dst[6]  = -m[6];
         dst[7]  = -m[7];
         dst[8]  = -m[8];
-        dst[9]  = -m[9];
     }
 
     void transposeMatrix3(const float* m, float* dst)
