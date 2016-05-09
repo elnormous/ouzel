@@ -48,7 +48,7 @@ namespace ouzel
 
             virtual ~RendererMetal();
 
-            virtual bool init(const Size2& newSize, bool newFullscreen) override;
+            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount) override;
 
             virtual void setClearColor(Color newColor) override;
 

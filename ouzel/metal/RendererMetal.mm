@@ -116,9 +116,9 @@ namespace ouzel
             }
         }
 
-        bool RendererMetal::init(const Size2& newSize, bool newFullscreen)
+        bool RendererMetal::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount)
         {
-            if (!Renderer::init(newSize, newFullscreen))
+            if (!Renderer::init(newSize, newFullscreen, newSampleCount))
             {
                 return false;
             }

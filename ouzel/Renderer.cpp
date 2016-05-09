@@ -30,10 +30,11 @@ namespace ouzel
 
         }
 
-        bool Renderer::init(const Size2& newSize, bool newFullscreen)
+        bool Renderer::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount)
         {
             size = newSize;
             fullscreen = newFullscreen;
+            sampleCount = newSampleCount;
 
             return true;
         }

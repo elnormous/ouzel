@@ -66,7 +66,7 @@ namespace ouzel
             RendererD3D11();
 
             void destroy();
-            virtual bool init(const Size2& newSize, bool newFullscreen) override;
+            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount) override;
 
             IDXGIOutput* getOutput() const;
 

@@ -8,12 +8,12 @@
 
 namespace ouzel
 {
-    Window::Window(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle, graphics::Renderer::Driver pDriver):
+    Window::Window(const Size2& pSize, bool pResizable, bool pFullscreen, uint32_t pSampleCount, const std::string& pTitle):
         size(pSize),
         resizable(pResizable),
         fullscreen(pFullscreen),
-        title(pTitle),
-        driver(pDriver)
+        sampleCount(pSampleCount),
+        title(pTitle)
     {
 
     }
@@ -25,7 +25,7 @@ namespace ouzel
 
     bool Window::init()
     {
-        if (!sharedEngine->getRenderer()->init(size, fullscreen))
+        if (!sharedEngine->getRenderer()->init(size, fullscreen, sampleCount))
         {
             return false;
         }

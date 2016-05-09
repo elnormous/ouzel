@@ -52,9 +52,9 @@ namespace ouzel
 
         }
 
-        bool RendererOGL::init(const Size2& newSize, bool newFullscreen)
+        bool RendererOGL::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount)
         {
-            if (!Renderer::init(newSize, newFullscreen))
+            if (!Renderer::init(newSize, newFullscreen, newSampleCount))
             {
                 return false;
             }

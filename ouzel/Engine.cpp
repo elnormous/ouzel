@@ -106,17 +106,17 @@ namespace ouzel
         }
 
 #if defined(OUZEL_PLATFORM_OSX)
-        window.reset(new WindowOSX(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowOSX(settings.size, settings.resizable, settings.fullscreen, settings.sampleCount, settings.title));
 #elif defined(OUZEL_PLATFORM_IOS)
-        window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.sampleCount, settings.title));
 #elif defined(OUZEL_PLATFORM_TVOS)
-        window.reset(new WindowTVOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowTVOS(settings.size, settings.resizable, settings.fullscreen, settings.sampleCount, settings.title));
 #elif defined(OUZEL_PLATFORM_ANDROID)
-        window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.sampleCount, settings.title));
 #elif defined(OUZEL_PLATFORM_LINUX)
-        window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.sampleCount, settings.title));
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-        window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.driver));
+        window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.sampleCount, settings.title));
 #endif
 
         eventDispatcher.reset(new EventDispatcher());

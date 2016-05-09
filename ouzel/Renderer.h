@@ -118,7 +118,7 @@ namespace ouzel
 
         protected:
             Renderer(Driver pDriver = Driver::NONE);
-            virtual bool init(const Size2& newSize, bool newFullscreen);
+            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount);
 
             virtual void setSize(const Size2& newSize);
             virtual void setFullscreen(bool newFullscreen);
@@ -126,6 +126,7 @@ namespace ouzel
             Driver driver;
             Size2 size;
             bool fullscreen = false;
+            uint32_t sampleCount = 1; // MSAA sample count
 
             Color clearColor;
 

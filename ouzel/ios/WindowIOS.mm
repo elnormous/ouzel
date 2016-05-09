@@ -4,6 +4,7 @@
 #include "WindowIOS.h"
 #import "OpenGLView.h"
 #import "MetalView.h"
+#include "Engine.h"
 #include "Utils.h"
 
 @interface ViewController: UIViewController
@@ -21,8 +22,8 @@
 
 namespace ouzel
 {
-    WindowIOS::WindowIOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver):
-        Window(size, resizable, fullscreen, title, driver)
+    WindowIOS::WindowIOS(const Size2& pSize, bool pResizable, bool pFullscreen, uint32_t pSampleCount, const std::string& pTitle):
+        Window(pSize, pResizable, pFullscreen, pSampleCount, pTitle)
     {
 
     }
@@ -45,7 +46,7 @@ namespace ouzel
 
         size = Size2(windowFrame.size.width, windowFrame.size.height);
         
-        switch (driver)
+        switch (sharedEngine->getRenderer()->getDriver())
         {
             case graphics::Renderer::Driver::OPENGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];

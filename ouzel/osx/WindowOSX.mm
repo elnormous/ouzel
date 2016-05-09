@@ -4,6 +4,7 @@
 #include "WindowOSX.h"
 #include "OpenGLView.h"
 #include "MetalView.h"
+#include "Engine.h"
 #include "Utils.h"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
@@ -75,8 +76,8 @@
 
 namespace ouzel
 {
-    WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title, graphics::Renderer::Driver driver):
-        Window(size, resizable, fullscreen, title, driver)
+    WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, uint32_t pSampleCount, const std::string& title):
+        Window(size, resizable, fullscreen, pSampleCount, title)
     {
 
     }
@@ -126,7 +127,7 @@ namespace ouzel
         NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
                                                      styleMask:[window styleMask]];
 
-        switch (driver)
+        switch (sharedEngine->getRenderer()->getDriver())
         {
             case graphics::Renderer::Driver::OPENGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];

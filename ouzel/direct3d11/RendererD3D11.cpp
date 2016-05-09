@@ -80,9 +80,9 @@ namespace ouzel
             }
         }
 
-        bool RendererD3D11::init(const Size2& newSize, bool newFullscreen)
+        bool RendererD3D11::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount)
         {
-            if (!Renderer::init(newSize, newFullscreen))
+            if (!Renderer::init(newSize, newFullscreen, newSampleCount))
             {
                 return false;
             }
