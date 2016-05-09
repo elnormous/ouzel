@@ -73,6 +73,12 @@ namespace ouzel
 
         void RendererMetal::destroy()
         {
+            if (msaaTexture)
+            {
+                [msaaTexture release];
+                msaaTexture = Nil;
+            }
+            
             if (currentRenderCommandEncoder)
             {
                 [currentRenderCommandEncoder release];

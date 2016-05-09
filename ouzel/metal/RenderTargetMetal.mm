@@ -23,6 +23,12 @@ namespace ouzel
 
         void RenderTargetMetal::destroy()
         {
+            if (msaaTexture)
+            {
+                [msaaTexture release];
+                msaaTexture = Nil;
+            }
+
             if (renderPassDescriptor)
             {
                 [renderPassDescriptor release];
