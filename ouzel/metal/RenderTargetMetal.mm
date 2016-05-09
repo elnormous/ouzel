@@ -60,7 +60,7 @@ namespace ouzel
                 return false;
             }
 
-            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad; //MTLLoadActionClear;
+            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
 
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
@@ -89,6 +89,13 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void RenderTargetMetal::setClearColor(Color color)
+        {
+            RenderTarget::setClearColor(color);
+
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
         }
     } // namespace graphics
 } // namespace ouzel

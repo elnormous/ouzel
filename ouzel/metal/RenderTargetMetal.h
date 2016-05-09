@@ -30,6 +30,8 @@ namespace ouzel
 
             virtual bool init(const Size2& newSize, bool depthBuffer) override;
 
+            virtual void setClearColor(Color color) override;
+
             MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
         protected:

@@ -303,6 +303,8 @@ namespace ouzel
 
         void RendererMetal::clear()
         {
+            clearedRenderPassDescriptors.clear();
+            
             if (sampleCount > 1)
             {
                 if (!msaaTexture ||
@@ -412,6 +414,58 @@ namespace ouzel
             return renderTarget;
         }
 
+        bool RendererMetal::activateRenderTarget(const RenderTargetPtr& renderTarget)
+        {
+            if (!Renderer::activateRenderTarget(renderTarget))
+            {
+                return false;
+            }
+
+            MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
+
+            if (activeRenderTarget)
+            {
+                std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(activeRenderTarget);
+
+                newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+            }
+            else
+            {
+                newRenderPassDescriptor = renderPassDescriptor;
+            }
+
+            if (currentRenderPassDescriptor != newRenderPassDescriptor || !currentRenderCommandEncoder)
+            {
+                if (currentRenderCommandEncoder)
+                {
+                    [currentRenderCommandEncoder endEncoding];
+                    [currentRenderCommandEncoder release];
+                }
+
+                currentRenderPassDescriptor = newRenderPassDescriptor;
+
+                if (clearedRenderPassDescriptors.find(currentRenderPassDescriptor) == clearedRenderPassDescriptors.end())
+                {
+                    currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                    clearedRenderPassDescriptors.insert(currentRenderPassDescriptor);
+                }
+                else
+                {
+                    currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
+                }
+
+                currentRenderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor] retain];
+
+                if (!currentRenderCommandEncoder)
+                {
+                    log("Failed to create Metal render command encoder");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         ShaderPtr RendererMetal::loadShaderFromFiles(const std::string& pixelShader,
                                                      const std::string& vertexShader,
                                                      uint32_t vertexAttributes,
@@ -488,36 +542,10 @@ namespace ouzel
                 return false;
             }
 
-            MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
-
-            if (activeRenderTarget)
+            if (!currentRenderCommandEncoder)
             {
-                std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(activeRenderTarget);
-
-                newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-            }
-            else
-            {
-                newRenderPassDescriptor = renderPassDescriptor;
-            }
-
-            if (currentRenderPassDescriptor != newRenderPassDescriptor || !currentRenderCommandEncoder)
-            {
-                if (currentRenderCommandEncoder)
-                {
-                    [currentRenderCommandEncoder endEncoding];
-                    [currentRenderCommandEncoder release];
-                }
-
-                currentRenderPassDescriptor = newRenderPassDescriptor;
-
-                currentRenderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor] retain];
-
-                if (!currentRenderCommandEncoder)
-                {
-                    log("Failed to create Metal render command encoder");
-                    return false;
-                }
+                log("No active Metal render command encoder");
+                return false;
             }
 
             std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(meshBuffer);

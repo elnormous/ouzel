@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <set>
 #include <map>
 #include <dispatch/dispatch.h>
 
@@ -63,6 +64,7 @@ namespace ouzel
             virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
 
             virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer) override;
+            virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget) override;
 
             virtual ShaderPtr loadShaderFromFiles(const std::string& pixelShader,
                                                   const std::string& vertexShader,
@@ -95,6 +97,7 @@ namespace ouzel
 
             MTLDevicePtr device = Nil;
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
+            std::set<MTLRenderPassDescriptorPtr> clearedRenderPassDescriptors;
 
             MTLSamplerStatePtr samplerState = Nil;
             MTLCommandQueuePtr commandQueue = Nil;
