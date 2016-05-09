@@ -40,7 +40,6 @@ namespace ouzel
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = false;
-            flipped = true;
 
             Image image;
             if (!image.initFromFile(filename))

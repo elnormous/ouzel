@@ -102,7 +102,7 @@ namespace ouzel
                 Vector2 rightBottom((rectangle.x + rectangle.width) / textureSize.width,
                                     (rectangle.y + rectangle.height) / textureSize.height);
 
-                if (!texture->isFlipped())
+                if (texture->isFlipped())
                 {
                     leftTop.y = 1.0f - leftTop.y;
                     rightBottom.y = 1.0f - rightBottom.y;
@@ -121,7 +121,7 @@ namespace ouzel
                 Vector2 rightBottom = Vector2((rectangle.x + rectangle.height) / textureSize.width,
                                               (rectangle.y + rectangle.width) / textureSize.height);
 
-                if (!texture->isFlipped())
+                if (texture->isFlipped())
                 {
                     leftTop.y = 1.0f - leftTop.y;
                     rightBottom.y = 1.0f - rightBottom.y;

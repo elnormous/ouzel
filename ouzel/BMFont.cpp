@@ -265,7 +265,7 @@ namespace ouzel
             textCoords[2] = Vector2(leftTop.x, rightBottom.y);
             textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
 
-            if (!texture->isFlipped())
+            if (texture->isFlipped())
             {
                 leftTop.y = 1.0f - leftTop.y;
                 rightBottom.y = 1.0f - rightBottom.y;

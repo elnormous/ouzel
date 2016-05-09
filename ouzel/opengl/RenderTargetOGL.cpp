@@ -60,6 +60,8 @@ namespace ouzel
                 return false;
             }
 
+            textureOGL->setFlipped(true);
+
             texture = textureOGL;
 
             RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
