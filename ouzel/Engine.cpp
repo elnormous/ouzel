@@ -54,7 +54,10 @@ namespace ouzel
 
     Engine::~Engine()
     {
-        sceneManager->setScene(nullptr);
+        if (sceneManager)
+        {
+            sceneManager->setScene(nullptr);
+        }
     }
 
     std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers() const
