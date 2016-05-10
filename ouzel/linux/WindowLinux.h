@@ -12,9 +12,21 @@ namespace ouzel
         friend Engine;
     public:
         virtual ~WindowLinux();
+        
+        virtual void setSize(const Size2& newSize) override;
+        virtual void setFullscreen(bool newFullscreen) override;
+        virtual void setTitle(const std::string& newTitle) override;
+
+        Display* getDisplay() const { return display; }
+        GLXContext getContext() const { return context; }
+        ::Window getNativeWindow() const { return window; }
 
     protected:
         WindowLinux(const Size2& pSize, bool pResizable, bool pFullscreen, uint32_t pSampleCount, const std::string& pTitle);
         virtual bool init() override;
+        
+        Display* display = nullptr;
+        GLXContext context = 0;
+        ::Window window = 0;
     };
 }

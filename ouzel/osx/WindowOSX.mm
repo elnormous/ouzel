@@ -224,7 +224,7 @@ namespace ouzel
             }
         }
 
-        Window::setFullscreen(fullscreen);
+        Window::setFullscreen(newFullscreen);
     }
 
     void WindowOSX::setTitle(const std::string& newTitle)

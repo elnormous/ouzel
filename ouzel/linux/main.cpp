@@ -5,7 +5,7 @@
 #include <X11/X.h>
 #include <X11/keysym.h>
 #include "Engine.h"
-#include "Window.h"
+#include "WindowLinux.h"
 #include "Utils.h"
 
 using namespace ouzel;
@@ -218,116 +218,9 @@ static input::KeyboardKey convertKeyCode(KeySym keyCode)
     }
 }
 
-int main(int argc, char **argv)
+int main(int argc, char* argv[])
 {
-    std::vector<std::string> args;
-
-    for (int32_t i = 0; i < argc; ++i)
-    {
-        args.push_back(argv[i]);
-    }
-
-    ouzel::setArgs(args);
-
-    // open a connection to the X server
-    Display* display = XOpenDisplay(NULL);
-    if (display == NULL)
-    {
-        ouzel::log("Failed to open display");
-        return 1;
-    }
-
-    // make sure OpenGL's GLX extension supported
-    int dummy;
-    if (!glXQueryExtension(display, &dummy, &dummy))
-    {
-        ouzel::log("X server has no OpenGL GLX extension");
-        return 1;
-    }
-
-    // find an OpenGL-capable RGB visual with depth buffer
-    static int doubleBuffer[]  = {GLX_RGBA, GLX_DEPTH_SIZE, 16, GLX_DOUBLEBUFFER, None};
-
-    XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), doubleBuffer);
-    if (vi == NULL)
-    {
-        ouzel::log("No RGB visual with depth buffer");
-        return 1;
-    }
-    if (vi->c_class != TrueColor)
-    {
-        ouzel::log("TrueColor visual required for this program");
-        return 1;
-    }
-
-    GLXFBConfig* framebufferConfig = NULL;
-    int fbcount = 0;
-    framebufferConfig = glXChooseFBConfig(display, DefaultScreen(display), NULL, &fbcount);
-    if (!framebufferConfig)
-    {
-        ouzel::log("Failed to get framebuffer.");
-    }
-
-    // create an OpenGL rendering context
-    GLXContext context = NULL;
-
-    if (framebufferConfig)
-    {
-        static const int contextAttribs[] = {
-            GLX_CONTEXT_PROFILE_MASK_ARB,
-            GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-            GLX_CONTEXT_MAJOR_VERSION_ARB,
-            3,
-            GLX_CONTEXT_MINOR_VERSION_ARB,
-            3,
-            0,
-        };
-
-        PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB"));
-
-        if (!glXCreateContextAttribsARB)
-        {
-            log("Could not find glXCreateContextAttribsARB");
-        }
-        else
-        {
-            context = glXCreateContextAttribsARB(display, framebufferConfig[0], NULL, GL_TRUE, contextAttribs);
-
-            if (!context)
-            {
-                ouzel::log("Failed to create OpenGL 3.3 context");
-            }
-        }
-    }
-
-    if (!context)
-    {
-        context = glXCreateContext(display, vi, /* no shared dlists */ None,
-                                   /* direct rendering if possible */ GL_TRUE);
-    }
-
-    if (!context)
-    {
-        ouzel::log("Failed to create rendering context");
-        return 1;
-    }
-
-    // create an X colormap since probably not using default visual
-    Colormap cmap = XCreateColormap(display, RootWindow(display, vi->screen), vi->visual, AllocNone);
-    XSetWindowAttributes swa;
-    swa.colormap = cmap;
-    swa.border_pixel = 0;
-    swa.event_mask = KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
-    ::Window window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
-                                  300, 300, 0, vi->depth, InputOutput, vi->visual,
-                                  CWBorderPixel | CWColormap | CWEventMask, &swa);
-    XSetStandardProperties(display, window, "ouzel", "ouzel", None, argv, argc, NULL);
-
-    // bind the rendering context to the window
-    glXMakeCurrent(display, window, context);
-
-    // request the X window to be displayed on the screen
-    XMapWindow(display, window);
+    ouzel::setArgs(argc, argv);
 
     ouzelMain(getArgs());
     
@@ -339,18 +232,20 @@ int main(int argc, char **argv)
     ouzel::sharedEngine->begin();
 
     XEvent event;
+    
+    std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(ouzel::sharedEngine->getWindow());
 
     for (;;)
     {
         do
         {
-            XNextEvent(display, &event);
+            XNextEvent(windowLinux->getDisplay(), &event);
             switch (event.type)
             {
                 case KeyPress: // keyboard
                 case KeyRelease:
                 {
-                    KeySym keySym = XKeycodeToKeysym(display, event.xkey.keycode, 0);
+                    KeySym keySym = XKeycodeToKeysym(windowLinux->getDisplay(), event.xkey.keycode, 0);
 
                     if (event.type == KeyPress)
                     {
@@ -386,14 +281,14 @@ int main(int argc, char **argv)
                     if (event.type == ButtonPress)
                     {
                         sharedEngine->getInput()->mouseDown(button,
-                                                                     sharedEngine->getRenderer()->viewToScreenLocation(pos),
-                                                                     getModifiers(event.xbutton.state));
+                                                            sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                                            getModifiers(event.xbutton.state));
                     }
                     else
                     {
                         sharedEngine->getInput()->mouseUp(button,
-                                                                   sharedEngine->getRenderer()->viewToScreenLocation(pos),
-                                                                   getModifiers(event.xbutton.state));
+                                                          sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                                          getModifiers(event.xbutton.state));
                     }
                     break;
                 }
@@ -403,45 +298,29 @@ int main(int argc, char **argv)
                                 static_cast<float>(event.xmotion.y));
 
                     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos),
-                                                                 getModifiers(event.xmotion.state));
+                                                        getModifiers(event.xmotion.state));
 
                     break;
                 }
                 case ConfigureNotify:
                 {
                     ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(event.xconfigure.width, event.xconfigure.height));
-                    //needRedraw = true;
                     break;
                 }
                 case Expose:
                 {
-                    // needRedraw = true;
+                    // need redraw
                     break;
                 }
           }
         }
-        while (XPending(display)); /* loop to compress events */
+        while (XPending(windowLinux->getDisplay())); /* loop to compress events */
 
         if (!ouzel::sharedEngine->run())
         {
             break;
         }
-        glXSwapBuffers(display, window);
-    }
-
-    if (display)
-    {
-        if (context)
-        {
-            glXDestroyContext(display, context);
-        }
-
-        if (window)
-        {
-            XDestroyWindow(display, window);
-        }
-
-        XCloseDisplay(display);
+        glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
     }
 
     ouzel::sharedEngine->end();

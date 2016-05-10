@@ -9,14 +9,7 @@
 
 int main(int argc, char* argv[])
 {
-    std::vector<std::string> args;
-
-    for (int32_t i = 0; i < argc; ++i)
-    {
-        args.push_back(argv[i]);
-    }
-
-    ouzel::setArgs(args);
+    ouzel::setArgs(argc, argv);
 
     @autoreleasepool
     {
