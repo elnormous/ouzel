@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <set>
 #include <windows.h>
 #include <d3d11.h>
 #include "Renderer.h"
@@ -77,6 +78,7 @@ namespace ouzel
             IDXGIAdapter* adapter = nullptr;
             ID3D11Texture2D* backBuffer = nullptr;
             ID3D11RenderTargetView* renderTargetView = nullptr;
+            std::set<ID3D11RenderTargetView*> clearedRenderTargetViews;
             ID3D11SamplerState* samplerState = nullptr;
             ID3D11RasterizerState* rasterizerState = nullptr;
             ID3D11DepthStencilState* depthStencilState = nullptr;

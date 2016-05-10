@@ -321,18 +321,7 @@ namespace ouzel
         {
             Renderer::clear();
 
-            float color[4] = { clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA() };
-
-            if (activeRenderTarget)
-            {
-                std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(activeRenderTarget);
-
-                context->ClearRenderTargetView(renderTargetD3D11->getRenderTargetView(), color);
-            }
-            else
-            {
-                context->ClearRenderTargetView(renderTargetView, color);
-            }
+            clearedRenderTargetViews.clear();
         }
 
         void RendererD3D11::present()
@@ -659,21 +648,34 @@ namespace ouzel
                 return false;
             }
 
+            ID3D11RenderTargetView* newRenderTargetView = nullptr;
+            Color newClearColor;
+            D3D11_VIEWPORT newViewport;
+
             if (activeRenderTarget)
             {
                 std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(activeRenderTarget);
 
-                ID3D11RenderTargetView* newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                const D3D11_VIEWPORT& newViewport = renderTargetD3D11->getViewport();
-
-
-                context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
-                context->RSSetViewports(1, &newViewport);
+                newRenderTargetView = renderTargetD3D11->getRenderTargetView();
+                newClearColor = renderTargetD3D11->getClearColor();
+                newViewport = renderTargetD3D11->getViewport();
             }
             else
             {
-                context->OMSetRenderTargets(1, &renderTargetView, nullptr);
-                context->RSSetViewports(1, &viewport);
+                newRenderTargetView = renderTargetView;
+                newClearColor = clearColor;
+                newViewport = viewport;
+            }
+
+            context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
+            context->RSSetViewports(1, &newViewport);
+
+            if (clearedRenderTargetViews.find(newRenderTargetView) == clearedRenderTargetViews.end())
+            {
+                float color[4] = { newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA() };
+                context->ClearRenderTargetView(newRenderTargetView, color);
+
+                clearedRenderTargetViews.insert(newRenderTargetView);
             }
 
             return true;
