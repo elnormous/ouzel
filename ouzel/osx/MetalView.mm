@@ -17,6 +17,7 @@ using namespace ouzel;
 -(void)mtkView:(nonnull MTKView*)view drawableSizeWillChange:(CGSize)size
 {
     OUZEL_UNUSED(view);
+    OUZEL_UNUSED(size);
 }
 
 -(void)drawInMTKView:(nonnull MTKView*)view

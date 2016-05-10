@@ -86,9 +86,10 @@ namespace ouzel
 
                     for (; i != children.end(); ++i)
                     {
+                        node = *i;
+                        
                         if (!node->remove)
                         {
-                            node = *i;
                             node->visit(transform, updateChildrenTransform);
                         }
                     }

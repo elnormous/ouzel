@@ -67,10 +67,10 @@ namespace ouzel
 
             if (rendererMetal->getSampleCount() > 1)
             {
-                MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat: MTLPixelFormatBGRA8Unorm
-                                                                                                width: size.width
-                                                                                               height: size.height
-                                                                                            mipmapped: NO];
+                MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
+                                                                                                width:static_cast<NSUInteger>(size.width)
+                                                                                               height:static_cast<NSUInteger>(size.height)
+                                                                                            mipmapped:NO];
                 desc.textureType = MTLTextureType2DMultisample;
                 desc.storageMode = MTLStorageModePrivate;
                 desc.sampleCount = rendererMetal->getSampleCount();

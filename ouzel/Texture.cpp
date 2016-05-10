@@ -197,7 +197,7 @@ namespace ouzel
                     for (; newHeight >= 2;)
                     {
                         uint32_t* src = reinterpret_cast<uint32_t*>(newData.data());
-                        for (int32_t i = newHeight - 1; i >= 0; --i)
+                        for (int32_t i = static_cast<int32_t>(newHeight) - 1; i >= 0; --i)
                         {
                             src[i * 2] = src[i];
                             src[i * 2 + 1] = src[i];
