@@ -40,6 +40,12 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     ouzel::setArgs(args);
     ouzelMain(ouzel::getArgs());
+    
+    if (!ouzel::sharedEngine)
+    {
+        return 0;
+    }
+    
     ouzel::sharedEngine->begin();
 
     MSG msg;

@@ -15,7 +15,11 @@
 {
     OUZEL_UNUSED(notification);
     ouzelMain(ouzel::getArgs());
-    ouzel::sharedEngine->begin();
+
+    if (ouzel::sharedEngine)
+    {
+        ouzel::sharedEngine->begin();
+    }
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
@@ -26,7 +30,11 @@
 -(void)applicationWillTerminate:(NSNotification*)notification
 {
     OUZEL_UNUSED(notification);
-    ouzel::sharedEngine->end();
+
+    if (ouzel::sharedEngine)
+    {
+        ouzel::sharedEngine->end();
+    }
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)sender
@@ -39,11 +47,14 @@
 {
     OUZEL_UNUSED(sender);
 
-    ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
-    event->type = ouzel::Event::Type::OPEN_FILE;
-    event->filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
+    if (ouzel::sharedEngine)
+    {
+        ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
+        event->type = ouzel::Event::Type::OPEN_FILE;
+        event->filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
 
-    ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event, ouzel::sharedEngine->getInput());
+        ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event, ouzel::sharedEngine->getInput());
+    }
 
     return YES;
 }

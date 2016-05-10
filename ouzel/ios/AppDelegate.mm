@@ -13,7 +13,12 @@
     OUZEL_UNUSED(application);
     OUZEL_UNUSED(launchOptions);
     ouzelMain(ouzel::getArgs());
-    ouzel::sharedEngine->begin();
+
+    if (ouzel::sharedEngine)
+    {
+        ouzel::sharedEngine->begin();
+    }
+
     return YES;
 }
 
@@ -47,16 +52,24 @@
 -(void)applicationWillTerminate:(UIApplication*)application
 {
     OUZEL_UNUSED(application);
-    ouzel::sharedEngine->end();
+
+    if (ouzel::sharedEngine)
+    {
+        ouzel::sharedEngine->end();
+    }
 }
 
 -(void)applicationDidReceiveMemoryWarning:(UIApplication*)application
 {
     OUZEL_UNUSED(application);
-    ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
-    event->type = ouzel::Event::Type::LOW_MEMORY;
 
-    ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event, ouzel::sharedEngine->getInput());
+    if (ouzel::sharedEngine)
+    {
+        ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
+        event->type = ouzel::Event::Type::LOW_MEMORY;
+
+        ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event, ouzel::sharedEngine->getInput());
+    }
 }
 
 @end

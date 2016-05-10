@@ -131,10 +131,10 @@
 		303B75F61C33756100FEDE92 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
 		303B76011C349CA800FEDE92 /* flame.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = flame.json; sourceTree = "<group>"; };
 		303B76021C349CA800FEDE92 /* flame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flame.png; sourceTree = "<group>"; };
-		303B76201C34CFE300FEDE92 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B76201C34CFE300FEDE92 /* samples_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B762B1C34D22700FEDE92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ios/Info.plist; sourceTree = "<group>"; };
 		303B762C1C34D22700FEDE92 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ios/Prefix.pch; sourceTree = "<group>"; };
-		303B76A01C355AA400FEDE92 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		303B76A01C355AA400FEDE92 /* samples_tvos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_tvos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E0A1C237B95008B1151 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -281,8 +281,8 @@
 			isa = PBXGroup;
 			children = (
 				304A8E0A1C237B95008B1151 /* samples_osx.app */,
-				303B76201C34CFE300FEDE92 /* samples_osx.app */,
-				303B76A01C355AA400FEDE92 /* samples_osx.app */,
+				303B76201C34CFE300FEDE92 /* samples_ios.app */,
+				303B76A01C355AA400FEDE92 /* samples_tvos.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -361,7 +361,7 @@
 			);
 			name = samples_ios;
 			productName = blackbird;
-			productReference = 303B76201C34CFE300FEDE92 /* samples_osx.app */;
+			productReference = 303B76201C34CFE300FEDE92 /* samples_ios.app */;
 			productType = "com.apple.product-type.application";
 		};
 		303B768B1C355AA400FEDE92 /* samples_tvos */ = {
@@ -378,7 +378,7 @@
 			);
 			name = samples_tvos;
 			productName = blackbird;
-			productReference = 303B76A01C355AA400FEDE92 /* samples_osx.app */;
+			productReference = 303B76A01C355AA400FEDE92 /* samples_tvos.app */;
 			productType = "com.apple.product-type.application";
 		};
 		304A8E091C237B95008B1151 /* samples_osx */ = {
@@ -587,7 +587,7 @@
 				INFOPLIST_FILE = ../ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = samples_osx;
+				PRODUCT_NAME = samples_ios;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -608,7 +608,7 @@
 				INFOPLIST_FILE = ../ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = samples_osx;
+				PRODUCT_NAME = samples_ios;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -629,7 +629,7 @@
 				INFOPLIST_FILE = ../tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = samples_osx;
+				PRODUCT_NAME = samples_tvos;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				STRIP_PNG_TEXT = NO;
@@ -649,7 +649,7 @@
 				INFOPLIST_FILE = ../tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = samples_osx;
+				PRODUCT_NAME = samples_tvos;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				STRIP_PNG_TEXT = NO;

@@ -330,6 +330,12 @@ int main(int argc, char **argv)
     XMapWindow(display, window);
 
     ouzelMain(getArgs());
+    
+    if (!ouzel::sharedEngine)
+    {
+        return 0;
+    }
+    
     ouzel::sharedEngine->begin();
 
     XEvent event;
