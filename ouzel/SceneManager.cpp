@@ -24,7 +24,7 @@ namespace ouzel
             {
                 if (locked)
                 {
-                    nextScene = scene;
+                    nextScene = newScene;
                 }
                 else
                 {
