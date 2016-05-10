@@ -21,10 +21,10 @@ namespace ouzel
             Color(uint32_t color);
             Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF);
 
-            float getR() const;
-            float getG() const;
-            float getB() const;
-            float getA() const;
+            float getR() const { return r / 255.0f; }
+            float getG() const { return g / 255.0f; }
+            float getB() const { return b / 255.0f; }
+            float getA() const { return a / 255.0f; }
 
             uint32_t getIntValue() const
             {
