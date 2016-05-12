@@ -236,11 +236,11 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\external\stb;..\external\rapidjson\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);..\ouzel\</IncludePath>
+    <IncludePath>..\external\stb;..\external\rapidjson\include;..\ouzel\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\external\stb;..\external\rapidjson\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);..\ouzel\</IncludePath>
+    <IncludePath>..\external\stb;..\external\rapidjson\include;..\ouzel\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
