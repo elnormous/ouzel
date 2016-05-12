@@ -12,7 +12,7 @@ namespace ouzel
         class CheckBox: public Widget
         {
         public:
-            static std::shared_ptr<Button> create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::string& tick);
+            static CheckBoxPtr create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled, const std::string& tick);
 
             CheckBox();
             virtual ~CheckBox();

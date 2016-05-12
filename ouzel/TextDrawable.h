@@ -16,7 +16,7 @@ namespace ouzel
         class TextDrawable: public Drawable
         {
         public:
-            static std::shared_ptr<TextDrawable> create(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
+            static TextDrawablePtr create(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
 
             TextDrawable();
             virtual ~TextDrawable();

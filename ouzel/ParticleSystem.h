@@ -56,7 +56,7 @@ namespace ouzel
         class ParticleSystem: public Drawable
         {
         public:
-            static std::shared_ptr<ParticleSystem> createFromFile(const std::string& filename);
+            static ParticleSystemPtr createFromFile(const std::string& filename);
 
             ParticleSystem();
             virtual ~ParticleSystem();

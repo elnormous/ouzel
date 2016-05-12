@@ -23,7 +23,7 @@ namespace ouzel
 
     LanguagePtr Language::createFromFile(const std::string& filename)
     {
-        std::shared_ptr<Language> result = std::make_shared<Language>();
+        LanguagePtr result = std::make_shared<Language>();
 
         if (!result->initFromFile(filename))
         {

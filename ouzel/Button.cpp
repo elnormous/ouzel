@@ -17,10 +17,10 @@ namespace ouzel
 {
     namespace gui
     {
-        std::shared_ptr<Button> Button::create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
+        ButtonPtr Button::create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
                                                const std::string& label, const graphics::Color& labelColor, const std::string& font)
         {
-            std::shared_ptr<Button> result = std::make_shared<Button>();
+            ButtonPtr result = std::make_shared<Button>();
 
             if (!result->init(normal, selected, pressed, disabled, label, labelColor, font))
             {

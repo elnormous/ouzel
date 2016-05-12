@@ -11,9 +11,9 @@ namespace ouzel
 {
     namespace scene
     {
-        std::shared_ptr<TextDrawable> TextDrawable::create(const std::string& font, const std::string& text, const Vector2& textAnchor)
+        TextDrawablePtr TextDrawable::create(const std::string& font, const std::string& text, const Vector2& textAnchor)
         {
-            std::shared_ptr<TextDrawable> result = std::make_shared<TextDrawable>();
+            TextDrawablePtr result = std::make_shared<TextDrawable>();
 
             if (!result->init(font, text, textAnchor))
             {
