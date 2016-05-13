@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <GL/glx.h>
+#include <X11/X.h>
+#include <X11/keysym.h>
 #include "Window.h"
 
 namespace ouzel
@@ -12,7 +15,7 @@ namespace ouzel
         friend Engine;
     public:
         virtual ~WindowLinux();
-        
+
         virtual void setSize(const Size2& newSize) override;
         virtual void setFullscreen(bool newFullscreen) override;
         virtual void setTitle(const std::string& newTitle) override;
@@ -24,7 +27,7 @@ namespace ouzel
     protected:
         WindowLinux(const Size2& pSize, bool pResizable, bool pFullscreen, uint32_t pSampleCount, const std::string& pTitle);
         virtual bool init() override;
-        
+
         Display* display = nullptr;
         GLXContext context = 0;
         ::Window window = 0;

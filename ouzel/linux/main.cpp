@@ -1,9 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <GL/glx.h>
-#include <X11/X.h>
-#include <X11/keysym.h>
 #include "Engine.h"
 #include "WindowLinux.h"
 #include "Utils.h"
@@ -223,16 +220,16 @@ int main(int argc, char* argv[])
     ouzel::setArgs(argc, argv);
 
     ouzelMain(getArgs());
-    
+
     if (!ouzel::sharedEngine)
     {
         return 0;
     }
-    
+
     ouzel::sharedEngine->begin();
 
     XEvent event;
-    
+
     std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(ouzel::sharedEngine->getWindow());
 
     for (;;)

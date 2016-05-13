@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowLinux.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -33,7 +34,7 @@ namespace ouzel
     {
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
-        
+
         if (!display)
         {
             ouzel::log("Failed to open display");
@@ -63,48 +64,8 @@ namespace ouzel
             return false;
         }
 
-        int fbcount = 0;
-        GLXFBConfig* framebufferConfig = glXChooseFBConfig(display, DefaultScreen(display), NULL, &fbcount);
-        if (!framebufferConfig)
-        {
-            ouzel::log("Failed to get framebuffer.");
-        }
-
-        // create an OpenGL rendering context
-        if (framebufferConfig)
-        {
-            static const int contextAttribs[] = {
-                GLX_CONTEXT_PROFILE_MASK_ARB,
-                GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-                GLX_CONTEXT_MAJOR_VERSION_ARB,
-                3,
-                GLX_CONTEXT_MINOR_VERSION_ARB,
-                3,
-                0,
-            };
-
-            PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB"));
-
-            if (!glXCreateContextAttribsARB)
-            {
-                log("Could not find glXCreateContextAttribsARB");
-            }
-            else
-            {
-                context = glXCreateContextAttribsARB(display, framebufferConfig[0], NULL, GL_TRUE, contextAttribs);
-
-                if (!context)
-                {
-                    ouzel::log("Failed to create OpenGL 3.3 context");
-                }
-            }
-        }
-
-        if (!context)
-        {
-            context = glXCreateContext(display, vi, /* no shared dlists */ None,
-                                       /* direct rendering if possible */ GL_TRUE);
-        }
+        context = glXCreateContext(display, vi, /* no shared dlists */ None,
+                                   /* direct rendering if possible */ GL_TRUE);
 
         if (!context)
         {
@@ -129,20 +90,20 @@ namespace ouzel
 
         // request the X window to be displayed on the screen
         XMapWindow(display, window);
-    
+
         return Window::init();
     }
-    
+
     void WindowLinux::setSize(const Size2& newSize)
     {
         Window::setSize(newSize);
     }
-    
+
     void WindowLinux::setFullscreen(bool newFullscreen)
     {
         Window::setFullscreen(newFullscreen);
     }
-    
+
     void WindowLinux::setTitle(const std::string& newTitle)
     {
         Window::setTitle(newTitle);
