@@ -169,7 +169,7 @@ namespace ouzel
         if (!GetCurrentDirectoryW(MAX_PATH, szBuffer))
         {
             log("Failed to get current directory");
-            return false;
+            return "";
         }
 
         WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
@@ -179,7 +179,7 @@ namespace ouzel
         if (!getcwd(TEMP_BUFFER, sizeof(TEMP_BUFFER)))
         {
             log("Failed to get current directory");
-            return false;
+            return "";
         }
         appPath = std::string(TEMP_BUFFER);
 #endif
