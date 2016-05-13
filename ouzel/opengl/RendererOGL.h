@@ -29,20 +29,6 @@
     #include <GL/glext.h>
 #endif
 
-#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
-    #define glBindVertexArray glBindVertexArrayOES
-    #define glGenVertexArrays glGenVertexArraysOES
-    #define glDeleteVertexArrays glDeleteVertexArraysOES
-#elif defined(OUZEL_PLATFORM_ANDROID)
-    extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT;
-    extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT;
-    extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
-
-    #define glGenVertexArrays glGenVertexArraysOESEXT
-    #define glBindVertexArray glBindVertexArrayOESEXT
-    #define glDeleteVertexArrays glDeleteVertexArraysOESEXT
-#endif
-
 namespace ouzel
 {
     class Engine;

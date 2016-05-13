@@ -27,12 +27,6 @@
 #include "TextureVSOGLES.h"
 #endif
 
-#if defined(OUZEL_PLATFORM_ANDROID)
-PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT = 0;
-PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT = 0;
-PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT = 0;
-#endif
-
 namespace ouzel
 {
     namespace graphics
@@ -40,11 +34,7 @@ namespace ouzel
         RendererOGL::RendererOGL():
             Renderer(Driver::OPENGL)
         {
-#if defined(OUZEL_PLATFORM_ANDROID)
-            glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-            glBindVertexArrayOESEXT = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-            glDeleteVertexArraysOESEXT = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
-#endif
+
         }
 
         RendererOGL::~RendererOGL()
