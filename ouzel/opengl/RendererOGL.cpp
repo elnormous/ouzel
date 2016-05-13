@@ -355,11 +355,6 @@ namespace ouzel
 
         bool RendererOGL::activateRenderTarget(const RenderTargetPtr& renderTarget)
         {
-            if (activeRenderTarget == renderTarget)
-            {
-                return true;
-            }
-
             if (!Renderer::activateRenderTarget(renderTarget))
             {
                 return false;

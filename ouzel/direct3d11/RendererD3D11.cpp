@@ -638,11 +638,6 @@ namespace ouzel
 
         bool RendererD3D11::activateRenderTarget(const RenderTargetPtr& renderTarget)
         {
-            if (activeRenderTarget == renderTarget)
-            {
-                return true;
-            }
-
             if (!Renderer::activateRenderTarget(renderTarget))
             {
                 return false;
