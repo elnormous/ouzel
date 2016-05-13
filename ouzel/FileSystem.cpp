@@ -175,7 +175,7 @@ namespace ouzel
         WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
 
         appPath = std::string(TEMP_BUFFER);
-#elfi defined(OUZEL_PLATFORM_LINUX)
+#elif defined(OUZEL_PLATFORM_LINUX)
         if (!getcwd(TEMP_BUFFER, sizeof(TEMP_BUFFER)))
         {
             log("Failed to get current directory");
