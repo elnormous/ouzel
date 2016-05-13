@@ -17,10 +17,10 @@ namespace ouzel
 
         RenderTargetOGL::~RenderTargetOGL()
         {
-            destroy();
+            free();
         }
 
-        void RenderTargetOGL::destroy()
+        void RenderTargetOGL::free()
         {
             if (depthBufferId)
             {
@@ -42,7 +42,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             viewport = Rectangle(0.0f, 0.0f, newSize.width, newSize.height);
 

@@ -60,6 +60,7 @@ namespace ouzel
             };
 
             virtual ~Renderer();
+            virtual void free() {}
 
             Driver getDriver() const { return driver; }
 

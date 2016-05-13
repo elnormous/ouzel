@@ -29,6 +29,7 @@ namespace ouzel
             friend RendererMetal;
         public:
             virtual ~ShaderMetal();
+            virtual void free() override;
 
             virtual bool initFromBuffers(const uint8_t* newPixelShader,
                                          uint32_t newPixelShaderSize,
@@ -59,7 +60,6 @@ namespace ouzel
         protected:
             ShaderMetal();
 
-            void destroy();
             bool createPixelShaderConstantBuffer(uint32_t size);
             bool createVertexShaderConstantBuffer(uint32_t size);
 

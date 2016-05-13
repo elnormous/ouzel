@@ -17,10 +17,10 @@ namespace ouzel
 
         MeshBufferOGL::~MeshBufferOGL()
         {
-            destroy();
+            free();
         }
 
-        void MeshBufferOGL::destroy()
+        void MeshBufferOGL::free()
         {
             if (vertexBufferId)
             {
@@ -61,7 +61,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             glGenBuffers(1, &indexBufferId);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);

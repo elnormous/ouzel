@@ -27,6 +27,7 @@ namespace ouzel
             friend RendererMetal;
         public:
             virtual ~RenderTargetMetal();
+            virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool depthBuffer) override;
 
@@ -36,8 +37,6 @@ namespace ouzel
 
         protected:
             RenderTargetMetal();
-
-            void destroy();
 
             MTLRenderPassDescriptorPtr renderPassDescriptor;
             MTLTexturePtr msaaTexture;

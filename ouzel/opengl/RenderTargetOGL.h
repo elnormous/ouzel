@@ -41,6 +41,7 @@ namespace ouzel
             friend RendererOGL;
         public:
             virtual ~RenderTargetOGL();
+            void free() override;
 
             virtual bool init(const Size2& newSize, bool depthBuffer) override;
 
@@ -49,8 +50,6 @@ namespace ouzel
 
         protected:
             RenderTargetOGL();
-
-            void destroy();
 
             GLuint frameBufferId = 0;
             GLuint depthBufferId = 0;

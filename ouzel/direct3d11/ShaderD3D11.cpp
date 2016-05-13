@@ -18,10 +18,10 @@ namespace ouzel
 
         ShaderD3D11::~ShaderD3D11()
         {
-            destroy();
+            free();
         }
 
-        void ShaderD3D11::destroy()
+        void ShaderD3D11::free()
         {
             if (pixelShader)
             {
@@ -67,7 +67,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 

@@ -40,6 +40,7 @@ namespace ouzel
             friend RendererOGL;
         public:
             virtual ~ShaderOGL();
+            virtual void free() override;
 
             virtual bool initFromBuffers(const uint8_t* pixelShader,
                                          uint32_t pixelShaderSize,
@@ -60,7 +61,6 @@ namespace ouzel
         protected:
             ShaderOGL();
 
-            void destroy();
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage();
 

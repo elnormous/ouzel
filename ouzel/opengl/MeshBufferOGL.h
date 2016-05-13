@@ -40,6 +40,7 @@ namespace ouzel
             friend RendererOGL;
         public:
             virtual ~MeshBufferOGL();
+            virtual void free() override;
 
             virtual bool init() override;
             virtual bool initFromData(const void* newIndices, uint32_t newIndexSize,
@@ -60,7 +61,6 @@ namespace ouzel
         protected:
             MeshBufferOGL();
 
-            void destroy();
             bool updateIndexFormat();
 
             GLuint indexBufferId = 0;

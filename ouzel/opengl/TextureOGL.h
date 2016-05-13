@@ -42,6 +42,7 @@ namespace ouzel
             friend RenderTargetOGL;
         public:
             virtual ~TextureOGL();
+            virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
             virtual bool initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
@@ -53,7 +54,6 @@ namespace ouzel
         protected:
             TextureOGL();
 
-            void destroy();
             bool uploadData(const void* data, const Size2& newSize) override;
 
             GLuint textureId = 0;

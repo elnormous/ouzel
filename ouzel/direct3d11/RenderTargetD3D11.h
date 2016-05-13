@@ -18,6 +18,7 @@ namespace ouzel
             friend RendererD3D11;
         public:
             virtual ~RenderTargetD3D11();
+            virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool depthBuffer);
 
@@ -26,8 +27,6 @@ namespace ouzel
 
         protected:
             RenderTargetD3D11();
-
-            void destroy();
 
             ID3D11RenderTargetView* renderTargetView = nullptr;
             D3D11_VIEWPORT viewport;

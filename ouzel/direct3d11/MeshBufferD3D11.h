@@ -17,6 +17,7 @@ namespace ouzel
             friend RendererD3D11;
         public:
             virtual ~MeshBufferD3D11();
+            virtual void free() override;
 
             virtual bool initFromData(const void* newIndices, uint32_t newIndexSize, uint32_t newIndexCount, bool newDynamicIndexBuffer, const void* newVertices, uint32_t newVertexAttributes, uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
 
@@ -33,7 +34,6 @@ namespace ouzel
         protected:
             MeshBufferD3D11();
 
-            void destroy();
             bool updateIndexFormat();
             bool createIndexBuffer(const void* indices, uint32_t size);
             bool createVertexBuffer(const void* vertices, uint32_t size);

@@ -20,6 +20,7 @@ namespace ouzel
             friend Renderer;
         public:
             virtual ~Texture();
+            virtual void free() {}
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false);
             virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);

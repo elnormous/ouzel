@@ -18,10 +18,10 @@ namespace ouzel
 
         TextureMetal::~TextureMetal()
         {
-            destroy();
+            free();
         }
 
-        void TextureMetal::destroy()
+        void TextureMetal::free()
         {
             if (texture)
             {
@@ -37,7 +37,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             return createTexture(static_cast<NSUInteger>(size.width),
                                  static_cast<NSUInteger>(size.height));
@@ -50,7 +50,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             if (!createTexture(static_cast<NSUInteger>(size.width),
                                static_cast<NSUInteger>(size.height)))
@@ -82,7 +82,7 @@ namespace ouzel
             if (static_cast<NSUInteger>(newSize.width) != width ||
                 static_cast<NSUInteger>(newSize.height) != height)
             {
-                destroy();
+                free();
 
                 if (!createTexture(static_cast<NSUInteger>(newSize.width),
                                    static_cast<NSUInteger>(newSize.height)))

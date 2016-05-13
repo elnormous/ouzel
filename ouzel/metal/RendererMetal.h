@@ -50,6 +50,7 @@ namespace ouzel
             static bool available();
 
             virtual ~RendererMetal();
+            virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount) override;
 
@@ -89,7 +90,6 @@ namespace ouzel
         protected:
             RendererMetal();
 
-            void destroy();
             MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                           const std::shared_ptr<ShaderMetal>& shader);
 

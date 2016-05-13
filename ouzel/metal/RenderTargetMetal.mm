@@ -18,10 +18,10 @@ namespace ouzel
 
         RenderTargetMetal::~RenderTargetMetal()
         {
-            destroy();
+            free();
         }
 
-        void RenderTargetMetal::destroy()
+        void RenderTargetMetal::free()
         {
             if (msaaTexture)
             {
@@ -42,6 +42,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            free();
 
             std::shared_ptr<TextureMetal> textureMetal(new TextureMetal());
 

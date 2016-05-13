@@ -19,10 +19,10 @@ namespace ouzel
 
         TextureD3D11::~TextureD3D11()
         {
-            destroy();
+            free();
         }
 
-        void TextureD3D11::destroy()
+        void TextureD3D11::free()
         {
             if (resourceView)
             {
@@ -44,7 +44,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             return createTexture(static_cast<UINT>(size.width),
                                  static_cast<UINT>(size.height));
@@ -57,7 +57,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             if (!createTexture(static_cast<UINT>(size.width),
                                static_cast<UINT>(size.height)))
@@ -73,7 +73,7 @@ namespace ouzel
             if (static_cast<UINT>(newSize.width) != width ||
                 static_cast<UINT>(newSize.height) != height)
             {
-                destroy();
+                free();
 
                 if (!createTexture(static_cast<UINT>(size.width),
                                    static_cast<UINT>(size.height)))

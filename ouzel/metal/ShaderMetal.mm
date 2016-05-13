@@ -21,10 +21,10 @@ namespace ouzel
 
         ShaderMetal::~ShaderMetal()
         {
-            destroy();
+            free();
         }
 
-        void ShaderMetal::destroy()
+        void ShaderMetal::free()
         {
             if (vertexShader)
             {
@@ -56,7 +56,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 

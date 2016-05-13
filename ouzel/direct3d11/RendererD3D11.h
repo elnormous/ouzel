@@ -17,6 +17,7 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~RendererD3D11();
+            virtual void free() override;
 
             virtual void clear() override;
             virtual void present() override;
@@ -66,7 +67,6 @@ namespace ouzel
         protected:
             RendererD3D11();
 
-            void destroy();
             virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount) override;
 
             IDXGIOutput* getOutput() const;

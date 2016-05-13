@@ -17,6 +17,11 @@ namespace ouzel
 
         }
 
+        void RenderTarget::free()
+        {
+            texture.reset();
+        }
+
         bool RenderTarget::init(const Size2& newSize, bool useDepthBuffer)
         {
             size = newSize;

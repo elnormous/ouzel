@@ -18,6 +18,7 @@ namespace ouzel
             friend Renderer;
         public:
             virtual ~MeshBuffer();
+            virtual void free() {}
 
             virtual bool init();
             virtual bool initFromData(const void* newIndices, uint32_t newIndexSize,

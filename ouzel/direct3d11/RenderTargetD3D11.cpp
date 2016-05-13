@@ -18,10 +18,10 @@ namespace ouzel
 
         RenderTargetD3D11::~RenderTargetD3D11()
         {
-            destroy();
+            free();
         }
 
-        void RenderTargetD3D11::destroy()
+        void RenderTargetD3D11::free()
         {
             if (renderTargetView)
             {
@@ -37,7 +37,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
 

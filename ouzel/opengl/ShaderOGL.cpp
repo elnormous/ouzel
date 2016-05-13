@@ -18,10 +18,10 @@ namespace ouzel
 
         ShaderOGL::~ShaderOGL()
         {
-            destroy();
+            free();
         }
 
-        void ShaderOGL::destroy()
+        void ShaderOGL::free()
         {
             if (programId)
             {
@@ -55,7 +55,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             pixelShaderId = glCreateShader(GL_FRAGMENT_SHADER);
             glShaderSource(pixelShaderId, 1, reinterpret_cast<const GLchar**>(&pixelShader), reinterpret_cast<const GLint*>(&pixelShaderSize));

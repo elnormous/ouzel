@@ -17,10 +17,10 @@ namespace ouzel
 
         MeshBufferMetal::~MeshBufferMetal()
         {
-            destroy();
+            free();
         }
 
-        void MeshBufferMetal::destroy()
+        void MeshBufferMetal::free()
         {
             if (indexBuffer)
             {
@@ -42,7 +42,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             if (!createIndexBuffer(newIndices, indexSize * indexCount))
             {

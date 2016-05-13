@@ -18,10 +18,10 @@ namespace ouzel
 
         TextureOGL::~TextureOGL()
         {
-            destroy();
+            free();
         }
 
-        void TextureOGL::destroy()
+        void TextureOGL::free()
         {
             if (textureId)
             {
@@ -37,7 +37,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             glGenTextures(1, &textureId);
 
@@ -56,7 +56,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             glGenTextures(1, &textureId);
 

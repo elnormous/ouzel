@@ -68,10 +68,10 @@ namespace ouzel
 
         RendererMetal::~RendererMetal()
         {
-            destroy();
+            free();
         }
 
-        void RendererMetal::destroy()
+        void RendererMetal::free()
         {
             if (msaaTexture)
             {
@@ -129,7 +129,7 @@ namespace ouzel
                 return false;
             }
 
-            destroy();
+            free();
 
             inflightSemaphore = dispatch_semaphore_create(3); // allow encoding up to 3 command buffers simultaneously
 

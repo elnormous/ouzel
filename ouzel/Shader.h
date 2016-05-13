@@ -28,6 +28,7 @@ namespace ouzel
             };
 
             virtual ~Shader();
+            virtual void free() {}
 
             virtual bool initFromFiles(const std::string& newPixelShader,
                                        const std::string& newVertexShader,
