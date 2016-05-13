@@ -5,21 +5,20 @@
 #include <sys/stat.h>
 #include "CompileConfig.h"
 #if defined(OUZEL_PLATFORM_OSX)
-#include <sys/types.h>
-#include <pwd.h>
-#include <CoreServices/CoreServices.h>
+    #include <sys/types.h>
+    #include <pwd.h>
+    #include <CoreServices/CoreServices.h>
 #elif defined(OUZEL_PLATFORM_WINDOWS)
-#include <Shlobj.h>
+    #include <Shlobj.h>
+    #include <Windows.h>
+#elif defined(OUZEL_PLATFORM_LINUX)
+    #include <unistd.h>
 #endif
 #include "FileSystem.h"
 #include "Utils.h"
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include <CoreFoundation/CoreFoundation.h>
-#endif
-
-#if defined(OUZEL_PLATFORM_WINDOWS)
-#include <Windows.h>
 #endif
 
 namespace ouzel
@@ -165,14 +164,23 @@ namespace ouzel
         CFRelease(urlString);
 
         appPath = std::string(TEMP_BUFFER);
-#endif
-
-#if defined(OUZEL_PLATFORM_WINDOWS)
+#elif defined(OUZEL_PLATFORM_WINDOWS)
         wchar_t szBuffer[MAX_PATH];
-        GetCurrentDirectoryW(MAX_PATH, szBuffer);
+        if (!GetCurrentDirectoryW(MAX_PATH, szBuffer))
+        {
+            log("Failed to get current directory");
+            return false;
+        }
 
         WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
 
+        appPath = std::string(TEMP_BUFFER);
+#elfi defined(OUZEL_PLATFORM_LINUX)
+        if (!getcwd(TEMP_BUFFER, sizeof(TEMP_BUFFER)))
+        {
+            log("Failed to get current directory");
+            return false;
+        }
         appPath = std::string(TEMP_BUFFER);
 #endif
 
