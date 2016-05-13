@@ -57,20 +57,6 @@ namespace ouzel
 
             destroy();
 
-            GLboolean support;
-            glGetBooleanv(GL_SHADER_COMPILER, &support);
-
-            if (!support)
-            {
-                log("No shader compiler present");
-                return false;
-            }
-
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
-            {
-                return false;
-            }
-
             pixelShaderId = glCreateShader(GL_FRAGMENT_SHADER);
             glShaderSource(pixelShaderId, 1, reinterpret_cast<const GLchar**>(&pixelShader), reinterpret_cast<const GLint*>(&pixelShaderSize));
             glCompileShader(pixelShaderId);

@@ -108,6 +108,7 @@ namespace ouzel
             virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount) override;
 
             virtual void setSize(const Size2& newSize) override;
+            bool updateVertexAttributes(uint32_t vertexAttributes, uint32_t vertexSize);
 
             bool ready = false;
             GLuint frameBuffer = 0;

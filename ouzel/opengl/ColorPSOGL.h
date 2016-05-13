@@ -2,11 +2,10 @@
 // This file is part of the Ouzel engine.
 
 const uint8_t COLOR_PIXEL_SHADER_OGL[] =
-    "#version 330\n"
+    "#version 120\n"
     "uniform vec4 color;\n"
-    "in vec4 ex_Color;\n"
-    "out vec4 out_Color;\n"
+    "varying vec4 ex_Color;\n"
     "void main(void)\n"
     "{\n"
-    "    out_Color = ex_Color * color;\n"
+    "    gl_FragColor = ex_Color * color;\n"
     "}";

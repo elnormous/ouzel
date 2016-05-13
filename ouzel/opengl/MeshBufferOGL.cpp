@@ -22,12 +22,6 @@ namespace ouzel
 
         void MeshBufferOGL::destroy()
         {
-            if (vertexArrayId)
-            {
-                glDeleteVertexArrays(1, &vertexArrayId);
-                vertexArrayId = 0;
-            }
-
             if (vertexBufferId)
             {
                 glDeleteBuffers(1, &vertexBufferId);
@@ -45,9 +39,6 @@ namespace ouzel
         {
             glGenBuffers(1, &indexBufferId);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
-
-            glGenVertexArrays(1, &vertexArrayId);
-            glBindVertexArray(vertexArrayId);
 
             glGenBuffers(1, &vertexBufferId);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
@@ -87,20 +78,12 @@ namespace ouzel
                 return false;
             }
 
-            glGenVertexArrays(1, &vertexArrayId);
-            glBindVertexArray(vertexArrayId);
-
             glGenBuffers(1, &vertexBufferId);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
             glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, newVertices,
                          dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
-            {
-                return false;
-            }
-
-            if (!updateVertexAttributes())
             {
                 return false;
             }
@@ -116,16 +99,6 @@ namespace ouzel
             }
 
             return updateIndexFormat();
-        }
-
-        bool MeshBufferOGL::setVertexAttributes(uint32_t vertexAttributes)
-        {
-            if (!MeshBuffer::setVertexAttributes(vertexAttributes))
-            {
-                return false;
-            }
-
-            return updateVertexAttributes();
         }
 
         bool MeshBufferOGL::uploadIndices(const void* indices, uint32_t indexCount)
@@ -174,68 +147,6 @@ namespace ouzel
                 case 2: indexFormat = GL_UNSIGNED_SHORT; break;
                 case 4: indexFormat = GL_UNSIGNED_INT; break;
                 default: log("Invalid index size"); return false;
-            }
-
-            return true;
-        }
-
-        bool MeshBufferOGL::updateVertexAttributes()
-        {
-            glBindVertexArray(vertexArrayId);
-            glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
-
-            GLuint index = 0;
-            GLuint offset = 0;
-
-            if (vertexAttributes & VERTEX_POSITION)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 3 * sizeof(float);
-                ++index;
-            }
-
-            if (vertexAttributes & VERTEX_COLOR)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 4 * sizeof(uint8_t);
-                ++index;
-            }
-
-            if (vertexAttributes & VERTEX_NORMAL)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 3 * sizeof(float);
-                ++index;
-            }
-
-            if (vertexAttributes & VERTEX_TEXCOORD0)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 2 * sizeof(float);
-                ++index;
-            }
-
-            if (vertexAttributes & VERTEX_TEXCOORD1)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 2 * sizeof(float);
-                ++index;
-            }
-
-            if (offset != vertexSize)
-            {
-                log("Invalid vertex size");
-                return false;
-            }
-
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
-            {
-                return false;
             }
 
             return true;

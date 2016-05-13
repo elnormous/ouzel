@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 const uint8_t COLOR_VERTEX_SHADER_OGL[] =
-    "#version 330\n"
-    "in vec3 in_Position;\n"
-    "in vec4 in_Color;\n"
+    "#version 120\n"
+    "attribute vec3 in_Position;\n"
+    "attribute vec4 in_Color;\n"
     "uniform mat4 modelViewProj;\n"
-    "out vec4 ex_Color;\n"
+    "varying vec4 ex_Color;\n"
     "void main(void)\n"
     "{\n"
     "    gl_Position = modelViewProj * vec4(in_Position, 1.0);\n"
