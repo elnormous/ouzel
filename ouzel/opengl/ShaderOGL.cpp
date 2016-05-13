@@ -61,12 +61,11 @@ namespace ouzel
             glShaderSource(pixelShaderId, 1, reinterpret_cast<const GLchar**>(&pixelShader), reinterpret_cast<const GLint*>(&pixelShaderSize));
             glCompileShader(pixelShaderId);
 
-            printShaderMessage(pixelShaderId);
-
             GLint status;
             glGetShaderiv(pixelShaderId, GL_COMPILE_STATUS, &status);
             if (status == GL_FALSE)
             {
+            printShaderMessage(pixelShaderId);
                 return false;
             }
 
@@ -79,11 +78,10 @@ namespace ouzel
             glShaderSource(vertexShaderId, 1, reinterpret_cast<const GLchar**>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
             glCompileShader(vertexShaderId);
 
-            printShaderMessage(vertexShaderId);
-
             glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);
             if (status == GL_FALSE)
             {
+                printShaderMessage(vertexShaderId);
                 log("Failed to link shader");
                 return false;
             }
@@ -126,11 +124,10 @@ namespace ouzel
 
             glLinkProgram(programId);
 
-            printProgramMessage();
-
             glGetProgramiv(programId, GL_LINK_STATUS, &status);
             if (status == GL_FALSE)
             {
+                printProgramMessage();
                 return false;
             }
 
