@@ -165,9 +165,6 @@
     <ResourceCompile Include="samples.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\build\ouzel.vcxproj">
-      <Project>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\build\ouzel.vcxproj">
       <Project>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</Project>
     </ProjectReference>
