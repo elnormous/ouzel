@@ -65,4 +65,4 @@ You can ask question in the following locations:
 
 ## License
 
-Ouzel codebase is licensed under BSD. Please refer to the LICENSE file for detailed information.
+Ouzel codebase is licensed under the BSD license. Please refer to the LICENSE file for detailed information.
