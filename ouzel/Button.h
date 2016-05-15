@@ -18,7 +18,7 @@ namespace ouzel
         class Button: public Widget
         {
         public:
-            static ButtonPtr create(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
+            static ButtonPtr create(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
                                                   const std::string& label = "", const graphics::Color& labelColor = graphics::Color(255, 255, 255, 255), const std::string& font = "");
 
             Button();
