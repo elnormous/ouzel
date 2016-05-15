@@ -38,8 +38,8 @@ namespace ouzel
         protected:
             RenderTargetMetal();
 
-            MTLRenderPassDescriptorPtr renderPassDescriptor;
-            MTLTexturePtr msaaTexture;
+            MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
+            MTLTexturePtr msaaTexture = Nil;
         };
     } // namespace graphics
 } // namespace ouzel

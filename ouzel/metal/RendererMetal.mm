@@ -42,6 +42,7 @@
 #include "Engine.h"
 #include "Cache.h"
 #include "Utils.h"
+#include "stb_image_write.h"
 
 namespace ouzel
 {
@@ -150,6 +151,7 @@ namespace ouzel
             view = static_cast<MTKView*>(window->getNativeView());
             view.device = device;
             view.sampleCount = sampleCount;
+            view.framebufferOnly = NO; // for screenshot capturing
             //_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
@@ -700,6 +702,37 @@ namespace ouzel
 
         bool RendererMetal::saveScreenshot(const std::string& filename)
         {
+            MTLTexturePtr texture = view.currentDrawable.texture;
+
+            if (!texture)
+            {
+                return false;
+            }
+
+            int width = static_cast<int>(texture.width);
+            int height = static_cast<int>(texture.height);
+
+            std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
+            [texture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
+
+            uint8_t temp;
+            for (uint32_t y = 0; y < height; ++y)
+            {
+                for (uint32_t x = 0; x < width; ++x)
+                {
+                    temp = data.get()[((y * width + x) * 4)];
+                    data.get()[((y * width + x) * 4)] = data.get()[((y * width + x) * 4) + 2];
+                    data.get()[((y * width + x) * 4) + 2] = temp;
+                    data.get()[((y * width + x) * 4) + 3] = 255;
+                }
+            }
+
+            if (!stbi_write_png(filename.c_str(), width, height, 4, data.get(), width * 4))
+            {
+                log("Failed to save image to file");
+                return false;
+            }
+
             return false;
         }
     } // namespace graphics
