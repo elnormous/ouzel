@@ -21,9 +21,23 @@
         #define OUZEL_SUPPORTS_OPENGL 1
         #define OUZEL_SUPPORTS_METAL 1
     #endif
+
+    #if defined(__ARM_NEON__)
+        #if defined(__arm64__)
+            #define OUZEL_SUPPORTS_NEON64 1
+        #else
+            #define OUZEL_SUPPORTS_NEON 1
+        #endif
+    #endif
 #elif defined(__ANDROID__)
     #define OUZEL_PLATFORM_ANDROID 1
     #define OUZEL_SUPPORTS_OPENGLES 1
+
+    #if defined(__arm64__) || defined(__aarch64__)
+        #define OUZEL_SUPPORTS_NEON64 1
+    #elif defined(__ARM_NEON__)
+        #define OUZEL_SUPPORTS_NEON 1
+    #endif
 #elif defined(__linux__)
     #define OUZEL_PLATFORM_LINUX 1
     #if defined(__i386__) || defined(__x86_64__)
@@ -31,4 +45,8 @@
     #elif defined(__arm__) || defined(__aarch64__)
         #define OUZEL_SUPPORTS_OPENGLES 1
     #endif
+#endif
+
+#if defined(__SSE__)
+    #define OUZEL_SUPPORTS_SSE 1
 #endif
