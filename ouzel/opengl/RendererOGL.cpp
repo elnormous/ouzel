@@ -205,6 +205,11 @@ namespace ouzel
             checkOpenGLErrors();
         }
 
+        std::vector<Size2> RendererOGL::getSupportedResolutions() const
+        {
+            return std::vector<Size2>();
+        }
+
         BlendStatePtr RendererOGL::createBlendState(bool enableBlending,
                                                     BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
                                                     BlendState::BlendOperation colorOperation,
@@ -614,11 +619,6 @@ namespace ouzel
 
         bool RendererOGL::saveScreenshot(const std::string& filename)
         {
-            if (!Renderer::saveScreenshot(filename))
-            {
-                return false;
-            }
-
             bindFrameBuffer(frameBuffer);
 
             GLsizei width = static_cast<GLsizei>(size.width);

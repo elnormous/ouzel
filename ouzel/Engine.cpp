@@ -88,8 +88,6 @@ namespace ouzel
 
         if (settings.driver == graphics::Renderer::Driver::DEFAULT)
         {
-            settings.driver = graphics::Renderer::Driver::NONE;
-
 #if defined(OUZEL_SUPPORTS_METAL)
             if (graphics::RendererMetal::available())
             {
@@ -106,6 +104,12 @@ namespace ouzel
 #elif defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             settings.driver = graphics::Renderer::Driver::OPENGL;
 #endif
+        }
+
+        if (settings.driver == graphics::Renderer::Driver::DEFAULT)
+        {
+            log("Failed to select render driver");
+            return false;
         }
 
 #if defined(OUZEL_PLATFORM_OSX)
@@ -139,10 +143,6 @@ namespace ouzel
 
         switch (settings.driver)
         {
-            case graphics::Renderer::Driver::NONE:
-                log("Using NULL render driver");
-                renderer.reset(new graphics::Renderer());
-                break;
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             case graphics::Renderer::Driver::OPENGL:
                 log("Using OpenGL render driver");

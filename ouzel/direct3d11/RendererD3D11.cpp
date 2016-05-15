@@ -822,11 +822,6 @@ namespace ouzel
 
         bool RendererD3D11::saveScreenshot(const std::string& filename)
         {
-            if (!Renderer::saveScreenshot(filename))
-            {
-                return false;
-            }
-
             D3D11_TEXTURE2D_DESC desc;
             desc.Width = static_cast<UINT>(size.width);
             desc.Height = static_cast<UINT>(size.height);

@@ -44,7 +44,6 @@ namespace ouzel
             enum class Driver
             {
                 DEFAULT = 0,
-                NONE,
                 OPENGL,
                 DIRECT3D11,
                 METAL
@@ -59,7 +58,7 @@ namespace ouzel
                 TRIANGLE_STRIP
             };
 
-            virtual ~Renderer();
+            virtual ~Renderer() = 0;
             virtual void free() {}
 
             Driver getDriver() const { return driver; }
@@ -74,7 +73,7 @@ namespace ouzel
             const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
 
-            virtual std::vector<Size2> getSupportedResolutions() const;
+            virtual std::vector<Size2> getSupportedResolutions() const = 0;
 
             virtual BlendStatePtr createBlendState(bool enableBlending,
                                                    BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
@@ -83,43 +82,43 @@ namespace ouzel
                                                    BlendState::BlendOperation alphaOperation);
             virtual bool activateBlendState(BlendStatePtr blendState);
 
-            virtual TexturePtr createTexture(const Size2& textureSize, bool dynamic, bool mipmaps = true);
-            virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false, bool mipmaps = true);
-            virtual TexturePtr loadTextureFromData(const void* data, const Size2& textureSize, bool dynamic = false, bool mipmaps = true);
+            virtual TexturePtr createTexture(const Size2& textureSize, bool dynamic, bool mipmaps = true) = 0;
+            virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic = false, bool mipmaps = true) = 0;
+            virtual TexturePtr loadTextureFromData(const void* data, const Size2& textureSize, bool dynamic = false, bool mipmaps = true) = 0;
             virtual bool activateTexture(const TexturePtr& texture, uint32_t layer);
             virtual TexturePtr getActiveTexture(uint32_t layer) const { return activeTextures[layer]; }
-            virtual RenderTargetPtr createRenderTarget(const Size2& renderTargetSize, bool depthBuffer);
+            virtual RenderTargetPtr createRenderTarget(const Size2& renderTargetSize, bool depthBuffer) = 0;
             virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget);
 
             virtual ShaderPtr loadShaderFromFiles(const std::string& pixelShader,
                                                   const std::string& vertexShader,
                                                   uint32_t vertexAttributes,
                                                   const std::string& pixelShaderFunction = "",
-                                                  const std::string& vertexShaderFunction = "");
+                                                  const std::string& vertexShaderFunction = "") = 0;
             virtual ShaderPtr loadShaderFromBuffers(const uint8_t* pixelShader,
                                                     uint32_t pixelShaderSize,
                                                     const uint8_t* vertexShader,
                                                     uint32_t vertexShaderSize,
                                                     uint32_t vertexAttributes,
                                                     const std::string& pixelShaderFunction = "",
-                                                    const std::string& vertexShaderFunction = "");
+                                                    const std::string& vertexShaderFunction = "") = 0;
             virtual bool activateShader(const ShaderPtr& shader);
             virtual ShaderPtr getActiveShader() const { return activeShader; }
 
             virtual MeshBufferPtr createMeshBuffer();
-            virtual MeshBufferPtr createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer);
+            virtual MeshBufferPtr createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer) = 0;
             virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST, uint32_t startIndex = 0);
 
             Vector2 viewToScreenLocation(const Vector2& position);
             Vector2 screenToViewLocation(const Vector2& position);
             bool checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const scene::CameraPtr& camera);
 
-            virtual bool saveScreenshot(const std::string& filename);
+            virtual bool saveScreenshot(const std::string& filename) = 0;
 
             virtual uint32_t getDrawCallCount() const { return drawCallCount; }
 
         protected:
-            Renderer(Driver pDriver = Driver::NONE);
+            Renderer(Driver pDriver);
             virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount);
 
             virtual void setSize(const Size2& newSize);

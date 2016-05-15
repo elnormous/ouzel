@@ -50,6 +50,8 @@ namespace ouzel
             virtual void present() override;
             virtual void flush() override;
 
+            virtual std::vector<Size2> getSupportedResolutions() const override;
+
             virtual BlendStatePtr createBlendState(bool enableBlending,
                                                    BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
                                                    BlendState::BlendOperation colorOperation,

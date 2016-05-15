@@ -46,16 +46,10 @@ namespace ouzel
 
         void Renderer::present()
         {
-
         }
 
         void Renderer::flush()
         {
-        }
-
-        std::vector<Size2> Renderer::getSupportedResolutions() const
-        {
-            return std::vector<Size2>();
         }
 
         void Renderer::setSize(const Size2& newSize)
@@ -96,17 +90,6 @@ namespace ouzel
             return true;
         }
 
-        TexturePtr Renderer::createTexture(const Size2& textureSize, bool dynamic, bool mipmaps)
-        {
-            TexturePtr texture(new Texture());
-            if (!texture->init(textureSize, dynamic, mipmaps))
-            {
-                texture.reset();
-            }
-
-            return texture;
-        }
-
         bool Renderer::activateTexture(const TexturePtr& texture, uint32_t layer)
         {
             activeTextures[layer] = texture;
@@ -114,81 +97,11 @@ namespace ouzel
             return true;
         }
 
-        TexturePtr Renderer::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
-        {
-            TexturePtr texture(new Texture());
-
-            if (!texture->initFromFile(filename, dynamic, mipmaps))
-            {
-                texture.reset();
-            }
-
-            return texture;
-        }
-
-        TexturePtr Renderer::loadTextureFromData(const void* data, const Size2& textureSize, bool dynamic, bool mipmaps)
-        {
-            TexturePtr texture(new Texture());
-
-            if (!texture->initFromData(data, textureSize, dynamic, mipmaps))
-            {
-                texture.reset();
-            }
-
-            return texture;
-        }
-
-        RenderTargetPtr Renderer::createRenderTarget(const Size2& renderTargetSize, bool depthBuffer)
-        {
-            RenderTargetPtr renderTarget(new RenderTarget());
-
-            if (!renderTarget->init(renderTargetSize, depthBuffer))
-            {
-                renderTarget.reset();
-            }
-
-            return renderTarget;
-        }
-
         bool Renderer::activateRenderTarget(const RenderTargetPtr& renderTarget)
         {
             activeRenderTarget = renderTarget;
 
             return true;
-        }
-
-        ShaderPtr Renderer::loadShaderFromFiles(const std::string& pixelShader,
-                                                const std::string& vertexShader,
-                                                uint32_t vertexAttributes,
-                                                const std::string& pixelShaderFunction,
-                                                const std::string& vertexShaderFunction)
-        {
-            ShaderPtr shader(new Shader());
-
-            if (!shader->initFromFiles(pixelShader, vertexShader, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
-            {
-                shader.reset();
-            }
-
-            return shader;
-        }
-
-        ShaderPtr Renderer::loadShaderFromBuffers(const uint8_t* pixelShader,
-                                                  uint32_t pixelShaderSize,
-                                                  const uint8_t* vertexShader,
-                                                  uint32_t vertexShaderSize,
-                                                  uint32_t vertexAttributes,
-                                                  const std::string& pixelShaderFunction,
-                                                  const std::string& vertexShaderFunction)
-        {
-            ShaderPtr shader(new Shader());
-
-            if (!shader->initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
-            {
-                shader.reset();
-            }
-
-            return shader;
         }
 
         bool Renderer::activateShader(const ShaderPtr& shader)
@@ -203,18 +116,6 @@ namespace ouzel
             MeshBufferPtr meshBuffer(new MeshBuffer());
 
             if (!meshBuffer->init())
-            {
-                meshBuffer.reset();
-            }
-
-            return meshBuffer;
-        }
-
-        MeshBufferPtr Renderer::createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
-        {
-            MeshBufferPtr meshBuffer(new MeshBuffer());
-
-            if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer))
             {
                 meshBuffer.reset();
             }
@@ -296,13 +197,6 @@ namespace ouzel
             visibleRect.height += halfWorldSize.height * 2.0f;
 
             return visibleRect.containsPoint(v2p);
-        }
-
-        bool Renderer::saveScreenshot(const std::string& filename)
-        {
-            OUZEL_UNUSED(filename);
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

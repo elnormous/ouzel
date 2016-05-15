@@ -378,6 +378,23 @@ namespace ouzel
             }
         }
 
+        std::vector<Size2> RendererMetal::getSupportedResolutions() const
+        {
+            return std::vector<Size2>();
+        }
+
+        TexturePtr RendererMetal::createTexture(const Size2& textureSize, bool dynamic, bool mipmaps)
+        {
+            std::shared_ptr<TextureMetal> texture(new TextureMetal());
+
+            if (!texture->init(textureSize, dynamic, mipmaps))
+            {
+                texture.reset();
+            }
+
+            return texture;
+        }
+
         TexturePtr RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<TextureMetal> texture(new TextureMetal());
@@ -679,6 +696,11 @@ namespace ouzel
             pipelineStates[std::make_pair(blendState, shader)] = pipelineState;
 
             return pipelineState;
+        }
+
+        bool RendererMetal::saveScreenshot(const std::string& filename)
+        {
+            return false;
         }
     } // namespace graphics
 } // namespace ouzel
