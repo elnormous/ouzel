@@ -78,7 +78,7 @@ namespace ouzel
     void multiplyMatrix3(const float* m1, const float* m2, float* dst)
     {
         // Support the case where m1 or m2 is the same array as dst.
-        float product[16];
+        float product[9];
 
         product[0]  = m1[0] * m2[0]  + m1[3] * m2[1] + m1[6]  * m2[2];
         product[1]  = m1[1] * m2[0]  + m1[4] * m2[1] + m1[7]  * m2[2];
