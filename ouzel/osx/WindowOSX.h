@@ -5,7 +5,7 @@
 
 #include "Window.h"
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 #import <Cocoa/Cocoa.h>
 typedef NSWindow* NSWindowPtr;
 typedef NSView* NSViewPtr;

@@ -36,7 +36,7 @@ namespace ouzel
                 case BlendOperation::ADD: return GL_FUNC_ADD;
                 case BlendOperation::SUBTRACT: return GL_FUNC_SUBTRACT;
                 case BlendOperation::REV_SUBTRACT: return GL_FUNC_REVERSE_SUBTRACT;
-#ifdef OUZEL_SUPPORTS_OPENGL
+#if defined(OUZEL_SUPPORTS_OPENGL)
                 case BlendOperation::MIN: return GL_MIN;
                 case BlendOperation::MAX: return GL_MAX;
 #endif

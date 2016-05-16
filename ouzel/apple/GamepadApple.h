@@ -5,7 +5,7 @@
 
 #include "Gamepad.h"
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 @class GCController;
 typedef GCController* GCControllerPtr;
 #else

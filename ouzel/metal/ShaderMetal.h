@@ -6,7 +6,7 @@
 #include "CompileConfig.h"
 #include "Shader.h"
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 #import <Metal/Metal.h>
 typedef id<MTLFunction> MTLFunctionPtr;
 typedef MTLVertexDescriptor* MTLVertexDescriptorPtr;

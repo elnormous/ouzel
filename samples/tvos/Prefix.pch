@@ -1,10 +1,10 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 #import <UIKit/UIKit.h>
 #endif
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 #include "ouzel.h"
 #endif

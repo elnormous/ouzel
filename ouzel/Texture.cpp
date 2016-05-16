@@ -139,7 +139,7 @@ namespace ouzel
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
             uint32_t newHeight = static_cast<uint32_t>(newSize.height);
 
-#ifdef OUZEL_SUPPORTS_OPENGLES
+#if defined(OUZEL_SUPPORTS_OPENGLES)
             if (mipmaps && isPOT(newWidth) && isPOT(newHeight))
 #else
             if (mipmaps)

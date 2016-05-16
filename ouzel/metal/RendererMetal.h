@@ -7,7 +7,7 @@
 #include <map>
 #include <dispatch/dispatch.h>
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 #import <Metal/Metal.h>
 #import <MetalKit/MTKView.h>
 typedef MTKView* MTKViewPtr;

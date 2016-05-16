@@ -9,7 +9,7 @@
 #include <climits>
 
 #include "CompileConfig.h"
-#ifdef OUZEL_PLATFORM_ANDROID
+#if defined(OUZEL_PLATFORM_ANDROID)
 #include <cpu-features.h>
 #endif
 

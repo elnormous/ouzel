@@ -7,7 +7,7 @@
 #include "RenderTarget.h"
 #include "Size2.h"
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 #import <Metal/Metal.h>
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id <MTLTexture> MTLTexturePtr;

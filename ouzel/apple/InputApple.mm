@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "CompileConfig.h"
-#ifdef OUZEL_PLATFORM_OSX
+#if defined(OUZEL_PLATFORM_OSX)
 #import <AppKit/AppKit.h>
 #endif
 #import <GameController/GameController.h>
@@ -72,7 +72,7 @@ namespace ouzel
 
         void InputApple::setCursorVisible(bool visible)
         {
-#ifdef OUZEL_PLATFORM_OSX
+#if defined(OUZEL_PLATFORM_OSX)
             if (visible)
             {
                 [NSCursor unhide];
@@ -88,7 +88,7 @@ namespace ouzel
 
         bool InputApple::isCursorVisible() const
         {
-#ifdef OUZEL_PLATFORM_OSX
+#if defined(OUZEL_PLATFORM_OSX)
             return CGCursorIsVisible();
 #else
             return false;

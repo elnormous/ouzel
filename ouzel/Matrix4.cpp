@@ -338,7 +338,7 @@ namespace ouzel
     void Matrix4::add(float scalar, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         if (anrdoidNEONChecker.isNEONAvailable())
         {
     #endif
@@ -361,7 +361,7 @@ namespace ouzel
                      : "r"(dst.m), "r"(m), "r"(&scalar)
                      : "q0", "q1", "q2", "q3", "q4", "q8", "q9", "q10", "q11", "memory"
                      );
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }
     #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
@@ -422,7 +422,7 @@ namespace ouzel
     void Matrix4::add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         if (anrdoidNEONChecker.isNEONAvailable())
         {
     #endif
@@ -443,7 +443,7 @@ namespace ouzel
                      : "r"(dst.m), "r"(m1.m), "r"(m2.m)
                      : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
                      );
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }
     #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
@@ -628,7 +628,7 @@ namespace ouzel
     void Matrix4::multiply(const Matrix4& m, float scalar, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         if (anrdoidNEONChecker.isNEONAvailable())
         {
     #endif
@@ -648,7 +648,7 @@ namespace ouzel
                      : "r"(dst.m), "r"(m.m), "r"(&scalar)
                      : "q0", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "memory"
                      );
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }
     #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
@@ -709,7 +709,7 @@ namespace ouzel
     void Matrix4::multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         if (anrdoidNEONChecker.isNEONAvailable())
         {
     #endif
@@ -746,7 +746,7 @@ namespace ouzel
                      : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change.
                      : "memory", "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15"
                      );
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }
     #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
@@ -903,7 +903,7 @@ namespace ouzel
     void Matrix4::negate(Matrix4& dst) const
     {
 #if defined(OUZEL_SUPPORTS_NEON)
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         if (anrdoidNEONChecker.isNEONAvailable())
         {
     #endif
@@ -922,7 +922,7 @@ namespace ouzel
                      : "r"(dst.m), "r"(m)
                      : "q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "memory"
                      );
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }
     #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
@@ -1104,7 +1104,7 @@ namespace ouzel
     void Matrix4::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         if (anrdoidNEONChecker.isNEONAvailable())
         {
     #endif
@@ -1125,7 +1125,7 @@ namespace ouzel
                      : "r"(dst.m), "r"(m1.m), "r"(m2.m)
                      : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
                      );
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }
     #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
@@ -1214,7 +1214,7 @@ namespace ouzel
     void Matrix4::transformVector(const Vector4& vector, Vector4& dst) const
     {
 #if defined(OUZEL_SUPPORTS_NEON)
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         if (anrdoidNEONChecker.isNEONAvailable())
         {
     #endif
@@ -1234,7 +1234,7 @@ namespace ouzel
          : "r"(&dst.x), "r"(&vector.x), "r"(m)
          : "q0", "q9", "q10","q11", "q12", "q13", "memory"
          );
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }
     #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
@@ -1311,7 +1311,7 @@ namespace ouzel
     void Matrix4::transpose(Matrix4& dst) const
     {
 #if defined(OUZEL_SUPPORTS_NEON)
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         if (anrdoidNEONChecker.isNEONAvailable())
         {
     #endif
@@ -1327,7 +1327,7 @@ namespace ouzel
                      : "r"(dst.m), "r"(m)
                      : "q0", "q1", "q2", "q3", "memory"
                      );
-    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }
     #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)

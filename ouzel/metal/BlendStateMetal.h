@@ -6,7 +6,7 @@
 #include "CompileConfig.h"
 #include "BlendState.h"
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 #import <Metal/Metal.h>
 #else
 #include <objc/objc.h>

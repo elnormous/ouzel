@@ -10,13 +10,13 @@
 #include <sys/syslog.h>
 #endif
 
-#ifdef OUZEL_PLATFORM_WINDOWS
+#if defined(OUZEL_PLATFORM_WINDOWS)
 #define NOMINMAX
 #include <windows.h>
 #include <strsafe.h>
 #endif
 
-#ifdef OUZEL_PLATFORM_ANDROID
+#if defined(OUZEL_PLATFORM_ANDROID)
 #include <android/log.h>
 #endif
 

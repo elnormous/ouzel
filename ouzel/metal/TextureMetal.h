@@ -3,7 +3,7 @@
 
 #pragma once
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 #import <Metal/Metal.h>
 typedef id<MTLTexture> MTLTexturePtr;
 #else

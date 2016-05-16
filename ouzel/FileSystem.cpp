@@ -23,7 +23,7 @@
 
 namespace ouzel
 {
-#ifdef OUZEL_PLATFORM_WINDOWS
+#if defined(OUZEL_PLATFORM_WINDOWS)
     const std::string FileSystem::DIRECTORY_SEPARATOR = "\\";
 #else
     const std::string FileSystem::DIRECTORY_SEPARATOR = "/";

@@ -5,7 +5,7 @@
 
 #include "Window.h"
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 #import <UIKit/UIKit.h>
 typedef UIWindow* UIWindowPtr;
 typedef UIView* UIViewPtr;

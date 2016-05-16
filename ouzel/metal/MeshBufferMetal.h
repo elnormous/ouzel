@@ -6,7 +6,7 @@
 #include "CompileConfig.h"
 #include "MeshBuffer.h"
 
-#ifdef __OBJC__
+#if defined(__OBJC__)
 #import <Metal/Metal.h>
 typedef id<MTLBuffer> MTLBufferPtr;
 #else
