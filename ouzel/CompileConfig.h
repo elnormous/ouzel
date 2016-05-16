@@ -37,6 +37,7 @@
         #define OUZEL_SUPPORTS_NEON64 1
     #elif defined(__ARM_NEON__)
         #define OUZEL_SUPPORTS_NEON 1
+        #define OUZEL_SUPPORTS_NEON_CHECK 1
     #endif
 #elif defined(__linux__)
     #define OUZEL_PLATFORM_LINUX 1

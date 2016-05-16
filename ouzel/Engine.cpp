@@ -60,7 +60,7 @@ namespace ouzel
         }
     }
 
-    std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers() const
+    std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers()
     {
         std::set<graphics::Renderer::Driver> availableDrivers;
 

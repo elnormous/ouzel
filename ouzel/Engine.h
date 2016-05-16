@@ -28,7 +28,7 @@ namespace ouzel
         Engine();
         virtual ~Engine();
 
-        std::set<graphics::Renderer::Driver> getAvailableDrivers() const;
+        static std::set<graphics::Renderer::Driver> getAvailableDrivers();
 
         bool init(Settings& settings);
 

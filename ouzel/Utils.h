@@ -14,6 +14,27 @@ namespace ouzel
 {
     extern char TEMP_BUFFER[65536];
 
+#if defined(OUZEL_PLATFORM_ANDROID) && defined(OUZEL_SUPPORTS_NEON_CHECK)
+    class AnrdoidNEONChecker
+    {
+    public:
+        AnrdoidNEONChecker()
+        {
+            if (android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM && (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0)
+                neonAvailable = true;
+            else
+                neonAvailable = false;
+        }
+
+        bool isNEONAvailable() const { return neonAvailable; }
+
+    private:
+        bool neonAvailable;
+    };
+
+    extern AnrdoidNEONChecker anrdoidNEONChecker;
+#endif
+
     template<typename T> size_t vectorDataSize(const typename std::vector<T>& vec)
     {
         return sizeof(T) * vec.size();

@@ -7,6 +7,7 @@
 #include <cassert>
 #include "Matrix4.h"
 #include "MathUtils.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -337,6 +338,10 @@ namespace ouzel
     void Matrix4::add(float scalar, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        if (anrdoidNEONChecker.isNEONAvailable())
+        {
+    #endif
         asm volatile(
                      "vld1.32 {q0, q1}, [%1]!    \n\t" // M[m0-m7]
                      "vld1.32 {q2, q3}, [%1]     \n\t" // M[m8-m15]
@@ -356,10 +361,13 @@ namespace ouzel
                      : "r"(dst.m), "r"(m), "r"(&scalar)
                      : "q0", "q1", "q2", "q3", "q4", "q8", "q9", "q10", "q11", "memory"
                      );
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        }
+    #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
         asm volatile(
-                     "ld4  {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]    	\n\t" // M[m0-m7] M[m8-m15]
-                     "ld1r {v4.4s}, [%2]				                \n\t" //ssss
+                     "ld4  {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]   \n\t" // M[m0-m7] M[m8-m15]
+                     "ld1r {v4.4s}, [%2]				        \n\t" //ssss
 
                      "fadd v8.4s, v0.4s, v4.4s			\n\t" // DST->M[m0-m3] = M[m0-m3] + s
                      "fadd v9.4s, v1.4s, v4.4s			\n\t" // DST->M[m4-m7] = M[m4-m7] + s
@@ -377,7 +385,13 @@ namespace ouzel
         dst.col[1] = _mm_add_ps(col[1], s);
         dst.col[2] = _mm_add_ps(col[2], s);
         dst.col[3] = _mm_add_ps(col[3], s);
-#else
+#endif
+
+#if (!defined(OUZEL_SUPPORTS_NEON) && !defined(OUZEL_SUPPORTS_NEON64) && !defined(OUZEL_SUPPORTS_SSE)) || defined(OUZEL_SUPPORTS_NEON_CHECK)
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        else
+        {
+    #endif
         dst.m[0]  = m[0]  + scalar;
         dst.m[1]  = m[1]  + scalar;
         dst.m[2]  = m[2]  + scalar;
@@ -394,6 +408,9 @@ namespace ouzel
         dst.m[13] = m[13] + scalar;
         dst.m[14] = m[14] + scalar;
         dst.m[15] = m[15] + scalar;
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        }
+    #endif
 #endif
     }
 
@@ -405,6 +422,10 @@ namespace ouzel
     void Matrix4::add(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        if (anrdoidNEONChecker.isNEONAvailable())
+        {
+    #endif
         asm volatile(
                      "vld1.32     {q0, q1},     [%1]! \n\t" // M1[m0-m7]
                      "vld1.32     {q2, q3},     [%1]  \n\t" // M1[m8-m15]
@@ -422,6 +443,9 @@ namespace ouzel
                      : "r"(dst.m), "r"(m1.m), "r"(m2.m)
                      : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
                      );
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        }
+    #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
         asm volatile(
                      "ld4     {v0.4s, v1.4s, v2.4s, v3.4s},     [%1] 	\n\t" // M1[m0-m7] M1[m8-m15]
@@ -442,7 +466,13 @@ namespace ouzel
         dst.col[1] = _mm_add_ps(m1.col[1], m2.col[1]);
         dst.col[2] = _mm_add_ps(m1.col[2], m2.col[2]);
         dst.col[3] = _mm_add_ps(m1.col[3], m2.col[3]);
-#else
+#endif
+
+#if (!defined(OUZEL_SUPPORTS_NEON) && !defined(OUZEL_SUPPORTS_NEON64) && !defined(OUZEL_SUPPORTS_SSE)) || defined(OUZEL_SUPPORTS_NEON_CHECK)
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        else
+        {
+    #endif
         dst.m[0]  = m1.m[0]  + m2.m[0];
         dst.m[1]  = m1.m[1]  + m2.m[1];
         dst.m[2]  = m1.m[2]  + m2.m[2];
@@ -459,6 +489,9 @@ namespace ouzel
         dst.m[13] = m1.m[13] + m2.m[13];
         dst.m[14] = m1.m[14] + m2.m[14];
         dst.m[15] = m1.m[15] + m2.m[15];
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        }
+    #endif
 #endif
     }
 
@@ -595,6 +628,10 @@ namespace ouzel
     void Matrix4::multiply(const Matrix4& m, float scalar, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        if (anrdoidNEONChecker.isNEONAvailable())
+        {
+    #endif
         asm volatile(
                      "vld1.32     {d0[0]},         [%2]        \n\t" // M[m0-m7]
                      "vld1.32    {q4-q5},          [%1]!       \n\t" // M[m8-m15]
@@ -611,6 +648,9 @@ namespace ouzel
                      : "r"(dst.m), "r"(m.m), "r"(&scalar)
                      : "q0", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "memory"
                      );
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        }
+    #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
         asm volatile(
                      "ld1     {v0.s}[0],         [%2]            \n\t" //s
@@ -632,7 +672,13 @@ namespace ouzel
         dst.col[1] = _mm_mul_ps(m.col[1], s);
         dst.col[2] = _mm_mul_ps(m.col[2], s);
         dst.col[3] = _mm_mul_ps(m.col[3], s);
-#else
+#endif
+
+#if (!defined(OUZEL_SUPPORTS_NEON) && !defined(OUZEL_SUPPORTS_NEON64) && !defined(OUZEL_SUPPORTS_SSE)) || defined(OUZEL_SUPPORTS_NEON_CHECK)
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        else
+        {
+    #endif
         dst.m[0]  = m.m[0]  * scalar;
         dst.m[1]  = m.m[1]  * scalar;
         dst.m[2]  = m.m[2]  * scalar;
@@ -649,6 +695,9 @@ namespace ouzel
         dst.m[13] = m.m[13] * scalar;
         dst.m[14] = m.m[14] * scalar;
         dst.m[15] = m.m[15] * scalar;
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        }
+    #endif
 #endif
     }
 
@@ -660,6 +709,10 @@ namespace ouzel
     void Matrix4::multiply(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        if (anrdoidNEONChecker.isNEONAvailable())
+        {
+    #endif
         asm volatile(
                      "vld1.32     {d16 - d19}, [%1]! \n\t"       // M1[m0-m7]
                      "vld1.32     {d20 - d23}, [%1]  \n\t"       // M1[m8-m15]
@@ -693,6 +746,9 @@ namespace ouzel
                      : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change.
                      : "memory", "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15"
                      );
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        }
+    #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
         asm volatile(
                      "ld1     {v8.4s, v9.4s, v10.4s, v11.4s}, [%1] \n\t"       // M1[m0-m7] M1[m8-m15] M2[m0-m7]  M2[m8-m15]
@@ -802,7 +858,13 @@ namespace ouzel
         dst.col[1] = dst1;
         dst.col[2] = dst2;
         dst.col[3] = dst3;
-#else
+#endif
+
+#if (!defined(OUZEL_SUPPORTS_NEON) && !defined(OUZEL_SUPPORTS_NEON64) && !defined(OUZEL_SUPPORTS_SSE)) || defined(OUZEL_SUPPORTS_NEON_CHECK)
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        else
+        {
+    #endif
         // Support the case where m1 or m2 is the same array as dst.
         float product[16];
 
@@ -827,6 +889,9 @@ namespace ouzel
         product[15] = m1.m[3] * m2.m[12] + m1.m[7] * m2.m[13] + m1.m[11] * m2.m[14] + m1.m[15] * m2.m[15];
         
         memcpy(dst.m, product, sizeof(product));
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        }
+    #endif
 #endif
     }
 
@@ -838,6 +903,10 @@ namespace ouzel
     void Matrix4::negate(Matrix4& dst) const
     {
 #if defined(OUZEL_SUPPORTS_NEON)
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        if (anrdoidNEONChecker.isNEONAvailable())
+        {
+    #endif
         asm volatile(
                      "vld1.32     {q0-q1},  [%1]!     \n\t" // load m0-m7
                      "vld1.32     {q2-q3},  [%1]      \n\t" // load m8-m15
@@ -853,6 +922,9 @@ namespace ouzel
                      : "r"(dst.m), "r"(m)
                      : "q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "memory"
                      );
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        }
+    #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
         asm volatile(
                      "ld4     {v0.4s, v1.4s, v2.4s, v3.4s},  [%1]     \n\t" // load m0-m7 load m8-m15
@@ -873,7 +945,13 @@ namespace ouzel
         dst.col[1] = _mm_sub_ps(z, col[1]);
         dst.col[2] = _mm_sub_ps(z, col[2]);
         dst.col[3] = _mm_sub_ps(z, col[3]);
-#else
+#endif
+
+#if (!defined(OUZEL_SUPPORTS_NEON) && !defined(OUZEL_SUPPORTS_NEON64) && !defined(OUZEL_SUPPORTS_SSE)) || defined(OUZEL_SUPPORTS_NEON_CHECK)
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        else
+        {
+    #endif
         dst.m[0]  = -m[0];
         dst.m[1]  = -m[1];
         dst.m[2]  = -m[2];
@@ -890,6 +968,9 @@ namespace ouzel
         dst.m[13] = -m[13];
         dst.m[14] = -m[14];
         dst.m[15] = -m[15];
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        }
+    #endif
 #endif
     }
 
@@ -974,7 +1055,7 @@ namespace ouzel
     }
 
     void Matrix4::set(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
-                     float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+                      float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
     {
         m[0]  = m11;
         m[1]  = m21;
@@ -1023,6 +1104,10 @@ namespace ouzel
     void Matrix4::subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst)
     {
 #if defined(OUZEL_SUPPORTS_NEON)
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        if (anrdoidNEONChecker.isNEONAvailable())
+        {
+    #endif
         asm volatile(
                      "vld1.32     {q0, q1},     [%1]!  \n\t" // M1[m0-m7]
                      "vld1.32     {q2, q3},     [%1]   \n\t" // M1[m8-m15]
@@ -1040,6 +1125,9 @@ namespace ouzel
                      : "r"(dst.m), "r"(m1.m), "r"(m2.m)
                      : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
                      );
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        }
+    #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
         asm volatile(
                      "ld4     {v0.4s, v1.4s, v2.4s, v3.4s},     [%1]  \n\t" // M1[m0-m7] M1[m8-m15]
@@ -1060,7 +1148,13 @@ namespace ouzel
         dst.col[1] = _mm_sub_ps(m1.col[1], m2.col[1]);
         dst.col[2] = _mm_sub_ps(m1.col[2], m2.col[2]);
         dst.col[3] = _mm_sub_ps(m1.col[3], m2.col[3]);
-#else
+#endif
+
+#if (!defined(OUZEL_SUPPORTS_NEON) && !defined(OUZEL_SUPPORTS_NEON64) && !defined(OUZEL_SUPPORTS_SSE)) || defined(OUZEL_SUPPORTS_NEON_CHECK)
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        else
+        {
+    #endif
         dst.m[0]  = m1.m[0]  - m2.m[0];
         dst.m[1]  = m1.m[1]  - m2.m[1];
         dst.m[2]  = m1.m[2]  - m2.m[2];
@@ -1077,6 +1171,9 @@ namespace ouzel
         dst.m[13] = m1.m[13] - m2.m[13];
         dst.m[14] = m1.m[14] - m2.m[14];
         dst.m[15] = m1.m[15] - m2.m[15];
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        }
+    #endif
 #endif
     }
 
@@ -1117,6 +1214,10 @@ namespace ouzel
     void Matrix4::transformVector(const Vector4& vector, Vector4& dst) const
     {
 #if defined(OUZEL_SUPPORTS_NEON)
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        if (anrdoidNEONChecker.isNEONAvailable())
+        {
+    #endif
         asm volatile
         (
          "vld1.32    {d0, d1}, [%1]     \n\t"   // V[x, y, z, w]
@@ -1133,6 +1234,9 @@ namespace ouzel
          : "r"(&dst.x), "r"(&vector.x), "r"(m)
          : "q0", "q9", "q10","q11", "q12", "q13", "memory"
          );
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        }
+    #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
         asm volatile
         (
@@ -1159,12 +1263,21 @@ namespace ouzel
                            _mm_add_ps(_mm_mul_ps(col[0], col1), _mm_mul_ps(col[1], col2)),
                            _mm_add_ps(_mm_mul_ps(col[2], col3), _mm_mul_ps(col[3], col4))
                            );
-#else
+#endif
+
+#if (!defined(OUZEL_SUPPORTS_NEON) && !defined(OUZEL_SUPPORTS_NEON64) && !defined(OUZEL_SUPPORTS_SSE)) || defined(OUZEL_SUPPORTS_NEON_CHECK)
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        else
+        {
+    #endif
         // Handle case where v == dst.
         dst.x = vector.x * m[0] + vector.y * m[4] + vector.z * m[8] + vector.w * m[12];
         dst.y = vector.x * m[1] + vector.y * m[5] + vector.z * m[9] + vector.w * m[13];
         dst.z = vector.x * m[2] + vector.y * m[6] + vector.z * m[10] + vector.w * m[14];
         dst.w = vector.x * m[3] + vector.y * m[7] + vector.z * m[11] + vector.w * m[15];
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        }
+    #endif
 #endif
     }
 
@@ -1198,6 +1311,10 @@ namespace ouzel
     void Matrix4::transpose(Matrix4& dst) const
     {
 #if defined(OUZEL_SUPPORTS_NEON)
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        if (anrdoidNEONChecker.isNEONAvailable())
+        {
+    #endif
         asm volatile(
                      "vld4.32 {d0[0], d2[0], d4[0], d6[0]}, [%1]!    \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
                      "vld4.32 {d0[1], d2[1], d4[1], d6[1]}, [%1]!    \n\t" // DST->M[m1, m5, m9, m12] = M[m4-m7]
@@ -1210,6 +1327,9 @@ namespace ouzel
                      : "r"(dst.m), "r"(m)
                      : "q0", "q1", "q2", "q3", "memory"
                      );
+    #ifdef OUZEL_SUPPORTS_NEON_CHECK
+        }
+    #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
         asm volatile(
                      "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]    \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
@@ -1229,7 +1349,13 @@ namespace ouzel
         dst.col[1] = _mm_shuffle_ps(tmp0, tmp1, 0xDD);
         dst.col[2] = _mm_shuffle_ps(tmp2, tmp3, 0x88);
         dst.col[3] = _mm_shuffle_ps(tmp2, tmp3, 0xDD);
-#else
+#endif
+
+#if (!defined(OUZEL_SUPPORTS_NEON) && !defined(OUZEL_SUPPORTS_NEON64) && !defined(OUZEL_SUPPORTS_SSE)) || defined(OUZEL_SUPPORTS_NEON_CHECK)
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        else
+        {
+    #endif
         float t[16] = {
             m[0], m[4], m[8], m[12],
             m[1], m[5], m[9], m[13],
@@ -1237,6 +1363,9 @@ namespace ouzel
             m[3], m[7], m[11], m[15]
         };
         memcpy(dst.m, t, sizeof(t));
+    #if defined(OUZEL_SUPPORTS_NEON_CHECK)
+        }
+    #endif
 #endif
     }
 }

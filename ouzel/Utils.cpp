@@ -18,6 +18,7 @@
 
 #ifdef OUZEL_PLATFORM_ANDROID
 #include <android/log.h>
+#include <cpu-features.h>
 #endif
 
 #include "Utils.h"
@@ -110,4 +111,9 @@ namespace ouzel
 
         return rand * diff + min;
     }
+
+
+#if defined(OUZEL_PLATFORM_ANDROID) && defined(OUZEL_SUPPORTS_NEON_CHECK)
+    AnrdoidNEONChecker anrdoidNEONChecker;
+#endif
 }
