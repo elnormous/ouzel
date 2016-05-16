@@ -107,7 +107,15 @@ namespace ouzel
 
     void Matrix3::add(float scalar, Matrix3& dst)
     {
-        addMatrix3(m, scalar, dst.m);
+        dst.m[0]  = m[0]  + scalar;
+        dst.m[1]  = m[1]  + scalar;
+        dst.m[2]  = m[2]  + scalar;
+        dst.m[3]  = m[3]  + scalar;
+        dst.m[4]  = m[4]  + scalar;
+        dst.m[5]  = m[5]  + scalar;
+        dst.m[6]  = m[6]  + scalar;
+        dst.m[7]  = m[7]  + scalar;
+        dst.m[8]  = m[8]  + scalar;
     }
 
     void Matrix3::add(const Matrix3& matrix)
@@ -117,7 +125,15 @@ namespace ouzel
 
     void Matrix3::add(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
     {
-        addMatrix3(m1.m, m2.m, dst.m);
+        dst.m[0]  = m1.m[0]  + m2.m[0];
+        dst.m[1]  = m1.m[1]  + m2.m[1];
+        dst.m[2]  = m1.m[2]  + m2.m[2];
+        dst.m[3]  = m1.m[3]  + m2.m[3];
+        dst.m[4]  = m1.m[4]  + m2.m[4];
+        dst.m[5]  = m1.m[5]  + m2.m[5];
+        dst.m[6]  = m1.m[6]  + m2.m[6];
+        dst.m[7]  = m1.m[7]  + m2.m[7];
+        dst.m[8]  = m1.m[8]  + m2.m[8];
     }
 
     float Matrix3::determinant() const
@@ -180,7 +196,15 @@ namespace ouzel
 
     void Matrix3::multiply(const Matrix3& matrix, float scalar, Matrix3& dst)
     {
-        multiplyMatrix3(matrix.m, scalar, dst.m);
+        dst.m[0]  = matrix.m[0]  * scalar;
+        dst.m[1]  = matrix.m[1]  * scalar;
+        dst.m[2]  = matrix.m[2]  * scalar;
+        dst.m[3]  = matrix.m[3]  * scalar;
+        dst.m[4]  = matrix.m[4]  * scalar;
+        dst.m[5]  = matrix.m[5]  * scalar;
+        dst.m[6]  = matrix.m[6]  * scalar;
+        dst.m[7]  = matrix.m[7]  * scalar;
+        dst.m[8]  = matrix.m[8]  * scalar;
     }
 
     void Matrix3::multiply(const Matrix3& matrix)
@@ -190,7 +214,22 @@ namespace ouzel
 
     void Matrix3::multiply(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
     {
-        multiplyMatrix3(m1.m, m2.m, dst.m);
+        // Support the case where m1 or m2 is the same array as dst.
+        float product[9];
+
+        product[0]  = m1.m[0] * m2.m[0]  + m1.m[3] * m2.m[1] + m1.m[6]  * m2.m[2];
+        product[1]  = m1.m[1] * m2.m[0]  + m1.m[4] * m2.m[1] + m1.m[7]  * m2.m[2];
+        product[2]  = m1.m[2] * m2.m[0]  + m1.m[5] * m2.m[1] + m1.m[8]  * m2.m[2];
+
+        product[3]  = m1.m[0] * m2.m[3]  + m1.m[3] * m2.m[4] + m1.m[6]  * m2.m[5];
+        product[4]  = m1.m[1] * m2.m[3]  + m1.m[4] * m2.m[4] + m1.m[7]  * m2.m[5];
+        product[5]  = m1.m[2] * m2.m[3]  + m1.m[5] * m2.m[4] + m1.m[8]  * m2.m[5];
+
+        product[6]  = m1.m[0] * m2.m[6]  + m1.m[3] * m2.m[7] + m1.m[6]  * m2.m[8];
+        product[7]  = m1.m[1] * m2.m[6]  + m1.m[4] * m2.m[7] + m1.m[7]  * m2.m[8];
+        product[8]  = m1.m[2] * m2.m[6]  + m1.m[5] * m2.m[7] + m1.m[8]  * m2.m[8];
+        
+        memcpy(dst.m, product, sizeof(product));
     }
 
     void Matrix3::negate()
@@ -200,7 +239,15 @@ namespace ouzel
 
     void Matrix3::negate(Matrix3& dst) const
     {
-        negateMatrix3(m, dst.m);
+        dst.m[0]  = -m[0];
+        dst.m[1]  = -m[1];
+        dst.m[2]  = -m[2];
+        dst.m[3]  = -m[3];
+        dst.m[4]  = -m[4];
+        dst.m[5]  = -m[5];
+        dst.m[6]  = -m[6];
+        dst.m[7]  = -m[7];
+        dst.m[8]  = -m[8];
     }
 
     void Matrix3::rotate(float angle)
@@ -289,7 +336,15 @@ namespace ouzel
 
     void Matrix3::subtract(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
     {
-        subtractMatrix3(m1.m, m2.m, dst.m);
+        dst.m[0]  = m1.m[0]  - m2.m[0];
+        dst.m[1]  = m1.m[1]  - m2.m[1];
+        dst.m[2]  = m1.m[2]  - m2.m[2];
+        dst.m[3]  = m1.m[3]  - m2.m[3];
+        dst.m[4]  = m1.m[4]  - m2.m[4];
+        dst.m[5]  = m1.m[5]  - m2.m[5];
+        dst.m[6]  = m1.m[6]  - m2.m[6];
+        dst.m[7]  = m1.m[7]  - m2.m[7];
+        dst.m[8]  = m1.m[8]  - m2.m[8];
     }
 
     void Matrix3::transformPoint(Vector2& point) const
@@ -314,7 +369,8 @@ namespace ouzel
 
     void Matrix3::transformVector(float x, float y, float z, Vector2& dst) const
     {
-        transformVector3(m, x, y, z, reinterpret_cast<float*>(&dst));
+        dst.x = x * m[0] + y * m[3] + z * m[6];
+        dst.y = x * m[1] + y * m[4] + z * m[7];
     }
 
     void Matrix3::transformVector(Vector3* vector) const
@@ -324,7 +380,10 @@ namespace ouzel
 
     void Matrix3::transformVector(const Vector3& vector, Vector3& dst) const
     {
-        transformVector3(m, reinterpret_cast<const float*>(&vector), reinterpret_cast<float*>(&dst));
+        // Handle case where v == dst.
+        dst.x = vector.x * m[0] + vector.y * m[3] + vector.z * m[6];
+        dst.y = vector.x * m[1] + vector.y * m[4] + vector.z * m[7];
+        dst.z = vector.x * m[2] + vector.y * m[5] + vector.z * m[8];
     }
 
     void Matrix3::translate(float x, float y)
@@ -356,6 +415,11 @@ namespace ouzel
 
     void Matrix3::transpose(Matrix3& dst) const
     {
-        transposeMatrix3(m, dst.m);
+        float t[9] = {
+            m[0], m[3], m[6],
+            m[1], m[4], m[7],
+            m[2], m[5], m[8]
+        };
+        memcpy(dst.m, t, sizeof(t));
     }
 }

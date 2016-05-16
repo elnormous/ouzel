@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "CompileConfig.h"
+#if defined(OUZEL_SUPPORTS_SSE)
+#include <xmmintrin.h>
+#endif
 #include "Vector3.h"
 #include "Vector4.h"
 
@@ -17,7 +21,15 @@ namespace ouzel
         /**
          * Stores the columns of this 4x4 matrix.
          * */
+#if defined(OUZEL_SUPPORTS_SSE)
+        union
+        {
+            __m128 col[4];
+            float m[16];
+        };
+#else
         float m[16];
+#endif
 
         /**
          * Constructs a matrix initialized to the identity matrix:

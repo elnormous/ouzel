@@ -87,46 +87,6 @@ namespace ouzel
 
     uint32_t calculateMipLevels(uint32_t width, uint32_t height);
 
-    // Matrix3
-    void addMatrix3(const float* m, float scalar, float* dst);
-
-    void addMatrix3(const float* m1, const float* m2, float* dst);
-
-    void subtractMatrix3(const float* m1, const float* m2, float* dst);
-
-    void multiplyMatrix3(const float* m, float scalar, float* dst);
-
-    void multiplyMatrix3(const float* m1, const float* m2, float* dst);
-
-    void negateMatrix3(const float* m, float* dst);
-
-    void transposeMatrix3(const float* m, float* dst);
-
-    // Matrix4
-    void addMatrix4(const float* m, float scalar, float* dst);
-
-    void addMatrix4(const float* m1, const float* m2, float* dst);
-
-    void subtractMatrix4(const float* m1, const float* m2, float* dst);
-
-    void multiplyMatrix4(const float* m, float scalar, float* dst);
-
-    void multiplyMatrix4(const float* m1, const float* m2, float* dst);
-
-    void negateMatrix4(const float* m, float* dst);
-
-    void transposeMatrix4(const float* m, float* dst);
-
-    void transformVector3(const float* m, float x, float y, float z, float* dst);
-
-    void transformVector3(const float* m, const float* v, float* dst);
-
-    void transformVector4(const float* m, float x, float y, float z, float w, float* dst);
-
-    void transformVector4(const float* m, const float* v, float* dst);
-
-    void crossVector3(const float* v1, const float* v2, float* dst);
-
     bool linesIntersect(const Vector2& p0, const Vector2& p1,
                         const Vector2& p2, const Vector2& p3);
 }

@@ -3,6 +3,11 @@
 
 #pragma once
 
+#include "CompileConfig.h"
+#if defined(OUZEL_SUPPORTS_SSE)
+#include <xmmintrin.h>
+#endif
+
 namespace ouzel
 {
     /**
@@ -18,25 +23,24 @@ namespace ouzel
         static Vector4 UNIT_Z;
         static Vector4 UNIT_W;
 
-        /**
-         * The x-coordinate.
-         */
+#if defined(OUZEL_SUPPORTS_SSE)
+        union
+        {
+            __m128 v;
+            struct
+            {
+                float x;
+                float y;
+                float z;
+                float w;
+            };
+        };
+#else
         float x;
-
-        /**
-         * The y-coordinate.
-         */
         float y;
-
-        /**
-         * The z-coordinate.
-         */
         float z;
-
-        /**
-         * The w-coordinate.
-         */
         float w;
+#endif
 
         /**
          * Constructs a new vector initialized to all zeros.
