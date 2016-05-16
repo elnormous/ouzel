@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sprite", "samples.vcxproj", "{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ouzel", "..\..\build\ouzel.vcxproj", "{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ouzel", "..\build\ouzel.vcxproj", "{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

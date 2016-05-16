@@ -14,6 +14,10 @@ Application::~Application()
 
 void Application::begin()
 {
+#if defined(OUZEL_PLATFORM_WINDOWS) || defined(OUZEL_PLATFORM_LINUX)
+    sharedEngine->getFileSystem()->addResourcePath("Resources");
+#endif
+
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
     sharedEngine->getLocalization()->setLanguage("latvian");
 
