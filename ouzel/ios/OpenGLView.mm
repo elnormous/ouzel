@@ -26,7 +26,7 @@ using namespace ouzel;
 
         if (!context)
         {
-            ouzel::log("Failed to initialize OpenGLES 2.0 context");
+            ouzel::log("Failed to initialize OpenGL ES context");
             return Nil;
         }
 
