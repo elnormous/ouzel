@@ -8,6 +8,11 @@
 #include <cstdint>
 #include <climits>
 
+#include "CompileConfig.h"
+#ifdef OUZEL_PLATFORM_ANDROID
+#include <cpu-features.h>
+#endif
+
 #define OUZEL_UNUSED(x) (void)(x)
 
 namespace ouzel

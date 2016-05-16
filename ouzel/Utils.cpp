@@ -18,7 +18,6 @@
 
 #ifdef OUZEL_PLATFORM_ANDROID
 #include <android/log.h>
-#include <cpu-features.h>
 #endif
 
 #include "Utils.h"
