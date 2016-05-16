@@ -1,7 +1,7 @@
 build/ouzel.xcodeproj/xcuserdata
 build/ouzel.xcodeproj/project.xcworkspace
-samples/apple/samples.xcodeproj/project.xcworkspace
-samples/apple/samples.xcodeproj/xcuserdata
+samples/samples.xcodeproj/project.xcworkspace
+samples/samples.xcodeproj/xcuserdata
 build/android/obj
 build/Release/
 build/Debug/
