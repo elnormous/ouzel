@@ -91,7 +91,7 @@ namespace ouzel
             static bool bindFrameBuffer(GLuint frameBufferId);
 
         protected:
-            RendererOGL();
+            RendererOGL(Driver pDriver);
 
             virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount) override;
 

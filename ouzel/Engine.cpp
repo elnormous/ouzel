@@ -65,7 +65,7 @@ namespace ouzel
         std::set<graphics::Renderer::Driver> availableDrivers;
 
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-        availableDrivers.insert(graphics::Renderer::Driver::OPENGL);
+        availableDrivers.insert(graphics::Renderer::Driver::OPENGL2);
 #endif
 
 #if defined(OUZEL_SUPPORTS_DIRECT3D11)
@@ -96,7 +96,7 @@ namespace ouzel
     #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             else
             {
-                settings.driver = graphics::Renderer::Driver::OPENGL;
+                settings.driver = graphics::Renderer::Driver::OPENGL2;
             }
     #endif
 #elif defined(OUZEL_SUPPORTS_DIRECT3D11)
@@ -144,10 +144,16 @@ namespace ouzel
         switch (settings.driver)
         {
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-            case graphics::Renderer::Driver::OPENGL:
-                log("Using OpenGL render driver");
-                renderer.reset(new graphics::RendererOGL());
+            case graphics::Renderer::Driver::OPENGL2:
+                log("Using OpenGL 2 render driver");
+                renderer.reset(new graphics::RendererOGL(graphics::Renderer::Driver::OPENGL2));
                 break;
+    #if defined(OUZEL_SUPPORTS_OPENGL3)
+            case graphics::Renderer::Driver::OPENGL3:
+                log("Using OpenGL 3 render driver");
+                renderer.reset(new graphics::RendererOGL(graphics::Renderer::Driver::OPENGL3));
+                break;
+    #endif
 #endif
 #if defined(OUZEL_SUPPORTS_DIRECT3D11)
             case graphics::Renderer::Driver::DIRECT3D11:

@@ -31,8 +31,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RendererOGL::RendererOGL():
-            Renderer(Driver::OPENGL)
+        RendererOGL::RendererOGL(Driver pDriver):
+            Renderer(pDriver)
         {
 
         }
