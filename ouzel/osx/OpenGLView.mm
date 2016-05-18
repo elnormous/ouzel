@@ -34,11 +34,26 @@ using namespace ouzel;
 {
     if (self = [super initWithFrame:frameRect])
     {
+        NSOpenGLPixelFormatAttribute openGLVersion;
+
+        switch (sharedEngine->getRenderer()->getDriver())
+        {
+            case graphics::Renderer::Driver::OPENGL2:
+                openGLVersion = NSOpenGLProfileVersionLegacy;
+                break;
+            case graphics::Renderer::Driver::OPENGL3:
+                openGLVersion = NSOpenGLProfileVersion3_2Core;
+                break;
+            default:
+                log("Unsupported render driver");
+                return Nil;
+        }
+
         // Create pixel format
         NSOpenGLPixelFormatAttribute attributes[] =
         {
             NSOpenGLPFADoubleBuffer,
-            NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+            NSOpenGLPFAOpenGLProfile, openGLVersion,
             NSOpenGLPFAColorSize, 24,
             NSOpenGLPFAAlphaSize, 8,
             NSOpenGLPFADepthSize, 32, // set depth buffer size

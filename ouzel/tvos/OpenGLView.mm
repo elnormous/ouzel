@@ -21,7 +21,22 @@ using namespace ouzel;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 
-        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        EAGLRenderingAPI renderingAPI;
+
+        switch (sharedEngine->getRenderer()->getDriver())
+        {
+            case graphics::Renderer::Driver::OPENGL2:
+                renderingAPI = kEAGLRenderingAPIOpenGLES2;
+                break;
+            case graphics::Renderer::Driver::OPENGL3:
+                renderingAPI = kEAGLRenderingAPIOpenGLES3;
+                break;
+            default:
+                log("Unsupported render driver");
+                return Nil;
+        }
+
+        context = [[EAGLContext alloc] initWithAPI:renderingAPI];
 
         if (!context)
         {
