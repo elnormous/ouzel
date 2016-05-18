@@ -16,37 +16,41 @@ using namespace ouzel;
 {
     if (self = [super initWithFrame:frameRect])
     {
+        std::shared_ptr<graphics::RendererOGL> rendererOGL = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
+
         eaglLayer = (CAEAGLLayer*)self.layer;
         eaglLayer.opaque = YES;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 
-        EAGLRenderingAPI renderingAPI;
+        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
 
-        switch (sharedEngine->getRenderer()->getDriver())
+        if (context)
         {
-            case graphics::Renderer::Driver::OPENGL2:
-                renderingAPI = kEAGLRenderingAPIOpenGLES2;
-                break;
-            case graphics::Renderer::Driver::OPENGL3:
-                renderingAPI = kEAGLRenderingAPIOpenGLES3;
-                break;
-            default:
-                log("Unsupported render driver");
-                return Nil;
+            rendererOGL->setOpenGLVersion(3);
+            log("Using OpenGL ES 3");
         }
-
-        context = [[EAGLContext alloc] initWithAPI:renderingAPI];
-
-        if (!context)
+        else
         {
-            ouzel::log("Failed to initialize OpenGLES 2.0 context");
-            return Nil;
+            log("Failed to create OpenGL ES 3 rendering context");
+        
+            context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+
+            if (context)
+            {
+                rendererOGL->setOpenGLVersion(2);
+                log("Using OpenGL ES 2");
+            }
+            else
+            {
+                ouzel::log("Failed to initialize OpenGL ES 2 rendering context");
+                return Nil;
+            }
         }
 
         if (![EAGLContext setCurrentContext:context])
         {
-            ouzel::log("Failed to set current OpenGL context");
+            ouzel::log("Failed to set current OpenGL rendering context");
             return Nil;
         }
 
@@ -68,11 +72,6 @@ using namespace ouzel;
         {
             ouzel::log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
             return Nil;
-        }
-
-        if (![EAGLContext setCurrentContext:context])
-        {
-            ouzel::log("Failed to set current OpenGL context");
         }
 
         // display link

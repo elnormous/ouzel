@@ -49,12 +49,17 @@ namespace ouzel
                                       uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
 
             virtual bool setIndexSize(uint32_t indexSize) override;
+            virtual bool setVertexAttributes(uint32_t vertexAttributes) override;
 
             virtual bool uploadIndices(const void* indices, uint32_t indexCount) override;
             virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
 
+            bool bindVertexBuffer();
+            bool updateVertexAttributes();
+
             GLuint getIndexBufferId() const { return indexBufferId; }
             GLuint getVertexBufferId() const { return vertexBufferId; }
+            GLuint getVertexArrayId() const { return vertexArrayId; }
 
             GLenum getIndexFormat() const { return indexFormat; }
 
@@ -65,6 +70,7 @@ namespace ouzel
 
             GLuint indexBufferId = 0;
             GLuint vertexBufferId = 0;
+            GLuint vertexArrayId = 0;
 
             GLenum indexFormat = 0;
         };

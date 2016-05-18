@@ -34,40 +34,59 @@ using namespace ouzel;
 {
     if (self = [super initWithFrame:frameRect])
     {
-        NSOpenGLPixelFormatAttribute openGLVersion;
-
-        switch (sharedEngine->getRenderer()->getDriver())
-        {
-            case graphics::Renderer::Driver::OPENGL2:
-                openGLVersion = NSOpenGLProfileVersionLegacy;
-                break;
-            case graphics::Renderer::Driver::OPENGL3:
-                openGLVersion = NSOpenGLProfileVersion3_2Core;
-                break;
-            default:
-                log("Unsupported render driver");
-                return Nil;
-        }
+        std::shared_ptr<graphics::RendererOGL> rendererOGL = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
 
         // Create pixel format
-        NSOpenGLPixelFormatAttribute attributes[] =
+        NSOpenGLPixelFormatAttribute openGL3Attributes[] =
         {
             NSOpenGLPFADoubleBuffer,
-            NSOpenGLPFAOpenGLProfile, openGLVersion,
+            NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
             NSOpenGLPFAColorSize, 24,
             NSOpenGLPFAAlphaSize, 8,
             NSOpenGLPFADepthSize, 32, // set depth buffer size
             0
         };
 
-        NSOpenGLPixelFormat* pixelFormat = [[[NSOpenGLPixelFormat alloc] initWithAttributes:attributes] autorelease];
+        NSOpenGLPixelFormat* pixelFormat = [[[NSOpenGLPixelFormat alloc] initWithAttributes:openGL3Attributes] autorelease];
+
+        if (pixelFormat)
+        {
+            rendererOGL->setOpenGLVersion(3);
+            log("Using OpenGL 3.2");
+        }
+        else
+        {
+            log("Failed to crete OpenGL 3.2 pixel format");
+
+            NSOpenGLPixelFormatAttribute openGL2Attributes[] =
+            {
+                NSOpenGLPFADoubleBuffer,
+                NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+                NSOpenGLPFAColorSize, 24,
+                NSOpenGLPFAAlphaSize, 8,
+                NSOpenGLPFADepthSize, 32, // set depth buffer size
+                0
+            };
+
+            pixelFormat = [[[NSOpenGLPixelFormat alloc] initWithAttributes:openGL2Attributes] autorelease];
+
+            if (pixelFormat)
+            {
+                rendererOGL->setOpenGLVersion(2);
+                log("Using OpenGL 2");
+            }
+        }
+
+        if (!pixelFormat)
+        {
+            log("Failed to crete OpenGL 2 pixel format");
+            return Nil;
+        }
 
         // Create OpenGL context
         openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
         [openGLContext setView:self];
         [openGLContext makeCurrentContext];
-
-        std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
 
         GLint swapInt = 1;
         [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];

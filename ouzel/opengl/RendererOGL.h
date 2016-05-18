@@ -42,7 +42,9 @@ namespace ouzel
             virtual ~RendererOGL();
 
             void setFrameBuffer(GLuint newFrameBuffer);
-            static bool checkOpenGLErrors();
+            void setOpenGLVersion(uint32_t version);
+
+            static bool checkOpenGLErrors(bool logError = true);
 
             virtual void setClearColor(Color color) override;
 
@@ -91,15 +93,15 @@ namespace ouzel
             static bool bindFrameBuffer(GLuint frameBufferId);
 
         protected:
-            RendererOGL(Driver pDriver);
+            RendererOGL();
 
             virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount) override;
 
             virtual void setSize(const Size2& newSize) override;
-            bool updateVertexAttributes(uint32_t vertexAttributes, uint32_t vertexSize);
 
             bool ready = false;
             GLuint frameBuffer = 0;
+            uint32_t openGLVersion = 0;
             std::set<GLuint> clearedFrameBuffers;
 
             static GLuint currentTextureId[TEXTURE_LAYERS];

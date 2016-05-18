@@ -1,11 +1,11 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-const uint8_t TEXTURE_PIXEL_SHADER_OGL[] =
-    "#version 120\n"
-    "uniform vec4 color;\n"
-    "uniform sampler2D texture0;\n"
-    "varying vec4 ex_Color;\n"
+const uint8_t TEXTURE_PIXEL_SHADER_OGL2[] =
+    "precision mediump float;\n"
+    "uniform lowp vec4 color;\n"
+    "uniform lowp sampler2D texture0;\n"
+    "varying lowp vec4 ex_Color;\n"
     "varying vec2 ex_TexCoord;\n"
     "void main(void)\n"
     "{\n"

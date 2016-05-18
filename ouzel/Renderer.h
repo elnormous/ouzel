@@ -44,8 +44,7 @@ namespace ouzel
             enum class Driver
             {
                 DEFAULT = 0,
-                OPENGL2,
-                OPENGL3,
+                OPENGL,
                 DIRECT3D11,
                 METAL
             };

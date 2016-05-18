@@ -14,25 +14,37 @@
 #include "stb_image_write.h"
 
 #if defined(OUZEL_SUPPORTS_OPENGL)
-#include "ColorPSOGL.h"
-#include "ColorVSOGL.h"
-#include "TexturePSOGL.h"
-#include "TextureVSOGL.h"
+#include "ColorPSOGL2.h"
+#include "ColorVSOGL2.h"
+#include "TexturePSOGL2.h"
+#include "TextureVSOGL2.h"
+    #if defined(OUZEL_SUPPORTS_OPENGL3)
+    #include "ColorPSOGL3.h"
+    #include "ColorVSOGL3.h"
+    #include "TexturePSOGL3.h"
+    #include "TextureVSOGL3.h"
+    #endif
 #endif
 
 #if defined(OUZEL_SUPPORTS_OPENGLES)
-#include "ColorPSOGLES.h"
-#include "ColorVSOGLES.h"
-#include "TexturePSOGLES.h"
-#include "TextureVSOGLES.h"
+#include "ColorPSOGLES2.h"
+#include "ColorVSOGLES2.h"
+#include "TexturePSOGLES2.h"
+#include "TextureVSOGLES2.h"
+    #if defined(OUZEL_SUPPORTS_OPENGLES3)
+    #include "ColorPSOGLES3.h"
+    #include "ColorVSOGLES3.h"
+    #include "TexturePSOGLES3.h"
+    #include "TextureVSOGLES3.h"
+    #endif
 #endif
 
 namespace ouzel
 {
     namespace graphics
     {
-        RendererOGL::RendererOGL(Driver pDriver):
-            Renderer(pDriver)
+        RendererOGL::RendererOGL():
+        Renderer(Driver::OPENGL)
         {
 
         }
@@ -52,7 +64,20 @@ namespace ouzel
             //glEnable(GL_DEPTH_TEST);
             glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
 
-            ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL, sizeof(TEXTURE_PIXEL_SHADER_OGL), TEXTURE_VERTEX_SHADER_OGL, sizeof(TEXTURE_VERTEX_SHADER_OGL), VertexPCT::ATTRIBUTES);
+            ShaderPtr textureShader;
+
+            switch (openGLVersion)
+            {
+                case 2:
+                    textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL2, sizeof(TEXTURE_PIXEL_SHADER_OGL2), TEXTURE_VERTEX_SHADER_OGL2, sizeof(TEXTURE_VERTEX_SHADER_OGL2), VertexPCT::ATTRIBUTES);
+                    break;
+                case 3:
+                    textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL3, sizeof(TEXTURE_PIXEL_SHADER_OGL3), TEXTURE_VERTEX_SHADER_OGL3, sizeof(TEXTURE_VERTEX_SHADER_OGL3), VertexPCT::ATTRIBUTES);
+                    break;
+                default:
+                    log("Unsupported OpenGL version");
+                    return false;
+            }
 
             if (!textureShader)
             {
@@ -64,7 +89,20 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-            ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL, sizeof(COLOR_PIXEL_SHADER_OGL), COLOR_VERTEX_SHADER_OGL, sizeof(COLOR_VERTEX_SHADER_OGL), VertexPC::ATTRIBUTES);
+            ShaderPtr colorShader;
+
+            switch (openGLVersion)
+            {
+                case 2:
+                    colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL2, sizeof(COLOR_PIXEL_SHADER_OGL2), COLOR_VERTEX_SHADER_OGL2, sizeof(COLOR_VERTEX_SHADER_OGL2), VertexPC::ATTRIBUTES);
+                    break;
+                case 3:
+                    colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL3, sizeof(COLOR_PIXEL_SHADER_OGL3), COLOR_VERTEX_SHADER_OGL3, sizeof(COLOR_VERTEX_SHADER_OGL3), VertexPC::ATTRIBUTES);
+                    break;
+                default:
+                    log("Unsupported OpenGL version");
+                    return false;
+            }
 
             if (!colorShader)
             {
@@ -140,24 +178,32 @@ namespace ouzel
             frameBuffer = newFrameBuffer;
         }
 
-        bool RendererOGL::checkOpenGLErrors()
+        void RendererOGL::setOpenGLVersion(uint32_t version)
+        {
+            openGLVersion = version;
+        }
+
+        bool RendererOGL::checkOpenGLErrors(bool logError)
         {
             bool gotError = false;
 
             while (GLenum error = glGetError() != GL_NO_ERROR)
             {
-                const char* errorStr = "Unknown error";
-
-                switch (error)
+                if (logError)
                 {
-                    case GL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
-                    case GL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
-                    case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
-                    case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
-                    case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
-                }
+                    const char* errorStr = "Unknown error";
 
-                log("OpenGL error: %s (%x)", errorStr, error);
+                    switch (error)
+                    {
+                        case GL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
+                        case GL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
+                        case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
+                        case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
+                        case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
+                    }
+
+                    log("OpenGL error: %s (%x)", errorStr, error);
+                }
 
                 gotError = true;
             }
@@ -536,8 +582,7 @@ namespace ouzel
                 default: return false;
             }
 
-            glBindBuffer(GL_ARRAY_BUFFER, meshBufferOGL->getVertexBufferId());
-            if (!updateVertexAttributes(meshBufferOGL->getVertexAttributes(), meshBufferOGL->getVertexSize()))
+            if (!meshBufferOGL->bindVertexBuffer())
             {
                 return false;
             }
@@ -550,70 +595,6 @@ namespace ouzel
                 return false;
             }
 
-            return true;
-        }
-
-        bool RendererOGL::updateVertexAttributes(uint32_t vertexAttributes, uint32_t vertexSize)
-        {
-            GLuint index = 0;
-            GLuint offset = 0;
-
-            if (vertexAttributes & VERTEX_POSITION)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 3 * sizeof(float);
-                ++index;
-            }
-
-            if (vertexAttributes & VERTEX_COLOR)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 4 * sizeof(uint8_t);
-                ++index;
-            }
-
-            if (vertexAttributes & VERTEX_NORMAL)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 3 * sizeof(float);
-                ++index;
-            }
-
-            if (vertexAttributes & VERTEX_TEXCOORD0)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 2 * sizeof(float);
-                ++index;
-            }
-
-            if (vertexAttributes & VERTEX_TEXCOORD1)
-            {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, static_cast<GLint>(vertexSize), reinterpret_cast<const GLvoid*>(offset));
-                offset += 2 * sizeof(float);
-                ++index;
-            }
-
-            for (GLuint unusedIndex = index; unusedIndex < 5; ++unusedIndex)
-            {
-                glDisableVertexAttribArray(unusedIndex);
-            }
-
-            if (offset != vertexSize)
-            {
-                log("Invalid vertex size");
-                return false;
-            }
-
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
-            {
-                return false;
-            }
-            
             return true;
         }
 
