@@ -43,6 +43,7 @@ namespace ouzel
 
             void setFrameBuffer(GLuint newFrameBuffer);
             void setOpenGLVersion(uint32_t version);
+            uint32_t getOpenGLVersion() const { return openGLVersion; }
 
             static bool checkOpenGLErrors(bool logError = true);
 
