@@ -42,8 +42,6 @@ namespace ouzel
             virtual ~RendererOGL();
 
             void setFrameBuffer(GLuint newFrameBuffer);
-            void setOpenGLVersion(uint32_t version);
-            uint32_t getOpenGLVersion() const { return openGLVersion; }
 
             static bool checkOpenGLErrors(bool logError = true);
 
@@ -102,7 +100,6 @@ namespace ouzel
 
             bool ready = false;
             GLuint frameBuffer = 0;
-            uint32_t openGLVersion = 0;
             std::set<GLuint> clearedFrameBuffers;
 
             static GLuint currentTextureId[TEXTURE_LAYERS];

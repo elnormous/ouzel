@@ -117,6 +117,9 @@ namespace ouzel
 
             virtual uint32_t getDrawCallCount() const { return drawCallCount; }
 
+            uint32_t getAPIVersion() const { return apiVersion; }
+            void setAPIVersion(uint32_t version) { apiVersion = version; }
+
         protected:
             Renderer(Driver pDriver);
             virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount);
@@ -137,6 +140,8 @@ namespace ouzel
             RenderTargetPtr activeRenderTarget;
 
             uint32_t drawCallCount = 0;
+
+            uint32_t apiVersion = 0;
         };
     } // namespace graphics
 } // namespace ouzel

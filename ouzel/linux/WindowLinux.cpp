@@ -96,7 +96,7 @@ namespace ouzel
 
                 if (context)
                 {
-                    rendererOGL->setOpenGLVersion(3);
+                    rendererOGL->setAPIVersion(3);
                     log("Using OpenGL 3.2");
 
                     vi = glXGetVisualFromFBConfig(display, framebufferConfig[0]);
@@ -139,7 +139,7 @@ namespace ouzel
 
             if (context)
             {
-                rendererOGL->setOpenGLVersion(2);
+                rendererOGL->setAPIVersion(2);
                 log("Using OpenGL 2");
             }
             else

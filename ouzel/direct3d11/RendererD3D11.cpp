@@ -27,7 +27,7 @@ namespace ouzel
         RendererD3D11::RendererD3D11():
             Renderer(Driver::DIRECT3D11)
         {
-
+            apiVersion = 11;
         }
 
         RendererD3D11::~RendererD3D11()

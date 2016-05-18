@@ -51,7 +51,7 @@ using namespace ouzel;
 
         if (pixelFormat)
         {
-            rendererOGL->setOpenGLVersion(3);
+            rendererOGL->setAPIVersion(3);
             log("Using OpenGL 3.2");
         }
         else
@@ -72,7 +72,7 @@ using namespace ouzel;
 
             if (pixelFormat)
             {
-                rendererOGL->setOpenGLVersion(2);
+                rendererOGL->setAPIVersion(2);
                 log("Using OpenGL 2");
             }
         }

@@ -66,7 +66,7 @@ namespace ouzel
 
             ShaderPtr textureShader;
 
-            switch (openGLVersion)
+            switch (apiVersion)
             {
                 case 2:
                     textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL2, sizeof(TEXTURE_PIXEL_SHADER_OGL2), TEXTURE_VERTEX_SHADER_OGL2, sizeof(TEXTURE_VERTEX_SHADER_OGL2), VertexPCT::ATTRIBUTES);
@@ -91,7 +91,7 @@ namespace ouzel
 
             ShaderPtr colorShader;
 
-            switch (openGLVersion)
+            switch (apiVersion)
             {
                 case 2:
                     colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL2, sizeof(COLOR_PIXEL_SHADER_OGL2), COLOR_VERTEX_SHADER_OGL2, sizeof(COLOR_VERTEX_SHADER_OGL2), VertexPC::ATTRIBUTES);
@@ -176,11 +176,6 @@ namespace ouzel
         void RendererOGL::setFrameBuffer(GLuint newFrameBuffer)
         {
             frameBuffer = newFrameBuffer;
-        }
-
-        void RendererOGL::setOpenGLVersion(uint32_t version)
-        {
-            openGLVersion = version;
         }
 
         bool RendererOGL::checkOpenGLErrors(bool logError)
