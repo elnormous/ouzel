@@ -47,8 +47,10 @@
     #define OUZEL_PLATFORM_LINUX 1
     #if defined(__i386__) || defined(__x86_64__)
         #define OUZEL_SUPPORTS_OPENGL 1
+        #define OUZEL_SUPPORTS_OPENGL3 1
     #elif defined(__arm__) || defined(__aarch64__)
         #define OUZEL_SUPPORTS_OPENGLES 1
+        #define OUZEL_SUPPORTS_OPENGLES3 1
     #endif
 #endif
 

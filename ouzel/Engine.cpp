@@ -102,7 +102,7 @@ namespace ouzel
 #elif defined(OUZEL_SUPPORTS_DIRECT3D11)
             settings.driver = graphics::Renderer::Driver::DIRECT3D11;
 #elif defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-            settings.driver = graphics::Renderer::Driver::OPENGL2;
+            settings.driver = graphics::Renderer::Driver::OPENGL;
 #endif
         }
 

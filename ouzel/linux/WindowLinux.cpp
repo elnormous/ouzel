@@ -4,6 +4,7 @@
 #include "WindowLinux.h"
 #include "Engine.h"
 #include "Renderer.h"
+#include "opengl/RendererOGL.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -34,12 +35,29 @@ namespace ouzel
 
     bool WindowLinux::init()
     {
+        std::shared_ptr<graphics::RendererOGL> rendererOGL = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
+
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
 
         if (!display)
         {
             ouzel::log("Failed to open display");
+            return false;
+        }
+
+        // find an OpenGL-capable RGB visual with depth buffer
+        static int doubleBuffer[] = {GLX_RGBA, GLX_DEPTH_SIZE, 16, GLX_DOUBLEBUFFER, None};
+
+        XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), doubleBuffer);
+        if (!vi)
+        {
+            ouzel::log("No RGB visual with depth buffer");
+            return false;
+        }
+        if (vi->c_class != TrueColor)
+        {
+            ouzel::log("TrueColor visual required for this program");
             return false;
         }
 
@@ -55,61 +73,47 @@ namespace ouzel
         GLXFBConfig* framebufferConfig = glXChooseFBConfig(display, DefaultScreen(display), NULL, &fbcount);
         if (!framebufferConfig)
         {
-            ouzel::log("Failed to get framebuffer.");
-            return false;
-        }
-
-        // create an OpenGL rendering context
-        static const int contextAttribs[] = {
-            GLX_CONTEXT_PROFILE_MASK_ARB,
-            GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-            GLX_CONTEXT_MAJOR_VERSION_ARB,
-            3,
-            GLX_CONTEXT_MINOR_VERSION_ARB,
-            2,
-            0,
-        };
-
-        PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB"));
-
-        if (glXCreateContextAttribsARB)
-        {
-            context = glXCreateContextAttribsARB(display, framebufferConfig[0], NULL, GL_TRUE, contextAttribs);
-            
-            if (context)
-            {
-                rendererOGL->setOpenGLVersion(3);
-                log("Using OpenGL 3.2");
-            }
-            else
-            {
-                log("Failed to crete OpenGL 3.2 rendering context");
-            }
+            ouzel::log("Failed to get frame buffer");
         }
         else
         {
-            log("Could not find glXCreateContextAttribsARB");
+            // create an OpenGL rendering context
+            static const int contextAttribs[] = {
+                GLX_CONTEXT_PROFILE_MASK_ARB,
+                GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
+                GLX_CONTEXT_MAJOR_VERSION_ARB,
+                3,
+                GLX_CONTEXT_MINOR_VERSION_ARB,
+                2,
+                0,
+            };
+
+            PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB"));
+
+            if (glXCreateContextAttribsARB)
+            {
+                context = glXCreateContextAttribsARB(display, framebufferConfig[0], NULL, GL_TRUE, contextAttribs);
+
+                if (context)
+                {
+                    rendererOGL->setOpenGLVersion(3);
+                    log("Using OpenGL 3.2");
+                }
+                else
+                {
+                    log("Failed to crete OpenGL 3.2 rendering context");
+                }
+            }
+            else
+            {
+                log("Could not find glXCreateContextAttribsARB");
+            }
         }
 
         if (!context)
         {
-            // find an OpenGL-capable RGB visual with depth buffer
-            static int doubleBuffer[]  = {GLX_RGBA, GLX_DEPTH_SIZE, 16, GLX_DOUBLEBUFFER, None};
-
-            XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), doubleBuffer);
-            if (!vi)
-            {
-                ouzel::log("No RGB visual with depth buffer");
-                return false;
-            }
-            if (vi->c_class != TrueColor)
-            {
-                ouzel::log("TrueColor visual required for this program");
-                return false;
-            }
-            
             context = glXCreateContext(display, vi, None, GL_TRUE);
-            
+
             if (context)
             {
                 rendererOGL->setOpenGLVersion(2);
