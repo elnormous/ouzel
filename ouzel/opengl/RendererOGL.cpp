@@ -61,6 +61,11 @@ namespace ouzel
                 return false;
             }
 
+            if (sampleCount > 1)
+            {
+                log("Multisample anti-aliasing is disabled for OpenGL");
+            }
+
             //glEnable(GL_DEPTH_TEST);
             glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
 
