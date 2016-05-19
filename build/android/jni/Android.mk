@@ -11,8 +11,8 @@ LOCAL_C_INCLUDES += ../../../ouzel \
 
 LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
 	../../../ouzel/Animator.cpp \
-    ../../../ouzel/BMFont.cpp \
     ../../../ouzel/BlendState.cpp \
+    ../../../ouzel/BMFont.cpp \
     ../../../ouzel/Button.cpp \
     ../../../ouzel/Cache.cpp \
     ../../../ouzel/Camera.cpp \
@@ -44,12 +44,13 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Node.cpp \
     ../../../ouzel/NodeContainer.cpp \
     ../../../ouzel/Parallel.cpp \
+	../../../ouzel/ParticleDefinition.cpp \
     ../../../ouzel/ParticleSystem.cpp \
+    ../../../ouzel/Popup.cpp \
     ../../../ouzel/RadioButton.cpp \
     ../../../ouzel/Rectangle.cpp \
     ../../../ouzel/Renderer.cpp \
     ../../../ouzel/RenderTarget.cpp \
-    ../../../ouzel/Popup.cpp \
     ../../../ouzel/Repeat.cpp \
 	../../../ouzel/Rotate.cpp \
 	../../../ouzel/Scale.cpp \
@@ -61,6 +62,8 @@ LOCAL_SRC_FILES := ../../../ouzel/AABB2.cpp \
     ../../../ouzel/Shader.cpp \
     ../../../ouzel/Shake.cpp \
     ../../../ouzel/Size2.cpp \
+	../../../ouzel/Size3.cpp \
+	../../../ouzel/SlideBar.cpp \
     ../../../ouzel/Sprite.cpp \
     ../../../ouzel/SpriteFrame.cpp \
     ../../../ouzel/TextDrawable.cpp \
