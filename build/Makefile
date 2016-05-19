@@ -6,6 +6,7 @@ SOURCES=../ouzel/AABB2.cpp \
 	../ouzel/BMFont.cpp \
 	../ouzel/Button.cpp \
 	../ouzel/Cache.cpp \
+	../ouzel/Camera.cpp \
 	../ouzel/CheckBox.cpp \
 	../ouzel/Color.cpp \
 	../ouzel/ComboBox.cpp \
@@ -44,6 +45,7 @@ SOURCES=../ouzel/AABB2.cpp \
 	../ouzel/Repeat.cpp \
 	../ouzel/Rotate.cpp \
 	../ouzel/Scale.cpp \
+	../ouzel/Scene.cpp \
 	../ouzel/SceneManager.cpp \
 	../ouzel/ScrollArea.cpp \
 	../ouzel/ScrollBar.cpp \

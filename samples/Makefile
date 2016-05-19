@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.pch
+CFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.h
 LDFLAGS=-L../build -louzel -lX11 -lGL
 SOURCES=Application.cpp main.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
