@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb
+CFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb -I../ouzel
 SOURCES=../ouzel/AABB2.cpp \
 	../ouzel/Animator.cpp \
 	../ouzel/BlendState.cpp \
