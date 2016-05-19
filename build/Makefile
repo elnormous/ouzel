@@ -80,11 +80,11 @@ LIBRARY=libouzel.a
 all: $(SOURCES) $(LIBRARY)
 
 $(LIBRARY): $(OBJECTS)
-	ar rcs $@ $^
+	ar -r -s $@ $^
 
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@
 
 .PHONY: clean
 clean:
-	rm -rf *.a ../ouzel/*.o
+	rm -rf *.a ../ouzel/*.o ../ouzel/linux/*.o ../ouzel/opengl/*.o
