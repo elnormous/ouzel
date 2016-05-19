@@ -87,4 +87,4 @@ $(LIBRARY): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	rm -rf *.a ../ouzel/*.o ../ouzel/linux/*.o ../ouzel/opengl/*.o
+	rm -rf $(LIBRARY) ../ouzel/*.o ../ouzel/linux/*.o ../ouzel/opengl/*.o
