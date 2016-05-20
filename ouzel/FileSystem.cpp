@@ -71,7 +71,7 @@ namespace ouzel
         FSRef ref;
         OSType folderType = kApplicationSupportFolderType;
 
-        FSFindFolder( kUserDomain, folderType, kCreateFolder, &ref );
+        FSFindFolder(kUserDomain, folderType, kCreateFolder, &ref);
 
         FSRefMakePath(&ref, reinterpret_cast<UInt8*>(&TEMP_BUFFER), sizeof(TEMP_BUFFER));
 

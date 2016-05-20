@@ -8,6 +8,7 @@ EXECUTABLE=samples
 all: $(SOURCES) $(EXECUTABLE)
     
 $(EXECUTABLE): $(OBJECTS) 
+	$(MAKE) -f ../build/Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 
 .cpp.o:

@@ -63,7 +63,7 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual TexturePtr createTexture(const Size2& textureSize, bool dynamic, bool mipmaps = true);
+            virtual TexturePtr createTexture(const Size2& textureSize, bool dynamic, bool mipmaps = true) override;
             virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
             virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
 
