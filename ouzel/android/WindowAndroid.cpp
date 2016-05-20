@@ -16,7 +16,7 @@ namespace ouzel
 
     }
 
-    bool WindowTVOS::init()
+    bool WindowAndroid::init()
     {
         return Window::init();
     }

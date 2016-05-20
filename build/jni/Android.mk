@@ -4,6 +4,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := ouzel
 LOCAL_CFLAGS := -Wall -Wextra
+LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
 LOCAL_CPPFLAGS += -std=c++11
 LOCAL_C_INCLUDES += ../../ouzel \
     ../../external/stb \
@@ -84,3 +85,4 @@ LOCAL_SRC_FILES := ../../ouzel/AABB2.cpp \
     ../../ouzel/opengl/TextureOGL.cpp
 
 include $(BUILD_STATIC_LIBRARY)
+$(call import-module, android/cpufeatures)
