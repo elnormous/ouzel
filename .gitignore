@@ -1,6 +1,6 @@
 build/ouzel.xcodeproj/xcuserdata
 build/ouzel.xcodeproj/project.xcworkspace
-build/android/obj
+build/obj
 build/Release/
 build/Debug/
 build/x64/
