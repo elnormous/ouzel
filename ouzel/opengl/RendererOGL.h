@@ -29,6 +29,12 @@
     #include <GL/glext.h>
 #endif
 
+#if defined(OUZEL_PLATFORM_ANDROID)
+extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT;
+extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT;
+extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
+#endif
+
 namespace ouzel
 {
     class Engine;

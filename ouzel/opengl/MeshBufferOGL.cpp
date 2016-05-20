@@ -27,6 +27,8 @@ namespace ouzel
             {
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
                 glDeleteVertexArraysOES(1, &vertexArrayId);
+#elif defined(OUZEL_PLATFORM_ANDROID)
+                if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &vertexArrayId);
 #else
                 glDeleteVertexArrays(1, &vertexArrayId);
 #endif
@@ -54,6 +56,9 @@ namespace ouzel
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
             glGenVertexArraysOES(1, &vertexArrayId);
             glBindVertexArrayOES(vertexArrayId);
+#elif defined(OUZEL_PLATFORM_ANDROID)
+            if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
+            if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
 #else
             glGenVertexArrays(1, &vertexArrayId);
             glBindVertexArray(vertexArrayId);
@@ -105,6 +110,9 @@ namespace ouzel
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
             glGenVertexArraysOES(1, &vertexArrayId);
             glBindVertexArrayOES(vertexArrayId);
+#elif defined(OUZEL_PLATFORM_ANDROID)
+            if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
+            if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
 #else
             glGenVertexArrays(1, &vertexArrayId);
             glBindVertexArray(vertexArrayId);
@@ -153,6 +161,8 @@ namespace ouzel
             {
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
                 glBindVertexArrayOES(vertexArrayId);
+#elif defined(OUZEL_PLATFORM_ANDROID)
+                if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
 #else
                 glBindVertexArray(vertexArrayId);
 #endif
@@ -222,6 +232,8 @@ namespace ouzel
             {
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
                 glBindVertexArrayOES(vertexArrayId);
+#elif defined(OUZEL_PLATFORM_ANDROID)
+                if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
 #else
                 glBindVertexArray(vertexArrayId);
 #endif

@@ -39,6 +39,12 @@
     #endif
 #endif
 
+#if defined(OUZEL_PLATFORM_ANDROID)
+PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT = nullptr;
+PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT = nullptr;
+PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT = nullptr;
+#endif
+
 namespace ouzel
 {
     namespace graphics
@@ -46,7 +52,11 @@ namespace ouzel
         RendererOGL::RendererOGL():
         Renderer(Driver::OPENGL)
         {
-
+#if defined(OUZEL_PLATFORM_ANDROID)
+            glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
+            glBindVertexArrayOESEXT = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
+            glDeleteVertexArraysOESEXT = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
+#endif
         }
 
         RendererOGL::~RendererOGL()
@@ -76,9 +86,11 @@ namespace ouzel
                 case 2:
                     textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL2, sizeof(TEXTURE_PIXEL_SHADER_OGL2), TEXTURE_VERTEX_SHADER_OGL2, sizeof(TEXTURE_VERTEX_SHADER_OGL2), VertexPCT::ATTRIBUTES);
                     break;
+#if defined(OUZEL_SUPPORTS_OPENGLES3)
                 case 3:
                     textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL3, sizeof(TEXTURE_PIXEL_SHADER_OGL3), TEXTURE_VERTEX_SHADER_OGL3, sizeof(TEXTURE_VERTEX_SHADER_OGL3), VertexPCT::ATTRIBUTES);
                     break;
+#endif
                 default:
                     log("Unsupported OpenGL version");
                     return false;
@@ -101,9 +113,11 @@ namespace ouzel
                 case 2:
                     colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL2, sizeof(COLOR_PIXEL_SHADER_OGL2), COLOR_VERTEX_SHADER_OGL2, sizeof(COLOR_VERTEX_SHADER_OGL2), VertexPC::ATTRIBUTES);
                     break;
+#if defined(OUZEL_SUPPORTS_OPENGLES3)
                 case 3:
                     colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL3, sizeof(COLOR_PIXEL_SHADER_OGL3), COLOR_VERTEX_SHADER_OGL3, sizeof(COLOR_VERTEX_SHADER_OGL3), VertexPC::ATTRIBUTES);
                     break;
+#endif
                 default:
                     log("Unsupported OpenGL version");
                     return false;

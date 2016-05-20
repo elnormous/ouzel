@@ -36,6 +36,7 @@
 #elif defined(__ANDROID__)
     #define OUZEL_PLATFORM_ANDROID 1
     #define OUZEL_SUPPORTS_OPENGLES 1
+    #define OUZEL_SUPPORTS_OPENGLES3 1
 
     #if defined(__arm64__) || defined(__aarch64__)
         #define OUZEL_SUPPORTS_NEON64 1
