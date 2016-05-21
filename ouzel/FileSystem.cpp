@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
+#include <fstream>
 #include <sys/stat.h>
 #include "CompileConfig.h"
 #if defined(OUZEL_PLATFORM_OSX)
@@ -123,6 +124,33 @@ namespace ouzel
         //TODO: implement
 #endif
         return path;
+    }
+
+    bool FileSystem::loadFile(const std::string& filename, std::vector<uint8_t>& data) const
+    {
+        std::string path = getPath(filename);
+
+        if (path.empty())
+        {
+            log("Failed to find file %s", filename.c_str());
+            return false;
+        }
+
+        std::ifstream file(path);
+
+        if (!file)
+        {
+            log("Failed to open file %s", path.c_str());
+        }
+
+        file.seekg(0, std::ios_base::end);
+        std::streampos fileSize = file.tellg();
+        data.resize(fileSize);
+
+        file.seekg(0, std::ios_base::beg);
+        file.read(reinterpret_cast<char*>(&data[0]), fileSize);
+
+        return true;
     }
 
     bool FileSystem::directoryExists(const std::string& filename) const

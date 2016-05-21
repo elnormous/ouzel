@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "Noncopyable.h"
 #include "Size2.h"
 
@@ -21,6 +22,7 @@ namespace ouzel
             const void* getData() const { return data; }
 
             virtual bool initFromFile(const std::string& newFilename);
+            virtual bool initFromData(const std::vector<uint8_t>& newData);
 
         protected:
             std::string filename;

@@ -31,13 +31,22 @@ namespace ouzel
         {
             filename = newFilename;
 
-            std::string path = sharedEngine->getFileSystem()->getPath(filename);
+            std::vector<uint8_t> newData;
+            if (!sharedEngine->getFileSystem()->loadFile(newFilename, newData))
+            {
+                return false;
+            }
 
+            return initFromData(newData);
+        }
+
+        bool Image::initFromData(const std::vector<uint8_t>& newData)
+        {
             int width;
             int height;
             int comp;
 
-            data = stbi_load(path.c_str(), &width, &height, &comp, STBI_rgb_alpha);
+            data = stbi_load_from_memory(newData.data(), newData.size(), &width, &height, &comp, STBI_rgb_alpha);
 
             if (!data)
             {
