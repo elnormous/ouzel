@@ -18,4 +18,4 @@ LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -lEGL -llog
 
 include $(BUILD_SHARED_LIBRARY)
 
-include ../../../build/android/jni/Android.mk
+include ../../../build/jni/Android.mk

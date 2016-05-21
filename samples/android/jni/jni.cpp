@@ -21,7 +21,7 @@ extern "C"
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
 
-        ouzel::sharedEngine->getRenderer()->resize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
+        ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
     }
 
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onDrawDrame(JNIEnv* env, jclass cls)
