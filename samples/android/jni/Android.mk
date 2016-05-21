@@ -2,8 +2,8 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE    := sprite
-LOCAL_CFLAGS    := -Wall -Wextra
+LOCAL_MODULE := samples
+LOCAL_CFLAGS := -Wall -Wextra
 LOCAL_CPPFLAGS += -std=c++11
 LOCAL_C_INCLUDES += ../../../ouzel
 
