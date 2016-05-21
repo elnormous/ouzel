@@ -31,43 +31,23 @@ namespace ouzel
             pixelShaderFilename = newPixelShader;
             vertexShaderFilename = newVertexShader;
 
-            std::ifstream pixelShaderFile(sharedEngine->getFileSystem()->getPath(newPixelShader));
+            std::vector<uint8_t> pixelShaderData;
 
-            if (!pixelShaderFile)
+            if (!sharedEngine->getFileSystem()->loadFile(newPixelShader, pixelShaderData))
             {
-                log("Failed to open pixel shader file %s", newPixelShader.c_str());
                 return false;
             }
 
-            pixelShaderFile.seekg(0, std::ios::end);
-            size_t pixelShaderSize = static_cast<size_t>(pixelShaderFile.tellg());
-            pixelShaderFile.seekg(0, std::ios::beg);
+            std::vector<uint8_t> vertexShaderData;
 
-            std::vector<char> pixelShaderBuffer(pixelShaderSize);
-
-            pixelShaderFile.read(pixelShaderBuffer.data(), static_cast<std::streamsize>(pixelShaderSize));
-
-            std::ifstream vertexShaderFile(sharedEngine->getFileSystem()->getPath(newVertexShader));
-
-            if (!vertexShaderFile)
+            if (!sharedEngine->getFileSystem()->loadFile(newVertexShader, vertexShaderData))
             {
-                log("Failed to open vertex shader file %s", newVertexShader.c_str());
                 return false;
             }
 
-            std::string vertexShaderCode;
-
-            vertexShaderFile.seekg(0, std::ios::end);
-            size_t vertexShaderSize = static_cast<size_t>(vertexShaderFile.tellg());
-            vertexShaderFile.seekg(0, std::ios::beg);
-
-            std::vector<char> vertexShaderBuffer(vertexShaderSize);
-
-            vertexShaderFile.read(vertexShaderBuffer.data(), static_cast<std::streamsize>(vertexShaderSize));
-
-            return initFromBuffers(reinterpret_cast<const uint8_t*>(pixelShaderBuffer.data()), static_cast<uint32_t>(pixelShaderSize),
-                                   reinterpret_cast<const uint8_t*>(vertexShaderBuffer.data()), static_cast<uint32_t>(vertexShaderSize), newVertexAttributes,
-                                   pixelShaderFunction, vertexShaderFunction);
+            return initFromBuffers(reinterpret_cast<const uint8_t*>(pixelShaderData.data()), pixelShaderData.size(),
+                                   reinterpret_cast<const uint8_t*>(vertexShaderData.data()), vertexShaderData.size(),
+                                   newVertexAttributes, pixelShaderFunction, vertexShaderFunction);
         }
 
         bool Shader::initFromBuffers(const uint8_t* newPixelShader,
