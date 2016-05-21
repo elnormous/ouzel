@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 package lv.elviss.ouzel;
@@ -7,7 +7,7 @@ public class OuzelLibJNIWrapper
 {
 	static
 	{
-		System.loadLibrary("sprite");
+		System.loadLibrary("samples");
 	}
 
 	public static native void onSurfaceCreated();

@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Elviss Strazdins
+// Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <jni.h>
@@ -13,7 +13,12 @@ extern "C"
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
 
-        ouzel::sharedEngine->begin();
+        ouzelMain(ouzel::getArgs());
+
+        if (ouzel::sharedEngine)
+        {
+            ouzel::sharedEngine->begin();
+        }
     }
 
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv* env, jclass cls, jint width, jint height)
@@ -21,14 +26,20 @@ extern "C"
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
 
-        ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
+        if (ouzel::sharedEngine)
+        {
+            ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
+        }
     }
 
-    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onDrawDrame(JNIEnv* env, jclass cls)
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onDrawFrame(JNIEnv* env, jclass cls)
     {
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
 
-        ouzel::sharedEngine->run();
+        if (ouzel::sharedEngine)
+        {
+            ouzel::sharedEngine->run();
+        }
     }
 }
