@@ -4,10 +4,19 @@
 #include <jni.h>
 #include "Engine.h"
 #include "Renderer.h"
+#include "FileSystem.h"
 #include "Utils.h"
 
 extern "C"
 {
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_setAssetManager(JNIEnv* env, jclass cls, jobject assetManager)
+    {
+        OUZEL_UNUSED(env);
+        OUZEL_UNUSED(cls);
+        
+        ouzel::assetManager = AAssetManager_fromJava(env, assetManager);
+    }
+
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv* env, jclass cls)
     {
         OUZEL_UNUSED(env);

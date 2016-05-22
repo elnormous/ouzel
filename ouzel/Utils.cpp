@@ -24,6 +24,9 @@
 
 namespace ouzel
 {
+#if defined(OUZEL_PLATFORM_ANDROID) && defined(OUZEL_SUPPORTS_NEON_CHECK)
+    AnrdoidNEONChecker anrdoidNEONChecker;
+#endif
     char TEMP_BUFFER[65536];
 
     void log(const char* format, ...)
@@ -110,9 +113,4 @@ namespace ouzel
 
         return rand * diff + min;
     }
-
-
-#if defined(OUZEL_PLATFORM_ANDROID) && defined(OUZEL_SUPPORTS_NEON_CHECK)
-    AnrdoidNEONChecker anrdoidNEONChecker;
-#endif
 }

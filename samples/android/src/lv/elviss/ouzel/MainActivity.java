@@ -21,6 +21,8 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 
+        OuzelLibJNIWrapper.setAssetManager(getAssets());
+
 		ActivityManager activityManager 
 			= (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 		ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();

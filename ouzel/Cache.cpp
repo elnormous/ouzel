@@ -75,7 +75,7 @@ namespace ouzel
 
     void Cache::preloadSpriteFrames(const std::string& filename, bool mipmaps)
     {
-        std::string extension = sharedEngine->getFileSystem()->getExtension(filename);
+        std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
         std::vector<scene::SpriteFramePtr> frames;
 
@@ -111,7 +111,7 @@ namespace ouzel
         }
         else
         {
-            std::string extension = sharedEngine->getFileSystem()->getExtension(filename);
+            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
             std::vector<scene::SpriteFramePtr> frames;
 

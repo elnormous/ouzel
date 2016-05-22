@@ -6,10 +6,18 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#if defined(OUZEL_PLATFORM_ANDROID)
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
+#endif
 #include "Noncopyable.h"
 
 namespace ouzel
 {
+#if defined(OUZEL_PLATFORM_ANDROID)
+    extern AAssetManager* assetManager;
+#endif
+
     class Engine;
 
     class FileSystem: public Noncopyable
@@ -28,7 +36,10 @@ namespace ouzel
         std::string getPath(const std::string& filename) const;
         void addResourcePath(const std::string& path);
 
-        std::string getExtension(const std::string& path) const;
+        std::string getExtensionPart(const std::string& path) const;
+        std::string getFilenamePart(const std::string& path) const;
+        std::string getDirectoryPart(const std::string& path) const;
+        bool isAbsolutePath(const std::string& path) const;
 
         bool directoryExists(const std::string& filename) const;
         bool fileExists(const std::string& filename) const;

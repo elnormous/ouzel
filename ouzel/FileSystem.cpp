@@ -31,6 +31,10 @@ namespace ouzel
     const std::string FileSystem::DIRECTORY_SEPARATOR = "/";
 #endif
 
+#if defined(OUZEL_PLATFORM_ANDROID)
+    AAssetManager* assetManager = nullptr;
+#endif
+
     FileSystem::FileSystem()
     {
 
@@ -129,8 +133,32 @@ namespace ouzel
 
     bool FileSystem::loadFile(const std::string& filename, std::vector<uint8_t>& data) const
     {
+#if defined(OUZEL_PLATFORM_ANDROID)
+        if (!isAbsolutePath(filename))
+        {
+            AAsset* asset = AAssetManager_open(assetManager, filename.c_str(), AASSET_MODE_STREAMING);
+
+            if (!asset)
+            {
+                log("Failed to open file %s", filename.c_str());
+                return false;
+            }
+
+            int bytesRead = 0;
+
+            while ((bytesRead = AAsset_read(asset, TEMP_BUFFER, sizeof(TEMP_BUFFER))) > 0)
+            {
+                data.insert(data.end(), reinterpret_cast<uint8_t*>(TEMP_BUFFER), reinterpret_cast<uint8_t*>(TEMP_BUFFER + bytesRead));
+            }
+
+            AAsset_close(asset);
+
+            return true;
+        }
+#endif
         std::string path = getPath(filename);
 
+        // file does not exist
         if (path.empty())
         {
             log("Failed to find file %s", filename.c_str());
@@ -245,17 +273,46 @@ namespace ouzel
         }
     }
 
-    std::string FileSystem::getExtension(const std::string& path) const
+    std::string FileSystem::getExtensionPart(const std::string& path) const
     {
-        std::string result;
-
         size_t pos = path.find_last_of('.');
 
         if (pos != std::string::npos)
         {
-            result = path.substr(pos + 1);
+            return path.substr(pos + 1);
         }
 
-        return result;
+        return std::string();
+    }
+
+    std::string FileSystem::getFilenamePart(const std::string& path) const
+    {
+        size_t pos = path.find_last_of('/');
+
+        if (pos != std::string::npos)
+        {
+            return path.substr(pos + 1);
+        }
+        else
+        {
+            return path;
+        }
+    }
+
+    std::string FileSystem::getDirectoryPart(const std::string& path) const
+    {
+        size_t pos = path.find_last_of('/');
+
+        if (pos != std::string::npos)
+        {
+            return path.substr(0, pos);
+        }
+
+        return std::string();
+    }
+
+    bool FileSystem::isAbsolutePath(const std::string& path) const
+    {
+        return !path.empty() && path[0] == '/';
     }
 }

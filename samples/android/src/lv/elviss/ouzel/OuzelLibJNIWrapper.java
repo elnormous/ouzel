@@ -3,12 +3,16 @@
 
 package lv.elviss.ouzel;
 
+import android.content.res.AssetManager;
+
 public class OuzelLibJNIWrapper
 {
 	static
 	{
 		System.loadLibrary("samples");
 	}
+
+    public static native void setAssetManager(AssetManager assetManager);
 
 	public static native void onSurfaceCreated();
 
