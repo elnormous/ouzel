@@ -17,7 +17,6 @@ SOURCES=../ouzel/AABB2.cpp \
 	../ouzel/Engine.cpp \
 	../ouzel/EventDispatcher.cpp \
 	../ouzel/Fade.cpp \
-	../ouzel/File.cpp \
 	../ouzel/FileSystem.cpp \
 	../ouzel/Gamepad.cpp \
 	../ouzel/Image.cpp \

@@ -154,10 +154,6 @@
 		303B75781C2A419F00FEDE92 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* CompileConfig.h */; };
 		303B75811C2B17DC00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
 		303B75821C2B17DC00FEDE92 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.h */; };
-		303B75F11C335B7D00FEDE92 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75EF1C335B7D00FEDE92 /* File.cpp */; };
-		303B75F21C335B7D00FEDE92 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75EF1C335B7D00FEDE92 /* File.cpp */; };
-		303B75F31C335B7D00FEDE92 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75F01C335B7D00FEDE92 /* File.h */; };
-		303B75F41C335B7D00FEDE92 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75F01C335B7D00FEDE92 /* File.h */; };
 		303B76081C34A92B00FEDE92 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* Input.cpp */; };
 		303B76091C34A92B00FEDE92 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* Input.cpp */; };
 		303B760A1C34A92B00FEDE92 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.h */; };
@@ -187,14 +183,12 @@
 		303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2D1C237C70008B1151 /* Engine.cpp */; };
 		303B76531C355A3B00FEDE92 /* Size2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E981C26F5CF008B1151 /* Size2.cpp */; };
 		303B76541C355A3B00FEDE92 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E361C237C70008B1151 /* Node.cpp */; };
-		303B76551C355A3B00FEDE92 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B75EF1C335B7D00FEDE92 /* File.cpp */; };
 		303B76581C355A3B00FEDE92 /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E471C237C70008B1151 /* Texture.h */; };
 		303B76591C355A3B00FEDE92 /* Matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E351C237C70008B1151 /* Matrix4.h */; };
 		303B765A1C355A3B00FEDE92 /* Vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4B1C237C70008B1151 /* Vector2.h */; };
 		303B765B1C355A3B00FEDE92 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E9D1C27081B008B1151 /* Color.h */; };
 		303B765C1C355A3B00FEDE92 /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E891C2486C6008B1151 /* RenderTarget.h */; };
 		303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4D1C237C70008B1151 /* Vector3.h */; };
-		303B765F1C355A3B00FEDE92 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B75F01C335B7D00FEDE92 /* File.h */; };
 		303B76601C355A3B00FEDE92 /* Vector4.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4F1C237C70008B1151 /* Vector4.h */; };
 		303B76611C355A3B00FEDE92 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E491C237C70008B1151 /* Utils.h */; };
 		303B76621C355A3B00FEDE92 /* MeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E911C26ED32008B1151 /* MeshBuffer.h */; };
@@ -655,8 +649,6 @@
 		303B75741C2A3E3000FEDE92 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		303B75751C2A3E3000FEDE92 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		303B75801C2B17DC00FEDE92 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		303B75EF1C335B7D00FEDE92 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
-		303B75F01C335B7D00FEDE92 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
 		303B76061C34A92B00FEDE92 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
 		303B76071C34A92B00FEDE92 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
 		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -985,8 +977,6 @@
 			children = (
 				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
 				303B74FF1C28208800FEDE92 /* FileSystem.h */,
-				303B75EF1C335B7D00FEDE92 /* File.cpp */,
-				303B75F01C335B7D00FEDE92 /* File.h */,
 			);
 			name = files;
 			sourceTree = "<group>";
@@ -1275,7 +1265,6 @@
 				30547E7C1CB47E050055EE79 /* Shake.h in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.h in Headers */,
 				301CF5C91CECAD0700B89B5D /* TexturePSOGLES3.h in Headers */,
-				303B75F41C335B7D00FEDE92 /* File.h in Headers */,
 				30D0FAEE1CC1807400477DB0 /* MetalView.h in Headers */,
 				30D0FB5C1CC2C99600477DB0 /* TexturePSTVOS.h in Headers */,
 				301CF5C01CECAD0700B89B5D /* ColorVSOGL3.h in Headers */,
@@ -1397,7 +1386,6 @@
 				30575AAB1C39D1FF0009C8A7 /* Layer.h in Headers */,
 				30547E7D1CB47E050055EE79 /* Shake.h in Headers */,
 				301CF5CA1CECAD0700B89B5D /* TexturePSOGLES3.h in Headers */,
-				303B765F1C355A3B00FEDE92 /* File.h in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
 				30D0FB5D1CC2C99600477DB0 /* TexturePSTVOS.h in Headers */,
 				301CF5C11CECAD0700B89B5D /* ColorVSOGL3.h in Headers */,
@@ -1499,7 +1487,6 @@
 				304A8E5E1C237C70008B1151 /* Noncopyable.h in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix4.h in Headers */,
 				303B75781C2A419F00FEDE92 /* CompileConfig.h in Headers */,
-				303B75F31C335B7D00FEDE92 /* File.h in Headers */,
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				30D0FB5E1CC2C99600477DB0 /* TextureVSIOS.h in Headers */,
 				301CF5CE1CECAD0700B89B5D /* TextureVSOGLES3.h in Headers */,
@@ -1789,7 +1776,6 @@
 				3047F7781C4D39C500774E3D /* Repeat.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Node.cpp in Sources */,
 				30575A901C38BD370009C8A7 /* AABB2.cpp in Sources */,
-				303B75F21C335B7D00FEDE92 /* File.cpp in Sources */,
 				30324E151CB2898E00601A64 /* BlendState.cpp in Sources */,
 				30547E5C1CB3D6720055EE79 /* TextureMetal.mm in Sources */,
 			);
@@ -1881,7 +1867,6 @@
 				3047F7791C4D39C500774E3D /* Repeat.cpp in Sources */,
 				303B76881C355A5800FEDE92 /* main.mm in Sources */,
 				30575A911C38BD370009C8A7 /* AABB2.cpp in Sources */,
-				303B76551C355A3B00FEDE92 /* File.cpp in Sources */,
 				30324E161CB2898E00601A64 /* BlendState.cpp in Sources */,
 				30547E5D1CB3D6720055EE79 /* TextureMetal.mm in Sources */,
 			);
@@ -1975,7 +1960,6 @@
 				30575AE11C3C91A40009C8A7 /* InputApple.mm in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix4.cpp in Sources */,
 				304A8EA21C270833008B1151 /* Vertex.cpp in Sources */,
-				303B75F11C335B7D00FEDE92 /* File.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,6 @@
 #include "Cache.h"
 #include "Texture.h"
 #include "Utils.h"
-#include "File.h"
 
 namespace ouzel
 {

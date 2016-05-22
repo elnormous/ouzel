@@ -5,8 +5,8 @@
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/document.h>
 #include "ParticleDefinition.h"
+#include "Engine.h"
 #include "FileSystem.h"
-#include "File.h"
 #include "Utils.h"
 
 namespace ouzel
@@ -17,15 +17,13 @@ namespace ouzel
         {
             ParticleDefinitionPtr result = std::make_shared<scene::ParticleDefinition>();
 
-            File file(filename, File::Mode::READ, false);
-
-            if (!file)
+            std::vector<uint8_t> data;
+            if (!sharedEngine->getFileSystem()->loadFile(filename, data))
             {
-                log("Failed to open %s", filename.c_str());
-                return nullptr;
+                return result;
             }
 
-            rapidjson::FileReadStream is(file.getFile().get(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
+            rapidjson::MemoryStream is(reinterpret_cast<char*>(data.data()), data.size());
 
             rapidjson::Document document;
             document.ParseStream<0>(is);

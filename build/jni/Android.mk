@@ -27,7 +27,6 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/AABB2.cpp \
     $(LOCAL_PATH)/../../ouzel/Engine.cpp \
     $(LOCAL_PATH)/../../ouzel/EventDispatcher.cpp \
 	$(LOCAL_PATH)/../../ouzel/Fade.cpp \
-    $(LOCAL_PATH)/../../ouzel/File.cpp \
     $(LOCAL_PATH)/../../ouzel/FileSystem.cpp \
     $(LOCAL_PATH)/../../ouzel/Gamepad.cpp \
     $(LOCAL_PATH)/../../ouzel/Image.cpp \
