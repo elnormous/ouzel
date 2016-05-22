@@ -123,7 +123,7 @@ namespace ouzel
             if (err != Nil)
             {
                 if (pixelShaderLibrary) [pixelShaderLibrary release];
-                log("Failed to load pixel shader");
+                log("Failed to load pixel shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
                 return false;
             }
 
@@ -133,7 +133,7 @@ namespace ouzel
 
             if (!pixelShader)
             {
-                log("Failed to get function from shader");
+                log("Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
                 return false;
             }
 
