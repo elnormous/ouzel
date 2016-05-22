@@ -14,6 +14,18 @@
 
 namespace ouzel
 {
+    template<typename CharT, typename TraitsT = std::char_traits<CharT>>
+    class VectorBuffer: public std::basic_streambuf<CharT, TraitsT>
+    {
+    public:
+        VectorBuffer(std::vector<uint8_t>& vec)
+        {
+            std::basic_streambuf<CharT, TraitsT>::setg(reinterpret_cast<CharT*>(vec.data()),
+                                                       reinterpret_cast<CharT*>(vec.data()),
+                                                       reinterpret_cast<CharT*>(vec.data() + vec.size()));
+        }
+    };
+
     BMFont::BMFont()
     {
 
@@ -26,7 +38,15 @@ namespace ouzel
 
     bool BMFont::parseFont(const std::string& filename)
     {
-        std::ifstream stream(sharedEngine->getFileSystem()->getPath(filename));
+        std::vector<uint8_t> data;
+        if (!sharedEngine->getFileSystem()->loadFile(filename, data))
+        {
+            return false;
+        }
+
+        VectorBuffer<char> databuf(data);
+        std::istream stream(&databuf);
+
         std::string line;
         std::string read, key, value;
         std::size_t i;
@@ -156,8 +176,6 @@ namespace ouzel
                 kern[std::make_pair(k.first, k.second)] = k;
             }
         }
-
-        stream.close();
 
         return true;
     }
