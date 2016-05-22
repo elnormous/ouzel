@@ -10,8 +10,9 @@
     #include <pwd.h>
     #include <CoreServices/CoreServices.h>
 #elif defined(OUZEL_PLATFORM_WINDOWS)
+    #define NOMINMAX
+    #include <windows.h>
     #include <Shlobj.h>
-    #include <Windows.h>
 #elif defined(OUZEL_PLATFORM_LINUX)
     #include <unistd.h>
 #endif

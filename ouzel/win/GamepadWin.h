@@ -3,6 +3,7 @@
 
 #pragma once
 
+#define NOMINMAX
 #include <windows.h>
 #include <xinput.h>
 #include "Gamepad.h"

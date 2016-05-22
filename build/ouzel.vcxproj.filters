@@ -8,9 +8,6 @@
     <ClCompile Include="..\ouzel\Engine.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\File.cpp">
-      <Filter>files</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\FileSystem.cpp">
       <Filter>files</Filter>
     </ClCompile>
@@ -251,9 +248,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\Noncopyable.h">
       <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\File.h">
-      <Filter>files</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\FileSystem.h">
       <Filter>files</Filter>

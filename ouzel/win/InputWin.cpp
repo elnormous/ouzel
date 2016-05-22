@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#define NOMINMAX
 #include <windows.h>
 #include "InputWin.h"
 #include "Engine.h"
