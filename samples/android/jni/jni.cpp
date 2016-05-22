@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Renderer.h"
 #include "FileSystem.h"
+#include "Input.h"
 #include "Utils.h"
 
 extern "C"
@@ -50,5 +51,41 @@ extern "C"
         {
             ouzel::sharedEngine->run();
         }
+    }
+    
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_handleActionDown(JNIEnv* env, jclass cls, jint pointerId, jfloat x, jfloat y)
+    {
+        OUZEL_UNUSED(env);
+        OUZEL_UNUSED(cls);
+
+        ouzel::sharedEngine->getInput()->touchBegin(static_cast<uint64_t>(pointerId),
+                                                    ouzel::sharedEngine->getRenderer()->viewToScreenLocation(ouzel::Vector2(x, y)));
+    }
+    
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_handleActionMove(JNIEnv* env, jclass cls, jint pointerId, jfloat x, jfloat y)
+    {
+        OUZEL_UNUSED(env);
+        OUZEL_UNUSED(cls);
+
+        ouzel::sharedEngine->getInput()->touchMove(static_cast<uint64_t>(pointerId),
+                                                   ouzel::sharedEngine->getRenderer()->viewToScreenLocation(ouzel::Vector2(x, y)));
+    }
+    
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_handleActionUp(JNIEnv* env, jclass cls, jint pointerId, jfloat x, jfloat y)
+    {
+        OUZEL_UNUSED(env);
+        OUZEL_UNUSED(cls);
+
+        ouzel::sharedEngine->getInput()->touchEnd(static_cast<uint64_t>(pointerId),
+                                                  ouzel::sharedEngine->getRenderer()->viewToScreenLocation(ouzel::Vector2(x, y)));
+    }
+    
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_handleActionCancel(JNIEnv* env, jclass cls, jint pointerId, jfloat x, jfloat y)
+    {
+        OUZEL_UNUSED(env);
+        OUZEL_UNUSED(cls);
+
+        ouzel::sharedEngine->getInput()->touchCancel(static_cast<uint64_t>(pointerId),
+                                                     ouzel::sharedEngine->getRenderer()->viewToScreenLocation(ouzel::Vector2(x, y)));
     }
 }

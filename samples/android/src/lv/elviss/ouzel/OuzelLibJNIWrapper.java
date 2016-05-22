@@ -19,4 +19,9 @@ public class OuzelLibJNIWrapper
 	public static native void onSurfaceChanged(int width, int height);
 
 	public static native void onDrawFrame();
+	
+	public static native void handleActionDown(int pointerId, float x, float y);
+	public static native void handleActionMove(int pointerId, float x, float y);
+	public static native void handleActionUp(int pointerId, float x, float y);
+	public static native void handleActionCancel(int pointerId, float x, float y);
 }
