@@ -44,6 +44,11 @@ namespace ouzel
 
         uint32_t offset = 0;
 
+        if (data.size() < 5 * sizeof(uint32_t))
+        {
+            return false;
+        }
+
         uint32_t magic = *reinterpret_cast<uint32_t*>(data.data() + offset);
         offset += sizeof(magic);
 
@@ -69,6 +74,11 @@ namespace ouzel
 
         offset = stringsOffset;
 
+        if (data.size() < offset + 4 * sizeof(uint32_t) * stringCount)
+        {
+            return false;
+        }
+
         for (uint32_t i = 0; i < stringCount; ++i)
         {
             translations[i].stringLength = *reinterpret_cast<uint32_t*>(data.data() + offset);
@@ -89,6 +99,12 @@ namespace ouzel
 
         for (uint32_t i = 0; i < stringCount; ++i)
         {
+            if (data.size() < translations[i].stringOffset + translations[i].stringLength ||
+                data.size() < translations[i].translationOffset + translations[i].translationLength)
+            {
+                return false;
+            }
+
             std::string str(reinterpret_cast<char*>(data.data() + translations[i].stringOffset), translations[i].stringLength);
             std::string translation(reinterpret_cast<char*>(data.data() + translations[i].translationOffset), translations[i].translationLength);
 
