@@ -86,7 +86,7 @@ namespace ouzel
                 case 2:
                     textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL2, sizeof(TEXTURE_PIXEL_SHADER_OGL2), TEXTURE_VERTEX_SHADER_OGL2, sizeof(TEXTURE_VERTEX_SHADER_OGL2), VertexPCT::ATTRIBUTES);
                     break;
-#if defined(OUZEL_SUPPORTS_OPENGLES3)
+#if defined(OUZEL_SUPPORTS_OPENGL3) || defined(OUZEL_SUPPORTS_OPENGLES3)
                 case 3:
                     textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL3, sizeof(TEXTURE_PIXEL_SHADER_OGL3), TEXTURE_VERTEX_SHADER_OGL3, sizeof(TEXTURE_VERTEX_SHADER_OGL3), VertexPCT::ATTRIBUTES);
                     break;
@@ -113,7 +113,7 @@ namespace ouzel
                 case 2:
                     colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL2, sizeof(COLOR_PIXEL_SHADER_OGL2), COLOR_VERTEX_SHADER_OGL2, sizeof(COLOR_VERTEX_SHADER_OGL2), VertexPC::ATTRIBUTES);
                     break;
-#if defined(OUZEL_SUPPORTS_OPENGLES3)
+#if defined(OUZEL_SUPPORTS_OPENGL3) || defined(OUZEL_SUPPORTS_OPENGLES3)
                 case 3:
                     colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL3, sizeof(COLOR_PIXEL_SHADER_OGL3), COLOR_VERTEX_SHADER_OGL3, sizeof(COLOR_VERTEX_SHADER_OGL3), VertexPC::ATTRIBUTES);
                     break;

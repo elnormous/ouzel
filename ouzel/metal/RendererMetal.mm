@@ -709,8 +709,8 @@ namespace ouzel
                 return false;
             }
 
-            int width = static_cast<int>(texture.width);
-            int height = static_cast<int>(texture.height);
+            NSUInteger width = static_cast<NSUInteger>(texture.width);
+            NSUInteger height = static_cast<NSUInteger>(texture.height);
 
             std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
             [texture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
@@ -727,7 +727,7 @@ namespace ouzel
                 }
             }
 
-            if (!stbi_write_png(filename.c_str(), width, height, 4, data.get(), width * 4))
+            if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
             {
                 log("Failed to save image to file");
                 return false;

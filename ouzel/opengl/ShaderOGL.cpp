@@ -172,7 +172,7 @@ namespace ouzel
 
             if (logLength > 0)
             {
-                std::vector<char> logMessage(logLength);
+                std::vector<char> logMessage(static_cast<size_t>(logLength));
                 glGetShaderInfoLog(shaderId, logLength, nullptr, logMessage.data());
 
                 log("Shader compilation error: %s", logMessage.data());
@@ -186,7 +186,7 @@ namespace ouzel
 
             if (logLength > 0)
             {
-                std::vector<char> logMessage(logLength);
+                std::vector<char> logMessage(static_cast<size_t>(logLength));
                 glGetProgramInfoLog(programId, logLength, nullptr, logMessage.data());
 
                 log("Shader linking error: %s", logMessage.data());
