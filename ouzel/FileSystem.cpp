@@ -165,19 +165,14 @@ namespace ouzel
             return false;
         }
 
-        std::ifstream file(path);
+        std::ifstream file(path, std::ios::binary);
 
         if (!file)
         {
             log("Failed to open file %s", path.c_str());
         }
 
-        file.seekg(0, std::ios_base::end);
-        std::streampos fileSize = file.tellg();
-        data.resize(static_cast<size_t>(fileSize));
-
-        file.seekg(0, std::ios_base::beg);
-        file.read(reinterpret_cast<char*>(&data[0]), fileSize);
+        data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
 
         return true;
     }

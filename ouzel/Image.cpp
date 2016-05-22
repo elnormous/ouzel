@@ -46,7 +46,7 @@ namespace ouzel
             int height;
             int comp;
 
-            data = stbi_load_from_memory(newData.data(), newData.size(), &width, &height, &comp, STBI_rgb_alpha);
+            data = stbi_load_from_memory(newData.data(), static_cast<int>(newData.size()), &width, &height, &comp, STBI_rgb_alpha);
 
             if (!data)
             {
