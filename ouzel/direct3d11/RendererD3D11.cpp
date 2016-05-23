@@ -174,7 +174,8 @@ namespace ouzel
 
             // Sampler state
             D3D11_SAMPLER_DESC samplerStateDesc;
-            samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+            //samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR; // TODO: add setting for this
+            samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
             samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
