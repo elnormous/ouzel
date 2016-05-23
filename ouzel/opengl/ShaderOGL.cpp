@@ -65,7 +65,8 @@ namespace ouzel
             glGetShaderiv(pixelShaderId, GL_COMPILE_STATUS, &status);
             if (status == GL_FALSE)
             {
-            printShaderMessage(pixelShaderId);
+                log("Failed to compile pixel shader");
+                printShaderMessage(pixelShaderId);
                 return false;
             }
 
@@ -81,8 +82,8 @@ namespace ouzel
             glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);
             if (status == GL_FALSE)
             {
+                log("Failed to compile vertex shader");
                 printShaderMessage(vertexShaderId);
-                log("Failed to link shader");
                 return false;
             }
 
@@ -127,6 +128,7 @@ namespace ouzel
             glGetProgramiv(programId, GL_LINK_STATUS, &status);
             if (status == GL_FALSE)
             {
+                log("Failed to link shader");
                 printProgramMessage();
                 return false;
             }
