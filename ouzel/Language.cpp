@@ -60,6 +60,7 @@ namespace ouzel
 
         uint32_t version = *reinterpret_cast<uint32_t*>(data.data() + offset);
         offset += sizeof(version);
+        OUZEL_UNUSED(version);
 
         uint32_t stringCount = *reinterpret_cast<uint32_t*>(data.data() + offset);
         offset += sizeof(stringCount);
@@ -74,7 +75,7 @@ namespace ouzel
 
         offset = stringsOffset;
 
-        if (data.size() < offset + 4 * sizeof(uint32_t) * stringCount)
+        if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
         {
             return false;
         }
@@ -86,6 +87,13 @@ namespace ouzel
 
             translations[i].stringOffset = *reinterpret_cast<uint32_t*>(data.data() + offset);
             offset += sizeof(translations[i].stringOffset);
+        }
+
+        offset = translationsOffset;
+
+        if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
+        {
+            return false;
         }
 
         for (uint32_t i = 0; i < stringCount; ++i)
