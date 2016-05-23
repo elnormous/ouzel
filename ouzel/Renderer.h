@@ -52,6 +52,7 @@ namespace ouzel
             enum class TextureFiltering
             {
                 NONE = 0,
+                LINEAR,
                 BILINEAR,
                 TRILINEAR
             };

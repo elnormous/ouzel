@@ -182,6 +182,10 @@ namespace ouzel
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                     break;
+                case TextureFiltering::LINEAR:
+                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
+                    samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                    break;
                 case TextureFiltering::BILINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;

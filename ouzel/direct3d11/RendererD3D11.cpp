@@ -179,6 +179,9 @@ namespace ouzel
                 case Renderer::TextureFiltering::NONE:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
                     break;
+                case Renderer::TextureFiltering::LINEAR:
+                    samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
+                    break;
                 case Renderer::TextureFiltering::BILINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
                     break;

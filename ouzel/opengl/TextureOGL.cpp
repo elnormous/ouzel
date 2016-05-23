@@ -115,6 +115,9 @@ namespace ouzel
                     case Renderer::TextureFiltering::NONE:
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
                         break;
+                    case Renderer::TextureFiltering::LINEAR:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+                        break;
                     case Renderer::TextureFiltering::BILINEAR:
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
                         break;
