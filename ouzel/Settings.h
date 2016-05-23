@@ -14,7 +14,7 @@ namespace ouzel
 
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
-        bool bilinearFiltering = false;
+        graphics::Renderer::TextureFiltering textureFiltering = graphics::Renderer::TextureFiltering::NONE;
         bool resizable = false;
         bool fullscreen = false;
         float targetFPS = 60.0f;

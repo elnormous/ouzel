@@ -123,9 +123,9 @@ namespace ouzel
             }
         }
 
-        bool RendererMetal::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, bool newBilinearFiltering)
+        bool RendererMetal::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering)
         {
-            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newBilinearFiltering))
+            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newTextureFiltering))
             {
                 return false;
             }
@@ -175,9 +175,22 @@ namespace ouzel
             }
 
             MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
-            samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
-            samplerDescriptor.mipFilter = bilinearFiltering ? MTLSamplerMipFilterLinear : MTLSamplerMipFilterNearest;
+            switch (textureFiltering)
+            {
+                case TextureFiltering::NONE:
+                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
+                    samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                    break;
+                case TextureFiltering::BILINEAR:
+                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
+                    samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
+                    break;
+                case TextureFiltering::TRILINEAR:
+                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
+                    samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
+                    break;
+            }
             samplerDescriptor.sAddressMode = MTLSamplerAddressModeRepeat;
             samplerDescriptor.tAddressMode = MTLSamplerAddressModeRepeat;
 

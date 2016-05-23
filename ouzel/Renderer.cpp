@@ -30,12 +30,12 @@ namespace ouzel
 
         }
 
-        bool Renderer::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, bool newBilinearFiltering)
+        bool Renderer::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering)
         {
             size = newSize;
             fullscreen = newFullscreen;
             sampleCount = newSampleCount;
-            bilinearFiltering = newBilinearFiltering;
+            textureFiltering = newTextureFiltering;
 
             return true;
         }

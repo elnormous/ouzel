@@ -80,9 +80,9 @@ namespace ouzel
             }
         }
 
-        bool RendererD3D11::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, bool newBilinearFiltering)
+        bool RendererD3D11::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering)
         {
-            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newBilinearFiltering))
+            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newTextureFiltering))
             {
                 return false;
             }
@@ -174,7 +174,18 @@ namespace ouzel
 
             // Sampler state
             D3D11_SAMPLER_DESC samplerStateDesc;
-            samplerStateDesc.Filter = bilinearFiltering ? D3D11_FILTER_MIN_MAG_MIP_LINEAR : D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+            switch (textureFiltering)
+            {
+                case Renderer::TextureFiltering::NONE:
+                    samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+                    break;
+                case Renderer::TextureFiltering::BILINEAR:
+                    samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+                    break;
+                case Renderer::TextureFiltering::TRILINEAR:
+                    samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+                    break;
+            }
             samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;

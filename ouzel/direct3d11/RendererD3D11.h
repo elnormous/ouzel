@@ -68,7 +68,7 @@ namespace ouzel
         protected:
             RendererD3D11();
 
-            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, bool newBilinearFiltering) override;
+            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering) override;
 
             IDXGIOutput* getOutput() const;
 

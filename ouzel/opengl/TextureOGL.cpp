@@ -110,7 +110,18 @@ namespace ouzel
             {
                 std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, rendererOGL->isBilinearFilteringEnabled() ? GL_LINEAR_MIPMAP_LINEAR : GL_NEAREST_MIPMAP_LINEAR);
+                switch (rendererOGL->getTextureFiltering())
+                {
+                    case Renderer::TextureFiltering::NONE:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+                        break;
+                    case Renderer::TextureFiltering::BILINEAR:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+                        break;
+                    case Renderer::TextureFiltering::TRILINEAR:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+                        break;
+                }
             }
             else
             {

@@ -26,7 +26,7 @@ namespace ouzel
     {
         const Settings& settings = sharedEngine->getSettings();
 
-        if (!sharedEngine->getRenderer()->init(size, fullscreen, settings.sampleCount, settings.bilinearFiltering))
+        if (!sharedEngine->getRenderer()->init(size, fullscreen, settings.sampleCount, settings.textureFiltering))
         {
             return false;
         }
