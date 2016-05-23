@@ -191,6 +191,7 @@ namespace ouzel
             }
             samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+            samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.MipLODBias = 0.0f;
             samplerStateDesc.MaxAnisotropy = 1;
             samplerStateDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
