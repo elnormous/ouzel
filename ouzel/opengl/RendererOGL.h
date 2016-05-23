@@ -96,6 +96,9 @@ namespace ouzel
             static bool bindTexture(GLuint textureId, uint32_t layer);
             static bool bindProgram(GLuint programId);
             static bool bindFrameBuffer(GLuint frameBufferId);
+            static bool bindElementArrayBuffer(GLuint elementArrayBufferId);
+            static bool bindArrayBuffer(GLuint arrayBufferId);
+            static bool bindVertexArray(GLuint vertexArrayId);
 
         protected:
             RendererOGL();
@@ -111,6 +114,9 @@ namespace ouzel
             static GLuint currentTextureId[TEXTURE_LAYERS];
             static GLuint currentProgramId;
             static GLuint currentFramBufferId;
+            static GLuint currentElementArrayBufferId;
+            static GLuint currentArrayBufferId;
+            static GLuint currentVertexArrayId;
 
             Rectangle viewport;
         };

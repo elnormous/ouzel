@@ -14,7 +14,7 @@ void ouzelMain(const std::vector<std::string>& args)
     settings.size = ouzel::Size2(800.0f, 600.0f);
     settings.resizable = true;
     settings.sampleCount = 4;
-    settings.textureFiltering = ouzel::graphics::Renderer::TextureFiltering::BILINEAR;
+    settings.textureFiltering = ouzel::graphics::Renderer::TextureFiltering::TRILINEAR;
     engine.init(settings);
 
     application.begin();

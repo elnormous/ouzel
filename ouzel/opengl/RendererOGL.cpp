@@ -601,7 +601,11 @@ namespace ouzel
                 return false;
             }
 
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBufferOGL->getIndexBufferId());
+            if (!bindElementArrayBuffer(meshBufferOGL->getIndexBufferId()))
+            {
+                return false;
+            }
+
             glDrawElements(mode, static_cast<GLsizei>(indexCount), meshBufferOGL->getIndexFormat(), static_cast<const char*>(nullptr) + (startIndex * meshBuffer->getIndexSize()));
 
             if (checkOpenGLErrors())
@@ -658,6 +662,9 @@ namespace ouzel
         GLuint RendererOGL::currentTextureId[TEXTURE_LAYERS] = { 0 };
         GLuint RendererOGL::currentProgramId = 0;
         GLuint RendererOGL::currentFramBufferId = 0;
+        GLuint RendererOGL::currentElementArrayBufferId = 0;
+        GLuint RendererOGL::currentArrayBufferId = 0;
+        GLuint RendererOGL::currentVertexArrayId = 0;
 
         bool RendererOGL::bindTexture(GLuint textureId, uint32_t layer)
         {
@@ -708,5 +715,58 @@ namespace ouzel
             return true;
         }
 
+        bool RendererOGL::bindElementArrayBuffer(GLuint elementArrayBufferId)
+        {
+            if (currentElementArrayBufferId != elementArrayBufferId)
+            {
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBufferId);
+                currentElementArrayBufferId = elementArrayBufferId;
+
+                if (checkOpenGLErrors())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::bindArrayBuffer(GLuint arrayBufferId)
+        {
+            if (currentArrayBufferId != arrayBufferId)
+            {
+                glBindBuffer(GL_ARRAY_BUFFER, arrayBufferId);
+                currentArrayBufferId = arrayBufferId;
+
+                if (checkOpenGLErrors())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::bindVertexArray(GLuint vertexArrayId)
+        {
+            if (currentVertexArrayId != vertexArrayId)
+            {
+#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+                glBindVertexArrayOES(vertexArrayId);
+#elif defined(OUZEL_PLATFORM_ANDROID)
+                if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
+#else
+                glBindVertexArray(vertexArrayId);
+#endif
+                currentVertexArrayId = vertexArrayId;
+
+                if (checkOpenGLErrors())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel
