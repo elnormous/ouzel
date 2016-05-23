@@ -332,6 +332,7 @@ namespace ouzel
 
             if (checkOpenGLErrors())
             {
+                log("Failed to activate blend state");
                 return false;
             }
 
@@ -445,7 +446,10 @@ namespace ouzel
             {
                 glClearColor(newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA());
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                checkOpenGLErrors();
+                if (checkOpenGLErrors())
+                {
+                    log("Failed to clear frame buffer");
+                }
 
                 clearedFrameBuffers.insert(newFrameBuffer);
             }
@@ -610,6 +614,7 @@ namespace ouzel
 
             if (checkOpenGLErrors())
             {
+                log("Failed to draw elements");
                 return false;
             }
 
@@ -629,6 +634,7 @@ namespace ouzel
 
             if (checkOpenGLErrors())
             {
+                log("Failed to read pixels from frame buffer");
                 return false;
             }
 
@@ -676,6 +682,7 @@ namespace ouzel
 
                 if (checkOpenGLErrors())
                 {
+                    log("Failed to create bind texture");
                     return false;
                 }
             }
@@ -692,6 +699,7 @@ namespace ouzel
 
                 if (checkOpenGLErrors())
                 {
+                    log("Failed to bind program");
                     return false;
                 }
             }
@@ -708,6 +716,7 @@ namespace ouzel
 
                 if (checkOpenGLErrors())
                 {
+                    log("Failed to create bind frame buffer");
                     return false;
                 }
             }
@@ -724,6 +733,7 @@ namespace ouzel
 
                 if (checkOpenGLErrors())
                 {
+                    log("Failed to bind element array buffer");
                     return false;
                 }
             }
@@ -740,6 +750,7 @@ namespace ouzel
 
                 if (checkOpenGLErrors())
                 {
+                    log("Failed to bind array buffer");
                     return false;
                 }
             }
@@ -762,6 +773,7 @@ namespace ouzel
 
                 if (checkOpenGLErrors())
                 {
+                    log("Failed to bind vertex array");
                     return false;
                 }
             }

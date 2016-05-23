@@ -53,6 +53,12 @@ namespace ouzel
             glGenBuffers(1, &indexBufferId);
             RendererOGL::bindElementArrayBuffer(indexBufferId);
 
+            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            {
+                log("Failed to create index buffer");
+                return false;
+            }
+
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
             glGenVertexArraysOES(1, &vertexArrayId);
 #elif defined(OUZEL_PLATFORM_ANDROID)
@@ -76,6 +82,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
+                log("Failed to create vertex buffer");
                 return false;
             }
 
@@ -101,6 +108,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
+                log("Failed to create index buffer");
                 return false;
             }
 
@@ -119,6 +127,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors(false))
             {
+                log("Failed to create vertex array");
                 vertexArrayId = 0;
             }
             else
@@ -133,6 +142,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
+                log("Failed to create vertex buffer");
                 return false;
             }
 
@@ -185,6 +195,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
+                log("Failed to upload index data");
                 return false;
             }
 
@@ -204,6 +215,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
+                log("Failed to create vertex data");
                 return false;
             }
 
@@ -306,6 +318,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
+                log("Failed to update vertex attributes");
                 return false;
             }
             

@@ -5,6 +5,7 @@
 #include "TextureOGL.h"
 #include "Engine.h"
 #include "RendererOGL.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -94,6 +95,7 @@ namespace ouzel
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             {
+                log("Failed to create frame buffer");
                 return false;
             }
 

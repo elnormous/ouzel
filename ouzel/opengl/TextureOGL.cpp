@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "RendererOGL.h"
 #include "Image.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -43,6 +44,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
+                log("Failed to create texture");
                 return false;
             }
 
@@ -70,6 +72,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
+                log("Failed to create texture");
                 return false;
             }
 
@@ -93,6 +96,7 @@ namespace ouzel
 
             if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
             {
+                log("Failed to upload texture data");
                 return false;
             }
             

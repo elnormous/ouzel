@@ -266,7 +266,7 @@ namespace ouzel
             finished = false;
         }
 
-        void ParticleSystem::createParticleMesh()
+        bool ParticleSystem::createParticleMesh()
         {
             indices.reserve(particleDefinition.maxParticles * 6);
             vertices.reserve(particleDefinition.maxParticles * 4);
@@ -287,14 +287,21 @@ namespace ouzel
             }
 
             mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                          static_cast<uint32_t>(indices.size()), false,
-                                                                          vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                                                          static_cast<uint32_t>(vertices.size()), true);
+                                                                         static_cast<uint32_t>(indices.size()), false,
+                                                                         vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                                                         static_cast<uint32_t>(vertices.size()), true);
+
+            if (!mesh)
+            {
+                return false;
+            }
 
             particles.resize(particleDefinition.maxParticles);
+
+            return true;
         }
 
-        void ParticleSystem::updateParticleMesh()
+        bool ParticleSystem::updateParticleMesh()
         {
             if (NodePtr parent = parentNode.lock())
             {
@@ -344,8 +351,13 @@ namespace ouzel
                     vertices[i * 4 + 3].color = color;
                 }
 
-                mesh->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
+                if (!mesh->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size())))
+                {
+                    return false;
+                }
             }
+
+            return true;
         }
 
         void ParticleSystem::emitParticles(uint32_t count)

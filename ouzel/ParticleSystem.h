@@ -77,8 +77,8 @@ namespace ouzel
             ParticleDefinition::PositionType getPositionType() const { return positionType; }
 
         protected:
-            void createParticleMesh();
-            void updateParticleMesh();
+            bool createParticleMesh();
+            bool updateParticleMesh();
 
             void emitParticles(uint32_t count);
 
