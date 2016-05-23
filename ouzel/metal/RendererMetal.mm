@@ -197,8 +197,7 @@ namespace ouzel
             }
             samplerDescriptor.sAddressMode = MTLSamplerAddressModeClampToEdge;
             samplerDescriptor.tAddressMode = MTLSamplerAddressModeClampToEdge;
-            samplerDescriptor.rAddressMode = MTLSamplerAddressModeClampToEdge;
-
+            
             samplerState = [device newSamplerStateWithDescriptor:samplerDescriptor];
             [samplerDescriptor release];
 
