@@ -76,7 +76,7 @@ namespace ouzel
             return uploadData(data, size);
         }
 
-        bool TextureOGL::uploadMipmap(uint32_t level, const void *data)
+        bool TextureOGL::uploadMipmap(uint32_t level, const void* data)
         {
             if (!Texture::uploadMipmap(level, data))
             {
