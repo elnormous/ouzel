@@ -95,13 +95,13 @@ namespace ouzel
                 {
                     float pixels = 0.0f;
 
-                    float r,g,b,a;
+                    float r = 0, g = 0, b = 0, a = 0;
 
                     if (rgba[3] > 0)
                     {
-                        r = powf(rgba[0], 2.2f);
-                        g = powf(rgba[1], 2.2f);
-                        b = powf(rgba[2], 2.2f);
+                        r += powf(rgba[0], 2.2f);
+                        g += powf(rgba[1], 2.2f);
+                        b += powf(rgba[2], 2.2f);
                         pixels += 1.0f;
                     }
                     a = rgba[3];
