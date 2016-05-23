@@ -3,8 +3,23 @@
 # Ouzel v0.17
 Ouzel is a game engine mainly targeted for development of 2D games, but also 3D games can be created with it.
 
-## Supported platforms
-Currently Windows 7+ with Direct3D 11 backend, OS X 10.8 with OpenGL (2.0 and 3.2) and Metal backends, iOS 7+ and tvOS 9.0+ with OpenGL ES (2.0 and 3.0) and Metal backends, Linux with OpenGL (2.0 and 3.2) and Android with OpenGL ES 2.0 backend are supported. Windows Phone platform support is under development.
+Supported platforms:
+
+* Windows Vista, 7, 8, 10 
+* OS X 10.8+
+* Linux
+* iOS 7+
+* tvOS 9+
+* Android 2.3+
+
+Supported rendering backends:
+
+* Direct3D 11
+* OpenGL 2 and OpenGL 3
+* OpenGL ES 2 and OpenGL ES 3
+* Metal 
+
+Windows Phone platform support is under development.
 
 ## Compilation
 
