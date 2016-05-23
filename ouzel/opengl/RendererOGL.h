@@ -100,7 +100,7 @@ namespace ouzel
         protected:
             RendererOGL();
 
-            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount) override;
+            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, bool newBilinearFiltering) override;
 
             virtual void setSize(const Size2& newSize) override;
 

@@ -30,7 +30,8 @@ namespace ouzel
 
         static std::set<graphics::Renderer::Driver> getAvailableDrivers();
 
-        bool init(Settings& settings);
+        bool init(Settings& newSettings);
+        const Settings& getSettings() const { return settings; }
 
         const EventDispatcherPtr& getEventDispatcher() const { return eventDispatcher; }
         const CachePtr& getCache() const { return cache; }
@@ -56,6 +57,8 @@ namespace ouzel
     protected:
         void lock();
         void unlock();
+
+        Settings settings;
 
         EventDispatcherPtr eventDispatcher;
         input::InputPtr input;

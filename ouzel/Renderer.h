@@ -72,6 +72,7 @@ namespace ouzel
 
             const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
+            bool isBilinearFilteringEnabled() const { return bilinearFiltering; }
 
             virtual std::vector<Size2> getSupportedResolutions() const = 0;
 
@@ -122,7 +123,7 @@ namespace ouzel
 
         protected:
             Renderer(Driver pDriver);
-            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount);
+            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, bool newBilinearFiltering);
 
             virtual void setSize(const Size2& newSize);
             virtual void setFullscreen(bool newFullscreen);
@@ -131,6 +132,7 @@ namespace ouzel
             Size2 size;
             bool fullscreen = false;
             uint32_t sampleCount = 1; // MSAA sample count
+            bool bilinearFiltering = false;
 
             Color clearColor;
 

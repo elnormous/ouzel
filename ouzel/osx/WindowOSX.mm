@@ -76,8 +76,8 @@
 
 namespace ouzel
 {
-    WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, uint32_t pSampleCount, const std::string& title):
-        Window(size, resizable, fullscreen, pSampleCount, title)
+    WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
+        Window(size, resizable, fullscreen, title)
     {
 
     }

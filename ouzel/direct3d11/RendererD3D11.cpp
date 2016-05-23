@@ -80,9 +80,9 @@ namespace ouzel
             }
         }
 
-        bool RendererD3D11::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount)
+        bool RendererD3D11::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, bool newBilinearFiltering)
         {
-            if (!Renderer::init(newSize, newFullscreen, newSampleCount))
+            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newBilinearFiltering))
             {
                 return false;
             }
@@ -174,8 +174,7 @@ namespace ouzel
 
             // Sampler state
             D3D11_SAMPLER_DESC samplerStateDesc;
-            //samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR; // TODO: add setting for this
-            samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+            samplerStateDesc.Filter = bilinearFiltering ? D3D11_FILTER_MIN_MAG_MIP_LINEAR : D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
             samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;

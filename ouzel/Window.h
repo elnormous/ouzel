@@ -6,6 +6,7 @@
 #include <string>
 #include "Noncopyable.h"
 #include "Size2.h"
+#include "Settings.h"
 #include "Renderer.h"
 
 namespace ouzel
@@ -31,13 +32,12 @@ namespace ouzel
         virtual void setTitle(const std::string& newTitle);
 
     protected:
-        Window(const Size2& pSize, bool pResizable, bool pFullscreen, uint32_t pSampleCount, const std::string& pTitle);
+        Window(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
         virtual bool init();
 
         Size2 size;
         bool resizable = false;
         bool fullscreen = false;
-        uint32_t sampleCount = 1;
 
         std::string title;
     };
