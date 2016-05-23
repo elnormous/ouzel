@@ -4,10 +4,6 @@
 #include <cstring>
 #include <cstdlib>
 #include <memory>
-#include "CompileConfig.h"
-#if defined(OUZEL_SUPPORTS_SSE)
-#include <xmmintrin.h>
-#endif
 #include "MathUtils.h"
 
 namespace ouzel
