@@ -177,7 +177,8 @@ namespace ouzel
             MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
             samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
-            samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
+            samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+            //samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear; // TODO: add setting for this
             samplerDescriptor.sAddressMode = MTLSamplerAddressModeRepeat;
             samplerDescriptor.tAddressMode = MTLSamplerAddressModeRepeat;
 
