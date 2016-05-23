@@ -58,7 +58,6 @@ The following code will open a 640px x 480px window:
 
 ## Features
 
-* Direct3D 11, Metal and OpenGL renderer support
 * Cross-platform (Windows, OS X, iOS, tvOS, Android and Linux supported, and Windows Phone support under development)
 * Scene management
 * GUI helper classes and management
