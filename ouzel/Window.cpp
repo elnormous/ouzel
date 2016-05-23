@@ -24,13 +24,6 @@ namespace ouzel
 
     bool Window::init()
     {
-        const Settings& settings = sharedEngine->getSettings();
-
-        if (!sharedEngine->getRenderer()->init(size, fullscreen, settings.sampleCount, settings.textureFiltering))
-        {
-            return false;
-        }
-
         return true;
     }
 

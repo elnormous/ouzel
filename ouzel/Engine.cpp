@@ -173,6 +173,11 @@ namespace ouzel
             return false;
         }
 
+        if (!sharedEngine->getRenderer()->init(window->getSize(), window->isFullscreen(), settings.sampleCount, settings.textureFiltering))
+        {
+            return false;
+        }
+
         previousFrameTime = getCurrentMicroSeconds();
 
         return true;
