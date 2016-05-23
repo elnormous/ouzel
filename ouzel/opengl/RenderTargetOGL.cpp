@@ -31,6 +31,8 @@ namespace ouzel
 
             if (frameBufferId)
             {
+                RendererOGL::unbindFrameBuffer(frameBufferId);
+
                 glDeleteFramebuffers(1, &frameBufferId);
                 frameBufferId = 0;
             }

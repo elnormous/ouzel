@@ -25,6 +25,8 @@ namespace ouzel
         {
             if (programId)
             {
+                RendererOGL::unbindProgram(programId);
+
                 glDeleteProgram(programId);
                 programId = 0;
             }

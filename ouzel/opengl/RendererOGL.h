@@ -100,6 +100,13 @@ namespace ouzel
             static bool bindArrayBuffer(GLuint arrayBufferId);
             static bool bindVertexArray(GLuint vertexArrayId);
 
+            static bool unbindTexture(GLuint textureId);
+            static bool unbindProgram(GLuint programId);
+            static bool unbindFrameBuffer(GLuint frameBufferId);
+            static bool unbindElementArrayBuffer(GLuint elementArrayBufferId);
+            static bool unbindArrayBuffer(GLuint arrayBufferId);
+            static bool unbindVertexArray(GLuint vertexArrayId);
+
         protected:
             RendererOGL();
 
@@ -113,7 +120,7 @@ namespace ouzel
 
             static GLuint currentTextureId[TEXTURE_LAYERS];
             static GLuint currentProgramId;
-            static GLuint currentFramBufferId;
+            static GLuint currentFrameBufferId;
             static GLuint currentElementArrayBufferId;
             static GLuint currentArrayBufferId;
             static GLuint currentVertexArrayId;

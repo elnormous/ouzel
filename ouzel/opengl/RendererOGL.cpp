@@ -50,7 +50,7 @@ namespace ouzel
     namespace graphics
     {
         RendererOGL::RendererOGL():
-        Renderer(Driver::OPENGL)
+            Renderer(Driver::OPENGL)
         {
 #if defined(OUZEL_PLATFORM_ANDROID)
             glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
@@ -667,7 +667,7 @@ namespace ouzel
 
         GLuint RendererOGL::currentTextureId[TEXTURE_LAYERS] = { 0 };
         GLuint RendererOGL::currentProgramId = 0;
-        GLuint RendererOGL::currentFramBufferId = 0;
+        GLuint RendererOGL::currentFrameBufferId = 0;
         GLuint RendererOGL::currentElementArrayBufferId = 0;
         GLuint RendererOGL::currentArrayBufferId = 0;
         GLuint RendererOGL::currentVertexArrayId = 0;
@@ -709,10 +709,10 @@ namespace ouzel
 
         bool RendererOGL::bindFrameBuffer(GLuint frameBufferId)
         {
-            if (currentFramBufferId != frameBufferId)
+            if (currentFrameBufferId != frameBufferId)
             {
                 glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
-                currentFramBufferId = frameBufferId;
+                currentFrameBufferId = frameBufferId;
 
                 if (checkOpenGLErrors())
                 {
@@ -776,6 +776,69 @@ namespace ouzel
                     log("Failed to bind vertex array");
                     return false;
                 }
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::unbindTexture(GLuint textureId)
+        {
+            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+            {
+                if (currentTextureId[layer] == textureId)
+                {
+                    bindTexture(0, layer);
+                }
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::unbindProgram(GLuint programId)
+        {
+            if (currentProgramId == programId)
+            {
+                return bindProgram(0);
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::unbindFrameBuffer(GLuint frameBufferId)
+        {
+            if (currentFrameBufferId == frameBufferId)
+            {
+                return bindFrameBuffer(0);
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::unbindElementArrayBuffer(GLuint elementArrayBufferId)
+        {
+            if (currentElementArrayBufferId == elementArrayBufferId)
+            {
+                return bindElementArrayBuffer(0);
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::unbindArrayBuffer(GLuint arrayBufferId)
+        {
+            if (currentArrayBufferId == arrayBufferId)
+            {
+                return bindArrayBuffer(0);
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::unbindVertexArray(GLuint vertexArrayId)
+        {
+            if (currentVertexArrayId == vertexArrayId)
+            {
+                return bindVertexArray(0);
             }
 
             return true;

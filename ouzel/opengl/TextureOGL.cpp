@@ -26,6 +26,8 @@ namespace ouzel
         {
             if (textureId)
             {
+                RendererOGL::unbindTexture(textureId);
+
                 glDeleteTextures(1, &textureId);
                 textureId = 0;
             }

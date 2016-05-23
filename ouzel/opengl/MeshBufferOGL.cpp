@@ -25,6 +25,8 @@ namespace ouzel
         {
             if (vertexArrayId)
             {
+                RendererOGL::unbindVertexArray(vertexArrayId);
+
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
                 glDeleteVertexArraysOES(1, &vertexArrayId);
 #elif defined(OUZEL_PLATFORM_ANDROID)
@@ -37,12 +39,16 @@ namespace ouzel
 
             if (vertexBufferId)
             {
+                RendererOGL::unbindArrayBuffer(vertexBufferId);
+
                 glDeleteBuffers(1, &vertexBufferId);
                 vertexBufferId = 0;
             }
 
             if (indexBufferId)
             {
+                RendererOGL::unbindElementArrayBuffer(indexBufferId);
+
                 glDeleteBuffers(1, &indexBufferId);
                 indexBufferId = 0;
             }
