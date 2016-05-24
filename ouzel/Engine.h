@@ -55,9 +55,6 @@ namespace ouzel
         void unscheduleUpdate(const UpdateCallbackPtr& callback);
 
     protected:
-        void lock();
-        void unlock();
-
         Settings settings;
 
         EventDispatcherPtr eventDispatcher;
@@ -77,7 +74,6 @@ namespace ouzel
         std::set<UpdateCallbackPtr> updateCallbackAddList;
         std::set<UpdateCallbackPtr> updateCallbackRemoveList;
 
-        int32_t locked = 0;
         bool running = false;
         bool active = true;
     };

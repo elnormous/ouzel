@@ -209,15 +209,15 @@ namespace ouzel
         input->update();
         eventDispatcher->update();
 
-        lock();
-        for (const UpdateCallbackPtr& updateCallback : updateCallbacks)
+        auto updateCallbacksCopy = updateCallbacks;
+
+        for (const UpdateCallbackPtr& updateCallback : updateCallbacksCopy)
         {
-            if (!updateCallback->remove && updateCallback->callback)
+            if (updateCallback->callback)
             {
                 updateCallback->callback(delta);
             }
         }
-        unlock();
 
         renderer->clear();
         sceneManager->draw();
@@ -228,66 +228,21 @@ namespace ouzel
 
     void Engine::scheduleUpdate(const UpdateCallbackPtr& callback)
     {
-        if (locked)
-        {
-            updateCallbackAddList.insert(callback);
-        }
-        else
-        {
-            std::vector<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
+        std::vector<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
 
-            if (i == updateCallbacks.end())
-            {
-                callback->remove = false;
-                updateCallbacks.push_back(callback);
-            }
+        if (i == updateCallbacks.end())
+        {
+            updateCallbacks.push_back(callback);
         }
     }
 
     void Engine::unscheduleUpdate(const UpdateCallbackPtr& callback)
     {
-        if (locked)
+        std::vector<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
+
+        if (i != updateCallbacks.end())
         {
-            callback->remove = true;
-            updateCallbackRemoveList.insert(callback);
-        }
-        else
-        {
-            std::vector<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
-
-            if (i != updateCallbacks.end())
-            {
-                updateCallbacks.erase(i);
-            }
-        }
-    }
-
-    void Engine::lock()
-    {
-        ++locked;
-    }
-
-    void Engine::unlock()
-    {
-        if (--locked == 0)
-        {
-            if (!updateCallbackAddList.empty())
-            {
-                for (const UpdateCallbackPtr& updateCallback : updateCallbackAddList)
-                {
-                    scheduleUpdate(updateCallback);
-                }
-                updateCallbackAddList.clear();
-            }
-
-            if (!updateCallbackRemoveList.empty())
-            {
-                for (const UpdateCallbackPtr& updateCallback : updateCallbackRemoveList)
-                {
-                    unscheduleUpdate(updateCallback);
-                }
-                updateCallbackRemoveList.clear();
-            }
+            updateCallbacks.erase(i);
         }
     }
 }

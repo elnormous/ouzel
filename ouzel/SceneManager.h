@@ -32,13 +32,7 @@ namespace ouzel
         protected:
             SceneManager();
 
-            void lock();
-            void unlock();
-
             ScenePtr scene;
-
-            ScenePtr nextScene;
-            int32_t locked = 0;
         };
     } // namespace scene
 } // namespace ouzel

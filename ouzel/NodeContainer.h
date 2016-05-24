@@ -29,14 +29,7 @@ namespace ouzel
             virtual const std::vector<NodePtr>& getChildren() const { return children; }
 
         protected:
-            void lock();
-            void unlock();
-
             std::vector<NodePtr> children;
-
-            std::set<NodePtr> nodeAddList;
-            std::set<NodePtr> nodeRemoveList;
-            int32_t locked = 0;
         };
     } // namespace scene
 } // namespace ouzel

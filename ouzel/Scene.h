@@ -37,15 +37,8 @@ namespace ouzel
             std::set<NodePtr> pickNodes(const std::vector<Vector2>& edges) const;
 
         protected:
-            void lock();
-            void unlock();
-
             std::vector<LayerPtr> layers;
             bool reorder = false;
-
-            std::set<LayerPtr> layerAddList;
-            std::set<LayerPtr> layerRemoveList;
-            int32_t locked = 0;
         };
     } // namespace scene
 } // namespace ouzel

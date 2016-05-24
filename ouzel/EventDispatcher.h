@@ -34,23 +34,9 @@ namespace ouzel
     protected:
         EventDispatcher();
 
-        void dispatchKeyboardEvent(const KeyboardEventPtr& event, const VoidPtr& sender);
-        void dispatchMouseEvent(const MouseEventPtr& event, const VoidPtr& sender);
-        void dispatchTouchEvent(const TouchEventPtr& event, const VoidPtr& sender);
-        void dispatchGamepadEvent(const GamepadEventPtr& event, const VoidPtr& sender);
-        void dispatchWindowEvent(const WindowEventPtr& event, const VoidPtr& sender);
-        void dispatchSystemEvent(const SystemEventPtr& event, const VoidPtr& sender);
-        void dispatchUIEvent(const UIEventPtr& event, const VoidPtr& sender);
-
-        void lock();
-        void unlock();
-
         std::vector<EventHandlerPtr> eventHandlers;
-        std::set<EventHandlerPtr> eventHandlerAddList;
-        std::set<EventHandlerPtr> eventHandlerRemoveList;
 
         std::queue<std::pair<EventPtr, VoidPtr>> eventQueue;
         std::mutex mutex;
-        int32_t locked = 0;
     };
 }

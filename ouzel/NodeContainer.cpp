@@ -25,15 +25,8 @@ namespace ouzel
 
         bool NodeContainer::addChild(const NodePtr& node)
         {
-            if (locked)
-            {
-                nodeAddList.insert(node);
-                return false;
-            }
-
             if (!hasChild(node) && !node->hasParent())
             {
-                node->remove = false;
                 node->parent = shared_from_this();
                 children.push_back(node);
 
@@ -47,13 +40,6 @@ namespace ouzel
 
         bool NodeContainer::removeChild(const NodePtr& node)
         {
-            if (locked)
-            {
-                node->remove = true;
-                nodeRemoveList.insert(node);
-                return false;
-            }
-
             std::vector<NodePtr>::iterator i = std::find(children.begin(), children.end(), node);
 
             if (i != children.end())
@@ -73,9 +59,9 @@ namespace ouzel
 
         void NodeContainer::removeAllChildren()
         {
-            lock();
+            auto childrenCopy = children;
 
-            for (auto& node : children)
+            for (auto& node : childrenCopy)
             {
                 node->removeFromLayer();
                 node->parent.reset();
@@ -83,8 +69,6 @@ namespace ouzel
             }
 
             children.clear();
-
-            unlock();
         }
 
         bool NodeContainer::hasChild(const NodePtr& node, bool recursive) const
@@ -100,35 +84,6 @@ namespace ouzel
             }
 
             return false;
-        }
-
-        void NodeContainer::lock()
-        {
-            ++locked;
-        }
-
-        void NodeContainer::unlock()
-        {
-            if (--locked == 0)
-            {
-                if (!nodeAddList.empty())
-                {
-                    for (const NodePtr& node : nodeAddList)
-                    {
-                        addChild(node);
-                    }
-                    nodeAddList.clear();
-                }
-
-                if (!nodeRemoveList.empty())
-                {
-                    for (const NodePtr& node : nodeRemoveList)
-                    {
-                        removeChild(node);
-                    }
-                    nodeRemoveList.clear();
-                }
-            }
         }
     } // namespace scene
 } // namespace ouzel

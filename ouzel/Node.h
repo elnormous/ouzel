@@ -139,8 +139,6 @@ namespace ouzel
             LayerWeakPtr layer;
 
             AnimatorPtr currentAnimator;
-            bool remove = false;
-
             std::vector<DrawablePtr> drawables;
         };
     } // namespace scene

@@ -23,8 +23,6 @@ namespace ouzel
 
         void Scene::draw()
         {
-            lock();
-
             if (reorder)
             {
                 std::sort(layers.begin(), layers.end(), [](LayerPtr a, LayerPtr b) {
@@ -36,24 +34,14 @@ namespace ouzel
 
             for (LayerPtr layer : layers)
             {
-                if (!layer->remove)
-                {
-                    layer->draw();
-                }
+                layer->draw();
             }
-
-            unlock();
         }
 
         void Scene::addLayer(const LayerPtr& layer)
         {
-            if (locked)
+            if (!hasLayer(layer) && !layer->getScene())
             {
-                layerAddList.insert(layer);
-            }
-            else if (!hasLayer(layer) && !layer->getScene())
-            {
-                layer->remove = false;
                 layers.push_back(layer);
                 layer->addToScene(shared_from_this());
 
@@ -66,37 +54,18 @@ namespace ouzel
 
         void Scene::removeLayer(const LayerPtr& layer)
         {
-            if (locked)
-            {
-                layer->remove = true;
-                layerRemoveList.insert(layer);
-            }
-            else
-            {
-                std::vector<LayerPtr>::iterator i = std::find(layers.begin(), layers.end(), layer);
+            std::vector<LayerPtr>::iterator i = std::find(layers.begin(), layers.end(), layer);
 
-                if (i != layers.end())
-                {
-                    layer->removeFromScene();
-                    layers.erase(i);
-                }
+            if (i != layers.end())
+            {
+                layer->removeFromScene();
+                layers.erase(i);
             }
         }
 
         void Scene::removeAllLayers()
         {
-            if (locked)
-            {
-                for (const LayerPtr& layer : layers)
-                {
-                    layer->remove = true;
-                    layerRemoveList.insert(layer);
-                }
-            }
-            else
-            {
-                layers.clear();
-            }
+            layers.clear();
         }
 
         bool Scene::hasLayer(const LayerPtr& layer) const
@@ -120,35 +89,6 @@ namespace ouzel
         void Scene::reorderLayers()
         {
             reorder = true;
-        }
-
-        void Scene::lock()
-        {
-            ++locked;
-        }
-
-        void Scene::unlock()
-        {
-            if (--locked == 0)
-            {
-                if (!layerAddList.empty())
-                {
-                    for (const LayerPtr& layer : layerAddList)
-                    {
-                        addLayer(layer);
-                    }
-                    layerAddList.clear();
-                }
-
-                if (!layerRemoveList.empty())
-                {
-                    for (const LayerPtr& layer : layerRemoveList)
-                    {
-                        removeLayer(layer);
-                    }
-                    layerRemoveList.clear();
-                }
-            }
         }
 
         NodePtr Scene::pickNode(const Vector2& position) const

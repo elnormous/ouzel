@@ -53,8 +53,6 @@ namespace ouzel
                 }
                 else
                 {
-                    lock();
-
                     std::stable_sort(children.begin(), children.end(), [](const NodePtr& a, const NodePtr& b) {
                         return a->getZ() > b->getZ();
                     });
@@ -66,16 +64,13 @@ namespace ouzel
                     {
                         node = *i;
 
-                        if (!node->remove)
+                        if (node->getZ() < 0.0f)
                         {
-                            if (node->getZ() < 0.0f)
-                            {
-                                node->visit(transform, updateChildrenTransform);
-                            }
-                            else
-                            {
-                                break;
-                            }
+                            node->visit(transform, updateChildrenTransform);
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
 
@@ -87,14 +82,8 @@ namespace ouzel
                     for (; i != children.end(); ++i)
                     {
                         node = *i;
-                        
-                        if (!node->remove)
-                        {
-                            node->visit(transform, updateChildrenTransform);
-                        }
+                        node->visit(transform, updateChildrenTransform);
                     }
-
-                    unlock();
                 }
 
                 updateChildrenTransform = false;
@@ -109,8 +98,6 @@ namespace ouzel
             }
             else
             {
-                lock();
-
                 auto i = children.begin();
                 NodePtr node;
 
@@ -142,8 +129,6 @@ namespace ouzel
                         node->draw();
                     }
                 }
-
-                unlock();
             }
         }
 

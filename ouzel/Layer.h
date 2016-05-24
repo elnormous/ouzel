@@ -55,7 +55,6 @@ namespace ouzel
 
             SceneWeakPtr scene;
             int32_t order = 0;
-            bool remove = false;
 
             graphics::RenderTargetPtr renderTarget;
         };

@@ -32,10 +32,10 @@ namespace ouzel
             if (camera)
             {
                 sharedEngine->getRenderer()->activateRenderTarget(renderTarget);
-                
-                lock();
 
-                for (const NodePtr& child : children)
+                auto childrenCopy = children;
+
+                for (const NodePtr& child : childrenCopy)
                 {
                     child->visit(Matrix4::IDENTITY, false);
                 }
@@ -48,8 +48,6 @@ namespace ouzel
                 {
                     node->process();
                 }
-
-                unlock();
             }
         }
 
