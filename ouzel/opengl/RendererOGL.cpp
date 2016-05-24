@@ -279,15 +279,11 @@ namespace ouzel
                                                     BlendState::BlendOperation alphaOperation)
         {
             std::shared_ptr<BlendStateOGL> blendState(new BlendStateOGL());
-
-            if (!blendState->init(enableBlending,
-                                  colorBlendSource, colorBlendDest,
-                                  colorOperation,
-                                  alphaBlendSource, alphaBlendDest,
-                                  alphaOperation))
-            {
-                blendState.reset();
-            }
+            blendState->init(enableBlending,
+                             colorBlendSource, colorBlendDest,
+                             colorOperation,
+                             alphaBlendSource, alphaBlendDest,
+                             alphaOperation);
 
             return blendState;
         }
@@ -352,11 +348,7 @@ namespace ouzel
         TexturePtr RendererOGL::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<TextureOGL> texture(new TextureOGL());
-
-            if (!texture->initFromFile(filename, dynamic, mipmaps))
-            {
-                texture.reset();
-            }
+            texture->initFromFile(filename, dynamic, mipmaps);
 
             return texture;
         }
@@ -364,11 +356,7 @@ namespace ouzel
         TexturePtr RendererOGL::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<TextureOGL> texture(new TextureOGL());
-
-            if (!texture->initFromData(data, size, dynamic, mipmaps))
-            {
-                texture.reset();
-            }
+            texture->initFromData(data, size, dynamic, mipmaps);
 
             return texture;
         }
@@ -402,11 +390,7 @@ namespace ouzel
         RenderTargetPtr RendererOGL::createRenderTarget(const Size2& size, bool depthBuffer)
         {
             std::shared_ptr<RenderTargetOGL> renderTarget(new RenderTargetOGL());
-
-            if (!renderTarget->init(size, depthBuffer))
-            {
-                renderTarget.reset();
-            }
+            renderTarget->init(size, depthBuffer);
 
             return renderTarget;
         }
@@ -466,11 +450,7 @@ namespace ouzel
                                                    const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
-
-            if (!shader->initFromFiles(pixelShader, vertexShader, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
-            {
-                shader.reset();
-            }
+            shader->initFromFiles(pixelShader, vertexShader, vertexAttributes, pixelShaderFunction, vertexShaderFunction);
 
             return shader;
         }
@@ -484,11 +464,7 @@ namespace ouzel
                                                      const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
-
-            if (!shader->initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
-            {
-                shader.reset();
-            }
+            shader->initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction);
 
             return shader;
         }
@@ -522,11 +498,7 @@ namespace ouzel
         MeshBufferPtr RendererOGL::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
-
-            if (!meshBuffer->init())
-            {
-                meshBuffer.reset();
-            }
+            meshBuffer->init();
 
             return meshBuffer;
         }
@@ -534,11 +506,7 @@ namespace ouzel
         MeshBufferPtr RendererOGL::createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
             std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
-
-            if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer))
-            {
-                meshBuffer.reset();
-            }
+            meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer);
 
             return meshBuffer;
         }

@@ -407,11 +407,7 @@ namespace ouzel
         TexturePtr RendererMetal::createTexture(const Size2& textureSize, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<TextureMetal> texture(new TextureMetal());
-
-            if (!texture->init(textureSize, dynamic, mipmaps))
-            {
-                texture.reset();
-            }
+            texture->init(textureSize, dynamic, mipmaps);
 
             return texture;
         }
@@ -419,11 +415,7 @@ namespace ouzel
         TexturePtr RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<TextureMetal> texture(new TextureMetal());
-
-            if (!texture->initFromFile(filename, dynamic, mipmaps))
-            {
-                texture.reset();
-            }
+            texture->initFromFile(filename, dynamic, mipmaps);
 
             return texture;
         }
@@ -431,11 +423,7 @@ namespace ouzel
         TexturePtr RendererMetal::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<TextureMetal> texture(new TextureMetal());
-
-            if (!texture->initFromData(data, size, dynamic, mipmaps))
-            {
-                texture.reset();
-            }
+            texture->initFromData(data, size, dynamic, mipmaps);
 
             return texture;
         }
@@ -443,11 +431,7 @@ namespace ouzel
         RenderTargetPtr RendererMetal::createRenderTarget(const Size2& size, bool depthBuffer)
         {
             std::shared_ptr<RenderTargetMetal> renderTarget(new RenderTargetMetal());
-
-            if (!renderTarget->init(size, depthBuffer))
-            {
-                renderTarget.reset();
-            }
+            renderTarget->init(size, depthBuffer);
 
             return renderTarget;
         }
@@ -511,11 +495,7 @@ namespace ouzel
                                                      const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderMetal> shader(new ShaderMetal());
-
-            if (!shader->initFromFiles(pixelShader, vertexShader, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
-            {
-                shader.reset();
-            }
+            shader->initFromFiles(pixelShader, vertexShader, vertexAttributes, pixelShaderFunction, vertexShaderFunction);
 
             return shader;
         }
@@ -529,11 +509,7 @@ namespace ouzel
                                                        const std::string& vertexShaderFunction)
         {
             std::shared_ptr<ShaderMetal> shader(new ShaderMetal());
-
-            if (!shader->initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
-            {
-                shader.reset();
-            }
+            shader->initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction);
 
             return shader;
         }
@@ -541,11 +517,7 @@ namespace ouzel
         MeshBufferPtr RendererMetal::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
-
-            if (!meshBuffer->init())
-            {
-                meshBuffer.reset();
-            }
+            meshBuffer->init();
 
             return meshBuffer;
         }
@@ -553,11 +525,7 @@ namespace ouzel
         MeshBufferPtr RendererMetal::createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
         {
             std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
-
-            if (!meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer))
-            {
-                meshBuffer.reset();
-            }
+            meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer);
 
             return meshBuffer;
         }
