@@ -90,7 +90,7 @@ namespace ouzel
             void setReceiveInput(bool newReceiveInput) { receiveInput = newReceiveInput; }
             bool isReceivingInput() const { return receiveInput; }
 
-            const std::vector<DrawablePtr> getDrawables() const { return drawables; }
+            const std::vector<DrawablePtr>& getDrawables() const { return drawables; }
             void addDrawable(DrawablePtr drawable);
             void removeDrawable(uint32_t index);
             void removeDrawable(DrawablePtr drawable);
