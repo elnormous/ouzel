@@ -23,6 +23,8 @@ namespace ouzel
 
         void RenderTargetMetal::free()
         {
+            RenderTarget::free();
+
             if (msaaTexture)
             {
                 [msaaTexture release];
@@ -89,6 +91,8 @@ namespace ouzel
                 renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
                 renderPassDescriptor.colorAttachments[0].texture = textureMetal->getTexture();
             }
+
+            ready = true;
 
             return true;
         }

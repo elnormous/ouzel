@@ -24,6 +24,8 @@ namespace ouzel
 
         void TextureD3D11::free()
         {
+            Texture::free();
+
             if (resourceView)
             {
                 resourceView->Release();
@@ -65,6 +67,8 @@ namespace ouzel
                 return false;
             }
 
+            ready = true;
+
             return uploadData(data, newSize);
         }
 
@@ -80,6 +84,8 @@ namespace ouzel
                 {
                     return false;
                 }
+
+                ready = true;
             }
 
             if (!Texture::uploadData(data, newSize))

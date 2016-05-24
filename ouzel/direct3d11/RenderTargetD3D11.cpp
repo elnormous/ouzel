@@ -23,6 +23,8 @@ namespace ouzel
 
         void RenderTargetD3D11::free()
         {
+            RenderTarget::free();
+
             if (renderTargetView)
             {
                 renderTargetView->Release();
@@ -67,6 +69,8 @@ namespace ouzel
                 log("Failed to create D3D11 render target view");
                 return false;
             }
+
+            ready = true;
 
             return true;
         }

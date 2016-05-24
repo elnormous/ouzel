@@ -61,7 +61,7 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
-
+            free();
         }
 
         bool RendererOGL::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering)
@@ -70,6 +70,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            free();
 
             if (sampleCount > 1)
             {

@@ -23,6 +23,8 @@ namespace ouzel
 
         void ShaderD3D11::free()
         {
+            Shader::free();
+
             if (pixelShader)
             {
                 pixelShader->Release();
@@ -142,6 +144,8 @@ namespace ouzel
                 return false;
             }
 
+            ready = true;
+
             return true;
         }
 
@@ -166,7 +170,10 @@ namespace ouzel
                     pixelShaderConstantBuffer->Release();
                     pixelShaderConstantBuffer = nullptr;
                 }
-                createPixelShaderConstantBuffer(offset);
+
+                ready = createPixelShaderConstantBuffer(offset);
+
+                return ready;
             }
 
             return true;
@@ -193,7 +200,10 @@ namespace ouzel
                     vertexShaderConstantBuffer->Release();
                     vertexShaderConstantBuffer = nullptr;
                 }
-                createVertexShaderConstantBuffer(offset);
+
+                ready = createVertexShaderConstantBuffer(offset);
+
+                return ready;
             }
 
             return true;

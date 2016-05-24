@@ -23,6 +23,8 @@ namespace ouzel
 
         void MeshBufferOGL::free()
         {
+            MeshBuffer::free();
+
             if (vertexArrayId)
             {
                 RendererOGL::unbindVertexArray(vertexArrayId);
@@ -56,6 +58,13 @@ namespace ouzel
 
         bool MeshBufferOGL::init()
         {
+            if (!MeshBuffer::init())
+            {
+                return false;
+            }
+
+            free();
+
             glGenBuffers(1, &indexBufferId);
             RendererOGL::bindElementArrayBuffer(indexBufferId);
 
@@ -91,6 +100,8 @@ namespace ouzel
                 log("Failed to create vertex buffer");
                 return false;
             }
+
+            ready = true;
 
             return true;
         }
@@ -156,6 +167,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            ready = true;
 
             return true;
         }

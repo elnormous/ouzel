@@ -26,6 +26,8 @@ namespace ouzel
 
         void ShaderMetal::free()
         {
+            Shader::free();
+
             if (vertexShader)
             {
                 [vertexShader release];
@@ -168,6 +170,8 @@ namespace ouzel
                 return false;
             }
 
+            ready = true;
+
             return true;
         }
 
@@ -192,7 +196,10 @@ namespace ouzel
                     [pixelShaderConstantBuffer release];
                     pixelShaderConstantBuffer = Nil;
                 }
-                createPixelShaderConstantBuffer(offset);
+
+                ready = createPixelShaderConstantBuffer(offset);
+
+                return ready;
             }
 
             return true;
@@ -219,7 +226,10 @@ namespace ouzel
                     [vertexShaderConstantBuffer release];
                     vertexShaderConstantBuffer = Nil;
                 }
-                createVertexShaderConstantBuffer(offset);
+
+                ready = createVertexShaderConstantBuffer(offset);
+
+                return ready;
             }
 
             return true;

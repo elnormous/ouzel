@@ -22,6 +22,11 @@ namespace ouzel
 
         }
 
+        void Shader::free()
+        {
+            ready = false;
+        }
+
         bool Shader::initFromFiles(const std::string& newPixelShader,
                                    const std::string& newVertexShader,
                                    uint32_t newVertexAttributes,
@@ -66,6 +71,8 @@ namespace ouzel
             OUZEL_UNUSED(vertexShaderFunction);
 
             vertexAttributes = newVertexAttributes;
+
+            ready = true;
 
             return  true;
         }

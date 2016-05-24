@@ -23,6 +23,8 @@ namespace ouzel
 
         void BlendStateD3D11::free()
         {
+            BlendState::free();
+
             if (blendState)
             {
                 blendState->Release();
@@ -66,6 +68,8 @@ namespace ouzel
                 log("Failed to create D3D11 blend state");
                 return false;
             }
+
+            ready = true;
 
             return true;
         }

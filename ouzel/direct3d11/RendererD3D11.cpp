@@ -37,6 +37,8 @@ namespace ouzel
 
         void RendererD3D11::free()
         {
+            Renderer::free();
+            
             if (depthStencilState)
             {
                 depthStencilState->Release();

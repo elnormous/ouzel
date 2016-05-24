@@ -18,7 +18,7 @@ namespace ouzel
             friend Renderer;
         public:
             virtual ~MeshBuffer();
-            virtual void free() {}
+            virtual void free();
 
             virtual bool init();
             virtual bool initFromData(const void* newIndices, uint32_t newIndexSize,
@@ -39,6 +39,8 @@ namespace ouzel
             virtual bool uploadIndices(const void* newIndices, uint32_t newIndexCount);
             virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount);
 
+            bool isReady() const { return ready; }
+            
         protected:
             MeshBuffer();
             void updateVertexSize();
@@ -52,6 +54,8 @@ namespace ouzel
             bool dynamicVertexBuffer = true;
 
             uint32_t vertexAttributes;
+
+            bool ready = false;
         };
     } // namespace graphics
 } // namespace ouzel

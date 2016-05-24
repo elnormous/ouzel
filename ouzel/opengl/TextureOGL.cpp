@@ -24,6 +24,8 @@ namespace ouzel
 
         void TextureOGL::free()
         {
+            Texture::free();
+
             if (textureId)
             {
                 RendererOGL::unbindTexture(textureId);
@@ -49,6 +51,8 @@ namespace ouzel
                 log("Failed to create texture");
                 return false;
             }
+
+            ready = true;
 
             return true;
         }
@@ -77,6 +81,8 @@ namespace ouzel
                 log("Failed to create texture");
                 return false;
             }
+
+            ready = true;
 
             return uploadData(data, size);
         }

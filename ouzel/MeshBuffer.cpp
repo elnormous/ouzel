@@ -18,6 +18,11 @@ namespace ouzel
 
         }
 
+        void MeshBuffer::free()
+        {
+            ready = false;
+        }
+
         bool MeshBuffer::init()
         {
             return true;
@@ -41,6 +46,8 @@ namespace ouzel
             vertexAttributes = newVertexAttributes;
             dynamicVertexBuffer = newDynamicVertexBuffer;
             updateVertexSize();
+
+            ready = true;
 
             return true;
         }

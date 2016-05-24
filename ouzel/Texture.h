@@ -20,7 +20,7 @@ namespace ouzel
             friend Renderer;
         public:
             virtual ~Texture();
-            virtual void free() {}
+            virtual void free();
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false);
             virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
@@ -37,6 +37,8 @@ namespace ouzel
             bool isFlipped() const { return flipped; }
             void setFlipped(bool newFlipped) { flipped = newFlipped; }
 
+            bool isReady() const { return ready; }
+            
         protected:
             Texture();
 
@@ -50,6 +52,8 @@ namespace ouzel
             bool renderTarget = false;
             std::vector<Size2> mipmapSizes;
             bool flipped = false;
+
+            bool ready = false;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -42,7 +42,7 @@ namespace ouzel
             };
 
             virtual ~BlendState() {}
-            virtual void free() {}
+            virtual void free();
 
             virtual bool init(bool newEnableBlending,
                               BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
@@ -58,6 +58,8 @@ namespace ouzel
             BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
             BlendOperation getAlphaOperation() const { return alphaOperation; }
 
+            bool isReady() const { return ready; }
+
         protected:
             BlendState();
 
@@ -69,6 +71,7 @@ namespace ouzel
             BlendFactor alphaBlendDest = BlendFactor::ZERO;
             BlendOperation alphaOperation = BlendOperation::ADD;
 
+            bool ready = false;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -23,6 +23,8 @@ namespace ouzel
 
         void RenderTargetOGL::free()
         {
+            RenderTarget::free();
+
             if (depthBufferId)
             {
                 glDeleteRenderbuffers(1, &depthBufferId);
@@ -100,6 +102,8 @@ namespace ouzel
                 log("Failed to create frame buffer");
                 return false;
             }
+
+            ready = true;
 
             return true;
         }

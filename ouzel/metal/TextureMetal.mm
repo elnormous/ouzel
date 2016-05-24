@@ -23,6 +23,8 @@ namespace ouzel
 
         void TextureMetal::free()
         {
+            Texture::free();
+
             if (texture)
             {
                 [texture release];
@@ -58,6 +60,8 @@ namespace ouzel
                 return false;
             }
 
+            ready = true;
+
             return uploadData(data, newSize);
         }
 
@@ -89,6 +93,8 @@ namespace ouzel
                 {
                     return false;
                 }
+
+                ready = true;
             }
 
             return Texture::uploadData(data, newSize);

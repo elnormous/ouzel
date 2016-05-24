@@ -23,6 +23,8 @@ namespace ouzel
 
         void ShaderOGL::free()
         {
+            Shader::free();
+
             if (programId)
             {
                 RendererOGL::unbindProgram(programId);
@@ -165,6 +167,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            ready = true;
 
             return true;
         }

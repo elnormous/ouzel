@@ -12,6 +12,11 @@ namespace ouzel
 
         }
 
+        void BlendState::free()
+        {
+            ready = false;
+        }
+
         bool BlendState::init(bool newEnableBlending,
                               BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
                               BlendOperation newColorOperation,
@@ -25,6 +30,8 @@ namespace ouzel
             alphaBlendSource = newAlphaBlendSource;
             alphaBlendDest = newAlphaBlendDest;
             alphaOperation = newAlphaOperation;
+
+            ready = true;
 
             return true;
         }

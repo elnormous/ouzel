@@ -31,6 +31,8 @@ namespace ouzel
 
             TexturePtr getTexture() const { return texture; }
 
+            bool isReady() const { return ready; }
+            
         protected:
             RenderTarget();
 
@@ -39,6 +41,8 @@ namespace ouzel
 
             Color clearColor;
             TexturePtr texture;
+
+            bool ready = false;
         };
     } // namespace graphics
 } // namespace ouzel

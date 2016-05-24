@@ -28,7 +28,7 @@ namespace ouzel
             };
 
             virtual ~Shader();
-            virtual void free() {}
+            virtual void free();
 
             virtual bool initFromFiles(const std::string& newPixelShader,
                                        const std::string& newVertexShader,
@@ -51,6 +51,8 @@ namespace ouzel
             virtual bool setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value);
             virtual bool setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value);
 
+            bool isReady() const { return ready; }
+            
         protected:
             Shader();
 
@@ -63,6 +65,8 @@ namespace ouzel
             uint32_t pixelShaderAlignment = 0;
             std::vector<ConstantInfo> vertexShaderConstantInfo;
             uint32_t vertexShaderAlignment = 0;
+
+            bool ready = false;
         };
     } // namespace graphics
 } // namespace ouzel

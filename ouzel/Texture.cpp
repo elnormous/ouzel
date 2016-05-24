@@ -24,12 +24,19 @@ namespace ouzel
 
         }
 
+        void Texture::free()
+        {
+            ready = false;
+        }
+
         bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
         {
             size = newSize;
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
+
+            ready = true;
 
             return true;
         }
@@ -44,6 +51,7 @@ namespace ouzel
             Image image;
             if (!image.initFromFile(filename))
             {
+                ready = false;
                 return false;
             }
 
@@ -57,6 +65,8 @@ namespace ouzel
             size = newSize;
             dynamic = newDynamic;
             mipmaps = newMipmaps;
+
+            ready = true;
 
             return true;
         }

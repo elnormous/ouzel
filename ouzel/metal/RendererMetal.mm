@@ -74,6 +74,8 @@ namespace ouzel
 
         void RendererMetal::free()
         {
+            Renderer::free();
+
             if (msaaTexture)
             {
                 [msaaTexture release];

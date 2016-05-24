@@ -22,6 +22,8 @@ namespace ouzel
 
         void MeshBufferD3D11::free()
         {
+            MeshBuffer::free();
+
             if (indexBuffer)
             {
                 indexBuffer->Release();
@@ -59,6 +61,8 @@ namespace ouzel
                 return false;
             }
 
+            ready = true;
+
             return true;
         }
 
@@ -86,7 +90,10 @@ namespace ouzel
                     indexBuffer->Release();
                     indexBuffer = nullptr;
                 }
-                return createIndexBuffer(indices, indexSize * indexCount);
+
+                ready = createIndexBuffer(indices, indexSize * indexCount);
+
+                return ready;
             }
             else
             {
@@ -108,7 +115,10 @@ namespace ouzel
                     vertexBuffer->Release();
                     vertexBuffer = nullptr;
                 }
-                return createVertexBuffer(vertices, vertexSize * vertexCount);
+
+                ready = createVertexBuffer(vertices, vertexSize * vertexCount);
+
+                return ready;
             }
             else
             {
