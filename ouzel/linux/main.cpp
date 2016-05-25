@@ -11,11 +11,11 @@ static uint32_t getModifiers(unsigned int state)
 {
     uint32_t modifiers = 0;
 
-    if (state & ShiftMask) modifiers |= Event::SHIFT_DOWN;
-    if (state & ControlMask) modifiers |= Event::CONTROL_DOWN;
-    if (state & Button1) modifiers |= Event::LEFT_MOUSE_DOWN;
-    if (state & Button2) modifiers |= Event::RIGHT_MOUSE_DOWN;
-    if (state & Button3) modifiers |= Event::MIDDLE_MOUSE_DOWN;
+    if (state & ShiftMask) modifiers |= SHIFT_DOWN;
+    if (state & ControlMask) modifiers |= CONTROL_DOWN;
+    if (state & Button1) modifiers |= LEFT_MOUSE_DOWN;
+    if (state & Button2) modifiers |= RIGHT_MOUSE_DOWN;
+    if (state & Button3) modifiers |= MIDDLE_MOUSE_DOWN;
 
     return modifiers;
 }

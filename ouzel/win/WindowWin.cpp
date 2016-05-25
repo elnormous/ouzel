@@ -169,9 +169,9 @@ static uint32_t getKeyboardModifiers(WPARAM wParam)
 {
     uint32_t modifiers = 0;
 
-    if (wParam & MK_SHIFT) modifiers |= Event::SHIFT_DOWN;
-    if (wParam & MK_ALT) modifiers |= Event::ALT_DOWN;
-    if (wParam & MK_CONTROL) modifiers |= Event::CONTROL_DOWN;
+    if (wParam & MK_SHIFT) modifiers |= SHIFT_DOWN;
+    if (wParam & MK_ALT) modifiers |= ALT_DOWN;
+    if (wParam & MK_CONTROL) modifiers |= CONTROL_DOWN;
 
     return modifiers;
 }
@@ -180,11 +180,11 @@ static uint32_t getMouseModifiers(WPARAM wParam)
 {
     uint32_t modifiers = 0;
 
-    if (wParam & MK_SHIFT) modifiers |= Event::SHIFT_DOWN;
-    if (wParam & MK_CONTROL) modifiers |= Event::CONTROL_DOWN;
-    if (wParam & MK_LBUTTON) modifiers |= Event::LEFT_MOUSE_DOWN;
-    if (wParam & MK_RBUTTON) modifiers |= Event::RIGHT_MOUSE_DOWN;
-    if (wParam & MK_MBUTTON) modifiers |= Event::MIDDLE_MOUSE_DOWN;
+    if (wParam & MK_SHIFT) modifiers |= SHIFT_DOWN;
+    if (wParam & MK_CONTROL) modifiers |= CONTROL_DOWN;
+    if (wParam & MK_LBUTTON) modifiers |= LEFT_MOUSE_DOWN;
+    if (wParam & MK_RBUTTON) modifiers |= RIGHT_MOUSE_DOWN;
+    if (wParam & MK_MBUTTON) modifiers |= MIDDLE_MOUSE_DOWN;
 
     return modifiers;
 }
