@@ -37,7 +37,15 @@ namespace ouzel
 
                 for (const NodePtr& child : childrenCopy)
                 {
-                    child->visit(Matrix4::IDENTITY, false);
+                    if (child->isVisible())
+                    {
+                        if (child->checkVisibility(std::static_pointer_cast<Layer>(shared_from_this())))
+                        {
+                            addToDrawQueue(child);
+                        }
+
+                        child->visit(Matrix4::IDENTITY, false, std::static_pointer_cast<Layer>(shared_from_this()));
+                    }
                 }
 
                 std::stable_sort(drawQueue.begin(), drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {
@@ -46,7 +54,7 @@ namespace ouzel
 
                 for (const NodePtr& node : drawQueue)
                 {
-                    node->process();
+                    node->process(std::static_pointer_cast<Layer>(shared_from_this()));
                 }
             }
         }
@@ -55,8 +63,6 @@ namespace ouzel
         {
             if (NodeContainer::addChild(node))
             {
-                node->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
-
                 node->updateTransform(Matrix4::IDENTITY);
 
                 return true;
@@ -74,6 +80,11 @@ namespace ouzel
 
         void Layer::setCamera(const CameraPtr& newCamera)
         {
+            if (camera)
+            {
+                camera->removeFromLayer();
+            }
+
             camera = newCamera;
 
             if (camera)
@@ -118,21 +129,6 @@ namespace ouzel
         void Layer::setOrder(int32_t newOrder)
         {
             order = newOrder;
-
-            if (ScenePtr currentScene = scene.lock())
-            {
-                currentScene->reorderLayers();
-            }
-        }
-
-        void Layer::addToScene(const ScenePtr& newScene)
-        {
-            scene = newScene;
-        }
-
-        void Layer::removeFromScene()
-        {
-            scene.reset();
         }
 
         void Layer::setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget)

@@ -183,5 +183,15 @@ namespace ouzel
             targetContentSize = newTargetContentSize;
             recalculateProjection();
         }
+
+        void Camera::addToLayer(const LayerWeakPtr& newLayer)
+        {
+            layer = newLayer;
+        }
+
+        void Camera::removeFromLayer()
+        {
+            layer.reset();
+        }
     } // namespace scene
 } // namespace ouzel

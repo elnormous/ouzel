@@ -41,19 +41,13 @@ namespace ouzel
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
 
-            ScenePtr getScene() const { return scene.lock(); }
-
             void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
             const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
 
         protected:
-            virtual void addToScene(const ScenePtr& newScene);
-            virtual void removeFromScene();
-
             CameraPtr camera;
             std::vector<NodePtr> drawQueue;
 
-            SceneWeakPtr scene;
             int32_t order = 0;
 
             graphics::RenderTargetPtr renderTarget;

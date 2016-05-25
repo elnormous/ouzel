@@ -19,7 +19,6 @@ namespace ouzel
             for (NodePtr node : children)
             {
                 node->parent.reset();
-                node->layer.reset();
             }
         }
 
@@ -44,9 +43,7 @@ namespace ouzel
 
             if (i != children.end())
             {
-                node->removeFromLayer();
                 node->parent.reset();
-                node->layer.reset();
                 children.erase(i);
 
                 return true;
@@ -63,9 +60,7 @@ namespace ouzel
 
             for (auto& node : childrenCopy)
             {
-                node->removeFromLayer();
                 node->parent.reset();
-                node->layer.reset();
             }
 
             children.clear();

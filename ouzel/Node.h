@@ -27,9 +27,9 @@ namespace ouzel
             Node();
             virtual ~Node();
 
-            virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty);
-            virtual void process();
-            virtual void draw();
+            virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty, const LayerPtr& currentLayer);
+            virtual void process(const LayerPtr& currentLayer);
+            virtual void draw(const LayerPtr& currentLayer);
 
             virtual bool addChild(const NodePtr& node) override;
             virtual bool hasParent() const { return !parent.expired(); }
@@ -80,7 +80,7 @@ namespace ouzel
             Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
             Vector2 convertLocalToWorld(const Vector2& localPosition) const;
 
-            virtual bool checkVisibility() const;
+            virtual bool checkVisibility(const LayerPtr& currentLayer) const;
 
             virtual void animate(const AnimatorPtr& animator);
             virtual AnimatorPtr getAnimator() const { return currentAnimator; }
@@ -96,12 +96,7 @@ namespace ouzel
             void removeDrawable(DrawablePtr drawable);
             void removeAllDrawables();
 
-            LayerPtr getLayer() const { return layer.lock(); }
-
         protected:
-            virtual void addToLayer(const LayerWeakPtr& newLayer);
-            virtual void removeFromLayer();
-
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
 
@@ -136,7 +131,6 @@ namespace ouzel
             bool receiveInput = false;
 
             NodeContainerWeakPtr parent;
-            LayerWeakPtr layer;
 
             AnimatorPtr currentAnimator;
             std::vector<DrawablePtr> drawables;

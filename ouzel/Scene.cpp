@@ -23,14 +23,9 @@ namespace ouzel
 
         void Scene::draw()
         {
-            if (reorder)
-            {
-                std::sort(layers.begin(), layers.end(), [](LayerPtr a, LayerPtr b) {
-                    return a->getOrder() > b->getOrder();
-                });
-
-                reorder = false;
-            }
+            std::sort(layers.begin(), layers.end(), [](LayerPtr a, LayerPtr b) {
+                return a->getOrder() > b->getOrder();
+            });
 
             for (LayerPtr layer : layers)
             {
@@ -40,10 +35,9 @@ namespace ouzel
 
         void Scene::addLayer(const LayerPtr& layer)
         {
-            if (!hasLayer(layer) && !layer->getScene())
+            if (!hasLayer(layer))
             {
                 layers.push_back(layer);
-                layer->addToScene(shared_from_this());
 
                 if (CameraPtr camera = layer->getCamera())
                 {
@@ -58,7 +52,6 @@ namespace ouzel
 
             if (i != layers.end())
             {
-                layer->removeFromScene();
                 layers.erase(i);
             }
         }
@@ -84,11 +77,6 @@ namespace ouzel
                     camera->recalculateProjection();
                 }
             }
-        }
-
-        void Scene::reorderLayers()
-        {
-            reorder = true;
         }
 
         NodePtr Scene::pickNode(const Vector2& position) const

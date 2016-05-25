@@ -365,15 +365,9 @@ namespace ouzel
 
             if (count)
             {
-                LayerPtr layer;
                 NodePtr parent = parentNode.lock();
 
                 if (parent)
-                {
-                    layer = parent->getLayer();
-                }
-
-                if (layer)
                 {
                     Vector2 position;
 

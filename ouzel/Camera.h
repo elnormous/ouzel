@@ -47,6 +47,9 @@ namespace ouzel
             virtual const Size2& getContentSize() const { return contentSize; }
             virtual const Vector2& getContentScale() const { return contentScale; }
 
+            virtual void addToLayer(const LayerWeakPtr& newLayer);
+            virtual void removeFromLayer();
+
         protected:
             virtual void calculateLocalTransform() const override;
 
@@ -63,6 +66,8 @@ namespace ouzel
 
             bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection;
+
+            LayerWeakPtr layer;
         };
     } // namespace scene
 } // namespace ouzel

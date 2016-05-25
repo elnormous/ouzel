@@ -26,78 +26,49 @@ namespace ouzel
 
         }
 
-        void Node::visit(const Matrix4& newTransformMatrix, bool parentTransformDirty)
+        void Node::visit(const Matrix4& newTransformMatrix, bool parentTransformDirty, const LayerPtr& currentLayer)
         {
             if (parentTransformDirty)
             {
                 updateTransform(newTransformMatrix);
             }
 
-            if (visible)
+            if (transformDirty)
             {
-                if (transformDirty)
-                {
-                    calculateTransform();
-                }
-
-                LayerPtr currentLayer = layer.lock();
-                // check if parent is layer
-                bool isRoot = !parent.owner_before(layer) && !layer.owner_before(parent);
-
-                if (children.empty())
-                {
-                    if (currentLayer && (globalOrder || isRoot) && checkVisibility())
-                    {
-                        currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
-                    }
-                }
-                else
-                {
-                    std::stable_sort(children.begin(), children.end(), [](const NodePtr& a, const NodePtr& b) {
-                        return a->getZ() > b->getZ();
-                    });
-
-                    auto i = children.begin();
-                    NodePtr node;
-
-                    for (; i != children.end(); ++i)
-                    {
-                        node = *i;
-
-                        if (node->getZ() < 0.0f)
-                        {
-                            node->visit(transform, updateChildrenTransform);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    if (currentLayer && (globalOrder || isRoot) && checkVisibility())
-                    {
-                        currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
-                    }
-
-                    for (; i != children.end(); ++i)
-                    {
-                        node = *i;
-                        node->visit(transform, updateChildrenTransform);
-                    }
-                }
-
-                updateChildrenTransform = false;
+                calculateTransform();
             }
+
+            if (currentLayer)
+            {
+                for (const NodePtr& child : children)
+                {
+                    if (child->isVisible())
+                    {
+                        if (child->isGlobalOrder() && child->checkVisibility(currentLayer))
+                        {
+                            currentLayer->addToDrawQueue(child);
+                        }
+
+                        child->visit(transform, updateChildrenTransform, currentLayer);
+                    }
+                }
+            }
+
+            updateChildrenTransform = false;
         }
 
-        void Node::process()
+        void Node::process(const LayerPtr& currentLayer)
         {
             if (children.empty())
             {
-                draw();
+                draw(currentLayer);
             }
             else
             {
+                std::stable_sort(children.begin(), children.end(), [](const NodePtr& a, const NodePtr& b) {
+                    return a->getZ() > b->getZ();
+                });
+
                 auto i = children.begin();
                 NodePtr node;
 
@@ -107,9 +78,9 @@ namespace ouzel
 
                     if (node->getZ() < 0.0f)
                     {
-                        if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility())
+                        if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility(currentLayer))
                         {
-                            node->draw();
+                            node->draw(currentLayer);
                         }
                     }
                     else
@@ -118,28 +89,28 @@ namespace ouzel
                     }
                 }
 
-                draw();
+                draw(currentLayer);
 
                 for (; i != children.end(); ++i)
                 {
                     node = *i;
 
-                    if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility())
+                    if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility(currentLayer))
                     {
-                        node->draw();
+                        node->draw(currentLayer);
                     }
                 }
             }
         }
 
-        void Node::draw()
+        void Node::draw(const LayerPtr& currentLayer)
         {
             if (transformDirty)
             {
                 calculateTransform();
             }
 
-            if (LayerPtr currentLayer = layer.lock())
+            if (currentLayer)
             {
                 if (currentLayer->getCamera())
                 {
@@ -160,7 +131,6 @@ namespace ouzel
         {
             if (NodeContainer::addChild(node))
             {
-                node->addToLayer(layer);
                 node->updateTransform(getTransform());
 
                 return true;
@@ -243,29 +213,6 @@ namespace ouzel
         void Node::setVisible(bool newVisible)
         {
             visible = newVisible;
-        }
-
-        void Node::addToLayer(const LayerWeakPtr& newLayer)
-        {
-            layer = newLayer;
-
-            if (!layer.expired())
-            {
-                for (const NodePtr& child : children)
-                {
-                    child->addToLayer(layer);
-                }
-            }
-        }
-
-        void Node::removeFromLayer()
-        {
-            for (const NodePtr& child : children)
-            {
-                child->removeFromLayer();
-            }
-
-            layer.reset();
         }
 
         bool Node::pointOn(const Vector2& worldPosition) const
@@ -360,7 +307,7 @@ namespace ouzel
             return Vector2(worldPosition.x, worldPosition.y);
         }
 
-        bool Node::checkVisibility() const
+        bool Node::checkVisibility(const LayerPtr& currentLayer) const
         {
             // we must add this node to draw queue if it has children
             if (!children.empty())
@@ -368,7 +315,7 @@ namespace ouzel
                 return true;
             }
 
-            if (LayerPtr currentLayer = layer.lock())
+            if (currentLayer)
             {
                 for (const DrawablePtr& drawable : drawables)
                 {

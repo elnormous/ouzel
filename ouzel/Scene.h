@@ -31,14 +31,11 @@ namespace ouzel
 
             virtual void recalculateProjection();
 
-            virtual void reorderLayers();
-
             NodePtr pickNode(const Vector2& position) const;
             std::set<NodePtr> pickNodes(const std::vector<Vector2>& edges) const;
 
         protected:
             std::vector<LayerPtr> layers;
-            bool reorder = false;
         };
     } // namespace scene
 } // namespace ouzel
