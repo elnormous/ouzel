@@ -23,11 +23,11 @@ void Application::begin()
 
     eventHandler = make_shared<EventHandler>();
 
-    eventHandler->keyboardHandler = std::bind(&Application::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2);
-    eventHandler->mouseHandler = std::bind(&Application::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
-    eventHandler->touchHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
-    eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
-    eventHandler->uiHandler = std::bind(&Application::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+    eventHandler->keyboardHandler = std::bind(&Application::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    eventHandler->mouseHandler = std::bind(&Application::handleMouse, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    eventHandler->touchHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    eventHandler->uiHandler = std::bind(&Application::handleUI, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
@@ -137,15 +137,15 @@ void Application::begin()
     sharedEngine->getInput()->startGamepadDiscovery();
 }
 
-bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& sender) const
+bool Application::handleKeyboard(ouzel::Event::Type type, const KeyboardEvent& event, const VoidPtr& sender) const
 {
     OUZEL_UNUSED(sender);
 
-    if (event->type == Event::Type::KEY_DOWN)
+    if (type == Event::Type::KEY_DOWN)
     {
         Vector2 position = layer->getCamera()->getPosition();
 
-        switch (event->key)
+        switch (event.key)
         {
             case input::KeyboardKey::UP:
                 position.y += 10.0f;
@@ -178,11 +178,11 @@ bool Application::handleKeyboard(const KeyboardEventPtr& event, const VoidPtr& s
     return true;
 }
 
-bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender) const
+bool Application::handleMouse(ouzel::Event::Type type, const MouseEvent& event, const VoidPtr& sender) const
 {
     OUZEL_UNUSED(sender);
 
-    switch (event->type)
+    switch (type)
     {
         case Event::Type::MOUSE_DOWN:
         {
@@ -191,7 +191,7 @@ bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender)
         }
         case Event::Type::MOUSE_MOVE:
         {
-            Vector2 worldLocation = layer->getCamera()->convertScreenToWorld(event->position);
+            Vector2 worldLocation = layer->getCamera()->convertScreenToWorld(event.position);
             flame->setPosition(worldLocation);
             break;
         }
@@ -202,48 +202,48 @@ bool Application::handleMouse(const MouseEventPtr& event, const VoidPtr& sender)
     return true;
 }
 
-bool Application::handleTouch(const TouchEventPtr& event, const VoidPtr& sender) const
+bool Application::handleTouch(ouzel::Event::Type type, const TouchEvent& event, const VoidPtr& sender) const
 {
     OUZEL_UNUSED(sender);
 
-    Vector2 worldLocation = layer->getCamera()->convertScreenToWorld(event->position);
+    Vector2 worldLocation = layer->getCamera()->convertScreenToWorld(event.position);
     flame->setPosition(worldLocation);
 
     return true;
 }
 
-bool Application::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender) const
+bool Application::handleGamepad(ouzel::Event::Type type, const GamepadEvent& event, const VoidPtr& sender) const
 {
     OUZEL_UNUSED(sender);
 
-    if (event->type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         Vector2 position = layer->getCamera()->convertWorldToScreen(flame->getPosition());
 
-        switch (event->button)
+        switch (event.button)
         {
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
             case input::GamepadButton::RIGHT_THUMB_UP:
-                position.y = event->value;
+                position.y = event.value;
                 break;
             case input::GamepadButton::DPAD_DOWN:
             case input::GamepadButton::LEFT_THUMB_DOWN:
             case input::GamepadButton::RIGHT_THUMB_DOWN:
-                position.y = -event->value;
+                position.y = -event.value;
                 break;
             case input::GamepadButton::DPAD_LEFT:
             case input::GamepadButton::LEFT_THUMB_LEFT:
             case input::GamepadButton::RIGHT_THUMB_LEFT:
-                position.x = -event->value;
+                position.x = -event.value;
                 break;
             case input::GamepadButton::DPAD_RIGHT:
             case input::GamepadButton::LEFT_THUMB_RIGHT:
             case input::GamepadButton::RIGHT_THUMB_RIGHT:
-                position.x = event->value;
+                position.x = event.value;
                 break;
             case input::GamepadButton::A:
-                witch->setVisible(!event->pressed);
+                witch->setVisible(!event.pressed);
                 break;
             default:
                 break;
@@ -256,9 +256,9 @@ bool Application::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sen
     return true;
 }
 
-bool Application::handleUI(const UIEventPtr& event, const VoidPtr& sender) const
+bool Application::handleUI(ouzel::Event::Type type, const UIEvent& event, const VoidPtr& sender) const
 {
-    if (event->type == Event::Type::UI_CLICK_NODE && sender == button)
+    if (type == Event::Type::UI_CLICK_NODE && sender == button)
     {
         character->setVisible(!character->isVisible());
     }

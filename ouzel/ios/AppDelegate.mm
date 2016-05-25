@@ -65,10 +65,11 @@
 
     if (ouzel::sharedEngine)
     {
-        ouzel::SystemEventPtr event = std::make_shared<ouzel::SystemEvent>();
-        event->type = ouzel::Event::Type::LOW_MEMORY;
+        ouzel::Event event;
+        event.sender = ouzel::sharedEngine->getInput();
+        event.type = ouzel::Event::Type::LOW_MEMORY;
 
-        ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event, ouzel::sharedEngine->getInput());
+        ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event);
     }
 }
 

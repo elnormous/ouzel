@@ -68,23 +68,6 @@ namespace ouzel
     class EventHandler;
     typedef std::shared_ptr<EventHandler> EventHandlerPtr;
 
-    struct Event;
-    typedef std::shared_ptr<Event> EventPtr;
-    struct KeyboardEvent;
-    typedef std::shared_ptr<KeyboardEvent> KeyboardEventPtr;
-    struct MouseEvent;
-    typedef std::shared_ptr<MouseEvent> MouseEventPtr;
-    struct TouchEvent;
-    typedef std::shared_ptr<TouchEvent> TouchEventPtr;
-    struct GamepadEvent;
-    typedef std::shared_ptr<GamepadEvent> GamepadEventPtr;
-    struct WindowEvent;
-    typedef std::shared_ptr<WindowEvent> WindowEventPtr;
-    struct SystemEvent;
-    typedef std::shared_ptr<SystemEvent> SystemEventPtr;
-    struct UIEvent;
-    typedef std::shared_ptr<UIEvent> UIEventPtr;
-
     namespace scene
     {
         class SceneManager;

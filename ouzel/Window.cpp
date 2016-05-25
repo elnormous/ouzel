@@ -39,13 +39,15 @@ namespace ouzel
             size = newSize;
             sharedEngine->getRenderer()->setSize(size);
 
-            WindowEventPtr event = std::make_shared<WindowEvent>();
-            event->type = Event::Type::WINDOW_SIZE_CHANGE;
-            event->size = size;
-            event->title = title;
-            event->fullscreen = fullscreen;
+            Event event;
+            event.sender = sharedEngine->getRenderer();
+            event.type = Event::Type::WINDOW_SIZE_CHANGE;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getRenderer());
+            event.windowEvent.size = size;
+            event.windowEvent.title = title;
+            event.windowEvent.fullscreen = fullscreen;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
     }
 
@@ -57,13 +59,14 @@ namespace ouzel
 
             sharedEngine->getRenderer()->setFullscreen(fullscreen);
 
-            WindowEventPtr event = std::make_shared<WindowEvent>();
-            event->type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
-            event->size = size;
-            event->title = title;
-            event->fullscreen = fullscreen;
+            Event event;
+            event.sender = sharedEngine->getRenderer();
+            event.type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
+            event.windowEvent.size = size;
+            event.windowEvent.title = title;
+            event.windowEvent.fullscreen = fullscreen;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getRenderer());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
     }
 
@@ -73,13 +76,14 @@ namespace ouzel
         {
             title = newTitle;
 
-            WindowEventPtr event = std::make_shared<WindowEvent>();
-            event->type = Event::Type::WINDOW_TITLE_CHANGE;
-            event->size = size;
-            event->title = title;
-            event->fullscreen = fullscreen;
+            Event event;
+            event.sender = sharedEngine->getRenderer();
+            event.type = Event::Type::WINDOW_TITLE_CHANGE;
+            event.windowEvent.size = size;
+            event.windowEvent.title = title;
+            event.windowEvent.fullscreen = fullscreen;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getRenderer());
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
     }
 }

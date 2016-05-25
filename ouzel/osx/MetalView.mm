@@ -100,17 +100,17 @@ static uint32_t getModifiers(NSEvent* theEvent, bool includeMouse = false)
 {
     uint32_t modifiers = 0;
 
-    if (theEvent.modifierFlags & NSShiftKeyMask) modifiers |= Event::SHIFT_DOWN;
-    if (theEvent.modifierFlags & NSAlternateKeyMask) modifiers |= Event::ALT_DOWN;
-    if (theEvent.modifierFlags & NSControlKeyMask) modifiers |= Event::CONTROL_DOWN;
-    if (theEvent.modifierFlags & NSCommandKeyMask) modifiers |= Event::COMMAND_DOWN;
-    if (theEvent.modifierFlags & NSFunctionKeyMask) modifiers |= Event::FUNCTION_DOWN;
+    if (theEvent.modifierFlags & NSShiftKeyMask) modifiers |= SHIFT_DOWN;
+    if (theEvent.modifierFlags & NSAlternateKeyMask) modifiers |= ALT_DOWN;
+    if (theEvent.modifierFlags & NSControlKeyMask) modifiers |= CONTROL_DOWN;
+    if (theEvent.modifierFlags & NSCommandKeyMask) modifiers |= COMMAND_DOWN;
+    if (theEvent.modifierFlags & NSFunctionKeyMask) modifiers |= FUNCTION_DOWN;
 
     if (includeMouse)
     {
-        if (NSEvent.pressedMouseButtons & (1 << 0)) modifiers |= Event::LEFT_MOUSE_DOWN;
-        if (NSEvent.pressedMouseButtons & (1 << 1)) modifiers |= Event::RIGHT_MOUSE_DOWN;
-        if (NSEvent.pressedMouseButtons & (1 << 2)) modifiers |= Event::MIDDLE_MOUSE_DOWN;
+        if (NSEvent.pressedMouseButtons & (1 << 0)) modifiers |= LEFT_MOUSE_DOWN;
+        if (NSEvent.pressedMouseButtons & (1 << 1)) modifiers |= RIGHT_MOUSE_DOWN;
+        if (NSEvent.pressedMouseButtons & (1 << 2)) modifiers |= MIDDLE_MOUSE_DOWN;
     }
 
     return modifiers;

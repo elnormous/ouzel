@@ -41,8 +41,8 @@ namespace ouzel
         {
             eventHandler = std::make_shared<EventHandler>(EventHandler::PRIORITY_MAX + 1);
 
-            eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
-            eventHandler->uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+            eventHandler->uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
             sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
@@ -109,7 +109,7 @@ namespace ouzel
             updateSprite();
         }
 
-        bool Button::handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender)
+        bool Button::handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr& sender)
         {
             OUZEL_UNUSED(event);
             OUZEL_UNUSED(sender);
@@ -117,28 +117,28 @@ namespace ouzel
             return true;
         }
 
-        bool Button::handleUI(const UIEventPtr& event, const VoidPtr& sender)
+        bool Button::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender)
         {
             if (!enabled) return true;
 
             if (sender.get() == this)
             {
-                if (event->type == Event::Type::UI_ENTER_NODE)
+                if (type == Event::Type::UI_ENTER_NODE)
                 {
                     pointerOver = true;
                     updateSprite();
                 }
-                else if (event->type == Event::Type::UI_LEAVE_NODE)
+                else if (type == Event::Type::UI_LEAVE_NODE)
                 {
                     pointerOver = false;
                     updateSprite();
                 }
-                else if (event->type == Event::Type::UI_PRESS_NODE)
+                else if (type == Event::Type::UI_PRESS_NODE)
                 {
                     pressed = true;
                     updateSprite();
                 }
-                else if (event->type == Event::Type::UI_RELEASE_NODE)
+                else if (type == Event::Type::UI_RELEASE_NODE)
                 {
                     if (pressed)
                     {
@@ -146,7 +146,7 @@ namespace ouzel
                         updateSprite();
                     }
                 }
-                else if (event->type == Event::Type::UI_CLICK_NODE)
+                else if (type == Event::Type::UI_CLICK_NODE)
                 {
                     if (pressed)
                     {

@@ -49,14 +49,16 @@ namespace ouzel
 
         void Gamepad::handleButtonValueChange(GamepadButton button, bool pressed, float value)
         {
-            GamepadEventPtr event = std::make_shared<GamepadEvent>();
-            event->type = Event::Type::GAMEPAD_BUTTON_CHANGE;
-            event->gamepad = shared_from_this();
-            event->button = button;
-            event->pressed = pressed;
-            event->value = value;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
+            event.gamepadEvent.gamepad = shared_from_this();
+            event.gamepadEvent.button = button;
+            event.gamepadEvent.pressed = pressed;
+            event.gamepadEvent.value = value;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
 
             buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
             buttonStates[static_cast<uint32_t>(button)].value = value;

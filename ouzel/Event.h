@@ -13,6 +13,64 @@
 
 namespace ouzel
 {
+    enum EventModifiers
+    {
+        SHIFT_DOWN          = 0x0001,
+        ALT_DOWN            = 0x0002,
+        CONTROL_DOWN        = 0x0004,
+        COMMAND_DOWN        = 0x0008,
+        FUNCTION_DOWN       = 0x0010,
+        LEFT_MOUSE_DOWN     = 0x0020,
+        RIGHT_MOUSE_DOWN    = 0x0040,
+        MIDDLE_MOUSE_DOWN   = 0x0080,
+    };
+
+    struct KeyboardEvent
+    {
+        uint32_t modifiers = 0;
+        input::KeyboardKey key = input::KeyboardKey::NONE;
+    };
+
+    struct MouseEvent
+    {
+        uint32_t modifiers = 0;
+        input::MouseButton button = input::MouseButton::NONE;
+        Vector2 position;
+        Vector2 scroll;
+    };
+
+    struct TouchEvent
+    {
+        uint64_t touchId = 0;
+        Vector2 position;
+    };
+
+    struct GamepadEvent
+    {
+        input::GamepadPtr gamepad;
+        input::GamepadButton button = input::GamepadButton::NONE;
+        bool pressed = false;
+        float value = 0.0f;
+    };
+
+    struct WindowEvent
+    {
+        Size2 size;
+        std::string title;
+        bool fullscreen = false;
+    };
+
+    struct SystemEvent
+    {
+        Size2 size;
+        std::string filename;
+    };
+
+    struct UIEvent
+    {
+        Vector2 position;
+    };
+
     struct Event
     {
         enum class Type
@@ -45,63 +103,15 @@ namespace ouzel
             UI_DRAG_NODE, // mouse or touch dragged scene node
         };
 
-        enum Modifiers
-        {
-            SHIFT_DOWN          = 0x0001,
-            ALT_DOWN            = 0x0002,
-            CONTROL_DOWN        = 0x0004,
-            COMMAND_DOWN        = 0x0008,
-            FUNCTION_DOWN       = 0x0010,
-            LEFT_MOUSE_DOWN     = 0x0020,
-            RIGHT_MOUSE_DOWN    = 0x0040,
-            MIDDLE_MOUSE_DOWN   = 0x0080,
-        };
-
         Type type;
-        uint32_t modifiers = 0;
-    };
+        VoidPtr sender;
 
-    struct KeyboardEvent: public Event
-    {
-        input::KeyboardKey key = input::KeyboardKey::NONE;
-    };
-
-    struct MouseEvent: public Event
-    {
-        input::MouseButton button = input::MouseButton::NONE;
-        Vector2 position;
-        Vector2 scroll;
-    };
-
-    struct TouchEvent: public Event
-    {
-        uint64_t touchId = 0;
-        Vector2 position;
-    };
-
-    struct GamepadEvent: public Event
-    {
-        input::GamepadPtr gamepad;
-        input::GamepadButton button = input::GamepadButton::NONE;
-        bool pressed = false;
-        float value = 0.0f;
-    };
-
-    struct WindowEvent: public Event
-    {
-        Size2 size;
-        std::string title;
-        bool fullscreen = false;
-    };
-
-    struct SystemEvent: public Event
-    {
-        Size2 size;
-        std::string filename;
-    };
-
-    struct UIEvent: public Event
-    {
-
+        KeyboardEvent keyboardEvent;
+        MouseEvent mouseEvent;
+        TouchEvent touchEvent;
+        GamepadEvent gamepadEvent;
+        WindowEvent windowEvent;
+        SystemEvent systemEvent;
+        UIEvent uiEvent;
     };
 }

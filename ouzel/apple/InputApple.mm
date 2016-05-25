@@ -134,11 +134,13 @@ namespace ouzel
             std::shared_ptr<GamepadApple> gamepad(new GamepadApple(controller));
             gamepads.push_back(gamepad);
 
-            GamepadEventPtr event = std::make_shared<GamepadEvent>();
-            event->type = Event::Type::GAMEPAD_CONNECT;
-            event->gamepad = gamepad;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::GAMEPAD_CONNECT;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
+            event.gamepadEvent.gamepad = gamepad;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
 
         void InputApple::handleGamepadDisconnected(id controller)
@@ -149,11 +151,13 @@ namespace ouzel
 
             if (i != gamepads.end())
             {
-                GamepadEventPtr event = std::make_shared<GamepadEvent>();
-                event->type = Event::Type::GAMEPAD_DISCONNECT;
-                event->gamepad = *i;
+                Event event;
+                event.sender = shared_from_this();
+                event.type = Event::Type::GAMEPAD_DISCONNECT;
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(event, sharedEngine->getInput());
+                event.gamepadEvent.gamepad = *i;
+
+                sharedEngine->getEventDispatcher()->dispatchEvent(event);
 
                 gamepads.erase(i);
             }

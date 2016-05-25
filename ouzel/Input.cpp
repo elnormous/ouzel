@@ -51,21 +51,23 @@ namespace ouzel
 
         void Input::keyDown(KeyboardKey key, uint32_t modifiers)
         {
-            KeyboardEventPtr event = std::make_shared<KeyboardEvent>();
-            event->key = key;
-            event->modifiers = modifiers;
+            Event event;
+            event.sender = shared_from_this();
+
+            event.keyboardEvent.key = key;
+            event.keyboardEvent.modifiers = modifiers;
 
             if (!keyboardKeyStates[static_cast<uint32_t>(key)])
             {
                 keyboardKeyStates[static_cast<uint32_t>(key)] = true;
 
-                event->type = Event::Type::KEY_DOWN;
-                sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+                event.type = Event::Type::KEY_DOWN;
+                sharedEngine->getEventDispatcher()->dispatchEvent(event);
             }
             else
             {
-                event->type = Event::Type::KEY_REPEAT;
-                sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+                event.type = Event::Type::KEY_REPEAT;
+                sharedEngine->getEventDispatcher()->dispatchEvent(event);
             }
         }
 
@@ -73,25 +75,29 @@ namespace ouzel
         {
             keyboardKeyStates[static_cast<uint32_t>(key)] = false;
 
-            KeyboardEventPtr event = std::make_shared<KeyboardEvent>();
-            event->type = Event::Type::KEY_UP;
-            event->key = key;
-            event->modifiers = modifiers;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::KEY_UP;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            event.keyboardEvent.key = key;
+            event.keyboardEvent.modifiers = modifiers;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
 
         void Input::mouseDown(MouseButton button, const Vector2& position, uint32_t modifiers)
         {
             mouseButtonStates[static_cast<uint32_t>(button)] = true;
 
-            MouseEventPtr event = std::make_shared<MouseEvent>();
-            event->type = Event::Type::MOUSE_DOWN;
-            event->button = button;
-            event->position = position;
-            event->modifiers = modifiers;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::MOUSE_DOWN;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            event.mouseEvent.button = button;
+            event.mouseEvent.position = position;
+            event.mouseEvent.modifiers = modifiers;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
 
             if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
             {
@@ -104,13 +110,15 @@ namespace ouzel
         {
             mouseButtonStates[static_cast<uint32_t>(button)] = false;
 
-            MouseEventPtr event = std::make_shared<MouseEvent>();
-            event->type = Event::Type::MOUSE_UP;
-            event->button = button;
-            event->position = position;
-            event->modifiers = modifiers;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::MOUSE_UP;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            event.mouseEvent.button = button;
+            event.mouseEvent.position = position;
+            event.mouseEvent.modifiers = modifiers;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
 
             if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
             {
@@ -123,12 +131,14 @@ namespace ouzel
         {
             cursorPosition = position;
 
-            MouseEventPtr event = std::make_shared<MouseEvent>();
-            event->type = Event::Type::MOUSE_MOVE;
-            event->position = position;
-            event->modifiers = modifiers;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::MOUSE_MOVE;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            event.mouseEvent.position = position;
+            event.mouseEvent.modifiers = modifiers;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
 
             if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
             {
@@ -144,53 +154,63 @@ namespace ouzel
 
         void Input::mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers)
         {
-            MouseEventPtr event = std::make_shared<MouseEvent>();
-            event->type = Event::Type::MOUSE_SCROLL;
-            event->position = position;
-            event->scroll = scroll;
-            event->modifiers = modifiers;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::MOUSE_SCROLL;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            event.mouseEvent.position = position;
+            event.mouseEvent.scroll = scroll;
+            event.mouseEvent.modifiers = modifiers;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
 
         void Input::touchBegin(uint64_t touchId, const Vector2& position)
         {
-            TouchEventPtr event = std::make_shared<TouchEvent>();
-            event->type = Event::Type::TOUCH_BEGIN;
-            event->touchId = touchId;
-            event->position = position;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::TOUCH_BEGIN;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            event.touchEvent.touchId = touchId;
+            event.touchEvent.position = position;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
 
         void Input::touchEnd(uint64_t touchId, const Vector2& position)
         {
-            TouchEventPtr event = std::make_shared<TouchEvent>();
-            event->type = Event::Type::TOUCH_END;
-            event->touchId = touchId;
-            event->position = position;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::TOUCH_END;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            event.touchEvent.touchId = touchId;
+            event.touchEvent.position = position;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
 
         void Input::touchMove(uint64_t touchId, const Vector2& position)
         {
-            TouchEventPtr event = std::make_shared<TouchEvent>();
-            event->type = Event::Type::TOUCH_MOVE;
-            event->touchId = touchId;
-            event->position = position;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::TOUCH_MOVE;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            event.touchEvent.touchId = touchId;
+            event.touchEvent.position = position;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
 
         void Input::touchCancel(uint64_t touchId, const Vector2& position)
         {
-            TouchEventPtr event = std::make_shared<TouchEvent>();
-            event->type = Event::Type::TOUCH_CANCEL;
-            event->touchId = touchId;
-            event->position = position;
+            Event event;
+            event.sender = shared_from_this();
+            event.type = Event::Type::TOUCH_CANCEL;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event, shared_from_this());
+            event.touchEvent.touchId = touchId;
+            event.touchEvent.position = position;
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
 
         void Input::mouseEnterNode(const scene::NodePtr& node, const Vector2& position)
@@ -213,11 +233,13 @@ namespace ouzel
 
             if (node && node->isReceivingInput())
             {
-                MouseEventPtr enterEvent = std::make_shared<MouseEvent>();
-                enterEvent->type = Event::Type::UI_ENTER_NODE;
-                enterEvent->position = node->convertWorldToLocal(position);
+                Event event;
+                event.sender = node;
+                event.type = Event::Type::UI_ENTER_NODE;
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(enterEvent, node);
+                event.uiEvent.position = node->convertWorldToLocal(position);
+
+                sharedEngine->getEventDispatcher()->dispatchEvent(event);
             }
         }
 
@@ -225,11 +247,13 @@ namespace ouzel
         {
             if (node && node->isReceivingInput())
             {
-                MouseEventPtr leaveEvent = std::make_shared<MouseEvent>();
-                leaveEvent->type = Event::Type::UI_LEAVE_NODE;
-                leaveEvent->position = node->convertWorldToLocal(position);
+                Event event;
+                event.sender = node;
+                event.type = Event::Type::UI_LEAVE_NODE;
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(leaveEvent, node);
+                event.uiEvent.position = node->convertWorldToLocal(position);
+
+                sharedEngine->getEventDispatcher()->dispatchEvent(event);
             }
         }
 
@@ -239,11 +263,13 @@ namespace ouzel
 
             if (node && node->isReceivingInput())
             {
-                MouseEventPtr enterEvent = std::make_shared<MouseEvent>();
-                enterEvent->type = Event::Type::UI_PRESS_NODE;
-                enterEvent->position = node->convertWorldToLocal(position);
+                Event event;
+                event.sender = node;
+                event.type = Event::Type::UI_PRESS_NODE;
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(enterEvent, node);
+                event.uiEvent.position = node->convertWorldToLocal(position);
+
+                sharedEngine->getEventDispatcher()->dispatchEvent(event);
             }
         }
 
@@ -253,19 +279,23 @@ namespace ouzel
 
             if (mouseDownOnNode && mouseDownOnNode->isReceivingInput())
             {
-                MouseEventPtr pressEvent = std::make_shared<MouseEvent>();
-                pressEvent->type = Event::Type::UI_RELEASE_NODE;
-                pressEvent->position = mouseDownOnNode->convertWorldToLocal(position);
+                Event releaseEvent;
+                releaseEvent.sender = mouseDownOnNode;
+                releaseEvent.type = Event::Type::UI_RELEASE_NODE;
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(pressEvent, mouseDownOnNode);
+                releaseEvent.uiEvent.position = mouseDownOnNode->convertWorldToLocal(position);
+
+                sharedEngine->getEventDispatcher()->dispatchEvent(releaseEvent);
 
                 if (mouseDownOnNode == node)
                 {
-                    MouseEventPtr clickEvent = std::make_shared<MouseEvent>();
-                    clickEvent->type = Event::Type::UI_CLICK_NODE;
-                    clickEvent->position = mouseDownOnNode->convertWorldToLocal(position);
+                    Event clickEvent;
+                    clickEvent.sender = mouseDownOnNode;
+                    clickEvent.type = Event::Type::UI_CLICK_NODE;
 
-                    sharedEngine->getEventDispatcher()->dispatchEvent(clickEvent, mouseDownOnNode);
+                    clickEvent.uiEvent.position = mouseDownOnNode->convertWorldToLocal(position);
+
+                    sharedEngine->getEventDispatcher()->dispatchEvent(clickEvent);
                 }
             }
 
@@ -274,11 +304,13 @@ namespace ouzel
 
         void Input::mouseDragNode(const scene::NodePtr& node, const Vector2& position)
         {
-            MouseEventPtr enterEvent = std::make_shared<MouseEvent>();
-            enterEvent->type = Event::Type::UI_DRAG_NODE;
-            enterEvent->position = node->convertWorldToLocal(position);
+            Event event;
+            event.sender = node;
+            event.type = Event::Type::UI_DRAG_NODE;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(enterEvent, node);
+            event.uiEvent.position = node->convertWorldToLocal(position);
+
+            sharedEngine->getEventDispatcher()->dispatchEvent(event);
         }
 
     } // namespace input

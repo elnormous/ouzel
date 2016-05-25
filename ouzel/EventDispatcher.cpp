@@ -24,7 +24,7 @@ namespace ouzel
         {
             mutex.lock();
 
-            auto eventPair = eventQueue.front();
+            const Event& event = eventQueue.front();
             eventQueue.pop();
 
             mutex.unlock();
@@ -33,14 +33,14 @@ namespace ouzel
             {
                 if (eventHandler)
                 {
-                    switch (eventPair.first->type)
+                    switch (event.type)
                     {
                         case Event::Type::KEY_DOWN:
                         case Event::Type::KEY_UP:
                         case Event::Type::KEY_REPEAT:
                             if (eventHandler->keyboardHandler)
                             {
-                                eventHandler->keyboardHandler(std::static_pointer_cast<KeyboardEvent>(eventPair.first), eventPair.second);
+                                eventHandler->keyboardHandler(event.type, event.keyboardEvent, event.sender);
                             }
                             break;
 
@@ -50,7 +50,7 @@ namespace ouzel
                         case Event::Type::MOUSE_MOVE:
                             if (eventHandler->mouseHandler)
                             {
-                                eventHandler->mouseHandler(std::static_pointer_cast<MouseEvent>(eventPair.first), eventPair.second);
+                                eventHandler->mouseHandler(event.type, event.mouseEvent, event.sender);
                             }
                             break;
                         case Event::Type::TOUCH_BEGIN:
@@ -59,7 +59,7 @@ namespace ouzel
                         case Event::Type::TOUCH_CANCEL:
                             if (eventHandler->touchHandler)
                             {
-                                eventHandler->touchHandler(std::static_pointer_cast<TouchEvent>(eventPair.first), eventPair.second);
+                                eventHandler->touchHandler(event.type, event.touchEvent, event.sender);
                             }
                             break;
                         case Event::Type::GAMEPAD_CONNECT:
@@ -67,7 +67,7 @@ namespace ouzel
                         case Event::Type::GAMEPAD_BUTTON_CHANGE:
                             if (eventHandler->gamepadHandler)
                             {
-                                eventHandler->gamepadHandler(std::static_pointer_cast<GamepadEvent>(eventPair.first), eventPair.second);
+                                eventHandler->gamepadHandler(event.type, event.gamepadEvent, event.sender);
                             }
                             break;
                         case Event::Type::WINDOW_SIZE_CHANGE:
@@ -75,14 +75,14 @@ namespace ouzel
                         case Event::Type::WINDOW_FULLSCREEN_CHANGE:
                             if (eventHandler->windowHandler)
                             {
-                                eventHandler->windowHandler(std::static_pointer_cast<WindowEvent>(eventPair.first), eventPair.second);
+                                eventHandler->windowHandler(event.type, event.windowEvent, event.sender);
                             }
                             break;
                         case Event::Type::LOW_MEMORY:
                         case Event::Type::OPEN_FILE:
                             if (eventHandler->systemHandler)
                             {
-                                eventHandler->systemHandler(std::static_pointer_cast<SystemEvent>(eventPair.first), eventPair.second);
+                                eventHandler->systemHandler(event.type, event.systemEvent, event.sender);
                             }
                             break;
                         case Event::Type::UI_ENTER_NODE:
@@ -93,7 +93,7 @@ namespace ouzel
                         case Event::Type::UI_DRAG_NODE:
                             if (eventHandler->uiHandler)
                             {
-                                eventHandler->uiHandler(std::static_pointer_cast<UIEvent>(eventPair.first), eventPair.second);
+                                eventHandler->uiHandler(event.type, event.uiEvent, event.sender);
                             }
                             break;
                     }
@@ -127,10 +127,10 @@ namespace ouzel
         }
     }
 
-    void EventDispatcher::dispatchEvent(const EventPtr& event, const VoidPtr& sender)
+    void EventDispatcher::dispatchEvent(const Event& event)
     {
         std::lock_guard<std::mutex> mutexLock(mutex);
 
-        eventQueue.push(std::make_pair(event, sender));
+        eventQueue.push(event);
     }
 }

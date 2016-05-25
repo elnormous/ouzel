@@ -30,8 +30,8 @@ namespace ouzel
             virtual void setEnabled(bool enabled) override;
 
         protected:
-            bool handleGamepad(const GamepadEventPtr& event, const VoidPtr& sender);
-            bool handleUI(const UIEventPtr& event, const VoidPtr& sender);
+            bool handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr& sender);
+            bool handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender);
 
             void updateSprite();
 

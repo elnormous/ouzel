@@ -29,14 +29,13 @@ namespace ouzel
         void addEventHandler(const EventHandlerPtr& eventHandler);
         void removeEventHandler(const EventHandlerPtr& eventHandler);
 
-        void dispatchEvent(const EventPtr& event, const VoidPtr& sender);
+        void dispatchEvent(const Event& event);
 
     protected:
         EventDispatcher();
 
         std::vector<EventHandlerPtr> eventHandlers;
-
-        std::queue<std::pair<EventPtr, VoidPtr>> eventQueue;
+        std::queue<Event> eventQueue;
         std::mutex mutex;
     };
 }
