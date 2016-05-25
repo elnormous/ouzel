@@ -518,13 +518,18 @@ namespace ouzel
                 return false;
             }
 
-            if (!activeShader)
+            if (!activeShader || !activeShader->isReady())
             {
                 return false;
             }
 
             if (activeRenderTarget)
             {
+                if (!activeRenderTarget->isReady())
+                {
+                    return false;
+                }
+
                 std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(activeRenderTarget);
 
                 bindFrameBuffer(renderTargetOGL->getFrameBufferId());

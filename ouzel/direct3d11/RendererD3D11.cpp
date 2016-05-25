@@ -757,7 +757,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!activeShader)
+            if (!activeShader || !activeShader->isReady())
             {
                 return false;
             }
