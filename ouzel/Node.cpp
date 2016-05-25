@@ -44,7 +44,7 @@ namespace ouzel
                 {
                     if (child->isVisible())
                     {
-                        if (child->isGlobalOrder() && currentLayer->checkVisibility(child))
+                        if (child->isGlobalOrder())
                         {
                             currentLayer->addToDrawQueue(child);
                         }
@@ -61,7 +61,10 @@ namespace ouzel
         {
             if (children.empty())
             {
-                draw(currentLayer);
+                if (currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
+                {
+                    draw(currentLayer);
+                }
             }
             else
             {
@@ -89,7 +92,10 @@ namespace ouzel
                     }
                 }
 
-                draw(currentLayer);
+                if (currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
+                {
+                    draw(currentLayer);
+                }
 
                 for (; i != children.end(); ++i)
                 {

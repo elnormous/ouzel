@@ -40,11 +40,7 @@ namespace ouzel
                 {
                     if (child->isVisible())
                     {
-                        if (checkVisibility(child))
-                        {
-                            addToDrawQueue(child);
-                        }
-
+                        addToDrawQueue(child);
                         child->visit(Matrix4::IDENTITY, false, std::static_pointer_cast<Layer>(shared_from_this()));
                     }
                 }
@@ -146,12 +142,6 @@ namespace ouzel
         {
             if (camera)
             {
-                // we must add this node to draw queue if it has children
-                if (!node->getChildren().empty())
-                {
-                    return true;
-                }
-
                 for (const DrawablePtr& drawable : node->getDrawables())
                 {
                     if (drawable->isVisible() &&
