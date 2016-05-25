@@ -21,11 +21,7 @@ namespace ouzel
         ParticleSystemPtr ParticleSystem::createFromFile(const std::string& filename)
         {
             ParticleSystemPtr result = std::make_shared<ParticleSystem>();
-
-            if (!result->initFromFile(filename))
-            {
-                result.reset();
-            }
+            result->initFromFile(filename);
 
             return result;
         }

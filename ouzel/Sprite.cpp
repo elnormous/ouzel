@@ -24,11 +24,7 @@ namespace ouzel
         SpritePtr Sprite::createFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames)
         {
             SpritePtr result = std::make_shared<Sprite>();
-
-            if (!result->initFromSpriteFrames(spriteFrames))
-            {
-                result.reset();
-            }
+            result->initFromSpriteFrames(spriteFrames);
 
             return result;
         }
@@ -36,11 +32,7 @@ namespace ouzel
         SpritePtr Sprite::createFromFile(const std::string& filename, bool mipmaps)
         {
             SpritePtr result = std::make_shared<Sprite>();
-
-            if (!result->initFromFile(filename, mipmaps))
-            {
-                result.reset();
-            }
+            result->initFromFile(filename, mipmaps);
 
             return result;
         }

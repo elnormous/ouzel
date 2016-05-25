@@ -28,6 +28,8 @@ namespace ouzel
                 GROUPED,
             };
 
+            bool ready = false;
+
             uint32_t blendFuncSource = 1;
             uint32_t blendFuncDestination = 771;
 

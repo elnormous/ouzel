@@ -12,11 +12,7 @@ namespace ouzel
         CheckBoxPtr CheckBox::create(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage)
         {
             CheckBoxPtr result = std::make_shared<CheckBox>();
-
-            if (!result->init(normalImage, selectedImage, pressedImage, disabledImage, tickImage))
-            {
-                result.reset();
-            }
+            result->init(normalImage, selectedImage, pressedImage, disabledImage, tickImage);
 
             return result;
         }

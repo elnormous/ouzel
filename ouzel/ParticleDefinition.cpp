@@ -31,7 +31,7 @@ namespace ouzel
             if (document.HasParseError())
             {
                 log("Failed to parse %s", filename.c_str());
-                return nullptr;
+                return result;
             }
 
             if (document.HasMember("blendFuncSource")) result->blendFuncSource = static_cast<uint32_t>(document["blendFuncSource"].GetInt());
@@ -116,7 +116,9 @@ namespace ouzel
             if (document.HasMember("textureFileName")) result->textureFilename = document["textureFileName"].GetString();
             
             result->emissionRate = static_cast<float>(result->maxParticles) / result->particleLifespan;
-            
+
+            result->ready = true;
+
             return result;
         }
     } // namespace scene

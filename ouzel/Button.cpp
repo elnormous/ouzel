@@ -21,11 +21,7 @@ namespace ouzel
                                                const std::string& label, const graphics::Color& labelColor, const std::string& font)
         {
             ButtonPtr result = std::make_shared<Button>();
-
-            if (!result->init(normalImage, selectedImage, pressedImage, disabledImage, label, labelColor, font))
-            {
-                result.reset();
-            }
+            result->init(normalImage, selectedImage, pressedImage, disabledImage, label, labelColor, font);
 
             return result;
         }

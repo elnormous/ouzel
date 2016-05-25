@@ -18,11 +18,7 @@ namespace ouzel
         LabelPtr Label::create(const std::string& font, const std::string& text, const Vector2& textAnchor)
         {
             LabelPtr result = std::make_shared<Label>();
-
-            if (!result->init(font, text, textAnchor))
-            {
-                result.reset();
-            }
+            result->init(font, text, textAnchor);
 
             return result;
         }
