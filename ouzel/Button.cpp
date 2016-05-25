@@ -111,6 +111,7 @@ namespace ouzel
 
         bool Button::handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr& sender)
         {
+            OUZEL_UNUSED(type);
             OUZEL_UNUSED(event);
             OUZEL_UNUSED(sender);
 
@@ -119,6 +120,8 @@ namespace ouzel
 
         bool Button::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender)
         {
+            OUZEL_UNUSED(event);
+
             if (!enabled) return true;
 
             if (sender.get() == this)

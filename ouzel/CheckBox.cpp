@@ -4,6 +4,7 @@
 #include "CheckBox.h"
 #include "Engine.h"
 #include "Sprite.h"
+#include "Utils.h"
 
 namespace ouzel
 {
@@ -96,11 +97,19 @@ namespace ouzel
 
         bool CheckBox::handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr& sender)
         {
+            OUZEL_UNUSED(type);
+            OUZEL_UNUSED(event);
+            OUZEL_UNUSED(sender);
+
             return true;
         }
 
         bool CheckBox::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender)
         {
+            OUZEL_UNUSED(type);
+            OUZEL_UNUSED(event);
+            OUZEL_UNUSED(sender);
+
             return true;
         }
 

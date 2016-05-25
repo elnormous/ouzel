@@ -204,6 +204,7 @@ bool Application::handleMouse(ouzel::Event::Type type, const MouseEvent& event, 
 
 bool Application::handleTouch(ouzel::Event::Type type, const TouchEvent& event, const VoidPtr& sender) const
 {
+    OUZEL_UNUSED(type);
     OUZEL_UNUSED(sender);
 
     Vector2 worldLocation = layer->getCamera()->convertScreenToWorld(event.position);
@@ -258,6 +259,8 @@ bool Application::handleGamepad(ouzel::Event::Type type, const GamepadEvent& eve
 
 bool Application::handleUI(ouzel::Event::Type type, const UIEvent& event, const VoidPtr& sender) const
 {
+    OUZEL_UNUSED(event);
+
     if (type == Event::Type::UI_CLICK_NODE && sender == button)
     {
         character->setVisible(!character->isVisible());
