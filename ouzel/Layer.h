@@ -44,6 +44,8 @@ namespace ouzel
             void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
             const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
 
+            bool checkVisibility(const NodePtr& node) const;
+
         protected:
             CameraPtr camera;
             std::vector<NodePtr> drawQueue;

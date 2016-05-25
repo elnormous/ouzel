@@ -44,7 +44,7 @@ namespace ouzel
                 {
                     if (child->isVisible())
                     {
-                        if (child->isGlobalOrder() && child->checkVisibility(currentLayer))
+                        if (child->isGlobalOrder() && currentLayer->checkVisibility(child))
                         {
                             currentLayer->addToDrawQueue(child);
                         }
@@ -78,7 +78,7 @@ namespace ouzel
 
                     if (node->getZ() < 0.0f)
                     {
-                        if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility(currentLayer))
+                        if (!node->isGlobalOrder() && node->isVisible() && currentLayer->checkVisibility(node))
                         {
                             node->draw(currentLayer);
                         }
@@ -95,7 +95,7 @@ namespace ouzel
                 {
                     node = *i;
 
-                    if (!node->isGlobalOrder() && node->isVisible() && node->checkVisibility(currentLayer))
+                    if (!node->isGlobalOrder() && node->isVisible() && currentLayer->checkVisibility(node))
                     {
                         node->draw(currentLayer);
                     }
@@ -305,30 +305,6 @@ namespace ouzel
             currentTransform.transformPoint(worldPosition);
 
             return Vector2(worldPosition.x, worldPosition.y);
-        }
-
-        bool Node::checkVisibility(const LayerPtr& currentLayer) const
-        {
-            // we must add this node to draw queue if it has children
-            if (!children.empty())
-            {
-                return true;
-            }
-
-            if (currentLayer)
-            {
-                for (const DrawablePtr& drawable : drawables)
-                {
-                    if (drawable->isVisible() &&
-                        (drawable->getBoundingBox().isEmpty() ||
-                         sharedEngine->getRenderer()->checkVisibility(getTransform(), drawable->getBoundingBox(), currentLayer->getCamera())))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
 
         void Node::animate(const AnimatorPtr& animator)

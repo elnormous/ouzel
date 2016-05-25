@@ -9,6 +9,7 @@
 #include "Renderer.h"
 #include "Scene.h"
 #include "Matrix4.h"
+#include "Drawable.h"
 
 namespace ouzel
 {
@@ -39,7 +40,7 @@ namespace ouzel
                 {
                     if (child->isVisible())
                     {
-                        if (child->checkVisibility(std::static_pointer_cast<Layer>(shared_from_this())))
+                        if (checkVisibility(child))
                         {
                             addToDrawQueue(child);
                         }
@@ -141,5 +142,28 @@ namespace ouzel
             }
         }
 
+        bool Layer::checkVisibility(const NodePtr& node) const
+        {
+            if (camera)
+            {
+                // we must add this node to draw queue if it has children
+                if (!node->getChildren().empty())
+                {
+                    return true;
+                }
+
+                for (const DrawablePtr& drawable : node->getDrawables())
+                {
+                    if (drawable->isVisible() &&
+                        (drawable->getBoundingBox().isEmpty() ||
+                         sharedEngine->getRenderer()->checkVisibility(node->getTransform(), drawable->getBoundingBox(), camera)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     } // namespace scene
 } // namespace ouzel

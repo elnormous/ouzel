@@ -80,8 +80,6 @@ namespace ouzel
             Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
             Vector2 convertLocalToWorld(const Vector2& localPosition) const;
 
-            virtual bool checkVisibility(const LayerPtr& currentLayer) const;
-
             virtual void animate(const AnimatorPtr& animator);
             virtual AnimatorPtr getAnimator() const { return currentAnimator; }
             virtual void stopAnimation();
