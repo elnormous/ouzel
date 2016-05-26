@@ -5,7 +5,6 @@
 
 #include <GL/glx.h>
 #include <X11/X.h>
-#include <X11/keysym.h>
 #include "Window.h"
 
 namespace ouzel

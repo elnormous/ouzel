@@ -1,6 +1,8 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <GL/gl.h>
+#include <GL/glext.h>
 #include "WindowLinux.h"
 #include "Engine.h"
 #include "Renderer.h"
@@ -166,6 +168,13 @@ namespace ouzel
 
         // request the X window to be displayed on the screen
         XMapWindow(display, window);
+
+        PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT"));
+
+        if (glXSwapIntervalEXT)
+        {
+            glXSwapIntervalEXT(display, window, sharedEngine->getSettings().verticalSync ? 1 : 0);
+        }
 
         return Window::init();
     }
