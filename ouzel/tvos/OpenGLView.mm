@@ -76,7 +76,19 @@ using namespace ouzel;
 
         // display link
         displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
-        [displayLink setFrameInterval:1.0f];
+
+        float frameInterval = 1.0f;
+
+        if (sharedEngine->getTargetFPS() > 60.0f)
+        {
+            log("FPS bigger that 60.0f is not supported");
+        }
+        else if (sharedEngine->getTargetFPS() > 0.0f)
+        {
+            frameInterval = 60.0f / sharedEngine->getTargetFPS();
+        }
+
+        [displayLink setFrameInterval:frameInterval];
         [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 
         std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());

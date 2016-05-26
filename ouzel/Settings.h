@@ -17,7 +17,7 @@ namespace ouzel
         graphics::Renderer::TextureFiltering textureFiltering = graphics::Renderer::TextureFiltering::NONE;
         bool resizable = false;
         bool fullscreen = false;
-        float targetFPS = 60.0f;
+        float targetFPS = 0.0f; // 0 for no limit
         std::string title = "ouzel";
     };
 }
