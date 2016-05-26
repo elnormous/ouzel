@@ -82,7 +82,12 @@ namespace ouzel
             }
         }
 
-        bool RendererD3D11::init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering)
+        bool RendererD3D11::init(const Size2& newSize,
+                                 bool newFullscreen,
+                                 uint32_t newSampleCount,
+                                 TextureFiltering newTextureFiltering,
+                                 float newTargetFPS,
+                                 bool newVerticalSync)
         {
             if (!Renderer::init(newSize, newFullscreen, newSampleCount, newTextureFiltering))
             {
@@ -133,7 +138,7 @@ namespace ouzel
 
             swapChainDesc.BufferDesc.Width = static_cast<UINT>(size.width);
             swapChainDesc.BufferDesc.Height = static_cast<UINT>(size.height);
-            swapChainDesc.BufferDesc.RefreshRate.Numerator = fullscreen ? 60 : 0; // TODO refresh rate?
+            swapChainDesc.BufferDesc.RefreshRate.Numerator = static_cast<UINT>(newTargetFPS);
             swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
             swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
             swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
@@ -146,6 +151,8 @@ namespace ouzel
             swapChainDesc.Windowed = static_cast<BOOL>(!fullscreen);
             swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
             swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+            
+            swapInterval = verticalSync ? 1 : 0;
 
             hr = factory->CreateSwapChain(device, &swapChainDesc, &swapChain);
             if (FAILED(hr))
@@ -344,7 +351,7 @@ namespace ouzel
         {
             Renderer::present();
 
-            swapChain->Present(1 /* vsync off? */, 0);
+            swapChain->Present(swapInterval, 0);
         }
 
         IDXGIOutput* RendererD3D11::getOutput() const

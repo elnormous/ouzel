@@ -88,7 +88,7 @@ using namespace ouzel;
         [openGLContext setView:self];
         [openGLContext makeCurrentContext];
 
-        GLint swapInt = 1;
+        GLint swapInt = sharedEngine->getSettings().verticalSync ? 1 : 0;
         [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 
         displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription]objectForKey:@"NSScreenNumber"] unsignedIntValue];

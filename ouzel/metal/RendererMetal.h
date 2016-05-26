@@ -93,7 +93,11 @@ namespace ouzel
         protected:
             RendererMetal();
 
-            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering) override;
+            virtual bool init(const Size2& newSize, bool newFullscreen,
+                              uint32_t newSampleCount,
+                              TextureFiltering newTextureFiltering,
+                              float newTargetFPS,
+                              bool newVerticalSync) override;
 
             MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                           const std::shared_ptr<ShaderMetal>& shader);

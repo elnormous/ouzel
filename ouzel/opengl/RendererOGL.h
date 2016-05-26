@@ -110,7 +110,12 @@ namespace ouzel
         protected:
             RendererOGL();
 
-            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering) override;
+            virtual bool init(const Size2& newSize,
+                              bool newFullscreen,
+                              uint32_t newSampleCount,
+                              TextureFiltering newTextureFiltering,
+                              float newTargetFPS,
+                              bool newVerticalSync) override;
 
             virtual void setSize(const Size2& newSize) override;
 

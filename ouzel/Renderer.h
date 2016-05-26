@@ -131,7 +131,12 @@ namespace ouzel
 
         protected:
             Renderer(Driver pDriver);
-            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering);
+            virtual bool init(const Size2& newSize,
+                              bool newFullscreen,
+                              uint32_t newSampleCount,
+                              TextureFiltering newTextureFiltering,
+                              float newTargetFPS,
+                              bool newVerticalSync);
 
             virtual void setSize(const Size2& newSize);
             virtual void setFullscreen(bool newFullscreen);
@@ -141,6 +146,8 @@ namespace ouzel
             bool fullscreen = false;
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFiltering textureFiltering = TextureFiltering::NONE;
+            float targetFPS = 0.0f;
+            bool verticalSync = true;
 
             Color clearColor;
 

@@ -68,7 +68,12 @@ namespace ouzel
         protected:
             RendererD3D11();
 
-            virtual bool init(const Size2& newSize, bool newFullscreen, uint32_t newSampleCount, TextureFiltering newTextureFiltering) override;
+            virtual bool init(const Size2& newSize,
+                              bool newFullscreen,
+                              uint32_t newSampleCount,
+                              TextureFiltering newTextureFiltering,
+                              float newTargetFPS,
+                              bool newVerticalSync) override;
 
             IDXGIOutput* getOutput() const;
 
@@ -88,6 +93,8 @@ namespace ouzel
 
             ID3D11ShaderResourceView* resourceViews[TEXTURE_LAYERS];
             ID3D11SamplerState* samplerStates[TEXTURE_LAYERS];
+            
+            UINT swapInterval = 0;
         };
     } // namespace graphics
 } // namespace ouzel
