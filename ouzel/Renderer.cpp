@@ -14,6 +14,7 @@
 #include "EventDispatcher.h"
 #include "RenderTarget.h"
 #include "BlendState.h"
+#include "Window.h"
 
 namespace ouzel
 {
@@ -30,15 +31,14 @@ namespace ouzel
 
         }
 
-        bool Renderer::init(const Size2& newSize,
-                            bool newFullscreen,
+        bool Renderer::init(const WindowPtr& window,
                             uint32_t newSampleCount,
                             TextureFiltering newTextureFiltering,
                             float newTargetFPS,
                             bool newVerticalSync)
         {
-            size = newSize;
-            fullscreen = newFullscreen;
+            size = window->getSize();
+            fullscreen = window->isFullscreen();
             sampleCount = newSampleCount;
             textureFiltering = newTextureFiltering;
             targetFPS = newTargetFPS;

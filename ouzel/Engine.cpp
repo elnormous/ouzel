@@ -173,8 +173,7 @@ namespace ouzel
             return false;
         }
 
-        if (!sharedEngine->getRenderer()->init(window->getSize(),
-                                               window->isFullscreen(),
+        if (!sharedEngine->getRenderer()->init(window,
                                                settings.sampleCount,
                                                settings.textureFiltering,
                                                settings.targetFPS,

@@ -82,14 +82,13 @@ namespace ouzel
             }
         }
 
-        bool RendererD3D11::init(const Size2& newSize,
-                                 bool newFullscreen,
+        bool RendererD3D11::init(const WindowPtr& window,
                                  uint32_t newSampleCount,
                                  TextureFiltering newTextureFiltering,
                                  float newTargetFPS,
                                  bool newVerticalSync)
         {
-            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
+            if (!Renderer::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
             {
                 return false;
             }
@@ -131,7 +130,7 @@ namespace ouzel
                 return false;
             }
 
-            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(sharedEngine->getWindow());
+            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(window);
 
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
             memset(&swapChainDesc, 0, sizeof(swapChainDesc));

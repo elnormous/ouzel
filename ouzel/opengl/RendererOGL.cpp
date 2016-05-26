@@ -64,14 +64,13 @@ namespace ouzel
             free();
         }
 
-        bool RendererOGL::init(const Size2& newSize,
-                               bool newFullscreen,
+        bool RendererOGL::init(const WindowPtr& window,
                                uint32_t newSampleCount,
                                TextureFiltering newTextureFiltering,
                                float newTargetFPS,
                                bool newVerticalSync)
         {
-            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
+            if (!Renderer::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
             {
                 return false;
             }

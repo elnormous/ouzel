@@ -125,14 +125,13 @@ namespace ouzel
             }
         }
 
-        bool RendererMetal::init(const Size2& newSize,
-                                 bool newFullscreen,
+        bool RendererMetal::init(const WindowPtr& window,
                                  uint32_t newSampleCount,
                                  TextureFiltering newTextureFiltering,
                                  float newTargetFPS,
                                  bool newVerticalSync)
         {
-            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
+            if (!Renderer::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
             {
                 return false;
             }
@@ -149,13 +148,12 @@ namespace ouzel
                 return false;
             }
 #if defined(OUZEL_PLATFORM_OSX)
-            std::shared_ptr<WindowOSX> window = std::static_pointer_cast<WindowOSX>(sharedEngine->getWindow());
+            view = std::static_pointer_cast<WindowOSX>(window)->getNativeView();
 #elif defined(OUZEL_PLATFORM_TVOS)
-            std::shared_ptr<WindowTVOS> window = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow());
+            view = std::static_pointer_cast<WindowTVOS>(window)->getNativeView();
 #elif defined(OUZEL_PLATFORM_IOS)
-            std::shared_ptr<WindowIOS> window = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow());
+            view = std::static_pointer_cast<WindowIOS>(window)->getNativeView();
 #endif
-            view = static_cast<MTKView*>(window->getNativeView());
             view.device = device;
             view.sampleCount = sampleCount;
             view.framebufferOnly = NO; // for screenshot capturing
