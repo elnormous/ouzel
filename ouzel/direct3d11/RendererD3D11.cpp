@@ -89,7 +89,7 @@ namespace ouzel
                                  float newTargetFPS,
                                  bool newVerticalSync)
         {
-            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newTextureFiltering))
+            if (!Renderer::init(newSize, newFullscreen, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
             {
                 return false;
             }
@@ -138,7 +138,7 @@ namespace ouzel
 
             swapChainDesc.BufferDesc.Width = static_cast<UINT>(size.width);
             swapChainDesc.BufferDesc.Height = static_cast<UINT>(size.height);
-            swapChainDesc.BufferDesc.RefreshRate.Numerator = static_cast<UINT>(newTargetFPS);
+            swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
             swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
             swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
             swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
