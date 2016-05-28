@@ -1,4 +1,4 @@
-<img src="https://github.com/elvman/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
+<img src="https://github.com/elnormous/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
 
 # Ouzel v0.17
 Ouzel is a game engine mainly targeted for development of 2D games, but also 3D games can be created with it.
@@ -54,7 +54,7 @@ The following code will open a 640px x 480px window:
 
 2D platformer [Bear Slayer](http://steamcommunity.com/sharedfiles/filedetails/?id=624656569) is being developed using Ouzel engine.
 
-[![Bear Slayer](https://github.com/elvman/ouzel/blob/master/img/bearslayer.gif "Bear Slayer")](https://www.youtube.com/watch?v=n-c-7E141kI)
+[![Bear Slayer](https://github.com/elnormous/ouzel/blob/master/img/bearslayer.gif "Bear Slayer")](https://www.youtube.com/watch?v=n-c-7E141kI)
 
 ## Features
 
@@ -74,7 +74,7 @@ The following code will open a 640px x 480px window:
 You can ask question in the following locations:
 
 * Ouzel Twitter account: https://twitter.com/ouzelengine
-* Author of the Ouzel engine: https://twitter.com/elvman
+* Author of the Ouzel engine: https://twitter.com/elnormous
 * Freenode chat: https://webchat.freenode.net/ #ouzel
 * Development roadmap: https://trello.com/b/5tRlUXKR/ouzel-roadmap
 
