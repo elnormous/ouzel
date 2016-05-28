@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
+#include <thread>
 #include "Engine.h"
 #include "CompileConfig.h"
 #include "Cache.h"
@@ -86,7 +87,16 @@ namespace ouzel
     {
         settings = newSettings;
 
-        targetFPS = settings.targetFPS;
+        if (!settings.verticalSync && settings.targetFPS > 0.0f)
+        {
+            targetFPS = settings.targetFPS;
+            targetFrameInterval = static_cast<uint64_t>(1000000L * 1.0f / targetFPS);
+        }
+        else
+        {
+            targetFPS = 0.0f;
+            targetFrameInterval = 0L;
+        }
 
         if (settings.driver == graphics::Renderer::Driver::DEFAULT)
         {
@@ -226,6 +236,16 @@ namespace ouzel
         renderer->clear();
         sceneManager->draw();
         renderer->present();
+
+        if (targetFrameInterval > 0)
+        {
+            uint64_t diff = getCurrentMicroSeconds() - currentTime;
+
+            if (targetFrameInterval > diff)
+            {
+                std::this_thread::sleep_for(std::chrono::microseconds(targetFrameInterval - diff));
+            }
+        }
 
         return active;
     }

@@ -67,6 +67,7 @@ namespace ouzel
         scene::SceneManagerPtr sceneManager;
 
         float targetFPS;
+        uint64_t targetFrameInterval;
         float currentFPS = 0.0f;
         uint64_t previousFrameTime;
 
