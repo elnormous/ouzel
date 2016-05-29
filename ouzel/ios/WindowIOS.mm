@@ -18,6 +18,10 @@
     return YES;
 }
 
+-(void)textFieldDidChange:(id)sender
+{
+}
+
 @end
 
 namespace ouzel
@@ -63,6 +67,7 @@ namespace ouzel
         textField = [[UITextField alloc] init];
         textField.hidden = YES;
         textField.keyboardType = UIKeyboardTypeDefault;
+        [textField addTarget:viewController action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [view addSubview:textField];
 
         viewController.view = view;
