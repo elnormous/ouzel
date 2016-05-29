@@ -176,7 +176,7 @@ namespace ouzel
             kVK_JIS_Kana                  = 0x68
         };
 
-        KeyboardKey InputApple::convertOSXKeyCode(unsigned short keyCode)
+        KeyboardKey InputApple::convertKeyCode(unsigned short keyCode)
         {
             switch (keyCode)
             {
@@ -292,7 +292,7 @@ namespace ouzel
             }
         }
 
-        uint32_t InputApple::getOSXModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons)
+        uint32_t InputApple::getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons)
         {
             uint32_t modifiers = 0;
 
