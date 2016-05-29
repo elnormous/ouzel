@@ -10,11 +10,13 @@
 typedef UIWindow* UIWindowPtr;
 typedef UIView* UIViewPtr;
 typedef UIViewController* UIViewControllerPtr;
+typedef UITextField* UITextFieldPtr;
 #else
 #include <objc/objc.h>
 typedef id UIWindowPtr;
 typedef id UIViewPtr;
 typedef id UIViewControllerPtr;
+typedef id UITextFieldPtr;
 #endif
 
 namespace ouzel
@@ -27,6 +29,7 @@ namespace ouzel
 
         UIWindowPtr getNativeWindow() const { return window; }
         UIViewPtr getNativeView() const { return view; }
+        UITextFieldPtr getTextField() const { return textField; }
 
     protected:
         WindowTVOS(const Size2& pSize, bool resizable, bool pFullscreen, const std::string& pTitle);
@@ -35,5 +38,7 @@ namespace ouzel
         UIWindowPtr window = Nil;
         UIViewPtr view = Nil;
         UIViewControllerPtr viewController = Nil;
+
+        UITextFieldPtr textField = Nil;
     };
 }

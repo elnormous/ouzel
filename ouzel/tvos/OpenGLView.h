@@ -4,7 +4,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface OpenGLView: UIView
+@interface OpenGLView: UIView<UIKeyInput>
 {
 @private
     CAEAGLLayer* eaglLayer;

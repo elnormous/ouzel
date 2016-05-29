@@ -4,6 +4,10 @@
 #include "CompileConfig.h"
 #if defined(OUZEL_PLATFORM_OSX)
 #import <AppKit/AppKit.h>
+#elif defined(OUZEL_PLATFORM_IOS)
+#include "WindowIOS.h"
+#elif defined(OUZEL_PLATFORM_TVOS)
+#include "WindowTVOS.h"
 #endif
 #import <GameController/GameController.h>
 #include "InputApple.h"
@@ -393,6 +397,40 @@ namespace ouzel
 
                 discovering = false;
             }
+        }
+
+        bool InputApple::showVirtualKeyboard()
+        {
+#if defined(OUZEL_PLATFORM_IOS)
+            UITextField* textField = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow())->getTextField();
+            [textField becomeFirstResponder];
+
+            return true;
+#elif defined(OUZEL_PLATFORM_TVOS)
+            UITextField* textField = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow())->getTextField();
+            [textField becomeFirstResponder];
+
+            return true;
+#else
+            return false;
+#endif
+        }
+
+        bool InputApple::hideVirtualKeyboard()
+        {
+#if defined(OUZEL_PLATFORM_IOS)
+            UITextField* textField = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow())->getTextField();
+            [textField resignFirstResponder];
+
+            return true;
+#elif defined(OUZEL_PLATFORM_TVOS)
+            UITextField* textField = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow())->getTextField();
+            [textField resignFirstResponder];
+
+            return true;
+#else
+            return false;
+#endif
         }
 
         void InputApple::handleGamepadDiscoveryCompleted()

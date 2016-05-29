@@ -117,6 +117,11 @@ using namespace ouzel;
     [super dealloc];
 }
 
+-(BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
 +(Class)layerClass
 {
     return [CAEAGLLayer class];

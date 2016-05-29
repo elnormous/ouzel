@@ -236,6 +236,16 @@ namespace ouzel
             }
         }
 
+        bool Input::showVirtualKeyboard()
+        {
+            return false;
+        }
+
+        bool Input::hideVirtualKeyboard()
+        {
+            return false;
+        }
+
         scene::NodePtr Input::getPointerOnNode(uint64_t pointerId) const
         {
             scene::NodePtr result;

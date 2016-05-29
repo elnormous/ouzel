@@ -4,6 +4,6 @@
 #import <Metal/Metal.h>
 #import <MetalKit/MTKView.h>
 
-@interface MetalView: MTKView
+@interface MetalView: MTKView<UIKeyInput>
 
 @end

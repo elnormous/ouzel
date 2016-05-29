@@ -25,6 +25,7 @@ namespace ouzel
 
     WindowTVOS::~WindowTVOS()
     {
+        if (textField) [textField release];
         if (viewController) [viewController release];
         if (view) [view release];
         if (window) [window release];
@@ -53,6 +54,11 @@ namespace ouzel
                 log("Unsupported render driver");
                 return false;
         }
+
+        textField = [[UITextField alloc] init];
+        textField.hidden = YES;
+        textField.keyboardType = UIKeyboardTypeDefault;
+        [view addSubview:textField];
 
         viewController.view = view;
 

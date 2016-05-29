@@ -244,6 +244,9 @@ namespace ouzel
             virtual void touchMove(uint64_t touchId, const Vector2& position);
             virtual void touchCancel(uint64_t touchId, const Vector2& position);
 
+            virtual bool showVirtualKeyboard();
+            virtual bool hideVirtualKeyboard();
+
         protected:
             Input();
 

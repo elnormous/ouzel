@@ -51,6 +51,11 @@ using namespace ouzel;
     [super dealloc];
 }
 
+-(BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
 -(void)close
 {
     if (viewDelegate)
