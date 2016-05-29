@@ -102,7 +102,7 @@ namespace ouzel
             if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
             {
                 scene::NodePtr node = scene->pickNode(position);
-                mouseDownOnNode(node, position);
+                pointerDownOnNode(0, node, position);
             }
         }
 
@@ -123,7 +123,7 @@ namespace ouzel
             if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
             {
                 scene::NodePtr node = scene->pickNode(position);
-                mouseUpOnNode(node, position);
+                pointerUpOnNode(0, node, position);
             }
         }
 
@@ -143,12 +143,12 @@ namespace ouzel
             if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
             {
                 scene::NodePtr node = scene->pickNode(position);
-                mouseEnterNode(node, position);
+                pointerEnterNode(0, node, position);
             }
 
-            if (!mouseDownNode.expired())
+            if (scene::NodePtr pointerDownOnNode = getPointerDownOnNode(0))
             {
-                mouseDragNode(mouseDownNode.lock(), position);
+                pointerDragNode(0, pointerDownOnNode, position);
             }
         }
 
@@ -175,6 +175,12 @@ namespace ouzel
             event.touchEvent.position = position;
 
             sharedEngine->getEventDispatcher()->dispatchEvent(event);
+
+            if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
+            {
+                scene::NodePtr node = scene->pickNode(position);
+                pointerDownOnNode(touchId, node, position);
+            }
         }
 
         void Input::touchEnd(uint64_t touchId, const Vector2& position)
@@ -187,6 +193,12 @@ namespace ouzel
             event.touchEvent.position = position;
 
             sharedEngine->getEventDispatcher()->dispatchEvent(event);
+
+            if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
+            {
+                scene::NodePtr node = scene->pickNode(position);
+                pointerUpOnNode(touchId, node, position);
+            }
         }
 
         void Input::touchMove(uint64_t touchId, const Vector2& position)
@@ -199,6 +211,11 @@ namespace ouzel
             event.touchEvent.position = position;
 
             sharedEngine->getEventDispatcher()->dispatchEvent(event);
+
+            if (scene::NodePtr pointerDownOnNode = getPointerDownOnNode(touchId))
+            {
+                pointerDragNode(touchId, pointerDownOnNode, position);
+            }
         }
 
         void Input::touchCancel(uint64_t touchId, const Vector2& position)
@@ -211,25 +228,59 @@ namespace ouzel
             event.touchEvent.position = position;
 
             sharedEngine->getEventDispatcher()->dispatchEvent(event);
+
+            if (scene::ScenePtr scene = sharedEngine->getSceneManager()->getScene())
+            {
+                scene::NodePtr node = scene->pickNode(position);
+                pointerUpOnNode(touchId, node, position);
+            }
         }
 
-        void Input::mouseEnterNode(const scene::NodePtr& node, const Vector2& position)
+        scene::NodePtr Input::getPointerOnNode(uint64_t pointerId) const
         {
-            scene::NodePtr mouseOnNode = mouseNode.lock();
+            scene::NodePtr result;
 
-            if (mouseOnNode)
+            auto i = pointerOnNodes.find(pointerId);
+
+            if (i != pointerOnNodes.end() && !i->second.expired())
             {
-                if (mouseOnNode == node)
+                result = i->second.lock();
+            }
+
+            return result;
+        }
+
+        scene::NodePtr Input::getPointerDownOnNode(uint64_t pointerId) const
+        {
+            scene::NodePtr result;
+
+            auto i = pointerDownOnNodes.find(pointerId);
+
+            if (i != pointerDownOnNodes.end() && !i->second.expired())
+            {
+                result = i->second.lock();
+            }
+
+            return result;
+        }
+
+        void Input::pointerEnterNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
+        {
+            scene::NodePtr pointerOnNode = getPointerOnNode(pointerId);
+
+            if (pointerOnNode)
+            {
+                if (pointerOnNode == node)
                 {
                     return;
                 }
                 else
                 {
-                    mouseLeaveNode(mouseOnNode, position);
+                    pointerLeaveNode(pointerId, pointerOnNode, position);
                 }
             }
 
-            mouseNode = node;
+            pointerOnNodes[pointerId] = node;
 
             if (node && node->isReceivingInput())
             {
@@ -243,7 +294,7 @@ namespace ouzel
             }
         }
 
-        void Input::mouseLeaveNode(const scene::NodePtr& node, const Vector2& position)
+        void Input::pointerLeaveNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
         {
             if (node && node->isReceivingInput())
             {
@@ -255,11 +306,13 @@ namespace ouzel
 
                 sharedEngine->getEventDispatcher()->dispatchEvent(event);
             }
+
+            pointerOnNodes.erase(pointerId);
         }
 
-        void Input::mouseDownOnNode(const scene::NodePtr& node, const Vector2& position)
+        void Input::pointerDownOnNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
         {
-            mouseDownNode = node;
+            pointerDownOnNodes[pointerId] = node;
 
             if (node && node->isReceivingInput())
             {
@@ -273,44 +326,47 @@ namespace ouzel
             }
         }
 
-        void Input::mouseUpOnNode(const scene::NodePtr& node, const Vector2& position)
+        void Input::pointerUpOnNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
         {
-            scene::NodePtr mouseDownOnNode = mouseDownNode.lock();
+            scene::NodePtr pointerDownOnNode = getPointerDownOnNode(pointerId);
 
-            if (mouseDownOnNode && mouseDownOnNode->isReceivingInput())
+            if (pointerDownOnNode && pointerDownOnNode->isReceivingInput())
             {
                 Event releaseEvent;
-                releaseEvent.sender = mouseDownOnNode;
+                releaseEvent.sender = pointerDownOnNode;
                 releaseEvent.type = Event::Type::UI_RELEASE_NODE;
 
-                releaseEvent.uiEvent.position = mouseDownOnNode->convertWorldToLocal(position);
+                releaseEvent.uiEvent.position = pointerDownOnNode->convertWorldToLocal(position);
 
                 sharedEngine->getEventDispatcher()->dispatchEvent(releaseEvent);
 
-                if (mouseDownOnNode == node)
+                if (pointerDownOnNode == node)
                 {
                     Event clickEvent;
-                    clickEvent.sender = mouseDownOnNode;
+                    clickEvent.sender = pointerDownOnNode;
                     clickEvent.type = Event::Type::UI_CLICK_NODE;
 
-                    clickEvent.uiEvent.position = mouseDownOnNode->convertWorldToLocal(position);
+                    clickEvent.uiEvent.position = pointerDownOnNode->convertWorldToLocal(position);
 
                     sharedEngine->getEventDispatcher()->dispatchEvent(clickEvent);
                 }
             }
 
-            mouseDownNode.reset();
+            pointerDownOnNodes.erase(pointerId);
         }
 
-        void Input::mouseDragNode(const scene::NodePtr& node, const Vector2& position)
+        void Input::pointerDragNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
         {
-            Event event;
-            event.sender = node;
-            event.type = Event::Type::UI_DRAG_NODE;
+            if (node && node->isReceivingInput())
+            {
+                Event event;
+                event.sender = node;
+                event.type = Event::Type::UI_DRAG_NODE;
 
-            event.uiEvent.position = node->convertWorldToLocal(position);
+                event.uiEvent.position = node->convertWorldToLocal(position);
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event);
+                sharedEngine->getEventDispatcher()->dispatchEvent(event);
+            }
         }
 
     } // namespace input

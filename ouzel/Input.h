@@ -4,6 +4,7 @@
 #pragma once
 
 #include <memory>
+#include <map>
 #include "Noncopyable.h"
 #include "Types.h"
 #include "Vector2.h"
@@ -246,18 +247,21 @@ namespace ouzel
         protected:
             Input();
 
-            void mouseEnterNode(const scene::NodePtr& node, const Vector2& position);
-            void mouseLeaveNode(const scene::NodePtr& node, const Vector2& position);
-            void mouseDownOnNode(const scene::NodePtr& node, const Vector2& position);
-            void mouseUpOnNode(const scene::NodePtr& node, const Vector2& position);
-            void mouseDragNode(const scene::NodePtr& node, const Vector2& position);
+            scene::NodePtr getPointerOnNode(uint64_t pointerId) const;
+            scene::NodePtr getPointerDownOnNode(uint64_t pointerId) const;
+
+            void pointerEnterNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
+            void pointerLeaveNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
+            void pointerDownOnNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
+            void pointerUpOnNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
+            void pointerDragNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
 
             Vector2 cursorPosition;
             bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
             bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
 
-            scene::NodeWeakPtr mouseNode;
-            scene::NodeWeakPtr mouseDownNode;
+            std::map<uint64_t, scene::NodeWeakPtr> pointerOnNodes;
+            std::map<uint64_t, scene::NodeWeakPtr> pointerDownOnNodes;
         };
     } // namespace input
 } // namespace ouzel
