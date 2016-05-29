@@ -12,6 +12,7 @@
 typedef ConnectDelegate* ConnectDelegatePtr;
 #else
 #include <objc/objc.h>
+#include <objc/NSObjCRuntime.h>
 typedef id ConnectDelegatePtr;
 #endif
 
@@ -36,6 +37,11 @@ namespace ouzel
             void handleGamepadDiscoveryCompleted();
             void handleGamepadConnected(id controller);
             void handleGamepadDisconnected(id controller);
+
+#ifdef OUZEL_PLATFORM_OSX
+            static KeyboardKey convertOSXKeyCode(unsigned short keyCode);
+            static uint32_t getOSXModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
+#endif
 
         protected:
             InputApple();
