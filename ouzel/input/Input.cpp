@@ -367,6 +367,8 @@ namespace ouzel
 
         void Input::pointerDragNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
         {
+            OUZEL_UNUSED(pointerId);
+
             if (node && node->isReceivingInput())
             {
                 Event event;
