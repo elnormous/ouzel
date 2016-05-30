@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBufferMetal.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "RendererMetal.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

@@ -3,10 +3,10 @@
 
 #include "Engine.h"
 #include "RendererMetal.h"
-#include "FileSystem.h"
+#include "files/FileSystem.h"
 #include "ShaderMetal.h"
 #include "RendererMetal.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

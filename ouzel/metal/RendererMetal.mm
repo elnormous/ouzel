@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "CompileConfig.h"
+#include "core/CompileConfig.h"
 #include "RendererMetal.h"
 #include "TextureMetal.h"
 #include "RenderTargetMetal.h"
@@ -9,7 +9,7 @@
 #include "MeshBufferMetal.h"
 #include "BlendStateMetal.h"
 #if defined(OUZEL_PLATFORM_OSX)
-    #include "WindowOSX.h"
+    #include "osx/WindowOSX.h"
     #include "ColorPSOSX.h"
     #include "ColorVSOSX.h"
     #include "TexturePSOSX.h"
@@ -19,7 +19,7 @@
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSOSX_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSOSX_metallib
 #elif defined(OUZEL_PLATFORM_TVOS)
-    #include "WindowTVOS.h"
+    #include "tvos/WindowTVOS.h"
     #include "ColorPSTVOS.h"
     #include "ColorVSTVOS.h"
     #include "TexturePSTVOS.h"
@@ -29,7 +29,7 @@
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
 #elif defined(OUZEL_PLATFORM_IOS)
-    #include "WindowIOS.h"
+    #include "ios/WindowIOS.h"
     #include "ColorPSIOS.h"
     #include "ColorVSIOS.h"
     #include "TexturePSIOS.h"
@@ -39,9 +39,9 @@
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSIOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
 #endif
-#include "Engine.h"
-#include "Cache.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "core/Cache.h"
+#include "utils/Utils.h"
 #include "stb_image_write.h"
 
 namespace ouzel

@@ -2,10 +2,10 @@
 // This file is part of the Ouzel engine.
 
 #include "TextureMetal.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "RendererMetal.h"
-#include "Image.h"
-#include "MathUtils.h"
+#include "graphics/Image.h"
+#include "math/MathUtils.h"
 
 namespace ouzel
 {
