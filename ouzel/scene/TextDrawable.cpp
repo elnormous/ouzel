@@ -2,10 +2,10 @@
 // This file is part of the Ouzel engine.
 
 #include "TextDrawable.h"
-#include "Engine.h"
-#include "Renderer.h"
-#include "Cache.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "graphics/Renderer.h"
+#include "core/Cache.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

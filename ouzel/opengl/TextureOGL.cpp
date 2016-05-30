@@ -3,10 +3,10 @@
 
 #include <cstring>
 #include "TextureOGL.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "RendererOGL.h"
-#include "Image.h"
-#include "Utils.h"
+#include "graphics/Image.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

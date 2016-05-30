@@ -4,9 +4,9 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <X11/keysym.h>
-#include "Engine.h"
+#include "core/Engine.h"
 #include "WindowLinux.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 using namespace ouzel;
 

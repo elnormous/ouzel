@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include "CheckBox.h"
-#include "Engine.h"
-#include "Sprite.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "scene/Sprite.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

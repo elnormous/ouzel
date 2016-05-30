@@ -2,14 +2,14 @@
 // This file is part of the Ouzel engine.
 
 #include "DebugDrawable.h"
-#include "CompileConfig.h"
-#include "Engine.h"
-#include "Renderer.h"
-#include "Cache.h"
+#include "core/CompileConfig.h"
+#include "core/Engine.h"
+#include "graphics/Renderer.h"
+#include "core/Cache.h"
 #include "Layer.h"
 #include "Camera.h"
-#include "MathUtils.h"
-#include "Utils.h"
+#include "math/MathUtils.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

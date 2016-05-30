@@ -3,9 +3,9 @@
 
 #include <limits>
 #include "Shake.h"
-#include "Node.h"
-#include "MathUtils.h"
-#include "Utils.h"
+#include "scene/Node.h"
+#include "math/MathUtils.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

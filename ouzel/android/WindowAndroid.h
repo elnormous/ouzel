@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "Window.h"
+#include "core/Window.h"
 
 namespace ouzel
 {

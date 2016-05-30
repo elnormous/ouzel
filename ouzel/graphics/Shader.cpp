@@ -3,10 +3,10 @@
 
 #include <fstream>
 #include "Shader.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "Renderer.h"
-#include "FileSystem.h"
-#include "Utils.h"
+#include "files/FileSystem.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

@@ -6,11 +6,11 @@
 #include <string>
 #include <sstream>
 #include "BMFont.h"
-#include "Engine.h"
-#include "FileSystem.h"
-#include "Vertex.h"
-#include "Cache.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "files/FileSystem.h"
+#include "graphics/Vertex.h"
+#include "core/Cache.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

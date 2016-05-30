@@ -3,8 +3,8 @@
 
 #include "Window.h"
 #include "Engine.h"
-#include "Renderer.h"
-#include "SceneManager.h"
+#include "graphics/Renderer.h"
+#include "scene/SceneManager.h"
 
 namespace ouzel
 {

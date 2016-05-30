@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "Drawable.h"
-#include "Utils.h"
-#include "MathUtils.h"
+#include "utils/Utils.h"
+#include "math/MathUtils.h"
 
 namespace ouzel
 {

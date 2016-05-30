@@ -6,7 +6,7 @@
 #include "Engine.h"
 #include "CompileConfig.h"
 #include "Cache.h"
-#include "Localization.h"
+#include "localization/Localization.h"
 
 #if defined(OUZEL_PLATFORM_OSX)
 #include "osx/WindowOSX.h"
@@ -34,9 +34,9 @@
 #include "metal/RendererMetal.h"
 #endif
 
-#include "Utils.h"
-#include "Renderer.h"
-#include "FileSystem.h"
+#include "utils/Utils.h"
+#include "graphics/Renderer.h"
+#include "files/FileSystem.h"
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include "apple/InputApple.h"

@@ -3,7 +3,7 @@
 
 #include <cmath>
 #include "Ease.h"
-#include "MathUtils.h"
+#include "math/MathUtils.h"
 
 namespace ouzel
 {

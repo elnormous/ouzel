@@ -4,8 +4,8 @@
 #pragma once
 
 #include <set>
-#include "CompileConfig.h"
-#include "Renderer.h"
+#include "core/CompileConfig.h"
+#include "graphics/Renderer.h"
 
 #if defined(OUZEL_PLATFORM_OSX)
     #include <OpenGL/gl3.h>

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Move.h"
-#include "Node.h"
+#include "scene/Node.h"
 
 namespace ouzel
 {

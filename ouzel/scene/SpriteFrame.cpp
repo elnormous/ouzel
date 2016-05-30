@@ -5,10 +5,10 @@
 #include <rapidjson/memorystream.h>
 #include <rapidjson/document.h>
 #include "SpriteFrame.h"
-#include "Engine.h"
-#include "Cache.h"
-#include "Texture.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "core/Cache.h"
+#include "graphics/Texture.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

@@ -5,7 +5,7 @@
 #include "Scene.h"
 #include "Layer.h"
 #include "Camera.h"
-#include "Engine.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {

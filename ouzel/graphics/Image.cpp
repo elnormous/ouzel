@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include "Image.h"
-#include "Utils.h"
-#include "Engine.h"
-#include "FileSystem.h"
+#include "utils/Utils.h"
+#include "core/Engine.h"
+#include "files/FileSystem.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION

@@ -2,13 +2,13 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Engine.h"
 #include "Layer.h"
+#include "core/Engine.h"
 #include "Node.h"
 #include "Camera.h"
-#include "Renderer.h"
+#include "graphics/Renderer.h"
 #include "Scene.h"
-#include "Matrix4.h"
+#include "math/Matrix4.h"
 #include "Drawable.h"
 
 namespace ouzel

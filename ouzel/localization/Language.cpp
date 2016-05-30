@@ -7,8 +7,8 @@
 #include <iterator>
 #include <algorithm>
 #include "Language.h"
-#include "Engine.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

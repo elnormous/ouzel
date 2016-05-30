@@ -3,11 +3,11 @@
 
 #include <cstring>
 #include "Input.h"
-#include "Engine.h"
-#include "EventDispatcher.h"
-#include "Scene.h"
-#include "Node.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "events/EventDispatcher.h"
+#include "scene/Scene.h"
+#include "scene/Node.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

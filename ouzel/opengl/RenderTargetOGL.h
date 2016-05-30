@@ -3,10 +3,10 @@
 
 #pragma once
 
-#include "CompileConfig.h"
-#include "RenderTarget.h"
-#include "Size2.h"
-#include "Rectangle.h"
+#include "core/CompileConfig.h"
+#include "graphics/RenderTarget.h"
+#include "math/Size2.h"
+#include "math/Rectangle.h"
 
 #if defined(OUZEL_PLATFORM_OSX)
     #include <OpenGL/gl3.h>

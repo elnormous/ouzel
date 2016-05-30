@@ -2,19 +2,18 @@
 // This file is part of the Ouzel engine.
 
 #include "Renderer.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "Texture.h"
-#include "Node.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 #include "Shader.h"
-#include "Camera.h"
-#include "EventHander.h"
-#include "SceneManager.h"
+#include "scene/Camera.h"
+#include "events/EventHander.h"
+#include "scene/SceneManager.h"
 #include "MeshBuffer.h"
-#include "EventDispatcher.h"
+#include "events/EventDispatcher.h"
 #include "RenderTarget.h"
 #include "BlendState.h"
-#include "Window.h"
+#include "core/Window.h"
 
 namespace ouzel
 {

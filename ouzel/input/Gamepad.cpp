@@ -3,8 +3,8 @@
 
 #include <cstring>
 #include "Gamepad.h"
-#include "Engine.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

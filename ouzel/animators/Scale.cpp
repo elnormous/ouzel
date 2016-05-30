@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Scale.h"
-#include "Node.h"
+#include "scene/Node.h"
 
 namespace ouzel
 {

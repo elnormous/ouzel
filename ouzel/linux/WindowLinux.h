@@ -5,7 +5,7 @@
 
 #include <GL/glx.h>
 #include <X11/X.h>
-#include "Window.h"
+#include "core/Window.h"
 
 namespace ouzel
 {

@@ -4,10 +4,10 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include "WindowLinux.h"
-#include "Engine.h"
-#include "Renderer.h"
+#include "core/Engine.h"
+#include "graphics/Renderer.h"
 #include "opengl/RendererOGL.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

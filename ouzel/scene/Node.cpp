@@ -3,13 +3,13 @@
 
 #include <algorithm>
 #include "Node.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "SceneManager.h"
 #include "Layer.h"
-#include "Animator.h"
+#include "animators/Animator.h"
 #include "Camera.h"
-#include "Utils.h"
-#include "MathUtils.h"
+#include "utils/Utils.h"
+#include "math/MathUtils.h"
 #include "Drawable.h"
 
 namespace ouzel

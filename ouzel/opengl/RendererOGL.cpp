@@ -7,10 +7,10 @@
 #include "ShaderOGL.h"
 #include "MeshBufferOGL.h"
 #include "BlendStateOGL.h"
-#include "Engine.h"
-#include "Window.h"
-#include "Cache.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "core/Window.h"
+#include "core/Cache.h"
+#include "utils/Utils.h"
 #include "stb_image_write.h"
 
 #if defined(OUZEL_SUPPORTS_OPENGL)

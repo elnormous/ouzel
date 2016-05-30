@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CompileConfig.h"
+#include "core/CompileConfig.h"
 
 #if defined(OUZEL_PLATFORM_OSX)
     #include <OpenGL/gl3.h>
@@ -27,7 +27,7 @@
     #include <GL/glext.h>
 #endif
 
-#include "Shader.h"
+#include "graphics/Shader.h"
 
 namespace ouzel
 {

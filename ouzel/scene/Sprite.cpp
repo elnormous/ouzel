@@ -5,17 +5,17 @@
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/document.h>
 #include "Sprite.h"
-#include "CompileConfig.h"
-#include "Engine.h"
-#include "Renderer.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "Utils.h"
+#include "core/CompileConfig.h"
+#include "core/Engine.h"
+#include "graphics/Renderer.h"
+#include "graphics/Texture.h"
+#include "graphics/Shader.h"
+#include "utils/Utils.h"
 #include "Camera.h"
 #include "SceneManager.h"
-#include "FileSystem.h"
+#include "files/FileSystem.h"
 #include "Layer.h"
-#include "Cache.h"
+#include "core/Cache.h"
 
 namespace ouzel
 {

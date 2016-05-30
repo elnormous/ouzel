@@ -5,9 +5,9 @@
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/document.h>
 #include "ParticleDefinition.h"
-#include "Engine.h"
-#include "FileSystem.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "files/FileSystem.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

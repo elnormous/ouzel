@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowAndroid.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "opengl/RendererOGL.h"
 
 namespace ouzel

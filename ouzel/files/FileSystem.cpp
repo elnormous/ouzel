@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sys/stat.h>
-#include "CompileConfig.h"
+#include "core/CompileConfig.h"
 #if defined(OUZEL_PLATFORM_OSX)
     #include <sys/types.h>
     #include <pwd.h>
@@ -17,7 +17,7 @@
     #include <unistd.h>
 #endif
 #include "FileSystem.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 #if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include <CoreFoundation/CoreFoundation.h>

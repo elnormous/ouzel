@@ -6,12 +6,12 @@
 #include <rapidjson/document.h>
 #include "Cache.h"
 #include "Engine.h"
-#include "Renderer.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "ParticleDefinition.h"
-#include "SpriteFrame.h"
-#include "Utils.h"
+#include "graphics/Renderer.h"
+#include "graphics/Texture.h"
+#include "graphics/Shader.h"
+#include "scene/ParticleDefinition.h"
+#include "scene/SpriteFrame.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

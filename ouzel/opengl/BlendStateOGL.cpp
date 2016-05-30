@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "BlendStateOGL.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

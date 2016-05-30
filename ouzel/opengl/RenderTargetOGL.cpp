@@ -3,9 +3,9 @@
 
 #include "RenderTargetOGL.h"
 #include "TextureOGL.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "RendererOGL.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

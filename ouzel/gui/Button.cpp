@@ -3,15 +3,15 @@
 
 #include <functional>
 #include "Button.h"
-#include "Engine.h"
-#include "Sprite.h"
-#include "EventHander.h"
-#include "EventDispatcher.h"
-#include "Layer.h"
-#include "Camera.h"
+#include "core/Engine.h"
+#include "scene/Sprite.h"
+#include "events/EventHander.h"
+#include "events/EventDispatcher.h"
+#include "scene/Layer.h"
+#include "scene/Camera.h"
 #include "Label.h"
-#include "Utils.h"
-#include "TextDrawable.h"
+#include "utils/Utils.h"
+#include "scene/TextDrawable.h"
 
 namespace ouzel
 {

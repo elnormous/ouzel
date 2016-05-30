@@ -7,7 +7,6 @@
 #include <cassert>
 #include "Matrix4.h"
 #include "MathUtils.h"
-#include "Utils.h"
 
 namespace ouzel
 {
