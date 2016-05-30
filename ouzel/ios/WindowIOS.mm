@@ -22,6 +22,14 @@
 {
 }
 
+-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+    ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(size.width),
+                                                           static_cast<float>(size.height)));
+}
+
 @end
 
 namespace ouzel
