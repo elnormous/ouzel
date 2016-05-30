@@ -3,10 +3,10 @@
 
 #include <windowsx.h>
 #include "WindowWin.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "InputWin.h"
-#include "Renderer.h"
-#include "Utils.h"
+#include "graphics/Renderer.h"
+#include "utils/Utils.h"
 
 using namespace ouzel;
 

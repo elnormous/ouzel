@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <xinput.h>
-#include "Input.h"
+#include "input/Input.h"
 
 namespace ouzel
 {

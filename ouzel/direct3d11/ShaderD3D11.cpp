@@ -3,10 +3,10 @@
 
 #include <fstream>
 #include "ShaderD3D11.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "RendererD3D11.h"
-#include "FileSystem.h"
-#include "Utils.h"
+#include "files/FileSystem.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

@@ -5,7 +5,7 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "BlendState.h"
+#include "graphics/BlendState.h"
 
 namespace ouzel
 {

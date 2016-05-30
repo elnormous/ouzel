@@ -5,7 +5,7 @@
 
 #define NOMINMAX
 #include <windows.h>
-#include "Window.h"
+#include "core/Window.h"
 
 namespace ouzel
 {

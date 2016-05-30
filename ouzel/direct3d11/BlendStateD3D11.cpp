@@ -4,8 +4,8 @@
 #include <memory>
 #include "BlendStateD3D11.h"
 #include "RendererD3D11.h"
-#include "Engine.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

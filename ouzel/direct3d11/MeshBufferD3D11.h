@@ -5,7 +5,7 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "MeshBuffer.h"
+#include "graphics/MeshBuffer.h"
 
 namespace ouzel
 {

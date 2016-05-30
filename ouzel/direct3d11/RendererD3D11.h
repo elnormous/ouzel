@@ -7,7 +7,7 @@
 #include <set>
 #include <windows.h>
 #include <d3d11.h>
-#include "Renderer.h"
+#include "graphics/Renderer.h"
 
 namespace ouzel
 {

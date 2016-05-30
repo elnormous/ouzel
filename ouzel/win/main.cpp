@@ -3,8 +3,8 @@
 
 #define NOMINMAX
 #include <windows.h>
-#include "Engine.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "utils/Utils.h"
 
 void ouzelMain(const std::vector<std::string>& args);
 

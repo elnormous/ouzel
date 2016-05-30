@@ -4,9 +4,9 @@
 #define NOMINMAX
 #include <windows.h>
 #include "InputWin.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "GamepadWin.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

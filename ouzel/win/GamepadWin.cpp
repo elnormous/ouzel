@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "GamepadWin.h"
-#include "Engine.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include "TextureD3D11.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "RendererD3D11.h"
-#include "Image.h"
-#include "MathUtils.h"
-#include "Utils.h"
+#include "graphics/Image.h"
+#include "math/MathUtils.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

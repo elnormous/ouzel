@@ -5,7 +5,7 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "Texture.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {

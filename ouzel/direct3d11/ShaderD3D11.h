@@ -5,8 +5,7 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "CompileConfig.h"
-#include "Shader.h"
+#include "graphics/Shader.h"
 
 namespace ouzel
 {

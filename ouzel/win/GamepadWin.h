@@ -6,7 +6,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include <xinput.h>
-#include "Gamepad.h"
+#include "input/Gamepad.h"
 
 namespace ouzel
 {
