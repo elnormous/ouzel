@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "CompileConfig.h"
-#include "BlendState.h"
+#include "core/CompileConfig.h"
+#include "graphics/BlendState.h"
 
 #if defined(__OBJC__)
 #import <Metal/Metal.h>

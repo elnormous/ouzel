@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <memory>
-#include "Input.h"
+#include "input/Input.h"
 
 #if defined(__OBJC__)
 @class ConnectDelegate;

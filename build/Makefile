@@ -1,78 +1,78 @@
 CC=g++
 CFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb -I../ouzel
-SOURCES=../ouzel/AABB2.cpp \
-	../ouzel/Animator.cpp \
-	../ouzel/BlendState.cpp \
-	../ouzel/BMFont.cpp \
-	../ouzel/Button.cpp \
-	../ouzel/Cache.cpp \
-	../ouzel/Camera.cpp \
-	../ouzel/CheckBox.cpp \
-	../ouzel/Color.cpp \
-	../ouzel/ComboBox.cpp \
-	../ouzel/DebugDrawable.cpp \
-	../ouzel/Drawable.cpp \
-	../ouzel/Ease.cpp \
-	../ouzel/EditBox.cpp \
-	../ouzel/Engine.cpp \
-	../ouzel/EventDispatcher.cpp \
-	../ouzel/Fade.cpp \
-	../ouzel/FileSystem.cpp \
-	../ouzel/Gamepad.cpp \
-	../ouzel/Image.cpp \
-	../ouzel/Input.cpp \
-	../ouzel/Label.cpp \
-	../ouzel/Language.cpp \
-	../ouzel/Layer.cpp \
-	../ouzel/Localization.cpp \
-	../ouzel/MathUtils.cpp \
-	../ouzel/Matrix3.cpp \
-	../ouzel/Matrix4.cpp \
-	../ouzel/Menu.cpp \
-	../ouzel/MeshBuffer.cpp \
-	../ouzel/Move.cpp \
-	../ouzel/Node.cpp \
-	../ouzel/NodeContainer.cpp \
-	../ouzel/Parallel.cpp \
-	../ouzel/ParticleDefinition.cpp \
-	../ouzel/ParticleSystem.cpp \
-	../ouzel/Popup.cpp \
-	../ouzel/RadioButton.cpp \
-	../ouzel/Rectangle.cpp \
-	../ouzel/Renderer.cpp \
-	../ouzel/RenderTarget.cpp \
-	../ouzel/Repeat.cpp \
-	../ouzel/Rotate.cpp \
-	../ouzel/Scale.cpp \
-	../ouzel/Scene.cpp \
-	../ouzel/SceneManager.cpp \
-	../ouzel/ScrollArea.cpp \
-	../ouzel/ScrollBar.cpp \
-	../ouzel/Sequence.cpp \
-	../ouzel/Shader.cpp \
-	../ouzel/Shake.cpp \
-	../ouzel/Size2.cpp \
-	../ouzel/Size3.cpp \
-	../ouzel/SlideBar.cpp \
-	../ouzel/Sprite.cpp \
-	../ouzel/SpriteFrame.cpp \
-	../ouzel/TextDrawable.cpp \
-	../ouzel/Texture.cpp \
-	../ouzel/Utils.cpp \
-	../ouzel/Vector2.cpp \
-	../ouzel/Vector3.cpp \
-	../ouzel/Vector4.cpp \
-	../ouzel/Vertex.cpp \
-	../ouzel/Widget.cpp \
-	../ouzel/Window.cpp \
+SOURCES=../ouzel/animators/Animator.cpp \
+	../ouzel/animators/Ease.cpp \
+	../ouzel/animators/Fade.cpp \
+	../ouzel/animators/Move.cpp \
+	../ouzel/animators/Parallel.cpp \
+	../ouzel/animators/Repeat.cpp \
+	../ouzel/animators/Rotate.cpp \
+	../ouzel/animators/Scale.cpp \
+	../ouzel/animators/Sequence.cpp \
+	../ouzel/animators/Shake.cpp \
+	../ouzel/core/Cache.cpp \
+	../ouzel/core/Engine.cpp \
+	../ouzel/core/Window.cpp \
+	../ouzel/events/EventDispatcher.cpp \
+	../ouzel/files/FileSystem.cpp \
+	../ouzel/graphics/BlendState.cpp \
+	../ouzel/graphics/Color.cpp \
+	../ouzel/graphics/Image.cpp \
+	../ouzel/graphics/MeshBuffer.cpp \
+	../ouzel/graphics/Renderer.cpp \
+	../ouzel/graphics/RenderTarget.cpp \
+	../ouzel/graphics/Shader.cpp \
+	../ouzel/graphics/Texture.cpp \
+	../ouzel/graphics/Vertex.cpp \
+	../ouzel/gui/BMFont.cpp \
+	../ouzel/gui/Button.cpp \
+	../ouzel/gui/CheckBox.cpp \
+	../ouzel/gui/ComboBox.cpp \
+	../ouzel/gui/EditBox.cpp \
+	../ouzel/gui/Label.cpp \
+	../ouzel/gui/Menu.cpp \
+	../ouzel/gui/Popup.cpp \
+	../ouzel/gui/RadioButton.cpp \
+	../ouzel/gui/ScrollArea.cpp \
+	../ouzel/gui/ScrollBar.cpp \
+	../ouzel/gui/SlideBar.cpp \
+	../ouzel/gui/Widget.cpp \
+	../ouzel/input/Gamepad.cpp \
+	../ouzel/input/Input.cpp \
 	../ouzel/linux/main.cpp \
 	../ouzel/linux/WindowLinux.cpp \
+	../ouzel/localization/Language.cpp \
+	../ouzel/localization/Localization.cpp \
+	../ouzel/math/AABB2.cpp \
+	../ouzel/math/MathUtils.cpp \
+	../ouzel/math/Matrix3.cpp \
+	../ouzel/math/Matrix4.cpp \
+	../ouzel/math/Rectangle.cpp \
+	../ouzel/math/Size2.cpp \
+	../ouzel/math/Size3.cpp \
+	../ouzel/math/Vector2.cpp \
+	../ouzel/math/Vector3.cpp \
+	../ouzel/math/Vector4.cpp \
 	../ouzel/opengl/BlendStateOGL.cpp \
 	../ouzel/opengl/MeshBufferOGL.cpp \
 	../ouzel/opengl/RendererOGL.cpp \
 	../ouzel/opengl/RenderTargetOGL.cpp \
 	../ouzel/opengl/ShaderOGL.cpp \
-	../ouzel/opengl/TextureOGL.cpp
+	../ouzel/opengl/TextureOGL.cpp \
+	../ouzel/scene/Camera.cpp \
+	../ouzel/scene/DebugDrawable.cpp \
+	../ouzel/scene/Drawable.cpp \
+	../ouzel/scene/Layer.cpp \
+	../ouzel/scene/Node.cpp \
+	../ouzel/scene/NodeContainer.cpp \
+	../ouzel/scene/ParticleDefinition.cpp \
+	../ouzel/scene/ParticleSystem.cpp \
+	../ouzel/scene/Scene.cpp \
+	../ouzel/scene/SceneManager.cpp \
+	../ouzel/scene/Sprite.cpp \
+	../ouzel/scene/SpriteFrame.cpp \
+	../ouzel/scene/TextDrawable.cpp \
+	../ouzel/utils/Utils.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 LIBRARY=libouzel.a
 
@@ -86,4 +86,18 @@ $(LIBRARY): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	rm -rf $(LIBRARY) ../ouzel/*.o ../ouzel/linux/*.o ../ouzel/opengl/*.o
+	rm -rf $(LIBRARY) \
+	../ouzel/animators/*.o \
+	../ouzel/core/*.o \
+	../ouzel/events/*.o \
+	../ouzel/files/*.o \
+	../ouzel/graphics/*.o \
+	../ouzel/gui/*.o \
+	../ouzel/input/*.o \
+	../ouzel/linux/*.o \
+	../ouzel/localization/*.o \
+	../ouzel/math/*.o \
+	../ouzel/metal/*.o \
+	../ouzel/opengl/*.o \
+	../ouzel/scene/*.o \
+	../ouzel/utils/*.o

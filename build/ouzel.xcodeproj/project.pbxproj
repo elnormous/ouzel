@@ -897,7 +897,7 @@
 				301EB3A81CCD77F600466E92 /* TextDrawable.cpp */,
 				301EB3A91CCD77F600466E92 /* TextDrawable.h */,
 			);
-			name = scene;
+			path = scene;
 			sourceTree = "<group>";
 		};
 		303B750F1C2882CA00FEDE92 /* math */ = {
@@ -924,7 +924,7 @@
 				304A8E4E1C237C70008B1151 /* Vector4.cpp */,
 				304A8E4F1C237C70008B1151 /* Vector4.h */,
 			);
-			name = math;
+			path = math;
 			sourceTree = "<group>";
 		};
 		303B75101C28830A00FEDE92 /* graphics */ = {
@@ -938,8 +938,6 @@
 				303B74E21C277A7500FEDE92 /* Image.h */,
 				304A8E901C26ED32008B1151 /* MeshBuffer.cpp */,
 				304A8E911C26ED32008B1151 /* MeshBuffer.h */,
-				30547E351CB3D6570055EE79 /* metal */,
-				303B75131C288CCE00FEDE92 /* opengl */,
 				304A8E3E1C237C70008B1151 /* Renderer.cpp */,
 				304A8E3F1C237C70008B1151 /* Renderer.h */,
 				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
@@ -951,7 +949,7 @@
 				304A8EA01C270833008B1151 /* Vertex.cpp */,
 				304A8EA11C270833008B1151 /* Vertex.h */,
 			);
-			name = graphics;
+			path = graphics;
 			sourceTree = "<group>";
 		};
 		303B75111C28838C00FEDE92 /* core */ = {
@@ -962,14 +960,12 @@
 				304A8E871C248204008B1151 /* CompileConfig.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
-				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				303647631C3F218E0024DB5B /* Settings.h */,
-				305B99C71C451962008589E1 /* Types.h */,
 				30C8B6211C6D0E350031B64F /* UpdateCallback.h */,
 				3009341A1C88698500CC50D3 /* Window.cpp */,
 				3009341B1C88698500CC50D3 /* Window.h */,
 			);
-			name = core;
+			path = core;
 			sourceTree = "<group>";
 		};
 		303B75121C2883C800FEDE92 /* files */ = {
@@ -978,7 +974,7 @@
 				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
 				303B74FF1C28208800FEDE92 /* FileSystem.h */,
 			);
-			name = files;
+			path = files;
 			sourceTree = "<group>";
 		};
 		303B75131C288CCE00FEDE92 /* opengl */ = {
@@ -1056,7 +1052,7 @@
 				303B76061C34A92B00FEDE92 /* Input.cpp */,
 				303B76071C34A92B00FEDE92 /* Input.h */,
 			);
-			name = input;
+			path = input;
 			sourceTree = "<group>";
 		};
 		303B76311C355A3400FEDE92 /* tvos */ = {
@@ -1099,7 +1095,7 @@
 				30547E761CB47E050055EE79 /* Shake.cpp */,
 				30547E771CB47E050055EE79 /* Shake.h */,
 			);
-			name = animators;
+			path = animators;
 			sourceTree = "<group>";
 		};
 		304A8E011C237B95008B1151 = {
@@ -1134,12 +1130,13 @@
 				303B756F1C2A3D0300FEDE92 /* ios */,
 				30A9C1371CAEBA420084C4BF /* localization */,
 				303B750F1C2882CA00FEDE92 /* math */,
+				30547E351CB3D6570055EE79 /* metal */,
+				303B75131C288CCE00FEDE92 /* opengl */,
 				303B751B1C29EDD900FEDE92 /* osx */,
 				304A8E2A1C237C70008B1151 /* ouzel.h */,
 				303B750D1C28828600FEDE92 /* scene */,
 				303B76311C355A3400FEDE92 /* tvos */,
-				304A8E481C237C70008B1151 /* Utils.cpp */,
-				304A8E491C237C70008B1151 /* Utils.h */,
+				30A5BF0C1CFCE3F800A977CA /* utils */,
 			);
 			name = ouzel;
 			path = ../ouzel;
@@ -1201,12 +1198,12 @@
 				30EF364A1CA76ACD00F04F29 /* ScrollArea.h */,
 				30EF36511CA76AE200F04F29 /* ScrollBar.cpp */,
 				30EF36521CA76AE200F04F29 /* ScrollBar.h */,
-				305B998F1C41F06F008589E1 /* Widget.cpp */,
-				305B99901C41F06F008589E1 /* Widget.h */,
 				30C56C931CAC3ECE007AEF8F /* SlideBar.cpp */,
 				30C56C941CAC3ECE007AEF8F /* SlideBar.h */,
+				305B998F1C41F06F008589E1 /* Widget.cpp */,
+				305B99901C41F06F008589E1 /* Widget.h */,
 			);
-			name = gui;
+			path = gui;
 			sourceTree = "<group>";
 		};
 		30575AD51C3B485F0009C8A7 /* events */ = {
@@ -1217,7 +1214,18 @@
 				30575AD71C3B48740009C8A7 /* EventDispatcher.h */,
 				304A8E2F1C237C70008B1151 /* EventHander.h */,
 			);
-			name = events;
+			path = events;
+			sourceTree = "<group>";
+		};
+		30A5BF0C1CFCE3F800A977CA /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				304A8E381C237C70008B1151 /* Noncopyable.h */,
+				305B99C71C451962008589E1 /* Types.h */,
+				304A8E481C237C70008B1151 /* Utils.cpp */,
+				304A8E491C237C70008B1151 /* Utils.h */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 		30A9C1371CAEBA420084C4BF /* localization */ = {
@@ -1228,7 +1236,7 @@
 				30A9C12F1CAE80570084C4BF /* Localization.cpp */,
 				30A9C1301CAE80570084C4BF /* Localization.h */,
 			);
-			name = localization;
+			path = localization;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2054,6 +2062,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					../ouzel/,
 					../external/stb/,
 					../external/rapidjson/include/,
 				);
@@ -2107,6 +2116,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					../ouzel/,
 					../external/stb/,
 					../external/rapidjson/include/,
 				);

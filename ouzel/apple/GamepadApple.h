@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "Gamepad.h"
+#include "input/Gamepad.h"
 
 #if defined(__OBJC__)
 @class GCController;
