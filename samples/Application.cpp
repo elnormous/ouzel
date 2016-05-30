@@ -23,11 +23,11 @@ void Application::begin()
 
     eventHandler = make_shared<EventHandler>();
 
-    eventHandler->keyboardHandler = std::bind(&Application::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    eventHandler->mouseHandler = std::bind(&Application::handleMouse, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    eventHandler->touchHandler = std::bind(&Application::handleTouch, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    eventHandler->gamepadHandler = std::bind(&Application::handleGamepad, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    eventHandler->uiHandler = std::bind(&Application::handleUI, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    eventHandler->keyboardHandler = bind(&Application::handleKeyboard, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler->mouseHandler = bind(&Application::handleMouse, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler->touchHandler = bind(&Application::handleTouch, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler->gamepadHandler = bind(&Application::handleGamepad, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler->uiHandler = bind(&Application::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
@@ -37,21 +37,21 @@ void Application::begin()
     scene::ScenePtr scene = make_shared<scene::Scene>();
     sharedEngine->getSceneManager()->setScene(scene);
 
-    rtLayer = std::make_shared<scene::Layer>();
+    rtLayer = make_shared<scene::Layer>();
     scene->addLayer(rtLayer);
-    renderTarget = ouzel::sharedEngine->getRenderer()->createRenderTarget(Size2(256.0f, 256.0f), false);
-    rtLayer->setCamera(std::make_shared<scene::Camera>());
+    renderTarget = sharedEngine->getRenderer()->createRenderTarget(Size2(256.0f, 256.0f), false);
+    rtLayer->setCamera(make_shared<scene::Camera>());
     rtLayer->setRenderTarget(renderTarget);
 
-    layer = std::make_shared<scene::Layer>();
+    layer = make_shared<scene::Layer>();
     scene->addLayer(layer);
-    layer->setCamera(std::make_shared<scene::Camera>());
+    layer->setCamera(make_shared<scene::Camera>());
 
-    uiLayer = std::make_shared<scene::Layer>();
+    uiLayer = make_shared<scene::Layer>();
     scene->addLayer(uiLayer);
-    uiLayer->setCamera(std::make_shared<scene::Camera>());
+    uiLayer->setCamera(make_shared<scene::Camera>());
 
-    scene::DebugDrawablePtr debugDrawable = std::make_shared<scene::DebugDrawable>();
+    scene::DebugDrawablePtr debugDrawable = make_shared<scene::DebugDrawable>();
     debugDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(0, 128, 128, 255), true);
     debugDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(255, 255, 255, 255), false);
     debugDrawable->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), graphics::Color(0, 255, 255, 255));
@@ -60,22 +60,22 @@ void Application::begin()
     debugDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255));
     debugDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255), true);
 
-    scene::NodePtr drawNode = std::make_shared<scene::Node>();
+    scene::NodePtr drawNode = make_shared<scene::Node>();
     drawNode->addDrawable(debugDrawable);
     drawNode->setPosition(Vector2(-300, 0.0f));
     layer->addChild(drawNode);
 
-    drawNode->animate(std::make_shared<ouzel::scene::Shake>(10.0f, Vector2(10.0f, 20.0f), 20.0f));
+    drawNode->animate(make_shared<scene::Shake>(10.0f, Vector2(10.0f, 20.0f), 20.0f));
 
     scene::SpritePtr characterSprite = scene::Sprite::createFromFile("run.json");
     characterSprite->play(true);
 
-    character = std::make_shared<scene::Node>();
+    character = make_shared<scene::Node>();
     character->addDrawable(characterSprite);
     layer->addChild(character);
     character->setPosition(Vector2(-300.0f, 0.0f));
 
-    std::vector<scene::AnimatorPtr> sequence = {
+    vector<scene::AnimatorPtr> sequence = {
         make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f)),
         make_shared<scene::Fade>(2.0f, 0.4f)
     };
@@ -85,7 +85,7 @@ void Application::begin()
     scene::SpritePtr fireSprite = scene::Sprite::createFromFile("fire.json");
     fireSprite->play(true);
 
-    scene::NodePtr fireNode = std::make_shared<scene::Node>();
+    scene::NodePtr fireNode = make_shared<scene::Node>();
     fireNode->addDrawable(fireSprite);
     fireNode->setPosition(Vector2(-100.0f, -100.0f));
     layer->addChild(fireNode);
@@ -93,14 +93,14 @@ void Application::begin()
 
     scene::ParticleSystemPtr flameParticleSystem = scene::ParticleSystem::createFromFile("flame.json");
 
-    flame = std::make_shared<scene::Node>();
+    flame = make_shared<scene::Node>();
     flame->addDrawable(flameParticleSystem);
     layer->addChild(flame);
 
     scene::SpritePtr witchSprite = scene::Sprite::createFromFile("witch.png");
     //witchSprite->setColor(graphics::Color(128, 0, 255, 255));
 
-    witch = std::make_shared<scene::Node>();
+    witch = make_shared<scene::Node>();
     witch->addDrawable(witchSprite);
     witch->setPosition(Vector2(100.0f, 100.0f));
     layer->addChild(witch);
@@ -109,7 +109,7 @@ void Application::begin()
     gui::LabelPtr label = gui::Label::create("font.fnt", sharedEngine->getLocalization()->getString("Test"));
     uiLayer->addChild(label);
 
-    std::vector<scene::AnimatorPtr> sequence2 = {
+    vector<scene::AnimatorPtr> sequence2 = {
         make_shared<scene::Animator>(1.0f), // delay
         make_shared<scene::Ease>(make_shared<scene::Move>(2.0f, Vector2(0.0f, -240.0f), false), scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE)
     };
@@ -122,14 +122,14 @@ void Application::begin()
 
     // Render target
 
-    ouzel::scene::NodePtr rtCharacter = std::make_shared<scene::Node>();
+    scene::NodePtr rtCharacter = make_shared<scene::Node>();
     rtCharacter->addDrawable(characterSprite);
     rtLayer->addChild(rtCharacter);
 
-    ouzel::scene::SpriteFramePtr rtFrame = ouzel::scene::SpriteFrame::create(Rectangle(0.0f, 0.0f, 256.0f, 256.0f), renderTarget->getTexture(), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+    scene::SpriteFramePtr rtFrame = scene::SpriteFrame::create(Rectangle(0.0f, 0.0f, 256.0f, 256.0f), renderTarget->getTexture(), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
-    ouzel::scene::SpritePtr rtSprite = ouzel::scene::Sprite::createFromSpriteFrames({ rtFrame });
-    ouzel::scene::NodePtr rtNode = std::make_shared<ouzel::scene::Node>();
+    scene::SpritePtr rtSprite = scene::Sprite::createFromSpriteFrames({ rtFrame });
+    scene::NodePtr rtNode = make_shared<scene::Node>();
     rtNode->addDrawable(rtSprite);
     rtNode->setPosition(Vector2(200.0f, 200.0f));
     layer->addChild(rtNode);
@@ -137,7 +137,7 @@ void Application::begin()
     sharedEngine->getInput()->startGamepadDiscovery();
 }
 
-bool Application::handleKeyboard(ouzel::Event::Type type, const KeyboardEvent& event, const VoidPtr& sender) const
+bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event, const VoidPtr& sender) const
 {
     OUZEL_UNUSED(sender);
 
@@ -178,7 +178,7 @@ bool Application::handleKeyboard(ouzel::Event::Type type, const KeyboardEvent& e
     return true;
 }
 
-bool Application::handleMouse(ouzel::Event::Type type, const MouseEvent& event, const VoidPtr& sender) const
+bool Application::handleMouse(Event::Type type, const MouseEvent& event, const VoidPtr& sender) const
 {
     OUZEL_UNUSED(sender);
 
@@ -202,7 +202,7 @@ bool Application::handleMouse(ouzel::Event::Type type, const MouseEvent& event, 
     return true;
 }
 
-bool Application::handleTouch(ouzel::Event::Type type, const TouchEvent& event, const VoidPtr& sender) const
+bool Application::handleTouch(Event::Type type, const TouchEvent& event, const VoidPtr& sender) const
 {
     OUZEL_UNUSED(type);
     OUZEL_UNUSED(sender);
@@ -213,7 +213,7 @@ bool Application::handleTouch(ouzel::Event::Type type, const TouchEvent& event, 
     return true;
 }
 
-bool Application::handleGamepad(ouzel::Event::Type type, const GamepadEvent& event, const VoidPtr& sender) const
+bool Application::handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr& sender) const
 {
     OUZEL_UNUSED(sender);
 
@@ -257,7 +257,7 @@ bool Application::handleGamepad(ouzel::Event::Type type, const GamepadEvent& eve
     return true;
 }
 
-bool Application::handleUI(ouzel::Event::Type type, const UIEvent& event, const VoidPtr& sender) const
+bool Application::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender) const
 {
     OUZEL_UNUSED(event);
 
