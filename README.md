@@ -1,7 +1,7 @@
 <img src="https://github.com/elnormous/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
 
 # Ouzel v0.18
-Ouzel is a game engine mainly targeted for development of 2D games, but also 3D games can be created with it.
+Ouzel is a C++ game engine mainly targeted for development of 2D games, but also 3D games can be created with it.
 
 Supported platforms:
 
@@ -30,7 +30,7 @@ $ git submodule init
 $ git submodule update
 ```
 
-Linux and Android Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in samples directory.
+Linux and Android Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in the samples directory.
 
 ## System requirements
 * Windows 7+ with Visual Studio 2013 or Visual Studio 2015
