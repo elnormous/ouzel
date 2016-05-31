@@ -67,7 +67,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/android/WindowAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/opengl/RendererOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/opengl/RenderTargetOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/opengl/ShaderOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opengl/TextureOGL.cpp
+    $(LOCAL_PATH)/../../ouzel/opengl/TextureOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Camera.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/DebugDrawable.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Drawable.cpp \

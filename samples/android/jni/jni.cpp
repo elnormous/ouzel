@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include <jni.h>
-#include "Engine.h"
-#include "Renderer.h"
-#include "FileSystem.h"
-#include "Input.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "graphics/Renderer.h"
+#include "files/FileSystem.h"
+#include "input/Input.h"
+#include "utils/Utils.h"
 
 extern "C"
 {
