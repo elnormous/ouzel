@@ -40,6 +40,7 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/input/Gamepad.cpp \
 	../ouzel/input/Input.cpp \
 	../ouzel/linux/main.cpp \
+	../ouzel/linux/RendererOGLLinux.cpp \
 	../ouzel/linux/WindowLinux.cpp \
 	../ouzel/localization/Language.cpp \
 	../ouzel/localization/Localization.cpp \

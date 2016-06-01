@@ -15,7 +15,18 @@ namespace ouzel
         {
             friend Engine;
         public:
-            virtual ~RendererOGLLinux() {}
+            virtual ~RendererOGLLinux();
+            virtual void free() override;
+
+            virtual void clear() override;
+            virtual void present() override;
+            
+        private:
+            virtual bool init(const WindowPtr& window,
+                              uint32_t newSampleCount,
+                              TextureFiltering newTextureFiltering,
+                              float newTargetFPS,
+                              bool newVerticalSync) override;
         };
     } // namespace graphics
 } // namespace ouzel

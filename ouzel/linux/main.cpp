@@ -257,7 +257,6 @@ int main(int argc, char* argv[])
             {
                 break;
             }
-            glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
         }
         else
         {
