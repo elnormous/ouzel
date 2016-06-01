@@ -234,6 +234,10 @@ namespace ouzel
 
         currentFPS = 1.0f / delta;
 
+        renderer->clear();
+        sceneManager->draw();
+        renderer->present();
+
         input->update();
         eventDispatcher->update();
 
@@ -246,10 +250,6 @@ namespace ouzel
                 updateCallback->callback(delta);
             }
         }
-
-        renderer->clear();
-        sceneManager->draw();
-        renderer->present();
 
         if (targetFrameInterval > 0)
         {
