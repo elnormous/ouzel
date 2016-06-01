@@ -18,7 +18,6 @@ namespace ouzel
             virtual ~RendererOGLLinux();
             virtual void free() override;
 
-            virtual void clear() override;
             virtual void present() override;
             
         private:
