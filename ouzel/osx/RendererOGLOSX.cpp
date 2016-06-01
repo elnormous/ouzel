@@ -13,6 +13,8 @@ namespace ouzel
                                   float newTargetFPS,
                                   bool newVerticalSync)
         {
+            free();
+            
             return RendererOGL::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync);
         }
     } // namespace graphics
