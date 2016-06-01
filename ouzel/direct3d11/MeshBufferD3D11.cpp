@@ -17,7 +17,15 @@ namespace ouzel
 
         MeshBufferD3D11::~MeshBufferD3D11()
         {
-            free();
+            if (indexBuffer)
+            {
+                indexBuffer->Release();
+            }
+
+            if (vertexBuffer)
+            {
+                vertexBuffer->Release();
+            }
         }
 
         void MeshBufferD3D11::free()

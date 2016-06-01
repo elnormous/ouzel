@@ -41,7 +41,7 @@ namespace ouzel
                 MAX           = 5
             };
 
-            virtual ~BlendState() {}
+            virtual ~BlendState();
             virtual void free();
 
             virtual bool init(bool newEnableBlending,

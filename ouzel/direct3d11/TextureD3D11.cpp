@@ -19,7 +19,15 @@ namespace ouzel
 
         TextureD3D11::~TextureD3D11()
         {
-            free();
+            if (resourceView)
+            {
+                resourceView->Release();
+            }
+
+            if (texture)
+            {
+                texture->Release();
+            }
         }
 
         void TextureD3D11::free()

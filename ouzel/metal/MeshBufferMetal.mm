@@ -17,7 +17,15 @@ namespace ouzel
 
         MeshBufferMetal::~MeshBufferMetal()
         {
-            free();
+            if (indexBuffer)
+            {
+                [indexBuffer release];
+            }
+
+            if (vertexBuffer)
+            {
+                [vertexBuffer release];
+            }
         }
 
         void MeshBufferMetal::free()

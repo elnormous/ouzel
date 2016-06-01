@@ -69,7 +69,45 @@ namespace ouzel
 
         RendererMetal::~RendererMetal()
         {
-            free();
+            if (msaaTexture)
+            {
+                [msaaTexture release];
+            }
+
+            if (currentRenderCommandEncoder)
+            {
+                [currentRenderCommandEncoder release];
+            }
+
+            if (currentCommandBuffer)
+            {
+                [currentCommandBuffer release];
+            }
+
+            for (auto pipelineState : pipelineStates)
+            {
+                [pipelineState.second release];
+            }
+
+            if (commandQueue)
+            {
+                [commandQueue release];
+            }
+
+            if (samplerState)
+            {
+                [samplerState release];
+            }
+
+            if (renderPassDescriptor)
+            {
+                [renderPassDescriptor release];
+            }
+
+            if (device)
+            {
+                [device release];
+            }
         }
 
         void RendererMetal::free()
@@ -79,12 +117,12 @@ namespace ouzel
             if (msaaTexture)
             {
                 [msaaTexture release];
-                msaaTexture = Nil;
             }
             
             if (currentRenderCommandEncoder)
             {
                 [currentRenderCommandEncoder release];
+                currentRenderCommandEncoder = Nil;
             }
 
             if (currentCommandBuffer)
@@ -308,6 +346,8 @@ namespace ouzel
                 }
             }
 
+            ready = true;
+            
             setSize(size);
 
             return true;

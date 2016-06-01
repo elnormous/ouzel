@@ -10,14 +10,18 @@
 
 #if defined(OUZEL_PLATFORM_OSX)
 #include "osx/WindowOSX.h"
+#include "osx/RendererOGLOSX.h"
 #elif defined(OUZEL_PLATFORM_IOS)
 #include "ios/WindowIOS.h"
+#include "ios/RendererOGLIOS.h"
 #elif defined(OUZEL_PLATFORM_TVOS)
 #include "tvos/WindowTVOS.h"
+#include "tvos/RendererOGLTVOS.h"
 #elif defined(OUZEL_PLATFORM_ANDROID)
 #include "android/WindowAndroid.h"
 #elif defined(OUZEL_PLATFORM_LINUX)
 #include "linux/WindowLinux.h"
+#include "linux/RendererOGLLinux.h"
 #elif defined(OUZEL_PLATFORM_WINDOWS)
 #include "win/WindowWin.h"
 #endif
@@ -158,7 +162,17 @@ namespace ouzel
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             case graphics::Renderer::Driver::OPENGL:
                 log("Using OpenGL render driver");
+    #if defined(OUZEL_PLATFORM_OSX)
+                renderer.reset(new graphics::RendererOGLOSX());
+    #elif defined(OUZEL_PLATFORM_IOS)
+                renderer.reset(new graphics::RendererOGLIOS());
+    #elif defined(OUZEL_PLATFORM_TVOS)
+                renderer.reset(new graphics::RendererOGLTVOS());
+    #elif defined(OUZEL_PLATFORM_LINUX)
+                renderer.reset(new graphics::RendererOGLLinux());
+    #else
                 renderer.reset(new graphics::RendererOGL());
+    #endif
                 break;
 #endif
 #if defined(OUZEL_SUPPORTS_DIRECT3D11)

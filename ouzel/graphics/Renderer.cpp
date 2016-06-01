@@ -27,7 +27,12 @@ namespace ouzel
 
         Renderer::~Renderer()
         {
+            
+        }
 
+        void Renderer::free()
+        {
+            ready = false;
         }
 
         bool Renderer::init(const WindowPtr& window,

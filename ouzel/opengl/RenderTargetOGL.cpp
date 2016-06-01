@@ -18,7 +18,17 @@ namespace ouzel
 
         RenderTargetOGL::~RenderTargetOGL()
         {
-            free();
+            if (depthBufferId)
+            {
+                glDeleteRenderbuffers(1, &depthBufferId);
+            }
+
+            if (frameBufferId)
+            {
+                RendererOGL::unbindFrameBuffer(frameBufferId);
+
+                glDeleteFramebuffers(1, &frameBufferId);
+            }
         }
 
         void RenderTargetOGL::free()
@@ -51,10 +61,13 @@ namespace ouzel
 
             viewport = Rectangle(0.0f, 0.0f, newSize.width, newSize.height);
 
-            GLuint oldFrameBufferId;
-            glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint*>(&oldFrameBufferId));
-
             glGenFramebuffers(1, &frameBufferId);
+
+            if (!frameBufferId)
+            {
+                log("Failed to create frame buffer");
+                return false;
+            }
 
             RendererOGL::bindFrameBuffer(frameBufferId);
 

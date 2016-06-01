@@ -19,7 +19,12 @@ namespace ouzel
 
         TextureOGL::~TextureOGL()
         {
-            free();
+            if (textureId)
+            {
+                RendererOGL::unbindTexture(textureId);
+
+                glDeleteTextures(1, &textureId);
+            }
         }
 
         void TextureOGL::free()

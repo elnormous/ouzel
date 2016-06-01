@@ -18,7 +18,22 @@ namespace ouzel
 
         ShaderOGL::~ShaderOGL()
         {
-            free();
+            if (programId)
+            {
+                RendererOGL::unbindProgram(programId);
+
+                glDeleteProgram(programId);
+            }
+
+            if (vertexShaderId)
+            {
+                glDeleteShader(vertexShaderId);
+            }
+
+            if (pixelShaderId)
+            {
+                glDeleteShader(pixelShaderId);
+            }
         }
 
         void ShaderOGL::free()

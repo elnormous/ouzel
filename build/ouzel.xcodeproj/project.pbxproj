@@ -495,6 +495,12 @@
 		306B0E621C567D05005C75C1 /* DebugDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DebugDrawable.h */; };
 		306B0E631C567D05005C75C1 /* DebugDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DebugDrawable.h */; };
 		306B0E641C567D05005C75C1 /* DebugDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DebugDrawable.h */; };
+		30A5BF171CFED86000A977CA /* RendererOGLIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF151CFED86000A977CA /* RendererOGLIOS.mm */; };
+		30A5BF181CFED86000A977CA /* RendererOGLIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF161CFED86000A977CA /* RendererOGLIOS.h */; };
+		30A5BF1B1CFED87C00A977CA /* RendererOGLTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF191CFED87C00A977CA /* RendererOGLTVOS.mm */; };
+		30A5BF1C1CFED87C00A977CA /* RendererOGLTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF1A1CFED87C00A977CA /* RendererOGLTVOS.h */; };
+		30A5BF1F1CFED89200A977CA /* RendererOGLOSX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF1D1CFED89200A977CA /* RendererOGLOSX.cpp */; };
+		30A5BF201CFED89200A977CA /* RendererOGLOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF1E1CFED89200A977CA /* RendererOGLOSX.h */; };
 		30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
 		30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
 		30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
@@ -788,6 +794,12 @@
 		306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugDrawable.cpp; sourceTree = "<group>"; };
 		306B0E5E1C567D05005C75C1 /* DebugDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugDrawable.h; sourceTree = "<group>"; };
 		309ACD261C70DA73005325D3 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
+		30A5BF151CFED86000A977CA /* RendererOGLIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererOGLIOS.mm; sourceTree = "<group>"; };
+		30A5BF161CFED86000A977CA /* RendererOGLIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLIOS.h; sourceTree = "<group>"; };
+		30A5BF191CFED87C00A977CA /* RendererOGLTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererOGLTVOS.mm; sourceTree = "<group>"; };
+		30A5BF1A1CFED87C00A977CA /* RendererOGLTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLTVOS.h; sourceTree = "<group>"; };
+		30A5BF1D1CFED89200A977CA /* RendererOGLOSX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RendererOGLOSX.cpp; sourceTree = "<group>"; };
+		30A5BF1E1CFED89200A977CA /* RendererOGLOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLOSX.h; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
 		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
 		30A9C1381CAEBA540084C4BF /* Language.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Language.cpp; sourceTree = "<group>"; };
@@ -1024,6 +1036,8 @@
 				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
 				300934231C8894D800CC50D3 /* WindowOSX.h */,
 				300934221C8894D800CC50D3 /* WindowOSX.mm */,
+				30A5BF1D1CFED89200A977CA /* RendererOGLOSX.cpp */,
+				30A5BF1E1CFED89200A977CA /* RendererOGLOSX.h */,
 			);
 			path = osx;
 			sourceTree = "<group>";
@@ -1040,6 +1054,8 @@
 				303B76C01C35630B00FEDE92 /* OpenGLView.mm */,
 				300934291C88964700CC50D3 /* WindowIOS.h */,
 				300934281C88964700CC50D3 /* WindowIOS.mm */,
+				30A5BF151CFED86000A977CA /* RendererOGLIOS.mm */,
+				30A5BF161CFED86000A977CA /* RendererOGLIOS.h */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1067,6 +1083,8 @@
 				303B76C41C35635700FEDE92 /* OpenGLView.mm */,
 				3009342D1C88978D00CC50D3 /* WindowTVOS.h */,
 				3009342C1C88978D00CC50D3 /* WindowTVOS.mm */,
+				30A5BF191CFED87C00A977CA /* RendererOGLTVOS.mm */,
+				30A5BF1A1CFED87C00A977CA /* RendererOGLTVOS.h */,
 			);
 			path = tvos;
 			sourceTree = "<group>";
@@ -1347,6 +1365,7 @@
 				30547E4D1CB3D6720055EE79 /* RenderTargetMetal.h in Headers */,
 				301CF5CC1CECAD0700B89B5D /* TextureVSOGL3.h in Headers */,
 				304B27A81C9A063300BA162D /* ColorVSOGL2.h in Headers */,
+				30A5BF181CFED86000A977CA /* RendererOGLIOS.h in Headers */,
 				303647201C3E058E0024DB5B /* GamepadApple.h in Headers */,
 				304B27CC1C9A063300BA162D /* TexturePSOGL2.h in Headers */,
 				30575AE51C3C91A40009C8A7 /* InputApple.h in Headers */,
@@ -1418,6 +1437,7 @@
 				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
 				30D0FB511CC2C99600477DB0 /* ColorVSOSX.h in Headers */,
 				3009342F1C88978D00CC50D3 /* WindowTVOS.h in Headers */,
+				30A5BF1C1CFED87C00A977CA /* RendererOGLTVOS.h in Headers */,
 				3047F77C1C4D39C500774E3D /* Repeat.h in Headers */,
 				3047F7631C4C60B900774E3D /* Fade.h in Headers */,
 				303647661C3F218E0024DB5B /* Settings.h in Headers */,
@@ -1533,6 +1553,7 @@
 				30EF36561CA76AE200F04F29 /* ScrollBar.h in Headers */,
 				304A8E9F1C27081B008B1151 /* Color.h in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */,
+				30A5BF201CFED89200A977CA /* RendererOGLOSX.h in Headers */,
 				30324E1F1CB28A4400601A64 /* BlendStateOGL.h in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
@@ -1776,6 +1797,7 @@
 				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				3009342A1C88964700CC50D3 /* WindowIOS.mm in Sources */,
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
+				30A5BF171CFED86000A977CA /* RendererOGLIOS.mm in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				3047F75F1C4C60B900774E3D /* Fade.cpp in Sources */,
 				304B27C01C9A063300BA162D /* ShaderOGL.cpp in Sources */,
@@ -1838,6 +1860,7 @@
 				304B27C71C9A063300BA162D /* TextureOGL.cpp in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
 				3009341E1C88698500CC50D3 /* Window.cpp in Sources */,
+				30A5BF1B1CFED87C00A977CA /* RendererOGLTVOS.mm in Sources */,
 				30B328861C4E9EAC00040927 /* Ease.cpp in Sources */,
 				30324E1E1CB28A4400601A64 /* BlendStateOGL.cpp in Sources */,
 				303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */,
@@ -1907,6 +1930,7 @@
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
+				30A5BF1F1CFED89200A977CA /* RendererOGLOSX.cpp in Sources */,
 				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
 				301EB3A21CCD691800466E92 /* Drawable.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,

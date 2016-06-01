@@ -32,7 +32,40 @@ namespace ouzel
 
         RendererD3D11::~RendererD3D11()
         {
-            free();
+            if (depthStencilState)
+            {
+                depthStencilState->Release();
+            }
+
+            if (rasterizerState)
+            {
+                rasterizerState->Release();
+            }
+
+            if (samplerState)
+            {
+                samplerState->Release();
+            }
+
+            if (renderTargetView)
+            {
+                renderTargetView->Release();
+            }
+
+            if (backBuffer)
+            {
+                backBuffer->Release();
+            }
+
+            if (swapChain)
+            {
+                swapChain->Release();
+            }
+
+            if (adapter)
+            {
+                adapter->Release();
+            }
         }
 
         void RendererD3D11::free()
@@ -333,6 +366,8 @@ namespace ouzel
 
             memset(&resourceViews, 0, sizeof(resourceViews));
             memset(&samplerStates, 0, sizeof(samplerStates));
+
+            ready = true;
 
             setSize(size);
 

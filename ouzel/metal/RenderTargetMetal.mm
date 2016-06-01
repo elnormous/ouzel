@@ -18,7 +18,15 @@ namespace ouzel
 
         RenderTargetMetal::~RenderTargetMetal()
         {
-            free();
+            if (msaaTexture)
+            {
+                [msaaTexture release];
+            }
+
+            if (renderPassDescriptor)
+            {
+                [renderPassDescriptor release];
+            }
         }
 
         void RenderTargetMetal::free()

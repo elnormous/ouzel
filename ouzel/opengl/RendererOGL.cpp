@@ -61,7 +61,7 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
-            free();
+            
         }
 
         bool RendererOGL::init(const WindowPtr& window,
@@ -74,8 +74,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            free();
 
             if (sampleCount > 1)
             {
@@ -196,11 +194,6 @@ namespace ouzel
             setSize(size);
 
             return true;
-        }
-
-        void RendererOGL::setFrameBuffer(GLuint newFrameBuffer)
-        {
-            frameBuffer = newFrameBuffer;
         }
 
         bool RendererOGL::checkOpenGLErrors(bool logError)
@@ -420,7 +413,7 @@ namespace ouzel
             }
             else
             {
-                newFrameBuffer = frameBuffer;
+                newFrameBuffer = frameBufferId;
                 newViewport = viewport;
                 newClearColor = clearColor;
             }
@@ -540,7 +533,7 @@ namespace ouzel
             }
             else
             {
-                bindFrameBuffer(frameBuffer);
+                bindFrameBuffer(frameBufferId);
             }
 
             for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
@@ -602,7 +595,7 @@ namespace ouzel
 
         bool RendererOGL::saveScreenshot(const std::string& filename)
         {
-            bindFrameBuffer(frameBuffer);
+            bindFrameBuffer(frameBufferId);
 
             GLsizei width = static_cast<GLsizei>(size.width);
             GLsizei height = static_cast<GLsizei>(size.height);

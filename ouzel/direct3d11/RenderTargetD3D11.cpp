@@ -18,7 +18,10 @@ namespace ouzel
 
         RenderTargetD3D11::~RenderTargetD3D11()
         {
-            free();
+            if (renderTargetView)
+            {
+                renderTargetView->Release();
+            }
         }
 
         void RenderTargetD3D11::free()

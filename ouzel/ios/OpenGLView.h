@@ -7,18 +7,9 @@
 @interface OpenGLView: UIView
 {
 @private
-    CAEAGLLayer* eaglLayer;
-    EAGLContext* context;
-    GLuint colorRenderBuffer;
-    GLuint frameBuffer;
-
     CADisplayLink* displayLink;
 }
 
 -(id)initWithFrame:(CGRect)frameRect;
--(void)prepareOpenGL;
-
-@property (readonly) GLint backingWidth;
-@property (readonly) GLint backingHeight;
 
 @end

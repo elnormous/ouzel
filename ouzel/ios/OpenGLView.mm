@@ -17,66 +17,13 @@ using namespace ouzel;
 {
     if (self = [super initWithFrame:frameRect])
     {
-        std::shared_ptr<graphics::RendererOGL> rendererOGL = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
-
-        eaglLayer = (CAEAGLLayer*)self.layer;
-        eaglLayer.opaque = YES;
-        eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-
-        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-
-        if (context)
-        {
-            rendererOGL->setAPIVersion(3);
-            log("Using OpenGL ES 3");
-        }
-        else
-        {
-            log("Failed to create OpenGL ES 3 rendering context");
-
-            context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-
-            if (context)
-            {
-                rendererOGL->setAPIVersion(2);
-                log("Using OpenGL ES 2");
-            }
-            else
-            {
-                ouzel::log("Failed to initialize OpenGL ES 2 rendering context");
-                return Nil;
-            }
-        }
-
-        if (![EAGLContext setCurrentContext:context])
-        {
-            ouzel::log("Failed to set current OpenGL rendering context");
-            return Nil;
-        }
-
-        // render buffer
-        glGenRenderbuffers(1, &colorRenderBuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
-        [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
-
-        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_backingWidth);
-        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_backingHeight);
-
-        // frame buffer
-        glGenFramebuffers(1, &frameBuffer);
-        graphics::RendererOGL::bindFrameBuffer(frameBuffer);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                  GL_RENDERBUFFER, colorRenderBuffer);
-
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        {
-            log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-            return Nil;
-        }
-
         // display link
         displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
+
+        if (!displayLink)
+        {
+            return Nil;
+        }
 
         float frameInterval = 1.0f;
 
@@ -91,9 +38,6 @@ using namespace ouzel;
 
         [displayLink setFrameInterval:frameInterval];
         [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-
-        std::shared_ptr<graphics::RendererOGL> renderer = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
-        renderer->setFrameBuffer(frameBuffer);
     }
 
     return self;
@@ -103,18 +47,6 @@ using namespace ouzel;
 {
     [displayLink invalidate];
     [displayLink release];
-
-    if ([EAGLContext currentContext] == context)
-    {
-        [EAGLContext setCurrentContext:nil];
-    }
-    [context release];
-
-    if (frameBuffer) glDeleteFramebuffers(1, &frameBuffer);
-    frameBuffer = 0;
-    if (colorRenderBuffer) glDeleteRenderbuffers(1, &colorRenderBuffer);
-    colorRenderBuffer = 0;
-
     [super dealloc];
 }
 
@@ -126,14 +58,8 @@ using namespace ouzel;
 -(void)idle:(id)sender
 {
     OUZEL_UNUSED(sender);
-    if (![EAGLContext setCurrentContext:context])
-    {
-        ouzel::log("Failed to set current OpenGL context");
-    }
 
     sharedEngine->run();
-
-    [context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
 -(void)touchesBegan:(NSSet*)touches withEvent:(::UIEvent*)event

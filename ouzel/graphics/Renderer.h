@@ -67,7 +67,7 @@ namespace ouzel
             };
 
             virtual ~Renderer() = 0;
-            virtual void free() {}
+            virtual void free();
 
             Driver getDriver() const { return driver; }
 
@@ -129,6 +129,8 @@ namespace ouzel
             uint32_t getAPIVersion() const { return apiVersion; }
             void setAPIVersion(uint32_t version) { apiVersion = version; }
 
+            bool isReady() const { return ready; }
+            
         protected:
             Renderer(Driver pDriver);
             virtual bool init(const WindowPtr& window,
@@ -158,6 +160,8 @@ namespace ouzel
             uint32_t drawCallCount = 0;
 
             uint32_t apiVersion = 0;
+
+            bool ready = false;
         };
     } // namespace graphics
 } // namespace ouzel

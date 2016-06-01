@@ -21,7 +21,7 @@ namespace ouzel
 
         Texture::~Texture()
         {
-
+            
         }
 
         void Texture::free()

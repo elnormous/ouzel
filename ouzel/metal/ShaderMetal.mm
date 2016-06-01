@@ -21,7 +21,20 @@ namespace ouzel
 
         ShaderMetal::~ShaderMetal()
         {
-            free();
+            if (vertexShader)
+            {
+                [vertexShader release];
+            }
+
+            if (pixelShader)
+            {
+                [pixelShader release];
+            }
+            
+            if (vertexDescriptor)
+            {
+                [vertexDescriptor release];
+            }
         }
 
         void ShaderMetal::free()
@@ -33,11 +46,13 @@ namespace ouzel
                 [vertexShader release];
                 vertexShader = Nil;
             }
+
             if (pixelShader)
             {
                 [pixelShader release];
                 pixelShader = Nil;
             }
+
             if (vertexDescriptor)
             {
                 [vertexDescriptor release];

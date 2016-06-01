@@ -18,7 +18,30 @@ namespace ouzel
 
         ShaderD3D11::~ShaderD3D11()
         {
-            free();
+            if (pixelShader)
+            {
+                pixelShader->Release();
+            }
+
+            if (vertexShader)
+            {
+                vertexShader->Release();
+            }
+
+            if (inputLayout)
+            {
+                inputLayout->Release();
+            }
+
+            if (pixelShaderConstantBuffer)
+            {
+                pixelShaderConstantBuffer->Release();
+            }
+
+            if (vertexShaderConstantBuffer)
+            {
+                vertexShaderConstantBuffer->Release();
+            }
         }
 
         void ShaderD3D11::free()

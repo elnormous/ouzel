@@ -18,7 +18,10 @@ namespace ouzel
 
         BlendStateD3D11::~BlendStateD3D11()
         {
-            free();
+            if (blendState)
+            {
+                blendState->Release();
+            }
         }
 
         void BlendStateD3D11::free()

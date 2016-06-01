@@ -18,7 +18,32 @@ namespace ouzel
 
         MeshBufferOGL::~MeshBufferOGL()
         {
-            free();
+            if (vertexArrayId)
+            {
+                RendererOGL::unbindVertexArray(vertexArrayId);
+
+#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+                glDeleteVertexArraysOES(1, &vertexArrayId);
+#elif defined(OUZEL_PLATFORM_ANDROID)
+                if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &vertexArrayId);
+#else
+                glDeleteVertexArrays(1, &vertexArrayId);
+#endif
+            }
+
+            if (vertexBufferId)
+            {
+                RendererOGL::unbindArrayBuffer(vertexBufferId);
+                
+                glDeleteBuffers(1, &vertexBufferId);
+            }
+
+            if (indexBufferId)
+            {
+                RendererOGL::unbindElementArrayBuffer(indexBufferId);
+
+                glDeleteBuffers(1, &indexBufferId);
+            }
         }
 
         void MeshBufferOGL::free()

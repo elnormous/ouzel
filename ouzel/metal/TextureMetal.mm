@@ -18,7 +18,10 @@ namespace ouzel
 
         TextureMetal::~TextureMetal()
         {
-            free();
+            if (texture)
+            {
+                [texture release];
+            }
         }
 
         void TextureMetal::free()

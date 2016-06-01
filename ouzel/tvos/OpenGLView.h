@@ -7,17 +7,9 @@
 @interface OpenGLView: UIView<UIKeyInput>
 {
 @private
-    CAEAGLLayer* eaglLayer;
-    EAGLContext* context;
-    GLuint colorRenderBuffer;
-    GLuint frameBuffer;
-
     CADisplayLink* displayLink;
 }
 
 -(id)initWithFrame:(CGRect)frameRect;
-
-@property (readonly) GLint backingWidth;
-@property (readonly) GLint backingHeight;
 
 @end

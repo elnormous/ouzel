@@ -14,7 +14,7 @@ namespace ouzel
 
         RenderTarget::~RenderTarget()
         {
-
+            
         }
 
         void RenderTarget::free()
