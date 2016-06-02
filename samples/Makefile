@@ -16,4 +16,5 @@ $(EXECUTABLE): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	rm $(EXECUTABLE) *.o
+	$(MAKE) -f ../build/Makefile clean
+	rm -f $(EXECUTABLE) *.o
