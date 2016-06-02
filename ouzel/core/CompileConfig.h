@@ -38,11 +38,25 @@
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_SUPPORTS_OPENGLES3 1
 
-    #if defined(__arm64__) || defined(__aarch64__)
-        #define OUZEL_SUPPORTS_NEON64 1
-    #elif defined(__ARM_NEON__)
-        #define OUZEL_SUPPORTS_NEON 1
-        #define OUZEL_SUPPORTS_NEON_CHECK 1
+    #if defined(__ARM_NEON__)
+        #if defined(__arm64__) || defined(__aarch64__)
+            #define OUZEL_SUPPORTS_NEON64 1
+        #elif defined(__arm__)
+            #define OUZEL_SUPPORTS_NEON 1
+            #define OUZEL_SUPPORTS_NEON_CHECK 1
+        #endif
+    #endif
+#elif defined(RASPBERRY_PI)
+    #define OUZEL_PLATFORM_RASPBERRY_PI 1
+    #define OUZEL_SUPPORTS_OPENGLES 1
+    #define OUZEL_SUPPORTS_OPENGLES3 1
+
+    #if defined(__ARM_NEON__)
+        #if defined(__arm64__) || defined(__aarch64__)
+            #define OUZEL_SUPPORTS_NEON64 1
+        #else
+            #define OUZEL_SUPPORTS_NEON 1
+        #endif
     #endif
 #elif defined(__linux__)
     #define OUZEL_PLATFORM_LINUX 1

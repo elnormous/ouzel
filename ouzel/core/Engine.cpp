@@ -24,6 +24,9 @@
 #include "linux/RendererOGLLinux.h"
 #elif defined(OUZEL_PLATFORM_WINDOWS)
 #include "win/WindowWin.h"
+#elif defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#include "rpi/WindowRPI.h"
+#include "rpi/RendererOGLRPI.h"
 #endif
 
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
@@ -67,22 +70,25 @@ namespace ouzel
 
     std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers()
     {
-        std::set<graphics::Renderer::Driver> availableDrivers;
+        static std::set<graphics::Renderer::Driver> availableDrivers;
 
+        if (availableDrivers.empty())
+        {
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-        availableDrivers.insert(graphics::Renderer::Driver::OPENGL);
+            availableDrivers.insert(graphics::Renderer::Driver::OPENGL);
 #endif
 
 #if defined(OUZEL_SUPPORTS_DIRECT3D11)
-        availableDrivers.insert(graphics::Renderer::Driver::DIRECT3D11);
+            availableDrivers.insert(graphics::Renderer::Driver::DIRECT3D11);
 #endif
 
 #if defined(OUZEL_SUPPORTS_METAL)
-        if (graphics::RendererMetal::available())
-        {
-            availableDrivers.insert(graphics::Renderer::Driver::METAL);
-        }
+            if (graphics::RendererMetal::available())
+            {
+                availableDrivers.insert(graphics::Renderer::Driver::METAL);
+            }
 #endif
+        }
 
         return availableDrivers;
     }
@@ -104,28 +110,25 @@ namespace ouzel
 
         if (settings.driver == graphics::Renderer::Driver::DEFAULT)
         {
-#if defined(OUZEL_SUPPORTS_METAL)
-            if (graphics::RendererMetal::available())
+            auto availableDrivers = getAvailableDrivers();
+
+            if (availableDrivers.find(graphics::Renderer::Driver::METAL) != availableDrivers.end())
             {
                 settings.driver = graphics::Renderer::Driver::METAL;
             }
-    #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-            else
+            else if (availableDrivers.find(graphics::Renderer::Driver::DIRECT3D11) != availableDrivers.end())
+            {
+                settings.driver = graphics::Renderer::Driver::DIRECT3D11;
+            }
+            else if (availableDrivers.find(graphics::Renderer::Driver::OPENGL) != availableDrivers.end())
             {
                 settings.driver = graphics::Renderer::Driver::OPENGL;
             }
-    #endif
-#elif defined(OUZEL_SUPPORTS_DIRECT3D11)
-            settings.driver = graphics::Renderer::Driver::DIRECT3D11;
-#elif defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
-            settings.driver = graphics::Renderer::Driver::OPENGL;
-#endif
-        }
-
-        if (settings.driver == graphics::Renderer::Driver::DEFAULT)
-        {
-            log("Failed to select render driver");
-            return false;
+            else
+            {
+                log("Failed to select render driver");
+                return false;
+            }
         }
 
 #if defined(OUZEL_PLATFORM_OSX)
@@ -140,6 +143,8 @@ namespace ouzel
         window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#elif defined(OUZEL_PLATFORM_RASPBERRY_PI)
+        window.reset(new WindowRPI(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #endif
 
         eventDispatcher.reset(new EventDispatcher());
@@ -170,6 +175,8 @@ namespace ouzel
                 renderer.reset(new graphics::RendererOGLTVOS());
     #elif defined(OUZEL_PLATFORM_LINUX)
                 renderer.reset(new graphics::RendererOGLLinux());
+    #elif defined(OUZEL_PLATFORM_RASPBERRY_PI)
+                renderer.reset(new graphics::RendererOGLRPI());
     #else
                 renderer.reset(new graphics::RendererOGL());
     #endif
