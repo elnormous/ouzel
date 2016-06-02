@@ -29,7 +29,7 @@
     #if defined(__ARM_NEON__)
         #if defined(__arm64__)
             #define OUZEL_SUPPORTS_NEON64 1
-        #else
+        #else defined(__arm__)
             #define OUZEL_SUPPORTS_NEON 1
         #endif
     #endif
@@ -54,7 +54,7 @@
     #if defined(__ARM_NEON__)
         #if defined(__arm64__) || defined(__aarch64__)
             #define OUZEL_SUPPORTS_NEON64 1
-        #else
+        #else defined(__arm__)
             #define OUZEL_SUPPORTS_NEON 1
         #endif
     #endif
@@ -66,6 +66,14 @@
     #elif defined(__arm__) || defined(__aarch64__)
         #define OUZEL_SUPPORTS_OPENGLES 1
         #define OUZEL_SUPPORTS_OPENGLES3 1
+    #endif
+
+    #if defined(__ARM_NEON__)
+        #if defined(__arm64__) || defined(__aarch64__)
+            #define OUZEL_SUPPORTS_NEON64 1
+        #else defined(__arm__)
+            #define OUZEL_SUPPORTS_NEON 1
+        #endif
     #endif
 #endif
 
