@@ -32,10 +32,16 @@ $ git submodule update
 
 Linux and Android Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in the samples directory.
 
+To build Ouzel for Raspbian pass "platform=raspbian" to make as follows:
+
+```
+$ make platform=raspbian
+```
+
 ## System requirements
 * Windows 7+ with Visual Studio 2013 or Visual Studio 2015
 * OS X 10.8+ with Xcode 5.0+
-* Any reasonable new Linux distro
+* Any reasonable new Linux distro (including Raspbian)
 
 ## Example app
 
