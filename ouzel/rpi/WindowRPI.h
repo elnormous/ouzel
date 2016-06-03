@@ -17,10 +17,6 @@ namespace ouzel
         virtual void setFullscreen(bool newFullscreen) override;
         virtual void setTitle(const std::string& newTitle) override;
 
-        Display* getDisplay() const { return display; }
-        GLXContext getContext() const { return context; }
-        ::Window getNativeWindow() const { return window; }
-
     protected:
         WindowRPI(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
         virtual bool init() override;

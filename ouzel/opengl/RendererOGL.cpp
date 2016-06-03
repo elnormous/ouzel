@@ -39,7 +39,7 @@
     #endif
 #endif
 
-#if defined(OUZEL_PLATFORM_ANDROID)
+#if defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
 PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT = nullptr;
 PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT = nullptr;
 PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT = nullptr;
@@ -52,7 +52,7 @@ namespace ouzel
         RendererOGL::RendererOGL():
             Renderer(Driver::OPENGL)
         {
-#if defined(OUZEL_PLATFORM_ANDROID)
+#if defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
             glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
             glBindVertexArrayOESEXT = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
             glDeleteVertexArraysOESEXT = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
@@ -736,7 +736,7 @@ namespace ouzel
             {
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
                 glBindVertexArrayOES(vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID)
+#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
                 if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
 #else
                 glBindVertexArray(vertexArrayId);

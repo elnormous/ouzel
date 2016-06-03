@@ -13,7 +13,7 @@
     #define NOMINMAX
     #include <windows.h>
     #include <Shlobj.h>
-#elif defined(OUZEL_PLATFORM_LINUX)
+#elif defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
     #include <unistd.h>
 #endif
 #include "FileSystem.h"
@@ -60,7 +60,7 @@ namespace ouzel
             WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
             return TEMP_BUFFER;
         }
-#elif defined(OUZEL_PLATFORM_LINUX)
+#elif defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
         //TODO: implement
 #endif
         return "";
@@ -123,7 +123,7 @@ namespace ouzel
         OUZEL_UNUSED(developer);
         OUZEL_UNUSED(app);
         //TODO: implement
-#elif defined(OUZEL_PLATFORM_LINUX)
+#elif defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
         OUZEL_UNUSED(developer);
         OUZEL_UNUSED(app);
         //TODO: implement
@@ -227,7 +227,7 @@ namespace ouzel
         WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
 
         appPath = std::string(TEMP_BUFFER);
-#elif defined(OUZEL_PLATFORM_LINUX)
+#elif defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
         if (!getcwd(TEMP_BUFFER, sizeof(TEMP_BUFFER)))
         {
             log("Failed to get current directory");
