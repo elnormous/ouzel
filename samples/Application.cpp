@@ -103,7 +103,7 @@ void Application::begin()
 
     witch = make_shared<scene::Node>();
     witch->addDrawable(witchSprite);
-    witch->setPosition(Vector2(100.0f, 100.0f));
+    witch->setPosition(Vector2(-250.0f, -200.0f));
     layer->addChild(witch);
     witch->animate(make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3));
 
