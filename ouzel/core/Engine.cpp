@@ -24,7 +24,7 @@
 #include "linux/RendererOGLLinux.h"
 #elif defined(OUZEL_PLATFORM_WINDOWS)
 #include "win/WindowWin.h"
-#elif defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#elif defined(OUZEL_PLATFORM_RASPBIAN)
 #include "rpi/WindowRPI.h"
 #include "rpi/RendererOGLRPI.h"
 #endif
@@ -143,7 +143,7 @@ namespace ouzel
         window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
-#elif defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#elif defined(OUZEL_PLATFORM_RASPBIAN)
         window.reset(new WindowRPI(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #endif
 
@@ -175,7 +175,7 @@ namespace ouzel
                 renderer.reset(new graphics::RendererOGLTVOS());
     #elif defined(OUZEL_PLATFORM_LINUX)
                 renderer.reset(new graphics::RendererOGLLinux());
-    #elif defined(OUZEL_PLATFORM_RASPBERRY_PI)
+    #elif defined(OUZEL_PLATFORM_RASPBIAN)
                 renderer.reset(new graphics::RendererOGLRPI());
     #else
                 renderer.reset(new graphics::RendererOGL());

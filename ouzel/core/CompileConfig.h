@@ -46,8 +46,8 @@
             #define OUZEL_SUPPORTS_NEON_CHECK 1
         #endif
     #endif
-#elif defined(RASPBERRY_PI)
-    #define OUZEL_PLATFORM_RASPBERRY_PI 1
+#elif defined(RASPBIAN)
+    #define OUZEL_PLATFORM_RASPBIAN 1
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_SUPPORTS_OPENGLES3 1
 

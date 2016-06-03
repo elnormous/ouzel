@@ -27,7 +27,7 @@
     #include <GL/gl.h>
     #include <GL/glx.h>
     #include <GL/glext.h>
-#elif defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#elif defined(OUZEL_PLATFORM_RASPBIAN)
     #ifndef GL_GLEXT_PROTOTYPES
         #define GL_GLEXT_PROTOTYPES 1
     #endif
@@ -36,7 +36,7 @@
     #include <EGL/egl.h>
 #endif
 
-#if defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#if defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
 extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT;
 extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT;
 extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;

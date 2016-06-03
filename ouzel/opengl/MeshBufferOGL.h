@@ -25,7 +25,7 @@
     #include <GL/gl.h>
     #include <GL/glx.h>
     #include <GL/glext.h>
-#elif defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#elif defined(OUZEL_PLATFORM_RASPBIAN)
     #ifndef GL_GLEXT_PROTOTYPES
         #define GL_GLEXT_PROTOTYPES 1
     #endif

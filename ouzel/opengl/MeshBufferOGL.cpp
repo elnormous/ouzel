@@ -24,7 +24,7 @@ namespace ouzel
 
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
                 glDeleteVertexArraysOES(1, &vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
                 if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &vertexArrayId);
 #else
                 glDeleteVertexArrays(1, &vertexArrayId);
@@ -56,7 +56,7 @@ namespace ouzel
 
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
                 glDeleteVertexArraysOES(1, &vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
                 if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &vertexArrayId);
 #else
                 glDeleteVertexArrays(1, &vertexArrayId);
@@ -101,7 +101,7 @@ namespace ouzel
 
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
             glGenVertexArraysOES(1, &vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
             if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
 #else
             glGenVertexArrays(1, &vertexArrayId);
@@ -161,7 +161,7 @@ namespace ouzel
 
 #if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
             glGenVertexArraysOES(1, &vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBERRY_PI)
+#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
             if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
 #else
             glGenVertexArrays(1, &vertexArrayId);
