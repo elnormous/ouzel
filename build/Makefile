@@ -39,9 +39,6 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/gui/Widget.cpp \
 	../ouzel/input/Gamepad.cpp \
 	../ouzel/input/Input.cpp \
-	../ouzel/linux/main.cpp \
-	../ouzel/linux/RendererOGLLinux.cpp \
-	../ouzel/linux/WindowLinux.cpp \
 	../ouzel/localization/Language.cpp \
 	../ouzel/localization/Localization.cpp \
 	../ouzel/math/AABB2.cpp \
@@ -74,6 +71,16 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/scene/SpriteFrame.cpp \
 	../ouzel/scene/TextDrawable.cpp \
 	../ouzel/utils/Utils.cpp
+ifeq ($(platform),raspbian)
+SOURCES+=../ouzel/rpi/main.cpp \
+	../ouzel/rpi/RendererOGLRPI.cpp \
+	../ouzel/rpi/WindowRPI.cpp
+CFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
+else
+SOURCES+=../ouzel/linux/main.cpp \
+	../ouzel/linux/RendererOGLLinux.cpp \
+	../ouzel/linux/WindowLinux.cpp
+endif
 OBJECTS=$(SOURCES:.cpp=.o)
 LIBRARY=libouzel.a
 
@@ -100,5 +107,6 @@ clean:
 	../ouzel/math/*.o \
 	../ouzel/metal/*.o \
 	../ouzel/opengl/*.o \
+	../ouzel/rpi/*.o \
 	../ouzel/scene/*.o \
 	../ouzel/utils/*.o
