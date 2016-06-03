@@ -40,6 +40,7 @@ void Application::begin()
     rtLayer = make_shared<scene::Layer>();
     scene->addLayer(rtLayer);
     renderTarget = sharedEngine->getRenderer()->createRenderTarget(Size2(256.0f, 256.0f), false);
+    renderTarget->setClearColor(graphics::Color(0, 64, 0));
     rtLayer->setCamera(make_shared<scene::Camera>());
     rtLayer->setRenderTarget(renderTarget);
 
