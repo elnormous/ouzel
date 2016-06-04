@@ -1230,16 +1230,16 @@ namespace ouzel
     #endif
         asm volatile
         (
-            "vld1.32 {d0, d1}, [%1]     \n\t"   // V[x, y, z, w]
-            "vld1.32 {d18 - d21}, [%2]! \n\t"   // M[m0-m7]
-            "vld1.32 {d22 - d25}, [%2]  \n\t"    // M[m8-m15]
+            "vld1.32 {d0, d1}, [%1]      \n\t" // V[x, y, z, w]
+            "vld1.32 {d18 - d21}, [%2]!  \n\t" // M[m0-m7]
+            "vld1.32 {d22 - d25}, [%2]   \n\t" // M[m8-m15]
 
-            "vmul.f32 q13, q9, d0[0]     \n\t"   // DST->V = M[m0-m3] * V[x]
-            "vmla.f32 q13, q10, d0[1]    \n\t"   // DST->V = M[m4-m7] * V[y]
-            "vmla.f32 q13, q11, d1[0]    \n\t"   // DST->V = M[m8-m11] * V[z]
-            "vmla.f32 q13, q12, d1[1]    \n\t"   // DST->V = M[m12-m15] * V[w]
+            "vmul.f32 q13, q9, d0[0]     \n\t" // DST->V = M[m0-m3] * V[x]
+            "vmla.f32 q13, q10, d0[1]    \n\t" // DST->V = M[m4-m7] * V[y]
+            "vmla.f32 q13, q11, d1[0]    \n\t" // DST->V = M[m8-m11] * V[z]
+            "vmla.f32 q13, q12, d1[1]    \n\t" // DST->V = M[m12-m15] * V[w]
 
-            "vst1.32    {d26, d27}, [%0] \n\t"   // DST->V
+            "vst1.32    {d26, d27}, [%0] \n\t" // DST->V
             :
             : "r"(&dst.x), "r"(&vector.x), "r"(m)
             : "q0", "q9", "q10","q11", "q12", "q13", "memory"
@@ -1325,30 +1325,31 @@ namespace ouzel
         if (anrdoidNEONChecker.isNEONAvailable())
         {
     #endif
-        asm volatile(
-                     "vld4.32 {d0[0], d2[0], d4[0], d6[0]}, [%1]!    \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
-                     "vld4.32 {d0[1], d2[1], d4[1], d6[1]}, [%1]!    \n\t" // DST->M[m1, m5, m9, m12] = M[m4-m7]
-                     "vld4.32 {d1[0], d3[0], d5[0], d7[0]}, [%1]!    \n\t" // DST->M[m2, m6, m10, m12] = M[m8-m11]
-                     "vld4.32 {d1[1], d3[1], d5[1], d7[1]}, [%1]     \n\t" // DST->M[m3, m7, m11, m12] = M[m12-m15]
+        asm volatile
+        (
+            "vld4.32 {d0[0], d2[0], d4[0], d6[0]}, [%1]! \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
+            "vld4.32 {d0[1], d2[1], d4[1], d6[1]}, [%1]! \n\t" // DST->M[m1, m5, m9, m12] = M[m4-m7]
+            "vld4.32 {d1[0], d3[0], d5[0], d7[0]}, [%1]! \n\t" // DST->M[m2, m6, m10, m12] = M[m8-m11]
+            "vld4.32 {d1[1], d3[1], d5[1], d7[1]}, [%1]  \n\t" // DST->M[m3, m7, m11, m12] = M[m12-m15]
 
-                     "vst1.32 {q0-q1}, [%0]!                         \n\t" // DST->M[m0-m7]
-                     "vst1.32 {q2-q3}, [%0]                          \n\t" // DST->M[m8-m15]
-                     :
-                     : "r"(dst.m), "r"(m)
-                     : "q0", "q1", "q2", "q3", "memory"
-                     );
+            "vst1.32 {q0-q1}, [%0]!                      \n\t" // DST->M[m0-m7]
+            "vst1.32 {q2-q3}, [%0]                       \n\t" // DST->M[m8-m15]
+            :
+            : "r"(dst.m), "r"(m)
+            : "q0", "q1", "q2", "q3", "memory"
+        );
     #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }
     #endif
 #elif defined(OUZEL_SUPPORTS_NEON64)
-        asm volatile(
-                     "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]    \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
-                     //DST->M[m1, m5, m9, m12] = M[m4-m7]
-                     "st1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%0]    \n\t"
-                     :
-                     : "r"(dst.m), "r"(m)
-                     : "v0", "v1", "v2", "v3", "memory"
-                     );
+        asm volatile
+        (
+            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1] \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
+            "st1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%0] \n\t" // DST->M[m1, m5, m9, m12] = M[m4-m7]
+            :
+            : "r"(dst.m), "r"(m)
+            : "v0", "v1", "v2", "v3", "memory"
+        );
 #elif defined(OUZEL_SUPPORTS_SSE)
         __m128 tmp0 = _mm_shuffle_ps(col[0], col[1], 0x44);
         __m128 tmp2 = _mm_shuffle_ps(col[0], col[1], 0xEE);
