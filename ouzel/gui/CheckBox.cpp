@@ -82,17 +82,28 @@ namespace ouzel
                 }
             }
 
+            updateSprite();
+
             return true;
         }
 
         void CheckBox::setEnabled(bool enabled)
         {
             Widget::setEnabled(enabled);
+
+            selected = false;
+            pointerOver = false;
+            pressed = false;
+            receiveInput = enabled;
+
+            updateSprite();
         }
 
         void CheckBox::setChecked(bool newChecked)
         {
             checked = newChecked;
+
+            updateSprite();
         }
 
         bool CheckBox::handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr& sender)
@@ -106,15 +117,79 @@ namespace ouzel
 
         bool CheckBox::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender)
         {
-            OUZEL_UNUSED(type);
             OUZEL_UNUSED(event);
-            OUZEL_UNUSED(sender);
+
+            if (!enabled) return true;
+
+            if (sender.get() == this)
+            {
+                if (type == Event::Type::UI_ENTER_NODE)
+                {
+                    pointerOver = true;
+                    updateSprite();
+                }
+                else if (type == Event::Type::UI_LEAVE_NODE)
+                {
+                    pointerOver = false;
+                    updateSprite();
+                }
+                else if (type == Event::Type::UI_PRESS_NODE)
+                {
+                    pressed = true;
+                    updateSprite();
+                }
+                else if (type == Event::Type::UI_RELEASE_NODE)
+                {
+                    if (pressed)
+                    {
+                        pressed = false;
+                        updateSprite();
+                    }
+                }
+                else if (type == Event::Type::UI_CLICK_NODE)
+                {
+                    pressed = false;
+                    checked = !checked;
+                    updateSprite();
+                }
+            }
 
             return true;
         }
 
         void CheckBox::updateSprite()
         {
+            if (enabled)
+            {
+                if (pressed && pointerOver && pressedSprite)
+                {
+                    pressedSprite->setVisible(true);
+                }
+                else if (selected && selectedSprite)
+                {
+                    selectedSprite->setVisible(true);
+                }
+                else if (normalSprite)
+                {
+                    normalSprite->setVisible(true);
+                }
+            }
+            else
+            {
+                if (disabledSprite)
+                {
+                    disabledSprite->setVisible(true);
+                }
+                else if (normalSprite)
+                {
+                    normalSprite->setVisible(true);
+                }
+            }
+            
+            if (tickSprite)
+            {
+                tickSprite->setVisible(checked);
+            }
         }
     } // namespace gui
 } // namespace ouzel

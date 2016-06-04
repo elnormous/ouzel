@@ -26,6 +26,7 @@ protected:
     ouzel::scene::NodePtr flame;
 
     ouzel::gui::ButtonPtr button;
+    ouzel::gui::CheckBoxPtr checkBox;
 
     ouzel::EventHandlerPtr eventHandler;
 

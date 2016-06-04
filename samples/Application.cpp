@@ -121,6 +121,10 @@ void Application::begin()
     button->setPosition(Vector2(-200.0f, 200.0f));
     uiLayer->addChild(button);
 
+    checkBox = gui::CheckBox::create("checkbox.png", "", "", "", "tick.png");
+    checkBox->setPosition(Vector2(-100.0f, 200.0f));
+    uiLayer->addChild(checkBox);
+
     // Render target
 
     scene::NodePtr rtCharacter = make_shared<scene::Node>();

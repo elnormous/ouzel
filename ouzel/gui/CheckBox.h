@@ -39,6 +39,9 @@ namespace ouzel
 
             EventHandlerPtr eventHandler;
 
+            bool selected = false;
+            bool pointerOver = false;
+            bool pressed = false;
             bool checked = false;
         };
     } // namespace gui
