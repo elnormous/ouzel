@@ -101,6 +101,7 @@ namespace ouzel
             UI_RELEASE_NODE,  // mouse or touch released on scene node
             UI_CLICK_NODE, // mouse or touch clicked on scene node
             UI_DRAG_NODE, // mouse or touch dragged scene node
+            UI_WIDGET_CHANGE // widget changed its value
         };
 
         Type type;

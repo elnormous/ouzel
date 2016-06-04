@@ -151,6 +151,11 @@ namespace ouzel
                     pressed = false;
                     checked = !checked;
                     updateSprite();
+
+                    Event event;
+                    event.sender = shared_from_this();
+                    event.type = Event::Type::UI_WIDGET_CHANGE;
+                    sharedEngine->getEventDispatcher()->dispatchEvent(event);
                 }
             }
 
