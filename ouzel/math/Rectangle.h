@@ -80,17 +80,20 @@ public:
      *
      * @return true if the rectangle is empty, false otherwise.
      */
-    bool isEmpty() const;
+    inline bool isEmpty() const
+    {
+        return (width == 0 && height == 0);
+    }
 
     /**
      * Sets the values of this rectangle to the specified values.
      *
-     * @param pX The x-coordinate of the rectangle.
-     * @param pY The y-coordinate of the rectangle.
-     * @param pWidth The width of the rectangle.
-     * @param pHeight The height of the rectangle.
+     * @param newX The x-coordinate of the rectangle.
+     * @param newY The y-coordinate of the rectangle.
+     * @param newWidth The width of the rectangle.
+     * @param newHeight The height of the rectangle.
      */
-    void set(float pX, float pY, float pWidth, float pHeight);
+    void set(float newX, float newY, float newWidth, float newHeight);
 
     void set(const Vector2& position, float pWidth, float pHeight);
 
@@ -104,10 +107,10 @@ public:
     /**
      * Sets the x-coordinate and y-coordinate values of this rectangle to the specified values.
      *
-     * @param pX The x-coordinate of the rectangle.
-     * @param pY The y-coordinate of the rectangle.
+     * @param newX The x-coordinate of the rectangle.
+     * @param newY The y-coordinate of the rectangle.
      */
-    void setPosition(float pX, float pY);
+    void setPosition(float newX, float newY);
 
     void setPosition(const Vector2 position);
 

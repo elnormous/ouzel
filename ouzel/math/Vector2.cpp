@@ -215,8 +215,8 @@ namespace ouzel
 
     void Vector2::set(const Vector2& v)
     {
-        this->x = v.x;
-        this->y = v.y;
+        x = v.x;
+        y = v.y;
     }
 
     void Vector2::set(const Vector2& p1, const Vector2& p2)

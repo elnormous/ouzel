@@ -265,10 +265,10 @@ namespace ouzel
 
     void Vector4::set(const Vector4& v)
     {
-        this->x = v.x;
-        this->y = v.y;
-        this->z = v.z;
-        this->w = v.w;
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        w = v.w;
     }
 
     void Vector4::set(const Vector4& p1, const Vector4& p2)

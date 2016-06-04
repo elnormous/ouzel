@@ -257,9 +257,9 @@ namespace ouzel
 
     void Vector3::set(const Vector3& v)
     {
-        this->x = v.x;
-        this->y = v.y;
-        this->z = v.z;
+        x = v.x;
+        y = v.y;
+        z = v.z;
     }
 
     void Vector3::set(const Vector3& p1, const Vector3& p2)
