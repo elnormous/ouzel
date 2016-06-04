@@ -9,10 +9,10 @@ import android.view.MotionEvent;
 
 public class OuzelSurfaceView extends GLSurfaceView
 {
-	public OuzelSurfaceView(Context context)
-	{
-	    super(context);
-	    
+    public OuzelSurfaceView(Context context)
+    {
+        super(context);
+        
         this.setFocusableInTouchMode(true);
     }
     

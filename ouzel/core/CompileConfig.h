@@ -29,7 +29,7 @@
     #if defined(__ARM_NEON__)
         #if defined(__arm64__)
             #define OUZEL_SUPPORTS_NEON64 1
-        #else defined(__arm__)
+        #elif defined(__arm__)
             #define OUZEL_SUPPORTS_NEON 1
         #endif
     #endif
