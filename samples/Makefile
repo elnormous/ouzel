@@ -4,7 +4,7 @@ LDFLAGS=-L. -louzel
 ifeq ($(platform),raspbian)
 LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host
 else
-LDFLAGS=-lX11 -lGL
+LDFLAGS+=-lX11 -lGL
 endif
 SOURCES=Application.cpp main.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
