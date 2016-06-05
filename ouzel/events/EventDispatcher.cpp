@@ -91,6 +91,7 @@ namespace ouzel
                         case Event::Type::UI_RELEASE_NODE:
                         case Event::Type::UI_CLICK_NODE:
                         case Event::Type::UI_DRAG_NODE:
+                        case Event::Type::UI_WIDGET_CHANGE:
                             if (eventHandler->uiHandler)
                             {
                                 eventHandler->uiHandler(event.type, event.uiEvent, event.sender);
