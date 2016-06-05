@@ -501,31 +501,7 @@ namespace ouzel
 
             if (currentRenderPassDescriptor != newRenderPassDescriptor || !currentRenderCommandEncoder)
             {
-                if (currentRenderCommandEncoder)
-                {
-                    [currentRenderCommandEncoder endEncoding];
-                    [currentRenderCommandEncoder release];
-                }
-
-                currentRenderPassDescriptor = newRenderPassDescriptor;
-
-                if (clearedRenderPassDescriptors.find(currentRenderPassDescriptor) == clearedRenderPassDescriptors.end())
-                {
-                    currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                    clearedRenderPassDescriptors.insert(currentRenderPassDescriptor);
-                }
-                else
-                {
-                    currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
-                }
-
-                currentRenderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor] retain];
-
-                if (!currentRenderCommandEncoder)
-                {
-                    log("Failed to create Metal render command encoder");
-                    return false;
-                }
+                return createRenderCommandEncoder(newRenderPassDescriptor);
             }
 
             return true;
@@ -673,6 +649,13 @@ namespace ouzel
             return true;
         }
 
+        void RendererMetal::activateScissorTest(const Rectangle& rectangle)
+        {
+            Renderer::activateScissorTest(rectangle);
+
+            createRenderCommandEncoder(currentRenderPassDescriptor);
+        }
+
         MTLRenderPipelineStatePtr RendererMetal::createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                                      const std::shared_ptr<ShaderMetal>& shader)
         {
@@ -764,6 +747,48 @@ namespace ouzel
             }
 
             return false;
+        }
+
+        bool RendererMetal::createRenderCommandEncoder(MTLRenderPassDescriptorPtr newRenderPassDescriptor)
+        {
+            if (currentRenderCommandEncoder)
+            {
+                [currentRenderCommandEncoder endEncoding];
+                [currentRenderCommandEncoder release];
+            }
+
+            currentRenderPassDescriptor = newRenderPassDescriptor;
+
+            if (clearedRenderPassDescriptors.find(currentRenderPassDescriptor) == clearedRenderPassDescriptors.end())
+            {
+                currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                clearedRenderPassDescriptors.insert(currentRenderPassDescriptor);
+            }
+            else
+            {
+                currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
+            }
+
+            currentRenderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor] retain];
+
+            if (!currentRenderCommandEncoder)
+            {
+                log("Failed to create Metal render command encoder");
+                return false;
+            }
+
+            if (!scissorTest.isEmpty())
+            {
+                MTLScissorRect rect;
+                rect.x = static_cast<NSUInteger>(scissorTest.x);
+                rect.y = static_cast<NSUInteger>(scissorTest.y);
+                rect.width = static_cast<NSUInteger>(scissorTest.width);
+                rect.height = static_cast<NSUInteger>(scissorTest.height);
+
+                [currentRenderCommandEncoder setScissorRect: rect];
+            }
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

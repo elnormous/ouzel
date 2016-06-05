@@ -60,6 +60,8 @@ namespace ouzel
             virtual MeshBufferPtr createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer);
             virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST, uint32_t startIndex = 0);
 
+            virtual void activateScissorTest(const Rectangle& rectangle) override;
+
             virtual bool saveScreenshot(const std::string& filename) override;
 
             ID3D11Device* getDevice() const { return device; }
@@ -86,6 +88,7 @@ namespace ouzel
             std::set<ID3D11RenderTargetView*> clearedRenderTargetViews;
             ID3D11SamplerState* samplerState = nullptr;
             ID3D11RasterizerState* rasterizerState = nullptr;
+            ID3D11RasterizerState* scissorTestRasterizerState = nullptr;
             ID3D11DepthStencilState* depthStencilState = nullptr;
 
             D3D11_VIEWPORT viewport;

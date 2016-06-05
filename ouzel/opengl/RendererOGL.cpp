@@ -249,6 +249,8 @@ namespace ouzel
             Renderer::clear();
 
             clearedFrameBuffers.clear();
+
+            glDisable(GL_SCISSOR_TEST);
         }
 
         void RendererOGL::present()
@@ -591,6 +593,25 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void RendererOGL::activateScissorTest(const Rectangle& rectangle)
+        {
+            Renderer::activateScissorTest(rectangle);
+
+            if (rectangle.isEmpty())
+            {
+                glEnable(GL_SCISSOR_TEST);
+
+                glScissor(static_cast<GLint>(rectangle.x),
+                          static_cast<GLint>(rectangle.y),
+                          static_cast<GLsizei>(rectangle.width),
+                          static_cast<GLsizei>(rectangle.height));
+            }
+            else
+            {
+                glDisable(GL_SCISSOR_TEST);
+            }
         }
 
         bool RendererOGL::saveScreenshot(const std::string& filename)

@@ -162,6 +162,11 @@ namespace ouzel
             return true;
         }
 
+        void Renderer::activateScissorTest(const Rectangle& rectangle)
+        {
+            scissorTest = rectangle;
+        }
+
         Vector2 Renderer::viewToScreenLocation(const Vector2& position)
         {
             float x = 2.0f * position.x / size.width - 1.0f;

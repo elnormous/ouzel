@@ -37,6 +37,11 @@ namespace ouzel
                 depthStencilState->Release();
             }
 
+            if (scissorTestRasterizerState)
+            {
+                scissorTestRasterizerState->Release();
+            }
+
             if (rasterizerState)
             {
                 rasterizerState->Release();
@@ -76,6 +81,12 @@ namespace ouzel
             {
                 depthStencilState->Release();
                 depthStencilState = nullptr;
+            }
+
+            if (scissorTestRasterizerState)
+            {
+                scissorTestRasterizerState->Release();
+                scissorTestRasterizerState = nullptr;
             }
 
             if (rasterizerState)
@@ -139,7 +150,7 @@ namespace ouzel
                 nullptr, // software rasterizer (unused)
                 deviceCreationFlags,
                 nullptr, // feature levels
-                0, // ^^
+                0, // no feature levels
                 D3D11_SDK_VERSION,
                 &device,
                 nullptr,
@@ -272,6 +283,15 @@ namespace ouzel
                 return false;
             }
 
+            rasterStateDesc.ScissorEnable = TRUE;
+            
+            hr = device->CreateRasterizerState(&rasterStateDesc, &scissorTestRasterizerState);
+            if (FAILED(hr))
+            {
+                log("Failed to create D3D11 rasterizer state");
+                return false;
+            }
+
             // Depth/stencil state
             D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc =
             {
@@ -379,6 +399,8 @@ namespace ouzel
             Renderer::clear();
 
             clearedRenderTargetViews.clear();
+            
+            context->RSSetState(rasterizerState);
         }
 
         void RendererD3D11::present()
@@ -813,7 +835,6 @@ namespace ouzel
                 indexCount = meshBufferD3D11->getIndexCount() - startIndex;
             }
 
-            context->RSSetState(rasterizerState);
             context->OMSetDepthStencilState(depthStencilState, 0);
 
             ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
@@ -839,6 +860,27 @@ namespace ouzel
             context->DrawIndexed(indexCount, static_cast<UINT>(startIndex * meshBuffer->getIndexSize()), 0);
 
             return true;
+        }
+
+        void RendererD3D11::activateScissorTest(const Rectangle& rectangle)
+        {
+            Renderer::activateScissorTest(rectangle);
+
+            if (rectangle.isEmpty())
+            {
+                D3D11_RECT rects[1];
+                rects[0].left = static_cast<LONG>(rectangle.x);
+                rects[0].right = static_cast<LONG>(rectangle.x + rectangle.width);
+                rects[0].bottom = static_cast<LONG>(rectangle.y);
+                rects[0].top = static_cast<LONG>(rectangle.y + rectangle.height);
+                
+                context->RSSetScissorRects(1, rects);
+                context->RSSetState(scissorTestRasterizerState);
+            }
+            else
+            {
+                context->RSSetState(rasterizerState);
+            }
         }
 
         bool RendererD3D11::saveScreenshot(const std::string& filename)
