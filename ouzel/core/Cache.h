@@ -11,12 +11,10 @@
 
 namespace ouzel
 {
-    class Engine;
-    
     class Cache: public Noncopyable
     {
-        friend Engine;
     public:
+        Cache();
         virtual ~Cache();
 
         void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
@@ -39,8 +37,6 @@ namespace ouzel
         void setBlendState(const std::string& blendStateName, const graphics::BlendStatePtr& blendState);
 
     protected:
-        Cache();
-
         mutable std::unordered_map<std::string, graphics::TexturePtr> textures;
         mutable std::unordered_map<std::string, graphics::ShaderPtr> shaders;
         mutable std::unordered_map<std::string, scene::ParticleDefinitionPtr> particleDefinitions;
