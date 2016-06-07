@@ -220,7 +220,7 @@ namespace ouzel
                         Event event;
                         event.sender = shared_from_this();
                         event.type = Event::Type::GAMEPAD_CONNECT;
-                        
+
                         event.gamepadEvent.gamepad = gamepads[i];
 
                         sharedEngine->getEventDispatcher()->dispatchEvent(event);
@@ -235,7 +235,7 @@ namespace ouzel
                         Event event;
                         event.sender = shared_from_this();
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
-                        
+
                         event.gamepadEvent.gamepad = gamepads[i];
 
                         sharedEngine->getEventDispatcher()->dispatchEvent(event);

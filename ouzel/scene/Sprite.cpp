@@ -79,7 +79,7 @@ namespace ouzel
             }
 
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            
+
             if (!shader)
             {
                 return false;
@@ -105,7 +105,7 @@ namespace ouzel
                 {
                     size.width = frame->getRectangle().width;
                 }
-                
+
                 if (frame->getRectangle().height > size.height)
                 {
                     size.height = frame->getRectangle().height;

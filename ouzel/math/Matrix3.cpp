@@ -228,7 +228,7 @@ namespace ouzel
         product[6]  = m1.m[0] * m2.m[6]  + m1.m[3] * m2.m[7] + m1.m[6]  * m2.m[8];
         product[7]  = m1.m[1] * m2.m[6]  + m1.m[4] * m2.m[7] + m1.m[7]  * m2.m[8];
         product[8]  = m1.m[2] * m2.m[6]  + m1.m[5] * m2.m[7] + m1.m[8]  * m2.m[8];
-        
+
         memcpy(dst.m, product, sizeof(product));
     }
 

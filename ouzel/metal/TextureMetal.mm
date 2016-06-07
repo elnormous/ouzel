@@ -123,7 +123,7 @@ namespace ouzel
 
             width = newWidth;
             height = newHeight;
-            
+
             return true;
         }
     } // namespace graphics

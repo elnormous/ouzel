@@ -40,7 +40,7 @@ namespace ouzel
             virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount);
 
             bool isReady() const { return ready; }
-            
+
         protected:
             MeshBuffer();
             void updateVertexSize();

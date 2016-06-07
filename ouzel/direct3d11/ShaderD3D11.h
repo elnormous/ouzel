@@ -33,10 +33,10 @@ namespace ouzel
 
             virtual bool setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
             virtual bool setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
-            
+
             virtual ID3D11PixelShader* getPixelShader() const { return pixelShader; }
             virtual ID3D11VertexShader* getVertexShader() const { return vertexShader; }
-            
+
             virtual ID3D11Buffer* getPixelShaderConstantBuffer() const { return pixelShaderConstantBuffer; }
             virtual ID3D11Buffer* getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
             virtual ID3D11InputLayout* getInputLayout() const { return inputLayout;  }

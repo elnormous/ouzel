@@ -95,7 +95,7 @@ namespace ouzel
 
             ID3D11ShaderResourceView* resourceViews[TEXTURE_LAYERS];
             ID3D11SamplerState* samplerStates[TEXTURE_LAYERS];
-            
+
             UINT swapInterval = 0;
         };
     } // namespace graphics

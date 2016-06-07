@@ -118,7 +118,7 @@ namespace ouzel
             {
                 [msaaTexture release];
             }
-            
+
             if (currentRenderCommandEncoder)
             {
                 [currentRenderCommandEncoder release];
@@ -240,7 +240,7 @@ namespace ouzel
             }
             samplerDescriptor.sAddressMode = MTLSamplerAddressModeClampToEdge;
             samplerDescriptor.tAddressMode = MTLSamplerAddressModeClampToEdge;
-            
+
             samplerState = [device newSamplerStateWithDescriptor:samplerDescriptor];
             [samplerDescriptor release];
 
@@ -347,7 +347,7 @@ namespace ouzel
             }
 
             ready = true;
-            
+
             setSize(size);
 
             return true;
@@ -368,7 +368,7 @@ namespace ouzel
         void RendererMetal::clear()
         {
             clearedRenderPassDescriptors.clear();
-            
+
             if (sampleCount > 1)
             {
                 if (!msaaTexture ||
@@ -402,7 +402,7 @@ namespace ouzel
             {
                 renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable.texture;
             }
-            
+
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
             currentCommandBuffer = [[commandQueue commandBuffer] retain];
@@ -610,7 +610,7 @@ namespace ouzel
                 if (activeTextures[layer])
                 {
                     std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(activeTextures[layer]);
-                    
+
                     [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
                 }
                 else
@@ -703,7 +703,7 @@ namespace ouzel
             if (error || !pipelineState)
             {
                 if (pipelineState) [pipelineState release];
-                
+
                 log("Failed to created Metal pipeline state");
                 return Nil;
             }

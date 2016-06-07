@@ -190,7 +190,7 @@ namespace ouzel
                     normalSprite->setVisible(true);
                 }
             }
-            
+
             if (tickSprite)
             {
                 tickSprite->setVisible(checked);

@@ -40,7 +40,7 @@ namespace ouzel
             virtual void stop(bool resetAnimation = true);
             virtual void reset();
             virtual bool isPlaying() const { return playing; }
-            
+
         protected:
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;

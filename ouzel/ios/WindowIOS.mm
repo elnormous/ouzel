@@ -58,7 +58,7 @@ namespace ouzel
         CGRect windowFrame = [window bounds];
 
         size = Size2(windowFrame.size.width, windowFrame.size.height);
-        
+
         switch (sharedEngine->getRenderer()->getDriver())
         {
             case graphics::Renderer::Driver::OPENGL:

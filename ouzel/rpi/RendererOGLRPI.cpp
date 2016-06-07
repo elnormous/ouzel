@@ -79,7 +79,7 @@ namespace ouzel
                                   bool newVerticalSync)
         {
             free();
-            
+
             bcm_host_init();
 
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
@@ -132,7 +132,7 @@ namespace ouzel
                 log("Failed to create EGL context");
                 return false;
             }
-            
+
             apiVersion = 2;
 
             uint32_t screenWidth;
@@ -162,7 +162,7 @@ namespace ouzel
 
             DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, dispmanDisplay,
                         0, &dstRect, 0,
-                        &srcRect, DISPMANX_PROTECTION_NONE, 
+                        &srcRect, DISPMANX_PROTECTION_NONE,
                         0, 0, DISPMANX_NO_ROTATE);
 
             static EGL_DISPMANX_WINDOW_T nativewindow;
@@ -183,7 +183,7 @@ namespace ouzel
                 log("Failed to set current EGL context");
                 return false;
             }
-            
+
             window->setSize(Size2(static_cast<float>(screenWidth),
                                   static_cast<float>(screenHeight)));
 

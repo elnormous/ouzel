@@ -99,9 +99,9 @@ namespace ouzel
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
                                                                                 vertices.data(), graphics::VertexPCT::ATTRIBUTES, static_cast<uint32_t>(vertices.size()), false);
-            
+
             boundingBox.reset();
-            
+
             for (const graphics::VertexPCT& vertex : vertices)
             {
                 boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));

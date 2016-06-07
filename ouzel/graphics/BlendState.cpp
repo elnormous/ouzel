@@ -14,7 +14,7 @@ namespace ouzel
 
         BlendState::~BlendState()
         {
-            
+
         }
 
         void BlendState::free()

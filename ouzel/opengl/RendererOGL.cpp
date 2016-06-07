@@ -61,7 +61,7 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
-            
+
         }
 
         bool RendererOGL::init(const WindowPtr& window,

@@ -27,7 +27,7 @@ namespace ouzel
 
         Renderer::~Renderer()
         {
-            
+
         }
 
         void Renderer::free()

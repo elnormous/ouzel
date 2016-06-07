@@ -8,7 +8,7 @@
 namespace ouzel
 {
     class Engine;
-    
+
     namespace graphics
     {
         class RendererOGLLinux: public RendererOGL
@@ -19,7 +19,7 @@ namespace ouzel
             virtual void free() override;
 
             virtual void present() override;
-            
+
         private:
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,

@@ -32,7 +32,7 @@ namespace ouzel
             TexturePtr getTexture() const { return texture; }
 
             bool isReady() const { return ready; }
-            
+
         protected:
             RenderTarget();
 

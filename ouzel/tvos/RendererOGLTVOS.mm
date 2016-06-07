@@ -136,14 +136,14 @@ namespace ouzel
             {
                 ouzel::log("Failed to set current OpenGL context");
             }
-            
+
             RendererOGL::clear();
         }
-        
+
         void RendererOGLTVOS::present()
         {
             RendererOGL::present();
-            
+
             [context presentRenderbuffer:GL_RENDERBUFFER];
         }
     } // namespace graphics

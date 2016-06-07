@@ -34,7 +34,7 @@ namespace ouzel
             if (vertexBufferId)
             {
                 RendererOGL::unbindArrayBuffer(vertexBufferId);
-                
+
                 glDeleteBuffers(1, &vertexBufferId);
             }
 
@@ -365,7 +365,7 @@ namespace ouzel
                 log("Failed to update vertex attributes");
                 return false;
             }
-            
+
             return true;
         }
     } // namespace graphics

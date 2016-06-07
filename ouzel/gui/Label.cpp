@@ -25,7 +25,7 @@ namespace ouzel
 
         Label::Label()
         {
-            
+
         }
 
         Label::~Label()

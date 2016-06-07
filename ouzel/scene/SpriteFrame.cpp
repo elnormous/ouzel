@@ -74,7 +74,7 @@ namespace ouzel
 
                 Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
                               static_cast<float>(pivotObject["y"].GetDouble()));
-                
+
                 frames.push_back(create(rectangle, texture, rotated, sourceSize, sourceOffset, pivot));
             }
 

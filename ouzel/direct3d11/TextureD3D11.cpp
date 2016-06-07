@@ -103,7 +103,7 @@ namespace ouzel
 
             return true;
         }
-        
+
         bool TextureD3D11::uploadMipmap(uint32_t level, const void* data)
         {
             if (!Texture::uploadMipmap(level, data))

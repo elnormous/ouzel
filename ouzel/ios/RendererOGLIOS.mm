@@ -143,7 +143,7 @@ namespace ouzel
         void RendererOGLIOS::present()
         {
             RendererOGL::present();
-            
+
             [context presentRenderbuffer:GL_RENDERBUFFER];
         }
     } // namespace graphics

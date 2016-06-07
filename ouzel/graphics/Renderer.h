@@ -132,7 +132,7 @@ namespace ouzel
             void setAPIVersion(uint32_t version) { apiVersion = version; }
 
             bool isReady() const { return ready; }
-            
+
         protected:
             Renderer(Driver pDriver);
             virtual bool init(const WindowPtr& window,

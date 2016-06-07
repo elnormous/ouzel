@@ -30,7 +30,7 @@ namespace ouzel
             {
                 [pixelShader release];
             }
-            
+
             if (vertexDescriptor)
             {
                 [vertexDescriptor release];
@@ -79,7 +79,7 @@ namespace ouzel
 
             uint32_t index = 0;
             NSUInteger offset = 0;
-            
+
             vertexDescriptor = [MTLVertexDescriptor new];
 
             if (vertexAttributes & VERTEX_POSITION)

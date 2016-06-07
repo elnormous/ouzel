@@ -38,7 +38,7 @@ namespace ouzel
             void setFlipped(bool newFlipped) { flipped = newFlipped; }
 
             bool isReady() const { return ready; }
-            
+
         protected:
             Texture();
 

@@ -112,7 +112,7 @@ namespace ouzel
                 log("Failed to upload texture data");
                 return false;
             }
-            
+
             return true;
         }
 

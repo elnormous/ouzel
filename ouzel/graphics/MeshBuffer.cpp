@@ -15,7 +15,7 @@ namespace ouzel
 
         MeshBuffer::~MeshBuffer()
         {
-            
+
         }
 
         void MeshBuffer::free()

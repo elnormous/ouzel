@@ -21,7 +21,6 @@ namespace ouzel
     bool WindowAndroid::init()
     {
         std::shared_ptr<graphics::RendererOGL> rendererOGL = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
-        
         rendererOGL->setAPIVersion(2);
 
         return Window::init();

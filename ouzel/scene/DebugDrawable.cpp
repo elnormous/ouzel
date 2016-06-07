@@ -35,7 +35,7 @@ namespace ouzel
                 {
                     shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
                     shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
-                    
+
                     sharedEngine->getRenderer()->drawMeshBuffer(drawCommand.mesh, 0, drawCommand.mode);
                 }
             }

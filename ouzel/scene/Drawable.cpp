@@ -70,7 +70,7 @@ namespace ouzel
                     return true;
                 }
             }
-            
+
             return false;
         }
 

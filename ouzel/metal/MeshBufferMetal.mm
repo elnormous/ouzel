@@ -123,7 +123,7 @@ namespace ouzel
                     [vertexBuffer release];
                     vertexBuffer = Nil;
                 }
-                
+
                 ready = createVertexBuffer(vertices, vertexSize * vertexCount);
 
                 return ready;

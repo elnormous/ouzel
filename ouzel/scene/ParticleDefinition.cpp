@@ -112,9 +112,9 @@ namespace ouzel
             if (document.HasMember("finishColorVarianceGreen")) result->finishColorGreenVariance = static_cast<float>(document["finishColorVarianceGreen"].GetDouble());
             if (document.HasMember("finishColorVarianceBlue")) result->finishColorBlueVariance = static_cast<float>(document["finishColorVarianceBlue"].GetDouble());
             if (document.HasMember("finishColorVarianceAlpha")) result->finishColorAlphaVariance = static_cast<float>(document["finishColorVarianceAlpha"].GetDouble());
-            
+
             if (document.HasMember("textureFileName")) result->textureFilename = document["textureFileName"].GetString();
-            
+
             result->emissionRate = static_cast<float>(result->maxParticles) / result->particleLifespan;
 
             result->ready = true;

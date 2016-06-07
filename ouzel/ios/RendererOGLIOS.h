@@ -28,7 +28,7 @@ namespace ouzel
 
             virtual void clear() override;
             virtual void present() override;
-            
+
         private:
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,

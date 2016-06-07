@@ -19,7 +19,7 @@ namespace ouzel
 
         Shader::~Shader()
         {
-            
+
         }
 
         void Shader::free()

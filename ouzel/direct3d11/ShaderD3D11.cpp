@@ -231,7 +231,7 @@ namespace ouzel
 
             return true;
         }
-        
+
         bool ShaderD3D11::setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
         {
             if (index >= pixelShaderConstantLocations.size()) return false;
@@ -248,7 +248,7 @@ namespace ouzel
 
             uint32_t location = vertexShaderConstantLocations[index];
             memcpy(vertexShaderData.data() + location, value, size * count);
-            
+
             return uploadData(vertexShaderConstantBuffer, vertexShaderData.data(), static_cast<uint32_t>(vertexShaderData.size()));
         }
 

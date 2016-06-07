@@ -267,13 +267,13 @@ namespace ouzel
                 case kVK_ANSI_7: return KeyboardKey::KEY_7;
                 case kVK_ANSI_8: return KeyboardKey::KEY_8;
                 case kVK_ANSI_9: return KeyboardKey::KEY_9;
-                    
+
                 case kVK_ANSI_Slash: return KeyboardKey::DIVIDE;
                 case kVK_ANSI_Comma: return KeyboardKey::COMMA;
                 case kVK_ANSI_Period: return KeyboardKey::PERIOD;
                 case kVK_PageUp: return KeyboardKey::PRIOR;
                 case kVK_PageDown: return KeyboardKey::NEXT;
-                    
+
                 case kVK_ANSI_Keypad0: return KeyboardKey::NUMPAD0;
                 case kVK_ANSI_Keypad1: return KeyboardKey::NUMPAD1;
                 case kVK_ANSI_Keypad2: return KeyboardKey::NUMPAD2;
@@ -284,7 +284,7 @@ namespace ouzel
                 case kVK_ANSI_Keypad7: return KeyboardKey::NUMPAD7;
                 case kVK_ANSI_Keypad8: return KeyboardKey::NUMPAD8;
                 case kVK_ANSI_Keypad9: return KeyboardKey::NUMPAD9;
-                    
+
                 case kVK_ANSI_KeypadDecimal: return KeyboardKey::DECIMAL;
                 case kVK_ANSI_KeypadMultiply: return KeyboardKey::MULTIPLY;
                 case kVK_ANSI_KeypadPlus: return KeyboardKey::PLUS;
@@ -312,7 +312,7 @@ namespace ouzel
                 if (pressedMouseButtons & (1 << 1)) modifiers |= RIGHT_MOUSE_DOWN;
                 if (pressedMouseButtons & (1 << 2)) modifiers |= MIDDLE_MOUSE_DOWN;
             }
-            
+
             return modifiers;
         }
 #endif // OUZEL_PLATFORM_OSX

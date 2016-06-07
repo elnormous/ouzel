@@ -848,16 +848,16 @@ namespace ouzel
             __m128 e1 = _mm_shuffle_ps(m2.col[3], m2.col[3], _MM_SHUFFLE(1, 1, 1, 1));
             __m128 e2 = _mm_shuffle_ps(m2.col[3], m2.col[3], _MM_SHUFFLE(2, 2, 2, 2));
             __m128 e3 = _mm_shuffle_ps(m2.col[3], m2.col[3], _MM_SHUFFLE(3, 3, 3, 3));
-            
+
             __m128 v0 = _mm_mul_ps(m1.col[0], e0);
             __m128 v1 = _mm_mul_ps(m1.col[1], e1);
             __m128 v2 = _mm_mul_ps(m1.col[2], e2);
             __m128 v3 = _mm_mul_ps(m1.col[3], e3);
-            
+
             __m128 a0 = _mm_add_ps(v0, v1);
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
-            
+
             dst3 = a2;
         }
         dst.col[0] = dst0;
@@ -893,7 +893,7 @@ namespace ouzel
         product[13] = m1.m[1] * m2.m[12] + m1.m[5] * m2.m[13] + m1.m[9]  * m2.m[14] + m1.m[13] * m2.m[15];
         product[14] = m1.m[2] * m2.m[12] + m1.m[6] * m2.m[13] + m1.m[10] * m2.m[14] + m1.m[14] * m2.m[15];
         product[15] = m1.m[3] * m2.m[12] + m1.m[7] * m2.m[13] + m1.m[11] * m2.m[14] + m1.m[15] * m2.m[15];
-        
+
         memcpy(dst.m, product, sizeof(product));
     #if defined(OUZEL_SUPPORTS_NEON_CHECK)
         }

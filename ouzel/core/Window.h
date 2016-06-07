@@ -12,7 +12,7 @@
 namespace ouzel
 {
     class Engine;
-    
+
     class Window: public Noncopyable
     {
         friend Engine;

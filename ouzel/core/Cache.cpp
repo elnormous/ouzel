@@ -204,7 +204,6 @@ namespace ouzel
 
         return result;
     }
-    
 
     graphics::BlendStatePtr Cache::getBlendState(const std::string& blendStateName) const
     {

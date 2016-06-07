@@ -76,7 +76,7 @@ namespace ouzel
         void RendererD3D11::free()
         {
             Renderer::free();
-            
+
             if (depthStencilState)
             {
                 depthStencilState->Release();
@@ -194,7 +194,7 @@ namespace ouzel
             swapChainDesc.Windowed = static_cast<BOOL>(!fullscreen);
             swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
             swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-            
+
             swapInterval = verticalSync ? 1 : 0;
 
             hr = factory->CreateSwapChain(device, &swapChainDesc, &swapChain);
@@ -284,7 +284,7 @@ namespace ouzel
             }
 
             rasterStateDesc.ScissorEnable = TRUE;
-            
+
             hr = device->CreateRasterizerState(&rasterStateDesc, &scissorTestRasterizerState);
             if (FAILED(hr))
             {
@@ -312,7 +312,7 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             textureShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
             textureShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
 
@@ -326,7 +326,7 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             colorShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
             colorShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
 
@@ -399,7 +399,7 @@ namespace ouzel
             Renderer::clear();
 
             clearedRenderTargetViews.clear();
-            
+
             context->RSSetState(rasterizerState);
         }
 
@@ -519,7 +519,7 @@ namespace ouzel
                 }
 
                 viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
-                
+
                 if (!activeRenderTarget)
                 {
                     context->OMSetRenderTargets(1, &renderTargetView, nullptr);
@@ -873,7 +873,7 @@ namespace ouzel
                 rects[0].right = static_cast<LONG>(rectangle.x + rectangle.width);
                 rects[0].bottom = static_cast<LONG>(rectangle.y);
                 rects[0].top = static_cast<LONG>(rectangle.y + rectangle.height);
-                
+
                 context->RSSetScissorRects(1, rects);
                 context->RSSetState(scissorTestRasterizerState);
             }

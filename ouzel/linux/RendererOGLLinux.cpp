@@ -33,7 +33,7 @@ namespace ouzel
         void RendererOGLLinux::present()
         {
             RendererOGL::present();
-            
+
             std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(sharedEngine->getWindow());
 
             glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());

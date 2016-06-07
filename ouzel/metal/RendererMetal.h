@@ -37,7 +37,7 @@ typedef id MTLTexturePtr;
 namespace ouzel
 {
     class Engine;
-    
+
     namespace graphics
     {
         class BlendStateMetal;
