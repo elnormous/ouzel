@@ -152,6 +152,9 @@ bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event, c
 
         switch (event.key)
         {
+            case ouzel::input::KeyboardKey::ESCAPE:
+                sharedEngine->exit();
+                break;
             case input::KeyboardKey::UP:
                 position.y += 10.0f;
                 break;
