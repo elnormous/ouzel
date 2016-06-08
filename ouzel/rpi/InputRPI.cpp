@@ -7,6 +7,8 @@
 #include <glob.h>
 #include "InputRPI.h"
 #include "core/Engine.h"
+#include "core/Window.h"
+#include "graphics/Renderer.h"
 #include "utils/Utils.h"
 
 #define DIV_ROUND_UP(n,d) (((n) + (d) - 1) / (d))
@@ -486,6 +488,8 @@ namespace ouzel
             }
             else if (retval > 0)
             {
+                Size2 size = sharedEngine->getWindow()->getSize();
+
                 for (const InputDeviceRPI& inputDevice : inputDevices)
                 {
                     if (FD_ISSET(inputDevice.fd, &rfds))
@@ -496,7 +500,7 @@ namespace ouzel
                         {
                             continue;
                         }
-                
+
                         for (ssize_t i = 0; i < bytesRead - static_cast<ssize_t>(sizeof(input_event)) + 1; i += sizeof(input_event))
                         {
                             input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
@@ -527,6 +531,9 @@ namespace ouzel
                                     {
                                         mouseY = event->value;
                                     }
+
+                                    Vector2 pos(static_cast<float>(mouseX), static_cast<float>(mouseY));
+                                    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos), 0);
                                 }
                                 else if (event->type == EV_REL)
                                 {
@@ -537,6 +544,46 @@ namespace ouzel
                                     else if (event->code == REL_Y)
                                     {
                                         mouseY += event->value;
+                                    }
+
+                                    if (mouseX < 0) mouseX = 0;
+                                    if (mouseY < 0) mouseY = 0;
+                                    if (mouseX >= static_cast<int>(size.width)) mouseX = static_cast<int>(size.width) - 1;
+                                    if (mouseY >= static_cast<int>(size.height)) mouseY = static_cast<int>(size.height) - 1;
+
+                                    Vector2 pos(static_cast<float>(mouseX), static_cast<float>(mouseY));
+                                    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos), 0);
+                                }
+                                else if (event->type == EV_KEY)
+                                {
+                                    Vector2 pos(static_cast<float>(mouseX), static_cast<float>(mouseY));
+
+                                    input::MouseButton button;
+
+                                    switch (event->code)
+                                    {
+                                    case BTN_LEFT:
+                                        button = input::MouseButton::LEFT;
+                                        break;
+                                    case BTN_RIGHT:
+                                        button = input::MouseButton::RIGHT;
+                                        break;
+                                    case BTN_MIDDLE:
+                                        button = input::MouseButton::MIDDLE;
+                                        break;
+                                    }
+
+                                    if (event->value == 1)
+                                    {
+                                        sharedEngine->getInput()->mouseDown(button,
+                                                                            sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                                                            0);
+                                    }
+                                    else if (event->value == 0)
+                                    {
+                                        sharedEngine->getInput()->mouseUp(button,
+                                                                          sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                                                          0);
                                     }
                                 }
                             }
