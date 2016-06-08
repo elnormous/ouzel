@@ -27,6 +27,7 @@ namespace ouzel
 
         void Layer::draw()
         {
+            globalNodes.clear();
             drawQueue.clear();
 
             // render only if there is an active camera
@@ -40,18 +41,23 @@ namespace ouzel
                 {
                     if (child->isVisible())
                     {
-                        addToDrawQueue(child);
+                        addGlobalNode(child);
                         child->visit(Matrix4::IDENTITY, false, std::static_pointer_cast<Layer>(shared_from_this()));
                     }
                 }
 
-                std::stable_sort(drawQueue.begin(), drawQueue.end(), [](const NodePtr& a, const NodePtr& b) {
+                std::stable_sort(globalNodes.begin(), globalNodes.end(), [](const NodePtr& a, const NodePtr& b) {
                     return a->getZ() > b->getZ();
                 });
 
-                for (const NodePtr& node : drawQueue)
+                for (const NodePtr& node : globalNodes)
                 {
                     node->process(std::static_pointer_cast<Layer>(shared_from_this()));
+                }
+
+                for (const NodePtr& node : drawQueue)
+                {
+                    node->draw(std::static_pointer_cast<Layer>(shared_from_this()));
                 }
             }
         }
@@ -68,6 +74,11 @@ namespace ouzel
             {
                 return false;
             }
+        }
+
+        void Layer::addGlobalNode(const NodePtr& node)
+        {
+            globalNodes.push_back(node);
         }
 
         void Layer::addToDrawQueue(const NodePtr& node)
