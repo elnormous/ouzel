@@ -73,6 +73,7 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/utils/Utils.cpp
 ifeq ($(platform),raspbian)
 SOURCES+=../ouzel/rpi/main.cpp \
+	../ouzel/rpi/InputRPI.cpp \
 	../ouzel/rpi/RendererOGLRPI.cpp \
 	../ouzel/rpi/WindowRPI.cpp
 CFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux

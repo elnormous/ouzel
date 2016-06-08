@@ -268,7 +268,6 @@ namespace ouzel
                 case kVK_ANSI_8: return KeyboardKey::KEY_8;
                 case kVK_ANSI_9: return KeyboardKey::KEY_9;
 
-                case kVK_ANSI_Slash: return KeyboardKey::DIVIDE;
                 case kVK_ANSI_Comma: return KeyboardKey::COMMA;
                 case kVK_ANSI_Period: return KeyboardKey::PERIOD;
                 case kVK_PageUp: return KeyboardKey::PRIOR;
@@ -292,6 +291,13 @@ namespace ouzel
                 case kVK_ANSI_KeypadDivide: return KeyboardKey::DIVIDE;
                 case kVK_ANSI_KeypadEnter: return KeyboardKey::RETURN;
                 case kVK_ANSI_KeypadMinus: return KeyboardKey::SUBTRACT;
+
+                case kVK_ANSI_Semicolon: return KeyboardKey::OEM_1;
+                case kVK_ANSI_Slash: return KeyboardKey::OEM_2;
+                case kVK_ANSI_Grave: return KeyboardKey::OEM_3;
+                case kVK_ANSI_LeftBracket: return KeyboardKey::OEM_4;
+                case kVK_ANSI_Backslash: return KeyboardKey::OEM_5;
+                case kVK_ANSI_RightBracket: return KeyboardKey::OEM_6;
                 default: return KeyboardKey::NONE;
             }
         }

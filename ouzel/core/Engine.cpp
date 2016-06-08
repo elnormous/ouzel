@@ -27,6 +27,7 @@
 #elif defined(OUZEL_PLATFORM_RASPBIAN)
 #include "rpi/WindowRPI.h"
 #include "rpi/RendererOGLRPI.h"
+#include "rpi/InputRPI.h"
 #endif
 
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
@@ -156,6 +157,8 @@ namespace ouzel
         input.reset(new input::InputApple());
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         input.reset(new input::InputWin());
+#elif defined(OUZEL_PLATFORM_RASPBIAN)
+        input.reset(new input::InputRPI());
 #else
         input.reset(new input::Input());
 #endif

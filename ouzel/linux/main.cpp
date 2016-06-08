@@ -30,12 +30,12 @@ static input::KeyboardKey convertKeyCode(KeySym keyCode)
         case XK_BackSpace: return input::KeyboardKey::BACKSPACE;
         case XK_Tab: return input::KeyboardKey::TAB;
         case XK_ISO_Left_Tab: return input::KeyboardKey::TAB;
-        case XK_Linefeed: return input::KeyboardKey::NONE; // ???
+        case XK_Linefeed: return input::KeyboardKey::NONE; // ??
         case XK_Clear: return input::KeyboardKey::CLEAR;
         case XK_Return: return input::KeyboardKey::RETURN;
         case XK_Pause: return input::KeyboardKey::PAUSE;
         case XK_Scroll_Lock: return input::KeyboardKey::SCROLL;
-        case XK_Sys_Req: return input::KeyboardKey::NONE; // ???
+        case XK_Sys_Req: return input::KeyboardKey::NONE; // ??
         case XK_Escape: return input::KeyboardKey::ESCAPE;
         case XK_Insert: return input::KeyboardKey::INSERT;
         case XK_Delete: return input::KeyboardKey::DEL;
@@ -68,7 +68,7 @@ static input::KeyboardKey convertKeyCode(KeySym keyCode)
         case XK_KP_Begin: return input::KeyboardKey::HOME;
         case XK_KP_Insert: return input::KeyboardKey::INSERT;
         case XK_KP_Delete: return input::KeyboardKey::DEL;
-        case XK_KP_Equal: return input::KeyboardKey::NONE; // ???
+        case XK_KP_Equal: return input::KeyboardKey::EQUAL;
         case XK_KP_Multiply: return input::KeyboardKey::MULTIPLY;
         case XK_KP_Add: return input::KeyboardKey::ADD;
         case XK_KP_Separator: return input::KeyboardKey::SEPARATOR;
@@ -121,11 +121,11 @@ static input::KeyboardKey convertKeyCode(KeySym keyCode)
         case XK_parenleft: return input::KeyboardKey::NONE; //?
         case XK_parenright: return input::KeyboardKey::NONE; //?
         case XK_asterisk: return input::KeyboardKey::NONE; //?
-        case XK_plus: return input::KeyboardKey::PLUS; //?
-        case XK_comma: return input::KeyboardKey::COMMA; //?
-        case XK_minus: return input::KeyboardKey::MINUS; //?
-        case XK_period: return input::KeyboardKey::PERIOD; //?
-        case XK_slash: return input::KeyboardKey::OEM_2; //?
+        case XK_plus: return input::KeyboardKey::PLUS;
+        case XK_comma: return input::KeyboardKey::COMMA;
+        case XK_minus: return input::KeyboardKey::MINUS;
+        case XK_period: return input::KeyboardKey::PERIOD;
+        case XK_slash: return input::KeyboardKey::OEM_2;
         case XK_0: return input::KeyboardKey::KEY_0;
         case XK_1: return input::KeyboardKey::KEY_1;
         case XK_2: return input::KeyboardKey::KEY_2;

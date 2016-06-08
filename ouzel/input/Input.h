@@ -53,7 +53,8 @@ namespace ouzel
             EXECUT,         // EXECUTE key
             SNAPSHOT,       // PRINT SCREEN key
             INSERT,         // INS key
-            DEL,         // DEL key
+            DEL,            // DEL key
+            EQUAL,          // EQUAL key
             HELP,           // HELP key
             KEY_0,          // 0 key
             KEY_1,          // 1 key
@@ -141,8 +142,8 @@ namespace ouzel
             RSHIFT,         // Right SHIFT key
             LCONTROL,       // Left CONTROL key
             RCONTROL,       // Right CONTROL key
-            LMENU,          // Left MENU key
-            RMENU,          // Right MENU key
+            LMENU,          // Left MENU (alt) key
+            RMENU,          // Right MENU (alt) key
             OEM_1,          // for US    ";:"
             PLUS,           // Plus Key   "+"
             COMMA,          // Comma Key  ","
