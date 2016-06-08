@@ -465,7 +465,7 @@ namespace ouzel
 
         void InputRPI::update()
         {
-            InputRPI::update();
+            Input::update();
 
             fd_set rfds;
             struct timeval tv;
