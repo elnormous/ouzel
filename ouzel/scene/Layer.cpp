@@ -50,6 +50,8 @@ namespace ouzel
                     return a->getZ() > b->getZ();
                 });
 
+                drawQueue.reserve(globalNodes.size());
+
                 for (const NodePtr& node : globalNodes)
                 {
                     node->process(std::static_pointer_cast<Layer>(shared_from_this()));
