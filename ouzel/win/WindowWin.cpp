@@ -91,13 +91,15 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_MOUSEWHEEL)
     {
-        sharedEngine->getInput()->mouseScroll(Vector2(0.0f, -static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA)),
+        short param = static_cast<short>(HIWORD(wParam));
+        sharedEngine->getInput()->mouseScroll(Vector2(0.0f, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
                                               sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                               input::InputWin::getMouseModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
-        sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(HIWORD(wParam)) / static_cast<float>(WHEEL_DELTA), 0.0f),
+        short param = static_cast<short>(HIWORD(wParam));
+        sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0f),
                                               sharedEngine->getRenderer()->viewToScreenLocation(pos),
                                               input::InputWin::getMouseModifiers(wParam));
     }
