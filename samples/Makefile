@@ -6,7 +6,9 @@ LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host
 else
 LDFLAGS+=-lX11 -lGL
 endif
-SOURCES=Application.cpp main.cpp
+SOURCES=Application.cpp \
+	main.cpp \
+	MainMenu.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=samples
 

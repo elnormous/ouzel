@@ -41,6 +41,9 @@
 		303B769A1C355AA400FEDE92 /* run.json in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EB1C33581700FEDE92 /* run.json */; };
 		303B769B1C355AA400FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
 		303B769C1C355AA400FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
+		3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
+		3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
+		3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		304A8EAA1C27429A008B1151 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
 		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		305B99A71C42B3F6008589E1 /* font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A51C42B3F6008589E1 /* font.fnt */; };
@@ -135,6 +138,8 @@
 		303B762B1C34D22700FEDE92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		303B762C1C34D22700FEDE92 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		303B76A01C355AA400FEDE92 /* samples_tvos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_tvos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3045F0A61D0C2E4500125436 /* MainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenu.cpp; sourceTree = "<group>"; };
+		3045F0A71D0C2E4500125436 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -263,16 +268,18 @@
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
-				30B492A01CDF816F0021E170 /* ouzel.xcodeproj */,
 				304A8EA81C27429A008B1151 /* Application.cpp */,
 				304A8EA91C27429A008B1151 /* Application.h */,
+				303B74EF1C27F6B000FEDE92 /* Frameworks */,
 				303B762A1C34D21100FEDE92 /* ios */,
 				303B75181C29EB8400FEDE92 /* main.cpp */,
+				3045F0A61D0C2E4500125436 /* MainMenu.cpp */,
+				3045F0A71D0C2E4500125436 /* MainMenu.h */,
 				304A8EA41C274113008B1151 /* osx */,
-				30575A951C38C8ED0009C8A7 /* tvos */,
-				304A8EB21C2765C4008B1151 /* Resources */,
-				303B74EF1C27F6B000FEDE92 /* Frameworks */,
+				30B492A01CDF816F0021E170 /* ouzel.xcodeproj */,
 				304A8E0B1C237B95008B1151 /* Products */,
+				304A8EB21C2765C4008B1151 /* Resources */,
+				30575A951C38C8ED0009C8A7 /* tvos */,
 			);
 			sourceTree = "<group>";
 		};
@@ -545,6 +552,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				303B760E1C34CFE300FEDE92 /* Application.cpp in Sources */,
+				3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */,
 				303B760F1C34CFE300FEDE92 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,6 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				303B768D1C355AA400FEDE92 /* Application.cpp in Sources */,
+				3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */,
 				303B768E1C355AA400FEDE92 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -563,6 +572,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				304A8EAA1C27429A008B1151 /* Application.cpp in Sources */,
+				3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */,
 				303B751A1C29ED4200FEDE92 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
