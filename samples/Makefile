@@ -8,7 +8,9 @@ LDFLAGS+=-lX11 -lGL
 endif
 SOURCES=Application.cpp \
 	main.cpp \
-	MainMenu.cpp
+	GUISample.cpp \
+	MainMenu.cpp \
+	RTSample.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=samples
 
