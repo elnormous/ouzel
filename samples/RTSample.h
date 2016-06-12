@@ -6,5 +6,6 @@
 class RTSample: public ouzel::scene::Scene
 {
 public:
+    RTSample();
     virtual ~RTSample() {}
 };

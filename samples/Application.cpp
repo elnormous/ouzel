@@ -13,6 +13,8 @@ Application::~Application()
 
 void Application::begin()
 {
+    sharedEngine->getInput()->startGamepadDiscovery();
+
 #if defined(OUZEL_PLATFORM_WINDOWS) || defined(OUZEL_PLATFORM_LINUX)
     sharedEngine->getFileSystem()->addResourcePath("Resources");
 #endif

@@ -21,7 +21,6 @@ public:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event, const ouzel::VoidPtr& sender) const;
 
 private:
-    ouzel::scene::LayerPtr rtLayer;
     ouzel::scene::LayerPtr layer;
     ouzel::scene::LayerPtr uiLayer;
 
@@ -30,9 +29,6 @@ private:
     ouzel::scene::NodePtr flame;
 
     ouzel::gui::ButtonPtr button;
-    ouzel::gui::CheckBoxPtr checkBox;
 
     ouzel::EventHandlerPtr eventHandler;
-
-    ouzel::graphics::RenderTargetPtr renderTarget;
 };

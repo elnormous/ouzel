@@ -26,13 +26,6 @@ SpritesSample::SpritesSample()
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-    rtLayer = make_shared<scene::Layer>();
-    addLayer(rtLayer);
-    renderTarget = sharedEngine->getRenderer()->createRenderTarget(Size2(256.0f, 256.0f), false);
-    renderTarget->setClearColor(graphics::Color(0, 64, 0));
-    rtLayer->setCamera(make_shared<scene::Camera>());
-    rtLayer->setRenderTarget(renderTarget);
-
     layer = make_shared<scene::Layer>();
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
@@ -106,29 +99,9 @@ SpritesSample::SpritesSample()
 
     label->animate(make_shared<scene::Sequence>(sequence2));
 
-    button = gui::Button::create("button.png", "button.png", "button_down.png", "", "", graphics::Color(), "");
+    button = gui::Button::create("button.png", "button.png", "button_down.png", "", "Show/hide", graphics::Color(0, 0, 0, 255), "arial.fnt");
     button->setPosition(Vector2(-200.0f, 200.0f));
     uiLayer->addChild(button);
-
-    checkBox = gui::CheckBox::create("checkbox.png", "", "", "", "tick.png");
-    checkBox->setPosition(Vector2(-100.0f, 200.0f));
-    uiLayer->addChild(checkBox);
-
-    // Render target
-
-    scene::NodePtr rtCharacter = make_shared<scene::Node>();
-    rtCharacter->addDrawable(characterSprite);
-    rtLayer->addChild(rtCharacter);
-
-    scene::SpriteFramePtr rtFrame = scene::SpriteFrame::create(Rectangle(0.0f, 0.0f, 256.0f, 256.0f), renderTarget->getTexture(), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
-
-    scene::SpritePtr rtSprite = scene::Sprite::createFromSpriteFrames({ rtFrame });
-    scene::NodePtr rtNode = make_shared<scene::Node>();
-    rtNode->addDrawable(rtSprite);
-    rtNode->setPosition(Vector2(200.0f, 200.0f));
-    layer->addChild(rtNode);
-    
-    sharedEngine->getInput()->startGamepadDiscovery();
 }
 
 bool SpritesSample::handleKeyboard(Event::Type type, const KeyboardEvent& event, const VoidPtr& sender) const

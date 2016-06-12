@@ -6,5 +6,9 @@
 class GUISample: public ouzel::scene::Scene
 {
 public:
+    GUISample();
     virtual ~GUISample() {}
+private:
+    ouzel::gui::ButtonPtr button;
+    ouzel::gui::CheckBoxPtr checkBox;
 };
