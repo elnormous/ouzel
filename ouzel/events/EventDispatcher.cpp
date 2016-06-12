@@ -29,6 +29,8 @@ namespace ouzel
 
             mutex.unlock();
 
+            bool propagate = true;
+
             for (const EventHandlerPtr& eventHandler : eventHandlersCopy)
             {
                 if (eventHandler)
@@ -40,7 +42,7 @@ namespace ouzel
                         case Event::Type::KEY_REPEAT:
                             if (eventHandler->keyboardHandler)
                             {
-                                eventHandler->keyboardHandler(event.type, event.keyboardEvent, event.sender);
+                                propagate = eventHandler->keyboardHandler(event.type, event.keyboardEvent, event.sender);
                             }
                             break;
 
@@ -50,7 +52,7 @@ namespace ouzel
                         case Event::Type::MOUSE_MOVE:
                             if (eventHandler->mouseHandler)
                             {
-                                eventHandler->mouseHandler(event.type, event.mouseEvent, event.sender);
+                                propagate = eventHandler->mouseHandler(event.type, event.mouseEvent, event.sender);
                             }
                             break;
                         case Event::Type::TOUCH_BEGIN:
@@ -59,7 +61,7 @@ namespace ouzel
                         case Event::Type::TOUCH_CANCEL:
                             if (eventHandler->touchHandler)
                             {
-                                eventHandler->touchHandler(event.type, event.touchEvent, event.sender);
+                                propagate = eventHandler->touchHandler(event.type, event.touchEvent, event.sender);
                             }
                             break;
                         case Event::Type::GAMEPAD_CONNECT:
@@ -67,7 +69,7 @@ namespace ouzel
                         case Event::Type::GAMEPAD_BUTTON_CHANGE:
                             if (eventHandler->gamepadHandler)
                             {
-                                eventHandler->gamepadHandler(event.type, event.gamepadEvent, event.sender);
+                                propagate = eventHandler->gamepadHandler(event.type, event.gamepadEvent, event.sender);
                             }
                             break;
                         case Event::Type::WINDOW_SIZE_CHANGE:
@@ -75,14 +77,14 @@ namespace ouzel
                         case Event::Type::WINDOW_FULLSCREEN_CHANGE:
                             if (eventHandler->windowHandler)
                             {
-                                eventHandler->windowHandler(event.type, event.windowEvent, event.sender);
+                                propagate = eventHandler->windowHandler(event.type, event.windowEvent, event.sender);
                             }
                             break;
                         case Event::Type::LOW_MEMORY:
                         case Event::Type::OPEN_FILE:
                             if (eventHandler->systemHandler)
                             {
-                                eventHandler->systemHandler(event.type, event.systemEvent, event.sender);
+                                propagate = eventHandler->systemHandler(event.type, event.systemEvent, event.sender);
                             }
                             break;
                         case Event::Type::UI_ENTER_NODE:
@@ -94,10 +96,15 @@ namespace ouzel
                         case Event::Type::UI_WIDGET_CHANGE:
                             if (eventHandler->uiHandler)
                             {
-                                eventHandler->uiHandler(event.type, event.uiEvent, event.sender);
+                                propagate = eventHandler->uiHandler(event.type, event.uiEvent, event.sender);
                             }
                             break;
                     }
+                }
+
+                if (!propagate)
+                {
+                    break;
                 }
             }
         }

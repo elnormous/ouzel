@@ -14,6 +14,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/jni.cpp \
     $(LOCAL_PATH)/../../GUISample.cpp \
     $(LOCAL_PATH)/../../main.cpp \
     $(LOCAL_PATH)/../../MainMenu.cpp \
+    $(LOCAL_PATH)/../../SpritesSample.cpp \
     $(LOCAL_PATH)/../../RTSample.cpp
 
 LOCAL_STATIC_LIBRARIES := ouzel

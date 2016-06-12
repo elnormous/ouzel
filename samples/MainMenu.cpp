@@ -2,6 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include "MainMenu.h"
+#include "SpritesSample.h"
+#include "GUISample.h"
+#include "RTSample.h"
 
 using namespace std;
 using namespace ouzel;
@@ -19,9 +22,17 @@ MainMenu::MainMenu()
 
     layer->setCamera(make_shared<scene::Camera>());
 
-    button = gui::Button::create("button.png", "button.png", "button_down.png", "", "", graphics::Color(), "");
+    spritesButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Sprites", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    spritesButton->setPosition(Vector2(0.0f, 40.0f));
+    layer->addChild(spritesButton);
 
-    layer->addChild(button);
+    GUIButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "GUI", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    GUIButton->setPosition(Vector2(0.0f, 0.0f));
+    layer->addChild(GUIButton);
+
+    renderTargetButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Render target", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    renderTargetButton->setPosition(Vector2(0.0f, -40.0f));
+    layer->addChild(renderTargetButton);
 }
 
 MainMenu::~MainMenu()
@@ -33,9 +44,27 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& s
 {
     OUZEL_UNUSED(event);
 
-    if (type == Event::Type::UI_CLICK_NODE && sender == button)
+    if (type == Event::Type::UI_CLICK_NODE)
     {
-        // change scene
+        scene::ScenePtr newScene;
+
+        if (sender == spritesButton)
+        {
+            newScene = make_shared<SpritesSample>();
+        }
+        else if (sender == GUIButton)
+        {
+            newScene = make_shared<GUISample>();
+        }
+        else if (sender == renderTargetButton)
+        {
+            newScene = make_shared<RTSample>();
+        }
+
+        if (newScene)
+        {
+            sharedEngine->getSceneManager()->setScene(newScene);
+        }
     }
 
     return true;

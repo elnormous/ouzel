@@ -10,6 +10,7 @@ SOURCES=Application.cpp \
 	main.cpp \
 	GUISample.cpp \
 	MainMenu.cpp \
+	SpritesSample.cpp \
 	RTSample.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=samples
