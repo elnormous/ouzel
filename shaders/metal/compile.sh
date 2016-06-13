@@ -1,25 +1,25 @@
 XCODE=`xcode-select --print-path`
 
-OSX_PLATFORM="$XCODE/Platforms/MacOSX.platform"
+MACOS_PLATFORM="$XCODE/Platforms/MacOSX.platform"
 IOS_PLATFORM="$XCODE/Platforms/iPhoneOS.platform"
 TVOS_PLATFORM="$XCODE/Platforms/AppleTVOS.platform"
 
-# OSX
-$OSX_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o ColorPSOSX.air -std=osx-metal1.1 ColorPS.metal
-$OSX_PLATFORM/usr/bin/metal-ar r ColorPSOSX.metalar ColorPSOSX.air
-$OSX_PLATFORM/usr/bin/metallib -o ColorPSOSX.metallib ColorPSOSX.metalar
+# macOS
+$MACOS_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o ColorPSMacOS.air -std=osx-metal1.1 ColorPS.metal
+$MACOS_PLATFORM/usr/bin/metal-ar r ColorPSMacOS.metalar ColorPSMacOS.air
+$MACOS_PLATFORM/usr/bin/metallib -o ColorPSMacOS.metallib ColorPSMacOS.metalar
 
-$OSX_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o ColorVSOSX.air -std=osx-metal1.1 ColorVS.metal
-$OSX_PLATFORM/usr/bin/metal-ar r ColorVSOSX.metalar ColorVSOSX.air
-$OSX_PLATFORM/usr/bin/metallib -o ColorVSOSX.metallib ColorVSOSX.metalar
+$MACOS_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o ColorVSMacOS.air -std=osx-metal1.1 ColorVS.metal
+$MACOS_PLATFORM/usr/bin/metal-ar r ColorVSMacOS.metalar ColorVSMacOS.air
+$MACOS_PLATFORM/usr/bin/metallib -o ColorVSMacOS.metallib ColorVSMacOS.metalar
 
-$OSX_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o TexturePSOSX.air -std=osx-metal1.1 TexturePS.metal
-$OSX_PLATFORM/usr/bin/metal-ar r TexturePSOSX.metalar TexturePSOSX.air
-$OSX_PLATFORM/usr/bin/metallib -o TexturePSOSX.metallib TexturePSOSX.metalar
+$MACOS_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o TexturePSMacOS.air -std=osx-metal1.1 TexturePS.metal
+$MACOS_PLATFORM/usr/bin/metal-ar r TexturePSMacOS.metalar TexturePSMacOS.air
+$MACOS_PLATFORM/usr/bin/metallib -o TexturePSMacOS.metallib TexturePSMacOS.metalar
 
-$OSX_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o TextureVSOSX.air -std=osx-metal1.1 TextureVS.metal
-$OSX_PLATFORM/usr/bin/metal-ar r TextureVSOSX.metalar TextureVSOSX.air
-$OSX_PLATFORM/usr/bin/metallib -o TextureVSOSX.metallib TextureVSOSX.metalar
+$MACOS_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o TextureVSMacOS.air -std=osx-metal1.1 TextureVS.metal
+$MACOS_PLATFORM/usr/bin/metal-ar r TextureVSMacOS.metalar TextureVSMacOS.air
+$MACOS_PLATFORM/usr/bin/metallib -o TextureVSMacOS.metallib TextureVSMacOS.metalar
 
 # iOS
 
@@ -57,10 +57,10 @@ $TVOS_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o TextureVSTVOS.air -std=i
 $TVOS_PLATFORM/usr/bin/metal-ar r TextureVSTVOS.metalar TextureVSTVOS.air
 $TVOS_PLATFORM/usr/bin/metallib -o TextureVSTVOS.metallib TextureVSTVOS.metalar
 
-xxd -i ColorPSOSX.metallib ../../ouzel/metal/ColorPSOSX.h
-xxd -i ColorVSOSX.metallib ../../ouzel/metal/ColorVSOSX.h
-xxd -i TexturePSOSX.metallib ../../ouzel/metal/TexturePSOSX.h
-xxd -i TextureVSOSX.metallib ../../ouzel/metal/TextureVSOSX.h
+xxd -i ColorPSMacOS.metallib ../../ouzel/metal/ColorPSMacOS.h
+xxd -i ColorVSMacOS.metallib ../../ouzel/metal/ColorVSMacOS.h
+xxd -i TexturePSMacOS.metallib ../../ouzel/metal/TexturePSMacOS.h
+xxd -i TextureVSMacOS.metallib ../../ouzel/metal/TextureVSMacOS.h
 
 xxd -i ColorPSIOS.metallib ../../ouzel/metal/ColorPSIOS.h
 xxd -i ColorVSIOS.metallib ../../ouzel/metal/ColorVSIOS.h

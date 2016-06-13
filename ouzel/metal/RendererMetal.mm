@@ -10,14 +10,14 @@
 #include "BlendStateMetal.h"
 #if defined(OUZEL_PLATFORM_MACOS)
     #include "macos/WindowMacOS.h"
-    #include "ColorPSOSX.h"
-    #include "ColorVSOSX.h"
-    #include "TexturePSOSX.h"
-    #include "TextureVSOSX.h"
-    #define COLOR_PIXEL_SHADER_METAL ColorPSOSX_metallib
-    #define COLOR_VERTEX_SHADER_METAL ColorVSOSX_metallib
-    #define TEXTURE_PIXEL_SHADER_METAL TexturePSOSX_metallib
-    #define TEXTURE_VERTEX_SHADER_METAL TextureVSOSX_metallib
+    #include "ColorPSMacOS.h"
+    #include "ColorVSMacOS.h"
+    #include "TexturePSMacOS.h"
+    #include "TextureVSMacOS.h"
+    #define COLOR_PIXEL_SHADER_METAL ColorPSMacOS_metallib
+    #define COLOR_VERTEX_SHADER_METAL ColorVSMacOS_metallib
+    #define TEXTURE_PIXEL_SHADER_METAL TexturePSMacOS_metallib
+    #define TEXTURE_VERTEX_SHADER_METAL TextureVSMacOS_metallib
 #elif defined(OUZEL_PLATFORM_TVOS)
     #include "tvos/WindowTVOS.h"
     #include "ColorPSTVOS.h"
