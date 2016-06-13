@@ -47,18 +47,17 @@ AnimationsSample::AnimationsSample(Application& app):
 
     witch->animate(make_shared<scene::Sequence>(sequence));
 
-    sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
-    sharedEngine->getLocalization()->setLanguage("latvian");
-
-    gui::LabelPtr label = gui::Label::create("font.fnt", sharedEngine->getLocalization()->getString("Test"));
-    layer->addChild(label);
+    scene::NodePtr ball = make_shared<scene::Node>();
+    scene::SpritePtr ballSprite = scene::Sprite::createFromFile("ball.png");
+    ball->addDrawable(ballSprite);
+    layer->addChild(ball);
 
     vector<scene::AnimatorPtr> sequence2 = {
         make_shared<scene::Animator>(1.0f), // delay
         make_shared<scene::Ease>(make_shared<scene::Move>(2.0f, Vector2(0.0f, -240.0f), false), scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE)
     };
 
-    label->animate(make_shared<scene::Sequence>(sequence2));
+    ball->animate(make_shared<scene::Sequence>(sequence2));
 
     scene::LayerPtr guiLayer = make_shared<scene::Layer>();
     guiLayer->setCamera(make_shared<scene::Camera>());

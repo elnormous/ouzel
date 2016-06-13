@@ -65,6 +65,9 @@
 		3045F0CF1D0F24F600125436 /* InputSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0CD1D0F24F600125436 /* InputSample.cpp */; };
 		3045F0D01D0F24F600125436 /* InputSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0CD1D0F24F600125436 /* InputSample.cpp */; };
 		3045F0D11D0F24F600125436 /* InputSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0CD1D0F24F600125436 /* InputSample.cpp */; };
+		3045F0DB1D0F575F00125436 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 3045F0DA1D0F575F00125436 /* ball.png */; };
+		3045F0DC1D0F575F00125436 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 3045F0DA1D0F575F00125436 /* ball.png */; };
+		3045F0DD1D0F575F00125436 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 3045F0DA1D0F575F00125436 /* ball.png */; };
 		304A8EAA1C27429A008B1151 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
 		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		305B99A71C42B3F6008589E1 /* font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A51C42B3F6008589E1 /* font.fnt */; };
@@ -173,6 +176,7 @@
 		3045F0C91D0F24B800125436 /* AnimationsSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationsSample.h; sourceTree = "<group>"; };
 		3045F0CD1D0F24F600125436 /* InputSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputSample.cpp; sourceTree = "<group>"; };
 		3045F0CE1D0F24F600125436 /* InputSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputSample.h; sourceTree = "<group>"; };
+		3045F0DA1D0F575F00125436 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -351,11 +355,11 @@
 			children = (
 				3045F0B81D0E0D6800125436 /* arial.fnt */,
 				3045F0B91D0E0D6800125436 /* arial.png */,
-				30C56C851CAB4E4E007AEF8F /* dot.png */,
-				30C56C861CAB4E4E007AEF8F /* tick.png */,
+				3045F0DA1D0F575F00125436 /* ball.png */,
 				305B99B11C433061008589E1 /* button_down.png */,
 				305B99B21C433061008589E1 /* button.png */,
 				30C56C701CAB48A4007AEF8F /* checkbox.png */,
+				30C56C851CAB4E4E007AEF8F /* dot.png */,
 				30C56C711CAB48A4007AEF8F /* edit_box.png */,
 				303B75F51C33756100FEDE92 /* fire.json */,
 				303B75F61C33756100FEDE92 /* fire.png */,
@@ -367,6 +371,7 @@
 				30C56C731CAB48A4007AEF8F /* radio_button.png */,
 				303B75EB1C33581700FEDE92 /* run.json */,
 				303B75EC1C33581700FEDE92 /* run.png */,
+				30C56C861CAB4E4E007AEF8F /* tick.png */,
 				303B75081C286F8D00FEDE92 /* witch.png */,
 			);
 			path = Resources;
@@ -538,6 +543,7 @@
 				3045F0BB1D0E0D6800125436 /* arial.fnt in Resources */,
 				30C56C7B1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
+				3045F0DC1D0F575F00125436 /* ball.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +571,7 @@
 				3045F0BC1D0E0D6800125436 /* arial.fnt in Resources */,
 				30C56C7C1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
+				3045F0DD1D0F575F00125436 /* ball.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,6 +599,7 @@
 				3045F0BA1D0E0D6800125436 /* arial.fnt in Resources */,
 				30C56C7A1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B75F81C33756100FEDE92 /* fire.png in Resources */,
+				3045F0DB1D0F575F00125436 /* ball.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

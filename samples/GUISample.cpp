@@ -30,6 +30,12 @@ GUISample::GUISample(Application& app):
     label->setPosition(Vector2(-70.0f, 100.0f));
     layer->addChild(label);
 
+    sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
+    sharedEngine->getLocalization()->setLanguage("latvian");
+
+    gui::LabelPtr label2 = gui::Label::create("font.fnt", sharedEngine->getLocalization()->getString("Test"));
+    layer->addChild(label2);
+
     scene::LayerPtr guiLayer = make_shared<scene::Layer>();
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
