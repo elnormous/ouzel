@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "WindowOSX.h"
+#include "WindowMacOS.h"
 #include "OpenGLView.h"
 #include "MetalView.h"
 #include "Engine.h"
@@ -9,7 +9,7 @@
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
 {
-    ouzel::WindowOSX* window;
+    ouzel::WindowMacOS* window;
 }
 
 @end
@@ -32,7 +32,7 @@
     }
 }
 
--(id)initWithWindow:(ouzel::WindowOSX*)newWindow
+-(id)initWithWindow:(ouzel::WindowMacOS*)newWindow
 {
     if (self = [super init])
     {
@@ -76,18 +76,18 @@
 
 namespace ouzel
 {
-    WindowOSX::WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
+    WindowMacOS::WindowMacOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
         Window(size, resizable, fullscreen, title)
     {
 
     }
 
-    WindowOSX::~WindowOSX()
+    WindowMacOS::~WindowMacOS()
     {
         close();
     }
 
-    bool WindowOSX::init()
+    bool WindowMacOS::init()
     {
         NSScreen* screen = [NSScreen mainScreen];
         NSRect screenFrame = screen.frame;
@@ -159,7 +159,7 @@ namespace ouzel
         return Window::init();
     }
 
-    void WindowOSX::close()
+    void WindowMacOS::close()
     {
         if (view)
         {
@@ -182,7 +182,7 @@ namespace ouzel
         }
     }
 
-    void WindowOSX::setSize(const Size2& newSize)
+    void WindowMacOS::setSize(const Size2& newSize)
     {
         NSRect frame = [window frame];
 
@@ -208,7 +208,7 @@ namespace ouzel
         Window::setSize(newSize);
     }
 
-    void WindowOSX::setFullscreen(bool newFullscreen)
+    void WindowMacOS::setFullscreen(bool newFullscreen)
     {
         if (fullscreen != newFullscreen)
         {
@@ -227,7 +227,7 @@ namespace ouzel
         Window::setFullscreen(newFullscreen);
     }
 
-    void WindowOSX::setTitle(const std::string& newTitle)
+    void WindowMacOS::setTitle(const std::string& newTitle)
     {
         if (title != newTitle)
         {
@@ -248,7 +248,7 @@ namespace ouzel
         Window::setTitle(newTitle);
     }
 
-    void WindowOSX::handleResize()
+    void WindowMacOS::handleResize()
     {
         NSRect frame = [NSWindow contentRectForFrameRect:[window frame]
                                                styleMask:[window styleMask]];
@@ -257,17 +257,17 @@ namespace ouzel
                               static_cast<float>(frame.size.height)));
     }
 
-    void WindowOSX::handleDisplayChange()
+    void WindowMacOS::handleDisplayChange()
     {
         [view changeDisplay];
     }
 
-    void WindowOSX::handleClose()
+    void WindowMacOS::handleClose()
     {
         close();
     }
 
-    void WindowOSX::handleFullscreenChange(bool fullscreen)
+    void WindowMacOS::handleFullscreenChange(bool fullscreen)
     {
         Window::setFullscreen(fullscreen);
     }

@@ -8,8 +8,8 @@
 #include "ShaderMetal.h"
 #include "MeshBufferMetal.h"
 #include "BlendStateMetal.h"
-#if defined(OUZEL_PLATFORM_OSX)
-    #include "osx/WindowOSX.h"
+#if defined(OUZEL_PLATFORM_MACOS)
+    #include "macos/WindowMacOS.h"
     #include "ColorPSOSX.h"
     #include "ColorVSOSX.h"
     #include "TexturePSOSX.h"
@@ -185,8 +185,8 @@ namespace ouzel
                 log("Failed to create Metal device");
                 return false;
             }
-#if defined(OUZEL_PLATFORM_OSX)
-            view = std::static_pointer_cast<WindowOSX>(window)->getNativeView();
+#if defined(OUZEL_PLATFORM_MACOS)
+            view = std::static_pointer_cast<WindowMacOS>(window)->getNativeView();
 #elif defined(OUZEL_PLATFORM_TVOS)
             view = std::static_pointer_cast<WindowTVOS>(window)->getNativeView();
 #elif defined(OUZEL_PLATFORM_IOS)

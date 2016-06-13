@@ -38,7 +38,7 @@ namespace ouzel
 
         va_end(list);
 
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBIAN)
+#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBIAN)
         printf("%s\n", TEMP_BUFFER);
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         syslog(LOG_WARNING, "%s", TEMP_BUFFER);

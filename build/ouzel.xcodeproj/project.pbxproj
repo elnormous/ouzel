@@ -13,8 +13,8 @@
 		3009341F1C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
 		300934201C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
 		300934211C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
-		300934261C88950200CC50D3 /* WindowOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300934221C8894D800CC50D3 /* WindowOSX.mm */; };
-		300934271C88950500CC50D3 /* WindowOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 300934231C8894D800CC50D3 /* WindowOSX.h */; };
+		300934261C88950200CC50D3 /* WindowMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300934221C8894D800CC50D3 /* WindowMacOS.mm */; };
+		300934271C88950500CC50D3 /* WindowMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 300934231C8894D800CC50D3 /* WindowMacOS.h */; };
 		3009342A1C88964700CC50D3 /* WindowIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 300934281C88964700CC50D3 /* WindowIOS.mm */; };
 		3009342B1C88964700CC50D3 /* WindowIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 300934291C88964700CC50D3 /* WindowIOS.h */; };
 		3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009342C1C88978D00CC50D3 /* WindowTVOS.mm */; };
@@ -499,8 +499,8 @@
 		30A5BF181CFED86000A977CA /* RendererOGLIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF161CFED86000A977CA /* RendererOGLIOS.h */; };
 		30A5BF1B1CFED87C00A977CA /* RendererOGLTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF191CFED87C00A977CA /* RendererOGLTVOS.mm */; };
 		30A5BF1C1CFED87C00A977CA /* RendererOGLTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF1A1CFED87C00A977CA /* RendererOGLTVOS.h */; };
-		30A5BF1F1CFED89200A977CA /* RendererOGLOSX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF1D1CFED89200A977CA /* RendererOGLOSX.cpp */; };
-		30A5BF201CFED89200A977CA /* RendererOGLOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF1E1CFED89200A977CA /* RendererOGLOSX.h */; };
+		30A5BF1F1CFED89200A977CA /* RendererOGLMacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF1D1CFED89200A977CA /* RendererOGLMacOS.cpp */; };
+		30A5BF201CFED89200A977CA /* RendererOGLMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF1E1CFED89200A977CA /* RendererOGLMacOS.h */; };
 		30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
 		30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
 		30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
@@ -613,8 +613,8 @@
 /* Begin PBXFileReference section */
 		3009341A1C88698500CC50D3 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		3009341B1C88698500CC50D3 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
-		300934221C8894D800CC50D3 /* WindowOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowOSX.mm; sourceTree = "<group>"; };
-		300934231C8894D800CC50D3 /* WindowOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowOSX.h; sourceTree = "<group>"; };
+		300934221C8894D800CC50D3 /* WindowMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowMacOS.mm; sourceTree = "<group>"; };
+		300934231C8894D800CC50D3 /* WindowMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowMacOS.h; sourceTree = "<group>"; };
 		300934281C88964700CC50D3 /* WindowIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowIOS.mm; sourceTree = "<group>"; };
 		300934291C88964700CC50D3 /* WindowIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowIOS.h; sourceTree = "<group>"; };
 		3009342C1C88978D00CC50D3 /* WindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowTVOS.mm; sourceTree = "<group>"; };
@@ -798,8 +798,8 @@
 		30A5BF161CFED86000A977CA /* RendererOGLIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLIOS.h; sourceTree = "<group>"; };
 		30A5BF191CFED87C00A977CA /* RendererOGLTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererOGLTVOS.mm; sourceTree = "<group>"; };
 		30A5BF1A1CFED87C00A977CA /* RendererOGLTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLTVOS.h; sourceTree = "<group>"; };
-		30A5BF1D1CFED89200A977CA /* RendererOGLOSX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RendererOGLOSX.cpp; sourceTree = "<group>"; };
-		30A5BF1E1CFED89200A977CA /* RendererOGLOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLOSX.h; sourceTree = "<group>"; };
+		30A5BF1D1CFED89200A977CA /* RendererOGLMacOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RendererOGLMacOS.cpp; sourceTree = "<group>"; };
+		30A5BF1E1CFED89200A977CA /* RendererOGLMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLMacOS.h; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
 		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
 		30A9C1381CAEBA540084C4BF /* Language.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Language.cpp; sourceTree = "<group>"; };
@@ -1024,7 +1024,7 @@
 			name = opengl;
 			sourceTree = "<group>";
 		};
-		303B751B1C29EDD900FEDE92 /* osx */ = {
+		303B751B1C29EDD900FEDE92 /* macos */ = {
 			isa = PBXGroup;
 			children = (
 				303B751E1C29EFEC00FEDE92 /* AppDelegate.h */,
@@ -1034,12 +1034,12 @@
 				30AFE12E1CB5D5FE00478AA2 /* MetalView.mm */,
 				304A8E391C237C70008B1151 /* OpenGLView.h */,
 				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
-				300934231C8894D800CC50D3 /* WindowOSX.h */,
-				300934221C8894D800CC50D3 /* WindowOSX.mm */,
-				30A5BF1D1CFED89200A977CA /* RendererOGLOSX.cpp */,
-				30A5BF1E1CFED89200A977CA /* RendererOGLOSX.h */,
+				300934231C8894D800CC50D3 /* WindowMacOS.h */,
+				300934221C8894D800CC50D3 /* WindowMacOS.mm */,
+				30A5BF1D1CFED89200A977CA /* RendererOGLMacOS.cpp */,
+				30A5BF1E1CFED89200A977CA /* RendererOGLMacOS.h */,
 			);
-			path = osx;
+			path = macos;
 			sourceTree = "<group>";
 		};
 		303B756F1C2A3D0300FEDE92 /* ios */ = {
@@ -1150,7 +1150,7 @@
 				303B750F1C2882CA00FEDE92 /* math */,
 				30547E351CB3D6570055EE79 /* metal */,
 				303B75131C288CCE00FEDE92 /* opengl */,
-				303B751B1C29EDD900FEDE92 /* osx */,
+				303B751B1C29EDD900FEDE92 /* macos */,
 				304A8E2A1C237C70008B1151 /* ouzel.h */,
 				303B750D1C28828600FEDE92 /* scene */,
 				303B76311C355A3400FEDE92 /* tvos */,
@@ -1553,7 +1553,7 @@
 				30EF36561CA76AE200F04F29 /* ScrollBar.h in Headers */,
 				304A8E9F1C27081B008B1151 /* Color.h in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.h in Headers */,
-				30A5BF201CFED89200A977CA /* RendererOGLOSX.h in Headers */,
+				30A5BF201CFED89200A977CA /* RendererOGLMacOS.h in Headers */,
 				30324E1F1CB28A4400601A64 /* BlendStateOGL.h in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.h in Headers */,
 				304A8E5F1C237C70008B1151 /* OpenGLView.h in Headers */,
@@ -1576,7 +1576,7 @@
 				30D0FB5B1CC2C99600477DB0 /* TexturePSTVOS.h in Headers */,
 				304B27A11C9A063300BA162D /* ColorPSOGL2.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
-				300934271C88950500CC50D3 /* WindowOSX.h in Headers */,
+				300934271C88950500CC50D3 /* WindowMacOS.h in Headers */,
 				305B998C1C41EFFA008589E1 /* Menu.h in Headers */,
 				304B27A41C9A063300BA162D /* ColorPSOGLES2.h in Headers */,
 				30D0FB551CC2C99600477DB0 /* TexturePSIOS.h in Headers */,
@@ -1930,7 +1930,7 @@
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
-				30A5BF1F1CFED89200A977CA /* RendererOGLOSX.cpp in Sources */,
+				30A5BF1F1CFED89200A977CA /* RendererOGLMacOS.cpp in Sources */,
 				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
 				301EB3A21CCD691800466E92 /* Drawable.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
@@ -1952,7 +1952,7 @@
 				3036471C1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				30EF364B1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
 				304A8E6C1C237C70008B1151 /* Texture.cpp in Sources */,
-				300934261C88950200CC50D3 /* WindowOSX.mm in Sources */,
+				300934261C88950200CC50D3 /* WindowMacOS.mm in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
 				3047F76F1C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				3047F7561C4C4FBA00774E3D /* Scale.cpp in Sources */,

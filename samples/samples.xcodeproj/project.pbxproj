@@ -314,7 +314,7 @@
 				303B75181C29EB8400FEDE92 /* main.cpp */,
 				3045F0A61D0C2E4500125436 /* MainMenu.cpp */,
 				3045F0A71D0C2E4500125436 /* MainMenu.h */,
-				304A8EA41C274113008B1151 /* osx */,
+				304A8EA41C274113008B1151 /* macos */,
 				30B492A01CDF816F0021E170 /* ouzel.xcodeproj */,
 				304A8E0B1C237B95008B1151 /* Products */,
 				304A8EB21C2765C4008B1151 /* Resources */,
@@ -336,14 +336,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		304A8EA41C274113008B1151 /* osx */ = {
+		304A8EA41C274113008B1151 /* macos */ = {
 			isa = PBXGroup;
 			children = (
 				304A8E161C237B96008B1151 /* Assets.xcassets */,
 				304A8E1B1C237B96008B1151 /* Info.plist */,
 				304A8EAB1C2742D9008B1151 /* Prefix.pch */,
 			);
-			path = osx;
+			path = macos;
 			sourceTree = "<group>";
 		};
 		304A8EB21C2765C4008B1151 /* Resources */ = {
@@ -837,8 +837,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = osx/Prefix.pch;
-				INFOPLIST_FILE = osx/Info.plist;
+				GCC_PREFIX_HEADER = macos/Prefix.pch;
+				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
 				PRODUCT_NAME = samples_osx;
@@ -851,8 +851,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = osx/Prefix.pch;
-				INFOPLIST_FILE = osx/Info.plist;
+				GCC_PREFIX_HEADER = macos/Prefix.pch;
+				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
 				PRODUCT_NAME = samples_osx;

@@ -20,7 +20,7 @@
         #define OUZEL_SUPPORTS_OPENGLES3 1
         #define OUZEL_SUPPORTS_METAL 1
     #elif TARGET_OS_MAC
-        #define OUZEL_PLATFORM_OSX 1
+        #define OUZEL_PLATFORM_MACOS 1
         #define OUZEL_SUPPORTS_OPENGL 1
         #define OUZEL_SUPPORTS_OPENGL3 1
         #define OUZEL_SUPPORTS_METAL 1

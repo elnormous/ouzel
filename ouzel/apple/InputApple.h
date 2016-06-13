@@ -41,7 +41,7 @@ namespace ouzel
             void handleGamepadConnected(id controller);
             void handleGamepadDisconnected(id controller);
 
-#ifdef OUZEL_PLATFORM_OSX
+#ifdef OUZEL_PLATFORM_MACOS
             static KeyboardKey convertKeyCode(unsigned short keyCode);
             static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
 #endif

@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sys/stat.h>
 #include "core/CompileConfig.h"
-#if defined(OUZEL_PLATFORM_OSX)
+#if defined(OUZEL_PLATFORM_MACOS)
     #include <sys/types.h>
     #include <pwd.h>
     #include <CoreServices/CoreServices.h>
@@ -19,7 +19,7 @@
 #include "FileSystem.h"
 #include "utils/Utils.h"
 
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 
@@ -47,7 +47,7 @@ namespace ouzel
 
     std::string FileSystem::getHomeDirectory()
     {
-#if defined(OUZEL_PLATFORM_OSX)
+#if defined(OUZEL_PLATFORM_MACOS)
         struct passwd* pw = getpwuid(getuid());
         if (pw)
         {
@@ -70,7 +70,7 @@ namespace ouzel
     {
         std::string path;
 
-#if defined(OUZEL_PLATFORM_OSX)
+#if defined(OUZEL_PLATFORM_MACOS)
         OUZEL_UNUSED(developer);
         OUZEL_UNUSED(app);
 
@@ -203,7 +203,7 @@ namespace ouzel
     {
         std::string appPath;
 
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         CFURLRef resourcesUrlRef = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
         CFURLRef absoluteURL = CFURLCopyAbsoluteURL(resourcesUrlRef);
 

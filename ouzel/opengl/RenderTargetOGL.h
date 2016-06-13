@@ -8,7 +8,7 @@
 #include "math/Size2.h"
 #include "math/Rectangle.h"
 
-#if defined(OUZEL_PLATFORM_OSX)
+#if defined(OUZEL_PLATFORM_MACOS)
     #include <OpenGL/gl3.h>
 #elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
     #include <OpenGLES/ES2/gl.h>

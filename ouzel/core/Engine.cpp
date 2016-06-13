@@ -8,9 +8,9 @@
 #include "Cache.h"
 #include "localization/Localization.h"
 
-#if defined(OUZEL_PLATFORM_OSX)
-#include "osx/WindowOSX.h"
-#include "osx/RendererOGLOSX.h"
+#if defined(OUZEL_PLATFORM_MACOS)
+#include "macos/WindowMacOS.h"
+#include "macos/RendererOGLMacOS.h"
 #elif defined(OUZEL_PLATFORM_IOS)
 #include "ios/WindowIOS.h"
 #include "ios/RendererOGLIOS.h"
@@ -46,7 +46,7 @@
 #include "graphics/Renderer.h"
 #include "files/FileSystem.h"
 
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
 #include "apple/InputApple.h"
 #elif defined(OUZEL_PLATFORM_WINDOWS)
 #include "win/InputWin.h"
@@ -132,8 +132,8 @@ namespace ouzel
             }
         }
 
-#if defined(OUZEL_PLATFORM_OSX)
-        window.reset(new WindowOSX(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#if defined(OUZEL_PLATFORM_MACOS)
+        window.reset(new WindowMacOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif defined(OUZEL_PLATFORM_IOS)
         window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif defined(OUZEL_PLATFORM_TVOS)
@@ -153,7 +153,7 @@ namespace ouzel
         fileSystem.reset(new FileSystem());
         sceneManager.reset(new scene::SceneManager());
 
-#if defined(OUZEL_PLATFORM_OSX) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
         input.reset(new input::InputApple());
 #elif defined(OUZEL_PLATFORM_WINDOWS)
         input.reset(new input::InputWin());
@@ -170,8 +170,8 @@ namespace ouzel
 #if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
             case graphics::Renderer::Driver::OPENGL:
                 log("Using OpenGL render driver");
-    #if defined(OUZEL_PLATFORM_OSX)
-                renderer.reset(new graphics::RendererOGLOSX());
+    #if defined(OUZEL_PLATFORM_MACOS)
+                renderer.reset(new graphics::RendererOGLMacOS());
     #elif defined(OUZEL_PLATFORM_IOS)
                 renderer.reset(new graphics::RendererOGLIOS());
     #elif defined(OUZEL_PLATFORM_TVOS)

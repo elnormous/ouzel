@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "CompileConfig.h"
-#if defined(OUZEL_PLATFORM_OSX)
+#if defined(OUZEL_PLATFORM_MACOS)
 #import <AppKit/AppKit.h>
 #elif defined(OUZEL_PLATFORM_IOS)
 #include "WindowIOS.h"
@@ -45,7 +45,7 @@ namespace ouzel
 {
     namespace input
     {
-#ifdef OUZEL_PLATFORM_OSX
+#ifdef OUZEL_PLATFORM_MACOS
         // defines from Carbon
         enum {
             kVK_ANSI_A                    = 0x00,
@@ -321,7 +321,7 @@ namespace ouzel
 
             return modifiers;
         }
-#endif // OUZEL_PLATFORM_OSX
+#endif // OUZEL_PLATFORM_MACOS
 
         InputApple::InputApple()
         {
@@ -354,7 +354,7 @@ namespace ouzel
 
         void InputApple::setCursorVisible(bool visible)
         {
-#if defined(OUZEL_PLATFORM_OSX)
+#if defined(OUZEL_PLATFORM_MACOS)
             if (visible)
             {
                 [NSCursor unhide];
@@ -370,7 +370,7 @@ namespace ouzel
 
         bool InputApple::isCursorVisible() const
         {
-#if defined(OUZEL_PLATFORM_OSX)
+#if defined(OUZEL_PLATFORM_MACOS)
             return CGCursorIsVisible();
 #else
             return false;

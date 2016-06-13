@@ -1,13 +1,13 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "RendererOGLOSX.h"
+#include "RendererOGLMacOS.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        bool RendererOGLOSX::init(const WindowPtr& window,
+        bool RendererOGLMacOS::init(const WindowPtr& window,
                                   uint32_t newSampleCount,
                                   TextureFiltering newTextureFiltering,
                                   float newTargetFPS,

@@ -11,11 +11,11 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererOGLOSX: public RendererOGL
+        class RendererOGLMacOS: public RendererOGL
         {
             friend Engine;
         public:
-            virtual ~RendererOGLOSX() {}
+            virtual ~RendererOGLMacOS() {}
 
         private:
             virtual bool init(const WindowPtr& window,

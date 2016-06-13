@@ -21,11 +21,11 @@ namespace ouzel
 {
     class Engine;
 
-    class WindowOSX: public Window
+    class WindowMacOS: public Window
     {
         friend Engine;
     public:
-        virtual ~WindowOSX();
+        virtual ~WindowMacOS();
 
         virtual void close() override;
 
@@ -42,7 +42,7 @@ namespace ouzel
         NSViewPtr getNativeView() const { return view; }
 
     protected:
-        WindowOSX(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
+        WindowMacOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title);
         virtual bool init() override;
 
         NSWindowPtr window = Nil;
