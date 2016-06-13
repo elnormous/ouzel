@@ -9,8 +9,9 @@ public:
     virtual ~Application();
 
     void begin();
+    void back();
 
-    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event, const ouzel::VoidPtr& sender) const;
+    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event, const ouzel::VoidPtr& sender);
 
 private:
     ouzel::EventHandlerPtr eventHandler;

@@ -11,7 +11,8 @@
 using namespace std;
 using namespace ouzel;
 
-MainMenu::MainMenu()
+MainMenu::MainMenu(Application& app):
+    application(app)
 {
     eventHandler = make_shared<EventHandler>();
 
@@ -50,7 +51,7 @@ MainMenu::~MainMenu()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool MainMenu::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender) const
+bool MainMenu::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender)
 {
     OUZEL_UNUSED(event);
 
@@ -60,23 +61,23 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& s
 
         if (sender == spritesButton)
         {
-            newScene = make_shared<SpritesSample>();
+            newScene = make_shared<SpritesSample>(application);
         }
         else if (sender == GUIButton)
         {
-            newScene = make_shared<GUISample>();
+            newScene = make_shared<GUISample>(application);
         }
         else if (sender == renderTargetButton)
         {
-            newScene = make_shared<RTSample>();
+            newScene = make_shared<RTSample>(application);
         }
         else if (sender == animationsButton)
         {
-            newScene = make_shared<AnimationsSample>();
+            newScene = make_shared<AnimationsSample>(application);
         }
         else if (sender == inputButton)
         {
-            newScene = make_shared<InputSample>();
+            newScene = make_shared<InputSample>(application);
         }
 
         if (newScene)

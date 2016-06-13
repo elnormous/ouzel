@@ -6,7 +6,8 @@
 using namespace std;
 using namespace ouzel;
 
-InputSample::InputSample()
+InputSample::InputSample(Application& app):
+    application(app)
 {
     eventHandler = make_shared<EventHandler>();
 
@@ -34,6 +35,14 @@ InputSample::InputSample()
     flame->addDrawable(flameParticleSystem);
     flame->setPickable(false);
     layer->addChild(flame);
+
+    scene::LayerPtr guiLayer = make_shared<scene::Layer>();
+    guiLayer->setCamera(make_shared<scene::Camera>());
+    addLayer(guiLayer);
+
+    backButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton->setPosition(Vector2(-200.0f, -200.0f));
+    guiLayer->addChild(backButton);
 }
 
 InputSample::~InputSample()
@@ -154,9 +163,16 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event, const VoidPtr
 {
     OUZEL_UNUSED(event);
 
-    if (type == Event::Type::UI_CLICK_NODE && sender == button)
+    if (type == Event::Type::UI_CLICK_NODE)
     {
-        sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
+        if (sender == backButton)
+        {
+            application.back();
+        }
+        else if (sender == button)
+        {
+            sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
+        }
     }
     
     return true;

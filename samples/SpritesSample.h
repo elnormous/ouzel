@@ -1,32 +1,24 @@
-//
-//  SpritesSample.h
-//  samples
-//
-//  Created by Elviss Strazdins on 13/06/16.
-//  Copyright (c) 2016 Bool Games. All rights reserved.
-//
+// Copyright (C) 2016 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #pragma once
+
+#include "Application.h"
 
 class SpritesSample: public ouzel::scene::Scene
 {
 public:
-    SpritesSample();
+    SpritesSample(Application& app);
     virtual ~SpritesSample();
 
-    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event, const ouzel::VoidPtr& sender) const;
-    bool handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event, const ouzel::VoidPtr& sender) const;
-    bool handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event, const ouzel::VoidPtr& sender) const;
-    bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event, const ouzel::VoidPtr& sender) const;
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event, const ouzel::VoidPtr& sender) const;
 
 private:
-    ouzel::scene::LayerPtr layer;
-    ouzel::scene::LayerPtr uiLayer;
+    Application& application;
+    ouzel::gui::ButtonPtr backButton;
+    ouzel::EventHandlerPtr eventHandler;
 
     ouzel::scene::NodePtr character;
-
     ouzel::gui::ButtonPtr button;
 
-    ouzel::EventHandlerPtr eventHandler;
 };

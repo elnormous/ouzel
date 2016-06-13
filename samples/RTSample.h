@@ -3,9 +3,18 @@
 
 #pragma once
 
+#include "Application.h"
+
 class RTSample: public ouzel::scene::Scene
 {
 public:
-    RTSample();
-    virtual ~RTSample() {}
+    RTSample(Application& app);
+    virtual ~RTSample();
+
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event, const ouzel::VoidPtr& sender) const;
+    
+private:
+    Application& application;
+    ouzel::gui::ButtonPtr backButton;
+    ouzel::EventHandlerPtr eventHandler;
 };

@@ -20,7 +20,7 @@ void Application::begin()
 #endif
 
     sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
-    sharedEngine->getWindow()->setTitle("Sample");
+    sharedEngine->getWindow()->setTitle("Samples");
 
     eventHandler = make_shared<EventHandler>();
 
@@ -28,11 +28,17 @@ void Application::begin()
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-    mainMenu = make_shared<MainMenu>();
+    mainMenu = make_shared<MainMenu>(*this);
     sharedEngine->getSceneManager()->setScene(mainMenu);
 }
 
-bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event, const VoidPtr& sender) const
+void Application::back()
+{
+    sharedEngine->getInput()->setCursorVisible(true);
+    sharedEngine->getSceneManager()->setScene(mainMenu);
+}
+
+bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event, const VoidPtr& sender)
 {
     OUZEL_UNUSED(sender);
 
@@ -40,8 +46,7 @@ bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event, c
     {
         if (sharedEngine->getSceneManager()->getScene() != mainMenu)
         {
-            sharedEngine->getInput()->setCursorVisible(true);
-            sharedEngine->getSceneManager()->setScene(mainMenu);
+            back();
         }
         else
         {
