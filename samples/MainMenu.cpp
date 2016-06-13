@@ -5,6 +5,8 @@
 #include "SpritesSample.h"
 #include "GUISample.h"
 #include "RTSample.h"
+#include "AnimationsSample.h"
+#include "InputSample.h"
 
 using namespace std;
 using namespace ouzel;
@@ -23,16 +25,24 @@ MainMenu::MainMenu()
     layer->setCamera(make_shared<scene::Camera>());
 
     spritesButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Sprites", graphics::Color(20, 0, 0, 255), "arial.fnt");
-    spritesButton->setPosition(Vector2(0.0f, 40.0f));
+    spritesButton->setPosition(Vector2(0.0f, 80.0f));
     layer->addChild(spritesButton);
 
     GUIButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "GUI", graphics::Color(20, 0, 0, 255), "arial.fnt");
-    GUIButton->setPosition(Vector2(0.0f, 0.0f));
+    GUIButton->setPosition(Vector2(0.0f, 40.0f));
     layer->addChild(GUIButton);
 
     renderTargetButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Render target", graphics::Color(20, 0, 0, 255), "arial.fnt");
-    renderTargetButton->setPosition(Vector2(0.0f, -40.0f));
+    renderTargetButton->setPosition(Vector2(0.0f, 0.0f));
     layer->addChild(renderTargetButton);
+
+    animationsButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Animations", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    animationsButton->setPosition(Vector2(0.0f, -40.0f));
+    layer->addChild(animationsButton);
+
+    inputButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Input", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    inputButton->setPosition(Vector2(0.0f, -80.0f));
+    layer->addChild(inputButton);
 }
 
 MainMenu::~MainMenu()
@@ -59,6 +69,14 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& s
         else if (sender == renderTargetButton)
         {
             newScene = make_shared<RTSample>();
+        }
+        else if (sender == animationsButton)
+        {
+            newScene = make_shared<AnimationsSample>();
+        }
+        else if (sender == inputButton)
+        {
+            newScene = make_shared<InputSample>();
         }
 
         if (newScene)

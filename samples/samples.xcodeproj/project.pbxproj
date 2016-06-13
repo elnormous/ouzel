@@ -59,6 +59,12 @@
 		3045F0C21D0E103100125436 /* SpritesSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0C01D0E103100125436 /* SpritesSample.cpp */; };
 		3045F0C31D0E103100125436 /* SpritesSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0C01D0E103100125436 /* SpritesSample.cpp */; };
 		3045F0C41D0E103100125436 /* SpritesSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0C01D0E103100125436 /* SpritesSample.cpp */; };
+		3045F0CA1D0F24B800125436 /* AnimationsSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0C81D0F24B800125436 /* AnimationsSample.cpp */; };
+		3045F0CB1D0F24B800125436 /* AnimationsSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0C81D0F24B800125436 /* AnimationsSample.cpp */; };
+		3045F0CC1D0F24B800125436 /* AnimationsSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0C81D0F24B800125436 /* AnimationsSample.cpp */; };
+		3045F0CF1D0F24F600125436 /* InputSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0CD1D0F24F600125436 /* InputSample.cpp */; };
+		3045F0D01D0F24F600125436 /* InputSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0CD1D0F24F600125436 /* InputSample.cpp */; };
+		3045F0D11D0F24F600125436 /* InputSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0CD1D0F24F600125436 /* InputSample.cpp */; };
 		304A8EAA1C27429A008B1151 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Application.cpp */; };
 		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		305B99A71C42B3F6008589E1 /* font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 305B99A51C42B3F6008589E1 /* font.fnt */; };
@@ -163,6 +169,10 @@
 		3045F0B91D0E0D6800125436 /* arial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arial.png; sourceTree = "<group>"; };
 		3045F0C01D0E103100125436 /* SpritesSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpritesSample.cpp; sourceTree = "<group>"; };
 		3045F0C11D0E103100125436 /* SpritesSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpritesSample.h; sourceTree = "<group>"; };
+		3045F0C81D0F24B800125436 /* AnimationsSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationsSample.cpp; sourceTree = "<group>"; };
+		3045F0C91D0F24B800125436 /* AnimationsSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationsSample.h; sourceTree = "<group>"; };
+		3045F0CD1D0F24F600125436 /* InputSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputSample.cpp; sourceTree = "<group>"; };
+		3045F0CE1D0F24F600125436 /* InputSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputSample.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -291,11 +301,15 @@
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
+				3045F0C81D0F24B800125436 /* AnimationsSample.cpp */,
+				3045F0C91D0F24B800125436 /* AnimationsSample.h */,
 				304A8EA81C27429A008B1151 /* Application.cpp */,
 				304A8EA91C27429A008B1151 /* Application.h */,
 				303B74EF1C27F6B000FEDE92 /* Frameworks */,
 				3045F0B31D0D95CA00125436 /* GUISample.cpp */,
 				3045F0B41D0D95CA00125436 /* GUISample.h */,
+				3045F0CD1D0F24F600125436 /* InputSample.cpp */,
+				3045F0CE1D0F24F600125436 /* InputSample.h */,
 				303B762A1C34D21100FEDE92 /* ios */,
 				303B75181C29EB8400FEDE92 /* main.cpp */,
 				3045F0A61D0C2E4500125436 /* MainMenu.cpp */,
@@ -590,9 +604,11 @@
 			files = (
 				303B760E1C34CFE300FEDE92 /* Application.cpp in Sources */,
 				3045F0B61D0D95CA00125436 /* GUISample.cpp in Sources */,
+				3045F0CB1D0F24B800125436 /* AnimationsSample.cpp in Sources */,
 				3045F0C31D0E103100125436 /* SpritesSample.cpp in Sources */,
 				3045F0B11D0D95BC00125436 /* RTSample.cpp in Sources */,
 				3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */,
+				3045F0D01D0F24F600125436 /* InputSample.cpp in Sources */,
 				303B760F1C34CFE300FEDE92 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -603,9 +619,11 @@
 			files = (
 				303B768D1C355AA400FEDE92 /* Application.cpp in Sources */,
 				3045F0B71D0D95CA00125436 /* GUISample.cpp in Sources */,
+				3045F0CC1D0F24B800125436 /* AnimationsSample.cpp in Sources */,
 				3045F0C41D0E103100125436 /* SpritesSample.cpp in Sources */,
 				3045F0B21D0D95BC00125436 /* RTSample.cpp in Sources */,
 				3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */,
+				3045F0D11D0F24F600125436 /* InputSample.cpp in Sources */,
 				303B768E1C355AA400FEDE92 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -616,9 +634,11 @@
 			files = (
 				304A8EAA1C27429A008B1151 /* Application.cpp in Sources */,
 				3045F0B51D0D95CA00125436 /* GUISample.cpp in Sources */,
+				3045F0CA1D0F24B800125436 /* AnimationsSample.cpp in Sources */,
 				3045F0C21D0E103100125436 /* SpritesSample.cpp in Sources */,
 				3045F0B01D0D95BC00125436 /* RTSample.cpp in Sources */,
 				3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */,
+				3045F0CF1D0F24F600125436 /* InputSample.cpp in Sources */,
 				303B751A1C29ED4200FEDE92 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

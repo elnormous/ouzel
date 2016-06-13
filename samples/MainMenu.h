@@ -16,4 +16,6 @@ private:
     ouzel::gui::ButtonPtr spritesButton;
     ouzel::gui::ButtonPtr GUIButton;
     ouzel::gui::ButtonPtr renderTargetButton;
+    ouzel::gui::ButtonPtr animationsButton;
+    ouzel::gui::ButtonPtr inputButton;
 };

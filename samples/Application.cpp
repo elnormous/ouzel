@@ -40,13 +40,16 @@ bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event, c
     {
         if (sharedEngine->getSceneManager()->getScene() != mainMenu)
         {
+            sharedEngine->getInput()->setCursorVisible(true);
             sharedEngine->getSceneManager()->setScene(mainMenu);
         }
         else
         {
             sharedEngine->exit();
         }
+
+        return false;
     }
     
-    return false;
+    return true;
 }

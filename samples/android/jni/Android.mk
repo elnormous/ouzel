@@ -10,8 +10,10 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../ouzel
 LOCAL_PCH := Prefix.h
 
 LOCAL_SRC_FILES := $(LOCAL_PATH)/jni.cpp \
+    $(LOCAL_PATH)/../../AnimationsSample.cpp \
     $(LOCAL_PATH)/../../Application.cpp \
     $(LOCAL_PATH)/../../GUISample.cpp \
+    $(LOCAL_PATH)/../../InputSample.cpp \
     $(LOCAL_PATH)/../../main.cpp \
     $(LOCAL_PATH)/../../MainMenu.cpp \
     $(LOCAL_PATH)/../../SpritesSample.cpp \

@@ -1,18 +1,13 @@
-//
-//  SpritesSample.h
-//  samples
-//
-//  Created by Elviss Strazdins on 13/06/16.
-//  Copyright (c) 2016 Bool Games. All rights reserved.
-//
+// Copyright (C) 2016 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #pragma once
 
-class SpritesSample: public ouzel::scene::Scene
+class InputSample: public ouzel::scene::Scene
 {
 public:
-    SpritesSample();
-    virtual ~SpritesSample();
+    InputSample();
+    virtual ~InputSample();
 
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event, const ouzel::VoidPtr& sender) const;
     bool handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event, const ouzel::VoidPtr& sender) const;
@@ -21,12 +16,9 @@ public:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event, const ouzel::VoidPtr& sender) const;
 
 private:
-    ouzel::scene::LayerPtr layer;
-    ouzel::scene::LayerPtr uiLayer;
-
-    ouzel::scene::NodePtr character;
-
     ouzel::gui::ButtonPtr button;
-
+    ouzel::scene::NodePtr flame;
+    ouzel::scene::CameraPtr camera;
+    
     ouzel::EventHandlerPtr eventHandler;
 };

@@ -6,9 +6,11 @@ LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host
 else
 LDFLAGS+=-lX11 -lGL
 endif
-SOURCES=Application.cpp \
+SOURCES=AnimationsSample.cpp \
+	Application.cpp \
 	main.cpp \
 	GUISample.cpp \
+	InputSample.cpp \
 	MainMenu.cpp \
 	SpritesSample.cpp \
 	RTSample.cpp
