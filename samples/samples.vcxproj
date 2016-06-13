@@ -144,8 +144,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationsSample.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="GUISample.cpp" />
+    <ClCompile Include="InputSample.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="RTSample.cpp" />
@@ -158,8 +160,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationsSample.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="GUISample.h" />
+    <ClInclude Include="InputSample.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="RTSample.h" />
     <ClInclude Include="SpritesSample.h" />
