@@ -4,7 +4,7 @@
 #pragma once
 
 #include "CompileConfig.h"
-#include "Shader.h"
+#include "graphics/Shader.h"
 
 #if defined(__OBJC__)
 #import <Metal/Metal.h>

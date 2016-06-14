@@ -11,8 +11,8 @@ typedef id<MTLTexture> MTLTexturePtr;
 typedef id MTLTexturePtr;
 #endif
 
-#include "CompileConfig.h"
-#include "Texture.h"
+#include "core/CompileConfig.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {

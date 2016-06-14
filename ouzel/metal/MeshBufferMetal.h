@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "CompileConfig.h"
-#include "MeshBuffer.h"
+#include "core/CompileConfig.h"
+#include "graphics/MeshBuffer.h"
 
 #if defined(__OBJC__)
 #import <Metal/Metal.h>

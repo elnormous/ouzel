@@ -4,8 +4,8 @@
 #pragma once
 
 #include "CompileConfig.h"
-#include "RenderTarget.h"
-#include "Size2.h"
+#include "graphics/RenderTarget.h"
+#include "math/Size2.h"
 
 #if defined(__OBJC__)
 #import <Metal/Metal.h>

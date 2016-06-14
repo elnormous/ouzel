@@ -32,7 +32,7 @@ typedef id MTLRenderCommandEncoderPtr;
 typedef id MTLTexturePtr;
 #endif
 
-#include "Renderer.h"
+#include "graphics/Renderer.h"
 
 namespace ouzel
 {
