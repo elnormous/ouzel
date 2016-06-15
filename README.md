@@ -1,6 +1,6 @@
 <img src="https://github.com/elnormous/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.18
+# Ouzel v0.18 [![Build Status](https://api.travis-ci.org/elnormous/ouzel.svg?branch=master)](https://api.travis-ci.org/elnormous)
 Ouzel is a C++ game engine mainly targeted for development of 2D games, but also 3D games can be created with it.
 
 Supported platforms:
