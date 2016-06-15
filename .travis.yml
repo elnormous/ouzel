@@ -9,7 +9,7 @@ matrix:
           packages:
             - g++-4.9
       before_script:
-        – export CXX=g++-4.9
+        - export CXX=g++-4.9
     - compiler: gcc
       addons:
         apt:
@@ -18,7 +18,7 @@ matrix:
           packages:
             - g++-5
       before_script:
-        – export CXX=g++-5
+        - export CXX=g++-5
     - compiler: clang
       addons:
         apt:
@@ -28,7 +28,7 @@ matrix:
           packages:
             - clang-3.6
       before_script:
-        – export CXX=clang++-3.6
+        - export CXX=clang++-3.6
     - compiler: clang
       addons:
         apt:
@@ -38,6 +38,6 @@ matrix:
           packages:
             - clang-3.7
       before_script:
-        – export CXX=clang++-3.7
+        - export CXX=clang++-3.7
 script:
   - cd samples && make
