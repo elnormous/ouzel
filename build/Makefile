@@ -1,4 +1,3 @@
-CC=g++
 CFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb -I../ouzel
 SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Ease.cpp \
@@ -91,7 +90,7 @@ $(LIBRARY): $(OBJECTS)
 	ar -r -s $@ $^
 
 .cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
+	$(CXX) $(CFLAGS) $< -o $@
 
 .PHONY: clean
 clean:

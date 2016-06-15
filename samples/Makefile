@@ -1,4 +1,3 @@
-CC=g++
 CFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.h
 LDFLAGS=-L. -louzel
 ifeq ($(platform),raspbian)
@@ -21,10 +20,10 @@ all: $(SOURCES) $(EXECUTABLE)
     
 $(EXECUTABLE): $(OBJECTS) 
 	$(MAKE) -f ../build/Makefile platform=$(platform)
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 .cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
+	$(CXX) $(CFLAGS) $< -o $@
 
 .PHONY: clean
 clean:
