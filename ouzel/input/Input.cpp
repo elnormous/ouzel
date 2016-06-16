@@ -152,6 +152,18 @@ namespace ouzel
             }
         }
 
+        void Input::mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers)
+        {
+            Vector2 newPosition = cursorPosition + relativePosition;
+
+            if (newPosition.x < -1.0f) newPosition.x = -1.0f;
+            if (newPosition.x > 1.0f) newPosition.x = 1.0f;
+            if (newPosition.y < -1.0f) newPosition.y = -1.0f;
+            if (newPosition.y > 1.0f) newPosition.y = 1.0f;
+
+            mouseMove(newPosition, modifiers);
+        }
+
         void Input::mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers)
         {
             Event event;

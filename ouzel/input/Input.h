@@ -238,6 +238,7 @@ namespace ouzel
             virtual void mouseDown(MouseButton button, const Vector2& position, uint32_t modifiers);
             virtual void mouseUp(MouseButton button, const Vector2& position, uint32_t modifiers);
             virtual void mouseMove(const Vector2& position, uint32_t modifiers);
+            virtual void mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers);
             virtual void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
 
             virtual void touchBegin(uint64_t touchId, const Vector2& position);
