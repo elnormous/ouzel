@@ -126,7 +126,7 @@ namespace ouzel
                     {
                         if (drawable->isVisible())
                         {
-                            drawable->draw(currentLayer->getCamera()->getViewProjection(), transform, drawColor);
+                            drawable->draw(currentLayer->getCamera()->getViewProjection(), transform, drawColor, std::static_pointer_cast<Node>(shared_from_this()));
                         }
                     }
                 }
@@ -381,7 +381,6 @@ namespace ouzel
         void Node::addDrawable(DrawablePtr drawable)
         {
             drawables.push_back(drawable);
-            drawable->setParentNode(std::static_pointer_cast<Node>(shared_from_this()));
         }
 
         void Node::removeDrawable(uint32_t index)

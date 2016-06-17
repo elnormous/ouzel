@@ -157,9 +157,9 @@ namespace ouzel
             }
         }
 
-        void Sprite::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor)
+        void Sprite::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, drawColor);
+            Drawable::draw(projectionMatrix, transformMatrix, drawColor, currentNode);
 
             if (currentFrame < frames.size())
             {

@@ -13,11 +13,12 @@ namespace ouzel
         {
         }
 
-        void Drawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor)
+        void Drawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode)
         {
             OUZEL_UNUSED(projectionMatrix);
             OUZEL_UNUSED(transformMatrix);
             OUZEL_UNUSED(drawColor);
+            OUZEL_UNUSED(currentNode);
         }
 
         bool Drawable::pointOn(const Vector2& position) const

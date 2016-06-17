@@ -39,9 +39,11 @@ namespace ouzel
             sharedEngine->unscheduleUpdate(updateCallback);
         }
 
-        void ParticleSystem::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor)
+        void ParticleSystem::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, drawColor);
+            Drawable::draw(projectionMatrix, transformMatrix, drawColor, currentNode);
+
+            parentNode = currentNode;
 
             if (shader && texture && particleCount)
             {

@@ -61,7 +61,7 @@ namespace ouzel
             ParticleSystem();
             virtual ~ParticleSystem();
 
-            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor);
+            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode);
             virtual void update(float delta);
 
             virtual bool initFromFile(const std::string& filename);
@@ -106,6 +106,8 @@ namespace ouzel
             bool needsMeshUpdate = false;
 
             UpdateCallbackPtr updateCallback;
+
+            NodeWeakPtr parentNode;
         };
     } // namespace scene
 } // namespace ouzel

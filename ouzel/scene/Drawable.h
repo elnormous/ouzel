@@ -19,7 +19,7 @@ namespace ouzel
         public:
             virtual ~Drawable();
 
-            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor);
+            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode);
 
             virtual const AABB2& getBoundingBox() const { return boundingBox; }
 
@@ -29,14 +29,9 @@ namespace ouzel
             bool isVisible() const { return visible; }
             virtual void setVisible(bool newVisible) { visible = newVisible; }
 
-            void setParentNode(const NodePtr newParentNode) { parentNode = newParentNode; }
-            NodePtr getParentNode() const { return parentNode.lock(); }
-
         protected:
             AABB2 boundingBox;
             bool visible = true;
-
-            NodeWeakPtr parentNode;
         };
     } // namespace scene
 } // namespace ouzel

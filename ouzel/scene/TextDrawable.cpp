@@ -50,9 +50,9 @@ namespace ouzel
             return true;
         }
 
-        void TextDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor)
+        void TextDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, drawColor);
+            Drawable::draw(projectionMatrix, transformMatrix, drawColor, currentNode);
 
             if (shader && texture && meshBuffer)
             {
