@@ -15,9 +15,7 @@ namespace ouzel
         class Label: public Widget
         {
         public:
-            static LabelPtr create(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
-
-            Label();
+            Label(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
             virtual ~Label();
 
             virtual bool init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor = Vector2(0.5f, 0.5f));

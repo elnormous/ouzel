@@ -19,10 +19,9 @@ namespace ouzel
         class Sprite: public Drawable
         {
         public:
-            static SpritePtr createFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames);
-            static SpritePtr createFromFile(const std::string& filename, bool mipmaps = true);
-
             Sprite();
+            Sprite(const std::vector<SpriteFramePtr>& spriteFrames);
+            Sprite(const std::string& filename, bool mipmaps = true);
             virtual ~Sprite();
 
             virtual bool initFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames);

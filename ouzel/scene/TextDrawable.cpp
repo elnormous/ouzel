@@ -11,21 +11,10 @@ namespace ouzel
 {
     namespace scene
     {
-        TextDrawablePtr TextDrawable::create(const std::string& font, const std::string& text, const Vector2& textAnchor)
-        {
-            TextDrawablePtr result = std::make_shared<TextDrawable>();
-
-            if (!result->init(font, text, textAnchor))
-            {
-                result.reset();
-            }
-
-            return result;
-        }
-
-        TextDrawable::TextDrawable()
+        TextDrawable::TextDrawable(const std::string& font, const std::string& newText, const Vector2& textAnchor)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            init(font, newText, textAnchor);
         }
 
         TextDrawable::~TextDrawable()

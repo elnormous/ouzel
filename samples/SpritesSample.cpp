@@ -17,7 +17,7 @@ SpritesSample::SpritesSample(Application& app):
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
 
-    scene::SpritePtr characterSprite = scene::Sprite::createFromFile("run.json");
+    scene::SpritePtr characterSprite = make_shared<scene::Sprite>("run.json");
     characterSprite->play(true);
 
     character = make_shared<scene::Node>();
@@ -26,7 +26,7 @@ SpritesSample::SpritesSample(Application& app):
     character->setPosition(Vector2(-300.0f, 0.0f));
     character->animate(make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f)));
 
-    scene::SpritePtr fireSprite = scene::Sprite::createFromFile("fire.json");
+    scene::SpritePtr fireSprite = make_shared<scene::Sprite>("fire.json");
     fireSprite->play(true);
 
     scene::NodePtr fireNode = make_shared<scene::Node>();
@@ -38,11 +38,11 @@ SpritesSample::SpritesSample(Application& app):
     addLayer(guiLayer);
     guiLayer->setCamera(make_shared<scene::Camera>());
 
-    button = gui::Button::create("button.png", "button.png", "button_down.png", "", "Show/hide", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    button = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Show/hide", graphics::Color(0, 0, 0, 255), "arial.fnt");
     button->setPosition(Vector2(-200.0f, 200.0f));
     guiLayer->addChild(button);
 
-    backButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     guiLayer->addChild(backButton);
 }

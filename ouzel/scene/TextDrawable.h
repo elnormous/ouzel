@@ -16,9 +16,7 @@ namespace ouzel
         class TextDrawable: public Drawable
         {
         public:
-            static TextDrawablePtr create(const std::string& font, const std::string& text, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
-
-            TextDrawable();
+            TextDrawable(const std::string& font, const std::string& newText, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
             virtual ~TextDrawable();
 
             bool init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor = Vector2(0.5f, 0.5f));

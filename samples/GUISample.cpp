@@ -17,15 +17,15 @@ GUISample::GUISample(Application& app):
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
 
-    button = gui::Button::create("button.png", "button.png", "button_down.png", "", "Button", graphics::Color(255, 0, 0, 255), "arial.fnt");
+    button = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Button", graphics::Color(255, 0, 0, 255), "arial.fnt");
     button->setPosition(Vector2(-200.0f, 100.0f));
     layer->addChild(button);
     
-    checkBox = gui::CheckBox::create("checkbox.png", "", "", "", "tick.png");
+    checkBox = make_shared<gui::CheckBox>("checkbox.png", "", "", "", "tick.png");
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
     layer->addChild(checkBox);
 
-    gui::LabelPtr label = gui::Label::create("arial.fnt", "label");
+    gui::LabelPtr label = make_shared<gui::Label>("arial.fnt", "label");
     label->setColor(graphics::Color(0, 255, 255, 255));
     label->setPosition(Vector2(-70.0f, 100.0f));
     layer->addChild(label);
@@ -33,14 +33,14 @@ GUISample::GUISample(Application& app):
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
     sharedEngine->getLocalization()->setLanguage("latvian");
 
-    gui::LabelPtr label2 = gui::Label::create("font.fnt", sharedEngine->getLocalization()->getString("Test"));
+    gui::LabelPtr label2 = make_shared<gui::Label>("font.fnt", sharedEngine->getLocalization()->getString("Test"));
     layer->addChild(label2);
 
     scene::LayerPtr guiLayer = make_shared<scene::Layer>();
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
-    backButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     guiLayer->addChild(backButton);
 }

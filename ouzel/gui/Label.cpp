@@ -15,17 +15,9 @@ namespace ouzel
 {
     namespace gui
     {
-        LabelPtr Label::create(const std::string& font, const std::string& text, const Vector2& textAnchor)
+        Label::Label(const std::string& font, const std::string& text, const Vector2& textAnchor)
         {
-            LabelPtr result = std::make_shared<Label>();
-            result->init(font, text, textAnchor);
-
-            return result;
-        }
-
-        Label::Label()
-        {
-
+            init(font, text, textAnchor);
         }
 
         Label::~Label()
@@ -36,7 +28,7 @@ namespace ouzel
         bool Label::init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor)
         {
             text = newText;
-            textDrawable = scene::TextDrawable::create(fontFile, text, newTextAnchor);
+            textDrawable = std::make_shared<scene::TextDrawable>(fontFile, text, newTextAnchor);
 
             if (!textDrawable)
             {

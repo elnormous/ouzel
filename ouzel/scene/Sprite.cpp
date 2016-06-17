@@ -21,26 +21,22 @@ namespace ouzel
 {
     namespace scene
     {
-        SpritePtr Sprite::createFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames)
-        {
-            SpritePtr result = std::make_shared<Sprite>();
-            result->initFromSpriteFrames(spriteFrames);
-
-            return result;
-        }
-
-        SpritePtr Sprite::createFromFile(const std::string& filename, bool mipmaps)
-        {
-            SpritePtr result = std::make_shared<Sprite>();
-            result->initFromFile(filename, mipmaps);
-
-            return result;
-        }
-
         Sprite::Sprite()
         {
             updateCallback = std::make_shared<UpdateCallback>();
             updateCallback->callback = std::bind(&Sprite::update, this, std::placeholders::_1);
+        }
+
+        Sprite::Sprite(const std::vector<SpriteFramePtr>& spriteFrames):
+            Sprite()
+        {
+            initFromSpriteFrames(spriteFrames);
+        }
+
+        Sprite::Sprite(const std::string& filename, bool mipmaps):
+            Sprite()
+        {
+            initFromFile(filename, mipmaps);
         }
 
         Sprite::~Sprite()

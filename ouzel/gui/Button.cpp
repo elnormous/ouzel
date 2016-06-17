@@ -17,18 +17,10 @@ namespace ouzel
 {
     namespace gui
     {
-        ButtonPtr Button::create(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
-                                               const std::string& label, const graphics::Color& labelColor, const std::string& font)
+        Button::Button(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
+                       const std::string& label, const graphics::Color& labelColor, const std::string& font)
         {
-            ButtonPtr result = std::make_shared<Button>();
-            result->init(normalImage, selectedImage, pressedImage, disabledImage, label, labelColor, font);
-
-            return result;
-        }
-
-        Button::Button()
-        {
-
+            init(normalImage, selectedImage, pressedImage, disabledImage, label, labelColor, font);
         }
 
         Button::~Button()
@@ -84,7 +76,7 @@ namespace ouzel
 
             if (!label.empty())
             {
-                labelDrawable = scene::TextDrawable::create(font, label);
+                labelDrawable = std::make_shared<scene::TextDrawable>(font, label);
                 if (labelDrawable)
                 {
                     labelDrawable->setColor(labelColor);

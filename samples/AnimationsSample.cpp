@@ -33,7 +33,7 @@ AnimationsSample::AnimationsSample(Application& app):
 
     drawNode->animate(make_shared<scene::Shake>(10.0f, Vector2(10.0f, 20.0f), 20.0f));
 
-    scene::SpritePtr witchSprite = scene::Sprite::createFromFile("witch.png");
+    scene::SpritePtr witchSprite = make_shared<scene::Sprite>("witch.png");
 
     ouzel::scene::NodePtr witch = make_shared<scene::Node>();
     witch->setPosition(Vector2(200, 0.0f));
@@ -48,7 +48,7 @@ AnimationsSample::AnimationsSample(Application& app):
     witch->animate(make_shared<scene::Sequence>(sequence));
 
     scene::NodePtr ball = make_shared<scene::Node>();
-    scene::SpritePtr ballSprite = scene::Sprite::createFromFile("ball.png");
+    scene::SpritePtr ballSprite = make_shared<scene::Sprite>("ball.png");
     ball->addDrawable(ballSprite);
     layer->addChild(ball);
 
@@ -63,7 +63,7 @@ AnimationsSample::AnimationsSample(Application& app):
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
-    backButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     guiLayer->addChild(backButton);
 }

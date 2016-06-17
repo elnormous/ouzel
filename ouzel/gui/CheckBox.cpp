@@ -10,17 +10,9 @@ namespace ouzel
 {
     namespace gui
     {
-        CheckBoxPtr CheckBox::create(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage)
+        CheckBox::CheckBox(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage)
         {
-            CheckBoxPtr result = std::make_shared<CheckBox>();
-            result->init(normalImage, selectedImage, pressedImage, disabledImage, tickImage);
-
-            return result;
-        }
-
-        CheckBox::CheckBox()
-        {
-
+            init(normalImage, selectedImage, pressedImage, disabledImage, tickImage);
         }
 
         CheckBox::~CheckBox()

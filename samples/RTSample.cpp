@@ -25,7 +25,7 @@ RTSample::RTSample(Application& app):
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
 
-    scene::SpritePtr characterSprite = scene::Sprite::createFromFile("run.json");
+    scene::SpritePtr characterSprite = make_shared<scene::Sprite>("run.json");
     characterSprite->play(true);
 
     scene::NodePtr rtCharacter = make_shared<scene::Node>();
@@ -34,7 +34,8 @@ RTSample::RTSample(Application& app):
 
     scene::SpriteFramePtr rtFrame = scene::SpriteFrame::create(Rectangle(0.0f, 0.0f, 256.0f, 256.0f), renderTarget->getTexture(), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
-    scene::SpritePtr rtSprite = scene::Sprite::createFromSpriteFrames({ rtFrame });
+    const std::vector<scene::SpriteFramePtr>& spriteFrames = { rtFrame };
+    scene::SpritePtr rtSprite = make_shared<scene::Sprite>(spriteFrames);
     scene::NodePtr rtNode = make_shared<scene::Node>();
     rtNode->addDrawable(rtSprite);
     layer->addChild(rtNode);
@@ -43,7 +44,7 @@ RTSample::RTSample(Application& app):
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
-    backButton = gui::Button::create("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     guiLayer->addChild(backButton);
 }
