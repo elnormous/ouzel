@@ -488,8 +488,6 @@ namespace ouzel
             }
             else if (retval > 0)
             {
-                Size2 size = sharedEngine->getWindow()->getSize();
-
                 for (const InputDeviceRPI& inputDevice : inputDevices)
                 {
                     if (FD_ISSET(inputDevice.fd, &rfds))
@@ -537,22 +535,18 @@ namespace ouzel
                                 }
                                 else if (event->type == EV_REL)
                                 {
+                                    Vector2 relativePos;
+
                                     if (event->code == REL_X)
                                     {
-                                        mouseX += event->value;
+                                        relativePos.x = static_cast<float>(event->value);
                                     }
                                     else if (event->code == REL_Y)
                                     {
-                                        mouseY += event->value;
+                                        relativePos.y = static_cast<float>(event->value);
                                     }
 
-                                    if (mouseX < 0) mouseX = 0;
-                                    if (mouseY < 0) mouseY = 0;
-                                    if (mouseX >= static_cast<int>(size.width)) mouseX = static_cast<int>(size.width) - 1;
-                                    if (mouseY >= static_cast<int>(size.height)) mouseY = static_cast<int>(size.height) - 1;
-
-                                    Vector2 pos(static_cast<float>(mouseX), static_cast<float>(mouseY));
-                                    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos), 0);
+                                    sharedEngine->getInput()->mouseRelativeMove(sharedEngine->getRenderer()->viewToScreenLocation(relativePos), 0);
                                 }
                                 else if (event->type == EV_KEY)
                                 {
