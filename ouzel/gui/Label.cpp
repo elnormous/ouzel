@@ -15,6 +15,10 @@ namespace ouzel
 {
     namespace gui
     {
+        Label::Label()
+        {
+        }
+
         Label::Label(const std::string& font, const std::string& text, const Vector2& textAnchor)
         {
             init(font, text, textAnchor);

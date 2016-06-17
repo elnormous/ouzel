@@ -18,20 +18,18 @@ namespace ouzel
 {
     namespace scene
     {
-        ParticleSystemPtr ParticleSystem::createFromFile(const std::string& filename)
-        {
-            ParticleSystemPtr result = std::make_shared<ParticleSystem>();
-            result->initFromFile(filename);
-
-            return result;
-        }
-
         ParticleSystem::ParticleSystem()
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
 
             updateCallback = std::make_shared<UpdateCallback>();
             updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
+        }
+
+        ParticleSystem::ParticleSystem(const std::string& filename):
+            ParticleSystem()
+        {
+            initFromFile(filename);
         }
 
         ParticleSystem::~ParticleSystem()

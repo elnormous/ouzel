@@ -29,7 +29,7 @@ InputSample::InputSample(Application& app):
     button->setPosition(Vector2(-200.0f, 200.0f));
     layer->addChild(button);
 
-    scene::ParticleSystemPtr flameParticleSystem = scene::ParticleSystem::createFromFile("flame.json");
+    scene::ParticleSystemPtr flameParticleSystem = make_shared<scene::ParticleSystem>("flame.json");
     
     flame = make_shared<scene::Node>();
     flame->addDrawable(flameParticleSystem);

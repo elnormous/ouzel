@@ -32,7 +32,7 @@ RTSample::RTSample(Application& app):
     rtCharacter->addDrawable(characterSprite);
     rtLayer->addChild(rtCharacter);
 
-    scene::SpriteFramePtr rtFrame = scene::SpriteFrame::create(Rectangle(0.0f, 0.0f, 256.0f, 256.0f), renderTarget->getTexture(), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+    scene::SpriteFramePtr rtFrame = std::make_shared<scene::SpriteFrame>(Rectangle(0.0f, 0.0f, 256.0f, 256.0f), renderTarget->getTexture(), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
     const std::vector<scene::SpriteFramePtr>& spriteFrames = { rtFrame };
     scene::SpritePtr rtSprite = make_shared<scene::Sprite>(spriteFrames);

@@ -56,9 +56,8 @@ namespace ouzel
         class ParticleSystem: public Drawable
         {
         public:
-            static ParticleSystemPtr createFromFile(const std::string& filename);
-
             ParticleSystem();
+            ParticleSystem(const std::string& filename);
             virtual ~ParticleSystem();
 
             virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode);

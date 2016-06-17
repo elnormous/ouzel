@@ -11,6 +11,10 @@ namespace ouzel
 {
     namespace scene
     {
+        TextDrawable::TextDrawable()
+        {
+        }
+        
         TextDrawable::TextDrawable(const std::string& font, const std::string& newText, const Vector2& textAnchor)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);

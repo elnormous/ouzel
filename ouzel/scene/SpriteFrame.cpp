@@ -75,29 +75,43 @@ namespace ouzel
                 Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
                               static_cast<float>(pivotObject["y"].GetDouble()));
 
-                frames.push_back(create(rectangle, texture, rotated, sourceSize, sourceOffset, pivot));
+                frames.push_back(std::make_shared<SpriteFrame>(rectangle, texture, rotated, sourceSize, sourceOffset, pivot));
             }
 
             return frames;
         }
 
-        SpriteFramePtr SpriteFrame::create(const Rectangle& rectangle, const graphics::TexturePtr& texture, bool rotated, const Size2& sourceSize, const Vector2& sourceOffset, const Vector2& pivot)
+        SpriteFrame::SpriteFrame(Rectangle pRectangle,
+                                 graphics::MeshBufferPtr pMeshBuffer,
+                                 graphics::TexturePtr pTexture):
+            rectangle(pRectangle),
+            meshBuffer(pMeshBuffer),
+            texture(pTexture)
         {
+        }
+
+        SpriteFrame::SpriteFrame(const Rectangle& pRectangle,
+                                 const graphics::TexturePtr& pTexture,
+                                 bool rotated, const Size2& sourceSize,
+                                 const Vector2& sourceOffset, const Vector2& pivot)
+        {
+            texture = pTexture;
+
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
 
             Vector2 textCoords[4];
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
-                                -sourceSize.height * pivot.y + (sourceSize.height - rectangle.height - sourceOffset.y));
+                                -sourceSize.height * pivot.y + (sourceSize.height - pRectangle.height - sourceOffset.y));
 
             const Size2& textureSize = texture->getSize();
 
             if (!rotated)
             {
-                Vector2 leftTop(rectangle.x / textureSize.width,
-                                rectangle.y / textureSize.height);
+                Vector2 leftTop(pRectangle.x / textureSize.width,
+                                pRectangle.y / textureSize.height);
 
-                Vector2 rightBottom((rectangle.x + rectangle.width) / textureSize.width,
-                                    (rectangle.y + rectangle.height) / textureSize.height);
+                Vector2 rightBottom((pRectangle.x + pRectangle.width) / textureSize.width,
+                                    (pRectangle.y + pRectangle.height) / textureSize.height);
 
                 if (texture->isFlipped())
                 {
@@ -112,11 +126,11 @@ namespace ouzel
             }
             else
             {
-                Vector2 leftTop = Vector2(rectangle.x / textureSize.width,
-                                          rectangle.y / textureSize.height);
+                Vector2 leftTop = Vector2(pRectangle.x / textureSize.width,
+                                          pRectangle.y / textureSize.height);
 
-                Vector2 rightBottom = Vector2((rectangle.x + rectangle.height) / textureSize.width,
-                                              (rectangle.y + rectangle.width) / textureSize.height);
+                Vector2 rightBottom = Vector2((pRectangle.x + pRectangle.height) / textureSize.width,
+                                              (pRectangle.y + pRectangle.width) / textureSize.height);
 
                 if (texture->isFlipped())
                 {
@@ -130,24 +144,21 @@ namespace ouzel
                 textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             }
 
-            Rectangle newRectangle = Rectangle(finalOffset.x, finalOffset.y,
-                                               rectangle.width, rectangle.height);
+            rectangle = Rectangle(finalOffset.x, finalOffset.y,
+                                  pRectangle.width, pRectangle.height);
 
             std::vector<graphics::VertexPCT> vertices = {
-                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
-                graphics::VertexPCT(Vector3(finalOffset.x + rectangle.width, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
-                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
-                graphics::VertexPCT(Vector3(finalOffset.x + rectangle.width, finalOffset.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
+                graphics::VertexPCT(Vector3(finalOffset.x, rectangle.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
+                graphics::VertexPCT(Vector3(finalOffset.x + rectangle.width, rectangle.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
+                graphics::VertexPCT(Vector3(finalOffset.x, rectangle.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
+                graphics::VertexPCT(Vector3(finalOffset.x + rectangle.width, rectangle.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
             };
 
-            graphics::MeshBufferPtr meshBuffer = (sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                                                        static_cast<uint32_t>(indices.size()), false,
-                                                                                                        vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                                                                                        static_cast<uint32_t>(vertices.size()), true));
-
-            SpriteFramePtr frame = std::make_shared<SpriteFrame>(newRectangle, meshBuffer, texture);
-
-            return frame;
+            meshBuffer = (sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
+                                                                                static_cast<uint32_t>(indices.size()), false,
+                                                                                vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                                                                static_cast<uint32_t>(vertices.size()), true));
         }
+
     } // scene
 } // ouzel
