@@ -81,15 +81,18 @@ bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event, c
 {
     OUZEL_UNUSED(sender);
 
-    if (type == Event::Type::KEY_DOWN && event.key == ouzel::input::KeyboardKey::ESCAPE)
+    if (event.key == ouzel::input::KeyboardKey::ESCAPE)
     {
-        if (sharedEngine->getSceneManager()->getScene() != mainMenu)
+        if (type == Event::Type::KEY_DOWN)
         {
-            back();
-        }
-        else
-        {
-            sharedEngine->exit();
+            if (sharedEngine->getSceneManager()->getScene() != mainMenu)
+            {
+                back();
+            }
+            else
+            {
+                sharedEngine->exit();
+            }
         }
 
         return false;
