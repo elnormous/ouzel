@@ -551,8 +551,6 @@ namespace ouzel
                                 }
                                 else if (event->type == EV_KEY)
                                 {
-                                    Vector2 pos(static_cast<float>(mouseX), static_cast<float>(mouseY));
-
                                     input::MouseButton button;
 
                                     switch (event->code)
