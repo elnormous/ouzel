@@ -3,6 +3,11 @@
 
 #include "Application.h"
 #include "MainMenu.h"
+#include "SpritesSample.h"
+#include "GUISample.h"
+#include "RTSample.h"
+#include "AnimationsSample.h"
+#include "InputSample.h"
 
 using namespace std;
 using namespace ouzel;
@@ -11,7 +16,7 @@ Application::~Application()
 {
 }
 
-void Application::begin()
+void Application::begin(const std::string& sample)
 {
     sharedEngine->getInput()->startGamepadDiscovery();
 
@@ -29,7 +34,41 @@ void Application::begin()
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     mainMenu = make_shared<MainMenu>(*this);
-    sharedEngine->getSceneManager()->setScene(mainMenu);
+
+    scene::ScenePtr newScene;
+
+    if (!sample.empty())
+    {
+        if (sample == "sprites")
+        {
+            newScene = make_shared<SpritesSample>(*this);
+        }
+        else if (sample == "gui")
+        {
+            newScene = make_shared<GUISample>(*this);
+        }
+        else if (sample == "render_target")
+        {
+            newScene = make_shared<RTSample>(*this);
+        }
+        else if (sample == "animations")
+        {
+            newScene = make_shared<AnimationsSample>(*this);
+        }
+        else if (sample == "input")
+        {
+            newScene = make_shared<InputSample>(*this);
+        }
+    }
+
+    if (newScene)
+    {
+        sharedEngine->getSceneManager()->setScene(newScene);
+    }
+    else
+    {
+        sharedEngine->getSceneManager()->setScene(mainMenu);
+    }
 }
 
 void Application::back()

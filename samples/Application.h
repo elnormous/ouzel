@@ -8,7 +8,7 @@ class Application: public ouzel::Noncopyable
 public:
     virtual ~Application();
 
-    void begin();
+    void begin(const std::string& sample);
     void back();
 
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event, const ouzel::VoidPtr& sender);

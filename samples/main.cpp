@@ -17,5 +17,12 @@ void ouzelMain(const std::vector<std::string>& args)
     settings.textureFiltering = ouzel::graphics::Renderer::TextureFiltering::TRILINEAR;
     engine.init(settings);
 
-    application.begin();
+    std::string sample;
+
+    if (args.size() >= 2)
+    {
+        sample = args[1];
+    }
+
+    application.begin(sample);
 }
