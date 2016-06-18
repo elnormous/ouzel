@@ -8,6 +8,7 @@
 #include "scene/Scene.h"
 #include "scene/Node.h"
 #include "utils/Utils.h"
+#include "math/MathUtils.h"
 
 namespace ouzel
 {
@@ -156,10 +157,8 @@ namespace ouzel
         {
             Vector2 newPosition = cursorPosition + relativePosition;
 
-            if (newPosition.x < -1.0f) newPosition.x = -1.0f;
-            if (newPosition.x > 1.0f) newPosition.x = 1.0f;
-            if (newPosition.y < -1.0f) newPosition.y = -1.0f;
-            if (newPosition.y > 1.0f) newPosition.y = 1.0f;
+            newPosition.x = clamp(newPosition.x, -1.0f, 1.0f);
+            newPosition.y = clamp(newPosition.y, -1.0f, 1.0f);
 
             mouseMove(newPosition, modifiers);
         }
