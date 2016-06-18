@@ -39,8 +39,6 @@ namespace ouzel
 
             int maxFd = 0;
             std::vector<InputDeviceRPI> inputDevices;
-            int32_t mouseX = 0;
-            int32_t mouseY = 0;
         };
     } // namespace input
 } // namespace ouzel

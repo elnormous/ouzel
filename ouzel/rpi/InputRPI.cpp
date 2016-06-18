@@ -509,11 +509,11 @@ namespace ouzel
                                 {
                                     if (event->value == 1 || event->value == 2) // press or repeat
                                     {
-                                        sharedEngine->getInput()->keyDown(convertKeyCode(event->code), 0);
+                                        keyDown(convertKeyCode(event->code), 0);
                                     }
                                     else if (event->value == 0) // release
                                     {
-                                        sharedEngine->getInput()->keyUp(convertKeyCode(event->code), 0);
+                                        keyUp(convertKeyCode(event->code), 0);
                                     }
                                 }
                             }
@@ -521,17 +521,18 @@ namespace ouzel
                             {
                                 if (event->type == EV_ABS)
                                 {
+                                    Vector2 absolutePos = cursorPosition;
+
                                     if (event->code == ABS_X)
                                     {
-                                        mouseX = event->value;
+                                        absolutePos.x = sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(event->value), 0.0f)).x;
                                     }
                                     else if (event->code == ABS_Y)
                                     {
-                                        mouseY = event->value;
+                                        absolutePos.y = sharedEngine->getRenderer()->viewToScreenLocation(Vector2(0.0f, static_cast<float>(event->value))).y;
                                     }
 
-                                    Vector2 pos(static_cast<float>(mouseX), static_cast<float>(mouseY));
-                                    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos), 0);
+                                    mouseMove(absolutePos, 0);
                                 }
                                 else if (event->type == EV_REL)
                                 {
@@ -546,7 +547,7 @@ namespace ouzel
                                         relativePos.y = static_cast<float>(event->value);
                                     }
 
-                                    sharedEngine->getInput()->mouseRelativeMove(sharedEngine->getRenderer()->viewToScreenRelativeLocation(relativePos), 0);
+                                    mouseRelativeMove(sharedEngine->getRenderer()->viewToScreenRelativeLocation(relativePos), 0);
                                 }
                                 else if (event->type == EV_KEY)
                                 {
@@ -569,15 +570,11 @@ namespace ouzel
 
                                     if (event->value == 1)
                                     {
-                                        sharedEngine->getInput()->mouseDown(button,
-                                                                            sharedEngine->getRenderer()->viewToScreenLocation(pos),
-                                                                            0);
+                                        mouseDown(button, cursorPosition, 0);
                                     }
                                     else if (event->value == 0)
                                     {
-                                        sharedEngine->getInput()->mouseUp(button,
-                                                                          sharedEngine->getRenderer()->viewToScreenLocation(pos),
-                                                                          0);
+                                        mouseUp(button, cursorPosition, 0);
                                     }
                                 }
                             }
