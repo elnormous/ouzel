@@ -546,7 +546,7 @@ namespace ouzel
                                         relativePos.y = static_cast<float>(event->value);
                                     }
 
-                                    sharedEngine->getInput()->mouseRelativeMove(sharedEngine->getRenderer()->viewToScreenLocation(relativePos), 0);
+                                    sharedEngine->getInput()->mouseRelativeMove(sharedEngine->getRenderer()->viewToScreenRelativeLocation(relativePos), 0);
                                 }
                                 else if (event->type == EV_KEY)
                                 {
