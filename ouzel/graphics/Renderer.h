@@ -121,6 +121,7 @@ namespace ouzel
             virtual void activateScissorTest(const Rectangle& rectangle);
 
             Vector2 viewToScreenLocation(const Vector2& position);
+            Vector2 viewToScreenRelativeLocation(const Vector2& position);
             Vector2 screenToViewLocation(const Vector2& position);
             bool checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const scene::CameraPtr& camera);
 

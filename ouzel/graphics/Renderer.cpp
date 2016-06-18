@@ -175,6 +175,14 @@ namespace ouzel
             return Vector2(x, y);
         }
 
+        Vector2 Renderer::viewToScreenRelativeLocation(const Vector2& position)
+        {
+            float x = 2.0f * position.x / size.width;
+            float y = 2.0f * (size.height - position.y) / size.height;
+
+            return Vector2(x, y);
+        }
+
         Vector2 Renderer::screenToViewLocation(const Vector2& position)
         {
             float x = (position.x + 1.0f) / 2.0f * size.width;
