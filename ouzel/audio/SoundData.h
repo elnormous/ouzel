@@ -7,10 +7,10 @@ namespace ouzel
 {
     namespace audio
     {
-        class SoundInstance
+        class SoundData
         {
         public:
-            virtual ~SoundInstance() {}
+            virtual ~SoundData() {}
         };
     } // namespace audio
 } // namespace ouzel

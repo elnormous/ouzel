@@ -23,7 +23,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/android/WindowAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Shake.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/Audio.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/Sound.cpp \
-    $(LOCAL_PATH)/../../ouzel/audio/SoundInstance.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/SoundData.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Cache.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Engine.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Window.cpp \

@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "SoundInstance.h"
+#include "SoundData.h"
 
 namespace ouzel
 {

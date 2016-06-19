@@ -11,7 +11,7 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Shake.cpp \
 	../ouzel/audio/Audio.cpp \
 	../ouzel/audio/Sound.cpp \
-	../ouzel/audio/SoundInstance.cpp \
+	../ouzel/audio/SoundData.cpp \
 	../ouzel/core/Cache.cpp \
 	../ouzel/core/Engine.cpp \
 	../ouzel/core/Window.cpp \
