@@ -232,7 +232,7 @@
     <ClCompile Include="..\ouzel\audio\Sound.cpp">
       <Filter>audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\SoundInstance.cpp">
+    <ClCompile Include="..\ouzel\audio\SoundData.cpp">
       <Filter>audio</Filter>
     </ClCompile>
   </ItemGroup>
@@ -499,7 +499,7 @@
     <ClInclude Include="..\ouzel\audio\Sound.h">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundInstance.h">
+    <ClInclude Include="..\ouzel\audio\SoundData.h">
       <Filter>audio</Filter>
     </ClInclude>
   </ItemGroup>

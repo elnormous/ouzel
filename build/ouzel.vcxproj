@@ -31,7 +31,7 @@
     <ClCompile Include="..\ouzel\animators\Shake.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
-    <ClCompile Include="..\ouzel\audio\SoundInstance.cpp" />
+    <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
@@ -111,7 +111,7 @@
     <ClInclude Include="..\ouzel\animators\Shake.h" />
     <ClInclude Include="..\ouzel\audio\Audio.h" />
     <ClInclude Include="..\ouzel\audio\Sound.h" />
-    <ClInclude Include="..\ouzel\audio\SoundInstance.h" />
+    <ClInclude Include="..\ouzel\audio\SoundData.h" />
     <ClInclude Include="..\ouzel\core\Cache.h" />
     <ClInclude Include="..\ouzel\core\CompileConfig.h" />
     <ClInclude Include="..\ouzel\core\Engine.h" />
