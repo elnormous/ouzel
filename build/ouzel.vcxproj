@@ -29,6 +29,9 @@
     <ClCompile Include="..\ouzel\animators\Scale.cpp" />
     <ClCompile Include="..\ouzel\animators\Sequence.cpp" />
     <ClCompile Include="..\ouzel\animators\Shake.cpp" />
+    <ClCompile Include="..\ouzel\audio\Audio.cpp" />
+    <ClCompile Include="..\ouzel\audio\Sound.cpp" />
+    <ClCompile Include="..\ouzel\audio\SoundInstance.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
@@ -89,9 +92,6 @@
     <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
     <ClCompile Include="..\ouzel\scene\SpriteFrame.cpp" />
     <ClCompile Include="..\ouzel\scene\TextDrawable.cpp" />
-    <ClCompile Include="..\ouzel\sound\Sound.cpp" />
-    <ClCompile Include="..\ouzel\sound\SoundInstance.cpp" />
-    <ClCompile Include="..\ouzel\sound\SoundManager.cpp" />
     <ClCompile Include="..\ouzel\utils\Utils.cpp" />
     <ClCompile Include="..\ouzel\win\GamepadWin.cpp" />
     <ClCompile Include="..\ouzel\win\InputWin.cpp" />
@@ -109,6 +109,9 @@
     <ClInclude Include="..\ouzel\animators\Scale.h" />
     <ClInclude Include="..\ouzel\animators\Sequence.h" />
     <ClInclude Include="..\ouzel\animators\Shake.h" />
+    <ClInclude Include="..\ouzel\audio\Audio.h" />
+    <ClInclude Include="..\ouzel\audio\Sound.h" />
+    <ClInclude Include="..\ouzel\audio\SoundInstance.h" />
     <ClInclude Include="..\ouzel\core\Cache.h" />
     <ClInclude Include="..\ouzel\core\CompileConfig.h" />
     <ClInclude Include="..\ouzel\core\Engine.h" />
@@ -179,9 +182,6 @@
     <ClInclude Include="..\ouzel\scene\Sprite.h" />
     <ClInclude Include="..\ouzel\scene\SpriteFrame.h" />
     <ClInclude Include="..\ouzel\scene\TextDrawable.h" />
-    <ClInclude Include="..\ouzel\sound\Sound.h" />
-    <ClInclude Include="..\ouzel\sound\SoundInstance.h" />
-    <ClInclude Include="..\ouzel\sound\SoundManager.h" />
     <ClInclude Include="..\ouzel\utils\Noncopyable.h" />
     <ClInclude Include="..\ouzel\utils\Types.h" />
     <ClInclude Include="..\ouzel\utils\Utils.h" />

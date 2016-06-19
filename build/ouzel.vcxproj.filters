@@ -226,14 +226,14 @@
     <ClCompile Include="..\ouzel\utils\Utils.cpp">
       <Filter>utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\sound\Sound.cpp">
-      <Filter>sound</Filter>
+    <ClCompile Include="..\ouzel\audio\Audio.cpp">
+      <Filter>audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\sound\SoundInstance.cpp">
-      <Filter>sound</Filter>
+    <ClCompile Include="..\ouzel\audio\Sound.cpp">
+      <Filter>audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\sound\SoundManager.cpp">
-      <Filter>sound</Filter>
+    <ClCompile Include="..\ouzel\audio\SoundInstance.cpp">
+      <Filter>audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -493,14 +493,14 @@
     <ClInclude Include="..\ouzel\utils\Utils.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\sound\Sound.h">
-      <Filter>sound</Filter>
+    <ClInclude Include="..\ouzel\audio\Audio.h">
+      <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\sound\SoundInstance.h">
-      <Filter>sound</Filter>
+    <ClInclude Include="..\ouzel\audio\Sound.h">
+      <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\sound\SoundManager.h">
-      <Filter>sound</Filter>
+    <ClInclude Include="..\ouzel\audio\SoundInstance.h">
+      <Filter>audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -543,7 +543,7 @@
     <Filter Include="utils">
       <UniqueIdentifier>{dc211bb0-6985-40a2-9430-937b5bc6e2fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="sound">
+    <Filter Include="audio">
       <UniqueIdentifier>{0c56ca23-cef7-4fcd-9088-b27c396897b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
