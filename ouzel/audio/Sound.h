@@ -5,12 +5,12 @@
 
 namespace ouzel
 {
-    namespace sound
+    namespace audio
     {
         class Sound
         {
         public:
             virtual ~Sound() {}
         };
-    } // namespace sound
+    } // namespace audio
 } // namespace ouzel

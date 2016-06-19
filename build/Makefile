@@ -9,6 +9,9 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Scale.cpp \
 	../ouzel/animators/Sequence.cpp \
 	../ouzel/animators/Shake.cpp \
+	../ouzel/audio/Audio.cpp \
+	../ouzel/audio/Sound.cpp \
+	../ouzel/audio/SoundInstance.cpp \
 	../ouzel/core/Cache.cpp \
 	../ouzel/core/Engine.cpp \
 	../ouzel/core/Window.cpp \
@@ -69,9 +72,6 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/scene/Sprite.cpp \
 	../ouzel/scene/SpriteFrame.cpp \
 	../ouzel/scene/TextDrawable.cpp \
-	../ouzel/sound/Sound.cpp \
-	../ouzel/sound/SoundInstance.cpp \
-	../ouzel/sound/SoundManager.cpp \
 	../ouzel/utils/Utils.cpp
 ifeq ($(platform),raspbian)
 SOURCES+=../ouzel/rpi/main.cpp \

@@ -21,6 +21,9 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/android/WindowAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Scale.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Sequence.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Shake.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/Audio.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/Sound.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/SoundInstance.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Cache.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Engine.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Window.cpp \
@@ -81,9 +84,6 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/android/WindowAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Sprite.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/SpriteFrame.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/TextDrawable.cpp \
-    $(LOCAL_PATH)/../../ouzel/sound/Sound.cpp \
-    $(LOCAL_PATH)/../../ouzel/sound/SoundInstance.cpp \
-    $(LOCAL_PATH)/../../ouzel/sound/SoundManager.cpp \
     $(LOCAL_PATH)/../../ouzel/utils/Utils.cpp
 
 include $(BUILD_STATIC_LIBRARY)

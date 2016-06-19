@@ -1,11 +1,11 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "SoundManager.h"
+#include "SoundInstance.h"
 
 namespace ouzel
 {
-    namespace sound
+    namespace audio
     {
-    } // namespace sound
+    } // namespace audio
 } // namespace ouzel
