@@ -81,6 +81,9 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/android/WindowAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Sprite.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/SpriteFrame.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/TextDrawable.cpp \
+    $(LOCAL_PATH)/../../ouzel/sound/Sound.cpp \
+    $(LOCAL_PATH)/../../ouzel/sound/SoundInstance.cpp \
+    $(LOCAL_PATH)/../../ouzel/sound/SoundManager.cpp \
     $(LOCAL_PATH)/../../ouzel/utils/Utils.cpp
 
 include $(BUILD_STATIC_LIBRARY)
