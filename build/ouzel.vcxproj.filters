@@ -226,6 +226,15 @@
     <ClCompile Include="..\ouzel\utils\Utils.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\sound\Sound.cpp">
+      <Filter>sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\sound\SoundInstance.cpp">
+      <Filter>sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\sound\SoundManager.cpp">
+      <Filter>sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -484,6 +493,15 @@
     <ClInclude Include="..\ouzel\utils\Utils.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\sound\Sound.h">
+      <Filter>sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\sound\SoundInstance.h">
+      <Filter>sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\sound\SoundManager.h">
+      <Filter>sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
@@ -524,6 +542,9 @@
     </Filter>
     <Filter Include="utils">
       <UniqueIdentifier>{dc211bb0-6985-40a2-9430-937b5bc6e2fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sound">
+      <UniqueIdentifier>{0c56ca23-cef7-4fcd-9088-b27c396897b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
