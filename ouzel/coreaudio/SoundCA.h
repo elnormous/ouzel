@@ -3,6 +3,17 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_PLATFORM_MACOS
+#include <CoreAudio/CoreAudio.h>
+#include <CoreServices/CoreServices.h>
+#else
+#include <AudioToolbox/AudioToolbox.h>
+#endif
+
+#include <AudioUnit/AudioUnit.h>
+
 #include "audio/Sound.h"
 
 namespace ouzel
