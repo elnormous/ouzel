@@ -20,10 +20,16 @@ namespace ouzel
 {
     namespace audio
     {
+        class AudioCA;
+
         class SoundCA: public Sound
         {
+            friend AudioCA;
         public:
-            virtual ~SoundCA() {}
+            virtual ~SoundCA();
+
+        protected:
+            SoundCA();
         };
     } // namespace audio
 } // namespace ouzel

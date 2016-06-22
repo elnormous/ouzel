@@ -7,5 +7,12 @@ namespace ouzel
 {
     namespace audio
     {
+        SoundXA2::SoundXA2()
+        {
+        }
+
+        SoundXA2::~SoundXA2()
+        {
+        }
     } // namespace audio
 } // namespace ouzel

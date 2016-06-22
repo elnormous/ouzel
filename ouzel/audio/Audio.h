@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "utils/Types.h"
+
 namespace ouzel
 {
     namespace audio
@@ -10,9 +12,15 @@ namespace ouzel
         class Audio
         {
         public:
-            virtual ~Audio() {}
+            virtual ~Audio();
 
             virtual bool init();
+
+            virtual SoundDataPtr createSoundData();
+            virtual SoundPtr createSound();
+
+        protected:
+            Audio();
         };
     } // namespace audio
 } // namespace ouzel

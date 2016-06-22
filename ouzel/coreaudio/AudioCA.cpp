@@ -2,6 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "AudioCA.h"
+#include "SoundDataCA.h"
+#include "SoundCA.h"
 
 #if OUZEL_PLATFORM_MACOS
 static const AudioObjectPropertyAddress devlistAddress = {
@@ -42,6 +44,18 @@ namespace ouzel
             AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(UInt32), &category);
 #endif
             return true;
+        }
+
+        SoundDataPtr AudioCA::createSoundData()
+        {
+            SoundDataPtr soundData(new SoundDataCA());
+            return soundData;
+        }
+
+        SoundPtr AudioCA::createSound()
+        {
+            SoundPtr sound(new SoundCA());
+            return sound;
         }
     } // namespace audio
 } // namespace ouzel

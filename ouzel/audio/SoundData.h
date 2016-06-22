@@ -7,10 +7,16 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+
         class SoundData
         {
+            friend Audio;
         public:
-            virtual ~SoundData() {}
+            virtual ~SoundData();
+
+        protected:
+            SoundData();
         };
     } // namespace audio
 } // namespace ouzel

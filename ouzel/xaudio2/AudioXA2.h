@@ -12,7 +12,13 @@ namespace ouzel
         class AudioXA2: public Audio
         {
         public:
-            virtual ~AudioXA2() {}
+            AudioXA2();
+            virtual ~AudioXA2();
+
+            virtual bool init() override;
+
+            virtual SoundDataPtr createSoundData() override;
+            virtual SoundPtr createSound() override;
         };
     } // namespace audio
 } // namespace ouzel

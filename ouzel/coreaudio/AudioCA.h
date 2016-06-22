@@ -25,7 +25,11 @@ namespace ouzel
         public:
             AudioCA();
             virtual ~AudioCA();
-            bool init() override;
+
+            virtual bool init() override;
+
+            virtual SoundDataPtr createSoundData() override;
+            virtual SoundPtr createSound() override;
         };
     } // namespace audio
 } // namespace ouzel

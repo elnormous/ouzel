@@ -9,10 +9,16 @@ namespace ouzel
 {
     namespace audio
     {
+        class AudioXA2;
+
         class SoundDataXA2: public SoundData
         {
+            friend AudioXA2;
         public:
-            virtual ~SoundDataXA2() {}
+            virtual ~SoundDataXA2();
+
+        protected:
+            SoundDataXA2();
         };
     } // namespace audio
 } // namespace ouzel

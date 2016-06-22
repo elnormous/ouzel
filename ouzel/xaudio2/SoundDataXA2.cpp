@@ -7,5 +7,12 @@ namespace ouzel
 {
     namespace audio
     {
+        SoundDataXA2::SoundDataXA2()
+        {
+        }
+
+        SoundDataXA2::~SoundDataXA2()
+        {
+        }
     } // namespace audio
 } // namespace ouzel

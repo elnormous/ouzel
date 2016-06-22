@@ -7,5 +7,12 @@ namespace ouzel
 {
     namespace audio
     {
+        SoundDataCA::SoundDataCA()
+        {
+        }
+
+        SoundDataCA::~SoundDataCA()
+        {
+        }
     } // namespace audio
 } // namespace ouzel
