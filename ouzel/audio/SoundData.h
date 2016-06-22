@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include <cstdint>
+#include <string>
+#include <vector>
+
 namespace ouzel
 {
     namespace audio
@@ -15,8 +19,13 @@ namespace ouzel
         public:
             virtual ~SoundData();
 
+            virtual bool initFromFile(const std::string& newFilename);
+            virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
+
         protected:
             SoundData();
+
+            std::string filename;
         };
     } // namespace audio
 } // namespace ouzel

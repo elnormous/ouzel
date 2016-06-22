@@ -131,12 +131,12 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferOGL::initFromData(const void* newIndices, uint32_t newIndexSize,
-                                         uint32_t newIndexCount, bool newDynamicIndexBuffer,
-                                         const void* newVertices, uint32_t newVertexAttributes,
-                                         uint32_t newVertexCount, bool newDynamicVertexBuffer)
+        bool MeshBufferOGL::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
+                                           uint32_t newIndexCount, bool newDynamicIndexBuffer,
+                                           const void* newVertices, uint32_t newVertexAttributes,
+                                           uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
-            if (!MeshBuffer::initFromData(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))
+            if (!MeshBuffer::initFromBuffer(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))
             {
                 return false;
             }

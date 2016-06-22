@@ -23,7 +23,7 @@ namespace ouzel
             const void* getData() const { return data; }
 
             virtual bool initFromFile(const std::string& newFilename);
-            virtual bool initFromData(const std::vector<uint8_t>& newData);
+            virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
 
         protected:
             std::string filename;

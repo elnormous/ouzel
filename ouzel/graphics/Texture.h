@@ -24,7 +24,7 @@ namespace ouzel
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false);
             virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
-            virtual bool initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
+            virtual bool initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
 
             const std::string& getFilename() const { return filename; }
 

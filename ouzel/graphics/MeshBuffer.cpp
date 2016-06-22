@@ -28,10 +28,10 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBuffer::initFromData(const void* newIndices, uint32_t newIndexSize,
-                                      uint32_t newIndexCount, bool newDynamicIndexBuffer,
-                                      const void* newVertices, uint32_t newVertexAttributes,
-                                      uint32_t newVertexCount, bool newDynamicVertexBuffer)
+        bool MeshBuffer::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
+                                        uint32_t newIndexCount, bool newDynamicIndexBuffer,
+                                        const void* newVertices, uint32_t newVertexAttributes,
+                                        uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
             OUZEL_UNUSED(newIndices);
             OUZEL_UNUSED(newIndexCount);

@@ -55,10 +55,10 @@ namespace ouzel
                 return false;
             }
 
-            return initFromData(image.getData(), image.getSize(), dynamic, mipmaps);
+            return initFromBuffer(image.getData(), image.getSize(), dynamic, mipmaps);
         }
 
-        bool Texture::initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool Texture::initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
             OUZEL_UNUSED(data);
 

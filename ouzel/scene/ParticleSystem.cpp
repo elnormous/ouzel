@@ -284,10 +284,10 @@ namespace ouzel
 
             mesh = sharedEngine->getRenderer()->createMeshBuffer();
 
-            mesh->initFromData(indices.data(), sizeof(uint16_t),
-                               static_cast<uint32_t>(indices.size()), false,
-                               vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                               static_cast<uint32_t>(vertices.size()), true);
+            mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                 static_cast<uint32_t>(indices.size()), false,
+                                 vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                 static_cast<uint32_t>(vertices.size()), true);
 
             particles.resize(particleDefinition.maxParticles);
 

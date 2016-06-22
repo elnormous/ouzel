@@ -61,10 +61,10 @@ namespace ouzel
 
             command.mode = graphics::Renderer::DrawMode::POINT_LIST;
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
-                                       static_cast<uint32_t>(indices.size()), false,
-                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                       static_cast<uint32_t>(vertices.size()), false);
+            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                         static_cast<uint32_t>(indices.size()), false,
+                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                         static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -84,10 +84,10 @@ namespace ouzel
 
             command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
-                                       static_cast<uint32_t>(indices.size()), false,
-                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                       static_cast<uint32_t>(vertices.size()), false);
+            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                         static_cast<uint32_t>(indices.size()), false,
+                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                         static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -146,10 +146,10 @@ namespace ouzel
             }
 
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
-                                       static_cast<uint32_t>(indices.size()), false,
-                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                       static_cast<uint32_t>(vertices.size()), false);
+            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                         static_cast<uint32_t>(indices.size()), false,
+                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                         static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -182,10 +182,10 @@ namespace ouzel
             }
 
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
-                                       static_cast<uint32_t>(indices.size()), false,
-                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                       static_cast<uint32_t>(vertices.size()), false);
+            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                         static_cast<uint32_t>(indices.size()), false,
+                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                         static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -220,10 +220,10 @@ namespace ouzel
             }
 
             command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
-                                       static_cast<uint32_t>(indices.size()), false,
-                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                       static_cast<uint32_t>(vertices.size()), false);
+            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                         static_cast<uint32_t>(indices.size()), false,
+                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                         static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
         }

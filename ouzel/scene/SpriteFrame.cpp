@@ -157,10 +157,10 @@ namespace ouzel
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
 
-            meshBuffer->initFromData(indices.data(), sizeof(uint16_t),
-                                     static_cast<uint32_t>(indices.size()), false,
-                                     vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                     static_cast<uint32_t>(vertices.size()), true);
+            meshBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                       static_cast<uint32_t>(indices.size()), false,
+                                       vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                       static_cast<uint32_t>(vertices.size()), true);
         }
 
     } // scene

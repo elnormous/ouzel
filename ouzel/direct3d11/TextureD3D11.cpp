@@ -60,9 +60,9 @@ namespace ouzel
                                  static_cast<UINT>(size.height));
         }
 
-        bool TextureD3D11::initFromData(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool TextureD3D11::initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            if (!Texture::initFromData(data, newSize, newDynamic, newMipmaps))
+            if (!Texture::initFromBuffer(data, newSize, newDynamic, newMipmaps))
             {
                 return false;
             }

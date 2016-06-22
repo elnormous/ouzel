@@ -20,7 +20,10 @@ namespace ouzel
             virtual ~MeshBufferD3D11();
             virtual void free() override;
 
-            virtual bool initFromData(const void* newIndices, uint32_t newIndexSize, uint32_t newIndexCount, bool newDynamicIndexBuffer, const void* newVertices, uint32_t newVertexAttributes, uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
+            virtual bool initFromBuffer(const void* newIndices, uint32_t newIndexSize,
+                                        uint32_t newIndexCount, bool newDynamicIndexBuffer,
+                                        const void* newVertices, uint32_t newVertexAttributes,
+                                        uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
 
             virtual bool setIndexSize(uint32_t indexSize) override;
 

@@ -37,10 +37,10 @@ namespace ouzel
                 return false;
             }
 
-            return initFromData(newData);
+            return initFromBuffer(newData);
         }
 
-        bool Image::initFromData(const std::vector<uint8_t>& newData)
+        bool Image::initFromBuffer(const std::vector<uint8_t>& newData)
         {
             int width;
             int height;
