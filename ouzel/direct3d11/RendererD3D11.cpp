@@ -685,7 +685,7 @@ namespace ouzel
             return true;
         }
 
-        ShaderPtr RendererD3D11::loadShaderFromFiles()
+        ShaderPtr RendererD3D11::createShader()
         {
             std::shared_ptr<ShaderD3D11> shader(new ShaderD3D11());
             return shader;
