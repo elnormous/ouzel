@@ -22,14 +22,17 @@ namespace ouzel
     {
         class AudioCA: public Audio
         {
+            friend Engine;
         public:
-            AudioCA();
             virtual ~AudioCA();
 
             virtual bool init() override;
 
             virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
+
+        protected:
+            AudioCA();
         };
     } // namespace audio
 } // namespace ouzel

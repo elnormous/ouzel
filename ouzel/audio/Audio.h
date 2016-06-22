@@ -7,10 +7,13 @@
 
 namespace ouzel
 {
+    class Engine;
+
     namespace audio
     {
         class Audio
         {
+            friend Engine;
         public:
             virtual ~Audio();
 
