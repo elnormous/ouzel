@@ -3,20 +3,24 @@
 
 #pragma once
 
+#include "utils/Types.h"
+
 namespace ouzel
 {
     namespace audio
     {
-        class Audio;
-
         class Sound
         {
             friend Audio;
         public:
             virtual ~Sound();
 
+            virtual bool init(const SoundDataPtr& newSoundData);
+
         protected:
             Sound();
+
+            SoundDataPtr soundData;
         };
     } // namespace audio
 } // namespace ouzel

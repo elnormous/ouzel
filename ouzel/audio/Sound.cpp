@@ -14,5 +14,12 @@ namespace ouzel
         Sound::~Sound()
         {
         }
+
+        bool Sound::init(const SoundDataPtr& newSoundData)
+        {
+            soundData = newSoundData;
+
+            return true;
+        }
     } // namespace audio
 } // namespace ouzel

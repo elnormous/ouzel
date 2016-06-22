@@ -28,6 +28,8 @@ namespace ouzel
         public:
             virtual ~SoundCA();
 
+            virtual bool init(const SoundDataPtr& newSoundData) override;
+
         protected:
             SoundCA();
         };

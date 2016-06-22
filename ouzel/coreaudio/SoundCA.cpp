@@ -14,5 +14,24 @@ namespace ouzel
         SoundCA::~SoundCA()
         {
         }
+
+        bool SoundCA::init(const SoundDataPtr& newSoundData)
+        {
+            if (!Sound::init(newSoundData))
+            {
+                return false;
+            }
+
+            AudioStreamBasicDescription desc;
+
+            memset(&desc, '\0', sizeof(AudioStreamBasicDescription));
+            desc.mFormatID = kAudioFormatLinearPCM;
+            desc.mFormatFlags = kLinearPCMFormatFlagIsPacked;
+            //desc.mChannelsPerFrame = this->spec.channels;
+            //desc.mSampleRate = this->spec.freq;
+            desc.mFramesPerPacket = 1;
+
+            return true;
+        }
     } // namespace audio
 } // namespace ouzel
