@@ -4,7 +4,7 @@
 #pragma once
 
 #include "core/CompileConfig.h"
-#if defined(OUZEL_SUPPORTS_SSE)
+#if OUZEL_SUPPORTS_SSE
 #include <xmmintrin.h>
 #endif
 
@@ -23,7 +23,7 @@ namespace ouzel
         static Vector4 UNIT_Z;
         static Vector4 UNIT_W;
 
-#if defined(OUZEL_SUPPORTS_SSE)
+#if OUZEL_SUPPORTS_SSE
         union
         {
             __m128 v;

@@ -22,9 +22,9 @@ namespace ouzel
             {
                 RendererOGL::unbindVertexArray(vertexArrayId);
 
-#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                 glDeleteVertexArraysOES(1, &vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
                 if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &vertexArrayId);
 #else
                 glDeleteVertexArrays(1, &vertexArrayId);
@@ -54,9 +54,9 @@ namespace ouzel
             {
                 RendererOGL::unbindVertexArray(vertexArrayId);
 
-#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                 glDeleteVertexArraysOES(1, &vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
                 if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &vertexArrayId);
 #else
                 glDeleteVertexArrays(1, &vertexArrayId);
@@ -99,9 +99,9 @@ namespace ouzel
                 return false;
             }
 
-#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
             glGenVertexArraysOES(1, &vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
             if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
 #else
             glGenVertexArrays(1, &vertexArrayId);
@@ -159,9 +159,9 @@ namespace ouzel
                 return false;
             }
 
-#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
             glGenVertexArraysOES(1, &vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
             if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
 #else
             glGenVertexArrays(1, &vertexArrayId);

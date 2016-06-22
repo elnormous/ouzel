@@ -7,48 +7,56 @@
 #include "CompileConfig.h"
 #include "Cache.h"
 #include "localization/Localization.h"
+#include "utils/Utils.h"
+#include "graphics/Renderer.h"
+#include "audio/Audio.h"
+#include "files/FileSystem.h"
 
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
 #include "macos/WindowMacOS.h"
 #include "macos/RendererOGLMacOS.h"
-#elif defined(OUZEL_PLATFORM_IOS)
+#elif OUZEL_PLATFORM_IOS
 #include "ios/WindowIOS.h"
 #include "ios/RendererOGLIOS.h"
-#elif defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_TVOS
 #include "tvos/WindowTVOS.h"
 #include "tvos/RendererOGLTVOS.h"
-#elif defined(OUZEL_PLATFORM_ANDROID)
+#elif OUZEL_PLATFORM_ANDROID
 #include "android/WindowAndroid.h"
-#elif defined(OUZEL_PLATFORM_LINUX)
+#elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowLinux.h"
 #include "linux/RendererOGLLinux.h"
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif OUZEL_PLATFORM_WINDOWS
 #include "win/WindowWin.h"
-#elif defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_RASPBIAN
 #include "rpi/WindowRPI.h"
 #include "rpi/RendererOGLRPI.h"
 #include "rpi/InputRPI.h"
 #endif
 
-#if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
+#if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
 #include "opengl/RendererOGL.h"
 #endif
 
-#if defined(OUZEL_SUPPORTS_DIRECT3D11)
+#if OUZEL_SUPPORTS_DIRECT3D11
 #include "direct3d11/RendererD3D11.h"
 #endif
 
-#if defined(OUZEL_SUPPORTS_METAL)
+#if OUZEL_SUPPORTS_METAL
 #include "metal/RendererMetal.h"
 #endif
 
-#include "utils/Utils.h"
-#include "graphics/Renderer.h"
-#include "files/FileSystem.h"
+#if OUZEL_SUPPORTS_XAUDIO2
+#include "xaudio2/AudioXA2.h"
+#endif
 
-#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_SUPPORTS_COREAUDIO
+#include "coreaudio/AudioCA.h"
+#endif
+
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include "apple/InputApple.h"
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif OUZEL_PLATFORM_WINDOWS
 #include "win/InputWin.h"
 #endif
 
@@ -75,15 +83,15 @@ namespace ouzel
 
         if (availableDrivers.empty())
         {
-#if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
+#if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
             availableDrivers.insert(graphics::Renderer::Driver::OPENGL);
 #endif
 
-#if defined(OUZEL_SUPPORTS_DIRECT3D11)
+#if OUZEL_SUPPORTS_DIRECT3D11
             availableDrivers.insert(graphics::Renderer::Driver::DIRECT3D11);
 #endif
 
-#if defined(OUZEL_SUPPORTS_METAL)
+#if OUZEL_SUPPORTS_METAL
             if (graphics::RendererMetal::available())
             {
                 availableDrivers.insert(graphics::Renderer::Driver::METAL);
@@ -132,19 +140,19 @@ namespace ouzel
             }
         }
 
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
         window.reset(new WindowMacOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
-#elif defined(OUZEL_PLATFORM_IOS)
+#elif OUZEL_PLATFORM_IOS
         window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
-#elif defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_TVOS
         window.reset(new WindowTVOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
-#elif defined(OUZEL_PLATFORM_ANDROID)
+#elif OUZEL_PLATFORM_ANDROID
         window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.title));
-#elif defined(OUZEL_PLATFORM_LINUX)
+#elif OUZEL_PLATFORM_LINUX
         window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title));
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif OUZEL_PLATFORM_WINDOWS
         window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
-#elif defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_RASPBIAN
         window.reset(new WindowRPI(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #endif
 
@@ -153,11 +161,11 @@ namespace ouzel
         fileSystem.reset(new FileSystem());
         sceneManager.reset(new scene::SceneManager());
 
-#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         input.reset(new input::InputApple());
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif OUZEL_PLATFORM_WINDOWS
         input.reset(new input::InputWin());
-#elif defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_RASPBIAN
         input.reset(new input::InputRPI());
 #else
         input.reset(new input::Input());
@@ -167,31 +175,31 @@ namespace ouzel
 
         switch (settings.driver)
         {
-#if defined(OUZEL_SUPPORTS_OPENGL) || defined(OUZEL_SUPPORTS_OPENGLES)
+#if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
             case graphics::Renderer::Driver::OPENGL:
                 log("Using OpenGL render driver");
-    #if defined(OUZEL_PLATFORM_MACOS)
+    #if OUZEL_PLATFORM_MACOS
                 renderer.reset(new graphics::RendererOGLMacOS());
-    #elif defined(OUZEL_PLATFORM_IOS)
+    #elif OUZEL_PLATFORM_IOS
                 renderer.reset(new graphics::RendererOGLIOS());
-    #elif defined(OUZEL_PLATFORM_TVOS)
+    #elif OUZEL_PLATFORM_TVOS
                 renderer.reset(new graphics::RendererOGLTVOS());
-    #elif defined(OUZEL_PLATFORM_LINUX)
+    #elif OUZEL_PLATFORM_LINUX
                 renderer.reset(new graphics::RendererOGLLinux());
-    #elif defined(OUZEL_PLATFORM_RASPBIAN)
+    #elif OUZEL_PLATFORM_RASPBIAN
                 renderer.reset(new graphics::RendererOGLRPI());
     #else
                 renderer.reset(new graphics::RendererOGL());
     #endif
                 break;
 #endif
-#if defined(OUZEL_SUPPORTS_DIRECT3D11)
+#if OUZEL_SUPPORTS_DIRECT3D11
             case graphics::Renderer::Driver::DIRECT3D11:
                 log("Using Direct3D 11 render driver");
                 renderer.reset(new graphics::RendererD3D11());
                 break;
 #endif
-#if defined(OUZEL_SUPPORTS_METAL)
+#if OUZEL_SUPPORTS_METAL
             case graphics::Renderer::Driver::METAL:
                 log("Using Metal render driver");
                 renderer.reset(new graphics::RendererMetal());
@@ -212,6 +220,17 @@ namespace ouzel
                                                settings.textureFiltering,
                                                settings.targetFPS,
                                                settings.verticalSync))
+        {
+            return false;
+        }
+
+#if OUZEL_SUPPORTS_COREAUDIO
+        audio.reset(new audio::AudioCA());
+#else
+        audio.reset(new audio::Audio());
+#endif
+
+        if (!audio->init())
         {
             return false;
         }

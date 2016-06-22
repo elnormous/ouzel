@@ -11,6 +11,8 @@ namespace ouzel
         {
         public:
             virtual ~Audio() {}
+
+            virtual bool init();
         };
     } // namespace audio
 } // namespace ouzel

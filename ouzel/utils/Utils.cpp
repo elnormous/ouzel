@@ -6,17 +6,17 @@
 #include <chrono>
 #include "core/CompileConfig.h"
 
-#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <sys/syslog.h>
 #endif
 
-#if defined(OUZEL_PLATFORM_WINDOWS)
+#if OUZEL_PLATFORM_WINDOWS
 #define NOMINMAX
 #include <windows.h>
 #include <strsafe.h>
 #endif
 
-#if defined(OUZEL_PLATFORM_ANDROID)
+#if OUZEL_PLATFORM_ANDROID
 #include <android/log.h>
 #endif
 
@@ -24,7 +24,7 @@
 
 namespace ouzel
 {
-#if defined(OUZEL_PLATFORM_ANDROID) && defined(OUZEL_SUPPORTS_NEON_CHECK)
+#if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_NEON_CHECK
     AnrdoidNEONChecker anrdoidNEONChecker;
 #endif
     char TEMP_BUFFER[65536];
@@ -38,17 +38,17 @@ namespace ouzel
 
         va_end(list);
 
-#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBIAN)
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         printf("%s\n", TEMP_BUFFER);
-#elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         syslog(LOG_WARNING, "%s", TEMP_BUFFER);
         printf("%s\n", TEMP_BUFFER);
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif OUZEL_PLATFORM_WINDOWS
         wchar_t szBuffer[MAX_PATH];
         MultiByteToWideChar(CP_UTF8, 0, TEMP_BUFFER, -1, szBuffer, MAX_PATH);
         StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
         OutputDebugString(szBuffer);
-#elif defined(OUZEL_PLATFORM_ANDROID)
+#elif OUZEL_PLATFORM_ANDROID
         __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", TEMP_BUFFER);
 #endif
     }

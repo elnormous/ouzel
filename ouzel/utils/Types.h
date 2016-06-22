@@ -28,6 +28,18 @@ namespace ouzel
     class Language;
     typedef std::shared_ptr<Language> LanguagePtr;
 
+    namespace audio
+    {
+        class Audio;
+        typedef std::shared_ptr<Audio> AudioPtr;
+
+        class Sound;
+        typedef std::shared_ptr<Sound> SoundPtr;
+
+        class SoundData;
+        typedef std::shared_ptr<SoundData> SoundDataPtr;
+    }
+
     namespace graphics
     {
         class Renderer;

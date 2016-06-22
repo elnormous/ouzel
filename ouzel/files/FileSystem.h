@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#if defined(OUZEL_PLATFORM_ANDROID)
+#if OUZEL_PLATFORM_ANDROID
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 #endif
@@ -14,7 +14,7 @@
 
 namespace ouzel
 {
-#if defined(OUZEL_PLATFORM_ANDROID)
+#if OUZEL_PLATFORM_ANDROID
     extern AAssetManager* assetManager;
 #endif
 

@@ -23,7 +23,9 @@ namespace ouzel
         class AudioCA: public Audio
         {
         public:
-            virtual ~AudioCA() {}
+            AudioCA();
+            virtual ~AudioCA();
+            bool init() override;
         };
     } // namespace audio
 } // namespace ouzel

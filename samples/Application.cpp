@@ -20,7 +20,7 @@ void Application::begin(const std::string& sample)
 {
     sharedEngine->getInput()->startGamepadDiscovery();
 
-#if defined(OUZEL_PLATFORM_WINDOWS) || defined(OUZEL_PLATFORM_LINUX)
+#if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX
     sharedEngine->getFileSystem()->addResourcePath("Resources");
 #endif
 

@@ -9,7 +9,7 @@
 #include <limits>
 
 #include "core/CompileConfig.h"
-#if defined(OUZEL_PLATFORM_ANDROID)
+#if OUZEL_PLATFORM_ANDROID
 #include <cpu-features.h>
 #endif
 
@@ -19,7 +19,7 @@ namespace ouzel
 {
     extern char TEMP_BUFFER[65536];
 
-#if defined(OUZEL_PLATFORM_ANDROID) && defined(OUZEL_SUPPORTS_NEON_CHECK)
+#if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_NEON_CHECK
     class AnrdoidNEONChecker
     {
     public:

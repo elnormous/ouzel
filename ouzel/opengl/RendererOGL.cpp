@@ -13,12 +13,12 @@
 #include "utils/Utils.h"
 #include "stb_image_write.h"
 
-#if defined(OUZEL_SUPPORTS_OPENGL)
+#if OUZEL_SUPPORTS_OPENGL
 #include "ColorPSOGL2.h"
 #include "ColorVSOGL2.h"
 #include "TexturePSOGL2.h"
 #include "TextureVSOGL2.h"
-    #if defined(OUZEL_SUPPORTS_OPENGL3)
+    #if OUZEL_SUPPORTS_OPENGL3
     #include "ColorPSOGL3.h"
     #include "ColorVSOGL3.h"
     #include "TexturePSOGL3.h"
@@ -26,12 +26,12 @@
     #endif
 #endif
 
-#if defined(OUZEL_SUPPORTS_OPENGLES)
+#if OUZEL_SUPPORTS_OPENGLES
 #include "ColorPSOGLES2.h"
 #include "ColorVSOGLES2.h"
 #include "TexturePSOGLES2.h"
 #include "TextureVSOGLES2.h"
-    #if defined(OUZEL_SUPPORTS_OPENGLES3)
+    #if OUZEL_SUPPORTS_OPENGLES3
     #include "ColorPSOGLES3.h"
     #include "ColorVSOGLES3.h"
     #include "TexturePSOGLES3.h"
@@ -39,7 +39,7 @@
     #endif
 #endif
 
-#if defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
 PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT = nullptr;
 PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT = nullptr;
 PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT = nullptr;
@@ -52,7 +52,7 @@ namespace ouzel
         RendererOGL::RendererOGL():
             Renderer(Driver::OPENGL)
         {
-#if defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
             glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
             glBindVertexArrayOESEXT = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
             glDeleteVertexArraysOESEXT = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
@@ -90,7 +90,7 @@ namespace ouzel
                 case 2:
                     textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL2, sizeof(TEXTURE_PIXEL_SHADER_OGL2), TEXTURE_VERTEX_SHADER_OGL2, sizeof(TEXTURE_VERTEX_SHADER_OGL2), VertexPCT::ATTRIBUTES);
                     break;
-#if defined(OUZEL_SUPPORTS_OPENGL3) || defined(OUZEL_SUPPORTS_OPENGLES3)
+#if OUZEL_SUPPORTS_OPENGL3 || OUZEL_SUPPORTS_OPENGLES3
                 case 3:
                     textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_OGL3, sizeof(TEXTURE_PIXEL_SHADER_OGL3), TEXTURE_VERTEX_SHADER_OGL3, sizeof(TEXTURE_VERTEX_SHADER_OGL3), VertexPCT::ATTRIBUTES);
                     break;
@@ -117,7 +117,7 @@ namespace ouzel
                 case 2:
                     colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL2, sizeof(COLOR_PIXEL_SHADER_OGL2), COLOR_VERTEX_SHADER_OGL2, sizeof(COLOR_VERTEX_SHADER_OGL2), VertexPC::ATTRIBUTES);
                     break;
-#if defined(OUZEL_SUPPORTS_OPENGL3) || defined(OUZEL_SUPPORTS_OPENGLES3)
+#if OUZEL_SUPPORTS_OPENGL3 || OUZEL_SUPPORTS_OPENGLES3
                 case 3:
                     colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_OGL3, sizeof(COLOR_PIXEL_SHADER_OGL3), COLOR_VERTEX_SHADER_OGL3, sizeof(COLOR_VERTEX_SHADER_OGL3), VertexPC::ATTRIBUTES);
                     break;
@@ -755,9 +755,9 @@ namespace ouzel
         {
             if (currentVertexArrayId != vertexArrayId)
             {
-#if defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                 glBindVertexArrayOES(vertexArrayId);
-#elif defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
                 if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
 #else
                 glBindVertexArray(vertexArrayId);

@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include "CompileConfig.h"
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
 #import <AppKit/AppKit.h>
-#elif defined(OUZEL_PLATFORM_IOS)
+#elif OUZEL_PLATFORM_IOS
 #include "WindowIOS.h"
-#elif defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_TVOS
 #include "WindowTVOS.h"
 #endif
 #import <GameController/GameController.h>
@@ -354,7 +354,7 @@ namespace ouzel
 
         void InputApple::setCursorVisible(bool visible)
         {
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
             if (visible)
             {
                 [NSCursor unhide];
@@ -370,7 +370,7 @@ namespace ouzel
 
         bool InputApple::isCursorVisible() const
         {
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
             return CGCursorIsVisible();
 #else
             return false;
@@ -407,12 +407,12 @@ namespace ouzel
 
         bool InputApple::showVirtualKeyboard()
         {
-#if defined(OUZEL_PLATFORM_IOS)
+#if OUZEL_PLATFORM_IOS
             UITextField* textField = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow())->getTextField();
             [textField becomeFirstResponder];
 
             return true;
-#elif defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_TVOS
             UITextField* textField = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow())->getTextField();
             [textField becomeFirstResponder];
 
@@ -424,12 +424,12 @@ namespace ouzel
 
         bool InputApple::hideVirtualKeyboard()
         {
-#if defined(OUZEL_PLATFORM_IOS)
+#if OUZEL_PLATFORM_IOS
             UITextField* textField = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow())->getTextField();
             [textField resignFirstResponder];
 
             return true;
-#elif defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_TVOS
             UITextField* textField = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow())->getTextField();
             [textField resignFirstResponder];
 

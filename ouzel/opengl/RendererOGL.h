@@ -7,12 +7,12 @@
 #include "core/CompileConfig.h"
 #include "graphics/Renderer.h"
 
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
     #include <OpenGL/gl3.h>
-#elif defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
     #include <OpenGLES/ES2/gl.h>
     #include <OpenGLES/ES2/glext.h>
-#elif defined(OUZEL_PLATFORM_ANDROID)
+#elif OUZEL_PLATFORM_ANDROID
     #include <GLES2/gl2platform.h>
     #ifndef GL_GLEXT_PROTOTYPES
         #define GL_GLEXT_PROTOTYPES 1
@@ -20,14 +20,14 @@
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
     #include <EGL/egl.h>
-#elif defined(OUZEL_PLATFORM_LINUX)
+#elif OUZEL_PLATFORM_LINUX
     #ifndef GL_GLEXT_PROTOTYPES
         #define GL_GLEXT_PROTOTYPES 1
     #endif
     #include <GL/gl.h>
     #include <GL/glx.h>
     #include <GL/glext.h>
-#elif defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_RASPBIAN
     #ifndef GL_GLEXT_PROTOTYPES
         #define GL_GLEXT_PROTOTYPES 1
     #endif
@@ -36,7 +36,7 @@
     #include <EGL/egl.h>
 #endif
 
-#if defined(OUZEL_PLATFORM_ANDROID) || defined(OUZEL_PLATFORM_RASPBIAN)
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
 extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT;
 extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT;
 extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;

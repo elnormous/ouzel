@@ -7,6 +7,7 @@
     #define OUZEL_PLATFORM_WINDOWS 1
     #define OUZEL_SUPPORTS_DIRECT3D 1
     #define OUZEL_SUPPORTS_DIRECT3D11 1
+    #define OUZEL_SUPPORTS_XAUDIO2 1
 #elif defined(__APPLE__)
     #include <TargetConditionals.h>
     #if TARGET_OS_IOS
@@ -14,16 +15,19 @@
         #define OUZEL_SUPPORTS_OPENGLES 1
         #define OUZEL_SUPPORTS_OPENGLES3 1
         #define OUZEL_SUPPORTS_METAL 1
+        #define OUZEL_SUPPORTS_COREAUDIO 1
     #elif TARGET_OS_TV
         #define OUZEL_PLATFORM_TVOS 1
         #define OUZEL_SUPPORTS_OPENGLES 1
         #define OUZEL_SUPPORTS_OPENGLES3 1
         #define OUZEL_SUPPORTS_METAL 1
+        #define OUZEL_SUPPORTS_COREAUDIO 1
     #elif TARGET_OS_MAC
         #define OUZEL_PLATFORM_MACOS 1
         #define OUZEL_SUPPORTS_OPENGL 1
         #define OUZEL_SUPPORTS_OPENGL3 1
         #define OUZEL_SUPPORTS_METAL 1
+        #define OUZEL_SUPPORTS_COREAUDIO 1
     #endif
 
     #if defined(__ARM_NEON__)

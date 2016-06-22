@@ -7,5 +7,9 @@ namespace ouzel
 {
     namespace audio
     {
+        bool Audio::init()
+        {
+            return true;
+        }
     } // namespace audio
 } // namespace ouzel

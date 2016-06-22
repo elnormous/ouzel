@@ -8,7 +8,7 @@
 #include "ShaderMetal.h"
 #include "MeshBufferMetal.h"
 #include "BlendStateMetal.h"
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
     #include "macos/WindowMacOS.h"
     #include "ColorPSMacOS.h"
     #include "ColorVSMacOS.h"
@@ -18,7 +18,7 @@
     #define COLOR_VERTEX_SHADER_METAL ColorVSMacOS_metallib
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSMacOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSMacOS_metallib
-#elif defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_TVOS
     #include "tvos/WindowTVOS.h"
     #include "ColorPSTVOS.h"
     #include "ColorVSTVOS.h"
@@ -28,7 +28,7 @@
     #define COLOR_VERTEX_SHADER_METAL ColorVSTVOS_metallib
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
-#elif defined(OUZEL_PLATFORM_IOS)
+#elif OUZEL_PLATFORM_IOS
     #include "ios/WindowIOS.h"
     #include "ColorPSIOS.h"
     #include "ColorVSIOS.h"
@@ -185,11 +185,11 @@ namespace ouzel
                 log("Failed to create Metal device");
                 return false;
             }
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
             view = std::static_pointer_cast<WindowMacOS>(window)->getNativeView();
-#elif defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_TVOS
             view = std::static_pointer_cast<WindowTVOS>(window)->getNativeView();
-#elif defined(OUZEL_PLATFORM_IOS)
+#elif OUZEL_PLATFORM_IOS
             view = std::static_pointer_cast<WindowIOS>(window)->getNativeView();
 #endif
             view.device = device;

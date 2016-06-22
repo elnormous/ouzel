@@ -37,6 +37,7 @@ namespace ouzel
         const CachePtr& getCache() const { return cache; }
         const WindowPtr& getWindow() const { return window; }
         const graphics::RendererPtr& getRenderer() const { return renderer; }
+        const audio::AudioPtr& getAudio() const { return audio; }
         const scene::SceneManagerPtr& getSceneManager() const { return sceneManager; }
         const FileSystemPtr& getFileSystem() const { return fileSystem; }
         const input::InputPtr& getInput() const { return input; }
@@ -64,6 +65,7 @@ namespace ouzel
         FileSystemPtr fileSystem;
         LocalizationPtr localization;
         graphics::RendererPtr renderer;
+        audio::AudioPtr audio;
         scene::SceneManagerPtr sceneManager;
 
         float targetFPS;

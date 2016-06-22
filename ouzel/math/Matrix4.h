@@ -4,7 +4,7 @@
 #pragma once
 
 #include "core/CompileConfig.h"
-#if defined(OUZEL_SUPPORTS_SSE)
+#if OUZEL_SUPPORTS_SSE
 #include <xmmintrin.h>
 #endif
 #include "math/Vector3.h"
@@ -21,7 +21,7 @@ namespace ouzel
         /**
          * Stores the columns of this 4x4 matrix.
          * */
-#if defined(OUZEL_SUPPORTS_SSE)
+#if OUZEL_SUPPORTS_SSE
         union
         {
             __m128 col[4];

@@ -146,7 +146,7 @@ namespace ouzel
                     handleButtonValueChange(GamepadButton::Y, pressed, value);
                 };
             }
-#if defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_TVOS
             else if (controller.microGamepad)
             {
                 // D-pad
@@ -193,7 +193,7 @@ namespace ouzel
 
         void GamepadApple::setAbsoluteDpadValues(bool absoluteDpadValues)
         {
-#if defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_TVOS
             controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
 #else
             OUZEL_UNUSED(absoluteDpadValues);
@@ -202,7 +202,7 @@ namespace ouzel
 
         bool GamepadApple::isAbsoluteDpadValues() const
         {
-#if defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_TVOS
             return controller.microGamepad.reportsAbsoluteDpadValues == YES;
 #else
             return false;

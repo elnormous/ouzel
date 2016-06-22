@@ -180,7 +180,7 @@ namespace ouzel
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
             uint32_t newHeight = static_cast<uint32_t>(newSize.height);
 
-#if defined(OUZEL_SUPPORTS_OPENGLES)
+#if OUZEL_SUPPORTS_OPENGLES
             if (mipmaps && (sharedEngine->getRenderer()->getDriver() != Renderer::Driver::OPENGL || (isPOT(newWidth) && isPOT(newHeight))))
 #else
             if (mipmaps)

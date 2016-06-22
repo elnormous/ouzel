@@ -5,33 +5,33 @@
 #include <fstream>
 #include <sys/stat.h>
 #include "core/CompileConfig.h"
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
     #include <sys/types.h>
     #include <pwd.h>
     #include <CoreServices/CoreServices.h>
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif OUZEL_PLATFORM_WINDOWS
     #define NOMINMAX
     #include <windows.h>
     #include <Shlobj.h>
-#elif defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
     #include <unistd.h>
 #endif
 #include "FileSystem.h"
 #include "utils/Utils.h"
 
-#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 
 namespace ouzel
 {
-#if defined(OUZEL_PLATFORM_WINDOWS)
+#if OUZEL_PLATFORM_WINDOWS
     const std::string FileSystem::DIRECTORY_SEPARATOR = "\\";
 #else
     const std::string FileSystem::DIRECTORY_SEPARATOR = "/";
 #endif
 
-#if defined(OUZEL_PLATFORM_ANDROID)
+#if OUZEL_PLATFORM_ANDROID
     AAssetManager* assetManager = nullptr;
 #endif
 
@@ -47,20 +47,20 @@ namespace ouzel
 
     std::string FileSystem::getHomeDirectory()
     {
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
         struct passwd* pw = getpwuid(getuid());
         if (pw)
         {
             return pw->pw_dir;
         }
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
         if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, 0, szBuffer)))
         {
             WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
             return TEMP_BUFFER;
         }
-#elif defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         //TODO: implement
 #endif
         return "";
@@ -70,7 +70,7 @@ namespace ouzel
     {
         std::string path;
 
-#if defined(OUZEL_PLATFORM_MACOS)
+#if OUZEL_PLATFORM_MACOS
         OUZEL_UNUSED(developer);
         OUZEL_UNUSED(app);
 
@@ -92,11 +92,11 @@ namespace ouzel
         {
             mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
         }
-#elif  defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         OUZEL_UNUSED(developer);
         OUZEL_UNUSED(app);
         //TODO: implement
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
         if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_COMMON_APPDATA, NULL, 0, szBuffer)))
         {
@@ -119,11 +119,11 @@ namespace ouzel
             MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, szBuffer, MAX_PATH);
             CreateDirectory(szBuffer, NULL);
         }
-#elif defined(OUZEL_PLATFORM_ANDROID)
+#elif OUZEL_PLATFORM_ANDROID
         OUZEL_UNUSED(developer);
         OUZEL_UNUSED(app);
         //TODO: implement
-#elif defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         OUZEL_UNUSED(developer);
         OUZEL_UNUSED(app);
         //TODO: implement
@@ -133,7 +133,7 @@ namespace ouzel
 
     bool FileSystem::loadFile(const std::string& filename, std::vector<uint8_t>& data) const
     {
-#if defined(OUZEL_PLATFORM_ANDROID)
+#if OUZEL_PLATFORM_ANDROID
         if (!isAbsolutePath(filename))
         {
             AAsset* asset = AAssetManager_open(assetManager, filename.c_str(), AASSET_MODE_STREAMING);
@@ -203,7 +203,7 @@ namespace ouzel
     {
         std::string appPath;
 
-#if defined(OUZEL_PLATFORM_MACOS) || defined(OUZEL_PLATFORM_IOS) || defined(OUZEL_PLATFORM_TVOS)
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         CFURLRef resourcesUrlRef = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
         CFURLRef absoluteURL = CFURLCopyAbsoluteURL(resourcesUrlRef);
 
@@ -216,7 +216,7 @@ namespace ouzel
         CFRelease(urlString);
 
         appPath = std::string(TEMP_BUFFER);
-#elif defined(OUZEL_PLATFORM_WINDOWS)
+#elif OUZEL_PLATFORM_WINDOWS
         wchar_t szBuffer[MAX_PATH];
         if (!GetCurrentDirectoryW(MAX_PATH, szBuffer))
         {
@@ -227,7 +227,7 @@ namespace ouzel
         WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
 
         appPath = std::string(TEMP_BUFFER);
-#elif defined(OUZEL_PLATFORM_LINUX) || defined(OUZEL_PLATFORM_RASPBIAN)
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         if (!getcwd(TEMP_BUFFER, sizeof(TEMP_BUFFER)))
         {
             log("Failed to get current directory");
