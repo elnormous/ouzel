@@ -224,7 +224,9 @@ namespace ouzel
             return false;
         }
 
-#if OUZEL_SUPPORTS_COREAUDIO
+#if OUZEL_SUPPORTS_XAUDIO2
+        audio.reset(new audio::AudioXA2());
+#elif OUZEL_SUPPORTS_COREAUDIO
         audio.reset(new audio::AudioCA());
 #else
         audio.reset(new audio::Audio());

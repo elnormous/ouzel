@@ -235,6 +235,15 @@
     <ClCompile Include="..\ouzel\audio\SoundData.cpp">
       <Filter>audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\xaudio2\AudioXA2.cpp">
+      <Filter>xaudio2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\xaudio2\SoundDataXA2.cpp">
+      <Filter>xaudio2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\xaudio2\SoundXA2.cpp">
+      <Filter>xaudio2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -502,6 +511,15 @@
     <ClInclude Include="..\ouzel\audio\SoundData.h">
       <Filter>audio</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\xaudio2\AudioXA2.h">
+      <Filter>xaudio2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\xaudio2\SoundDataXA2.h">
+      <Filter>xaudio2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\xaudio2\SoundXA2.h">
+      <Filter>xaudio2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
@@ -545,6 +563,9 @@
     </Filter>
     <Filter Include="audio">
       <UniqueIdentifier>{0c56ca23-cef7-4fcd-9088-b27c396897b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xaudio2">
+      <UniqueIdentifier>{18a9f010-0e90-4147-b876-917b28230686}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

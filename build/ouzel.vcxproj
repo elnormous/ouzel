@@ -97,6 +97,9 @@
     <ClCompile Include="..\ouzel\win\InputWin.cpp" />
     <ClCompile Include="..\ouzel\win\main.cpp" />
     <ClCompile Include="..\ouzel\win\WindowWin.cpp" />
+    <ClCompile Include="..\ouzel\xaudio2\AudioXA2.cpp" />
+    <ClCompile Include="..\ouzel\xaudio2\SoundDataXA2.cpp" />
+    <ClCompile Include="..\ouzel\xaudio2\SoundXA2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.h" />
@@ -188,6 +191,9 @@
     <ClInclude Include="..\ouzel\win\GamepadWin.h" />
     <ClInclude Include="..\ouzel\win\InputWin.h" />
     <ClInclude Include="..\ouzel\win\WindowWin.h" />
+    <ClInclude Include="..\ouzel\xaudio2\AudioXA2.h" />
+    <ClInclude Include="..\ouzel\xaudio2\SoundDataXA2.h" />
+    <ClInclude Include="..\ouzel\xaudio2\SoundXA2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</ProjectGuid>
