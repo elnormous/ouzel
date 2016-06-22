@@ -10,10 +10,8 @@ static const AudioObjectPropertyAddress devlistAddress = {
     kAudioObjectPropertyElementMaster
 };
 
-static OSStatus deviceListChanged(AudioObjectID systemObj, UInt32 num_addr, const AudioObjectPropertyAddress *addrs, void *data)
+static OSStatus deviceListChanged(AudioObjectID systemObj, UInt32 numAddr, const AudioObjectPropertyAddress* addrs, void* data)
 {
-    //reprocess_device_list(SDL_TRUE, &capture_devs);
-    //reprocess_device_list(SDL_FALSE, &output_devs);
     return 0;
 }
 
@@ -38,6 +36,10 @@ namespace ouzel
         {
 #if OUZEL_PLATFORM_MACOS
             AudioObjectAddPropertyListener(kAudioObjectSystemObject, &devlistAddress, deviceListChanged, this);
+#else
+            AudioSessionInitialize(NULL, NULL, NULL, nil);
+            UInt32 category = kAudioSessionCategory_AmbientSound;
+            AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(UInt32), &category);
 #endif
             return true;
         }

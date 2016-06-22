@@ -31,12 +31,10 @@ namespace ouzel
 
         if (i == textures.end())
         {
-            graphics::TexturePtr texture = sharedEngine->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
+            graphics::TexturePtr texture = sharedEngine->getRenderer()->createTexture();
+            texture->initFromFile(filename, dynamic, mipmaps);
 
-            if (texture)
-            {
-                textures[filename] = texture;
-            }
+            textures[filename] = texture;
         }
     }
 
@@ -52,12 +50,10 @@ namespace ouzel
         }
         else
         {
-            result = sharedEngine->getRenderer()->loadTextureFromFile(filename, dynamic, mipmaps);
+            result = sharedEngine->getRenderer()->createTexture();
+            result->initFromFile(filename, dynamic, mipmaps);
 
-            if (result)
-            {
-                textures[filename] = result;
-            }
+            textures[filename] = result;
         }
 
         return result;

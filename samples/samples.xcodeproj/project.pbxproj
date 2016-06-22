@@ -42,6 +42,10 @@
 		303B769B1C355AA400FEDE92 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75EC1C33581700FEDE92 /* run.png */; };
 		303B769C1C355AA400FEDE92 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 303B75F61C33756100FEDE92 /* fire.png */; };
 		30419E341D1A06B900A63759 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E331D1A06B900A63759 /* CoreAudio.framework */; };
+		30419E391D1A104F00A63759 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E381D1A104F00A63759 /* CoreAudio.framework */; };
+		30419E3B1D1A105600A63759 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E3A1D1A105600A63759 /* CoreAudio.framework */; };
+		30419E3D1D1A106000A63759 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E3C1D1A106000A63759 /* AudioToolbox.framework */; };
+		30419E3F1D1A106900A63759 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E3E1D1A106900A63759 /* AudioToolbox.framework */; };
 		3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
@@ -164,6 +168,10 @@
 		303B762C1C34D22700FEDE92 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		303B76A01C355AA400FEDE92 /* samples_tvos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_tvos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30419E331D1A06B900A63759 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		30419E381D1A104F00A63759 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = DEVELOPER_DIR; };
+		30419E3A1D1A105600A63759 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = DEVELOPER_DIR; };
+		30419E3C1D1A106000A63759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		30419E3E1D1A106900A63759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		3045F0A61D0C2E4500125436 /* MainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenu.cpp; sourceTree = "<group>"; };
 		3045F0A71D0C2E4500125436 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		3045F0AE1D0D95BC00125436 /* RTSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTSample.cpp; sourceTree = "<group>"; };
@@ -223,6 +231,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				30B492AD1CDF81C70021E170 /* libouzel_ios.a in Frameworks */,
+				30419E3F1D1A106900A63759 /* AudioToolbox.framework in Frameworks */,
+				30419E391D1A104F00A63759 /* CoreAudio.framework in Frameworks */,
 				30AFE14D1CB5DCDC00478AA2 /* Foundation.framework in Frameworks */,
 				30AFE14B1CB5DCBD00478AA2 /* GameController.framework in Frameworks */,
 				30AFE13A1CB5DC6000478AA2 /* Metal.framework in Frameworks */,
@@ -238,6 +248,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				30B492AE1CDF81CA0021E170 /* libouzel_tvos.a in Frameworks */,
+				30419E3D1D1A106000A63759 /* AudioToolbox.framework in Frameworks */,
+				30419E3B1D1A105600A63759 /* CoreAudio.framework in Frameworks */,
 				30AFE1411CB5DC7B00478AA2 /* Foundation.framework in Frameworks */,
 				30AFE1431CB5DC8700478AA2 /* GameController.framework in Frameworks */,
 				30AFE13E1CB5DC6F00478AA2 /* Metal.framework in Frameworks */,
@@ -256,10 +268,10 @@
 				30419E341D1A06B900A63759 /* CoreAudio.framework in Frameworks */,
 				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
+				30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */,
 				30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */,
 				30AFE1371CB5DC3300478AA2 /* MetalKit.framework in Frameworks */,
 				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,
-				30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +281,10 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30419E3E1D1A106900A63759 /* AudioToolbox.framework */,
+				30419E3C1D1A106000A63759 /* AudioToolbox.framework */,
+				30419E3A1D1A105600A63759 /* CoreAudio.framework */,
+				30419E381D1A104F00A63759 /* CoreAudio.framework */,
 				30419E331D1A06B900A63759 /* CoreAudio.framework */,
 				30AFE1521CB5DD0400478AA2 /* UIKit.framework */,
 				30AFE1501CB5DCF900478AA2 /* QuartzCore.framework */,

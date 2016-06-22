@@ -4,6 +4,7 @@
 #include "TextDrawable.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
+#include "graphics/MeshBuffer.h"
 #include "core/Cache.h"
 #include "utils/Utils.h"
 
@@ -90,8 +91,10 @@ namespace ouzel
 
             font.getVertices(text, color, textAnchor, indices, vertices);
 
-            meshBuffer = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
-                                                                                vertices.data(), graphics::VertexPCT::ATTRIBUTES, static_cast<uint32_t>(vertices.size()), false);
+            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+
+            meshBuffer->initFromData(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
+                                     vertices.data(), graphics::VertexPCT::ATTRIBUTES, static_cast<uint32_t>(vertices.size()), false);
 
             boundingBox.reset();
 

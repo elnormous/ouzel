@@ -16,7 +16,8 @@ RTSample::RTSample(Application& app):
     ouzel::scene::LayerPtr rtLayer = make_shared<scene::Layer>();
     addLayer(rtLayer);
 
-    ouzel::graphics::RenderTargetPtr renderTarget = sharedEngine->getRenderer()->createRenderTarget(Size2(256.0f, 256.0f), false);
+    ouzel::graphics::RenderTargetPtr renderTarget = sharedEngine->getRenderer()->createRenderTarget();
+    renderTarget->init(Size2(256.0f, 256.0f), false);
     renderTarget->setClearColor(graphics::Color(0, 64, 0));
     rtLayer->setCamera(make_shared<scene::Camera>());
     rtLayer->setRenderTarget(renderTarget);

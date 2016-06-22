@@ -5,6 +5,7 @@
 #include "core/CompileConfig.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
+#include "graphics/MeshBuffer.h"
 #include "core/Cache.h"
 #include "Layer.h"
 #include "Camera.h"
@@ -59,10 +60,11 @@ namespace ouzel
             DrawCommand command;
 
             command.mode = graphics::Renderer::DrawMode::POINT_LIST;
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                                 static_cast<uint32_t>(indices.size()), false,
-                                                                                 vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                                                                 static_cast<uint32_t>(vertices.size()), false);
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
+            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
+                                       static_cast<uint32_t>(indices.size()), false,
+                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                       static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -81,10 +83,11 @@ namespace ouzel
             DrawCommand command;
 
             command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                                 static_cast<uint32_t>(indices.size()), false,
-                                                                                 vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                                                                 static_cast<uint32_t>(vertices.size()), false);
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
+            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
+                                       static_cast<uint32_t>(indices.size()), false,
+                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                       static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -142,10 +145,11 @@ namespace ouzel
                 }
             }
 
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                                 static_cast<uint32_t>(indices.size()), false,
-                                                                                 vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                                                                 static_cast<uint32_t>(vertices.size()), false);
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
+            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
+                                       static_cast<uint32_t>(indices.size()), false,
+                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                       static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -177,10 +181,11 @@ namespace ouzel
                 indices.assign({0, 1, 3, 2, 0});
             }
 
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                                 static_cast<uint32_t>(indices.size()), false,
-                                                                                 vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                                                                 static_cast<uint32_t>(vertices.size()), false);
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
+            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
+                                       static_cast<uint32_t>(indices.size()), false,
+                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                       static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -214,10 +219,11 @@ namespace ouzel
                 boundingBox.insertPoint(positions[0]);
             }
 
-            command.mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                                 static_cast<uint32_t>(indices.size()), false,
-                                                                                 vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                                                                 static_cast<uint32_t>(vertices.size()), false);
+            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
+            command.mesh->initFromData(indices.data(), sizeof(uint16_t),
+                                       static_cast<uint32_t>(indices.size()), false,
+                                       vertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                       static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
         }

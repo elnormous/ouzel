@@ -8,6 +8,7 @@
 #include "core/Engine.h"
 #include "core/Cache.h"
 #include "graphics/Texture.h"
+#include "graphics/MeshBuffer.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -154,10 +155,12 @@ namespace ouzel
                 graphics::VertexPCT(Vector3(finalOffset.x + rectangle.width, rectangle.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
             };
 
-            meshBuffer = (sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                                static_cast<uint32_t>(indices.size()), false,
-                                                                                vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                                                                static_cast<uint32_t>(vertices.size()), true));
+            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+
+            meshBuffer->initFromData(indices.data(), sizeof(uint16_t),
+                                     static_cast<uint32_t>(indices.size()), false,
+                                     vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                     static_cast<uint32_t>(vertices.size()), true);
         }
 
     } // scene

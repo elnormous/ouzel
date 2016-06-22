@@ -282,15 +282,12 @@ namespace ouzel
                 vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
             }
 
-            mesh = sharedEngine->getRenderer()->createMeshBufferFromData(indices.data(), sizeof(uint16_t),
-                                                                         static_cast<uint32_t>(indices.size()), false,
-                                                                         vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                                                         static_cast<uint32_t>(vertices.size()), true);
+            mesh = sharedEngine->getRenderer()->createMeshBuffer();
 
-            if (!mesh)
-            {
-                return false;
-            }
+            mesh->initFromData(indices.data(), sizeof(uint16_t),
+                               static_cast<uint32_t>(indices.size()), false,
+                               vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                               static_cast<uint32_t>(vertices.size()), true);
 
             particles.resize(particleDefinition.maxParticles);
 

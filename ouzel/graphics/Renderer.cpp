@@ -76,22 +76,9 @@ namespace ouzel
             fullscreen = newFullscreen;
         }
 
-        BlendStatePtr Renderer::createBlendState(bool enableBlending,
-                                                 BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
-                                                 BlendState::BlendOperation colorOperation,
-                                                 BlendState::BlendFactor alphaBlendSource, BlendState::BlendFactor alphaBlendDest,
-                                                 BlendState::BlendOperation alphaOperation)
+        BlendStatePtr Renderer::createBlendState()
         {
             BlendStatePtr blendState(new BlendState());
-            if (!blendState->init(enableBlending,
-                                  colorBlendSource, colorBlendDest,
-                                  colorOperation,
-                                  alphaBlendSource, alphaBlendDest,
-                                  alphaOperation))
-            {
-                blendState.reset();
-            }
-
             return blendState;
         }
 
@@ -102,6 +89,12 @@ namespace ouzel
             return true;
         }
 
+        TexturePtr Renderer::createTexture()
+        {
+            TexturePtr texture(new Texture());
+            return texture;
+        }
+
         bool Renderer::activateTexture(const TexturePtr& texture, uint32_t layer)
         {
             activeTextures[layer] = texture;
@@ -109,11 +102,23 @@ namespace ouzel
             return true;
         }
 
+        RenderTargetPtr Renderer::createRenderTarget()
+        {
+            RenderTargetPtr renderTarget(new RenderTarget());
+            return renderTarget;
+        }
+
         bool Renderer::activateRenderTarget(const RenderTargetPtr& renderTarget)
         {
             activeRenderTarget = renderTarget;
 
             return true;
+        }
+
+        ShaderPtr Renderer::createShader()
+        {
+            ShaderPtr shader(new Shader());
+            return shader;
         }
 
         bool Renderer::activateShader(const ShaderPtr& shader)
@@ -126,12 +131,6 @@ namespace ouzel
         MeshBufferPtr Renderer::createMeshBuffer()
         {
             MeshBufferPtr meshBuffer(new MeshBuffer());
-
-            if (!meshBuffer->init())
-            {
-                meshBuffer.reset();
-            }
-
             return meshBuffer;
         }
 

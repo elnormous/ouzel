@@ -64,36 +64,18 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual BlendStatePtr createBlendState(bool enableBlending,
-                                                   BlendState::BlendFactor colorBlendSource, BlendState::BlendFactor colorBlendDest,
-                                                   BlendState::BlendOperation colorOperation,
-                                                   BlendState::BlendFactor alphaBlendSource, BlendState::BlendFactor alphaBlendDest,
-                                                   BlendState::BlendOperation alphaOperation) override;
+            virtual BlendStatePtr createBlendState() override;
             virtual bool activateBlendState(BlendStatePtr blendState) override;
 
-            virtual TexturePtr createTexture(const Size2& size, bool dynamic, bool mipmaps = true) override;
-            virtual TexturePtr loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps = true) override;
-            virtual TexturePtr loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps = true) override;
+            virtual TexturePtr createTexture() override;
             virtual bool activateTexture(const TexturePtr& texture, uint32_t layer) override;
-            virtual RenderTargetPtr createRenderTarget(const Size2& size, bool depthBuffer) override;
+            virtual RenderTargetPtr createRenderTarget() override;
             virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget) override;
 
-            virtual ShaderPtr loadShaderFromFiles(const std::string& pixelShader,
-                                                  const std::string& vertexShader,
-                                                  uint32_t vertexAttributes,
-                                                  const std::string& pixelShaderFunction = "",
-                                                  const std::string& vertexShaderFunction = "") override;
-            virtual ShaderPtr loadShaderFromBuffers(const uint8_t* pixelShader,
-                                                    uint32_t pixelShaderSize,
-                                                    const uint8_t* vertexShader,
-                                                    uint32_t vertexShaderSize,
-                                                    uint32_t vertexAttributes,
-                                                    const std::string& pixelShaderFunction = "",
-                                                    const std::string& vertexShaderFunction = "") override;
+            virtual ShaderPtr createShader() override;
             virtual bool activateShader(const ShaderPtr& shader) override;
 
             virtual MeshBufferPtr createMeshBuffer() override;
-            virtual MeshBufferPtr createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer) override;
             virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST, uint32_t startIndex = 0) override;
 
             virtual void activateScissorTest(const Rectangle& rectangle) override;

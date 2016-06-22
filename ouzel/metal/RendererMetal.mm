@@ -250,79 +250,59 @@ namespace ouzel
                 return false;
             }
 
-            ShaderPtr textureShader = loadShaderFromBuffers(TEXTURE_PIXEL_SHADER_METAL, sizeof(TEXTURE_PIXEL_SHADER_METAL), TEXTURE_VERTEX_SHADER_METAL, sizeof(TEXTURE_VERTEX_SHADER_METAL), VertexPCT::ATTRIBUTES, "main_ps", "main_vs");
-
-            if (!textureShader)
-            {
-                return false;
-            }
+            ShaderPtr textureShader = createShader();
+            textureShader->initFromBuffers(TEXTURE_PIXEL_SHADER_METAL, sizeof(TEXTURE_PIXEL_SHADER_METAL), TEXTURE_VERTEX_SHADER_METAL, sizeof(TEXTURE_VERTEX_SHADER_METAL), VertexPCT::ATTRIBUTES, "main_ps", "main_vs");
 
             textureShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}}, 256);
             textureShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-            ShaderPtr colorShader = loadShaderFromBuffers(COLOR_PIXEL_SHADER_METAL, sizeof(COLOR_PIXEL_SHADER_METAL), COLOR_VERTEX_SHADER_METAL, sizeof(COLOR_VERTEX_SHADER_METAL), VertexPC::ATTRIBUTES, "main_ps", "main_vs");
-
-            if (!colorShader)
-            {
-                return false;
-            }
+            ShaderPtr colorShader = createShader();
+            colorShader->initFromBuffers(COLOR_PIXEL_SHADER_METAL, sizeof(COLOR_PIXEL_SHADER_METAL), COLOR_VERTEX_SHADER_METAL, sizeof(COLOR_VERTEX_SHADER_METAL), VertexPC::ATTRIBUTES, "main_ps", "main_vs");
 
             colorShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}}, 256);
             colorShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
-            BlendStatePtr noBlendState = createBlendState(false,
-                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                                                          BlendState::BlendOperation::ADD,
-                                                          BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                                                          BlendState::BlendOperation::ADD);
+            BlendStatePtr noBlendState = createBlendState();
 
-            if (!noBlendState)
-            {
-                return false;
-            }
+            noBlendState->init(false,
+                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                               BlendState::BlendOperation::ADD,
+                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                               BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
-            BlendStatePtr addBlendState = createBlendState(true,
-                                                           BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                                           BlendState::BlendOperation::ADD,
-                                                           BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                                           BlendState::BlendOperation::ADD);
+            BlendStatePtr addBlendState = createBlendState();
 
-            if (!addBlendState)
-            {
-                return false;
-            }
+            addBlendState->init(true,
+                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                BlendState::BlendOperation::ADD,
+                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
-            BlendStatePtr multiplyBlendState = createBlendState(true,
-                                                                BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
-                                                                BlendState::BlendOperation::ADD,
-                                                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                                                BlendState::BlendOperation::ADD);
+            BlendStatePtr multiplyBlendState = createBlendState();
 
-            if (!multiplyBlendState)
-            {
-                return false;
-            }
+            multiplyBlendState->init(true,
+                                     BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
+                                     BlendState::BlendOperation::ADD,
+                                     BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                     BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-            BlendStatePtr alphaBlendState = createBlendState(true,
-                                                             BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
-                                                             BlendState::BlendOperation::ADD,
-                                                             BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                                             BlendState::BlendOperation::ADD);
+            BlendStatePtr alphaBlendState = createBlendState();
 
-            if (!alphaBlendState)
-            {
-                return false;
-            }
+            alphaBlendState->init(true,
+                                  BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                  BlendState::BlendOperation::ADD,
+                                  BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                  BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
@@ -447,35 +427,15 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        TexturePtr RendererMetal::createTexture(const Size2& textureSize, bool dynamic, bool mipmaps)
+        TexturePtr RendererMetal::createTexture()
         {
             std::shared_ptr<TextureMetal> texture(new TextureMetal());
-            texture->init(textureSize, dynamic, mipmaps);
-
             return texture;
         }
 
-        TexturePtr RendererMetal::loadTextureFromFile(const std::string& filename, bool dynamic, bool mipmaps)
-        {
-            std::shared_ptr<TextureMetal> texture(new TextureMetal());
-            texture->initFromFile(filename, dynamic, mipmaps);
-
-            return texture;
-        }
-
-        TexturePtr RendererMetal::loadTextureFromData(const void* data, const Size2& size, bool dynamic, bool mipmaps)
-        {
-            std::shared_ptr<TextureMetal> texture(new TextureMetal());
-            texture->initFromData(data, size, dynamic, mipmaps);
-
-            return texture;
-        }
-
-        RenderTargetPtr RendererMetal::createRenderTarget(const Size2& size, bool depthBuffer)
+        RenderTargetPtr RendererMetal::createRenderTarget()
         {
             std::shared_ptr<RenderTargetMetal> renderTarget(new RenderTargetMetal());
-            renderTarget->init(size, depthBuffer);
-
             return renderTarget;
         }
 
@@ -507,45 +467,15 @@ namespace ouzel
             return true;
         }
 
-        ShaderPtr RendererMetal::loadShaderFromFiles(const std::string& pixelShader,
-                                                     const std::string& vertexShader,
-                                                     uint32_t vertexAttributes,
-                                                     const std::string& pixelShaderFunction,
-                                                     const std::string& vertexShaderFunction)
+        ShaderPtr RendererMetal::createShader()
         {
             std::shared_ptr<ShaderMetal> shader(new ShaderMetal());
-            shader->initFromFiles(pixelShader, vertexShader, vertexAttributes, pixelShaderFunction, vertexShaderFunction);
-
-            return shader;
-        }
-
-        ShaderPtr RendererMetal::loadShaderFromBuffers(const uint8_t* pixelShader,
-                                                       uint32_t pixelShaderSize,
-                                                       const uint8_t* vertexShader,
-                                                       uint32_t vertexShaderSize,
-                                                       uint32_t vertexAttributes,
-                                                       const std::string& pixelShaderFunction,
-                                                       const std::string& vertexShaderFunction)
-        {
-            std::shared_ptr<ShaderMetal> shader(new ShaderMetal());
-            shader->initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction);
-
             return shader;
         }
 
         MeshBufferPtr RendererMetal::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
-            meshBuffer->init();
-
-            return meshBuffer;
-        }
-
-        MeshBufferPtr RendererMetal::createMeshBufferFromData(const void* indices, uint32_t indexSize, uint32_t indexCount, bool dynamicIndexBuffer, const void* vertices, uint32_t vertexAttributes, uint32_t vertexCount, bool dynamicVertexBuffer)
-        {
-            std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
-            meshBuffer->initFromData(indices, indexSize, indexCount, dynamicIndexBuffer, vertices, vertexAttributes, vertexCount, dynamicVertexBuffer);
-
             return meshBuffer;
         }
 
