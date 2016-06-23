@@ -3,6 +3,9 @@
 
 #pragma once
 
+#define NOMINMAX
+#include <xaudio2.h>
+
 #include "audio/Sound.h"
 
 namespace ouzel
@@ -17,8 +20,12 @@ namespace ouzel
         public:
             virtual ~SoundXA2();
 
+            virtual bool init(const SoundDataPtr& newSoundData) override;
+
         protected:
             SoundXA2();
+
+            IXAudio2SourceVoice* sourceVoice = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

@@ -3,6 +3,9 @@
 
 #pragma once
 
+#define NOMINMAX
+#include <xaudio2.h>
+
 #include "audio/SoundData.h"
 
 namespace ouzel
@@ -17,8 +20,12 @@ namespace ouzel
         public:
             virtual ~SoundDataXA2();
 
+            const WAVEFORMATEX& getWaveFormat() const { return waveFormat; }
+
         protected:
             SoundDataXA2();
+
+            WAVEFORMATEX waveFormat;
         };
     } // namespace audio
 } // namespace ouzel

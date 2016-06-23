@@ -4,6 +4,7 @@
 #include "AudioXA2.h"
 #include "SoundDataXA2.h"
 #include "SoundXA2.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {
@@ -15,10 +16,24 @@ namespace ouzel
 
         AudioXA2::~AudioXA2()
         {
+            if (masteringVoice) masteringVoice->DestroyVoice();
+            if (xAudio) xAudio->Release();
         }
 
         bool AudioXA2::init()
         {
+            if (FAILED(XAudio2Create(&xAudio)))
+            {
+                log("Failed to initialize XAudio");
+                return false;
+            }
+
+            if (FAILED(xAudio->CreateMasteringVoice(&masteringVoice)))
+            {
+                xAudio->Release();
+                return false;
+            }
+
             return true;
         }
 
