@@ -16,6 +16,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/jni.cpp \
     $(LOCAL_PATH)/../../InputSample.cpp \
     $(LOCAL_PATH)/../../main.cpp \
     $(LOCAL_PATH)/../../MainMenu.cpp \
+    $(LOCAL_PATH)/../../SoundSample.cpp \
     $(LOCAL_PATH)/../../SpritesSample.cpp \
     $(LOCAL_PATH)/../../RTSample.cpp
 

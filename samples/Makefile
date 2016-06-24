@@ -11,6 +11,7 @@ SOURCES=AnimationsSample.cpp \
 	GUISample.cpp \
 	InputSample.cpp \
 	MainMenu.cpp \
+	SoundSample.cpp \
 	SpritesSample.cpp \
 	RTSample.cpp
 OBJECTS=$(SOURCES:.cpp=.o)

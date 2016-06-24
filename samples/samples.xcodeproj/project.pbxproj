@@ -46,6 +46,12 @@
 		30419E3B1D1A105600A63759 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E3A1D1A105600A63759 /* CoreAudio.framework */; };
 		30419E3D1D1A106000A63759 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E3C1D1A106000A63759 /* AudioToolbox.framework */; };
 		30419E3F1D1A106900A63759 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E3E1D1A106900A63759 /* AudioToolbox.framework */; };
+		30419E5B1D1D530D00A63759 /* SoundSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E591D1D530D00A63759 /* SoundSample.cpp */; };
+		30419E5C1D1D530D00A63759 /* SoundSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E591D1D530D00A63759 /* SoundSample.cpp */; };
+		30419E5D1D1D530D00A63759 /* SoundSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E591D1D530D00A63759 /* SoundSample.cpp */; };
+		30419E5F1D1D541900A63759 /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E5E1D1D541900A63759 /* jump.wav */; };
+		30419E601D1D541900A63759 /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E5E1D1D541900A63759 /* jump.wav */; };
+		30419E611D1D541900A63759 /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E5E1D1D541900A63759 /* jump.wav */; };
 		3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
@@ -172,6 +178,9 @@
 		30419E3A1D1A105600A63759 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = DEVELOPER_DIR; };
 		30419E3C1D1A106000A63759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		30419E3E1D1A106900A63759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		30419E591D1D530D00A63759 /* SoundSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSample.cpp; sourceTree = "<group>"; };
+		30419E5A1D1D530D00A63759 /* SoundSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundSample.h; sourceTree = "<group>"; };
+		30419E5E1D1D541900A63759 /* jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jump.wav; sourceTree = "<group>"; };
 		3045F0A61D0C2E4500125436 /* MainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenu.cpp; sourceTree = "<group>"; };
 		3045F0A71D0C2E4500125436 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		3045F0AE1D0D95BC00125436 /* RTSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTSample.cpp; sourceTree = "<group>"; };
@@ -335,15 +344,17 @@
 				3045F0CD1D0F24F600125436 /* InputSample.cpp */,
 				3045F0CE1D0F24F600125436 /* InputSample.h */,
 				303B762A1C34D21100FEDE92 /* ios */,
+				304A8EA41C274113008B1151 /* macos */,
 				303B75181C29EB8400FEDE92 /* main.cpp */,
 				3045F0A61D0C2E4500125436 /* MainMenu.cpp */,
 				3045F0A71D0C2E4500125436 /* MainMenu.h */,
-				304A8EA41C274113008B1151 /* macos */,
 				30B492A01CDF816F0021E170 /* ouzel.xcodeproj */,
 				304A8E0B1C237B95008B1151 /* Products */,
 				304A8EB21C2765C4008B1151 /* Resources */,
 				3045F0AE1D0D95BC00125436 /* RTSample.cpp */,
 				3045F0AF1D0D95BC00125436 /* RTSample.h */,
+				30419E591D1D530D00A63759 /* SoundSample.cpp */,
+				30419E5A1D1D530D00A63759 /* SoundSample.h */,
 				3045F0C01D0E103100125436 /* SpritesSample.cpp */,
 				3045F0C11D0E103100125436 /* SpritesSample.h */,
 				30575A951C38C8ED0009C8A7 /* tvos */,
@@ -387,6 +398,7 @@
 				303B76021C349CA800FEDE92 /* flame.png */,
 				305B99A51C42B3F6008589E1 /* font.fnt */,
 				305B99A61C42B3F6008589E1 /* font.png */,
+				30419E5E1D1D541900A63759 /* jump.wav */,
 				30324D9C1CAFB20900601A64 /* lv.mo */,
 				30C56C731CAB48A4007AEF8F /* radio_button.png */,
 				303B75EB1C33581700FEDE92 /* run.json */,
@@ -543,6 +555,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30419E601D1D541900A63759 /* jump.wav in Resources */,
 				305B99B41C433061008589E1 /* button_down.png in Resources */,
 				305B99B71C433061008589E1 /* button.png in Resources */,
 				303B76161C34CFE300FEDE92 /* flame.png in Resources */,
@@ -571,6 +584,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30419E611D1D541900A63759 /* jump.wav in Resources */,
 				305B99B51C433061008589E1 /* button_down.png in Resources */,
 				305B99B81C433061008589E1 /* button.png in Resources */,
 				303B76961C355AA400FEDE92 /* flame.png in Resources */,
@@ -599,6 +613,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30419E5F1D1D541900A63759 /* jump.wav in Resources */,
 				305B99B31C433061008589E1 /* button_down.png in Resources */,
 				305B99B61C433061008589E1 /* button.png in Resources */,
 				303B76041C349CA800FEDE92 /* flame.png in Resources */,
@@ -638,6 +653,7 @@
 				3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */,
 				3045F0D01D0F24F600125436 /* InputSample.cpp in Sources */,
 				303B760F1C34CFE300FEDE92 /* main.cpp in Sources */,
+				30419E5C1D1D530D00A63759 /* SoundSample.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,6 +669,7 @@
 				3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */,
 				3045F0D11D0F24F600125436 /* InputSample.cpp in Sources */,
 				303B768E1C355AA400FEDE92 /* main.cpp in Sources */,
+				30419E5D1D1D530D00A63759 /* SoundSample.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,6 +685,7 @@
 				3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */,
 				3045F0CF1D0F24F600125436 /* InputSample.cpp in Sources */,
 				303B751A1C29ED4200FEDE92 /* main.cpp in Sources */,
+				30419E5B1D1D530D00A63759 /* SoundSample.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
