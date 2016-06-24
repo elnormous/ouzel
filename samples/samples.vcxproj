@@ -151,6 +151,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="RTSample.cpp" />
+    <ClCompile Include="SoundSample.cpp" />
     <ClCompile Include="SpritesSample.cpp" />
     <ClCompile Include="win\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -166,6 +167,7 @@
     <ClInclude Include="InputSample.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="RTSample.h" />
+    <ClInclude Include="SoundSample.h" />
     <ClInclude Include="SpritesSample.h" />
     <ClInclude Include="win\resource.h" />
     <ClInclude Include="win\stdafx.h" />
