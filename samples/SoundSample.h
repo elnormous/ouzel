@@ -5,11 +5,11 @@
 
 #include "Application.h"
 
-class SounSample: public ouzel::scene::Scene
+class SoundSample: public ouzel::scene::Scene
 {
 public:
-    SounSample(Application& app);
-    virtual ~SounSample();
+    SoundSample(Application& app);
+    virtual ~SoundSample();
 
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event, const ouzel::VoidPtr& sender) const;
 
@@ -18,4 +18,6 @@ private:
     ouzel::gui::ButtonPtr backButton;
     ouzel::gui::ButtonPtr soundButton;
     ouzel::EventHandlerPtr eventHandler;
+
+    ouzel::audio::SoundPtr sound;
 };

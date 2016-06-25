@@ -21,4 +21,5 @@ private:
     ouzel::gui::ButtonPtr renderTargetButton;
     ouzel::gui::ButtonPtr animationsButton;
     ouzel::gui::ButtonPtr inputButton;
+    ouzel::gui::ButtonPtr soundButton;
 };

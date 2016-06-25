@@ -8,6 +8,7 @@
 #include "RTSample.h"
 #include "AnimationsSample.h"
 #include "InputSample.h"
+#include "SoundSample.h"
 
 using namespace std;
 using namespace ouzel;
@@ -58,6 +59,10 @@ void Application::begin(const std::string& sample)
         else if (sample == "input")
         {
             newScene = make_shared<InputSample>(*this);
+        }
+        else if (sample == "sound")
+        {
+            newScene = make_shared<SoundSample>(*this);
         }
     }
 

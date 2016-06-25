@@ -17,10 +17,15 @@ namespace ouzel
 
             virtual bool init(const SoundDataPtr& newSoundData);
 
+            virtual void play(bool repeatSound = false);
+            virtual void stop(bool resetSound = false);
+            virtual void reset();
+
         protected:
             Sound();
 
             SoundDataPtr soundData;
+            bool repeat = false;
         };
     } // namespace audio
 } // namespace ouzel

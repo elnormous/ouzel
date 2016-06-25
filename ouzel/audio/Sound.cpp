@@ -21,5 +21,22 @@ namespace ouzel
 
             return true;
         }
+
+        void Sound::play(bool repeatSound)
+        {
+            repeat = repeatSound;
+        }
+
+        void Sound::stop(bool resetSound)
+        {
+            if (resetSound)
+            {
+                reset();
+            }
+        }
+
+        void Sound::reset()
+        {
+        }
     } // namespace audio
 } // namespace ouzel

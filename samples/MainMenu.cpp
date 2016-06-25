@@ -7,6 +7,7 @@
 #include "RTSample.h"
 #include "AnimationsSample.h"
 #include "InputSample.h"
+#include "SoundSample.h"
 
 using namespace std;
 using namespace ouzel;
@@ -44,6 +45,10 @@ MainMenu::MainMenu(Application& app):
     inputButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Input", graphics::Color(20, 0, 0, 255), "arial.fnt");
     inputButton->setPosition(Vector2(0.0f, -80.0f));
     layer->addChild(inputButton);
+
+    soundButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Sound", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    soundButton->setPosition(Vector2(0.0f, -120.0f));
+    layer->addChild(soundButton);
 }
 
 MainMenu::~MainMenu()
@@ -78,6 +83,10 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& s
         else if (sender == inputButton)
         {
             newScene = make_shared<InputSample>(application);
+        }
+        else if (sender == soundButton)
+        {
+            newScene = make_shared<SoundSample>(application);
         }
 
         if (newScene)
