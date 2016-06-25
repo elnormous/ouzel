@@ -35,7 +35,7 @@ namespace ouzel
             const uint32_t HEADER_SIZE = 16; // RIFF + size + WAVEfmt
             const uint32_t FORMAT_HEADER_SIZE = 16;
 
-            uint64_t offset = 0;
+            uint32_t offset = 0;
 
             if (newData.size() < HEADER_SIZE)
             {
@@ -112,8 +112,14 @@ namespace ouzel
                         return false;
                     }
 
-                    uint16_t formatTag = *reinterpret_cast<const uint16_t*>(newData.data() + i);
+                    formatTag = *reinterpret_cast<const uint16_t*>(newData.data() + i);
                     i += 2;
+
+                    if (formatTag != 1)
+                    {
+                        log("Failed to load sound file. Bad format tag.");
+                        return false;
+                    }
 
                     channels = *reinterpret_cast<const uint16_t*>(newData.data() + i);
                     i += 2;
@@ -129,12 +135,6 @@ namespace ouzel
 
                     bitsPerSample = *reinterpret_cast<const uint16_t*>(newData.data() + i);
                     i += 2;
-                    
-                    if (formatTag != 1)
-                    {
-                        log("Failed to load sound file. Bad format tag.");
-                        return false;
-                    }
 
                     foundChunkFound = true;
                     break;

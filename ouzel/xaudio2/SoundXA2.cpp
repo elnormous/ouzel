@@ -36,7 +36,37 @@ namespace ouzel
                 return false;
             }
 
+            /*if (FAILED(sourceVoice->SubmitSourceBuffer(reinterpret_cast<const XAUDIO2_BUFFER*>(soundData->getData().data()))))
+            {
+                log("Failed to upload sound data");
+                return false;
+            }
+
+            if (FAILED(sourceVoice->FlushSourceBuffers()))
+            {
+                log("Failed to flush sound buffer");
+                return false;
+            }*/
+
             return true;
+        }
+
+        void SoundXA2::play(bool repeatSound)
+        {
+            sourceVoice->Stop();
+            sourceVoice->FlushSourceBuffers();
+            sourceVoice->Start();
+            sourceVoice->SubmitSourceBuffer(reinterpret_cast<const XAUDIO2_BUFFER*>(soundData->getData().data()));
+        }
+
+        void SoundXA2::stop(bool resetSound)
+        {
+
+        }
+
+        void SoundXA2::reset()
+        {
+
         }
     } // namespace audio
 } // namespace ouzel

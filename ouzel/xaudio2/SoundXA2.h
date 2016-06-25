@@ -22,6 +22,10 @@ namespace ouzel
 
             virtual bool init(const SoundDataPtr& newSoundData) override;
 
+            virtual void play(bool repeatSound = false) override;
+            virtual void stop(bool resetSound = false) override;
+            virtual void reset() override;
+
         protected:
             SoundXA2();
 

@@ -19,6 +19,7 @@ namespace ouzel
             friend AudioXA2;
         public:
             virtual ~SoundDataXA2();
+            virtual bool initFromBuffer(const std::vector<uint8_t>& newData) override;
 
             const WAVEFORMATEX& getWaveFormat() const { return waveFormat; }
 

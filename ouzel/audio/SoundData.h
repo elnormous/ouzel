@@ -29,6 +29,7 @@ namespace ouzel
 
             std::string filename;
 
+            uint16_t formatTag = 0;
             uint16_t channels = 0;
             uint32_t samplesPerSecond = 0;
             uint32_t averageBytesPerSecond = 0;
