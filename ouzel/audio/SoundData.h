@@ -26,6 +26,12 @@ namespace ouzel
             SoundData();
 
             std::string filename;
+
+            uint16_t channels = 0;
+            uint32_t samplesPerSecond = 0;
+            uint32_t averageBytesPerSecond = 0;
+            uint16_t blockAlign = 0;
+            uint16_t bitsPerSample = 0;
         };
     } // namespace audio
 } // namespace ouzel
