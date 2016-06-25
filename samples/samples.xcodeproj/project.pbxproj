@@ -52,6 +52,7 @@
 		30419E5F1D1D541900A63759 /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E5E1D1D541900A63759 /* jump.wav */; };
 		30419E601D1D541900A63759 /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E5E1D1D541900A63759 /* jump.wav */; };
 		30419E611D1D541900A63759 /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E5E1D1D541900A63759 /* jump.wav */; };
+		30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E621D1F3DED00A63759 /* AudioToolbox.framework */; };
 		3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
@@ -181,6 +182,7 @@
 		30419E591D1D530D00A63759 /* SoundSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSample.cpp; sourceTree = "<group>"; };
 		30419E5A1D1D530D00A63759 /* SoundSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundSample.h; sourceTree = "<group>"; };
 		30419E5E1D1D541900A63759 /* jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jump.wav; sourceTree = "<group>"; };
+		30419E621D1F3DED00A63759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		3045F0A61D0C2E4500125436 /* MainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenu.cpp; sourceTree = "<group>"; };
 		3045F0A71D0C2E4500125436 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		3045F0AE1D0D95BC00125436 /* RTSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTSample.cpp; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30B492AC1CDF81C40021E170 /* libouzel_osx.a in Frameworks */,
+				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
 				30419E341D1A06B900A63759 /* CoreAudio.framework in Frameworks */,
 				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
@@ -290,6 +293,7 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30419E621D1F3DED00A63759 /* AudioToolbox.framework */,
 				30419E3E1D1A106900A63759 /* AudioToolbox.framework */,
 				30419E3C1D1A106000A63759 /* AudioToolbox.framework */,
 				30419E3A1D1A105600A63759 /* CoreAudio.framework */,

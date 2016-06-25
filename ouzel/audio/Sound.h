@@ -18,6 +18,8 @@ namespace ouzel
 
             virtual bool init(const SoundDataPtr& newSoundData);
 
+            const SoundDataPtr& getSoundData() const { return soundData; }
+
             virtual bool play(bool repeatSound = false);
             virtual bool stop(bool resetSound = false);
             virtual bool reset();
