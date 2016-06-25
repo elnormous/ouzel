@@ -33,11 +33,11 @@ namespace ouzel
         bool SoundData::initFromBuffer(const std::vector<uint8_t>& newData)
         {
             const uint32_t HEADER_SIZE = 16; // RIFF + size + WAVEfmt
-            const uint32_t PCM_HEADER_SIZE = 20;
+            const uint32_t FORMAT_HEADER_SIZE = 16;
 
             uint64_t offset = 0;
 
-            if (newData.size() < HEADER_SIZE + PCM_HEADER_SIZE)
+            if (newData.size() < HEADER_SIZE)
             {
                 log("Failed to load sound file. File too small");
                 return false;
@@ -66,45 +66,135 @@ namespace ouzel
             if (newData[offset + 0] != 'W' ||
                 newData[offset + 1] != 'A' ||
                 newData[offset + 2] != 'V' ||
-                newData[offset + 3] != 'E' ||
-                newData[offset + 4] != 'f' ||
-                newData[offset + 5] != 'm' ||
-                newData[offset + 6] != 't' ||
-                newData[offset + 7] != ' ')
+                newData[offset + 3] != 'E')
             {
                 log("Failed to load sound file. Not a WAVE file.");
                 return false;
             }
 
-            offset += 8;
-
-            uint32_t pcmHeaderLength = *reinterpret_cast<const uint32_t*>(newData.data() + offset);
             offset += 4;
 
-            uint16_t formatTag = *reinterpret_cast<const uint16_t*>(newData.data() + offset);
-            offset += 2;
+            bool foundChunkFound = false;
 
-            channels = *reinterpret_cast<const uint16_t*>(newData.data() + offset);
-            offset += 2;
-
-            samplesPerSecond = *reinterpret_cast<const uint32_t*>(newData.data() + offset);
-            offset += 4;
-
-            averageBytesPerSecond = *reinterpret_cast<const uint32_t*>(newData.data() + offset);
-            offset += 4;
-
-            blockAlign = *reinterpret_cast<const uint16_t*>(newData.data() + offset);
-            offset += 2;
-
-            bitsPerSample = *reinterpret_cast<const uint16_t*>(newData.data() + offset);
-            offset += 2;
-
-            if (formatTag != 1)
+            for (uint32_t i = offset; i < newData.size();)
             {
-                log("Failed to load sound file. Bad format tag.");
+                if (newData.size() < i + 8)
+                {
+                    log("Failed to load sound file. Not enough data to read chunk.");
+                    return false;
+                }
+
+                char chunkHeader[4];
+                chunkHeader[0] = newData[i + 0];
+                chunkHeader[1] = newData[i + 1];
+                chunkHeader[2] = newData[i + 2];
+                chunkHeader[3] = newData[i + 3];
+
+                i += 4;
+
+                uint32_t chunkSize = *reinterpret_cast<const uint32_t*>(newData.data() + i);
+                i += 4;
+
+                if (newData.size() < i + chunkSize)
+                {
+                    log("Failed to load sound file. Not enough data to read chunk.");
+                    return false;
+                }
+
+                if (chunkHeader[0] == 'f' &&
+                    chunkHeader[1] == 'm' &&
+                    chunkHeader[2] == 't' &&
+                    chunkHeader[3] == ' ')
+                {
+                    if (chunkSize < FORMAT_HEADER_SIZE)
+                    {
+                        log("Failed to load sound file. Not enough data to read chunk.");
+                        return false;
+                    }
+
+                    uint16_t formatTag = *reinterpret_cast<const uint16_t*>(newData.data() + i);
+                    i += 2;
+
+                    channels = *reinterpret_cast<const uint16_t*>(newData.data() + i);
+                    i += 2;
+
+                    samplesPerSecond = *reinterpret_cast<const uint32_t*>(newData.data() + i);
+                    i += 4;
+
+                    averageBytesPerSecond = *reinterpret_cast<const uint32_t*>(newData.data() + i);
+                    i += 4;
+
+                    blockAlign = *reinterpret_cast<const uint16_t*>(newData.data() + i);
+                    i += 2;
+
+                    bitsPerSample = *reinterpret_cast<const uint16_t*>(newData.data() + i);
+                    i += 2;
+                    
+                    if (formatTag != 1)
+                    {
+                        log("Failed to load sound file. Bad format tag.");
+                        return false;
+                    }
+
+                    foundChunkFound = true;
+                    break;
+                }
+
+                i += chunkSize;
             }
 
-            offset = HEADER_SIZE + 4 + pcmHeaderLength;
+            if (!foundChunkFound)
+            {
+                log("Failed to load sound file. Failed to find a format chunk.");
+                return false;
+            }
+
+            bool dataChunkFound = false;
+
+            for (uint32_t i = offset; i < newData.size();)
+            {
+                if (newData.size() < i + 8)
+                {
+                    log("Failed to load sound file. Not enough data to read chunk.");
+                    return false;
+                }
+
+                char chunkHeader[4];
+                chunkHeader[0] = newData[i + 0];
+                chunkHeader[1] = newData[i + 1];
+                chunkHeader[2] = newData[i + 2];
+                chunkHeader[3] = newData[i + 3];
+
+                i += 4;
+
+                uint32_t chunkSize = *reinterpret_cast<const uint32_t*>(newData.data() + i);
+                i += 4;
+
+                if (newData.size() < i + chunkSize)
+                {
+                    log("Failed to load sound file. Not enough data to read chunk.");
+                    return false;
+                }
+
+                if (chunkHeader[0] == 'd' &&
+                    chunkHeader[1] == 'a' &&
+                    chunkHeader[2] == 't' &&
+                    chunkHeader[3] == 'a')
+                {
+                    data.assign(newData.begin() + i, newData.begin() + i + chunkSize);
+
+                    dataChunkFound = true;
+                    break;
+                }
+
+                i += chunkSize;
+            }
+
+            if (!dataChunkFound)
+            {
+                log("Failed to load sound file. Failed to find a data chunk.");
+                return false;
+            }
 
             return true;
         }

@@ -22,6 +22,8 @@ namespace ouzel
             virtual bool initFromFile(const std::string& newFilename);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
 
+            const std::vector<uint8_t>& getData() const { return data; }
+
         protected:
             SoundData();
 
@@ -32,6 +34,8 @@ namespace ouzel
             uint32_t averageBytesPerSecond = 0;
             uint16_t blockAlign = 0;
             uint16_t bitsPerSample = 0;
+
+            std::vector<uint8_t> data;
         };
     } // namespace audio
 } // namespace ouzel
