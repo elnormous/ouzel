@@ -55,6 +55,8 @@ namespace ouzel
                 return false;
             }
 
+            ready = true;
+
             return initFromBuffer(image.getData(), image.getSize(), dynamic, mipmaps);
         }
 

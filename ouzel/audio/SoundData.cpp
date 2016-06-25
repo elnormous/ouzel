@@ -26,8 +26,6 @@ namespace ouzel
 
         bool SoundData::initFromFile(const std::string& newFilename)
         {
-            free();
-
             filename = newFilename;
 
             std::vector<uint8_t> newData;

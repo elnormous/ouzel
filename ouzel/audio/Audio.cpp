@@ -24,7 +24,6 @@ namespace ouzel
 
         bool Audio::init()
         {
-            free();
             ready = true;
 
             return true;

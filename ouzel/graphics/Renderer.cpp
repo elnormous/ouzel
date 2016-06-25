@@ -48,6 +48,8 @@ namespace ouzel
             targetFPS = newTargetFPS;
             verticalSync = newVerticalSync;
 
+            ready = true;
+
             return true;
         }
 

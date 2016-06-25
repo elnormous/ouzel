@@ -22,8 +22,6 @@ namespace ouzel
 
         bool Sound::init(const SoundDataPtr& newSoundData)
         {
-            free();
-
             soundData = newSoundData;
             ready = true;
 
