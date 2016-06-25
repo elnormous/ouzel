@@ -38,7 +38,7 @@ namespace ouzel
                 return false;
             }
 
-            ready = false;
+            free();
 
             std::shared_ptr<AudioXA2> audioXA2 = std::static_pointer_cast<AudioXA2>(sharedEngine->getAudio());
             std::shared_ptr<SoundDataXA2> soundDataXA2 = std::static_pointer_cast<SoundDataXA2>(soundData);

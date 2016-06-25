@@ -44,7 +44,7 @@ namespace ouzel
                 return false;
             }
 
-            ready = false;
+            free();
 
             if (FAILED(XAudio2Create(&xAudio)))
             {
