@@ -22,6 +22,11 @@ Supported rendering backends:
 * OpenGL ES 2 and OpenGL ES 3
 * Metal 
 
+Supported audio backends:
+
+* XAudio2
+* CoreAudio
+
 Windows Phone platform support is under development.
 
 ## Compilation
@@ -77,6 +82,7 @@ The following code will open a 640px x 480px window:
 * Particle systems
 * Resource caching system
 * Localization support via loading string translations
+* Audio engine for sound effect playback
 
 ## Getting help
 
