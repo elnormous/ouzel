@@ -19,12 +19,13 @@ namespace ouzel
             friend AudioXA2;
         public:
             virtual ~SoundXA2();
+            virtual void free() override;
 
             virtual bool init(const SoundDataPtr& newSoundData) override;
 
-            virtual void play(bool repeatSound = false) override;
-            virtual void stop(bool resetSound = false) override;
-            virtual void reset() override;
+            virtual bool play(bool repeatSound = false) override;
+            virtual bool stop(bool resetSound = false) override;
+            virtual bool reset() override;
 
         protected:
             SoundXA2();

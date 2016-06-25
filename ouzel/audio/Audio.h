@@ -16,14 +16,19 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~Audio();
+            virtual void free();
 
             virtual bool init();
 
             virtual SoundDataPtr createSoundData();
             virtual SoundPtr createSound();
 
+            bool isReady() const { return ready; }
+
         protected:
             Audio();
+
+            bool ready = false;
         };
     } // namespace audio
 } // namespace ouzel

@@ -17,6 +17,7 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~AudioXA2();
+            virtual void free() override;
 
             virtual bool init() override;
 

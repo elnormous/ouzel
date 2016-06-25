@@ -17,8 +17,17 @@ namespace ouzel
         {
         }
 
+        void SoundData::free()
+        {
+            data.clear();
+
+            ready = false;
+        }
+
         bool SoundData::initFromFile(const std::string& newFilename)
         {
+            free();
+
             filename = newFilename;
 
             std::vector<uint8_t> newData;
@@ -32,6 +41,8 @@ namespace ouzel
 
         bool SoundData::initFromBuffer(const std::vector<uint8_t>& newData)
         {
+            ready = false;
+
             const uint32_t HEADER_SIZE = 16; // RIFF + size + WAVEfmt
             const uint32_t FORMAT_HEADER_SIZE = 16;
 
@@ -195,6 +206,8 @@ namespace ouzel
                 log("Failed to load sound file. Failed to find a data chunk.");
                 return false;
             }
+
+            ready = true;
 
             return true;
         }

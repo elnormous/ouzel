@@ -18,11 +18,14 @@ namespace ouzel
             friend Audio;
         public:
             virtual ~SoundData();
+            virtual void free();
 
             virtual bool initFromFile(const std::string& newFilename);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
 
             const std::vector<uint8_t>& getData() const { return data; }
+
+            bool isReady() const { return ready; }
 
         protected:
             SoundData();
@@ -37,6 +40,8 @@ namespace ouzel
             uint16_t bitsPerSample = 0;
 
             std::vector<uint8_t> data;
+
+            bool ready = false;
         };
     } // namespace audio
 } // namespace ouzel

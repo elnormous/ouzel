@@ -17,8 +17,16 @@ namespace ouzel
         {
         }
 
+        void Audio::free()
+        {
+            ready = false;
+        }
+
         bool Audio::init()
         {
+            free();
+            ready = true;
+
             return true;
         }
 

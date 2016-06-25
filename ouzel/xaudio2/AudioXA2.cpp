@@ -20,8 +20,32 @@ namespace ouzel
             if (xAudio) xAudio->Release();
         }
 
+        void AudioXA2::free()
+        {
+            Audio::free();
+
+            if (masteringVoice)
+            {
+                masteringVoice->DestroyVoice();
+                masteringVoice = nullptr;
+            }
+
+            if (xAudio)
+            {
+                xAudio->Release();
+                xAudio = nullptr;
+            }
+        }
+
         bool AudioXA2::init()
         {
+            if (!Audio::init())
+            {
+                return false;
+            }
+
+            ready = false;
+
             if (FAILED(XAudio2Create(&xAudio)))
             {
                 log("Failed to initialize XAudio");
@@ -33,6 +57,8 @@ namespace ouzel
                 xAudio->Release();
                 return false;
             }
+
+            ready = true;
 
             return true;
         }

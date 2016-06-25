@@ -14,18 +14,23 @@ namespace ouzel
             friend Audio;
         public:
             virtual ~Sound();
+            virtual void free();
 
             virtual bool init(const SoundDataPtr& newSoundData);
 
-            virtual void play(bool repeatSound = false);
-            virtual void stop(bool resetSound = false);
-            virtual void reset();
+            virtual bool play(bool repeatSound = false);
+            virtual bool stop(bool resetSound = false);
+            virtual bool reset();
+
+            bool isReady() const { return ready; }
 
         protected:
             Sound();
 
             SoundDataPtr soundData;
             bool repeat = false;
+
+            bool ready = false;
         };
     } // namespace audio
 } // namespace ouzel

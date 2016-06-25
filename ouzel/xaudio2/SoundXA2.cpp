@@ -20,12 +20,25 @@ namespace ouzel
             if (sourceVoice) sourceVoice->DestroyVoice();
         }
 
+        void SoundXA2::free()
+        {
+            Sound::free();
+
+            if (sourceVoice)
+            {
+                sourceVoice->DestroyVoice();
+                sourceVoice = nullptr;
+            }
+        }
+
         bool SoundXA2::init(const SoundDataPtr& newSoundData)
         {
             if (!Sound::init(newSoundData))
             {
                 return false;
             }
+
+            ready = false;
 
             std::shared_ptr<AudioXA2> audioXA2 = std::static_pointer_cast<AudioXA2>(sharedEngine->getAudio());
             std::shared_ptr<SoundDataXA2> soundDataXA2 = std::static_pointer_cast<SoundDataXA2>(soundData);
@@ -36,9 +49,70 @@ namespace ouzel
                 return false;
             }
 
-            /*if (FAILED(sourceVoice->SubmitSourceBuffer(reinterpret_cast<const XAUDIO2_BUFFER*>(soundData->getData().data()))))
+            ready = true;
+
+            return true;
+        }
+
+        bool SoundXA2::play(bool repeatSound)
+        {
+            if (!Sound::play(repeatSound))
+            {
+                return false;
+            }
+            
+            XAUDIO2_BUFFER bufferData;
+            bufferData.Flags = XAUDIO2_END_OF_STREAM;
+            bufferData.AudioBytes = static_cast<UINT32>(soundData->getData().size());
+            bufferData.pAudioData = soundData->getData().data();
+            bufferData.PlayBegin = 0;
+            bufferData.PlayLength = 0;
+            bufferData.LoopBegin = 0;
+            bufferData.LoopLength = 0;
+            bufferData.LoopCount = 0; // XAUDIO2_LOOP_INFINITE
+            bufferData.pContext = nullptr;
+
+            if (FAILED(sourceVoice->SubmitSourceBuffer(&bufferData)))
             {
                 log("Failed to upload sound data");
+                return false;
+            }
+
+            if (FAILED(sourceVoice->Start()))
+            {
+                log("Failed to start consuming sound data");
+                return false;
+            }
+
+            return true;
+        }
+
+        bool SoundXA2::stop(bool resetSound)
+        {
+            if (!Sound::stop(resetSound))
+            {
+                return false;
+            }
+
+            if (FAILED(sourceVoice->Stop()))
+            {
+                log("Failed to stop sound buffer");
+                return false;
+            }
+
+            return true;
+        }
+
+        bool SoundXA2::reset()
+        {
+            if (!Sound::reset())
+            {
+                return false;
+            }
+
+            if (FAILED(sourceVoice->Stop()))
+            {
+                log("Failed to stop sound buffer");
                 return false;
             }
 
@@ -46,27 +120,9 @@ namespace ouzel
             {
                 log("Failed to flush sound buffer");
                 return false;
-            }*/
+            }
 
             return true;
-        }
-
-        void SoundXA2::play(bool repeatSound)
-        {
-            sourceVoice->Stop();
-            sourceVoice->FlushSourceBuffers();
-            sourceVoice->Start();
-            sourceVoice->SubmitSourceBuffer(reinterpret_cast<const XAUDIO2_BUFFER*>(soundData->getData().data()));
-        }
-
-        void SoundXA2::stop(bool resetSound)
-        {
-
-        }
-
-        void SoundXA2::reset()
-        {
-
         }
     } // namespace audio
 } // namespace ouzel

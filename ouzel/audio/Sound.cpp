@@ -15,28 +15,43 @@ namespace ouzel
         {
         }
 
+        void Sound::free()
+        {
+            ready = false;
+        }
+
         bool Sound::init(const SoundDataPtr& newSoundData)
         {
+            free();
+
             soundData = newSoundData;
+            ready = true;
 
             return true;
         }
 
-        void Sound::play(bool repeatSound)
+        bool Sound::play(bool repeatSound)
         {
             repeat = repeatSound;
+
+            stop(true);
+
+            return true;
         }
 
-        void Sound::stop(bool resetSound)
+        bool Sound::stop(bool resetSound)
         {
             if (resetSound)
             {
                 reset();
             }
+
+            return true;
         }
 
-        void Sound::reset()
+        bool Sound::reset()
         {
+            return true;
         }
     } // namespace audio
 } // namespace ouzel
