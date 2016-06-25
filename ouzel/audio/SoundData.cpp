@@ -41,12 +41,9 @@ namespace ouzel
         {
             ready = false;
 
-            const uint32_t HEADER_SIZE = 16; // RIFF + size + WAVEfmt
-            const uint32_t FORMAT_HEADER_SIZE = 16;
-
             uint32_t offset = 0;
 
-            if (newData.size() < HEADER_SIZE)
+            if (newData.size() < 16) // RIFF + size + WAVE
             {
                 log("Failed to load sound file. File too small");
                 return false;
@@ -115,7 +112,7 @@ namespace ouzel
                     chunkHeader[2] == 't' &&
                     chunkHeader[3] == ' ')
                 {
-                    if (chunkSize < FORMAT_HEADER_SIZE)
+                    if (chunkSize < 16)
                     {
                         log("Failed to load sound file. Not enough data to read chunk.");
                         return false;
