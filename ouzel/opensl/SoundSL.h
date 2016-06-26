@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include <SLES/OpenSLES.h>
+#include <SLES/OpenSLES_Android.h>
+#include <SLES/OpenSLES_AndroidConfiguration.h>
+
 #include "audio/Sound.h"
 
 namespace ouzel
