@@ -32,8 +32,18 @@ namespace ouzel
             virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
 
+#if OUZEL_PLATFORM_MACOS
+            AudioDeviceID getAudioDeviceId() const { return deviceId; }
+#endif
+            AudioComponent getAudioComponent() const { return audioComponent; }
+
         protected:
             AudioCA();
+
+#if OUZEL_PLATFORM_MACOS
+            AudioDeviceID deviceId;
+#endif
+            AudioComponent audioComponent;
         };
     } // namespace audio
 } // namespace ouzel

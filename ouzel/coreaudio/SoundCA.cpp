@@ -2,22 +2,10 @@
 // This file is part of the Ouzel engine.
 
 #include "SoundCA.h"
+#include "AudioCA.h"
 #include "SoundDataCA.h"
+#include "core/Engine.h"
 #include "utils/Utils.h"
-
-#if OUZEL_PLATFORM_MACOS
-static const AudioObjectPropertyAddress aliveAddress =
-{
-    kAudioDevicePropertyDeviceIsAlive,
-    kAudioObjectPropertyScopeGlobal,
-    kAudioObjectPropertyElementMaster
-};
-
-static OSStatus deviceUnplugged(AudioObjectID devid, UInt32 num_addr, const AudioObjectPropertyAddress *addrs, void *data)
-{
-    return noErr;
-}
-#endif
 
 static OSStatus outputCallback(void* inRefCon,
                                AudioUnitRenderActionFlags* ioActionFlags,
@@ -79,10 +67,6 @@ namespace ouzel
         {
             if (audioUnitOpened)
             {
-#if OUZEL_PLATFORM_MACOS
-                AudioObjectRemovePropertyListener(deviceID, &aliveAddress, deviceUnplugged, this);
-#endif
-
                 AURenderCallbackStruct callback;
                 const AudioUnitElement outputBus = 0;
                 const AudioUnitElement bus = outputBus;
@@ -105,10 +89,6 @@ namespace ouzel
 
             if (audioUnitOpened)
             {
-#if OUZEL_PLATFORM_MACOS
-                AudioObjectRemovePropertyListener(deviceID, &aliveAddress, deviceUnplugged, this);
-#endif
-
                 AURenderCallbackStruct callback;
                 const AudioUnitElement outputBus = 0;
                 const AudioUnitElement bus = outputBus;
@@ -136,81 +116,12 @@ namespace ouzel
 
             free();
 
+            std::shared_ptr<AudioCA> audioCA = std::static_pointer_cast<AudioCA>(sharedEngine->getAudio());
             std::shared_ptr<SoundDataCA> soundDataCA = std::static_pointer_cast<SoundDataCA>(soundData);
 
             OSStatus result;
 
-#if OUZEL_PLATFORM_MACOS
-            UInt32 size = 0;
-            UInt32 alive = 0;
-            pid_t pid = 0;
-
-            AudioObjectPropertyAddress addr = {
-                0,
-                kAudioObjectPropertyScopeGlobal,
-                kAudioObjectPropertyElementMaster
-            };
-
-            size = sizeof(AudioDeviceID);
-            addr.mSelector = kAudioHardwarePropertyDefaultOutputDevice;
-            result = AudioObjectGetPropertyData(kAudioObjectSystemObject, &addr,
-                                                0, NULL, &size, &deviceID);
-
-            if (result != noErr)
-            {
-                ouzel::log("AudioHardwareGetProperty (default device)");
-                return false;
-            }
-
-            addr.mSelector = kAudioDevicePropertyDeviceIsAlive;
-            addr.mScope = kAudioDevicePropertyScopeOutput;
-
-            size = sizeof(alive);
-            result = AudioObjectGetPropertyData(deviceID, &addr, 0, NULL, &size, &alive);
-
-            if (result != noErr)
-            {
-                ouzel::log("AudioDeviceGetProperty (kAudioDevicePropertyDeviceIsAlive)");
-                return false;
-            }
-
-            if (!alive)
-            {
-                ouzel::log("CoreAudio: requested device exists, but isn't alive.");
-                return false;
-            }
-
-            addr.mSelector = kAudioDevicePropertyHogMode;
-            size = sizeof(pid);
-            result = AudioObjectGetPropertyData(deviceID, &addr, 0, NULL, &size, &pid);
-
-            if ((result == noErr) && (pid != -1))
-            {
-                ouzel::log("CoreAudio: requested device is being hogged.");
-                return false;
-            }
-#endif
-
-            AudioComponentDescription desc;
-
-            memset(&desc, 0, sizeof(desc));
-            desc.componentType = kAudioUnitType_Output;
-            desc.componentManufacturer = kAudioUnitManufacturer_Apple;
-
-#if OUZEL_PLATFORM_MACOS
-            desc.componentSubType = kAudioUnitSubType_DefaultOutput;
-#else
-            desc.componentSubType = kAudioUnitSubType_RemoteIO;
-#endif
-            AudioComponent comp = AudioComponentFindNext(NULL, &desc);
-
-            if (!comp)
-            {
-                log("Couldn't find requested CoreAudio component");
-                return false;
-            }
-
-            result = AudioComponentInstanceNew(comp, &audioUnit);
+            result = AudioComponentInstanceNew(audioCA->getAudioComponent(), &audioUnit);
 
             if (result != noErr)
             {
@@ -221,10 +132,12 @@ namespace ouzel
             audioUnitOpened = 1;
 
 #if OUZEL_PLATFORM_MACOS
+            AudioDeviceID deviceId = audioCA->getAudioDeviceId();
+
             result = AudioUnitSetProperty(audioUnit,
                                           kAudioOutputUnitProperty_CurrentDevice,
                                           kAudioUnitScope_Global, 0,
-                                          &deviceID,
+                                          &deviceId,
                                           sizeof(AudioDeviceID));
 
             if (result != noErr)
@@ -269,10 +182,6 @@ namespace ouzel
                 log("AudioUnitInitialize");
                 return false;
             }
-
-#if OUZEL_PLATFORM_MACOS
-            AudioObjectAddPropertyListener(deviceID, &aliveAddress, deviceUnplugged, this);
-#endif
 
             ready = true;
 

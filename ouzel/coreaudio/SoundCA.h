@@ -42,10 +42,6 @@ namespace ouzel
 
             int audioUnitOpened = 0;
             AudioComponentInstance audioUnit;
-
-#if OUZEL_PLATFORM_MACOS
-            AudioDeviceID deviceID;
-#endif
         };
     } // namespace audio
 } // namespace ouzel
