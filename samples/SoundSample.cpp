@@ -18,15 +18,25 @@ SoundSample::SoundSample(Application& app):
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
 
-    soundButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Sound", graphics::Color(255, 0, 0, 255), "arial.fnt");
-    soundButton->setPosition(Vector2(-200.0f, 100.0f));
-    layer->addChild(soundButton);
+    jumpButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Jump", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    jumpButton->setPosition(Vector2(0.0f, 0.0f));
+    layer->addChild(jumpButton);
 
-    audio::SoundDataPtr soundData = sharedEngine->getAudio()->createSoundData();
-    soundData->initFromFile("jump.wav");
+    ambientButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Ambient", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    ambientButton->setPosition(Vector2(0.0f, -40.0f));
+    layer->addChild(ambientButton);
 
-    sound = sharedEngine->getAudio()->createSound();
-    sound->init(soundData);
+    audio::SoundDataPtr jumpData = sharedEngine->getAudio()->createSoundData();
+    jumpData->initFromFile("jump.wav");
+
+    jumpSound = sharedEngine->getAudio()->createSound();
+    jumpSound->init(jumpData);
+
+    audio::SoundDataPtr ambientData = sharedEngine->getAudio()->createSoundData();
+    ambientData->initFromFile("jump.wav");
+
+    ambientSound = sharedEngine->getAudio()->createSound();
+    ambientSound->init(ambientData);
 
     scene::LayerPtr guiLayer = make_shared<scene::Layer>();
     guiLayer->setCamera(make_shared<scene::Camera>());
@@ -52,9 +62,13 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event, const VoidPtr
         {
             application.back();
         }
-        else if (sender == soundButton)
+        else if (sender == jumpButton)
         {
-            sound->play();
+            jumpSound->play();
+        }
+        else if (sender == ambientButton)
+        {
+            ambientSound->play();
         }
     }
 

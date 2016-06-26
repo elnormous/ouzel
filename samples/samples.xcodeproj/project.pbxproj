@@ -53,6 +53,9 @@
 		30419E601D1D541900A63759 /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E5E1D1D541900A63759 /* jump.wav */; };
 		30419E611D1D541900A63759 /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E5E1D1D541900A63759 /* jump.wav */; };
 		30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E621D1F3DED00A63759 /* AudioToolbox.framework */; };
+		30419E651D1F6A7600A63759 /* ambient.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E641D1F6A7600A63759 /* ambient.wav */; };
+		30419E661D1F6A7600A63759 /* ambient.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E641D1F6A7600A63759 /* ambient.wav */; };
+		30419E671D1F6A7600A63759 /* ambient.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E641D1F6A7600A63759 /* ambient.wav */; };
 		3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
@@ -183,6 +186,7 @@
 		30419E5A1D1D530D00A63759 /* SoundSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundSample.h; sourceTree = "<group>"; };
 		30419E5E1D1D541900A63759 /* jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jump.wav; sourceTree = "<group>"; };
 		30419E621D1F3DED00A63759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		30419E641D1F6A7600A63759 /* ambient.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ambient.wav; sourceTree = "<group>"; };
 		3045F0A61D0C2E4500125436 /* MainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenu.cpp; sourceTree = "<group>"; };
 		3045F0A71D0C2E4500125436 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		3045F0AE1D0D95BC00125436 /* RTSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTSample.cpp; sourceTree = "<group>"; };
@@ -388,6 +392,7 @@
 		304A8EB21C2765C4008B1151 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				30419E641D1F6A7600A63759 /* ambient.wav */,
 				3045F0B81D0E0D6800125436 /* arial.fnt */,
 				3045F0B91D0E0D6800125436 /* arial.png */,
 				3045F0DA1D0F575F00125436 /* ball.png */,
@@ -577,6 +582,7 @@
 				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
 				30C56C881CAB4E4E007AEF8F /* dot.png in Resources */,
+				30419E661D1F6A7600A63759 /* ambient.wav in Resources */,
 				3045F0BB1D0E0D6800125436 /* arial.fnt in Resources */,
 				30C56C7B1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
@@ -606,6 +612,7 @@
 				303B769B1C355AA400FEDE92 /* run.png in Resources */,
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
 				30C56C891CAB4E4E007AEF8F /* dot.png in Resources */,
+				30419E671D1F6A7600A63759 /* ambient.wav in Resources */,
 				3045F0BC1D0E0D6800125436 /* arial.fnt in Resources */,
 				30C56C7C1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
@@ -635,6 +642,7 @@
 				303B75EE1C33581700FEDE92 /* run.png in Resources */,
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
 				30C56C871CAB4E4E007AEF8F /* dot.png in Resources */,
+				30419E651D1F6A7600A63759 /* ambient.wav in Resources */,
 				3045F0BA1D0E0D6800125436 /* arial.fnt in Resources */,
 				30C56C7A1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B75F81C33756100FEDE92 /* fire.png in Resources */,
