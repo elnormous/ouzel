@@ -25,6 +25,13 @@ namespace ouzel
 
             const std::vector<uint8_t>& getData() const { return data; }
 
+            uint16_t getFormatTag() const { return formatTag; }
+            uint16_t getChannels() const { return channels; }
+            uint32_t getSamplesPerSecond() const { return samplesPerSecond; }
+            uint32_t getAverageBytesPerSecond() const { return averageBytesPerSecond; }
+            uint16_t getBlockAlign() const { return blockAlign; }
+            uint16_t getBitsPerSample() const { return bitsPerSample; }
+
             bool isReady() const { return ready; }
 
         protected:

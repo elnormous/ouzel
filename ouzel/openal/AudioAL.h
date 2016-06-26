@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <OpenAl/al.h>
+#include <OpenAl/alc.h>
+
 #include "audio/Audio.h"
 
 namespace ouzel
@@ -21,8 +24,14 @@ namespace ouzel
             virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
 
+            ALCdevice* getDevice() const { return device; }
+            ALCcontext* getContext() const { return context; }
+
         protected:
             AudioAL();
+
+            ALCdevice* device = nullptr;
+            ALCcontext* context = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

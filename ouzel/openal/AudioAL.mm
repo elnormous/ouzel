@@ -1,6 +1,11 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#import <AVFoundation/AVFoundation.h>
+#endif
+
 #include "AudioAL.h"
 #include "SoundDataAL.h"
 #include "SoundAL.h"
@@ -17,12 +22,32 @@ namespace ouzel
 
         AudioAL::~AudioAL()
         {
+            if (context)
+            {
+                alcDestroyContext(context);
+            }
 
+            if (device)
+            {
+                alcCloseDevice(device);
+            }
         }
 
         void AudioAL::free()
         {
             Audio::free();
+
+            if (context)
+            {
+                alcDestroyContext(context);
+                context = nullptr;
+            }
+
+            if (device)
+            {
+                alcCloseDevice(device);
+                device = nullptr;
+            }
         }
 
         bool AudioAL::init()
@@ -33,6 +58,15 @@ namespace ouzel
             }
 
             free();
+
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:Nil];
+#endif
+
+            device = alcOpenDevice(NULL);
+
+            context = alcCreateContext(device, NULL);
+            alcMakeContextCurrent(context);
 
             ready = true;
             

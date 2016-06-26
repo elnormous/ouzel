@@ -5,6 +5,10 @@
 
 #include "utils/Types.h"
 
+#ifdef OPENAL
+#undef OPENAL
+#endif
+
 namespace ouzel
 {
     class Engine;
@@ -15,7 +19,6 @@ namespace ouzel
         {
             friend Engine;
         public:
-
             enum class Driver
             {
                 DEFAULT = 0,

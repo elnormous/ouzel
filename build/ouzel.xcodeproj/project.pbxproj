@@ -257,9 +257,9 @@
 		30419E731D20255000A63759 /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E6D1D20255000A63759 /* AudioAL.h */; };
 		30419E741D20255000A63759 /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E6D1D20255000A63759 /* AudioAL.h */; };
 		30419E751D20255000A63759 /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E6D1D20255000A63759 /* AudioAL.h */; };
-		30419E761D20255000A63759 /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6E1D20255000A63759 /* AudioAL.cpp */; };
-		30419E771D20255000A63759 /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6E1D20255000A63759 /* AudioAL.cpp */; };
-		30419E781D20255000A63759 /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6E1D20255000A63759 /* AudioAL.cpp */; };
+		30419E761D20255000A63759 /* AudioAL.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6E1D20255000A63759 /* AudioAL.mm */; };
+		30419E771D20255000A63759 /* AudioAL.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6E1D20255000A63759 /* AudioAL.mm */; };
+		30419E781D20255000A63759 /* AudioAL.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6E1D20255000A63759 /* AudioAL.mm */; };
 		30419E791D20255000A63759 /* SoundAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6F1D20255000A63759 /* SoundAL.cpp */; };
 		30419E7A1D20255000A63759 /* SoundAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6F1D20255000A63759 /* SoundAL.cpp */; };
 		30419E7B1D20255000A63759 /* SoundAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6F1D20255000A63759 /* SoundAL.cpp */; };
@@ -732,7 +732,7 @@
 		30419E281D1887FE00A63759 /* SoundCA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundCA.cpp; sourceTree = "<group>"; };
 		30419E291D1887FE00A63759 /* SoundDataCA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataCA.cpp; sourceTree = "<group>"; };
 		30419E6D1D20255000A63759 /* AudioAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioAL.h; path = openal/AudioAL.h; sourceTree = "<group>"; };
-		30419E6E1D20255000A63759 /* AudioAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioAL.cpp; path = openal/AudioAL.cpp; sourceTree = "<group>"; };
+		30419E6E1D20255000A63759 /* AudioAL.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AudioAL.mm; path = openal/AudioAL.mm; sourceTree = "<group>"; };
 		30419E6F1D20255000A63759 /* SoundAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundAL.cpp; path = openal/SoundAL.cpp; sourceTree = "<group>"; };
 		30419E701D20255000A63759 /* SoundAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundAL.h; path = openal/SoundAL.h; sourceTree = "<group>"; };
 		30419E711D20255000A63759 /* SoundDataAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundDataAL.cpp; path = openal/SoundDataAL.cpp; sourceTree = "<group>"; };
@@ -1191,7 +1191,7 @@
 			isa = PBXGroup;
 			children = (
 				30419E6D1D20255000A63759 /* AudioAL.h */,
-				30419E6E1D20255000A63759 /* AudioAL.cpp */,
+				30419E6E1D20255000A63759 /* AudioAL.mm */,
 				30419E6F1D20255000A63759 /* SoundAL.cpp */,
 				30419E701D20255000A63759 /* SoundAL.h */,
 				30419E711D20255000A63759 /* SoundDataAL.cpp */,
@@ -1873,7 +1873,7 @@
 				30419E2B1D1887FE00A63759 /* AudioCA.mm in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
-				30419E771D20255000A63759 /* AudioAL.cpp in Sources */,
+				30419E771D20255000A63759 /* AudioAL.mm in Sources */,
 				3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				30419E2E1D1887FE00A63759 /* SoundCA.cpp in Sources */,
 				3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */,
@@ -1974,7 +1974,7 @@
 				30419E2C1D1887FE00A63759 /* AudioCA.mm in Sources */,
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
-				30419E781D20255000A63759 /* AudioAL.cpp in Sources */,
+				30419E781D20255000A63759 /* AudioAL.mm in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
 				30419E2F1D1887FE00A63759 /* SoundCA.cpp in Sources */,
 				3036471E1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
@@ -2075,7 +2075,7 @@
 				30419E2A1D1887FE00A63759 /* AudioCA.mm in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				30547E431CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
-				30419E761D20255000A63759 /* AudioAL.cpp in Sources */,
+				30419E761D20255000A63759 /* AudioAL.mm in Sources */,
 				304B27C51C9A063300BA162D /* TextureOGL.cpp in Sources */,
 				30419E2D1D1887FE00A63759 /* SoundCA.cpp in Sources */,
 				303B751D1C29EDEE00FEDE92 /* main.mm in Sources */,

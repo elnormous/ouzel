@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <OpenAl/al.h>
+#include <OpenAl/alc.h>
+
 #include "audio/Sound.h"
 
 namespace ouzel
@@ -24,10 +27,11 @@ namespace ouzel
             virtual bool stop(bool resetSound = false) override;
             virtual bool reset() override;
 
-            uint32_t offset = 0;
-
         protected:
             SoundAL();
+
+            ALuint sourceId = 0;
+            ALuint outputBuffer = 0;
         };
     } // namespace audio
 } // namespace ouzel

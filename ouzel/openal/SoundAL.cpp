@@ -17,12 +17,32 @@ namespace ouzel
 
         SoundAL::~SoundAL()
         {
+            if (outputBuffer)
+            {
+                alDeleteBuffers(1, &outputBuffer);
+            }
 
+            if (sourceId)
+            {
+                alDeleteSources(1, &sourceId);
+            }
         }
 
         void SoundAL::free()
         {
             Sound::free();
+
+            if (outputBuffer)
+            {
+                alDeleteBuffers(1, &outputBuffer);
+                outputBuffer = 0;
+            }
+
+            if (sourceId)
+            {
+                alDeleteSources(1, &sourceId);
+                sourceId = 0;
+            }
         }
 
         bool SoundAL::init(const SoundDataPtr& newSoundData)
@@ -33,6 +53,57 @@ namespace ouzel
             }
 
             free();
+
+            alGenSources(1, &sourceId);
+
+            alGenBuffers(1, &outputBuffer);
+
+            ALenum format;
+
+            if (soundData->getChannels() == 1)
+            {
+                if (soundData->getBitsPerSample() == 8)
+                {
+                    format = AL_FORMAT_MONO8;
+                }
+                else if (soundData->getBitsPerSample() == 16)
+                {
+                    format = AL_FORMAT_MONO16;
+                }
+                else
+                {
+                    log("Unsupported number of bits per sample");
+                    return false;
+                }
+            }
+            else if (soundData->getChannels() == 2)
+            {
+                if (soundData->getBitsPerSample() == 8)
+                {
+                    format = AL_FORMAT_STEREO8;
+                }
+                else if (soundData->getBitsPerSample() == 16)
+                {
+                    format = AL_FORMAT_STEREO16;
+                }
+                else
+                {
+                    log("Unsupported number of bits per sample");
+                    return false;
+                }
+            }
+            else
+            {
+                log("Unsupported number of channels");
+                return false;
+            }
+
+            alBufferData(outputBuffer, format, soundData->getData().data(), soundData->getData().size(), soundData->getSamplesPerSecond());
+
+            alSourcef(sourceId, AL_PITCH, 1.0f);
+            alSourcef(sourceId, AL_GAIN, 1.0f);
+
+            alSourcei(sourceId, AL_BUFFER, outputBuffer);
 
             ready = true;
 
@@ -46,6 +117,9 @@ namespace ouzel
                 return false;
             }
 
+            alSourcei(sourceId, AL_LOOPING, repeatSound ? AL_TRUE : AL_FALSE);
+            alSourcePlay(sourceId);
+
             return true;
         }
 
@@ -54,6 +128,15 @@ namespace ouzel
             if (!Sound::stop(resetSound))
             {
                 return false;
+            }
+
+            if (resetSound)
+            {
+                alSourceStop(sourceId);
+            }
+            else
+            {
+                alSourcePause(sourceId);
             }
 
             return true;
@@ -65,6 +148,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            alSourceRewind(sourceId);
 
             return true;
         }

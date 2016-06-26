@@ -58,6 +58,9 @@
 		30419E671D1F6A7600A63759 /* ambient.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30419E641D1F6A7600A63759 /* ambient.wav */; };
 		30419E691D1F726C00A63759 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E681D1F726C00A63759 /* AVFoundation.framework */; };
 		30419E6B1D1F736800A63759 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E6A1D1F736800A63759 /* AVFoundation.framework */; };
+		30419E861D202DAB00A63759 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E851D202DAB00A63759 /* OpenAL.framework */; };
+		30419E881D202DB500A63759 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E871D202DB500A63759 /* OpenAL.framework */; };
+		30419E8A1D202DC000A63759 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30419E891D202DC000A63759 /* OpenAL.framework */; };
 		3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
 		3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3045F0A61D0C2E4500125436 /* MainMenu.cpp */; };
@@ -191,6 +194,9 @@
 		30419E641D1F6A7600A63759 /* ambient.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ambient.wav; sourceTree = "<group>"; };
 		30419E681D1F726C00A63759 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		30419E6A1D1F736800A63759 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		30419E851D202DAB00A63759 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		30419E871D202DB500A63759 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
+		30419E891D202DC000A63759 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
 		3045F0A61D0C2E4500125436 /* MainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenu.cpp; sourceTree = "<group>"; };
 		3045F0A71D0C2E4500125436 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		3045F0AE1D0D95BC00125436 /* RTSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTSample.cpp; sourceTree = "<group>"; };
@@ -257,6 +263,7 @@
 				30AFE14B1CB5DCBD00478AA2 /* GameController.framework in Frameworks */,
 				30AFE13A1CB5DC6000478AA2 /* Metal.framework in Frameworks */,
 				30AFE13B1CB5DC6000478AA2 /* MetalKit.framework in Frameworks */,
+				30419E881D202DB500A63759 /* OpenAL.framework in Frameworks */,
 				30AFE14F1CB5DCF100478AA2 /* OpenGLES.framework in Frameworks */,
 				30AFE1511CB5DCF900478AA2 /* QuartzCore.framework in Frameworks */,
 				30AFE1531CB5DD0500478AA2 /* UIKit.framework in Frameworks */,
@@ -275,6 +282,7 @@
 				30AFE1431CB5DC8700478AA2 /* GameController.framework in Frameworks */,
 				30AFE13E1CB5DC6F00478AA2 /* Metal.framework in Frameworks */,
 				30AFE13F1CB5DC6F00478AA2 /* MetalKit.framework in Frameworks */,
+				30419E8A1D202DC000A63759 /* OpenAL.framework in Frameworks */,
 				30AFE1451CB5DC9300478AA2 /* OpenGLES.framework in Frameworks */,
 				30AFE1471CB5DC9C00478AA2 /* QuartzCore.framework in Frameworks */,
 				30AFE1491CB5DCA400478AA2 /* UIKit.framework in Frameworks */,
@@ -293,6 +301,7 @@
 				30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */,
 				30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */,
 				30AFE1371CB5DC3300478AA2 /* MetalKit.framework in Frameworks */,
+				30419E861D202DAB00A63759 /* OpenAL.framework in Frameworks */,
 				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,6 +312,9 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30419E891D202DC000A63759 /* OpenAL.framework */,
+				30419E871D202DB500A63759 /* OpenAL.framework */,
+				30419E851D202DAB00A63759 /* OpenAL.framework */,
 				30419E6A1D1F736800A63759 /* AVFoundation.framework */,
 				30419E681D1F726C00A63759 /* AVFoundation.framework */,
 				30419E621D1F3DED00A63759 /* AudioToolbox.framework */,

@@ -50,6 +50,10 @@
 #include "xaudio2/AudioXA2.h"
 #endif
 
+#if OUZEL_SUPPORTS_OPENAL
+#include "openal/AudioAL.h"
+#endif
+
 #if OUZEL_SUPPORTS_COREAUDIO
 #include "coreaudio/AudioCA.h"
 #endif
@@ -226,6 +230,8 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_XAUDIO2
         audio.reset(new audio::AudioXA2());
+#elif OUZEL_SUPPORTS_OPENAL
+        audio.reset(new audio::AudioAL());
 #elif OUZEL_SUPPORTS_COREAUDIO
         audio.reset(new audio::AudioCA());
 #else
