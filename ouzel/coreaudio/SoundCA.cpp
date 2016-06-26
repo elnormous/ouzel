@@ -39,7 +39,7 @@ static OSStatus outputCallback(void* inRefCon,
             sound->offset = 0;
         }
 
-        UInt32 length = sound->getSoundData()->getData().size() - sound->offset;
+        int64_t length = sound->getSoundData()->getData().size() - sound->offset;
 
         if (length >= abuf->mDataByteSize)
         {
@@ -60,6 +60,7 @@ static OSStatus outputCallback(void* inRefCon,
             }
 
             sound->offset = 0;
+            sound->stop();
         }
     }
 
@@ -269,19 +270,59 @@ namespace ouzel
                 return false;
             }
 
-            result = AudioOutputUnitStart(audioUnit);
+#if OUZEL_PLATFORM_MACOS
+            AudioObjectAddPropertyListener(deviceID, &aliveAddress, deviceUnplugged, this);
+#endif
+
+            ready = true;
+
+            return true;
+        }
+
+        bool SoundCA::play(bool repeatSound)
+        {
+            if (!Sound::play(repeatSound))
+            {
+                return false;
+            }
+
+            OSStatus result = AudioOutputUnitStart(audioUnit);
 
             if (result != noErr)
             {
                 log("AudioOutputUnitStart");
                 return false;
             }
-            
-#if OUZEL_PLATFORM_MACOS
-            AudioObjectAddPropertyListener(deviceID, &aliveAddress, deviceUnplugged, this);
-#endif
 
-            ready = true;
+            return true;
+        }
+
+        bool SoundCA::stop(bool resetSound)
+        {
+            if (!Sound::stop(resetSound))
+            {
+                return false;
+            }
+
+            OSStatus result = AudioOutputUnitStop(audioUnit);
+
+            if (result != noErr)
+            {
+                log("AudioOutputUnitStart");
+                return false;
+            }
+
+            return true;
+        }
+
+        bool SoundCA::reset()
+        {
+            if (!Sound::reset())
+            {
+                return false;
+            }
+
+            offset = 0;
 
             return true;
         }

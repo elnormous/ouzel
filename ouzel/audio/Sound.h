@@ -24,6 +24,8 @@ namespace ouzel
             virtual bool stop(bool resetSound = false);
             virtual bool reset();
 
+            bool isRepeating() const { return repeat; }
+
             bool isReady() const { return ready; }
 
         protected:

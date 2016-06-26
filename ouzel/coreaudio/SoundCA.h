@@ -31,6 +31,10 @@ namespace ouzel
 
             virtual bool init(const SoundDataPtr& newSoundData) override;
 
+            virtual bool play(bool repeatSound = false) override;
+            virtual bool stop(bool resetSound = false) override;
+            virtual bool reset() override;
+
             uint32_t offset = 0;
 
         protected:
