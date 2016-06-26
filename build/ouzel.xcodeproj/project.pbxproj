@@ -254,6 +254,24 @@
 		30419E301D1887FE00A63759 /* SoundDataCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E291D1887FE00A63759 /* SoundDataCA.cpp */; };
 		30419E311D1887FE00A63759 /* SoundDataCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E291D1887FE00A63759 /* SoundDataCA.cpp */; };
 		30419E321D1887FE00A63759 /* SoundDataCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E291D1887FE00A63759 /* SoundDataCA.cpp */; };
+		30419E731D20255000A63759 /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E6D1D20255000A63759 /* AudioAL.h */; };
+		30419E741D20255000A63759 /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E6D1D20255000A63759 /* AudioAL.h */; };
+		30419E751D20255000A63759 /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E6D1D20255000A63759 /* AudioAL.h */; };
+		30419E761D20255000A63759 /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6E1D20255000A63759 /* AudioAL.cpp */; };
+		30419E771D20255000A63759 /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6E1D20255000A63759 /* AudioAL.cpp */; };
+		30419E781D20255000A63759 /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6E1D20255000A63759 /* AudioAL.cpp */; };
+		30419E791D20255000A63759 /* SoundAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6F1D20255000A63759 /* SoundAL.cpp */; };
+		30419E7A1D20255000A63759 /* SoundAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6F1D20255000A63759 /* SoundAL.cpp */; };
+		30419E7B1D20255000A63759 /* SoundAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E6F1D20255000A63759 /* SoundAL.cpp */; };
+		30419E7C1D20255000A63759 /* SoundAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E701D20255000A63759 /* SoundAL.h */; };
+		30419E7D1D20255000A63759 /* SoundAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E701D20255000A63759 /* SoundAL.h */; };
+		30419E7E1D20255000A63759 /* SoundAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E701D20255000A63759 /* SoundAL.h */; };
+		30419E7F1D20255000A63759 /* SoundDataAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E711D20255000A63759 /* SoundDataAL.cpp */; };
+		30419E801D20255000A63759 /* SoundDataAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E711D20255000A63759 /* SoundDataAL.cpp */; };
+		30419E811D20255000A63759 /* SoundDataAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E711D20255000A63759 /* SoundDataAL.cpp */; };
+		30419E821D20255000A63759 /* SoundDataAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E721D20255000A63759 /* SoundDataAL.h */; };
+		30419E831D20255000A63759 /* SoundDataAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E721D20255000A63759 /* SoundDataAL.h */; };
+		30419E841D20255000A63759 /* SoundDataAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E721D20255000A63759 /* SoundDataAL.h */; };
 		3045F0E21D0F5A8700125436 /* ColorPSMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3045F0DE1D0F5A8700125436 /* ColorPSMacOS.h */; };
 		3045F0E31D0F5A8700125436 /* ColorPSMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3045F0DE1D0F5A8700125436 /* ColorPSMacOS.h */; };
 		3045F0E41D0F5A8700125436 /* ColorPSMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3045F0DE1D0F5A8700125436 /* ColorPSMacOS.h */; };
@@ -713,6 +731,12 @@
 		30419E271D1887FE00A63759 /* AudioCA.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioCA.mm; sourceTree = "<group>"; };
 		30419E281D1887FE00A63759 /* SoundCA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundCA.cpp; sourceTree = "<group>"; };
 		30419E291D1887FE00A63759 /* SoundDataCA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataCA.cpp; sourceTree = "<group>"; };
+		30419E6D1D20255000A63759 /* AudioAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioAL.h; path = openal/AudioAL.h; sourceTree = "<group>"; };
+		30419E6E1D20255000A63759 /* AudioAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioAL.cpp; path = openal/AudioAL.cpp; sourceTree = "<group>"; };
+		30419E6F1D20255000A63759 /* SoundAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundAL.cpp; path = openal/SoundAL.cpp; sourceTree = "<group>"; };
+		30419E701D20255000A63759 /* SoundAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundAL.h; path = openal/SoundAL.h; sourceTree = "<group>"; };
+		30419E711D20255000A63759 /* SoundDataAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundDataAL.cpp; path = openal/SoundDataAL.cpp; sourceTree = "<group>"; };
+		30419E721D20255000A63759 /* SoundDataAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundDataAL.h; path = openal/SoundDataAL.h; sourceTree = "<group>"; };
 		3045F0DE1D0F5A8700125436 /* ColorPSMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorPSMacOS.h; path = metal/ColorPSMacOS.h; sourceTree = "<group>"; };
 		3045F0DF1D0F5A8700125436 /* ColorVSMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorVSMacOS.h; path = metal/ColorVSMacOS.h; sourceTree = "<group>"; };
 		3045F0E01D0F5A8700125436 /* TexturePSMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TexturePSMacOS.h; path = metal/TexturePSMacOS.h; sourceTree = "<group>"; };
@@ -1163,6 +1187,19 @@
 			path = coreaudio;
 			sourceTree = "<group>";
 		};
+		30419E6C1D20254100A63759 /* openal */ = {
+			isa = PBXGroup;
+			children = (
+				30419E6D1D20255000A63759 /* AudioAL.h */,
+				30419E6E1D20255000A63759 /* AudioAL.cpp */,
+				30419E6F1D20255000A63759 /* SoundAL.cpp */,
+				30419E701D20255000A63759 /* SoundAL.h */,
+				30419E711D20255000A63759 /* SoundDataAL.cpp */,
+				30419E721D20255000A63759 /* SoundDataAL.h */,
+			);
+			name = openal;
+			sourceTree = "<group>";
+		};
 		3047F73B1C4C341F00774E3D /* animators */ = {
 			isa = PBXGroup;
 			children = (
@@ -1226,6 +1263,7 @@
 				303B751B1C29EDD900FEDE92 /* macos */,
 				303B750F1C2882CA00FEDE92 /* math */,
 				30547E351CB3D6570055EE79 /* metal */,
+				30419E6C1D20254100A63759 /* openal */,
 				303B75131C288CCE00FEDE92 /* opengl */,
 				304A8E2A1C237C70008B1151 /* ouzel.h */,
 				303B750D1C28828600FEDE92 /* scene */,
@@ -1372,12 +1410,14 @@
 				301CF5C91CECAD0700B89B5D /* TexturePSOGLES3.h in Headers */,
 				30D0FAEE1CC1807400477DB0 /* MetalView.h in Headers */,
 				30D0FB5C1CC2C99600477DB0 /* TexturePSTVOS.h in Headers */,
+				30419E7D1D20255000A63759 /* SoundAL.h in Headers */,
 				301CF5C01CECAD0700B89B5D /* ColorVSOGL3.h in Headers */,
 				304B27B71C9A063300BA162D /* RendererOGL.h in Headers */,
 				303B755C1C2A3CB700FEDE92 /* Vector4.h in Headers */,
 				303B756E1C2A3CCA00FEDE92 /* Utils.h in Headers */,
 				30547E471CB3D6720055EE79 /* RendererMetal.h in Headers */,
 				303B75431C2A3C9200FEDE92 /* MeshBuffer.h in Headers */,
+				30419E741D20255000A63759 /* AudioAL.h in Headers */,
 				30C56C5F1CAA88F8007AEF8F /* CheckBox.h in Headers */,
 				30D0FB4D1CC2C99600477DB0 /* ColorVSIOS.h in Headers */,
 				30575AD11C3B175D0009C8A7 /* Label.h in Headers */,
@@ -1421,6 +1461,7 @@
 				303B75491C2A3C9200FEDE92 /* Shader.h in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.h in Headers */,
 				302511AC1CD36FBA00D04209 /* SpriteFrame.h in Headers */,
+				30419E831D20255000A63759 /* SoundDataAL.h in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.h in Headers */,
 				304B27C91C9A063300BA162D /* TextureOGL.h in Headers */,
 				3045F0E91D0F5A8700125436 /* TexturePSMacOS.h in Headers */,
@@ -1500,12 +1541,14 @@
 				301CF5CA1CECAD0700B89B5D /* TexturePSOGLES3.h in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
 				30D0FB5D1CC2C99600477DB0 /* TexturePSTVOS.h in Headers */,
+				30419E7E1D20255000A63759 /* SoundAL.h in Headers */,
 				301CF5C11CECAD0700B89B5D /* ColorVSOGL3.h in Headers */,
 				30D0FAEA1CC1805800477DB0 /* MetalView.h in Headers */,
 				304B27B81C9A063300BA162D /* RendererOGL.h in Headers */,
 				303B76611C355A3B00FEDE92 /* Utils.h in Headers */,
 				303B76621C355A3B00FEDE92 /* MeshBuffer.h in Headers */,
 				30547E481CB3D6720055EE79 /* RendererMetal.h in Headers */,
+				30419E751D20255000A63759 /* AudioAL.h in Headers */,
 				303B76631C355A3B00FEDE92 /* Engine.h in Headers */,
 				30D0FB4E1CC2C99600477DB0 /* ColorVSIOS.h in Headers */,
 				30C56C601CAA88F8007AEF8F /* CheckBox.h in Headers */,
@@ -1549,6 +1592,7 @@
 				303B76741C355A3B00FEDE92 /* Shader.h in Headers */,
 				304B27BE1C9A063300BA162D /* RenderTargetOGL.h in Headers */,
 				303B76761C355A3B00FEDE92 /* Vertex.h in Headers */,
+				30419E841D20255000A63759 /* SoundDataAL.h in Headers */,
 				302511AD1CD36FBA00D04209 /* SpriteFrame.h in Headers */,
 				303B76771C355A3B00FEDE92 /* Camera.h in Headers */,
 				3045F0EA1D0F5A8700125436 /* TexturePSMacOS.h in Headers */,
@@ -1604,6 +1648,7 @@
 				30419E141D17550A00A63759 /* AudioCA.h in Headers */,
 				304A8E5E1C237C70008B1151 /* Noncopyable.h in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix4.h in Headers */,
+				30419E821D20255000A63759 /* SoundDataAL.h in Headers */,
 				303B75781C2A419F00FEDE92 /* CompileConfig.h in Headers */,
 				304A8E651C237C70008B1151 /* Renderer.h in Headers */,
 				30D0FB5E1CC2C99600477DB0 /* TextureVSIOS.h in Headers */,
@@ -1667,6 +1712,7 @@
 				30D0FB5B1CC2C99600477DB0 /* TexturePSTVOS.h in Headers */,
 				304B27A11C9A063300BA162D /* ColorPSOGL2.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
+				30419E731D20255000A63759 /* AudioAL.h in Headers */,
 				300934271C88950500CC50D3 /* WindowMacOS.h in Headers */,
 				305B998C1C41EFFA008589E1 /* Menu.h in Headers */,
 				304B27A41C9A063300BA162D /* ColorPSOGLES2.h in Headers */,
@@ -1696,6 +1742,7 @@
 				303B760A1C34A92B00FEDE92 /* Input.h in Headers */,
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
 				30A9C13D1CAEBA540084C4BF /* Language.h in Headers */,
+				30419E7C1D20255000A63759 /* SoundAL.h in Headers */,
 				3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */,
 				304B27B61C9A063300BA162D /* RendererOGL.h in Headers */,
 				301CF5C51CECAD0700B89B5D /* TexturePSOGL3.h in Headers */,
@@ -1826,6 +1873,7 @@
 				30419E2B1D1887FE00A63759 /* AudioCA.mm in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
+				30419E771D20255000A63759 /* AudioAL.cpp in Sources */,
 				3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				30419E2E1D1887FE00A63759 /* SoundCA.cpp in Sources */,
 				3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */,
@@ -1834,6 +1882,7 @@
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
 				30547E621CB3D6C00055EE79 /* BlendStateMetal.mm in Sources */,
+				30419E801D20255000A63759 /* SoundDataAL.cpp in Sources */,
 				304B277A1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				3047F7701C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				30547E501CB3D6720055EE79 /* RenderTargetMetal.mm in Sources */,
@@ -1871,6 +1920,7 @@
 				30EF36641CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				30EF36541CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				30D0FAEF1CC1807400477DB0 /* MetalView.mm in Sources */,
+				30419E7A1D20255000A63759 /* SoundAL.cpp in Sources */,
 				30575ABD1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
 				3047F7571C4C4FBA00774E3D /* Scale.cpp in Sources */,
 				30EF364C1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
@@ -1924,6 +1974,7 @@
 				30419E2C1D1887FE00A63759 /* AudioCA.mm in Sources */,
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
+				30419E781D20255000A63759 /* AudioAL.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
 				30419E2F1D1887FE00A63759 /* SoundCA.cpp in Sources */,
 				3036471E1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
@@ -1932,6 +1983,7 @@
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
+				30419E811D20255000A63759 /* SoundDataAL.cpp in Sources */,
 				30547E631CB3D6C00055EE79 /* BlendStateMetal.mm in Sources */,
 				304B277B1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				3047F7711C4D2C3900774E3D /* Parallel.cpp in Sources */,
@@ -1969,6 +2021,7 @@
 				303B76C61C35635700FEDE92 /* OpenGLView.mm in Sources */,
 				30EF36651CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				30EF36551CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
+				30419E7B1D20255000A63759 /* SoundAL.cpp in Sources */,
 				30D0FAEB1CC1805800477DB0 /* MetalView.mm in Sources */,
 				303B76471C355A3B00FEDE92 /* RenderTarget.cpp in Sources */,
 				30575ABE1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
@@ -2022,6 +2075,7 @@
 				30419E2A1D1887FE00A63759 /* AudioCA.mm in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				30547E431CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
+				30419E761D20255000A63759 /* AudioAL.cpp in Sources */,
 				304B27C51C9A063300BA162D /* TextureOGL.cpp in Sources */,
 				30419E2D1D1887FE00A63759 /* SoundCA.cpp in Sources */,
 				303B751D1C29EDEE00FEDE92 /* main.mm in Sources */,
@@ -2030,6 +2084,7 @@
 				304B27551C9384A600BA162D /* Size3.cpp in Sources */,
 				304A8E601C237C70008B1151 /* OpenGLView.mm in Sources */,
 				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
+				30419E7F1D20255000A63759 /* SoundDataAL.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
 				304B27BF1C9A063300BA162D /* ShaderOGL.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Button.cpp in Sources */,
@@ -2067,6 +2122,7 @@
 				3047F7561C4C4FBA00774E3D /* Scale.cpp in Sources */,
 				304A8E701C237C70008B1151 /* Vector2.cpp in Sources */,
 				3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */,
+				30419E791D20255000A63759 /* SoundAL.cpp in Sources */,
 				304B27791C95C54D00BA162D /* EditBox.cpp in Sources */,
 				304A8E511C237C70008B1151 /* Camera.cpp in Sources */,
 				30547E4F1CB3D6720055EE79 /* RenderTargetMetal.mm in Sources */,

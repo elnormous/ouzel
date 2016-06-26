@@ -44,6 +44,7 @@ namespace ouzel
             enum class Driver
             {
                 DEFAULT = 0,
+                NONE,
                 OPENGL,
                 DIRECT3D11,
                 METAL
@@ -117,7 +118,7 @@ namespace ouzel
             bool isReady() const { return ready; }
 
         protected:
-            Renderer(Driver pDriver);
+            Renderer(Driver pDriver = Driver::NONE);
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
                               TextureFiltering newTextureFiltering,

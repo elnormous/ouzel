@@ -10,7 +10,8 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioXA2::AudioXA2()
+        AudioXA2::AudioXA2():
+            Audio(Driver::XAUDIO2)
         {
         }
 

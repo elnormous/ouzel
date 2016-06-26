@@ -40,7 +40,8 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioCA::AudioCA()
+        AudioCA::AudioCA():
+            Audio(Driver::COREAUDIO)
         {
         }
 

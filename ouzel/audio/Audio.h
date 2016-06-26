@@ -15,6 +15,16 @@ namespace ouzel
         {
             friend Engine;
         public:
+
+            enum class Driver
+            {
+                DEFAULT = 0,
+                NONE,
+                OPENAL,
+                XAUDIO2,
+                COREAUDIO
+            };
+
             virtual ~Audio();
             virtual void free();
 
@@ -26,7 +36,9 @@ namespace ouzel
             bool isReady() const { return ready; }
 
         protected:
-            Audio();
+            Audio(Driver pDriver = Driver::NONE);
+
+            Driver driver;
 
             bool ready = false;
         };
