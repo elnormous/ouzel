@@ -146,7 +146,7 @@ namespace ouzel
                     break;
                 }
 
-                i += chunkSize;
+                i += (chunkSize + 1) & 0xFFFFFFFE;
             }
 
             if (!foundChunkFound)
@@ -193,7 +193,7 @@ namespace ouzel
                     break;
                 }
 
-                i += chunkSize;
+                i += (chunkSize + 1) & 0xFFFFFFFE;
             }
 
             if (!dataChunkFound)
