@@ -34,6 +34,15 @@ namespace ouzel
 #endif
         }
 
+        void AudioCA::free()
+        {
+            Audio::free();
+
+#if OUZEL_PLATFORM_MACOS
+            AudioObjectAddPropertyListener(kAudioObjectSystemObject, &devlistAddress, deviceListChanged, this);
+#endif
+        }
+
         bool AudioCA::init()
         {
 #if OUZEL_PLATFORM_MACOS
@@ -43,6 +52,9 @@ namespace ouzel
             UInt32 category = kAudioSessionCategory_AmbientSound;
             AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(UInt32), &category);
 #endif
+
+            ready = true;
+            
             return true;
         }
 
