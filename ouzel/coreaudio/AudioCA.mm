@@ -1,6 +1,11 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#import <AVFoundation/AVFoundation.h>
+#endif
+
 #include "AudioCA.h"
 #include "SoundDataCA.h"
 #include "SoundCA.h"
@@ -48,9 +53,7 @@ namespace ouzel
 #if OUZEL_PLATFORM_MACOS
             AudioObjectAddPropertyListener(kAudioObjectSystemObject, &devlistAddress, deviceListChanged, this);
 #else
-            AudioSessionInitialize(NULL, NULL, NULL, nil);
-            UInt32 category = kAudioSessionCategory_AmbientSound;
-            AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(UInt32), &category);
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:Nil];
 #endif
 
             ready = true;

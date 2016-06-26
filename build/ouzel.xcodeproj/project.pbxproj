@@ -245,9 +245,9 @@
 		30419E241D1755A800A63759 /* SoundDataCA.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E1A1D1755A800A63759 /* SoundDataCA.h */; };
 		30419E251D1755A800A63759 /* SoundDataCA.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E1A1D1755A800A63759 /* SoundDataCA.h */; };
 		30419E261D1755A800A63759 /* SoundDataCA.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419E1A1D1755A800A63759 /* SoundDataCA.h */; };
-		30419E2A1D1887FE00A63759 /* AudioCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E271D1887FE00A63759 /* AudioCA.cpp */; };
-		30419E2B1D1887FE00A63759 /* AudioCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E271D1887FE00A63759 /* AudioCA.cpp */; };
-		30419E2C1D1887FE00A63759 /* AudioCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E271D1887FE00A63759 /* AudioCA.cpp */; };
+		30419E2A1D1887FE00A63759 /* AudioCA.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30419E271D1887FE00A63759 /* AudioCA.mm */; };
+		30419E2B1D1887FE00A63759 /* AudioCA.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30419E271D1887FE00A63759 /* AudioCA.mm */; };
+		30419E2C1D1887FE00A63759 /* AudioCA.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30419E271D1887FE00A63759 /* AudioCA.mm */; };
 		30419E2D1D1887FE00A63759 /* SoundCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E281D1887FE00A63759 /* SoundCA.cpp */; };
 		30419E2E1D1887FE00A63759 /* SoundCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E281D1887FE00A63759 /* SoundCA.cpp */; };
 		30419E2F1D1887FE00A63759 /* SoundCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419E281D1887FE00A63759 /* SoundCA.cpp */; };
@@ -710,7 +710,7 @@
 		30419E101D17550A00A63759 /* AudioCA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCA.h; sourceTree = "<group>"; };
 		30419E181D1755A800A63759 /* SoundCA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCA.h; sourceTree = "<group>"; };
 		30419E1A1D1755A800A63759 /* SoundDataCA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundDataCA.h; sourceTree = "<group>"; };
-		30419E271D1887FE00A63759 /* AudioCA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioCA.cpp; sourceTree = "<group>"; };
+		30419E271D1887FE00A63759 /* AudioCA.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioCA.mm; sourceTree = "<group>"; };
 		30419E281D1887FE00A63759 /* SoundCA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundCA.cpp; sourceTree = "<group>"; };
 		30419E291D1887FE00A63759 /* SoundDataCA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataCA.cpp; sourceTree = "<group>"; };
 		3045F0DE1D0F5A8700125436 /* ColorPSMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorPSMacOS.h; path = metal/ColorPSMacOS.h; sourceTree = "<group>"; };
@@ -1153,7 +1153,7 @@
 		30419E0E1D1754A100A63759 /* coreaudio */ = {
 			isa = PBXGroup;
 			children = (
-				30419E271D1887FE00A63759 /* AudioCA.cpp */,
+				30419E271D1887FE00A63759 /* AudioCA.mm */,
 				30419E101D17550A00A63759 /* AudioCA.h */,
 				30419E281D1887FE00A63759 /* SoundCA.cpp */,
 				30419E181D1755A800A63759 /* SoundCA.h */,
@@ -1823,7 +1823,7 @@
 				306B0E601C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */,
-				30419E2B1D1887FE00A63759 /* AudioCA.cpp in Sources */,
+				30419E2B1D1887FE00A63759 /* AudioCA.mm in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBuffer.cpp in Sources */,
 				3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
@@ -1921,7 +1921,7 @@
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
 				306B0E611C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
-				30419E2C1D1887FE00A63759 /* AudioCA.cpp in Sources */,
+				30419E2C1D1887FE00A63759 /* AudioCA.mm in Sources */,
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
@@ -2019,7 +2019,7 @@
 				30575ABC1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
 				30EF36531CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				304A8E9E1C27081B008B1151 /* Color.cpp in Sources */,
-				30419E2A1D1887FE00A63759 /* AudioCA.cpp in Sources */,
+				30419E2A1D1887FE00A63759 /* AudioCA.mm in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				30547E431CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
 				304B27C51C9A063300BA162D /* TextureOGL.cpp in Sources */,
