@@ -24,8 +24,7 @@ namespace ouzel
                 DEFAULT = 0,
                 NONE,
                 OPENAL,
-                XAUDIO2,
-                COREAUDIO
+                XAUDIO2
             };
 
             virtual ~Audio();

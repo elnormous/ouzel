@@ -54,10 +54,6 @@
 #include "openal/AudioAL.h"
 #endif
 
-#if OUZEL_SUPPORTS_COREAUDIO
-#include "coreaudio/AudioCA.h"
-#endif
-
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include "apple/InputApple.h"
 #elif OUZEL_PLATFORM_WINDOWS
@@ -232,8 +228,6 @@ namespace ouzel
         audio.reset(new audio::AudioXA2());
 #elif OUZEL_SUPPORTS_OPENAL
         audio.reset(new audio::AudioAL());
-#elif OUZEL_SUPPORTS_COREAUDIO
-        audio.reset(new audio::AudioCA());
 #else
         audio.reset(new audio::Audio());
 #endif
