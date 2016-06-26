@@ -81,42 +81,42 @@ namespace ouzel
             offset += 4;
 
             bool foundChunkFound = false;
+            bool dataChunkFound = false;
 
-            for (uint32_t i = offset; i < newData.size();)
+            for (; offset < newData.size();)
             {
-                if (newData.size() < i + 8)
+                if (newData.size() < offset + 8)
                 {
                     log("Failed to load sound file. Not enough data to read chunk.");
                     return false;
                 }
 
                 char chunkHeader[4];
-                chunkHeader[0] = newData[i + 0];
-                chunkHeader[1] = newData[i + 1];
-                chunkHeader[2] = newData[i + 2];
-                chunkHeader[3] = newData[i + 3];
+                chunkHeader[0] = newData[offset + 0];
+                chunkHeader[1] = newData[offset + 1];
+                chunkHeader[2] = newData[offset + 2];
+                chunkHeader[3] = newData[offset + 3];
 
-                i += 4;
+                offset += 4;
 
-                uint32_t chunkSize = *reinterpret_cast<const uint32_t*>(newData.data() + i);
-                i += 4;
+                uint32_t chunkSize = *reinterpret_cast<const uint32_t*>(newData.data() + offset);
+                offset += 4;
 
-                if (newData.size() < i + chunkSize)
+                if (newData.size() < offset + chunkSize)
                 {
                     log("Failed to load sound file. Not enough data to read chunk.");
                     return false;
                 }
 
-                if (chunkHeader[0] == 'f' &&
-                    chunkHeader[1] == 'm' &&
-                    chunkHeader[2] == 't' &&
-                    chunkHeader[3] == ' ')
+                if (chunkHeader[0] == 'f' && chunkHeader[1] == 'm' && chunkHeader[2] == 't' && chunkHeader[3] == ' ')
                 {
                     if (chunkSize < 16)
                     {
                         log("Failed to load sound file. Not enough data to read chunk.");
                         return false;
                     }
+
+                    uint32_t i = offset;
 
                     formatTag = *reinterpret_cast<const uint16_t*>(newData.data() + i);
                     i += 2;
@@ -143,57 +143,21 @@ namespace ouzel
                     i += 2;
 
                     foundChunkFound = true;
-                    break;
+                }
+                else if (chunkHeader[0] == 'd' && chunkHeader[1] == 'a' && chunkHeader[2] == 't' && chunkHeader[3] == 'a')
+                {
+                    data.assign(newData.begin() + offset, newData.begin() + offset + chunkSize);
+
+                    dataChunkFound = true;
                 }
 
-                i += (chunkSize + 1) & 0xFFFFFFFE;
+                offset += ((chunkSize + 1) & 0xFFFFFFFE);
             }
 
             if (!foundChunkFound)
             {
                 log("Failed to load sound file. Failed to find a format chunk.");
                 return false;
-            }
-
-            bool dataChunkFound = false;
-
-            for (uint32_t i = offset; i < newData.size();)
-            {
-                if (newData.size() < i + 8)
-                {
-                    log("Failed to load sound file. Not enough data to read chunk.");
-                    return false;
-                }
-
-                char chunkHeader[4];
-                chunkHeader[0] = newData[i + 0];
-                chunkHeader[1] = newData[i + 1];
-                chunkHeader[2] = newData[i + 2];
-                chunkHeader[3] = newData[i + 3];
-
-                i += 4;
-
-                uint32_t chunkSize = *reinterpret_cast<const uint32_t*>(newData.data() + i);
-                i += 4;
-
-                if (newData.size() < i + chunkSize)
-                {
-                    log("Failed to load sound file. Not enough data to read chunk.");
-                    return false;
-                }
-
-                if (chunkHeader[0] == 'd' &&
-                    chunkHeader[1] == 'a' &&
-                    chunkHeader[2] == 't' &&
-                    chunkHeader[3] == 'a')
-                {
-                    data.assign(newData.begin() + i, newData.begin() + i + chunkSize);
-
-                    dataChunkFound = true;
-                    break;
-                }
-
-                i += (chunkSize + 1) & 0xFFFFFFFE;
             }
 
             if (!dataChunkFound)
