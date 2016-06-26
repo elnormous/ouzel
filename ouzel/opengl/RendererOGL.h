@@ -52,9 +52,9 @@ namespace ouzel
         {
             friend Engine;
         public:
-            virtual ~RendererOGL();
-
             static bool checkOpenGLErrors(bool logError = true);
+            
+            virtual ~RendererOGL();
 
             virtual void setClearColor(Color color) override;
 

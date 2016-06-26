@@ -49,6 +49,34 @@ namespace ouzel
 {
     namespace graphics
     {
+        bool RendererOGL::checkOpenGLErrors(bool logError)
+        {
+            bool gotError = false;
+
+            while (GLenum error = glGetError() != GL_NO_ERROR)
+            {
+                if (logError)
+                {
+                    const char* errorStr = "Unknown error";
+
+                    switch (error)
+                    {
+                        case GL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
+                        case GL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
+                        case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
+                        case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
+                        case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
+                    }
+
+                    log("OpenGL error: %s (%x)", errorStr, error);
+                }
+
+                gotError = true;
+            }
+            
+            return gotError;
+        }
+        
         RendererOGL::RendererOGL():
             Renderer(Driver::OPENGL)
         {
@@ -177,34 +205,6 @@ namespace ouzel
             setSize(size);
 
             return true;
-        }
-
-        bool RendererOGL::checkOpenGLErrors(bool logError)
-        {
-            bool gotError = false;
-
-            while (GLenum error = glGetError() != GL_NO_ERROR)
-            {
-                if (logError)
-                {
-                    const char* errorStr = "Unknown error";
-
-                    switch (error)
-                    {
-                        case GL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
-                        case GL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
-                        case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
-                        case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
-                        case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
-                    }
-
-                    log("OpenGL error: %s (%x)", errorStr, error);
-                }
-
-                gotError = true;
-            }
-
-            return gotError;
         }
 
         void RendererOGL::setClearColor(Color color)

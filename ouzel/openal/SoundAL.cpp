@@ -56,7 +56,19 @@ namespace ouzel
 
             alGenSources(1, &sourceId);
 
+            if (AudioAL::checkOpenALErrors())
+            {
+                log("Failed to create OpenAL source");
+                return false;
+            }
+
             alGenBuffers(1, &outputBuffer);
+
+            if (AudioAL::checkOpenALErrors())
+            {
+                log("Failed to create OpenAL buffer");
+                return false;
+            }
 
             ALenum format;
 
@@ -100,10 +112,22 @@ namespace ouzel
 
             alBufferData(outputBuffer, format, soundData->getData().data(), soundData->getData().size(), soundData->getSamplesPerSecond());
 
+            if (AudioAL::checkOpenALErrors())
+            {
+                log("Failed to upload OpenAL data");
+                return false;
+            }
+
             alSourcef(sourceId, AL_PITCH, 1.0f);
             alSourcef(sourceId, AL_GAIN, 1.0f);
 
             alSourcei(sourceId, AL_BUFFER, outputBuffer);
+
+            if (AudioAL::checkOpenALErrors())
+            {
+                log("Failed to set OpenAL buffer");
+                return false;
+            }
 
             ready = true;
 
@@ -119,6 +143,12 @@ namespace ouzel
 
             alSourcei(sourceId, AL_LOOPING, repeatSound ? AL_TRUE : AL_FALSE);
             alSourcePlay(sourceId);
+
+            if (AudioAL::checkOpenALErrors())
+            {
+                log("Failed to play OpenAL source");
+                return false;
+            }
 
             return true;
         }
@@ -139,6 +169,12 @@ namespace ouzel
                 alSourcePause(sourceId);
             }
 
+            if (AudioAL::checkOpenALErrors())
+            {
+                log("Failed to stop OpenAL source");
+                return false;
+            }
+
             return true;
         }
 
@@ -150,6 +186,12 @@ namespace ouzel
             }
 
             alSourceRewind(sourceId);
+
+            if (AudioAL::checkOpenALErrors())
+            {
+                log("Failed to rewind OpenAL source");
+                return false;
+            }
 
             return true;
         }

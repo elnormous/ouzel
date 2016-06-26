@@ -15,6 +15,34 @@ namespace ouzel
 {
     namespace audio
     {
+        bool AudioAL::checkOpenALErrors(bool logError)
+        {
+            bool gotError = false;
+
+            while (ALenum error = alGetError() != AL_NO_ERROR)
+            {
+                if (logError)
+                {
+                    const char* errorStr = "Unknown error";
+
+                    switch (error)
+                    {
+                        case AL_INVALID_NAME: errorStr = "AL_INVALID_NAME"; break;
+                        case AL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
+                        case AL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
+                        case AL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
+                        case AL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
+                    }
+
+                    log("OpenAL error: %s (%x)", errorStr, error);
+                }
+
+                gotError = true;
+            }
+            
+            return gotError;
+        }
+
         AudioAL::AudioAL():
             Audio(Driver::OPENAL)
         {
@@ -65,8 +93,27 @@ namespace ouzel
 
             device = alcOpenDevice(NULL);
 
+            if (checkOpenALErrors())
+            {
+                log("Failed to create OpenAL device");
+                return false;
+            }
+
             context = alcCreateContext(device, NULL);
+
+            if (checkOpenALErrors())
+            {
+                log("Failed to create OpenAL context");
+                return false;
+            }
+
             alcMakeContextCurrent(context);
+
+            if (checkOpenALErrors())
+            {
+                log("Failed to make OpenAL context current");
+                return false;
+            }
 
             ready = true;
             
