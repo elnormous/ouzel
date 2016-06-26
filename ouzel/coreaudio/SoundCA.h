@@ -40,8 +40,7 @@ namespace ouzel
         protected:
             SoundCA();
 
-            int audioUnitOpened = 0;
-            AudioComponentInstance audioUnit;
+            AudioComponentInstance audioUnit = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

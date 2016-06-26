@@ -49,7 +49,10 @@ namespace ouzel
 #if OUZEL_PLATFORM_MACOS
             AudioObjectAddPropertyListener(kAudioObjectSystemObject, &devlistAddress, deviceListChanged, this);
 
-            AudioObjectRemovePropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
+            if (deviceId)
+            {
+                AudioObjectRemovePropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
+            }
 #endif
 
         }
@@ -61,7 +64,11 @@ namespace ouzel
 #if OUZEL_PLATFORM_MACOS
             AudioObjectAddPropertyListener(kAudioObjectSystemObject, &devlistAddress, deviceListChanged, this);
 
-            AudioObjectRemovePropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
+            if (deviceId)
+            {
+                AudioObjectRemovePropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
+                deviceId = 0;
+            }
 #endif
         }
 

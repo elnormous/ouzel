@@ -65,7 +65,7 @@ namespace ouzel
 
         SoundCA::~SoundCA()
         {
-            if (audioUnitOpened)
+            if (audioUnit)
             {
                 AURenderCallbackStruct callback;
                 const AudioUnitElement outputBus = 0;
@@ -87,7 +87,7 @@ namespace ouzel
         {
             Sound::free();
 
-            if (audioUnitOpened)
+            if (audioUnit)
             {
                 AURenderCallbackStruct callback;
                 const AudioUnitElement outputBus = 0;
@@ -103,7 +103,7 @@ namespace ouzel
 
                 AudioComponentInstanceDispose(audioUnit);
 
-                audioUnitOpened = 0;
+                audioUnit = nullptr;
             }
         }
 
@@ -128,8 +128,6 @@ namespace ouzel
                 log("AudioComponentInstanceNew");
                 return false;
             }
-
-            audioUnitOpened = 1;
 
 #if OUZEL_PLATFORM_MACOS
             AudioDeviceID deviceId = audioCA->getAudioDeviceId();

@@ -41,9 +41,9 @@ namespace ouzel
             AudioCA();
 
 #if OUZEL_PLATFORM_MACOS
-            AudioDeviceID deviceId;
+            AudioDeviceID deviceId = 0;
 #endif
-            AudioComponent audioComponent;
+            AudioComponent audioComponent = nullptr;
         };
     } // namespace audio
 } // namespace ouzel
