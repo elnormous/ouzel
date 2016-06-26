@@ -41,12 +41,10 @@ namespace ouzel
             SoundCA();
 
             int audioUnitOpened = 0;
+            AudioComponentInstance audioUnit;
 
 #if OUZEL_PLATFORM_MACOS
             AudioDeviceID deviceID;
-            AudioComponentInstance audioUnit;
-#else
-            AudioUnit audioUnit;
 #endif
         };
     } // namespace audio
