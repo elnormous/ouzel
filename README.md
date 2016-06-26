@@ -25,7 +25,7 @@ Supported rendering backends:
 Supported audio backends:
 
 * XAudio2
-* CoreAudio
+* OpenAL
 
 Windows Phone platform support is under development.
 
