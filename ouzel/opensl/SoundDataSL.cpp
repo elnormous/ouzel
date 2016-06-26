@@ -1,21 +1,21 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "SoundDataAL.h"
+#include "SoundDataSL.h"
 
 namespace ouzel
 {
     namespace audio
     {
-        SoundDataAL::SoundDataAL()
+        SoundDataSL::SoundDataSL()
         {
         }
 
-        SoundDataAL::~SoundDataAL()
+        SoundDataSL::~SoundDataSL()
         {
         }
 
-        bool SoundDataAL::initFromBuffer(const std::vector<uint8_t>& newData)
+        bool SoundDataSL::initFromBuffer(const std::vector<uint8_t>& newData)
         {
             if (!SoundData::initFromBuffer(newData))
             {

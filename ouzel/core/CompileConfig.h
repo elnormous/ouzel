@@ -41,6 +41,7 @@
     #define OUZEL_PLATFORM_ANDROID 1
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_SUPPORTS_OPENGLES3 1
+    #define OUZEL_SUPPORTS_OPENSL 1
 
     #if defined(__ARM_NEON__)
         #if defined(__arm64__) || defined(__aarch64__)

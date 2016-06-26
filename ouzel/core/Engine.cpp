@@ -46,12 +46,16 @@
 #include "metal/RendererMetal.h"
 #endif
 
+#if OUZEL_SUPPORTS_OPENAL
+#include "openal/AudioAL.h"
+#endif
+
 #if OUZEL_SUPPORTS_XAUDIO2
 #include "xaudio2/AudioXA2.h"
 #endif
 
-#if OUZEL_SUPPORTS_OPENAL
-#include "openal/AudioAL.h"
+#if OUZEL_SUPPORTS_OPENSL
+#include "opensl/AudioSL.h"
 #endif
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
@@ -224,10 +228,12 @@ namespace ouzel
             return false;
         }
 
-#if OUZEL_SUPPORTS_XAUDIO2
-        audio.reset(new audio::AudioXA2());
-#elif OUZEL_SUPPORTS_OPENAL
+#if OUZEL_SUPPORTS_OPENAL
         audio.reset(new audio::AudioAL());
+#elif OUZEL_SUPPORTS_XAUDIO2
+        audio.reset(new audio::AudioXA2());
+#elif OUZEL_SUPPORTS_OPENSL
+        audio.reset(new audio::AudioSL());
 #else
         audio.reset(new audio::Audio());
 #endif
