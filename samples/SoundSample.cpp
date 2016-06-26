@@ -33,7 +33,7 @@ SoundSample::SoundSample(Application& app):
     jumpSound->init(jumpData);
 
     audio::SoundDataPtr ambientData = sharedEngine->getAudio()->createSoundData();
-    ambientData->initFromFile("jump.wav");
+    ambientData->initFromFile("ambient.wav");
 
     ambientSound = sharedEngine->getAudio()->createSound();
     ambientSound->init(ambientData);
