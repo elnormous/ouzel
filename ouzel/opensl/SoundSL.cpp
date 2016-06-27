@@ -145,12 +145,9 @@ namespace ouzel
                 return false;
             }
 
-            /*if ((*seek)->SetLoop(seek, repeatSound ? SL_BOOLEAN_TRUE : SL_BOOLEAN_FALSE, 0, SL_TIME_UNKNOWN) != SL_RESULT_SUCCESS)
-            {
-                return false;
-            }*/
             if ((*player)->SetPlayState(player, SL_PLAYSTATE_PLAYING) != SL_RESULT_SUCCESS)
             {
+                log("Failed to play sound");
                 return false;
             }
 
@@ -166,6 +163,7 @@ namespace ouzel
 
             if ((*player)->SetPlayState(player, resetSound ? SL_PLAYSTATE_STOPPED : SL_PLAYSTATE_PAUSED) != SL_RESULT_SUCCESS)
             {
+                log("Failed to %s sound", (resetSound ? "stop", "pause"));
                 return false;
             }
 
@@ -179,12 +177,9 @@ namespace ouzel
                 return false;
             }
 
-            /*if ((*seek)->SetPosition(seek, 0, SL_SEEKMODE_FAST) != SL_RESULT_SUCCESS)
-            {
-                return false;
-            }*/
             if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
             {
+                log("Failed to stop sound");
                 return false;
             }
 
