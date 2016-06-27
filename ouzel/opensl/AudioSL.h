@@ -25,8 +25,15 @@ namespace ouzel
             virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
 
+            SLEngineItf getEngine() const { return engine; }
+            SLObjectItf getOutputMix() const { return outputMixObject; }
+
         protected:
             AudioSL();
+            
+            SLObjectItf engineObject = nullptr;
+            SLEngineItf engine = nullptr;
+            SLObjectItf outputMixObject = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

@@ -21,7 +21,7 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             return true;
         }
     } // namespace audio

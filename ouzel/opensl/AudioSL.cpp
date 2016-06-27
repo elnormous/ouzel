@@ -17,11 +17,33 @@ namespace ouzel
 
         AudioSL::~AudioSL()
         {
+            if (outputMixObject)
+            {
+                (*outputMixObject)->Destroy(outputMixObject);
+            }
+
+            if (engineObject)
+            {
+                (*engineObject)->Destroy(engineObject);
+            }
         }
 
         void AudioSL::free()
         {
             Audio::free();
+            
+            if (outputMixObject)
+            {
+                (*outputMixObject)->Destroy(outputMixObject);
+                outputMixObject = nullptr;
+            }
+
+            if (engineObject)
+            {
+                (*engineObject)->Destroy(engineObject);
+                engineObject = nullptr;
+                engine = nullptr;
+            }
         }
 
         bool AudioSL::init()
@@ -33,8 +55,42 @@ namespace ouzel
 
             free();
 
+            const SLuint32 engineMixIIDCount = 1;
+            const SLInterfaceID engineMixIID = SL_IID_ENGINE;
+            const SLboolean engineMixReq = SL_BOOLEAN_TRUE;
+
+            if (slCreateEngine(&engineObject, 0, NULL, engineMixIIDCount, &engineMixIID, &engineMixReq) != SL_RESULT_SUCCESS)
+            {
+                log("Failed to create OpenSL engine object");
+                return false;
+            }
+
+            if ((*engineObject)->Realize(engineObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
+            {
+                log("Failed to create OpenSL engine object");
+                return false;
+            }
+
+            if ((*engineObject)->GetInterface(engineObject, SL_IID_ENGINE, &engine) != SL_RESULT_SUCCESS)
+            {
+                log("Failed to get OpenSL engine");
+                return false;
+            }
+
+            if ((*engine)->CreateOutputMix(engine, &outputMixObject, 0, nullptr, nullptr) != SL_RESULT_SUCCESS)
+            {
+                log("Failed to create OpenSL output mix");
+                return false;
+            }
+ 
+            if ((*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
+            {
+                log("Failed to create OpenSL output mix");
+                return false;
+            }
+
             ready = true;
-            
+
             return true;
         }
 

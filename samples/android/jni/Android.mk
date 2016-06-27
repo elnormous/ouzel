@@ -21,7 +21,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/jni.cpp \
     $(LOCAL_PATH)/../../RTSample.cpp
 
 LOCAL_STATIC_LIBRARIES := ouzel
-LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -lEGL -llog -landroid
+LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -lEGL -llog -landroid -lOpenSLES
 
 include $(BUILD_SHARED_LIBRARY)
 

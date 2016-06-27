@@ -30,6 +30,11 @@ namespace ouzel
 
         protected:
             SoundSL();
+
+            SLObjectItf playerObject = nullptr;
+            SLPlayItf player = nullptr;
+            SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;
+            SLVolumeItf playerVolume = nullptr;
         };
     } // namespace audio
 } // namespace ouzel
