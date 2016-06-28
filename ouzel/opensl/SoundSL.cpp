@@ -127,11 +127,29 @@ namespace ouzel
                 return false;
             }
 
-            if ((*bufferQueue)->RegisterCallback(bufferQueue, playerCallback, this) != SL_RESULT_SUCCESS)
+            if ((*bufferQueue)->Clear(bufferQueue) != SL_RESULT_SUCCESS)
+            {
+                ouzel::log("Failed to clear OpenSL buffer");
+                return false;
+            }
+
+            if ((*bufferQueue)->Enqueue(bufferQueue, soundData->getData().data(), soundData->getData().size()) != SL_RESULT_SUCCESS)
+            {
+                ouzel::log("Failed to enqueue OpenSL data");
+                return false;
+            }
+
+            /*if ((*bufferQueue)->RegisterCallback(bufferQueue, playerCallback, this) != SL_RESULT_SUCCESS)
             {
                 log("Failed to register OpenSL buffer queue callback");
                 return false;
             }
+
+            if ((*bufferQueue)->SetCallbackEventsMask(bufferQueue, SL_PLAYEVENT_HEADATEND)!= SL_RESULT_SUCCESS)
+            {
+                log("Failed to set OpenSL callback mask");
+                return false;
+            }*/
 
             ready = true;
 
