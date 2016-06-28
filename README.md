@@ -26,7 +26,7 @@ Supported audio backends:
 
 * XAudio2
 * OpenAL
-* OpenSL
+* OpenSL ES
 
 Windows Phone platform support is under development.
 
