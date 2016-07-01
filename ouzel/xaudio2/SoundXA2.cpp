@@ -69,7 +69,7 @@ namespace ouzel
             bufferData.PlayLength = 0;
             bufferData.LoopBegin = 0;
             bufferData.LoopLength = 0;
-            bufferData.LoopCount = 0; // XAUDIO2_LOOP_INFINITE
+            bufferData.LoopCount = repeatSound ? XAUDIO2_LOOP_INFINITE : 0;
             bufferData.pContext = nullptr;
 
             if (FAILED(sourceVoice->SubmitSourceBuffer(&bufferData)))
