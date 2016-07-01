@@ -70,43 +70,42 @@ namespace ouzel
                 return false;
             }
 
-            ALenum format;
+            ALenum format = 0;
 
             if (soundData->getChannels() == 1)
             {
-                if (soundData->getBitsPerSample() == 8)
-                {
-                    format = AL_FORMAT_MONO8;
-                }
-                else if (soundData->getBitsPerSample() == 16)
-                {
-                    format = AL_FORMAT_MONO16;
-                }
-                else
-                {
-                    log("Unsupported number of bits per sample");
-                    return false;
-                }
+                if (soundData->getBitsPerSample() == 8) format = AL_FORMAT_MONO8;
+                else if (soundData->getBitsPerSample() == 16) format = AL_FORMAT_MONO16;
             }
             else if (soundData->getChannels() == 2)
             {
-                if (soundData->getBitsPerSample() == 8)
-                {
-                    format = AL_FORMAT_STEREO8;
-                }
-                else if (soundData->getBitsPerSample() == 16)
-                {
-                    format = AL_FORMAT_STEREO16;
-                }
-                else
-                {
-                    log("Unsupported number of bits per sample");
-                    return false;
-                }
+                if (soundData->getBitsPerSample() == 8) format = AL_FORMAT_STEREO8;
+                else if (soundData->getBitsPerSample() == 16) format = AL_FORMAT_STEREO16;
             }
-            else
+            else if (soundData->getChannels() == 4)
             {
-                log("Unsupported number of channels");
+                if (soundData->getBitsPerSample() == 8) format = alGetEnumValue("AL_FORMAT_QUAD8");
+                else if (soundData->getBitsPerSample() == 16) format = alGetEnumValue("AL_FORMAT_QUAD16");
+            }
+            else if (soundData->getChannels() == 6)
+            {
+                if (soundData->getBitsPerSample() == 8) format = alGetEnumValue("AL_FORMAT_51CHN8");
+                else if (soundData->getBitsPerSample() == 16) format = alGetEnumValue("AL_FORMAT_51CHN16");
+            }
+            else if (soundData->getChannels() == 7)
+            {
+                if (soundData->getBitsPerSample() == 8) format = alGetEnumValue("AL_FORMAT_61CHN8");
+                else if (soundData->getBitsPerSample() == 16) format = alGetEnumValue("AL_FORMAT_61CHN16");
+            }
+            else if (soundData->getChannels() == 8)
+            {
+                if (soundData->getBitsPerSample() == 8) format = alGetEnumValue("AL_FORMAT_71CHN8");
+                else if (soundData->getBitsPerSample() == 16) format = alGetEnumValue("AL_FORMAT_71CHN16");
+            }
+
+            if (format == 0)
+            {
+                log("Unsupported audio format");
                 return false;
             }
 
