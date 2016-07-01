@@ -228,11 +228,14 @@ namespace ouzel
 
     WindowWin::~WindowWin()
     {
-        if (window) DestroyWindow(window);
+        if (window)
+        {
+            DestroyWindow(window);
+        }
+        
         if (windowClass)
         {
             UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
-            windowClass = 0;
         }
     }
 
