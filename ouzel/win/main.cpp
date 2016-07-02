@@ -53,7 +53,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     MSG msg;
 
-    for (;;)
+    bool running = true;
+
+    while (running)
     {
         std::set<HACCEL> accelerators = window->getAccelerators();
 
@@ -74,16 +76,16 @@ int WINAPI WinMain(HINSTANCE hInstance,
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
             }
-        }
 
-        if (msg.message == WM_QUIT)
-        {
-            break;
+            if (msg.message == WM_QUIT)
+            {
+                running = false;
+            }
         }
 
         if (!ouzel::sharedEngine->run())
         {
-            break;
+            running = false;
         }
     }
 
