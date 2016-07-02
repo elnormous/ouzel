@@ -347,6 +347,16 @@ namespace ouzel
         setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
     }
 
+    void WindowWin::addAccelerator(HACCEL accelerator)
+    {
+        accelerators.insert(accelerator);
+    }
+
+    void WindowWin::removeAccelerator(HACCEL accelerator)
+    {
+        accelerators.erase(accelerator);
+    }
+
     HMONITOR WindowWin::getMonitor() const
     {
         return MonitorFromWindow(window, MONITOR_DEFAULTTONULL);

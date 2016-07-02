@@ -3,6 +3,7 @@
 
 #define NOMINMAX
 #include <windows.h>
+#include "WindowWin.h"
 #include "core/Engine.h"
 #include "utils/Utils.h"
 
@@ -47,16 +48,32 @@ int WINAPI WinMain(HINSTANCE hInstance,
         return 0;
     }
 
+    std::shared_ptr<ouzel::WindowWin> window = std::static_pointer_cast<ouzel::WindowWin>(ouzel::sharedEngine->getWindow());
     ouzel::sharedEngine->begin();
 
     MSG msg;
 
     for (;;)
     {
+        std::set<HACCEL> accelerators = window->getAccelerators();
+
         while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            bool translate = true;
+
+            for (HACCEL accelerator : accelerators)
+            {
+                if (!TranslateAccelerator(window->getNativeWindow(), accelerator, &msg))
+                {
+                    translate = false;
+                }
+            }
+
+            if (translate)
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
         }
 
         if (msg.message == WM_QUIT)
