@@ -63,7 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
             for (HACCEL accelerator : accelerators)
             {
-                if (!TranslateAccelerator(window->getNativeWindow(), accelerator, &msg))
+                if (TranslateAccelerator(window->getNativeWindow(), accelerator, &msg))
                 {
                     translate = false;
                 }
