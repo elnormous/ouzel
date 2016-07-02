@@ -322,7 +322,7 @@ namespace ouzel
         UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
         RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-        AdjustWindowRect(&rect, windowStyle, FALSE);
+        AdjustWindowRect(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE);
 
         SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
 
