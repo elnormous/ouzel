@@ -21,9 +21,12 @@ void Application::begin(const std::string& sample)
 {
     sharedEngine->getInput()->startGamepadDiscovery();
 
-#if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX
+#if OUZEL_PLATFORM_LINUX
+    sharedEngine->getFileSystem()->addResourcePath("Resources");
+#elif OUZEL_PLATFORM_WINDOWS
     sharedEngine->getFileSystem()->addResourcePath("Resources");
     sharedEngine->getFileSystem()->addResourcePath("../Resources");
+    sharedEngine->getFileSystem()->addResourcePath("../../Resources");
 #endif
 
     sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
