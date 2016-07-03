@@ -47,6 +47,7 @@ namespace ouzel
     protected:
         FileSystem();
 
+        std::string appPath;
         std::vector<std::string> resourcePaths;
     };
 }

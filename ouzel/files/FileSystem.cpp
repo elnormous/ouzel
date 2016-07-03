@@ -37,7 +37,40 @@ namespace ouzel
 
     FileSystem::FileSystem()
     {
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+        CFURLRef resourcesUrlRef = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
+        CFURLRef absoluteURL = CFURLCopyAbsoluteURL(resourcesUrlRef);
 
+        CFStringRef urlString = CFURLCopyFileSystemPath(absoluteURL, kCFURLPOSIXPathStyle);
+
+        CFStringGetCString(urlString, TEMP_BUFFER, sizeof(TEMP_BUFFER), kCFStringEncodingUTF8);
+
+        CFRelease(resourcesUrlRef);
+        CFRelease(absoluteURL);
+        CFRelease(urlString);
+
+        appPath = std::string(TEMP_BUFFER);
+#elif OUZEL_PLATFORM_WINDOWS
+        if (_wpgmptr)
+        {
+            WideCharToMultiByte(CP_UTF8, 0, _wpgmptr, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+            appPath = getDirectoryPart(TEMP_BUFFER);
+        }
+        else if (_pgmptr)
+        {
+            appPath = getDirectoryPart(_pgmptr);
+        }
+        else
+        {
+            log("Failed to get current directory");
+        }
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+        if (!getcwd(TEMP_BUFFER, sizeof(TEMP_BUFFER)))
+        {
+            log("Failed to get current directory");
+        }
+        appPath = std::string(TEMP_BUFFER);
+#endif
     }
 
     FileSystem::~FileSystem()
@@ -108,7 +141,7 @@ namespace ouzel
 
         if (!directoryExists(path))
         {
-            MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+            MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
             CreateDirectory(szBuffer, NULL);
         }
 
@@ -116,7 +149,7 @@ namespace ouzel
 
         if (!directoryExists(path))
         {
-            MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+            MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
             CreateDirectory(szBuffer, NULL);
         }
 #elif OUZEL_PLATFORM_ANDROID
@@ -201,41 +234,6 @@ namespace ouzel
 
     std::string FileSystem::getPath(const std::string& filename) const
     {
-        std::string appPath;
-
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        CFURLRef resourcesUrlRef = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
-        CFURLRef absoluteURL = CFURLCopyAbsoluteURL(resourcesUrlRef);
-
-        CFStringRef urlString = CFURLCopyFileSystemPath(absoluteURL, kCFURLPOSIXPathStyle);
-
-        CFStringGetCString(urlString, TEMP_BUFFER, sizeof(TEMP_BUFFER), kCFStringEncodingUTF8);
-
-        CFRelease(resourcesUrlRef);
-        CFRelease(absoluteURL);
-        CFRelease(urlString);
-
-        appPath = std::string(TEMP_BUFFER);
-#elif OUZEL_PLATFORM_WINDOWS
-        wchar_t szBuffer[MAX_PATH];
-        if (!GetCurrentDirectoryW(MAX_PATH, szBuffer))
-        {
-            log("Failed to get current directory");
-            return "";
-        }
-
-        WideCharToMultiByte(CP_ACP, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
-
-        appPath = std::string(TEMP_BUFFER);
-#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
-        if (!getcwd(TEMP_BUFFER, sizeof(TEMP_BUFFER)))
-        {
-            log("Failed to get current directory");
-            return "";
-        }
-        appPath = std::string(TEMP_BUFFER);
-#endif
-
         std::string str = appPath + DIRECTORY_SEPARATOR + filename;
 
         if (fileExists(str))
@@ -282,7 +280,7 @@ namespace ouzel
 
     std::string FileSystem::getFilenamePart(const std::string& path) const
     {
-        size_t pos = path.find_last_of('/');
+        size_t pos = path.find_last_of("/\\");
 
         if (pos != std::string::npos)
         {
@@ -296,7 +294,7 @@ namespace ouzel
 
     std::string FileSystem::getDirectoryPart(const std::string& path) const
     {
-        size_t pos = path.find_last_of('/');
+        size_t pos = path.find_last_of("/\\");
 
         if (pos != std::string::npos)
         {

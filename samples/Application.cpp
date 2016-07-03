@@ -23,6 +23,7 @@ void Application::begin(const std::string& sample)
 
 #if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX
     sharedEngine->getFileSystem()->addResourcePath("Resources");
+    sharedEngine->getFileSystem()->addResourcePath("../Resources");
 #endif
 
     sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
