@@ -65,11 +65,14 @@ namespace ouzel
             log("Failed to get current directory");
         }
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
-        if (!getcwd(TEMP_BUFFER, sizeof(TEMP_BUFFER)))
+        if (readlink("/proc/self/exe", TEMP_BUFFER, sizeof(TEMP_BUFFER)) != -1)
+        {
+            appPath = getDirectoryPart(TEMP_BUFFER);
+        }
+        else
         {
             log("Failed to get current directory");
         }
-        appPath = std::string(TEMP_BUFFER);
 #endif
     }
 
