@@ -73,8 +73,8 @@ namespace ouzel
 
                 const rapidjson::Value& pivotObject = frameObject["pivot"];
 
-                Vector2 pivot(static_cast<float>(pivotObject["x"].GetDouble()),
-                              static_cast<float>(pivotObject["y"].GetDouble()));
+                Vector2 pivot(pivotObject["x"].GetFloat(),
+                              pivotObject["y"].GetFloat());
 
                 frames.push_back(std::make_shared<SpriteFrame>(rectangle, texture, rotated, sourceSize, sourceOffset, pivot));
             }
