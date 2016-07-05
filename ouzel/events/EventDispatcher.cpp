@@ -24,7 +24,7 @@ namespace ouzel
         {
             mutex.lock();
 
-            const Event& event = eventQueue.front();
+            Event event = eventQueue.front();
             eventQueue.pop();
 
             mutex.unlock();
