@@ -19,15 +19,21 @@ namespace ouzel
     void EventDispatcher::update()
     {
         auto eventHandlersCopy = eventHandlers;
+        Event event;
 
-        while (!eventQueue.empty())
+        while (true)
         {
-            mutex.lock();
+            // scope for mutex lock
+            {
+                std::lock_guard<std::mutex> mutexLock(mutex);
+                if (eventQueue.empty())
+                {
+                    break;
+                }
 
-            Event event = eventQueue.front();
-            eventQueue.pop();
-
-            mutex.unlock();
+                event = eventQueue.front();
+                eventQueue.pop();
+            }
 
             bool propagate = true;
 
