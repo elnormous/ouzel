@@ -480,7 +480,7 @@ namespace ouzel
          * @param m The matrix to add.
          * @return The matrix sum.
          */
-        inline const Matrix3 operator+(const Matrix3& m) const;
+        inline Matrix3 operator+(const Matrix3& m) const;
 
         /**
          * Adds the given matrix to this matrix.
@@ -498,7 +498,7 @@ namespace ouzel
          * @param m The matrix to subtract.
          * @return The matrix difference.
          */
-        inline const Matrix3 operator-(const Matrix3& m) const;
+        inline Matrix3 operator-(const Matrix3& m) const;
 
         /**
          * Subtracts the given matrix from this matrix.
@@ -515,7 +515,7 @@ namespace ouzel
          *
          * @return The negation of this matrix.
          */
-        inline const Matrix3 operator-() const;
+        inline Matrix3 operator-() const;
 
         /**
          * Calculates the matrix product of this matrix with the given matrix.
@@ -525,7 +525,7 @@ namespace ouzel
          * @param m The matrix to multiply by.
          * @return The matrix product.
          */
-        inline const Matrix3 operator*(const Matrix3& m) const;
+        inline Matrix3 operator*(const Matrix3& m) const;
 
         /**
          * Right-multiplies this matrix by the given matrix.
@@ -556,5 +556,5 @@ namespace ouzel
      * @param v The vector to transform.
      * @return The resulting transformed vector.
      */
-    inline const Vector2 operator*(const Matrix3& m, const Vector2& v);
+    inline Vector2 operator*(const Matrix3& m, const Vector2& v);
 }

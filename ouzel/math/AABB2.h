@@ -84,7 +84,7 @@ namespace ouzel
 
         void insertPoint(const Vector2& point);
 
-        inline const AABB2 operator+(const Vector2& v) const
+        inline AABB2 operator+(const Vector2& v) const
         {
             AABB2 result(*this);
             result += v;
@@ -98,7 +98,7 @@ namespace ouzel
             return *this;
         }
 
-        inline const AABB2 operator-(const Vector2& v) const
+        inline AABB2 operator-(const Vector2& v) const
         {
             AABB2 result(*this);
             result -= v;

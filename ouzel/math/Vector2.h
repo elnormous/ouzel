@@ -321,7 +321,7 @@ namespace ouzel
          * @param v The vector to add.
          * @return The vector sum.
          */
-        inline const Vector2 operator+(const Vector2& v) const
+        inline Vector2 operator+(const Vector2& v) const
         {
             return Vector2(x + v.x, y + v.y);
         }
@@ -347,7 +347,7 @@ namespace ouzel
          * @param v The vector to add.
          * @return The vector sum.
          */
-        inline const Vector2 operator-(const Vector2& v) const
+        inline Vector2 operator-(const Vector2& v) const
         {
             return Vector2(x - v.x, y - v.y);
         }
@@ -372,7 +372,7 @@ namespace ouzel
          *
          * @return The negation of this vector.
          */
-        inline const Vector2 operator-() const
+        inline Vector2 operator-() const
         {
             return Vector2(-x, -y);
         }
@@ -385,7 +385,7 @@ namespace ouzel
          * @param scalar The value to scale by.
          * @return The scaled vector.
          */
-        inline const Vector2 operator*(float scalar) const
+        inline Vector2 operator*(float scalar) const
         {
             return Vector2(x * scalar, y * scalar);
         }
@@ -411,7 +411,7 @@ namespace ouzel
          * @param scalar the constant to divide this vector with
          * @return a smaller vector
          */
-        inline const Vector2 operator/(float scalar) const
+        inline Vector2 operator/(float scalar) const
         {
             return Vector2(x / scalar, y / scalar);
         }
@@ -480,7 +480,7 @@ namespace ouzel
      * @param v The vector to scale.
      * @return The scaled vector.
      */
-    inline const Vector2 operator*(float scalar, const Vector2& v)
+    inline Vector2 operator*(float scalar, const Vector2& v)
     {
         return Vector2(v.x * scalar, v.y * scalar);
     }

@@ -317,7 +317,7 @@ namespace ouzel
          * @param v The vector to add.
          * @return The vector sum.
          */
-        inline const Vector4 operator+(const Vector4& v) const
+        inline Vector4 operator+(const Vector4& v) const
         {
             Vector4 result(*this);
             result.add(v);
@@ -344,7 +344,7 @@ namespace ouzel
          * @param v The vector to add.
          * @return The vector sum.
          */
-        inline const Vector4 operator-(const Vector4& v) const
+        inline Vector4 operator-(const Vector4& v) const
         {
             Vector4 result(*this);
             result.subtract(v);
@@ -370,7 +370,7 @@ namespace ouzel
          *
          * @return The negation of this vector.
          */
-        inline const Vector4 operator-() const
+        inline Vector4 operator-() const
         {
             Vector4 result(*this);
             result.negate();
@@ -385,7 +385,7 @@ namespace ouzel
          * @param scalar The value to scale by.
          * @return The scaled vector.
          */
-        inline const Vector4 operator*(float scalar) const
+        inline Vector4 operator*(float scalar) const
         {
             Vector4 result(*this);
             result.scale(scalar);
@@ -412,7 +412,7 @@ namespace ouzel
          * @param d the constant to divide this vector with
          * @return a smaller vector
          */
-        inline const Vector4 operator/(float scalar) const
+        inline Vector4 operator/(float scalar) const
         {
             return Vector4(x / scalar, y / scalar, z / scalar, w / scalar);
         }
@@ -482,7 +482,7 @@ namespace ouzel
      * @param v The vector to scale.
      * @return The scaled vector.
      */
-    inline const Vector4 operator*(float x, const Vector4& v)
+    inline Vector4 operator*(float x, const Vector4& v)
     {
         Vector4 result(v);
         result.scale(x);

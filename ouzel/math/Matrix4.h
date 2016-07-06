@@ -749,7 +749,7 @@ namespace ouzel
          * @param m The matrix to add.
          * @return The matrix sum.
          */
-        inline const Matrix operator+(const Matrix4& m) const;
+        inline Matrix operator+(const Matrix4& m) const;
 
         /**
          * Adds the given matrix to this matrix.
@@ -767,7 +767,7 @@ namespace ouzel
          * @param m The matrix to subtract.
          * @return The matrix difference.
          */
-        inline const Matrix4 operator-(const Matrix4& m) const;
+        inline Matrix4 operator-(const Matrix4& m) const;
 
         /**
          * Subtracts the given matrix from this matrix.
@@ -784,7 +784,7 @@ namespace ouzel
          *
          * @return The negation of this matrix.
          */
-        inline const Matrix4 operator-() const;
+        inline Matrix4 operator-() const;
 
         /**
          * Calculates the matrix product of this matrix with the given matrix.
@@ -794,7 +794,7 @@ namespace ouzel
          * @param matrix The matrix to multiply by.
          * @return The matrix product.
          */
-        inline const Matrix4 operator*(const Matrix4& matrix) const
+        inline Matrix4 operator*(const Matrix4& matrix) const
         {
             Matrix4 result(*this);
             result.multiply(matrix);
@@ -844,7 +844,7 @@ namespace ouzel
      * @param v The vector to transform.
      * @return The resulting transformed vector.
      */
-    inline const Vector3 operator*(const Matrix4& m, const Vector3& v)
+    inline Vector3 operator*(const Matrix4& m, const Vector3& v)
     {
         Vector3 x;
         m.transformVector(v, x);
@@ -875,7 +875,7 @@ namespace ouzel
      * @param v The vector to transform.
      * @return The resulting transformed vector.
      */
-    inline const Vector4 operator*(const Matrix4& m, const Vector4& v)
+    inline Vector4 operator*(const Matrix4& m, const Vector4& v)
     {
         Vector4 x;
         m.transformVector(v, x);
