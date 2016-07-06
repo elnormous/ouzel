@@ -8,12 +8,12 @@
 
 namespace ouzel
 {
-    Vector4 Vector4::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
-    Vector4 Vector4::ONE(1.0f, 1.0f, 1.0f, 1.0f);
-    Vector4 Vector4::UNIT_X(1.0f, 0.0f, 0.0f, 0.0f);
-    Vector4 Vector4::UNIT_Y(0.0f, 1.0f, 0.0f, 0.0f);
-    Vector4 Vector4::UNIT_Z(0.0f, 0.0f, 1.0f, 0.0f);
-    Vector4 Vector4::UNIT_W(0.0f, 0.0f, 0.0f, 1.0f);
+    const Vector4 Vector4::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
+    const Vector4 Vector4::ONE(1.0f, 1.0f, 1.0f, 1.0f);
+    const Vector4 Vector4::UNIT_X(1.0f, 0.0f, 0.0f, 0.0f);
+    const Vector4 Vector4::UNIT_Y(0.0f, 1.0f, 0.0f, 0.0f);
+    const Vector4 Vector4::UNIT_Z(0.0f, 0.0f, 1.0f, 0.0f);
+    const Vector4 Vector4::UNIT_W(0.0f, 0.0f, 0.0f, 1.0f);
 
     Vector4::Vector4():
         x(0.0f), y(0.0f), z(0.0f), w(0.0f)

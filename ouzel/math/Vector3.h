@@ -21,11 +21,11 @@ namespace ouzel
     class Vector3
     {
     public:
-        static Vector3 ZERO;
-        static Vector3 ONE;
-        static Vector3 UNIT_X;
-        static Vector3 UNIT_Y;
-        static Vector3 UNIT_Z;
+        static const Vector3 ZERO;
+        static const Vector3 ONE;
+        static const Vector3 UNIT_X;
+        static const Vector3 UNIT_Y;
+        static const Vector3 UNIT_Z;
 
         /**
          * The x-coordinate.

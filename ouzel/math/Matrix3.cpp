@@ -10,20 +10,13 @@
 
 namespace ouzel
 {
-    static const float MATRIX_IDENTITY[9] =
-    {
-        1.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 1.0f,
-    };
+    const Matrix3 Matrix3::IDENTITY(1.0f, 0.0f, 0.0f,
+                                    0.0f, 1.0f, 0.0f,
+                                    0.0f, 0.0f, 1.0f);
 
-    Matrix3 Matrix3::IDENTITY(1, 0, 0,
-                              0, 1, 0,
-                              0, 0, 1);
-
-    Matrix3 Matrix3::ZERO(0, 0, 0,
-                          0, 0, 0,
-                          0, 0, 0);
+    const Matrix3 Matrix3::ZERO(0.0f, 0.0f, 0.0f,
+                                0.0f, 0.0f, 0.0f,
+                                0.0f, 0.0f, 0.0f);
 
     Matrix3::Matrix3()
     {
@@ -52,7 +45,7 @@ namespace ouzel
 
     void Matrix3::createScale(const Vector2& scale, Matrix3& dst)
     {
-        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, IDENTITY.m, sizeof(dst.m));
 
         dst.m[0] = scale.x;
         dst.m[4] = scale.y;
@@ -60,7 +53,7 @@ namespace ouzel
 
     void Matrix3::createScale(float xScale, float yScale, Matrix3& dst)
     {
-        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, IDENTITY.m, sizeof(dst.m));
 
         dst.m[0] = xScale;
         dst.m[4] = yScale;
@@ -86,7 +79,7 @@ namespace ouzel
 
     void Matrix3::createTranslation(const Vector2& translation, Matrix3& dst)
     {
-        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, IDENTITY.m, sizeof(dst.m));
 
         dst.m[6] = translation.x;
         dst.m[7] = translation.y;
@@ -94,7 +87,7 @@ namespace ouzel
 
     void Matrix3::createTranslation(float xTranslation, float yTranslation, Matrix3& dst)
     {
-        memcpy(dst.m, MATRIX_IDENTITY, sizeof(dst.m));
+        memcpy(dst.m, IDENTITY.m, sizeof(dst.m));
 
         dst.m[6] = xTranslation;
         dst.m[7] = yTranslation;
@@ -181,7 +174,7 @@ namespace ouzel
 
     bool Matrix3::isIdentity() const
     {
-        return (memcmp(m, MATRIX_IDENTITY, sizeof(m)) == 0);
+        return (memcmp(m, IDENTITY.m, sizeof(m)) == 0);
     }
 
     void Matrix3::multiply(float scalar)
@@ -321,7 +314,7 @@ namespace ouzel
 
     void Matrix3::setIdentity()
     {
-        memcpy(m, MATRIX_IDENTITY, sizeof(m));
+        memcpy(m, IDENTITY.m, sizeof(m));
     }
 
     void Matrix3::setZero()

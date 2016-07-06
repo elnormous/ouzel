@@ -16,12 +16,12 @@ namespace ouzel
     class Vector4
     {
     public:
-        static Vector4 ZERO;
-        static Vector4 ONE;
-        static Vector4 UNIT_X;
-        static Vector4 UNIT_Y;
-        static Vector4 UNIT_Z;
-        static Vector4 UNIT_W;
+        static const Vector4 ZERO;
+        static const Vector4 ONE;
+        static const Vector4 UNIT_X;
+        static const Vector4 UNIT_Y;
+        static const Vector4 UNIT_Z;
+        static const Vector4 UNIT_W;
 
 #if OUZEL_SUPPORTS_SSE
         union

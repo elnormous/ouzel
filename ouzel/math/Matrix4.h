@@ -15,8 +15,8 @@ namespace ouzel
     class Matrix4
     {
     public:
-        static Matrix4 IDENTITY;
-        static Matrix4 ZERO;
+        static const Matrix4 IDENTITY;
+        static const Matrix4 ZERO;
 
         /**
          * Stores the columns of this 4x4 matrix.

@@ -13,10 +13,10 @@ namespace ouzel
     class Vector2
     {
     public:
-        static Vector2 ZERO;
-        static Vector2 ONE;
-        static Vector2 UNIT_X;
-        static Vector2 UNIT_Y;
+        static const Vector2 ZERO;
+        static const Vector2 ONE;
+        static const Vector2 UNIT_X;
+        static const Vector2 UNIT_Y;
 
         /**
          * The x coordinate.
