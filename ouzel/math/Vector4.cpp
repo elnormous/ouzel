@@ -4,6 +4,8 @@
 #include <cmath>
 #include <cassert>
 #include "Vector4.h"
+#include "Vector2.h"
+#include "Vector3.h"
 #include "MathUtils.h"
 
 namespace ouzel
@@ -15,16 +17,6 @@ namespace ouzel
     const Vector4 Vector4::UNIT_Z(0.0f, 0.0f, 1.0f, 0.0f);
     const Vector4 Vector4::UNIT_W(0.0f, 0.0f, 0.0f, 1.0f);
 
-    Vector4::Vector4():
-        x(0.0f), y(0.0f), z(0.0f), w(0.0f)
-    {
-    }
-
-    Vector4::Vector4(float pX, float pY, float pZ, float pW):
-        x(pX), y(pY), z(pZ), w(pW)
-    {
-    }
-
     Vector4::Vector4(const float* src)
     {
         set(src);
@@ -35,9 +27,40 @@ namespace ouzel
         set(p1, p2);
     }
 
-    Vector4::Vector4(const Vector4& copy)
+    Vector4::Vector4(const Vector2& v):
+        x(v.x),
+        y(v.y),
+        z(0.0f),
+        w(0.0f)
     {
-        set(copy);
+    }
+
+    Vector4& Vector4::operator=(const Vector2& v)
+    {
+        x = v.x;
+        y = v.y;
+        z = 0.0f;
+        w = 0.0f;
+
+        return *this;
+    }
+
+    Vector4::Vector4(const Vector3& v):
+        x(v.x),
+        y(v.y),
+        z(v.z),
+        w(0.0f)
+    {
+    }
+
+    Vector4& Vector4::operator=(const Vector3& v)
+    {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        w = 0.0f;
+
+        return *this;
     }
 
     Vector4 Vector4::fromColor(unsigned int color)
@@ -55,20 +78,6 @@ namespace ouzel
         return value;
     }
 
-    Vector4::~Vector4()
-    {
-    }
-
-    bool Vector4::isZero() const
-    {
-        return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
-    }
-
-    bool Vector4::isOne() const
-    {
-        return x == 1.0f && y == 1.0f && z == 1.0f && w == 1.0f;
-    }
-
     float Vector4::angle(const Vector4& v1, const Vector4& v2)
     {
         float dx = v1.w * v2.x - v1.x * v2.w - v1.y * v2.z + v1.z * v2.y;
@@ -76,22 +85,6 @@ namespace ouzel
         float dz = v1.w * v2.z - v1.z * v2.w - v1.x * v2.y + v1.y * v2.x;
 
         return atan2f(sqrtf(dx * dx + dy * dy + dz * dz) + FLOAT_SMALL, dot(v1, v2));
-    }
-
-    void Vector4::add(const Vector4& v)
-    {
-        x += v.x;
-        y += v.y;
-        z += v.z;
-        w += v.w;
-    }
-
-    void Vector4::add(const Vector4& v1, const Vector4& v2, Vector4& dst)
-    {
-        dst.x = v1.x + v2.x;
-        dst.y = v1.y + v2.y;
-        dst.z = v1.z + v2.z;
-        dst.w = v1.w + v2.w;
     }
 
     void Vector4::clamp(const Vector4& min, const Vector4& max)
@@ -166,42 +159,9 @@ namespace ouzel
         return sqrtf(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
-    float Vector4::distanceSquared(const Vector4& v) const
-    {
-        float dx = v.x - x;
-        float dy = v.y - y;
-        float dz = v.z - z;
-        float dw = v.w - w;
-
-        return (dx * dx + dy * dy + dz * dz + dw * dw);
-    }
-
-    float Vector4::dot(const Vector4& v) const
-    {
-        return (x * v.x + y * v.y + z * v.z + w * v.w);
-    }
-
-    float Vector4::dot(const Vector4& v1, const Vector4& v2)
-    {
-        return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w);
-    }
-
     float Vector4::length() const
     {
         return sqrtf(x * x + y * y + z * z + w * w);
-    }
-
-    float Vector4::lengthSquared() const
-    {
-        return (x * x + y * y + z * z + w * w);
-    }
-
-    void Vector4::negate()
-    {
-        x = -x;
-        y = -y;
-        z = -z;
-        w = -w;
     }
 
     Vector4& Vector4::normalize()
@@ -237,22 +197,6 @@ namespace ouzel
         dst.w *= n;
     }
 
-    void Vector4::scale(float scalar)
-    {
-        x *= scalar;
-        y *= scalar;
-        z *= scalar;
-        w *= scalar;
-    }
-
-    void Vector4::set(float pX, float pY, float pZ, float pW)
-    {
-        x = pX;
-        y = pY;
-        z = pZ;
-        w = pW;
-    }
-
     void Vector4::set(const float* array)
     {
         assert(array);
@@ -261,37 +205,5 @@ namespace ouzel
         y = array[1];
         z = array[2];
         w = array[3];
-    }
-
-    void Vector4::set(const Vector4& v)
-    {
-        x = v.x;
-        y = v.y;
-        z = v.z;
-        w = v.w;
-    }
-
-    void Vector4::set(const Vector4& p1, const Vector4& p2)
-    {
-        x = p2.x - p1.x;
-        y = p2.y - p1.y;
-        z = p2.z - p1.z;
-        w = p2.w - p1.w;
-    }
-
-    void Vector4::subtract(const Vector4& v)
-    {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
-        w -= v.w;
-    }
-
-    void Vector4::subtract(const Vector4& v1, const Vector4& v2, Vector4& dst)
-    {
-        dst.x = v1.x - v2.x;
-        dst.y = v1.y - v2.y;
-        dst.z = v1.z - v2.z;
-        dst.w = v1.w - v2.w;
     }
 }

@@ -7,6 +7,9 @@
 
 namespace ouzel
 {
+    class Vector3;
+    class Vector4;
+
     /**
      * Defines a 2-element floating point vector.
      */
@@ -18,20 +21,23 @@ namespace ouzel
         static const Vector2 UNIT_X;
         static const Vector2 UNIT_Y;
 
-        /**
-         * The x coordinate.
-         */
-        float x;
-
-        /**
-         * The y coordinate.
-         */
-        float y;
+        union
+        {
+            struct
+            {
+                float x;
+                float y;
+            };
+            float a[2];
+        };
 
         /**
          * Constructs a new vector initialized to all zeros.
          */
-        Vector2();
+        Vector2():
+            x(0.0f), y(0.0f)
+        {
+        }
 
         /**
          * Constructs a new vector initialized to the specified values.
@@ -39,7 +45,10 @@ namespace ouzel
          * @param pX The x coordinate.
          * @param pY The y coordinate.
          */
-        Vector2(float pX, float pY);
+        Vector2(float pX, float pY):
+            x(pX), y(pY)
+        {
+        }
 
         /**
          * Constructs a new vector from the values in the specified array.
@@ -61,12 +70,19 @@ namespace ouzel
          *
          * @param copy The vector to copy.
          */
-        Vector2(const Vector2& copy);
+        Vector2(const Vector2& copy):
+            x(copy.x),
+            y(copy.y)
+        {
+        }
 
-        /**
-         * Destructor.
-         */
-        ~Vector2();
+        Vector2(const Vector3& v);
+
+        Vector2& operator=(const Vector3& v);
+
+        Vector2(const Vector4& v);
+
+        Vector2& operator=(const Vector4& v);
 
         /**
          * Indicates whether this vector contains all zeros.
@@ -103,7 +119,11 @@ namespace ouzel
          *
          * @param v The vector to add.
          */
-        void add(const Vector2& v);
+        void add(const Vector2& v)
+        {
+            x += v.x;
+            y += v.y;
+        }
 
         /**
          * Adds the specified vectors and stores the result in dst.
@@ -157,7 +177,12 @@ namespace ouzel
          *
          * @see distance
          */
-        float distanceSquared(const Vector2& v) const;
+        float distanceSquared(const Vector2& v) const
+        {
+            float dx = v.x - x;
+            float dy = v.y - y;
+            return (dx * dx + dy * dy);
+        }
 
         /**
          * Returns the dot product of this vector and the specified vector.
@@ -166,7 +191,10 @@ namespace ouzel
          *
          * @return The dot product.
          */
-        float dot(const Vector2& v) const;
+        float dot(const Vector2& v) const
+        {
+            return (x * v.x + y * v.y);
+        }
 
         /**
          * Returns the dot product between the specified vectors.
@@ -176,7 +204,10 @@ namespace ouzel
          *
          * @return The dot product between the vectors.
          */
-        static float dot(const Vector2& v1, const Vector2& v2);
+        static float dot(const Vector2& v1, const Vector2& v2)
+        {
+            return (v1.x * v2.x + v1.y * v2.y);
+        }
 
         /**
          * Computes the length of this vector.
@@ -199,12 +230,19 @@ namespace ouzel
          *
          * @see length
          */
-        float lengthSquared() const;
+        float lengthSquared() const
+        {
+            return (x * x + y * y);
+        }
 
         /**
          * Negates this vector.
          */
-        void negate();
+        void negate()
+        {
+            x = -x;
+            y = -y;
+        }
 
         /**
          * Normalizes this vector.
@@ -235,14 +273,22 @@ namespace ouzel
          *
          * @param scalar The scalar value.
          */
-        void scale(float scalar);
+        void scale(float scalar)
+        {
+            x *= scalar;
+            y *= scalar;
+        }
 
         /**
          * Scales each element of this vector by the matching component of scale.
          *
          * @param scale The vector to scale by.
          */
-        void scale(const Vector2& scale);
+        void scale(const Vector2& scale)
+        {
+            x *= scale.x;
+            y *= scale.y;
+        }
 
         /**
          * Rotates this vector by angle (specified in radians) around the given point.
@@ -258,7 +304,11 @@ namespace ouzel
          * @param pX The new x coordinate.
          * @param pY The new y coordinate.
          */
-        void set(float pX, float pY);
+        void set(float pX, float pY)
+        {
+            x = pX;
+            y = pY;
+        }
 
         /**
          * Sets the elements of this vector from the values in the specified array.
@@ -272,7 +322,11 @@ namespace ouzel
          *
          * @param v The vector to copy.
          */
-        void set(const Vector2& v);
+        void set(const Vector2& v)
+        {
+            x = v.x;
+            y = v.y;
+        }
 
         /**
          * Sets this vector to the directional vector between the specified points.
@@ -280,7 +334,11 @@ namespace ouzel
          * @param p1 The first point.
          * @param p2 The second point.
          */
-        void set(const Vector2& p1, const Vector2& p2);
+        void set(const Vector2& p1, const Vector2& p2)
+        {
+            x = p2.x - p1.x;
+            y = p2.y - p1.y;
+        }
 
         /**
          * Subtracts this vector and the specified vector as (this - v)
@@ -288,7 +346,11 @@ namespace ouzel
          *
          * @param v The vector to subtract.
          */
-        void subtract(const Vector2& v);
+        void subtract(const Vector2& v)
+        {
+            x -= v.x;
+            y -= v.y;
+        }
 
         /**
          * Subtracts the specified vectors and stores the result in dst.
@@ -298,7 +360,11 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst The destination vector.
          */
-        static void subtract(const Vector2& v1, const Vector2& v2, Vector2& dst);
+        static void subtract(const Vector2& v1, const Vector2& v2, Vector2& dst)
+        {
+            dst.x = v1.x - v2.x;
+            dst.y = v1.y - v2.y;
+        }
 
         /**
          * Updates this vector towards the given target using a smoothing function.
@@ -468,7 +534,8 @@ namespace ouzel
          *
          * @return Returns the angle
          */
-        inline float getAngle() const {
+        inline float getAngle() const
+        {
             return atan2f(y, x);
         };
     };

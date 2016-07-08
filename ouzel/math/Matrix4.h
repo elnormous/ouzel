@@ -21,25 +21,42 @@ namespace ouzel
         /**
          * Stores the columns of this 4x4 matrix.
          * */
-#if OUZEL_SUPPORTS_SSE
         union
         {
+#if OUZEL_SUPPORTS_SSE
             __m128 col[4];
+#endif
+            struct
+            {
+                float m11;
+                float m12;
+                float m13;
+                float m14;
+                float m21;
+                float m22;
+                float m23;
+                float m24;
+                float m31;
+                float m32;
+                float m33;
+                float m34;
+                float m41;
+                float m42;
+                float m43;
+                float m44;
+            };
             float m[16];
         };
-#else
-        float m[16];
-#endif
+
 
         /**
-         * Constructs a matrix initialized to the identity matrix:
+         * Constructs a matrix initialized to the zero matrix
          *
-         * 1  0  0  0
-         * 0  1  0  0
-         * 0  0  1  0
-         * 0  0  0  1
          */
-        Matrix4();
+        Matrix4()
+        {
+            *this = Matrix4::ZERO;
+        }
 
         /**
          * Constructs a matrix initialized to the specified value.
@@ -61,8 +78,10 @@ namespace ouzel
          * @param m43 The third element of the fourth row.
          * @param m44 The fourth element of the fourth row.
          */
-        Matrix4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
-               float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44);
+        Matrix4(float m11, float m12, float m13, float m14,
+                float m21, float m22, float m23, float m24,
+                float m31, float m32, float m33, float m34,
+                float m41, float m42, float m43, float m44);
 
         /**
          * Creates a matrix initialized to the specified column-major array.
@@ -84,11 +103,6 @@ namespace ouzel
          * @param copy The matrix to copy.
          */
         Matrix4(const Matrix4& copy);
-
-        /**
-         * Destructor.
-         */
-        ~Matrix4();
 
         /**
          * Creates a view matrix based on the specified input parameters.

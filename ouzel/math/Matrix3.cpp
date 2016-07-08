@@ -18,15 +18,11 @@ namespace ouzel
                                 0.0f, 0.0f, 0.0f,
                                 0.0f, 0.0f, 0.0f);
 
-    Matrix3::Matrix3()
+    Matrix3::Matrix3(float pm11, float pm12, float pm13,
+                     float pm21, float pm22, float pm23,
+                     float pm31, float pm32, float pm33)
     {
-        *this = Matrix3::IDENTITY;
-    }
-
-    Matrix3::Matrix3(float m11, float m12, float m13, float m21, float m22, float m23,
-                     float m31, float m32, float m33)
-    {
-        set(m11, m12, m13, m21, m22, m23, m31, m32, m33);
+        set(pm11, pm12, pm13, pm21, pm22, pm23, pm31, pm32, pm33);
     }
 
     Matrix3::Matrix3(const float* array)
@@ -37,10 +33,6 @@ namespace ouzel
     Matrix3::Matrix3(const Matrix3& copy)
     {
         memcpy(m, copy.m, sizeof(m));
-    }
-
-    Matrix3::~Matrix3()
-    {
     }
 
     void Matrix3::createScale(const Vector2& scale, Matrix3& dst)

@@ -55,8 +55,8 @@ namespace ouzel
 
             float zoom = 1.0f;
 
-            Matrix4 projection;
-            Matrix4 inverseProjection;
+            Matrix4 projection = Matrix4::IDENTITY;
+            Matrix4 inverseProjection = Matrix4::IDENTITY;
 
             Size2 targetContentSize;
 
@@ -65,7 +65,7 @@ namespace ouzel
             Vector2 contentScale;
 
             bool viewProjectionDirty = false;
-            mutable Matrix4 viewProjection;
+            mutable Matrix4 viewProjection = Matrix4::IDENTITY;
 
             LayerWeakPtr layer;
         };

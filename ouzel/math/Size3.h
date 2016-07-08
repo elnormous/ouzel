@@ -3,10 +3,12 @@
 
 #pragma once
 
-#include "math/Vector3.h"
+#include "Vector3.h"
 
 namespace ouzel
 {
+    class Size2;
+
     class Size3
     {
     public:
@@ -14,14 +16,53 @@ namespace ouzel
         float height;
         float depth;
 
-        Size3();
-        Size3(float w, float h, float d);
+        Size3():
+            width(0.0f), height(0.0f), depth(0.0f)
+        {
+        }
 
-        Size3& operator=(const Vector3& point);
-        Size3 operator+(const Size3& right) const;
-        Size3 operator-(const Size3& right) const;
-        Size3 operator*(float a) const;
-        Size3 operator/(float a) const;
+        Size3(float w, float h, float d):
+            width(w), height(h), depth(d)
+        {
+        }
+
+        Size3(const Vector3& point):
+            width(point.x),
+            height(point.y),
+            depth(point.z)
+        {
+        }
+
+        Size3& operator=(const Vector3& point)
+        {
+            width = point.x;
+            height = point.y;
+            depth = point.z;
+            return *this;
+        }
+
+        Size3(const Size2& s);
+        Size3& operator=(const Size2& other);
+
+        Size3 operator+(const Size3& right) const
+        {
+            return Size3(width + right.width, height + right.height, depth + right.depth);
+        }
+
+        Size3 operator-(const Size3& right) const
+        {
+            return Size3(width - right.width, height - right.height, depth - right.depth);
+        }
+
+        Size3 operator*(float a) const
+        {
+            return Size3(width * a, height * a, depth * a);
+        }
+
+        Size3 operator/(float a) const
+        {
+            return Size3(width / a, height / a, depth / a);
+        }
 
         inline bool operator==(const Size3& right) const
         {
@@ -33,6 +74,14 @@ namespace ouzel
             return width != right.width || height != right.height || depth != right.depth;
         }
 
-        bool isZero() const;
+        bool isZero() const
+        {
+            return width == 0.0f && height == 0.0f && depth == 0.0f;
+        }
+
+        bool isOne() const
+        {
+            return width == 1.0f && height == 1.0f && depth == 1.0f;
+        }
     };
 }

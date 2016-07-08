@@ -20,15 +20,12 @@ namespace ouzel
                                 0.0f, 0.0f, 0.0f, 0.0f,
                                 0.0f, 0.0f, 0.0f, 0.0f);
 
-    Matrix4::Matrix4()
+    Matrix4::Matrix4(float pm11, float pm12, float pm13, float pm14,
+                     float pm21, float pm22, float pm23, float pm24,
+                     float pm31, float pm32, float pm33, float pm34,
+                     float pm41, float pm42, float pm43, float pm44)
     {
-        *this = Matrix4::IDENTITY;
-    }
-
-    Matrix4::Matrix4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
-                   float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
-    {
-        set(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
+        set(pm11, pm12, pm13, pm14, pm21, pm22, pm23, pm24, pm31, pm32, pm33, pm34, pm41, pm42, pm43, pm44);
     }
 
     Matrix4::Matrix4(const float* array)
@@ -39,10 +36,6 @@ namespace ouzel
     Matrix4::Matrix4(const Matrix4& copy)
     {
         memcpy(m, copy.m, sizeof(m));
-    }
-
-    Matrix4::~Matrix4()
-    {
     }
 
     void Matrix4::createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst)

@@ -4,6 +4,8 @@
 #include <cmath>
 #include <cassert>
 #include "Vector3.h"
+#include "Vector2.h"
+#include "Vector4.h"
 #include "MathUtils.h"
 
 namespace ouzel
@@ -14,16 +16,6 @@ namespace ouzel
     const Vector3 Vector3::UNIT_Y(0.0f, 1.0f, 0.0f);
     const Vector3 Vector3::UNIT_Z(0.0f, 0.0f, 1.0f);
 
-    Vector3::Vector3():
-        x(0.0f), y(0.0f), z(0.0f)
-    {
-    }
-
-    Vector3::Vector3(float pX, float pY, float pZ):
-        x(pX), y(pY), z(pZ)
-    {
-    }
-
     Vector3::Vector3(const float* array)
     {
         set(array);
@@ -32,11 +24,6 @@ namespace ouzel
     Vector3::Vector3(const Vector3& p1, const Vector3& p2)
     {
         set(p1, p2);
-    }
-
-    Vector3::Vector3(const Vector3& copy)
-    {
-        set(copy);
     }
 
     Vector3::Vector3(const Vector2& v)
@@ -49,6 +36,20 @@ namespace ouzel
         x = v.x;
         y = v.y;
         z = 0.0f;
+
+        return *this;
+    }
+
+    Vector3::Vector3(const Vector4& v)
+    {
+        set(v.x, v.y, v.z);
+    }
+
+    Vector3& Vector3::operator=(const Vector4& v)
+    {
+        x = v.x;
+        y = v.y;
+        z = v.z;
 
         return *this;
     }
@@ -68,10 +69,6 @@ namespace ouzel
         return value;
     }
 
-    Vector3::~Vector3()
-    {
-    }
-
     float Vector3::angle(const Vector3& v1, const Vector3& v2)
     {
         float dx = v1.y * v2.z - v1.z * v2.y;
@@ -79,20 +76,6 @@ namespace ouzel
         float dz = v1.x * v2.y - v1.y * v2.x;
 
         return atan2f(sqrtf(dx * dx + dy * dy + dz * dz) + FLOAT_SMALL, dot(v1, v2));
-    }
-
-    void Vector3::add(const Vector3& v)
-    {
-        x += v.x;
-        y += v.y;
-        z += v.z;
-    }
-
-    void Vector3::add(const Vector3& v1, const Vector3& v2, Vector3& dst)
-    {
-        dst.x = v1.x + v2.x;
-        dst.y = v1.y + v2.y;
-        dst.z = v1.z + v2.z;
     }
 
     void Vector3::clamp(const Vector3& min, const Vector3& max)
@@ -165,40 +148,9 @@ namespace ouzel
         return sqrtf(dx * dx + dy * dy + dz * dz);
     }
 
-    float Vector3::distanceSquared(const Vector3& v) const
-    {
-        float dx = v.x - x;
-        float dy = v.y - y;
-        float dz = v.z - z;
-
-        return (dx * dx + dy * dy + dz * dz);
-    }
-
-    float Vector3::dot(const Vector3& v) const
-    {
-        return (x * v.x + y * v.y + z * v.z);
-    }
-
-    float Vector3::dot(const Vector3& v1, const Vector3& v2)
-    {
-        return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
-    }
-
     float Vector3::length() const
     {
         return sqrtf(x * x + y * y + z * z);
-    }
-
-    float Vector3::lengthSquared() const
-    {
-        return (x * x + y * y + z * z);
-    }
-
-    void Vector3::negate()
-    {
-        x = -x;
-        y = -y;
-        z = -z;
     }
 
     Vector3& Vector3::normalize()
@@ -232,20 +184,6 @@ namespace ouzel
         dst.z *= n;
     }
 
-    void Vector3::scale(float scalar)
-    {
-        x *= scalar;
-        y *= scalar;
-        z *= scalar;
-    }
-
-    void Vector3::set(float pX, float pY, float pZ)
-    {
-        x = pX;
-        y = pY;
-        z = pZ;
-    }
-
     void Vector3::set(const float* array)
     {
         assert(array);
@@ -253,34 +191,6 @@ namespace ouzel
         x = array[0];
         y = array[1];
         z = array[2];
-    }
-
-    void Vector3::set(const Vector3& v)
-    {
-        x = v.x;
-        y = v.y;
-        z = v.z;
-    }
-
-    void Vector3::set(const Vector3& p1, const Vector3& p2)
-    {
-        x = p2.x - p1.x;
-        y = p2.y - p1.y;
-        z = p2.z - p1.z;
-    }
-
-    void Vector3::subtract(const Vector3& v)
-    {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
-    }
-
-    void Vector3::subtract(const Vector3& v1, const Vector3& v2, Vector3& dst)
-    {
-        dst.x = v1.x - v2.x;
-        dst.y = v1.y - v2.y;
-        dst.z = v1.z - v2.z;
     }
 
     void Vector3::smooth(const Vector3& target, float elapsedTime, float responseTime)

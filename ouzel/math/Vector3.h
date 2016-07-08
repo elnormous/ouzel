@@ -3,11 +3,11 @@
 
 #pragma once
 
-#include "math/Vector2.h"
-
 namespace ouzel
 {
     class Matrix;
+    class Vector2;
+    class Vector4;
 
     /**
      * Defines a 3-element floating point vector.
@@ -27,25 +27,24 @@ namespace ouzel
         static const Vector3 UNIT_Y;
         static const Vector3 UNIT_Z;
 
-        /**
-         * The x-coordinate.
-         */
-        float x;
-
-        /**
-         * The y-coordinate.
-         */
-        float y;
-
-        /**
-         * The z-coordinate.
-         */
-        float z;
+        union
+        {
+            struct
+            {
+                float x;
+                float y;
+                float z;
+            };
+            float a[3];
+        };
 
         /**
          * Constructs a new vector initialized to all zeros.
          */
-        Vector3();
+        Vector3():
+            x(0.0f), y(0.0f), z(0.0f)
+        {
+        }
 
         /**
          * Constructs a new vector initialized to the specified values.
@@ -54,7 +53,10 @@ namespace ouzel
          * @param pY The y coordinate.
          * @param pZ The z coordinate.
          */
-        Vector3(float pX, float pY, float pZ);
+        Vector3(float pX, float pY, float pZ):
+            x(pX), y(pY), z(pZ)
+        {
+        }
 
         /**
          * Constructs a new vector from the values in the specified array.
@@ -76,11 +78,20 @@ namespace ouzel
          *
          * @param copy The vector to copy.
          */
-        Vector3(const Vector3& copy);
+        Vector3(const Vector3& copy):
+            x(copy.x),
+            y(copy.y),
+            z(copy.z)
+        {
+        }
 
         Vector3(const Vector2& v);
 
         Vector3& operator=(const Vector2& v);
+
+        Vector3(const Vector4& v);
+
+        Vector3& operator=(const Vector4& v);
 
         /**
          * Creates a new vector from an integer interpreted as an RGB value.
@@ -91,11 +102,6 @@ namespace ouzel
          * @return A vector corresponding to the interpreted RGB color.
          */
         static Vector3 fromColor(unsigned int color);
-
-        /**
-         * Destructor.
-         */
-        ~Vector3();
 
         /**
          * Indicates whether this vector contains all zeros.
@@ -132,7 +138,12 @@ namespace ouzel
          *
          * @param v The vector to add.
          */
-        void add(const Vector3& v);
+        void add(const Vector3& v)
+        {
+            x += v.x;
+            y += v.y;
+            z += v.z;
+        }
 
         /**
          * Adds the specified vectors and stores the result in dst.
@@ -141,7 +152,12 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst A vector to store the result in.
          */
-        static void add(const Vector3& v1, const Vector3& v2, Vector3& dst);
+        static void add(const Vector3& v1, const Vector3& v2, Vector3& dst)
+        {
+            dst.x = v1.x + v2.x;
+            dst.y = v1.y + v2.y;
+            dst.z = v1.z + v2.z;
+        }
 
         /**
          * Clamps this vector within the specified range.
@@ -202,7 +218,14 @@ namespace ouzel
          *
          * @see distance
          */
-        float distanceSquared(const Vector3& v) const;
+        float distanceSquared(const Vector3& v) const
+        {
+            float dx = v.x - x;
+            float dy = v.y - y;
+            float dz = v.z - z;
+
+            return (dx * dx + dy * dy + dz * dz);
+        }
 
         /**
          * Returns the dot product of this vector and the specified vector.
@@ -211,7 +234,10 @@ namespace ouzel
          *
          * @return The dot product.
          */
-        float dot(const Vector3& v) const;
+        float dot(const Vector3& v) const
+        {
+            return (x * v.x + y * v.y + z * v.z);
+        }
 
         /**
          * Returns the dot product between the specified vectors.
@@ -221,7 +247,10 @@ namespace ouzel
          *
          * @return The dot product between the vectors.
          */
-        static float dot(const Vector3& v1, const Vector3& v2);
+        static float dot(const Vector3& v1, const Vector3& v2)
+        {
+            return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+        }
 
         /**
          * Computes the length of this vector.
@@ -244,12 +273,20 @@ namespace ouzel
          *
          * @see length
          */
-        float lengthSquared() const;
+        float lengthSquared() const
+        {
+            return (x * x + y * y + z * z);
+        }
 
         /**
          * Negates this vector.
          */
-        void negate();
+        void negate()
+        {
+            x = -x;
+            y = -y;
+            z = -z;
+        }
 
         /**
          * Normalizes this vector.
@@ -280,7 +317,12 @@ namespace ouzel
          *
          * @param scalar The scalar value.
          */
-        void scale(float scalar);
+        void scale(float scalar)
+        {
+            x *= scalar;
+            y *= scalar;
+            z *= scalar;
+        }
 
         /**
          * Sets the elements of this vector to the specified values.
@@ -289,7 +331,12 @@ namespace ouzel
          * @param pY The new y coordinate.
          * @param pZ The new z coordinate.
          */
-        void set(float pX, float pY, float pZ);
+        void set(float pX, float pY, float pZ)
+        {
+            x = pX;
+            y = pY;
+            z = pZ;
+        }
 
         /**
          * Sets the elements of this vector from the values in the specified array.
@@ -303,12 +350,22 @@ namespace ouzel
          *
          * @param v The vector to copy.
          */
-        void set(const Vector3& v);
+        void set(const Vector3& v)
+        {
+            x = v.x;
+            y = v.y;
+            z = v.z;
+        }
 
         /**
          * Sets this vector to the directional vector between the specified points.
          */
-        void set(const Vector3& p1, const Vector3& p2);
+        void set(const Vector3& p1, const Vector3& p2)
+        {
+            x = p2.x - p1.x;
+            y = p2.y - p1.y;
+            z = p2.z - p1.z;
+        }
 
         /**
          * Subtracts this vector and the specified vector as (this - v)
@@ -316,7 +373,12 @@ namespace ouzel
          *
          * @param v The vector to subtract.
          */
-        void subtract(const Vector3& v);
+        void subtract(const Vector3& v)
+        {
+            x -= v.x;
+            y -= v.y;
+            z -= v.z;
+        }
 
         /**
          * Subtracts the specified vectors and stores the result in dst.
@@ -326,7 +388,12 @@ namespace ouzel
          * @param v2 The second vector.
          * @param dst The destination vector.
          */
-        static void subtract(const Vector3& v1, const Vector3& v2, Vector3& dst);
+        static void subtract(const Vector3& v1, const Vector3& v2, Vector3& dst)
+        {
+            dst.x = v1.x - v2.x;
+            dst.y = v1.y - v2.y;
+            dst.z = v1.z - v2.z;
+        }
 
         /**
          * Updates this vector towards the given target using a smoothing function.

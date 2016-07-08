@@ -17,17 +17,31 @@ namespace ouzel
         /**
          * Stores the columns of this 4x4 matrix.
          * */
-        float m[9];
+        union
+        {
+            struct
+            {
+                float m11;
+                float m12;
+                float m13;
+                float m21;
+                float m22;
+                float m23;
+                float m31;
+                float m32;
+                float m33;
+            };
+            float m[9];
+        };
 
         /**
-         * Constructs a matrix initialized to the identity matrix:
+         * Constructs a matrix initialized to the zero matrix
          *
-         * 1  0  0  0
-         * 0  1  0  0
-         * 0  0  1  0
-         * 0  0  0  1
          */
-        Matrix3();
+        Matrix3()
+        {
+            *this = Matrix3::ZERO;
+        }
 
         /**
          * Constructs a matrix initialized to the specified value.
@@ -49,7 +63,8 @@ namespace ouzel
          * @param m43 The third element of the fourth row.
          * @param m44 The fourth element of the fourth row.
          */
-        Matrix3(float m11, float m12, float m13, float m21, float m22, float m23,
+        Matrix3(float m11, float m12, float m13,
+                float m21, float m22, float m23,
                 float m31, float m32, float m33);
 
         /**
@@ -72,11 +87,6 @@ namespace ouzel
          * @param copy The matrix to copy.
          */
         Matrix3(const Matrix3& copy);
-
-        /**
-         * Destructor.
-         */
-        ~Matrix3();
 
         /**
          * Creates a scale matrix.

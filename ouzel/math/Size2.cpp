@@ -2,51 +2,20 @@
 // This file is part of the Ouzel engine.
 
 #include "Size2.h"
+#include "Size3.h"
 
 namespace ouzel
 {
-    Size2::Size2():
-        width(0.0f), height(0.0f)
+    Size2::Size2(const Size3& s):
+        width(s.width),
+        height(s.height)
     {
-
     }
 
-    Size2::Size2(float w, float h):
-        width(w), height(h)
+    Size2& Size2::operator=(const Size3& other)
     {
-
-    }
-
-    Size2& Size2::operator=(const Vector2& point)
-    {
-        width = point.x;
-        height = point.y;
-
+        width = other.width;
+        height = other.height;
         return *this;
-    }
-
-    Size2 Size2::operator+(const Size2& right) const
-    {
-        return Size2(width + right.width, height + right.height);
-    }
-
-    Size2 Size2::operator-(const Size2& right) const
-    {
-        return Size2(width - right.width, height - right.height);
-    }
-
-    Size2 Size2::operator*(float a) const
-    {
-        return Size2(width * a, height * a);
-    }
-
-    Size2 Size2::operator/(float a) const
-    {
-        return Size2(width / a, height / a);
-    }
-
-    bool Size2::isZero() const
-    {
-        return width == 0.0f && height == 0.0f;
     }
 }

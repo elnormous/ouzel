@@ -4,6 +4,8 @@
 #include <cmath>
 #include <cassert>
 #include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
 #include "MathUtils.h"
 
 namespace ouzel
@@ -12,16 +14,6 @@ namespace ouzel
     const Vector2 Vector2::ONE(1.0f, 1.0f);
     const Vector2 Vector2::UNIT_X(1.0f, 0.0f);
     const Vector2 Vector2::UNIT_Y(0.0f, 1.0f);
-
-    Vector2::Vector2():
-        x(0.0f), y(0.0f)
-    {
-    }
-
-    Vector2::Vector2(float pX, float pY):
-        x(pX), y(pY)
-    {
-    }
 
     Vector2::Vector2(const float* array)
     {
@@ -33,25 +25,36 @@ namespace ouzel
         set(p1, p2);
     }
 
-    Vector2::Vector2(const Vector2& copy)
+    Vector2::Vector2(const Vector3& v):
+        x(v.x),
+        y(v.y)
     {
-        set(copy);
     }
 
-    Vector2::~Vector2()
+    Vector2& Vector2::operator=(const Vector3& v)
     {
+        x = v.x;
+        y = v.y;
+        return *this;
+    }
+
+    Vector2::Vector2(const Vector4& v):
+        x(v.x),
+        y(v.y)
+    {
+    }
+
+    Vector2& Vector2::operator=(const Vector4& v)
+    {
+        x = v.x;
+        y = v.y;
+        return *this;
     }
 
     float Vector2::angle(const Vector2& v1, const Vector2& v2)
     {
         float dz = v1.x * v2.y - v1.y * v2.x;
         return atan2f(fabsf(dz) + FLOAT_SMALL, dot(v1, v2));
-    }
-
-    void Vector2::add(const Vector2& v)
-    {
-        x += v.x;
-        y += v.y;
     }
 
     void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2& dst)
@@ -104,37 +107,9 @@ namespace ouzel
         return sqrtf(dx * dx + dy * dy);
     }
 
-    float Vector2::distanceSquared(const Vector2& v) const
-    {
-        float dx = v.x - x;
-        float dy = v.y - y;
-        return (dx * dx + dy * dy);
-    }
-
-    float Vector2::dot(const Vector2& v) const
-    {
-        return (x * v.x + y * v.y);
-    }
-
-    float Vector2::dot(const Vector2& v1, const Vector2& v2)
-    {
-        return (v1.x * v2.x + v1.y * v2.y);
-    }
-
     float Vector2::length() const
     {
         return sqrtf(x * x + y * y);
-    }
-
-    float Vector2::lengthSquared() const
-    {
-        return (x * x + y * y);
-    }
-
-    void Vector2::negate()
-    {
-        x = -x;
-        y = -y;
     }
 
     Vector2& Vector2::normalize()
@@ -166,18 +141,6 @@ namespace ouzel
         dst.y *= n;
     }
 
-    void Vector2::scale(float scalar)
-    {
-        x *= scalar;
-        y *= scalar;
-    }
-
-    void Vector2::scale(const Vector2& scale)
-    {
-        x *= scale.x;
-        y *= scale.y;
-    }
-
     void Vector2::rotate(const Vector2& point, float angle)
     {
         float sinAngle = sinf(angle);
@@ -199,42 +162,12 @@ namespace ouzel
         }
     }
 
-    void Vector2::set(float pX, float pY)
-    {
-        x = pX;
-        y = pY;
-    }
-
     void Vector2::set(const float* array)
     {
         assert(array);
 
         x = array[0];
         y = array[1];
-    }
-
-    void Vector2::set(const Vector2& v)
-    {
-        x = v.x;
-        y = v.y;
-    }
-
-    void Vector2::set(const Vector2& p1, const Vector2& p2)
-    {
-         x = p2.x - p1.x;
-         y = p2.y - p1.y;
-    }
-
-    void Vector2::subtract(const Vector2& v)
-    {
-        x -= v.x;
-        y -= v.y;
-    }
-
-    void Vector2::subtract(const Vector2& v1, const Vector2& v2, Vector2& dst)
-    {
-        dst.x = v1.x - v2.x;
-        dst.y = v1.y - v2.y;
     }
 
     void Vector2::smooth(const Vector2& target, float elapsedTime, float responseTime)
