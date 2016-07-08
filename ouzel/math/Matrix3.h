@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "math/Vector2.h"
-#include "math/Vector3.h"
+#include "Vector2.h"
+#include "Vector3.h"
 
 namespace ouzel
 {
@@ -389,7 +389,7 @@ namespace ouzel
 
         /**
          * Transforms the specified vector by this matrix by
-         * treating the fourth (w) coordinate as zero.
+         * treating the third (z) coordinate as zero.
          *
          * The result of the transformation is stored directly into vector.
          *
@@ -416,6 +416,15 @@ namespace ouzel
          * @param dst A vector to store the transformed point in.
          */
         void transformVector(float x, float y, float z, Vector2& dst) const;
+
+        /**
+         * Transforms the specified vector by this matrix
+         *
+         * The result of the transformation is stored directly into vector.
+         *
+         * @param vector The vector to transform and also a vector to hold the result in.
+         */
+        void transformVector(Vector3& vector) const;
 
         /**
          * Transforms the specified vector by this matrix.
@@ -490,7 +499,12 @@ namespace ouzel
          * @param m The matrix to add.
          * @return The matrix sum.
          */
-        inline Matrix3 operator+(const Matrix3& m) const;
+        inline Matrix3 operator+(const Matrix3& matrix) const
+        {
+            Matrix3 result(*this);
+            result.add(matrix);
+            return result;
+        }
 
         /**
          * Adds the given matrix to this matrix.
@@ -498,7 +512,11 @@ namespace ouzel
          * @param m The matrix to add.
          * @return This matrix, after the addition occurs.
          */
-        inline Matrix3& operator+=(const Matrix3& m);
+        inline Matrix3& operator+=(const Matrix3& matrix)
+        {
+            add(matrix);
+            return *this;
+        }
 
         /**
          * Calculates the difference of this matrix with the given matrix.
@@ -508,7 +526,12 @@ namespace ouzel
          * @param m The matrix to subtract.
          * @return The matrix difference.
          */
-        inline Matrix3 operator-(const Matrix3& m) const;
+        inline Matrix3 operator-(const Matrix3& matrix) const
+        {
+            Matrix3 result(*this);
+            result.subtract(matrix);
+            return result;
+        }
 
         /**
          * Subtracts the given matrix from this matrix.
@@ -516,7 +539,11 @@ namespace ouzel
          * @param m The matrix to subtract.
          * @return This matrix, after the subtraction occurs.
          */
-        inline Matrix3& operator-=(const Matrix3& m);
+        inline Matrix3& operator-=(const Matrix3& matrix)
+        {
+            subtract(matrix);
+            return *this;
+        }
 
         /**
          * Calculates the negation of this matrix.
@@ -525,7 +552,12 @@ namespace ouzel
          *
          * @return The negation of this matrix.
          */
-        inline Matrix3 operator-() const;
+        inline Matrix3 operator-() const
+        {
+            Matrix3 result(*this);
+            result.negate();
+            return result;
+        }
 
         /**
          * Calculates the matrix product of this matrix with the given matrix.
@@ -535,7 +567,12 @@ namespace ouzel
          * @param m The matrix to multiply by.
          * @return The matrix product.
          */
-        inline Matrix3 operator*(const Matrix3& m) const;
+        inline Matrix3 operator*(const Matrix3& matrix) const
+        {
+            Matrix3 result(*this);
+            result.multiply(matrix);
+            return result;
+        }
 
         /**
          * Right-multiplies this matrix by the given matrix.
@@ -543,7 +580,37 @@ namespace ouzel
          * @param m The matrix to multiply by.
          * @return This matrix, after the multiplication occurs.
          */
-        inline Matrix3& operator*=(const Matrix3& m);
+        inline Matrix3& operator*=(const Matrix3& matrix)
+        {
+            multiply(matrix);
+            return *this;
+        }
+
+        inline bool operator==(const Matrix3& matrix)
+        {
+            return m[0] == matrix.m[0] &&
+                   m[1] == matrix.m[1] &&
+                   m[2] == matrix.m[2] &&
+                   m[3] == matrix.m[3] &&
+                   m[4] == matrix.m[4] &&
+                   m[5] == matrix.m[5] &&
+                   m[6] == matrix.m[6] &&
+                   m[7] == matrix.m[7] &&
+                   m[8] == matrix.m[8];
+        }
+
+        inline bool operator!=(const Matrix3& matrix)
+        {
+            return m[0] != matrix.m[0] ||
+                   m[1] != matrix.m[1] ||
+                   m[2] != matrix.m[2] ||
+                   m[3] != matrix.m[3] ||
+                   m[4] != matrix.m[4] ||
+                   m[5] != matrix.m[5] ||
+                   m[6] != matrix.m[6] ||
+                   m[7] != matrix.m[7] ||
+                   m[8] != matrix.m[8];
+        }
     };
 
     /**
@@ -555,7 +622,11 @@ namespace ouzel
      * @param m The matrix to transform by.
      * @return This vector, after the transformation occurs.
      */
-    inline Vector2& operator*=(Vector2& v, const Matrix3& m);
+    inline Vector2& operator*=(Vector2& v, const Matrix3& m)
+    {
+        m.transformVector(v);
+        return v;
+    }
 
     /**
      * Transforms the given vector by the given matrix.
@@ -566,5 +637,41 @@ namespace ouzel
      * @param v The vector to transform.
      * @return The resulting transformed vector.
      */
-    inline Vector2 operator*(const Matrix3& m, const Vector2& v);
+    inline Vector2 operator*(const Matrix3& m, const Vector2& v)
+    {
+        Vector2 x;
+        m.transformVector(v, x);
+        return x;
+    }
+
+    /**
+     * Transforms the given vector by the given matrix.
+     *
+     * Note: this treats the given vector as a vector and not as a point.
+     *
+     * @param v The vector to transform.
+     * @param m The matrix to transform by.
+     * @return This vector, after the transformation occurs.
+     */
+    inline Vector3& operator*=(Vector3& v, const Matrix3& m)
+    {
+        m.transformVector(v);
+        return v;
+    }
+
+    /**
+     * Transforms the given vector by the given matrix.
+     *
+     * Note: this treats the given vector as a vector and not as a point.
+     *
+     * @param m The matrix to transform by.
+     * @param v The vector to transform.
+     * @return The resulting transformed vector.
+     */
+    inline Vector3 operator*(const Matrix3& m, const Vector3& v)
+    {
+        Vector3 x;
+        m.transformVector(v, x);
+        return x;
+    }
 }

@@ -7,8 +7,8 @@
 #if OUZEL_SUPPORTS_SSE
 #include <xmmintrin.h>
 #endif
-#include "math/Vector3.h"
-#include "math/Vector4.h"
+#include "Vector3.h"
+#include "Vector4.h"
 
 namespace ouzel
 {
@@ -763,7 +763,12 @@ namespace ouzel
          * @param m The matrix to add.
          * @return The matrix sum.
          */
-        inline Matrix operator+(const Matrix4& m) const;
+        inline Matrix4 operator+(const Matrix4& matrix) const
+        {
+            Matrix4 result(*this);
+            result.add(matrix);
+            return result;
+        }
 
         /**
          * Adds the given matrix to this matrix.
@@ -771,7 +776,11 @@ namespace ouzel
          * @param m The matrix to add.
          * @return This matrix, after the addition occurs.
          */
-        inline Matrix4& operator+=(const Matrix4& m);
+        inline Matrix4& operator+=(const Matrix4& matrix)
+        {
+            add(matrix);
+            return *this;
+        }
 
         /**
          * Calculates the difference of this matrix with the given matrix.
@@ -781,7 +790,12 @@ namespace ouzel
          * @param m The matrix to subtract.
          * @return The matrix difference.
          */
-        inline Matrix4 operator-(const Matrix4& m) const;
+        inline Matrix4 operator-(const Matrix4& matrix) const
+        {
+            Matrix4 result(*this);
+            result.subtract(matrix);
+            return result;
+        }
 
         /**
          * Subtracts the given matrix from this matrix.
@@ -789,7 +803,11 @@ namespace ouzel
          * @param m The matrix to subtract.
          * @return This matrix, after the subtraction occurs.
          */
-        inline Matrix4& operator-=(const Matrix4& m);
+        inline Matrix4& operator-=(const Matrix4& matrix)
+        {
+            subtract(matrix);
+            return *this;
+        }
 
         /**
          * Calculates the negation of this matrix.
@@ -798,7 +816,12 @@ namespace ouzel
          *
          * @return The negation of this matrix.
          */
-        inline Matrix4 operator-() const;
+        inline Matrix4 operator-() const
+        {
+            Matrix4 result(*this);
+            result.negate();
+            return result;
+        }
 
         /**
          * Calculates the matrix product of this matrix with the given matrix.
@@ -825,6 +848,46 @@ namespace ouzel
         {
             multiply(matrix);
             return *this;
+        }
+
+        inline bool operator==(const Matrix4& matrix)
+        {
+            return m[0] == matrix.m[0] &&
+                   m[1] == matrix.m[1] &&
+                   m[2] == matrix.m[2] &&
+                   m[3] == matrix.m[3] &&
+                   m[4] == matrix.m[4] &&
+                   m[5] == matrix.m[5] &&
+                   m[6] == matrix.m[6] &&
+                   m[7] == matrix.m[7] &&
+                   m[8] == matrix.m[8] &&
+                   m[9] == matrix.m[9] &&
+                   m[10] == matrix.m[10] &&
+                   m[11] == matrix.m[11] &&
+                   m[12] == matrix.m[12] &&
+                   m[13] == matrix.m[13] &&
+                   m[14] == matrix.m[14] &&
+                   m[15] == matrix.m[15];
+        }
+
+        inline bool operator!=(const Matrix4& matrix)
+        {
+            return m[0] != matrix.m[0] ||
+                   m[1] != matrix.m[1] ||
+                   m[2] != matrix.m[2] ||
+                   m[3] != matrix.m[3] ||
+                   m[4] != matrix.m[4] ||
+                   m[5] != matrix.m[5] ||
+                   m[6] != matrix.m[6] ||
+                   m[7] != matrix.m[7] ||
+                   m[8] != matrix.m[8] ||
+                   m[9] != matrix.m[9] ||
+                   m[10] != matrix.m[10] ||
+                   m[11] != matrix.m[11] ||
+                   m[12] != matrix.m[12] ||
+                   m[13] != matrix.m[13] ||
+                   m[14] != matrix.m[14] ||
+                   m[15] != matrix.m[15];
         }
 
     private:

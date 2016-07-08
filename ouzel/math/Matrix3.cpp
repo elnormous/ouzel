@@ -358,6 +358,11 @@ namespace ouzel
         dst.y = x * m[1] + y * m[4] + z * m[7];
     }
 
+    void Matrix3::transformVector(Vector3& vector) const
+    {
+        transformVector(vector, vector);
+    }
+
     void Matrix3::transformVector(Vector3* vector) const
     {
         transformVector(*vector, *vector);
