@@ -20,11 +20,21 @@ namespace ouzel
             if (outputBuffer)
             {
                 alDeleteBuffers(1, &outputBuffer);
+
+                if (AudioAL::checkOpenALErrors())
+                {
+                    log("Failed to delete OpenAL buffer");
+                }
             }
 
             if (sourceId)
             {
                 alDeleteSources(1, &sourceId);
+
+                if (AudioAL::checkOpenALErrors())
+                {
+                    log("Failed to delete OpenAL source");
+                }
             }
         }
 
@@ -36,12 +46,22 @@ namespace ouzel
             {
                 alDeleteBuffers(1, &outputBuffer);
                 outputBuffer = 0;
+
+                if (AudioAL::checkOpenALErrors())
+                {
+                    log("Failed to delete OpenAL buffer");
+                }
             }
 
             if (sourceId)
             {
                 alDeleteSources(1, &sourceId);
                 sourceId = 0;
+
+                if (AudioAL::checkOpenALErrors())
+                {
+                    log("Failed to delete OpenAL source");
+                }
             }
         }
 

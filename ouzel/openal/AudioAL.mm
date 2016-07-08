@@ -69,12 +69,22 @@ namespace ouzel
             {
                 alcDestroyContext(context);
                 context = nullptr;
+
+                if (AudioAL::checkOpenALErrors())
+                {
+                    log("Failed to delete OpenAL context");
+                }
             }
 
             if (device)
             {
                 alcCloseDevice(device);
                 device = nullptr;
+
+                if (AudioAL::checkOpenALErrors())
+                {
+                    log("Failed to close OpenAL device");
+                }
             }
         }
 
