@@ -19,6 +19,8 @@ namespace ouzel
         {
             if (outputBuffer)
             {
+                alSourceUnqueueBuffers(sourceId, 1, &outputBuffer);
+
                 alDeleteBuffers(1, &outputBuffer);
 
                 if (AudioAL::checkOpenALErrors())
