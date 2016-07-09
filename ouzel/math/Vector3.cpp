@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <cassert>
+#include <algorithm>
 #include "Vector3.h"
 #include "Vector2.h"
 #include "Vector4.h"
@@ -203,11 +204,11 @@ namespace ouzel
 
     float Vector3::getMin() const
     {
-        return std::fmin(x, fmin(y, z));
+        return std::min(x, std::min(y, z));
     }
 
     float Vector3::getMax() const
     {
-        return std::fmax(x, fmax(y, z));
+        return std::max(x, std::max(y, z));
     }
 }

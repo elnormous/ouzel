@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cassert>
+#include <algorithm>
 #include "Camera.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
@@ -82,12 +83,12 @@ namespace ouzel
                     }
                     case ScaleMode::NoBorder:
                     {
-                        contentScale.x = contentScale.y = fmaxf(contentScale.x, contentScale.y);
+                        contentScale.x = contentScale.y = std::max(contentScale.x, contentScale.y);
                         break;
                     }
                     case ScaleMode::ShowAll:
                     {
-                        contentScale.x = contentScale.y = fminf(contentScale.x, contentScale.y);
+                        contentScale.x = contentScale.y = std::min(contentScale.x, contentScale.y);
                         break;
                     }
                 }

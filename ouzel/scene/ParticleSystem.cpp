@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdlib>
+#include <algorithm>
 #include "core/CompileConfig.h"
 #include "ParticleSystem.h"
 #include "core/Engine.h"
@@ -87,7 +88,7 @@ namespace ouzel
                         emitCounter = 0.f;
                 }
 
-                uint32_t emitCount = static_cast<uint32_t>(fminf(static_cast<float>(particleDefinition.maxParticles - particleCount), emitCounter / rate));
+                uint32_t emitCount = static_cast<uint32_t>(std::min(static_cast<float>(particleDefinition.maxParticles - particleCount), emitCounter / rate));
                 emitParticles(emitCount);
                 emitCounter -= rate * emitCount;
 
@@ -169,7 +170,7 @@ namespace ouzel
 
                         //size
                         particles[i].size += (particles[i].deltaSize * delta);
-                        particles[i].size = fmaxf(0.0f, particles[i].size);
+                        particles[i].size = std::max(0.0f, particles[i].size);
 
                         //angle
                         particles[i].rotation += particles[i].deltaRotation * delta;
