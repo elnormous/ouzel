@@ -206,4 +206,22 @@ namespace ouzel
         z = array[2];
         w = array[3];
     }
+
+    void Vector4::smooth(const Vector4& target, float elapsedTime, float responseTime)
+    {
+        if (elapsedTime > 0)
+        {
+            *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
+        }
+    }
+
+    float Vector4::getMin() const
+    {
+        return std::fmin(x, fmin(y, fmin(z, w)));
+    }
+
+    float Vector4::getMax() const
+    {
+        return std::fmax(x, fmax(y, fmax(z, w)));
+    }
 }

@@ -408,6 +408,10 @@ namespace ouzel
          */
         void smooth(const Vector3& target, float elapsedTime, float responseTime);
 
+        float getMin() const;
+
+        float getMax() const;
+
         /**
          * Calculates the sum of this vector with the given vector.
          *

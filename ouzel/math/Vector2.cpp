@@ -177,4 +177,14 @@ namespace ouzel
             *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
     }
+
+    float Vector2::getMin() const
+    {
+        return std::fmin(x, y);
+    }
+
+    float Vector2::getMax() const
+    {
+        return std::fmax(x, y);
+    }
 }
