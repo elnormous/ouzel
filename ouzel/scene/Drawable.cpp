@@ -23,7 +23,7 @@ namespace ouzel
 
         bool Drawable::pointOn(const Vector2& position) const
         {
-            return boundingBox.containPoint(position);
+            return boundingBox.containsPoint(position);
         }
 
         bool Drawable::shapeOverlaps(const std::vector<Vector2>& edges) const

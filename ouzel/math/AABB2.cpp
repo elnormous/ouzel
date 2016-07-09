@@ -8,22 +8,6 @@
 
 namespace ouzel
 {
-    AABB2::AABB2()
-    {
-        reset();
-    }
-
-    AABB2::AABB2(const Vector2& pMin, const Vector2& pMax):
-        min(pMin), max(pMax)
-    {
-
-    }
-
-    AABB2::AABB2(const AABB2& box)
-    {
-        set(box.min, box.max);
-    }
-
     Vector2 AABB2::getCenter()
     {
         Vector2 center;
@@ -46,21 +30,6 @@ namespace ouzel
         dst[3].set(max.x, max.y);
     }
 
-    bool AABB2::intersects(const AABB2& aabb) const
-    {
-        return ((min.x >= aabb.min.x && min.x <= aabb.max.x) || (aabb.min.x >= min.x && aabb.min.x <= max.x)) &&
-               ((min.y >= aabb.min.y && min.y <= aabb.max.y) || (aabb.min.y >= min.y && aabb.min.y <= max.y));
-    }
-
-    bool AABB2::containPoint(const Vector2& point) const
-    {
-        if (point.x < min.x) return false;
-        if (point.y < min.y) return false;
-        if (point.x > max.x) return false;
-        if (point.y > max.y) return false;
-        return true;
-    }
-
     void AABB2::merge(const AABB2& box)
     {
         // Calculate the new minimum point.
@@ -72,50 +41,10 @@ namespace ouzel
         max.y = std::max(max.y, box.max.y);
     }
 
-    void AABB2::set(const Vector2& pMin, const Vector2& pMax)
-    {
-        min = pMin;
-        max = pMax;
-    }
 
     void AABB2::reset()
     {
         min.set(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
         max.set(std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
-    }
-
-    bool AABB2::isEmpty() const
-    {
-        return min.x > max.x || min.y > max.y;
-    }
-
-    void AABB2::updateMinMax(const Vector2* points, uint32_t num)
-    {
-        for (uint32_t i = 0; i < num; ++i)
-        {
-            // Leftmost point.
-            if (points[i].x < min.x)
-                min.x = points[i].x;
-
-            // Lowest point.
-            if (points[i].y < min.y)
-                min.y = points[i].y;
-
-            // Rightmost point.
-            if (points[i].x > max.x)
-                max.x = points[i].x;
-
-            // Highest point.
-            if (points[i].y > max.y)
-                max.y = points[i].y;
-        }
-    }
-
-    void AABB2::insertPoint(const Vector2& point)
-    {
-        if (point.x < min.x) min.x = point.x;
-        if (point.x > max.x) max.x = point.x;
-        if (point.y < min.y) min.y = point.y;
-        if (point.y > max.y) max.y = point.y;
     }
 }
