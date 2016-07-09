@@ -39,7 +39,10 @@ public:
     /**
      * Constructs a new rectangle initialized to all zeros.
      */
-    Rectangle();
+    Rectangle():
+        x(0.0f), y(0.0f), width(0.0f), height(0.0f)
+    {
+    }
 
     /**
      * Constructs a new rectangle with the x = 0, y = 0 and the specified width and height.
@@ -47,7 +50,10 @@ public:
      * @param pWidth The width of the rectangle.
      * @param pHeight The height of the rectangle.
      */
-    Rectangle(float pWidth, float pHeight);
+    Rectangle(float pWidth, float pHeight):
+        x(0.0f), y(0.0f), width(pWidth), height(pHeight)
+    {
+    }
 
     /**
      * Constructs a new rectangle with the specified x, y, width and height.
@@ -57,23 +63,30 @@ public:
      * @param pWidth The width of the rectangle.
      * @param pHeight The height of the rectangle.
      */
-    Rectangle(float pX, float pY, float pWidth, float pHeight);
+    Rectangle(float pX, float pY, float pWidth, float pHeight):
+        x(pX), y(pY), width(pWidth), height(pHeight)
+    {
+    }
 
-    Rectangle(const Vector2& position, float pWidth, float pHeight);
+    Rectangle(const Vector2& position, float pWidth, float pHeight):
+        x(position.x), y(position.y), width(pWidth), height(pHeight)
+    {
+    }
 
-    Rectangle(const Vector2& position, const Size2& size);
+    Rectangle(const Vector2& position, const Size2& size):
+        x(position.x), y(position.y), width(size.width), height(size.height)
+    {
+    }
 
     /**
      * Constructs a new rectangle that is a copy of the specified rectangle.
      *
      * @param copy The rectangle to copy.
      */
-    Rectangle(const Rectangle& copy);
-
-    /**
-     * Destructor.
-     */
-    ~Rectangle();
+    Rectangle(const Rectangle& copy)
+    {
+        set(copy);
+    }
 
     /**
      * Gets a value that indicates whether the rectangle is empty.
@@ -93,16 +106,31 @@ public:
      * @param newWidth The width of the rectangle.
      * @param newHeight The height of the rectangle.
      */
-    void set(float newX, float newY, float newWidth, float newHeight);
+    void set(float newX, float newY, float newWidth, float newHeight)
+    {
+        x = newX;
+        y = newY;
+        width = newWidth;
+        height = newHeight;
+    }
 
-    void set(const Vector2& position, float pWidth, float pHeight);
+    void set(const Vector2& position, float newWidth, float newHeight)
+    {
+        x = position.x;
+        y = position.y;
+        width = newWidth;
+        height = newHeight;
+    }
 
     /**
      * Sets the values of this rectangle to those in the specified rectangle.
      *
      * @param r The rectangle to copy.
      */
-    void set(const Rectangle& r);
+    void set(const Rectangle& r)
+    {
+        set(r.x, r.y, r.width, r.height);
+    }
 
     /**
      * Sets the x-coordinate and y-coordinate values of this rectangle to the specified values.
@@ -110,40 +138,67 @@ public:
      * @param newX The x-coordinate of the rectangle.
      * @param newY The y-coordinate of the rectangle.
      */
-    void setPosition(float newX, float newY);
+    void setPosition(float newX, float newY)
+    {
+        x = newX;
+        y = newY;
+    }
 
-    void setPosition(const Vector2 position);
+    void setPosition(const Vector2 position)
+    {
+        x = position.x;
+        y = position.y;
+    }
 
     /**
      * Returns the x-coordinate of the left side of the rectangle.
      *
      * @return The x-coordinate of the left side of the rectangle.
      */
-    float left() const;
+    float left() const
+    {
+        return x;
+    }
 
     /**
      * Returns the y-coordinate of the bottom of the rectangle.
      *
      * @return The y-coordinate of the bottom of the rectangle.
      */
-    float bottom() const;
+    float bottom() const
+    {
+        return y;
+    }
 
     /**
      * Returns the x-coordinate of the right side of the rectangle.
      *
      * @return The x-coordinate of the right side of the rectangle.
      */
-    float right() const;
+    float right() const
+    {
+        return x + width;
+    }
 
     /**
      * Returns the y-coordinate of the top of the rectangle.
      *
      * @return The y-coordinate of the top of the rectangle.
      */
-    float top() const;
+    float top() const
+    {
+        return y + height;
+    }
 
-    Vector2 bottomLeft() const;
-    Vector2 topRight() const;
+    Vector2 bottomLeft() const
+    {
+        return Vector2(x, y);
+    }
+
+    Vector2 topRight() const
+    {
+        return Vector2(x + width, y + height);
+    }
 
     /**
      * Determines whether this rectangle contains a specified point.
@@ -153,9 +208,15 @@ public:
      *
      * @return true if the rectangle contains the point, false otherwise.
      */
-    bool containsPoint(float pX, float pY) const;
+    bool containsPoint(float pX, float pY) const
+    {
+        return (pX >= x && pX <= (x + width) && pY >= y && pY <= (y + height));
+    }
 
-    bool containsPoint(const Vector2& point) const;
+    bool containsPoint(const Vector2& point) const
+    {
+        return (point.x >= x && point.x <= (x + width) && point.y >= y && point.y <= (y + height));
+    }
 
     /**
      * Determines whether this rectangle contains a specified rectangle.
@@ -168,7 +229,10 @@ public:
      * @return true if the rectangle contains the specified rectangle, false
      * otherwise.
      */
-    bool contains(float pX, float pY, float pWidth, float pHeight) const;
+    bool contains(float pX, float pY, float pWidth, float pHeight) const
+    {
+        return (containsPoint(pX, pY) && containsPoint(pX + pWidth, pY + pHeight));
+    }
 
     /**
      * Determines whether this rectangle contains a specified rectangle.
@@ -178,7 +242,10 @@ public:
      * @return true if the rectangle contains the specified rectangle, false
      * otherwise.
      */
-    bool contains(const Rectangle& r) const;
+    bool contains(const Rectangle& r) const
+    {
+        return contains(r.x, r.y, r.width, r.height);
+    }
 
     /**
      * Determines whether a specified rectangle intersects with this rectangle.
@@ -191,7 +258,15 @@ public:
      *
      * @return true if the specified Rectangle intersects with this one, false otherwise.
      */
-    bool intersects(float pX, float pY, float pWidth, float pHeight) const;
+    bool intersects(float pX, float pY, float pWidth, float pHeight) const
+    {
+        float t;
+        if ((t = pX - x) > width || -t > pWidth)
+            return false;
+        if ((t = pY - y) > height || -t > pHeight)
+            return false;
+        return true;
+    }
 
     /**
      * Determines whether a specified rectangle intersects with this rectangle.
@@ -201,7 +276,10 @@ public:
      * @return true if the specified rectangle intersects with this one, false
      * otherwise.
      */
-    bool intersects(const Rectangle& r) const;
+    bool intersects(const Rectangle& r) const
+    {
+        return intersects(r.x, r.y, r.width, r.height);
+    }
 
     /**
      * Computes the intersection of two rectangles and returns the result.
@@ -233,22 +311,41 @@ public:
      * @param horizontalAmount The value to push the sides out by.
      * @param verticalAmount The value to push the top and bottom out by.
      */
-    void inflate(float horizontalAmount, float verticalAmount);
+    void inflate(float horizontalAmount, float verticalAmount)
+    {
+        x -= horizontalAmount;
+        y -= verticalAmount;
+        width += horizontalAmount * 2;
+        height += verticalAmount * 2;
+    }
 
     /**
      * operator =
      */
-    Rectangle& operator=(const Rectangle& r);
+    Rectangle& operator=(const Rectangle& r)
+    {
+        x = r.x;
+        y = r.y;
+        width = r.width;
+        height = r.height;
+        return *this;
+    }
 
     /**
      * operator ==
      */
-    bool operator==(const Rectangle& r) const;
+    bool operator==(const Rectangle& r) const
+    {
+        return (x == r.x && width == r.width && y == r.y && height == r.height);
+    }
 
     /**
      * operator !=
      */
-    bool operator!=(const Rectangle& r) const;
+    bool operator!=(const Rectangle& r) const
+    {
+        return (x != r.x || width != r.width || y != r.y || height != r.height);
+    }
 };
 
 }

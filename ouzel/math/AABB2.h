@@ -31,7 +31,6 @@ namespace ouzel
         AABB2(const Vector2& pMin, const Vector2& pMax):
             min(pMin), max(pMax)
         {
-
         }
 
         /**
