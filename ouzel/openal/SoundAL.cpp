@@ -17,23 +17,10 @@ namespace ouzel
 
         SoundAL::~SoundAL()
         {
-            if (outputBuffer)
-            {
-                if (sourceId)
-                {
-                    alSourceUnqueueBuffers(sourceId, 1, &outputBuffer);
-                }
-
-                alDeleteBuffers(1, &outputBuffer);
-
-                if (AudioAL::checkOpenALErrors())
-                {
-                    log("Failed to delete OpenAL buffer");
-                }
-            }
-
             if (sourceId)
             {
+                alSourceStop(sourceId);
+                alSourcei(sourceId, AL_BUFFER, 0);
                 alDeleteSources(1, &sourceId);
 
                 if (AudioAL::checkOpenALErrors())
@@ -41,11 +28,34 @@ namespace ouzel
                     log("Failed to delete OpenAL source");
                 }
             }
+
+            if (outputBuffer)
+            {
+                alDeleteBuffers(1, &outputBuffer);
+
+                if (AudioAL::checkOpenALErrors())
+                {
+                    log("Failed to delete OpenAL buffer");
+                }
+            }
         }
 
         void SoundAL::free()
         {
             Sound::free();
+
+            if (sourceId)
+            {
+                alSourceStop(sourceId);
+                alSourcei(sourceId, AL_BUFFER, 0);
+                alDeleteSources(1, &sourceId);
+                sourceId = 0;
+
+                if (AudioAL::checkOpenALErrors())
+                {
+                    log("Failed to delete OpenAL source");
+                }
+            }
 
             if (outputBuffer)
             {
@@ -55,17 +65,6 @@ namespace ouzel
                 if (AudioAL::checkOpenALErrors())
                 {
                     log("Failed to delete OpenAL buffer");
-                }
-            }
-
-            if (sourceId)
-            {
-                alDeleteSources(1, &sourceId);
-                sourceId = 0;
-
-                if (AudioAL::checkOpenALErrors())
-                {
-                    log("Failed to delete OpenAL source");
                 }
             }
         }
