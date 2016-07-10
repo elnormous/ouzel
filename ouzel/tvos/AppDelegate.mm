@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #import "AppDelegate.h"
-#include "Engine.h"
-#include "Cache.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "core/Cache.h"
+#include "utils/Utils.h"
 
 @implementation AppDelegate
 

@@ -4,9 +4,9 @@
 #import "OpenGLView.h"
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
-#include "Engine.h"
-#include "RendererOGL.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "opengl/RendererOGL.h"
+#include "utils/Utils.h"
 
 using namespace ouzel;
 

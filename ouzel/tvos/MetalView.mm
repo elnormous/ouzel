@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #import "MetalView.h"
-#include "Engine.h"
-#include "Window.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "core/Window.h"
+#include "utils/Utils.h"
 
 using namespace ouzel;
 

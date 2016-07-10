@@ -4,8 +4,8 @@
 #include "WindowIOS.h"
 #import "OpenGLView.h"
 #import "MetalView.h"
-#include "Engine.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "utils/Utils.h"
 
 @interface ViewController: UIViewController
 
