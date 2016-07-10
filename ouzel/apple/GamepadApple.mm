@@ -223,8 +223,7 @@ namespace ouzel
                 return false;
             }
 
-            void (*setPlayerIndex)(id, SEL, int32_t) = (void (*)(id, SEL, int32_t))objc_msgSend;
-            setPlayerIndex(controller, @selector(setPlayerIndex:), playerIndex); // controller.playerIndex = playerIndex
+            controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndex);
 
             return true;
         }

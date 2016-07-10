@@ -23,6 +23,7 @@ matrix:
         - export CXX=g++-5
     - compiler: clang
       os: osx
+      osx_image: xcode7
       before_script:
         - export CXX=clang++
 script:
