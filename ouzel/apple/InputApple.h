@@ -34,8 +34,8 @@ namespace ouzel
             virtual void startGamepadDiscovery() override;
             virtual void stopGamepadDiscovery() override;
 
-            virtual bool showVirtualKeyboard();
-            virtual bool hideVirtualKeyboard();
+            virtual bool showVirtualKeyboard() override;
+            virtual bool hideVirtualKeyboard() override;
 
             void handleGamepadDiscoveryCompleted();
             void handleGamepadConnected(id controller);
