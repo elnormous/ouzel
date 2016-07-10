@@ -5,6 +5,7 @@ os:
 matrix:
   include:
     - compiler: gcc
+      os: linux
       addons:
         apt:
           sources:
@@ -14,6 +15,7 @@ matrix:
       before_script:
         - export CXX=g++-4.9
     - compiler: gcc
+      os: linux
       addons:
         apt:
           sources:
