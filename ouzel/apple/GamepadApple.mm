@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <GameController/GameController.h>
+#include <GameController/GCController.h>
 #include "core/Engine.h"
 #include "GamepadApple.h"
 #include "core/CompileConfig.h"
