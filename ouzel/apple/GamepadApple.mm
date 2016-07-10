@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <GameController/GameController.h>
+#include <objc/message.h>
 #include "core/Engine.h"
 #include "GamepadApple.h"
 #include "core/CompileConfig.h"
@@ -216,15 +217,14 @@ namespace ouzel
 
         bool GamepadApple::setPlayerIndex(int32_t playerIndex)
         {
-            switch (playerIndex)
+            if (playerIndex < -1 || playerIndex > 3)
             {
-                case -1: controller.playerIndex = GCControllerPlayerIndexUnset; break;
-                case 0: controller.playerIndex = GCControllerPlayerIndex1; break;
-                case 1: controller.playerIndex = GCControllerPlayerIndex2; break;
-                case 2: controller.playerIndex = GCControllerPlayerIndex3; break;
-                case 3: controller.playerIndex = GCControllerPlayerIndex4; break;
-                default: return false;
+                log("Invalid player index");
+                return false;
             }
+
+            void (*setPlayerIndex)(id, SEL, int32_t) = (void (*)(id, SEL, int32_t))objc_msgSend;
+            setPlayerIndex(controller, @selector(setPlayerIndex:), playerIndex); // controller.playerIndex = playerIndex
 
             return true;
         }
