@@ -1,7 +1,4 @@
 language: cpp
-os:
-  - linux
-  - osx
 matrix:
   include:
     - compiler: gcc
@@ -24,5 +21,9 @@ matrix:
             - g++-5
       before_script:
         - export CXX=g++-5
+    - compiler: clang
+      os: osx
+      before_script:
+        - export CXX=clang
 script:
   - cd samples && make
