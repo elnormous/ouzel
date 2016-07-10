@@ -49,7 +49,7 @@ $ make platform=raspbian
 
 ## System requirements
 * Windows 7+ with Visual Studio 2013 or Visual Studio 2015
-* OS X 10.8+ with Xcode 5.0+
+* OS X 10.10+ with Xcode 7.2+
 * Any reasonable new Linux distro (including Raspbian)
 
 ## Example app
