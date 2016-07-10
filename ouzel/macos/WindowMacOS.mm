@@ -4,8 +4,8 @@
 #include "WindowMacOS.h"
 #include "OpenGLView.h"
 #include "MetalView.h"
-#include "Engine.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "utils/Utils.h"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
 {

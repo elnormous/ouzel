@@ -3,11 +3,11 @@
 
 #import "AppDelegate.h"
 #import "OpenGLView.h"
-#include "Engine.h"
-#include "Renderer.h"
+#include "core/Engine.h"
+#include "graphics/Renderer.h"
 #include "WindowMacOS.h"
-#include "Size2.h"
-#include "Utils.h"
+#include "math/Size2.h"
+#include "utils/Utils.h"
 
 @implementation AppDelegate
 

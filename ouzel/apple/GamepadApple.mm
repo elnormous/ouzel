@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include <GameController/GameController.h>
-#include "Engine.h"
+#include "core/Engine.h"
 #include "GamepadApple.h"
-#include "CompileConfig.h"
-#include "EventDispatcher.h"
-#include "Utils.h"
+#include "core/CompileConfig.h"
+#include "events/EventDispatcher.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

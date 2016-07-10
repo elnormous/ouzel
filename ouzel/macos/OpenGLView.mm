@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #import "OpenGLView.h"
-#include "Engine.h"
-#include "RendererOGL.h"
-#include "Window.h"
-#include "InputApple.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "opengl/RendererOGL.h"
+#include "core/Window.h"
+#include "apple/InputApple.h"
+#include "utils/Utils.h"
 
 static CVReturn renderCallback(CVDisplayLinkRef displayLink,
                                const CVTimeStamp* inNow,

@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "CompileConfig.h"
+#include "core/CompileConfig.h"
 #if OUZEL_PLATFORM_MACOS
 #import <AppKit/AppKit.h>
 #elif OUZEL_PLATFORM_IOS
@@ -11,9 +11,9 @@
 #endif
 #import <GameController/GameController.h>
 #include "InputApple.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "GamepadApple.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 @interface ConnectDelegate: NSObject
 {

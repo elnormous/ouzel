@@ -1,3 +1,16 @@
+ifndef platform
+	ifeq ($(OS),Windows_NT)
+		platform=windows
+	else
+		UNAME := $(shell uname -s)
+		ifeq ($(UNAME),Linux)
+			platform=linux
+		endif
+		ifeq ($(UNAME),Darwin)
+			platform=macos
+		endif
+	endif
+endif
 CFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb -I../ouzel
 SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Ease.cpp \
@@ -79,12 +92,31 @@ SOURCES+=../ouzel/rpi/main.cpp \
 	../ouzel/rpi/RendererOGLRPI.cpp \
 	../ouzel/rpi/WindowRPI.cpp
 CFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
-else
+else ifeq ($(platform),linux)
 SOURCES+=../ouzel/linux/main.cpp \
 	../ouzel/linux/RendererOGLLinux.cpp \
 	../ouzel/linux/WindowLinux.cpp
+else ifeq ($(platform),macos)
+SOURCES+=../ouzel/apple/GamepadApple.mm \
+	../ouzel/apple/InputApple.mm \
+	../ouzel/macos/AppDelegate.mm \
+	../ouzel/macos/main.mm \
+	../ouzel/macos/MetalView.mm \
+	../ouzel/macos/OpenGLView.mm \
+	../ouzel/macos/RendererOGLMacOS.cpp \
+	../ouzel/macos/WindowMacOS.mm \
+	../ouzel/metal/BlendStateMetal.mm \
+	../ouzel/metal/MeshBufferMetal.mm \
+	../ouzel/metal/RendererMetal.mm \
+	../ouzel/metal/RenderTargetMetal.mm \
+	../ouzel/metal/ShaderMetal.mm \
+	../ouzel/metal/TextureMetal.mm \
+	../ouzel/openal/AudioAL.mm \
+	../ouzel/openal/SoundAL.cpp \
+	../ouzel/openal/SoundDataAL.cpp
 endif
-OBJECTS=$(SOURCES:.cpp=.o)
+TMP=$(SOURCES:.cpp=.o)
+OBJECTS=$(TMP:.mm=.o)
 LIBRARY=libouzel.a
 
 all: $(SOURCES) $(LIBRARY)
@@ -92,13 +124,18 @@ all: $(SOURCES) $(LIBRARY)
 $(LIBRARY): $(OBJECTS)
 	ar -r -s $@ $^
 
-.cpp.o:
+%.o: %.cpp
 	$(CXX) $(CFLAGS) $< -o $@
+
+%.o: %.mm
+	$(CXX) -fno-objc-arc $(CFLAGS) $< -o $@
 
 .PHONY: clean
 clean:
 	rm -rf $(LIBRARY) \
+	../ouzel/audio/*.o \
 	../ouzel/animators/*.o \
+	../ouzel/apple/*.o \
 	../ouzel/core/*.o \
 	../ouzel/events/*.o \
 	../ouzel/files/*.o \
@@ -107,8 +144,10 @@ clean:
 	../ouzel/input/*.o \
 	../ouzel/linux/*.o \
 	../ouzel/localization/*.o \
+	../ouzel/macos/*.o \
 	../ouzel/math/*.o \
 	../ouzel/metal/*.o \
+	../ouzel/openal/*.o \
 	../ouzel/opengl/*.o \
 	../ouzel/rpi/*.o \
 	../ouzel/scene/*.o \

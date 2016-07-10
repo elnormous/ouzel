@@ -4,8 +4,8 @@
 #import <Cocoa/Cocoa.h>
 #import "AppDelegate.h"
 #include <vector>
-#include "Engine.h"
-#include "Utils.h"
+#include "core/Engine.h"
+#include "utils/Utils.h"
 
 int main(int argc, char* argv[])
 {

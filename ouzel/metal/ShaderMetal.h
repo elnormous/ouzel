@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CompileConfig.h"
+#include "core/CompileConfig.h"
 #include "graphics/Shader.h"
 
 #if defined(__OBJC__)
