@@ -24,6 +24,6 @@ matrix:
     - compiler: clang
       os: osx
       before_script:
-        - export CXX=clang
+        - export CXX=clang++
 script:
   - cd samples && make
