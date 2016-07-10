@@ -15,6 +15,16 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
     {
         ouzel::log("Failed to enqueue OpenSL data");
     }
+    
+    if (!sound->isRepeating())
+    {
+        SLPlayItf player = sound->getPlayer();
+
+        if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
+        {
+            ouzel::log("Failed to stop sound");
+        }
+    }
 }
 
 namespace ouzel
@@ -133,23 +143,17 @@ namespace ouzel
                 return false;
             }
 
-            if ((*bufferQueue)->Enqueue(bufferQueue, soundData->getData().data(), soundData->getData().size()) != SL_RESULT_SUCCESS)
-            {
-                ouzel::log("Failed to enqueue OpenSL data");
-                return false;
-            }
-
-            /*if ((*bufferQueue)->RegisterCallback(bufferQueue, playerCallback, this) != SL_RESULT_SUCCESS)
+            if ((*bufferQueue)->RegisterCallback(bufferQueue, playerCallback, this) != SL_RESULT_SUCCESS)
             {
                 log("Failed to register OpenSL buffer queue callback");
                 return false;
             }
 
-            if ((*bufferQueue)->SetCallbackEventsMask(bufferQueue, SL_PLAYEVENT_HEADATEND)!= SL_RESULT_SUCCESS)
+            if ((*bufferQueue)->Enqueue(bufferQueue, soundData->getData().data(), soundData->getData().size()) != SL_RESULT_SUCCESS)
             {
-                log("Failed to set OpenSL callback mask");
+                ouzel::log("Failed to enqueue OpenSL data");
                 return false;
-            }*/
+            }
 
             ready = true;
 

@@ -28,6 +28,8 @@ namespace ouzel
             virtual bool stop(bool resetSound = false) override;
             virtual bool reset() override;
 
+            SLPlayItf getPlayer() const { return player; }
+
         protected:
             SoundSL();
 
