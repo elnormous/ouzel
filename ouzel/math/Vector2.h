@@ -21,15 +21,8 @@ namespace ouzel
         static const Vector2 UNIT_X;
         static const Vector2 UNIT_Y;
 
-        union
-        {
-            struct
-            {
-                float x;
-                float y;
-            };
-            float a[2];
-        };
+        float x;
+        float y;
 
         /**
          * Constructs a new vector initialized to all zeros.

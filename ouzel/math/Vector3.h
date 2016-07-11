@@ -27,16 +27,9 @@ namespace ouzel
         static const Vector3 UNIT_Y;
         static const Vector3 UNIT_Z;
 
-        union
-        {
-            struct
-            {
-                float x;
-                float y;
-                float z;
-            };
-            float a[3];
-        };
+        float x;
+        float y;
+        float z;
 
         /**
          * Constructs a new vector initialized to all zeros.

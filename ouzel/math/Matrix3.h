@@ -17,22 +17,7 @@ namespace ouzel
         /**
          * Stores the columns of this 4x4 matrix.
          * */
-        union
-        {
-            struct
-            {
-                float m11;
-                float m12;
-                float m13;
-                float m21;
-                float m22;
-                float m23;
-                float m31;
-                float m32;
-                float m33;
-            };
-            float m[9];
-        };
+        float m[9];
 
         /**
          * Constructs a matrix initialized to the zero matrix

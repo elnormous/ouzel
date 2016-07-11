@@ -26,20 +26,10 @@ namespace ouzel
         static const Vector4 UNIT_Z;
         static const Vector4 UNIT_W;
 
-        union
-        {
-#if OUZEL_SUPPORTS_SSE
-            __m128 v;
-#endif
-            struct
-            {
-                float x;
-                float y;
-                float z;
-                float w;
-            };
-            float a[4];
-        };
+        float x;
+        float y;
+        float z;
+        float w;
 
         /**
          * Constructs a new vector initialized to all zeros.
