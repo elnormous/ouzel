@@ -3,15 +3,15 @@
 
 #pragma once
 
-#if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
+#if defined(_WIN32) || defined(_WIN64)
     #define OUZEL_PLATFORM_WINDOWS 1
     #define OUZEL_SUPPORTS_DIRECT3D 1
     #define OUZEL_SUPPORTS_DIRECT3D11 1
     #define OUZEL_SUPPORTS_XAUDIO2 1
 
-    #if defined(_WIN64) || defined(WIN64)
+    #if defined(_M_X64)
         #define OUZEL_64BITS 1
-    #elif defined(_WIN32) || defined(WIN32)
+    #elif defined(_M_IX86)
         #define OUZEL_32BITS 1
     #endif
 
