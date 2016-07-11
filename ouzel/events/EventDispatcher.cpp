@@ -21,7 +21,7 @@ namespace ouzel
         auto eventHandlersCopy = eventHandlers;
         Event event;
 
-        while (true)
+        for (;;)
         {
             // scope for mutex lock
             {
