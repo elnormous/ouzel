@@ -1,6 +1,6 @@
 <img src="https://github.com/elnormous/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.19
+# Ouzel v0.20
 
 [![Build Status](https://api.travis-ci.org/elnormous/ouzel.svg?branch=master)](https://travis-ci.org/elnormous/ouzel) [![Build Status](https://ci.appveyor.com/api/projects/status/dp8av7iegdjs6xuj?svg=true)](https://ci.appveyor.com/project/elnormous/ouzel)
 
@@ -39,7 +39,7 @@ $ git submodule init
 $ git submodule update
 ```
 
-Linux and Android Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in the samples directory.
+Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in the samples directory.
 
 To build Ouzel for Raspbian pass "platform=raspbian" to make as follows:
 
