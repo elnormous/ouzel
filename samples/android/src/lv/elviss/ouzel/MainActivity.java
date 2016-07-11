@@ -10,6 +10,7 @@ import android.content.pm.ConfigurationInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
+import android.content.res.Configuration;
 
 public class MainActivity extends Activity
 {
@@ -22,12 +23,10 @@ public class MainActivity extends Activity
 
         OuzelLibJNIWrapper.setAssetManager(getAssets());
 
-        ActivityManager activityManager 
-            = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
 
-        final boolean supportsEs2 = 
-            configurationInfo.reqGlEsVersion >= 0x20000 || isProbablyEmulator();
+        final boolean supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000 || isProbablyEmulator();
 
         if (supportsEs2)
         {
@@ -47,15 +46,9 @@ public class MainActivity extends Activity
         {
             // Should never be seen in production, since the manifest filters
             // unsupported devices.
-            Toast.makeText(this, "This device does not support OpenGL ES 2.0.",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "This device does not support OpenGL ES 2.0.", Toast.LENGTH_LONG).show();
             return;
         }
-    }
-    
-    private void onConfigurationChanged(Configuration newConfig)
-    {
-        super.onConfigurationChanged(newConfig);
     }
 
     private boolean isProbablyEmulator()
