@@ -52,6 +52,11 @@ public class MainActivity extends Activity
             return;
         }
     }
+    
+    private void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+    }
 
     private boolean isProbablyEmulator()
     {
