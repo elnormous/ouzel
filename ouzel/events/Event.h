@@ -62,7 +62,18 @@ namespace ouzel
 
     struct SystemEvent
     {
-        Size2 size;
+        enum class Orientation
+        {
+            UNKNOWN = 0,
+            PORTRAIT,
+            PORTRAIT_UPSIDE_DOWN,
+            LANDSCAPE_LEFT,
+            LANDSCAPE_RIGHT,
+            FACE_UP,
+            FACE_DOWN
+        };
+
+        Orientation orientation;
         std::string filename;
     };
 
@@ -92,6 +103,7 @@ namespace ouzel
             WINDOW_SIZE_CHANGE,
             WINDOW_TITLE_CHANGE,
             WINDOW_FULLSCREEN_CHANGE,
+            ORIENTATION_CHANGE,
             LOW_MEMORY,
             OPEN_FILE,
 

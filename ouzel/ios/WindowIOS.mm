@@ -22,12 +22,55 @@
 {
 }
 
--(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+-(NSUInteger)supportedInterfaceOrientations
 {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    // TODO: add setting to limit orientations
+    return UIInterfaceOrientationMaskAll;
+}
 
-    ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(size.width),
-                                                           static_cast<float>(size.height)));
+-(void)deviceOrientationDidChange:(NSNotification*)note
+{
+    UIDevice* device = note.object;
+    UIDeviceOrientation orientation = device.orientation;
+
+    ouzel::Event event;
+    event.sender = ouzel::sharedEngine->getInput();
+    event.type = ouzel::Event::Type::ORIENTATION_CHANGE;
+
+    switch (orientation)
+    {
+        case UIDeviceOrientationPortrait:
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
+            break;
+        case UIDeviceOrientationPortraitUpsideDown:
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT_UPSIDE_DOWN;
+            break;
+        case UIDeviceOrientationLandscapeLeft:
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_LEFT;
+            break;
+        case UIDeviceOrientationLandscapeRight:
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_RIGHT;
+            break;
+        case UIDeviceOrientationFaceUp:
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::FACE_UP;
+            break;
+        case UIDeviceOrientationFaceDown:
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::FACE_DOWN;
+            break;
+        default:
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
+            break;
+    }
+
+    ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event);
+
+    if (self.view)
+    {
+        CGSize size = self.view.frame.size;
+
+        ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(size.width),
+                                                               static_cast<float>(size.height)));
+    }
 }
 
 @end
@@ -54,6 +97,11 @@ namespace ouzel
 
         viewController = [[[ViewController alloc] init] autorelease];
         window.rootViewController = viewController;
+
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:viewController selector:@selector(deviceOrientationDidChange:)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:[UIDevice currentDevice]];
 
         CGRect windowFrame = [window bounds];
 

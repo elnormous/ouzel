@@ -86,6 +86,7 @@ namespace ouzel
                                 propagate = eventHandler->windowHandler(event.type, event.windowEvent, event.sender);
                             }
                             break;
+                        case Event::Type::ORIENTATION_CHANGE:
                         case Event::Type::LOW_MEMORY:
                         case Event::Type::OPEN_FILE:
                             if (eventHandler->systemHandler)
