@@ -30,7 +30,7 @@ namespace ouzel
 
         protected:
             AudioSL();
-            
+
             SLObjectItf engineObject = nullptr;
             SLEngineItf engine = nullptr;
             SLObjectItf outputMixObject = nullptr;

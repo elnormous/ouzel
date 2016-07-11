@@ -112,13 +112,13 @@ namespace ouzel
                 log("Failed to create OpenSL player object");
                 return false;
             }
-            
+
             if ((*playerObject)->Realize(playerObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
             {
                 log("Failed to create OpenSL player object");
                 return false;
             }
-            
+
             if ((*playerObject)->GetInterface(playerObject, SL_IID_PLAY, &player) != SL_RESULT_SUCCESS)
             {
                 log("Failed to get OpenSL player");

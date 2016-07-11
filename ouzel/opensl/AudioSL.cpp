@@ -31,7 +31,7 @@ namespace ouzel
         void AudioSL::free()
         {
             Audio::free();
-            
+
             if (outputMixObject)
             {
                 (*outputMixObject)->Destroy(outputMixObject);
@@ -82,7 +82,7 @@ namespace ouzel
                 log("Failed to create OpenSL output mix");
                 return false;
             }
- 
+
             if ((*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
             {
                 log("Failed to create OpenSL output mix");
