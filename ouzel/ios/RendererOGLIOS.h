@@ -36,6 +36,10 @@ namespace ouzel
                               float newTargetFPS,
                               bool newVerticalSync) override;
 
+            virtual void setSize(const Size2& newSize) override;
+
+            bool createRenderBuffer(Size2& renderBufferSize);
+
             EAGLContextPtr context = Nil;
             GLuint colorRenderBuffer = 0;
         };
