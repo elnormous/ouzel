@@ -48,7 +48,7 @@ namespace ouzel
 
             frames.reserve(framesArray.Size());
 
-            for (uint32_t index = 0; index < static_cast<uint32_t>(framesArray.Size()); ++index)
+            for (rapidjson::SizeType index = 0; index < framesArray.Size(); ++index)
             {
                 const rapidjson::Value& frameObject = framesArray[index];
 
