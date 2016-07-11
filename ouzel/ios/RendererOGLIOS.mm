@@ -66,7 +66,7 @@ namespace ouzel
 
             UIView* view = std::static_pointer_cast<WindowIOS>(window)->getNativeView();
 
-            CAEAGLLayer* eaglLayer = (CAEAGLLayer*)view.layer;
+            eaglLayer = (CAEAGLLayer*)view.layer;
             eaglLayer.opaque = YES;
             eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
@@ -102,11 +102,9 @@ namespace ouzel
                 return false;
             }
 
-            Size2 renderBufferSize;
-
-            // frame buffer
             glGenFramebuffers(1, &frameBufferId);
 
+            Size2 renderBufferSize;
             if (!createRenderBuffer(renderBufferSize))
             {
                 return false;
@@ -141,9 +139,6 @@ namespace ouzel
                 glDeleteRenderbuffers(1, &colorRenderBuffer);
                 colorRenderBuffer = 0;
             }
-
-            UIView* view = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow())->getNativeView();
-            CAEAGLLayer* eaglLayer = (CAEAGLLayer*)view.layer;
 
             glGenRenderbuffers(1, &colorRenderBuffer);
             glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);

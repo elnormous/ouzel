@@ -8,9 +8,11 @@
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>
 typedef EAGLContext* EAGLContextPtr;
+typedef CAEAGLLayer* CAEAGLLayerPtr;
 #else
 #include <objc/objc.h>
 typedef id EAGLContextPtr;
+typedef id CAEAGLLayerPtr;
 #endif
 
 namespace ouzel
@@ -36,8 +38,14 @@ namespace ouzel
                               float newTargetFPS,
                               bool newVerticalSync) override;
 
+            virtual void setSize(const Size2& newSize) override;
+
+            bool createRenderBuffer(Size2& renderBufferSize);
+
             EAGLContextPtr context = Nil;
             GLuint colorRenderBuffer = 0;
+
+            CAEAGLLayerPtr eaglLayer = Nil;
         };
     } // namespace graphics
 } // namespace ouzel

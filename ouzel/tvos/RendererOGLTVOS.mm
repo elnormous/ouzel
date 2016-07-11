@@ -66,7 +66,7 @@ namespace ouzel
 
             UIView* view = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow())->getNativeView();
 
-            CAEAGLLayer* eaglLayer = (CAEAGLLayer*)view.layer;
+            eaglLayer = (CAEAGLLayer*)view.layer;
             eaglLayer.opaque = YES;
             eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
@@ -102,7 +102,44 @@ namespace ouzel
                 return false;
             }
 
-            // render buffer
+            glGenFramebuffers(1, &frameBufferId);
+
+            Size2 renderBufferSize;
+            if (!createRenderBuffer(renderBufferSize))
+            {
+                return false;
+            }
+
+            window->setSize(renderBufferSize);
+
+            return RendererOGL::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync);
+        }
+
+        void RendererOGLTVOS::setSize(const Size2& newSize)
+        {
+            RendererOGL::setSize(newSize);
+
+            Size2 renderBufferSize;
+
+            if (!createRenderBuffer(renderBufferSize))
+            {
+                return;
+            }
+
+            if (renderBufferSize != size)
+            {
+                sharedEngine->getWindow()->setSize(renderBufferSize);
+            }
+        }
+
+        bool RendererOGLTVOS::createRenderBuffer(Size2& renderBufferSize)
+        {
+            if (colorRenderBuffer)
+            {
+                glDeleteRenderbuffers(1, &colorRenderBuffer);
+                colorRenderBuffer = 0;
+            }
+
             glGenRenderbuffers(1, &colorRenderBuffer);
             glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
             [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
@@ -112,8 +149,9 @@ namespace ouzel
             glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
             glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &frameBufferHeight);
 
-            // frame buffer
-            glGenFramebuffers(1, &frameBufferId);
+            renderBufferSize.width = static_cast<float>(frameBufferWidth);
+            renderBufferSize.height = static_cast<float>(frameBufferHeight);
+
             graphics::RendererOGL::bindFrameBuffer(frameBufferId);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                       GL_RENDERBUFFER, colorRenderBuffer);
@@ -123,11 +161,8 @@ namespace ouzel
                 log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
                 return false;
             }
-
-            window->setSize(Size2(static_cast<float>(frameBufferWidth),
-                                  static_cast<float>(frameBufferHeight)));
-
-            return RendererOGL::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync);
+            
+            return true;
         }
 
         void RendererOGLTVOS::clear()
