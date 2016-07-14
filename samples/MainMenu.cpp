@@ -56,10 +56,8 @@ MainMenu::~MainMenu()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool MainMenu::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender)
+bool MainMenu::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender)
 {
-    OUZEL_UNUSED(event);
-
     if (type == Event::Type::UI_CLICK_NODE)
     {
         scene::ScenePtr newScene;

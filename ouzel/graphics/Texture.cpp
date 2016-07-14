@@ -60,10 +60,8 @@ namespace ouzel
             return initFromBuffer(image.getData(), image.getSize(), dynamic, mipmaps);
         }
 
-        bool Texture::initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool Texture::initFromBuffer(const void*, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            OUZEL_UNUSED(data);
-
             size = newSize;
             dynamic = newDynamic;
             mipmaps = newMipmaps;
@@ -75,8 +73,6 @@ namespace ouzel
 
         bool Texture::upload(const void* data, const Size2& newSize)
         {
-            OUZEL_UNUSED(data);
-
             if (!dynamic)
             {
                 return false;
@@ -261,10 +257,8 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::uploadMipmap(uint32_t level, const void* data)
+        bool Texture::uploadMipmap(uint32_t level, const void*)
         {
-            OUZEL_UNUSED(data);
-
             if (level >= mipmapSizes.size())
             {
                 return false;

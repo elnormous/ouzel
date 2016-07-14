@@ -28,16 +28,11 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBuffer::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
+        bool MeshBuffer::initFromBuffer(const void*, uint32_t newIndexSize,
                                         uint32_t newIndexCount, bool newDynamicIndexBuffer,
-                                        const void* newVertices, uint32_t newVertexAttributes,
+                                        const void*, uint32_t newVertexAttributes,
                                         uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
-            OUZEL_UNUSED(newIndices);
-            OUZEL_UNUSED(newIndexCount);
-            OUZEL_UNUSED(newVertices);
-            OUZEL_UNUSED(newVertexCount);
-
             indexCount = newIndexCount;
             indexSize = newIndexSize;
             dynamicIndexBuffer = newDynamicIndexBuffer;
@@ -52,10 +47,8 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBuffer::uploadIndices(const void* newIndices, uint32_t newIndexCount)
+        bool MeshBuffer::uploadIndices(const void*, uint32_t newIndexCount)
         {
-            OUZEL_UNUSED(newIndices);
-
             if (!dynamicIndexBuffer)
             {
                 return false;
@@ -66,9 +59,8 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBuffer::uploadVertices(const void* newVertices, uint32_t newVertexCount)
+        bool MeshBuffer::uploadVertices(const void*, uint32_t newVertexCount)
         {
-            OUZEL_UNUSED(newVertices);
 
             if (!dynamicVertexBuffer)
             {

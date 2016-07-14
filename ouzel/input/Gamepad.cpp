@@ -20,9 +20,8 @@ namespace ouzel
             return false;
         }
 
-        void Gamepad::setAbsoluteDpadValues(bool absoluteDpadValues)
+        void Gamepad::setAbsoluteDpadValues(bool)
         {
-            OUZEL_UNUSED(absoluteDpadValues);
         }
 
         bool Gamepad::isAbsoluteDpadValues() const
@@ -35,10 +34,8 @@ namespace ouzel
             return -1;
         }
 
-        bool Gamepad::setPlayerIndex(int32_t playerIndex)
+        bool Gamepad::setPlayerIndex(int32_t)
         {
-            OUZEL_UNUSED(playerIndex);
-
             return false;
         }
 
@@ -64,16 +61,12 @@ namespace ouzel
             buttonStates[static_cast<uint32_t>(button)].value = value;
         }
 
-        void Gamepad::setVibration(Motor motor, float speed)
+        void Gamepad::setVibration(Motor, float)
         {
-            OUZEL_UNUSED(motor);
-            OUZEL_UNUSED(speed);
         }
 
-        float Gamepad::getVibration(Motor motor)
+        float Gamepad::getVibration(Motor)
         {
-            OUZEL_UNUSED(motor);
-
             return 0.0f;
         }
     } // namespace input

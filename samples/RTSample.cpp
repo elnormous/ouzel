@@ -55,10 +55,8 @@ RTSample::~RTSample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool RTSample::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender) const
+bool RTSample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
 {
-    OUZEL_UNUSED(event);
-
     if (type == Event::Type::UI_CLICK_NODE && sender == backButton)
     {
         application.back();

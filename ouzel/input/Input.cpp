@@ -22,17 +22,14 @@ namespace ouzel
 
         Input::~Input()
         {
-
         }
 
         void Input::update()
         {
-
         }
 
-        void Input::setCursorVisible(bool visible)
+        void Input::setCursorVisible(bool)
         {
-            OUZEL_UNUSED(visible);
         }
 
         bool Input::isCursorVisible() const
@@ -376,10 +373,8 @@ namespace ouzel
             pointerDownOnNodes.erase(pointerId);
         }
 
-        void Input::pointerDragNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
+        void Input::pointerDragNode(uint64_t, const scene::NodePtr& node, const Vector2& position)
         {
-            OUZEL_UNUSED(pointerId);
-
             if (node && node->isReceivingInput())
             {
                 Event event;

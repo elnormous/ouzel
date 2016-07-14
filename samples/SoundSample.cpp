@@ -52,10 +52,8 @@ SoundSample::~SoundSample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool SoundSample::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender) const
+bool SoundSample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
 {
-    OUZEL_UNUSED(event);
-
     if (type == Event::Type::UI_CLICK_NODE)
     {
         if (sender == backButton)

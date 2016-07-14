@@ -55,21 +55,14 @@ namespace ouzel
                                    newVertexAttributes, pixelShaderFunction, vertexShaderFunction);
         }
 
-        bool Shader::initFromBuffers(const uint8_t* newPixelShader,
-                                     uint32_t newPixelShaderSize,
-                                     const uint8_t* newVertexShader,
-                                     uint32_t newVertexShaderSize,
+        bool Shader::initFromBuffers(const uint8_t*,
+                                     uint32_t,
+                                     const uint8_t*,
+                                     uint32_t,
                                      uint32_t newVertexAttributes,
-                                     const std::string& pixelShaderFunction,
-                                     const std::string& vertexShaderFunction)
+                                     const std::string&,
+                                     const std::string&)
         {
-            OUZEL_UNUSED(newPixelShader);
-            OUZEL_UNUSED(newPixelShaderSize);
-            OUZEL_UNUSED(newVertexShader);
-            OUZEL_UNUSED(newVertexShaderSize);
-            OUZEL_UNUSED(pixelShaderFunction);
-            OUZEL_UNUSED(vertexShaderFunction);
-
             vertexAttributes = newVertexAttributes;
 
             ready = true;
@@ -119,23 +112,13 @@ namespace ouzel
             return true;
         }
 
-        bool Shader::setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
+        bool Shader::setPixelShaderConstant(uint32_t, uint32_t, uint32_t, const float*)
         {
-            OUZEL_UNUSED(index);
-            OUZEL_UNUSED(size);
-            OUZEL_UNUSED(count);
-            OUZEL_UNUSED(value);
-
             return true;
         }
 
-        bool Shader::setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
+        bool Shader::setVertexShaderConstant(uint32_t, uint32_t, uint32_t, const float*)
         {
-            OUZEL_UNUSED(index);
-            OUZEL_UNUSED(size);
-            OUZEL_UNUSED(count);
-            OUZEL_UNUSED(value);
-
             return true;
         }
     } // namespace graphics

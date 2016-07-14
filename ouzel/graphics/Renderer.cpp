@@ -136,11 +136,8 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool Renderer::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t startIndex)
+        bool Renderer::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode, uint32_t)
         {
-            OUZEL_UNUSED(drawMode);
-            OUZEL_UNUSED(startIndex);
-
             if (activeShader)
             {
                 if (meshBuffer->getVertexAttributes() != activeShader->getVertexAttributes())

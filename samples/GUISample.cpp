@@ -50,10 +50,8 @@ GUISample::~GUISample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool GUISample::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender) const
+bool GUISample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
 {
-    OUZEL_UNUSED(event);
-
     if (type == Event::Type::UI_CLICK_NODE && sender == backButton)
     {
         application.back();

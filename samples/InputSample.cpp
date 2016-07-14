@@ -50,10 +50,8 @@ InputSample::~InputSample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event, const VoidPtr& sender) const
+bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event, const VoidPtr&) const
 {
-    OUZEL_UNUSED(sender);
-
     if (type == Event::Type::KEY_DOWN)
     {
         Vector2 position = camera->getPosition();
@@ -88,10 +86,8 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event, c
     return true;
 }
 
-bool InputSample::handleMouse(Event::Type type, const MouseEvent& event, const VoidPtr& sender) const
+bool InputSample::handleMouse(Event::Type type, const MouseEvent& event, const VoidPtr&) const
 {
-    OUZEL_UNUSED(sender);
-
     switch (type)
     {
         case Event::Type::MOUSE_MOVE:
@@ -107,21 +103,16 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event, const V
     return true;
 }
 
-bool InputSample::handleTouch(Event::Type type, const TouchEvent& event, const VoidPtr& sender) const
+bool InputSample::handleTouch(Event::Type, const TouchEvent& event, const VoidPtr&) const
 {
-    OUZEL_UNUSED(type);
-    OUZEL_UNUSED(sender);
-
     Vector2 worldLocation = camera->convertScreenToWorld(event.position);
     flame->setPosition(worldLocation);
 
     return true;
 }
 
-bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr& sender) const
+bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr&) const
 {
-    OUZEL_UNUSED(sender);
-
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         Vector2 position = camera->convertWorldToScreen(flame->getPosition());
@@ -159,10 +150,8 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event, con
     return true;
 }
 
-bool InputSample::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender) const
+bool InputSample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
 {
-    OUZEL_UNUSED(event);
-
     if (type == Event::Type::UI_CLICK_NODE)
     {
         if (sender == backButton)

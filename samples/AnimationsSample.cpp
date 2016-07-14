@@ -73,10 +73,8 @@ AnimationsSample::~AnimationsSample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event, const VoidPtr& sender) const
+bool AnimationsSample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
 {
-    OUZEL_UNUSED(event);
-
     if (type == Event::Type::UI_CLICK_NODE && sender == backButton)
     {
         application.back();

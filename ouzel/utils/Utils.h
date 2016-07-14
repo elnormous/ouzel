@@ -56,4 +56,20 @@ namespace ouzel
 
     uint32_t random(uint32_t min = 0, uint32_t max = std::numeric_limits<uint32_t>::max());
     float randomf(float min = 0.0f, float max = 1.0f);
+
+    inline uint32_t readUInt32Big(uint8_t* buffer)
+    {
+        return static_cast<uint32_t>(buffer[3]) |
+               static_cast<uint32_t>(buffer[2])<<8 |
+               static_cast<uint32_t>(buffer[1])<<16 |
+               static_cast<uint32_t>(buffer[0])<<24;
+    };
+
+    inline uint32_t readUInt32Little(uint8_t* buffer)
+    {
+        return static_cast<uint32_t>(buffer[0]) |
+               static_cast<uint32_t>(buffer[1])<<8 |
+               static_cast<uint32_t>(buffer[2])<<16 |
+               static_cast<uint32_t>(buffer[3])<<24;
+    };
 }
