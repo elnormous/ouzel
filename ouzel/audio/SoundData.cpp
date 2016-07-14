@@ -60,7 +60,7 @@ namespace ouzel
 
             offset += 4;
 
-            uint32_t length = *reinterpret_cast<const uint32_t*>(newData.data() + offset);
+            uint32_t length = readUInt32Little(newData.data() + offset);
 
             offset += 4;
 
@@ -99,7 +99,7 @@ namespace ouzel
 
                 offset += 4;
 
-                uint32_t chunkSize = *reinterpret_cast<const uint32_t*>(newData.data() + offset);
+                uint32_t chunkSize = readUInt32Little(newData.data() + offset);
                 offset += 4;
 
                 if (newData.size() < offset + chunkSize)
@@ -118,7 +118,7 @@ namespace ouzel
 
                     uint32_t i = offset;
 
-                    formatTag = *reinterpret_cast<const uint16_t*>(newData.data() + i);
+                    formatTag = readUInt16Little(newData.data() + i);
                     i += 2;
 
                     if (formatTag != 1)
@@ -127,19 +127,19 @@ namespace ouzel
                         return false;
                     }
 
-                    channels = *reinterpret_cast<const uint16_t*>(newData.data() + i);
+                    channels = readUInt16Little(newData.data() + i);
                     i += 2;
 
-                    samplesPerSecond = *reinterpret_cast<const uint32_t*>(newData.data() + i);
+                    samplesPerSecond = readUInt32Little(newData.data() + i);
                     i += 4;
 
-                    averageBytesPerSecond = *reinterpret_cast<const uint32_t*>(newData.data() + i);
+                    averageBytesPerSecond = readUInt32Little(newData.data() + i);
                     i += 4;
 
-                    blockAlign = *reinterpret_cast<const uint16_t*>(newData.data() + i);
+                    blockAlign = readUInt16Little(newData.data() + i);
                     i += 2;
 
-                    bitsPerSample = *reinterpret_cast<const uint16_t*>(newData.data() + i);
+                    bitsPerSample = readUInt16Little(newData.data() + i);
                     i += 2;
 
                     foundChunkFound = true;

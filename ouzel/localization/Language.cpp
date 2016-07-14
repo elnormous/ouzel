@@ -55,7 +55,7 @@ namespace ouzel
         uint32_t magic = *reinterpret_cast<uint32_t*>(data.data() + offset);
         offset += sizeof(magic);
 
-        uint32_t (*readUInt32)(uint8_t* bytes) = nullptr;
+        uint32_t (*readUInt32)(const uint8_t*) = nullptr;
 
         if (magic == MAGIC_BIG)
         {
