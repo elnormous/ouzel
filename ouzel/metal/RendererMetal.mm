@@ -394,9 +394,8 @@ namespace ouzel
             }
 
             __block dispatch_semaphore_t blockSemaphore = inflightSemaphore;
-            [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer> buffer)
+            [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer>)
              {
-                 OUZEL_UNUSED(buffer);
                  dispatch_semaphore_signal(blockSemaphore);
              }];
         }
