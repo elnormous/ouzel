@@ -8,19 +8,13 @@
 #include "apple/InputApple.h"
 #include "utils/Utils.h"
 
-static CVReturn renderCallback(CVDisplayLinkRef displayLink,
-                               const CVTimeStamp* inNow,
-                               const CVTimeStamp* inOutputTime,
-                               CVOptionFlags flagsIn,
-                               CVOptionFlags* flagsOut,
+static CVReturn renderCallback(CVDisplayLinkRef,
+                               const CVTimeStamp*,
+                               const CVTimeStamp*,
+                               CVOptionFlags,
+                               CVOptionFlags*,
                                void* displayLinkContext)
 {
-    OUZEL_UNUSED(displayLink);
-    OUZEL_UNUSED(inNow);
-    OUZEL_UNUSED(inOutputTime);
-    OUZEL_UNUSED(flagsIn);
-    OUZEL_UNUSED(flagsOut);
-
     [(__bridge OpenGLView*)displayLinkContext draw];
 
     return kCVReturnSuccess;
