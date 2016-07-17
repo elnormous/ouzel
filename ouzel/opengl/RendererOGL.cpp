@@ -554,20 +554,7 @@ namespace ouzel
                 return false;
             }
 
-            std::unique_ptr<uint8_t[]> outData(new uint8_t[width * height * 3]);
-
-            for (GLsizei row = 0; row < height; ++row)
-            {
-                for (GLsizei col = 0; col < width; ++col)
-                {
-                    for (GLsizei z = 0; z < 3; ++z)
-                    {
-                        outData[(row * width + col) * 3 + z] = data[((height - row - 1) * width + col) * 4 + z];
-                    }
-                }
-            }
-
-            if (!stbi_write_png(filename.c_str(), width, height, 3, outData.get(), width * 3))
+            if (!stbi_write_png(filename.c_str(), width, height, 4, data.get(), width * 4))
             {
                 log("Failed to save image to file");
                 return false;
