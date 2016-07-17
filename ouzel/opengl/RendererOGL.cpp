@@ -543,10 +543,11 @@ namespace ouzel
 
             const GLsizei width = static_cast<GLsizei>(size.width);
             const GLsizei height = static_cast<GLsizei>(size.height);
+            const GLsizei depth = 4;
 
-            std::unique_ptr<uint8_t[]> data(new uint8_t[width * height * 4]);
+            std::vector<uint8_t> data(width * height * depth);
 
-            glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.get());
+            glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
             if (checkOpenGLErrors())
             {
@@ -554,7 +555,21 @@ namespace ouzel
                 return false;
             }
 
-            if (!stbi_write_png(filename.c_str(), width, height, 4, data.get(), width * 4))
+            uint8_t temp;
+            for (GLsizei row = 0; row < height / 2; ++row)
+            {
+                for (GLsizei col = 0; col < width; ++col)
+                {
+                    for (GLsizei z = 0; z < depth; ++z)
+                    {
+                        temp = data[((height - row - 1) * width + col) * depth + z];
+                        data[((height - row - 1) * width + col) * depth + z] = data[(row * width + col) * depth + z];
+                        data[(row * width + col) * depth + z] = temp;
+                    }
+                }
+            }
+
+            if (!stbi_write_png(filename.c_str(), width, height, depth, data.data(), width * depth))
             {
                 log("Failed to save image to file");
                 return false;
