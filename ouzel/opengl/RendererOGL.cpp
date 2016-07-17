@@ -543,11 +543,10 @@ namespace ouzel
 
             const GLsizei width = static_cast<GLsizei>(size.width);
             const GLsizei height = static_cast<GLsizei>(size.height);
-            const GLsizei depth = 3;
 
-            std::unique_ptr<uint8_t[]> data(new uint8_t[width * height * depth]);
+            std::unique_ptr<uint8_t[]> data(new uint8_t[width * height * 4]);
 
-            glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data.get());
+            glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.get());
 
             if (checkOpenGLErrors())
             {
@@ -555,21 +554,20 @@ namespace ouzel
                 return false;
             }
 
-            std::unique_ptr<uint8_t[]> outData(new uint8_t[width * height * depth]);
+            std::unique_ptr<uint8_t[]> outData(new uint8_t[width * height * 3]);
 
             for (GLsizei row = 0; row < height; ++row)
             {
                 for (GLsizei col = 0; col < width; ++col)
                 {
-                    for (GLsizei z = 0; z < depth; ++z)
+                    for (GLsizei z = 0; z < 3; ++z)
                     {
-                        outData[(row * width + col) * depth + z] = data[((height - row - 1) * width + col) * depth + z];
-                        outData[((height - row - 1) * width + col) * depth + z] = data[(row * width + col) * depth + z];
+                        outData[(row * width + col) * 3 + z] = data[((height - row - 1) * width + col) * 4 + z];
                     }
                 }
             }
 
-            if (!stbi_write_png(filename.c_str(), width, height, depth, outData.get(), width * depth))
+            if (!stbi_write_png(filename.c_str(), width, height, 3, outData.get(), width * 3))
             {
                 log("Failed to save image to file");
                 return false;
