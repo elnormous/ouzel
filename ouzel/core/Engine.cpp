@@ -278,13 +278,21 @@ namespace ouzel
         input->update();
         eventDispatcher->update();
 
-        auto updateCallbacksCopy = updateCallbacks;
 
-        for (const UpdateCallbackPtr& updateCallback : updateCallbacksCopy)
+        for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
         {
-            if (updateCallback->callback)
+            std::list<UpdateCallbackPtr>::iterator i = updateCallbackIterator;
+
+            UpdateCallbackPtr updateCallback = *updateCallbackIterator;
+            if (updateCallback && updateCallback->callback)
             {
                 updateCallback->callback(delta);
+            }
+
+            // current element wasn't delete from the list
+            if (i == updateCallbackIterator)
+            {
+                ++updateCallbackIterator;
             }
         }
 
@@ -303,7 +311,7 @@ namespace ouzel
 
     void Engine::scheduleUpdate(const UpdateCallbackPtr& callback)
     {
-        std::vector<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
+        std::list<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
 
         if (i == updateCallbacks.end())
         {
@@ -313,11 +321,19 @@ namespace ouzel
 
     void Engine::unscheduleUpdate(const UpdateCallbackPtr& callback)
     {
-        std::vector<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
+        std::list<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
 
         if (i != updateCallbacks.end())
         {
-            updateCallbacks.erase(i);
+            // increment the iterator if current element is deleted
+            if (i == updateCallbackIterator)
+            {
+                updateCallbackIterator = updateCallbacks.erase(i);
+            }
+            else
+            {
+                updateCallbacks.erase(i);
+            }
         }
     }
 }

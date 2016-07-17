@@ -18,7 +18,6 @@ namespace ouzel
 
     void EventDispatcher::update()
     {
-        auto eventHandlersCopy = eventHandlers;
         Event event;
 
         for (;;)
@@ -37,8 +36,11 @@ namespace ouzel
 
             bool propagate = true;
 
-            for (const EventHandlerPtr& eventHandler : eventHandlersCopy)
+            for (eventHandlerIterator = eventHandlers.begin(); eventHandlerIterator != eventHandlers.end();)
             {
+                std::list<EventHandlerPtr>::iterator i = eventHandlerIterator;
+
+                EventHandlerPtr eventHandler = *eventHandlerIterator;
                 if (eventHandler)
                 {
                     switch (event.type)
@@ -113,20 +115,25 @@ namespace ouzel
                 {
                     break;
                 }
+
+                // current element wasn't delete from the list
+                if (i == eventHandlerIterator)
+                {
+                    ++eventHandlerIterator;
+                }
             }
         }
     }
 
     void EventDispatcher::addEventHandler(const EventHandlerPtr& eventHandler)
     {
-        std::vector<EventHandlerPtr>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+        std::list<EventHandlerPtr>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
 
         if (i == eventHandlers.end())
         {
-            eventHandler->remove = false;
             eventHandlers.push_back(eventHandler);
 
-            std::sort(eventHandlers.begin(), eventHandlers.end(), [](const EventHandlerPtr& a, const EventHandlerPtr& b) {
+            eventHandlers.sort([](const EventHandlerPtr& a, const EventHandlerPtr& b) {
                 return a->priority < b->priority;
             });
         }
@@ -134,11 +141,19 @@ namespace ouzel
 
     void EventDispatcher::removeEventHandler(const EventHandlerPtr& eventHandler)
     {
-        std::vector<EventHandlerPtr>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+        std::list<EventHandlerPtr>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
 
         if (i != eventHandlers.end())
         {
-            eventHandlers.erase(i);
+            // increment the iterator if current element is deleted
+            if (i == eventHandlerIterator)
+            {
+                eventHandlerIterator = eventHandlers.erase(i);
+            }
+            else
+            {
+                eventHandlers.erase(i);
+            }
         }
     }
 

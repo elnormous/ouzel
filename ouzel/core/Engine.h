@@ -4,7 +4,7 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include <list>
 #include <set>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
@@ -73,9 +73,8 @@ namespace ouzel
         float currentFPS = 0.0f;
         uint64_t previousFrameTime;
 
-        std::vector<UpdateCallbackPtr> updateCallbacks;
-        std::set<UpdateCallbackPtr> updateCallbackAddList;
-        std::set<UpdateCallbackPtr> updateCallbackRemoveList;
+        std::list<UpdateCallbackPtr> updateCallbacks;
+        std::list<UpdateCallbackPtr>::iterator updateCallbackIterator;
 
         bool running = false;
         bool active = true;

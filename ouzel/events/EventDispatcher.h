@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include <vector>
+#include <list>
 #include <memory>
-#include <set>
 #include <mutex>
 #include <queue>
 #include <cstdint>
@@ -34,7 +33,8 @@ namespace ouzel
     protected:
         EventDispatcher();
 
-        std::vector<EventHandlerPtr> eventHandlers;
+        std::list<EventHandlerPtr> eventHandlers;
+        std::list<EventHandlerPtr>::iterator eventHandlerIterator;
         std::queue<Event> eventQueue;
         std::mutex mutex;
     };
