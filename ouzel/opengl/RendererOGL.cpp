@@ -541,10 +541,11 @@ namespace ouzel
         {
             bindFrameBuffer(frameBufferId);
 
-            GLsizei width = static_cast<GLsizei>(size.width);
-            GLsizei height = static_cast<GLsizei>(size.height);
+            const GLsizei width = static_cast<GLsizei>(size.width);
+            const GLsizei height = static_cast<GLsizei>(size.height);
+            const GLsizei depth = 3;
 
-            std::unique_ptr<uint8_t[]> data(new uint8_t[3 * width * height]);
+            std::unique_ptr<uint8_t[]> data(new uint8_t[width * height * depth]);
 
             glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data.get());
 
@@ -554,30 +555,26 @@ namespace ouzel
                 return false;
             }
 
-            uint32_t w = static_cast<uint32_t>(width);
-            uint32_t h = static_cast<uint32_t>(height);
-            uint8_t temp;
-            uint32_t depth = 3;
+            std::unique_ptr<uint8_t[]> outData(new uint8_t[width * height * depth]);
 
-            for (uint32_t row = 0; row < (h>>1); ++row)
+            for (GLsizei row = 0; row < height; ++row)
             {
-                for (uint32_t col = 0; col < w; ++col)
+                for (GLsizei col = 0; col < width; ++col)
                 {
-                    for (uint32_t z = 0; z < depth; ++z)
+                    for (GLsizei z = 0; z < depth; ++z)
                     {
-                        temp = data[(row * w + col) * depth + z];
-                        data[(row * w + col) * depth + z] = data[((h - row - 1) * w + col) * depth + z];
-                        data[((h - row - 1) * w + col) * depth + z] = temp;
+                        outData[(row * width + col) * depth + z] = data[((height - row - 1) * width + col) * depth + z];
+                        outData[((height - row - 1) * width + col) * depth + z] = data[(row * width + col) * depth + z];
                     }
                 }
             }
 
-            if (!stbi_write_png(filename.c_str(), width, height, 3, data.get(), width * 3))
+            if (!stbi_write_png(filename.c_str(), width, height, depth, outData.get(), width * depth))
             {
                 log("Failed to save image to file");
                 return false;
             }
-
+            
             return true;
         }
 
