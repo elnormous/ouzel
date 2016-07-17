@@ -805,12 +805,19 @@ namespace ouzel
 
         bool RendererD3D11::saveScreenshot(const std::string& filename)
         {
-            D3D11_TEXTURE2D_DESC desc;
-            desc.Width = static_cast<UINT>(size.width);
-            desc.Height = static_cast<UINT>(size.height);
-            desc.MipLevels = 1;
-            desc.ArraySize = 1;
-            desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            ID3D11Texture2D* backBufferTexture;
+            HRESULT hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture));
+
+            if (FAILED(hr))
+            {
+                log("Failed to get D3D11 back buffer texture");
+                return false;
+            }
+
+            D3D11_TEXTURE2D_DESC backBufferDesc;
+            backBufferTexture->GetDesc(&backBufferDesc);
+
+            D3D11_TEXTURE2D_DESC desc = backBufferDesc;
             desc.SampleDesc.Count = 1;
             desc.SampleDesc.Quality = 0;
             desc.Usage = D3D11_USAGE_STAGING;
@@ -820,7 +827,7 @@ namespace ouzel
 
             ID3D11Texture2D* texture;
 
-            HRESULT hr = device->CreateTexture2D(&desc, nullptr, &texture);
+            hr = device->CreateTexture2D(&desc, nullptr, &texture);
 
             if (FAILED(hr))
             {
@@ -828,7 +835,37 @@ namespace ouzel
                 return false;
             }
 
-            context->CopyResource(texture, backBuffer);
+            if (backBufferDesc.SampleDesc.Count > 1)
+            {
+                D3D11_TEXTURE2D_DESC tempDesc = backBufferDesc;
+                tempDesc.SampleDesc.Count = 1;
+                tempDesc.SampleDesc.Quality = 0;
+
+                ID3D11Texture2D* temp;
+                hr = device->CreateTexture2D(&tempDesc, nullptr, &temp);
+                if (FAILED(hr))
+                {
+                    texture->Release();
+                    log("Failed to create D3D11 texture");
+                    return false;
+                }
+
+                for (UINT item = 0; item < backBufferDesc.ArraySize; ++item)
+                {
+                    for (UINT level = 0; level < desc.MipLevels; ++level)
+                    {
+                        UINT index = D3D11CalcSubresource(level, item, backBufferDesc.MipLevels);
+                        context->ResolveSubresource(temp, index, backBuffer, index, DXGI_FORMAT_R8G8B8A8_UNORM);
+                    }
+                }
+
+                context->CopyResource(texture, temp);
+                temp->Release();
+            }
+            else
+            {
+                context->CopyResource(texture, backBuffer);
+            }
 
             D3D11_MAPPED_SUBRESOURCE mappedSubresource;
             hr = context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
@@ -849,7 +886,6 @@ namespace ouzel
             }
 
             context->Unmap(texture, 0);
-
             texture->Release();
 
             return true;
