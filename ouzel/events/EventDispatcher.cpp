@@ -125,7 +125,7 @@ namespace ouzel
         }
     }
 
-    void EventDispatcher::addEventHandler(const const EventHandler& eventHandler)
+    void EventDispatcher::addEventHandler(const EventHandler& eventHandler)
     {
         std::list<const EventHandler*>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), &eventHandler);
 
@@ -139,7 +139,7 @@ namespace ouzel
         }
     }
 
-    void EventDispatcher::removeEventHandler(const const EventHandler& eventHandler)
+    void EventDispatcher::removeEventHandler(const EventHandler& eventHandler)
     {
         std::list<const EventHandler*>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), &eventHandler);
 

@@ -337,9 +337,6 @@
     <ClInclude Include="..\ouzel\events\EventDispatcher.h">
       <Filter>events</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\events\EventHander.h">
-      <Filter>events</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\events\Event.h">
       <Filter>events</Filter>
     </ClInclude>
@@ -519,6 +516,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\xaudio2\SoundXA2.h">
       <Filter>xaudio2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\events\EventHandler.h">
+      <Filter>events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

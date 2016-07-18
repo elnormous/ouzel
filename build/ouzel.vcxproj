@@ -133,7 +133,7 @@
     <ClInclude Include="..\ouzel\direct3d11\TextureVSD3D11.h" />
     <ClInclude Include="..\ouzel\events\Event.h" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.h" />
-    <ClInclude Include="..\ouzel\events\EventHander.h" />
+    <ClInclude Include="..\ouzel\events\EventHandler.h" />
     <ClInclude Include="..\ouzel\files\FileSystem.h" />
     <ClInclude Include="..\ouzel\graphics\BlendState.h" />
     <ClInclude Include="..\ouzel\graphics\Color.h" />
