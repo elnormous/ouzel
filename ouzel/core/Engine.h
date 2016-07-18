@@ -75,6 +75,7 @@ namespace ouzel
 
         std::list<const UpdateCallback*> updateCallbacks;
         std::list<const UpdateCallback*>::iterator updateCallbackIterator;
+        bool updateCallbackDeleted = false;
 
         bool running = false;
         bool active = true;

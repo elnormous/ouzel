@@ -38,7 +38,7 @@ namespace ouzel
 
             for (eventHandlerIterator = eventHandlers.begin(); eventHandlerIterator != eventHandlers.end();)
             {
-                std::list<const EventHandler*>::iterator i = eventHandlerIterator;
+                eventHandlerDeleted = false;
 
                 const EventHandler* eventHandler = *eventHandlerIterator;
                 if (eventHandler)
@@ -117,7 +117,7 @@ namespace ouzel
                 }
 
                 // current element wasn't delete from the list
-                if (i == eventHandlerIterator)
+                if (!eventHandlerDeleted)
                 {
                     ++eventHandlerIterator;
                 }
@@ -149,6 +149,7 @@ namespace ouzel
             if (i == eventHandlerIterator)
             {
                 eventHandlerIterator = eventHandlers.erase(i);
+                eventHandlerDeleted = true;
             }
             else
             {

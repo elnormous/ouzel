@@ -281,7 +281,7 @@ namespace ouzel
 
         for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
         {
-            std::list<const UpdateCallback*>::iterator i = updateCallbackIterator;
+            updateCallbackDeleted = false;
 
             const UpdateCallback* updateCallback = *updateCallbackIterator;
             if (updateCallback && updateCallback->callback)
@@ -290,7 +290,7 @@ namespace ouzel
             }
 
             // current element wasn't delete from the list
-            if (i == updateCallbackIterator)
+            if (!updateCallbackDeleted)
             {
                 ++updateCallbackIterator;
             }
@@ -333,6 +333,7 @@ namespace ouzel
             if (i == updateCallbackIterator)
             {
                 updateCallbackIterator = updateCallbacks.erase(i);
+                updateCallbackDeleted = true;
             }
             else
             {
