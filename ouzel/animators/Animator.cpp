@@ -31,6 +31,7 @@ namespace ouzel
                     progress = 1.0f;
                     currentTime = length;
                     sharedEngine->unscheduleUpdate(updateCallback);
+                    if (finishHandler) finishHandler();
                 }
                 else
                 {

@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <functional>
 #include "utils/Types.h"
 #include "core/UpdateCallback.h"
 
@@ -33,6 +34,8 @@ namespace ouzel
             float getProgress() const { return progress; }
             virtual void setProgress(float newProgress);
 
+            void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
+
         protected:
             virtual void updateProgress();
 
@@ -45,6 +48,8 @@ namespace ouzel
             NodeWeakPtr node;
 
             UpdateCallback updateCallback;
+
+            std::function<void()> finishHandler;
         };
     } // namespace scene
 } // namespace ouzel

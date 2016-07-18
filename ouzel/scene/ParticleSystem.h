@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <functional>
 #include "scene/Drawable.h"
 #include "utils/Types.h"
 #include "scene/ParticleDefinition.h"
@@ -76,6 +77,8 @@ namespace ouzel
             void setPositionType(ParticleDefinition::PositionType newPositionType) { positionType = newPositionType; }
             ParticleDefinition::PositionType getPositionType() const { return positionType; }
 
+            void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
+
         protected:
             bool createParticleMesh();
             bool updateParticleMesh();
@@ -108,6 +111,8 @@ namespace ouzel
             UpdateCallback updateCallback;
 
             NodeWeakPtr parentNode;
+
+            std::function<void()> finishHandler;
         };
     } // namespace scene
 } // namespace ouzel
