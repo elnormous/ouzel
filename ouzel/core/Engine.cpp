@@ -219,11 +219,11 @@ namespace ouzel
             return false;
         }
 
-        if (!sharedEngine->getRenderer()->init(window,
-                                               settings.sampleCount,
-                                               settings.textureFiltering,
-                                               settings.targetFPS,
-                                               settings.verticalSync))
+        if (!renderer->init(window,
+                            settings.sampleCount,
+                            settings.textureFiltering,
+                            settings.targetFPS,
+                            settings.verticalSync))
         {
             return false;
         }
