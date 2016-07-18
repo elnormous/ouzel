@@ -316,6 +316,10 @@ namespace ouzel
         if (i == updateCallbacks.end())
         {
             updateCallbacks.push_back(callback);
+
+            updateCallbacks.sort([](const UpdateCallbackPtr& a, const UpdateCallbackPtr& b) {
+                return a->priority < b->priority;
+            });
         }
     }
 

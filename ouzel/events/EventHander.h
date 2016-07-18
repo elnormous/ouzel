@@ -4,6 +4,7 @@
 #pragma once
 
 #include <functional>
+#include <cstdint>
 #include "events/Event.h"
 
 namespace ouzel
