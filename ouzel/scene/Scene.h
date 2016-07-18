@@ -16,7 +16,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Scene: public Noncopyable, public std::enable_shared_from_this<Scene>
+        class Scene: public Noncopyable
         {
         public:
             Scene();
