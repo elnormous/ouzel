@@ -15,9 +15,7 @@ using namespace ouzel;
 MainMenu::MainMenu(Application& app):
     application(app)
 {
-    eventHandler = make_shared<EventHandler>();
-
-    eventHandler->uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
     

@@ -23,8 +23,7 @@ namespace ouzel
     {
         Sprite::Sprite()
         {
-            updateCallback = std::make_shared<UpdateCallback>();
-            updateCallback->callback = std::bind(&Sprite::update, this, std::placeholders::_1);
+            updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
         }
 
         Sprite::Sprite(const std::vector<SpriteFramePtr>& spriteFrames):

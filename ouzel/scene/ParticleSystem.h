@@ -12,6 +12,7 @@
 #include "math/Vector2.h"
 #include "graphics/Color.h"
 #include "graphics/Vertex.h"
+#include "core/UpdateCallback.h"
 
 namespace ouzel
 {
@@ -104,7 +105,7 @@ namespace ouzel
 
             bool needsMeshUpdate = false;
 
-            UpdateCallbackPtr updateCallback;
+            UpdateCallback updateCallback;
 
             NodeWeakPtr parentNode;
         };

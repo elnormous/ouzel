@@ -16,7 +16,7 @@ public:
 private:
     Application& application;
     ouzel::gui::ButtonPtr backButton;
-    ouzel::EventHandlerPtr eventHandler;
+    ouzel::EventHandler eventHandler;
 
     ouzel::scene::NodePtr character;
     ouzel::gui::ButtonPtr button;

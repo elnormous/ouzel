@@ -14,7 +14,6 @@ namespace ouzel
     class EventHandler
     {
         friend EventDispatcher;
-
     public:
         static const int32_t PRIORITY_MAX = 0x1000;
 

@@ -4,6 +4,7 @@
 #pragma once
 
 #include "utils/Types.h"
+#include "core/UpdateCallback.h"
 
 namespace ouzel
 {
@@ -43,7 +44,7 @@ namespace ouzel
 
             NodeWeakPtr node;
 
-            UpdateCallbackPtr updateCallback;
+            UpdateCallback updateCallback;
         };
     } // namespace scene
 } // namespace ouzel

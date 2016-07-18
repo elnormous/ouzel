@@ -281,9 +281,9 @@ namespace ouzel
 
         for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
         {
-            std::list<UpdateCallbackPtr>::iterator i = updateCallbackIterator;
+            std::list<const UpdateCallback*>::iterator i = updateCallbackIterator;
 
-            UpdateCallbackPtr updateCallback = *updateCallbackIterator;
+            const UpdateCallback* updateCallback = *updateCallbackIterator;
             if (updateCallback && updateCallback->callback)
             {
                 updateCallback->callback(delta);
@@ -309,23 +309,23 @@ namespace ouzel
         return active;
     }
 
-    void Engine::scheduleUpdate(const UpdateCallbackPtr& callback)
+    void Engine::scheduleUpdate(const UpdateCallback& callback)
     {
-        std::list<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
+        std::list<const UpdateCallback*>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), &callback);
 
         if (i == updateCallbacks.end())
         {
-            updateCallbacks.push_back(callback);
+            updateCallbacks.push_back(&callback);
 
-            updateCallbacks.sort([](const UpdateCallbackPtr& a, const UpdateCallbackPtr& b) {
+            updateCallbacks.sort([](const UpdateCallback* a, const UpdateCallback* b) {
                 return a->priority < b->priority;
             });
         }
     }
 
-    void Engine::unscheduleUpdate(const UpdateCallbackPtr& callback)
+    void Engine::unscheduleUpdate(const UpdateCallback& callback)
     {
-        std::list<UpdateCallbackPtr>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
+        std::list<const UpdateCallback*>::iterator i = std::find(updateCallbacks.begin(), updateCallbacks.end(), &callback);
 
         if (i != updateCallbacks.end())
         {

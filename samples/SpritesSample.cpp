@@ -9,8 +9,7 @@ using namespace ouzel;
 SpritesSample::SpritesSample(Application& app):
     application(app)
 {
-    eventHandler = make_shared<EventHandler>();
-    eventHandler->uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     ouzel::scene::LayerPtr layer = make_shared<scene::Layer>();

@@ -18,7 +18,7 @@ private:
     ouzel::gui::ButtonPtr backButton;
     ouzel::gui::ButtonPtr jumpButton;
     ouzel::gui::ButtonPtr ambientButton;
-    ouzel::EventHandlerPtr eventHandler;
+    ouzel::EventHandler eventHandler;
 
     ouzel::audio::SoundPtr jumpSound;
     ouzel::audio::SoundPtr ambientSound;

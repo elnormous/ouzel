@@ -22,8 +22,7 @@ namespace ouzel
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
 
-            updateCallback = std::make_shared<UpdateCallback>();
-            updateCallback->callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
+            updateCallback.callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
         }
 
         ParticleSystem::ParticleSystem(const std::string& filename):

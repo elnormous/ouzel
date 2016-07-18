@@ -22,7 +22,7 @@
 #include "core/Settings.h"
 #include "core/UpdateCallback.h"
 #include "core/Window.h"
-#include "events/EventHander.h"
+#include "events/EventHandler.h"
 #include "files/FileSystem.h"
 #include "graphics/BlendState.h"
 #include "graphics/Color.h"

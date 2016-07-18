@@ -10,11 +10,13 @@ namespace ouzel
 {
     namespace gui
     {
-        CheckBox::CheckBox()
+        CheckBox::CheckBox():
+            eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
         }
 
-        CheckBox::CheckBox(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage)
+        CheckBox::CheckBox(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage):
+            eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
             init(normalImage, selectedImage, pressedImage, disabledImage, tickImage);
         }
@@ -26,10 +28,8 @@ namespace ouzel
 
         bool CheckBox::init(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage)
         {
-            eventHandler = std::make_shared<EventHandler>(EventHandler::PRIORITY_MAX + 1);
-
-            eventHandler->gamepadHandler = std::bind(&CheckBox::handleGamepad, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-            eventHandler->uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+            eventHandler.gamepadHandler = std::bind(&CheckBox::handleGamepad, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+            eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
             sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 

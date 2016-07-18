@@ -5,7 +5,7 @@
 #include "Button.h"
 #include "core/Engine.h"
 #include "scene/Sprite.h"
-#include "events/EventHander.h"
+#include "events/EventHandler.h"
 #include "events/EventDispatcher.h"
 #include "scene/Layer.h"
 #include "scene/Camera.h"
@@ -17,12 +17,14 @@ namespace ouzel
 {
     namespace gui
     {
-        Button::Button()
+        Button::Button():
+            eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
         }
 
         Button::Button(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
-                       const std::string& label, const graphics::Color& labelColor, const std::string& font)
+                       const std::string& label, const graphics::Color& labelColor, const std::string& font):
+            eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
             init(normalImage, selectedImage, pressedImage, disabledImage, label, labelColor, font);
         }
@@ -35,10 +37,9 @@ namespace ouzel
         bool Button::init(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
                           const std::string& label, const graphics::Color& labelColor, const std::string& font)
         {
-            eventHandler = std::make_shared<EventHandler>(EventHandler::PRIORITY_MAX + 1);
 
-            eventHandler->gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-            eventHandler->uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+            eventHandler.gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+            eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
             sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 

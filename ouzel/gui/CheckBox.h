@@ -5,6 +5,7 @@
 
 #include "gui/Widget.h"
 #include "events/Event.h"
+#include "events/EventHandler.h"
 
 namespace ouzel
 {
@@ -36,7 +37,7 @@ namespace ouzel
             scene::SpritePtr disabledSprite;
             scene::SpritePtr tickSprite;
 
-            EventHandlerPtr eventHandler;
+            EventHandler eventHandler;
 
             bool selected = false;
             bool pointerOver = false;

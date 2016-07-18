@@ -12,8 +12,7 @@ namespace ouzel
         Animator::Animator(float pLength):
             length(pLength)
         {
-            updateCallback = std::make_shared<UpdateCallback>();
-            updateCallback->callback = std::bind(&Animator::update, this, std::placeholders::_1);
+            updateCallback.callback = std::bind(&Animator::update, this, std::placeholders::_1);
         }
 
         Animator::~Animator()

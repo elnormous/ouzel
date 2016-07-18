@@ -52,8 +52,8 @@ namespace ouzel
         float getTargetFPS() const { return targetFPS; }
         float getFPS() const { return currentFPS; }
 
-        void scheduleUpdate(const UpdateCallbackPtr& callback);
-        void unscheduleUpdate(const UpdateCallbackPtr& callback);
+        void scheduleUpdate(const UpdateCallback& callback);
+        void unscheduleUpdate(const UpdateCallback& callback);
 
     protected:
         Settings settings;
@@ -73,8 +73,8 @@ namespace ouzel
         float currentFPS = 0.0f;
         uint64_t previousFrameTime;
 
-        std::list<UpdateCallbackPtr> updateCallbacks;
-        std::list<UpdateCallbackPtr>::iterator updateCallbackIterator;
+        std::list<const UpdateCallback*> updateCallbacks;
+        std::list<const UpdateCallback*>::iterator updateCallbackIterator;
 
         bool running = false;
         bool active = true;

@@ -9,13 +9,11 @@ using namespace ouzel;
 InputSample::InputSample(Application& app):
     application(app)
 {
-    eventHandler = make_shared<EventHandler>();
-
-    eventHandler->keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2, placeholders::_3);
-    eventHandler->mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2, placeholders::_3);
-    eventHandler->touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1, placeholders::_2, placeholders::_3);
-    eventHandler->gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2, placeholders::_3);
-    eventHandler->uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
     

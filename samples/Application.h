@@ -14,6 +14,6 @@ public:
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event, const ouzel::VoidPtr& sender);
 
 private:
-    ouzel::EventHandlerPtr eventHandler;
+    ouzel::EventHandler eventHandler;
     std::shared_ptr<ouzel::scene::Scene> mainMenu;
 };

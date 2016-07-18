@@ -10,9 +10,6 @@ namespace ouzel
 {
     typedef std::shared_ptr<void> VoidPtr;
 
-    class UpdateCallback;
-    typedef std::shared_ptr<UpdateCallback> UpdateCallbackPtr;
-
     class Window;
     typedef std::shared_ptr<Window> WindowPtr;
 
@@ -76,9 +73,6 @@ namespace ouzel
         class Gamepad;
         typedef std::shared_ptr<Gamepad> GamepadPtr;
     }
-
-    class EventHandler;
-    typedef std::shared_ptr<EventHandler> EventHandlerPtr;
 
     namespace scene
     {

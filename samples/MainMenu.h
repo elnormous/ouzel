@@ -15,7 +15,7 @@ public:
 
 private:
     Application& application;
-    ouzel::EventHandlerPtr eventHandler;
+    ouzel::EventHandler eventHandler;
     ouzel::gui::ButtonPtr spritesButton;
     ouzel::gui::ButtonPtr GUIButton;
     ouzel::gui::ButtonPtr renderTargetButton;

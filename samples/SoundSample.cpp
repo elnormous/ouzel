@@ -10,8 +10,7 @@ using namespace ouzel;
 SoundSample::SoundSample(Application& app):
     application(app)
 {
-    eventHandler = make_shared<EventHandler>();
-    eventHandler->uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     scene::LayerPtr layer = make_shared<scene::Layer>();

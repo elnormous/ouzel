@@ -9,6 +9,7 @@
 #include "graphics/MeshBuffer.h"
 #include "math/Rectangle.h"
 #include "scene/SpriteFrame.h"
+#include "core/UpdateCallback.h"
 
 namespace ouzel
 {
@@ -54,7 +55,7 @@ namespace ouzel
             bool repeat = false;
             float timeSinceLastFrame = 0.0f;
 
-            UpdateCallbackPtr updateCallback;
+            UpdateCallback updateCallback;
         };
     } // namespace scene
 } // namespace ouzel

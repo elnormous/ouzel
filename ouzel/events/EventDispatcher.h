@@ -11,7 +11,7 @@
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "events/Event.h"
-#include "events/EventHander.h"
+#include "events/EventHandler.h"
 
 namespace ouzel
 {
@@ -25,16 +25,16 @@ namespace ouzel
 
         void update();
 
-        void addEventHandler(const EventHandlerPtr& eventHandler);
-        void removeEventHandler(const EventHandlerPtr& eventHandler);
+        void addEventHandler(const EventHandler& eventHandler);
+        void removeEventHandler(const EventHandler& eventHandler);
 
         void dispatchEvent(const Event& event);
 
     protected:
         EventDispatcher();
 
-        std::list<EventHandlerPtr> eventHandlers;
-        std::list<EventHandlerPtr>::iterator eventHandlerIterator;
+        std::list<const EventHandler*> eventHandlers;
+        std::list<const EventHandler*>::iterator eventHandlerIterator;
         std::queue<Event> eventQueue;
         std::mutex mutex;
     };

@@ -7,6 +7,7 @@
 #include "utils/Types.h"
 #include "gui/Widget.h"
 #include "events/Event.h"
+#include "events/EventHandler.h"
 #include "graphics/Color.h"
 
 namespace ouzel
@@ -40,7 +41,7 @@ namespace ouzel
             scene::SpritePtr disabledSprite;
             scene::TextDrawablePtr labelDrawable;
 
-            EventHandlerPtr eventHandler;
+            EventHandler eventHandler;
 
             bool selected = false;
             bool pointerOver = false;

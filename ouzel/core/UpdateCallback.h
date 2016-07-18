@@ -8,7 +8,7 @@
 
 namespace ouzel
 {
-    class Egnine;
+    class Engine;
 
     class UpdateCallback
     {

@@ -7,7 +7,7 @@
 #include "utils/Utils.h"
 #include "Shader.h"
 #include "scene/Camera.h"
-#include "events/EventHander.h"
+#include "events/EventHandler.h"
 #include "scene/SceneManager.h"
 #include "MeshBuffer.h"
 #include "events/EventDispatcher.h"

@@ -9,8 +9,7 @@ using namespace ouzel;
 RTSample::RTSample(Application& app):
     application(app)
 {
-    eventHandler = make_shared<EventHandler>();
-    eventHandler->uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
     
     ouzel::scene::LayerPtr rtLayer = make_shared<scene::Layer>();

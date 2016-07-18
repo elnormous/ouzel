@@ -38,9 +38,9 @@ namespace ouzel
 
             for (eventHandlerIterator = eventHandlers.begin(); eventHandlerIterator != eventHandlers.end();)
             {
-                std::list<EventHandlerPtr>::iterator i = eventHandlerIterator;
+                std::list<const EventHandler*>::iterator i = eventHandlerIterator;
 
-                EventHandlerPtr eventHandler = *eventHandlerIterator;
+                const EventHandler* eventHandler = *eventHandlerIterator;
                 if (eventHandler)
                 {
                     switch (event.type)
@@ -125,23 +125,23 @@ namespace ouzel
         }
     }
 
-    void EventDispatcher::addEventHandler(const EventHandlerPtr& eventHandler)
+    void EventDispatcher::addEventHandler(const const EventHandler& eventHandler)
     {
-        std::list<EventHandlerPtr>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+        std::list<const EventHandler*>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), &eventHandler);
 
         if (i == eventHandlers.end())
         {
-            eventHandlers.push_back(eventHandler);
+            eventHandlers.push_back(&eventHandler);
 
-            eventHandlers.sort([](const EventHandlerPtr& a, const EventHandlerPtr& b) {
+            eventHandlers.sort([](const EventHandler* a, const EventHandler* b) {
                 return a->priority < b->priority;
             });
         }
     }
 
-    void EventDispatcher::removeEventHandler(const EventHandlerPtr& eventHandler)
+    void EventDispatcher::removeEventHandler(const const EventHandler& eventHandler)
     {
-        std::list<EventHandlerPtr>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+        std::list<const EventHandler*>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), &eventHandler);
 
         if (i != eventHandlers.end())
         {

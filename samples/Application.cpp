@@ -32,9 +32,7 @@ void Application::begin(const std::string& sample)
     sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
     sharedEngine->getWindow()->setTitle("Samples");
 
-    eventHandler = make_shared<EventHandler>();
-
-    eventHandler->keyboardHandler = bind(&Application::handleKeyboard, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.keyboardHandler = bind(&Application::handleKeyboard, this, placeholders::_1, placeholders::_2, placeholders::_3);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
