@@ -144,7 +144,7 @@ public:
         y = newY;
     }
 
-    void setPosition(const Vector2 position)
+    void setPosition(const Vector2& position)
     {
         x = position.x;
         y = position.y;
