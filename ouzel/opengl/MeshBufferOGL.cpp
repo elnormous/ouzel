@@ -81,9 +81,9 @@ namespace ouzel
             }
         }
 
-        bool MeshBufferOGL::init()
+        bool MeshBufferOGL::init(bool newDynamicIndexBuffer, bool newDynamicVertexBuffer)
         {
-            if (!MeshBuffer::init())
+            if (!MeshBuffer::init(newDynamicIndexBuffer, newDynamicVertexBuffer))
             {
                 return false;
             }

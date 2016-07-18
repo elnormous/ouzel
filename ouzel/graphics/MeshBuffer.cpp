@@ -23,8 +23,11 @@ namespace ouzel
             ready = false;
         }
 
-        bool MeshBuffer::init()
+        bool MeshBuffer::init(bool newDynamicIndexBuffer, bool newDynamicVertexBuffer)
         {
+            dynamicIndexBuffer = newDynamicIndexBuffer;
+            dynamicVertexBuffer = newDynamicVertexBuffer;
+
             return true;
         }
 

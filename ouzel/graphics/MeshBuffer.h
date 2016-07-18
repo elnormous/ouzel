@@ -20,7 +20,7 @@ namespace ouzel
             virtual ~MeshBuffer();
             virtual void free();
 
-            virtual bool init();
+            virtual bool init(bool newDynamicIndexBuffer = true, bool newDynamicVertexBuffer = true);
             virtual bool initFromBuffer(const void* newIndices, uint32_t newIndexSize,
                                         uint32_t newIndexCount, bool newDynamicIndexBuffer,
                                         const void* newVertices, uint32_t newVertexAttributes,

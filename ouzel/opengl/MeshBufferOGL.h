@@ -49,7 +49,7 @@ namespace ouzel
             virtual ~MeshBufferOGL();
             virtual void free() override;
 
-            virtual bool init() override;
+            virtual bool init(bool newDynamicIndexBuffer = true, bool newDynamicVertexBuffer = true) override;
             virtual bool initFromBuffer(const void* newIndices, uint32_t newIndexSize,
                                         uint32_t newIndexCount, bool newDynamicIndexBuffer,
                                         const void* newVertices, uint32_t newVertexAttributes,
