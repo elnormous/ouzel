@@ -1,11 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <fstream>
 #include <vector>
-#include <map>
-#include <iterator>
-#include <algorithm>
 #include "Language.h"
 #include "core/Engine.h"
 #include "utils/Utils.h"

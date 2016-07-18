@@ -3,8 +3,9 @@
 
 #pragma once
 
-#include <memory>
 #include <vector>
+#include <memory>
+#include <list>
 #include <set>
 #include <cstdint>
 #include "utils/Types.h"
@@ -27,7 +28,7 @@ namespace ouzel
             void removeLayer(const LayerPtr& layer);
             void removeAllLayers();
             bool hasLayer(const LayerPtr& layer) const;
-            const std::vector<LayerPtr>& getLayers() const { return layers; }
+            const std::list<LayerPtr>& getLayers() const { return layers; }
 
             virtual void recalculateProjection();
 
@@ -35,7 +36,7 @@ namespace ouzel
             std::set<NodePtr> pickNodes(const std::vector<Vector2>& edges) const;
 
         protected:
-            std::vector<LayerPtr> layers;
+            std::list<LayerPtr> layers;
         };
     } // namespace scene
 } // namespace ouzel

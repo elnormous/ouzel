@@ -1,7 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "Layer.h"
 #include "core/Engine.h"
 #include "Node.h"
@@ -46,11 +45,9 @@ namespace ouzel
                     }
                 }
 
-                std::stable_sort(globalNodes.begin(), globalNodes.end(), [](const NodePtr& a, const NodePtr& b) {
+                globalNodes.sort([](const NodePtr& a, const NodePtr& b) {
                     return a->getZ() > b->getZ();
                 });
-
-                drawQueue.reserve(globalNodes.size());
 
                 for (const NodePtr& node : globalNodes)
                 {
@@ -106,7 +103,7 @@ namespace ouzel
 
         NodePtr Layer::pickNode(const Vector2& position) const
         {
-            for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+            for (std::list<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
             {
                 NodePtr node = *i;
 
@@ -123,7 +120,7 @@ namespace ouzel
         {
             std::set<NodePtr> result;
 
-            for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+            for (std::list<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
             {
                 NodePtr node = *i;
 

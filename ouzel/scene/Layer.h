@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <vector>
 #include <memory>
 #include <set>
 #include "utils/Types.h"
@@ -49,8 +50,8 @@ namespace ouzel
 
         protected:
             CameraPtr camera;
-            std::vector<NodePtr> globalNodes;
-            std::vector<NodePtr> drawQueue;
+            std::list<NodePtr> globalNodes;
+            std::list<NodePtr> drawQueue;
 
             int32_t order = 0;
 

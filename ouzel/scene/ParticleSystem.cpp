@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdlib>
-#include <algorithm>
 #include "core/CompileConfig.h"
 #include "ParticleSystem.h"
 #include "core/Engine.h"

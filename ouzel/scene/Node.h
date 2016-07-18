@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <vector>
 #include <memory>
 #include "utils/Types.h"
 #include "scene/NodeContainer.h"

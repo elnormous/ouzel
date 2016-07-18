@@ -1,7 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "Node.h"
 #include "core/Engine.h"
 #include "SceneManager.h"
@@ -68,7 +67,7 @@ namespace ouzel
             }
             else
             {
-                std::stable_sort(children.begin(), children.end(), [](const NodePtr& a, const NodePtr& b) {
+                children.sort([](const NodePtr& a, const NodePtr& b) {
                     return a->getZ() > b->getZ();
                 });
 

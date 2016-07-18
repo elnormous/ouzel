@@ -23,7 +23,7 @@ namespace ouzel
 
         void Scene::draw()
         {
-            std::sort(layers.begin(), layers.end(), [](LayerPtr a, LayerPtr b) {
+            layers.sort([](LayerPtr a, LayerPtr b) {
                 return a->getOrder() > b->getOrder();
             });
 
@@ -48,7 +48,7 @@ namespace ouzel
 
         void Scene::removeLayer(const LayerPtr& layer)
         {
-            std::vector<LayerPtr>::iterator i = std::find(layers.begin(), layers.end(), layer);
+            std::list<LayerPtr>::iterator i = std::find(layers.begin(), layers.end(), layer);
 
             if (i != layers.end())
             {
@@ -63,7 +63,7 @@ namespace ouzel
 
         bool Scene::hasLayer(const LayerPtr& layer) const
         {
-            std::vector<LayerPtr>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
+            std::list<LayerPtr>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
 
             return i != layers.end();
         }
@@ -81,7 +81,7 @@ namespace ouzel
 
         NodePtr Scene::pickNode(const Vector2& position) const
         {
-            for (std::vector<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
+            for (std::list<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 LayerPtr layer = *i;
                 CameraPtr camera = layer->getCamera();
@@ -104,7 +104,7 @@ namespace ouzel
         {
             std::set<NodePtr> result;
 
-            for (std::vector<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
+            for (std::list<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 std::set<NodePtr> nodes = (*i)->pickNodes(edges);
 
