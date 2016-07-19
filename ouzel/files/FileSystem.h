@@ -30,6 +30,7 @@ namespace ouzel
 
         std::string getHomeDirectory();
         std::string getStorageDirectory(const std::string& developer, const std::string& app);
+        std::string getTempDirectory();
 
         bool loadFile(const std::string& filename, std::vector<uint8_t>& data) const;
 

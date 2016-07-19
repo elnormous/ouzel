@@ -167,6 +167,52 @@ namespace ouzel
         return path;
     }
 
+    std::string FileSystem::getTempDirectory()
+    {
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+
+        if (confstr(_CS_DARWIN_USER_TEMP_DIR, TEMP_BUFFER, sizeof(TEMP_BUFFER)))
+        {
+            return TEMP_BUFFER;
+        }
+        else
+        {
+            char const* path = getenv("TMPDIR");
+            if (path)
+            {
+                return path;
+            }
+            else
+            {
+                return "/tmp";
+            }
+        }
+
+#elif OUZEL_PLATFORM_WINDOWS
+        WCHAR szBuffer[MAX_PATH];
+        if (GetTempPathW(MAX_PATH, szBuffer))
+        {
+            WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+
+            return TEMP_BUFFER;
+        }
+#elif OUZEL_PLATFORM_ANDROID
+        //TODO: implement
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+        char const* path = getenv("TMPDIR");
+        if (path)
+        {
+            return path;
+        }
+        else
+        {
+            return "/tmp";
+        }
+#endif
+
+        return "";
+    }
+
     bool FileSystem::loadFile(const std::string& filename, std::vector<uint8_t>& data) const
     {
 #if OUZEL_PLATFORM_ANDROID
