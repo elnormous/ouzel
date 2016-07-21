@@ -90,8 +90,8 @@ The following code will open a 640px x 480px window:
 You can ask question in the following locations:
 
 * Ouzel Twitter account: https://twitter.com/ouzelengine
+* #ouzel channel on the Freenode network ([Freenode Webchat](http://webchat.freenode.net/?channels=ouzel))
 * Author of the Ouzel engine: https://twitter.com/elnormous
-* Freenode chat: https://webchat.freenode.net/ #ouzel
 * Development roadmap: https://trello.com/b/5tRlUXKR/ouzel-roadmap
 
 ## License
