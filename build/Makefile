@@ -66,6 +66,9 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/math/Vector2.cpp \
 	../ouzel/math/Vector3.cpp \
 	../ouzel/math/Vector4.cpp \
+	../ouzel/openal/AudioAL.cpp \
+	../ouzel/openal/SoundAL.cpp \
+	../ouzel/openal/SoundDataAL.cpp \
 	../ouzel/opengl/BlendStateOGL.cpp \
 	../ouzel/opengl/MeshBufferOGL.cpp \
 	../ouzel/opengl/RendererOGL.cpp \
@@ -111,10 +114,7 @@ SOURCES+=../ouzel/apple/AudioALApple.mm \
 	../ouzel/metal/RendererMetal.mm \
 	../ouzel/metal/RenderTargetMetal.mm \
 	../ouzel/metal/ShaderMetal.mm \
-	../ouzel/metal/TextureMetal.mm \
-	../ouzel/openal/AudioAL.cpp \
-	../ouzel/openal/SoundAL.cpp \
-	../ouzel/openal/SoundDataAL.cpp
+	../ouzel/metal/TextureMetal.mm
 endif
 TMP=$(SOURCES:.cpp=.o)
 OBJECTS=$(TMP:.mm=.o)

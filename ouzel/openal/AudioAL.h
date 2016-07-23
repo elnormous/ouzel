@@ -3,8 +3,13 @@
 
 #pragma once
 
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <OpenAl/al.h>
 #include <OpenAl/alc.h>
+#else
+#include <AL/al.h>
+#include <AL/alc.h>
+#endif
 
 #include "audio/Audio.h"
 
