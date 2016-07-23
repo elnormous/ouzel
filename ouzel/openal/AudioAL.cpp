@@ -2,9 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "core/CompileConfig.h"
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#import <AVFoundation/AVFoundation.h>
-#endif
 
 #include "AudioAL.h"
 #include "SoundDataAL.h"
@@ -96,10 +93,6 @@ namespace ouzel
             }
 
             free();
-
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:Nil];
-#endif
 
             device = alcOpenDevice(NULL);
 

@@ -97,7 +97,8 @@ SOURCES+=../ouzel/linux/main.cpp \
 	../ouzel/linux/RendererOGLLinux.cpp \
 	../ouzel/linux/WindowLinux.cpp
 else ifeq ($(platform),macos)
-SOURCES+=../ouzel/apple/GamepadApple.mm \
+SOURCES+=../ouzel/apple/AudioALApple.mm \
+	../ouzel/apple/GamepadApple.mm \
 	../ouzel/apple/InputApple.mm \
 	../ouzel/macos/AppDelegate.mm \
 	../ouzel/macos/main.mm \
@@ -111,7 +112,7 @@ SOURCES+=../ouzel/apple/GamepadApple.mm \
 	../ouzel/metal/RenderTargetMetal.mm \
 	../ouzel/metal/ShaderMetal.mm \
 	../ouzel/metal/TextureMetal.mm \
-	../ouzel/openal/AudioAL.mm \
+	../ouzel/openal/AudioAL.cpp \
 	../ouzel/openal/SoundAL.cpp \
 	../ouzel/openal/SoundDataAL.cpp
 endif

@@ -59,6 +59,7 @@
 #endif
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#include "apple/AudioALApple.h"
 #include "apple/InputApple.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "win/InputWin.h"
@@ -229,7 +230,11 @@ namespace ouzel
         }
 
 #if OUZEL_SUPPORTS_OPENAL
+    #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+        audio.reset(new audio::AudioALApple());
+    #else
         audio.reset(new audio::AudioAL());
+    #endif
 #elif OUZEL_SUPPORTS_XAUDIO2
         audio.reset(new audio::AudioXA2());
 #elif OUZEL_SUPPORTS_OPENSL
