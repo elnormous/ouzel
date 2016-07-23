@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CompileConfig.h"
+#include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <OpenAl/al.h>
