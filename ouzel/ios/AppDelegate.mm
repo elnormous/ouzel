@@ -29,9 +29,18 @@
     return YES;
 }
 
+-(void)applicationDidBecomeActive:(UIApplication*)application
+{
+    OUZEL_UNUSED(application);
+
+    ouzel::sharedEngine->resume();
+}
+
 -(void)applicationWillResignActive:(UIApplication*)application
 {
     OUZEL_UNUSED(application);
+
+    ouzel::sharedEngine->pause();
 }
 
 -(void)applicationDidEnterBackground:(UIApplication*)application
@@ -40,11 +49,6 @@
 }
 
 -(void)applicationWillEnterForeground:(UIApplication*)application
-{
-    OUZEL_UNUSED(application);
-}
-
--(void)applicationDidBecomeActive:(UIApplication*)application
 {
     OUZEL_UNUSED(application);
 }

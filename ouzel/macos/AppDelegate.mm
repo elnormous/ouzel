@@ -14,6 +14,7 @@
 -(void)applicationWillFinishLaunching:(NSNotification*)notification
 {
     OUZEL_UNUSED(notification);
+
     ouzelMain(ouzel::getArgs());
 
     if (ouzel::sharedEngine)
@@ -59,6 +60,20 @@
     }
 
     return YES;
+}
+
+-(void)applicationDidBecomeActive:(NSNotification*)notification
+{
+    OUZEL_UNUSED(notification);
+
+    ouzel::sharedEngine->resume();
+}
+
+-(void)applicationDidResignActive:(NSNotification*)notification
+{
+    OUZEL_UNUSED(notification);
+
+    ouzel::sharedEngine->pause();
 }
 
 @end

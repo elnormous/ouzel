@@ -47,6 +47,8 @@ namespace ouzel
 
         void begin();
         void end();
+        void pause();
+        void resume();
         bool run();
 
         float getTargetFPS() const { return targetFPS; }

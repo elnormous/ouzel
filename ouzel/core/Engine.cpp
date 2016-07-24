@@ -248,8 +248,6 @@ namespace ouzel
             return false;
         }
 
-        previousFrameTime = getCurrentMicroSeconds();
-
         return true;
     }
 
@@ -261,53 +259,68 @@ namespace ouzel
     void Engine::begin()
     {
         running = true;
+        previousFrameTime = getCurrentMicroSeconds();
     }
 
     void Engine::end()
     {
+        running = false;
+    }
 
+    void Engine::pause()
+    {
+        running = false;
+    }
+
+    void Engine::resume()
+    {
+        running = true;
+        previousFrameTime = getCurrentMicroSeconds();
     }
 
     bool Engine::run()
     {
-        uint64_t currentTime = getCurrentMicroSeconds();
-        float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
-        previousFrameTime = currentTime;
-
-        currentFPS = 1.0f / delta;
-
-        renderer->clear();
-        sceneManager->draw();
-        renderer->present();
-
-        input->update();
-        eventDispatcher->update();
-
-
-        for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
+        if (running)
         {
-            updateCallbackDeleted = false;
+            uint64_t currentTime = getCurrentMicroSeconds();
+            float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
+            previousFrameTime = currentTime;
 
-            const UpdateCallback* updateCallback = *updateCallbackIterator;
-            if (updateCallback && updateCallback->callback)
+            currentFPS = 1.0f / delta;
+
+            renderer->clear();
+            sceneManager->draw();
+            renderer->present();
+
+            input->update();
+            eventDispatcher->update();
+
+
+            for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
             {
-                updateCallback->callback(delta);
+                updateCallbackDeleted = false;
+
+                const UpdateCallback* updateCallback = *updateCallbackIterator;
+                if (updateCallback && updateCallback->callback)
+                {
+                    updateCallback->callback(delta);
+                }
+
+                // current element wasn't delete from the list
+                if (!updateCallbackDeleted)
+                {
+                    ++updateCallbackIterator;
+                }
             }
 
-            // current element wasn't delete from the list
-            if (!updateCallbackDeleted)
+            if (targetFrameInterval > 0)
             {
-                ++updateCallbackIterator;
-            }
-        }
+                uint64_t diff = getCurrentMicroSeconds() - currentTime;
 
-        if (targetFrameInterval > 0)
-        {
-            uint64_t diff = getCurrentMicroSeconds() - currentTime;
-
-            if (targetFrameInterval > diff)
-            {
-                std::this_thread::sleep_for(std::chrono::microseconds(targetFrameInterval - diff));
+                if (targetFrameInterval > diff)
+                {
+                    std::this_thread::sleep_for(std::chrono::microseconds(targetFrameInterval - diff));
+                }
             }
         }
 
