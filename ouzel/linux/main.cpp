@@ -268,6 +268,12 @@ int main(int argc, char* argv[])
             XNextEvent(windowLinux->getDisplay(), &event);
             switch (event.type)
             {
+                case FocusIn:
+                    ouzel::sharedEngine->resume();
+                    break;
+                case FocusOut:
+                    ouzel::sharedEngine->pause();
+                    break;
                 case KeyPress: // keyboard
                 case KeyRelease:
                 {

@@ -156,7 +156,7 @@ namespace ouzel
         XSetWindowAttributes swa;
         swa.colormap = cmap;
         swa.border_pixel = 0;
-        swa.event_mask = KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
+        swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
         window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
                                static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height), 0,
                                vi->depth, InputOutput, vi->visual,
