@@ -74,6 +74,7 @@
     #define OUZEL_PLATFORM_RASPBIAN 1
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_SUPPORTS_OPENGLES3 1
+    #define OUZEL_SUPPORTS_OPENAL 1
 
     #if defined(__x86_64__)
         #define OUZEL_64BITS 1
@@ -97,6 +98,7 @@
         #define OUZEL_SUPPORTS_OPENGLES 1
         #define OUZEL_SUPPORTS_OPENGLES3 1
     #endif
+    #define OUZEL_SUPPORTS_OPENAL 1
 
     #if defined(__x86_64__)
         #define OUZEL_64BITS 1
