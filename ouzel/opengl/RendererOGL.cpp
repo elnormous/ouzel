@@ -51,9 +51,9 @@ namespace ouzel
     {
         bool RendererOGL::checkOpenGLErrors(bool logError)
         {
-            bool gotError = false;
+            GLenum error = glGetError();
 
-            while (GLenum error = glGetError() != GL_NO_ERROR)
+            if (error != GL_NO_ERROR)
             {
                 if (logError)
                 {
@@ -71,10 +71,10 @@ namespace ouzel
                     log("OpenGL error: %s (%x)", errorStr, error);
                 }
 
-                gotError = true;
+                return true;
             }
             
-            return gotError;
+            return false;
         }
         
         RendererOGL::RendererOGL():

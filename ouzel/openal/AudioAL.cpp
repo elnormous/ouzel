@@ -14,9 +14,9 @@ namespace ouzel
     {
         bool AudioAL::checkOpenALErrors(bool logError)
         {
-            bool gotError = false;
+            ALenum error = alGetError();
 
-            while (ALenum error = alGetError() != AL_NO_ERROR)
+            if (error != AL_NO_ERROR)
             {
                 if (logError)
                 {
@@ -34,10 +34,10 @@ namespace ouzel
                     log("OpenAL error: %s (%x)", errorStr, error);
                 }
 
-                gotError = true;
+                return true;
             }
             
-            return gotError;
+            return false;
         }
 
         AudioAL::AudioAL():
