@@ -52,7 +52,7 @@ namespace ouzel
         {
             friend Engine;
         public:
-            static bool checkOpenGLErrors(bool logError = true);
+            static bool checkOpenGLError(bool logError = true);
             
             virtual ~RendererOGL();
 

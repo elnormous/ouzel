@@ -89,7 +89,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 return false;
             }
@@ -152,7 +152,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 return false;
             }
@@ -165,7 +165,7 @@ namespace ouzel
             GLint texture1Location = glGetUniformLocation(programId, "texture1");
             if (texture1Location != -1) glUniform1i(texture1Location, 1);
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 return false;
             }
@@ -178,7 +178,7 @@ namespace ouzel
             glDeleteShader(pixelShaderId);
             pixelShaderId = 0;
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 return false;
             }
@@ -226,9 +226,9 @@ namespace ouzel
             {
                 GLint location = glGetUniformLocation(programId, info.name.c_str());
 
-                if (location == -1)
+                if (location == -1 || RendererOGL::checkOpenGLError())
                 {
-                    RendererOGL::checkOpenGLErrors();
+                    log("Failed to get OpenGL uniform location");
                     return false;
                 }
 
@@ -248,9 +248,9 @@ namespace ouzel
             {
                 GLint location = glGetUniformLocation(programId, info.name.c_str());
 
-                if (location == -1)
+                if (location == -1 || RendererOGL::checkOpenGLError())
                 {
-                    RendererOGL::checkOpenGLErrors();
+                    log("Failed to get OpenGL uniform location");
                     return false;
                 }
 

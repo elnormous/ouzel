@@ -23,7 +23,7 @@ namespace ouzel
                 alSourcei(sourceId, AL_BUFFER, 0);
                 alDeleteSources(1, &sourceId);
 
-                if (AudioAL::checkOpenALErrors())
+                if (AudioAL::checkOpenALError())
                 {
                     log("Failed to delete OpenAL source");
                 }
@@ -33,7 +33,7 @@ namespace ouzel
             {
                 alDeleteBuffers(1, &outputBuffer);
 
-                if (AudioAL::checkOpenALErrors())
+                if (AudioAL::checkOpenALError())
                 {
                     log("Failed to delete OpenAL buffer");
                 }
@@ -51,7 +51,7 @@ namespace ouzel
                 alDeleteSources(1, &sourceId);
                 sourceId = 0;
 
-                if (AudioAL::checkOpenALErrors())
+                if (AudioAL::checkOpenALError())
                 {
                     log("Failed to delete OpenAL source");
                 }
@@ -62,7 +62,7 @@ namespace ouzel
                 alDeleteBuffers(1, &outputBuffer);
                 outputBuffer = 0;
 
-                if (AudioAL::checkOpenALErrors())
+                if (AudioAL::checkOpenALError())
                 {
                     log("Failed to delete OpenAL buffer");
                 }
@@ -80,7 +80,7 @@ namespace ouzel
 
             alGenSources(1, &sourceId);
 
-            if (AudioAL::checkOpenALErrors())
+            if (AudioAL::checkOpenALError())
             {
                 log("Failed to create OpenAL source");
                 return false;
@@ -88,7 +88,7 @@ namespace ouzel
 
             alGenBuffers(1, &outputBuffer);
 
-            if (AudioAL::checkOpenALErrors())
+            if (AudioAL::checkOpenALError())
             {
                 log("Failed to create OpenAL buffer");
                 return false;
@@ -135,7 +135,7 @@ namespace ouzel
 
             alBufferData(outputBuffer, format, soundData->getData().data(), soundData->getData().size(), soundData->getSamplesPerSecond());
 
-            if (AudioAL::checkOpenALErrors())
+            if (AudioAL::checkOpenALError())
             {
                 log("Failed to upload OpenAL data");
                 return false;
@@ -146,7 +146,7 @@ namespace ouzel
 
             alSourcei(sourceId, AL_BUFFER, outputBuffer);
 
-            if (AudioAL::checkOpenALErrors())
+            if (AudioAL::checkOpenALError())
             {
                 log("Failed to set OpenAL buffer");
                 return false;
@@ -167,7 +167,7 @@ namespace ouzel
             alSourcei(sourceId, AL_LOOPING, repeatSound ? AL_TRUE : AL_FALSE);
             alSourcePlay(sourceId);
 
-            if (AudioAL::checkOpenALErrors())
+            if (AudioAL::checkOpenALError())
             {
                 log("Failed to play OpenAL source");
                 return false;
@@ -192,7 +192,7 @@ namespace ouzel
                 alSourcePause(sourceId);
             }
 
-            if (AudioAL::checkOpenALErrors())
+            if (AudioAL::checkOpenALError())
             {
                 log("Failed to stop OpenAL source");
                 return false;
@@ -210,7 +210,7 @@ namespace ouzel
 
             alSourceRewind(sourceId);
 
-            if (AudioAL::checkOpenALErrors())
+            if (AudioAL::checkOpenALError())
             {
                 log("Failed to rewind OpenAL source");
                 return false;

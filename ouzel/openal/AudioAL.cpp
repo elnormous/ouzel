@@ -12,7 +12,35 @@ namespace ouzel
 {
     namespace audio
     {
-        bool AudioAL::checkOpenALErrors(bool logError)
+        bool AudioAL::checkALCError(bool logError)
+        {
+            ALCenum error = alcGetError(device);
+
+            if (error != ALC_NO_ERROR)
+            {
+                if (logError)
+                {
+                    const char* errorStr = "Unknown error";
+
+                    switch (error)
+                    {
+                        case ALC_INVALID_DEVICE: errorStr = "ALC_INVALID_DEVICE"; break;
+                        case ALC_INVALID_CONTEXT: errorStr = "ALC_INVALID_CONTEXT"; break;
+                        case ALC_INVALID_ENUM: errorStr = "ALC_INVALID_ENUM"; break;
+                        case ALC_INVALID_VALUE: errorStr = "ALC_INVALID_VALUE"; break;
+                        case ALC_OUT_OF_MEMORY: errorStr = "ALC_OUT_OF_MEMORY"; break;
+                    }
+
+                    log("OpenAL error: %s (%x)", errorStr, error);
+                }
+
+                return true;
+            }
+            
+            return false;
+        }
+
+        bool AudioAL::checkOpenALError(bool logError)
         {
             ALenum error = alGetError();
 
@@ -67,7 +95,7 @@ namespace ouzel
                 alcDestroyContext(context);
                 context = nullptr;
 
-                if (AudioAL::checkOpenALErrors())
+                if (checkOpenALError())
                 {
                     log("Failed to delete OpenAL context");
                 }
@@ -78,7 +106,7 @@ namespace ouzel
                 alcCloseDevice(device);
                 device = nullptr;
 
-                if (AudioAL::checkOpenALErrors())
+                if (checkOpenALError())
                 {
                     log("Failed to close OpenAL device");
                 }
@@ -96,7 +124,7 @@ namespace ouzel
 
             device = alcOpenDevice(NULL);
 
-            if (checkOpenALErrors())
+            if (!device || checkALCError())
             {
                 log("Failed to create OpenAL device");
                 return false;
@@ -104,7 +132,7 @@ namespace ouzel
 
             context = alcCreateContext(device, NULL);
 
-            if (checkOpenALErrors())
+            if (checkALCError())
             {
                 log("Failed to create OpenAL context");
                 return false;
@@ -112,7 +140,7 @@ namespace ouzel
 
             alcMakeContextCurrent(context);
 
-            if (checkOpenALErrors())
+            if (checkALCError())
             {
                 log("Failed to make OpenAL context current");
                 return false;

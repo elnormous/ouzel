@@ -49,7 +49,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        bool RendererOGL::checkOpenGLErrors(bool logError)
+        bool RendererOGL::checkOpenGLError(bool logError)
         {
             GLenum error = glGetError();
 
@@ -246,7 +246,10 @@ namespace ouzel
             Renderer::flush();
 
             glFlush();
-            checkOpenGLErrors();
+            if (checkOpenGLError())
+            {
+                log("Failed to flush OpenGL buffer");
+            }
         }
 
         std::vector<Size2> RendererOGL::getSupportedResolutions() const
@@ -300,7 +303,7 @@ namespace ouzel
                 glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ONE, GL_ZERO);
             }
 
-            if (checkOpenGLErrors())
+            if (checkOpenGLError())
             {
                 log("Failed to activate blend state");
                 return false;
@@ -384,7 +387,7 @@ namespace ouzel
             {
                 glClearColor(newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA());
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                if (checkOpenGLErrors())
+                if (checkOpenGLError())
                 {
                     log("Failed to clear frame buffer");
                 }
@@ -509,7 +512,7 @@ namespace ouzel
 
             glDrawElements(mode, static_cast<GLsizei>(indexCount), meshBufferOGL->getIndexFormat(), static_cast<const char*>(nullptr) + (startIndex * meshBuffer->getIndexSize()));
 
-            if (checkOpenGLErrors())
+            if (checkOpenGLError())
             {
                 log("Failed to draw elements");
                 return false;
@@ -549,7 +552,7 @@ namespace ouzel
 
             glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
-            if (checkOpenGLErrors())
+            if (checkOpenGLError())
             {
                 log("Failed to read pixels from frame buffer");
                 return false;
@@ -593,7 +596,7 @@ namespace ouzel
                 glBindTexture(GL_TEXTURE_2D, textureId);
                 currentTextureId[layer] = textureId;
 
-                if (checkOpenGLErrors())
+                if (checkOpenGLError())
                 {
                     log("Failed to create bind texture");
                     return false;
@@ -610,7 +613,7 @@ namespace ouzel
                 glUseProgram(programId);
                 currentProgramId = programId;
 
-                if (checkOpenGLErrors())
+                if (checkOpenGLError())
                 {
                     log("Failed to bind program");
                     return false;
@@ -627,7 +630,7 @@ namespace ouzel
                 glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
                 currentFrameBufferId = frameBufferId;
 
-                if (checkOpenGLErrors())
+                if (checkOpenGLError())
                 {
                     log("Failed to create bind frame buffer");
                     return false;
@@ -644,7 +647,7 @@ namespace ouzel
                 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBufferId);
                 currentElementArrayBufferId = elementArrayBufferId;
 
-                if (checkOpenGLErrors())
+                if (checkOpenGLError())
                 {
                     log("Failed to bind element array buffer");
                     return false;
@@ -661,7 +664,7 @@ namespace ouzel
                 glBindBuffer(GL_ARRAY_BUFFER, arrayBufferId);
                 currentArrayBufferId = arrayBufferId;
 
-                if (checkOpenGLErrors())
+                if (checkOpenGLError())
                 {
                     log("Failed to bind array buffer");
                     return false;
@@ -684,7 +687,7 @@ namespace ouzel
 #endif
                 currentVertexArrayId = vertexArrayId;
 
-                if (checkOpenGLErrors())
+                if (checkOpenGLError())
                 {
                     log("Failed to bind vertex array");
                     return false;

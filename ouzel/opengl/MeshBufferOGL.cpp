@@ -93,7 +93,7 @@ namespace ouzel
             glGenBuffers(1, &indexBufferId);
             RendererOGL::bindElementArrayBuffer(indexBufferId);
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 log("Failed to create index buffer");
                 return false;
@@ -107,7 +107,7 @@ namespace ouzel
             glGenVertexArrays(1, &vertexArrayId);
 #endif
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors(false))
+            if (RendererOGL::checkOpenGLError(false))
             {
                 vertexArrayId = 0;
                 log("Failed to create vertex array");
@@ -120,7 +120,7 @@ namespace ouzel
             glGenBuffers(1, &vertexBufferId);
             RendererOGL::bindArrayBuffer(vertexBufferId);
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 log("Failed to create vertex buffer");
                 return false;
@@ -148,7 +148,7 @@ namespace ouzel
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, newIndices,
                          dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 log("Failed to create index buffer");
                 return false;
@@ -167,7 +167,7 @@ namespace ouzel
             glGenVertexArrays(1, &vertexArrayId);
 #endif
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors(false))
+            if (RendererOGL::checkOpenGLError(false))
             {
                 log("Failed to create vertex array");
                 vertexArrayId = 0;
@@ -182,7 +182,7 @@ namespace ouzel
             glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, newVertices,
                          dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 log("Failed to create vertex buffer");
                 return false;
@@ -237,7 +237,7 @@ namespace ouzel
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, indices,
                          dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 log("Failed to upload index data");
                 return false;
@@ -260,7 +260,7 @@ namespace ouzel
             glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, vertices,
                          dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 log("Failed to create vertex data");
                 return false;
@@ -366,7 +366,7 @@ namespace ouzel
                 return false;
             }
 
-            if (std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer())->checkOpenGLErrors())
+            if (RendererOGL::checkOpenGLError())
             {
                 log("Failed to update vertex attributes");
                 return false;

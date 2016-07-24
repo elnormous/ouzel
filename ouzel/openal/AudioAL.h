@@ -23,7 +23,8 @@ namespace ouzel
         {
             friend Engine;
         public:
-            static bool checkOpenALErrors(bool logError = true);
+            bool checkALCError(bool logError = true);
+            static bool checkOpenALError(bool logError = true);
             
             virtual ~AudioAL();
             virtual void free() override;
