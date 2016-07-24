@@ -117,11 +117,11 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
             if (state == WA_ACTIVE || state == WA_CLICKACTIVE)
             {
-                // TODO: Implement activation of the window
+                ouzel::sharedEngine->resume();
             }
             else if (state == WA_INACTIVE)
             {
-                // TODO: Implement activation of the window
+                ouzel::sharedEngine->pause();
             }
             break;
         }
