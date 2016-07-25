@@ -70,7 +70,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
             }
             else
             {
-                if (!GetMessage(&msg, nullptr, 0, 0))
+                if (GetMessage(&msg, nullptr, 0, 0) <= 0)
                 {
                     running = false;
                     break;
