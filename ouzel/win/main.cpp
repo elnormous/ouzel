@@ -59,7 +59,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     {
         std::set<HACCEL> accelerators = window->getAccelerators();
 
-        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        while (ouzel::sharedEngine->isRunning() ? PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) : GetMessage(&msg, nullptr, 0, 0))
         {
             bool translate = true;
 
