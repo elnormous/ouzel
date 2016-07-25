@@ -22,7 +22,7 @@ namespace ouzel
         Display* getDisplay() const { return display; }
         GLXContext getContext() const { return context; }
         ::Window getNativeWindow() const { return window; }
-        Atom getDeleteMessage() const { return deleteMessage }
+        Atom getDeleteMessage() const { return deleteMessage; }
 
     protected:
         WindowLinux(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
