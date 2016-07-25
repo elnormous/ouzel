@@ -20,19 +20,10 @@ namespace ouzel
     {
         Event event;
 
-        for (;;)
+        while (!eventQueue.empty())
         {
-            // scope for mutex lock
-            {
-                std::lock_guard<std::mutex> mutexLock(mutex);
-                if (eventQueue.empty())
-                {
-                    break;
-                }
-
-                event = eventQueue.front();
-                eventQueue.pop();
-            }
+            event = eventQueue.front();
+            eventQueue.pop();
 
             bool propagate = true;
 
@@ -160,8 +151,6 @@ namespace ouzel
 
     void EventDispatcher::dispatchEvent(const Event& event)
     {
-        std::lock_guard<std::mutex> mutexLock(mutex);
-
         eventQueue.push(event);
     }
 }

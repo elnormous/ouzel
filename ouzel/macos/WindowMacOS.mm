@@ -20,16 +20,7 @@
 {
     OUZEL_UNUSED(sender);
 
-    if ([NSThread isMainThread])
-    {
-        [window->getNativeWindow() close];
-    }
-    else
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [window->getNativeWindow() close];
-        });
-    }
+    [window->getNativeWindow() close];
 }
 
 -(id)initWithWindow:(ouzel::WindowMacOS*)newWindow
@@ -193,16 +184,7 @@ namespace ouzel
         if (frame.size.width != newFrame.size.width ||
             frame.size.height != newFrame.size.height)
         {
-            if ([NSThread isMainThread])
-            {
-                [window setFrame:newFrame display:YES animate:NO];
-            }
-            else
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [window setFrame:newFrame display:YES animate:NO];
-                });
-            }
+            [window setFrame:newFrame display:YES animate:NO];
         }
 
         Window::setSize(newSize);
@@ -212,16 +194,7 @@ namespace ouzel
     {
         if (fullscreen != newFullscreen)
         {
-            if ([NSThread isMainThread])
-            {
-                [window toggleFullScreen:nil];
-            }
-            else
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [window toggleFullScreen:nil];
-                });
-            }
+            [window toggleFullScreen:nil];
         }
 
         Window::setFullscreen(newFullscreen);
@@ -233,16 +206,7 @@ namespace ouzel
         {
             NSString* objCTitle = [NSString stringWithCString:newTitle.c_str() encoding:NSUTF8StringEncoding];
 
-            if ([NSThread isMainThread])
-            {
-                window.title = objCTitle;
-            }
-            else
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    window.title = objCTitle;
-                });
-            }
+            window.title = objCTitle;
         }
 
         Window::setTitle(newTitle);

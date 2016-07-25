@@ -127,13 +127,8 @@ using namespace ouzel;
 
     if (displayLink)
     {
-        CGLLockContext([openGLContext CGLContextObj]);
-        [openGLContext makeCurrentContext];
-
         CVDisplayLinkRelease(displayLink);
         displayLink = Nil;
-
-        CGLUnlockContext([openGLContext CGLContextObj]);
     }
 
     if (openGLContext)
@@ -160,15 +155,11 @@ using namespace ouzel;
 
     if (!running) return;
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
-
     [openGLContext update];
 
     sharedEngine->getWindow()->setSize(Size2(static_cast<float>(newSize.width),
                                              static_cast<float>(newSize.height)));
 
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)lockFocus
@@ -186,27 +177,24 @@ using namespace ouzel;
 {
     if (!running) return;
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
-
-    bool quit = !sharedEngine->run();
-
-    [openGLContext flushBuffer];
-
-    CGLUnlockContext([openGLContext CGLContextObj]);
-
-    if (quit)
+    if (!rendering)
     {
-        if ([NSThread isMainThread])
-        {
-            [self.window close];
-        }
-        else
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
+        rendering = YES;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [openGLContext makeCurrentContext];
+
+            bool quit = !sharedEngine->run();
+
+            [openGLContext flushBuffer];
+
+            if (quit)
+            {
                 [self.window close];
-            });
-        }
+            }
+            
+            rendering = NO;
+        });
     }
 }
 
@@ -219,22 +207,17 @@ using namespace ouzel;
 {
     if (!running) return;
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->keyDown(ouzel::input::InputApple::convertKeyCode(event.keyCode),
                                       ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)keyUp:(NSEvent*)event
 {
     if (!running) return;
 
-    CGLLockContext([openGLContext CGLContextObj]);
     [openGLContext makeCurrentContext];
     sharedEngine->getInput()->keyUp(ouzel::input::InputApple::convertKeyCode(event.keyCode),
                                     ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)mouseDown:(NSEvent*)event
@@ -242,13 +225,10 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseDown(input::MouseButton::LEFT,
                                                  sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                     static_cast<float>(location.y))),
                                                  ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)mouseUp:(NSEvent*)event
@@ -256,13 +236,10 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseUp(input::MouseButton::LEFT,
                                                sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                   static_cast<float>(location.y))),
                                                ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)rightMouseDown:(NSEvent*)event
@@ -270,13 +247,10 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseDown(input::MouseButton::RIGHT,
                                                  sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                                     static_cast<float>(location.y))),
                                                  ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)rightMouseUp:(NSEvent*)event
@@ -284,13 +258,10 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseUp(input::MouseButton::RIGHT,
                                       sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                 static_cast<float>(location.y))),
                                       ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)otherMouseDown:(NSEvent*)event
@@ -298,13 +269,10 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseDown(input::MouseButton::MIDDLE,
                                         sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)otherMouseUp:(NSEvent*)event
@@ -312,13 +280,10 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseUp(input::MouseButton::MIDDLE,
                                       sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                 static_cast<float>(location.y))),
                                       ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)mouseMoved:(NSEvent*)event
@@ -327,12 +292,9 @@ using namespace ouzel;
 
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)mouseDragged:(NSEvent*)event
@@ -340,12 +302,9 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, NSEvent.pressedMouseButtons));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)rightMouseDragged:(NSEvent*)event
@@ -353,12 +312,9 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, NSEvent.pressedMouseButtons));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)otherMouseDragged:(NSEvent*)event
@@ -366,12 +322,9 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                   static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, NSEvent.pressedMouseButtons));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)scrollWheel:(NSEvent*)event
@@ -379,14 +332,11 @@ using namespace ouzel;
     if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    CGLLockContext([openGLContext CGLContextObj]);
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(event.scrollingDeltaX),
                                                   static_cast<float>(event.scrollingDeltaY)),
                                           sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
                                                                                                     static_cast<float>(location.y))),
                                           ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
-    CGLUnlockContext([openGLContext CGLContextObj]);
 }
 
 -(void)swipeWithEvent:(NSEvent*)event
