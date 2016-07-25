@@ -61,7 +61,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
         for (;;)
         {
-            if (ouzel::sharedEngine->isRunning()
+            if (ouzel::sharedEngine->isRunning())
             {
                 if (!PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
                 {
