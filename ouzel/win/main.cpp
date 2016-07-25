@@ -59,7 +59,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     {
         std::set<HACCEL> accelerators = window->getAccelerators();
 
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             bool translate = true;
 
