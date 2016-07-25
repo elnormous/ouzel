@@ -168,6 +168,9 @@ namespace ouzel
 
         // request the X window to be displayed on the screen
         XMapWindow(display, window);
+        
+        deleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
+        XSetWMProtocols(display, window, &deleteMessage, 1);
 
         PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT"));
 

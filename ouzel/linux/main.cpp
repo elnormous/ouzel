@@ -242,17 +242,27 @@ int main(int argc, char* argv[])
             break;
         }
 
-        for (;;)
+        bool running = true;
+
+        while (running)
         {
             if (ouzel::sharedEngine->isRunning() && !XPending(windowLinux->getDisplay()))
             {
-                break;
+                running = false;
             }
             
             XNextEvent(windowLinux->getDisplay(), &event);
             
             switch (event.type)
             {
+                case ClientMessage:
+                {
+                    if ((Atom)event.xclient.data.l[0] == windowLinux->getDeleteMessage())
+                    {
+                        running = false;
+                    }
+                    break;
+                }
                 case FocusIn:
                     ouzel::sharedEngine->resume();
                     break;
