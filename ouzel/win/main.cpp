@@ -57,6 +57,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     while (running)
     {
+        if (!ouzel::sharedEngine->run())
+        {
+            running = false;
+        }
+
         std::set<HACCEL> accelerators = window->getAccelerators();
 
         for (;;)
@@ -97,11 +102,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
             {
                 running = false;
             }
-        }
-
-        if (!ouzel::sharedEngine->run())
-        {
-            running = false;
         }
     }
 
