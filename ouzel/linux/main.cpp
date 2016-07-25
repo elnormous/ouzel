@@ -235,20 +235,20 @@ int main(int argc, char* argv[])
 
     std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(ouzel::sharedEngine->getWindow());
 
-    for (;;)
+    bool running = true;
+
+    while (running)
     {
         if (!ouzel::sharedEngine->run())
         {
-            break;
+            running = false;
         }
 
-        bool running = true;
-
-        while (running)
+        for (;;)
         {
             if (ouzel::sharedEngine->isRunning() && !XPending(windowLinux->getDisplay()))
             {
-                running = false;
+                break;
             }
             
             XNextEvent(windowLinux->getDisplay(), &event);
@@ -257,7 +257,7 @@ int main(int argc, char* argv[])
             {
                 case ClientMessage:
                 {
-                    if ((Atom)event.xclient.data.l[0] == windowLinux->getDeleteMessage())
+                    if (static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteMessage())
                     {
                         running = false;
                     }
