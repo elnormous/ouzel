@@ -281,45 +281,39 @@ namespace ouzel
         if (running)
         {
             uint64_t currentTime = getCurrentMicroSeconds();
-            float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
-            previousFrameTime = currentTime;
 
-            if (delta > 0.0f)
+            if (targetFrameInterval == 0 || (currentTime - previousFrameTime) > targetFrameInterval)
             {
-                currentFPS = 1.0f / delta;
-            }
+                float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
+                previousFrameTime = currentTime;
 
-            renderer->clear();
-            sceneManager->draw();
-            renderer->present();
-
-            input->update();
-            eventDispatcher->update();
-
-            for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
-            {
-                updateCallbackDeleted = false;
-
-                const UpdateCallback* updateCallback = *updateCallbackIterator;
-                if (updateCallback && updateCallback->callback)
+                if (delta > 0.0f)
                 {
-                    updateCallback->callback(delta);
+                    currentFPS = 1.0f / delta;
                 }
 
-                // current element wasn't delete from the list
-                if (!updateCallbackDeleted)
-                {
-                    ++updateCallbackIterator;
-                }
-            }
+                renderer->clear();
+                sceneManager->draw();
+                renderer->present();
 
-            if (targetFrameInterval > 0)
-            {
-                uint64_t diff = getCurrentMicroSeconds() - currentTime;
+                input->update();
+                eventDispatcher->update();
 
-                if (targetFrameInterval > diff)
+                for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
                 {
-                    std::this_thread::sleep_for(std::chrono::microseconds(targetFrameInterval - diff));
+                    updateCallbackDeleted = false;
+
+                    const UpdateCallback* updateCallback = *updateCallbackIterator;
+                    if (updateCallback && updateCallback->callback)
+                    {
+                        updateCallback->callback(delta);
+                    }
+
+                    // current element wasn't delete from the list
+                    if (!updateCallbackDeleted)
+                    {
+                        ++updateCallbackIterator;
+                    }
                 }
             }
         }
