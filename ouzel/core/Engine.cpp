@@ -282,7 +282,7 @@ namespace ouzel
         {
             uint64_t currentTime = getCurrentMicroSeconds();
 
-            if (targetFrameInterval == 0 || (currentTime - previousFrameTime) > targetFrameInterval)
+            if (targetFrameInterval == 0 || (currentTime - previousFrameTime) >= targetFrameInterval)
             {
                 float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
                 previousFrameTime = currentTime;
