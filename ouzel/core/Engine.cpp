@@ -113,12 +113,10 @@ namespace ouzel
 
         if (!settings.verticalSync && settings.targetFPS > 0.0f)
         {
-            targetFPS = settings.targetFPS;
-            targetFrameInterval = static_cast<uint64_t>(1000000L * 1.0f / targetFPS);
+            targetFrameInterval = static_cast<uint64_t>(1000000L * (1.0f / settings.targetFPS));
         }
         else
         {
-            targetFPS = 0.0f;
             targetFrameInterval = 0L;
         }
 

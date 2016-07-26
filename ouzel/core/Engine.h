@@ -52,7 +52,7 @@ namespace ouzel
         bool run();
         bool isRunning() const { return running; }
 
-        float getTargetFPS() const { return targetFPS; }
+        float getTargetFPS() const { return settings.targetFPS; }
         float getFPS() const { return currentFPS; }
 
         void scheduleUpdate(const UpdateCallback& callback);
@@ -71,7 +71,6 @@ namespace ouzel
         audio::AudioPtr audio;
         scene::SceneManagerPtr sceneManager;
 
-        float targetFPS;
         uint64_t targetFrameInterval;
         float currentFPS = 0.0f;
         uint64_t previousFrameTime;
