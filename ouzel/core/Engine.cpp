@@ -296,7 +296,6 @@ namespace ouzel
             input->update();
             eventDispatcher->update();
 
-
             for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
             {
                 updateCallbackDeleted = false;

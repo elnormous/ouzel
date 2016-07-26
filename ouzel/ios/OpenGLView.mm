@@ -18,25 +18,14 @@ using namespace ouzel;
     if (self = [super initWithFrame:frameRect])
     {
         // display link
-        displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(idle:)];
+        displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(draw:)];
 
         if (!displayLink)
         {
             return Nil;
         }
 
-        float frameInterval = 1.0f;
-
-        if (sharedEngine->getTargetFPS() > 60.0f)
-        {
-            log("FPS bigger that 60.0f is not supported");
-        }
-        else if (sharedEngine->getTargetFPS() > 0.0f)
-        {
-            frameInterval = 60.0f / sharedEngine->getTargetFPS();
-        }
-
-        [displayLink setFrameInterval:frameInterval];
+        [displayLink setFrameInterval:1.0f];
         [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     }
 
@@ -55,7 +44,7 @@ using namespace ouzel;
     return [CAEAGLLayer class];
 }
 
--(void)idle:(id)sender
+-(void)draw:(id)sender
 {
     OUZEL_UNUSED(sender);
 
