@@ -286,7 +286,10 @@ namespace ouzel
             float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
             previousFrameTime = currentTime;
 
-            currentFPS = 1.0f / delta;
+            if (delta > 0.0f)
+            {
+                currentFPS = 1.0f / delta;
+            }
 
             renderer->clear();
             sceneManager->draw();
