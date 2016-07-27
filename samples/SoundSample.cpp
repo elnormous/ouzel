@@ -10,7 +10,7 @@ using namespace ouzel;
 SoundSample::SoundSample(Application& app):
     application(app)
 {
-    eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     scene::LayerPtr layer = make_shared<scene::Layer>();
@@ -51,19 +51,19 @@ SoundSample::~SoundSample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool SoundSample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
+bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (sender == backButton)
+        if (event.node == backButton)
         {
             application.back();
         }
-        else if (sender == jumpButton)
+        else if (event.node == jumpButton)
         {
             jumpSound->play();
         }
-        else if (sender == ambientButton)
+        else if (event.node == ambientButton)
         {
             ambientSound->play();
         }

@@ -9,11 +9,11 @@ using namespace ouzel;
 InputSample::InputSample(Application& app):
     application(app)
 {
-    eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2, placeholders::_3);
-    eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2, placeholders::_3);
-    eventHandler.touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1, placeholders::_2, placeholders::_3);
-    eventHandler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2, placeholders::_3);
-    eventHandler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
+    eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
+    eventHandler.touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1, placeholders::_2);
+    eventHandler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2);
+    eventHandler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
     
@@ -48,7 +48,7 @@ InputSample::~InputSample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event, const VoidPtr&) const
+bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
 {
     if (type == Event::Type::KEY_DOWN)
     {
@@ -84,7 +84,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event, c
     return true;
 }
 
-bool InputSample::handleMouse(Event::Type type, const MouseEvent& event, const VoidPtr&) const
+bool InputSample::handleMouse(Event::Type type, const MouseEvent& event) const
 {
     switch (type)
     {
@@ -101,7 +101,7 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event, const V
     return true;
 }
 
-bool InputSample::handleTouch(Event::Type, const TouchEvent& event, const VoidPtr&) const
+bool InputSample::handleTouch(Event::Type, const TouchEvent& event) const
 {
     Vector2 worldLocation = camera->convertScreenToWorld(event.position);
     flame->setPosition(worldLocation);
@@ -109,7 +109,7 @@ bool InputSample::handleTouch(Event::Type, const TouchEvent& event, const VoidPt
     return true;
 }
 
-bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr&) const
+bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event) const
 {
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
@@ -148,15 +148,15 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event, con
     return true;
 }
 
-bool InputSample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
+bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (sender == backButton)
+        if (event.node == backButton)
         {
             application.back();
         }
-        else if (sender == button)
+        else if (event.node == button)
         {
             sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
         }

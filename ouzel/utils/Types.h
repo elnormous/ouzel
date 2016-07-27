@@ -8,8 +8,6 @@
 
 namespace ouzel
 {
-    typedef std::shared_ptr<void> VoidPtr;
-
     class Window;
     typedef std::shared_ptr<Window> WindowPtr;
 

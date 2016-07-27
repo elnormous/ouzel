@@ -9,7 +9,7 @@ using namespace ouzel;
 SpritesSample::SpritesSample(Application& app):
     application(app)
 {
-    eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     ouzel::scene::LayerPtr layer = make_shared<scene::Layer>();
@@ -51,15 +51,15 @@ SpritesSample::~SpritesSample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool SpritesSample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
+bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (sender == backButton)
+        if (event.node == backButton)
         {
             application.back();
         }
-        else if (sender == button)
+        else if (event.node == button)
         {
             character->setVisible(!character->isVisible());
         }

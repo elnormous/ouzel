@@ -15,7 +15,7 @@ using namespace ouzel;
 MainMenu::MainMenu(Application& app):
     application(app)
 {
-    eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
     
@@ -54,33 +54,33 @@ MainMenu::~MainMenu()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool MainMenu::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender)
+bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
         scene::ScenePtr newScene;
 
-        if (sender == spritesButton)
+        if (event.node == spritesButton)
         {
             newScene = make_shared<SpritesSample>(application);
         }
-        else if (sender == GUIButton)
+        else if (event.node == GUIButton)
         {
             newScene = make_shared<GUISample>(application);
         }
-        else if (sender == renderTargetButton)
+        else if (event.node == renderTargetButton)
         {
             newScene = make_shared<RTSample>(application);
         }
-        else if (sender == animationsButton)
+        else if (event.node == animationsButton)
         {
             newScene = make_shared<AnimationsSample>(application);
         }
-        else if (sender == inputButton)
+        else if (event.node == inputButton)
         {
             newScene = make_shared<InputSample>(application);
         }
-        else if (sender == soundButton)
+        else if (event.node == soundButton)
         {
             newScene = make_shared<SoundSample>(application);
         }

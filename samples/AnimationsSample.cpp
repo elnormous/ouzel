@@ -9,7 +9,7 @@ using namespace ouzel;
 AnimationsSample::AnimationsSample(Application& app):
     application(app)
 {
-    eventHandler.uiHandler = bind(&AnimationsSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&AnimationsSample::handleUI, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     scene::LayerPtr layer = make_shared<scene::Layer>();
@@ -72,9 +72,9 @@ AnimationsSample::~AnimationsSample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool AnimationsSample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
+bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE && sender == backButton)
+    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
     {
         application.back();
     }

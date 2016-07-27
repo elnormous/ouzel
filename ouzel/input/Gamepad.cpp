@@ -47,7 +47,6 @@ namespace ouzel
         void Gamepad::handleButtonValueChange(GamepadButton button, bool pressed, float value)
         {
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
 
             event.gamepadEvent.gamepad = shared_from_this();

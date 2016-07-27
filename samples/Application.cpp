@@ -32,7 +32,7 @@ void Application::begin(const std::string& sample)
     sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
     sharedEngine->getWindow()->setTitle("Samples");
 
-    eventHandler.keyboardHandler = bind(&Application::handleKeyboard, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.keyboardHandler = bind(&Application::handleKeyboard, this, placeholders::_1, placeholders::_2);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
@@ -84,7 +84,7 @@ void Application::back()
     sharedEngine->getSceneManager()->setScene(mainMenu);
 }
 
-bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event, const VoidPtr&)
+bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
     if (event.key == ouzel::input::KeyboardKey::ESCAPE)
     {

@@ -26,8 +26,8 @@ namespace ouzel
             virtual bool isChecked() const { return checked; }
 
         protected:
-            bool handleGamepad(Event::Type type, const GamepadEvent& event, const VoidPtr& sender);
-            bool handleUI(Event::Type type,const UIEvent& event, const VoidPtr& sender);
+            bool handleGamepad(Event::Type type, const GamepadEvent& event);
+            bool handleUI(Event::Type type,const UIEvent& event);
 
             void updateSprite();
 

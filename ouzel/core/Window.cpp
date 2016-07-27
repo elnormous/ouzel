@@ -40,9 +40,9 @@ namespace ouzel
             sharedEngine->getRenderer()->setSize(size);
 
             Event event;
-            event.sender = sharedEngine->getRenderer();
             event.type = Event::Type::WINDOW_SIZE_CHANGE;
 
+            event.windowEvent.window = shared_from_this();
             event.windowEvent.size = size;
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
@@ -60,8 +60,9 @@ namespace ouzel
             sharedEngine->getRenderer()->setFullscreen(fullscreen);
 
             Event event;
-            event.sender = sharedEngine->getRenderer();
             event.type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
+
+            event.windowEvent.window = shared_from_this();
             event.windowEvent.size = size;
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
@@ -77,8 +78,9 @@ namespace ouzel
             title = newTitle;
 
             Event event;
-            event.sender = sharedEngine->getRenderer();
             event.type = Event::Type::WINDOW_TITLE_CHANGE;
+
+            event.windowEvent.window = shared_from_this();
             event.windowEvent.size = size;
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;

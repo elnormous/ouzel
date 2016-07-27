@@ -50,7 +50,6 @@ namespace ouzel
         void Input::keyDown(KeyboardKey key, uint32_t modifiers)
         {
             Event event;
-            event.sender = shared_from_this();
 
             event.keyboardEvent.key = key;
             event.keyboardEvent.modifiers = modifiers;
@@ -74,7 +73,6 @@ namespace ouzel
             keyboardKeyStates[static_cast<uint32_t>(key)] = false;
 
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::KEY_UP;
 
             event.keyboardEvent.key = key;
@@ -88,7 +86,6 @@ namespace ouzel
             mouseButtonStates[static_cast<uint32_t>(button)] = true;
 
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::MOUSE_DOWN;
 
             event.mouseEvent.button = button;
@@ -109,7 +106,6 @@ namespace ouzel
             mouseButtonStates[static_cast<uint32_t>(button)] = false;
 
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::MOUSE_UP;
 
             event.mouseEvent.button = button;
@@ -130,7 +126,6 @@ namespace ouzel
             cursorPosition = position;
 
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::MOUSE_MOVE;
 
             event.mouseEvent.position = position;
@@ -163,7 +158,6 @@ namespace ouzel
         void Input::mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers)
         {
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::MOUSE_SCROLL;
 
             event.mouseEvent.position = position;
@@ -176,7 +170,6 @@ namespace ouzel
         void Input::touchBegin(uint64_t touchId, const Vector2& position)
         {
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::TOUCH_BEGIN;
 
             event.touchEvent.touchId = touchId;
@@ -194,7 +187,6 @@ namespace ouzel
         void Input::touchEnd(uint64_t touchId, const Vector2& position)
         {
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::TOUCH_END;
 
             event.touchEvent.touchId = touchId;
@@ -212,7 +204,6 @@ namespace ouzel
         void Input::touchMove(uint64_t touchId, const Vector2& position)
         {
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::TOUCH_MOVE;
 
             event.touchEvent.touchId = touchId;
@@ -229,7 +220,6 @@ namespace ouzel
         void Input::touchCancel(uint64_t touchId, const Vector2& position)
         {
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::TOUCH_CANCEL;
 
             event.touchEvent.touchId = touchId;
@@ -303,9 +293,9 @@ namespace ouzel
             if (node && node->isReceivingInput())
             {
                 Event event;
-                event.sender = node;
                 event.type = Event::Type::UI_ENTER_NODE;
 
+                event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
 
                 sharedEngine->getEventDispatcher()->dispatchEvent(event);
@@ -317,9 +307,9 @@ namespace ouzel
             if (node && node->isReceivingInput())
             {
                 Event event;
-                event.sender = node;
                 event.type = Event::Type::UI_LEAVE_NODE;
 
+                event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
 
                 sharedEngine->getEventDispatcher()->dispatchEvent(event);
@@ -335,9 +325,9 @@ namespace ouzel
             if (node && node->isReceivingInput())
             {
                 Event event;
-                event.sender = node;
                 event.type = Event::Type::UI_PRESS_NODE;
 
+                event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
 
                 sharedEngine->getEventDispatcher()->dispatchEvent(event);
@@ -351,9 +341,9 @@ namespace ouzel
             if (pointerDownOnNode && pointerDownOnNode->isReceivingInput())
             {
                 Event releaseEvent;
-                releaseEvent.sender = pointerDownOnNode;
                 releaseEvent.type = Event::Type::UI_RELEASE_NODE;
 
+                releaseEvent.uiEvent.node = pointerDownOnNode;
                 releaseEvent.uiEvent.position = pointerDownOnNode->convertWorldToLocal(position);
 
                 sharedEngine->getEventDispatcher()->dispatchEvent(releaseEvent);
@@ -361,9 +351,9 @@ namespace ouzel
                 if (pointerDownOnNode == node)
                 {
                     Event clickEvent;
-                    clickEvent.sender = pointerDownOnNode;
                     clickEvent.type = Event::Type::UI_CLICK_NODE;
 
+                    clickEvent.uiEvent.node = pointerDownOnNode;
                     clickEvent.uiEvent.position = pointerDownOnNode->convertWorldToLocal(position);
 
                     sharedEngine->getEventDispatcher()->dispatchEvent(clickEvent);
@@ -378,9 +368,9 @@ namespace ouzel
             if (node && node->isReceivingInput())
             {
                 Event event;
-                event.sender = node;
                 event.type = Event::Type::UI_DRAG_NODE;
 
+                event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
 
                 sharedEngine->getEventDispatcher()->dispatchEvent(event);

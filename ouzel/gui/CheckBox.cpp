@@ -28,8 +28,8 @@ namespace ouzel
 
         bool CheckBox::init(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage)
         {
-            eventHandler.gamepadHandler = std::bind(&CheckBox::handleGamepad, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-            eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+            eventHandler.gamepadHandler = std::bind(&CheckBox::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
             sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
@@ -102,16 +102,16 @@ namespace ouzel
             updateSprite();
         }
 
-        bool CheckBox::handleGamepad(Event::Type, const GamepadEvent&, const VoidPtr&)
+        bool CheckBox::handleGamepad(Event::Type, const GamepadEvent&)
         {
             return true;
         }
 
-        bool CheckBox::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender)
+        bool CheckBox::handleUI(Event::Type type, const UIEvent& event)
         {
             if (!enabled) return true;
 
-            if (sender.get() == this)
+            if (event.node.get() == this)
             {
                 if (type == Event::Type::UI_ENTER_NODE)
                 {
@@ -143,8 +143,8 @@ namespace ouzel
                     updateSprite();
 
                     Event event;
-                    event.sender = shared_from_this();
                     event.type = Event::Type::UI_WIDGET_CHANGE;
+                    event.uiEvent.node = std::static_pointer_cast<Node>(shared_from_this());
                     sharedEngine->getEventDispatcher()->dispatchEvent(event);
                 }
             }

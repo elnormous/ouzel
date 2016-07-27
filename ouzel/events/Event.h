@@ -55,6 +55,7 @@ namespace ouzel
 
     struct WindowEvent
     {
+        WindowPtr window;
         Size2 size;
         std::string title;
         bool fullscreen = false;
@@ -79,6 +80,7 @@ namespace ouzel
 
     struct UIEvent
     {
+        scene::NodePtr node;
         Vector2 position;
     };
 
@@ -117,7 +119,6 @@ namespace ouzel
         };
 
         Type type;
-        VoidPtr sender;
 
         KeyboardEvent keyboardEvent;
         MouseEvent mouseEvent;

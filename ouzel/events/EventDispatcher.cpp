@@ -41,7 +41,7 @@ namespace ouzel
                         case Event::Type::KEY_REPEAT:
                             if (eventHandler->keyboardHandler)
                             {
-                                propagate = eventHandler->keyboardHandler(event.type, event.keyboardEvent, event.sender);
+                                propagate = eventHandler->keyboardHandler(event.type, event.keyboardEvent);
                             }
                             break;
 
@@ -51,7 +51,7 @@ namespace ouzel
                         case Event::Type::MOUSE_MOVE:
                             if (eventHandler->mouseHandler)
                             {
-                                propagate = eventHandler->mouseHandler(event.type, event.mouseEvent, event.sender);
+                                propagate = eventHandler->mouseHandler(event.type, event.mouseEvent);
                             }
                             break;
                         case Event::Type::TOUCH_BEGIN:
@@ -60,7 +60,7 @@ namespace ouzel
                         case Event::Type::TOUCH_CANCEL:
                             if (eventHandler->touchHandler)
                             {
-                                propagate = eventHandler->touchHandler(event.type, event.touchEvent, event.sender);
+                                propagate = eventHandler->touchHandler(event.type, event.touchEvent);
                             }
                             break;
                         case Event::Type::GAMEPAD_CONNECT:
@@ -68,7 +68,7 @@ namespace ouzel
                         case Event::Type::GAMEPAD_BUTTON_CHANGE:
                             if (eventHandler->gamepadHandler)
                             {
-                                propagate = eventHandler->gamepadHandler(event.type, event.gamepadEvent, event.sender);
+                                propagate = eventHandler->gamepadHandler(event.type, event.gamepadEvent);
                             }
                             break;
                         case Event::Type::WINDOW_SIZE_CHANGE:
@@ -76,7 +76,7 @@ namespace ouzel
                         case Event::Type::WINDOW_FULLSCREEN_CHANGE:
                             if (eventHandler->windowHandler)
                             {
-                                propagate = eventHandler->windowHandler(event.type, event.windowEvent, event.sender);
+                                propagate = eventHandler->windowHandler(event.type, event.windowEvent);
                             }
                             break;
                         case Event::Type::ORIENTATION_CHANGE:
@@ -84,7 +84,7 @@ namespace ouzel
                         case Event::Type::OPEN_FILE:
                             if (eventHandler->systemHandler)
                             {
-                                propagate = eventHandler->systemHandler(event.type, event.systemEvent, event.sender);
+                                propagate = eventHandler->systemHandler(event.type, event.systemEvent);
                             }
                             break;
                         case Event::Type::UI_ENTER_NODE:
@@ -96,7 +96,7 @@ namespace ouzel
                         case Event::Type::UI_WIDGET_CHANGE:
                             if (eventHandler->uiHandler)
                             {
-                                propagate = eventHandler->uiHandler(event.type, event.uiEvent, event.sender);
+                                propagate = eventHandler->uiHandler(event.type, event.uiEvent);
                             }
                             break;
                     }

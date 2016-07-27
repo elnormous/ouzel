@@ -11,7 +11,7 @@ public:
     AnimationsSample(Application& app);
     virtual ~AnimationsSample();
 
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event, const ouzel::VoidPtr& sender) const;
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
 
 private:
     Application& application;

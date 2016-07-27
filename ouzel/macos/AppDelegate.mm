@@ -51,7 +51,6 @@
     if (ouzel::sharedEngine)
     {
         ouzel::Event event;
-        event.sender = ouzel::sharedEngine->getInput();
         event.type = ouzel::Event::Type::OPEN_FILE;
 
         event.systemEvent.filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];

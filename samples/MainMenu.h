@@ -11,7 +11,7 @@ public:
     MainMenu(Application& app);
     virtual ~MainMenu();
 
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event, const ouzel::VoidPtr& sender);
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
 
 private:
     Application& application;

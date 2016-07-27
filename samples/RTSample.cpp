@@ -9,7 +9,7 @@ using namespace ouzel;
 RTSample::RTSample(Application& app):
     application(app)
 {
-    eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2, placeholders::_3);
+    eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
     
     ouzel::scene::LayerPtr rtLayer = make_shared<scene::Layer>();
@@ -54,9 +54,9 @@ RTSample::~RTSample()
     sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
-bool RTSample::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender) const
+bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE && sender == backButton)
+    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
     {
         application.back();
     }

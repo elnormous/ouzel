@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "utils/Noncopyable.h"
 #include "math/Size2.h"
 #include "core/Settings.h"
@@ -13,7 +14,7 @@ namespace ouzel
 {
     class Engine;
 
-    class Window: public Noncopyable
+    class Window: public Noncopyable, public std::enable_shared_from_this<Window>
     {
         friend Engine;
     public:

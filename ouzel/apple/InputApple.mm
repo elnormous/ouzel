@@ -452,7 +452,6 @@ namespace ouzel
             gamepads.push_back(gamepad);
 
             Event event;
-            event.sender = shared_from_this();
             event.type = Event::Type::GAMEPAD_CONNECT;
 
             event.gamepadEvent.gamepad = gamepad;
@@ -469,7 +468,6 @@ namespace ouzel
             if (i != gamepads.end())
             {
                 Event event;
-                event.sender = shared_from_this();
                 event.type = Event::Type::GAMEPAD_DISCONNECT;
 
                 event.gamepadEvent.gamepad = *i;

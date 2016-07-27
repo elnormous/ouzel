@@ -38,8 +38,8 @@ namespace ouzel
                           const std::string& label, const graphics::Color& labelColor, const std::string& font)
         {
 
-            eventHandler.gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-            eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+            eventHandler.gamepadHandler = std::bind(&Button::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
 
             sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
@@ -106,16 +106,16 @@ namespace ouzel
             updateSprite();
         }
 
-        bool Button::handleGamepad(Event::Type, const GamepadEvent&, const VoidPtr&)
+        bool Button::handleGamepad(Event::Type, const GamepadEvent&)
         {
             return true;
         }
 
-        bool Button::handleUI(Event::Type type, const UIEvent&, const VoidPtr& sender)
+        bool Button::handleUI(Event::Type type, const UIEvent& event)
         {
             if (!enabled) return true;
 
-            if (sender.get() == this)
+            if (event.node.get() == this)
             {
                 if (type == Event::Type::UI_ENTER_NODE)
                 {
