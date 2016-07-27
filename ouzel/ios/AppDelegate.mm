@@ -8,10 +8,8 @@
 
 @implementation AppDelegate
 
--(BOOL)application:(UIApplication*)application willFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+-(BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
-    OUZEL_UNUSED(application);
-    OUZEL_UNUSED(launchOptions);
     ouzelMain(ouzel::getArgs());
 
     if (ouzel::sharedEngine)
@@ -22,55 +20,42 @@
     return YES;
 }
 
--(BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+-(BOOL)application:(__unused UIApplication*)application didFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
-    OUZEL_UNUSED(application);
-    OUZEL_UNUSED(launchOptions);
     return YES;
 }
 
--(void)applicationDidBecomeActive:(UIApplication*)application
+-(void)applicationDidBecomeActive:(__unused UIApplication*)application
 {
-    OUZEL_UNUSED(application);
-
     ouzel::sharedEngine->resume();
 }
 
--(void)applicationWillResignActive:(UIApplication*)application
+-(void)applicationWillResignActive:(__unused UIApplication*)application
 {
-    OUZEL_UNUSED(application);
-
     ouzel::sharedEngine->pause();
 }
 
--(void)applicationDidEnterBackground:(UIApplication*)application
+-(void)applicationDidEnterBackground:(__unused UIApplication*)application
 {
-    OUZEL_UNUSED(application);
 }
 
--(void)applicationWillEnterForeground:(UIApplication*)application
+-(void)applicationWillEnterForeground:(__unused UIApplication*)application
 {
-    OUZEL_UNUSED(application);
 }
 
--(void)applicationWillTerminate:(UIApplication*)application
+-(void)applicationWillTerminate:(__unused UIApplication*)application
 {
-    OUZEL_UNUSED(application);
-
     if (ouzel::sharedEngine)
     {
         ouzel::sharedEngine->end();
     }
 }
 
--(void)applicationDidReceiveMemoryWarning:(UIApplication*)application
+-(void)applicationDidReceiveMemoryWarning:(__unused UIApplication*)application
 {
-    OUZEL_UNUSED(application);
-
     if (ouzel::sharedEngine)
     {
         ouzel::Event event;
-        event.sender = ouzel::sharedEngine->getInput();
         event.type = ouzel::Event::Type::LOW_MEMORY;
 
         ouzel::sharedEngine->getEventDispatcher()->dispatchEvent(event);

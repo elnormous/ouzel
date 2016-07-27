@@ -61,9 +61,8 @@ using namespace ouzel;
     }
 }
 
--(void)touchesBegan:(NSSet*)touches withEvent:(::UIEvent*)event
+-(void)touchesBegan:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
-    OUZEL_UNUSED(event);
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
@@ -73,9 +72,8 @@ using namespace ouzel;
     }
 }
 
--(void)touchesMoved:(NSSet*)touches withEvent:(::UIEvent*)event
+-(void)touchesMoved:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
-    OUZEL_UNUSED(event);
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
@@ -85,9 +83,8 @@ using namespace ouzel;
     }
 }
 
--(void)touchesEnded:(NSSet*)touches withEvent:(::UIEvent*)event
+-(void)touchesEnded:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
-    OUZEL_UNUSED(event);
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
@@ -97,9 +94,8 @@ using namespace ouzel;
     }
 }
 
--(void)touchesCancelled:(NSSet*)touches withEvent:(::UIEvent*)event
+-(void)touchesCancelled:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
-    OUZEL_UNUSED(event);
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];

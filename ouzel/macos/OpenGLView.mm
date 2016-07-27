@@ -110,9 +110,8 @@ using namespace ouzel;
     return YES;
 }
 
--(BOOL)acceptsFirstMouse:(NSEvent*)event
+-(BOOL)acceptsFirstMouse:(__unused NSEvent*)event
 {
-    OUZEL_UNUSED(event);
     return YES;
 }
 
@@ -339,19 +338,16 @@ using namespace ouzel;
                                           ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
--(void)swipeWithEvent:(NSEvent*)event
+-(void)swipeWithEvent:(__unused NSEvent*)event
 {
-    OUZEL_UNUSED(event);
 }
 
--(void)rotateWithEvent:(NSEvent*)event
+-(void)rotateWithEvent:(__unused NSEvent*)event
 {
-    OUZEL_UNUSED(event);
 }
 
--(void)magnifyWithEvent:(NSEvent*)event
+-(void)magnifyWithEvent:(__unused NSEvent*)event
 {
-    OUZEL_UNUSED(event);
 }
 
 @end

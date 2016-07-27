@@ -42,7 +42,6 @@
     UIDeviceOrientation orientation = device.orientation;
 
     ouzel::Event event;
-    event.sender = ouzel::sharedEngine->getInput();
     event.type = ouzel::Event::Type::ORIENTATION_CHANGE;
 
     switch (orientation)

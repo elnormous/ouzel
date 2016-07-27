@@ -11,10 +11,8 @@
 
 @implementation AppDelegate
 
--(void)applicationWillFinishLaunching:(NSNotification*)notification
+-(void)applicationWillFinishLaunching:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
-
     ouzelMain(ouzel::getArgs());
 
     if (ouzel::sharedEngine)
@@ -23,31 +21,25 @@
     }
 }
 
--(void)applicationDidFinishLaunching:(NSNotification*)notification
+-(void)applicationDidFinishLaunching:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
 }
 
--(void)applicationWillTerminate:(NSNotification*)notification
+-(void)applicationWillTerminate:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
-
     if (ouzel::sharedEngine)
     {
         ouzel::sharedEngine->end();
     }
 }
 
--(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)sender
+-(BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication*)sender
 {
-    OUZEL_UNUSED(sender);
     return YES;
 }
 
--(BOOL)application:(NSApplication*)sender openFile:(NSString*)filename
+-(BOOL)application:(__unused NSApplication*)sender openFile:(NSString*)filename
 {
-    OUZEL_UNUSED(sender);
-
     if (ouzel::sharedEngine)
     {
         ouzel::Event event;
@@ -61,17 +53,13 @@
     return YES;
 }
 
--(void)applicationDidBecomeActive:(NSNotification*)notification
+-(void)applicationDidBecomeActive:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
-
     ouzel::sharedEngine->resume();
 }
 
--(void)applicationDidResignActive:(NSNotification*)notification
+-(void)applicationDidResignActive:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
-
     ouzel::sharedEngine->pause();
 }
 

@@ -16,10 +16,8 @@
 
 @implementation WindowDelegate
 
--(void)handleQuit:(id)sender
+-(void)handleQuit:(__unused id)sender
 {
-    OUZEL_UNUSED(sender);
-
     [window->getNativeWindow() close];
 }
 
@@ -33,33 +31,28 @@
     return self;
 }
 
--(void)windowDidResize:(NSNotification *)notification
+-(void)windowDidResize:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
     window->handleResize();
 }
 
--(void)windowDidChangeScreen:(NSNotification *)notification
+-(void)windowDidChangeScreen:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
     window->handleDisplayChange();
 }
 
--(void)windowWillClose:(NSNotification *)notification
+-(void)windowWillClose:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
     window->handleClose();
 }
 
--(void)windowDidEnterFullScreen:(NSNotification *)notification
+-(void)windowDidEnterFullScreen:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
     window->handleFullscreenChange(true);
 }
 
--(void)windowDidExitFullScreen:(NSNotification *)notification
+-(void)windowDidExitFullScreen:(__unused NSNotification*)notification
 {
-    OUZEL_UNUSED(notification);
     window->handleFullscreenChange(false);
 }
 
