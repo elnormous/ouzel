@@ -9,6 +9,8 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+
         class Sound
         {
             friend Audio;

@@ -9,16 +9,8 @@
 
 void ouzelMain(const std::vector<std::string>& args);
 
-int WINAPI WinMain(HINSTANCE hInstance,
-    HINSTANCE hPrevInstance,
-    LPSTR lpCmdLine,
-    int nCmdShow)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-    OUZEL_UNUSED(hInstance);
-    OUZEL_UNUSED(hPrevInstance);
-    OUZEL_UNUSED(lpCmdLine);
-    OUZEL_UNUSED(nCmdShow);
-
     LPWSTR* argList;
     int nArgs;
     int i;

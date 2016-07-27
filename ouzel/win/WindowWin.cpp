@@ -10,10 +10,8 @@
 
 using namespace ouzel;
 
-static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
+static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM)
 {
-    OUZEL_UNUSED(lParam);
-
     if (msg == WM_KEYDOWN)
     {
         sharedEngine->getInput()->keyDown(input::InputWin::convertKeyCode(wParam),
@@ -26,10 +24,8 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     }
 }
 
-static void handleMouseMoveEvent(UINT msg, WPARAM wParam, LPARAM lParam)
+static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
 {
-    OUZEL_UNUSED(msg);
-
     Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
                 static_cast<float>(GET_Y_LPARAM(lParam)));
 
