@@ -214,7 +214,7 @@ namespace ouzel
             BUTTON_COUNT
         };
 
-        class Input: public Noncopyable, public std::enable_shared_from_this<Input>
+        class Input: public Noncopyable
         {
             friend Engine;
         public:

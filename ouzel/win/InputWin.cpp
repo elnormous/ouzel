@@ -218,7 +218,6 @@ namespace ouzel
                         gamepads[i].reset(new GamepadWin(static_cast<int32_t>(i)));
 
                         Event event;
-                        event.sender = shared_from_this();
                         event.type = Event::Type::GAMEPAD_CONNECT;
 
                         event.gamepadEvent.gamepad = gamepads[i];
@@ -233,7 +232,6 @@ namespace ouzel
                     if (gamepads[i])
                     {
                         Event event;
-                        event.sender = shared_from_this();
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
 
                         event.gamepadEvent.gamepad = gamepads[i];
