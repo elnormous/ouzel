@@ -16,10 +16,10 @@ namespace ouzel
         public:
             enum class ScaleMode
             {
-                None,
-                ExactFit,
-                NoBorder,
-                ShowAll
+                NONE,
+                EXACT_FIT,
+                NO_BORDER,
+                SHOW_ALL
             };
 
             Camera();
@@ -60,7 +60,7 @@ namespace ouzel
 
             Size2 targetContentSize;
 
-            ScaleMode scaleMode = ScaleMode::None;
+            ScaleMode scaleMode = ScaleMode::NONE;
             Size2 contentSize;
             Vector2 contentScale;
 

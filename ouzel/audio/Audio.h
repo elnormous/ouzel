@@ -21,7 +21,7 @@ namespace ouzel
         public:
             enum class Driver
             {
-                DEFAULT = 0,
+                DEFAULT,
                 NONE,
                 OPENAL,
                 XAUDIO2,

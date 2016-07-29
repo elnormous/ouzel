@@ -22,9 +22,9 @@ namespace ouzel
         public:
             enum class Motor
             {
-                ALL = 0,
-                LEFT = 1,
-                RIGHT = 2
+                ALL,
+                LEFT,
+                RIGHT
             };
 
             virtual bool isAttached() const;

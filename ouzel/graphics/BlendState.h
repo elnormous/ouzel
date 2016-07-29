@@ -17,28 +17,28 @@ namespace ouzel
         public:
             enum class BlendFactor
             {
-                ZERO              = 1,
-                ONE               = 2,
-                SRC_COLOR         = 3,
-                INV_SRC_COLOR     = 4,
-                SRC_ALPHA         = 5,
-                INV_SRC_ALPHA     = 6,
-                DEST_ALPHA        = 7,
-                INV_DEST_ALPHA    = 8,
-                DEST_COLOR        = 9,
-                INV_DEST_COLOR    = 10,
-                SRC_ALPHA_SAT     = 11,
-                BLEND_FACTOR      = 14,
-                INV_BLEND_FACTOR  = 15
+                ZERO,
+                ONE,
+                SRC_COLOR,
+                INV_SRC_COLOR,
+                SRC_ALPHA,
+                INV_SRC_ALPHA,
+                DEST_ALPHA,
+                INV_DEST_ALPHA,
+                DEST_COLOR,
+                INV_DEST_COLOR,
+                SRC_ALPHA_SAT,
+                BLEND_FACTOR,
+                INV_BLEND_FACTOR
             };
 
             enum class BlendOperation
             {
-                ADD           = 1,
-                SUBTRACT      = 2,
-                REV_SUBTRACT  = 3,
-                MIN           = 4,
-                MAX           = 5
+                ADD,
+                SUBTRACT,
+                REV_SUBTRACT,
+                MIN,
+                MAX
             };
 
             virtual ~BlendState();

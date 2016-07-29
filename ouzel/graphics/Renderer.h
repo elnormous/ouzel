@@ -43,7 +43,7 @@ namespace ouzel
 
             enum class Driver
             {
-                DEFAULT = 0,
+                DEFAULT,
                 NONE,
                 OPENGL,
                 DIRECT3D11,
@@ -52,7 +52,7 @@ namespace ouzel
 
             enum class TextureFiltering
             {
-                NONE = 0,
+                NONE,
                 LINEAR,
                 BILINEAR,
                 TRILINEAR
@@ -60,7 +60,7 @@ namespace ouzel
 
             enum class DrawMode
             {
-                POINT_LIST = 0,
+                POINT_LIST,
                 LINE_LIST,
                 LINE_STRIP,
                 TRIANGLE_LIST,

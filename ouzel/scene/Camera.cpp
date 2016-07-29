@@ -71,22 +71,22 @@ namespace ouzel
 
                 switch (scaleMode)
                 {
-                    case ScaleMode::None:
+                    case ScaleMode::NONE:
                     {
                         break;
                     }
-                    case ScaleMode::ExactFit:
+                    case ScaleMode::EXACT_FIT:
                     {
                         contentScale.x = 1.0f;
                         contentScale.y = 1.0f;
                         break;
                     }
-                    case ScaleMode::NoBorder:
+                    case ScaleMode::NO_BORDER:
                     {
                         contentScale.x = contentScale.y = std::max(contentScale.x, contentScale.y);
                         break;
                     }
-                    case ScaleMode::ShowAll:
+                    case ScaleMode::SHOW_ALL:
                     {
                         contentScale.x = contentScale.y = std::min(contentScale.x, contentScale.y);
                         break;

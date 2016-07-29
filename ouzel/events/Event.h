@@ -65,7 +65,7 @@ namespace ouzel
     {
         enum class Orientation
         {
-            UNKNOWN = 0,
+            UNKNOWN,
             PORTRAIT,
             PORTRAIT_UPSIDE_DOWN,
             LANDSCAPE_LEFT,
