@@ -5,28 +5,34 @@ package lv.elviss.ouzel;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-public class OuzelSurfaceView extends GLSurfaceView
+public class OuzelSurfaceView extends GLSurfaceView implements InputDeviceListener
 {
+    private final InputManager inputManager;
+
     public OuzelSurfaceView(Context context)
     {
         super(context);
-        
+
+        inputManager = new InputManager();
+        inputManager.registerInputDeviceListener(this, null);
+
         this.setFocusableInTouchMode(true);
     }
     
     @Override
-    public boolean onTouchEvent(final MotionEvent motionEvent)
+    public boolean onTouchEvent(final MotionEvent event)
     {
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
+        switch (event.getAction() & MotionEvent.ACTION_MASK)
         {
             case MotionEvent.ACTION_POINTER_DOWN:
             {
-                final int indexPointerDown = motionEvent.getAction() >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-                final int pointerId = motionEvent.getPointerId(indexPointerDown);
-                final float x = motionEvent.getX(indexPointerDown);
-                final float y = motionEvent.getY(indexPointerDown);
+                final int indexPointerDown = event.getAction() >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+                final int pointerId = event.getPointerId(indexPointerDown);
+                final float x = event.getX(indexPointerDown);
+                final float y = event.getY(indexPointerDown);
 
                 this.queueEvent(new Runnable()
                 {
@@ -41,9 +47,9 @@ public class OuzelSurfaceView extends GLSurfaceView
 
             case MotionEvent.ACTION_DOWN:
             {
-                final int pointerId = motionEvent.getPointerId(0);
-                final float x = motionEvent.getX(0);
-                final float y = motionEvent.getY(0);
+                final int pointerId = event.getPointerId(0);
+                final float x = event.getX(0);
+                final float y = event.getY(0);
 
                 this.queueEvent(new Runnable()
                 {
@@ -58,9 +64,9 @@ public class OuzelSurfaceView extends GLSurfaceView
 
             case MotionEvent.ACTION_MOVE:
             {
-                final int pointerId = motionEvent.getPointerId(0);
-                final float x = motionEvent.getX(0);
-                final float y = motionEvent.getY(0);
+                final int pointerId = event.getPointerId(0);
+                final float x = event.getX(0);
+                final float y = event.getY(0);
 
                 this.queueEvent(new Runnable()
                 {
@@ -75,10 +81,10 @@ public class OuzelSurfaceView extends GLSurfaceView
 
             case MotionEvent.ACTION_POINTER_UP:
             {
-                final int indexPointUp = motionEvent.getAction() >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-                final int pointerId = motionEvent.getPointerId(indexPointUp);
-                final float x = motionEvent.getX(indexPointUp);
-                final float y = motionEvent.getY(indexPointUp);
+                final int indexPointUp = event.getAction() >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+                final int pointerId = event.getPointerId(indexPointUp);
+                final float x = event.getX(indexPointUp);
+                final float y = event.getY(indexPointUp);
 
                 this.queueEvent(new Runnable()
                 {
@@ -93,9 +99,9 @@ public class OuzelSurfaceView extends GLSurfaceView
 
             case MotionEvent.ACTION_UP:
             {
-                final int pointerId = motionEvent.getPointerId(0);
-                final float x = motionEvent.getX(0);
-                final float y = motionEvent.getY(0);
+                final int pointerId = event.getPointerId(0);
+                final float x = event.getX(0);
+                final float y = event.getY(0);
 
                 this.queueEvent(new Runnable()
                 {
@@ -110,9 +116,9 @@ public class OuzelSurfaceView extends GLSurfaceView
 
             case MotionEvent.ACTION_CANCEL:
             {
-                final int pointerId = motionEvent.getPointerId(0);
-                final float x = motionEvent.getX(0);
-                final float y = motionEvent.getY(0);
+                final int pointerId = event.getPointerId(0);
+                final float x = event.getX(0);
+                final float y = event.getY(0);
 
                 this.queueEvent(new Runnable()
                 {
@@ -125,6 +131,41 @@ public class OuzelSurfaceView extends GLSurfaceView
                 break;
             }
         }
-        return true;
+
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        inputManager.onInputEvent(event);
+        // TODO: implement
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event)
+    {
+        inputManager.onInputEvent(event);
+        // TODO: implement
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public void onInputDeviceAdded(int deviceId)
+    {
+        // TODO: implement
+    }
+
+    @Override
+    public void onInputDeviceChanged(int deviceId)
+    {
+        // TODO: implement
+    }
+
+    @Override
+    public void onInputDeviceRemoved(int deviceId)
+    {
+        // TODO: implement
     }
 }
