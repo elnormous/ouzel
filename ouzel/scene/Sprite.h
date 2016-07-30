@@ -49,7 +49,7 @@ namespace ouzel
 
             std::vector<SpriteFramePtr> frames;
 
-            uint32_t currentFrame = 0;
+            int32_t currentFrame = 0;
             float frameInterval = 0.0f;
             bool playing = false;
             bool repeat = false;

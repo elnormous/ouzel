@@ -130,22 +130,44 @@ namespace ouzel
             {
                 timeSinceLastFrame += delta;
 
-                while (timeSinceLastFrame > frameInterval)
+                while (timeSinceLastFrame > fabsf(frameInterval))
                 {
-                    timeSinceLastFrame -= frameInterval;
-                    ++currentFrame;
+                    timeSinceLastFrame -= fabsf(frameInterval);
 
-                    if (currentFrame >= frames.size())
+                    if (frameInterval > 0.0f)
                     {
-                        if (repeat)
+                        ++currentFrame;
+
+                        if (currentFrame >= frames.size())
                         {
-                            currentFrame = 0;
+                            if (repeat)
+                            {
+                                currentFrame = 0;
+                            }
+                            else
+                            {
+                                currentFrame = static_cast<int32_t>(frames.size() - 1);
+                                playing = false;
+                                sharedEngine->unscheduleUpdate(updateCallback);
+                            }
                         }
-                        else
+                    }
+                    else if (frameInterval < 0.0f)
+                    {
+                        --currentFrame;
+
+                        if (currentFrame < 0)
                         {
-                            currentFrame = static_cast<uint32_t>(frames.size() - 1);
-                            playing = false;
-                            sharedEngine->unscheduleUpdate(updateCallback);
+                            if (repeat)
+                            {
+                                currentFrame = static_cast<int32_t>(frames.size() - 1);
+                            }
+                            else
+                            {
+                                currentFrame = 0;
+                                playing = false;
+                                sharedEngine->unscheduleUpdate(updateCallback);
+                            }
                         }
                     }
                 }
@@ -192,10 +214,21 @@ namespace ouzel
             {
                 playing = true;
 
-                if (currentFrame >= frames.size() - 1)
+                if (frameInterval > 0.0f)
                 {
-                    currentFrame = 0;
-                    timeSinceLastFrame = 0.0f;
+                    if (currentFrame >= frames.size() - 1)
+                    {
+                        currentFrame = 0;
+                        timeSinceLastFrame = 0.0f;
+                    }
+                }
+                else if (frameInterval < 0.0f)
+                {
+                    if (currentFrame == 0)
+                    {
+                        currentFrame = static_cast<int32_t>(frames.size() - 1);
+                        timeSinceLastFrame = 0.0f;
+                    }
                 }
 
                 sharedEngine->scheduleUpdate(updateCallback);
