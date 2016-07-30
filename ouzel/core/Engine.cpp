@@ -23,6 +23,7 @@
 #include "tvos/RendererOGLTVOS.h"
 #elif OUZEL_PLATFORM_ANDROID
 #include "android/WindowAndroid.h"
+#include "android/InputAndroid.h"
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowLinux.h"
 #include "linux/RendererOGLLinux.h"
@@ -166,6 +167,8 @@ namespace ouzel
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         input.reset(new input::InputApple());
+#elif OUZEL_PLATFORM_ANDROID
+        input.reset(new input::InputAndroid());
 #elif OUZEL_PLATFORM_WINDOWS
         input.reset(new input::InputWin());
 #elif OUZEL_PLATFORM_RASPBIAN

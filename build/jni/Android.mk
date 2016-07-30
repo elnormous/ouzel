@@ -10,7 +10,8 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../external/stb \
     $(LOCAL_PATH)/../../external/rapidjson/include
 
-LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/android/WindowAndroid.cpp \
+LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/android/InputAndroid.cpp \
+    $(LOCAL_PATH)/../../ouzel/android/WindowAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Ease.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Fade.cpp \
