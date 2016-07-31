@@ -41,6 +41,9 @@ namespace ouzel
             virtual void reset();
             virtual bool isPlaying() const { return playing; }
 
+            const std::vector<SpriteFramePtr>& getFrames() const { return frames; }
+            virtual void setCurrentFrame(uint32_t frame);
+
         protected:
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;

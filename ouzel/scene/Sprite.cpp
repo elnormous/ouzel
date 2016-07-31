@@ -255,5 +255,15 @@ namespace ouzel
             currentFrame = 0;
             timeSinceLastFrame = 0.0f;
         }
+
+        void Sprite::setCurrentFrame(uint32_t frame)
+        {
+            currentFrame = frame;
+
+            if (currentFrame >= frames.size())
+            {
+                currentFrame = static_cast<int32_t>(frames.size() - 1);
+            }
+        }
     } // namespace scene
 } // namespace ouzel
