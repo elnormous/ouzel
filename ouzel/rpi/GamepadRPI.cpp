@@ -1,17 +1,17 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "InputAndroid.h"
+#include "GamepadRPI.h"
 
 namespace ouzel
 {
     namespace input
     {
-        InputAndroid::InputAndroid()
+        GamepadRPI::GamepadRPI()
         {
         }
 
-        InputAndroid::~InputAndroid()
+        GamepadRPI::~GamepadRPI()
         {
         }
     } // namespace input

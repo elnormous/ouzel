@@ -27,6 +27,7 @@
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowLinux.h"
 #include "linux/RendererOGLLinux.h"
+#include "android/InputLinux.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "win/WindowWin.h"
 #elif OUZEL_PLATFORM_RASPBIAN
@@ -169,6 +170,8 @@ namespace ouzel
         input.reset(new input::InputApple());
 #elif OUZEL_PLATFORM_ANDROID
         input.reset(new input::InputAndroid());
+#elif OUZEL_PLATFORM_LINUX
+        input.reset(new input::InputLinux());
 #elif OUZEL_PLATFORM_WINDOWS
         input.reset(new input::InputWin());
 #elif OUZEL_PLATFORM_RASPBIAN

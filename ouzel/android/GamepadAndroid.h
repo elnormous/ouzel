@@ -3,21 +3,19 @@
 
 #pragma once
 
-#include "input/Input.h"
+#include "input/Gamepad.h"
 
 namespace ouzel
 {
-    class Engine;
-
     namespace input
     {
-        class InputAndroid: public Input
+        class GamepadAndroid: public Gamepad
         {
-            friend Engine;
         public:
-            virtual ~InputAndroid();
+            virtual ~GamepadAndroid();
+
         protected:
-            InputAndroid();
+            GamepadAndroid();
         };
     } // namespace input
 } // namespace ouzel

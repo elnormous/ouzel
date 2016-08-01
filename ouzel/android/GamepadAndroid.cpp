@@ -1,17 +1,17 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "InputAndroid.h"
+#include "GamepadAndroid.h"
 
 namespace ouzel
 {
     namespace input
     {
-        InputAndroid::InputAndroid()
+        GamepadAndroid::GamepadAndroid()
         {
         }
 
-        InputAndroid::~InputAndroid()
+        GamepadAndroid::~GamepadAndroid()
         {
         }
     } // namespace input

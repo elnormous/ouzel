@@ -11,13 +11,13 @@ namespace ouzel
 
     namespace input
     {
-        class InputAndroid: public Input
+        class InputLinux: public Input
         {
             friend Engine;
         public:
-            virtual ~InputAndroid();
+            virtual ~InputLinux();
         protected:
-            InputAndroid();
+            InputLinux();
         };
     } // namespace input
 } // namespace ouzel
