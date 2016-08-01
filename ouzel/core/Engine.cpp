@@ -27,7 +27,7 @@
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowLinux.h"
 #include "linux/RendererOGLLinux.h"
-#include "android/InputLinux.h"
+#include "linux/InputLinux.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "win/WindowWin.h"
 #elif OUZEL_PLATFORM_RASPBIAN
