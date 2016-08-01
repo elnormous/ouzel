@@ -156,7 +156,7 @@ namespace ouzel
                     {
                         --currentFrame;
 
-                        if (currentFrame < 0)
+                        if (currentFrame >= frames.size()) // wrap around happened
                         {
                             if (repeat)
                             {
