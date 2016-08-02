@@ -44,9 +44,6 @@ namespace ouzel
 
             void nextBuffers();
 
-            virtual bool setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
-            virtual bool setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
-
             virtual MTLFunctionPtr getPixelShader() const { return pixelShader; }
             virtual MTLFunctionPtr getVertexShader() const { return vertexShader; }
 

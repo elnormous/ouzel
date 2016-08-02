@@ -32,8 +32,6 @@ namespace ouzel
             // render only if there is an active camera
             if (camera)
             {
-                sharedEngine->getRenderer()->activateRenderTarget(renderTarget);
-
                 auto childrenCopy = children;
 
                 for (const NodePtr& child : childrenCopy)

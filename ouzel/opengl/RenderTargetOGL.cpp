@@ -18,16 +18,21 @@ namespace ouzel
 
         RenderTargetOGL::~RenderTargetOGL()
         {
-            if (depthBufferId)
+            if (depthBufferId || frameBufferId)
             {
-                glDeleteRenderbuffers(1, &depthBufferId);
-            }
+                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
-            if (frameBufferId)
-            {
-                RendererOGL::unbindFrameBuffer(frameBufferId);
+                rendererOGL->execute([depthBufferId = depthBufferId, frameBufferId = frameBufferId] {
+                    if (depthBufferId)
+                    {
+                        glDeleteRenderbuffers(1, &depthBufferId);
+                    }
 
-                glDeleteFramebuffers(1, &frameBufferId);
+                    if (frameBufferId)
+                    {
+                        glDeleteFramebuffers(1, &frameBufferId);
+                    }
+                });
             }
         }
 
@@ -35,17 +40,23 @@ namespace ouzel
         {
             RenderTarget::free();
 
-            if (depthBufferId)
+            if (depthBufferId || frameBufferId)
             {
-                glDeleteRenderbuffers(1, &depthBufferId);
+                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+
+                rendererOGL->execute([depthBufferId = depthBufferId, frameBufferId = frameBufferId] {
+                    if (depthBufferId)
+                    {
+                        glDeleteRenderbuffers(1, &depthBufferId);
+                    }
+
+                    if (frameBufferId)
+                    {
+                        glDeleteFramebuffers(1, &frameBufferId);
+                    }
+                });
+
                 depthBufferId = 0;
-            }
-
-            if (frameBufferId)
-            {
-                RendererOGL::unbindFrameBuffer(frameBufferId);
-
-                glDeleteFramebuffers(1, &frameBufferId);
                 frameBufferId = 0;
             }
         }

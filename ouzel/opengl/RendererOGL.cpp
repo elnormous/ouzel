@@ -217,14 +217,6 @@ namespace ouzel
             Renderer::setSize(newSize);
 
             viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
-
-            if (ready && !activeRenderTarget)
-            {
-                glViewport(static_cast<GLsizei>(viewport.x),
-                           static_cast<GLsizei>(viewport.y),
-                           static_cast<GLsizei>(viewport.width),
-                           static_cast<GLsizei>(viewport.height));
-            }
         }
 
         void RendererOGL::clear()
@@ -234,7 +226,7 @@ namespace ouzel
             for (;;)
             {
                 {
-                    std::lock_guard<std::mutex> lock(queueMutex);
+                    std::lock_guard<std::mutex> lock(executeMutex);
                     if (executeQueue.empty())
                     {
                         break;
@@ -249,14 +241,279 @@ namespace ouzel
 
             Renderer::clear();
 
-            clearedFrameBuffers.clear();
-
             glDisable(GL_SCISSOR_TEST);
         }
 
-        void RendererOGL::present()
+        bool RendererOGL::present()
         {
-            Renderer::present();
+            if (!Renderer::present())
+            {
+                return false;
+            }
+
+            std::set<GLuint> clearedFrameBuffers;
+
+            while (!drawQueue.empty())
+            {
+                const DrawCommand drawCommand = drawQueue.front();
+                drawQueue.pop();
+
+                // blend state
+                std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
+
+                if (blendStateOGL->isBlendingEnabled())
+                {
+                    glEnable(GL_BLEND);
+                }
+                else
+                {
+                    glDisable(GL_BLEND);
+                }
+
+                glBlendEquationSeparate(BlendStateOGL::getBlendOperation(blendStateOGL->getColorOperation()),
+                                        BlendStateOGL::getBlendOperation(blendStateOGL->getAlphaOperation()));
+
+                glBlendFuncSeparate(BlendStateOGL::getBlendFactor(blendStateOGL->getColorBlendSource()),
+                                    BlendStateOGL::getBlendFactor(blendStateOGL->getColorBlendDest()),
+                                    BlendStateOGL::getBlendFactor(blendStateOGL->getAlphaBlendSource()),
+                                    BlendStateOGL::getBlendFactor(blendStateOGL->getAlphaBlendDest()));
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to activate blend state");
+                    return false;
+                }
+
+                // textures
+                for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+                {
+                    std::shared_ptr<TextureOGL> textureOGL;
+
+                    if (drawCommand.textures.size() > layer)
+                    {
+                        textureOGL = std::static_pointer_cast<TextureOGL>(drawCommand.textures[layer]);
+                    }
+
+                    if (textureOGL)
+                    {
+                        bindTexture(textureOGL->getTextureId(), layer);
+                    }
+                    else
+                    {
+                        bindTexture(0, layer);
+                    }
+                }
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to bind texture");
+                    return false;
+                }
+
+                // shader
+                std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(drawCommand.shader);
+                bindProgram(shaderOGL->getProgramId());
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to bind shader");
+                    return false;
+                }
+
+                // pixel shader constants
+                const std::vector<GLint>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
+                const std::vector<Shader::ConstantInfo>& pixelShaderConstantInfos = shaderOGL->getPixelShaderConstantInfo();
+
+                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                {
+                    log("Invalid pixel shader constant size");
+                    return false;
+                }
+
+                for (int i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
+                {
+                    GLint location = pixelShaderConstantLocations[i];
+                    const Shader::ConstantInfo& pixelShaderConstantInfo = pixelShaderConstantInfos[i];
+                    const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
+
+                    uint32_t components = pixelShaderConstantInfo.size / 4;
+
+                    switch (components)
+                    {
+                        case 1:
+                            glUniform1fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
+                            break;
+                        case 2:
+                            glUniform2fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
+                            break;
+                        case 3:
+                            glUniform3fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
+                            break;
+                        case 4:
+                            glUniform4fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
+                            break;
+                        case 9:
+                            glUniformMatrix3fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), GL_FALSE, pixelShaderConstant.data());
+                            break;
+                        case 16:
+                            glUniformMatrix4fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), GL_FALSE, pixelShaderConstant.data());
+                            break;
+                        default:
+                            log("Unsupported uniform size");
+                            return false;
+                    }
+                }
+
+                // vertex shader constants
+                const std::vector<GLint>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
+                const std::vector<Shader::ConstantInfo>& vertexShaderConstantInfos = shaderOGL->getVertexShaderConstantInfo();
+
+                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                {
+                    log("Invalid vertex shader constant size");
+                    return false;
+                }
+
+                for (int i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
+                {
+                    GLint location = vertexShaderConstantLocations[i];
+                    const Shader::ConstantInfo& vertexShaderConstantInfo = vertexShaderConstantInfos[i];
+                    const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
+
+                    uint32_t components = vertexShaderConstantInfo.size / 4;
+
+                    switch (components)
+                    {
+                        case 1:
+                            glUniform1fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
+                            break;
+                        case 2:
+                            glUniform2fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
+                            break;
+                        case 3:
+                            glUniform3fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
+                            break;
+                        case 4:
+                            glUniform4fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
+                            break;
+                        case 9:
+                            glUniformMatrix3fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), GL_FALSE, vertexShaderConstant.data());
+                            break;
+                        case 16:
+                            glUniformMatrix4fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), GL_FALSE, vertexShaderConstant.data());
+                            break;
+                        default:
+                            log("Unsupported uniform size");
+                            return false;
+                    }
+                }
+
+                // render target
+                GLuint newFrameBuffer = 0;
+                Color newClearColor;
+                Rectangle newViewport;
+
+                if (drawCommand.renderTarget)
+                {
+                    std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(drawCommand.renderTarget);
+                    newFrameBuffer = renderTargetOGL->getFrameBufferId();
+                    newViewport = renderTargetOGL->getViewport();
+                    newClearColor = renderTargetOGL->getClearColor();
+
+                }
+                else
+                {
+                    newFrameBuffer = frameBufferId;
+                    newViewport = viewport;
+                    newClearColor = clearColor;
+                }
+
+                bindFrameBuffer(newFrameBuffer);
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to bind frame buffer");
+                    return false;
+                }
+
+                glViewport(static_cast<GLsizei>(newViewport.x),
+                           static_cast<GLsizei>(newViewport.y),
+                           static_cast<GLsizei>(newViewport.width),
+                           static_cast<GLsizei>(newViewport.height));
+
+                if (clearedFrameBuffers.find(newFrameBuffer) == clearedFrameBuffers.end())
+                {
+                    glClearColor(newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA());
+                    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to clear frame buffer");
+                    }
+                    
+                    clearedFrameBuffers.insert(newFrameBuffer);
+                }
+
+                // scissor test
+                if (drawCommand.scissorTestEnabled)
+                {
+                    glEnable(GL_SCISSOR_TEST);
+
+                    glScissor(static_cast<GLint>(drawCommand.scissorTest.x),
+                              static_cast<GLint>(drawCommand.scissorTest.y),
+                              static_cast<GLsizei>(drawCommand.scissorTest.width),
+                              static_cast<GLsizei>(drawCommand.scissorTest.height));
+                }
+                else
+                {
+                    glDisable(GL_SCISSOR_TEST);
+                }
+
+                // mesh buffer
+                std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);
+                if (!meshBufferOGL->update())
+                {
+                    return false;
+                }
+
+                uint32_t indexCount = drawCommand.indexCount;
+
+                if (indexCount == 0)
+                {
+                    indexCount = meshBufferOGL->getIndexCount() - drawCommand.startIndex;
+                }
+
+                GLenum mode;
+
+                switch (drawCommand.drawMode)
+                {
+                    case DrawMode::POINT_LIST: mode = GL_POINTS; break;
+                    case DrawMode::LINE_LIST: mode = GL_LINES; break;
+                    case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
+                    case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
+                    case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
+                    default: return false;
+                }
+
+                if (!meshBufferOGL->bindVertexBuffer())
+                {
+                    return false;
+                }
+
+                if (!bindElementArrayBuffer(meshBufferOGL->getIndexBufferId()))
+                {
+                    return false;
+                }
+
+                glDrawElements(mode, static_cast<GLsizei>(indexCount), meshBufferOGL->getIndexFormat(), static_cast<const char*>(nullptr) + (drawCommand.startIndex * meshBufferOGL->getIndexSize()));
+                
+                if (checkOpenGLError())
+                {
+                    log("Failed to draw elements");
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         void RendererOGL::flush()
@@ -281,85 +538,10 @@ namespace ouzel
             return blendState;
         }
 
-        bool RendererOGL::activateBlendState(BlendStatePtr blendState)
-        {
-            if (activeBlendState == blendState)
-            {
-                return true;
-            }
-
-            if (!Renderer::activateBlendState(blendState))
-            {
-                return false;
-            }
-
-            if (activeBlendState)
-            {
-                std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(activeBlendState);
-
-                if (blendStateOGL->isBlendingEnabled())
-                {
-                    glEnable(GL_BLEND);
-                }
-                else
-                {
-                    glDisable(GL_BLEND);
-                }
-
-                glBlendEquationSeparate(BlendStateOGL::getBlendOperation(blendStateOGL->getColorOperation()),
-                                        BlendStateOGL::getBlendOperation(blendStateOGL->getAlphaOperation()));
-
-                glBlendFuncSeparate(BlendStateOGL::getBlendFactor(blendStateOGL->getColorBlendSource()),
-                                    BlendStateOGL::getBlendFactor(blendStateOGL->getColorBlendDest()),
-                                    BlendStateOGL::getBlendFactor(blendStateOGL->getAlphaBlendSource()),
-                                    BlendStateOGL::getBlendFactor(blendStateOGL->getAlphaBlendDest()));
-            }
-            else
-            {
-                glDisable(GL_BLEND);
-                glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-                glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ONE, GL_ZERO);
-            }
-
-            if (checkOpenGLError())
-            {
-                log("Failed to activate blend state");
-                return false;
-            }
-
-            return true;
-        }
-
         TexturePtr RendererOGL::createTexture()
         {
             std::shared_ptr<TextureOGL> texture(new TextureOGL());
             return texture;
-        }
-
-        bool RendererOGL::activateTexture(const TexturePtr& texture, uint32_t layer)
-        {
-            if (activeTextures[layer] == texture)
-            {
-                return true;
-            }
-
-            if (!Renderer::activateTexture(texture, layer))
-            {
-                return false;
-            }
-
-            if (activeTextures[layer])
-            {
-                std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTextures[layer]);
-
-                bindTexture(textureOGL->getTextureId(), layer);
-            }
-            else
-            {
-                bindTexture(0, layer);
-            }
-
-            return true;
         }
 
         RenderTargetPtr RendererOGL::createRenderTarget()
@@ -368,203 +550,16 @@ namespace ouzel
             return renderTarget;
         }
 
-        bool RendererOGL::activateRenderTarget(const RenderTargetPtr& renderTarget)
-        {
-            if (!Renderer::activateRenderTarget(renderTarget))
-            {
-                return false;
-            }
-
-            GLuint newFrameBuffer = 0;
-            Color newClearColor;
-            Rectangle newViewport;
-
-            if (activeRenderTarget)
-            {
-                std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(activeRenderTarget);
-                newFrameBuffer = renderTargetOGL->getFrameBufferId();
-                newViewport = renderTargetOGL->getViewport();
-                newClearColor = renderTargetOGL->getClearColor();
-
-            }
-            else
-            {
-                newFrameBuffer = frameBufferId;
-                newViewport = viewport;
-                newClearColor = clearColor;
-            }
-
-            glViewport(static_cast<GLsizei>(newViewport.x),
-                       static_cast<GLsizei>(newViewport.y),
-                       static_cast<GLsizei>(newViewport.width),
-                       static_cast<GLsizei>(newViewport.height));
-
-            bindFrameBuffer(newFrameBuffer);
-
-            if (clearedFrameBuffers.find(newFrameBuffer) == clearedFrameBuffers.end())
-            {
-                glClearColor(newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA());
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                if (checkOpenGLError())
-                {
-                    log("Failed to clear frame buffer");
-                }
-
-                clearedFrameBuffers.insert(newFrameBuffer);
-            }
-
-            return true;
-        }
-
         ShaderPtr RendererOGL::createShader()
         {
             std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
             return shader;
         }
 
-        bool RendererOGL::activateShader(const ShaderPtr& shader)
-        {
-            if (activeShader == shader)
-            {
-                return true;
-            }
-
-            if (!Renderer::activateShader(shader))
-            {
-                return false;
-            }
-
-            if (activeShader)
-            {
-                std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(activeShader);
-
-                bindProgram(shaderOGL->getProgramId());
-            }
-            else
-            {
-                bindProgram(0);
-            }
-
-            return true;
-        }
-
         MeshBufferPtr RendererOGL::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
             return meshBuffer;
-        }
-
-        bool RendererOGL::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t startIndex)
-        {
-            if (!Renderer::drawMeshBuffer(meshBuffer))
-            {
-                return false;
-            }
-
-            if (!activeShader || !activeShader->isReady())
-            {
-                return false;
-            }
-
-            if (activeRenderTarget)
-            {
-                if (!activeRenderTarget->isReady())
-                {
-                    return false;
-                }
-
-                std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(activeRenderTarget);
-
-                bindFrameBuffer(renderTargetOGL->getFrameBufferId());
-            }
-            else
-            {
-                bindFrameBuffer(frameBufferId);
-            }
-
-            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
-            {
-                if (activeTextures[layer])
-                {
-                    std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTextures[layer]);
-
-                    if (!textureOGL->update())
-                    {
-                        return false;
-                    }
-
-                    bindTexture(textureOGL->getTextureId(), layer);
-                }
-                else
-                {
-                    bindTexture(0, layer);
-                }
-            }
-
-            std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(activeShader);
-            bindProgram(shaderOGL->getProgramId());
-
-            std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(meshBuffer);
-            if (!meshBufferOGL->update())
-            {
-                return false;
-            }
-
-            if (indexCount == 0)
-            {
-                indexCount = meshBufferOGL->getIndexCount() - startIndex;
-            }
-
-            GLenum mode;
-
-            switch (drawMode)
-            {
-                case DrawMode::POINT_LIST: mode = GL_POINTS; break;
-                case DrawMode::LINE_LIST: mode = GL_LINES; break;
-                case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
-                case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
-                case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-                default: return false;
-            }
-
-            if (!meshBufferOGL->bindVertexBuffer())
-            {
-                return false;
-            }
-
-            if (!bindElementArrayBuffer(meshBufferOGL->getIndexBufferId()))
-            {
-                return false;
-            }
-
-            glDrawElements(mode, static_cast<GLsizei>(indexCount), meshBufferOGL->getIndexFormat(), static_cast<const char*>(nullptr) + (startIndex * meshBuffer->getIndexSize()));
-
-            if (checkOpenGLError())
-            {
-                log("Failed to draw elements");
-                return false;
-            }
-
-            return true;
-        }
-
-        void RendererOGL::activateScissorTest(const Rectangle& rectangle)
-        {
-            Renderer::activateScissorTest(rectangle);
-
-            if (rectangle.isEmpty())
-            {
-                glEnable(GL_SCISSOR_TEST);
-
-                glScissor(static_cast<GLint>(rectangle.x),
-                          static_cast<GLint>(rectangle.y),
-                          static_cast<GLsizei>(rectangle.width),
-                          static_cast<GLsizei>(rectangle.height));
-            }
-            else
-            {
-                glDisable(GL_SCISSOR_TEST);
-            }
         }
 
         bool RendererOGL::saveScreenshot(const std::string& filename)
@@ -789,7 +784,7 @@ namespace ouzel
 
         void RendererOGL::execute(const std::function<void(void)> func)
         {
-            std::lock_guard<std::mutex> lock(queueMutex);
+            std::lock_guard<std::mutex> lock(executeMutex);
             executeQueue.push(func);
         }
     } // namespace graphics

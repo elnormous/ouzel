@@ -63,26 +63,16 @@ namespace ouzel
             virtual void setClearColor(Color color) override;
 
             virtual void clear() override;
-            virtual void present() override;
+            virtual bool present() override;
             virtual void flush() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
             virtual BlendStatePtr createBlendState() override;
-            virtual bool activateBlendState(BlendStatePtr blendState) override;
-
             virtual TexturePtr createTexture() override;
-            virtual bool activateTexture(const TexturePtr& texture, uint32_t layer) override;
             virtual RenderTargetPtr createRenderTarget() override;
-            virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget) override;
-
             virtual ShaderPtr createShader() override;
-            virtual bool activateShader(const ShaderPtr& shader) override;
-
             virtual MeshBufferPtr createMeshBuffer() override;
-            virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST, uint32_t startIndex = 0) override;
-
-            virtual void activateScissorTest(const Rectangle& rectangle) override;
 
             virtual bool saveScreenshot(const std::string& filename) override;
 
@@ -114,7 +104,6 @@ namespace ouzel
             virtual void setSize(const Size2& newSize) override;
 
             GLuint frameBufferId = 0;
-            std::set<GLuint> clearedFrameBuffers;
 
             static GLuint currentTextureId[TEXTURE_LAYERS];
             static GLuint currentProgramId;
@@ -126,7 +115,7 @@ namespace ouzel
             Rectangle viewport;
 
             std::queue<std::function<void(void)>> executeQueue;
-            std::mutex queueMutex;
+            std::mutex executeMutex;
         };
     } // namespace graphics
 } // namespace ouzel

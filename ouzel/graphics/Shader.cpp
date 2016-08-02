@@ -111,15 +111,5 @@ namespace ouzel
 
             return true;
         }
-
-        bool Shader::setPixelShaderConstant(uint32_t, uint32_t, uint32_t, const float*)
-        {
-            return true;
-        }
-
-        bool Shader::setVertexShaderConstant(uint32_t, uint32_t, uint32_t, const float*)
-        {
-            return true;
-        }
     } // namespace graphics
 } // namespace ouzel

@@ -46,10 +46,12 @@ namespace ouzel
             uint32_t getVertexAttributes() const { return vertexAttributes; }
 
             virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
-            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
+            const std::vector<ConstantInfo>& getPixelShaderConstantInfo() const { return pixelShaderConstantInfo; }
 
-            virtual bool setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value);
-            virtual bool setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value);
+            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
+            const std::vector<ConstantInfo>& getVertexShaderConstantInfo() const { return vertexShaderConstantInfo; }
+
+            virtual bool setVertexShaderConstantInfo();
 
             bool isReady() const { return ready; }
 

@@ -60,8 +60,8 @@ namespace ouzel
             virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
             virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
 
-            virtual bool setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
-            virtual bool setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value) override;
+            const std::vector<GLint>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            const std::vector<GLint>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
             GLuint getProgramId() const { return programId; }
 

@@ -18,21 +18,26 @@ namespace ouzel
 
         ShaderOGL::~ShaderOGL()
         {
-            if (programId)
+            if (programId || vertexShaderId || pixelShaderId)
             {
-                RendererOGL::unbindProgram(programId);
+                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
-                glDeleteProgram(programId);
-            }
+                rendererOGL->execute([programId = programId, vertexShaderId = vertexShaderId, pixelShaderId = pixelShaderId] {
+                    if (programId)
+                    {
+                        glDeleteProgram(programId);
+                    }
 
-            if (vertexShaderId)
-            {
-                glDeleteShader(vertexShaderId);
-            }
-
-            if (pixelShaderId)
-            {
-                glDeleteShader(pixelShaderId);
+                    if (vertexShaderId)
+                    {
+                        glDeleteShader(vertexShaderId);
+                    }
+                    
+                    if (pixelShaderId)
+                    {
+                        glDeleteShader(pixelShaderId);
+                    }
+                });
             }
         }
 
@@ -40,23 +45,29 @@ namespace ouzel
         {
             Shader::free();
 
-            if (programId)
+            if (programId || vertexShaderId || pixelShaderId)
             {
-                RendererOGL::unbindProgram(programId);
+                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
-                glDeleteProgram(programId);
+                rendererOGL->execute([programId = programId, vertexShaderId = vertexShaderId, pixelShaderId = pixelShaderId] {
+                    if (programId)
+                    {
+                        glDeleteProgram(programId);
+                    }
+
+                    if (vertexShaderId)
+                    {
+                        glDeleteShader(vertexShaderId);
+                    }
+
+                    if (pixelShaderId)
+                    {
+                        glDeleteShader(pixelShaderId);
+                    }
+                });
+
                 programId = 0;
-            }
-
-            if (vertexShaderId)
-            {
-                glDeleteShader(vertexShaderId);
                 vertexShaderId = 0;
-            }
-
-            if (pixelShaderId)
-            {
-                glDeleteShader(pixelShaderId);
                 pixelShaderId = 0;
             }
         }
@@ -255,82 +266,6 @@ namespace ouzel
                 }
 
                 vertexShaderConstantLocations.push_back(location);
-            }
-
-            return true;
-        }
-
-        bool ShaderOGL::setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
-        {
-            if (index >= pixelShaderConstantLocations.size()) return false;
-
-            RendererOGL::bindProgram(programId);
-
-            GLint location = pixelShaderConstantLocations[index];
-
-            uint32_t components = size / 4;
-
-            switch (components)
-            {
-                case 1:
-                    glUniform1fv(location, static_cast<GLsizei>(count), value);
-                    break;
-                case 2:
-                    glUniform2fv(location, static_cast<GLsizei>(count), value);
-                    break;
-                case 3:
-                    glUniform3fv(location, static_cast<GLsizei>(count), value);
-                    break;
-                case 4:
-                    glUniform4fv(location, static_cast<GLsizei>(count), value);
-                    break;
-                case 9:
-                    glUniformMatrix3fv(location, static_cast<GLsizei>(count), GL_FALSE, value);
-                    break;
-                case 16:
-                    glUniformMatrix4fv(location, static_cast<GLsizei>(count), GL_FALSE, value);
-                    break;
-                default:
-                    log("Unsupported uniform size");
-                    return false;
-            }
-
-            return true;
-        }
-
-        bool ShaderOGL::setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
-        {
-            if (index >= vertexShaderConstantLocations.size()) return false;
-
-            RendererOGL::bindProgram(programId);
-
-            GLint location = vertexShaderConstantLocations[index];
-
-            uint32_t components = size / 4;
-
-            switch (components)
-            {
-                case 1:
-                    glUniform1fv(location, static_cast<GLsizei>(count), value);
-                    break;
-                case 2:
-                    glUniform2fv(location, static_cast<GLsizei>(count), value);
-                    break;
-                case 3:
-                    glUniform3fv(location, static_cast<GLsizei>(count), value);
-                    break;
-                case 4:
-                    glUniform4fv(location, static_cast<GLsizei>(count), value);
-                    break;
-                case 9:
-                    glUniformMatrix3fv(location, static_cast<GLsizei>(count), GL_FALSE, value);
-                    break;
-                case 16:
-                    glUniformMatrix4fv(location, static_cast<GLsizei>(count), GL_FALSE, value);
-                    break;
-                default:
-                    log("Unsupported uniform size");
-                    return false;
             }
 
             return true;

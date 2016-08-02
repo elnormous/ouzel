@@ -36,6 +36,7 @@ namespace ouzel
             graphics::TexturePtr texture;
             graphics::MeshBufferPtr meshBuffer;
             graphics::ShaderPtr shader;
+            graphics::BlendStatePtr blendState;
 
             BMFont font;
             Vector2 textAnchor;

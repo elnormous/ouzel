@@ -19,6 +19,7 @@ namespace ouzel
         TextDrawable::TextDrawable(const std::string& font, const std::string& newText, const Vector2& textAnchor)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             init(font, newText, textAnchor);
         }
 
@@ -50,16 +51,21 @@ namespace ouzel
 
             if (shader && texture && meshBuffer)
             {
-                sharedEngine->getRenderer()->activateTexture(texture, 0);
-                sharedEngine->getRenderer()->activateShader(shader);
-
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
-                shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
-                shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
+                std::vector<std::vector<float>> pixelShaderConstants(1);
+                pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
 
-                sharedEngine->getRenderer()->drawMeshBuffer(meshBuffer);
+                std::vector<std::vector<float>> vertexShaderConstants(1);
+                vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+
+                sharedEngine->getRenderer()->draw({ texture },
+                                                  shader,
+                                                  pixelShaderConstants,
+                                                  vertexShaderConstants,
+                                                  blendState,
+                                                  meshBuffer);
             }
         }
 

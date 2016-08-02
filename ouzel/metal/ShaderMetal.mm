@@ -275,32 +275,6 @@ namespace ouzel
             }
         }
 
-        bool ShaderMetal::setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
-        {
-            if (index >= pixelShaderConstantLocations.size()) return false;
-
-            uint32_t location = pixelShaderConstantLocations[index];
-            memcpy(pixelShaderData.data() + location, value, size * count);
-
-            return uploadData(pixelShaderConstantBuffer,
-                              pixelShaderConstantBufferOffset,
-                              pixelShaderData.data(),
-                              static_cast<uint32_t>(pixelShaderData.size()));
-        }
-
-        bool ShaderMetal::setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
-        {
-            if (index >= vertexShaderConstantLocations.size()) return false;
-
-            uint32_t location = vertexShaderConstantLocations[index];
-            memcpy(vertexShaderData.data() + location, value, size * count);
-
-            return uploadData(vertexShaderConstantBuffer,
-                              vertexShaderConstantBufferOffset,
-                              vertexShaderData.data(),
-                              static_cast<uint32_t>(vertexShaderData.size()));
-        }
-
         bool ShaderMetal::createPixelShaderConstantBuffer(uint32_t size)
         {
             std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());

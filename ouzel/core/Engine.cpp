@@ -307,6 +307,8 @@ namespace ouzel
                     const UpdateCallback* updateCallback = *updateCallbackIterator;
                     if (updateCallback && updateCallback->callback)
                     {
+                        std::lock_guard<std::mutex> lock(updateMutex);
+
                         updateCallback->callback(delta);
                     }
 
@@ -345,7 +347,12 @@ namespace ouzel
         }
 
         renderer->clear();
-        sceneManager->draw();
+
+        {
+            std::lock_guard<std::mutex> lock(updateMutex);
+            sceneManager->draw();
+        }
+        
         renderer->present();
 
         static int fps = 0;

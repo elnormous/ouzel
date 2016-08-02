@@ -58,8 +58,9 @@ namespace ouzel
             drawCallCount = 0;
         }
 
-        void Renderer::present()
+        bool Renderer::present()
         {
+            return true;
         }
 
         void Renderer::flush()
@@ -84,24 +85,10 @@ namespace ouzel
             return blendState;
         }
 
-        bool Renderer::activateBlendState(BlendStatePtr blendState)
-        {
-            activeBlendState = blendState;
-
-            return true;
-        }
-
         TexturePtr Renderer::createTexture()
         {
             TexturePtr texture(new Texture());
             return texture;
-        }
-
-        bool Renderer::activateTexture(const TexturePtr& texture, uint32_t layer)
-        {
-            activeTextures[layer] = texture;
-
-            return true;
         }
 
         RenderTargetPtr Renderer::createRenderTarget()
@@ -110,24 +97,10 @@ namespace ouzel
             return renderTarget;
         }
 
-        bool Renderer::activateRenderTarget(const RenderTargetPtr& renderTarget)
-        {
-            activeRenderTarget = renderTarget;
-
-            return true;
-        }
-
         ShaderPtr Renderer::createShader()
         {
             ShaderPtr shader(new Shader());
             return shader;
-        }
-
-        bool Renderer::activateShader(const ShaderPtr& shader)
-        {
-            activeShader = shader;
-
-            return true;
         }
 
         MeshBufferPtr Renderer::createMeshBuffer()
@@ -136,33 +109,37 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool Renderer::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode, uint32_t)
+        bool Renderer::draw(const std::vector<TexturePtr>& textures,
+                            const ShaderPtr& shader,
+                            const std::vector<std::vector<float>>& pixelShaderConstants,
+                            const std::vector<std::vector<float>>& vertexShaderConstants,
+                            const BlendStatePtr& blendState,
+                            const MeshBufferPtr& meshBuffer,
+                            uint32_t indexCount,
+                            DrawMode drawMode,
+                            uint32_t startIndex,
+                            const RenderTargetPtr& renderTarget,
+                            bool scissorTestEnabled,
+                            const Rectangle& scissorTest)
         {
-            if (activeShader)
-            {
-                if (meshBuffer->getVertexAttributes() != activeShader->getVertexAttributes())
-                {
-                    return false;
-                }
-
-                if (indexCount > meshBuffer->getIndexCount())
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
+            drawQueue.push({
+                textures,
+                shader,
+                pixelShaderConstants,
+                vertexShaderConstants,
+                blendState,
+                meshBuffer,
+                indexCount,
+                drawMode,
+                startIndex,
+                renderTarget,
+                scissorTestEnabled,
+                scissorTest
+            });
 
             ++drawCallCount;
 
             return true;
-        }
-
-        void Renderer::activateScissorTest(const Rectangle& rectangle)
-        {
-            scissorTest = rectangle;
         }
 
         Vector2 Renderer::viewToScreenLocation(const Vector2& position)

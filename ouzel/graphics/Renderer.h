@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <string>
+#include <queue>
 #include <unordered_map>
 #include <memory>
 #include "utils/Types.h"
@@ -76,7 +77,7 @@ namespace ouzel
             virtual Color getClearColor() const { return clearColor; }
 
             virtual void clear();
-            virtual void present();
+            virtual bool present();
             virtual void flush();
 
             const Size2& getSize() const { return size; }
@@ -86,22 +87,23 @@ namespace ouzel
             virtual std::vector<Size2> getSupportedResolutions() const = 0;
 
             virtual BlendStatePtr createBlendState();
-            virtual bool activateBlendState(BlendStatePtr blendState);
-
             virtual TexturePtr createTexture();
-            virtual bool activateTexture(const TexturePtr& texture, uint32_t layer);
-            virtual TexturePtr getActiveTexture(uint32_t layer) const { return activeTextures[layer]; }
             virtual RenderTargetPtr createRenderTarget();
-            virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget);
-
             virtual ShaderPtr createShader();
-            virtual bool activateShader(const ShaderPtr& shader);
-            virtual ShaderPtr getActiveShader() const { return activeShader; }
-
             virtual MeshBufferPtr createMeshBuffer();
-            virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST, uint32_t startIndex = 0);
 
-            virtual void activateScissorTest(const Rectangle& rectangle);
+            virtual bool draw(const std::vector<TexturePtr>& textures,
+                              const ShaderPtr& shader,
+                              const std::vector<std::vector<float>>& pixelShaderConstants,
+                              const std::vector<std::vector<float>>& vertexShaderConstants,
+                              const BlendStatePtr& blendState,
+                              const MeshBufferPtr& meshBuffer,
+                              uint32_t indexCount = 0,
+                              DrawMode drawMode = DrawMode::TRIANGLE_LIST,
+                              uint32_t startIndex = 0,
+                              const RenderTargetPtr& renderTarget = nullptr,
+                              bool scissorTestEnabled = false,
+                              const Rectangle& scissorTest = Rectangle());
 
             Vector2 viewToScreenLocation(const Vector2& position);
             Vector2 viewToScreenRelativeLocation(const Vector2& position);
@@ -137,18 +139,30 @@ namespace ouzel
             bool verticalSync = true;
 
             Color clearColor;
-
-            BlendStatePtr activeBlendState;
-            TexturePtr activeTextures[TEXTURE_LAYERS];
-            ShaderPtr activeShader;
-            RenderTargetPtr activeRenderTarget;
-
             uint32_t drawCallCount = 0;
-            Rectangle scissorTest;
 
             uint32_t apiVersion = 0;
 
             bool ready = false;
+
+            struct DrawCommand
+            {
+                std::vector<TexturePtr> textures;
+                ShaderPtr shader;
+                std::vector<std::vector<float>> pixelShaderConstants;
+                std::vector<std::vector<float>> vertexShaderConstants;
+                BlendStatePtr blendState;
+                MeshBufferPtr meshBuffer;
+                uint32_t indexCount;
+                DrawMode drawMode;
+                uint32_t startIndex;
+                RenderTargetPtr renderTarget;
+
+                bool scissorTestEnabled;
+                Rectangle scissorTest;
+            };
+
+            std::queue<DrawCommand> drawQueue;
         };
     } // namespace graphics
 } // namespace ouzel

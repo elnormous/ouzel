@@ -19,6 +19,7 @@ namespace ouzel
         DebugDrawable::DebugDrawable()
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
+            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_NO_BLEND);
         }
 
         void DebugDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode)
@@ -27,17 +28,23 @@ namespace ouzel
 
             if (shader)
             {
-                sharedEngine->getRenderer()->activateShader(shader);
-
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
                 for (const DrawCommand& drawCommand : drawCommands)
                 {
-                    shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
-                    shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
+                    std::vector<std::vector<float>> pixelShaderConstants(1);
+                    pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
 
-                    sharedEngine->getRenderer()->drawMeshBuffer(drawCommand.mesh, 0, drawCommand.mode);
+                    std::vector<std::vector<float>> vertexShaderConstants(1);
+                    vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+
+                    sharedEngine->getRenderer()->draw(std::vector<graphics::TexturePtr>(),
+                                                      shader,
+                                                      pixelShaderConstants,
+                                                      vertexShaderConstants,
+                                                      blendState,
+                                                      drawCommand.mesh, 0, drawCommand.mode);
                 }
             }
         }

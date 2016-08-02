@@ -180,17 +180,21 @@ namespace ouzel
 
             if (currentFrame < frames.size())
             {
-                sharedEngine->getRenderer()->activateBlendState(blendState);
-                sharedEngine->getRenderer()->activateShader(shader);
-
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
-                shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
-                shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
+                std::vector<std::vector<float>> pixelShaderConstants(1);
+                pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
 
-                sharedEngine->getRenderer()->activateTexture(frames[currentFrame]->getRexture(), 0);
-                sharedEngine->getRenderer()->drawMeshBuffer(frames[currentFrame]->getMeshBuffer());
+                std::vector<std::vector<float>> vertexShaderConstants(1);
+                vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+
+                sharedEngine->getRenderer()->draw({ frames[currentFrame]->getRexture() },
+                                                  shader,
+                                                  pixelShaderConstants,
+                                                  vertexShaderConstants,
+                                                  blendState,
+                                                  frames[currentFrame]->getMeshBuffer());
             }
         }
 

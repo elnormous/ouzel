@@ -400,9 +400,12 @@ namespace ouzel
              }];
         }
 
-        void RendererMetal::present()
+        bool RendererMetal::present()
         {
-            Renderer::present();
+            if (!Renderer::present())
+            {
+                return false;
+            }
 
             if (currentRenderCommandEncoder)
             {
@@ -419,6 +422,138 @@ namespace ouzel
                 [currentCommandBuffer release];
                 currentCommandBuffer = Nil;
             }
+
+            bool previousScissorTestEnabled = false;
+            Rectangle previousScissorTest;
+
+            while (!drawQueue.empty())
+            {
+                const DrawCommand drawCommand = drawQueue.front();
+                drawQueue.pop();
+
+                MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
+
+                // render target
+                if (drawCommand.renderTarget)
+                {
+                    std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(drawCommand.renderTarget);
+
+                    newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+                }
+                else
+                {
+                    newRenderPassDescriptor = renderPassDescriptor;
+                }
+
+                if (currentRenderPassDescriptor != newRenderPassDescriptor ||
+                    !currentRenderCommandEncoder ||
+                    drawCommand.scissorTestEnabled != previousScissorTestEnabled || // scissor test flag changed
+                    (drawCommand.scissorTestEnabled && drawCommand.scissorTest != previousScissorTest)) // scissor test enabled and rectangles differ
+                {
+                    if (!createRenderCommandEncoder(newRenderPassDescriptor))
+                    {
+                        return false;
+                    }
+                }
+
+                // scissor test
+                if (drawCommand.scissorTestEnabled)
+                {
+                    MTLScissorRect rect;
+                    rect.x = static_cast<NSUInteger>(drawCommand.scissorTest.x);
+                    rect.y = static_cast<NSUInteger>(drawCommand.scissorTest.y);
+                    rect.width = static_cast<NSUInteger>(drawCommand.scissorTest.width);
+                    rect.height = static_cast<NSUInteger>(drawCommand.scissorTest.height);
+                    [currentRenderCommandEncoder setScissorRect: rect];
+
+                    previousScissorTestEnabled = drawCommand.scissorTestEnabled;
+                    previousScissorTest = drawCommand.scissorTest;
+                }
+
+                std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(drawCommand.meshBuffer);
+
+                [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
+
+                std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
+                [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
+                                                        offset:shaderMetal->getPixelShaderConstantBufferOffset()
+                                                       atIndex:1];
+                [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
+                                                      offset:shaderMetal->getVertexShaderConstantBufferOffset()
+                                                     atIndex:1];
+
+                // blend state
+                std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(drawCommand.blendState);
+
+                auto pipelineStateIterator = pipelineStates.find(std::make_pair(blendStateMetal, shaderMetal));
+
+                if (pipelineStateIterator != pipelineStates.end())
+                {
+                    [currentRenderCommandEncoder setRenderPipelineState:pipelineStateIterator->second];
+                }
+                else
+                {
+                    id<MTLRenderPipelineState> pipelineState = createPipelineState(blendStateMetal, shaderMetal);
+
+                    if (!pipelineState)
+                    {
+                        return false;
+                    }
+
+                    [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+                }
+
+                // textures
+                for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+                {
+                    std::shared_ptr<TextureMetal> textureMetal;
+
+                    if (drawCommand.textures.size() > layer)
+                    {
+                        textureMetal = std::static_pointer_cast<TextureMetal>(drawCommand.textures[layer]);
+                    }
+
+                    if (textureMetal)
+                    {
+                        [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
+                    }
+                    else
+                    {
+                        [currentRenderCommandEncoder setFragmentTexture:Nil atIndex:layer];
+                    }
+                }
+
+                [currentRenderCommandEncoder setFragmentSamplerState:samplerState atIndex:0];
+
+                uint32_t indexCount = drawCommand.indexCount;
+
+                if (indexCount == 0)
+                {
+                    indexCount = meshBufferMetal->getIndexCount() - drawCommand.startIndex;
+                }
+
+                MTLPrimitiveType primitiveType;
+
+                switch (drawCommand.drawMode)
+                {
+                    case DrawMode::POINT_LIST: primitiveType = MTLPrimitiveTypePoint; break;
+                    case DrawMode::LINE_LIST: primitiveType = MTLPrimitiveTypeLine; break;
+                    case DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
+                    case DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
+                    case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
+                    default: return false;
+                }
+
+                [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
+                                                        indexCount:indexCount
+                                                         indexType:meshBufferMetal->getIndexFormat()
+                                                       indexBuffer:meshBufferMetal->getIndexBuffer()
+                                                 indexBufferOffset:static_cast<NSUInteger>(drawCommand.startIndex * meshBufferMetal->getIndexSize())];
+                
+                shaderMetal->nextBuffers();
+            }
+
+            return true;
         }
 
         std::vector<Size2> RendererMetal::getSupportedResolutions() const
@@ -438,34 +573,6 @@ namespace ouzel
             return renderTarget;
         }
 
-        bool RendererMetal::activateRenderTarget(const RenderTargetPtr& renderTarget)
-        {
-            if (!Renderer::activateRenderTarget(renderTarget))
-            {
-                return false;
-            }
-
-            MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
-
-            if (activeRenderTarget)
-            {
-                std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(activeRenderTarget);
-
-                newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-            }
-            else
-            {
-                newRenderPassDescriptor = renderPassDescriptor;
-            }
-
-            if (currentRenderPassDescriptor != newRenderPassDescriptor || !currentRenderCommandEncoder)
-            {
-                return createRenderCommandEncoder(newRenderPassDescriptor);
-            }
-
-            return true;
-        }
-
         ShaderPtr RendererMetal::createShader()
         {
             std::shared_ptr<ShaderMetal> shader(new ShaderMetal());
@@ -476,113 +583,6 @@ namespace ouzel
         {
             std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
             return meshBuffer;
-        }
-
-        bool RendererMetal::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t startIndex)
-        {
-            if (!Renderer::drawMeshBuffer(meshBuffer, indexCount, drawMode))
-            {
-                return false;
-            }
-
-            if (!activeShader || !activeShader->isReady())
-            {
-                return false;
-            }
-
-            if (!currentCommandBuffer)
-            {
-                log("No active Metal render command buffer");
-                return false;
-            }
-
-            if (!currentRenderCommandEncoder)
-            {
-                log("No active Metal render command encoder");
-                return false;
-            }
-
-            std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(meshBuffer);
-
-            [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
-
-            std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(activeShader);
-            [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
-                                                    offset:shaderMetal->getPixelShaderConstantBufferOffset()
-                                                   atIndex:1];
-            [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
-                                                  offset:shaderMetal->getVertexShaderConstantBufferOffset()
-                                                 atIndex:1];
-
-            std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(activeBlendState);
-
-            auto pipelineStateIterator = pipelineStates.find(std::make_pair(blendStateMetal, shaderMetal));
-
-            if (pipelineStateIterator != pipelineStates.end())
-            {
-                [currentRenderCommandEncoder setRenderPipelineState:pipelineStateIterator->second];
-            }
-            else
-            {
-                id<MTLRenderPipelineState> pipelineState = createPipelineState(blendStateMetal, shaderMetal);
-
-                if (!pipelineState)
-                {
-                    return false;
-                }
-
-                [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
-            }
-
-            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
-            {
-                if (activeTextures[layer])
-                {
-                    std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(activeTextures[layer]);
-
-                    [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
-                }
-                else
-                {
-                    [currentRenderCommandEncoder setFragmentTexture:Nil atIndex:layer];
-                }
-            }
-
-            [currentRenderCommandEncoder setFragmentSamplerState:samplerState atIndex:0];
-
-            if (indexCount == 0)
-            {
-                indexCount = meshBufferMetal->getIndexCount() - startIndex;
-            }
-
-            MTLPrimitiveType primitiveType;
-
-            switch (drawMode)
-            {
-                case DrawMode::POINT_LIST: primitiveType = MTLPrimitiveTypePoint; break;
-                case DrawMode::LINE_LIST: primitiveType = MTLPrimitiveTypeLine; break;
-                case DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
-                case DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
-                case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
-                default: return false;
-            }
-
-            [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
-                                                     indexCount:indexCount
-                                                      indexType:meshBufferMetal->getIndexFormat()
-                                                    indexBuffer:meshBufferMetal->getIndexBuffer()
-                                              indexBufferOffset:static_cast<NSUInteger>(startIndex * meshBuffer->getIndexSize())];
-
-            shaderMetal->nextBuffers();
-
-            return true;
-        }
-
-        void RendererMetal::activateScissorTest(const Rectangle& rectangle)
-        {
-            Renderer::activateScissorTest(rectangle);
-
-            createRenderCommandEncoder(currentRenderPassDescriptor);
         }
 
         MTLRenderPipelineStatePtr RendererMetal::createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
@@ -704,17 +704,6 @@ namespace ouzel
             {
                 log("Failed to create Metal render command encoder");
                 return false;
-            }
-
-            if (!scissorTest.isEmpty())
-            {
-                MTLScissorRect rect;
-                rect.x = static_cast<NSUInteger>(scissorTest.x);
-                rect.y = static_cast<NSUInteger>(scissorTest.y);
-                rect.width = static_cast<NSUInteger>(scissorTest.width);
-                rect.height = static_cast<NSUInteger>(scissorTest.height);
-
-                [currentRenderCommandEncoder setScissorRect: rect];
             }
 
             return true;

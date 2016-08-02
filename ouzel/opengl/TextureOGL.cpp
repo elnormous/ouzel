@@ -21,9 +21,14 @@ namespace ouzel
         {
             if (textureId)
             {
-                RendererOGL::unbindTexture(textureId);
+                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
-                glDeleteTextures(1, &textureId);
+                rendererOGL->execute([textureId = textureId] {
+                    if (textureId)
+                    {
+                        glDeleteTextures(1, &textureId);
+                    }
+                });
             }
         }
 
@@ -33,9 +38,15 @@ namespace ouzel
 
             if (textureId)
             {
-                RendererOGL::unbindTexture(textureId);
+                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
-                glDeleteTextures(1, &textureId);
+                rendererOGL->execute([textureId = textureId] {
+                    if (textureId)
+                    {
+                        glDeleteTextures(1, &textureId);
+                    }
+                });
+
                 textureId = 0;
             }
         }

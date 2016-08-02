@@ -89,6 +89,7 @@ namespace ouzel
             ParticleDefinition::PositionType positionType;
 
             graphics::ShaderPtr shader;
+            graphics::BlendStatePtr blendState;
             graphics::TexturePtr texture;
 
             std::vector<Particle> particles;

@@ -36,6 +36,7 @@ namespace ouzel
             };
 
             graphics::ShaderPtr shader;
+            graphics::BlendStatePtr blendState;
             std::vector<DrawCommand> drawCommands;
         };
     } // namespace scene

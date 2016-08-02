@@ -21,6 +21,7 @@ namespace ouzel
         ParticleSystem::ParticleSystem()
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
             updateCallback.callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
         }
@@ -50,9 +51,6 @@ namespace ouzel
                     needsMeshUpdate = false;
                 }
 
-                sharedEngine->getRenderer()->activateTexture(texture, 0);
-                sharedEngine->getRenderer()->activateShader(shader);
-
                 Matrix4 transform;
 
                 if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
@@ -66,10 +64,18 @@ namespace ouzel
 
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
-                shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, transform.m);
-                shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
+                std::vector<std::vector<float>> pixelShaderConstants(1);
+                pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
 
-                sharedEngine->getRenderer()->drawMeshBuffer(mesh, particleCount * 6);
+                std::vector<std::vector<float>> vertexShaderConstants(1);
+                vertexShaderConstants[0] = { std::begin(transform.m), std::end(transform.m) };
+
+                sharedEngine->getRenderer()->draw({ texture },
+                                                  shader,
+                                                  pixelShaderConstants,
+                                                  vertexShaderConstants,
+                                                  blendState,
+                                                  mesh, particleCount * 6);
             }
         }
 
