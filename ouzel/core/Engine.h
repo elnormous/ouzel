@@ -7,6 +7,7 @@
 #include <list>
 #include <set>
 #include <thread>
+#include <atomic>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "graphics/Renderer.h"
