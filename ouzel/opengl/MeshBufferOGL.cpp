@@ -88,44 +88,6 @@ namespace ouzel
                 return false;
             }
 
-            free();
-
-            glGenBuffers(1, &indexBufferId);
-            RendererOGL::bindElementArrayBuffer(indexBufferId);
-
-            if (RendererOGL::checkOpenGLError())
-            {
-                log("Failed to create index buffer");
-                return false;
-            }
-
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            glGenVertexArraysOES(1, &vertexArrayId);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-            if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
-#else
-            glGenVertexArrays(1, &vertexArrayId);
-#endif
-
-            if (RendererOGL::checkOpenGLError(false))
-            {
-                vertexArrayId = 0;
-                log("Failed to create vertex array");
-            }
-            else
-            {
-                RendererOGL::bindVertexArray(vertexArrayId);
-            }
-
-            glGenBuffers(1, &vertexBufferId);
-            RendererOGL::bindArrayBuffer(vertexBufferId);
-
-            if (RendererOGL::checkOpenGLError())
-            {
-                log("Failed to create vertex buffer");
-                return false;
-            }
-
             ready = true;
 
             return true;
@@ -141,57 +103,12 @@ namespace ouzel
                 return false;
             }
 
-            free();
+            indexData.assign(static_cast<const uint8_t*>(newIndices),
+                             static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
 
-            glGenBuffers(1, &indexBufferId);
-            RendererOGL::bindElementArrayBuffer(indexBufferId);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, newIndices,
-                         dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-            if (RendererOGL::checkOpenGLError())
-            {
-                log("Failed to create index buffer");
-                return false;
-            }
-
-            if (!updateIndexFormat())
-            {
-                return false;
-            }
-
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            glGenVertexArraysOES(1, &vertexArrayId);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-            if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
-#else
-            glGenVertexArrays(1, &vertexArrayId);
-#endif
-
-            if (RendererOGL::checkOpenGLError(false))
-            {
-                log("Failed to create vertex array");
-                vertexArrayId = 0;
-            }
-            else
-            {
-                RendererOGL::bindVertexArray(vertexArrayId);
-            }
-
-            glGenBuffers(1, &vertexBufferId);
-            RendererOGL::bindArrayBuffer(vertexBufferId);
-            glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, newVertices,
-                         dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-            if (RendererOGL::checkOpenGLError())
-            {
-                log("Failed to create vertex buffer");
-                return false;
-            }
-
-            if (!updateVertexAttributes())
-            {
-                return false;
-            }
+            vertexData.assign(static_cast<const uint8_t*>(newVertices),
+                              static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
             ready = true;
 
@@ -233,18 +150,8 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindElementArrayBuffer(indexBufferId);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, indices,
-                         dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-            if (RendererOGL::checkOpenGLError())
-            {
-                log("Failed to upload index data");
-                return false;
-            }
-
-            // unbind so that it gets bind again right before glDrawElements
-            RendererOGL::unbindElementArrayBuffer(indexBufferId);
+            indexData.assign(static_cast<const uint8_t*>(indices),
+                             static_cast<const uint8_t*>(indices) + indexSize * indexCount);
 
             return true;
         }
@@ -256,18 +163,8 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindArrayBuffer(vertexBufferId);
-            glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, vertices,
-                         dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-            if (RendererOGL::checkOpenGLError())
-            {
-                log("Failed to create vertex data");
-                return false;
-            }
-
-            // unbind so that it gets bind again right before glDrawElements
-            RendererOGL::unbindArrayBuffer(vertexBufferId);
+            vertexData.assign(static_cast<const uint8_t*>(vertices),
+                              static_cast<const uint8_t*>(vertices) + vertexSize * vertexCount);
 
             return true;
         }
@@ -370,6 +267,110 @@ namespace ouzel
             {
                 log("Failed to update vertex attributes");
                 return false;
+            }
+
+            return true;
+        }
+
+        bool MeshBufferOGL::update()
+        {
+            if (indexBufferDirty || vertexBufferDirty)
+            {
+                std::lock_guard<std::mutex> lock(dataMutex);
+
+                if (indexBufferDirty)
+                {
+                    if (!indexBufferId)
+                    {
+                        glGenBuffers(1, &indexBufferId);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            log("Failed to create index buffer");
+                            return false;
+                        }
+                        
+                        if (!updateIndexFormat())
+                        {
+                            return false;
+                        }
+                    }
+
+                    if (!indexData.empty())
+                    {
+                        RendererOGL::bindElementArrayBuffer(indexBufferId);
+                        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * indexCount, indexData.data(),
+                                     dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            log("Failed to upload index data");
+                            return false;
+                        }
+
+                        // unbind so that it gets bind again right before glDrawElements
+                        RendererOGL::unbindElementArrayBuffer(indexBufferId);
+                    }
+
+                    indexBufferDirty = false;
+                }
+
+                if (vertexBufferDirty)
+                {
+                    if (!vertexBufferId)
+                    {
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+                        glGenVertexArraysOES(1, &vertexArrayId);
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+                        if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
+#else
+                        glGenVertexArrays(1, &vertexArrayId);
+#endif
+
+                        if (RendererOGL::checkOpenGLError(false))
+                        {
+                            log("Failed to create vertex array");
+                            vertexArrayId = 0;
+                        }
+                        else
+                        {
+                            RendererOGL::bindVertexArray(vertexArrayId);
+                        }
+
+                        glGenBuffers(1, &vertexBufferId);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            log("Failed to create vertex buffer");
+                            return false;
+                        }
+
+                        RendererOGL::bindArrayBuffer(vertexBufferId);
+
+                        if (!updateVertexAttributes())
+                        {
+                            return false;
+                        }
+                    }
+
+                    if (!vertexData.empty())
+                    {
+                        RendererOGL::bindArrayBuffer(vertexBufferId);
+                        glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, vertexData.data(),
+                                     dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            log("Failed to create vertex data");
+                            return false;
+                        }
+
+                        // unbind so that it gets bind again right before glDrawElements
+                        RendererOGL::unbindArrayBuffer(vertexBufferId);
+                    }
+
+                    indexBufferDirty = false;
+                }
             }
 
             return true;

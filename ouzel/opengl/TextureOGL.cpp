@@ -47,54 +47,29 @@ namespace ouzel
                 return false;
             }
 
-            free();
+            ready = true;
 
-            glGenTextures(1, &textureId);
+            return true;
+        }
 
-            if (RendererOGL::checkOpenGLError())
+        bool TextureOGL::initFromBuffer(const void* newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        {
+            if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
             {
-                log("Failed to create texture");
                 return false;
             }
+
+            data.assign(static_cast<const uint8_t*>(newData),
+                        static_cast<const uint8_t*>(newData) + static_cast<int>(newSize.width) * static_cast<int>(newSize.height) * 4);
 
             ready = true;
 
             return true;
         }
 
-        bool TextureOGL::initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool TextureOGL::uploadMipmap(uint32_t level, const void* newData)
         {
-            if (!Texture::initFromBuffer(data, newSize, newDynamic, newMipmaps))
-            {
-                return false;
-            }
-
-            free();
-
-            glGenTextures(1, &textureId);
-
-            RendererOGL::bindTexture(textureId, 0);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-            if (RendererOGL::checkOpenGLError())
-            {
-                log("Failed to create texture");
-                return false;
-            }
-
-            ready = true;
-
-            return uploadData(data, size);
-        }
-
-        bool TextureOGL::uploadMipmap(uint32_t level, const void* data)
-        {
-            if (!Texture::uploadMipmap(level, data))
+            if (!Texture::uploadMipmap(level, newData))
             {
                 return false;
             }
@@ -105,7 +80,7 @@ namespace ouzel
             RendererOGL::bindTexture(textureId, 0);
 
             glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA, newWidth, newHeight, 0,
-                         GL_RGBA, GL_UNSIGNED_BYTE, data);
+                         GL_RGBA, GL_UNSIGNED_BYTE, newData);
 
             if (RendererOGL::checkOpenGLError())
             {
@@ -116,9 +91,9 @@ namespace ouzel
             return true;
         }
 
-        bool TextureOGL::uploadData(const void* data, const Size2& newSize)
+        bool TextureOGL::uploadData(const void* newData, const Size2& newSize)
         {
-            if (!Texture::uploadData(data, newSize))
+            if (!Texture::uploadData(newData, newSize))
             {
                 return false;
             }
@@ -146,6 +121,48 @@ namespace ouzel
             else
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            }
+
+            return true;
+        }
+
+        bool TextureOGL::update()
+        {
+            if (dirty)
+            {
+                std::lock_guard<std::mutex> lock(dataMutex);
+
+                if (!textureId)
+                {
+                    glGenTextures(1, &textureId);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        log("Failed to create texture");
+                        return false;
+                    }
+
+                    RendererOGL::bindTexture(textureId, 0);
+
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        log("Failed to set texture parameters");
+                        return false;
+                    }
+                }
+
+                if (!data.empty())
+                {
+                    return uploadData(data.data(), size);
+                }
+
+                dirty = false;
             }
 
             return true;

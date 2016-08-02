@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <mutex>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
@@ -74,12 +75,19 @@ namespace ouzel
             MeshBufferOGL();
 
             bool updateIndexFormat();
+            bool update();
 
             GLuint indexBufferId = 0;
             GLuint vertexBufferId = 0;
             GLuint vertexArrayId = 0;
 
             GLenum indexFormat = 0;
+
+            std::vector<uint8_t> indexData;
+            bool indexBufferDirty = true;
+            std::vector<uint8_t> vertexData;
+            bool vertexBufferDirty = true;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

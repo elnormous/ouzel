@@ -29,7 +29,6 @@ namespace ouzel
             const std::string& getFilename() const { return filename; }
 
             virtual bool upload(const void* data, const Size2& newSize);
-            virtual bool uploadMipmap(uint32_t level, const void* data);
 
             const Size2& getSize() const { return size; }
 
@@ -43,6 +42,7 @@ namespace ouzel
             Texture();
 
             virtual bool uploadData(const void* data, const Size2& newSize);
+            virtual bool uploadMipmap(uint32_t level, const void* data);
 
             std::string filename;
 

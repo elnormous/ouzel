@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <mutex>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
@@ -54,16 +55,20 @@ namespace ouzel
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
             virtual bool initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
 
-            virtual bool uploadMipmap(uint32_t level, const void* data) override;
-
             GLuint getTextureId() const { return textureId; }
 
         protected:
             TextureOGL();
-
-            bool uploadData(const void* data, const Size2& newSize) override;
+            
+            virtual bool uploadData(const void* newData, const Size2& newSize) override;
+            virtual bool uploadMipmap(uint32_t level, const void* newData) override;
+            bool update();
 
             GLuint textureId = 0;
+
+            std::vector<uint8_t> data;
+            bool dirty = true;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

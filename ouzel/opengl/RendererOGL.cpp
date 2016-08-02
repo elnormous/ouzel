@@ -470,6 +470,11 @@ namespace ouzel
                 {
                     std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(activeTextures[layer]);
 
+                    if (!textureOGL->update())
+                    {
+                        return false;
+                    }
+
                     bindTexture(textureOGL->getTextureId(), layer);
                 }
                 else
@@ -482,6 +487,10 @@ namespace ouzel
             bindProgram(shaderOGL->getProgramId());
 
             std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(meshBuffer);
+            if (!meshBufferOGL->update())
+            {
+                return false;
+            }
 
             if (indexCount == 0)
             {
