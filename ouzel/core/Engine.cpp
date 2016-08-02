@@ -71,7 +71,8 @@ namespace ouzel
 {
     ouzel::Engine* sharedEngine = nullptr;
 
-    Engine::Engine()
+    Engine::Engine():
+        updateThread(std::bind(&Engine::run, this)), running(false), active(true)
     {
         sharedEngine = this;
     }
@@ -257,13 +258,14 @@ namespace ouzel
 
     void Engine::exit()
     {
+        running = false;
         active = false;
     }
 
     void Engine::begin()
     {
+        previousUpdateTime = previousFrameTime = getCurrentMicroSeconds();
         running = true;
-        previousFrameTime = getCurrentMicroSeconds();
     }
 
     void Engine::end()
@@ -278,30 +280,21 @@ namespace ouzel
 
     void Engine::resume()
     {
+        previousUpdateTime = previousFrameTime = getCurrentMicroSeconds();
         running = true;
-        previousFrameTime = getCurrentMicroSeconds();
     }
 
-    bool Engine::run()
+    void Engine::run()
     {
-        if (running)
+        while (active)
         {
-            uint64_t currentTime = getCurrentMicroSeconds();
-
-            if (targetFrameInterval == 0 || (currentTime - previousFrameTime) >= targetFrameInterval)
+            if (running)
             {
-                float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
-                previousFrameTime = currentTime;
+                uint64_t currentTime = getCurrentMicroSeconds();
 
-                if (delta > 0.0f)
-                {
-                    currentFPS = 1.0f / delta;
-                }
-
-                renderer->clear();
-                sceneManager->draw();
-                renderer->present();
-
+                float delta = static_cast<float>((currentTime - previousUpdateTime)) / 1000000.0f;
+                previousUpdateTime = currentTime;
+                
                 input->update();
                 eventDispatcher->update();
 
@@ -323,8 +316,25 @@ namespace ouzel
                 }
             }
         }
+    }
 
-        return active;
+    bool Engine::draw()
+    {
+        uint64_t currentTime = getCurrentMicroSeconds();
+
+        float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
+        previousFrameTime = currentTime;
+
+        if (delta > 0.0f)
+        {
+            currentFPS = 1.0f / delta;
+        }
+
+        renderer->clear();
+        sceneManager->draw();
+        renderer->present();
+
+        return true;
     }
 
     void Engine::scheduleUpdate(const UpdateCallback& callback)

@@ -6,6 +6,7 @@
 #include <memory>
 #include <list>
 #include <set>
+#include <thread>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "graphics/Renderer.h"
@@ -49,7 +50,8 @@ namespace ouzel
         void end();
         void pause();
         void resume();
-        bool run();
+        void run();
+        bool draw();
         bool isRunning() const { return running; }
 
         float getTargetFPS() const { return settings.targetFPS; }
@@ -75,11 +77,14 @@ namespace ouzel
         float currentFPS = 0.0f;
         uint64_t previousFrameTime;
 
+        uint64_t previousUpdateTime;
+
         std::list<const UpdateCallback*> updateCallbacks;
         std::list<const UpdateCallback*>::iterator updateCallbackIterator;
         bool updateCallbackDeleted = false;
+        std::thread updateThread;
 
-        bool running = false;
-        bool active = true;
+        std::atomic_bool running;
+        std::atomic_bool active;
     };
 }

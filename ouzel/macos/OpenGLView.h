@@ -11,7 +11,6 @@
     CVDisplayLinkRef displayLink;
     CGDirectDisplayID displayId;
     BOOL running;
-    BOOL rendering;
 }
 
 -(id)initWithFrame:(NSRect)frameRect;

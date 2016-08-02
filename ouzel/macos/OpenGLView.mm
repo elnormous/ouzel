@@ -176,25 +176,11 @@ using namespace ouzel;
 {
     if (!running) return;
 
-    if (!rendering)
-    {
-        rendering = YES;
+    [openGLContext makeCurrentContext];
 
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [openGLContext makeCurrentContext];
+    sharedEngine->draw();
 
-            bool quit = !sharedEngine->run();
-
-            [openGLContext flushBuffer];
-
-            if (quit)
-            {
-                [self.window close];
-            }
-            
-            rendering = NO;
-        });
-    }
+    [openGLContext flushBuffer];
 }
 
 -(BOOL)acceptsFirstResponder
