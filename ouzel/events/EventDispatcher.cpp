@@ -18,6 +18,8 @@ namespace ouzel
 
     void EventDispatcher::update()
     {
+        std::lock_guard<std::mutex> lock(queueLock);
+
         Event event;
 
         while (!eventQueue.empty())
@@ -151,6 +153,8 @@ namespace ouzel
 
     void EventDispatcher::dispatchEvent(const Event& event)
     {
+        std::lock_guard<std::mutex> lock(queueLock);
+
         eventQueue.push(event);
     }
 }
