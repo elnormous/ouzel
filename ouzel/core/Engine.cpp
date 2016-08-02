@@ -72,11 +72,9 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        updateThread(std::bind(&Engine::run, this))
+        updateThread(std::bind(&Engine::run, this)), running(false), active(true)
     {
         sharedEngine = this;
-        running = false;
-        active = true;
     }
 
     Engine::~Engine()

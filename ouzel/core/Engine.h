@@ -86,7 +86,7 @@ namespace ouzel
         bool updateCallbackDeleted = false;
         std::thread updateThread;
 
-        std::atomic_bool running;
-        std::atomic_bool active;
+        std::atomic<bool> running;
+        std::atomic<bool> active;
     };
 }
