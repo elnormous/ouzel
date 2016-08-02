@@ -34,7 +34,7 @@ namespace ouzel
             TextureD3D11();
 
             bool createTexture(UINT newWidth, UINT newHeight);
-            bool uploadData(const void* data, const Size2& newSize);
+            virtual bool uploadData(const void* data, const Size2& newSize) override;
 
             ID3D11Texture2D* texture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;

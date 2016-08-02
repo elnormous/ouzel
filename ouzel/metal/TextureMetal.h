@@ -40,7 +40,7 @@ namespace ouzel
             TextureMetal();
 
             bool createTexture(NSUInteger newWidth, NSUInteger newHeight);
-            bool uploadData(const void* data, const Size2& newSize) override;
+            virtual bool uploadData(const void* data, const Size2& newSize) override;
 
             MTLTexturePtr texture = Nil;
 

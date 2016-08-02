@@ -59,7 +59,7 @@ namespace ouzel
 
         protected:
             TextureOGL();
-            
+
             virtual bool uploadData(const void* newData, const Size2& newSize) override;
             virtual bool uploadMipmap(uint32_t level, const void* newData) override;
             bool update();
