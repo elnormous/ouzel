@@ -37,6 +37,6 @@ namespace ouzel
         std::list<const EventHandler*>::iterator eventHandlerIterator;
         bool eventHandlerDeleted = false;
         std::queue<Event> eventQueue;
-        std::mutex queueLock;
+        std::mutex queueMutex;
     };
 }

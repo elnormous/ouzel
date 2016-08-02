@@ -23,7 +23,7 @@ namespace ouzel
         for (;;)
         {
             {
-                std::lock_guard<std::mutex> lock(queueLock);
+                std::lock_guard<std::mutex> lock(queueMutex);
                 if (eventQueue.empty())
                 {
                     break;
@@ -159,7 +159,7 @@ namespace ouzel
 
     void EventDispatcher::dispatchEvent(const Event& event)
     {
-        std::lock_guard<std::mutex> lock(queueLock);
+        std::lock_guard<std::mutex> lock(queueMutex);
 
         eventQueue.push(event);
     }

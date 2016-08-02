@@ -4,6 +4,9 @@
 #pragma once
 
 #include <set>
+#include <queue>
+#include <functional>
+#include <mutex>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
@@ -49,11 +52,6 @@ namespace ouzel
     
     namespace graphics
     {
-        class TextureOGL;
-        class MeshBufferOGL;
-        class ShaderOGL;
-        class RenderTargetOGL;
-
         class RendererOGL: public Renderer
         {
             friend Engine;
@@ -102,6 +100,8 @@ namespace ouzel
             static bool unbindArrayBuffer(GLuint arrayBufferId);
             static bool unbindVertexArray(GLuint vertexArrayId);
 
+            void execute(const std::function<void(void)> func);
+
         protected:
             RendererOGL();
 
@@ -125,10 +125,8 @@ namespace ouzel
 
             Rectangle viewport;
 
-            std::vector<std::shared_ptr<TextureOGL>> textures;
-            std::vector<std::shared_ptr<MeshBufferOGL>> meshBuffers;
-            std::vector<std::shared_ptr<ShaderOGL>> shaders;
-            std::vector<std::shared_ptr<RenderTargetOGL>> renderTargets;
+            std::queue<std::function<void(void)>> executeQueue;
+            std::mutex queueMutex;
         };
     } // namespace graphics
 } // namespace ouzel

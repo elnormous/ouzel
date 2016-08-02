@@ -229,24 +229,22 @@ namespace ouzel
 
         void RendererOGL::clear()
         {
-            for (auto i = textures.begin(); i != textures.end();)
-            {
-                i = (i->use_count() > 1) ? ++i : i = textures.erase(i);
-            }
+            std::function<void(void)> func;
 
-            for (auto i = meshBuffers.begin(); i != meshBuffers.end();)
+            for (;;)
             {
-                i = (i->use_count() > 1) ? ++i : i = meshBuffers.erase(i);
-            }
+                {
+                    std::lock_guard<std::mutex> lock(queueMutex);
+                    if (executeQueue.empty())
+                    {
+                        break;
+                    }
 
-            for (auto i = shaders.begin(); i != shaders.end();)
-            {
-                i = (i->use_count() > 1) ? ++i : i = shaders.erase(i);
-            }
-
-            for (auto i = renderTargets.begin(); i != renderTargets.end();)
-            {
-                i = (i->use_count() > 1) ? ++i : i = renderTargets.erase(i);
+                    func = executeQueue.front();
+                    executeQueue.pop();
+                }
+                
+                func();
             }
 
             Renderer::clear();
@@ -335,7 +333,6 @@ namespace ouzel
         TexturePtr RendererOGL::createTexture()
         {
             std::shared_ptr<TextureOGL> texture(new TextureOGL());
-            textures.push_back(texture);
             return texture;
         }
 
@@ -368,7 +365,6 @@ namespace ouzel
         RenderTargetPtr RendererOGL::createRenderTarget()
         {
             std::shared_ptr<RenderTargetOGL> renderTarget(new RenderTargetOGL());
-            renderTargets.push_back(renderTarget);
             return renderTarget;
         }
 
@@ -423,7 +419,6 @@ namespace ouzel
         ShaderPtr RendererOGL::createShader()
         {
             std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
-            shaders.push_back(shader);
             return shader;
         }
 
@@ -456,7 +451,6 @@ namespace ouzel
         MeshBufferPtr RendererOGL::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
-            meshBuffers.push_back(meshBuffer);
             return meshBuffer;
         }
 
@@ -791,6 +785,12 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void RendererOGL::execute(const std::function<void(void)> func)
+        {
+            std::lock_guard<std::mutex> lock(queueMutex);
+            executeQueue.push(func);
         }
     } // namespace graphics
 } // namespace ouzel
