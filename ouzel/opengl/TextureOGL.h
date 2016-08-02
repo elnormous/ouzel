@@ -61,7 +61,7 @@ namespace ouzel
         protected:
             TextureOGL();
 
-            bool uploadData(const void* data, const Size2& newSize) override;
+            virtual bool uploadData(const void* data, const Size2& newSize) override;
 
             GLuint textureId = 0;
         };
