@@ -83,6 +83,8 @@ namespace ouzel
 
         bool MeshBufferOGL::init(bool newDynamicIndexBuffer, bool newDynamicVertexBuffer)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+            
             if (!MeshBuffer::init(newDynamicIndexBuffer, newDynamicVertexBuffer))
             {
                 return false;
@@ -98,6 +100,8 @@ namespace ouzel
                                            const void* newVertices, uint32_t newVertexAttributes,
                                            uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!MeshBuffer::initFromBuffer(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))
             {
                 return false;
@@ -117,6 +121,8 @@ namespace ouzel
 
         bool MeshBufferOGL::setIndexSize(uint32_t indexSize)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!MeshBuffer::setIndexSize(indexSize))
             {
                 return false;
@@ -127,24 +133,22 @@ namespace ouzel
 
         bool MeshBufferOGL::setVertexAttributes(uint32_t vertexAttributes)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!MeshBuffer::setVertexAttributes(vertexAttributes))
             {
                 return false;
             }
 
-            if (vertexArrayId)
-            {
-                RendererOGL::bindVertexArray(vertexArrayId);
-                RendererOGL::bindArrayBuffer(vertexBufferId);
-
-                updateVertexAttributes();
-            }
+            vertexBufferDirty = true;
 
             return true;
         }
 
         bool MeshBufferOGL::uploadIndices(const void* indices, uint32_t indexCount)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!MeshBuffer::uploadIndices(indices, indexCount))
             {
                 return false;
@@ -153,11 +157,15 @@ namespace ouzel
             indexData.assign(static_cast<const uint8_t*>(indices),
                              static_cast<const uint8_t*>(indices) + indexSize * indexCount);
 
+            indexBufferDirty = true;
+
             return true;
         }
 
         bool MeshBufferOGL::uploadVertices(const void* vertices, uint32_t vertexCount)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!MeshBuffer::uploadVertices(vertices, vertexCount))
             {
                 return false;
@@ -165,6 +173,8 @@ namespace ouzel
 
             vertexData.assign(static_cast<const uint8_t*>(vertices),
                               static_cast<const uint8_t*>(vertices) + vertexSize * vertexCount);
+
+            vertexBufferDirty = true;
 
             return true;
         }
@@ -344,17 +354,18 @@ namespace ouzel
                             log("Failed to create vertex buffer");
                             return false;
                         }
-
-                        RendererOGL::bindArrayBuffer(vertexBufferId);
-
-                        if (!updateVertexAttributes())
-                        {
-                            return false;
-                        }
                     }
 
                     if (!vertexData.empty())
                     {
+                        if (vertexArrayId)
+                        {
+                            RendererOGL::bindVertexArray(vertexArrayId);
+                            RendererOGL::bindArrayBuffer(vertexBufferId);
+
+                            updateVertexAttributes();
+                        }
+
                         RendererOGL::bindArrayBuffer(vertexBufferId);
                         glBufferData(GL_ARRAY_BUFFER, vertexSize * vertexCount, vertexData.data(),
                                      dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);

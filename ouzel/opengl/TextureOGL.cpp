@@ -42,6 +42,8 @@ namespace ouzel
 
         bool TextureOGL::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!Texture::init(newSize, newDynamic, newMipmaps, newRenderTarget))
             {
                 return false;
@@ -54,6 +56,8 @@ namespace ouzel
 
         bool TextureOGL::initFromBuffer(const void* newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+            
             if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
             {
                 return false;
