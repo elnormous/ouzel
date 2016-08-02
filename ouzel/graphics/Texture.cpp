@@ -57,7 +57,7 @@ namespace ouzel
 
             ready = true;
 
-            return initFromBuffer(image.getData(), image.getSize(), dynamic, mipmaps);
+            return initFromBuffer(image.getData().data(), image.getSize(), dynamic, mipmaps);
         }
 
         bool Texture::initFromBuffer(const void*, const Size2& newSize, bool newDynamic, bool newMipmaps)

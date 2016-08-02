@@ -20,7 +20,7 @@ namespace ouzel
             virtual ~Image();
 
             const Size2& getSize() const { return size; }
-            const void* getData() const { return data; }
+            const std::vector<uint8_t>& getData() const { return data; }
 
             virtual bool initFromFile(const std::string& newFilename);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
@@ -29,7 +29,7 @@ namespace ouzel
             std::string filename;
             Size2 size;
 
-            void* data = nullptr;
+            std::vector<uint8_t> data;
         };
     } // namespace graphics
 } // namespace ouzel

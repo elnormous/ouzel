@@ -21,10 +21,6 @@ namespace ouzel
 
         Image::~Image()
         {
-            if (data)
-            {
-                stbi_image_free(data);
-            }
         }
 
         bool Image::initFromFile(const std::string& newFilename)
@@ -46,13 +42,17 @@ namespace ouzel
             int height;
             int comp;
 
-            data = stbi_load_from_memory(newData.data(), static_cast<int>(newData.size()), &width, &height, &comp, STBI_rgb_alpha);
+            stbi_uc* tempData = stbi_load_from_memory(newData.data(), static_cast<int>(newData.size()), &width, &height, &comp, STBI_rgb_alpha);
 
-            if (!data)
+            if (!tempData)
             {
                 log("Failed to open texture file %s, reason: %s", filename.c_str(), stbi_failure_reason());
                 return false;
             }
+
+            data.assign(tempData, tempData + (width * height * comp));
+
+            stbi_image_free(tempData);
 
             size.width = static_cast<float>(width);
             size.height = static_cast<float>(height);
