@@ -296,6 +296,11 @@ namespace ouzel
 
                     if (textureOGL)
                     {
+                        if (!textureOGL->update())
+                        {
+                            return false;
+                        }
+
                         bindTexture(textureOGL->getTextureId(), layer);
                     }
                     else

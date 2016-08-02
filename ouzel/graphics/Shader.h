@@ -51,8 +51,6 @@ namespace ouzel
             virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
             const std::vector<ConstantInfo>& getVertexShaderConstantInfo() const { return vertexShaderConstantInfo; }
 
-            virtual bool setVertexShaderConstantInfo();
-
             bool isReady() const { return ready; }
 
         protected:

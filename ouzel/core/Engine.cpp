@@ -318,18 +318,6 @@ namespace ouzel
                         ++updateCallbackIterator;
                     }
                 }
-
-                static int fps = 0;
-                static float sum = 0.0f;
-                sum += delta;
-                fps++;
-
-                if (sum >= 1.0f)
-                {
-                    printf("update: %d (%f)\n", fps, delta);
-                    sum = 0.0f;
-                    fps = 0;
-                }
             }
         }
     }
@@ -354,18 +342,6 @@ namespace ouzel
         }
         
         renderer->present();
-
-        static int fps = 0;
-        static float sum = 0.0f;
-        sum += delta;
-        fps++;
-
-        if (sum >= 1.0f)
-        {
-            printf("draw: %d (%f)\n", fps, delta);
-            sum = 0.0f;
-            fps = 0;
-        }
 
         return active;
     }
