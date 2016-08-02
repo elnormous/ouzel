@@ -79,6 +79,8 @@ namespace ouzel
 
     Engine::~Engine()
     {
+        running = false;
+        active = false;
         if (sceneManager)
         {
             sceneManager->setScene(nullptr);
@@ -334,7 +336,7 @@ namespace ouzel
         sceneManager->draw();
         renderer->present();
 
-        return true;
+        return active;
     }
 
     void Engine::scheduleUpdate(const UpdateCallback& callback)

@@ -239,7 +239,7 @@ int main(int argc, char* argv[])
 
     while (running)
     {
-        if (!ouzel::sharedEngine->run())
+        if (!ouzel::sharedEngine->draw())
         {
             running = false;
         }

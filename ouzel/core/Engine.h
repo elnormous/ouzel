@@ -51,7 +51,6 @@ namespace ouzel
         void end();
         void pause();
         void resume();
-        void run();
         bool draw();
         bool isRunning() const { return running; }
 
@@ -62,6 +61,8 @@ namespace ouzel
         void unscheduleUpdate(const UpdateCallback& callback);
 
     protected:
+        void run();
+
         Settings settings;
 
         EventDispatcherPtr eventDispatcher;

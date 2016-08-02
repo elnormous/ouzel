@@ -49,7 +49,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
     while (running)
     {
-        if (!ouzel::sharedEngine->run())
+        if (!ouzel::sharedEngine->draw())
         {
             running = false;
         }

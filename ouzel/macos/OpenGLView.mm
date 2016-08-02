@@ -178,7 +178,10 @@ using namespace ouzel;
 
     [openGLContext makeCurrentContext];
 
-    sharedEngine->draw();
+    if (!sharedEngine->draw())
+    {
+        [self.window close];
+    }
 
     [openGLContext flushBuffer];
 }
