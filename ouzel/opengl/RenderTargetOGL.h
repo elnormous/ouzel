@@ -4,9 +4,6 @@
 #pragma once
 
 #include "core/CompileConfig.h"
-#include "graphics/RenderTarget.h"
-#include "math/Size2.h"
-#include "math/Rectangle.h"
 
 #if OUZEL_PLATFORM_MACOS
     #include <OpenGL/gl3.h>
@@ -36,6 +33,10 @@
     #include <GLES2/gl2ext.h>
     #include <EGL/egl.h>
 #endif
+
+#include "graphics/RenderTarget.h"
+#include "math/Size2.h"
+#include "math/Rectangle.h"
 
 namespace ouzel
 {

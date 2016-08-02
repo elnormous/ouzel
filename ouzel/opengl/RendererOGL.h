@@ -5,7 +5,6 @@
 
 #include <set>
 #include "core/CompileConfig.h"
-#include "graphics/Renderer.h"
 
 #if OUZEL_PLATFORM_MACOS
     #include <OpenGL/gl3.h>
@@ -41,6 +40,8 @@ extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT;
 extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT;
 extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
 #endif
+
+#include "graphics/Renderer.h"
 
 namespace ouzel
 {
