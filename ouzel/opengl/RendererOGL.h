@@ -46,9 +46,14 @@ extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
 namespace ouzel
 {
     class Engine;
-
+    
     namespace graphics
     {
+        class TextureOGL;
+        class MeshBufferOGL;
+        class ShaderOGL;
+        class RenderTargetOGL;
+
         class RendererOGL: public Renderer
         {
             friend Engine;
@@ -119,6 +124,11 @@ namespace ouzel
             static GLuint currentVertexArrayId;
 
             Rectangle viewport;
+
+            std::vector<std::shared_ptr<TextureOGL>> textures;
+            std::vector<std::shared_ptr<MeshBufferOGL>> meshBuffers;
+            std::vector<std::shared_ptr<ShaderOGL>> shaders;
+            std::vector<std::shared_ptr<RenderTargetOGL>> renderTargets;
         };
     } // namespace graphics
 } // namespace ouzel

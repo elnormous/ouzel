@@ -18,14 +18,20 @@ namespace ouzel
 
     void EventDispatcher::update()
     {
-        std::lock_guard<std::mutex> lock(queueLock);
-
         Event event;
 
-        while (!eventQueue.empty())
+        for (;;)
         {
-            event = eventQueue.front();
-            eventQueue.pop();
+            {
+                std::lock_guard<std::mutex> lock(queueLock);
+                if (eventQueue.empty())
+                {
+                    break;
+                }
+
+                event = eventQueue.front();
+                eventQueue.pop();
+            }
 
             bool propagate = true;
 
