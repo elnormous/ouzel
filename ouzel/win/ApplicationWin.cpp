@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    ApplicationWin::ApplicationWin(const std::vector<std::string>& pArgs) :
+    ApplicationWin::ApplicationWin(const std::vector<std::string>& pArgs):
         Application(pArgs)
     {
     }
@@ -24,7 +24,7 @@ namespace ouzel
         }
 
         std::shared_ptr<ouzel::WindowWin> window = std::static_pointer_cast<ouzel::WindowWin>(ouzel::sharedEngine->getWindow());
-        ouzel::sharedEngine->begin();
+        sharedEngine->begin();
 
         MSG msg;
 
@@ -32,7 +32,7 @@ namespace ouzel
 
         while (running)
         {
-            if (!ouzel::sharedEngine->draw())
+            if (!sharedEngine->draw())
             {
                 running = false;
             }
@@ -41,7 +41,7 @@ namespace ouzel
 
             for (;;)
             {
-                if (ouzel::sharedEngine->isRunning())
+                if (sharedEngine->isRunning())
                 {
                     if (!PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
                     {
@@ -80,7 +80,7 @@ namespace ouzel
             }
         }
 
-        ouzel::sharedEngine->end();
+        sharedEngine->end();
 
         return true;
     }

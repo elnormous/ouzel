@@ -1,8 +1,8 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ApplicationIOS.h"
 #import <UIKit/UIKit.h>
+#include "ApplicationIOS.h"
 #import "AppDelegate.h"
 
 namespace ouzel
