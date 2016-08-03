@@ -55,6 +55,8 @@ namespace ouzel
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
             virtual bool initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
 
+            virtual bool upload(const void* data, const Size2& newSize) override;
+
             GLuint getTextureId() const { return textureId; }
 
         protected:
@@ -66,7 +68,7 @@ namespace ouzel
 
             GLuint textureId = 0;
 
-            std::vector<uint8_t> data;
+            std::vector<std::vector<uint8_t>> data;
             bool dirty = true;
             std::mutex dataMutex;
         };

@@ -29,7 +29,11 @@ namespace ouzel
 
         void TextureOGL::free()
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             Texture::free();
+
+            data.clear();
 
             std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
@@ -49,6 +53,8 @@ namespace ouzel
                 return false;
             }
 
+            data.clear();
+
             ready = true;
 
             return true;
@@ -63,10 +69,21 @@ namespace ouzel
                 return false;
             }
 
-            data.assign(static_cast<const uint8_t*>(newData),
-                        static_cast<const uint8_t*>(newData) + static_cast<int>(newSize.width) * static_cast<int>(newSize.height) * 4);
+            data.clear();
 
             ready = true;
+
+            return uploadData(newData, newSize);
+        }
+
+        bool TextureOGL::upload(const void* data, const Size2& newSize)
+        {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
+            if (!Texture::upload(data, newSize))
+            {
+                return false;
+            }
 
             return true;
         }
@@ -78,19 +95,11 @@ namespace ouzel
                 return false;
             }
 
-            GLsizei newWidth = static_cast<GLsizei>(mipmapSizes[level].width);
-            GLsizei newHeight = static_cast<GLsizei>(mipmapSizes[level].height);
+            if (data.size() < level + 1) data.resize(level + 1);
+            data[level].assign(static_cast<const uint8_t*>(newData),
+                               static_cast<const uint8_t*>(newData) + static_cast<int>(mipmapSizes[level].width) * static_cast<int>(mipmapSizes[level].height) * 4);
 
-            RendererOGL::bindTexture(textureId, 0);
-
-            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA, newWidth, newHeight, 0,
-                         GL_RGBA, GL_UNSIGNED_BYTE, newData);
-
-            if (RendererOGL::checkOpenGLError())
-            {
-                log("Failed to upload texture data");
-                return false;
-            }
+            dirty = true;
 
             return true;
         }
@@ -100,31 +109,6 @@ namespace ouzel
             if (!Texture::uploadData(newData, newSize))
             {
                 return false;
-            }
-
-            if (mipmapSizes.size() > 1) // has mip-maps
-            {
-                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
-                switch (rendererOGL->getTextureFiltering())
-                {
-                    case Renderer::TextureFiltering::NONE:
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-                        break;
-                    case Renderer::TextureFiltering::LINEAR:
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-                        break;
-                    case Renderer::TextureFiltering::BILINEAR:
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-                        break;
-                    case Renderer::TextureFiltering::TRILINEAR:
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-                        break;
-                }
-            }
-            else
-            {
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             }
 
             return true;
@@ -163,7 +147,49 @@ namespace ouzel
 
                 if (!data.empty())
                 {
-                    return uploadData(data.data(), size);
+                    if (data.size() > 1) // has mip-maps
+                    {
+                        std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+
+                        switch (rendererOGL->getTextureFiltering())
+                        {
+                            case Renderer::TextureFiltering::NONE:
+                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+                                break;
+                            case Renderer::TextureFiltering::LINEAR:
+                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+                                break;
+                            case Renderer::TextureFiltering::BILINEAR:
+                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+                                break;
+                            case Renderer::TextureFiltering::TRILINEAR:
+                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                    }
+
+                    for (GLint level = 0; level < data.size(); ++level)
+                    {
+                        GLsizei newWidth = static_cast<GLsizei>(mipmapSizes[level].width);
+                        GLsizei newHeight = static_cast<GLsizei>(mipmapSizes[level].height);
+
+                        RendererOGL::bindTexture(textureId, 0);
+
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
+                                     newWidth, newHeight, 0,
+                                     GL_RGBA, GL_UNSIGNED_BYTE, data[level].data());
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            log("Failed to upload texture data");
+                            return false;
+                        }
+                    }
+
                 }
 
                 dirty = false;
