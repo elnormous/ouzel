@@ -268,9 +268,19 @@ namespace ouzel
 
         bool ShaderOGL::update()
         {
-            if (dirty)
+            if (pixelShaderDirty || vertexShaderDirty)
             {
-                dirty = false;
+                std::lock_guard<std::mutex> lock(dataMutex);
+                
+                if (pixelShaderDirty)
+                {
+                    pixelShaderDirty = false;
+                }
+
+                if (vertexShaderDirty)
+                {
+                    vertexShaderDirty = false;
+                }
             }
             
             return true;

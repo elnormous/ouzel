@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <mutex>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
@@ -77,7 +78,9 @@ namespace ouzel
             std::vector<GLint> pixelShaderConstantLocations;
             std::vector<GLint> vertexShaderConstantLocations;
 
-            bool dirty = true;
+            bool pixelShaderDirty = true;
+            bool vertexShaderDirty = true;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel
