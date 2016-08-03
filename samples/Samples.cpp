@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Application.h"
+#include "Samples.h"
 #include "MainMenu.h"
 #include "SpritesSample.h"
 #include "GUISample.h"
@@ -13,11 +13,7 @@
 using namespace std;
 using namespace ouzel;
 
-Application::~Application()
-{
-}
-
-void Application::begin(const std::string& sample)
+void Samples::begin(const std::string& sample)
 {
     sharedEngine->getInput()->startGamepadDiscovery();
 
@@ -32,7 +28,7 @@ void Application::begin(const std::string& sample)
     sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
     sharedEngine->getWindow()->setTitle("Samples");
 
-    eventHandler.keyboardHandler = bind(&Application::handleKeyboard, this, placeholders::_1, placeholders::_2);
+    eventHandler.keyboardHandler = bind(&Samples::handleKeyboard, this, placeholders::_1, placeholders::_2);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
@@ -78,13 +74,13 @@ void Application::begin(const std::string& sample)
     }
 }
 
-void Application::back()
+void Samples::back()
 {
     sharedEngine->getInput()->setCursorVisible(true);
     sharedEngine->getSceneManager()->setScene(mainMenu);
 }
 
-bool Application::handleKeyboard(Event::Type type, const KeyboardEvent& event)
+bool Samples::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
     if (event.key == ouzel::input::KeyboardKey::ESCAPE)
     {

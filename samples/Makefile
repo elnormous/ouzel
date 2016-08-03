@@ -29,8 +29,8 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework OpenGL
 endif
 SOURCES=AnimationsSample.cpp \
-	Application.cpp \
 	main.cpp \
+	Samples.cpp \
 	GUISample.cpp \
 	InputSample.cpp \
 	MainMenu.cpp \

@@ -6,8 +6,8 @@
 using namespace std;
 using namespace ouzel;
 
-InputSample::InputSample(Application& app):
-    application(app)
+InputSample::InputSample(Samples& pSamples):
+    samples(pSamples)
 {
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -154,7 +154,7 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == backButton)
         {
-            application.back();
+            samples.back();
         }
         else if (event.node == button)
         {

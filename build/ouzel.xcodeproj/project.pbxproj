@@ -626,6 +626,12 @@
 		30DADE9F1C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
 		30DADEA01C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
 		30DADEA11C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
+		30EA710C1D5268C600AE8C3E /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EA710A1D5268C600AE8C3E /* Application.cpp */; };
+		30EA710D1D5268C600AE8C3E /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EA710A1D5268C600AE8C3E /* Application.cpp */; };
+		30EA710E1D5268C600AE8C3E /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EA710A1D5268C600AE8C3E /* Application.cpp */; };
+		30EA710F1D5268C600AE8C3E /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 30EA710B1D5268C600AE8C3E /* Application.h */; };
+		30EA71101D5268C600AE8C3E /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 30EA710B1D5268C600AE8C3E /* Application.h */; };
+		30EA71111D5268C600AE8C3E /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 30EA710B1D5268C600AE8C3E /* Application.h */; };
 		30EF364B1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EF36491CA76ACD00F04F29 /* ScrollArea.cpp */; };
 		30EF364C1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EF36491CA76ACD00F04F29 /* ScrollArea.cpp */; };
 		30EF364D1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EF36491CA76ACD00F04F29 /* ScrollArea.cpp */; };
@@ -889,6 +895,8 @@
 		30D0FB421CC2C99600477DB0 /* TextureVSTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureVSTVOS.h; path = metal/TextureVSTVOS.h; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
+		30EA710A1D5268C600AE8C3E /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
+		30EA710B1D5268C600AE8C3E /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		30EF36491CA76ACD00F04F29 /* ScrollArea.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollArea.cpp; sourceTree = "<group>"; };
 		30EF364A1CA76ACD00F04F29 /* ScrollArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollArea.h; sourceTree = "<group>"; };
 		30EF36511CA76AE200F04F29 /* ScrollBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollBar.cpp; sourceTree = "<group>"; };
@@ -1025,6 +1033,8 @@
 		303B75111C28838C00FEDE92 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				30EA710A1D5268C600AE8C3E /* Application.cpp */,
+				30EA710B1D5268C600AE8C3E /* Application.h */,
 				30DADE9A1C5167BC001A63B4 /* Cache.cpp */,
 				30DADE9B1C5167BC001A63B4 /* Cache.h */,
 				304A8E871C248204008B1151 /* CompileConfig.h */,
@@ -1356,6 +1366,7 @@
 				3047F75A1C4C4FBA00774E3D /* Scale.h in Headers */,
 				30575A931C38BD370009C8A7 /* AABB2.h in Headers */,
 				30EF36671CA845DC00F04F29 /* ComboBox.h in Headers */,
+				30EA71101D5268C600AE8C3E /* Application.h in Headers */,
 				306B0E631C567D05005C75C1 /* DebugDrawable.h in Headers */,
 				304B27591C9384A600BA162D /* Size3.h in Headers */,
 				30419DE51D162BCF00A63759 /* Audio.h in Headers */,
@@ -1485,6 +1496,7 @@
 				3047F75B1C4C4FBA00774E3D /* Scale.h in Headers */,
 				30575A941C38BD370009C8A7 /* AABB2.h in Headers */,
 				30EF36681CA845DC00F04F29 /* ComboBox.h in Headers */,
+				30EA71111D5268C600AE8C3E /* Application.h in Headers */,
 				306B0E641C567D05005C75C1 /* DebugDrawable.h in Headers */,
 				304B275A1C9384A600BA162D /* Size3.h in Headers */,
 				30419DE61D162BCF00A63759 /* Audio.h in Headers */,
@@ -1671,6 +1683,7 @@
 				30575AD01C3B175D0009C8A7 /* Label.h in Headers */,
 				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
 				301CF5BC1CECAD0700B89B5D /* ColorPSOGLES3.h in Headers */,
+				30EA710F1D5268C600AE8C3E /* Application.h in Headers */,
 				306B0E621C567D05005C75C1 /* DebugDrawable.h in Headers */,
 				3047F7411C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
@@ -1841,6 +1854,7 @@
 				30419E771D20255000A63759 /* AudioAL.cpp in Sources */,
 				3036471D1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
 				3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */,
+				30EA710D1D5268C600AE8C3E /* Application.cpp in Sources */,
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30419DEA1D162BDC00A63759 /* Sound.cpp in Sources */,
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
@@ -1940,6 +1954,7 @@
 				30419E781D20255000A63759 /* AudioAL.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
 				3036471E1C3E058E0024DB5B /* GamepadApple.mm in Sources */,
+				30EA710E1D5268C600AE8C3E /* Application.cpp in Sources */,
 				3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				30419DEB1D162BDC00A63759 /* Sound.cpp in Sources */,
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
@@ -2039,6 +2054,7 @@
 				30419E761D20255000A63759 /* AudioAL.cpp in Sources */,
 				304B27C51C9A063300BA162D /* TextureOGL.cpp in Sources */,
 				303B751D1C29EDEE00FEDE92 /* main.mm in Sources */,
+				30EA710C1D5268C600AE8C3E /* Application.cpp in Sources */,
 				30A9C13A1CAEBA540084C4BF /* Language.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Sound.cpp in Sources */,
 				304B27551C9384A600BA162D /* Size3.cpp in Sources */,

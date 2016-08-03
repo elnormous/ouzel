@@ -12,8 +12,8 @@
 using namespace std;
 using namespace ouzel;
 
-MainMenu::MainMenu(Application& app):
-    application(app)
+MainMenu::MainMenu(Samples& pSamples):
+    samples(pSamples)
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
 
@@ -62,27 +62,27 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 
         if (event.node == spritesButton)
         {
-            newScene = make_shared<SpritesSample>(application);
+            newScene = make_shared<SpritesSample>(samples);
         }
         else if (event.node == GUIButton)
         {
-            newScene = make_shared<GUISample>(application);
+            newScene = make_shared<GUISample>(samples);
         }
         else if (event.node == renderTargetButton)
         {
-            newScene = make_shared<RTSample>(application);
+            newScene = make_shared<RTSample>(samples);
         }
         else if (event.node == animationsButton)
         {
-            newScene = make_shared<AnimationsSample>(application);
+            newScene = make_shared<AnimationsSample>(samples);
         }
         else if (event.node == inputButton)
         {
-            newScene = make_shared<InputSample>(application);
+            newScene = make_shared<InputSample>(samples);
         }
         else if (event.node == soundButton)
         {
-            newScene = make_shared<SoundSample>(application);
+            newScene = make_shared<SoundSample>(samples);
         }
 
         if (newScene)

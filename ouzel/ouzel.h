@@ -16,6 +16,7 @@
 #include "audio/Audio.h"
 #include "audio/Sound.h"
 #include "audio/SoundData.h"
+#include "core/Application.h"
 #include "core/Cache.h"
 #include "core/CompileConfig.h"
 #include "core/Engine.h"

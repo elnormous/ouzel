@@ -3,18 +3,18 @@
 
 #pragma once
 
-#include "Application.h"
+#include "Samples.h"
 
 class AnimationsSample: public ouzel::scene::Scene
 {
 public:
-    AnimationsSample(Application& app);
+    AnimationsSample(Samples& pSamples);
     virtual ~AnimationsSample();
 
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
 
 private:
-    Application& application;
+    Samples& samples;
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
 };

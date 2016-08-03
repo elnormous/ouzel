@@ -23,8 +23,6 @@ void ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
-    extern Engine* sharedEngine;
-
     class Engine: public Noncopyable
     {
     public:
@@ -90,4 +88,6 @@ namespace ouzel
         std::atomic<bool> running;
         std::atomic<bool> active;
     };
+
+    extern Engine* sharedEngine;
 }

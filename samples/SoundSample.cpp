@@ -7,8 +7,8 @@ using namespace std;
 using namespace ouzel;
 
 
-SoundSample::SoundSample(Application& app):
-    application(app)
+SoundSample::SoundSample(Samples& pSamples):
+    samples(pSamples)
 {
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
@@ -57,7 +57,7 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == backButton)
         {
-            application.back();
+            samples.back();
         }
         else if (event.node == jumpButton)
         {

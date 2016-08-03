@@ -1,10 +1,10 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Application.h"
+#include "Samples.h"
 
 ouzel::Engine engine;
-Application application;
+Samples samples;
 
 void ouzelMain(const std::vector<std::string>& args)
 {
@@ -22,5 +22,5 @@ void ouzelMain(const std::vector<std::string>& args)
         sample = args[1];
     }
 
-    application.begin(sample);
+    samples.begin(sample);
 }

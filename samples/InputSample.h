@@ -3,12 +3,12 @@
 
 #pragma once
 
-#include "Application.h"
+#include "Samples.h"
 
 class InputSample: public ouzel::scene::Scene
 {
 public:
-    InputSample(Application& app);
+    InputSample(Samples& pSamples);
     virtual ~InputSample();
 
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
@@ -18,7 +18,7 @@ public:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
 
 private:
-    Application& application;
+    Samples& samples;
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
     

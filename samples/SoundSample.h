@@ -3,18 +3,18 @@
 
 #pragma once
 
-#include "Application.h"
+#include "Samples.h"
 
 class SoundSample: public ouzel::scene::Scene
 {
 public:
-    SoundSample(Application& app);
+    SoundSample(Samples& pSamples);
     virtual ~SoundSample();
 
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
 
 private:
-    Application& application;
+    Samples& samples;
     ouzel::gui::ButtonPtr backButton;
     ouzel::gui::ButtonPtr jumpButton;
     ouzel::gui::ButtonPtr ambientButton;

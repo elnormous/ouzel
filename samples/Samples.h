@@ -3,11 +3,9 @@
 
 #pragma once
 
-class Application: public ouzel::Noncopyable
+class Samples: public ouzel::Noncopyable
 {
 public:
-    virtual ~Application();
-
     void begin(const std::string& sample);
     void back();
 

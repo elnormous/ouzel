@@ -6,8 +6,8 @@
 using namespace std;
 using namespace ouzel;
 
-AnimationsSample::AnimationsSample(Application& app):
-    application(app)
+AnimationsSample::AnimationsSample(Samples& pSamples):
+    samples(pSamples)
 {
     eventHandler.uiHandler = bind(&AnimationsSample::handleUI, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
@@ -76,7 +76,7 @@ bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
     {
-        application.back();
+        samples.back();
     }
 
     return true;
