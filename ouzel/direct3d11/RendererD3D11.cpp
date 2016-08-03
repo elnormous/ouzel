@@ -383,11 +383,13 @@ namespace ouzel
             context->RSSetState(rasterizerState);
         }
 
-        void RendererD3D11::present()
+        bool RendererD3D11::present()
         {
             Renderer::present();
 
             swapChain->Present(swapInterval, 0);
+
+            return true;
         }
 
         IDXGIOutput* RendererD3D11::getOutput() const
@@ -499,12 +501,6 @@ namespace ouzel
                 }
 
                 viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
-
-                if (!activeRenderTarget)
-                {
-                    context->OMSetRenderTargets(1, &renderTargetView, nullptr);
-                    context->RSSetViewports(1, &viewport);
-                }
             }
         }
 
@@ -577,32 +573,6 @@ namespace ouzel
         {
             std::shared_ptr<BlendStateD3D11> blendState(new BlendStateD3D11());
             return blendState;
-        }
-
-        bool RendererD3D11::activateBlendState(BlendStatePtr blendState)
-        {
-            if (activeBlendState == blendState)
-            {
-                return true;
-            }
-
-            if (!Renderer::activateBlendState(blendState))
-            {
-                return false;
-            }
-
-            if (blendState)
-            {
-                std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(activeBlendState);
-
-                context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
-            }
-            else
-            {
-                context->OMSetBlendState(NULL, NULL, 0xffffffff);
-            }
-
-            return true;
         }
 
         TexturePtr RendererD3D11::createTexture()
