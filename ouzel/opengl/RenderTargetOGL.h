@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <mutex>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
@@ -58,10 +59,15 @@ namespace ouzel
 
         protected:
             RenderTargetOGL();
+            bool update();
 
             GLuint frameBufferId = 0;
             GLuint depthBufferId = 0;
             Rectangle viewport;
+
+            bool dirty = true;
+            std::mutex dataMutex;
+            bool frameBufferReady = false;
         };
     } // namespace graphics
 } // namespace ouzel

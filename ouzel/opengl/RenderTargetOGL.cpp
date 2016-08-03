@@ -58,11 +58,14 @@ namespace ouzel
 
                 depthBufferId = 0;
                 frameBufferId = 0;
+                frameBufferReady = false;
             }
         }
 
         bool RenderTargetOGL::init(const Size2& newSize, bool depthBuffer)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!RenderTarget::init(newSize, depthBuffer))
             {
                 return false;
@@ -71,16 +74,6 @@ namespace ouzel
             free();
 
             viewport = Rectangle(0.0f, 0.0f, newSize.width, newSize.height);
-
-            glGenFramebuffers(1, &frameBufferId);
-
-            if (!frameBufferId)
-            {
-                log("Failed to create frame buffer");
-                return false;
-            }
-
-            RendererOGL::bindFrameBuffer(frameBufferId);
 
             std::shared_ptr<TextureOGL> textureOGL(new TextureOGL());
 
@@ -93,41 +86,75 @@ namespace ouzel
 
             texture = textureOGL;
 
-            RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
-
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                         static_cast<GLsizei>(size.width),
-                         static_cast<GLsizei>(size.height),
-                         0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-            if (depthBuffer)
-            {
-                glGenRenderbuffers(1, &depthBufferId);
-                glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
-                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                      static_cast<GLsizei>(size.width),
-                                      static_cast<GLsizei>(size.height));
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
-            }
-
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureOGL->getTextureId(), 0);
-
-#if OUZEL_SUPPORTS_OPENGL // TODO: fix this
-            //GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-            //glDrawBuffers(1, drawBuffers);
-            glDrawBuffer(GL_COLOR_ATTACHMENT0);
-#endif
-
-            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            {
-                log("Failed to create frame buffer");
-                return false;
-            }
-
             ready = true;
+
+            return true;
+        }
+
+        bool RenderTargetOGL::update()
+        {
+            if (dirty)
+            {
+                std::lock_guard<std::mutex> lock(dataMutex);
+
+                if (!frameBufferId)
+                {
+                    glGenFramebuffers(1, &frameBufferId);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        log("Failed to create frame buffer");
+                        return false;
+                    }
+                }
+
+                std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(texture);
+
+                if (textureOGL->getTextureId() && !frameBufferReady)
+                {
+                    RendererOGL::bindFrameBuffer(frameBufferId);
+                    RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
+
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                                 static_cast<GLsizei>(size.width),
+                                 static_cast<GLsizei>(size.height),
+                                 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+                    if (depthBuffer)
+                    {
+                        glGenRenderbuffers(1, &depthBufferId);
+                        glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
+                        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                              static_cast<GLsizei>(size.width),
+                                              static_cast<GLsizei>(size.height));
+                        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                    }
+
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureOGL->getTextureId(), 0);
+                    
+#if OUZEL_SUPPORTS_OPENGL // TODO: fix this
+                    //GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+                    //glDrawBuffers(1, drawBuffers);
+                    glDrawBuffer(GL_COLOR_ATTACHMENT0);
+#endif
+                    
+                    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                    {
+                        log("Failed to create frame buffer");
+                        return false;
+                    }
+
+                    frameBufferReady = true;
+                }
+
+                if (frameBufferReady)
+                {
+                    dirty = false;
+                }
+            }
 
             return true;
         }

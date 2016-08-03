@@ -270,5 +270,15 @@ namespace ouzel
 
             return true;
         }
+
+        bool ShaderOGL::update()
+        {
+            if (dirty)
+            {
+                dirty = false;
+            }
+            
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

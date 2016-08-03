@@ -67,6 +67,7 @@ namespace ouzel
 
         protected:
             ShaderOGL();
+            bool update();
 
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage();
@@ -77,6 +78,8 @@ namespace ouzel
 
             std::vector<GLint> pixelShaderConstantLocations;
             std::vector<GLint> vertexShaderConstantLocations;
+
+            bool dirty = true;
         };
     } // namespace graphics
 } // namespace ouzel

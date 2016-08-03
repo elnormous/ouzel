@@ -383,7 +383,7 @@ namespace ouzel
                         RendererOGL::unbindArrayBuffer(vertexBufferId);
                     }
 
-                    indexBufferDirty = false;
+                    vertexBufferDirty = false;
                 }
             }
 

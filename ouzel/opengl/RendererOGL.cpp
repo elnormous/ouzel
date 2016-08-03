@@ -240,8 +240,6 @@ namespace ouzel
             }
 
             Renderer::clear();
-
-            glDisable(GL_SCISSOR_TEST);
         }
 
         bool RendererOGL::present()
