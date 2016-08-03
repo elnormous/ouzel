@@ -46,7 +46,7 @@ using namespace ouzel;
 
 -(void)draw:(__unused id)sender
 {
-    sharedEngine->run();
+    sharedEngine->draw();
 }
 
 -(void)touchesBegan:(NSSet*)touches withEvent:(__unused ::UIEvent*)event

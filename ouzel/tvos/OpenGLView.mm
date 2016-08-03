@@ -51,7 +51,7 @@ using namespace ouzel;
 
 -(void)draw:(id)sender
 {
-    sharedEngine->run();
+    sharedEngine->draw();
 }
 
 @end

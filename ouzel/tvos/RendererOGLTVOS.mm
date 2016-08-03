@@ -175,11 +175,16 @@ namespace ouzel
             RendererOGL::clear();
         }
 
-        void RendererOGLTVOS::present()
+        bool RendererOGLTVOS::present()
         {
-            RendererOGL::present();
+            if (!RendererOGL::present())
+            {
+                return false;
+            }
 
             [context presentRenderbuffer:GL_RENDERBUFFER];
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel
