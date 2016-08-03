@@ -60,7 +60,7 @@ namespace ouzel
             return true;
         }
 
-        bool TextureOGL::initFromBuffer(const void* newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool TextureOGL::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
             
@@ -76,11 +76,11 @@ namespace ouzel
             return uploadData(newData, newSize);
         }
 
-        bool TextureOGL::upload(const void* data, const Size2& newSize)
+        bool TextureOGL::upload(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (!Texture::upload(data, newSize))
+            if (!Texture::upload(newData, newSize))
             {
                 return false;
             }
@@ -88,7 +88,7 @@ namespace ouzel
             return true;
         }
 
-        bool TextureOGL::uploadMipmap(uint32_t level, const void* newData)
+        bool TextureOGL::uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData)
         {
             if (!Texture::uploadMipmap(level, newData))
             {
@@ -96,15 +96,14 @@ namespace ouzel
             }
 
             if (data.size() < level + 1) data.resize(level + 1);
-            data[level].assign(static_cast<const uint8_t*>(newData),
-                               static_cast<const uint8_t*>(newData) + static_cast<int>(mipmapSizes[level].width) * static_cast<int>(mipmapSizes[level].height) * 4);
+            data[level] = newData;
 
             dirty = true;
 
             return true;
         }
 
-        bool TextureOGL::uploadData(const void* newData, const Size2& newSize)
+        bool TextureOGL::uploadData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (!Texture::uploadData(newData, newSize))
             {

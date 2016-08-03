@@ -60,9 +60,9 @@ namespace ouzel
                                  static_cast<UINT>(size.height));
         }
 
-        bool TextureD3D11::initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool TextureD3D11::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            if (!Texture::initFromBuffer(data, newSize, newDynamic, newMipmaps))
+            if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
             {
                 return false;
             }
@@ -77,10 +77,10 @@ namespace ouzel
 
             ready = true;
 
-            return uploadData(data, newSize);
+            return uploadData(newData, newSize);
         }
 
-        bool TextureD3D11::uploadData(const void* data, const Size2& newSize)
+        bool TextureD3D11::uploadData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (static_cast<UINT>(newSize.width) != width ||
                 static_cast<UINT>(newSize.height) != height)
@@ -96,7 +96,7 @@ namespace ouzel
                 ready = true;
             }
 
-            if (!Texture::uploadData(data, newSize))
+            if (!Texture::uploadData(newData, newSize))
             {
                 return false;
             }
@@ -104,9 +104,9 @@ namespace ouzel
             return true;
         }
 
-        bool TextureD3D11::uploadMipmap(uint32_t level, const void* data)
+        bool TextureD3D11::uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData)
         {
-            if (!Texture::uploadMipmap(level, data))
+            if (!Texture::uploadMipmap(level, newData))
             {
                 return false;
             }
@@ -116,7 +116,7 @@ namespace ouzel
             UINT newWidth = static_cast<UINT>(mipmapSizes[level].width);
 
             UINT rowPitch = newWidth * 4;
-            rendererD3D11->getContext()->UpdateSubresource(texture, level, nullptr, data, rowPitch, 0);
+            rendererD3D11->getContext()->UpdateSubresource(texture, level, nullptr, newData.data(), rowPitch, 0);
 
             return true;
         }

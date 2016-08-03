@@ -48,9 +48,9 @@ namespace ouzel
                                  static_cast<NSUInteger>(size.height));
         }
 
-        bool TextureMetal::initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool TextureMetal::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            if (!Texture::initFromBuffer(data, newSize, newDynamic, newMipmaps))
+            if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
             {
                 return false;
             }
@@ -65,12 +65,12 @@ namespace ouzel
 
             ready = true;
 
-            return uploadData(data, newSize);
+            return uploadData(newData, newSize);
         }
 
-        bool TextureMetal::uploadMipmap(uint32_t level, const void* data)
+        bool TextureMetal::uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData)
         {
-            if (!Texture::uploadMipmap(level, data))
+            if (!Texture::uploadMipmap(level, newData))
             {
                 return false;
             }
@@ -79,12 +79,12 @@ namespace ouzel
             NSUInteger newHeight = static_cast<NSUInteger>(mipmapSizes[level].height);
 
             NSUInteger bytesPerRow = newWidth * 4;
-            [texture replaceRegion:MTLRegionMake2D(0, 0, newWidth, newHeight) mipmapLevel:level withBytes:data bytesPerRow:bytesPerRow];
+            [texture replaceRegion:MTLRegionMake2D(0, 0, newWidth, newHeight) mipmapLevel:level withBytes:newData.data() bytesPerRow:bytesPerRow];
 
             return true;
         }
 
-        bool TextureMetal::uploadData(const void* data, const Size2& newSize)
+        bool TextureMetal::uploadData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (static_cast<NSUInteger>(newSize.width) != width ||
                 static_cast<NSUInteger>(newSize.height) != height)
@@ -100,7 +100,7 @@ namespace ouzel
                 ready = true;
             }
 
-            return Texture::uploadData(data, newSize);
+            return Texture::uploadData(newData, newSize);
         }
 
         bool TextureMetal::createTexture(NSUInteger newWidth, NSUInteger newHeight)

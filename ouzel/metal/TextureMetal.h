@@ -30,9 +30,9 @@ namespace ouzel
             virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
-            virtual bool initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
+            virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
 
-            virtual bool uploadMipmap(uint32_t level, const void* data) override;
+            virtual bool uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData) override;
 
             MTLTexturePtr getTexture() const { return texture; }
 
@@ -40,7 +40,7 @@ namespace ouzel
             TextureMetal();
 
             bool createTexture(NSUInteger newWidth, NSUInteger newHeight);
-            virtual bool uploadData(const void* data, const Size2& newSize) override;
+            virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
 
             MTLTexturePtr texture = Nil;
 

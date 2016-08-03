@@ -57,10 +57,10 @@ namespace ouzel
 
             ready = true;
 
-            return initFromBuffer(image.getData().data(), image.getSize(), dynamic, mipmaps);
+            return initFromBuffer(image.getData(), image.getSize(), dynamic, mipmaps);
         }
 
-        bool Texture::initFromBuffer(const void*, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool Texture::initFromBuffer(const std::vector<uint8_t>&, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
             size = newSize;
             dynamic = newDynamic;
@@ -71,7 +71,7 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::upload(const void* data, const Size2& newSize)
+        bool Texture::upload(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (!dynamic)
             {
@@ -83,7 +83,7 @@ namespace ouzel
                 return false;
             }
 
-            return uploadData(data, newSize);
+            return uploadData(newData, newSize);
         }
 
         static void imageRgba8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
@@ -164,7 +164,7 @@ namespace ouzel
             }
         }
 
-        bool Texture::uploadData(const void* data, const Size2& newSize)
+        bool Texture::uploadData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             size = newSize;
 
@@ -172,7 +172,7 @@ namespace ouzel
             mipmapSizes.push_back(newSize);
 
             uint32_t mipLevel = 0;
-            uploadMipmap(mipLevel, data);
+            uploadMipmap(mipLevel, newData);
             ++mipLevel;
 
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
@@ -197,18 +197,18 @@ namespace ouzel
                     bufferSize *= 2;
                 }
 
-                std::vector<uint8_t> newData(bufferSize);
-                memcpy(newData.data(), data, newWidth * newHeight * 4);
+                std::vector<uint8_t> mipMapData(bufferSize);
+                memcpy(mipMapData.data(), newData.data(), newWidth * newHeight * 4);
 
                 while (newWidth >= 2 && newHeight >= 2)
                 {
-                    imageRgba8Downsample2x2(newWidth, newHeight, pitch, newData.data(), newData.data());
+                    imageRgba8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
 
                     newWidth >>= 1;
                     newHeight >>= 1;
 
                     mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
-                    uploadMipmap(mipLevel, newData.data());
+                    uploadMipmap(mipLevel, mipMapData);
 
                     pitch = newWidth * 4;
                     ++mipLevel;
@@ -218,14 +218,14 @@ namespace ouzel
                 {
                     for (; newWidth >= 2;)
                     {
-                        memcpy(&newData.data()[newWidth*4], newData.data(), newWidth * 4);
+                        memcpy(&mipMapData.data()[newWidth*4], mipMapData.data(), newWidth * 4);
 
-                        imageRgba8Downsample2x2(newWidth, 2, pitch, newData.data(), newData.data());
+                        imageRgba8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
 
                         newWidth >>= 1;
 
                         mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
-                        uploadMipmap(mipLevel, newData.data());
+                        uploadMipmap(mipLevel, mipMapData);
 
                         pitch = newWidth * 4;
                         ++mipLevel;
@@ -235,19 +235,19 @@ namespace ouzel
                 {
                     for (; newHeight >= 2;)
                     {
-                        uint32_t* src = reinterpret_cast<uint32_t*>(newData.data());
+                        uint32_t* src = reinterpret_cast<uint32_t*>(mipMapData.data());
                         for (int32_t i = static_cast<int32_t>(newHeight) - 1; i >= 0; --i)
                         {
                             src[i * 2] = src[i];
                             src[i * 2 + 1] = src[i];
                         }
 
-                        imageRgba8Downsample2x2(2, newHeight, 8, newData.data(), newData.data());
+                        imageRgba8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
 
                         newHeight >>= 1;
 
                         mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
-                        uploadMipmap(mipLevel, newData.data());
+                        uploadMipmap(mipLevel, mipMapData);
 
                         ++mipLevel;
                     }
@@ -257,7 +257,7 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::uploadMipmap(uint32_t level, const void*)
+        bool Texture::uploadMipmap(uint32_t level, const std::vector<uint8_t>&)
         {
             if (level >= mipmapSizes.size())
             {

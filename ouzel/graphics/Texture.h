@@ -26,11 +26,11 @@ namespace ouzel
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false);
             virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
-            virtual bool initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
+            virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
 
             const std::string& getFilename() const { return filename; }
 
-            virtual bool upload(const void* data, const Size2& newSize);
+            virtual bool upload(const std::vector<uint8_t>& newData, const Size2& newSize);
 
             const Size2& getSize() const { return size; }
 
@@ -43,8 +43,8 @@ namespace ouzel
         protected:
             Texture();
 
-            virtual bool uploadData(const void* data, const Size2& newSize);
-            virtual bool uploadMipmap(uint32_t level, const void* data);
+            virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize);
+            virtual bool uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData);
 
             std::string filename;
 

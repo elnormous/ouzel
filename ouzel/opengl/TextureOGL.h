@@ -53,17 +53,17 @@ namespace ouzel
             virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
-            virtual bool initFromBuffer(const void* data, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
+            virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
 
-            virtual bool upload(const void* data, const Size2& newSize) override;
+            virtual bool upload(const std::vector<uint8_t>& newData, const Size2& newSize) override;
 
             GLuint getTextureId() const { return textureId; }
 
         protected:
             TextureOGL();
 
-            virtual bool uploadData(const void* newData, const Size2& newSize) override;
-            virtual bool uploadMipmap(uint32_t level, const void* newData) override;
+            virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
+            virtual bool uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData) override;
             bool update();
 
             GLuint textureId = 0;
