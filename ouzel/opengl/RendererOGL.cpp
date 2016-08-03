@@ -229,12 +229,10 @@ namespace ouzel
 
         void RendererOGL::clear()
         {
-            std::function<void(void)> func;
+            std::pair<GLuint, ResourceType> deleteResource;
 
             for (;;)
             {
-                std::pair<GLuint, ResourceType> deleteResource;
-
                 {
                     std::lock_guard<std::mutex> lock(deleteMutex);
                     if (deleteQueue.empty())

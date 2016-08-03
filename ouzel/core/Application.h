@@ -5,6 +5,9 @@
 
 #include <vector>
 #include <string>
+#include <queue>
+#include <functional>
+#include <mutex>
 #include "utils/Noncopyable.h"
 
 namespace ouzel
@@ -23,10 +26,17 @@ namespace ouzel
         char** getArgv() const { return argv; }
         const std::vector<std::string>& getArgs() { return args; }
 
+        void execute(const std::function<void(void)>& func);
+
     protected:
+        void executeAll();
+
         int argc = 0;
         char** argv = nullptr;
         std::vector<std::string> args;
+
+        std::queue<std::function<void(void)>> executeQueue;
+        std::mutex executeMutex;
     };
 
     extern Application* sharedApplication;
