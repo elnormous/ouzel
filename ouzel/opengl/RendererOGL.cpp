@@ -309,14 +309,7 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
 
-                if (blendStateOGL->isBlendingEnabled())
-                {
-                    glEnable(GL_BLEND);
-                }
-                else
-                {
-                    glDisable(GL_BLEND);
-                }
+                enableBlend(blendStateOGL->isBlendingEnabled());
 
                 glBlendEquationSeparate(BlendStateOGL::getBlendOperation(blendStateOGL->getColorOperation()),
                                         BlendStateOGL::getBlendOperation(blendStateOGL->getAlphaOperation()));
@@ -511,18 +504,14 @@ namespace ouzel
                 }
 
                 // scissor test
+                enableScissorTest(drawCommand.scissorTestEnabled);
+
                 if (drawCommand.scissorTestEnabled)
                 {
-                    glEnable(GL_SCISSOR_TEST);
-
                     glScissor(static_cast<GLint>(drawCommand.scissorTest.x),
                               static_cast<GLint>(drawCommand.scissorTest.y),
                               static_cast<GLsizei>(drawCommand.scissorTest.width),
                               static_cast<GLsizei>(drawCommand.scissorTest.height));
-                }
-                else
-                {
-                    glDisable(GL_SCISSOR_TEST);
                 }
 
                 // mesh buffer
@@ -655,6 +644,9 @@ namespace ouzel
         GLuint RendererOGL::currentElementArrayBufferId = 0;
         GLuint RendererOGL::currentArrayBufferId = 0;
         GLuint RendererOGL::currentVertexArrayId = 0;
+        bool RendererOGL::blendEnabled = false;
+        bool RendererOGL::scissorTestEnabled = false;
+        bool RendererOGL::depthTestEnabled = false;
 
         bool RendererOGL::bindTexture(GLuint textureId, uint32_t layer)
         {
@@ -833,6 +825,57 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(deleteMutex);
 
             deleteQueue.push(std::make_pair(resource, resourceType));
+        }
+
+        void RendererOGL::enableBlend(bool enable)
+        {
+            if (blendEnabled != enable)
+            {
+                if (enable)
+                {
+                    glEnable(GL_BLEND);
+                }
+                else
+                {
+                    glDisable(GL_BLEND);
+                }
+
+                blendEnabled = enable;
+            }
+        }
+
+        void RendererOGL::enableScissorTest(bool enable)
+        {
+            if (scissorTestEnabled != enable)
+            {
+                if (enable)
+                {
+                    glEnable(GL_SCISSOR_TEST);
+                }
+                else
+                {
+                    glDisable(GL_SCISSOR_TEST);
+                }
+
+                scissorTestEnabled = enable;
+            }
+        }
+
+        void RendererOGL::enableDepthTest(bool enable)
+        {
+            if (depthTestEnabled != enable)
+            {
+                if (enable)
+                {
+                    glEnable(GL_DEPTH_TEST);
+                }
+                else
+                {
+                    glDisable(GL_DEPTH_TEST);
+                }
+
+                depthTestEnabled = enable;
+            }
         }
     } // namespace graphics
 } // namespace ouzel

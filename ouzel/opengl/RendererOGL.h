@@ -90,6 +90,10 @@ namespace ouzel
             static bool unbindArrayBuffer(GLuint arrayBufferId);
             static bool unbindVertexArray(GLuint vertexArrayId);
 
+            static void enableBlend(bool enable);
+            static void enableScissorTest(bool enable);
+            static void enableDepthTest(bool enable);
+
             enum class ResourceType
             {
                 Buffer,
@@ -121,6 +125,9 @@ namespace ouzel
             static GLuint currentElementArrayBufferId;
             static GLuint currentArrayBufferId;
             static GLuint currentVertexArrayId;
+            static bool blendEnabled;
+            static bool scissorTestEnabled;
+            static bool depthTestEnabled;
 
             Rectangle viewport;
 
