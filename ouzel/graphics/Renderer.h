@@ -164,7 +164,7 @@ namespace ouzel
                 Rectangle scissorTest;
             };
 
-            std::queue<DrawCommand> tempDrawQueue;
+            std::queue<DrawCommand> activeDrawQueue;
             std::queue<DrawCommand> drawQueue;
             std::mutex drawQueueMutex;
         };

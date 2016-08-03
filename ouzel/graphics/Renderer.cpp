@@ -122,7 +122,7 @@ namespace ouzel
                                       bool scissorTestEnabled,
                                       const Rectangle& scissorTest)
         {
-            tempDrawQueue.push({
+            activeDrawQueue.push({
                 textures,
                 shader,
                 pixelShaderConstants,
@@ -143,7 +143,7 @@ namespace ouzel
         void Renderer::flushDrawCommands()
         {
             std::lock_guard<std::mutex> lock(drawQueueMutex);
-            drawQueue = std::move(tempDrawQueue);
+            drawQueue = std::move(activeDrawQueue);
             drawCallCount = drawQueue.size();
         }
 
