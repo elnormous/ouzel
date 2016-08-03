@@ -10,6 +10,7 @@ namespace ouzel
     ApplicationIOS::ApplicationIOS(int pArgc, char* pArgv[]):
         Application(pArgc, pArgv)
     {
+        mainQueue = dispatch_get_main_queue();
     }
 
     bool ApplicationIOS::run()
@@ -20,5 +21,12 @@ namespace ouzel
         }
 
         return true;
+    }
+
+    void ApplicationIOS::execute(const std::function<void(void)>& func)
+    {
+        dispatch_async(mainQueue, ^{
+            func();
+        });
     }
 }

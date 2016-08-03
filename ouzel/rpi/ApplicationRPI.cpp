@@ -25,6 +25,8 @@ namespace ouzel
 
         for (;;)
         {
+            executeAll();
+
             if (!sharedEngine->draw())
             {
                 break;

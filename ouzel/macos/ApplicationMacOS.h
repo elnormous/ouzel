@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <dispatch/dispatch.h>
 #include "core/Application.h"
 
 namespace ouzel
@@ -14,5 +15,10 @@ namespace ouzel
         virtual ~ApplicationMacOS() {}
 
         virtual bool run() override;
+
+        virtual void execute(const std::function<void(void)>& func) override;
+
+    protected:
+        dispatch_queue_t mainQueue;
     };
 }

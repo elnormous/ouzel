@@ -32,6 +32,8 @@ namespace ouzel
 
         while (running)
         {
+            executeAll();
+
             if (!sharedEngine->draw())
             {
                 running = false;

@@ -26,7 +26,7 @@ namespace ouzel
         char** getArgv() const { return argv; }
         const std::vector<std::string>& getArgs() { return args; }
 
-        void execute(const std::function<void(void)>& func);
+        virtual void execute(const std::function<void(void)>& func);
 
     protected:
         void executeAll();

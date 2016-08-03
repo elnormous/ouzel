@@ -10,6 +10,7 @@ namespace ouzel
     ApplicationMacOS::ApplicationMacOS(int pArgc, char* pArgv[]):
         Application(pArgc, pArgv)
     {
+        mainQueue = dispatch_get_main_queue();
     }
 
     bool ApplicationMacOS::run()
@@ -25,5 +26,12 @@ namespace ouzel
         }
 
         return true;
+    }
+
+    void ApplicationMacOS::execute(const std::function<void(void)>& func)
+    {
+        dispatch_async(mainQueue, ^{
+            func();
+        });
     }
 }
