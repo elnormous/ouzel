@@ -106,11 +106,11 @@ SOURCES+=../ouzel/linux/ApplicationLinux.cpp \
 	../ouzel/linux/RendererOGLLinux.cpp \
 	../ouzel/linux/WindowLinux.cpp
 else ifeq ($(platform),macos)
-SOURCES+=../ouzel/apple/ApplicationMacOS.mm \
-	../ouzel/apple/AudioALApple.mm \
+SOURCES+=../ouzel/apple/AudioALApple.mm \
 	../ouzel/apple/GamepadApple.mm \
 	../ouzel/apple/InputApple.mm \
 	../ouzel/macos/AppDelegate.mm \
+	../ouzel/macos/ApplicationMacOS.mm \
 	../ouzel/macos/main.cpp \
 	../ouzel/macos/MetalView.mm \
 	../ouzel/macos/OpenGLView.mm \
