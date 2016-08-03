@@ -171,7 +171,7 @@ namespace ouzel
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                     }
 
-                    for (GLint level = 0; level < data.size(); ++level)
+                    for (size_t level = 0; level < data.size(); ++level)
                     {
                         GLsizei newWidth = static_cast<GLsizei>(mipmapSizes[level].width);
                         GLsizei newHeight = static_cast<GLsizei>(mipmapSizes[level].height);
