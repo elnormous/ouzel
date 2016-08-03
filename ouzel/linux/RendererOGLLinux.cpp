@@ -30,13 +30,18 @@ namespace ouzel
             return RendererOGL::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync);
         }
 
-        void RendererOGLLinux::present()
+        bool RendererOGLLinux::present()
         {
-            RendererOGL::present();
+            if (!RendererOGL::present())
+            {
+                return false;
+            }
 
             std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(sharedEngine->getWindow());
 
             glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel
