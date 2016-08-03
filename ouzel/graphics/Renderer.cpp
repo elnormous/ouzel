@@ -60,6 +60,8 @@ namespace ouzel
 
         bool Renderer::present()
         {
+            drawCallCount = drawQueue.size();
+
             return true;
         }
 
@@ -109,20 +111,20 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool Renderer::draw(const std::vector<TexturePtr>& textures,
-                            const ShaderPtr& shader,
-                            const std::vector<std::vector<float>>& pixelShaderConstants,
-                            const std::vector<std::vector<float>>& vertexShaderConstants,
-                            const BlendStatePtr& blendState,
-                            const MeshBufferPtr& meshBuffer,
-                            uint32_t indexCount,
-                            DrawMode drawMode,
-                            uint32_t startIndex,
-                            const RenderTargetPtr& renderTarget,
-                            bool scissorTestEnabled,
-                            const Rectangle& scissorTest)
+        bool Renderer::addDrawCommand(const std::vector<TexturePtr>& textures,
+                                      const ShaderPtr& shader,
+                                      const std::vector<std::vector<float>>& pixelShaderConstants,
+                                      const std::vector<std::vector<float>>& vertexShaderConstants,
+                                      const BlendStatePtr& blendState,
+                                      const MeshBufferPtr& meshBuffer,
+                                      uint32_t indexCount,
+                                      DrawMode drawMode,
+                                      uint32_t startIndex,
+                                      const RenderTargetPtr& renderTarget,
+                                      bool scissorTestEnabled,
+                                      const Rectangle& scissorTest)
         {
-            drawQueue.push({
+            tempDrawQueue.push({
                 textures,
                 shader,
                 pixelShaderConstants,
@@ -137,9 +139,13 @@ namespace ouzel
                 scissorTest
             });
 
-            ++drawCallCount;
-
             return true;
+        }
+
+        void Renderer::flushDrawCommands()
+        {
+            std::lock_guard<std::mutex> lock(drawQueueMutex);
+            drawQueue = std::move(tempDrawQueue);
         }
 
         Vector2 Renderer::viewToScreenLocation(const Vector2& position)

@@ -70,12 +70,12 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = { std::begin(transform.m), std::end(transform.m) };
 
-                sharedEngine->getRenderer()->draw({ texture },
-                                                  shader,
-                                                  pixelShaderConstants,
-                                                  vertexShaderConstants,
-                                                  blendState,
-                                                  mesh, particleCount * 6);
+                sharedEngine->getRenderer()->addDrawCommand({ texture },
+                                                            shader,
+                                                            pixelShaderConstants,
+                                                            vertexShaderConstants,
+                                                            blendState,
+                                                            mesh, particleCount * 6);
             }
         }
 

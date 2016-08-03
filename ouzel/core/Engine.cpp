@@ -299,6 +299,8 @@ namespace ouzel
                 
                 input->update();
                 eventDispatcher->update();
+                sceneManager->draw();
+                renderer->flushDrawCommands();
 
                 for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
                 {
@@ -307,8 +309,6 @@ namespace ouzel
                     const UpdateCallback* updateCallback = *updateCallbackIterator;
                     if (updateCallback && updateCallback->callback)
                     {
-                        std::lock_guard<std::mutex> lock(updateMutex);
-
                         updateCallback->callback(delta);
                     }
 
@@ -335,12 +335,6 @@ namespace ouzel
         }
 
         renderer->clear();
-
-        {
-            std::lock_guard<std::mutex> lock(updateMutex);
-            sceneManager->draw();
-        }
-        
         renderer->present();
 
         return active;

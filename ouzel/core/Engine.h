@@ -86,7 +86,6 @@ namespace ouzel
         std::list<const UpdateCallback*>::iterator updateCallbackIterator;
         bool updateCallbackDeleted = false;
         std::thread updateThread;
-        std::mutex updateMutex;
 
         std::atomic<bool> running;
         std::atomic<bool> active;

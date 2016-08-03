@@ -288,10 +288,17 @@ namespace ouzel
 
             std::set<GLuint> clearedFrameBuffers;
 
-            while (!drawQueue.empty())
+            std::queue<DrawCommand> drawCommands;
+
             {
-                const DrawCommand drawCommand = drawQueue.front();
-                drawQueue.pop();
+                std::lock_guard<std::mutex> lock(drawQueueMutex);
+                drawCommands = std::move(drawQueue);
+            }
+
+            while (!drawCommands.empty())
+            {
+                const DrawCommand drawCommand = drawCommands.front();
+                drawCommands.pop();
 
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);

@@ -8,6 +8,7 @@
 #include <queue>
 #include <unordered_map>
 #include <memory>
+#include <mutex>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "math/Rectangle.h"
@@ -77,8 +78,8 @@ namespace ouzel
             virtual Color getClearColor() const { return clearColor; }
 
             virtual void clear();
-            virtual bool present();
             virtual void flush();
+            virtual bool present();
 
             const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
@@ -92,18 +93,19 @@ namespace ouzel
             virtual ShaderPtr createShader();
             virtual MeshBufferPtr createMeshBuffer();
 
-            virtual bool draw(const std::vector<TexturePtr>& textures,
-                              const ShaderPtr& shader,
-                              const std::vector<std::vector<float>>& pixelShaderConstants,
-                              const std::vector<std::vector<float>>& vertexShaderConstants,
-                              const BlendStatePtr& blendState,
-                              const MeshBufferPtr& meshBuffer,
-                              uint32_t indexCount = 0,
-                              DrawMode drawMode = DrawMode::TRIANGLE_LIST,
-                              uint32_t startIndex = 0,
-                              const RenderTargetPtr& renderTarget = nullptr,
-                              bool scissorTestEnabled = false,
-                              const Rectangle& scissorTest = Rectangle());
+            bool addDrawCommand(const std::vector<TexturePtr>& textures,
+                                const ShaderPtr& shader,
+                                const std::vector<std::vector<float>>& pixelShaderConstants,
+                                const std::vector<std::vector<float>>& vertexShaderConstants,
+                                const BlendStatePtr& blendState,
+                                const MeshBufferPtr& meshBuffer,
+                                uint32_t indexCount = 0,
+                                DrawMode drawMode = DrawMode::TRIANGLE_LIST,
+                                uint32_t startIndex = 0,
+                                const RenderTargetPtr& renderTarget = nullptr,
+                                bool scissorTestEnabled = false,
+                                const Rectangle& scissorTest = Rectangle());
+            void flushDrawCommands();
 
             Vector2 viewToScreenLocation(const Vector2& position);
             Vector2 viewToScreenRelativeLocation(const Vector2& position);
@@ -162,7 +164,9 @@ namespace ouzel
                 Rectangle scissorTest;
             };
 
+            std::queue<DrawCommand> tempDrawQueue;
             std::queue<DrawCommand> drawQueue;
+            std::mutex drawQueueMutex;
         };
     } // namespace graphics
 } // namespace ouzel

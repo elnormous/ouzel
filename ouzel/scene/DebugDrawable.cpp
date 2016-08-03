@@ -39,12 +39,12 @@ namespace ouzel
                     std::vector<std::vector<float>> vertexShaderConstants(1);
                     vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
 
-                    sharedEngine->getRenderer()->draw(std::vector<graphics::TexturePtr>(),
-                                                      shader,
-                                                      pixelShaderConstants,
-                                                      vertexShaderConstants,
-                                                      blendState,
-                                                      drawCommand.mesh, 0, drawCommand.mode);
+                    sharedEngine->getRenderer()->addDrawCommand(std::vector<graphics::TexturePtr>(),
+                                                                shader,
+                                                                pixelShaderConstants,
+                                                                vertexShaderConstants,
+                                                                blendState,
+                                                                drawCommand.mesh, 0, drawCommand.mode);
                 }
             }
         }
