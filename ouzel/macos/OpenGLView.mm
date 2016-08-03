@@ -101,7 +101,17 @@ using namespace ouzel;
 
 -(void)dealloc
 {
-    [self close];
+    if (displayLink)
+    {
+        CVDisplayLinkRelease(displayLink);
+        displayLink = Nil;
+    }
+
+    if (openGLContext)
+    {
+        [openGLContext release];
+        openGLContext = Nil;
+    }
 
     [super dealloc];
 }
@@ -118,24 +128,6 @@ using namespace ouzel;
 
 -(void)prepareOpenGL
 {
-    running = YES;
-}
-
--(void)close
-{
-    running = NO;
-
-    if (displayLink)
-    {
-        CVDisplayLinkRelease(displayLink);
-        displayLink = Nil;
-    }
-
-    if (openGLContext)
-    {
-        [openGLContext release];
-        openGLContext = Nil;
-    }
 }
 
 -(void)changeDisplay
@@ -152,8 +144,6 @@ using namespace ouzel;
 -(void)setFrameSize:(NSSize)newSize
 {
     [super setFrameSize:newSize];
-
-    if (!running) return;
 
     [openGLContext update];
 
@@ -175,8 +165,6 @@ using namespace ouzel;
 
 -(void)draw
 {
-    if (!running) return;
-
     [openGLContext makeCurrentContext];
 
     if (!sharedEngine->draw())
@@ -194,23 +182,18 @@ using namespace ouzel;
 
 -(void)keyDown:(NSEvent*)event
 {
-    if (!running) return;
-
     sharedEngine->getInput()->keyDown(ouzel::input::InputApple::convertKeyCode(event.keyCode),
                                       ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)keyUp:(NSEvent*)event
 {
-    if (!running) return;
-
     sharedEngine->getInput()->keyUp(ouzel::input::InputApple::convertKeyCode(event.keyCode),
                                     ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)mouseDown:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::LEFT,
@@ -221,7 +204,6 @@ using namespace ouzel;
 
 -(void)mouseUp:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::LEFT,
@@ -232,7 +214,6 @@ using namespace ouzel;
 
 -(void)rightMouseDown:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::RIGHT,
@@ -243,7 +224,6 @@ using namespace ouzel;
 
 -(void)rightMouseUp:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::RIGHT,
@@ -254,7 +234,6 @@ using namespace ouzel;
 
 -(void)otherMouseDown:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::MIDDLE,
@@ -265,7 +244,6 @@ using namespace ouzel;
 
 -(void)otherMouseUp:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::MIDDLE,
@@ -276,8 +254,6 @@ using namespace ouzel;
 
 -(void)mouseMoved:(NSEvent*)event
 {
-    if (!running) return;
-
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
@@ -287,7 +263,6 @@ using namespace ouzel;
 
 -(void)mouseDragged:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
@@ -297,7 +272,6 @@ using namespace ouzel;
 
 -(void)rightMouseDragged:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
@@ -307,7 +281,6 @@ using namespace ouzel;
 
 -(void)otherMouseDragged:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(location.x),
@@ -317,7 +290,6 @@ using namespace ouzel;
 
 -(void)scrollWheel:(NSEvent*)event
 {
-    if (!running) return;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(event.scrollingDeltaX),

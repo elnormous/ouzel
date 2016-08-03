@@ -18,7 +18,6 @@ namespace ouzel
 
         MeshBufferOGL::~MeshBufferOGL()
         {
-
             std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
             if (vertexArrayId)

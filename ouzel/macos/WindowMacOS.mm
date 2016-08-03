@@ -148,7 +148,6 @@ namespace ouzel
     {
         if (view)
         {
-            [view close];
             [view release];
             view = Nil;
         }
