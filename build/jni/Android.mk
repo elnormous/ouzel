@@ -10,7 +10,8 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../external/stb \
     $(LOCAL_PATH)/../../external/rapidjson/include
 
-LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/android/GamepadAndroid.cpp \
+LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
+    $(LOCAL_PATH)/../../ouzel/android/GamepadAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/android/InputAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/android/WindowAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
@@ -26,6 +27,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/../../ouzel/android/GamepadAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/Audio.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/Sound.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/SoundData.cpp \
+    $(LOCAL_PATH)/../../ouzel/core/Application.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Cache.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Engine.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Window.cpp \

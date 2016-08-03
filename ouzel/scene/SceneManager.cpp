@@ -80,6 +80,8 @@ namespace ouzel
                         }
                         break;
                     }
+                    default:
+                        break;
                 }
             }
 
@@ -118,6 +120,8 @@ namespace ouzel
                         pointerUpOnNode(event.touchId, node, event.position);
                         break;
                     }
+                    default:
+                        break;
                 }
             }
 

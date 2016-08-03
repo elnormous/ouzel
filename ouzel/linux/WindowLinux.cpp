@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include "WindowLinux.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "opengl/RendererOGL.h"
@@ -161,7 +162,7 @@ namespace ouzel
                                static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height), 0,
                                vi->depth, InputOutput, vi->visual,
                                CWBorderPixel | CWColormap | CWEventMask, &swa);
-        XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, getArgv(), getArgc(), nullptr);
+        XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, sharedApplication->getArgv(), sharedApplication->getArgc(), nullptr);
 
         // bind the rendering context to the window
         glXMakeCurrent(display, window, context);

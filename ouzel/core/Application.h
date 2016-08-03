@@ -12,6 +12,7 @@ namespace ouzel
     class Application: public Noncopyable
     {
     public:
+        Application();
         Application(int pArgc, char* pArgv[]);
         Application(const std::vector<std::string>& pArgs);
         virtual ~Application();

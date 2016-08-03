@@ -8,10 +8,14 @@ namespace ouzel
 {
     ouzel::Application* sharedApplication = nullptr;
 
-    Application::Application(int pArgc, char* pArgv[])
+    Application::Application()
     {
         sharedApplication = this;
+    }
 
+    Application::Application(int pArgc, char* pArgv[]):
+        Application()
+    {
         argc = pArgc;
         argv = pArgv;
 
@@ -24,9 +28,9 @@ namespace ouzel
     }
 
     Application::Application(const std::vector<std::string>& pArgs):
-        args(pArgs)
+        Application()
     {
-        sharedApplication = this;
+        args = pArgs;
     }
 
     Application::~Application()

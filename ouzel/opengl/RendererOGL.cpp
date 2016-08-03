@@ -389,7 +389,7 @@ namespace ouzel
                     return false;
                 }
 
-                for (int i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
+                for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                 {
                     GLint location = pixelShaderConstantLocations[i];
                     const Shader::ConstantInfo& pixelShaderConstantInfo = pixelShaderConstantInfos[i];
@@ -433,7 +433,7 @@ namespace ouzel
                     return false;
                 }
 
-                for (int i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
+                for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                 {
                     GLint location = vertexShaderConstantLocations[i];
                     const Shader::ConstantInfo& vertexShaderConstantInfo = vertexShaderConstantInfos[i];

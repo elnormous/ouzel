@@ -2,11 +2,14 @@
 // This file is part of the Ouzel engine.
 
 #include <jni.h>
+#include "android/ApplicationAndroid.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "files/FileSystem.h"
 #include "input/Input.h"
 #include "utils/Utils.h"
+
+ouzel::ApplicationAndroid application;
 
 extern "C"
 {
@@ -23,7 +26,7 @@ extern "C"
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
 
-        ouzelMain(ouzel::getArgs());
+        ouzelMain(ouzel::sharedApplication->getArgs());
 
         if (ouzel::sharedEngine)
         {
@@ -49,7 +52,7 @@ extern "C"
 
         if (ouzel::sharedEngine)
         {
-            ouzel::sharedEngine->run();
+            ouzel::sharedEngine->draw();
         }
     }
     
