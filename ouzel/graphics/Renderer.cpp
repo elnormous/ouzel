@@ -60,8 +60,6 @@ namespace ouzel
 
         bool Renderer::present()
         {
-            drawCallCount = drawQueue.size();
-
             return true;
         }
 
@@ -146,6 +144,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(drawQueueMutex);
             drawQueue = std::move(tempDrawQueue);
+            drawCallCount = drawQueue.size();
         }
 
         Vector2 Renderer::viewToScreenLocation(const Vector2& position)
