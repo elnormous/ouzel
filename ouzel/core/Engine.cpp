@@ -81,6 +81,9 @@ namespace ouzel
     {
         running = false;
         active = false;
+
+        updateThread.join();
+
         if (sceneManager)
         {
             sceneManager->setScene(nullptr);

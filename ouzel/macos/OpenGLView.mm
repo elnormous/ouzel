@@ -165,14 +165,17 @@ using namespace ouzel;
 
 -(void)draw
 {
-    [openGLContext makeCurrentContext];
-
-    if (!sharedEngine->draw())
+    if (sharedEngine->isRunning())
     {
-        ouzel::sharedEngine->exit();
-    }
+        [openGLContext makeCurrentContext];
 
-    [openGLContext flushBuffer];
+        if (!sharedEngine->draw())
+        {
+            sharedEngine->exit();
+        }
+
+        [openGLContext flushBuffer];
+    }
 }
 
 -(BOOL)acceptsFirstResponder

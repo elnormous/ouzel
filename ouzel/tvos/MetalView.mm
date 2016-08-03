@@ -21,9 +21,12 @@ using namespace ouzel;
 
 -(void)drawInMTKView:(nonnull MTKView*)view
 {
-    if (!sharedEngine->draw())
+    if (sharedEngine->isRunning())
     {
-        [view.window close];
+        if (!sharedEngine->draw())
+        {
+            sharedEngine->exit();
+        }
     }
 }
 

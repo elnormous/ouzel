@@ -49,9 +49,15 @@ using namespace ouzel;
     return [CAEAGLLayer class];
 }
 
--(void)draw:(id)sender
+-(void)draw:(__unused id)sender
 {
-    sharedEngine->draw();
+    if (sharedEngine->isRunning())
+    {
+        if (!sharedEngine->draw())
+        {
+            sharedEngine->exit();
+        }
+    }
 }
 
 @end
