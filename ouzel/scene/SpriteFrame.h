@@ -29,7 +29,7 @@ namespace ouzel
 
             const Rectangle& getRectangle() const { return rectangle; }
             const graphics::MeshBufferPtr& getMeshBuffer() const { return meshBuffer; }
-            const graphics::TexturePtr& getRexture() const { return texture; }
+            const graphics::TexturePtr& getTexture() const { return texture; }
 
         protected:
             Rectangle rectangle;

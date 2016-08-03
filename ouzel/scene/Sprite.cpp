@@ -189,7 +189,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
 
-                sharedEngine->getRenderer()->draw({ frames[currentFrame]->getRexture() },
+                sharedEngine->getRenderer()->draw({ frames[currentFrame]->getTexture() },
                                                   shader,
                                                   pixelShaderConstants,
                                                   vertexShaderConstants,
