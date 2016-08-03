@@ -244,6 +244,12 @@
     <ClCompile Include="..\ouzel\xaudio2\SoundXA2.cpp">
       <Filter>xaudio2</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\core\Application.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\win\ApplicationWin.cpp">
+      <Filter>win</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -519,6 +525,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\events\EventHandler.h">
       <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\Application.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\win\ApplicationWin.h">
+      <Filter>win</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

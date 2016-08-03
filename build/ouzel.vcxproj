@@ -32,6 +32,7 @@
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
+    <ClCompile Include="..\ouzel\core\Application.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
@@ -93,6 +94,7 @@
     <ClCompile Include="..\ouzel\scene\SpriteFrame.cpp" />
     <ClCompile Include="..\ouzel\scene\TextDrawable.cpp" />
     <ClCompile Include="..\ouzel\utils\Utils.cpp" />
+    <ClCompile Include="..\ouzel\win\ApplicationWin.cpp" />
     <ClCompile Include="..\ouzel\win\GamepadWin.cpp" />
     <ClCompile Include="..\ouzel\win\InputWin.cpp" />
     <ClCompile Include="..\ouzel\win\main.cpp" />
@@ -115,6 +117,7 @@
     <ClInclude Include="..\ouzel\audio\Audio.h" />
     <ClInclude Include="..\ouzel\audio\Sound.h" />
     <ClInclude Include="..\ouzel\audio\SoundData.h" />
+    <ClInclude Include="..\ouzel\core\Application.h" />
     <ClInclude Include="..\ouzel\core\Cache.h" />
     <ClInclude Include="..\ouzel\core\CompileConfig.h" />
     <ClInclude Include="..\ouzel\core\Engine.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="..\ouzel\utils\Noncopyable.h" />
     <ClInclude Include="..\ouzel\utils\Types.h" />
     <ClInclude Include="..\ouzel\utils\Utils.h" />
+    <ClInclude Include="..\ouzel\win\ApplicationWin.h" />
     <ClInclude Include="..\ouzel\win\GamepadWin.h" />
     <ClInclude Include="..\ouzel\win\InputWin.h" />
     <ClInclude Include="..\ouzel\win\WindowWin.h" />

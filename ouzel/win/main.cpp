@@ -3,11 +3,9 @@
 
 #define NOMINMAX
 #include <windows.h>
-#include "WindowWin.h"
-#include "core/Engine.h"
-#include "utils/Utils.h"
-
-void ouzelMain(const std::vector<std::string>& args);
+#include <vector>
+#include <string>
+#include "ApplicationWin.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -32,72 +30,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
         LocalFree(argList);
     }
 
-    ouzel::setArgs(args);
-    ouzelMain(ouzel::getArgs());
-
-    if (!ouzel::sharedEngine)
-    {
-        return 0;
-    }
-
-    std::shared_ptr<ouzel::WindowWin> window = std::static_pointer_cast<ouzel::WindowWin>(ouzel::sharedEngine->getWindow());
-    ouzel::sharedEngine->begin();
-
-    MSG msg;
-
-    bool running = true;
-
-    while (running)
-    {
-        if (!ouzel::sharedEngine->draw())
-        {
-            running = false;
-        }
-
-        std::set<HACCEL> accelerators = window->getAccelerators();
-
-        for (;;)
-        {
-            if (ouzel::sharedEngine->isRunning())
-            {
-                if (!PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-                {
-                    break;
-                }
-            }
-            else
-            {
-                if (GetMessage(&msg, nullptr, 0, 0) <= 0)
-                {
-                    running = false;
-                    break;
-                }
-            }
-
-            bool translate = true;
-
-            for (HACCEL accelerator : accelerators)
-            {
-                if (TranslateAccelerator(window->getNativeWindow(), accelerator, &msg))
-                {
-                    translate = false;
-                }
-            }
-
-            if (translate)
-            {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-            }
-
-            if (msg.message == WM_QUIT)
-            {
-                running = false;
-            }
-        }
-    }
-
-    ouzel::sharedEngine->end();
-
-    return 0;
+    ouzel::ApplicationWin application(args);
+    return application.run() ? 0 : 1;
 }
