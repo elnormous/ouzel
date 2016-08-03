@@ -189,7 +189,7 @@ namespace ouzel
                 shader->setVertexShaderConstant(0, sizeof(Matrix4), 1, modelViewProj.m);
                 shader->setPixelShaderConstant(0, sizeof(colorVector), 1, colorVector);
 
-                sharedEngine->getRenderer()->activateTexture(frames[currentFrame]->getRexture(), 0);
+                sharedEngine->getRenderer()->activateTexture(frames[currentFrame]->getTexture(), 0);
                 sharedEngine->getRenderer()->drawMeshBuffer(frames[currentFrame]->getMeshBuffer());
             }
         }
