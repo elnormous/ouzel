@@ -292,7 +292,7 @@ namespace ouzel
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
-                drawCommands = std::move(drawQueue);
+                drawCommands = drawQueue;
             }
 
             while (!drawCommands.empty())
