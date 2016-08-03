@@ -5,7 +5,7 @@
 
 #include <set>
 #include <queue>
-#include <functional>
+#include <utility>
 #include <mutex>
 #include "core/CompileConfig.h"
 
@@ -90,7 +90,17 @@ namespace ouzel
             static bool unbindArrayBuffer(GLuint arrayBufferId);
             static bool unbindVertexArray(GLuint vertexArrayId);
 
-            void execute(const std::function<void(void)> func);
+            enum class ResourceType
+            {
+                Buffer,
+                VertexArray,
+                RenderBuffer,
+                FrameBuffer,
+                Program,
+                Shader,
+                Texture
+            };
+            void deleteResource(GLuint resource, ResourceType resourceType);
 
         protected:
             RendererOGL();
@@ -114,8 +124,8 @@ namespace ouzel
 
             Rectangle viewport;
 
-            std::queue<std::function<void(void)>> executeQueue;
-            std::mutex executeMutex;
+            std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
+            std::mutex deleteMutex;
         };
     } // namespace graphics
 } // namespace ouzel

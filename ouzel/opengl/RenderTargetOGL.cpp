@@ -18,21 +18,16 @@ namespace ouzel
 
         RenderTargetOGL::~RenderTargetOGL()
         {
-            if (depthBufferId || frameBufferId)
+            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+
+            if (depthBufferId)
             {
-                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+                rendererOGL->deleteResource(depthBufferId, RendererOGL::ResourceType::RenderBuffer);
+            }
 
-                rendererOGL->execute([depthBufferId = depthBufferId, frameBufferId = frameBufferId] {
-                    if (depthBufferId)
-                    {
-                        glDeleteRenderbuffers(1, &depthBufferId);
-                    }
-
-                    if (frameBufferId)
-                    {
-                        glDeleteFramebuffers(1, &frameBufferId);
-                    }
-                });
+            if (frameBufferId)
+            {
+                rendererOGL->deleteResource(frameBufferId, RendererOGL::ResourceType::FrameBuffer);
             }
         }
 
@@ -40,26 +35,21 @@ namespace ouzel
         {
             RenderTarget::free();
 
-            if (depthBufferId || frameBufferId)
+            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+
+            if (depthBufferId)
             {
-                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
-                rendererOGL->execute([depthBufferId = depthBufferId, frameBufferId = frameBufferId] {
-                    if (depthBufferId)
-                    {
-                        glDeleteRenderbuffers(1, &depthBufferId);
-                    }
-
-                    if (frameBufferId)
-                    {
-                        glDeleteFramebuffers(1, &frameBufferId);
-                    }
-                });
-
+                rendererOGL->deleteResource(depthBufferId, RendererOGL::ResourceType::RenderBuffer);
                 depthBufferId = 0;
-                frameBufferId = 0;
-                frameBufferReady = false;
             }
+
+            if (frameBufferId)
+            {
+                rendererOGL->deleteResource(frameBufferId, RendererOGL::ResourceType::FrameBuffer);
+                frameBufferId = 0;
+            }
+
+            frameBufferReady = false;
         }
 
         bool RenderTargetOGL::init(const Size2& newSize, bool depthBuffer)

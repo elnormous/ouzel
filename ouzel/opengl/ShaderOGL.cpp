@@ -18,26 +18,21 @@ namespace ouzel
 
         ShaderOGL::~ShaderOGL()
         {
-            if (programId || vertexShaderId || pixelShaderId)
+            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+
+            if (programId)
             {
-                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+                rendererOGL->deleteResource(programId, RendererOGL::ResourceType::Program);
+            }
 
-                rendererOGL->execute([programId = programId, vertexShaderId = vertexShaderId, pixelShaderId = pixelShaderId] {
-                    if (programId)
-                    {
-                        glDeleteProgram(programId);
-                    }
+            if (vertexShaderId)
+            {
+                rendererOGL->deleteResource(vertexShaderId, RendererOGL::ResourceType::Shader);
+            }
 
-                    if (vertexShaderId)
-                    {
-                        glDeleteShader(vertexShaderId);
-                    }
-                    
-                    if (pixelShaderId)
-                    {
-                        glDeleteShader(pixelShaderId);
-                    }
-                });
+            if (pixelShaderId)
+            {
+                rendererOGL->deleteResource(pixelShaderId, RendererOGL::ResourceType::Shader);
             }
         }
 
@@ -45,29 +40,23 @@ namespace ouzel
         {
             Shader::free();
 
-            if (programId || vertexShaderId || pixelShaderId)
+            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+
+            if (programId)
             {
-                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
-                rendererOGL->execute([programId = programId, vertexShaderId = vertexShaderId, pixelShaderId = pixelShaderId] {
-                    if (programId)
-                    {
-                        glDeleteProgram(programId);
-                    }
-
-                    if (vertexShaderId)
-                    {
-                        glDeleteShader(vertexShaderId);
-                    }
-
-                    if (pixelShaderId)
-                    {
-                        glDeleteShader(pixelShaderId);
-                    }
-                });
-
+                rendererOGL->deleteResource(programId, RendererOGL::ResourceType::Program);
                 programId = 0;
+            }
+
+            if (vertexShaderId)
+            {
+                rendererOGL->deleteResource(vertexShaderId, RendererOGL::ResourceType::Shader);
                 vertexShaderId = 0;
+            }
+
+            if (pixelShaderId)
+            {
+                rendererOGL->deleteResource(pixelShaderId, RendererOGL::ResourceType::Shader);
                 pixelShaderId = 0;
             }
         }

@@ -18,32 +18,22 @@ namespace ouzel
 
         MeshBufferOGL::~MeshBufferOGL()
         {
-            if (vertexArrayId || vertexBufferId || indexBufferId)
+
+            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+
+            if (vertexArrayId)
             {
-                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+                rendererOGL->deleteResource(vertexArrayId, RendererOGL::ResourceType::VertexArray);
+            }
 
-                rendererOGL->execute([vertexArrayId = vertexArrayId, vertexBufferId = vertexBufferId, indexBufferId = indexBufferId] {
-                    if (vertexArrayId)
-                    {
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                        glDeleteVertexArraysOES(1, &tmpVertexArrayId);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-                        if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &vertexArrayId);
-#else
-                        glDeleteVertexArrays(1, &vertexArrayId);
-#endif
-                    }
+            if (vertexBufferId)
+            {
+                rendererOGL->deleteResource(vertexBufferId, RendererOGL::ResourceType::Buffer);
+            }
 
-                    if (vertexBufferId)
-                    {
-                        glDeleteBuffers(1, &vertexBufferId);
-                    }
-
-                    if (indexBufferId)
-                    {
-                        glDeleteBuffers(1, &indexBufferId);
-                    }
-                });
+            if (indexBufferId)
+            {
+                rendererOGL->deleteResource(indexBufferId, RendererOGL::ResourceType::Buffer);
             }
         }
 
@@ -51,35 +41,23 @@ namespace ouzel
         {
             MeshBuffer::free();
 
-            if (vertexArrayId || vertexBufferId || indexBufferId)
+            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+
+            if (vertexArrayId)
             {
-                std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
-                rendererOGL->execute([vertexArrayId = vertexArrayId, vertexBufferId = vertexBufferId, indexBufferId = indexBufferId] {
-                    if (vertexArrayId)
-                    {
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                        glDeleteVertexArraysOES(1, &tmpVertexArrayId);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-                        if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &vertexArrayId);
-#else
-                        glDeleteVertexArrays(1, &vertexArrayId);
-#endif
-                    }
-
-                    if (vertexBufferId)
-                    {
-                        glDeleteBuffers(1, &vertexBufferId);
-                    }
-
-                    if (indexBufferId)
-                    {
-                        glDeleteBuffers(1, &indexBufferId);
-                    }
-                });
-
+                rendererOGL->deleteResource(vertexArrayId, RendererOGL::ResourceType::VertexArray);
                 vertexArrayId = 0;
+            }
+
+            if (vertexBufferId)
+            {
+                rendererOGL->deleteResource(vertexBufferId, RendererOGL::ResourceType::Buffer);
                 vertexBufferId = 0;
+            }
+
+            if (indexBufferId)
+            {
+                rendererOGL->deleteResource(indexBufferId, RendererOGL::ResourceType::Buffer);
                 indexBufferId = 0;
             }
         }
