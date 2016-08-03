@@ -232,26 +232,6 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderD3D11::setPixelShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
-        {
-            if (index >= pixelShaderConstantLocations.size()) return false;
-
-            uint32_t location = pixelShaderConstantLocations[index];
-            memcpy(pixelShaderData.data() + location, value, size * count);
-
-            return uploadData(pixelShaderConstantBuffer, pixelShaderData.data(), static_cast<uint32_t>(pixelShaderData.size()));
-        }
-
-        bool ShaderD3D11::setVertexShaderConstant(uint32_t index, uint32_t size, uint32_t count, const float* value)
-        {
-            if (index >= vertexShaderConstantLocations.size()) return false;
-
-            uint32_t location = vertexShaderConstantLocations[index];
-            memcpy(vertexShaderData.data() + location, value, size * count);
-
-            return uploadData(vertexShaderConstantBuffer, vertexShaderData.data(), static_cast<uint32_t>(vertexShaderData.size()));
-        }
-
         bool ShaderD3D11::createPixelShaderConstantBuffer(uint32_t size)
         {
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());

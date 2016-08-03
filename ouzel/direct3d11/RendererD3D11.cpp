@@ -611,78 +611,10 @@ namespace ouzel
             return texture;
         }
 
-        bool RendererD3D11::activateTexture(const TexturePtr& texture, uint32_t layer)
-        {
-            if (activeTextures[layer] == texture)
-            {
-                return true;
-            }
-
-            if (!Renderer::activateTexture(texture, layer))
-            {
-                return false;
-            }
-
-            if (activeTextures[layer])
-            {
-                std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(activeTextures[layer]);
-
-                resourceViews[layer] = textureD3D11->getResourceView();
-                samplerStates[layer] = samplerState;
-            }
-            else
-            {
-                resourceViews[layer] = nullptr;
-                samplerStates[layer] = nullptr;
-            }
-
-            return true;
-        }
-
         RenderTargetPtr RendererD3D11::createRenderTarget()
         {
             std::shared_ptr<RenderTargetD3D11> renderTarget(new RenderTargetD3D11());
             return renderTarget;
-        }
-
-        bool RendererD3D11::activateRenderTarget(const RenderTargetPtr& renderTarget)
-        {
-            if (!Renderer::activateRenderTarget(renderTarget))
-            {
-                return false;
-            }
-
-            ID3D11RenderTargetView* newRenderTargetView = nullptr;
-            Color newClearColor;
-            D3D11_VIEWPORT newViewport;
-
-            if (activeRenderTarget)
-            {
-                std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(activeRenderTarget);
-
-                newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                newClearColor = renderTargetD3D11->getClearColor();
-                newViewport = renderTargetD3D11->getViewport();
-            }
-            else
-            {
-                newRenderTargetView = renderTargetView;
-                newClearColor = clearColor;
-                newViewport = viewport;
-            }
-
-            context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
-            context->RSSetViewports(1, &newViewport);
-
-            if (clearedRenderTargetViews.find(newRenderTargetView) == clearedRenderTargetViews.end())
-            {
-                float color[4] = { newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA() };
-                context->ClearRenderTargetView(newRenderTargetView, color);
-
-                clearedRenderTargetViews.insert(newRenderTargetView);
-            }
-
-            return true;
         }
 
         ShaderPtr RendererD3D11::createShader()
@@ -691,116 +623,10 @@ namespace ouzel
             return shader;
         }
 
-        bool RendererD3D11::activateShader(const ShaderPtr& shader)
-        {
-            if (activeShader == shader)
-            {
-                return true;
-            }
-
-            if (!Renderer::activateShader(shader))
-            {
-                return false;
-            }
-
-            if (activeShader)
-            {
-                std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(activeShader);
-
-                ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
-                context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
-
-                ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
-                context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
-
-                context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
-                context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
-
-                context->IASetInputLayout(shaderD3D11->getInputLayout());
-            }
-            else
-            {
-                context->PSSetShader(nullptr, nullptr, 0);
-                context->VSSetShader(nullptr, nullptr, 0);
-            }
-
-            return true;
-        }
-
         MeshBufferPtr RendererD3D11::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
             return meshBuffer;
-        }
-
-        bool RendererD3D11::drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount, DrawMode drawMode, uint32_t startIndex)
-        {
-            if (!Renderer::drawMeshBuffer(meshBuffer))
-            {
-                return false;
-            }
-
-            if (!activeShader || !activeShader->isReady())
-            {
-                return false;
-            }
-
-            context->PSSetShaderResources(0, TEXTURE_LAYERS, resourceViews);
-            context->PSSetSamplers(0, TEXTURE_LAYERS, samplerStates);
-
-            std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(meshBuffer);
-
-            if (indexCount == 0)
-            {
-                indexCount = meshBufferD3D11->getIndexCount() - startIndex;
-            }
-
-            context->OMSetDepthStencilState(depthStencilState, 0);
-
-            ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
-            UINT stride = meshBufferD3D11->getVertexSize();
-            UINT offset = 0;
-            context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
-            context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
-
-            D3D_PRIMITIVE_TOPOLOGY topology;
-
-            switch (drawMode)
-            {
-                case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
-                case DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
-                case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
-                case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
-                case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
-                default: return false;
-            }
-
-            context->IASetPrimitiveTopology(topology);
-
-            context->DrawIndexed(indexCount, static_cast<UINT>(startIndex * meshBuffer->getIndexSize()), 0);
-
-            return true;
-        }
-
-        void RendererD3D11::activateScissorTest(const Rectangle& rectangle)
-        {
-            Renderer::activateScissorTest(rectangle);
-
-            if (rectangle.isEmpty())
-            {
-                D3D11_RECT rects[1];
-                rects[0].left = static_cast<LONG>(rectangle.x);
-                rects[0].right = static_cast<LONG>(rectangle.x + rectangle.width);
-                rects[0].bottom = static_cast<LONG>(rectangle.y);
-                rects[0].top = static_cast<LONG>(rectangle.y + rectangle.height);
-
-                context->RSSetScissorRects(1, rects);
-                context->RSSetState(scissorTestRasterizerState);
-            }
-            else
-            {
-                context->RSSetState(rasterizerState);
-            }
         }
 
         bool RendererD3D11::saveScreenshot(const std::string& filename)

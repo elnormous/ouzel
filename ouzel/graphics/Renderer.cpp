@@ -144,7 +144,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(drawQueueMutex);
             drawQueue = std::move(activeDrawQueue);
-            drawCallCount = drawQueue.size();
+            drawCallCount = static_cast<uint32_t>(drawQueue.size());
         }
 
         Vector2 Renderer::viewToScreenLocation(const Vector2& position)

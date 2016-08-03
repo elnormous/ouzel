@@ -8,6 +8,7 @@
 #include <windows.h>
 #include <d3d11.h>
 #include "graphics/Renderer.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {
@@ -21,7 +22,7 @@ namespace ouzel
             virtual void free() override;
 
             virtual void clear() override;
-            virtual void present() override;
+            virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
@@ -30,20 +31,10 @@ namespace ouzel
             virtual void setFullscreen(bool newFullscreen) override;
 
             virtual BlendStatePtr createBlendState() override;
-            virtual bool activateBlendState(BlendStatePtr blendState) override;
-
             virtual TexturePtr createTexture() override;
-            virtual bool activateTexture(const TexturePtr& texture, uint32_t layer) override;
             virtual RenderTargetPtr createRenderTarget() override;
-            virtual bool activateRenderTarget(const RenderTargetPtr& renderTarget) override;
-
             virtual ShaderPtr createShader() override;
-            virtual bool activateShader(const ShaderPtr& shader) override;
-
             virtual MeshBufferPtr createMeshBuffer();
-            virtual bool drawMeshBuffer(const MeshBufferPtr& meshBuffer, uint32_t indexCount = 0, DrawMode drawMode = DrawMode::TRIANGLE_LIST, uint32_t startIndex = 0);
-
-            virtual void activateScissorTest(const Rectangle& rectangle) override;
 
             virtual bool saveScreenshot(const std::string& filename) override;
 
@@ -76,8 +67,8 @@ namespace ouzel
 
             D3D11_VIEWPORT viewport;
 
-            ID3D11ShaderResourceView* resourceViews[TEXTURE_LAYERS];
-            ID3D11SamplerState* samplerStates[TEXTURE_LAYERS];
+            ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
+            ID3D11SamplerState* samplerStates[Texture::LAYERS];
 
             UINT swapInterval = 0;
         };
