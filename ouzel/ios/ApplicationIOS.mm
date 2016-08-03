@@ -23,10 +23,12 @@ namespace ouzel
         return true;
     }
 
-    void ApplicationIOS::execute(const std::function<void(void)>& func)
+    void ApplicationMacOS::execute(const std::function<void(void)>& func)
     {
+        std::function<void(void)> localFunction = func;
+
         dispatch_async(mainQueue, ^{
-            func();
+            localFunction();
         });
     }
 }

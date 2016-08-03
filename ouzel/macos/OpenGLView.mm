@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #import "OpenGLView.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "opengl/RendererOGL.h"
 #include "core/Window.h"
@@ -180,7 +181,7 @@ using namespace ouzel;
 
     if (!sharedEngine->draw())
     {
-        [self.window close];
+        ouzel::sharedEngine->exit();
     }
 
     [openGLContext flushBuffer];
@@ -203,7 +204,6 @@ using namespace ouzel;
 {
     if (!running) return;
 
-    [openGLContext makeCurrentContext];
     sharedEngine->getInput()->keyUp(ouzel::input::InputApple::convertKeyCode(event.keyCode),
                                     ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }

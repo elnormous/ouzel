@@ -4,6 +4,7 @@
 #include "WindowMacOS.h"
 #include "OpenGLView.h"
 #include "MetalView.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "utils/Utils.h"
 
@@ -168,17 +169,19 @@ namespace ouzel
 
     void WindowMacOS::setSize(const Size2& newSize)
     {
-        NSRect frame = [window frame];
+        ouzel::sharedApplication->execute([this, newSize] {
+            NSRect frame = [window frame];
 
-        NSRect newFrame = [NSWindow frameRectForContentRect:
-                           NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.width, newSize.height)
-                                                  styleMask:[window styleMask]];
+            NSRect newFrame = [NSWindow frameRectForContentRect:
+                               NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.width, newSize.height)
+                                                      styleMask:[window styleMask]];
 
-        if (frame.size.width != newFrame.size.width ||
-            frame.size.height != newFrame.size.height)
-        {
-            [window setFrame:newFrame display:YES animate:NO];
-        }
+            if (frame.size.width != newFrame.size.width ||
+                frame.size.height != newFrame.size.height)
+            {
+                [window setFrame:newFrame display:YES animate:NO];
+            }
+        });
 
         Window::setSize(newSize);
     }
@@ -187,7 +190,9 @@ namespace ouzel
     {
         if (fullscreen != newFullscreen)
         {
-            [window toggleFullScreen:nil];
+            ouzel::sharedApplication->execute([this] {
+                [window toggleFullScreen:nil];
+            });
         }
 
         Window::setFullscreen(newFullscreen);
@@ -197,9 +202,11 @@ namespace ouzel
     {
         if (title != newTitle)
         {
-            NSString* objCTitle = [NSString stringWithCString:newTitle.c_str() encoding:NSUTF8StringEncoding];
+            ouzel::sharedApplication->execute([this, newTitle] {
+                NSString* objCTitle = [NSString stringWithCString:newTitle.c_str() encoding:NSUTF8StringEncoding];
 
-            window.title = objCTitle;
+                window.title = objCTitle;
+            });
         }
 
         Window::setTitle(newTitle);
