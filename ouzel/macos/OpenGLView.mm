@@ -92,8 +92,6 @@ using namespace ouzel;
         CVDisplayLinkSetOutputCallback(displayLink, renderCallback, (__bridge void *)self);
 
         CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, [openGLContext CGLContextObj], [pixelFormat CGLPixelFormatObj]);
-
-        CVDisplayLinkStart(displayLink);
     }
 
     return self;
@@ -128,6 +126,7 @@ using namespace ouzel;
 
 -(void)prepareOpenGL
 {
+    CVDisplayLinkStart(displayLink);
 }
 
 -(void)changeDisplay
@@ -149,7 +148,6 @@ using namespace ouzel;
 
     sharedEngine->getWindow()->setSize(Size2(static_cast<float>(newSize.width),
                                              static_cast<float>(newSize.height)));
-
 }
 
 -(void)lockFocus
