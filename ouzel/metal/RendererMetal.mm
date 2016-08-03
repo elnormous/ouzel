@@ -504,7 +504,7 @@ namespace ouzel
                 }
 
                 // textures
-                for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
                     std::shared_ptr<TextureMetal> textureMetal;
 

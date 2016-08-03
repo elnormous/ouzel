@@ -45,6 +45,7 @@ extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
 #endif
 
 #include "graphics/Renderer.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {
@@ -115,7 +116,7 @@ namespace ouzel
 
             GLuint frameBufferId = 0;
 
-            static GLuint currentTextureId[TEXTURE_LAYERS];
+            static GLuint currentTextureId[Texture::LAYERS];
             static GLuint currentProgramId;
             static GLuint currentFrameBufferId;
             static GLuint currentElementArrayBufferId;

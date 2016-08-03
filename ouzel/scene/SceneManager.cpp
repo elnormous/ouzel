@@ -3,7 +3,7 @@
 
 #include "SceneManager.h"
 #include "Scene.h"
-#include "Engine.h"
+#include "core/Engine.h"
 #include "Node.h"
 
 namespace ouzel

@@ -327,7 +327,7 @@ namespace ouzel
                 }
 
                 // textures
-                for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
                     std::shared_ptr<TextureOGL> textureOGL;
 
@@ -650,7 +650,7 @@ namespace ouzel
             return true;
         }
 
-        GLuint RendererOGL::currentTextureId[TEXTURE_LAYERS] = { 0 };
+        GLuint RendererOGL::currentTextureId[Texture::LAYERS] = { 0 };
         GLuint RendererOGL::currentProgramId = 0;
         GLuint RendererOGL::currentFrameBufferId = 0;
         GLuint RendererOGL::currentElementArrayBufferId = 0;
@@ -768,7 +768,7 @@ namespace ouzel
 
         bool RendererOGL::unbindTexture(GLuint textureId)
         {
-            for (uint32_t layer = 0; layer < TEXTURE_LAYERS; ++layer)
+            for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
             {
                 if (currentTextureId[layer] == textureId)
                 {

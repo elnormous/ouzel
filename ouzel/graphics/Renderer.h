@@ -41,8 +41,6 @@ namespace ouzel
             friend Engine;
             friend Window;
         public:
-            static const uint32_t TEXTURE_LAYERS = 2;
-
             enum class Driver
             {
                 DEFAULT,
