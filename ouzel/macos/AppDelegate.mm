@@ -3,6 +3,7 @@
 
 #import "AppDelegate.h"
 #import "OpenGLView.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "WindowMacOS.h"
@@ -13,7 +14,7 @@
 
 -(void)applicationWillFinishLaunching:(__unused NSNotification*)notification
 {
-    ouzelMain(ouzel::getArgs());
+    ouzelMain(ouzel::sharedApplication->getArgs());
 
     if (ouzel::sharedEngine)
     {

@@ -61,43 +61,6 @@ namespace ouzel
         return static_cast<uint64_t>(micros.count());
     }
 
-    static int argc;
-    static char** argv;
-    static std::vector<std::string> args;
-
-    void setArgs(int newArgc, char* newArgv[])
-    {
-        argc = newArgc;
-        argv = newArgv;
-
-        args.clear();
-
-        for (int32_t i = 0; i < argc; ++i)
-        {
-            args.push_back(argv[i]);
-        }
-    }
-
-    int getArgc()
-    {
-        return argc;
-    }
-
-    char** getArgv()
-    {
-        return argv;
-    }
-
-    void setArgs(const std::vector<std::string>& newArgs)
-    {
-        args = newArgs;
-    }
-
-    const std::vector<std::string>& getArgs()
-    {
-        return args;
-    }
-
     static std::mt19937 engine(std::random_device{}());
 
     uint32_t random(uint32_t min, uint32_t max)

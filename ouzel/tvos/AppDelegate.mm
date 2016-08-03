@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #import "AppDelegate.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/Cache.h"
 #include "utils/Utils.h"
@@ -10,7 +11,7 @@
 
 -(BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
-    ouzelMain(ouzel::getArgs());
+    ouzelMain(ouzel::sharedApplication->getArgs());
 
     if (ouzel::sharedEngine)
     {

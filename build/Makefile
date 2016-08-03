@@ -25,6 +25,7 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/audio/Audio.cpp \
 	../ouzel/audio/Sound.cpp \
 	../ouzel/audio/SoundData.cpp \
+	../ouzel/core/Application.cpp \
 	../ouzel/core/Cache.cpp \
 	../ouzel/core/Engine.cpp \
 	../ouzel/core/Window.cpp \
@@ -103,11 +104,12 @@ SOURCES+=../ouzel/linux/main.cpp \
 	../ouzel/linux/RendererOGLLinux.cpp \
 	../ouzel/linux/WindowLinux.cpp
 else ifeq ($(platform),macos)
-SOURCES+=../ouzel/apple/AudioALApple.mm \
+SOURCES+=../ouzel/apple/ApplicationMacOS.mm \
+	../ouzel/apple/AudioALApple.mm \
 	../ouzel/apple/GamepadApple.mm \
 	../ouzel/apple/InputApple.mm \
 	../ouzel/macos/AppDelegate.mm \
-	../ouzel/macos/main.mm \
+	../ouzel/macos/main.cpp \
 	../ouzel/macos/MetalView.mm \
 	../ouzel/macos/OpenGLView.mm \
 	../ouzel/macos/RendererOGLMacOS.cpp \

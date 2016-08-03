@@ -48,11 +48,7 @@ namespace ouzel
     void log(const char* format, ...);
     uint64_t getCurrentMicroSeconds();
 
-    void setArgs(int argc, char* argv[]);
-    int getArgc();
-    char** getArgv();
-    void setArgs(const std::vector<std::string>& args);
-    const std::vector<std::string>& getArgs();
+    
 
     uint32_t random(uint32_t min = 0, uint32_t max = std::numeric_limits<uint32_t>::max());
     float randomf(float min = 0.0f, float max = 1.0f);
