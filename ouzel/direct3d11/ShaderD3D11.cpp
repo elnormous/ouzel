@@ -79,15 +79,13 @@ namespace ouzel
             }
         }
 
-        bool ShaderD3D11::initFromBuffers(const uint8_t* newPixelShader,
-                                          uint32_t newPixelShaderSize,
-                                          const uint8_t* newVertexShader,
-                                          uint32_t newVertexShaderSize,
+        bool ShaderD3D11::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
+                                          const std::vector<uint8_t>& newVertexShader,
                                           uint32_t newVertexAttributes,
                                           const std::string& pixelShaderFunction,
                                           const std::string& vertexShaderFunction)
         {
-            if (!Shader::initFromBuffers(newPixelShader, newPixelShaderSize, newVertexShader, newVertexShaderSize, newVertexAttributes, pixelShaderFunction, vertexShaderFunction))
+            if (!Shader::initFromBuffers(newPixelShader, newVertexShader, newVertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 return false;
             }
@@ -96,14 +94,14 @@ namespace ouzel
 
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
-            HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(newPixelShader, newPixelShaderSize, NULL, &pixelShader);
+            HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(newPixelShader.data(), newPixelShader.size(), NULL, &pixelShader);
             if (FAILED(hr))
             {
                 log("Failed to create a D3D11 pixel shader");
                 return false;
             }
 
-            hr = rendererD3D11->getDevice()->CreateVertexShader(newVertexShader, newVertexShaderSize, NULL, &vertexShader);
+            hr = rendererD3D11->getDevice()->CreateVertexShader(newVertexShader.data(), newVertexShader.size(), NULL, &vertexShader);
             if (FAILED(hr))
             {
                 log("Failed to create a D3D11 vertex shader");

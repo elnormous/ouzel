@@ -61,15 +61,13 @@ namespace ouzel
             }
         }
 
-        bool ShaderOGL::initFromBuffers(const uint8_t* pixelShader,
-                                        uint32_t pixelShaderSize,
-                                        const uint8_t* vertexShader,
-                                        uint32_t vertexShaderSize,
-                                        uint32_t vertexAttributes,
+        bool ShaderOGL::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
+                                        const std::vector<uint8_t>& newVertexShader,
+                                        uint32_t newVertexAttributes,
                                         const std::string& pixelShaderFunction,
                                         const std::string& vertexShaderFunction)
         {
-            if (!Shader::initFromBuffers(pixelShader, pixelShaderSize, vertexShader, vertexShaderSize, vertexAttributes, pixelShaderFunction, vertexShaderFunction))
+            if (!Shader::initFromBuffers(newPixelShader, newVertexShader, newVertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 return false;
             }
@@ -77,7 +75,11 @@ namespace ouzel
             free();
 
             pixelShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-            glShaderSource(pixelShaderId, 1, reinterpret_cast<const GLchar**>(&pixelShader), reinterpret_cast<const GLint*>(&pixelShaderSize));
+
+            const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(newPixelShader.data());
+            GLint pixelShaderSize = static_cast<GLint>(newPixelShader.size());
+
+            glShaderSource(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
             glCompileShader(pixelShaderId);
 
             GLint status;
@@ -95,7 +97,11 @@ namespace ouzel
             }
 
             vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-            glShaderSource(vertexShaderId, 1, reinterpret_cast<const GLchar**>(&vertexShader), reinterpret_cast<const GLint*>(&vertexShaderSize));
+
+            const GLchar* vertexShaderBuffer = reinterpret_cast<const GLchar*>(newVertexShader.data());
+            GLint vertexShaderSize = static_cast<GLint>(newVertexShader.size());
+
+            glShaderSource(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
             glCompileShader(vertexShaderId);
 
             glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);

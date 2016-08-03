@@ -60,15 +60,13 @@ namespace ouzel
             }
         }
 
-        bool ShaderMetal::initFromBuffers(const uint8_t* newPixelShader,
-                                          uint32_t newPixelShaderSize,
-                                          const uint8_t* newVertexShader,
-                                          uint32_t newVertexShaderSize,
+        bool ShaderMetal::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
+                                          const std::vector<uint8_t>& newVertexShader,
                                           uint32_t newVertexAttributes,
                                           const std::string& pixelShaderFunction,
                                           const std::string& vertexShaderFunction)
         {
-            if (!Shader::initFromBuffers(newPixelShader, newPixelShaderSize, newVertexShader, newVertexShaderSize, newVertexAttributes, pixelShaderFunction, vertexShaderFunction))
+            if (!Shader::initFromBuffers(newPixelShader, newVertexShader, newVertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 return false;
             }
@@ -133,7 +131,7 @@ namespace ouzel
 
             NSError* err = Nil;
 
-            dispatch_data_t pixelShaderDispatchData = dispatch_data_create(newPixelShader, newPixelShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            dispatch_data_t pixelShaderDispatchData = dispatch_data_create(newPixelShader.data(), newPixelShader.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
             id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
             dispatch_release(pixelShaderDispatchData);
 
@@ -154,7 +152,7 @@ namespace ouzel
                 return false;
             }
 
-            dispatch_data_t vertexShaderDispatchData = dispatch_data_create(newVertexShader, newVertexShaderSize, NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            dispatch_data_t vertexShaderDispatchData = dispatch_data_create(newVertexShader.data(), newVertexShader.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
             id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
             dispatch_release(vertexShaderDispatchData);
 

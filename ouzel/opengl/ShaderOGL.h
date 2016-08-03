@@ -49,11 +49,9 @@ namespace ouzel
             virtual ~ShaderOGL();
             virtual void free() override;
 
-            virtual bool initFromBuffers(const uint8_t* pixelShader,
-                                         uint32_t pixelShaderSize,
-                                         const uint8_t* vertexShader,
-                                         uint32_t vertexShaderSize,
-                                         uint32_t vertexAttributes,
+            virtual bool initFromBuffers(const std::vector<uint8_t>& newPixelShader,
+                                         const std::vector<uint8_t>& newVertexShader,
+                                         uint32_t newVertexAttributes,
                                          const std::string& pixelShaderFunction = "",
                                          const std::string& vertexShaderFunction = "") override;
 

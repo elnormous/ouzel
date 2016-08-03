@@ -35,10 +35,8 @@ namespace ouzel
                                        uint32_t newVertexAttributes,
                                        const std::string& pixelShaderFunction = "",
                                        const std::string& vertexShaderFunction = "");
-            virtual bool initFromBuffers(const uint8_t* newPixelShader,
-                                         uint32_t newPixelShaderSize,
-                                         const uint8_t* newVertexShader,
-                                         uint32_t newVertexShaderSize,
+            virtual bool initFromBuffers(const std::vector<uint8_t>& newPixelShader,
+                                         const std::vector<uint8_t>& newVertexShader,
                                          uint32_t newVertexAttributes,
                                          const std::string& pixelShaderFunction = "",
                                          const std::string& vertexShaderFunction = "");

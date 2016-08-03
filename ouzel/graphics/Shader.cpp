@@ -50,15 +50,12 @@ namespace ouzel
                 return false;
             }
 
-            return initFromBuffers(reinterpret_cast<const uint8_t*>(pixelShaderData.data()), static_cast<uint32_t>(pixelShaderData.size()),
-                                   reinterpret_cast<const uint8_t*>(vertexShaderData.data()), static_cast<uint32_t>(vertexShaderData.size()),
+            return initFromBuffers(pixelShaderData, vertexShaderData,
                                    newVertexAttributes, pixelShaderFunction, vertexShaderFunction);
         }
 
-        bool Shader::initFromBuffers(const uint8_t*,
-                                     uint32_t,
-                                     const uint8_t*,
-                                     uint32_t,
+        bool Shader::initFromBuffers(const std::vector<uint8_t>&,
+                                     const std::vector<uint8_t>&,
                                      uint32_t newVertexAttributes,
                                      const std::string&,
                                      const std::string&)
