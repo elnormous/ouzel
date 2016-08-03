@@ -65,7 +65,6 @@ namespace ouzel
 
             virtual void clear() override;
             virtual bool present() override;
-            virtual void flush() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 

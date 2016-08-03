@@ -63,10 +63,6 @@ namespace ouzel
             return true;
         }
 
-        void Renderer::flush()
-        {
-        }
-
         void Renderer::setSize(const Size2& newSize)
         {
             size = newSize;

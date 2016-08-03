@@ -4,7 +4,7 @@
 #import "OpenGLView.h"
 #include "core/Application.h"
 #include "core/Engine.h"
-#include "opengl/RendererOGL.h"
+#include "RendererOGLMacOS.h"
 #include "core/Window.h"
 #include "apple/InputApple.h"
 #include "utils/Utils.h"
@@ -29,69 +29,7 @@ using namespace ouzel;
 {
     if (self = [super initWithFrame:frameRect])
     {
-        std::shared_ptr<graphics::RendererOGL> rendererOGL = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
-
-        // Create pixel format
-        NSOpenGLPixelFormatAttribute openGL3Attributes[] =
-        {
-            NSOpenGLPFADoubleBuffer,
-            NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
-            NSOpenGLPFAColorSize, 24,
-            NSOpenGLPFAAlphaSize, 8,
-            NSOpenGLPFADepthSize, 32, // set depth buffer size
-            0
-        };
-
-        NSOpenGLPixelFormat* pixelFormat = [[[NSOpenGLPixelFormat alloc] initWithAttributes:openGL3Attributes] autorelease];
-
-        if (pixelFormat)
-        {
-            rendererOGL->setAPIVersion(3);
-            log("Using OpenGL 3.2");
-        }
-        else
-        {
-            log("Failed to crete OpenGL 3.2 pixel format");
-
-            NSOpenGLPixelFormatAttribute openGL2Attributes[] =
-            {
-                NSOpenGLPFADoubleBuffer,
-                NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
-                NSOpenGLPFAColorSize, 24,
-                NSOpenGLPFAAlphaSize, 8,
-                NSOpenGLPFADepthSize, 32, // set depth buffer size
-                0
-            };
-
-            pixelFormat = [[[NSOpenGLPixelFormat alloc] initWithAttributes:openGL2Attributes] autorelease];
-
-            if (pixelFormat)
-            {
-                rendererOGL->setAPIVersion(2);
-                log("Using OpenGL 2");
-            }
-        }
-
-        if (!pixelFormat)
-        {
-            log("Failed to crete OpenGL 2 pixel format");
-            return Nil;
-        }
-
-        // Create OpenGL context
-        openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
-        [openGLContext setView:self];
-        [openGLContext makeCurrentContext];
-
-        GLint swapInt = sharedEngine->getSettings().verticalSync ? 1 : 0;
-        [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
-
         displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription]objectForKey:@"NSScreenNumber"] unsignedIntValue];
-
-        CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
-        CVDisplayLinkSetOutputCallback(displayLink, renderCallback, (__bridge void *)self);
-
-        CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, [openGLContext CGLContextObj], [pixelFormat CGLPixelFormatObj]);
     }
 
     return self;
@@ -103,12 +41,6 @@ using namespace ouzel;
     {
         CVDisplayLinkRelease(displayLink);
         displayLink = Nil;
-    }
-
-    if (openGLContext)
-    {
-        [openGLContext release];
-        openGLContext = Nil;
     }
 
     [super dealloc];
@@ -126,6 +58,22 @@ using namespace ouzel;
 
 -(void)prepareOpenGL
 {
+    std::shared_ptr<graphics::RendererOGLMacOS> rendererOGL = std::static_pointer_cast<graphics::RendererOGLMacOS>(sharedEngine->getRenderer());
+
+    NSOpenGLContext* openGLContext = rendererOGL->getOpenGLContext();
+
+    [openGLContext setView:self];
+    [openGLContext makeCurrentContext];
+
+    GLint swapInt = sharedEngine->getSettings().verticalSync ? 1 : 0;
+    [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+
+    CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
+    CVDisplayLinkSetOutputCallback(displayLink, renderCallback, (__bridge void *)self);
+
+    NSOpenGLPixelFormat* pixelFormat = rendererOGL->getPixelFormat();
+
+    CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, [openGLContext CGLContextObj], [pixelFormat CGLPixelFormatObj]);
     CVDisplayLinkStart(displayLink);
 }
 
@@ -133,7 +81,7 @@ using namespace ouzel;
 {
     CGDirectDisplayID currentDisplayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
-    if(displayId != 0 && displayId != currentDisplayId)
+    if (displayId != 0 && displayId != currentDisplayId)
     {
         CVDisplayLinkSetCurrentCGDisplay(displayLink, currentDisplayId);
         displayId = currentDisplayId;
@@ -144,8 +92,6 @@ using namespace ouzel;
 {
     [super setFrameSize:newSize];
 
-    [openGLContext update];
-
     sharedEngine->getWindow()->setSize(Size2(static_cast<float>(newSize.width),
                                              static_cast<float>(newSize.height)));
 }
@@ -153,11 +99,12 @@ using namespace ouzel;
 -(void)lockFocus
 {
     [super lockFocus];
-    if ([openGLContext view] != self)
-    {
-        [openGLContext setView:self];
-    }
 
+    std::shared_ptr<graphics::RendererOGLMacOS> rendererOGL = std::static_pointer_cast<graphics::RendererOGLMacOS>(sharedEngine->getRenderer());
+
+    NSOpenGLContext* openGLContext = rendererOGL->getOpenGLContext();
+
+    [openGLContext setView:self];
     [openGLContext makeCurrentContext];
 }
 
@@ -165,14 +112,10 @@ using namespace ouzel;
 {
     if (sharedEngine->isRunning())
     {
-        [openGLContext makeCurrentContext];
-
         if (!sharedEngine->draw())
         {
             sharedEngine->exit();
         }
-
-        [openGLContext flushBuffer];
     }
 }
 

@@ -117,7 +117,7 @@ namespace ouzel
                 vertices.push_back(graphics::VertexPC(Vector3(position), color));
             }
 
-            for(uint32_t i = 0; i <= segments; ++i)
+            for (uint32_t i = 0; i <= segments; ++i)
             {
                 vertices.push_back(graphics::VertexPC(Vector3((position.x + radius * cosf(i * TAU / static_cast<float>(segments))),
                                                     (position.y + radius * sinf(i * TAU / static_cast<float>(segments))),
@@ -130,7 +130,7 @@ namespace ouzel
             {
                 command.mode = graphics::Renderer::DrawMode::TRIANGLE_STRIP;
 
-                for(uint16_t i = 1; i <= segments; ++i)
+                for (uint16_t i = 1; i <= segments; ++i)
                 {
                     indices.push_back(i);
 
@@ -146,7 +146,7 @@ namespace ouzel
             {
                 command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
 
-                for(uint16_t i = 0; i <= segments; ++i)
+                for (uint16_t i = 0; i <= segments; ++i)
                 {
                     indices.push_back(i);
                 }
@@ -205,7 +205,7 @@ namespace ouzel
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPC> vertices;
 
-            for(uint16_t i = 0; i < 3; ++i)
+            for (uint16_t i = 0; i < 3; ++i)
             {
                 indices.push_back(i);
 

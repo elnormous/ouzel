@@ -8,11 +8,11 @@
 
 namespace ouzel
 {
-    class ApplicationIOS: public Application
+    class ApplicationTVOS: public Application
     {
     public:
-        ApplicationIOS(int pArgc, char* pArgv[]);
-        virtual ~ApplicationIOS() {}
+        ApplicationTVOS(int pArgc, char* pArgv[]);
+        virtual ~ApplicationTVOS() {}
 
         virtual bool run() override;
 

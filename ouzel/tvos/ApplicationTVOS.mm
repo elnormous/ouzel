@@ -2,18 +2,18 @@
 // This file is part of the Ouzel engine.
 
 #import <UIKit/UIKit.h>
-#include "ApplicationIOS.h"
+#include "ApplicationTVOS.h"
 #import "AppDelegate.h"
 
 namespace ouzel
 {
-    ApplicationIOS::ApplicationIOS(int pArgc, char* pArgv[]):
+    ApplicationTVOS::ApplicationTVOS(int pArgc, char* pArgv[]):
         Application(pArgc, pArgv)
     {
         mainQueue = dispatch_get_main_queue();
     }
 
-    bool ApplicationIOS::run()
+    bool ApplicationTVOS::run()
     {
         @autoreleasepool
         {
@@ -23,7 +23,7 @@ namespace ouzel
         return true;
     }
 
-    void ApplicationMacOS::execute(const std::function<void(void)>& func)
+    void ApplicationTVOS::execute(const std::function<void(void)>& func)
     {
         std::function<void(void)> localFunction = func;
 

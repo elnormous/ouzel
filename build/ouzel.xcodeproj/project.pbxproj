@@ -547,7 +547,7 @@
 		30A5BF181CFED86000A977CA /* RendererOGLIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF161CFED86000A977CA /* RendererOGLIOS.h */; };
 		30A5BF1B1CFED87C00A977CA /* RendererOGLTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF191CFED87C00A977CA /* RendererOGLTVOS.mm */; };
 		30A5BF1C1CFED87C00A977CA /* RendererOGLTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF1A1CFED87C00A977CA /* RendererOGLTVOS.h */; };
-		30A5BF1F1CFED89200A977CA /* RendererOGLMacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF1D1CFED89200A977CA /* RendererOGLMacOS.cpp */; };
+		30A5BF1F1CFED89200A977CA /* RendererOGLMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF1D1CFED89200A977CA /* RendererOGLMacOS.mm */; };
 		30A5BF201CFED89200A977CA /* RendererOGLMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF1E1CFED89200A977CA /* RendererOGLMacOS.h */; };
 		30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
 		30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
@@ -868,7 +868,7 @@
 		30A5BF161CFED86000A977CA /* RendererOGLIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLIOS.h; sourceTree = "<group>"; };
 		30A5BF191CFED87C00A977CA /* RendererOGLTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererOGLTVOS.mm; sourceTree = "<group>"; };
 		30A5BF1A1CFED87C00A977CA /* RendererOGLTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLTVOS.h; sourceTree = "<group>"; };
-		30A5BF1D1CFED89200A977CA /* RendererOGLMacOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RendererOGLMacOS.cpp; sourceTree = "<group>"; };
+		30A5BF1D1CFED89200A977CA /* RendererOGLMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererOGLMacOS.mm; sourceTree = "<group>"; };
 		30A5BF1E1CFED89200A977CA /* RendererOGLMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLMacOS.h; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
 		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
@@ -1116,8 +1116,8 @@
 				30AFE12E1CB5D5FE00478AA2 /* MetalView.mm */,
 				304A8E391C237C70008B1151 /* OpenGLView.h */,
 				304A8E3A1C237C70008B1151 /* OpenGLView.mm */,
-				30A5BF1D1CFED89200A977CA /* RendererOGLMacOS.cpp */,
 				30A5BF1E1CFED89200A977CA /* RendererOGLMacOS.h */,
+				30A5BF1D1CFED89200A977CA /* RendererOGLMacOS.mm */,
 				300934231C8894D800CC50D3 /* WindowMacOS.h */,
 				300934221C8894D800CC50D3 /* WindowMacOS.mm */,
 			);
@@ -2094,7 +2094,7 @@
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */,
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
-				30A5BF1F1CFED89200A977CA /* RendererOGLMacOS.cpp in Sources */,
+				30A5BF1F1CFED89200A977CA /* RendererOGLMacOS.mm in Sources */,
 				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
 				301EB3A21CCD691800466E92 /* Drawable.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,

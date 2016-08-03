@@ -573,17 +573,6 @@ namespace ouzel
             return true;
         }
 
-        void RendererOGL::flush()
-        {
-            Renderer::flush();
-
-            glFlush();
-            if (checkOpenGLError())
-            {
-                log("Failed to flush OpenGL buffer");
-            }
-        }
-
         std::vector<Size2> RendererOGL::getSupportedResolutions() const
         {
             return std::vector<Size2>();

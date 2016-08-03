@@ -23,7 +23,7 @@ namespace ouzel
         return true;
     }
 
-    void ApplicationMacOS::execute(const std::function<void(void)>& func)
+    void ApplicationIOS::execute(const std::function<void(void)>& func)
     {
         std::function<void(void)> localFunction = func;
 

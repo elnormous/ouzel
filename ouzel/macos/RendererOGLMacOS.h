@@ -5,6 +5,16 @@
 
 #include "opengl/RendererOGL.h"
 
+#if defined(__OBJC__)
+#import <AppKit/NSOpenGL.h>
+typedef NSOpenGLContext* NSOpenGLContextPtr;
+typedef NSOpenGLPixelFormat* NSOpenGLPixelFormatPtr;
+#else
+#include <objc/objc.h>
+typedef id NSOpenGLContextPtr;
+typedef id NSOpenGLPixelFormatPtr;
+#endif
+
 namespace ouzel
 {
     class Engine;
@@ -15,14 +25,25 @@ namespace ouzel
         {
             friend Engine;
         public:
-            virtual ~RendererOGLMacOS() {}
+            virtual ~RendererOGLMacOS();
+            virtual void free() override;
 
-        private:
+            virtual bool present() override;
+
+            NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
+            NSOpenGLPixelFormatPtr getPixelFormat() const { return pixelFormat; }
+
+        protected:
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
                               TextureFiltering newTextureFiltering,
                               float newTargetFPS,
                               bool newVerticalSync) override;
+
+            virtual void setSize(const Size2& newSize) override;
+            
+            NSOpenGLContextPtr openGLContext = Nil;
+            NSOpenGLPixelFormatPtr pixelFormat = Nil;
         };
     } // namespace graphics
 } // namespace ouzel

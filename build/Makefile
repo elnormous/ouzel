@@ -114,7 +114,7 @@ SOURCES+=../ouzel/apple/AudioALApple.mm \
 	../ouzel/macos/main.cpp \
 	../ouzel/macos/MetalView.mm \
 	../ouzel/macos/OpenGLView.mm \
-	../ouzel/macos/RendererOGLMacOS.cpp \
+	../ouzel/macos/RendererOGLMacOS.mm \
 	../ouzel/macos/WindowMacOS.mm \
 	../ouzel/metal/BlendStateMetal.mm \
 	../ouzel/metal/MeshBufferMetal.mm \

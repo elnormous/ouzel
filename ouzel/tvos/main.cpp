@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[])
 {
-    ouzel::ApplicationIOS application(argc, argv);
+    ouzel::ApplicationTVOS application(argc, argv);
 
     return application.run() ? 0 : 1;
 }
