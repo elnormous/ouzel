@@ -78,8 +78,9 @@ namespace ouzel
             std::vector<GLint> pixelShaderConstantLocations;
             std::vector<GLint> vertexShaderConstantLocations;
 
-            bool pixelShaderDirty = true;
-            bool vertexShaderDirty = true;
+            std::vector<uint8_t> pixelShaderData;
+            std::vector<uint8_t> vertexShaderData;
+            bool dirty = true;
             std::mutex dataMutex;
         };
     } // namespace graphics

@@ -367,6 +367,10 @@ namespace ouzel
 
                 // shader
                 std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(drawCommand.shader);
+                if (!shaderOGL->update())
+                {
+                    return false;
+                }
                 bindProgram(shaderOGL->getProgramId());
 
                 if (checkOpenGLError())
