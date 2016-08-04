@@ -229,7 +229,7 @@ namespace ouzel
         {
             DestroyWindow(window);
         }
-        
+
         if (windowClass)
         {
             UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
@@ -326,7 +326,7 @@ namespace ouzel
 
             SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
         }
-        
+
         Window::setSize(newSize);
     }
 
