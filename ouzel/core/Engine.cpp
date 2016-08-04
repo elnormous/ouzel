@@ -338,7 +338,10 @@ namespace ouzel
         }
 
         renderer->clear();
-        renderer->present();
+        if (!renderer->present())
+        {
+            exit();
+        }
 
         return active;
     }

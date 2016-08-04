@@ -50,7 +50,7 @@ using namespace ouzel;
     {
         if (!sharedEngine->draw())
         {
-            sharedEngine->exit();
+            // iOS app should not be exited
         }
     }
 }

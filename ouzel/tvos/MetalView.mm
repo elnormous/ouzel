@@ -25,7 +25,7 @@ using namespace ouzel;
     {
         if (!sharedEngine->draw())
         {
-            sharedEngine->exit();
+            // tvOS app should not be exited
         }
     }
 }

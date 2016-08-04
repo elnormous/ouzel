@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #import "MetalView.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "apple/InputApple.h"
@@ -25,7 +26,9 @@ using namespace ouzel;
     {
         if (!sharedEngine->draw())
         {
-            sharedEngine->exit();
+            ouzel::sharedApplication->execute([] {
+                ouzel::sharedEngine->getWindow()->close();
+            });
         }
     }
 }

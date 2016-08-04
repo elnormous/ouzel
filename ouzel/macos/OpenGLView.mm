@@ -20,7 +20,9 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     {
         if (!ouzel::sharedEngine->draw())
         {
-            ouzel::sharedEngine->exit();
+            ouzel::sharedApplication->execute([] {
+                ouzel::sharedEngine->getWindow()->close();
+            });
         }
     }
 
