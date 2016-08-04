@@ -472,7 +472,6 @@ namespace ouzel
                         const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
 
                         shaderD3D11->uploadData(shaderD3D11->getPixelShaderConstantBuffer(),
-                                                location,
                                                 pixelShaderConstant.data(),
                                                 pixelShaderConstantInfo.size);
                     }
@@ -497,7 +496,6 @@ namespace ouzel
                         const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
                         
                         shaderD3D11->uploadData(shaderD3D11->getVertexShaderConstantBuffer(),
-                                                location,
                                                 vertexShaderConstant.data(),
                                                 vertexShaderConstantInfo.size);
                     }
@@ -551,9 +549,11 @@ namespace ouzel
                 std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(drawCommand.meshBuffer);
                 
                 // draw
+                uint32_t indexCount = drawCommand.indexCount;
+
                 if (indexCount == 0)
                 {
-                    indexCount = meshBufferD3D11->getIndexCount() - startIndex;
+                    indexCount = meshBufferD3D11->getIndexCount() - drawCommand.startIndex;
                 }
 
                 context->OMSetDepthStencilState(depthStencilState, 0);
@@ -566,7 +566,7 @@ namespace ouzel
 
                 D3D_PRIMITIVE_TOPOLOGY topology;
 
-                switch (drawMode)
+                switch (drawCommand.drawMode)
                 {
                     case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
                     case DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
@@ -578,7 +578,7 @@ namespace ouzel
 
                 context->IASetPrimitiveTopology(topology);
 
-                context->DrawIndexed(indexCount, static_cast<UINT>(startIndex * meshBuffer->getIndexSize()), 0);
+                context->DrawIndexed(indexCount, static_cast<UINT>(drawCommand.startIndex * meshBufferD3D11->getIndexSize()), 0);
             }
 
             swapChain->Present(swapInterval, 0);
