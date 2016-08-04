@@ -463,10 +463,6 @@ namespace ouzel
                     previousScissorTest = drawCommand.scissorTest;
                 }
 
-                std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(drawCommand.meshBuffer);
-
-                [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
-
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
 
@@ -497,6 +493,7 @@ namespace ouzel
                                                        atIndex:1];
 
 
+                // vertex shader constants
                 const std::vector<uint32_t>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
                 const std::vector<Shader::ConstantInfo>& vertexShaderConstantInfos = shaderMetal->getVertexShaderConstantInfo();
 
@@ -568,6 +565,11 @@ namespace ouzel
 
                 [currentRenderCommandEncoder setFragmentSamplerState:samplerState atIndex:0];
 
+                // mesh buffer
+                std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(drawCommand.meshBuffer);
+                [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
+
+                // draw
                 uint32_t indexCount = drawCommand.indexCount;
 
                 if (indexCount == 0)

@@ -376,13 +376,210 @@ namespace ouzel
 
         bool RendererD3D11::present()
         {
-            Renderer::present();
-            
+            if (!Renderer::present())
+            {
+                return false;
+            }
+
             clearedRenderTargetViews.clear();
 
             context->RSSetState(rasterizerState);
-            
-            // TODO: render
+
+            std::queue<DrawCommand> drawCommands;
+
+            {
+                std::lock_guard<std::mutex> lock(drawQueueMutex);
+                drawCommands = std::move(drawQueue);
+            }
+
+            while (!drawCommands.empty())
+            {
+                const DrawCommand drawCommand = drawCommands.front();
+                drawCommands.pop();
+
+                // render target
+                ID3D11RenderTargetView* newRenderTargetView = nullptr;
+                Color newClearColor;
+                D3D11_VIEWPORT newViewport;
+
+                if (drawCommand.renderTarget)
+                {
+                    std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(drawCommand.renderTarget);
+
+                    newRenderTargetView = renderTargetD3D11->getRenderTargetView();
+                    newClearColor = renderTargetD3D11->getClearColor();
+                    newViewport = renderTargetD3D11->getViewport();
+                }
+                else
+                {
+                    newRenderTargetView = renderTargetView;
+                    newClearColor = clearColor;
+                    newViewport = viewport;
+                }
+
+                context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
+                context->RSSetViewports(1, &newViewport);
+
+                if (clearedRenderTargetViews.find(newRenderTargetView) == clearedRenderTargetViews.end())
+                {
+                    float color[4] = { newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA() };
+                    context->ClearRenderTargetView(newRenderTargetView, color);
+
+                    clearedRenderTargetViews.insert(newRenderTargetView);
+                }
+
+                // scissor test
+                if (drawCommand.scissorTestEnabled)
+                {
+                    D3D11_RECT rects[1];
+                    rects[0].left = static_cast<LONG>(drawCommand.scissorTest.x);
+                    rects[0].right = static_cast<LONG>(drawCommand.scissorTest.x + drawCommand.scissorTest.width);
+                    rects[0].bottom = static_cast<LONG>(drawCommand.scissorTest.y);
+                    rects[0].top = static_cast<LONG>(drawCommand.scissorTest.y + drawCommand.scissorTest.height);
+
+                    context->RSSetScissorRects(1, rects);
+                    context->RSSetState(scissorTestRasterizerState);
+                }
+                else
+                {
+                    context->RSSetState(rasterizerState);
+                }
+
+                // shader
+                if (drawCommand.shader)
+                {
+                    std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(drawCommand.shader);
+
+                    context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+                    context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+
+                    context->IASetInputLayout(shaderD3D11->getInputLayout());
+
+                    // pixel shader constants
+                    const std::vector<uint32_t>& pixelShaderConstantLocations = shaderD3D11->getPixelShaderConstantLocations();
+                    const std::vector<Shader::ConstantInfo>& pixelShaderConstantInfos = shaderD3D11->getPixelShaderConstantInfo();
+
+                    if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantInfos.size())
+                    {
+                        log("Invalid pixel shader constant size");
+                        return false;
+                    }
+
+                    for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
+                    {
+                        uint32_t location = pixelShaderConstantLocations[i];
+                        const Shader::ConstantInfo& pixelShaderConstantInfo = pixelShaderConstantInfos[i];
+                        const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
+
+                        shaderD3D11->uploadData(shaderD3D11->getPixelShaderConstantBuffer(),
+                                                location,
+                                                pixelShaderConstant.data(),
+                                                pixelShaderConstantInfo.size);
+                    }
+
+                    ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
+                    context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+
+                    // vertex shader constants
+                    const std::vector<uint32_t>& vertexShaderConstantLocations = shaderD3D11->getVertexShaderConstantLocations();
+                    const std::vector<Shader::ConstantInfo>& vertexShaderConstantInfos = shaderD3D11->getVertexShaderConstantInfo();
+
+                    if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantInfos.size())
+                    {
+                        log("Invalid vertex shader constant size");
+                        return false;
+                    }
+
+                    for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
+                    {
+                        uint32_t location = vertexShaderConstantLocations[i];
+                        const Shader::ConstantInfo& vertexShaderConstantInfo = vertexShaderConstantInfos[i];
+                        const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
+                        
+                        shaderD3D11->uploadData(shaderD3D11->getVertexShaderConstantBuffer(),
+                                                location,
+                                                vertexShaderConstant.data(),
+                                                vertexShaderConstantInfo.size);
+                    }
+
+                    ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
+                    context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+                }
+                else
+                {
+                    context->PSSetShader(nullptr, nullptr, 0);
+                    context->VSSetShader(nullptr, nullptr, 0);
+                }
+
+                // blend state
+                if (drawCommand.blendState)
+                {
+                    std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(drawCommand.blendState);
+                    context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
+                }
+                else
+                {
+                    context->OMSetBlendState(NULL, NULL, 0xffffffff);
+                }
+
+                // textures
+                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                {
+                    std::shared_ptr<TextureD3D11> textureD3D11;
+
+                    if (drawCommand.textures.size() > layer)
+                    {
+                        textureD3D11 = std::static_pointer_cast<TextureD3D11>(drawCommand.textures[layer]);
+                    }
+
+                    if (textureD3D11)
+                    {
+                        resourceViews[layer] = textureD3D11->getResourceView();
+                        samplerStates[layer] = samplerState;
+                    }
+                    else
+                    {
+                        resourceViews[layer] = nullptr;
+                        samplerStates[layer] = nullptr;
+                    }
+                }
+
+                context->PSSetShaderResources(0, TEXTURE_LAYERS, resourceViews);
+                context->PSSetSamplers(0, TEXTURE_LAYERS, samplerStates);
+
+                // mesh buffer
+                std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(drawCommand.meshBuffer);
+                
+                // draw
+                if (indexCount == 0)
+                {
+                    indexCount = meshBufferD3D11->getIndexCount() - startIndex;
+                }
+
+                context->OMSetDepthStencilState(depthStencilState, 0);
+
+                ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
+                UINT stride = meshBufferD3D11->getVertexSize();
+                UINT offset = 0;
+                context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
+                context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+
+                D3D_PRIMITIVE_TOPOLOGY topology;
+
+                switch (drawMode)
+                {
+                    case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
+                    case DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
+                    case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
+                    case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
+                    case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
+                    default: return false;
+                }
+
+                context->IASetPrimitiveTopology(topology);
+
+                context->DrawIndexed(indexCount, static_cast<UINT>(startIndex * meshBuffer->getIndexSize()), 0);
+            }
 
             swapChain->Present(swapInterval, 0);
 

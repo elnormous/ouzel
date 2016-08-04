@@ -516,6 +516,7 @@ namespace ouzel
                     return false;
                 }
 
+                // draw
                 uint32_t indexCount = drawCommand.indexCount;
 
                 if (indexCount == 0)
@@ -545,7 +546,10 @@ namespace ouzel
                     return false;
                 }
 
-                glDrawElements(mode, static_cast<GLsizei>(indexCount), meshBufferOGL->getIndexFormat(), static_cast<const char*>(nullptr) + (drawCommand.startIndex * meshBufferOGL->getIndexSize()));
+                glDrawElements(mode,
+                               static_cast<GLsizei>(indexCount),
+                               meshBufferOGL->getIndexFormat(),
+                               static_cast<const char*>(nullptr) + (drawCommand.startIndex * meshBufferOGL->getIndexSize()));
                 
                 if (checkOpenGLError())
                 {
