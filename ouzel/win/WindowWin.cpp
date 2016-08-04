@@ -3,6 +3,7 @@
 
 #include <windowsx.h>
 #include "WindowWin.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "InputWin.h"
 #include "graphics/Renderer.h"
@@ -307,21 +308,25 @@ namespace ouzel
 
     void WindowWin::close()
     {
-        SendMessage(window, WM_CLOSE, 0, 0);
+        ouzel::sharedApplication->execute([this] {
+            SendMessage(window, WM_CLOSE, 0, 0);
+        }
     }
 
     void WindowWin::setSize(const Size2& newSize)
     {
-        UINT width = static_cast<UINT>(newSize.width);
-        UINT height = static_cast<UINT>(newSize.height);
+        ouzel::sharedApplication->execute([this, newSize] {
+            UINT width = static_cast<UINT>(newSize.width);
+            UINT height = static_cast<UINT>(newSize.height);
 
-        UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
+            UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
-        RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-        AdjustWindowRect(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE);
+            RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
+            AdjustWindowRect(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE);
 
-        SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
-
+            SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
+        }
+        
         Window::setSize(newSize);
     }
 
@@ -329,10 +334,12 @@ namespace ouzel
     {
         if (title != newTitle)
         {
-            wchar_t titleBuffer[256];
-            MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256);
+            ouzel::sharedApplication->execute([this, newTitle] {
+                wchar_t titleBuffer[256];
+                MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256);
 
-            SetWindowTextW(window, titleBuffer);
+                SetWindowTextW(window, titleBuffer);
+            }
         }
 
         Window::setTitle(newTitle);
