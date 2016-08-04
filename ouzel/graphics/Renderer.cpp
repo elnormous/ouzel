@@ -63,11 +63,6 @@ namespace ouzel
             return true;
         }
 
-        void Renderer::clear()
-        {
-            drawCallCount = 0;
-        }
-
         bool Renderer::present()
         {
             return true;

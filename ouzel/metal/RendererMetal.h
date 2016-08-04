@@ -56,7 +56,6 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
-            virtual void clear() override;
             virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;

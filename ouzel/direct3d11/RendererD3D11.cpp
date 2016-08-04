@@ -374,18 +374,15 @@ namespace ouzel
             return true;
         }
 
-        void RendererD3D11::clear()
-        {
-            Renderer::clear();
-
-            clearedRenderTargetViews.clear();
-
-            context->RSSetState(rasterizerState);
-        }
-
         bool RendererD3D11::present()
         {
             Renderer::present();
+            
+            clearedRenderTargetViews.clear();
+
+            context->RSSetState(rasterizerState);
+            
+            // TODO: render
 
             swapChain->Present(swapInterval, 0);
 

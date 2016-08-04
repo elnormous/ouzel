@@ -63,7 +63,6 @@ namespace ouzel
 
             virtual void setClearColor(Color color) override;
 
-            virtual void clear() override;
             virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;

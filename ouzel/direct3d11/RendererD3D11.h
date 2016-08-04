@@ -21,7 +21,6 @@ namespace ouzel
             virtual ~RendererD3D11();
             virtual void free() override;
 
-            virtual void clear() override;
             virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;

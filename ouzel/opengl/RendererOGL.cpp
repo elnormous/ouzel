@@ -227,8 +227,13 @@ namespace ouzel
             viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
         }
 
-        void RendererOGL::clear()
+        bool RendererOGL::present()
         {
+            if (!Renderer::present())
+            {
+                return false;
+            }
+
             std::pair<GLuint, ResourceType> deleteResource;
 
             for (;;)
@@ -282,23 +287,13 @@ namespace ouzel
                 }
             }
 
-            Renderer::clear();
-        }
-
-        bool RendererOGL::present()
-        {
-            if (!Renderer::present())
-            {
-                return false;
-            }
-
             std::set<GLuint> clearedFrameBuffers;
 
             std::queue<DrawCommand> drawCommands;
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
-                drawCommands = drawQueue;
+                drawCommands = std::move(drawQueue);
             }
 
             while (!drawCommands.empty())

@@ -350,8 +350,13 @@ namespace ouzel
             Renderer::setSize(newSize);
         }
 
-        void RendererMetal::clear()
+        bool RendererMetal::present()
         {
+            if (!Renderer::present())
+            {
+                return false;
+            }
+
             clearedRenderPassDescriptors.clear();
 
             if (sampleCount > 1)
@@ -395,7 +400,7 @@ namespace ouzel
             if (!currentCommandBuffer)
             {
                 log("Failed to create Metal command buffer");
-                return;
+                return false;
             }
 
             __block dispatch_semaphore_t blockSemaphore = inflightSemaphore;
@@ -403,14 +408,6 @@ namespace ouzel
              {
                  dispatch_semaphore_signal(blockSemaphore);
              }];
-        }
-
-        bool RendererMetal::present()
-        {
-            if (!Renderer::present())
-            {
-                return false;
-            }
 
             if (currentRenderCommandEncoder)
             {

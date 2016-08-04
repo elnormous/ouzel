@@ -334,7 +334,6 @@ namespace ouzel
             currentFPS = 1.0f / delta;
         }
 
-        renderer->clear();
         if (!renderer->present())
         {
             exit();
