@@ -10,7 +10,7 @@
 #if defined(__OBJC__)
 #import <Metal/Metal.h>
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
-typedef id <MTLTexture> MTLTexturePtr;
+typedef id<MTLTexture> MTLTexturePtr;
 #else
 typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLTexturePtr;

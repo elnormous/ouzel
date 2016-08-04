@@ -18,7 +18,7 @@ typedef id<MTLCommandQueue> MTLCommandQueuePtr;
 typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
 typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
 typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
-typedef id <MTLTexture> MTLTexturePtr;
+typedef id<MTLTexture> MTLTexturePtr;
 #else
 #include <objc/objc.h>
 typedef id MTKViewPtr;
