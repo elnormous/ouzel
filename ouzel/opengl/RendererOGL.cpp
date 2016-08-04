@@ -290,10 +290,20 @@ namespace ouzel
             std::set<GLuint> clearedFrameBuffers;
 
             std::queue<DrawCommand> drawCommands;
+            std::set<ResourcePtr> resources;
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
                 drawCommands = std::move(drawQueue);
+                resources = std::move(resourceSet);
+            }
+
+            for (const ResourcePtr& resource : resources)
+            {
+                if (!resource || !resource->update())
+                {
+                    return false;
+                }
             }
 
             while (!drawCommands.empty())
@@ -332,11 +342,6 @@ namespace ouzel
 
                     if (textureOGL)
                     {
-                        if (!textureOGL->update())
-                        {
-                            return false;
-                        }
-
                         bindTexture(textureOGL->getTextureId(), layer);
                     }
                     else
@@ -353,10 +358,6 @@ namespace ouzel
 
                 // shader
                 std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(drawCommand.shader);
-                if (!shaderOGL->update())
-                {
-                    return false;
-                }
                 bindProgram(shaderOGL->getProgramId());
 
                 if (checkOpenGLError())
@@ -481,10 +482,10 @@ namespace ouzel
                     return false;
                 }
 
-                glViewport(static_cast<GLsizei>(newViewport.x),
-                           static_cast<GLsizei>(newViewport.y),
-                           static_cast<GLsizei>(newViewport.width),
-                           static_cast<GLsizei>(newViewport.height));
+                setViewport(static_cast<GLint>(newViewport.x),
+                            static_cast<GLint>(newViewport.y),
+                            static_cast<GLsizei>(newViewport.width),
+                            static_cast<GLsizei>(newViewport.height));
 
                 if (clearedFrameBuffers.find(newFrameBuffer) == clearedFrameBuffers.end())
                 {
@@ -511,10 +512,6 @@ namespace ouzel
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);
-                if (!meshBufferOGL->update())
-                {
-                    return false;
-                }
 
                 // draw
                 uint32_t indexCount = drawCommand.indexCount;
@@ -646,6 +643,10 @@ namespace ouzel
         bool RendererOGL::blendEnabled = false;
         bool RendererOGL::scissorTestEnabled = false;
         bool RendererOGL::depthTestEnabled = false;
+        GLint RendererOGL::viewportX = 0;
+        GLint RendererOGL::viewportY = 0;
+        GLsizei RendererOGL::viewportWidth = 0;
+        GLsizei RendererOGL::viewportHeight = 0;
 
         bool RendererOGL::bindTexture(GLuint textureId, uint32_t layer)
         {
@@ -874,6 +875,18 @@ namespace ouzel
                 }
 
                 depthTestEnabled = enable;
+            }
+        }
+
+        void RendererOGL::setViewport(GLint x, GLint y, GLsizei width, GLsizei height)
+        {
+            if (x != viewportX || y != viewportY || width != viewportWidth || height != viewportHeight)
+            {
+                glViewport(x, y, width, height);
+                viewportX = x;
+                viewportY = y;
+                viewportWidth = width;
+                viewportHeight = height;
             }
         }
     } // namespace graphics

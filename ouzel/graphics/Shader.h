@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdint>
 #include "utils/Noncopyable.h"
+#include "graphics/Resource.h"
 #include "math/Vector3.h"
 #include "math/Vector4.h"
 #include "math/Matrix4.h"
@@ -17,7 +18,7 @@ namespace ouzel
     {
         class Renderer;
 
-        class Shader: public Noncopyable
+        class Shader: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
@@ -28,7 +29,7 @@ namespace ouzel
             };
 
             virtual ~Shader();
-            virtual void free();
+            virtual void free() override;
 
             virtual bool initFromFiles(const std::string& newPixelShader,
                                        const std::string& newVertexShader,

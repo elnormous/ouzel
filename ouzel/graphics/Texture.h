@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "utils/Noncopyable.h"
+#include "graphics/Resource.h"
 #include "math/Size2.h"
 
 namespace ouzel
@@ -15,14 +16,14 @@ namespace ouzel
     {
         class Renderer;
 
-        class Texture: public Noncopyable
+        class Texture: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
             static const uint32_t LAYERS = 2;
 
             virtual ~Texture();
-            virtual void free();
+            virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false);
             virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);

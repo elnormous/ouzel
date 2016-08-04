@@ -6,8 +6,9 @@
 #include <memory>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
-#include "math/Size2.h"
+#include "graphics/Resource.h"
 #include "graphics/Color.h"
+#include "math/Size2.h"
 
 namespace ouzel
 {
@@ -16,12 +17,12 @@ namespace ouzel
         class Renderer;
         class Texture;
 
-        class RenderTarget: public Noncopyable
+        class RenderTarget: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
             virtual ~RenderTarget();
-            virtual void free();
+            virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool useDepthBuffer);
 

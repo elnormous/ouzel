@@ -75,7 +75,7 @@ namespace ouzel
             MeshBufferOGL();
 
             bool updateIndexFormat();
-            bool update();
+            virtual bool update() override;
 
             GLuint indexBufferId = 0;
             GLuint vertexBufferId = 0;

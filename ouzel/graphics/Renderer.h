@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include <queue>
-#include <unordered_map>
+#include <set>
 #include <memory>
 #include <mutex>
 #include "utils/Types.h"
@@ -163,6 +163,9 @@ namespace ouzel
             std::queue<DrawCommand> activeDrawQueue;
             std::queue<DrawCommand> drawQueue;
             std::mutex drawQueueMutex;
+
+            std::set<ResourcePtr> activeResourceSet;
+            std::set<ResourcePtr> resourceSet;
         };
     } // namespace graphics
 } // namespace ouzel

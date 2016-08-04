@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "utils/Noncopyable.h"
+#include "graphics/Resource.h"
 #include "graphics/Vertex.h"
 
 namespace ouzel
@@ -13,12 +14,12 @@ namespace ouzel
     {
         class Renderer;
 
-        class MeshBuffer: public Noncopyable
+        class MeshBuffer: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
             virtual ~MeshBuffer();
-            virtual void free();
+            virtual void free() override;
 
             virtual bool init(bool newDynamicIndexBuffer = true, bool newDynamicVertexBuffer = true);
             virtual bool initFromBuffer(const void* newIndices, uint32_t newIndexSize,

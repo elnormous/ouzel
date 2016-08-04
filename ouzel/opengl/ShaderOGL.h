@@ -66,7 +66,7 @@ namespace ouzel
 
         protected:
             ShaderOGL();
-            bool update();
+            virtual bool update() override;
 
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage();

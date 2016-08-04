@@ -92,6 +92,7 @@ namespace ouzel
             static void enableBlend(bool enable);
             static void enableScissorTest(bool enable);
             static void enableDepthTest(bool enable);
+            static void setViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 
             enum class ResourceType
             {
@@ -127,6 +128,10 @@ namespace ouzel
             static bool blendEnabled;
             static bool scissorTestEnabled;
             static bool depthTestEnabled;
+            static GLint viewportX;
+            static GLint viewportY;
+            static GLsizei viewportWidth;
+            static GLsizei viewportHeight;
 
             Rectangle viewport;
 

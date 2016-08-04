@@ -64,7 +64,7 @@ namespace ouzel
 
             virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
             virtual bool uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData) override;
-            bool update();
+            virtual bool update() override;
 
             GLuint textureId = 0;
 

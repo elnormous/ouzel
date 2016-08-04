@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "utils/Noncopyable.h"
+#include "graphics/Resource.h"
 
 #pragma once
 
@@ -11,7 +12,7 @@ namespace ouzel
     {
         class Renderer;
 
-        class BlendState: public Noncopyable
+        class BlendState: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
@@ -42,7 +43,7 @@ namespace ouzel
             };
 
             virtual ~BlendState();
-            virtual void free();
+            virtual void free() override;
 
             virtual bool init(bool newEnableBlending,
                               BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,

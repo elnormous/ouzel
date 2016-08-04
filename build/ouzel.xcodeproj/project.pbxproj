@@ -314,6 +314,9 @@
 		3047F77A1C4D39C500774E3D /* Repeat.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7761C4D39C500774E3D /* Repeat.h */; };
 		3047F77B1C4D39C500774E3D /* Repeat.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7761C4D39C500774E3D /* Repeat.h */; };
 		3047F77C1C4D39C500774E3D /* Repeat.h in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7761C4D39C500774E3D /* Repeat.h */; };
+		3048398A1D53BE8F007D70FF /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 304839861D53BE8F007D70FF /* Resource.h */; };
+		3048398B1D53BE8F007D70FF /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 304839861D53BE8F007D70FF /* Resource.h */; };
+		3048398C1D53BE8F007D70FF /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 304839861D53BE8F007D70FF /* Resource.h */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
@@ -751,6 +754,7 @@
 		3047F76E1C4D2C3900774E3D /* Parallel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parallel.h; sourceTree = "<group>"; };
 		3047F7751C4D39C500774E3D /* Repeat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Repeat.cpp; sourceTree = "<group>"; };
 		3047F7761C4D39C500774E3D /* Repeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Repeat.h; sourceTree = "<group>"; };
+		304839861D53BE8F007D70FF /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resource.h; sourceTree = "<group>"; };
 		304A8E251C237C30008B1151 /* libouzel_osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_osx.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E2A1C237C70008B1151 /* ouzel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ouzel.h; sourceTree = "<group>"; };
 		304A8E2B1C237C70008B1151 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
@@ -1038,6 +1042,7 @@
 				304A8E471C237C70008B1151 /* Texture.h */,
 				304A8EA01C270833008B1151 /* Vertex.cpp */,
 				304A8EA11C270833008B1151 /* Vertex.h */,
+				304839861D53BE8F007D70FF /* Resource.h */,
 			);
 			path = graphics;
 			sourceTree = "<group>";
@@ -1385,6 +1390,7 @@
 				30575A931C38BD370009C8A7 /* AABB2.h in Headers */,
 				30EF36671CA845DC00F04F29 /* ComboBox.h in Headers */,
 				30EA71101D5268C600AE8C3E /* Application.h in Headers */,
+				3048398B1D53BE8F007D70FF /* Resource.h in Headers */,
 				306B0E631C567D05005C75C1 /* DebugDrawable.h in Headers */,
 				304B27591C9384A600BA162D /* Size3.h in Headers */,
 				30419DE51D162BCF00A63759 /* Audio.h in Headers */,
@@ -1516,6 +1522,7 @@
 				30575A941C38BD370009C8A7 /* AABB2.h in Headers */,
 				30EF36681CA845DC00F04F29 /* ComboBox.h in Headers */,
 				30EA71111D5268C600AE8C3E /* Application.h in Headers */,
+				3048398C1D53BE8F007D70FF /* Resource.h in Headers */,
 				306B0E641C567D05005C75C1 /* DebugDrawable.h in Headers */,
 				304B275A1C9384A600BA162D /* Size3.h in Headers */,
 				30419DE61D162BCF00A63759 /* Audio.h in Headers */,
@@ -1742,6 +1749,7 @@
 				303B75011C28208800FEDE92 /* FileSystem.h in Headers */,
 				303B760A1C34A92B00FEDE92 /* Input.h in Headers */,
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
+				3048398A1D53BE8F007D70FF /* Resource.h in Headers */,
 				30A9C13D1CAEBA540084C4BF /* Language.h in Headers */,
 				30419E7C1D20255000A63759 /* SoundAL.h in Headers */,
 				3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */,
