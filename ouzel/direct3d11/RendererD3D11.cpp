@@ -544,8 +544,8 @@ namespace ouzel
                     }
                 }
 
-                context->PSSetShaderResources(0, TEXTURE_LAYERS, resourceViews);
-                context->PSSetSamplers(0, TEXTURE_LAYERS, samplerStates);
+                context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
+                context->PSSetSamplers(0, Texture::LAYERS, samplerStates);
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(drawCommand.meshBuffer);

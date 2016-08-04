@@ -29,15 +29,15 @@ namespace ouzel
             virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
             virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
 
+            const std::vector<uint32_t>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            const std::vector<uint32_t>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+
             virtual ID3D11PixelShader* getPixelShader() const { return pixelShader; }
             virtual ID3D11VertexShader* getVertexShader() const { return vertexShader; }
 
             virtual ID3D11Buffer* getPixelShaderConstantBuffer() const { return pixelShaderConstantBuffer; }
             virtual ID3D11Buffer* getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
             virtual ID3D11InputLayout* getInputLayout() const { return inputLayout;  }
-
-            uint32_t getPixelShaderConstantBufferOffset() const { return pixelShaderConstantBufferOffset; }
-            uint32_t getVertexShaderConstantBufferOffset() const { return vertexShaderConstantBufferOffset; }
 
         protected:
             ShaderD3D11();
