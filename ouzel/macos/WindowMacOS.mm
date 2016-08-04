@@ -148,6 +148,10 @@ namespace ouzel
     {
         if (view)
         {
+            if ([view respondsToSelector:@selector(close)])
+            {
+                [view performSelector:@selector(close)];
+            }
             [view release];
             view = Nil;
         }

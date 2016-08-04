@@ -47,11 +47,22 @@ using namespace ouzel;
 {
     if (displayLink)
     {
+        CVDisplayLinkStop(displayLink);
         CVDisplayLinkRelease(displayLink);
         displayLink = Nil;
     }
 
     [super dealloc];
+}
+
+-(void)close
+{
+    if (displayLink)
+    {
+        CVDisplayLinkStop(displayLink);
+        CVDisplayLinkRelease(displayLink);
+        displayLink = Nil;
+    }
 }
 
 -(BOOL)isFlipped
