@@ -16,7 +16,7 @@ LDFLAGS=-L. -louzel
 ifeq ($(platform),raspbian)
 LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal
 else ifeq ($(platform),linux)
-LDFLAGS+=-lX11 -lGL -lopenal
+LDFLAGS+=-lX11 -lGL -lopenal -lpthread
 else ifeq ($(platform),macos)
 LDFLAGS+=-framework AudioToolbox \
 	-framework AudioToolbox \
