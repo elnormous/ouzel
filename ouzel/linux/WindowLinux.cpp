@@ -185,6 +185,13 @@ namespace ouzel
 
     void WindowLinux::setSize(const Size2& newSize)
     {
+        sharedApplication->execute([this, newSize] {
+            XWindowChanges changes;
+            changes.width = static_cast<int>(newSize.width);
+            changes.height = static_cast<int>(newSize.height);
+            XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
+        });
+        
         Window::setSize(newSize);
     }
 
@@ -201,6 +208,7 @@ namespace ouzel
                 XStoreName(display, window, newTitle.c_str());
             });
         }
+
         Window::setTitle(newTitle);
     }
 }
