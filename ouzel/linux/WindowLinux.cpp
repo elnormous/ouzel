@@ -195,6 +195,12 @@ namespace ouzel
 
     void WindowLinux::setTitle(const std::string& newTitle)
     {
+        if (title != newTitle)
+        {
+            sharedApplication->execute([this, newTitle] {
+                XStoreName(display, window, newTitle.c_str());
+            });
+        }
         Window::setTitle(newTitle);
     }
 }
