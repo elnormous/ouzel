@@ -50,7 +50,7 @@ namespace ouzel
                 return false;
             }
 
-            data.assign(tempData, tempData + (width * height * comp));
+            data.assign(tempData, tempData + (width * height * 4));
 
             stbi_image_free(tempData);
 
