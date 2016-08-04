@@ -36,6 +36,7 @@ namespace ouzel
                                         uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
 
             virtual bool setIndexSize(uint32_t indexSize) override;
+            virtual bool setVertexAttributes(uint32_t vertexAttributes) override;
 
             virtual bool uploadIndices(const void* indices, uint32_t indexCount) override;
             virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
@@ -50,9 +51,7 @@ namespace ouzel
             virtual bool update() override;
 
             bool updateIndexFormat();
-            bool createIndexBuffer(const void* indices, uint32_t size);
-            bool createVertexBuffer(const void* vertices, uint32_t size);
-            bool uploadData(MTLBufferPtr buffer, const void* data, uint32_t size);
+            bool uploadData(MTLBufferPtr buffer, const std::vector<uint8_t>& data);
 
             MTLBufferPtr indexBuffer = Nil;
             uint32_t indexBufferSize = 0;

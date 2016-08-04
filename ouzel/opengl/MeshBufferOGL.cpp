@@ -88,6 +88,11 @@ namespace ouzel
                 return false;
             }
 
+            if (!updateIndexFormat())
+            {
+                return false;
+            }
+
             indexData.assign(static_cast<const uint8_t*>(newIndices),
                              static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
 
@@ -108,6 +113,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            indexBufferDirty = true;
 
             return updateIndexFormat();
         }
