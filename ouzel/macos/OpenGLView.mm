@@ -16,7 +16,13 @@ static CVReturn renderCallback(CVDisplayLinkRef,
                                CVOptionFlags*,
                                void* displayLinkContext)
 {
-    [(__bridge OpenGLView*)displayLinkContext draw];
+    if (ouzel::sharedEngine->isRunning())
+    {
+        if (!ouzel::sharedEngine->draw())
+        {
+            ouzel::sharedEngine->exit();
+        }
+    }
 
     return kCVReturnSuccess;
 }
@@ -69,7 +75,7 @@ using namespace ouzel;
     [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 
     CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
-    CVDisplayLinkSetOutputCallback(displayLink, renderCallback, (__bridge void *)self);
+    CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr);
 
     NSOpenGLPixelFormat* pixelFormat = rendererOGL->getPixelFormat();
 
@@ -106,17 +112,6 @@ using namespace ouzel;
 
     [openGLContext setView:self];
     [openGLContext makeCurrentContext];
-}
-
--(void)draw
-{
-    if (sharedEngine->isRunning())
-    {
-        if (!sharedEngine->draw())
-        {
-            sharedEngine->exit();
-        }
-    }
 }
 
 -(BOOL)acceptsFirstResponder

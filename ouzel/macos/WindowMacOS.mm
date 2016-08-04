@@ -160,7 +160,6 @@ namespace ouzel
 
         if (window)
         {
-            window.delegate = Nil;
             [window release];
             window = Nil;
         }
