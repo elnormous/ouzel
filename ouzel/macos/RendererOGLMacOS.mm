@@ -23,6 +23,8 @@ namespace ouzel
 
         void RendererOGLMacOS::free()
         {
+            RendererOGL::free();
+
             if (openGLContext)
             {
                 [openGLContext release];

@@ -32,6 +32,16 @@ namespace ouzel
 
         void Renderer::free()
         {
+            while (!activeDrawQueue.empty())
+            {
+                activeDrawQueue.pop();
+            }
+
+            std::lock_guard<std::mutex> lock(drawQueueMutex);
+            while (!drawQueue.empty())
+            {
+                drawQueue.pop();
+            }
             ready = false;
         }
 

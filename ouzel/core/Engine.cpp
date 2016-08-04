@@ -84,10 +84,7 @@ namespace ouzel
 
         updateThread.join();
 
-        if (sceneManager)
-        {
-            sceneManager->setScene(nullptr);
-        }
+        renderer->free();
     }
 
     std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers()

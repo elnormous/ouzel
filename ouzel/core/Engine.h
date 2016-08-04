@@ -66,12 +66,12 @@ namespace ouzel
 
         EventDispatcherPtr eventDispatcher;
         input::InputPtr input;
-        CachePtr cache;
         WindowPtr window;
         FileSystemPtr fileSystem;
         LocalizationPtr localization;
         graphics::RendererPtr renderer;
         audio::AudioPtr audio;
+        CachePtr cache;
         scene::SceneManagerPtr sceneManager;
 
         uint64_t targetFrameInterval;
