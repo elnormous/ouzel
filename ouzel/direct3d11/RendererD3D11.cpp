@@ -386,10 +386,20 @@ namespace ouzel
             context->RSSetState(rasterizerState);
 
             std::queue<DrawCommand> drawCommands;
+            std::set<ResourcePtr> resources;
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
                 drawCommands = std::move(drawQueue);
+                resources = std::move(resourceSet);
+            }
+
+            for (const ResourcePtr& resource : resources)
+            {
+                if (!resource || !resource->update())
+                {
+                    return false;
+                }
             }
 
             while (!drawCommands.empty())

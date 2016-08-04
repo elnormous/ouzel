@@ -69,7 +69,7 @@ namespace ouzel
             GLuint textureId = 0;
 
             std::vector<std::vector<uint8_t>> data;
-            bool dirty = true;
+            std::atomic<bool> dirty;
             std::mutex dataMutex;
         };
     } // namespace graphics

@@ -65,9 +65,8 @@ namespace ouzel
             GLuint depthBufferId = 0;
             Rectangle viewport;
 
-            bool dirty = true;
+            std::atomic<bool> dirty;
             std::mutex dataMutex;
-            bool frameBufferReady = false;
         };
     } // namespace graphics
 } // namespace ouzel

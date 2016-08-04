@@ -80,7 +80,7 @@ namespace ouzel
 
             std::vector<uint8_t> pixelShaderData;
             std::vector<uint8_t> vertexShaderData;
-            bool dirty = true;
+            std::atomic<bool> dirty;
             std::mutex dataMutex;
         };
     } // namespace graphics

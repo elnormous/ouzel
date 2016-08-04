@@ -10,7 +10,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferMetal::MeshBufferMetal()
+        MeshBufferMetal::MeshBufferMetal():
+            indexBufferDirty(true), vertexBufferDirty(true)
         {
 
         }
@@ -191,6 +192,11 @@ namespace ouzel
         {
             memcpy([buffer contents], data, size);
 
+            return true;
+        }
+
+        bool MeshBufferMetal::update()
+        {
             return true;
         }
     } // namespace graphics

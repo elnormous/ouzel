@@ -11,7 +11,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderTargetOGL::RenderTargetOGL()
+        RenderTargetOGL::RenderTargetOGL():
+            dirty(true)
         {
 
         }
@@ -48,8 +49,6 @@ namespace ouzel
                 rendererOGL->deleteResource(frameBufferId, RendererOGL::ResourceType::FrameBuffer);
                 frameBufferId = 0;
             }
-
-            frameBufferReady = false;
         }
 
         bool RenderTargetOGL::init(const Size2& newSize, bool depthBuffer)
@@ -100,7 +99,7 @@ namespace ouzel
 
                 std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(texture);
 
-                if (textureOGL->getTextureId() && !frameBufferReady)
+                if (textureOGL->getTextureId())
                 {
                     RendererOGL::bindFrameBuffer(frameBufferId);
                     RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
@@ -136,14 +135,9 @@ namespace ouzel
                         log("Failed to create frame buffer");
                         return false;
                     }
-
-                    frameBufferReady = true;
                 }
 
-                if (frameBufferReady)
-                {
-                    dirty = false;
-                }
+                dirty = false;
             }
 
             return true;

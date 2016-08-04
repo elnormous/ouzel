@@ -12,7 +12,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureOGL::TextureOGL()
+        TextureOGL::TextureOGL():
+            dirty(true)
         {
 
         }

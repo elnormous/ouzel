@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <vector>
+#include <mutex>
 #include "core/CompileConfig.h"
 #include "graphics/MeshBuffer.h"
 
@@ -45,6 +47,7 @@ namespace ouzel
 
         protected:
             MeshBufferMetal();
+            virtual bool update() override;
 
             bool updateIndexFormat();
             bool createIndexBuffer(const void* indices, uint32_t size);
@@ -58,6 +61,12 @@ namespace ouzel
             uint32_t vertexBufferSize = 0;
 
             MTLIndexType indexFormat;
+
+            std::vector<uint8_t> indexData;
+            std::atomic<bool> indexBufferDirty;
+            std::vector<uint8_t> vertexData;
+            std::atomic<bool> vertexBufferDirty;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

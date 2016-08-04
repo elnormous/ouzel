@@ -11,7 +11,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferOGL::MeshBufferOGL()
+        MeshBufferOGL::MeshBufferOGL():
+            indexBufferDirty(true), vertexBufferDirty(true)
         {
 
         }

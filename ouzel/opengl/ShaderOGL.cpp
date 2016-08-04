@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         ShaderOGL::ShaderOGL():
-            Shader()
+            dirty(true)
         {
         }
 

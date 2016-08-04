@@ -14,8 +14,7 @@ namespace ouzel
     {
         static const size_t BUFFER_SIZE = 1024 * 1024;
 
-        ShaderMetal::ShaderMetal():
-            Shader()
+        ShaderMetal::ShaderMetal()
         {
         }
 

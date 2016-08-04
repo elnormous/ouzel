@@ -73,9 +73,9 @@ namespace ouzel
 
         protected:
             MeshBufferOGL();
+            virtual bool update() override;
 
             bool updateIndexFormat();
-            virtual bool update() override;
 
             GLuint indexBufferId = 0;
             GLuint vertexBufferId = 0;
@@ -84,9 +84,9 @@ namespace ouzel
             GLenum indexFormat = 0;
 
             std::vector<uint8_t> indexData;
-            bool indexBufferDirty = true;
+            std::atomic<bool> indexBufferDirty;
             std::vector<uint8_t> vertexData;
-            bool vertexBufferDirty = true;
+            std::atomic<bool> vertexBufferDirty;
             std::mutex dataMutex;
         };
     } // namespace graphics

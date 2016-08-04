@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <mutex>
+
 #if defined(__OBJC__)
 #import <Metal/Metal.h>
 typedef id<MTLTexture> MTLTexturePtr;
@@ -32,20 +34,25 @@ namespace ouzel
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
 
-            virtual bool uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData) override;
+            virtual bool upload(const std::vector<uint8_t>& newData, const Size2& newSize) override;
 
             MTLTexturePtr getTexture() const { return texture; }
 
         protected:
             TextureMetal();
+            virtual bool update() override;
 
-            bool createTexture(NSUInteger newWidth, NSUInteger newHeight);
             virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
+            virtual bool uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData) override;
 
             MTLTexturePtr texture = Nil;
 
             NSUInteger width = 0;
             NSUInteger height = 0;
+
+            std::vector<std::vector<uint8_t>> data;
+            std::atomic<bool> dirty;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel
