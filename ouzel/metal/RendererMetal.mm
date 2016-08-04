@@ -117,6 +117,7 @@ namespace ouzel
             if (msaaTexture)
             {
                 [msaaTexture release];
+                msaaTexture = Nil;
             }
 
             if (currentRenderCommandEncoder)
