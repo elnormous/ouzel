@@ -310,7 +310,7 @@ namespace ouzel
     {
         sharedApplication->execute([this] {
             SendMessage(window, WM_CLOSE, 0, 0);
-        }
+        });
     }
 
     void WindowWin::setSize(const Size2& newSize)
@@ -325,7 +325,7 @@ namespace ouzel
             AdjustWindowRect(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE);
 
             SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
-        }
+        });
 
         Window::setSize(newSize);
     }
@@ -339,7 +339,7 @@ namespace ouzel
                 MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256);
 
                 SetWindowTextW(window, titleBuffer);
-            }
+            });
         }
 
         Window::setTitle(newTitle);
