@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <X11/keysym.h>
+#include <X11/XKBlib.h>
 #include "ApplicationLinux.h"
 #include "core/Engine.h"
 #include "WindowLinux.h"
@@ -277,7 +278,7 @@ namespace ouzel
                     case KeyPress: // keyboard
                     case KeyRelease:
                     {
-                        KeySym keySym = XKeycodeToKeysym(windowLinux->getDisplay(), event.xkey.keycode, 0);
+                        KeySym keySym = XkbKeycodeToKeysym(windowLinux->getDisplay(), event.xkey.keycode, 0, 0);
 
                         if (event.type == KeyPress)
                         {
