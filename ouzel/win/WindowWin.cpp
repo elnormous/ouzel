@@ -308,14 +308,14 @@ namespace ouzel
 
     void WindowWin::close()
     {
-        ouzel::sharedApplication->execute([this] {
+        sharedApplication->execute([this] {
             SendMessage(window, WM_CLOSE, 0, 0);
         }
     }
 
     void WindowWin::setSize(const Size2& newSize)
     {
-        ouzel::sharedApplication->execute([this, newSize] {
+        sharedApplication->execute([this, newSize] {
             UINT width = static_cast<UINT>(newSize.width);
             UINT height = static_cast<UINT>(newSize.height);
 
@@ -334,7 +334,7 @@ namespace ouzel
     {
         if (title != newTitle)
         {
-            ouzel::sharedApplication->execute([this, newTitle] {
+            sharedApplication->execute([this, newTitle] {
                 wchar_t titleBuffer[256];
                 MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256);
 
