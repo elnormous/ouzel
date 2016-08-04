@@ -141,11 +141,11 @@ namespace ouzel
                 {
                     for (size_t level = 0; level < data.size(); ++level)
                     {
-                        NSUInteger newWidth = static_cast<NSUInteger>(mipmapSizes[level].width);
-                        NSUInteger newHeight = static_cast<NSUInteger>(mipmapSizes[level].height);
+                        NSUInteger mipWidth = static_cast<NSUInteger>(mipmapSizes[level].width);
+                        NSUInteger mipHeight = static_cast<NSUInteger>(mipmapSizes[level].height);
 
-                        NSUInteger bytesPerRow = width * 4;
-                        [texture replaceRegion:MTLRegionMake2D(0, 0, newWidth, newHeight) mipmapLevel:level withBytes:data[level].data() bytesPerRow:bytesPerRow];
+                        NSUInteger bytesPerRow = mipWidth * 4;
+                        [texture replaceRegion:MTLRegionMake2D(0, 0, mipWidth, mipHeight) mipmapLevel:level withBytes:data[level].data() bytesPerRow:bytesPerRow];
                     }
                 }
 

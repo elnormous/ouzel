@@ -174,13 +174,13 @@ namespace ouzel
 
                     for (size_t level = 0; level < data.size(); ++level)
                     {
-                        GLsizei newWidth = static_cast<GLsizei>(mipmapSizes[level].width);
-                        GLsizei newHeight = static_cast<GLsizei>(mipmapSizes[level].height);
+                        GLsizei mipWidth = static_cast<GLsizei>(mipmapSizes[level].width);
+                        GLsizei mipHeight = static_cast<GLsizei>(mipmapSizes[level].height);
 
                         RendererOGL::bindTexture(textureId, 0);
 
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
-                                     newWidth, newHeight, 0,
+                                     mipWidth, mipHeight, 0,
                                      GL_RGBA, GL_UNSIGNED_BYTE, data[level].data());
 
                         if (RendererOGL::checkOpenGLError())
