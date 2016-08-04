@@ -36,6 +36,9 @@ namespace ouzel
             virtual ID3D11Buffer* getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
             virtual ID3D11InputLayout* getInputLayout() const { return inputLayout;  }
 
+            uint32_t getPixelShaderConstantBufferOffset() const { return pixelShaderConstantBufferOffset; }
+            uint32_t getVertexShaderConstantBufferOffset() const { return vertexShaderConstantBufferOffset; }
+
         protected:
             ShaderD3D11();
 
