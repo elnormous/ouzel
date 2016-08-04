@@ -125,7 +125,11 @@ namespace ouzel
                     {
                         if (drawable->isVisible())
                         {
-                            drawable->draw(currentLayer->getCamera()->getViewProjection(), transform, drawColor, std::static_pointer_cast<Node>(shared_from_this()));
+                            drawable->draw(currentLayer->getCamera()->getViewProjection(),
+                                           transform,
+                                           drawColor,
+                                           currentLayer->getRenderTarget(),
+                                           std::static_pointer_cast<Node>(shared_from_this()));
                         }
                     }
                 }

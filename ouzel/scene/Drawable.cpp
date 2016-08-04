@@ -13,7 +13,11 @@ namespace ouzel
         {
         }
 
-        void Drawable::draw(const Matrix4&, const Matrix4&, const graphics::Color&, const NodePtr&)
+        void Drawable::draw(const Matrix4&,
+                            const Matrix4&,
+                            const graphics::Color&,
+                            const graphics::RenderTargetPtr&,
+                            const NodePtr&)
         {
         }
 

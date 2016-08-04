@@ -22,7 +22,11 @@ namespace ouzel
 
             bool init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor = Vector2(0.5f, 0.5f));
 
-            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode) override;
+            virtual void draw(const Matrix4& projectionMatrix,
+                              const Matrix4& transformMatrix,
+                              const graphics::Color& drawColor,
+                              const graphics::RenderTargetPtr& renderTarget,
+                              const NodePtr& currentNode) override;
 
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }

@@ -174,9 +174,13 @@ namespace ouzel
             }
         }
 
-        void Sprite::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode)
+        void Sprite::draw(const Matrix4& projectionMatrix,
+                          const Matrix4& transformMatrix,
+                          const graphics::Color& drawColor,
+                          const graphics::RenderTargetPtr& renderTarget,
+                          const NodePtr& currentNode)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, drawColor, currentNode);
+            Drawable::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
 
             if (currentFrame < frames.size())
             {
@@ -194,7 +198,11 @@ namespace ouzel
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             blendState,
-                                                            frames[currentFrame]->getMeshBuffer());
+                                                            frames[currentFrame]->getMeshBuffer(),
+                                                            0,
+                                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                                            0,
+                                                            renderTarget);
             }
         }
 

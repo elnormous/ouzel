@@ -22,9 +22,13 @@ namespace ouzel
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_NO_BLEND);
         }
 
-        void DebugDrawable::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode)
+        void DebugDrawable::draw(const Matrix4& projectionMatrix,
+                                 const Matrix4& transformMatrix,
+                                 const graphics::Color& drawColor,
+                                 const graphics::RenderTargetPtr& renderTarget,
+                                 const NodePtr& currentNode)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, drawColor, currentNode);
+            Drawable::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
 
             if (shader)
             {
@@ -44,7 +48,11 @@ namespace ouzel
                                                                 pixelShaderConstants,
                                                                 vertexShaderConstants,
                                                                 blendState,
-                                                                drawCommand.mesh, 0, drawCommand.mode);
+                                                                drawCommand.mesh,
+                                                                0,
+                                                                drawCommand.mode,
+                                                                0,
+                                                                renderTarget);
                 }
             }
         }

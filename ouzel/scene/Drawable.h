@@ -19,7 +19,11 @@ namespace ouzel
         public:
             virtual ~Drawable();
 
-            virtual void draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode);
+            virtual void draw(const Matrix4& projectionMatrix,
+                              const Matrix4& transformMatrix,
+                              const graphics::Color& drawColor,
+                              const graphics::RenderTargetPtr& renderTarget,
+                              const NodePtr& currentNode);
 
             virtual const AABB2& getBoundingBox() const { return boundingBox; }
 

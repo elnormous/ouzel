@@ -37,9 +37,13 @@ namespace ouzel
             sharedEngine->unscheduleUpdate(updateCallback);
         }
 
-        void ParticleSystem::draw(const Matrix4& projectionMatrix, const Matrix4& transformMatrix, const graphics::Color& drawColor, const NodePtr& currentNode)
+        void ParticleSystem::draw(const Matrix4& projectionMatrix,
+                                  const Matrix4& transformMatrix,
+                                  const graphics::Color& drawColor,
+                                  const graphics::RenderTargetPtr& renderTarget,
+                                  const NodePtr& currentNode)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, drawColor, currentNode);
+            Drawable::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
 
             parentNode = currentNode;
 
@@ -75,7 +79,11 @@ namespace ouzel
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             blendState,
-                                                            mesh, particleCount * 6);
+                                                            mesh,
+                                                            particleCount * 6,
+                                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                                            0,
+                                                            renderTarget);
             }
         }
 
