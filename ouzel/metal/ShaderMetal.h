@@ -40,6 +40,9 @@ namespace ouzel
             virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
             virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
 
+            const std::vector<uint32_t>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            const std::vector<uint32_t>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+
             void nextBuffers();
 
             virtual MTLFunctionPtr getPixelShader() const { return pixelShader; }

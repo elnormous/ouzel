@@ -369,7 +369,7 @@ namespace ouzel
                 const std::vector<GLint>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
                 const std::vector<Shader::ConstantInfo>& pixelShaderConstantInfos = shaderOGL->getPixelShaderConstantInfo();
 
-                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantInfos.size())
                 {
                     log("Invalid pixel shader constant size");
                     return false;
@@ -413,7 +413,7 @@ namespace ouzel
                 const std::vector<GLint>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
                 const std::vector<Shader::ConstantInfo>& vertexShaderConstantInfos = shaderOGL->getVertexShaderConstantInfo();
 
-                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantInfos.size())
                 {
                     log("Invalid vertex shader constant size");
                     return false;

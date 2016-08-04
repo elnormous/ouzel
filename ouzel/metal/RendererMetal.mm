@@ -409,29 +409,20 @@ namespace ouzel
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
-            if (currentRenderCommandEncoder)
-            {
-                [currentRenderCommandEncoder endEncoding];
-                [currentRenderCommandEncoder release];
-                currentRenderCommandEncoder = Nil;
-            }
-
-            if (currentCommandBuffer)
-            {
-                [currentCommandBuffer presentDrawable:view.currentDrawable];
-
-                [currentCommandBuffer commit];
-                [currentCommandBuffer release];
-                currentCommandBuffer = Nil;
-            }
-
             bool previousScissorTestEnabled = false;
             Rectangle previousScissorTest;
 
-            while (!drawQueue.empty())
+            std::queue<DrawCommand> drawCommands;
+
             {
-                const DrawCommand drawCommand = drawQueue.front();
-                drawQueue.pop();
+                std::lock_guard<std::mutex> lock(drawQueueMutex);
+                drawCommands = std::move(drawQueue);
+            }
+
+            while (!drawCommands.empty())
+            {
+                const DrawCommand drawCommand = drawCommands.front();
+                drawCommands.pop();
 
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
 
@@ -476,13 +467,63 @@ namespace ouzel
 
                 [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
+                // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
+
+                // pixel shader constants
+                const std::vector<uint32_t>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
+                const std::vector<Shader::ConstantInfo>& pixelShaderConstantInfos = shaderMetal->getPixelShaderConstantInfo();
+
+                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantInfos.size())
+                {
+                    log("Invalid pixel shader constant size");
+                    return false;
+                }
+
+                for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
+                {
+                    uint32_t location = pixelShaderConstantLocations[i];
+                    const Shader::ConstantInfo& pixelShaderConstantInfo = pixelShaderConstantInfos[i];
+                    const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
+
+                    shaderMetal->uploadData(shaderMetal->getPixelShaderConstantBuffer(),
+                                            shaderMetal->getPixelShaderConstantBufferOffset() + location,
+                                            pixelShaderConstant.data(),
+                                            pixelShaderConstantInfo.size);
+                }
+
                 [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
                                                         offset:shaderMetal->getPixelShaderConstantBufferOffset()
                                                        atIndex:1];
+
+
+                const std::vector<uint32_t>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
+                const std::vector<Shader::ConstantInfo>& vertexShaderConstantInfos = shaderMetal->getVertexShaderConstantInfo();
+
+                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantInfos.size())
+                {
+                    log("Invalid vertex shader constant size");
+                    return false;
+                }
+
+                for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
+                {
+                    uint32_t location = vertexShaderConstantLocations[i];
+                    const Shader::ConstantInfo& vertexShaderConstantInfo = vertexShaderConstantInfos[i];
+                    const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
+
+                    shaderMetal->uploadData(shaderMetal->getVertexShaderConstantBuffer(),
+                                            shaderMetal->getVertexShaderConstantBufferOffset() + location,
+                                            vertexShaderConstant.data(),
+                                            vertexShaderConstantInfo.size);
+
+                }
+
                 [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
                                                       offset:shaderMetal->getVertexShaderConstantBufferOffset()
                                                      atIndex:1];
+
+                shaderMetal->nextBuffers();
 
                 // blend state
                 std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(drawCommand.blendState);
@@ -551,8 +592,22 @@ namespace ouzel
                                                          indexType:meshBufferMetal->getIndexFormat()
                                                        indexBuffer:meshBufferMetal->getIndexBuffer()
                                                  indexBufferOffset:static_cast<NSUInteger>(drawCommand.startIndex * meshBufferMetal->getIndexSize())];
-                
-                shaderMetal->nextBuffers();
+            }
+
+            if (currentRenderCommandEncoder)
+            {
+                [currentRenderCommandEncoder endEncoding];
+                [currentRenderCommandEncoder release];
+                currentRenderCommandEncoder = Nil;
+            }
+
+            if (currentCommandBuffer)
+            {
+                [currentCommandBuffer presentDrawable:view.currentDrawable];
+
+                [currentCommandBuffer commit];
+                [currentCommandBuffer release];
+                currentCommandBuffer = Nil;
             }
 
             return true;
