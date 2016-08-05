@@ -166,7 +166,7 @@ namespace ouzel
 
                 if (indexBufferDirty)
                 {
-                    if (!indexBuffer || indexBufferSize != indexSize * indexCount)
+                    if (!indexBuffer || indexSize * indexCount > indexBufferSize)
                     {
                         if (indexBuffer) [indexBuffer release];
 
@@ -192,7 +192,7 @@ namespace ouzel
 
                 if (vertexBufferDirty)
                 {
-                    if (!vertexBuffer || vertexBufferSize != vertexSize * vertexCount)
+                    if (!vertexBuffer || vertexSize * vertexCount > vertexBufferSize)
                     {
                         if (vertexBuffer) [vertexBuffer release];
 
