@@ -69,7 +69,25 @@ namespace ouzel
 
     WindowMacOS::~WindowMacOS()
     {
-        close();
+        if (view)
+        {
+            if ([view respondsToSelector:@selector(close)])
+            {
+                [view performSelector:@selector(close)];
+            }
+            [view release];
+        }
+
+        if (windowDelegate)
+        {
+            [windowDelegate release];
+        }
+
+        if (window)
+        {
+            window.delegate = Nil;
+            [window release];
+        }
     }
 
     bool WindowMacOS::init()
@@ -164,6 +182,7 @@ namespace ouzel
 
         if (window)
         {
+            window.delegate = Nil;
             [window release];
             window = Nil;
         }
@@ -192,8 +211,14 @@ namespace ouzel
     {
         if (fullscreen != newFullscreen)
         {
-            ouzel::sharedApplication->execute([this] {
-                [window toggleFullScreen:nil];
+            ouzel::sharedApplication->execute([this, newFullscreen] {
+                NSApplicationPresentationOptions opts = [[NSApplication sharedApplication ] presentationOptions];
+                bool isFullscreen = opts & NSApplicationPresentationFullScreen;
+
+                if (isFullscreen != newFullscreen)
+                {
+                    [window toggleFullScreen:nil];
+                }
             });
         }
 
