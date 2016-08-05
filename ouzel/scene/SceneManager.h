@@ -33,6 +33,7 @@ namespace ouzel
 
         protected:
             SceneManager();
+            bool handleWindow(Event::Type type, const WindowEvent& event);
             bool handleMouse(Event::Type type, const MouseEvent& event);
             bool handleTouch(Event::Type type, const TouchEvent& event);
 

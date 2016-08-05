@@ -8,7 +8,6 @@
 #include "Shader.h"
 #include "scene/Camera.h"
 #include "events/EventHandler.h"
-#include "scene/SceneManager.h"
 #include "MeshBuffer.h"
 #include "events/EventDispatcher.h"
 #include "RenderTarget.h"
@@ -76,8 +75,6 @@ namespace ouzel
         void Renderer::setSize(const Size2& newSize)
         {
             size = newSize;
-
-            sharedEngine->getSceneManager()->recalculateProjection();
         }
 
         void Renderer::setFullscreen(bool newFullscreen)

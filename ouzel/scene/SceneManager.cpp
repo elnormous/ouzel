@@ -13,6 +13,7 @@ namespace ouzel
         SceneManager::SceneManager()
         {
             sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+            eventHandler.windowHandler = std::bind(&SceneManager::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
             eventHandler.mouseHandler = std::bind(&SceneManager::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
             eventHandler.touchHandler = std::bind(&SceneManager::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
         }
@@ -49,6 +50,17 @@ namespace ouzel
             {
                 scene->recalculateProjection();
             }
+        }
+
+        bool SceneManager::handleWindow(Event::Type type, const WindowEvent& event)
+        {
+            if (type == Event::Type::WINDOW_SIZE_CHANGE ||
+                type == Event::Type::WINDOW_FULLSCREEN_CHANGE)
+            {
+                recalculateProjection();
+            }
+
+            return true;
         }
 
         bool SceneManager::handleMouse(Event::Type type, const MouseEvent& event)
