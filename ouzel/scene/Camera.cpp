@@ -40,7 +40,7 @@ namespace ouzel
 
         void Camera::recalculateProjection()
         {
-            Size2 screenSize;
+            Size2 screenSize = sharedEngine->getRenderer()->getSize();
 
             if (LayerPtr currentLayer = layer.lock())
             {
@@ -48,14 +48,6 @@ namespace ouzel
                 {
                     screenSize = renderTarget->getTexture()->getSize();
                 }
-                else
-                {
-                    screenSize = sharedEngine->getRenderer()->getSize();
-                }
-            }
-            else
-            {
-                return;
             }
 
             if (screenSize.width == 0.0f || screenSize.height == 0.0f)
