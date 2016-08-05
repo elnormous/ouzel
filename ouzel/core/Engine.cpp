@@ -72,7 +72,7 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        updateThread(std::bind(&Engine::run, this)), running(false), active(true)
+        running(false), active(true)
     {
         sharedEngine = this;
     }
@@ -110,7 +110,7 @@ namespace ouzel
         return availableDrivers;
     }
 
-    bool Engine::init(Settings& newSettings)
+    bool Engine::init(Settings& newSettings, const std::function<void(void)>& beginCallback)
     {
         settings = newSettings;
 
@@ -253,6 +253,8 @@ namespace ouzel
             return false;
         }
 
+        updateThread = std::thread(&Engine::run, this, beginCallback);
+
         return true;
     }
 
@@ -284,8 +286,10 @@ namespace ouzel
         running = true;
     }
 
-    void Engine::run()
+    void Engine::run(const std::function<void(void)>& beginCallback)
     {
+        beginCallback();
+
         while (active)
         {
             if (running)

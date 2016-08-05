@@ -6,6 +6,7 @@
 #include <memory>
 #include <list>
 #include <set>
+#include <functional>
 #include <thread>
 #include <mutex>
 #include <atomic>
@@ -31,7 +32,7 @@ namespace ouzel
 
         static std::set<graphics::Renderer::Driver> getAvailableDrivers();
 
-        bool init(Settings& newSettings);
+        bool init(Settings& newSettings, const std::function<void(void)>& beginCallback);
         const Settings& getSettings() const { return settings; }
 
         const EventDispatcherPtr& getEventDispatcher() const { return eventDispatcher; }
@@ -61,7 +62,7 @@ namespace ouzel
         void unscheduleUpdate(const UpdateCallback& callback);
 
     protected:
-        void run();
+        void run(const std::function<void(void)>& beginCallback);
 
         Settings settings;
 
