@@ -72,7 +72,7 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        running(false), active(true)
+        running(false), active(true), currentFPS(0.0f), accumulatedFPS(0.0f)
     {
         sharedEngine = this;
     }
@@ -334,6 +334,15 @@ namespace ouzel
         if (delta > 0.0f)
         {
             currentFPS = 1.0f / delta;
+        }
+
+        accumulatedTime += delta;
+        currentAccumulatedFPS += 1.0f;
+
+        if (accumulatedTime > 1.0f)
+        {
+            accumulatedFPS = currentAccumulatedFPS;
+            accumulatedTime = 0.0f;
         }
 
         if (!renderer->present())

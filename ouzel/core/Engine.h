@@ -55,8 +55,8 @@ namespace ouzel
         bool isRunning() const { return running; }
         bool isActive() const { return active; }
 
-        float getTargetFPS() const { return settings.targetFPS; }
         float getFPS() const { return currentFPS; }
+        float getAccumulatedFPS() const { return accumulatedFPS; }
 
         void scheduleUpdate(const UpdateCallback& callback);
         void unscheduleUpdate(const UpdateCallback& callback);
@@ -77,8 +77,12 @@ namespace ouzel
         scene::SceneManagerPtr sceneManager;
 
         uint64_t targetFrameInterval;
-        float currentFPS = 0.0f;
+        std::atomic<float> currentFPS;
         uint64_t previousFrameTime;
+
+        float accumulatedTime = 0.0f;
+        float currentAccumulatedFPS = 0.0f;
+        std::atomic<float> accumulatedFPS;
 
         uint64_t previousUpdateTime;
 
