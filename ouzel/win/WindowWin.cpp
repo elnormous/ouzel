@@ -347,7 +347,7 @@ namespace ouzel
 
     void WindowWin::handleResize(INT width, INT height)
     {
-        setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
+        Window::setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
     }
 
     void WindowWin::addAccelerator(HACCEL accelerator)
