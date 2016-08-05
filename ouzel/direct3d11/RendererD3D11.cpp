@@ -559,13 +559,6 @@ namespace ouzel
                 std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(drawCommand.meshBuffer);
                 
                 // draw
-                uint32_t indexCount = drawCommand.indexCount;
-
-                if (indexCount == 0)
-                {
-                    indexCount = meshBufferD3D11->getIndexCount() - drawCommand.startIndex;
-                }
-
                 context->OMSetDepthStencilState(depthStencilState, 0);
 
                 ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
@@ -588,7 +581,7 @@ namespace ouzel
 
                 context->IASetPrimitiveTopology(topology);
 
-                context->DrawIndexed(indexCount, static_cast<UINT>(drawCommand.startIndex * meshBufferD3D11->getIndexSize()), 0);
+                context->DrawIndexed(drawCommand.indexCount, static_cast<UINT>(drawCommand.startIndex * meshBufferD3D11->getIndexSize()), 0);
             }
 
             swapChain->Present(swapInterval, 0);

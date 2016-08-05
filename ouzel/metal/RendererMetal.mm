@@ -580,13 +580,6 @@ namespace ouzel
                 [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
                 // draw
-                uint32_t indexCount = drawCommand.indexCount;
-
-                if (indexCount == 0)
-                {
-                    indexCount = meshBufferMetal->getIndexCount() - drawCommand.startIndex;
-                }
-
                 MTLPrimitiveType primitiveType;
 
                 switch (drawCommand.drawMode)
@@ -600,7 +593,7 @@ namespace ouzel
                 }
 
                 [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
-                                                        indexCount:indexCount
+                                                        indexCount:drawCommand.indexCount
                                                          indexType:meshBufferMetal->getIndexFormat()
                                                        indexBuffer:meshBufferMetal->getIndexBuffer()
                                                  indexBufferOffset:static_cast<NSUInteger>(drawCommand.startIndex * meshBufferMetal->getIndexSize())];

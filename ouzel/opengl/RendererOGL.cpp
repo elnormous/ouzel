@@ -462,13 +462,6 @@ namespace ouzel
                 std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);
 
                 // draw
-                uint32_t indexCount = drawCommand.indexCount;
-
-                if (indexCount == 0)
-                {
-                    indexCount = meshBufferOGL->getIndexCount() - drawCommand.startIndex;
-                }
-
                 GLenum mode;
 
                 switch (drawCommand.drawMode)
@@ -492,7 +485,7 @@ namespace ouzel
                 }
 
                 glDrawElements(mode,
-                               static_cast<GLsizei>(indexCount),
+                               static_cast<GLsizei>(drawCommand.indexCount),
                                meshBufferOGL->getIndexFormat(),
                                static_cast<const char*>(nullptr) + (drawCommand.startIndex * meshBufferOGL->getIndexSize()));
                 
