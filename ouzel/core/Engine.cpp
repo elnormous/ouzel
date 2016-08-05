@@ -348,7 +348,7 @@ namespace ouzel
 
         if (!renderer->present())
         {
-            exit();
+            return false;
         }
 
         return active;
