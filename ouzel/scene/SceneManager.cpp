@@ -52,7 +52,7 @@ namespace ouzel
             }
         }
 
-        bool SceneManager::handleWindow(Event::Type type, const WindowEvent& event)
+        bool SceneManager::handleWindow(Event::Type type, const WindowEvent&)
         {
             if (type == Event::Type::WINDOW_SIZE_CHANGE ||
                 type == Event::Type::WINDOW_FULLSCREEN_CHANGE)
