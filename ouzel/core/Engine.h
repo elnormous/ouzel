@@ -52,6 +52,7 @@ namespace ouzel
         void resume();
         bool draw();
         bool isRunning() const { return running; }
+        bool isActive() const { return active; }
 
         float getTargetFPS() const { return settings.targetFPS; }
         float getFPS() const { return currentFPS; }

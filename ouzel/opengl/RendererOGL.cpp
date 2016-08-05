@@ -89,7 +89,6 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
-
         }
 
         bool RendererOGL::init(const WindowPtr& window,
@@ -234,58 +233,7 @@ namespace ouzel
                 return false;
             }
 
-            std::pair<GLuint, ResourceType> deleteResource;
-
-            for (;;)
-            {
-                {
-                    std::lock_guard<std::mutex> lock(deleteMutex);
-                    if (deleteQueue.empty())
-                    {
-                        break;
-                    }
-
-                    deleteResource = deleteQueue.front();
-                    deleteQueue.pop();
-                }
-
-                switch (deleteResource.second)
-                {
-                    case ResourceType::Buffer:
-                        unbindArrayBuffer(deleteResource.first);
-                        unbindElementArrayBuffer(deleteResource.first);
-                        glDeleteBuffers(1, &deleteResource.first);
-                        break;
-                    case ResourceType::VertexArray:
-                        unbindVertexArray(deleteResource.first);
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                        glDeleteVertexArraysOES(1, &deleteResource.first);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-                        if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &deleteResource.first);
-#else
-                        glDeleteVertexArrays(1, &deleteResource.first);
-#endif
-                        break;
-                    case ResourceType::RenderBuffer:
-                        glDeleteRenderbuffers(1, &deleteResource.first);
-                        break;
-                    case ResourceType::FrameBuffer:
-                        unbindFrameBuffer(deleteResource.first);
-                        glDeleteFramebuffers(1, &deleteResource.first);
-                        break;
-                    case ResourceType::Program:
-                        unbindProgram(deleteResource.first);
-                        glDeleteProgram(deleteResource.first);
-                        break;
-                    case ResourceType::Shader:
-                        glDeleteShader(deleteResource.first);
-                        break;
-                    case ResourceType::Texture:
-                        unbindTexture(deleteResource.first);
-                        glDeleteTextures(1, &deleteResource.first);
-                        break;
-                }
-            }
+            deleteAllResources();
 
             std::set<GLuint> clearedFrameBuffers;
 
@@ -647,6 +595,8 @@ namespace ouzel
         GLint RendererOGL::viewportY = 0;
         GLsizei RendererOGL::viewportWidth = 0;
         GLsizei RendererOGL::viewportHeight = 0;
+        std::queue<std::pair<GLuint, RendererOGL::ResourceType>> RendererOGL::deleteQueue;
+        std::mutex RendererOGL::deleteMutex;
 
         bool RendererOGL::bindTexture(GLuint textureId, uint32_t layer)
         {
@@ -820,13 +770,6 @@ namespace ouzel
             return true;
         }
 
-        void RendererOGL::deleteResource(GLuint resource, ResourceType resourceType)
-        {
-            std::lock_guard<std::mutex> lock(deleteMutex);
-
-            deleteQueue.push(std::make_pair(resource, resourceType));
-        }
-
         void RendererOGL::enableBlend(bool enable)
         {
             if (blendEnabled != enable)
@@ -887,6 +830,73 @@ namespace ouzel
                 viewportY = y;
                 viewportWidth = width;
                 viewportHeight = height;
+            }
+        }
+
+
+        void RendererOGL::deleteResource(GLuint resource, ResourceType resourceType)
+        {
+            if (sharedEngine->isActive())
+            {
+                std::lock_guard<std::mutex> lock(deleteMutex);
+
+                deleteQueue.push(std::make_pair(resource, resourceType));
+            }
+        }
+
+        void RendererOGL::deleteAllResources()
+        {
+            std::pair<GLuint, ResourceType> deleteResource;
+
+            for (;;)
+            {
+                {
+                    std::lock_guard<std::mutex> lock(deleteMutex);
+                    if (deleteQueue.empty())
+                    {
+                        break;
+                    }
+
+                    deleteResource = deleteQueue.front();
+                    deleteQueue.pop();
+                }
+
+                switch (deleteResource.second)
+                {
+                    case ResourceType::Buffer:
+                        unbindArrayBuffer(deleteResource.first);
+                        unbindElementArrayBuffer(deleteResource.first);
+                        glDeleteBuffers(1, &deleteResource.first);
+                        break;
+                    case ResourceType::VertexArray:
+                        unbindVertexArray(deleteResource.first);
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+                        glDeleteVertexArraysOES(1, &deleteResource.first);
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+                        if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &deleteResource.first);
+#else
+                        glDeleteVertexArrays(1, &deleteResource.first);
+#endif
+                        break;
+                    case ResourceType::RenderBuffer:
+                        glDeleteRenderbuffers(1, &deleteResource.first);
+                        break;
+                    case ResourceType::FrameBuffer:
+                        unbindFrameBuffer(deleteResource.first);
+                        glDeleteFramebuffers(1, &deleteResource.first);
+                        break;
+                    case ResourceType::Program:
+                        unbindProgram(deleteResource.first);
+                        glDeleteProgram(deleteResource.first);
+                        break;
+                    case ResourceType::Shader:
+                        glDeleteShader(deleteResource.first);
+                        break;
+                    case ResourceType::Texture:
+                        unbindTexture(deleteResource.first);
+                        glDeleteTextures(1, &deleteResource.first);
+                        break;
+                }
             }
         }
     } // namespace graphics

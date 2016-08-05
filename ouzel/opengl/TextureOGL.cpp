@@ -20,11 +20,9 @@ namespace ouzel
 
         TextureOGL::~TextureOGL()
         {
-            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
             if (textureId)
             {
-                rendererOGL->deleteResource(textureId, RendererOGL::ResourceType::Texture);
+                RendererOGL::deleteResource(textureId, RendererOGL::ResourceType::Texture);
             }
         }
 
@@ -36,11 +34,9 @@ namespace ouzel
 
             data.clear();
 
-            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
             if (textureId)
             {
-                rendererOGL->deleteResource(textureId, RendererOGL::ResourceType::Texture);
+                RendererOGL::deleteResource(textureId, RendererOGL::ResourceType::Texture);
                 textureId = 0;
             }
         }

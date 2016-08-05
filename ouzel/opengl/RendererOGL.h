@@ -104,7 +104,7 @@ namespace ouzel
                 Shader,
                 Texture
             };
-            void deleteResource(GLuint resource, ResourceType resourceType);
+            static void deleteResource(GLuint resource, ResourceType resourceType);
 
         protected:
             RendererOGL();
@@ -118,6 +118,7 @@ namespace ouzel
             virtual void setSize(const Size2& newSize) override;
 
             GLuint frameBufferId = 0;
+            Rectangle viewport;
 
             static GLuint currentTextureId[Texture::LAYERS];
             static GLuint currentProgramId;
@@ -132,11 +133,10 @@ namespace ouzel
             static GLint viewportY;
             static GLsizei viewportWidth;
             static GLsizei viewportHeight;
+            static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
+            static std::mutex deleteMutex;
 
-            Rectangle viewport;
-
-            std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
-            std::mutex deleteMutex;
+            static void deleteAllResources();
         };
     } // namespace graphics
 } // namespace ouzel

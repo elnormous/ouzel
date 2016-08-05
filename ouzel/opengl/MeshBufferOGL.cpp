@@ -19,21 +19,19 @@ namespace ouzel
 
         MeshBufferOGL::~MeshBufferOGL()
         {
-            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
             if (vertexArrayId)
             {
-                rendererOGL->deleteResource(vertexArrayId, RendererOGL::ResourceType::VertexArray);
+                RendererOGL::deleteResource(vertexArrayId, RendererOGL::ResourceType::VertexArray);
             }
 
             if (vertexBufferId)
             {
-                rendererOGL->deleteResource(vertexBufferId, RendererOGL::ResourceType::Buffer);
+                RendererOGL::deleteResource(vertexBufferId, RendererOGL::ResourceType::Buffer);
             }
 
             if (indexBufferId)
             {
-                rendererOGL->deleteResource(indexBufferId, RendererOGL::ResourceType::Buffer);
+                RendererOGL::deleteResource(indexBufferId, RendererOGL::ResourceType::Buffer);
             }
         }
 
@@ -41,23 +39,21 @@ namespace ouzel
         {
             MeshBuffer::free();
 
-            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
             if (vertexArrayId)
             {
-                rendererOGL->deleteResource(vertexArrayId, RendererOGL::ResourceType::VertexArray);
+                RendererOGL::deleteResource(vertexArrayId, RendererOGL::ResourceType::VertexArray);
                 vertexArrayId = 0;
             }
 
             if (vertexBufferId)
             {
-                rendererOGL->deleteResource(vertexBufferId, RendererOGL::ResourceType::Buffer);
+                RendererOGL::deleteResource(vertexBufferId, RendererOGL::ResourceType::Buffer);
                 vertexBufferId = 0;
             }
 
             if (indexBufferId)
             {
-                rendererOGL->deleteResource(indexBufferId, RendererOGL::ResourceType::Buffer);
+                RendererOGL::deleteResource(indexBufferId, RendererOGL::ResourceType::Buffer);
                 indexBufferId = 0;
             }
         }

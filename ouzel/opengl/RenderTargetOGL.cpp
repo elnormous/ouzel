@@ -19,16 +19,14 @@ namespace ouzel
 
         RenderTargetOGL::~RenderTargetOGL()
         {
-            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
             if (depthBufferId)
             {
-                rendererOGL->deleteResource(depthBufferId, RendererOGL::ResourceType::RenderBuffer);
+                RendererOGL::deleteResource(depthBufferId, RendererOGL::ResourceType::RenderBuffer);
             }
 
             if (frameBufferId)
             {
-                rendererOGL->deleteResource(frameBufferId, RendererOGL::ResourceType::FrameBuffer);
+                RendererOGL::deleteResource(frameBufferId, RendererOGL::ResourceType::FrameBuffer);
             }
         }
 
@@ -36,17 +34,15 @@ namespace ouzel
         {
             RenderTarget::free();
 
-            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
             if (depthBufferId)
             {
-                rendererOGL->deleteResource(depthBufferId, RendererOGL::ResourceType::RenderBuffer);
+                RendererOGL::deleteResource(depthBufferId, RendererOGL::ResourceType::RenderBuffer);
                 depthBufferId = 0;
             }
 
             if (frameBufferId)
             {
-                rendererOGL->deleteResource(frameBufferId, RendererOGL::ResourceType::FrameBuffer);
+                RendererOGL::deleteResource(frameBufferId, RendererOGL::ResourceType::FrameBuffer);
                 frameBufferId = 0;
             }
         }

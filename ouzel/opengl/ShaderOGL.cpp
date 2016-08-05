@@ -18,21 +18,19 @@ namespace ouzel
 
         ShaderOGL::~ShaderOGL()
         {
-            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
             if (programId)
             {
-                rendererOGL->deleteResource(programId, RendererOGL::ResourceType::Program);
+                RendererOGL::deleteResource(programId, RendererOGL::ResourceType::Program);
             }
 
             if (vertexShaderId)
             {
-                rendererOGL->deleteResource(vertexShaderId, RendererOGL::ResourceType::Shader);
+                RendererOGL::deleteResource(vertexShaderId, RendererOGL::ResourceType::Shader);
             }
 
             if (pixelShaderId)
             {
-                rendererOGL->deleteResource(pixelShaderId, RendererOGL::ResourceType::Shader);
+                RendererOGL::deleteResource(pixelShaderId, RendererOGL::ResourceType::Shader);
             }
         }
 
@@ -45,23 +43,21 @@ namespace ouzel
             pixelShaderData.clear();
             vertexShaderData.clear();
 
-            std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
-
             if (programId)
             {
-                rendererOGL->deleteResource(programId, RendererOGL::ResourceType::Program);
+                RendererOGL::deleteResource(programId, RendererOGL::ResourceType::Program);
                 programId = 0;
             }
 
             if (vertexShaderId)
             {
-                rendererOGL->deleteResource(vertexShaderId, RendererOGL::ResourceType::Shader);
+                RendererOGL::deleteResource(vertexShaderId, RendererOGL::ResourceType::Shader);
                 vertexShaderId = 0;
             }
 
             if (pixelShaderId)
             {
-                rendererOGL->deleteResource(pixelShaderId, RendererOGL::ResourceType::Shader);
+                RendererOGL::deleteResource(pixelShaderId, RendererOGL::ResourceType::Shader);
                 pixelShaderId = 0;
             }
         }

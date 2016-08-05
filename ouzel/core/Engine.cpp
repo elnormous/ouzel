@@ -83,8 +83,6 @@ namespace ouzel
         active = false;
 
         updateThread.join();
-
-        renderer->free();
     }
 
     std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers()
