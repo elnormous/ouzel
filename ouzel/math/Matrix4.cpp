@@ -1250,11 +1250,8 @@ namespace ouzel
             : "v0", "v9", "v10","v11", "v12", "v13", "memory"
         );
 #elif OUZEL_SUPPORTS_SSE
-    #if OUZEL_64BITS
-        __m128 vectorV = _mm_load_ps(&vector.x);
-    #else
         __m128 vectorV = _mm_loadu_ps(&vector.x);
-    #endif
+
         __m128 col1 = _mm_shuffle_ps(vectorV, vectorV, _MM_SHUFFLE(0, 0, 0, 0));
         __m128 col2 = _mm_shuffle_ps(vectorV, vectorV, _MM_SHUFFLE(1, 1, 1, 1));
         __m128 col3 = _mm_shuffle_ps(vectorV, vectorV, _MM_SHUFFLE(2, 2, 2, 2));
@@ -1264,11 +1261,8 @@ namespace ouzel
                                  _mm_add_ps(_mm_mul_ps(col[0], col1), _mm_mul_ps(col[1], col2)),
                                  _mm_add_ps(_mm_mul_ps(col[2], col3), _mm_mul_ps(col[3], col4))
                                  );
-    #if OUZEL_64BITS
-        _mm_store_ps(&dst.x, dstV);
-    #else
+        
         _mm_storeu_ps(&dst.x, dstV);
-    #endif
 #endif
 
 #if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
