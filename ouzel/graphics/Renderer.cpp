@@ -4,9 +4,7 @@
 #include "Renderer.h"
 #include "core/Engine.h"
 #include "Texture.h"
-#include "utils/Utils.h"
 #include "Shader.h"
-#include "scene/Camera.h"
 #include "events/EventHandler.h"
 #include "MeshBuffer.h"
 #include "events/EventDispatcher.h"
@@ -182,39 +180,6 @@ namespace ouzel
             float y = size.height - (position.y + 1.0f) / 2.0f * size.height;
 
             return Vector2(x, y);
-        }
-
-        bool Renderer::checkVisibility(const Matrix4& transform, const AABB2& boundingBox, const scene::CameraPtr& camera)
-        {
-            Rectangle visibleRect(0.0f, 0.0f, size.width, size.height);
-
-            // transform center point to screen space
-            Vector2 diff = boundingBox.max - boundingBox.min;
-
-            Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
-            diff *= camera->getZoom();
-            diff.x *= camera->getContentScale().x;
-            diff.y *= camera->getContentScale().y;
-
-            transform.transformPoint(v3p);
-
-            Vector2 v2p = camera->projectPoint(v3p);
-
-            Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
-
-            // convert content size to world coordinates
-            Size2 halfWorldSize;
-
-            halfWorldSize.width = std::max(fabsf(halfSize.width * transform.m[0] + halfSize.height * transform.m[4]), fabsf(halfSize.width * transform.m[0] - halfSize.height * transform.m[4]));
-            halfWorldSize.height = std::max(fabsf(halfSize.width * transform.m[1] + halfSize.height * transform.m[5]), fabsf(halfSize.width * transform.m[1] - halfSize.height * transform.m[5]));
-
-            // enlarge visible rect half size in screen coord
-            visibleRect.x -= halfWorldSize.width;
-            visibleRect.y -= halfWorldSize.height;
-            visibleRect.width += halfWorldSize.width * 2.0f;
-            visibleRect.height += halfWorldSize.height * 2.0f;
-
-            return visibleRect.containsPoint(v2p);
         }
     } // namespace graphics
 } // namespace ouzel

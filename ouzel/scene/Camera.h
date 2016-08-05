@@ -36,6 +36,8 @@ namespace ouzel
             Vector2 convertScreenToWorld(const Vector2& position);
             Vector2 convertWorldToScreen(const Vector2& position);
 
+            bool checkVisibility(const Matrix4& transform, const AABB2& boundingBox);
+
             Vector2 projectPoint(const Vector3& src) const;
 
             virtual void setScaleMode(ScaleMode newScaleMode);

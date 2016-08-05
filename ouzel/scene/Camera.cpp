@@ -147,6 +147,40 @@ namespace ouzel
             return Vector2(result.x, result.y);
         }
 
+        bool Camera::checkVisibility(const Matrix4& transform, const AABB2& boundingBox)
+        {
+            Size2 size = sharedEngine->getRenderer()->getSize();
+            Rectangle visibleRect(0.0f, 0.0f, size.width, size.height);
+
+            // transform center point to screen space
+            Vector2 diff = boundingBox.max - boundingBox.min;
+
+            Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
+            diff *= zoom;
+            diff.x *= contentScale.x;
+            diff.y *= contentScale.y;
+
+            transform.transformPoint(v3p);
+
+            Vector2 v2p = projectPoint(v3p);
+
+            Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
+
+            // convert content size to world coordinates
+            Size2 halfWorldSize;
+
+            halfWorldSize.width = std::max(fabsf(halfSize.width * transform.m[0] + halfSize.height * transform.m[4]), fabsf(halfSize.width * transform.m[0] - halfSize.height * transform.m[4]));
+            halfWorldSize.height = std::max(fabsf(halfSize.width * transform.m[1] + halfSize.height * transform.m[5]), fabsf(halfSize.width * transform.m[1] - halfSize.height * transform.m[5]));
+
+            // enlarge visible rect half size in screen coord
+            visibleRect.x -= halfWorldSize.width;
+            visibleRect.y -= halfWorldSize.height;
+            visibleRect.width += halfWorldSize.width * 2.0f;
+            visibleRect.height += halfWorldSize.height * 2.0f;
+            
+            return visibleRect.containsPoint(v2p);
+        }
+
         Vector2 Camera::projectPoint(const Vector3& src) const
         {
             Vector2 screenPos;

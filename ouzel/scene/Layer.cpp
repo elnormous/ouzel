@@ -154,7 +154,7 @@ namespace ouzel
                 {
                     if (drawable->isVisible() &&
                         (drawable->getBoundingBox().isEmpty() ||
-                         sharedEngine->getRenderer()->checkVisibility(node->getTransform(), drawable->getBoundingBox(), camera)))
+                         camera->checkVisibility(node->getTransform(), drawable->getBoundingBox())))
                     {
                         return true;
                     }
