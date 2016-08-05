@@ -343,6 +343,7 @@ namespace ouzel
         {
             accumulatedFPS = currentAccumulatedFPS;
             accumulatedTime = 0.0f;
+            currentAccumulatedFPS = 0.0f;
         }
 
         if (!renderer->present())
