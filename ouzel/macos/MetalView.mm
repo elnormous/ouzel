@@ -68,14 +68,6 @@ using namespace ouzel;
 
 }
 
--(void)setFrameSize:(NSSize)newSize
-{
-    [super setFrameSize:newSize];
-
-    sharedEngine->getWindow()->setSize(Size2(static_cast<float>(newSize.width),
-                                             static_cast<float>(newSize.height)));
-}
-
 -(BOOL)isFlipped
 {
     return YES;
