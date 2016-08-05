@@ -31,6 +31,8 @@ namespace ouzel
 
         void MeshBufferMetal::free()
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             MeshBuffer::free();
 
             if (indexBuffer)
@@ -97,8 +99,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            vertexBufferDirty = true;
 
             return true;
         }
