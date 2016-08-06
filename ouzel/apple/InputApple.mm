@@ -11,7 +11,7 @@
 #include "WindowTVOS.h"
 #endif
 #import <GameController/GameController.h>
-#include "Application.h"
+#include "core/Application.h"
 #include "InputApple.h"
 #include "core/Engine.h"
 #include "GamepadApple.h"
