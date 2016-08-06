@@ -8,6 +8,34 @@ namespace ouzel
 {
     namespace graphics
     {
+        bool BlendStateOGL::init(bool newEnableBlending,
+                                 BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
+                                 BlendOperation newColorOperation,
+                                 BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
+                                 BlendOperation newAlphaOperation)
+        {
+            if (!BlendState::init(newEnableBlending,
+                                  newColorBlendSource,
+                                  newColorBlendDest,
+                                  newColorOperation,
+                                  newAlphaBlendSource,
+                                  newAlphaBlendDest,
+                                  newAlphaOperation))
+            {
+                return false;
+            }
+
+            modeRGB = getBlendOperation(newColorOperation);
+            modeAlpha = getBlendOperation(newAlphaOperation);
+
+            sourceFactorRGB = getBlendFactor(newColorBlendSource);
+            destFactorRGB = getBlendFactor(newColorBlendDest);
+            sourceFactorAlpha = getBlendFactor(newAlphaBlendDest);
+            destFactorAlpha = getBlendFactor(newAlphaBlendDest);
+
+            return true;
+        }
+
         GLenum BlendStateOGL::getBlendFactor(BlendFactor blendFactor)
         {
             switch (blendFactor)

@@ -45,8 +45,30 @@ namespace ouzel
         public:
             virtual ~BlendStateOGL() {}
 
+            virtual bool init(bool newEnableBlending,
+                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
+                              BlendOperation newColorOperation,
+                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
+                              BlendOperation newAlphaOperation) override;
+
+            GLenum getModeRGB() const { return modeRGB; }
+            GLenum getModeAlpha() const { return modeAlpha; }
+
+            GLenum getSourceFactorRGB() const { return sourceFactorRGB; }
+            GLenum getDestFactorRGB() const { return destFactorRGB; }
+            GLenum getSourceFactorAlpha() const { return sourceFactorAlpha; }
+            GLenum getDestFactorAlpha() const { return destFactorAlpha; }
+
             static GLenum getBlendFactor(BlendFactor blendFactor);
             static GLenum getBlendOperation(BlendOperation blendOperation);
+
+        protected:
+            GLenum modeRGB;
+            GLenum modeAlpha;
+            GLenum sourceFactorRGB;
+            GLenum destFactorRGB;
+            GLenum sourceFactorAlpha;
+            GLenum destFactorAlpha;
         };
     } // namespace graphics
 } // namespace ouzel

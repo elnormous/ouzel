@@ -285,13 +285,13 @@ namespace ouzel
 
                 enableBlend(blendStateOGL->isBlendingEnabled());
 
-                glBlendEquationSeparate(BlendStateOGL::getBlendOperation(blendStateOGL->getColorOperation()),
-                                        BlendStateOGL::getBlendOperation(blendStateOGL->getAlphaOperation()));
+                glBlendEquationSeparate(blendStateOGL->getModeRGB(),
+                                        blendStateOGL->getModeAlpha());
 
-                glBlendFuncSeparate(BlendStateOGL::getBlendFactor(blendStateOGL->getColorBlendSource()),
-                                    BlendStateOGL::getBlendFactor(blendStateOGL->getColorBlendDest()),
-                                    BlendStateOGL::getBlendFactor(blendStateOGL->getAlphaBlendSource()),
-                                    BlendStateOGL::getBlendFactor(blendStateOGL->getAlphaBlendDest()));
+                glBlendFuncSeparate(blendStateOGL->getSourceFactorRGB(),
+                                    blendStateOGL->getDestFactorRGB(),
+                                    blendStateOGL->getSourceFactorAlpha(),
+                                    blendStateOGL->getDestFactorAlpha());
 
                 if (checkOpenGLError())
                 {
