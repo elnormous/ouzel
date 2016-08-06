@@ -122,22 +122,25 @@ namespace ouzel
                     width = static_cast<NSUInteger>(size.width);
                     height = static_cast<NSUInteger>(size.height);
 
-                    MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
-                                                                                                                 width:width
-                                                                                                                height:height
-                                                                                                             mipmapped:mipmaps ? YES : NO];
-                    textureDescriptor.textureType = MTLTextureType2D;
-                    textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
-
-                    texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
-
-                    if (!texture)
+                    if (width > 0 && height > 0)
                     {
-                        return false;
+                        MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
+                                                                                                                     width:width
+                                                                                                                    height:height
+                                                                                                                 mipmapped:mipmaps ? YES : NO];
+                        textureDescriptor.textureType = MTLTextureType2D;
+                        textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
+
+                        texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+
+                        if (!texture)
+                        {
+                            return false;
+                        }
                     }
                 }
 
-                if (!data.empty())
+                if (texture && !data.empty())
                 {
                     for (size_t level = 0; level < data.size(); ++level)
                     {
