@@ -52,8 +52,6 @@ namespace ouzel
 
             data.clear();
 
-            ready = true;
-
             return true;
         }
 
@@ -67,8 +65,6 @@ namespace ouzel
             }
 
             data.clear();
-
-            ready = true;
 
             return uploadData(newData, newSize);
         }
@@ -188,6 +184,7 @@ namespace ouzel
 
                 }
 
+                ready = true;
                 dirty = false;
             }
 

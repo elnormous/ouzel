@@ -72,8 +72,6 @@ namespace ouzel
             vertexData.assign(static_cast<const uint8_t*>(newVertices),
                               static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
-            ready = true;
-
             return true;
         }
 
@@ -215,6 +213,8 @@ namespace ouzel
 
                     vertexBufferDirty = false;
                 }
+
+                ready = true;
             }
 
             return true;

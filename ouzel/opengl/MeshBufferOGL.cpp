@@ -366,6 +366,8 @@ namespace ouzel
 
                     vertexBufferDirty = false;
                 }
+
+                ready = true;
             }
 
             return true;

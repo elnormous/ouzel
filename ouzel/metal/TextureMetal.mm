@@ -63,8 +63,6 @@ namespace ouzel
 
             data.clear();
 
-            ready = true;
-
             return uploadData(newData, newSize);
         }
 
@@ -150,6 +148,11 @@ namespace ouzel
                         NSUInteger bytesPerRow = mipWidth * 4;
                         [texture replaceRegion:MTLRegionMake2D(0, 0, mipWidth, mipHeight) mipmapLevel:level withBytes:data[level].data() bytesPerRow:bytesPerRow];
                     }
+                }
+
+                if (texture)
+                {
+                    ready = true;
                 }
 
                 dirty = false;

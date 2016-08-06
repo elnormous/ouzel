@@ -71,8 +71,6 @@ namespace ouzel
 
             texture = textureOGL;
 
-            ready = true;
-
             return true;
         }
 
@@ -133,6 +131,7 @@ namespace ouzel
                     }
                 }
 
+                ready = true;
                 dirty = false;
             }
 

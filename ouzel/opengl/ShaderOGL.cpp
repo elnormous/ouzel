@@ -80,8 +80,6 @@ namespace ouzel
             pixelShaderData = newPixelShader;
             vertexShaderData = newVertexShader;
 
-            ready = true;
-
             return true;
         }
 
@@ -294,6 +292,7 @@ namespace ouzel
                     vertexShaderConstantLocations.push_back(location);
                 }
 
+                ready = true;
                 dirty = false;
             }
             
