@@ -53,6 +53,7 @@ namespace ouzel
             std::vector<std::shared_ptr<GamepadApple>> gamepads;
 
             bool discovering = false;
+            bool cursorVisible = true;
         };
     } // namespace input
 } // namespace ouzel

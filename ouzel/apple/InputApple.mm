@@ -357,16 +357,21 @@ namespace ouzel
         void InputApple::setCursorVisible(bool visible)
         {
 #if OUZEL_PLATFORM_MACOS
-            sharedApplication->execute([visible] {
-                if (visible)
-                {
-                    [NSCursor unhide];
-                }
-                else
-                {
-                    [NSCursor hide];
-                }
-            });
+            if (visible != cursorVisible)
+            {
+                cursorVisible = visible;
+                
+                sharedApplication->execute([visible] {
+                    if (visible)
+                    {
+                        [NSCursor unhide];
+                    }
+                    else
+                    {
+                        [NSCursor hide];
+                    }
+                });
+            }
 #else
             OUZEL_UNUSED(visible);
 #endif
@@ -375,7 +380,7 @@ namespace ouzel
         bool InputApple::isCursorVisible() const
         {
 #if OUZEL_PLATFORM_MACOS
-            return CGCursorIsVisible();
+            return cursorVisible;
 #else
             return false;
 #endif
