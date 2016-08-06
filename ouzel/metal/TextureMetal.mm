@@ -69,6 +69,7 @@ namespace ouzel
         bool TextureMetal::upload(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
+            data.clear();
 
             if (!Texture::upload(newData, newSize))
             {
