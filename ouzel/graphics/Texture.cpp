@@ -168,11 +168,8 @@ namespace ouzel
         {
             size = newSize;
 
-            mipmapSizes.clear();
-            mipmapSizes.push_back(newSize);
-
             uint32_t mipLevel = 0;
-            uploadMipmap(mipLevel, newData);
+            uploadMipmap(mipLevel, newSize, newData);
             ++mipLevel;
 
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
@@ -207,8 +204,8 @@ namespace ouzel
                     newWidth >>= 1;
                     newHeight >>= 1;
 
-                    mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
-                    uploadMipmap(mipLevel, mipMapData);
+                    Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
+                    uploadMipmap(mipLevel, mipMapSize, mipMapData);
 
                     pitch = newWidth * 4;
                     ++mipLevel;
@@ -224,8 +221,8 @@ namespace ouzel
 
                         newWidth >>= 1;
 
-                        mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
-                        uploadMipmap(mipLevel, mipMapData);
+                        Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
+                        uploadMipmap(mipLevel, mipMapSize, mipMapData);
 
                         pitch = newWidth * 4;
                         ++mipLevel;
@@ -246,8 +243,8 @@ namespace ouzel
 
                         newHeight >>= 1;
 
-                        mipmapSizes.push_back(Size2(static_cast<float>(newWidth), static_cast<float>(newHeight)));
-                        uploadMipmap(mipLevel, mipMapData);
+                        Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
+                        uploadMipmap(mipLevel, mipMapSize, mipMapData);
 
                         ++mipLevel;
                     }
@@ -257,13 +254,8 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::uploadMipmap(uint32_t level, const std::vector<uint8_t>&)
+        bool Texture::uploadMipmap(uint32_t level, const Size2&, const std::vector<uint8_t>&)
         {
-            if (level >= mipmapSizes.size())
-            {
-                return false;
-            }
-
             return true;
         }
     } // namespace graphics

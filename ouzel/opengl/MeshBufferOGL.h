@@ -64,25 +64,33 @@ namespace ouzel
             virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
 
             bool bindVertexBuffer();
-            bool updateVertexAttributes();
 
             GLuint getIndexBufferId() const { return indexBufferId; }
             GLuint getVertexBufferId() const { return vertexBufferId; }
             GLuint getVertexArrayId() const { return vertexArrayId; }
 
+            static GLenum getFormat(uint32_t size);
             GLenum getIndexFormat() const { return indexFormat; }
 
         protected:
             MeshBufferOGL();
             virtual bool update() override;
 
-            bool updateIndexFormat();
-
             GLuint indexBufferId = 0;
             GLuint vertexBufferId = 0;
             GLuint vertexArrayId = 0;
 
             GLenum indexFormat = 0;
+
+            struct VertexAttrib
+            {
+                GLint size;
+                GLenum type;
+                GLboolean normalized;
+                GLsizei stride;
+                const GLvoid *pointer;
+            };
+            std::vector<VertexAttrib> vertexAttribs;
 
             std::vector<uint8_t> indexData;
             std::atomic<bool> indexBufferDirty;

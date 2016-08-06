@@ -104,16 +104,16 @@ namespace ouzel
             return true;
         }
 
-        bool TextureD3D11::uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData)
+        bool TextureD3D11::uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData)
         {
-            if (!Texture::uploadMipmap(level, newData))
+            if (!Texture::uploadMipmap(level, mipMapSize, newData))
             {
                 return false;
             }
 
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
-            UINT newWidth = static_cast<UINT>(mipmapSizes[level].width);
+            UINT newWidth = static_cast<UINT>(mipMapSize.width);
 
             UINT rowPitch = newWidth * 4;
             rendererD3D11->getContext()->UpdateSubresource(texture, level, nullptr, newData.data(), rowPitch, 0);

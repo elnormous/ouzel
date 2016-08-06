@@ -64,12 +64,19 @@ namespace ouzel
             TextureOGL();
 
             virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
-            virtual bool uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData) override;
+            virtual bool uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData) override;
             virtual bool update() override;
 
             GLuint textureId = 0;
 
-            std::vector<std::vector<uint8_t>> data;
+            struct Data
+            {
+                GLsizei width;
+                GLsizei height;
+                std::vector<uint8_t> data;
+            };
+
+            std::vector<Data> data;
             std::atomic<bool> dirty;
             std::mutex dataMutex;
         };

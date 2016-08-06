@@ -45,7 +45,7 @@ namespace ouzel
             Texture();
 
             virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize);
-            virtual bool uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData);
+            virtual bool uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData);
 
             std::string filename;
 
@@ -53,7 +53,6 @@ namespace ouzel
             bool dynamic = false;
             bool mipmaps = false;
             bool renderTarget = false;
-            std::vector<Size2> mipmapSizes;
             bool flipped = false;
 
             bool ready = false;

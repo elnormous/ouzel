@@ -81,15 +81,18 @@ namespace ouzel
             return true;
         }
 
-        bool TextureOGL::uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData)
+        bool TextureOGL::uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData)
         {
-            if (!Texture::uploadMipmap(level, newData))
+            if (!Texture::uploadMipmap(level, mipMapSize, newData))
             {
                 return false;
             }
 
             if (data.size() < level + 1) data.resize(level + 1);
-            data[level] = newData;
+
+            data[level].width = static_cast<GLsizei>(mipMapSize.width);
+            data[level].height = static_cast<GLsizei>(mipMapSize.height);
+            data[level].data = newData;
 
             dirty = true;
 
@@ -110,7 +113,12 @@ namespace ouzel
         {
             if (dirty)
             {
-                std::lock_guard<std::mutex> lock(dataMutex);
+                std::vector<Data> localData;
+
+                {
+                    std::lock_guard<std::mutex> lock(dataMutex);
+                    localData = data;
+                }
 
                 if (!textureId)
                 {
@@ -137,9 +145,9 @@ namespace ouzel
                     }
                 }
 
-                if (!data.empty())
+                if (!localData.empty())
                 {
-                    if (data.size() > 1) // has mip-maps
+                    if (localData.size() > 1) // has mip-maps
                     {
                         std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
@@ -166,14 +174,11 @@ namespace ouzel
 
                     for (size_t level = 0; level < data.size(); ++level)
                     {
-                        GLsizei mipWidth = static_cast<GLsizei>(mipmapSizes[level].width);
-                        GLsizei mipHeight = static_cast<GLsizei>(mipmapSizes[level].height);
-
                         RendererOGL::bindTexture(textureId, 0);
 
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
-                                     mipWidth, mipHeight, 0,
-                                     GL_RGBA, GL_UNSIGNED_BYTE, data[level].data());
+                                     localData[level].width, localData[level].height, 0,
+                                     GL_RGBA, GL_UNSIGNED_BYTE, localData[level].data.data());
 
                         if (RendererOGL::checkOpenGLError())
                         {

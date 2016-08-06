@@ -78,15 +78,18 @@ namespace ouzel
             return true;
         }
 
-        bool TextureMetal::uploadMipmap(uint32_t level, const std::vector<uint8_t>& newData)
+        bool TextureMetal::uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData)
         {
-            if (!Texture::uploadMipmap(level, newData))
+            if (!Texture::uploadMipmap(level, mipMapSize, newData))
             {
                 return false;
             }
 
             if (data.size() < level + 1) data.resize(level + 1);
-            data[level] = newData;
+
+            data[level].width = static_cast<NSUInteger>(mipMapSize.width);
+            data[level].height = static_cast<NSUInteger>(mipMapSize.height);
+            data[level].data = newData;
 
             dirty = true;
 
@@ -107,7 +110,12 @@ namespace ouzel
         {
             if (dirty)
             {
-                std::lock_guard<std::mutex> lock(dataMutex);
+                std::vector<Data> localData;
+
+                {
+                    std::lock_guard<std::mutex> lock(dataMutex);
+                    localData = data;
+                }
 
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
@@ -138,15 +146,14 @@ namespace ouzel
                     }
                 }
 
-                if (texture && !data.empty())
+                if (texture && !localData.empty())
                 {
                     for (size_t level = 0; level < data.size(); ++level)
                     {
-                        NSUInteger mipWidth = static_cast<NSUInteger>(mipmapSizes[level].width);
-                        NSUInteger mipHeight = static_cast<NSUInteger>(mipmapSizes[level].height);
-
-                        NSUInteger bytesPerRow = mipWidth * 4;
-                        [texture replaceRegion:MTLRegionMake2D(0, 0, mipWidth, mipHeight) mipmapLevel:level withBytes:data[level].data() bytesPerRow:bytesPerRow];
+                        NSUInteger bytesPerRow = localData[level].width * 4;
+                        [texture replaceRegion:MTLRegionMake2D(0, 0, localData[level].width, localData[level].height)
+                                   mipmapLevel:level withBytes:localData[level].data.data()
+                                   bytesPerRow:bytesPerRow];
                     }
                 }
 
