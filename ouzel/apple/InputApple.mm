@@ -11,6 +11,7 @@
 #include "WindowTVOS.h"
 #endif
 #import <GameController/GameController.h>
+#include "Application.h"
 #include "InputApple.h"
 #include "core/Engine.h"
 #include "GamepadApple.h"
@@ -356,14 +357,16 @@ namespace ouzel
         void InputApple::setCursorVisible(bool visible)
         {
 #if OUZEL_PLATFORM_MACOS
-            if (visible)
-            {
-                [NSCursor unhide];
-            }
-            else
-            {
-                [NSCursor hide];
-            }
+            sharedApplication->execute([visible] {
+                if (visible)
+                {
+                    [NSCursor unhide];
+                }
+                else
+                {
+                    [NSCursor hide];
+                }
+            });
 #else
             OUZEL_UNUSED(visible);
 #endif
