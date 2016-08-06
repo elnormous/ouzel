@@ -390,7 +390,7 @@ namespace ouzel
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
-                drawCommands = std::move(drawQueue);
+                drawCommands = drawQueue;
                 resources = std::move(resourceSet);
             }
 
@@ -402,10 +402,17 @@ namespace ouzel
                 }
             }
 
-            while (!drawCommands.empty())
+            if (drawCommands.empty())
             {
-                const DrawCommand drawCommand = drawCommands.front();
-                drawCommands.pop();
+                context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+                context->RSSetViewports(1, &viewport);
+
+                float color[4] = { clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA() };
+                context->ClearRenderTargetView(renderTargetView, color);
+            }
+            else while (!drawCommands.empty())
+            {
+                const DrawCommand& drawCommand = drawCommands.front();
 
                 // render target
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
@@ -582,6 +589,8 @@ namespace ouzel
                 context->IASetPrimitiveTopology(topology);
 
                 context->DrawIndexed(drawCommand.indexCount, static_cast<UINT>(drawCommand.startIndex * meshBufferD3D11->getIndexSize()), 0);
+
+                drawCommands.pop();
             }
 
             swapChain->Present(swapInterval, 0);

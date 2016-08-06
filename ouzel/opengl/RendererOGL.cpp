@@ -242,7 +242,7 @@ namespace ouzel
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
-                drawCommands = std::move(drawQueue);
+                drawCommands = drawQueue;
                 resources = std::move(resourceSet);
             }
 
@@ -254,10 +254,31 @@ namespace ouzel
                 }
             }
 
-            while (!drawCommands.empty())
+            if (drawCommands.empty())
             {
-                const DrawCommand drawCommand = drawCommands.front();
-                drawCommands.pop();
+                bindFrameBuffer(frameBufferId);
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to bind frame buffer");
+                    return false;
+                }
+
+                setViewport(static_cast<GLint>(viewport.x),
+                            static_cast<GLint>(viewport.y),
+                            static_cast<GLsizei>(viewport.width),
+                            static_cast<GLsizei>(viewport.height));
+
+                glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                if (checkOpenGLError())
+                {
+                    log("Failed to clear frame buffer");
+                }
+            }
+            else while (!drawCommands.empty())
+            {
+                const DrawCommand& drawCommand = drawCommands.front();
 
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
@@ -494,6 +515,8 @@ namespace ouzel
                     log("Failed to draw elements");
                     return false;
                 }
+
+                drawCommands.pop();
             }
 
             return true;

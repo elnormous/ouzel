@@ -417,7 +417,7 @@ namespace ouzel
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
-                drawCommands = std::move(drawQueue);
+                drawCommands = drawQueue;
                 resources = std::move(resourceSet);
             }
 
@@ -429,10 +429,16 @@ namespace ouzel
                 }
             }
 
-            while (!drawCommands.empty())
+            if (drawCommands.empty())
             {
-                const DrawCommand drawCommand = drawCommands.front();
-                drawCommands.pop();
+                if (!createRenderCommandEncoder(renderPassDescriptor))
+                {
+                    return false;
+                }
+            }
+            else while (!drawCommands.empty())
+            {
+                const DrawCommand& drawCommand = drawCommands.front();
 
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
 
@@ -597,6 +603,8 @@ namespace ouzel
                                                          indexType:meshBufferMetal->getIndexFormat()
                                                        indexBuffer:meshBufferMetal->getIndexBuffer()
                                                  indexBufferOffset:static_cast<NSUInteger>(drawCommand.startIndex * meshBufferMetal->getIndexSize())];
+
+                drawCommands.pop();
             }
 
             if (currentRenderCommandEncoder)
