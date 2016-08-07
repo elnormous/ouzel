@@ -161,5 +161,11 @@ namespace ouzel
 
             return Vector2(x, y);
         }
+
+        void Renderer::scheduleUpdate(const ResourcePtr& resource)
+        {
+            std::lock_guard<std::mutex> lock(updateMutex);
+            updateSet.insert(resource);
+        }
     } // namespace graphics
 } // namespace ouzel

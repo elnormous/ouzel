@@ -233,21 +233,27 @@ namespace ouzel
                 return false;
             }
 
-            deleteAllResources();
+            deleteResources();
 
             std::set<GLuint> clearedFrameBuffers;
 
             std::queue<DrawCommand> drawCommands;
-            std::set<ResourcePtr> resources;
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
                 drawCommands = drawQueue;
             }
 
+            std::set<ResourcePtr> resources;
+
+            {
+                std::lock_guard<std::mutex> lock(updateMutex);
+                resources = std::move(updateSet);
+            }
+
             for (const ResourcePtr& resource : resources)
             {
-                if (!resource || !resource->update())
+                if (!resource->update())
                 {
                     return false;
                 }
@@ -282,11 +288,6 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
 
-                // OpenGL blend states have nothing to update 
-                // if (!blendStateOGL->update())
-                // {
-                //     return false;
-                // }
                 setBlendState(blendStateOGL->isBlendingEnabled(),
                               blendStateOGL->getModeRGB(),
                               blendStateOGL->getModeAlpha(),
@@ -313,10 +314,6 @@ namespace ouzel
 
                     if (textureOGL)
                     {
-                        if (!textureOGL->update())
-                        {
-                            return false;
-                        }
                         bindTexture(textureOGL->getTextureId(), layer);
                     }
                     else
@@ -333,10 +330,6 @@ namespace ouzel
 
                 // shader
                 std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(drawCommand.shader);
-                if (!shaderOGL->update())
-                {
-                    return false;
-                }
                 bindProgram(shaderOGL->getProgramId());
 
                 if (checkOpenGLError())
@@ -441,10 +434,7 @@ namespace ouzel
                 if (drawCommand.renderTarget)
                 {
                     std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(drawCommand.renderTarget);
-                    if (!renderTargetOGL->update())
-                    {
-                        return false;
-                    }
+
                     newFrameBuffer = renderTargetOGL->getFrameBufferId();
                     newViewport = renderTargetOGL->getViewport();
                     newClearColor = renderTargetOGL->getClearColor();
@@ -491,10 +481,6 @@ namespace ouzel
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);
-                if (!meshBufferOGL->update())
-                {
-                    return false;
-                }
 
                 // draw
                 GLenum mode;
@@ -943,7 +929,7 @@ namespace ouzel
             }
         }
 
-        void RendererOGL::deleteAllResources()
+        void RendererOGL::deleteResources()
         {
             std::pair<GLuint, ResourceType> deleteResource;
 

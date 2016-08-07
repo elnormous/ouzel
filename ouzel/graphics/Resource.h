@@ -3,11 +3,13 @@
 
 #pragma once
 
+#include <memory>
+
 namespace ouzel
 {
     namespace graphics
     {
-        class Resource
+        class Resource: public std::enable_shared_from_this<Resource>
         {
         public:
             virtual void free() {}

@@ -50,7 +50,6 @@ namespace ouzel
             MeshBufferMetal();
             virtual bool update() override;
 
-            bool updateIndexFormat();
             bool uploadData(MTLBufferPtr buffer, const std::vector<uint8_t>& data);
 
             MTLBufferPtr indexBuffer = Nil;

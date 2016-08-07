@@ -49,6 +49,8 @@ namespace ouzel
 
             data.clear();
 
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
             return true;
         }
 
@@ -63,6 +65,8 @@ namespace ouzel
 
             data.clear();
 
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
             return uploadData(newData, newSize);
         }
 
@@ -75,6 +79,10 @@ namespace ouzel
             {
                 return false;
             }
+
+            dirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -91,8 +99,6 @@ namespace ouzel
             data[level].width = static_cast<NSUInteger>(mipMapSize.width);
             data[level].height = static_cast<NSUInteger>(mipMapSize.height);
             data[level].data = newData;
-
-            dirty = true;
 
             return true;
         }

@@ -392,6 +392,21 @@ namespace ouzel
                 drawCommands = drawQueue;
             }
 
+            std::set<ResourcePtr> resources;
+
+            {
+                std::lock_guard<std::mutex> lock(updateMutex);
+                resources = std::move(updateSet);
+            }
+
+            for (const ResourcePtr& resource : resources)
+            {
+                if (!resource->update())
+                {
+                    return false;
+                }
+            }
+
             if (drawCommands.empty())
             {
                 context->OMSetRenderTargets(1, &renderTargetView, nullptr);
@@ -412,10 +427,7 @@ namespace ouzel
                 if (drawCommand.renderTarget)
                 {
                     std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(drawCommand.renderTarget);
-                    if (!renderTargetD3D11->update())
-                    {
-                        return false;
-                    }
+
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newClearColor = renderTargetD3D11->getClearColor();
                     newViewport = renderTargetD3D11->getViewport();
@@ -459,10 +471,7 @@ namespace ouzel
                 if (drawCommand.shader)
                 {
                     std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(drawCommand.shader);
-                    if (!shaderD3D11->update())
-                    {
-                        return false;
-                    }
+
                     context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
                     context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
 
@@ -526,10 +535,7 @@ namespace ouzel
                 if (drawCommand.blendState)
                 {
                     std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(drawCommand.blendState);
-                    if (!blendStateD3D11->update())
-                    {
-                        return false;
-                    }
+
                     context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
                 }
                 else
@@ -549,10 +555,6 @@ namespace ouzel
 
                     if (textureD3D11)
                     {
-                        if (!textureD3D11->update())
-                        {
-                            return false;
-                        }
                         resourceViews[layer] = textureD3D11->getResourceView();
                         samplerStates[layer] = samplerState;
                     }
@@ -568,10 +570,6 @@ namespace ouzel
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(drawCommand.meshBuffer);
-                if (!meshBufferD3D11->update())
-                {
-                    return false;
-                }
 
                 // draw
                 context->OMSetDepthStencilState(depthStencilState, 0);

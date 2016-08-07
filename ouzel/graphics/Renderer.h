@@ -116,6 +116,8 @@ namespace ouzel
 
             bool isReady() const { return ready; }
 
+            void scheduleUpdate(const ResourcePtr& resource);
+
         protected:
             Renderer(Driver pDriver = Driver::NONE);
             virtual bool init(const WindowPtr& window,
@@ -162,6 +164,9 @@ namespace ouzel
             std::queue<DrawCommand> activeDrawQueue;
             std::queue<DrawCommand> drawQueue;
             std::mutex drawQueueMutex;
+
+            std::set<ResourcePtr> updateSet;
+            std::mutex updateMutex;
         };
     } // namespace graphics
 } // namespace ouzel

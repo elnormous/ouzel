@@ -70,6 +70,7 @@ namespace ouzel
             textureOGL->setFlipped(true);
 
             texture = textureOGL;
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }

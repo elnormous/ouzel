@@ -60,17 +60,14 @@ namespace ouzel
                 return false;
             }
 
-            if (!updateIndexFormat())
-            {
-                return false;
-            }
-
             indexData.assign(static_cast<const uint8_t*>(newIndices),
                              static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
 
 
             vertexData.assign(static_cast<const uint8_t*>(newVertices),
                               static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -86,7 +83,9 @@ namespace ouzel
 
             indexBufferDirty = true;
 
-            return updateIndexFormat();
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
+            return true;
         }
 
         bool MeshBufferMetal::setVertexAttributes(uint32_t vertexAttributes)
@@ -97,6 +96,10 @@ namespace ouzel
             {
                 return false;
             }
+
+            vertexBufferDirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -115,6 +118,8 @@ namespace ouzel
 
             indexBufferDirty = true;
 
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
             return true;
         }
 
@@ -132,17 +137,7 @@ namespace ouzel
 
             vertexBufferDirty = true;
 
-            return true;
-        }
-
-        bool MeshBufferMetal::updateIndexFormat()
-        {
-            switch (indexSize)
-            {
-                case 2: indexFormat = MTLIndexTypeUInt16; break;
-                case 4: indexFormat = MTLIndexTypeUInt32; break;
-                default: log("Invalid index size"); return false;
-            }
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -159,6 +154,13 @@ namespace ouzel
             if (indexBufferDirty || vertexBufferDirty)
             {
                 std::lock_guard<std::mutex> lock(dataMutex);
+
+                switch (indexSize)
+                {
+                    case 2: indexFormat = MTLIndexTypeUInt16; break;
+                    case 4: indexFormat = MTLIndexTypeUInt32; break;
+                    default: log("Invalid index size"); return false;
+                }
 
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 

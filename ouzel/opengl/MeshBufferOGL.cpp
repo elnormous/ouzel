@@ -67,7 +67,7 @@ namespace ouzel
                 return false;
             }
 
-            ready = true;
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -91,7 +91,7 @@ namespace ouzel
             vertexData.assign(static_cast<const uint8_t*>(newVertices),
                               static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
-            ready = true;
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -107,6 +107,8 @@ namespace ouzel
 
             indexBufferDirty = true;
 
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
             return true;
         }
 
@@ -120,6 +122,8 @@ namespace ouzel
             }
 
             vertexBufferDirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -138,6 +142,8 @@ namespace ouzel
 
             indexBufferDirty = true;
 
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
             return true;
         }
 
@@ -155,18 +161,9 @@ namespace ouzel
 
             vertexBufferDirty = true;
 
-            return true;
-        }
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
-        GLenum MeshBufferOGL::getFormat(uint32_t size)
-        {
-            switch (size)
-            {
-                case 1: return GL_UNSIGNED_BYTE;
-                case 2: return GL_UNSIGNED_SHORT;
-                case 4: return GL_UNSIGNED_INT;
-                default: log("Invalid size"); return GL_FALSE;
-            }
+            return true;
         }
 
         bool MeshBufferOGL::bindVertexBuffer()
@@ -180,6 +177,12 @@ namespace ouzel
             }
             else
             {
+                if (!vertexBufferId)
+                {
+                    log("Vertex buffer not initialized");
+                    return false;
+                }
+
                 if (!RendererOGL::bindArrayBuffer(vertexBufferId))
                 {
                     return false;
@@ -226,7 +229,13 @@ namespace ouzel
                     if (indexBufferDirty)
                     {
                         localIndexData = indexData;
-                        indexFormat = getFormat(indexSize);
+                        switch (indexSize)
+                        {
+                            case 1: indexFormat = GL_UNSIGNED_BYTE; break;
+                            case 2: indexFormat = GL_UNSIGNED_SHORT; break;
+                            case 4: indexFormat = GL_UNSIGNED_INT; break;
+                            default: log("Invalid size"); return false;
+                        }
                     }
 
                     if (vertexBufferDirty)
@@ -375,6 +384,12 @@ namespace ouzel
                             {
                                 glDisableVertexAttribArray(index);
                             }
+                        }
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            log("Failed to update vertex attributes");
+                            return false;
                         }
                     }
 

@@ -1036,13 +1036,13 @@
 				304A8E3F1C237C70008B1151 /* Renderer.h */,
 				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
 				304A8E891C2486C6008B1151 /* RenderTarget.h */,
+				304839861D53BE8F007D70FF /* Resource.h */,
 				304A8E421C237C70008B1151 /* Shader.cpp */,
 				304A8E431C237C70008B1151 /* Shader.h */,
 				304A8E461C237C70008B1151 /* Texture.cpp */,
 				304A8E471C237C70008B1151 /* Texture.h */,
 				304A8EA01C270833008B1151 /* Vertex.cpp */,
 				304A8EA11C270833008B1151 /* Vertex.h */,
-				304839861D53BE8F007D70FF /* Resource.h */,
 			);
 			path = graphics;
 			sourceTree = "<group>";

@@ -79,6 +79,7 @@ namespace ouzel
 
             pixelShaderData = newPixelShader;
             vertexShaderData = newVertexShader;
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }

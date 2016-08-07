@@ -130,6 +130,8 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
+            static void deleteResources();
+
             GLuint frameBufferId = 0;
             Rectangle viewport;
 
@@ -163,8 +165,6 @@ namespace ouzel
             static GLsizei currentViewportHeight;
             static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
             static std::mutex deleteMutex;
-
-            static void deleteAllResources();
         };
     } // namespace graphics
 } // namespace ouzel
