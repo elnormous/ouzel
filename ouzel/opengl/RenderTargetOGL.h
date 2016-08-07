@@ -55,6 +55,8 @@ namespace ouzel
 
             virtual bool init(const Size2& newSize, bool depthBuffer) override;
 
+            virtual void setClearColor(Color color) override;
+
             GLuint getFrameBufferId() const { return frameBufferId; }
             const Rectangle& getViewport() const { return viewport; }
 

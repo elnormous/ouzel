@@ -75,6 +75,15 @@ namespace ouzel
             return true;
         }
 
+        void RenderTargetOGL::setClearColor(Color color)
+        {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
+            RenderTarget::setClearColor(color);
+
+            dirty = true;
+        }
+
         bool RenderTargetOGL::update()
         {
             if (dirty)
@@ -94,7 +103,8 @@ namespace ouzel
 
                 std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(texture);
 
-                if (textureOGL->getTextureId())
+                if (textureOGL->getTextureId() &&
+                    glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
                     RendererOGL::bindFrameBuffer(frameBufferId);
                     RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
@@ -130,6 +140,15 @@ namespace ouzel
                         log("Failed to create frame buffer");
                         return false;
                     }
+                }
+
+                RendererOGL::bindFrameBuffer(frameBufferId);
+
+                glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    log("Failed to set clear color");
                 }
 
                 ready = true;

@@ -89,17 +89,17 @@ namespace ouzel
             static bool unbindArrayBuffer(GLuint arrayBufferId);
             static bool unbindVertexArray(GLuint vertexArrayId);
 
-            static void setScissorTest(bool scissorTestEnabled,
+            static bool setScissorTest(bool scissorTestEnabled,
                                        GLint x,
                                        GLint y,
                                        GLsizei width,
                                        GLsizei height);
-            static void enableDepthTest(bool enable);
-            static void setViewport(GLint x,
+            static bool enableDepthTest(bool enable);
+            static bool setViewport(GLint x,
                                     GLint y,
                                     GLsizei width,
                                     GLsizei height);
-            static void setBlendState(bool blendEnabled,
+            static bool setBlendState(bool blendEnabled,
                                       GLenum modeRGB,
                                       GLenum modeAlpha,
                                       GLenum sfactorRGB,
@@ -129,6 +129,7 @@ namespace ouzel
                               bool newVerticalSync) override;
 
             virtual void setSize(const Size2& newSize) override;
+            bool update();
 
             static void deleteResources();
 
@@ -137,6 +138,7 @@ namespace ouzel
 
             static GLuint currentTextureId[Texture::LAYERS];
             static GLuint currentProgramId;
+            static bool currentFrameBufferSet;
             static GLuint currentFrameBufferId;
             
             static GLuint currentElementArrayBufferId;
@@ -165,6 +167,8 @@ namespace ouzel
             static GLsizei currentViewportHeight;
             static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
             static std::mutex deleteMutex;
+
+            bool dirty = true;
         };
     } // namespace graphics
 } // namespace ouzel

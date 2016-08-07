@@ -17,7 +17,7 @@ namespace ouzel
     namespace graphics
     {
         Renderer::Renderer(Driver pDriver):
-            driver(pDriver)
+            driver(pDriver), clearColor(0, 0, 0, 255)
         {
 
         }

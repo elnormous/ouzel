@@ -18,12 +18,12 @@
 #include "ColorVSOGL2.h"
 #include "TexturePSOGL2.h"
 #include "TextureVSOGL2.h"
-    #if OUZEL_SUPPORTS_OPENGL3
-    #include "ColorPSOGL3.h"
-    #include "ColorVSOGL3.h"
-    #include "TexturePSOGL3.h"
-    #include "TextureVSOGL3.h"
-    #endif
+#if OUZEL_SUPPORTS_OPENGL3
+#include "ColorPSOGL3.h"
+#include "ColorVSOGL3.h"
+#include "TexturePSOGL3.h"
+#include "TextureVSOGL3.h"
+#endif
 #endif
 
 #if OUZEL_SUPPORTS_OPENGLES
@@ -31,12 +31,12 @@
 #include "ColorVSOGLES2.h"
 #include "TexturePSOGLES2.h"
 #include "TextureVSOGLES2.h"
-    #if OUZEL_SUPPORTS_OPENGLES3
-    #include "ColorPSOGLES3.h"
-    #include "ColorVSOGLES3.h"
-    #include "TexturePSOGLES3.h"
-    #include "TextureVSOGLES3.h"
-    #endif
+#if OUZEL_SUPPORTS_OPENGLES3
+#include "ColorPSOGLES3.h"
+#include "ColorVSOGLES3.h"
+#include "TexturePSOGLES3.h"
+#include "TextureVSOGLES3.h"
+#endif
 #endif
 
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
@@ -73,12 +73,12 @@ namespace ouzel
 
                 return true;
             }
-            
+
             return false;
         }
-        
+
         RendererOGL::RendererOGL():
-            Renderer(Driver::OPENGL)
+        Renderer(Driver::OPENGL)
         {
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
             glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
@@ -217,6 +217,8 @@ namespace ouzel
         void RendererOGL::setClearColor(Color color)
         {
             Renderer::setClearColor(color);
+
+            dirty = true;
         }
 
         void RendererOGL::setSize(const Size2& newSize)
@@ -224,6 +226,25 @@ namespace ouzel
             Renderer::setSize(newSize);
 
             viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
+        }
+
+        bool RendererOGL::update()
+        {
+            if (dirty)
+            {
+                bindFrameBuffer(frameBufferId);
+
+                glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to set clear color");
+                }
+
+                dirty = false;
+            }
+
+            return true;
         }
 
         bool RendererOGL::present()
@@ -259,26 +280,24 @@ namespace ouzel
                 }
             }
 
+            if (!update())
+            {
+                return false;
+            }
+
             if (drawCommands.empty())
             {
-                bindFrameBuffer(frameBufferId);
-
-                if (checkOpenGLError())
+                if (!bindFrameBuffer(frameBufferId))
                 {
-                    log("Failed to bind frame buffer");
                     return false;
                 }
 
-                setViewport(static_cast<GLint>(viewport.x),
-                            static_cast<GLint>(viewport.y),
-                            static_cast<GLsizei>(viewport.width),
-                            static_cast<GLsizei>(viewport.height));
-
-                glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                if (checkOpenGLError())
+                if (!setViewport(static_cast<GLint>(viewport.x),
+                                 static_cast<GLint>(viewport.y),
+                                 static_cast<GLsizei>(viewport.width),
+                                 static_cast<GLsizei>(viewport.height)))
                 {
-                    log("Failed to clear frame buffer");
+                    return false;
                 }
             }
             else while (!drawCommands.empty())
@@ -288,17 +307,14 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
 
-                setBlendState(blendStateOGL->isBlendingEnabled(),
-                              blendStateOGL->getModeRGB(),
-                              blendStateOGL->getModeAlpha(),
-                              blendStateOGL->getSourceFactorRGB(),
-                              blendStateOGL->getDestFactorRGB(),
-                              blendStateOGL->getSourceFactorAlpha(),
-                              blendStateOGL->getDestFactorAlpha());
-
-                if (checkOpenGLError())
+                if (!setBlendState(blendStateOGL->isBlendingEnabled(),
+                                   blendStateOGL->getModeRGB(),
+                                   blendStateOGL->getModeAlpha(),
+                                   blendStateOGL->getSourceFactorRGB(),
+                                   blendStateOGL->getDestFactorRGB(),
+                                   blendStateOGL->getSourceFactorAlpha(),
+                                   blendStateOGL->getDestFactorAlpha()))
                 {
-                    log("Failed to activate blend state");
                     return false;
                 }
 
@@ -314,29 +330,23 @@ namespace ouzel
 
                     if (textureOGL)
                     {
-                        bindTexture(textureOGL->getTextureId(), layer);
+                        if (!bindTexture(textureOGL->getTextureId(), layer))
+                        {
+                            return false;
+                        }
                     }
                     else
                     {
-                        bindTexture(0, layer);
+                        if (!bindTexture(0, layer))
+                        {
+                            return false;
+                        }
                     }
-                }
-
-                if (checkOpenGLError())
-                {
-                    log("Failed to bind texture");
-                    return false;
                 }
 
                 // shader
                 std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(drawCommand.shader);
                 bindProgram(shaderOGL->getProgramId());
-
-                if (checkOpenGLError())
-                {
-                    log("Failed to bind shader");
-                    return false;
-                }
 
                 // pixel shader constants
                 const std::vector<GLint>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
@@ -428,7 +438,6 @@ namespace ouzel
 
                 // render target
                 GLuint newFrameBuffer = 0;
-                Color newClearColor;
                 Rectangle newViewport;
 
                 if (drawCommand.renderTarget)
@@ -437,21 +446,16 @@ namespace ouzel
 
                     newFrameBuffer = renderTargetOGL->getFrameBufferId();
                     newViewport = renderTargetOGL->getViewport();
-                    newClearColor = renderTargetOGL->getClearColor();
 
                 }
                 else
                 {
                     newFrameBuffer = frameBufferId;
                     newViewport = viewport;
-                    newClearColor = clearColor;
                 }
 
-                bindFrameBuffer(newFrameBuffer);
-
-                if (checkOpenGLError())
+                if (!bindFrameBuffer(newFrameBuffer))
                 {
-                    log("Failed to bind frame buffer");
                     return false;
                 }
 
@@ -462,13 +466,12 @@ namespace ouzel
 
                 if (clearedFrameBuffers.find(newFrameBuffer) == clearedFrameBuffers.end())
                 {
-                    glClearColor(newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA());
                     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                     if (checkOpenGLError())
                     {
                         log("Failed to clear frame buffer");
                     }
-                    
+
                     clearedFrameBuffers.insert(newFrameBuffer);
                 }
 
@@ -509,7 +512,7 @@ namespace ouzel
                                static_cast<GLsizei>(drawCommand.indexCount),
                                meshBufferOGL->getIndexFormat(),
                                static_cast<const char*>(nullptr) + (drawCommand.startIndex * meshBufferOGL->getIndexSize()));
-                
+
                 if (checkOpenGLError())
                 {
                     log("Failed to draw elements");
@@ -594,12 +597,13 @@ namespace ouzel
                 log("Failed to save image to file");
                 return false;
             }
-            
+
             return true;
         }
 
         GLuint RendererOGL::currentTextureId[Texture::LAYERS] = { 0 };
         GLuint RendererOGL::currentProgramId = 0;
+        bool RendererOGL::currentFrameBufferSet = false;
         GLuint RendererOGL::currentFrameBufferId = 0;
 
         GLuint RendererOGL::currentElementArrayBufferId = 0;
@@ -639,7 +643,7 @@ namespace ouzel
 
                 if (checkOpenGLError())
                 {
-                    log("Failed to create bind texture");
+                    log("Failed to bind texture");
                     return false;
                 }
             }
@@ -666,7 +670,7 @@ namespace ouzel
 
         bool RendererOGL::bindFrameBuffer(GLuint frameBufferId)
         {
-            if (currentFrameBufferId != frameBufferId)
+            if (!currentFrameBufferSet || currentFrameBufferId != frameBufferId)
             {
                 glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
                 currentFrameBufferId = frameBufferId;
@@ -676,6 +680,8 @@ namespace ouzel
                     log("Failed to create bind frame buffer");
                     return false;
                 }
+
+                currentFrameBufferSet = true;
             }
 
             return true;
@@ -801,7 +807,7 @@ namespace ouzel
             return true;
         }
 
-        void RendererOGL::setScissorTest(bool scissorTestEnabled,
+        bool RendererOGL::setScissorTest(bool scissorTestEnabled,
                                          GLint x,
                                          GLint y,
                                          GLsizei width,
@@ -830,11 +836,19 @@ namespace ouzel
                     glDisable(GL_SCISSOR_TEST);
                 }
 
+                if (checkOpenGLError())
+                {
+                    log("Failed to set scissor test");
+                    return false;
+                }
+
                 currentScissorTestEnabled = scissorTestEnabled;
             }
+
+            return true;
         }
 
-        void RendererOGL::enableDepthTest(bool enable)
+        bool RendererOGL::enableDepthTest(bool enable)
         {
             if (currentDepthTestEnabled != enable)
             {
@@ -847,11 +861,19 @@ namespace ouzel
                     glDisable(GL_DEPTH_TEST);
                 }
 
+                if (checkOpenGLError())
+                {
+                    log("Failed to change depth test state");
+                    return false;
+                }
+
                 currentDepthTestEnabled = enable;
             }
+
+            return true;
         }
 
-        void RendererOGL::setViewport(GLint x,
+        bool RendererOGL::setViewport(GLint x,
                                       GLint y,
                                       GLsizei width,
                                       GLsizei height)
@@ -866,10 +888,18 @@ namespace ouzel
                 currentViewportY = y;
                 currentViewportWidth = width;
                 currentViewportHeight = height;
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to set viewport");
+                    return false;
+                }
             }
+
+            return true;
         }
 
-        void RendererOGL::setBlendState(bool blendEnabled,
+        bool RendererOGL::setBlendState(bool blendEnabled,
                                         GLenum modeRGB,
                                         GLenum modeAlpha,
                                         GLenum sfactorRGB,
@@ -914,8 +944,16 @@ namespace ouzel
                     glDisable(GL_BLEND);
                 }
 
+                if (checkOpenGLError())
+                {
+                    log("Failed to activate blend state");
+                    return false;
+                }
+
                 currentBlendEnabled = blendEnabled;
             }
+
+            return true;
         }
 
 
@@ -941,11 +979,11 @@ namespace ouzel
                     {
                         break;
                     }
-
+                    
                     deleteResource = deleteQueue.front();
                     deleteQueue.pop();
                 }
-
+                
                 switch (deleteResource.second)
                 {
                     case ResourceType::Buffer:
