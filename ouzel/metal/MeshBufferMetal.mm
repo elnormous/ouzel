@@ -11,7 +11,7 @@ namespace ouzel
     namespace graphics
     {
         MeshBufferMetal::MeshBufferMetal():
-            indexBufferDirty(true), vertexBufferDirty(true)
+        indexBufferDirty(true), vertexBufferDirty(true)
         {
 
         }
@@ -153,38 +153,55 @@ namespace ouzel
         {
             if (indexBufferDirty || vertexBufferDirty)
             {
-                std::lock_guard<std::mutex> lock(dataMutex);
+                std::vector<uint8_t> localIndexData;
+                std::vector<uint8_t> localVertexData;
 
-                switch (indexSize)
                 {
-                    case 2: indexFormat = MTLIndexTypeUInt16; break;
-                    case 4: indexFormat = MTLIndexTypeUInt32; break;
-                    default: log("Invalid index size"); return false;
+                    std::lock_guard<std::mutex> lock(dataMutex);
+
+                    if (indexBufferDirty)
+                    {
+                        localIndexData = indexData;
+                        switch (indexSize)
+                        {
+                            case 2: indexFormat = MTLIndexTypeUInt16; break;
+                            case 4: indexFormat = MTLIndexTypeUInt32; break;
+                            default: log("Invalid index size"); return false;
+                        }
+                    }
+
+                    if (vertexBufferDirty)
+                    {
+                        localVertexData = vertexData;
+                    }
                 }
 
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
                 if (indexBufferDirty)
                 {
-                    if (!indexBuffer || indexSize * indexCount > indexBufferSize)
+                    if (!localIndexData.empty())
                     {
-                        if (indexBuffer) [indexBuffer release];
-
-                        indexBufferSize = indexSize * indexCount;
-
-                        indexBuffer = [rendererMetal->getDevice() newBufferWithLength:indexBufferSize
-                                                                              options:MTLResourceCPUCacheModeWriteCombined];
-
-                        if (!indexBuffer)
+                        if (!indexBuffer || localIndexData.size() > indexBufferSize)
                         {
-                            log("Failed to create Metal index buffer");
+                            if (indexBuffer) [indexBuffer release];
+
+                            indexBufferSize = localIndexData.size();
+
+                            indexBuffer = [rendererMetal->getDevice() newBufferWithLength:indexBufferSize
+                                                                                  options:MTLResourceCPUCacheModeWriteCombined];
+
+                            if (!indexBuffer)
+                            {
+                                log("Failed to create Metal index buffer");
+                                return false;
+                            }
+                        }
+
+                        if (!uploadData(indexBuffer, indexData))
+                        {
                             return false;
                         }
-                    }
-
-                    if (!uploadData(indexBuffer, indexData))
-                    {
-                        return false;
                     }
 
                     indexBufferDirty = false;
@@ -192,33 +209,36 @@ namespace ouzel
 
                 if (vertexBufferDirty)
                 {
-                    if (!vertexBuffer || vertexSize * vertexCount > vertexBufferSize)
+                    if (!localVertexData.empty())
                     {
-                        if (vertexBuffer) [vertexBuffer release];
-
-                        vertexBufferSize = vertexSize * vertexCount;
-
-                        vertexBuffer = [rendererMetal->getDevice() newBufferWithLength:vertexBufferSize
-                                                                               options:MTLResourceCPUCacheModeWriteCombined];
-
-                        if (!vertexBuffer)
+                        if (!vertexBuffer || localVertexData.size() > vertexBufferSize)
                         {
-                            log("Failed to create Metal vertex buffer");
+                            if (vertexBuffer) [vertexBuffer release];
+
+                            vertexBufferSize = localVertexData.size();
+
+                            vertexBuffer = [rendererMetal->getDevice() newBufferWithLength:vertexBufferSize
+                                                                                   options:MTLResourceCPUCacheModeWriteCombined];
+                            
+                            if (!vertexBuffer)
+                            {
+                                log("Failed to create Metal vertex buffer");
+                                return false;
+                            }
+                        }
+                        
+                        if (!uploadData(vertexBuffer, vertexData))
+                        {
                             return false;
                         }
                     }
-
-                    if (!uploadData(vertexBuffer, vertexData))
-                    {
-                        return false;
-                    }
-
+                    
                     vertexBufferDirty = false;
                 }
-
+                
                 ready = true;
             }
-
+            
             return true;
         }
     } // namespace graphics
