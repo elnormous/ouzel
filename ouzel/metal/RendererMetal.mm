@@ -413,20 +413,10 @@ namespace ouzel
             Rectangle previousScissorTest;
 
             std::queue<DrawCommand> drawCommands;
-            std::set<ResourcePtr> resources;
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
                 drawCommands = drawQueue;
-                resources = std::move(resourceSet);
-            }
-
-            for (const ResourcePtr& resource : resources)
-            {
-                if (!resource || !resource->update())
-                {
-                    return false;
-                }
             }
 
             if (drawCommands.empty())
@@ -446,7 +436,10 @@ namespace ouzel
                 if (drawCommand.renderTarget)
                 {
                     std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(drawCommand.renderTarget);
-
+                    if (!renderTargetMetal->update())
+                    {
+                        return false;
+                    }
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
                 }
                 else
@@ -481,6 +474,10 @@ namespace ouzel
 
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
+                if (!shaderMetal->update())
+                {
+                    return false;
+                }
 
                 // pixel shader constants
                 const std::vector<uint32_t>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
@@ -540,7 +537,11 @@ namespace ouzel
 
                 // blend state
                 std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(drawCommand.blendState);
-
+                // Metal blend states have nothing to update
+                // if (!blendStateMetal->update())
+                // {
+                //     return false;
+                // }
                 auto pipelineStateIterator = pipelineStates.find(std::make_pair(blendStateMetal, shaderMetal));
 
                 if (pipelineStateIterator != pipelineStates.end())
@@ -571,6 +572,10 @@ namespace ouzel
 
                     if (textureMetal)
                     {
+                        if (!textureMetal->update())
+                        {
+                            return false;
+                        }
                         [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
                     }
                     else
@@ -583,6 +588,10 @@ namespace ouzel
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(drawCommand.meshBuffer);
+                if (!meshBufferMetal->update())
+                {
+                    return false;
+                }
                 [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
                 // draw

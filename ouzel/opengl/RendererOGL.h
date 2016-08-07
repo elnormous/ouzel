@@ -89,10 +89,23 @@ namespace ouzel
             static bool unbindArrayBuffer(GLuint arrayBufferId);
             static bool unbindVertexArray(GLuint vertexArrayId);
 
-            static void enableBlend(bool enable);
-            static void enableScissorTest(bool enable);
+            static void setScissorTest(bool scissorTestEnabled,
+                                       GLint x,
+                                       GLint y,
+                                       GLsizei width,
+                                       GLsizei height);
             static void enableDepthTest(bool enable);
-            static void setViewport(GLint x, GLint y, GLsizei width, GLsizei height);
+            static void setViewport(GLint x,
+                                    GLint y,
+                                    GLsizei width,
+                                    GLsizei height);
+            static void setBlendState(bool blendEnabled,
+                                      GLenum modeRGB,
+                                      GLenum modeAlpha,
+                                      GLenum sfactorRGB,
+                                      GLenum dfactorRGB,
+                                      GLenum sfactorAlpha,
+                                      GLenum dfactorAlpha);
 
             enum class ResourceType
             {
@@ -123,16 +136,31 @@ namespace ouzel
             static GLuint currentTextureId[Texture::LAYERS];
             static GLuint currentProgramId;
             static GLuint currentFrameBufferId;
+            
             static GLuint currentElementArrayBufferId;
             static GLuint currentArrayBufferId;
             static GLuint currentVertexArrayId;
-            static bool blendEnabled;
-            static bool scissorTestEnabled;
-            static bool depthTestEnabled;
-            static GLint viewportX;
-            static GLint viewportY;
-            static GLsizei viewportWidth;
-            static GLsizei viewportHeight;
+
+            static bool currentBlendEnabled;
+            static GLenum currentBlendModeRGB;
+            static GLenum currentBlendModeAlpha;
+            static GLenum currentBlendSourceFactorRGB;
+            static GLenum currentBlendDestFactorRGB;
+            static GLenum currentBlendSourceFactorAlpha;
+            static GLenum currentBlendDestFactorAlpha;
+
+            static bool currentScissorTestEnabled;
+            static GLint currentScissorX;
+            static GLint currentScissorY;
+            static GLsizei currentScissorWidth;
+            static GLsizei currentScissorHeight;
+
+            static bool currentDepthTestEnabled;
+
+            static GLint currentViewportX;
+            static GLint currentViewportY;
+            static GLsizei currentViewportWidth;
+            static GLsizei currentViewportHeight;
             static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
             static std::mutex deleteMutex;
 

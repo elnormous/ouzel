@@ -243,7 +243,6 @@ namespace ouzel
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
                 drawCommands = drawQueue;
-                resources = std::move(resourceSet);
             }
 
             for (const ResourcePtr& resource : resources)
@@ -283,15 +282,18 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
 
-                enableBlend(blendStateOGL->isBlendingEnabled());
-
-                glBlendEquationSeparate(blendStateOGL->getModeRGB(),
-                                        blendStateOGL->getModeAlpha());
-
-                glBlendFuncSeparate(blendStateOGL->getSourceFactorRGB(),
-                                    blendStateOGL->getDestFactorRGB(),
-                                    blendStateOGL->getSourceFactorAlpha(),
-                                    blendStateOGL->getDestFactorAlpha());
+                // OpenGL blend states have nothing to update 
+                // if (!blendStateOGL->update())
+                // {
+                //     return false;
+                // }
+                setBlendState(blendStateOGL->isBlendingEnabled(),
+                              blendStateOGL->getModeRGB(),
+                              blendStateOGL->getModeAlpha(),
+                              blendStateOGL->getSourceFactorRGB(),
+                              blendStateOGL->getDestFactorRGB(),
+                              blendStateOGL->getSourceFactorAlpha(),
+                              blendStateOGL->getDestFactorAlpha());
 
                 if (checkOpenGLError())
                 {
@@ -311,6 +313,10 @@ namespace ouzel
 
                     if (textureOGL)
                     {
+                        if (!textureOGL->update())
+                        {
+                            return false;
+                        }
                         bindTexture(textureOGL->getTextureId(), layer);
                     }
                     else
@@ -327,6 +333,10 @@ namespace ouzel
 
                 // shader
                 std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(drawCommand.shader);
+                if (!shaderOGL->update())
+                {
+                    return false;
+                }
                 bindProgram(shaderOGL->getProgramId());
 
                 if (checkOpenGLError())
@@ -431,6 +441,10 @@ namespace ouzel
                 if (drawCommand.renderTarget)
                 {
                     std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(drawCommand.renderTarget);
+                    if (!renderTargetOGL->update())
+                    {
+                        return false;
+                    }
                     newFrameBuffer = renderTargetOGL->getFrameBufferId();
                     newViewport = renderTargetOGL->getViewport();
                     newClearColor = renderTargetOGL->getClearColor();
@@ -469,18 +483,18 @@ namespace ouzel
                 }
 
                 // scissor test
-                enableScissorTest(drawCommand.scissorTestEnabled);
-
-                if (drawCommand.scissorTestEnabled)
-                {
-                    glScissor(static_cast<GLint>(drawCommand.scissorTest.x),
-                              static_cast<GLint>(drawCommand.scissorTest.y),
-                              static_cast<GLsizei>(drawCommand.scissorTest.width),
-                              static_cast<GLsizei>(drawCommand.scissorTest.height));
-                }
+                setScissorTest(drawCommand.scissorTestEnabled,
+                               static_cast<GLint>(drawCommand.scissorTest.x),
+                               static_cast<GLint>(drawCommand.scissorTest.y),
+                               static_cast<GLsizei>(drawCommand.scissorTest.width),
+                               static_cast<GLsizei>(drawCommand.scissorTest.height));
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);
+                if (!meshBufferOGL->update())
+                {
+                    return false;
+                }
 
                 // draw
                 GLenum mode;
@@ -601,16 +615,31 @@ namespace ouzel
         GLuint RendererOGL::currentTextureId[Texture::LAYERS] = { 0 };
         GLuint RendererOGL::currentProgramId = 0;
         GLuint RendererOGL::currentFrameBufferId = 0;
+
         GLuint RendererOGL::currentElementArrayBufferId = 0;
         GLuint RendererOGL::currentArrayBufferId = 0;
         GLuint RendererOGL::currentVertexArrayId = 0;
-        bool RendererOGL::blendEnabled = false;
-        bool RendererOGL::scissorTestEnabled = false;
-        bool RendererOGL::depthTestEnabled = false;
-        GLint RendererOGL::viewportX = 0;
-        GLint RendererOGL::viewportY = 0;
-        GLsizei RendererOGL::viewportWidth = 0;
-        GLsizei RendererOGL::viewportHeight = 0;
+
+        bool RendererOGL::currentBlendEnabled = false;
+        GLenum RendererOGL::currentBlendModeRGB = 0;
+        GLenum RendererOGL::currentBlendModeAlpha = 0;
+        GLenum RendererOGL::currentBlendSourceFactorRGB = 0;
+        GLenum RendererOGL::currentBlendDestFactorRGB = 0;
+        GLenum RendererOGL::currentBlendSourceFactorAlpha = 0;
+        GLenum RendererOGL::currentBlendDestFactorAlpha = 0;
+
+        bool RendererOGL::currentScissorTestEnabled = false;
+        GLint RendererOGL::currentScissorX = 0;
+        GLint RendererOGL::currentScissorY = 0;
+        GLsizei RendererOGL::currentScissorWidth = 0;
+        GLsizei RendererOGL::currentScissorHeight = 0;
+
+        bool RendererOGL::currentDepthTestEnabled = false;
+
+        GLint RendererOGL::currentViewportX = 0;
+        GLint RendererOGL::currentViewportY = 0;
+        GLsizei RendererOGL::currentViewportWidth = 0;
+        GLsizei RendererOGL::currentViewportHeight = 0;
         std::queue<std::pair<GLuint, RendererOGL::ResourceType>> RendererOGL::deleteQueue;
         std::mutex RendererOGL::deleteMutex;
 
@@ -786,43 +815,42 @@ namespace ouzel
             return true;
         }
 
-        void RendererOGL::enableBlend(bool enable)
+        void RendererOGL::setScissorTest(bool scissorTestEnabled,
+                                         GLint x,
+                                         GLint y,
+                                         GLsizei width,
+                                         GLsizei height)
         {
-            if (blendEnabled != enable)
+            if (currentScissorTestEnabled != scissorTestEnabled)
             {
-                if (enable)
-                {
-                    glEnable(GL_BLEND);
-                }
-                else
-                {
-                    glDisable(GL_BLEND);
-                }
-
-                blendEnabled = enable;
-            }
-        }
-
-        void RendererOGL::enableScissorTest(bool enable)
-        {
-            if (scissorTestEnabled != enable)
-            {
-                if (enable)
+                if (scissorTestEnabled)
                 {
                     glEnable(GL_SCISSOR_TEST);
+
+                    if (x != currentScissorX ||
+                        y != currentScissorY ||
+                        width != currentScissorWidth ||
+                        height != currentScissorHeight)
+                    {
+                        glScissor(x, y, width, height);
+                        currentScissorX = x;
+                        currentScissorY = y;
+                        currentScissorWidth = width;
+                        currentScissorHeight = height;
+                    }
                 }
                 else
                 {
                     glDisable(GL_SCISSOR_TEST);
                 }
 
-                scissorTestEnabled = enable;
+                currentScissorTestEnabled = scissorTestEnabled;
             }
         }
 
         void RendererOGL::enableDepthTest(bool enable)
         {
-            if (depthTestEnabled != enable)
+            if (currentDepthTestEnabled != enable)
             {
                 if (enable)
                 {
@@ -833,19 +861,74 @@ namespace ouzel
                     glDisable(GL_DEPTH_TEST);
                 }
 
-                depthTestEnabled = enable;
+                currentDepthTestEnabled = enable;
             }
         }
 
-        void RendererOGL::setViewport(GLint x, GLint y, GLsizei width, GLsizei height)
+        void RendererOGL::setViewport(GLint x,
+                                      GLint y,
+                                      GLsizei width,
+                                      GLsizei height)
         {
-            if (x != viewportX || y != viewportY || width != viewportWidth || height != viewportHeight)
+            if (x != currentViewportX ||
+                y != currentViewportY ||
+                width != currentViewportWidth ||
+                height != currentViewportHeight)
             {
                 glViewport(x, y, width, height);
-                viewportX = x;
-                viewportY = y;
-                viewportWidth = width;
-                viewportHeight = height;
+                currentViewportX = x;
+                currentViewportY = y;
+                currentViewportWidth = width;
+                currentViewportHeight = height;
+            }
+        }
+
+        void RendererOGL::setBlendState(bool blendEnabled,
+                                        GLenum modeRGB,
+                                        GLenum modeAlpha,
+                                        GLenum sfactorRGB,
+                                        GLenum dfactorRGB,
+                                        GLenum sfactorAlpha,
+                                        GLenum dfactorAlpha)
+        {
+            if (currentBlendEnabled != blendEnabled)
+            {
+                if (blendEnabled)
+                {
+                    glEnable(GL_BLEND);
+
+                    if (currentBlendModeRGB != modeRGB ||
+                        currentBlendModeAlpha != modeAlpha)
+                    {
+                        glBlendEquationSeparate(modeRGB,
+                                                modeAlpha);
+
+                        currentBlendModeRGB = modeRGB;
+                        currentBlendModeAlpha = modeAlpha;
+                    }
+
+                    if (currentBlendSourceFactorRGB != sfactorRGB ||
+                        currentBlendDestFactorRGB != dfactorRGB ||
+                        currentBlendSourceFactorAlpha != sfactorAlpha ||
+                        currentBlendDestFactorAlpha != dfactorAlpha)
+                    {
+                        glBlendFuncSeparate(sfactorRGB,
+                                            dfactorRGB,
+                                            sfactorAlpha,
+                                            dfactorAlpha);
+
+                        currentBlendSourceFactorRGB = sfactorRGB;
+                        currentBlendDestFactorRGB = dfactorRGB;
+                        currentBlendSourceFactorAlpha = sfactorAlpha;
+                        currentBlendDestFactorAlpha = dfactorAlpha;
+                    }
+                }
+                else
+                {
+                    glDisable(GL_BLEND);
+                }
+
+                currentBlendEnabled = blendEnabled;
             }
         }
 

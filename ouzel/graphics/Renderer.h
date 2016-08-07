@@ -162,9 +162,6 @@ namespace ouzel
             std::queue<DrawCommand> activeDrawQueue;
             std::queue<DrawCommand> drawQueue;
             std::mutex drawQueueMutex;
-
-            std::set<ResourcePtr> activeResourceSet;
-            std::set<ResourcePtr> resourceSet;
         };
     } // namespace graphics
 } // namespace ouzel

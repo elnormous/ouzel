@@ -34,16 +34,6 @@ namespace ouzel
                 activeDrawQueue.pop();
             }
 
-            activeResourceSet.clear();
-
-            std::lock_guard<std::mutex> lock(drawQueueMutex);
-            while (!drawQueue.empty())
-            {
-                drawQueue.pop();
-            }
-
-            resourceSet.clear();
-
             ready = false;
         }
 
@@ -138,15 +128,6 @@ namespace ouzel
                 scissorTest
             });
 
-            for (const TexturePtr& texture : textures)
-            {
-                activeResourceSet.insert(texture);
-            }
-            activeResourceSet.insert(shader);
-            activeResourceSet.insert(blendState);
-            activeResourceSet.insert(meshBuffer);
-            if (renderTarget) activeResourceSet.insert(renderTarget);
-
             return true;
         }
 
@@ -155,7 +136,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(drawQueueMutex);
             drawQueue = std::move(activeDrawQueue);
             drawCallCount = static_cast<uint32_t>(drawQueue.size());
-            resourceSet = std::move(activeResourceSet);
         }
 
         Vector2 Renderer::viewToScreenLocation(const Vector2& position)
