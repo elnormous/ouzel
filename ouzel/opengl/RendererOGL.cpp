@@ -232,6 +232,8 @@ namespace ouzel
         {
             if (dirty)
             {
+                clearMask = GL_COLOR_BUFFER_BIT;
+
                 frameBufferClearColor[0] = clearColor.getR();
                 frameBufferClearColor[1] = clearColor.getG();
                 frameBufferClearColor[2] = clearColor.getB();
@@ -446,6 +448,7 @@ namespace ouzel
 
                 // render target
                 GLuint newFrameBuffer = 0;
+                GLbitfield newClearMask = 0;
                 const float* newClearColor;
                 Rectangle newViewport;
 
@@ -454,6 +457,7 @@ namespace ouzel
                     std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(drawCommand.renderTarget);
 
                     newFrameBuffer = renderTargetOGL->getFrameBufferId();
+                    newClearMask = renderTargetOGL->getClearMask();
                     newClearColor = renderTargetOGL->getFrameBufferClearColor();
                     newViewport = renderTargetOGL->getViewport();
 
@@ -461,6 +465,7 @@ namespace ouzel
                 else
                 {
                     newFrameBuffer = frameBufferId;
+                    newClearMask = clearMask;
                     newClearColor = frameBufferClearColor;
                     newViewport = viewport;
                 }
@@ -482,7 +487,7 @@ namespace ouzel
                                  newClearColor[2],
                                  newClearColor[3]);
 
-                    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                    glClear(newClearMask);
 
                     if (checkOpenGLError())
                     {

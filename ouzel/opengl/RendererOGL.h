@@ -134,6 +134,7 @@ namespace ouzel
             static void deleteResources();
 
             GLuint frameBufferId = 0;
+            GLbitfield clearMask = 0;
             float frameBufferClearColor[4];
             Rectangle viewport;
 

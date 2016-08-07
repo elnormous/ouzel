@@ -100,6 +100,13 @@ namespace ouzel
                         return false;
                     }
 
+                    clearMask = GL_COLOR_BUFFER_BIT;
+
+                    if (depthBuffer)
+                    {
+                        clearMask |= GL_DEPTH_BUFFER_BIT;
+                    }
+
                     frameBufferClearColor[0] = clearColor.getR();
                     frameBufferClearColor[1] = clearColor.getG();
                     frameBufferClearColor[2] = clearColor.getB();
