@@ -836,18 +836,6 @@ namespace ouzel
                 if (scissorTestEnabled)
                 {
                     glEnable(GL_SCISSOR_TEST);
-
-                    if (x != currentScissorX ||
-                        y != currentScissorY ||
-                        width != currentScissorWidth ||
-                        height != currentScissorHeight)
-                    {
-                        glScissor(x, y, width, height);
-                        currentScissorX = x;
-                        currentScissorY = y;
-                        currentScissorWidth = width;
-                        currentScissorHeight = height;
-                    }
                 }
                 else
                 {
@@ -861,6 +849,27 @@ namespace ouzel
                 }
 
                 currentScissorTestEnabled = scissorTestEnabled;
+            }
+
+            if (scissorTestEnabled)
+            {
+                if (x != currentScissorX ||
+                    y != currentScissorY ||
+                    width != currentScissorWidth ||
+                    height != currentScissorHeight)
+                {
+                    glScissor(x, y, width, height);
+                    currentScissorX = x;
+                    currentScissorY = y;
+                    currentScissorWidth = width;
+                    currentScissorHeight = height;
+                }
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to set scissor test");
+                    return false;
+                }
             }
 
             return true;
@@ -930,32 +939,6 @@ namespace ouzel
                 if (blendEnabled)
                 {
                     glEnable(GL_BLEND);
-
-                    if (currentBlendModeRGB != modeRGB ||
-                        currentBlendModeAlpha != modeAlpha)
-                    {
-                        glBlendEquationSeparate(modeRGB,
-                                                modeAlpha);
-
-                        currentBlendModeRGB = modeRGB;
-                        currentBlendModeAlpha = modeAlpha;
-                    }
-
-                    if (currentBlendSourceFactorRGB != sfactorRGB ||
-                        currentBlendDestFactorRGB != dfactorRGB ||
-                        currentBlendSourceFactorAlpha != sfactorAlpha ||
-                        currentBlendDestFactorAlpha != dfactorAlpha)
-                    {
-                        glBlendFuncSeparate(sfactorRGB,
-                                            dfactorRGB,
-                                            sfactorAlpha,
-                                            dfactorAlpha);
-
-                        currentBlendSourceFactorRGB = sfactorRGB;
-                        currentBlendDestFactorRGB = dfactorRGB;
-                        currentBlendSourceFactorAlpha = sfactorAlpha;
-                        currentBlendDestFactorAlpha = dfactorAlpha;
-                    }
                 }
                 else
                 {
@@ -969,6 +952,41 @@ namespace ouzel
                 }
 
                 currentBlendEnabled = blendEnabled;
+            }
+
+            if (blendEnabled)
+            {
+                if (currentBlendModeRGB != modeRGB ||
+                    currentBlendModeAlpha != modeAlpha)
+                {
+                    glBlendEquationSeparate(modeRGB,
+                                            modeAlpha);
+
+                    currentBlendModeRGB = modeRGB;
+                    currentBlendModeAlpha = modeAlpha;
+                }
+
+                if (currentBlendSourceFactorRGB != sfactorRGB ||
+                    currentBlendDestFactorRGB != dfactorRGB ||
+                    currentBlendSourceFactorAlpha != sfactorAlpha ||
+                    currentBlendDestFactorAlpha != dfactorAlpha)
+                {
+                    glBlendFuncSeparate(sfactorRGB,
+                                        dfactorRGB,
+                                        sfactorAlpha,
+                                        dfactorAlpha);
+
+                    currentBlendSourceFactorRGB = sfactorRGB;
+                    currentBlendDestFactorRGB = dfactorRGB;
+                    currentBlendSourceFactorAlpha = sfactorAlpha;
+                    currentBlendDestFactorAlpha = dfactorAlpha;
+                }
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to set blend state");
+                    return false;
+                }
             }
 
             return true;
