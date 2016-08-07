@@ -771,6 +771,7 @@ namespace ouzel
         {
             if (currentFrameBufferId == frameBufferId)
             {
+                currentFrameBufferSet = false;
                 return bindFrameBuffer(0);
             }
 
