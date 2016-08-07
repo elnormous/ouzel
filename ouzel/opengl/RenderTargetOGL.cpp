@@ -99,6 +99,11 @@ namespace ouzel
                         log("Failed to create frame buffer");
                         return false;
                     }
+
+                    frameBufferClearColor[0] = clearColor.getR();
+                    frameBufferClearColor[1] = clearColor.getG();
+                    frameBufferClearColor[2] = clearColor.getB();
+                    frameBufferClearColor[3] = clearColor.getA();
                 }
 
                 std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(texture);
@@ -128,33 +133,24 @@ namespace ouzel
                     }
 
                     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureOGL->getTextureId(), 0);
-                    
+
 #if OUZEL_SUPPORTS_OPENGL // TODO: fix this
                     //GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
                     //glDrawBuffers(1, drawBuffers);
                     glDrawBuffer(GL_COLOR_ATTACHMENT0);
 #endif
-                    
+
                     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                     {
                         log("Failed to create frame buffer");
                         return false;
                     }
                 }
-
-                RendererOGL::bindFrameBuffer(frameBufferId);
-
-                glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
-
-                if (RendererOGL::checkOpenGLError())
-                {
-                    log("Failed to set clear color");
-                }
-
+                
                 ready = true;
                 dirty = false;
             }
-
+            
             return true;
         }
     } // namespace graphics

@@ -78,7 +78,7 @@ namespace ouzel
         }
 
         RendererOGL::RendererOGL():
-        Renderer(Driver::OPENGL)
+            Renderer(Driver::OPENGL)
         {
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
             glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
@@ -232,14 +232,10 @@ namespace ouzel
         {
             if (dirty)
             {
-                bindFrameBuffer(frameBufferId);
-
-                glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
-
-                if (checkOpenGLError())
-                {
-                    log("Failed to set clear color");
-                }
+                frameBufferClearColor[0] = clearColor.getR();
+                frameBufferClearColor[1] = clearColor.getG();
+                frameBufferClearColor[2] = clearColor.getB();
+                frameBufferClearColor[3] = clearColor.getA();
 
                 dirty = false;
             }
@@ -298,6 +294,18 @@ namespace ouzel
                                  static_cast<GLsizei>(viewport.height)))
                 {
                     return false;
+                }
+
+                glClearColor(frameBufferClearColor[0],
+                             frameBufferClearColor[1],
+                             frameBufferClearColor[2],
+                             frameBufferClearColor[3]);
+
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to clear frame buffer");
                 }
             }
             else while (!drawCommands.empty())
@@ -438,6 +446,7 @@ namespace ouzel
 
                 // render target
                 GLuint newFrameBuffer = 0;
+                const float* newClearColor;
                 Rectangle newViewport;
 
                 if (drawCommand.renderTarget)
@@ -445,12 +454,14 @@ namespace ouzel
                     std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(drawCommand.renderTarget);
 
                     newFrameBuffer = renderTargetOGL->getFrameBufferId();
+                    newClearColor = renderTargetOGL->getFrameBufferClearColor();
                     newViewport = renderTargetOGL->getViewport();
 
                 }
                 else
                 {
                     newFrameBuffer = frameBufferId;
+                    newClearColor = frameBufferClearColor;
                     newViewport = viewport;
                 }
 
@@ -466,7 +477,13 @@ namespace ouzel
 
                 if (clearedFrameBuffers.find(newFrameBuffer) == clearedFrameBuffers.end())
                 {
+                    glClearColor(newClearColor[0],
+                                 newClearColor[1],
+                                 newClearColor[2],
+                                 newClearColor[3]);
+
                     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
                     if (checkOpenGLError())
                     {
                         log("Failed to clear frame buffer");

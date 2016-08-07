@@ -60,6 +60,8 @@ namespace ouzel
             GLuint getFrameBufferId() const { return frameBufferId; }
             const Rectangle& getViewport() const { return viewport; }
 
+            const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
+
         protected:
             RenderTargetOGL();
             virtual bool update() override;
@@ -68,6 +70,7 @@ namespace ouzel
             GLuint depthBufferId = 0;
             Rectangle viewport;
 
+            float frameBufferClearColor[4];
             std::atomic<bool> dirty;
             std::mutex dataMutex;
         };

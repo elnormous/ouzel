@@ -50,7 +50,7 @@ extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
 namespace ouzel
 {
     class Engine;
-    
+
     namespace graphics
     {
         class RendererOGL: public Renderer
@@ -58,7 +58,7 @@ namespace ouzel
             friend Engine;
         public:
             static bool checkOpenGLError(bool logError = true);
-            
+
             virtual ~RendererOGL();
 
             virtual void setClearColor(Color color) override;
@@ -134,13 +134,14 @@ namespace ouzel
             static void deleteResources();
 
             GLuint frameBufferId = 0;
+            float frameBufferClearColor[4];
             Rectangle viewport;
 
             static GLuint currentTextureId[Texture::LAYERS];
             static GLuint currentProgramId;
             static bool currentFrameBufferSet;
             static GLuint currentFrameBufferId;
-            
+
             static GLuint currentElementArrayBufferId;
             static GLuint currentArrayBufferId;
             static GLuint currentVertexArrayId;
@@ -167,7 +168,7 @@ namespace ouzel
             static GLsizei currentViewportHeight;
             static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
             static std::mutex deleteMutex;
-
+            
             bool dirty = true;
         };
     } // namespace graphics
