@@ -476,17 +476,26 @@ namespace ouzel
                     return false;
                 }
 
+                std::vector<float> pixelShaderData;
+
                 for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                 {
-                    uint32_t location = pixelShaderConstantLocations[i];
                     const Shader::ConstantInfo& pixelShaderConstantInfo = pixelShaderConstantInfos[i];
                     const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
 
-                    shaderMetal->uploadData(shaderMetal->getPixelShaderConstantBuffer(),
-                                            shaderMetal->getPixelShaderConstantBufferOffset() + location,
-                                            pixelShaderConstant.data(),
-                                            pixelShaderConstantInfo.size);
+                    if (vectorDataSize(pixelShaderConstant) != pixelShaderConstantInfo.size)
+                    {
+                        log("Invalid pixel shader constant size");
+                        return false;
+                    }
+
+                    pixelShaderData.insert(pixelShaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
                 }
+
+                shaderMetal->uploadData(shaderMetal->getPixelShaderConstantBuffer(),
+                                        shaderMetal->getPixelShaderConstantBufferOffset(),
+                                        pixelShaderData.data(),
+                                        vectorDataSize(pixelShaderData));
 
                 [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
                                                         offset:shaderMetal->getPixelShaderConstantBufferOffset()
@@ -503,18 +512,26 @@ namespace ouzel
                     return false;
                 }
 
+                std::vector<float> vertexShaderData;
+
                 for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                 {
-                    uint32_t location = vertexShaderConstantLocations[i];
                     const Shader::ConstantInfo& vertexShaderConstantInfo = vertexShaderConstantInfos[i];
                     const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
 
-                    shaderMetal->uploadData(shaderMetal->getVertexShaderConstantBuffer(),
-                                            shaderMetal->getVertexShaderConstantBufferOffset() + location,
-                                            vertexShaderConstant.data(),
-                                            vertexShaderConstantInfo.size);
+                    if (vectorDataSize(vertexShaderConstant) != vertexShaderConstantInfo.size)
+                    {
+                        log("Invalid vertex shader constant size");
+                        return false;
+                    }
 
+                    vertexShaderData.insert(vertexShaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                 }
+
+                shaderMetal->uploadData(shaderMetal->getVertexShaderConstantBuffer(),
+                                        shaderMetal->getVertexShaderConstantBufferOffset(),
+                                        vertexShaderData.data(),
+                                        vectorDataSize(vertexShaderData));
 
                 [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
                                                       offset:shaderMetal->getVertexShaderConstantBufferOffset()
