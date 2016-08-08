@@ -16,13 +16,16 @@ static CVReturn renderCallback(CVDisplayLinkRef,
                                CVOptionFlags*,
                                void* displayLinkContext)
 {
-    if (ouzel::sharedEngine->isRunning())
+    @autoreleasepool
     {
-        if (!ouzel::sharedEngine->draw())
+        if (ouzel::sharedEngine->isRunning())
         {
-            ouzel::sharedApplication->execute([] {
-                ouzel::sharedEngine->getWindow()->close();
-            });
+            if (!ouzel::sharedEngine->draw())
+            {
+                ouzel::sharedApplication->execute([] {
+                    ouzel::sharedEngine->getWindow()->close();
+                });
+            }
         }
     }
 
