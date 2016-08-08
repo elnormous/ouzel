@@ -522,7 +522,7 @@ namespace ouzel
                     case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
                     case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
                     case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-                    default: return false;
+                    default: log("Invalid draw mode"); return false;
                 }
 
                 if (!meshBufferOGL->bindVertexBuffer())
