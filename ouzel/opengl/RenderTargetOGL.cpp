@@ -111,11 +111,6 @@ namespace ouzel
                     {
                         clearMask |= GL_DEPTH_BUFFER_BIT;
                     }
-
-                    frameBufferClearColor[0] = clearColor.getR();
-                    frameBufferClearColor[1] = clearColor.getG();
-                    frameBufferClearColor[2] = clearColor.getB();
-                    frameBufferClearColor[3] = clearColor.getA();
                 }
 
                 std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(texture);
@@ -164,7 +159,12 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
+                frameBufferClearColor[0] = clearColor.getR();
+                frameBufferClearColor[1] = clearColor.getG();
+                frameBufferClearColor[2] = clearColor.getB();
+                frameBufferClearColor[3] = clearColor.getA();
+
                 ready = true;
                 dirty = false;
             }
