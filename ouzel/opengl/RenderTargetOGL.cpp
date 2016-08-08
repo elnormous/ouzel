@@ -32,6 +32,8 @@ namespace ouzel
 
         void RenderTargetOGL::free()
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             RenderTarget::free();
 
             if (depthBufferId)
@@ -49,14 +51,14 @@ namespace ouzel
 
         bool RenderTargetOGL::init(const Size2& newSize, bool depthBuffer)
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             if (!RenderTarget::init(newSize, depthBuffer))
             {
                 return false;
             }
 
             free();
+
+            std::lock_guard<std::mutex> lock(dataMutex);
 
             viewport = Rectangle(0.0f, 0.0f, newSize.width, newSize.height);
 
@@ -70,6 +72,7 @@ namespace ouzel
             textureOGL->setFlipped(true);
 
             texture = textureOGL;
+            
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -115,8 +118,13 @@ namespace ouzel
 
                 std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(texture);
 
-                if (textureOGL->getTextureId() &&
-                    glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                if (!textureOGL->getTextureId())
+                {
+                    log("OpenGL texture not initialized");
+                    return false;
+                }
+
+                if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
                     RendererOGL::bindFrameBuffer(frameBufferId);
                     RendererOGL::bindTexture(textureOGL->getTextureId(), 0);

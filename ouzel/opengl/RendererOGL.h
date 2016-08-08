@@ -170,7 +170,7 @@ namespace ouzel
             static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
             static std::mutex deleteMutex;
             
-            bool dirty = true;
+            std::atomic<bool> dirty;
         };
     } // namespace graphics
 } // namespace ouzel

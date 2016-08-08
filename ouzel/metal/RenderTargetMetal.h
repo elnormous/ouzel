@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <mutex>
+#include <atomic>
+
 #include "core/CompileConfig.h"
 #include "graphics/RenderTarget.h"
 #include "math/Size2.h"
@@ -37,9 +40,13 @@ namespace ouzel
 
         protected:
             RenderTargetMetal();
+            virtual bool update() override;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
             MTLTexturePtr msaaTexture = Nil;
+
+            std::atomic<bool> dirty;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

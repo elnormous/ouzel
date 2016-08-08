@@ -165,7 +165,12 @@ namespace ouzel
         void Renderer::scheduleUpdate(const ResourcePtr& resource)
         {
             std::lock_guard<std::mutex> lock(updateMutex);
-            updateSet.insert(resource);
+
+            if (updateSet.find(resource) == updateSet.end())
+            {
+                updateSet.insert(resource);
+                updateQueue.push(resource);
+            }
         }
     } // namespace graphics
 } // namespace ouzel

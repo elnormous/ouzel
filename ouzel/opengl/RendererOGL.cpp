@@ -78,7 +78,7 @@ namespace ouzel
         }
 
         RendererOGL::RendererOGL():
-            Renderer(Driver::OPENGL)
+            Renderer(Driver::OPENGL), dirty(true)
         {
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
             glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
@@ -263,19 +263,24 @@ namespace ouzel
                 drawCommands = drawQueue;
             }
 
-            std::set<ResourcePtr> resources;
+            std::queue<ResourcePtr> resources;
 
             {
                 std::lock_guard<std::mutex> lock(updateMutex);
-                resources = std::move(updateSet);
+                resources = std::move(updateQueue);
+                updateSet.clear();
             }
 
-            for (const ResourcePtr& resource : resources)
+            while (!resources.empty())
             {
+                const ResourcePtr& resource = resources.front();
+
                 if (!resource->update())
                 {
                     return false;
                 }
+
+                resources.pop();
             }
 
             if (!update())
