@@ -53,7 +53,7 @@ namespace ouzel
                 NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
                 NSOpenGLPFAColorSize, 24,
                 NSOpenGLPFAAlphaSize, 8,
-                NSOpenGLPFADepthSize, 32, // set depth buffer size
+                //NSOpenGLPFADepthSize, 32, // set depth buffer size
                 0
             };
 
@@ -74,7 +74,7 @@ namespace ouzel
                     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
                     NSOpenGLPFAColorSize, 24,
                     NSOpenGLPFAAlphaSize, 8,
-                    NSOpenGLPFADepthSize, 32, // set depth buffer size
+                    //NSOpenGLPFADepthSize, 32, // set depth buffer size
                     0
                 };
 
