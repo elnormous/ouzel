@@ -41,6 +41,9 @@ namespace ouzel
 
             MeshBuffer::free();
 
+            indexData.clear();
+            vertexData.clear();
+
             if (vertexArrayId)
             {
                 RendererOGL::deleteResource(vertexArrayId, RendererOGL::ResourceType::VertexArray);

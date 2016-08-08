@@ -35,6 +35,9 @@ namespace ouzel
 
             MeshBuffer::free();
 
+            indexData.clear();
+            vertexData.clear();
+
             if (indexBuffer)
             {
                 [indexBuffer release];

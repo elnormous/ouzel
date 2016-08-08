@@ -51,8 +51,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            data.clear();
             
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -69,8 +67,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            data.clear();
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
