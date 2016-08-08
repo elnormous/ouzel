@@ -61,7 +61,7 @@ namespace ouzel
             const Rectangle& getViewport() const { return viewport; }
 
             GLbitfield getClearMask() const { return clearMask; }
-            const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
+            const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
         protected:
             RenderTargetOGL();
@@ -72,7 +72,7 @@ namespace ouzel
             Rectangle viewport;
 
             GLbitfield clearMask = 0;
-            float frameBufferClearColor[4];
+            GLfloat frameBufferClearColor[4];
 
             std::atomic<bool> dirty;
             std::mutex dataMutex;

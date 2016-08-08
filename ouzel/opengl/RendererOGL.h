@@ -136,7 +136,7 @@ namespace ouzel
 
             GLuint frameBufferId = 0;
             GLbitfield clearMask = 0;
-            float frameBufferClearColor[4];
+            GLfloat frameBufferClearColor[4];
             Rectangle viewport;
 
             static GLuint currentTextureId[Texture::LAYERS];
