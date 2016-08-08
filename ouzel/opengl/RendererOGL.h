@@ -7,6 +7,7 @@
 #include <queue>
 #include <utility>
 #include <mutex>
+#include <atomic>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
