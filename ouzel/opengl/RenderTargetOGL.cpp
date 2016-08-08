@@ -51,14 +51,14 @@ namespace ouzel
 
         bool RenderTargetOGL::init(const Size2& newSize, bool depthBuffer)
         {
+            free();
+
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!RenderTarget::init(newSize, depthBuffer))
             {
                 return false;
             }
-
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
 
             viewport = Rectangle(0.0f, 0.0f, newSize.width, newSize.height);
 
@@ -85,6 +85,8 @@ namespace ouzel
             RenderTarget::setClearColor(color);
 
             dirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
         }
 
         bool RenderTargetOGL::update()
@@ -124,9 +126,10 @@ namespace ouzel
                     return false;
                 }
 
+                RendererOGL::bindFrameBuffer(frameBufferId);
+                
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    RendererOGL::bindFrameBuffer(frameBufferId);
                     RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
 
                     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,

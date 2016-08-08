@@ -40,6 +40,8 @@ namespace ouzel
 
         bool TextureMetal::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
         {
+            free();
+            
             std::lock_guard<std::mutex> lock(dataMutex);
 
             if (!Texture::init(newSize, newDynamic, newMipmaps, newRenderTarget))
@@ -56,6 +58,8 @@ namespace ouzel
 
         bool TextureMetal::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
+            free();
+
             std::lock_guard<std::mutex> lock(dataMutex);
 
             if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))

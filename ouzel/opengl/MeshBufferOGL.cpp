@@ -37,6 +37,8 @@ namespace ouzel
 
         void MeshBufferOGL::free()
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             MeshBuffer::free();
 
             if (vertexArrayId)
@@ -60,6 +62,8 @@ namespace ouzel
 
         bool MeshBufferOGL::init(bool newDynamicIndexBuffer, bool newDynamicVertexBuffer)
         {
+            free();
+
             std::lock_guard<std::mutex> lock(dataMutex);
             
             if (!MeshBuffer::init(newDynamicIndexBuffer, newDynamicVertexBuffer))
@@ -77,6 +81,8 @@ namespace ouzel
                                            const void* newVertices, uint32_t newVertexAttributes,
                                            uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
+            free();
+            
             std::lock_guard<std::mutex> lock(dataMutex);
 
             if (!MeshBuffer::initFromBuffer(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))

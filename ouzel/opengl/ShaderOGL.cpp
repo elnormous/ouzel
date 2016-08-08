@@ -68,14 +68,14 @@ namespace ouzel
                                         const std::string& pixelShaderFunction,
                                         const std::string& vertexShaderFunction)
         {
+            free();
+
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!Shader::initFromBuffers(newPixelShader, newVertexShader, newVertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 return false;
             }
-
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
 
             pixelShaderData = newPixelShader;
             vertexShaderData = newVertexShader;

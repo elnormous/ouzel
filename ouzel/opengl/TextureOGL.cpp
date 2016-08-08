@@ -43,6 +43,8 @@ namespace ouzel
 
         bool TextureOGL::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
         {
+            free();
+
             std::lock_guard<std::mutex> lock(dataMutex);
 
             if (!Texture::init(newSize, newDynamic, newMipmaps, newRenderTarget))
@@ -51,6 +53,7 @@ namespace ouzel
             }
 
             data.clear();
+            
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -58,6 +61,8 @@ namespace ouzel
 
         bool TextureOGL::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
+            free();
+
             std::lock_guard<std::mutex> lock(dataMutex);
             
             if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
@@ -66,6 +71,7 @@ namespace ouzel
             }
 
             data.clear();
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return uploadData(newData, newSize);
@@ -74,6 +80,7 @@ namespace ouzel
         bool TextureOGL::upload(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
+
             data.clear();
 
             if (!Texture::upload(newData, newSize))
@@ -82,6 +89,7 @@ namespace ouzel
             }
 
             dirty = true;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;

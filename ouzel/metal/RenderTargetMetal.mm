@@ -51,14 +51,14 @@ namespace ouzel
 
         bool RenderTargetMetal::init(const Size2& newSize, bool depthBuffer)
         {
+            free();
+
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!RenderTarget::init(newSize, depthBuffer))
             {
                 return false;
             }
-
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
 
             std::shared_ptr<TextureMetal> textureMetal(new TextureMetal());
 
