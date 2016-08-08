@@ -41,6 +41,8 @@ namespace ouzel
                               bool newVerticalSync) override;
 
             virtual void setSize(const Size2& newSize) override;
+
+            virtual bool update() override;
             
             NSOpenGLContextPtr openGLContext = Nil;
             NSOpenGLPixelFormatPtr pixelFormat = Nil;

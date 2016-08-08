@@ -129,7 +129,7 @@ namespace ouzel
                               bool newVerticalSync) override;
 
             virtual void setSize(const Size2& newSize) override;
-            bool update();
+            virtual bool update();
 
             static void deleteResources();
 

@@ -117,7 +117,17 @@ namespace ouzel
         {
             RendererOGL::setSize(newSize);
 
-            [openGLContext update];
+            dirty = true;
+        }
+
+        bool RendererOGLMacOS::update()
+        {
+            if (dirty)
+            {
+                [openGLContext update];
+            }
+
+            return RendererOGL::update();
         }
     } // namespace graphics
 } // namespace ouzel
