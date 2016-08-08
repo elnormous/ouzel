@@ -18,19 +18,38 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MetalRenderer;
+        class RendererMetal;
 
         class BlendStateMetal: public BlendState
         {
-            friend MetalRenderer;
+            friend RendererMetal;
         public:
+            virtual bool init(bool newEnableBlending,
+                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
+                              BlendOperation newColorOperation,
+                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
+                              BlendOperation newAlphaOperation) override;
             virtual ~BlendStateMetal();
+
+            MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
+            MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
+            MTLBlendFactor getSourceRGBBlendFactor() const { return sourceRGBBlendFactor; }
+            MTLBlendFactor getDestinationRGBBlendFactor() const { return destinationRGBBlendFactor; }
+            MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
+            MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
 
             static MTLBlendFactor getBlendFactor(BlendFactor blendFactor);
             static MTLBlendOperation getBlendOperation(BlendOperation blendOperation);
 
         protected:
             BlendStateMetal();
+
+            MTLBlendOperation rgbBlendOperation;
+            MTLBlendOperation alphaBlendOperation;
+            MTLBlendFactor sourceRGBBlendFactor;
+            MTLBlendFactor destinationRGBBlendFactor;
+            MTLBlendFactor sourceAlphaBlendFactor;
+            MTLBlendFactor destinationAlphaBlendFactor;
         };
     } // namespace graphics
 } // namespace ouzel

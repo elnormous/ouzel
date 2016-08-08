@@ -311,26 +311,6 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            for (ShaderPtr shader : {textureShader, colorShader})
-            {
-                std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(shader);
-
-                for (BlendStatePtr blendState : {noBlendState, alphaBlendState})
-                {
-                    std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(blendState);
-
-                    if (!createPipelineState(blendStateMetal, shaderMetal))
-                    {
-                        return false;
-                    }
-                }
-
-                if (!createPipelineState(nullptr, shaderMetal))
-                {
-                    return false;
-                }
-            }
-
             ready = true;
 
             setSize(size);
@@ -636,6 +616,12 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
+        BlendStatePtr RendererMetal::createBlendState()
+        {
+            std::shared_ptr<BlendStateMetal> blendState(new BlendStateMetal());
+            return blendState;
+        }
+
         TexturePtr RendererMetal::createTexture()
         {
             std::shared_ptr<TextureMetal> texture(new TextureMetal());
@@ -674,30 +660,17 @@ namespace ouzel
             pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
 
             // blending
-            if (!blendState)
-            {
-                pipelineStateDescriptor.colorAttachments[0].blendingEnabled = NO;
+            std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(blendState);
 
-                pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactorOne;
-                pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = MTLBlendFactorZero;
-                pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = MTLBlendOperationAdd;
+            pipelineStateDescriptor.colorAttachments[0].blendingEnabled = blendState->isBlendingEnabled() ? YES : NO;
 
-                pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = MTLBlendFactorOne;
-                pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactorZero;
-                pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = MTLBlendOperationAdd;
-            }
-            else
-            {
-                pipelineStateDescriptor.colorAttachments[0].blendingEnabled = blendState->isBlendingEnabled() ? YES : NO;
+            pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = blendStateMetal->getSourceRGBBlendFactor();
+            pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = blendStateMetal->getDestinationRGBBlendFactor();
+            pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = blendStateMetal->getRGBBlendOperation();
 
-                pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = BlendStateMetal::getBlendFactor(blendState->getColorBlendSource());
-                pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = BlendStateMetal::getBlendFactor(blendState->getColorBlendDest());
-                pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = BlendStateMetal::getBlendOperation(blendState->getColorOperation());
-
-                pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = BlendStateMetal::getBlendFactor(blendState->getAlphaBlendSource());
-                pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = BlendStateMetal::getBlendFactor(blendState->getAlphaBlendDest());
-                pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = BlendStateMetal::getBlendOperation(blendState->getAlphaOperation());
-            }
+            pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = blendStateMetal->getSourceAlphaBlendFactor();
+            pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = blendStateMetal->getDestinationAlphaBlendFactor();
+            pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = blendStateMetal->getAlphaBlendOperation();
 
             pipelineStateDescriptor.colorAttachments[0].writeMask = MTLColorWriteMaskAll;
 

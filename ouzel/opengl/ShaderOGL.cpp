@@ -79,6 +79,7 @@ namespace ouzel
 
             pixelShaderData = newPixelShader;
             vertexShaderData = newVertexShader;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -114,18 +115,26 @@ namespace ouzel
 
         bool ShaderOGL::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             Shader::setPixelShaderConstantInfo(constantInfo, alignment);
 
             dirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
 
         bool ShaderOGL::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             Shader::setVertexShaderConstantInfo(constantInfo, alignment);
 
             dirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }

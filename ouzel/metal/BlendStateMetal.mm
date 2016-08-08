@@ -17,6 +17,33 @@ namespace ouzel
 
         }
 
+        bool BlendStateMetal::init(bool newEnableBlending,
+                                   BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
+                                   BlendOperation newColorOperation,
+                                   BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
+                                   BlendOperation newAlphaOperation)
+        {
+            if (!BlendState::init(newEnableBlending,
+                                  newColorBlendSource,
+                                  newColorBlendDest,
+                                  newColorOperation,
+                                  newAlphaBlendSource,
+                                  newAlphaBlendDest,
+                                  newAlphaOperation))
+            {
+                return false;
+            }
+
+            rgbBlendOperation = getBlendOperation(newColorOperation);
+            alphaBlendOperation = getBlendOperation(newAlphaOperation);
+            sourceRGBBlendFactor = getBlendFactor(newColorBlendSource);
+            destinationRGBBlendFactor = getBlendFactor(newColorBlendDest);
+            sourceAlphaBlendFactor = getBlendFactor(newAlphaBlendSource);
+            destinationAlphaBlendFactor = getBlendFactor(newAlphaBlendDest);
+
+            return true;
+        }
+
         MTLBlendFactor BlendStateMetal::getBlendFactor(BlendFactor blendFactor)
         {
             switch (blendFactor)

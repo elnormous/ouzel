@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <vector>
+#include <atomic>
+#include <mutex>
 #include "core/CompileConfig.h"
 #include "graphics/Shader.h"
 
@@ -34,8 +37,8 @@ namespace ouzel
             virtual bool initFromBuffers(const std::vector<uint8_t>& newPixelShader,
                                          const std::vector<uint8_t>& newVertexShader,
                                          uint32_t newVertexAttributes,
-                                         const std::string& pixelShaderFunction = "",
-                                         const std::string& vertexShaderFunction = "") override;
+                                         const std::string& newPixelShaderFunction = "",
+                                         const std::string& newVertexShaderFunction = "") override;
 
             virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
             virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
@@ -57,9 +60,10 @@ namespace ouzel
 
         protected:
             ShaderMetal();
+            virtual bool update() override;
 
-            bool createPixelShaderConstantBuffer(uint32_t size);
-            bool createVertexShaderConstantBuffer(uint32_t size);
+            bool createPixelShaderConstantBuffer();
+            bool createVertexShaderConstantBuffer();
 
             bool uploadData(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size);
 
@@ -67,17 +71,23 @@ namespace ouzel
             MTLFunctionPtr vertexShader = Nil;
 
             MTLBufferPtr pixelShaderConstantBuffer = Nil;
-            std::vector<char> pixelShaderData;
-
             MTLBufferPtr vertexShaderConstantBuffer = Nil;
-            std::vector<char> vertexShaderData;
-
             MTLVertexDescriptorPtr vertexDescriptor = Nil;
 
             std::vector<uint32_t> pixelShaderConstantLocations;
-            std::vector<uint32_t> vertexShaderConstantLocations;
+            uint32_t pixelShaderConstantSize = 0;
             uint32_t pixelShaderConstantBufferOffset = 0;
+
+            std::vector<uint32_t> vertexShaderConstantLocations;
+            uint32_t vertexShaderConstantSize = 0;
             uint32_t vertexShaderConstantBufferOffset = 0;
+
+            std::vector<uint8_t> pixelShaderData;
+            std::string pixelShaderFunction;
+            std::vector<uint8_t> vertexShaderData;
+            std::string vertexShaderFunction;
+            std::atomic<bool> dirty;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

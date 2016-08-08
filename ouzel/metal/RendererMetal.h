@@ -60,6 +60,7 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
+            virtual BlendStatePtr createBlendState() override;
             virtual TexturePtr createTexture() override;
             virtual RenderTargetPtr createRenderTarget() override;
             virtual ShaderPtr createShader() override;
