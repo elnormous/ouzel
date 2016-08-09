@@ -319,6 +319,7 @@ namespace ouzel
                 if (checkOpenGLError())
                 {
                     log("Failed to clear frame buffer");
+                    return false;
                 }
             }
             else while (!drawCommands.empty())
@@ -503,6 +504,7 @@ namespace ouzel
                     if (checkOpenGLError())
                     {
                         log("Failed to clear frame buffer");
+                        return false;
                     }
 
                     clearedFrameBuffers.insert(newFrameBuffer);
