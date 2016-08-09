@@ -344,9 +344,6 @@ namespace ouzel
                             log("Failed to upload index data");
                             return false;
                         }
-
-                        // unbind so that it gets bind again right before glDrawElements
-                        RendererOGL::unbindElementArrayBuffer(indexBufferId);
                     }
 
                     indexBufferDirty = false;
@@ -424,9 +421,6 @@ namespace ouzel
                             log("Failed to create vertex data");
                             return false;
                         }
-
-                        // unbind so that it gets bind again right before glDrawElements
-                        RendererOGL::unbindArrayBuffer(vertexBufferId);
                     }
 
                     vertexBufferDirty = false;
