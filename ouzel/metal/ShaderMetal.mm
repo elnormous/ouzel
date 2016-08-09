@@ -93,7 +93,10 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            Shader::setPixelShaderConstantInfo(constantInfo, alignment);
+            if (!Shader::setPixelShaderConstantInfo(constantInfo, alignment))
+            {
+                return false;
+            }
 
             dirty = true;
 
@@ -106,7 +109,10 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            Shader::setVertexShaderConstantInfo(constantInfo, alignment);
+            if (!Shader::setVertexShaderConstantInfo(constantInfo, alignment))
+            {
+                return false;
+            }
 
             dirty = true;
 
@@ -286,16 +292,16 @@ namespace ouzel
                 vertexShaderConstantLocations.clear();
                 vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
 
+                vertexShaderConstantSize = 0;
+
+                for (const ConstantInfo& info : vertexShaderConstantInfo)
+                {
+                    vertexShaderConstantLocations.push_back(vertexShaderConstantSize);
+                    vertexShaderConstantSize += info.size;
+                }
+
                 if (!vertexShaderConstantBuffer)
                 {
-                    vertexShaderConstantSize = 0;
-
-                    for (const ConstantInfo& info : vertexShaderConstantInfo)
-                    {
-                        vertexShaderConstantLocations.push_back(vertexShaderConstantSize);
-                        vertexShaderConstantSize += info.size;
-                    }
-
                     vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
                                                                                          options:MTLResourceCPUCacheModeWriteCombined];
 

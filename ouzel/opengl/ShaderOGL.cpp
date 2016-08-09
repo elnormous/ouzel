@@ -119,7 +119,10 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            Shader::setPixelShaderConstantInfo(constantInfo, alignment);
+            if (!Shader::setPixelShaderConstantInfo(constantInfo, alignment))
+            {
+                return false;
+            }
 
             dirty = true;
 
@@ -132,7 +135,10 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            Shader::setVertexShaderConstantInfo(constantInfo, alignment);
+            if (!Shader::setVertexShaderConstantInfo(constantInfo, alignment))
+            {
+                return false;
+            }
 
             dirty = true;
 
