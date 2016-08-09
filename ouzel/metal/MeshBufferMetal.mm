@@ -240,8 +240,8 @@ namespace ouzel
                     
                     vertexBufferDirty = false;
                 }
-                
-                ready = true;
+
+                ready = (indexBuffer && vertexBuffer);
             }
             
             return true;

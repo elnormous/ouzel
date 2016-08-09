@@ -130,45 +130,48 @@ namespace ouzel
 
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-                if (!texture ||
-                    static_cast<NSUInteger>(localSize.width) != width ||
-                    static_cast<NSUInteger>(localSize.height) != height)
+                if (localSize.width > 0 && localSize.height > 0)
                 {
-                    if (texture) [texture release];
-
-                    width = static_cast<NSUInteger>(localSize.width);
-                    height = static_cast<NSUInteger>(localSize.height);
-
-                    if (width > 0 && height > 0)
+                    if (!texture ||
+                        static_cast<NSUInteger>(localSize.width) != width ||
+                        static_cast<NSUInteger>(localSize.height) != height)
                     {
-                        MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
-                                                                                                                     width:width
-                                                                                                                    height:height
-                                                                                                                 mipmapped:mipmaps ? YES : NO];
-                        textureDescriptor.textureType = MTLTextureType2D;
-                        textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
+                        if (texture) [texture release];
 
-                        texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+                        width = static_cast<NSUInteger>(localSize.width);
+                        height = static_cast<NSUInteger>(localSize.height);
 
-                        if (!texture)
+                        if (width > 0 && height > 0)
                         {
-                            return false;
+                            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
+                                                                                                                         width:width
+                                                                                                                        height:height
+                                                                                                                     mipmapped:mipmaps ? YES : NO];
+                            textureDescriptor.textureType = MTLTextureType2D;
+                            textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
+
+                            texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+
+                            if (!texture)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+
+                    if (!localData.empty())
+                    {
+                        for (size_t level = 0; level < localData.size(); ++level)
+                        {
+                            NSUInteger bytesPerRow = localData[level].width * 4;
+                            [texture replaceRegion:MTLRegionMake2D(0, 0, localData[level].width, localData[level].height)
+                                       mipmapLevel:level withBytes:localData[level].data.data()
+                                       bytesPerRow:bytesPerRow];
                         }
                     }
                 }
 
-                if (!localData.empty())
-                {
-                    for (size_t level = 0; level < localData.size(); ++level)
-                    {
-                        NSUInteger bytesPerRow = localData[level].width * 4;
-                        [texture replaceRegion:MTLRegionMake2D(0, 0, localData[level].width, localData[level].height)
-                                   mipmapLevel:level withBytes:localData[level].data.data()
-                                   bytesPerRow:bytesPerRow];
-                    }
-                }
-
-                ready = true;
+                ready = (texture != Nil);
                 dirty = false;
             }
 
