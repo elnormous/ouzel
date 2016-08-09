@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <vector>
 #include <mutex>
 #include <atomic>
 #define NOMINMAX
@@ -45,9 +46,6 @@ namespace ouzel
             ShaderD3D11();
             virtual bool update() override;
 
-            bool createPixelShaderConstantBuffer(uint32_t size);
-            bool createVertexShaderConstantBuffer(uint32_t size);
-
             bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
             ID3D11PixelShader* pixelShader = nullptr;
@@ -55,14 +53,15 @@ namespace ouzel
             ID3D11InputLayout* inputLayout = nullptr;
 
             ID3D11Buffer* pixelShaderConstantBuffer = nullptr;
-            std::vector<char> pixelShaderData;
-
             ID3D11Buffer* vertexShaderConstantBuffer = nullptr;
-            std::vector<char> vertexShaderData;
 
             std::vector<uint32_t> pixelShaderConstantLocations;
+            uint32_t pixelShaderConstantSize = 0;
             std::vector<uint32_t> vertexShaderConstantLocations;
+            uint32_t vertexShaderConstantSize = 0;
 
+            std::vector<uint8_t> pixelShaderData;
+            std::vector<uint8_t> vertexShaderData;
             std::atomic<bool> dirty;
             std::mutex dataMutex;
         };

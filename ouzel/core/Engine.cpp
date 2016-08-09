@@ -82,7 +82,8 @@ namespace ouzel
         running = false;
         active = false;
 
-        updateThread.join();
+        if (updateThread.joinable()) updateThread.join();
+        sceneManager->setScene(nullptr);
     }
 
     std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers()
@@ -262,6 +263,7 @@ namespace ouzel
     {
         running = false;
         active = false;
+        if (updateThread.joinable()) updateThread.join();
     }
 
     void Engine::begin()
@@ -273,6 +275,8 @@ namespace ouzel
     void Engine::end()
     {
         running = false;
+        active = false;
+        if (updateThread.joinable()) updateThread.join();
     }
 
     void Engine::pause()

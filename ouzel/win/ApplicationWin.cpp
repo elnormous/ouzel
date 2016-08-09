@@ -78,6 +78,7 @@ namespace ouzel
                 if (msg.message == WM_QUIT)
                 {
                     running = false;
+                    break;
                 }
             }
         }
