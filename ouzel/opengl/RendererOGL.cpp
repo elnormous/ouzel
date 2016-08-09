@@ -78,7 +78,7 @@ namespace ouzel
         }
 
         RendererOGL::RendererOGL():
-            Renderer(Driver::OPENGL), dirty(true)
+            Renderer(Driver::OPENGL), dirty(false)
         {
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
             glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
@@ -207,6 +207,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
+            dirty = true;
             ready = true;
 
             setSize(size);
