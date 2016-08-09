@@ -120,22 +120,24 @@ namespace ouzel
             if (dirty)
             {
                 std::vector<Data> localData;
+                Size2 localSize;
 
                 {
                     std::lock_guard<std::mutex> lock(dataMutex);
                     localData = data;
+                    localSize = size;
                 }
 
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
                 if (!texture ||
-                    static_cast<NSUInteger>(size.width) != width ||
-                    static_cast<NSUInteger>(size.height) != height)
+                    static_cast<NSUInteger>(localSize.width) != width ||
+                    static_cast<NSUInteger>(localSize.height) != height)
                 {
                     if (texture) [texture release];
 
-                    width = static_cast<NSUInteger>(size.width);
-                    height = static_cast<NSUInteger>(size.height);
+                    width = static_cast<NSUInteger>(localSize.width);
+                    height = static_cast<NSUInteger>(localSize.height);
 
                     if (width > 0 && height > 0)
                     {
