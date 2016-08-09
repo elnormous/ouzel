@@ -72,7 +72,7 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        running(false), active(true), currentFPS(0.0f), accumulatedFPS(0.0f)
+        currentFPS(0.0f), accumulatedFPS(0.0f), running(false), active(true)
     {
         sharedEngine = this;
     }
