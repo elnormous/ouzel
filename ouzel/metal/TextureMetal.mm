@@ -157,7 +157,7 @@ namespace ouzel
                     }
                 }
 
-                if (texture && !localData.empty())
+                if (!localData.empty())
                 {
                     for (size_t level = 0; level < data.size(); ++level)
                     {
@@ -168,11 +168,7 @@ namespace ouzel
                     }
                 }
 
-                if (texture)
-                {
-                    ready = true;
-                }
-
+                ready = true;
                 dirty = false;
             }
 
