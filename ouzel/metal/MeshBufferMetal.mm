@@ -84,12 +84,17 @@ namespace ouzel
                 return false;
             }
 
-            indexData.assign(static_cast<const uint8_t*>(newIndices),
-                             static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
+            if (newIndices && indexSize && indexCount)
+            {
+                indexData.assign(static_cast<const uint8_t*>(newIndices),
+                                 static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
+            }
 
-
-            vertexData.assign(static_cast<const uint8_t*>(newVertices),
-                              static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
+            if (newVertices && vertexSize && vertexCount)
+            {
+                vertexData.assign(static_cast<const uint8_t*>(newVertices),
+                                  static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
+            }
 
             indexBufferDirty = true;
             vertexBufferDirty = true;
