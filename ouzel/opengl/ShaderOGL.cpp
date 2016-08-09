@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         ShaderOGL::ShaderOGL():
-            dirty(true)
+            dirty(false)
         {
         }
 
@@ -79,6 +79,8 @@ namespace ouzel
 
             pixelShaderData = newPixelShader;
             vertexShaderData = newVertexShader;
+
+            dirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 

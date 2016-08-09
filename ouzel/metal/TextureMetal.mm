@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         TextureMetal::TextureMetal():
-            dirty(true)
+            dirty(false)
         {
 
         }
@@ -51,6 +51,8 @@ namespace ouzel
                 return false;
             }
 
+            dirty = true;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -66,6 +68,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            dirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 

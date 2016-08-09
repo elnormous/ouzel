@@ -15,7 +15,7 @@ namespace ouzel
         static const size_t BUFFER_SIZE = 1024 * 1024;
 
         ShaderMetal::ShaderMetal():
-            dirty(true)
+            dirty(false)
         {
         }
 
@@ -82,6 +82,8 @@ namespace ouzel
             vertexShaderData = newVertexShader;
             vertexShaderFunction = newVertexShaderFunction;
 
+            dirty = true;
+            
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;

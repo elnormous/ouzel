@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         MeshBufferOGL::MeshBufferOGL():
-            indexBufferDirty(true), vertexBufferDirty(true)
+            indexBufferDirty(false), vertexBufferDirty(false)
         {
 
         }
@@ -74,6 +74,9 @@ namespace ouzel
                 return false;
             }
 
+            indexBufferDirty = true;
+            vertexBufferDirty = true;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -100,6 +103,10 @@ namespace ouzel
             vertexData.assign(static_cast<const uint8_t*>(newVertices),
                               static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
+
+            indexBufferDirty = true;
+            vertexBufferDirty = true;
+            
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;

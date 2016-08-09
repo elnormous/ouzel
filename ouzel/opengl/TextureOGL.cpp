@@ -13,7 +13,7 @@ namespace ouzel
     namespace graphics
     {
         TextureOGL::TextureOGL():
-            dirty(true)
+            dirty(false)
         {
 
         }
@@ -51,6 +51,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            dirty = true;
             
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -67,6 +69,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            dirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 

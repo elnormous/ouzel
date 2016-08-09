@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         RenderTargetOGL::RenderTargetOGL():
-            dirty(true)
+            dirty(false)
         {
 
         }
@@ -72,7 +72,9 @@ namespace ouzel
             textureOGL->setFlipped(true);
 
             texture = textureOGL;
-            
+
+            dirty = true;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;

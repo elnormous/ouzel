@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         RenderTargetMetal::RenderTargetMetal():
-            dirty(true)
+            dirty(false)
         {
 
         }
@@ -69,6 +69,8 @@ namespace ouzel
 
             texture = textureMetal;
 
+            dirty = true;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -80,7 +82,7 @@ namespace ouzel
 
             RenderTarget::setClearColor(color);
 
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
+            dirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
         }

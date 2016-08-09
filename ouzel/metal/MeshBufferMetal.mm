@@ -11,7 +11,7 @@ namespace ouzel
     namespace graphics
     {
         MeshBufferMetal::MeshBufferMetal():
-        indexBufferDirty(true), vertexBufferDirty(true)
+            indexBufferDirty(false), vertexBufferDirty(false)
         {
 
         }
@@ -71,6 +71,9 @@ namespace ouzel
 
             vertexData.assign(static_cast<const uint8_t*>(newVertices),
                               static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
+
+            indexBufferDirty = true;
+            vertexBufferDirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
