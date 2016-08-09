@@ -390,6 +390,13 @@ namespace ouzel
             return true;
         }
 
+        void RendererD3D11::setClearColor(Color color)
+        {
+            Renderer::setClearColor(color);
+
+            dirty = true;
+        }
+
         bool RendererD3D11::present()
         {
             if (!Renderer::present())
@@ -526,7 +533,7 @@ namespace ouzel
                         pixelShaderData.insert(pixelShaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
 
                         shaderD3D11->uploadData(shaderD3D11->getPixelShaderConstantBuffer(),
-                            pixelShaderData.data(),
+                                                pixelShaderData.data(),
                                                 pixelShaderConstantInfo.size);
                     }
 
