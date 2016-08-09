@@ -14,7 +14,7 @@ endif
 CFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.h
 LDFLAGS=-L. -louzel
 ifeq ($(platform),raspbian)
-LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal
+LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread
 else ifeq ($(platform),linux)
 LDFLAGS+=-lX11 -lGL -lopenal -lpthread
 else ifeq ($(platform),macos)
