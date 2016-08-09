@@ -150,126 +150,128 @@ namespace ouzel
                 if (!pixelShaderId)
                 {
                     pixelShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-                }
 
-                const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(pixelShaderData.data());
-                GLint pixelShaderSize = static_cast<GLint>(pixelShaderData.size());
+                    const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(pixelShaderData.data());
+                    GLint pixelShaderSize = static_cast<GLint>(pixelShaderData.size());
 
-                glShaderSource(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
-                glCompileShader(pixelShaderId);
+                    glShaderSource(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
+                    glCompileShader(pixelShaderId);
 
-                GLint status;
-                glGetShaderiv(pixelShaderId, GL_COMPILE_STATUS, &status);
-                if (status == GL_FALSE)
-                {
-                    log("Failed to compile pixel shader");
-                    printShaderMessage(pixelShaderId);
-                    return false;
-                }
+                    GLint status;
+                    glGetShaderiv(pixelShaderId, GL_COMPILE_STATUS, &status);
+                    if (status == GL_FALSE)
+                    {
+                        log("Failed to compile pixel shader");
+                        printShaderMessage(pixelShaderId);
+                        return false;
+                    }
 
-                if (RendererOGL::checkOpenGLError())
-                {
-                    return false;
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        return false;
+                    }
                 }
 
                 if (!vertexShaderId)
                 {
                     vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-                }
 
-                const GLchar* vertexShaderBuffer = reinterpret_cast<const GLchar*>(vertexShaderData.data());
-                GLint vertexShaderSize = static_cast<GLint>(vertexShaderData.size());
+                    const GLchar* vertexShaderBuffer = reinterpret_cast<const GLchar*>(vertexShaderData.data());
+                    GLint vertexShaderSize = static_cast<GLint>(vertexShaderData.size());
 
-                glShaderSource(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
-                glCompileShader(vertexShaderId);
+                    glShaderSource(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
+                    glCompileShader(vertexShaderId);
 
-                glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);
-                if (status == GL_FALSE)
-                {
-                    log("Failed to compile vertex shader");
-                    printShaderMessage(vertexShaderId);
-                    return false;
+                    GLint status;
+                    glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);
+                    if (status == GL_FALSE)
+                    {
+                        log("Failed to compile vertex shader");
+                        printShaderMessage(vertexShaderId);
+                        return false;
+                    }
                 }
 
                 if (!programId)
                 {
                     programId = glCreateProgram();
-                }
 
-                glAttachShader(programId, vertexShaderId);
-                glAttachShader(programId, pixelShaderId);
+                    glAttachShader(programId, vertexShaderId);
+                    glAttachShader(programId, pixelShaderId);
 
-                GLuint index = 0;
+                    GLuint index = 0;
 
-                if (vertexAttributes & VERTEX_POSITION)
-                {
-                    glBindAttribLocation(programId, index, "in_Position");
-                    ++index;
-                }
+                    if (vertexAttributes & VERTEX_POSITION)
+                    {
+                        glBindAttribLocation(programId, index, "in_Position");
+                        ++index;
+                    }
 
-                if (vertexAttributes & VERTEX_COLOR)
-                {
-                    glBindAttribLocation(programId, index, "in_Color");
-                    ++index;
-                }
+                    if (vertexAttributes & VERTEX_COLOR)
+                    {
+                        glBindAttribLocation(programId, index, "in_Color");
+                        ++index;
+                    }
 
-                if (vertexAttributes & VERTEX_NORMAL)
-                {
-                    glBindAttribLocation(programId, index, "in_Normal");
-                    ++index;
-                }
+                    if (vertexAttributes & VERTEX_NORMAL)
+                    {
+                        glBindAttribLocation(programId, index, "in_Normal");
+                        ++index;
+                    }
 
-                if (vertexAttributes & VERTEX_TEXCOORD0)
-                {
-                    glBindAttribLocation(programId, index, "in_TexCoord0");
-                    ++index;
-                }
+                    if (vertexAttributes & VERTEX_TEXCOORD0)
+                    {
+                        glBindAttribLocation(programId, index, "in_TexCoord0");
+                        ++index;
+                    }
 
-                if (vertexAttributes & VERTEX_TEXCOORD1)
-                {
-                    glBindAttribLocation(programId, index, "in_TexCoord1");
-                    ++index;
-                }
+                    if (vertexAttributes & VERTEX_TEXCOORD1)
+                    {
+                        glBindAttribLocation(programId, index, "in_TexCoord1");
+                        ++index;
+                    }
 
-                glLinkProgram(programId);
+                    glLinkProgram(programId);
 
-                glGetProgramiv(programId, GL_LINK_STATUS, &status);
-                if (status == GL_FALSE)
-                {
-                    log("Failed to link shader");
-                    printProgramMessage();
-                    return false;
-                }
+                    GLint status;
+                    glGetProgramiv(programId, GL_LINK_STATUS, &status);
+                    if (status == GL_FALSE)
+                    {
+                        log("Failed to link shader");
+                        printProgramMessage();
+                        return false;
+                    }
 
-                if (RendererOGL::checkOpenGLError())
-                {
-                    return false;
-                }
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        return false;
+                    }
 
-                RendererOGL::bindProgram(programId);
+                    glDetachShader(programId, vertexShaderId);
+                    glDeleteShader(vertexShaderId);
+                    vertexShaderId = 0;
 
-                GLint texture0Location = glGetUniformLocation(programId, "texture0");
-                if (texture0Location != -1) glUniform1i(texture0Location, 0);
+                    glDetachShader(programId, pixelShaderId);
+                    glDeleteShader(pixelShaderId);
+                    pixelShaderId = 0;
 
-                GLint texture1Location = glGetUniformLocation(programId, "texture1");
-                if (texture1Location != -1) glUniform1i(texture1Location, 1);
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        return false;
+                    }
 
-                if (RendererOGL::checkOpenGLError())
-                {
-                    return false;
-                }
+                    RendererOGL::bindProgram(programId);
 
-                glDetachShader(programId, vertexShaderId);
-                glDeleteShader(vertexShaderId);
-                vertexShaderId = 0;
+                    GLint texture0Location = glGetUniformLocation(programId, "texture0");
+                    if (texture0Location != -1) glUniform1i(texture0Location, 0);
 
-                glDetachShader(programId, pixelShaderId);
-                glDeleteShader(pixelShaderId);
-                pixelShaderId = 0;
-                
-                if (RendererOGL::checkOpenGLError())
-                {
-                    return false;
+                    GLint texture1Location = glGetUniformLocation(programId, "texture1");
+                    if (texture1Location != -1) glUniform1i(texture1Location, 1);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        return false;
+                    }
                 }
 
                 pixelShaderConstantLocations.clear();

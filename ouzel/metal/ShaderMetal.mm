@@ -212,27 +212,31 @@ namespace ouzel
 
                 NSError* err = Nil;
 
-                dispatch_data_t pixelShaderDispatchData = dispatch_data_create(pixelShaderData.data(), pixelShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
-                dispatch_release(pixelShaderDispatchData);
-
-                if (err != Nil)
-                {
-                    if (pixelShaderLibrary) [pixelShaderLibrary release];
-                    log("Failed to load pixel shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
-                    return false;
-                }
-
-                pixelShader = [pixelShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:pixelShaderFunction.c_str()]];
-
-                [pixelShaderLibrary release];
-
                 if (!pixelShader)
                 {
-                    log("Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
-                    return false;
+                    dispatch_data_t pixelShaderDispatchData = dispatch_data_create(pixelShaderData.data(), pixelShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+                    id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
+                    dispatch_release(pixelShaderDispatchData);
+
+                    if (err != Nil)
+                    {
+                        if (pixelShaderLibrary) [pixelShaderLibrary release];
+                        log("Failed to load pixel shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
+                        return false;
+                    }
+
+                    pixelShader = [pixelShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:pixelShaderFunction.c_str()]];
+
+                    [pixelShaderLibrary release];
+
+                    if (!pixelShader)
+                    {
+                        log("Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
+                        return false;
+                    }
                 }
 
+                pixelShaderConstantLocations.clear();
                 pixelShaderConstantLocations.reserve(pixelShaderConstantInfo.size());
 
                 pixelShaderConstantSize = 0;
@@ -243,53 +247,63 @@ namespace ouzel
                     pixelShaderConstantSize += info.size;
                 }
 
-                pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
-                                                                                    options:MTLResourceCPUCacheModeWriteCombined];
-
-                if (pixelShaderConstantBuffer == Nil)
+                if (!pixelShaderConstantBuffer)
                 {
-                    log("Failed to create Metal index buffer");
-                    return false;
+                    pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
+                                                                                        options:MTLResourceCPUCacheModeWriteCombined];
+
+                    if (pixelShaderConstantBuffer == Nil)
+                    {
+                        log("Failed to create Metal index buffer");
+                        return false;
+                    }
                 }
-
-                dispatch_data_t vertexShaderDispatchData = dispatch_data_create(vertexShaderData.data(), vertexShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
-                dispatch_release(vertexShaderDispatchData);
-
-                if (err != Nil)
-                {
-                    if (vertexShaderLibrary) [vertexShaderLibrary release];
-                    log("Failed to load vertex shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
-                    return false;
-                }
-
-                vertexShader = [vertexShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:vertexShaderFunction.c_str()]];
-
-                [vertexShaderLibrary release];
 
                 if (!vertexShader)
                 {
-                    log("Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
-                    return false;
+                    dispatch_data_t vertexShaderDispatchData = dispatch_data_create(vertexShaderData.data(), vertexShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+                    id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
+                    dispatch_release(vertexShaderDispatchData);
+
+                    if (err != Nil)
+                    {
+                        if (vertexShaderLibrary) [vertexShaderLibrary release];
+                        log("Failed to load vertex shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
+                        return false;
+                    }
+
+                    vertexShader = [vertexShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:vertexShaderFunction.c_str()]];
+
+                    [vertexShaderLibrary release];
+
+                    if (!vertexShader)
+                    {
+                        log("Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
+                        return false;
+                    }
                 }
 
+                vertexShaderConstantLocations.clear();
                 vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
 
-                vertexShaderConstantSize = 0;
-
-                for (const ConstantInfo& info : vertexShaderConstantInfo)
+                if (!vertexShaderConstantBuffer)
                 {
-                    vertexShaderConstantLocations.push_back(vertexShaderConstantSize);
-                    vertexShaderConstantSize += info.size;
-                }
+                    vertexShaderConstantSize = 0;
 
-                vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
-                                                                                     options:MTLResourceCPUCacheModeWriteCombined];
+                    for (const ConstantInfo& info : vertexShaderConstantInfo)
+                    {
+                        vertexShaderConstantLocations.push_back(vertexShaderConstantSize);
+                        vertexShaderConstantSize += info.size;
+                    }
 
-                if (vertexShaderConstantBuffer == Nil)
-                {
-                    log("Failed to create Metal constant buffer");
-                    return false;
+                    vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
+                                                                                         options:MTLResourceCPUCacheModeWriteCombined];
+
+                    if (vertexShaderConstantBuffer == Nil)
+                    {
+                        log("Failed to create Metal constant buffer");
+                        return false;
+                    }
                 }
                 
                 ready = true;
