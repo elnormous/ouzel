@@ -87,13 +87,13 @@ namespace ouzel
             if (newIndices && indexSize && indexCount)
             {
                 indexData.assign(static_cast<const uint8_t*>(newIndices),
-                                 static_cast<const uint8_t*>(newIndices) + indexSize + indexCount);
+                                 static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
             }
 
             if (newVertices && vertexSize && vertexCount)
             {
                 vertexData.assign(static_cast<const uint8_t*>(newVertices),
-                                  static_cast<const uint8_t*>(newVertices) + vertexSize + vertexCount);
+                                  static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
             }
 
             indexBufferDirty = true;
@@ -130,7 +130,7 @@ namespace ouzel
             }
 
             indexData.assign(static_cast<const uint8_t*>(newIndices),
-                             static_cast<const uint8_t*>(newIndices) + indexSize + indexCount);
+                             static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
 
             indexBufferDirty = true;
 
@@ -149,7 +149,7 @@ namespace ouzel
             }
 
             vertexData.assign(static_cast<const uint8_t*>(newVertices),
-                              static_cast<const uint8_t*>(newVertices) + vertexSize + vertexCount);
+                              static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
             vertexBufferDirty = true;
 
