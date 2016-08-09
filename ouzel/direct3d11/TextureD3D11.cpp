@@ -183,7 +183,7 @@ namespace ouzel
                         srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
                         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
                         srvDesc.Texture2D.MostDetailedMip = 0;
-                        srvDesc.Texture2D.MipLevels = mipmaps ? calculateMipLevels(width, height) : 1;
+                        srvDesc.Texture2D.MipLevels = mipmaps ? static_cast<UINT>(localData.size()) : 1;
 
                         hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
                         if (FAILED(hr))

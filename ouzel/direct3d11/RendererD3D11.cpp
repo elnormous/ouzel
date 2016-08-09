@@ -622,9 +622,9 @@ namespace ouzel
                 context->OMSetDepthStencilState(depthStencilState, 0);
 
                 ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
-                UINT stride = meshBufferD3D11->getVertexSize();
-                UINT offset = 0;
-                context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
+                UINT strides[] = { meshBufferD3D11->getVertexSize() };
+                UINT offsets[] = { 0 };
+                context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
                 context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
 
                 D3D_PRIMITIVE_TOPOLOGY topology;
