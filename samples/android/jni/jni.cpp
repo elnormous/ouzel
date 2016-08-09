@@ -26,12 +26,7 @@ extern "C"
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
 
-        ouzelMain(ouzel::sharedApplication->getArgs());
-
-        if (ouzel::sharedEngine)
-        {
-            ouzel::sharedEngine->begin();
-        }
+        application.run();
     }
 
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv* env, jclass cls, jint width, jint height)

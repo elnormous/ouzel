@@ -18,12 +18,12 @@ namespace ouzel
     {
         ouzelMain(args);
 
-        if (!ouzel::sharedEngine)
+        if (!sharedEngine)
         {
             return false;
         }
 
-        std::shared_ptr<ouzel::WindowWin> window = std::static_pointer_cast<ouzel::WindowWin>(ouzel::sharedEngine->getWindow());
+        std::shared_ptr<WindowWin> window = std::static_pointer_cast<WindowWin>(sharedEngine->getWindow());
         sharedEngine->begin();
 
         MSG msg;

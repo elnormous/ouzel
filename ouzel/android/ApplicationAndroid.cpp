@@ -2,10 +2,25 @@
 // This file is part of the Ouzel engine.
 
 #include "ApplicationAndroid.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
     ApplicationAndroid::ApplicationAndroid()
     {
+    }
+    
+    bool ApplicationAndroid::run()
+    {
+        ouzelMain(ouzel::sharedApplication->getArgs());
+
+        if (!sharedEngine)
+        {
+            return false;
+        }
+
+        sharedEngine->begin();
+
+        return true;
     }
 }
