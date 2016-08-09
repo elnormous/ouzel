@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <atomic>
 #define NOMINMAX
 #include <set>
 #include <windows.h>
@@ -48,10 +49,10 @@ namespace ouzel
                               TextureFiltering newTextureFiltering,
                               float newTargetFPS,
                               bool newVerticalSync) override;
+            bool update();
 
             IDXGIOutput* getOutput() const;
 
-        private:
             ID3D11Device* device = nullptr;
             ID3D11DeviceContext* context = nullptr;
             IDXGISwapChain* swapChain = nullptr;
@@ -70,6 +71,9 @@ namespace ouzel
             ID3D11SamplerState* samplerStates[Texture::LAYERS];
 
             UINT swapInterval = 0;
+            FLOAT frameBufferClearColor[4];
+
+            std::atomic<bool> dirty;
         };
     } // namespace graphics
 } // namespace ouzel

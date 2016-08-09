@@ -254,7 +254,7 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::uploadMipmap(uint32_t level, const Size2&, const std::vector<uint8_t>&)
+        bool Texture::uploadMipmap(uint32_t, const Size2&, const std::vector<uint8_t>&)
         {
             return true;
         }

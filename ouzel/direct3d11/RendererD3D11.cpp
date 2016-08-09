@@ -25,7 +25,7 @@ namespace ouzel
     namespace graphics
     {
         RendererD3D11::RendererD3D11():
-            Renderer(Driver::DIRECT3D11)
+            Renderer(Driver::DIRECT3D11), dirty(false)
         {
             apiVersion = 11;
         }
@@ -158,7 +158,7 @@ namespace ouzel
 
             if (FAILED(hr))
             {
-                log("Failed to create the D3D11 device");
+                log("Failed to create the Direct3D 11 device");
                 return false;
             }
 
@@ -200,7 +200,7 @@ namespace ouzel
             hr = factory->CreateSwapChain(device, &swapChainDesc, &swapChain);
             if (FAILED(hr))
             {
-                log("Failed to create the D3D11 swap chain");
+                log("Failed to create the Direct3D 11 swap chain");
                 return false;
             }
 
@@ -213,14 +213,14 @@ namespace ouzel
             hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer));
             if (FAILED(hr))
             {
-                log("Failed to retrieve D3D11 backbuffer");
+                log("Failed to retrieve Direct3D 11 backbuffer");
                 return false;
             }
 
             hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
             if (FAILED(hr))
             {
-                log("Failed to create D3D11 render target view");
+                log("Failed to create Direct3D 11 render target view");
                 return false;
             }
 
@@ -259,7 +259,7 @@ namespace ouzel
             hr = device->CreateSamplerState(&samplerStateDesc, &samplerState);
             if (FAILED(hr))
             {
-                log("Failed to create D3D11 sampler state");
+                log("Failed to create Direct3D 11 sampler state");
                 return false;
             }
 
@@ -279,7 +279,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerState);
             if (FAILED(hr))
             {
-                log("Failed to create D3D11 rasterizer state");
+                log("Failed to create Direct3D 11 rasterizer state");
                 return false;
             }
 
@@ -288,7 +288,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &scissorTestRasterizerState);
             if (FAILED(hr))
             {
-                log("Failed to create D3D11 rasterizer state");
+                log("Failed to create Direct3D 11 rasterizer state");
                 return false;
             }
 
@@ -300,7 +300,7 @@ namespace ouzel
             hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState);
             if (FAILED(hr))
             {
-                log("Failed to create D3D11 depth stencil state");
+                log("Failed to create Direct3D 11 depth stencil state");
                 return false;
             }
 
@@ -367,9 +367,25 @@ namespace ouzel
             memset(&resourceViews, 0, sizeof(resourceViews));
             memset(&samplerStates, 0, sizeof(samplerStates));
 
+            dirty = true;
             ready = true;
 
             setSize(size);
+
+            return true;
+        }
+
+        bool RendererD3D11::update()
+        {
+            if (dirty)
+            {
+                frameBufferClearColor[0] = clearColor.getR();
+                frameBufferClearColor[1] = clearColor.getG();
+                frameBufferClearColor[2] = clearColor.getB();
+                frameBufferClearColor[3] = clearColor.getA();
+
+                dirty = false;
+            }
 
             return true;
         }
@@ -412,13 +428,17 @@ namespace ouzel
                 resources.pop();
             }
 
+            if (!update())
+            {
+                return false;
+            }
+
             if (drawCommands.empty())
             {
                 context->OMSetRenderTargets(1, &renderTargetView, nullptr);
                 context->RSSetViewports(1, &viewport);
 
-                float color[4] = { clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA() };
-                context->ClearRenderTargetView(renderTargetView, color);
+                context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
             }
             else while (!drawCommands.empty())
             {
@@ -426,7 +446,7 @@ namespace ouzel
 
                 // render target
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
-                Color newClearColor;
+                const float* newClearColor;
                 D3D11_VIEWPORT newViewport;
 
                 if (drawCommand.renderTarget)
@@ -434,13 +454,13 @@ namespace ouzel
                     std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(drawCommand.renderTarget);
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                    newClearColor = renderTargetD3D11->getClearColor();
+                    newClearColor = renderTargetD3D11->getFrameBufferClearColor();
                     newViewport = renderTargetD3D11->getViewport();
                 }
                 else
                 {
                     newRenderTargetView = renderTargetView;
-                    newClearColor = clearColor;
+                    newClearColor = frameBufferClearColor;
                     newViewport = viewport;
                 }
 
@@ -449,8 +469,7 @@ namespace ouzel
 
                 if (clearedRenderTargetViews.find(newRenderTargetView) == clearedRenderTargetViews.end())
                 {
-                    float color[4] = { newClearColor.getR(), newClearColor.getG(), newClearColor.getB(), newClearColor.getA() };
-                    context->ClearRenderTargetView(newRenderTargetView, color);
+                    context->ClearRenderTargetView(newRenderTargetView, newClearColor);
 
                     clearedRenderTargetViews.insert(newRenderTargetView);
                 }
@@ -483,7 +502,6 @@ namespace ouzel
                     context->IASetInputLayout(shaderD3D11->getInputLayout());
 
                     // pixel shader constants
-                    const std::vector<uint32_t>& pixelShaderConstantLocations = shaderD3D11->getPixelShaderConstantLocations();
                     const std::vector<Shader::ConstantInfo>& pixelShaderConstantInfos = shaderD3D11->getPixelShaderConstantInfo();
 
                     if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantInfos.size())
@@ -492,14 +510,23 @@ namespace ouzel
                         return false;
                     }
 
+                    std::vector<uint8_t> pixelShaderData;
+
                     for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                     {
-                        uint32_t location = pixelShaderConstantLocations[i];
                         const Shader::ConstantInfo& pixelShaderConstantInfo = pixelShaderConstantInfos[i];
                         const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
 
+                        if (vectorDataSize(pixelShaderConstant) != pixelShaderConstantInfo.size)
+                        {
+                            log("Invalid pixel shader constant size");
+                            return false;
+                        }
+
+                        pixelShaderData.insert(pixelShaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
+
                         shaderD3D11->uploadData(shaderD3D11->getPixelShaderConstantBuffer(),
-                                                pixelShaderConstant.data(),
+                            pixelShaderData.data(),
                                                 pixelShaderConstantInfo.size);
                     }
 
@@ -594,7 +621,7 @@ namespace ouzel
                     case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
                     case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
                     case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
-                    default: return false;
+                    default: log("Invalid draw mode");  return false;
                 }
 
                 context->IASetPrimitiveTopology(topology);
@@ -706,14 +733,14 @@ namespace ouzel
                 HRESULT hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
                 if (FAILED(hr))
                 {
-                    log("Failed to retrieve D3D11 backbuffer");
+                    log("Failed to retrieve Direct3D 11 backbuffer");
                     return;
                 }
 
                 hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
                 if (FAILED(hr))
                 {
-                    log("Failed to create D3D11 render target view");
+                    log("Failed to create Direct3D 11 render target view");
                     return;
                 }
 
@@ -823,7 +850,7 @@ namespace ouzel
 
             if (FAILED(hr))
             {
-                log("Failed to get D3D11 back buffer texture");
+                log("Failed to get Direct3D 11 back buffer texture");
                 return false;
             }
 
@@ -844,7 +871,7 @@ namespace ouzel
 
             if (FAILED(hr))
             {
-                log("Failed to create D3D11 texture");
+                log("Failed to create Direct3D 11 texture");
                 return false;
             }
 
@@ -859,7 +886,7 @@ namespace ouzel
                 if (FAILED(hr))
                 {
                     texture->Release();
-                    log("Failed to create D3D11 texture");
+                    log("Failed to create Direct3D 11 texture");
                     return false;
                 }
 
@@ -886,7 +913,7 @@ namespace ouzel
             if (FAILED(hr))
             {
                 texture->Release();
-                log("Failed to map D3D11 resource");
+                log("Failed to map Direct3D 11 resource");
                 return false;
             }
 

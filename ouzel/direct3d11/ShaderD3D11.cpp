@@ -12,7 +12,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderD3D11::ShaderD3D11()
+        ShaderD3D11::ShaderD3D11():
+            dirty(false)
         {
         }
 
@@ -46,6 +47,8 @@ namespace ouzel
 
         void ShaderD3D11::free()
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             Shader::free();
 
             if (pixelShader)
@@ -85,26 +88,28 @@ namespace ouzel
                                           const std::string& pixelShaderFunction,
                                           const std::string& vertexShaderFunction)
         {
+            free();
+
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!Shader::initFromBuffers(newPixelShader, newVertexShader, newVertexAttributes, pixelShaderFunction, vertexShaderFunction))
             {
                 return false;
             }
-
-            free();
 
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
             HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(newPixelShader.data(), newPixelShader.size(), NULL, &pixelShader);
             if (FAILED(hr))
             {
-                log("Failed to create a D3D11 pixel shader");
+                log("Failed to create a Direct3D 11 pixel shader");
                 return false;
             }
 
             hr = rendererD3D11->getDevice()->CreateVertexShader(newVertexShader.data(), newVertexShader.size(), NULL, &vertexShader);
             if (FAILED(hr))
             {
-                log("Failed to create a D3D11 vertex shader");
+                log("Failed to create a Direct3D 11 vertex shader");
                 return false;
             }
 
@@ -151,7 +156,7 @@ namespace ouzel
 
             if (FAILED(hr))
             {
-                log("Failed to create D3D11 input layout for vertex shader");
+                log("Failed to create Direct3D 11 input layout for vertex shader");
                 return false;
             }
 
@@ -245,7 +250,7 @@ namespace ouzel
             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
             if (FAILED(hr))
             {
-                log("Failed to create D3D11 constant buffer");
+                log("Failed to create Direct3D 11 constant buffer");
                 return false;
             }
 
@@ -269,7 +274,7 @@ namespace ouzel
             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
             if (FAILED(hr))
             {
-                log("Failed to create D3D11 constant buffer");
+                log("Failed to create Direct3D 11 constant buffer");
                 return false;
             }
 
@@ -286,13 +291,25 @@ namespace ouzel
             HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
             if (FAILED(hr))
             {
-                log("Failed to lock D3D11 buffer");
+                log("Failed to lock Direct3D 11 buffer");
                 return false;
             }
 
             memcpy(mappedSubresource.pData, data, size);
 
             rendererD3D11->getContext()->Unmap(buffer, 0);
+
+            return true;
+        }
+
+        bool ShaderD3D11::update()
+        {
+            if (dirty)
+            {
+                std::lock_guard<std::mutex> lock(dataMutex);
+
+                dirty = false;
+            }
 
             return true;
         }

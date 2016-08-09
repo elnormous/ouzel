@@ -11,7 +11,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        BlendStateD3D11::BlendStateD3D11()
+        BlendStateD3D11::BlendStateD3D11():
+            dirty(false)
         {
 
         }
@@ -26,6 +27,8 @@ namespace ouzel
 
         void BlendStateD3D11::free()
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             BlendState::free();
 
             if (blendState)
@@ -41,6 +44,10 @@ namespace ouzel
                                    BlendFactor alphaBlendSource, BlendFactor alphaBlendDest,
                                    BlendOperation alphaOperation)
         {
+            free();
+
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!BlendState::init(enableBlending,
                                   colorBlendSource, colorBlendDest,
                                   colorOperation,
@@ -50,29 +57,9 @@ namespace ouzel
                 return false;
             }
 
-            free();
+            dirty = true;
 
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
-
-            // Blending state
-            D3D11_BLEND_DESC blendStateDesc = { FALSE, FALSE }; // alpha to coverage, independent blend
-            D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc =
-            {
-                enableBlending ? TRUE : FALSE,
-                getBlendFactor(colorBlendSource), getBlendFactor(colorBlendDest), getBlendOperation(colorOperation),
-                getBlendFactor(alphaBlendSource), getBlendFactor(alphaBlendDest), getBlendOperation(alphaOperation),
-                D3D11_COLOR_WRITE_ENABLE_ALL, // color write mask
-            };
-            blendStateDesc.RenderTarget[0] = targetBlendDesc;
-
-            HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
-            if (FAILED(hr))
-            {
-                log("Failed to create D3D11 blend state");
-                return false;
-            }
-
-            ready = true;
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -113,5 +100,37 @@ namespace ouzel
             return D3D11_BLEND_OP_ADD;
         }
 
+        bool BlendStateD3D11::update()
+        {
+            if (dirty)
+            {
+                std::lock_guard<std::mutex> lock(dataMutex);
+
+                std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+
+                // Blending state
+                D3D11_BLEND_DESC blendStateDesc = { FALSE, FALSE }; // alpha to coverage, independent blend
+                D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc =
+                {
+                    enableBlending ? TRUE : FALSE,
+                    getBlendFactor(colorBlendSource), getBlendFactor(colorBlendDest), getBlendOperation(colorOperation),
+                    getBlendFactor(alphaBlendSource), getBlendFactor(alphaBlendDest), getBlendOperation(alphaOperation),
+                    D3D11_COLOR_WRITE_ENABLE_ALL, // color write mask
+                };
+                blendStateDesc.RenderTarget[0] = targetBlendDesc;
+
+                HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
+                if (FAILED(hr))
+                {
+                    log("Failed to create Direct3D 11 blend state");
+                    return false;
+                }
+
+                ready = true;
+                dirty = false;
+            }
+
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

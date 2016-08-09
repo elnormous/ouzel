@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <mutex>
+#include <atomic>
 #define NOMINMAX
 #include <d3d11.h>
 #include "graphics/Shader.h"
@@ -41,6 +43,7 @@ namespace ouzel
 
         protected:
             ShaderD3D11();
+            virtual bool update() override;
 
             bool createPixelShaderConstantBuffer(uint32_t size);
             bool createVertexShaderConstantBuffer(uint32_t size);
@@ -59,6 +62,9 @@ namespace ouzel
 
             std::vector<uint32_t> pixelShaderConstantLocations;
             std::vector<uint32_t> vertexShaderConstantLocations;
+
+            std::atomic<bool> dirty;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <mutex>
+#include <atomic>
 #define NOMINMAX
 #include <d3d11.h>
 #include "graphics/BlendState.h"
@@ -33,8 +35,12 @@ namespace ouzel
 
         protected:
             BlendStateD3D11();
+            virtual bool update() override;
 
             ID3D11BlendState* blendState = nullptr;
+
+            std::atomic<bool> dirty;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

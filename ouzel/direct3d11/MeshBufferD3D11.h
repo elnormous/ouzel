@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <vector>
+#include <mutex>
+#include <atomic>
 #define NOMINMAX
 #include <d3d11.h>
 #include "graphics/MeshBuffer.h"
@@ -20,6 +23,7 @@ namespace ouzel
             virtual ~MeshBufferD3D11();
             virtual void free() override;
 
+            virtual bool init(bool newDynamicIndexBuffer = true, bool newDynamicVertexBuffer = true) override;
             virtual bool initFromBuffer(const void* newIndices, uint32_t newIndexSize,
                                         uint32_t newIndexCount, bool newDynamicIndexBuffer,
                                         const void* newVertices, uint32_t newVertexAttributes,
@@ -27,8 +31,8 @@ namespace ouzel
 
             virtual bool setIndexSize(uint32_t indexSize) override;
 
-            virtual bool uploadIndices(const void* indices, uint32_t indexCount) override;
-            virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
+            virtual bool uploadIndices(const void* newIndices, uint32_t newIndexCount) override;
+            virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount) override;
 
             ID3D11Buffer* getIndexBuffer() const { return indexBuffer; }
             ID3D11Buffer* getVertexBuffer() const { return vertexBuffer; }
@@ -37,19 +41,23 @@ namespace ouzel
 
         protected:
             MeshBufferD3D11();
+            virtual bool update() override;
 
-            bool updateIndexFormat();
-            bool createIndexBuffer(const void* indices, uint32_t size);
-            bool createVertexBuffer(const void* vertices, uint32_t size);
-            bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
+            bool uploadData(ID3D11Buffer* buffer, const std::vector<uint8_t>& data);
 
             ID3D11Buffer* indexBuffer = nullptr;
-            uint32_t indexBufferSize = 0;
+            UINT indexBufferSize = 0;
 
             ID3D11Buffer* vertexBuffer = nullptr;
-            uint32_t vertexBufferSize = 0;
+            UINT vertexBufferSize = 0;
 
             DXGI_FORMAT indexFormat = DXGI_FORMAT_UNKNOWN;
+
+            std::vector<uint8_t> indexData;
+            std::atomic<bool> indexBufferDirty;
+            std::vector<uint8_t> vertexData;
+            std::atomic<bool> vertexBufferDirty;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -12,7 +12,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureD3D11::TextureD3D11()
+        TextureD3D11::TextureD3D11():
+            dirty(false)
         {
 
         }
@@ -32,7 +33,11 @@ namespace ouzel
 
         void TextureD3D11::free()
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             Texture::free();
+
+            data.clear();
 
             if (resourceView)
             {
@@ -49,53 +54,59 @@ namespace ouzel
 
         bool TextureD3D11::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
         {
+            free();
+
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!Texture::init(newSize, newDynamic, newMipmaps, newRenderTarget))
             {
                 return false;
             }
 
-            free();
+            dirty = true;
 
-            return createTexture(static_cast<UINT>(size.width),
-                                 static_cast<UINT>(size.height));
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
+            return true;
         }
 
         bool TextureD3D11::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
+            free();
+
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
             {
                 return false;
             }
 
-            free();
+            dirty = true;
 
-            if (!createTexture(static_cast<UINT>(size.width),
-                               static_cast<UINT>(size.height)))
-            {
-                return false;
-            }
-
-            ready = true;
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return uploadData(newData, newSize);
         }
 
-        bool TextureD3D11::uploadData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        bool TextureD3D11::upload(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            if (static_cast<UINT>(newSize.width) != width ||
-                static_cast<UINT>(newSize.height) != height)
+            std::lock_guard<std::mutex> lock(dataMutex);
+            data.clear();
+
+            if (!Texture::upload(newData, newSize))
             {
-                free();
-
-                if (!createTexture(static_cast<UINT>(size.width),
-                                   static_cast<UINT>(size.height)))
-                {
-                    return false;
-                }
-
-                ready = true;
+                return false;
             }
 
+            dirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
+            return true;
+        }
+
+        bool TextureD3D11::uploadData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        {
             if (!Texture::uploadData(newData, newSize))
             {
                 return false;
@@ -111,57 +122,90 @@ namespace ouzel
                 return false;
             }
 
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+            if (data.size() < level + 1) data.resize(level + 1);
 
-            UINT newWidth = static_cast<UINT>(mipMapSize.width);
-
-            UINT rowPitch = newWidth * 4;
-            rendererD3D11->getContext()->UpdateSubresource(texture, level, nullptr, newData.data(), rowPitch, 0);
+            data[level].width = static_cast<UINT>(mipMapSize.width);
+            data[level].height = static_cast<UINT>(mipMapSize.height);
+            data[level].data = newData;
 
             return true;
         }
 
-        bool TextureD3D11::createTexture(UINT newWidth, UINT newHeight)
+        bool TextureD3D11::update()
         {
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
-
-            D3D11_TEXTURE2D_DESC textureDesc;
-            memset(&textureDesc, 0, sizeof(textureDesc));
-            textureDesc.Width = newWidth;
-            textureDesc.Height = newHeight;
-            textureDesc.MipLevels = 0;
-            textureDesc.ArraySize = 1;
-            textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-            textureDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
-            textureDesc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
-            textureDesc.SampleDesc.Count = 1;
-            textureDesc.SampleDesc.Quality = 0;
-            textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (renderTarget ? D3D11_BIND_RENDER_TARGET : 0);
-            textureDesc.MiscFlags = 0;
-
-            HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
-            if (FAILED(hr))
+            if (dirty)
             {
-                log("Failed to create D3D11 texture");
-                return false;
+                std::vector<Data> localData;
+                Size2 localSize;
+
+                {
+                    std::lock_guard<std::mutex> lock(dataMutex);
+                    localData = data;
+                    localSize = size;
+                }
+
+                std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+
+                if (localSize.width > 0 && localSize.height > 0)
+                {
+                    if (!texture ||
+                        static_cast<UINT>(localSize.width) != width ||
+                        static_cast<UINT>(localSize.height) != height)
+                    {
+                        if (texture) texture->Release();
+
+                        width = static_cast<UINT>(localSize.width);
+                        height = static_cast<UINT>(localSize.height);
+
+                        D3D11_TEXTURE2D_DESC textureDesc;
+                        memset(&textureDesc, 0, sizeof(textureDesc));
+                        textureDesc.Width = width;
+                        textureDesc.Height = height;
+                        textureDesc.MipLevels = 0;
+                        textureDesc.ArraySize = 1;
+                        textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                        textureDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                        textureDesc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+                        textureDesc.SampleDesc.Count = 1;
+                        textureDesc.SampleDesc.Quality = 0;
+                        textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (renderTarget ? D3D11_BIND_RENDER_TARGET : 0);
+                        textureDesc.MiscFlags = 0;
+
+                        HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
+                        if (FAILED(hr))
+                        {
+                            log("Failed to create Direct3D 11 texture");
+                            return false;
+                        }
+
+                        D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+                        memset(&srvDesc, 0, sizeof(srvDesc));
+                        srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                        srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+                        srvDesc.Texture2D.MostDetailedMip = 0;
+                        srvDesc.Texture2D.MipLevels = mipmaps ? calculateMipLevels(width, height) : 1;
+
+                        hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
+                        if (FAILED(hr))
+                        {
+                            log("Failed to create Direct3D 11 shader resource view");
+                            return false;
+                        }
+                    }
+
+                    if (!localData.empty())
+                    {
+                        for (size_t level = 0; level < localData.size(); ++level)
+                        {
+                            UINT rowPitch = localData[level].width * 4;
+                            rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level), nullptr, localData[level].data.data(), rowPitch, 0);
+                        }
+                    }
+                }
+
+                ready = (texture != nullptr);
+                dirty = false;
             }
-
-            D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-            memset(&srvDesc, 0, sizeof(srvDesc));
-            srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-            srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-            srvDesc.Texture2D.MostDetailedMip = 0;
-            srvDesc.Texture2D.MipLevels = mipmaps ? calculateMipLevels(newWidth, newHeight) : 1;
-
-            hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
-            if (FAILED(hr))
-            {
-                log("Failed to create D3D11 shader resource view");
-                return false;
-            }
-
-            width = newWidth;
-            height = newHeight;
 
             return true;
         }
