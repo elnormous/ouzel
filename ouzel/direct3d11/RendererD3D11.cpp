@@ -517,7 +517,7 @@ namespace ouzel
                         return false;
                     }
 
-                    std::vector<uint8_t> pixelShaderData;
+                    std::vector<float> pixelShaderData;
 
                     for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                     {
@@ -531,17 +531,16 @@ namespace ouzel
                         }
 
                         pixelShaderData.insert(pixelShaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
-
-                        shaderD3D11->uploadData(shaderD3D11->getPixelShaderConstantBuffer(),
-                                                pixelShaderData.data(),
-                                                pixelShaderConstantInfo.size);
                     }
+
+                    shaderD3D11->uploadData(shaderD3D11->getPixelShaderConstantBuffer(),
+                        pixelShaderData.data(),
+                        static_cast<uint32_t>(vectorDataSize(pixelShaderData)));
 
                     ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
                     context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
 
                     // vertex shader constants
-                    const std::vector<uint32_t>& vertexShaderConstantLocations = shaderD3D11->getVertexShaderConstantLocations();
                     const std::vector<Shader::ConstantInfo>& vertexShaderConstantInfos = shaderD3D11->getVertexShaderConstantInfo();
 
                     if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantInfos.size())
@@ -550,16 +549,25 @@ namespace ouzel
                         return false;
                     }
 
+                    std::vector<float> vertexShaderData;
+
                     for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                     {
-                        uint32_t location = vertexShaderConstantLocations[i];
                         const Shader::ConstantInfo& vertexShaderConstantInfo = vertexShaderConstantInfos[i];
                         const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
                         
-                        shaderD3D11->uploadData(shaderD3D11->getVertexShaderConstantBuffer(),
-                                                vertexShaderConstant.data(),
-                                                vertexShaderConstantInfo.size);
+                        if (vectorDataSize(vertexShaderConstant) != vertexShaderConstantInfo.size)
+                        {
+                            log("Invalid pixel shader constant size");
+                            return false;
+                        }
+
+                        vertexShaderData.insert(vertexShaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                     }
+
+                    shaderD3D11->uploadData(shaderD3D11->getVertexShaderConstantBuffer(),
+                        vertexShaderData.data(),
+                        static_cast<uint32_t>(vectorDataSize(vertexShaderData)));
 
                     ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
                     context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
