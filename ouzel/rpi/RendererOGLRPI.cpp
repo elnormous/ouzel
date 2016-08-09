@@ -190,11 +190,19 @@ namespace ouzel
             return RendererOGL::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync);
         }
 
-        void RendererOGLRPI::present()
+        bool RendererOGLRPI::present()
         {
-            RendererOGL::present();
+            if (!RendererOGL::present())
+            {
+                return false;
+            }
 
-            eglSwapBuffers(display, surface);
+            if (eglSwapBuffers(display, surface) != EGL_TRUE)
+            {
+                return false;
+            }
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

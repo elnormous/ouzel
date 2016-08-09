@@ -20,7 +20,7 @@ namespace ouzel
             virtual ~RendererOGLRPI();
             virtual void free() override;
 
-            virtual void present() override;
+            virtual bool present() override;
 
         private:
             virtual bool init(const WindowPtr& window,
