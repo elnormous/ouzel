@@ -38,8 +38,8 @@ namespace ouzel
             virtual bool setIndexSize(uint32_t indexSize) override;
             virtual bool setVertexAttributes(uint32_t vertexAttributes) override;
 
-            virtual bool uploadIndices(const void* indices, uint32_t indexCount) override;
-            virtual bool uploadVertices(const void* vertices, uint32_t vertexCount) override;
+            virtual bool uploadIndices(const void* newIndices, uint32_t newIndexCount) override;
+            virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount) override;
 
             MTLBufferPtr getIndexBuffer() const { return indexBuffer; }
             MTLBufferPtr getVertexBuffer() const { return vertexBuffer; }

@@ -137,17 +137,17 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferOGL::uploadIndices(const void* indices, uint32_t indexCount)
+        bool MeshBufferOGL::uploadIndices(const void* newIndices, uint32_t newIndexCount)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (!MeshBuffer::uploadIndices(indices, indexCount))
+            if (!MeshBuffer::uploadIndices(newIndices, newIndexCount))
             {
                 return false;
             }
 
-            indexData.assign(static_cast<const uint8_t*>(indices),
-                             static_cast<const uint8_t*>(indices) + indexSize * indexCount);
+            indexData.assign(static_cast<const uint8_t*>(newIndices),
+                             static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
 
             indexBufferDirty = true;
 
@@ -156,17 +156,17 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferOGL::uploadVertices(const void* vertices, uint32_t vertexCount)
+        bool MeshBufferOGL::uploadVertices(const void* newVertices, uint32_t newVertexCount)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (!MeshBuffer::uploadVertices(vertices, vertexCount))
+            if (!MeshBuffer::uploadVertices(newVertices, newVertexCount))
             {
                 return false;
             }
 
-            vertexData.assign(static_cast<const uint8_t*>(vertices),
-                              static_cast<const uint8_t*>(vertices) + vertexSize * vertexCount);
+            vertexData.assign(static_cast<const uint8_t*>(newVertices),
+                              static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
             vertexBufferDirty = true;
 
