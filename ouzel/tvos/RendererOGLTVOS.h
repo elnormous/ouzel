@@ -28,7 +28,6 @@ namespace ouzel
             virtual ~RendererOGLTVOS();
             virtual void free() override;
 
-            virtual void clear() override;
             virtual bool present() override;
 
         private:

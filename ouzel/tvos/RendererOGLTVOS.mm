@@ -165,18 +165,13 @@ namespace ouzel
             return true;
         }
 
-        void RendererOGLTVOS::clear()
+        bool RendererOGLTVOS::present()
         {
             if (![EAGLContext setCurrentContext:context])
             {
                 ouzel::log("Failed to set current OpenGL context");
             }
 
-            RendererOGL::clear();
-        }
-
-        bool RendererOGLTVOS::present()
-        {
             if (!RendererOGL::present())
             {
                 return false;
