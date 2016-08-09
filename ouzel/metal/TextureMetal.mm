@@ -159,7 +159,7 @@ namespace ouzel
 
                 if (!localData.empty())
                 {
-                    for (size_t level = 0; level < data.size(); ++level)
+                    for (size_t level = 0; level < localData.size(); ++level)
                     {
                         NSUInteger bytesPerRow = localData[level].width * 4;
                         [texture replaceRegion:MTLRegionMake2D(0, 0, localData[level].width, localData[level].height)
