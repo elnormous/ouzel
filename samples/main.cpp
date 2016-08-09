@@ -16,8 +16,14 @@ void ouzelMain(const std::vector<std::string>& args)
 
     std::string sample;
 
-    for (auto arg = args.begin() + 1; arg != args.end(); ++arg)
+    for (auto arg = args.begin(); arg != args.end(); ++arg)
     {
+        if (arg == args.begin())
+        {
+            // skip the first parameter
+            continue;
+        }
+
         if (*arg == "-sample")
         {
             auto nextArg = ++arg;
