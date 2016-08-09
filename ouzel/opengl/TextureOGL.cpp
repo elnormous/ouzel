@@ -141,7 +141,10 @@ namespace ouzel
                         log("Failed to create texture");
                         return false;
                     }
+                }
 
+                if (!localData.empty())
+                {
                     RendererOGL::bindTexture(textureId, 0);
 
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -150,15 +153,6 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        log("Failed to set texture parameters");
-                        return false;
-                    }
-                }
-
-                if (!localData.empty())
-                {
                     if (localData.size() > 1) // has mip-maps
                     {
                         std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
@@ -184,10 +178,14 @@ namespace ouzel
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                     }
 
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        log("Failed to set texture parameters");
+                        return false;
+                    }
+
                     for (size_t level = 0; level < data.size(); ++level)
                     {
-                        RendererOGL::bindTexture(textureId, 0);
-
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
                                      localData[level].width, localData[level].height, 0,
                                      GL_RGBA, GL_UNSIGNED_BYTE, localData[level].data.data());
