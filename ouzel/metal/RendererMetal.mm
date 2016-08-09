@@ -472,7 +472,6 @@ namespace ouzel
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
 
                 // pixel shader constants
-                const std::vector<uint32_t>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
                 const std::vector<Shader::ConstantInfo>& pixelShaderConstantInfos = shaderMetal->getPixelShaderConstantInfo();
 
                 if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantInfos.size())
@@ -508,7 +507,6 @@ namespace ouzel
 
 
                 // vertex shader constants
-                const std::vector<uint32_t>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
                 const std::vector<Shader::ConstantInfo>& vertexShaderConstantInfos = shaderMetal->getVertexShaderConstantInfo();
 
                 if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantInfos.size())
