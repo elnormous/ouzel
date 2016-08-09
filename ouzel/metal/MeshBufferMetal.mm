@@ -203,7 +203,7 @@ namespace ouzel
                             }
                         }
 
-                        if (!uploadData(indexBuffer, indexData))
+                        if (!uploadData(indexBuffer, localIndexData))
                         {
                             return false;
                         }
@@ -232,7 +232,7 @@ namespace ouzel
                             }
                         }
                         
-                        if (!uploadData(vertexBuffer, vertexData))
+                        if (!uploadData(vertexBuffer, localVertexData))
                         {
                             return false;
                         }
