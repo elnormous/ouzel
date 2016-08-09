@@ -51,6 +51,25 @@ namespace ouzel
             }
         }
 
+        bool MeshBufferMetal::init(bool newDynamicIndexBuffer, bool newDynamicVertexBuffer)
+        {
+            free();
+
+            std::lock_guard<std::mutex> lock(dataMutex);
+
+            if (!MeshBuffer::init(newDynamicIndexBuffer, newDynamicVertexBuffer))
+            {
+                return false;
+            }
+
+            indexBufferDirty = true;
+            vertexBufferDirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            
+            return true;
+        }
+
         bool MeshBufferMetal::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
                                              uint32_t newIndexCount, bool newDynamicIndexBuffer,
                                              const void* newVertices, uint32_t newVertexAttributes,
