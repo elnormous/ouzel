@@ -314,7 +314,7 @@ namespace ouzel
                              frameBufferClearColor[2],
                              frameBufferClearColor[3]);
 
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                glClear(clearMask);
 
                 if (checkOpenGLError())
                 {
