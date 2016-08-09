@@ -252,10 +252,9 @@ namespace ouzel
                         localIndexData = indexData;
                         switch (indexSize)
                         {
-                            case 1: indexFormat = GL_UNSIGNED_BYTE; break;
                             case 2: indexFormat = GL_UNSIGNED_SHORT; break;
                             case 4: indexFormat = GL_UNSIGNED_INT; break;
-                            default: log("Invalid size"); return false;
+                            default: log("Invalid index size"); return false;
                         }
                     }
 
