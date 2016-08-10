@@ -229,6 +229,8 @@ namespace ouzel
                 return false;
             }
 
+            viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
+
             // Sampler state
             D3D11_SAMPLER_DESC samplerStateDesc;
             switch (textureFiltering)

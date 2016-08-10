@@ -109,6 +109,14 @@ namespace ouzel
                 log("Multisample anti-aliasing is disabled for OpenGL");
             }
 
+            if (!setViewport(static_cast<GLint>(viewport.x),
+                             static_cast<GLint>(viewport.y),
+                             static_cast<GLsizei>(viewport.width),
+                             static_cast<GLsizei>(viewport.height)))
+            {
+                return false;
+            }
+
             //glEnable(GL_DEPTH_TEST);
             glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
 
