@@ -655,7 +655,6 @@ namespace ouzel
 
         GLuint RendererOGL::currentTextureId[Texture::LAYERS] = { 0 };
         GLuint RendererOGL::currentProgramId = 0;
-        bool RendererOGL::currentFrameBufferSet = false;
         GLuint RendererOGL::currentFrameBufferId = 0;
 
         GLuint RendererOGL::currentElementArrayBufferId = 0;
@@ -722,7 +721,7 @@ namespace ouzel
 
         bool RendererOGL::bindFrameBuffer(GLuint frameBufferId)
         {
-            if (!currentFrameBufferSet || currentFrameBufferId != frameBufferId)
+            if (currentFrameBufferId != frameBufferId)
             {
                 glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
                 currentFrameBufferId = frameBufferId;
@@ -732,8 +731,6 @@ namespace ouzel
                     log("Failed to create bind frame buffer");
                     return false;
                 }
-
-                currentFrameBufferSet = true;
             }
 
             return true;
@@ -823,7 +820,6 @@ namespace ouzel
         {
             if (currentFrameBufferId == frameBufferId)
             {
-                currentFrameBufferSet = false;
                 return bindFrameBuffer(0);
             }
 

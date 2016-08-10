@@ -141,7 +141,6 @@ namespace ouzel
 
             static GLuint currentTextureId[Texture::LAYERS];
             static GLuint currentProgramId;
-            static bool currentFrameBufferSet;
             static GLuint currentFrameBufferId;
 
             static GLuint currentElementArrayBufferId;
