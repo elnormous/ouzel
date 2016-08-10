@@ -345,6 +345,12 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
 
+                if (!blendStateOGL || !blendStateOGL->isReady())
+                {
+                    // don't render if invalid blend state
+                    continue;
+                }
+
                 if (!setBlendState(blendStateOGL->isBlendingEnabled(),
                                    blendStateOGL->getModeRGB(),
                                    blendStateOGL->getModeAlpha(),
@@ -368,6 +374,12 @@ namespace ouzel
 
                     if (textureOGL)
                     {
+                        if (!textureOGL->isReady())
+                        {
+                            // don't render if invalid texture
+                            continue;
+                        }
+
                         if (!bindTexture(textureOGL->getTextureId(), layer))
                         {
                             return false;
@@ -384,6 +396,13 @@ namespace ouzel
 
                 // shader
                 std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(drawCommand.shader);
+
+                if (!shaderOGL || !shaderOGL->isReady())
+                {
+                    // don't render if invalid shader
+                    continue;
+                }
+
                 bindProgram(shaderOGL->getProgramId());
 
                 // pixel shader constants
@@ -484,6 +503,12 @@ namespace ouzel
                 {
                     std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(drawCommand.renderTarget);
 
+                    if (!renderTargetOGL->isReady())
+                    {
+                        // don't render if invalid render target
+                        continue;
+                    }
+
                     newFrameBuffer = renderTargetOGL->getFrameBufferId();
                     newClearMask = renderTargetOGL->getClearMask();
                     newClearColor = renderTargetOGL->getFrameBufferClearColor();
@@ -536,6 +561,12 @@ namespace ouzel
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);
+
+                if (!meshBufferOGL->isReady())
+                {
+                    // don't render if invalid mesh buffer
+                    continue;
+                }
 
                 // draw
                 GLenum mode;

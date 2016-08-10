@@ -41,6 +41,8 @@ namespace ouzel
             sourceAlphaBlendFactor = getBlendFactor(newAlphaBlendSource);
             destinationAlphaBlendFactor = getBlendFactor(newAlphaBlendDest);
 
+            ready = true;
+
             return true;
         }
 

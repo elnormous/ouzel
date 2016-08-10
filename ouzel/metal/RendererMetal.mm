@@ -461,6 +461,13 @@ namespace ouzel
                 if (drawCommand.renderTarget)
                 {
                     std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(drawCommand.renderTarget);
+
+                    if (!renderTargetMetal->isReady())
+                    {
+                        // don't render if invalid render target
+                        continue;
+                    }
+
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
                 }
                 else
@@ -495,6 +502,12 @@ namespace ouzel
 
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
+
+                if (!shaderMetal->isReady())
+                {
+                    // don't render if invalid shader
+                    continue;
+                }
 
                 // pixel shader constants
                 const std::vector<Shader::ConstantInfo>& pixelShaderConstantInfos = shaderMetal->getPixelShaderConstantInfo();
@@ -570,6 +583,12 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(drawCommand.blendState);
 
+                if (!blendStateMetal->isReady())
+                {
+                    // don't render if invalid blend state
+                    continue;
+                }
+
                 auto pipelineStateIterator = pipelineStates.find(std::make_pair(blendStateMetal, shaderMetal));
 
                 if (pipelineStateIterator != pipelineStates.end())
@@ -600,6 +619,12 @@ namespace ouzel
 
                     if (textureMetal)
                     {
+                        if (!textureMetal->isReady())
+                        {
+                            // don't render if invalid texture
+                            continue;
+                        }
+
                         [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
                     }
                     else
@@ -612,6 +637,12 @@ namespace ouzel
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(drawCommand.meshBuffer);
+
+                if (!meshBufferMetal->isReady())
+                {
+                    // don't render if invalid mesh buffer
+                    continue;
+                }
 
                 [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
 
