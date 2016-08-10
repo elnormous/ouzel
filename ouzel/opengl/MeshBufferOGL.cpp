@@ -270,7 +270,7 @@ namespace ouzel
                         {
                             vertexAttribs.push_back({
                                 3, GL_FLOAT, GL_FALSE,
-                                static_cast<GLint>(vertexSize),
+                                static_cast<GLsizei>(vertexSize),
                                 reinterpret_cast<const GLvoid*>(offset)
                             });
                             offset += 3 * sizeof(float);
@@ -279,7 +279,7 @@ namespace ouzel
                         {
                             vertexAttribs.push_back({
                                 4, GL_UNSIGNED_BYTE, GL_TRUE,
-                                static_cast<GLint>(vertexSize),
+                                static_cast<GLsizei>(vertexSize),
                                 reinterpret_cast<const GLvoid*>(offset)
                             });
                             offset += 4 * sizeof(uint8_t);
@@ -288,7 +288,7 @@ namespace ouzel
                         {
                             vertexAttribs.push_back({
                                 3, GL_FLOAT, GL_FALSE,
-                                static_cast<GLint>(vertexSize),
+                                static_cast<GLsizei>(vertexSize),
                                 reinterpret_cast<const GLvoid*>(offset)
                             });
                             offset += 3 * sizeof(float);
@@ -297,7 +297,7 @@ namespace ouzel
                         {
                             vertexAttribs.push_back({
                                 2, GL_FLOAT, GL_FALSE,
-                                static_cast<GLint>(vertexSize),
+                                static_cast<GLsizei>(vertexSize),
                                 reinterpret_cast<const GLvoid*>(offset)
                             });
                             offset += 2 * sizeof(float);
@@ -306,7 +306,7 @@ namespace ouzel
                         {
                             vertexAttribs.push_back({
                                 2, GL_FLOAT, GL_FALSE,
-                                static_cast<GLint>(vertexSize),
+                                static_cast<GLsizei>(vertexSize),
                                 reinterpret_cast<const GLvoid*>(offset)
                             });
                             offset += 2 * sizeof(float);
