@@ -88,7 +88,7 @@ namespace ouzel
                 GLenum type;
                 GLboolean normalized;
                 GLsizei stride;
-                const GLvoid *pointer;
+                const GLvoid* pointer;
             };
             std::vector<VertexAttrib> vertexAttribs;
 
