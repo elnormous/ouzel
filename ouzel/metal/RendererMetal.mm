@@ -503,7 +503,7 @@ namespace ouzel
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
 
-                if (!shaderMetal->isReady())
+                if (!shaderMetal || !shaderMetal->isReady())
                 {
                     // don't render if invalid shader
                     continue;
@@ -583,7 +583,7 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(drawCommand.blendState);
 
-                if (!blendStateMetal->isReady())
+                if (!blendStateMetal || !blendStateMetal->isReady())
                 {
                     // don't render if invalid blend state
                     continue;
@@ -638,7 +638,7 @@ namespace ouzel
                 // mesh buffer
                 std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(drawCommand.meshBuffer);
 
-                if (!meshBufferMetal->isReady())
+                if (!meshBufferMetal || !meshBufferMetal->isReady())
                 {
                     // don't render if invalid mesh buffer
                     continue;

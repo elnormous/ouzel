@@ -562,7 +562,7 @@ namespace ouzel
                 // mesh buffer
                 std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);
 
-                if (!meshBufferOGL->isReady())
+                if (!meshBufferOGL || !meshBufferOGL->isReady())
                 {
                     // don't render if invalid mesh buffer
                     continue;
