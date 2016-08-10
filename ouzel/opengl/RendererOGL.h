@@ -172,6 +172,7 @@ namespace ouzel
             static std::mutex deleteMutex;
             
             std::atomic<bool> dirty;
+            std::mutex updateMutex;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -217,6 +217,8 @@ namespace ouzel
 
         void RendererOGL::setClearColor(Color color)
         {
+            std::lock_guard<std::mutex> lock(updateMutex);
+
             Renderer::setClearColor(color);
 
             dirty = true;
@@ -233,6 +235,8 @@ namespace ouzel
         {
             if (dirty)
             {
+                std::lock_guard<std::mutex> lock(updateMutex);
+
                 clearMask = GL_COLOR_BUFFER_BIT;
 
                 frameBufferClearColor[0] = clearColor.getR();
