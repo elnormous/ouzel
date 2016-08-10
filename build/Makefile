@@ -77,7 +77,6 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/opengl/ShaderOGL.cpp \
 	../ouzel/opengl/TextureOGL.cpp \
 	../ouzel/scene/Camera.cpp \
-	../ouzel/scene/DebugDrawable.cpp \
 	../ouzel/scene/Drawable.cpp \
 	../ouzel/scene/Layer.cpp \
 	../ouzel/scene/Node.cpp \
@@ -86,6 +85,7 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/scene/ParticleSystem.cpp \
 	../ouzel/scene/Scene.cpp \
 	../ouzel/scene/SceneManager.cpp \
+	../ouzel/scene/ShapeDrawable.cpp \
 	../ouzel/scene/Sprite.cpp \
 	../ouzel/scene/SpriteFrame.cpp \
 	../ouzel/scene/TextDrawable.cpp \

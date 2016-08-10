@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "DebugDrawable.h"
+#include "ShapeDrawable.h"
 #include "core/CompileConfig.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
@@ -16,7 +16,7 @@ namespace ouzel
 {
     namespace scene
     {
-        DebugDrawable::DebugDrawable()
+        ShapeDrawable::ShapeDrawable()
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_NO_BLEND);
@@ -26,7 +26,7 @@ namespace ouzel
             meshBuffer->setVertexAttributes(ouzel::graphics::VertexPC::ATTRIBUTES);
         }
 
-        void DebugDrawable::draw(const Matrix4& projectionMatrix,
+        void ShapeDrawable::draw(const Matrix4& projectionMatrix,
                                  const Matrix4& transformMatrix,
                                  const graphics::Color& drawColor,
                                  const graphics::RenderTargetPtr& renderTarget,
@@ -64,7 +64,7 @@ namespace ouzel
             }
         }
 
-        void DebugDrawable::clear()
+        void ShapeDrawable::clear()
         {
             boundingBox = AABB2();
 
@@ -73,7 +73,7 @@ namespace ouzel
             vertices.clear();
         }
 
-        void DebugDrawable::point(const Vector2& position, const graphics::Color& color)
+        void ShapeDrawable::point(const Vector2& position, const graphics::Color& color)
         {
             DrawCommand command;
 
@@ -91,7 +91,7 @@ namespace ouzel
             boundingBox.insertPoint(position);
         }
 
-        void DebugDrawable::line(const Vector2& start, const Vector2& finish, const graphics::Color& color)
+        void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const graphics::Color& color)
         {
             DrawCommand command;
 
@@ -113,7 +113,7 @@ namespace ouzel
             boundingBox.insertPoint(finish);
         }
 
-        void DebugDrawable::circle(const Vector2& position, float radius, const graphics::Color& color, bool fill, uint32_t segments)
+        void ShapeDrawable::circle(const Vector2& position, float radius, const graphics::Color& color, bool fill, uint32_t segments)
         {
             if (segments < 3)
             {
@@ -175,7 +175,7 @@ namespace ouzel
             boundingBox.insertPoint(Vector2(position.x + radius, position.y + radius));
         }
 
-        void DebugDrawable::rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill)
+        void ShapeDrawable::rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill)
         {
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -216,7 +216,7 @@ namespace ouzel
             boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
         }
 
-        void DebugDrawable::triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill)
+        void ShapeDrawable::triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill)
         {
             DrawCommand command;
             command.indexCount = 4;

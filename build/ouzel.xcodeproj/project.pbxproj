@@ -540,12 +540,12 @@
 		305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
 		305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
 		305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
-		306B0E5F1C567D05005C75C1 /* DebugDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */; };
-		306B0E601C567D05005C75C1 /* DebugDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */; };
-		306B0E611C567D05005C75C1 /* DebugDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */; };
-		306B0E621C567D05005C75C1 /* DebugDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DebugDrawable.h */; };
-		306B0E631C567D05005C75C1 /* DebugDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DebugDrawable.h */; };
-		306B0E641C567D05005C75C1 /* DebugDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* DebugDrawable.h */; };
+		306B0E5F1C567D05005C75C1 /* ShapeDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* ShapeDrawable.cpp */; };
+		306B0E601C567D05005C75C1 /* ShapeDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* ShapeDrawable.cpp */; };
+		306B0E611C567D05005C75C1 /* ShapeDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B0E5D1C567D05005C75C1 /* ShapeDrawable.cpp */; };
+		306B0E621C567D05005C75C1 /* ShapeDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeDrawable.h */; };
+		306B0E631C567D05005C75C1 /* ShapeDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeDrawable.h */; };
+		306B0E641C567D05005C75C1 /* ShapeDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeDrawable.h */; };
 		30A5BF171CFED86000A977CA /* RendererOGLIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF151CFED86000A977CA /* RendererOGLIOS.mm */; };
 		30A5BF181CFED86000A977CA /* RendererOGLIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A5BF161CFED86000A977CA /* RendererOGLIOS.h */; };
 		30A5BF1B1CFED87C00A977CA /* RendererOGLTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30A5BF191CFED87C00A977CA /* RendererOGLTVOS.mm */; };
@@ -865,8 +865,8 @@
 		305B999A1C42A695008589E1 /* BMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFont.cpp; sourceTree = "<group>"; };
 		305B999B1C42A695008589E1 /* BMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMFont.h; sourceTree = "<group>"; };
 		305B99C71C451962008589E1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
-		306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugDrawable.cpp; sourceTree = "<group>"; };
-		306B0E5E1C567D05005C75C1 /* DebugDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugDrawable.h; sourceTree = "<group>"; };
+		306B0E5D1C567D05005C75C1 /* ShapeDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeDrawable.cpp; sourceTree = "<group>"; };
+		306B0E5E1C567D05005C75C1 /* ShapeDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeDrawable.h; sourceTree = "<group>"; };
 		309ACD261C70DA73005325D3 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
 		30A5BF151CFED86000A977CA /* RendererOGLIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererOGLIOS.mm; sourceTree = "<group>"; };
 		30A5BF161CFED86000A977CA /* RendererOGLIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererOGLIOS.h; sourceTree = "<group>"; };
@@ -966,8 +966,6 @@
 			children = (
 				304A8E2B1C237C70008B1151 /* Camera.cpp */,
 				304A8E2C1C237C70008B1151 /* Camera.h */,
-				306B0E5D1C567D05005C75C1 /* DebugDrawable.cpp */,
-				306B0E5E1C567D05005C75C1 /* DebugDrawable.h */,
 				301EB3A01CCD691800466E92 /* Drawable.cpp */,
 				301EB3A11CCD691800466E92 /* Drawable.h */,
 				30575AA41C39D1FF0009C8A7 /* Layer.cpp */,
@@ -984,6 +982,8 @@
 				30575A9D1C39CB790009C8A7 /* Scene.h */,
 				304A8E401C237C70008B1151 /* SceneManager.cpp */,
 				304A8E411C237C70008B1151 /* SceneManager.h */,
+				306B0E5D1C567D05005C75C1 /* ShapeDrawable.cpp */,
+				306B0E5E1C567D05005C75C1 /* ShapeDrawable.h */,
 				304A8E441C237C70008B1151 /* Sprite.cpp */,
 				304A8E451C237C70008B1151 /* Sprite.h */,
 				302511A61CD36FBA00D04209 /* SpriteFrame.cpp */,
@@ -1391,7 +1391,7 @@
 				30EF36671CA845DC00F04F29 /* ComboBox.h in Headers */,
 				30EA71101D5268C600AE8C3E /* Application.h in Headers */,
 				3048398B1D53BE8F007D70FF /* Resource.h in Headers */,
-				306B0E631C567D05005C75C1 /* DebugDrawable.h in Headers */,
+				306B0E631C567D05005C75C1 /* ShapeDrawable.h in Headers */,
 				304B27591C9384A600BA162D /* Size3.h in Headers */,
 				30419DE51D162BCF00A63759 /* Audio.h in Headers */,
 				303B754B1C2A3C9200FEDE92 /* Texture.h in Headers */,
@@ -1523,7 +1523,7 @@
 				30EF36681CA845DC00F04F29 /* ComboBox.h in Headers */,
 				30EA71111D5268C600AE8C3E /* Application.h in Headers */,
 				3048398C1D53BE8F007D70FF /* Resource.h in Headers */,
-				306B0E641C567D05005C75C1 /* DebugDrawable.h in Headers */,
+				306B0E641C567D05005C75C1 /* ShapeDrawable.h in Headers */,
 				304B275A1C9384A600BA162D /* Size3.h in Headers */,
 				30419DE61D162BCF00A63759 /* Audio.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
@@ -1711,7 +1711,7 @@
 				30575A921C38BD370009C8A7 /* AABB2.h in Headers */,
 				301CF5BC1CECAD0700B89B5D /* ColorPSOGLES3.h in Headers */,
 				30EA710F1D5268C600AE8C3E /* Application.h in Headers */,
-				306B0E621C567D05005C75C1 /* DebugDrawable.h in Headers */,
+				306B0E621C567D05005C75C1 /* ShapeDrawable.h in Headers */,
 				3047F7411C4C344A00774E3D /* Animator.h in Headers */,
 				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
 				30D0FB431CC2C99600477DB0 /* ColorPSIOS.h in Headers */,
@@ -1875,7 +1875,7 @@
 				30547E441CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
 				30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */,
 				302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
-				306B0E601C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
+				306B0E601C567D05005C75C1 /* ShapeDrawable.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
@@ -1977,7 +1977,7 @@
 				30547E451CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
 				302511AA1CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
-				306B0E611C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
+				306B0E611C567D05005C75C1 /* ShapeDrawable.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBuffer.cpp in Sources */,
@@ -2142,7 +2142,7 @@
 				304A8E5C1C237C70008B1151 /* Node.cpp in Sources */,
 				30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				30C56C5B1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
-				306B0E5F1C567D05005C75C1 /* DebugDrawable.cpp in Sources */,
+				306B0E5F1C567D05005C75C1 /* ShapeDrawable.cpp in Sources */,
 				30547E491CB3D6720055EE79 /* RendererMetal.mm in Sources */,
 				302511B01CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */,
 				30547E551CB3D6720055EE79 /* ShaderMetal.mm in Sources */,

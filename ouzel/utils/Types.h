@@ -114,8 +114,8 @@ namespace ouzel
         class ParticleSystem;
         typedef std::shared_ptr<ParticleSystem> ParticleSystemPtr;
 
-        class DebugDrawable;
-        typedef std::shared_ptr<DebugDrawable> DebugDrawablePtr;
+        class ShapeDrawable;
+        typedef std::shared_ptr<ShapeDrawable> ShapeDrawablePtr;
 
         class TextDrawable;
         typedef std::shared_ptr<TextDrawable> TextDrawablePtr;

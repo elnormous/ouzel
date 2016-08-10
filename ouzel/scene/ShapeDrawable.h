@@ -13,10 +13,10 @@ namespace ouzel
 {
     namespace scene
     {
-        class DebugDrawable: public Drawable
+        class ShapeDrawable: public Drawable
         {
         public:
-            DebugDrawable();
+            ShapeDrawable();
 
             virtual void draw(const Matrix4& projectionMatrix,
                               const Matrix4& transformMatrix,

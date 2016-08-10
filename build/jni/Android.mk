@@ -79,7 +79,6 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/opensl/SoundSL.cpp \
     $(LOCAL_PATH)/../../ouzel/opensl/SoundDataSL.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Camera.cpp \
-    $(LOCAL_PATH)/../../ouzel/scene/DebugDrawable.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Drawable.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Layer.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Node.cpp \
@@ -88,6 +87,7 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/ParticleSystem.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Scene.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/SceneManager.cpp \
+    $(LOCAL_PATH)/../../ouzel/scene/ShapeDrawable.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Sprite.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/SpriteFrame.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/TextDrawable.cpp \

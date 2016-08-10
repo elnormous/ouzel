@@ -16,17 +16,17 @@ AnimationsSample::AnimationsSample(Samples& pSamples):
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
 
-    scene::DebugDrawablePtr debugDrawable = make_shared<scene::DebugDrawable>();
-    debugDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(0, 128, 128, 255), true);
-    debugDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(255, 255, 255, 255), false);
-    debugDrawable->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), graphics::Color(0, 255, 255, 255));
-    debugDrawable->point(Vector2(75.0f, 75.0f), graphics::Color(255, 0, 0, 255));
+    scene::ShapeDrawablePtr shapeDrawable = make_shared<scene::ShapeDrawable>();
+    shapeDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(0, 128, 128, 255), true);
+    shapeDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(255, 255, 255, 255), false);
+    shapeDrawable->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), graphics::Color(0, 255, 255, 255));
+    shapeDrawable->point(Vector2(75.0f, 75.0f), graphics::Color(255, 0, 0, 255));
 
-    debugDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255));
-    debugDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255), true);
+    shapeDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255));
+    shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255), true);
 
     scene::NodePtr drawNode = make_shared<scene::Node>();
-    drawNode->addDrawable(debugDrawable);
+    drawNode->addDrawable(shapeDrawable);
     drawNode->setPosition(Vector2(-300, 0.0f));
     layer->addChild(drawNode);
 
