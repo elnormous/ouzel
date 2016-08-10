@@ -34,15 +34,8 @@ public class OuzelSurfaceView extends GLSurfaceView implements InputDeviceListen
                 final float x = event.getX(indexPointerDown);
                 final float y = event.getY(indexPointerDown);
 
-                this.queueEvent(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        OuzelLibJNIWrapper.handleActionDown(pointerId, x, y);
-                    }
-                });
-                break;
+                OuzelLibJNIWrapper.handleActionDown(pointerId, x, y);
+                return true;
             }
 
             case MotionEvent.ACTION_DOWN:
@@ -51,15 +44,8 @@ public class OuzelSurfaceView extends GLSurfaceView implements InputDeviceListen
                 final float x = event.getX(0);
                 final float y = event.getY(0);
 
-                this.queueEvent(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        OuzelLibJNIWrapper.handleActionDown(pointerId, x, y);
-                    }
-                });
-                break;
+                OuzelLibJNIWrapper.handleActionDown(pointerId, x, y);
+                return true;
             }
 
             case MotionEvent.ACTION_MOVE:
@@ -68,15 +54,8 @@ public class OuzelSurfaceView extends GLSurfaceView implements InputDeviceListen
                 final float x = event.getX(0);
                 final float y = event.getY(0);
 
-                this.queueEvent(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        OuzelLibJNIWrapper.handleActionMove(pointerId, x, y);
-                    }
-                });
-                break;
+                OuzelLibJNIWrapper.handleActionMove(pointerId, x, y);
+                return true;
             }
 
             case MotionEvent.ACTION_POINTER_UP:
@@ -86,15 +65,8 @@ public class OuzelSurfaceView extends GLSurfaceView implements InputDeviceListen
                 final float x = event.getX(indexPointUp);
                 final float y = event.getY(indexPointUp);
 
-                this.queueEvent(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        OuzelLibJNIWrapper.handleActionUp(pointerId, x, y);
-                    }
-                });
-                break;
+                OuzelLibJNIWrapper.handleActionUp(pointerId, x, y);
+                return true;
             }
 
             case MotionEvent.ACTION_UP:
@@ -103,15 +75,8 @@ public class OuzelSurfaceView extends GLSurfaceView implements InputDeviceListen
                 final float x = event.getX(0);
                 final float y = event.getY(0);
 
-                this.queueEvent(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        OuzelLibJNIWrapper.handleActionUp(pointerId, x, y);
-                    }
-                });
-                break;
+                OuzelLibJNIWrapper.handleActionUp(pointerId, x, y);
+                return true;
             }
 
             case MotionEvent.ACTION_CANCEL:
@@ -120,15 +85,8 @@ public class OuzelSurfaceView extends GLSurfaceView implements InputDeviceListen
                 final float x = event.getX(0);
                 final float y = event.getY(0);
 
-                this.queueEvent(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        OuzelLibJNIWrapper.handleActionCancel(pointerId, x, y);
-                    }
-                });
-                break;
+                OuzelLibJNIWrapper.handleActionCancel(pointerId, x, y);
+                return true;
             }
         }
 
