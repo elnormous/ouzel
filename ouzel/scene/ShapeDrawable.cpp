@@ -36,8 +36,8 @@ namespace ouzel
 
             if (shader)
             {
-                meshBuffer->uploadIndices(indices.data(), vectorDataSize(indices));
-                meshBuffer->uploadVertices(vertices.data(), vectorDataSize(vertices));
+                meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(vectorDataSize(indices)));
+                meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vectorDataSize(vertices)));
 
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };

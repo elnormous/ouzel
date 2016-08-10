@@ -187,9 +187,6 @@
     <ClCompile Include="..\ouzel\scene\Camera.cpp">
       <Filter>scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\DebugDrawable.cpp">
-      <Filter>scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\Drawable.cpp">
       <Filter>scene</Filter>
     </ClCompile>
@@ -249,6 +246,9 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\win\ApplicationWin.cpp">
       <Filter>win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\scene\ShapeDrawable.cpp">
+      <Filter>scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -460,9 +460,6 @@
     <ClInclude Include="..\ouzel\scene\Camera.h">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\DebugDrawable.h">
-      <Filter>scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\Drawable.h">
       <Filter>scene</Filter>
     </ClInclude>
@@ -531,6 +528,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\win\ApplicationWin.h">
       <Filter>win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\ShapeDrawable.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
