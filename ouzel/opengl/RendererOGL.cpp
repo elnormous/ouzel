@@ -97,7 +97,7 @@ namespace ouzel
                                float newTargetFPS,
                                bool newVerticalSync)
         {
-            std::lock_guard<std::mutex> lock(updateMutex);
+            std::lock_guard<std::mutex> lock(dataMutex);
 
             if (!Renderer::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
             {
@@ -227,7 +227,7 @@ namespace ouzel
         {
             if (dirty)
             {
-                std::lock_guard<std::mutex> lock(updateMutex);
+                std::lock_guard<std::mutex> lock(dataMutex);
 
                 clearMask = GL_COLOR_BUFFER_BIT;
 
@@ -246,7 +246,7 @@ namespace ouzel
 
         void RendererOGL::setClearColor(Color color)
         {
-            std::lock_guard<std::mutex> lock(updateMutex);
+            std::lock_guard<std::mutex> lock(dataMutex);
 
             Renderer::setClearColor(color);
 
@@ -255,7 +255,7 @@ namespace ouzel
 
         void RendererOGL::setSize(const Size2& newSize)
         {
-            std::lock_guard<std::mutex> lock(updateMutex);
+            std::lock_guard<std::mutex> lock(dataMutex);
 
             Renderer::setSize(newSize);
 

@@ -166,9 +166,10 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(updateMutex);
 
-            if (updateSet.find(resource) == updateSet.end())
+            auto i = updateSet.insert(resource);
+
+            if (i.second)
             {
-                updateSet.insert(resource);
                 updateQueue.push(resource);
             }
         }
