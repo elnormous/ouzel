@@ -128,9 +128,9 @@ namespace ouzel
                               TextureFiltering newTextureFiltering,
                               float newTargetFPS,
                               bool newVerticalSync) override;
-
-            virtual void setSize(const Size2& newSize) override;
             virtual bool update();
+            
+            virtual void setSize(const Size2& newSize) override;
 
             static void deleteResources();
 

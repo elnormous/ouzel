@@ -97,6 +97,8 @@ namespace ouzel
                                float newTargetFPS,
                                bool newVerticalSync)
         {
+            std::lock_guard<std::mutex> lock(updateMutex);
+
             if (!Renderer::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
             {
                 return false;
@@ -210,25 +212,7 @@ namespace ouzel
             dirty = true;
             ready = true;
 
-            setSize(size);
-
             return true;
-        }
-
-        void RendererOGL::setClearColor(Color color)
-        {
-            std::lock_guard<std::mutex> lock(updateMutex);
-
-            Renderer::setClearColor(color);
-
-            dirty = true;
-        }
-
-        void RendererOGL::setSize(const Size2& newSize)
-        {
-            Renderer::setSize(newSize);
-
-            viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
         }
 
         bool RendererOGL::update()
@@ -244,10 +228,30 @@ namespace ouzel
                 frameBufferClearColor[2] = clearColor.getB();
                 frameBufferClearColor[3] = clearColor.getA();
 
+                viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
+
                 dirty = false;
             }
-
+            
             return true;
+        }
+
+        void RendererOGL::setClearColor(Color color)
+        {
+            std::lock_guard<std::mutex> lock(updateMutex);
+
+            Renderer::setClearColor(color);
+
+            dirty = true;
+        }
+
+        void RendererOGL::setSize(const Size2& newSize)
+        {
+            std::lock_guard<std::mutex> lock(updateMutex);
+
+            Renderer::setSize(newSize);
+
+            dirty = true;
         }
 
         bool RendererOGL::present()

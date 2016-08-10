@@ -22,13 +22,9 @@ namespace ouzel
             virtual ~RendererD3D11();
             virtual void free() override;
 
-            virtual void setClearColor(Color color) override;
-
             virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
-
-            virtual void setSize(const Size2& newSize) override;
 
             virtual void setFullscreen(bool newFullscreen) override;
 
@@ -53,6 +49,9 @@ namespace ouzel
                               bool newVerticalSync) override;
             bool update();
 
+            virtual void setClearColor(Color color) override;
+            virtual void setSize(const Size2& newSize) override;
+
             IDXGIOutput* getOutput() const;
 
             ID3D11Device* device = nullptr;
@@ -67,6 +66,8 @@ namespace ouzel
             ID3D11RasterizerState* scissorTestRasterizerState = nullptr;
             ID3D11DepthStencilState* depthStencilState = nullptr;
 
+            UINT width = 0;
+            UINT height = 0;
             D3D11_VIEWPORT viewport;
 
             ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
@@ -76,6 +77,7 @@ namespace ouzel
             FLOAT frameBufferClearColor[4];
 
             std::atomic<bool> dirty;
+            std::mutex updateMutex;
         };
     } // namespace graphics
 } // namespace ouzel

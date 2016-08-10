@@ -62,7 +62,7 @@ namespace ouzel
         }
 
         RendererMetal::RendererMetal():
-            Renderer(Driver::METAL)
+            Renderer(Driver::METAL), dirty(false)
         {
             apiVersion = 1;
         }
@@ -170,6 +170,8 @@ namespace ouzel
                                  float newTargetFPS,
                                  bool newVerticalSync)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+            
             if (!Renderer::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
             {
                 return false;
@@ -313,21 +315,39 @@ namespace ouzel
 
             ready = true;
 
-            setSize(size);
+            return true;
+        }
 
+        bool RendererMetal::update()
+        {
+            if (dirty)
+            {
+                std::lock_guard<std::mutex> lock(dataMutex);
+
+                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
+
+                dirty = false;
+            }
+            
             return true;
         }
 
         void RendererMetal::setClearColor(Color newColor)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             Renderer::setClearColor(newColor);
 
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
+            dirty = true;
         }
 
         void RendererMetal::setSize(const Size2& newSize)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             Renderer::setSize(newSize);
+
+            dirty = true;
         }
 
         bool RendererMetal::present()
@@ -417,6 +437,11 @@ namespace ouzel
                 }
 
                 resources.pop();
+            }
+
+            if (!update())
+            {
+                return false;
             }
 
             if (drawCommands.empty())

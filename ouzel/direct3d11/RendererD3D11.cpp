@@ -132,6 +132,8 @@ namespace ouzel
                                  float newTargetFPS,
                                  bool newVerticalSync)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             if (!Renderer::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
             {
                 return false;
@@ -179,8 +181,11 @@ namespace ouzel
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
             memset(&swapChainDesc, 0, sizeof(swapChainDesc));
 
-            swapChainDesc.BufferDesc.Width = static_cast<UINT>(size.width);
-            swapChainDesc.BufferDesc.Height = static_cast<UINT>(size.height);
+            width = static_cast<UINT>(size.width);
+            height = static_cast<UINT>(size.height);
+
+            swapChainDesc.BufferDesc.Width = width;
+            swapChainDesc.BufferDesc.Height = height;
             swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
             swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
             swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -370,8 +375,6 @@ namespace ouzel
             dirty = true;
             ready = true;
 
-            setSize(size);
-
             return true;
         }
 
@@ -379,10 +382,49 @@ namespace ouzel
         {
             if (dirty)
             {
+                std::lock_guard<std::mutex> lock(dataMutex);
+
                 frameBufferClearColor[0] = clearColor.getR();
                 frameBufferClearColor[1] = clearColor.getG();
                 frameBufferClearColor[2] = clearColor.getB();
                 frameBufferClearColor[3] = clearColor.getA();
+                
+                if (width != static_cast<UINT>(size.width) ||
+                    height != static_cast<UINT>(size.height))
+                {
+                    width = static_cast<UINT>(size.width);
+                    height = static_cast<UINT>(size.height);
+
+                    if (renderTargetView)
+                    {
+                        renderTargetView->Release();
+                        renderTargetView = nullptr;
+                    }
+
+                    if (backBuffer)
+                    {
+                        backBuffer->Release();
+                        backBuffer = nullptr;
+                    }
+
+                    swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+
+                    HRESULT hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
+                    if (FAILED(hr))
+                    {
+                        log("Failed to retrieve Direct3D 11 backbuffer");
+                        return false;
+                    }
+
+                    hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
+                    if (FAILED(hr))
+                    {
+                        log("Failed to create Direct3D 11 render target view");
+                        return false;
+                    }
+
+                    viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
+                }
 
                 dirty = false;
             }
@@ -392,7 +434,18 @@ namespace ouzel
 
         void RendererD3D11::setClearColor(Color color)
         {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
             Renderer::setClearColor(color);
+
+            dirty = true;
+        }
+
+        void RendererD3D11::setSize(const Size2& newSize)
+        {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
+            Renderer::setSize(newSize);
 
             dirty = true;
         }
@@ -720,47 +773,6 @@ namespace ouzel
             output->Release();
 
             return result;
-        }
-
-        void RendererD3D11::setSize(const Size2& newSize)
-        {
-            Renderer::setSize(newSize);
-
-            if (swapChain)
-            {
-                UINT width = static_cast<UINT>(size.width);
-                UINT height = static_cast<UINT>(size.height);
-
-                if (renderTargetView)
-                {
-                    renderTargetView->Release();
-                    renderTargetView = nullptr;
-                }
-
-                if (backBuffer)
-                {
-                    backBuffer->Release();
-                    backBuffer = nullptr;
-                }
-
-                swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
-
-                HRESULT hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
-                if (FAILED(hr))
-                {
-                    log("Failed to retrieve Direct3D 11 backbuffer");
-                    return;
-                }
-
-                hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
-                if (FAILED(hr))
-                {
-                    log("Failed to create Direct3D 11 render target view");
-                    return;
-                }
-
-                viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
-            }
         }
 
         void RendererD3D11::setFullscreen(bool newFullscreen)

@@ -79,6 +79,7 @@ namespace ouzel
                               TextureFiltering newTextureFiltering,
                               float newTargetFPS,
                               bool newVerticalSync) override;
+            bool update();
 
             MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                           const std::shared_ptr<ShaderMetal>& shader);
@@ -104,6 +105,9 @@ namespace ouzel
             dispatch_semaphore_t inflightSemaphore;
 
             std::map<std::pair<std::shared_ptr<BlendStateMetal>, std::shared_ptr<ShaderMetal>>, MTLRenderPipelineStatePtr> pipelineStates;
+
+            std::atomic<bool> dirty;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel
