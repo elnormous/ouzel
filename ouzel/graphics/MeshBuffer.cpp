@@ -64,7 +64,6 @@ namespace ouzel
 
         bool MeshBuffer::uploadVertices(const void*, uint32_t newVertexCount)
         {
-
             if (!dynamicVertexBuffer)
             {
                 return false;

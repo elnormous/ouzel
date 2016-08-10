@@ -36,12 +36,17 @@ namespace ouzel
             struct DrawCommand
             {
                 graphics::Renderer::DrawMode mode;
-                graphics::MeshBufferPtr mesh;
+                uint32_t indexCount;
+                uint32_t startIndex;
             };
 
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;
+            graphics::MeshBufferPtr meshBuffer;
             std::vector<DrawCommand> drawCommands;
+
+            std::vector<uint16_t> indices;
+            std::vector<ouzel::graphics::VertexPC> vertices;
         };
     } // namespace scene
 } // namespace ouzel

@@ -20,6 +20,10 @@ namespace ouzel
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_NO_BLEND);
+            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+            meshBuffer->init();
+            meshBuffer->setIndexSize(sizeof(uint16_t));
+            meshBuffer->setVertexAttributes(ouzel::graphics::VertexPC::ATTRIBUTES);
         }
 
         void DebugDrawable::draw(const Matrix4& projectionMatrix,
@@ -32,6 +36,9 @@ namespace ouzel
 
             if (shader)
             {
+                meshBuffer->uploadIndices(indices.data(), vectorDataSize(indices));
+                meshBuffer->uploadVertices(vertices.data(), vectorDataSize(vertices));
+
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
@@ -48,10 +55,10 @@ namespace ouzel
                                                                 pixelShaderConstants,
                                                                 vertexShaderConstants,
                                                                 blendState,
-                                                                drawCommand.mesh,
-                                                                0,
+                                                                meshBuffer,
+                                                                drawCommand.indexCount,
                                                                 drawCommand.mode,
-                                                                0,
+                                                                drawCommand.startIndex,
                                                                 renderTarget);
                 }
             }
@@ -62,24 +69,22 @@ namespace ouzel
             boundingBox = AABB2();
 
             drawCommands.clear();
+            indices.clear();
+            vertices.clear();
         }
 
         void DebugDrawable::point(const Vector2& position, const graphics::Color& color)
         {
-            std::vector<uint16_t> indices = {0};
-
-            std::vector<graphics::VertexPC> vertices = {
-                graphics::VertexPC(Vector3(position), color)
-            };
-
             DrawCommand command;
 
             command.mode = graphics::Renderer::DrawMode::POINT_LIST;
-            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                         static_cast<uint32_t>(indices.size()), false,
-                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                         static_cast<uint32_t>(vertices.size()), false);
+            command.indexCount = 1;
+            command.startIndex = static_cast<uint32_t>(indices.size());
+
+            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+
+            indices.push_back(startVertex);
+            vertices.push_back(graphics::VertexPC(Vector3(position), color));
 
             drawCommands.push_back(command);
 
@@ -88,21 +93,19 @@ namespace ouzel
 
         void DebugDrawable::line(const Vector2& start, const Vector2& finish, const graphics::Color& color)
         {
-            std::vector<uint16_t> indices = {0, 1};
-
-            std::vector<graphics::VertexPC> vertices = {
-                graphics::VertexPC(Vector3(start), color),
-                graphics::VertexPC(Vector3(finish), color)
-            };
-
             DrawCommand command;
 
             command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                         static_cast<uint32_t>(indices.size()), false,
-                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                         static_cast<uint32_t>(vertices.size()), false);
+            command.indexCount = 2;
+            command.startIndex = static_cast<uint32_t>(indices.size());
+
+            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+
+            indices.push_back(startVertex);
+            vertices.push_back(graphics::VertexPC(Vector3(start), color));
+
+            indices.push_back(startVertex + 1);
+            vertices.push_back(graphics::VertexPC(Vector3(finish), color));
 
             drawCommands.push_back(command);
 
@@ -117,22 +120,24 @@ namespace ouzel
                 return;
             }
 
-            std::vector<uint16_t> indices;
-            std::vector<graphics::VertexPC> vertices;
+            DrawCommand command;
+            command.indexCount = 0;
+            command.startIndex = static_cast<uint32_t>(indices.size());
+
+            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
             if (fill)
             {
-                vertices.push_back(graphics::VertexPC(Vector3(position), color));
+                vertices.push_back(graphics::VertexPC(Vector3(position), color)); // center
             }
 
             for (uint32_t i = 0; i <= segments; ++i)
             {
                 vertices.push_back(graphics::VertexPC(Vector3((position.x + radius * cosf(i * TAU / static_cast<float>(segments))),
-                                                    (position.y + radius * sinf(i * TAU / static_cast<float>(segments))),
-                                                    0.0f), color));
+                                                              (position.y + radius * sinf(i * TAU / static_cast<float>(segments))),
+                                                              0.0f), color));
             }
 
-            DrawCommand command;
 
             if (fill)
             {
@@ -140,15 +145,18 @@ namespace ouzel
 
                 for (uint16_t i = 1; i <= segments; ++i)
                 {
-                    indices.push_back(i);
+                    indices.push_back(startVertex + i);
+                    ++command.indexCount;
 
                     if (i & 1)
                     {
-                        indices.push_back(0); // center
+                        indices.push_back(startVertex); // center
+                        ++command.indexCount;
                     }
                 }
 
-                indices.push_back(1);
+                indices.push_back(startVertex + 1);
+                ++command.indexCount;
             }
             else
             {
@@ -156,15 +164,10 @@ namespace ouzel
 
                 for (uint16_t i = 0; i <= segments; ++i)
                 {
-                    indices.push_back(i);
+                    indices.push_back(startVertex + i);
+                    ++command.indexCount;
                 }
             }
-
-            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                         static_cast<uint32_t>(indices.size()), false,
-                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                         static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -174,33 +177,38 @@ namespace ouzel
 
         void DebugDrawable::rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill)
         {
-            std::vector<uint16_t> indices;
-
-            std::vector<graphics::VertexPC> vertices = {
-                graphics::VertexPC(Vector3(rectangle.left(), rectangle.bottom(), 0.0f), color),
-                graphics::VertexPC(Vector3(rectangle.right(), rectangle.bottom(), 0.0f), color),
-                graphics::VertexPC(Vector3(rectangle.left(), rectangle.top(), 0.0f),  color),
-                graphics::VertexPC(Vector3(rectangle.right(), rectangle.top(), 0.0f),  color)
-            };
-
             DrawCommand command;
+            command.startIndex = static_cast<uint32_t>(indices.size());
+
+            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+
+            vertices.push_back(graphics::VertexPC(Vector3(rectangle.left(), rectangle.bottom(), 0.0f), color));
+            vertices.push_back(graphics::VertexPC(Vector3(rectangle.right(), rectangle.bottom(), 0.0f), color));
+            vertices.push_back(graphics::VertexPC(Vector3(rectangle.left(), rectangle.top(), 0.0f), color));
+            vertices.push_back(graphics::VertexPC(Vector3(rectangle.right(), rectangle.top(), 0.0f), color));
 
             if (fill)
             {
                 command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
-                indices.assign({0, 1, 2, 1, 3, 2});
+                command.indexCount = 6;
+
+                indices.push_back(startVertex + 0);
+                indices.push_back(startVertex + 1);
+                indices.push_back(startVertex + 2);
+                indices.push_back(startVertex + 1);
+                indices.push_back(startVertex + 3);
+                indices.push_back(startVertex + 2);
             }
             else
             {
                 command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-                indices.assign({0, 1, 3, 2, 0});
+                command.indexCount = 5;
+                indices.push_back(startVertex + 0);
+                indices.push_back(startVertex + 1);
+                indices.push_back(startVertex + 3);
+                indices.push_back(startVertex + 2);
+                indices.push_back(startVertex + 0);
             }
-
-            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                         static_cast<uint32_t>(indices.size()), false,
-                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                         static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
 
@@ -210,18 +218,18 @@ namespace ouzel
 
         void DebugDrawable::triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill)
         {
-            std::vector<uint16_t> indices;
-            std::vector<graphics::VertexPC> vertices;
+            DrawCommand command;
+            command.indexCount = 4;
+            command.startIndex = static_cast<uint32_t>(indices.size());
+
+            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
             for (uint16_t i = 0; i < 3; ++i)
             {
-                indices.push_back(i);
-
+                indices.push_back(startVertex + i);
                 vertices.push_back(graphics::VertexPC(positions[i], color));
                 boundingBox.insertPoint(positions[i]);
             }
-
-            DrawCommand command;
 
             if (fill)
             {
@@ -230,15 +238,9 @@ namespace ouzel
             else
             {
                 command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-                indices.push_back(0);
-                boundingBox.insertPoint(positions[0]);
+                indices.push_back(startVertex);
+                ++command.indexCount;
             }
-
-            command.mesh = sharedEngine->getRenderer()->createMeshBuffer();
-            command.mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                         static_cast<uint32_t>(indices.size()), false,
-                                         vertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                         static_cast<uint32_t>(vertices.size()), false);
 
             drawCommands.push_back(command);
         }
