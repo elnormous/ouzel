@@ -77,7 +77,7 @@ namespace ouzel
             FLOAT frameBufferClearColor[4];
 
             std::atomic<bool> dirty;
-            std::mutex updateMutex;
+            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel
