@@ -711,7 +711,7 @@ namespace ouzel
 
                 context->IASetPrimitiveTopology(topology);
 
-                context->DrawIndexed(drawCommand.indexCount, static_cast<UINT>(drawCommand.startIndex * meshBufferD3D11->getIndexSize()), 0);
+                context->DrawIndexed(drawCommand.indexCount, drawCommand.startIndex, 0);
 
                 drawCommands.pop();
             }
