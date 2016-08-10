@@ -107,6 +107,12 @@ namespace ouzel
                                 propagate = eventHandler->uiHandler(event.type, event.uiEvent);
                             }
                             break;
+                        case Event::Type::USER:
+                            if (eventHandler->userHandler)
+                            {
+                                propagate = eventHandler->userHandler(event.type, event.userEvent);
+                            }
+                            break;
                     }
                 }
 

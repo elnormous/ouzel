@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <vector>
 #include <string>
 #include "utils/Types.h"
 #include "math/Vector2.h"
@@ -84,6 +85,11 @@ namespace ouzel
         Vector2 position;
     };
 
+    struct UserEvent
+    {
+        std::vector<uint64_t> parameters;
+    };
+
     struct Event
     {
         enum class Type
@@ -115,7 +121,9 @@ namespace ouzel
             UI_RELEASE_NODE,  // mouse or touch released on scene node
             UI_CLICK_NODE, // mouse or touch clicked on scene node
             UI_DRAG_NODE, // mouse or touch dragged scene node
-            UI_WIDGET_CHANGE // widget changed its value
+            UI_WIDGET_CHANGE, // widget changed its value
+
+            USER // user defined event
         };
 
         Type type;
@@ -127,5 +135,6 @@ namespace ouzel
         WindowEvent windowEvent;
         SystemEvent systemEvent;
         UIEvent uiEvent;
+        UserEvent userEvent;
     };
 }
