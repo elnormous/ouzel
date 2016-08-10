@@ -781,10 +781,11 @@ namespace ouzel
 
             currentRenderPassDescriptor = newRenderPassDescriptor;
 
-            if (clearedRenderPassDescriptors.find(currentRenderPassDescriptor) == clearedRenderPassDescriptors.end())
+            auto clearedRenderPassDescriptor = clearedRenderPassDescriptors.insert(currentRenderPassDescriptor);
+
+            if (clearedRenderPassDescriptor.second)
             {
                 currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                clearedRenderPassDescriptors.insert(currentRenderPassDescriptor);
             }
             else
             {

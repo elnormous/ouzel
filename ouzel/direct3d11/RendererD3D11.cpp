@@ -529,11 +529,11 @@ namespace ouzel
                 context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
                 context->RSSetViewports(1, &newViewport);
 
-                if (clearedRenderTargetViews.find(newRenderTargetView) == clearedRenderTargetViews.end())
+                auto clearedRenderTargetView = clearedRenderTargetViews.insert(newRenderTargetView);
+
+                if (clearedRenderTargetView.second)
                 {
                     context->ClearRenderTargetView(newRenderTargetView, newClearColor);
-
-                    clearedRenderTargetViews.insert(newRenderTargetView);
                 }
 
                 // scissor test

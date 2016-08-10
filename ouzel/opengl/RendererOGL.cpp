@@ -508,7 +508,9 @@ namespace ouzel
                             static_cast<GLsizei>(newViewport.width),
                             static_cast<GLsizei>(newViewport.height));
 
-                if (clearedFrameBuffers.find(newFrameBuffer) == clearedFrameBuffers.end())
+                auto clearedFrameBuffer = clearedFrameBuffers.insert(newFrameBuffer);
+
+                if (clearedFrameBuffer.second)
                 {
                     glClearColor(newClearColor[0],
                                  newClearColor[1],
@@ -523,7 +525,6 @@ namespace ouzel
                         return false;
                     }
 
-                    clearedFrameBuffers.insert(newFrameBuffer);
                 }
 
                 // scissor test
