@@ -53,7 +53,7 @@ namespace ouzel
         {
             Drawable::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
 
-            if (shader && texture && meshBuffer)
+            if (meshBuffer)
             {
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };

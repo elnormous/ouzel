@@ -47,7 +47,7 @@ namespace ouzel
 
             parentNode = currentNode;
 
-            if (shader && texture && particleCount)
+            if (particleCount)
             {
                 if (needsMeshUpdate)
                 {
