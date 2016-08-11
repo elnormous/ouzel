@@ -34,7 +34,7 @@ namespace ouzel
         return lerp( a, b, remapSmoothstep);
     }
 
-    inline bool isPOT(int x)
+    inline bool isPOT(uint32_t x)
     {
         return (x != 0) && (((x - 1) & x) == 0);
     }

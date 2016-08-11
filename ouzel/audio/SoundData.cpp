@@ -91,7 +91,7 @@ namespace ouzel
                     return false;
                 }
 
-                char chunkHeader[4];
+                uint8_t chunkHeader[4];
                 chunkHeader[0] = newData[offset + 0];
                 chunkHeader[1] = newData[offset + 1];
                 chunkHeader[2] = newData[offset + 2];
@@ -146,7 +146,7 @@ namespace ouzel
                 }
                 else if (chunkHeader[0] == 'd' && chunkHeader[1] == 'a' && chunkHeader[2] == 't' && chunkHeader[3] == 'a')
                 {
-                    data.assign(newData.begin() + offset, newData.begin() + offset + chunkSize);
+                    data.assign(newData.begin() + static_cast<int>(offset), newData.begin() + static_cast<int>(offset + chunkSize));
 
                     dataChunkFound = true;
                 }

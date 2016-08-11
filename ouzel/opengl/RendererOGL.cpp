@@ -651,7 +651,7 @@ namespace ouzel
             const GLsizei height = static_cast<GLsizei>(size.height);
             const GLsizei depth = 4;
 
-            std::vector<uint8_t> data(width * height * depth);
+            std::vector<uint8_t> data(static_cast<size_t>(width * height * depth));
 
             glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
@@ -668,9 +668,9 @@ namespace ouzel
                 {
                     for (GLsizei z = 0; z < depth; ++z)
                     {
-                        temp = data[((height - row - 1) * width + col) * depth + z];
-                        data[((height - row - 1) * width + col) * depth + z] = data[(row * width + col) * depth + z];
-                        data[(row * width + col) * depth + z] = temp;
+                        temp = data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)];
+                        data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)] = data[static_cast<size_t>((row * width + col) * depth + z)];
+                        data[static_cast<size_t>((row * width + col) * depth + z)] = temp;
                     }
                 }
             }

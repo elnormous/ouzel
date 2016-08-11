@@ -142,10 +142,10 @@ namespace ouzel
                     checked = !checked;
                     updateSprite();
 
-                    Event event;
-                    event.type = Event::Type::UI_WIDGET_CHANGE;
-                    event.uiEvent.node = std::static_pointer_cast<Node>(shared_from_this());
-                    sharedEngine->getEventDispatcher()->dispatchEvent(event);
+                    Event changeEvent;
+                    changeEvent.type = Event::Type::UI_WIDGET_CHANGE;
+                    changeEvent.uiEvent.node = std::static_pointer_cast<Node>(shared_from_this());
+                    sharedEngine->getEventDispatcher()->dispatchEvent(changeEvent);
                 }
             }
 

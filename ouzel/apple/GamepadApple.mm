@@ -137,10 +137,10 @@ namespace ouzel
                 };
 
                 // buttons
-                controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
                     handleButtonValueChange(GamepadButton::A, pressed, value);
                 };
-                controller.microGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput* button, float value, BOOL pressed) {
+                controller.microGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
                     handleButtonValueChange(GamepadButton::X, pressed, value);
                 };
             }

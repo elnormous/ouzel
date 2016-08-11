@@ -13,7 +13,7 @@
 
 @implementation ViewController
 
--(void)textFieldDidChange:(id)sender
+-(void)textFieldDidChange:(__unused id)sender
 {
 }
 
@@ -52,7 +52,8 @@ namespace ouzel
 
         CGRect windowFrame = [window bounds];
 
-        size = Size2(windowFrame.size.width, windowFrame.size.height);
+        size = Size2(static_cast<float>(windowFrame.size.width),
+                     static_cast<float>(windowFrame.size.height));
 
         switch (sharedEngine->getRenderer()->getDriver())
         {

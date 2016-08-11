@@ -133,7 +133,10 @@ namespace ouzel
                 return false;
             }
 
-            alBufferData(outputBuffer, format, soundData->getData().data(), soundData->getData().size(), soundData->getSamplesPerSecond());
+            alBufferData(outputBuffer, format,
+                         soundData->getData().data(),
+                         static_cast<ALsizei>(soundData->getData().size()),
+                         static_cast<ALsizei>(soundData->getSamplesPerSecond()));
 
             if (AudioAL::checkOpenALError())
             {
@@ -144,7 +147,7 @@ namespace ouzel
             alSourcef(sourceId, AL_PITCH, 1.0f);
             alSourcef(sourceId, AL_GAIN, 1.0f);
 
-            alSourcei(sourceId, AL_BUFFER, outputBuffer);
+            alSourcei(sourceId, AL_BUFFER, static_cast<ALint>(outputBuffer));
 
             if (AudioAL::checkOpenALError())
             {

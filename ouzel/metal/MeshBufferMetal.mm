@@ -218,7 +218,7 @@ namespace ouzel
                         {
                             if (indexBuffer) [indexBuffer release];
 
-                            indexBufferSize = localIndexData.size();
+                            indexBufferSize = static_cast<uint32_t>(localIndexData.size());
 
                             indexBuffer = [rendererMetal->getDevice() newBufferWithLength:indexBufferSize
                                                                                   options:MTLResourceCPUCacheModeWriteCombined];
@@ -247,7 +247,7 @@ namespace ouzel
                         {
                             if (vertexBuffer) [vertexBuffer release];
 
-                            vertexBufferSize = localVertexData.size();
+                            vertexBufferSize = static_cast<uint32_t>(localVertexData.size());
 
                             vertexBuffer = [rendererMetal->getDevice() newBufferWithLength:vertexBufferSize
                                                                                    options:MTLResourceCPUCacheModeWriteCombined];

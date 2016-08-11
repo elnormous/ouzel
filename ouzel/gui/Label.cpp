@@ -19,9 +19,9 @@ namespace ouzel
         {
         }
 
-        Label::Label(const std::string& font, const std::string& text, const Vector2& textAnchor)
+        Label::Label(const std::string& font, const std::string& pText, const Vector2& textAnchor)
         {
-            init(font, text, textAnchor);
+            init(font, pText, textAnchor);
         }
 
         Label::~Label()

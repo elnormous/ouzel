@@ -189,11 +189,11 @@ namespace ouzel
                 return false;
             }
 #if OUZEL_PLATFORM_MACOS
-            view = std::static_pointer_cast<WindowMacOS>(window)->getNativeView();
+            view = (MTKViewPtr)std::static_pointer_cast<WindowMacOS>(window)->getNativeView();
 #elif OUZEL_PLATFORM_TVOS
-            view = std::static_pointer_cast<WindowTVOS>(window)->getNativeView();
+            view = (MTKViewPtr)std::static_pointer_cast<WindowTVOS>(window)->getNativeView();
 #elif OUZEL_PLATFORM_IOS
-            view = std::static_pointer_cast<WindowIOS>(window)->getNativeView();
+            view = (MTKViewPtr)std::static_pointer_cast<WindowIOS>(window)->getNativeView();
 #endif
             view.device = device;
             view.sampleCount = sampleCount;
@@ -537,7 +537,7 @@ namespace ouzel
                 shaderMetal->uploadData(shaderMetal->getPixelShaderConstantBuffer(),
                                         shaderMetal->getPixelShaderConstantBufferOffset(),
                                         pixelShaderData.data(),
-                                        vectorDataSize(pixelShaderData));
+                                        static_cast<uint32_t>(vectorDataSize(pixelShaderData)));
 
                 [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
                                                         offset:shaderMetal->getPixelShaderConstantBufferOffset()
@@ -572,7 +572,7 @@ namespace ouzel
                 shaderMetal->uploadData(shaderMetal->getVertexShaderConstantBuffer(),
                                         shaderMetal->getVertexShaderConstantBufferOffset(),
                                         vertexShaderData.data(),
-                                        vectorDataSize(vertexShaderData));
+                                        static_cast<uint32_t>(vectorDataSize(vertexShaderData)));
 
                 [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
                                                       offset:shaderMetal->getVertexShaderConstantBufferOffset()

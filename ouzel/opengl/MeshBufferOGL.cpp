@@ -336,7 +336,7 @@ namespace ouzel
                     if (!localIndexData.empty())
                     {
                         RendererOGL::bindElementArrayBuffer(indexBufferId);
-                        glBufferData(GL_ELEMENT_ARRAY_BUFFER, localIndexData.size(), localIndexData.data(),
+                        glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(localIndexData.size()), localIndexData.data(),
                                      dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())
@@ -379,7 +379,7 @@ namespace ouzel
                     if (!localVertexData.empty())
                     {
                         RendererOGL::bindArrayBuffer(vertexBufferId);
-                        glBufferData(GL_ARRAY_BUFFER, localVertexData.size(), localVertexData.data(),
+                        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(localVertexData.size()), localVertexData.data(),
                                      dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())

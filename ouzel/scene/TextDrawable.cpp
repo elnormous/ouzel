@@ -16,11 +16,11 @@ namespace ouzel
         {
         }
         
-        TextDrawable::TextDrawable(const std::string& font, const std::string& newText, const Vector2& textAnchor)
+        TextDrawable::TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-            init(font, newText, textAnchor);
+            init(fontFile, pText, pTextAnchor);
         }
 
         TextDrawable::~TextDrawable()

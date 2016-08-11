@@ -393,7 +393,7 @@ namespace ouzel
                 return;
             }
 
-            drawables.erase(drawables.begin() + index);
+            drawables.erase(drawables.begin() + static_cast<int>(index));
         }
 
         void Node::removeDrawable(DrawablePtr drawable)

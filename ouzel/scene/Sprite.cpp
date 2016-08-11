@@ -146,7 +146,7 @@ namespace ouzel
                             }
                             else
                             {
-                                currentFrame = static_cast<int32_t>(frames.size() - 1);
+                                currentFrame = static_cast<uint32_t>(frames.size() - 1);
                                 playing = false;
                                 sharedEngine->unscheduleUpdate(updateCallback);
                             }
@@ -160,7 +160,7 @@ namespace ouzel
                         {
                             if (repeat)
                             {
-                                currentFrame = static_cast<int32_t>(frames.size() - 1);
+                                currentFrame = static_cast<uint32_t>(frames.size() - 1);
                             }
                             else
                             {
@@ -238,7 +238,7 @@ namespace ouzel
                 {
                     if (currentFrame == 0)
                     {
-                        currentFrame = static_cast<int32_t>(frames.size() - 1);
+                        currentFrame = static_cast<uint32_t>(frames.size() - 1);
                         timeSinceLastFrame = 0.0f;
                     }
                 }
@@ -274,7 +274,7 @@ namespace ouzel
 
             if (currentFrame >= frames.size())
             {
-                currentFrame = static_cast<int32_t>(frames.size() - 1);
+                currentFrame = static_cast<uint32_t>(frames.size() - 1);
             }
         }
     } // namespace scene
