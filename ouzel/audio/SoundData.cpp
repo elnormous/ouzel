@@ -80,7 +80,7 @@ namespace ouzel
 
             offset += 4;
 
-            bool foundChunkFound = false;
+            bool formatChunkFound = false;
             bool dataChunkFound = false;
 
             for (; offset < newData.size();)
@@ -142,7 +142,7 @@ namespace ouzel
                     bitsPerSample = readUInt16Little(newData.data() + i);
                     i += 2;
 
-                    foundChunkFound = true;
+                    formatChunkFound = true;
                 }
                 else if (chunkHeader[0] == 'd' && chunkHeader[1] == 'a' && chunkHeader[2] == 't' && chunkHeader[3] == 'a')
                 {
@@ -154,7 +154,7 @@ namespace ouzel
                 offset += ((chunkSize + 1) & 0xFFFFFFFE);
             }
 
-            if (!foundChunkFound)
+            if (!formatChunkFound)
             {
                 log("Failed to load sound file. Failed to find a format chunk.");
                 return false;
