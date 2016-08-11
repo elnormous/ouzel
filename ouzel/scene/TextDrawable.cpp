@@ -20,6 +20,12 @@ namespace ouzel
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+
+            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+            meshBuffer->init();
+            meshBuffer->setIndexSize(sizeof(uint16_t));
+            meshBuffer->setVertexAttributes(graphics::VertexPCT::ATTRIBUTES);
+
             init(fontFile, pText, pTextAnchor);
         }
 
@@ -70,7 +76,7 @@ namespace ouzel
                                                             vertexShaderConstants,
                                                             blendState,
                                                             meshBuffer,
-                                                            0,
+                                                            indexCount,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
                                                             renderTarget);
@@ -81,14 +87,7 @@ namespace ouzel
         {
             text = newText;
 
-            if (text.empty())
-            {
-                meshBuffer.reset();
-            }
-            else
-            {
-                updateMesh();
-            }
+            updateMesh();
         }
 
         void TextDrawable::setColor(const graphics::Color& newColor)
@@ -105,16 +104,18 @@ namespace ouzel
 
             font.getVertices(text, color, textAnchor, indices, vertices);
 
-            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
-
-            meshBuffer->initFromBuffer(indices.data(), sizeof(uint16_t), static_cast<uint32_t>(indices.size()), false,
-                                       vertices.data(), graphics::VertexPCT::ATTRIBUTES, static_cast<uint32_t>(vertices.size()), false);
-
+            indexCount = static_cast<uint32_t>(indices.size());
             boundingBox.reset();
 
-            for (const graphics::VertexPCT& vertex : vertices)
+            if (indexCount)
             {
-                boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
+                meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(indices.size()));
+                meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
+
+                for (const graphics::VertexPCT& vertex : vertices)
+                {
+                    boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
+                }
             }
         }
     } // namespace scene

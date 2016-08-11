@@ -45,6 +45,7 @@ namespace ouzel
             BMFont font;
             Vector2 textAnchor;
             std::string text;
+            uint32_t indexCount = 0;
 
             graphics::Color color = graphics::Color(255, 255, 255, 255);
         };
