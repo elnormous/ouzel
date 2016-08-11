@@ -87,7 +87,7 @@ namespace ouzel
 
     struct UserEvent
     {
-        std::vector<uint64_t> parameters;
+        std::vector<std::string> parameters;
     };
 
     struct Event
