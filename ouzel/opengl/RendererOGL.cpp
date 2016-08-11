@@ -269,8 +269,6 @@ namespace ouzel
                 return false;
             }
 
-            deleteResources();
-
             std::set<GLuint> clearedFrameBuffers;
 
             std::queue<DrawCommand> drawCommands;
@@ -299,6 +297,8 @@ namespace ouzel
 
                 resources.pop();
             }
+
+            deleteResources();
 
             if (!update())
             {
