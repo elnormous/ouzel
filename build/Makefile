@@ -11,7 +11,7 @@ ifndef platform
 		endif
 	endif
 endif
-CFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb -I../ouzel
+CPPFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb -I../ouzel
 SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Ease.cpp \
 	../ouzel/animators/Fade.cpp \
@@ -97,7 +97,7 @@ SOURCES+=../ouzel/rpi/ApplicationRPI.cpp \
 	../ouzel/rpi/InputRPI.cpp \
 	../ouzel/rpi/RendererOGLRPI.cpp \
 	../ouzel/rpi/WindowRPI.cpp
-CFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
+CPPFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
 SOURCES+=../ouzel/linux/ApplicationLinux.cpp \
 	../ouzel/linux/main.cpp \
@@ -133,10 +133,10 @@ $(LIBRARY): $(OBJECTS)
 	ar -r -s $@ $^
 
 %.o: %.cpp
-	$(CXX) $(CFLAGS) $< -o $@
+	$(CXX) $(CPPFLAGS) $< -o $@
 
 %.o: %.mm
-	$(CXX) -fno-objc-arc $(CFLAGS) $< -o $@
+	$(CXX) -fno-objc-arc $(CPPFLAGS) $< -o $@
 
 .PHONY: clean
 clean:

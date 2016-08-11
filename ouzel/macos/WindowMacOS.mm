@@ -250,7 +250,10 @@ namespace ouzel
 
     void WindowMacOS::handleDisplayChange()
     {
-        [view changeDisplay];
+        if ([view respondsToSelector:@selector(changeDisplay)])
+        {
+            [view performSelector:@selector(changeDisplay)];
+        }
     }
 
     void WindowMacOS::handleClose()

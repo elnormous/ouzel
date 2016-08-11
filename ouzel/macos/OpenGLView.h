@@ -15,8 +15,6 @@
 
 -(void)prepareOpenGL;
 
--(void)draw;
-
 // input
 -(BOOL)acceptsFirstResponder;
 

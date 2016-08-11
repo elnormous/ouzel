@@ -11,7 +11,7 @@ ifndef platform
 		endif
 	endif
 endif
-CFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.h
+CPPFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.h
 LDFLAGS=-L. -louzel
 ifeq ($(platform),raspbian)
 LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread
@@ -47,7 +47,7 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 .cpp.o:
-	$(CXX) $(CFLAGS) $< -o $@
+	$(CXX) $(CPPFLAGS) $< -o $@
 
 .PHONY: clean
 clean:
