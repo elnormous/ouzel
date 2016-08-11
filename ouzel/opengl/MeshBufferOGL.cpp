@@ -366,16 +366,25 @@ namespace ouzel
                             log("Failed to create vertex array");
                             vertexArrayId = 0;
                         }
-                        else
-                        {
-                            RendererOGL::bindVertexArray(vertexArrayId);
-                        }
 
                         glGenBuffers(1, &vertexBufferId);
 
                         if (RendererOGL::checkOpenGLError())
                         {
                             log("Failed to create vertex buffer");
+                            return false;
+                        }
+                    }
+
+                    if (!localVertexData.empty())
+                    {
+                        RendererOGL::bindArrayBuffer(vertexBufferId);
+                        glBufferData(GL_ARRAY_BUFFER, localVertexData.size(), localVertexData.data(),
+                                     dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            log("Failed to create vertex data");
                             return false;
                         }
                     }
@@ -406,19 +415,6 @@ namespace ouzel
                         if (RendererOGL::checkOpenGLError())
                         {
                             log("Failed to update vertex attributes");
-                            return false;
-                        }
-                    }
-
-                    if (!localVertexData.empty())
-                    {
-                        RendererOGL::bindArrayBuffer(vertexBufferId);
-                        glBufferData(GL_ARRAY_BUFFER, localVertexData.size(), localVertexData.data(),
-                                     dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            log("Failed to create vertex data");
                             return false;
                         }
                     }
