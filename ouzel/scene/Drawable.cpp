@@ -74,6 +74,5 @@ namespace ouzel
 
             return false;
         }
-
     } // namespace scene
 } // namespace ouzel

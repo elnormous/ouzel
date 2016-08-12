@@ -40,6 +40,9 @@ namespace ouzel
 
             virtual const Size2& getSize() const { return size; }
 
+            const Vector2& getOffset() const { return offset; }
+            void setOffset(const Vector2& newOffset);
+
             virtual void play(bool pRepeat = true, float newFrameInterval = 0.1f);
             virtual void stop(bool resetAnimation = true);
             virtual void reset();
@@ -49,10 +52,14 @@ namespace ouzel
             virtual void setCurrentFrame(uint32_t frame);
 
         protected:
+            void updateBoundingBox();
+
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;
 
             Size2 size;
+            Vector2 offset;
+            Matrix4 offsetMatrix = Matrix4::IDENTITY;
 
             std::vector<SpriteFramePtr> frames;
 

@@ -45,26 +45,9 @@ namespace ouzel
 
         bool Sprite::initFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames)
         {
-            size.width = size.height = 0.0f;
-            boundingBox.reset();
-
             frames = spriteFrames;
 
-            for (const SpriteFramePtr& frame : frames)
-            {
-                boundingBox.insertPoint(frame->getRectangle().bottomLeft());
-                boundingBox.insertPoint(frame->getRectangle().topRight());
-
-                if (frame->getRectangle().width > size.width)
-                {
-                    size.width = frame->getRectangle().width;
-                }
-
-                if (frame->getRectangle().height > size.height)
-                {
-                    size.height = frame->getRectangle().height;
-                }
-            }
+            updateBoundingBox();
 
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
@@ -85,27 +68,9 @@ namespace ouzel
 
         bool Sprite::initFromFile(const std::string& filename, bool mipmaps)
         {
-            frames.clear();
-            size.width = size.height = 0.0f;
-            boundingBox.reset();
-
             frames = sharedEngine->getCache()->getSpriteFrames(filename, mipmaps);
 
-            for (const SpriteFramePtr& frame : frames)
-            {
-                boundingBox.insertPoint(frame->getRectangle().bottomLeft());
-                boundingBox.insertPoint(frame->getRectangle().topRight());
-
-                if (frame->getRectangle().width > size.width)
-                {
-                    size.width = frame->getRectangle().width;
-                }
-
-                if (frame->getRectangle().height > size.height)
-                {
-                    size.height = frame->getRectangle().height;
-                }
-            }
+            updateBoundingBox();
 
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
@@ -171,6 +136,8 @@ namespace ouzel
                         }
                     }
                 }
+
+                updateBoundingBox();
             }
         }
 
@@ -182,9 +149,9 @@ namespace ouzel
         {
             Drawable::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
 
-            if (currentFrame < frames.size())
+            if (currentFrame >= 0 && currentFrame < frames.size())
             {
-                Matrix4 modelViewProj = projectionMatrix * transformMatrix;
+                Matrix4 modelViewProj = projectionMatrix * transformMatrix * offsetMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -209,6 +176,13 @@ namespace ouzel
         void Sprite::setShader(const graphics::ShaderPtr& newShader)
         {
             shader = newShader;
+        }
+
+        void Sprite::setOffset(const Vector2& newOffset)
+        {
+            offset = newOffset;
+            Matrix4::createTranslation(offset, offsetMatrix);
+            updateBoundingBox();
         }
 
         void Sprite::play(bool pRepeat, float newFrameInterval)
@@ -243,6 +217,8 @@ namespace ouzel
                     }
                 }
 
+                updateBoundingBox();
+
                 sharedEngine->scheduleUpdate(updateCallback);
             }
         }
@@ -266,6 +242,8 @@ namespace ouzel
             playing = false;
             currentFrame = 0;
             timeSinceLastFrame = 0.0f;
+
+            updateBoundingBox();
         }
 
         void Sprite::setCurrentFrame(uint32_t frame)
@@ -275,6 +253,27 @@ namespace ouzel
             if (currentFrame >= frames.size())
             {
                 currentFrame = static_cast<uint32_t>(frames.size() - 1);
+            }
+
+            updateBoundingBox();
+        }
+
+        void Sprite::updateBoundingBox()
+        {
+            if (currentFrame >= 0 && currentFrame < frames.size())
+            {
+                const SpriteFramePtr& frame = frames[currentFrame];
+
+                size.width = frame->getRectangle().width;
+                size.height = frame->getRectangle().height;
+
+                boundingBox.set(frame->getRectangle().bottomLeft(), frame->getRectangle().topRight());
+                boundingBox += offset;
+            }
+            else
+            {
+                size.width = size.height = 0.0f;
+                boundingBox.reset();
             }
         }
     } // namespace scene
