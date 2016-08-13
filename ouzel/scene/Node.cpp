@@ -150,17 +150,6 @@ namespace ouzel
             }
         }
 
-        bool Node::removeFromParent()
-        {
-            if (NodeContainerPtr currentParent = parent.lock())
-            {
-                currentParent->removeChild(std::static_pointer_cast<Node>(shared_from_this()));
-                return true;
-            }
-
-            return false;
-        }
-
         void Node::setZ(float newZ)
         {
             z = newZ;
