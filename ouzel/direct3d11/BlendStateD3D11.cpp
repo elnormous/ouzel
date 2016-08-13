@@ -119,6 +119,8 @@ namespace ouzel
                 };
                 blendStateDesc.RenderTarget[0] = targetBlendDesc;
 
+                if (blendState) blendState->Release();
+
                 HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
                 if (FAILED(hr))
                 {
