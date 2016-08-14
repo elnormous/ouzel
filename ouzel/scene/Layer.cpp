@@ -114,9 +114,9 @@ namespace ouzel
             return nullptr;
         }
 
-        std::set<NodePtr> Layer::pickNodes(const Vector2& position) const
+        std::vector<NodePtr> Layer::pickNodes(const Vector2& position) const
         {
-            std::set<NodePtr> result;
+            std::vector<NodePtr> result;
 
             for (std::list<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
             {
@@ -124,7 +124,7 @@ namespace ouzel
 
                 if (node->isVisible() && node->isPickable() && node->pointOn(position))
                 {
-                    result.insert(node);
+                    result.push_back(node);
                 }
             }
 
