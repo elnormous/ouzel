@@ -114,6 +114,23 @@ namespace ouzel
             return nullptr;
         }
 
+        std::set<NodePtr> Layer::pickNodes(const Vector2& position) const
+        {
+            std::set<NodePtr> result;
+
+            for (std::list<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+            {
+                NodePtr node = *i;
+
+                if (node->isVisible() && node->isPickable() && node->pointOn(position))
+                {
+                    result.insert(node);
+                }
+            }
+
+            return result;
+        }
+
         std::set<NodePtr> Layer::pickNodes(const std::vector<Vector2>& edges) const
         {
             std::set<NodePtr> result;
