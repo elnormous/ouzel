@@ -149,7 +149,7 @@ namespace ouzel
         {
             Drawable::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
 
-            if (currentFrame >= 0 && currentFrame < frames.size())
+            if (currentFrame < frames.size())
             {
                 Matrix4 modelViewProj = projectionMatrix * transformMatrix * offsetMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
@@ -260,7 +260,7 @@ namespace ouzel
 
         void Sprite::updateBoundingBox()
         {
-            if (currentFrame >= 0 && currentFrame < frames.size())
+            if (currentFrame < frames.size())
             {
                 const SpriteFramePtr& frame = frames[currentFrame];
 
