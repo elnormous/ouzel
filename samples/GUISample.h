@@ -19,5 +19,6 @@ private:
     ouzel::EventHandler eventHandler;
 
     ouzel::gui::ButtonPtr button;
+    ouzel::gui::ButtonPtr fullscreenButton;
     ouzel::gui::CheckBoxPtr checkBox;
 };

@@ -24,6 +24,10 @@ GUISample::GUISample(Samples& pSamples):
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
     layer->addChild(checkBox);
 
+    fullscreenButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Fullscreen", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
+    layer->addChild(fullscreenButton);
+
     gui::LabelPtr label = make_shared<gui::Label>("arial.fnt", "label");
     label->setColor(graphics::Color(0, 255, 255, 255));
     label->setPosition(Vector2(-70.0f, 100.0f));
@@ -51,9 +55,21 @@ GUISample::~GUISample()
 
 bool GUISample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
+    if (type == Event::Type::UI_CLICK_NODE)
     {
-        samples.back();
+        if (event.node == backButton)
+        {
+            samples.back();
+        }
+        else if (event.node == button)
+        {
+            checkBox->setChecked(!checkBox->isChecked());
+        }
+        else if (event.node == fullscreenButton)
+        {
+            bool fullscreen = ouzel::sharedEngine->getWindow()->isFullscreen();
+            ouzel::sharedEngine->getWindow()->setFullscreen(!fullscreen);
+        }
     }
 
     return true;
