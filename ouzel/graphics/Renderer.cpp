@@ -167,7 +167,7 @@ namespace ouzel
             return Vector2(x, y);
         }
 
-        bool Renderer::saveScreenshot(const std::string& filename)
+        bool Renderer::saveScreenshot(const std::string&)
         {
             return true;
         }
