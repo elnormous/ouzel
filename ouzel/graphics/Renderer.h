@@ -67,7 +67,7 @@ namespace ouzel
                 TRIANGLE_STRIP
             };
 
-            virtual ~Renderer() = 0;
+            virtual ~Renderer();
             virtual void free();
 
             Driver getDriver() const { return driver; }
@@ -81,7 +81,7 @@ namespace ouzel
             uint32_t getSampleCount() const { return sampleCount; }
             TextureFiltering getTextureFiltering() const { return textureFiltering; }
 
-            virtual std::vector<Size2> getSupportedResolutions() const = 0;
+            virtual std::vector<Size2> getSupportedResolutions() const;
 
             virtual BlendStatePtr createBlendState();
             virtual TexturePtr createTexture();
@@ -107,7 +107,7 @@ namespace ouzel
             Vector2 viewToScreenRelativeLocation(const Vector2& position);
             Vector2 screenToViewLocation(const Vector2& position);
 
-            virtual bool saveScreenshot(const std::string& filename) = 0;
+            virtual bool saveScreenshot(const std::string& filename);
 
             virtual uint32_t getDrawCallCount() const { return drawCallCount; }
 

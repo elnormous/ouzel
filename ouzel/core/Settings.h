@@ -5,12 +5,14 @@
 
 #include "core/CompileConfig.h"
 #include "graphics/Renderer.h"
+#include "audio/Audio.h"
 
 namespace ouzel
 {
     struct Settings
     {
-        graphics::Renderer::Driver driver = graphics::Renderer::Driver::DEFAULT;
+        graphics::Renderer::Driver renderDriver = graphics::Renderer::Driver::DEFAULT;
+        audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
 
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count

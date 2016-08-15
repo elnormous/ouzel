@@ -67,6 +67,10 @@
 #include "win/InputWin.h"
 #endif
 
+#ifdef OPENAL
+#undef OPENAL
+#endif
+
 namespace ouzel
 {
     ouzel::Engine* sharedEngine = nullptr;
@@ -86,7 +90,7 @@ namespace ouzel
         sceneManager->setScene(nullptr);
     }
 
-    std::set<graphics::Renderer::Driver> Engine::getAvailableDrivers()
+    std::set<graphics::Renderer::Driver> Engine::getAvailableRenderDrivers()
     {
         static std::set<graphics::Renderer::Driver> availableDrivers;
 
@@ -111,6 +115,28 @@ namespace ouzel
         return availableDrivers;
     }
 
+    std::set<audio::Audio::Driver> Engine::getAvailableAudioDrivers()
+    {
+        static std::set<audio::Audio::Driver> availableDrivers;
+
+        if (availableDrivers.empty())
+        {
+#if OUZEL_SUPPORTS_OPENAL
+            availableDrivers.insert(audio::Audio::Driver::OPENAL);
+#endif
+
+#if OUZEL_SUPPORTS_XAUDIO2
+            availableDrivers.insert(audio::Audio::Driver::XAUDIO2);
+#endif
+
+#if OUZEL_SUPPORTS_OPENSL
+            availableDrivers.insert(audio::Audio::Driver::OPENSL);
+#endif
+        }
+
+        return availableDrivers;
+    }
+
     bool Engine::init(Settings& newSettings, const std::function<void(void)>& beginCallback)
     {
         settings = newSettings;
@@ -124,21 +150,21 @@ namespace ouzel
             targetFrameInterval = 0L;
         }
 
-        if (settings.driver == graphics::Renderer::Driver::DEFAULT)
+        if (settings.renderDriver == graphics::Renderer::Driver::DEFAULT)
         {
-            auto availableDrivers = getAvailableDrivers();
+            auto availableDrivers = getAvailableRenderDrivers();
 
             if (availableDrivers.find(graphics::Renderer::Driver::METAL) != availableDrivers.end())
             {
-                settings.driver = graphics::Renderer::Driver::METAL;
+                settings.renderDriver = graphics::Renderer::Driver::METAL;
             }
             else if (availableDrivers.find(graphics::Renderer::Driver::DIRECT3D11) != availableDrivers.end())
             {
-                settings.driver = graphics::Renderer::Driver::DIRECT3D11;
+                settings.renderDriver = graphics::Renderer::Driver::DIRECT3D11;
             }
             else if (availableDrivers.find(graphics::Renderer::Driver::OPENGL) != availableDrivers.end())
             {
-                settings.driver = graphics::Renderer::Driver::OPENGL;
+                settings.renderDriver = graphics::Renderer::Driver::OPENGL;
             }
             else
             {
@@ -184,8 +210,12 @@ namespace ouzel
 
         localization.reset(new Localization());
 
-        switch (settings.driver)
+        switch (settings.renderDriver)
         {
+            case graphics::Renderer::Driver::NONE:
+                log("Not using render driver");
+                renderer.reset(new graphics::Renderer());
+                break;
 #if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
             case graphics::Renderer::Driver::OPENGL:
                 log("Using OpenGL render driver");
@@ -235,19 +265,61 @@ namespace ouzel
             return false;
         }
 
+        if (settings.audioDriver == audio::Audio::Driver::DEFAULT)
+        {
+            auto availableDrivers = getAvailableAudioDrivers();
+
+            if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
+            {
+                settings.audioDriver = audio::Audio::Driver::OPENAL;
+            }
+            else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
+            {
+                settings.audioDriver = audio::Audio::Driver::XAUDIO2;
+            }
+            else if (availableDrivers.find(audio::Audio::Driver::OPENSL) != availableDrivers.end())
+            {
+                settings.audioDriver = audio::Audio::Driver::OPENSL;
+            }
+            else
+            {
+                log("Failed to select render driver");
+                return false;
+            }
+        }
+
+        switch (settings.audioDriver)
+        {
+            case audio::Audio::Driver::NONE:
+                log("Not using audio driver");
+                audio.reset(new audio::Audio());
+                break;
 #if OUZEL_SUPPORTS_OPENAL
+            case audio::Audio::Driver::OPENAL:
+                log("Using OpenAL audio driver");
     #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        audio.reset(new audio::AudioALApple());
+                audio.reset(new audio::AudioALApple());
     #else
-        audio.reset(new audio::AudioAL());
+                audio.reset(new audio::AudioAL());
     #endif
-#elif OUZEL_SUPPORTS_XAUDIO2
-        audio.reset(new audio::AudioXA2());
-#elif OUZEL_SUPPORTS_OPENSL
-        audio.reset(new audio::AudioSL());
-#else
-        audio.reset(new audio::Audio());
+                break;
 #endif
+#if OUZEL_SUPPORTS_XAUDIO2
+            case audio::Audio::Driver::XAUDIO2:
+                log("Using XAudio 2 audio driver");
+                audio.reset(new audio::AudioXA2());
+                break;
+#endif
+#if OUZEL_SUPPORTS_OPENSL
+            case audio::Audio::Driver::OPENSL:
+                log("Using OpenSL ES audio driver");
+                audio.reset(new audio::AudioSL());
+                break;
+#endif
+            default:
+                log("Unsupported render driver");
+                return false;
+        }
 
         if (!audio->init())
         {

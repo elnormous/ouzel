@@ -45,15 +45,15 @@ void ouzelMain(const std::vector<std::string>& args)
             {
                 if (*nextArg == "opengl")
                 {
-                    settings.driver = ouzel::graphics::Renderer::Driver::OPENGL;
+                    settings.renderDriver = ouzel::graphics::Renderer::Driver::OPENGL;
                 }
                 else if (*nextArg == "direct3d11")
                 {
-                    settings.driver = ouzel::graphics::Renderer::Driver::DIRECT3D11;
+                    settings.renderDriver = ouzel::graphics::Renderer::Driver::DIRECT3D11;
                 }
                 else if (*nextArg == "metal")
                 {
-                    settings.driver = ouzel::graphics::Renderer::Driver::METAL;
+                    settings.renderDriver = ouzel::graphics::Renderer::Driver::METAL;
                 }
             }
             else

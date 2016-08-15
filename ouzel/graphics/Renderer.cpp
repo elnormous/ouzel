@@ -70,6 +70,11 @@ namespace ouzel
             fullscreen = newFullscreen;
         }
 
+        std::vector<Size2> Renderer::getSupportedResolutions() const
+        {
+            return std::vector<Size2>();
+        }
+
         BlendStatePtr Renderer::createBlendState()
         {
             BlendStatePtr blendState(new BlendState());
@@ -160,6 +165,11 @@ namespace ouzel
             float y = size.height - (position.y + 1.0f) / 2.0f * size.height;
 
             return Vector2(x, y);
+        }
+
+        bool Renderer::saveScreenshot(const std::string& filename)
+        {
+            return true;
         }
 
         void Renderer::scheduleUpdate(const ResourcePtr& resource)

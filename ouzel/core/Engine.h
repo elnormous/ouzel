@@ -30,7 +30,8 @@ namespace ouzel
         Engine();
         virtual ~Engine();
 
-        static std::set<graphics::Renderer::Driver> getAvailableDrivers();
+        static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
+        static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
         bool init(Settings& newSettings, const std::function<void(void)>& beginCallback);
         const Settings& getSettings() const { return settings; }
