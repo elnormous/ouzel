@@ -30,7 +30,7 @@ InputSample::InputSample(Samples& pSamples):
     scene::ParticleSystemPtr flameParticleSystem = make_shared<scene::ParticleSystem>("flame.json");
     
     flame = make_shared<scene::Node>();
-    flame->addDrawable(flameParticleSystem);
+    flame->addComponent(flameParticleSystem);
     flame->setPickable(false);
     layer->addChild(flame);
 

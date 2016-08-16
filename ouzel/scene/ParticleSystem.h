@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "scene/Drawable.h"
+#include "scene/Component.h"
 #include "utils/Types.h"
 #include "scene/ParticleDefinition.h"
 #include "math/Vector2.h"
@@ -55,7 +55,7 @@ namespace ouzel
             float deltaRadius = 0.0f;
         };
 
-        class ParticleSystem: public Drawable
+        class ParticleSystem: public Component
         {
         public:
             ParticleSystem();

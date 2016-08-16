@@ -14,10 +14,10 @@ namespace ouzel
 {
     namespace scene
     {
-        class Drawable: public ouzel::Noncopyable
+        class Component: public ouzel::Noncopyable
         {
         public:
-            virtual ~Drawable();
+            virtual ~Component();
 
             virtual void draw(const Matrix4& projectionMatrix,
                               const Matrix4& transformMatrix,

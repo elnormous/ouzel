@@ -5,7 +5,7 @@
 
 #include <vector>
 #include "utils/Types.h"
-#include "scene/Drawable.h"
+#include "scene/Component.h"
 #include "graphics/Renderer.h"
 #include "graphics/Color.h"
 
@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class ShapeDrawable: public Drawable
+        class ShapeDrawable: public Component
         {
         public:
             ShapeDrawable();

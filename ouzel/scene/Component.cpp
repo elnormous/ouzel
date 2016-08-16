@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Drawable.h"
+#include "Component.h"
 #include "utils/Utils.h"
 #include "math/MathUtils.h"
 
@@ -9,11 +9,11 @@ namespace ouzel
 {
     namespace scene
     {
-        Drawable::~Drawable()
+        Component::~Component()
         {
         }
 
-        void Drawable::draw(const Matrix4&,
+        void Component::draw(const Matrix4&,
                             const Matrix4&,
                             const graphics::Color&,
                             const graphics::RenderTargetPtr&,
@@ -21,12 +21,12 @@ namespace ouzel
         {
         }
 
-        bool Drawable::pointOn(const Vector2& position) const
+        bool Component::pointOn(const Vector2& position) const
         {
             return boundingBox.containsPoint(position);
         }
 
-        bool Drawable::shapeOverlaps(const std::vector<Vector2>& edges) const
+        bool Component::shapeOverlaps(const std::vector<Vector2>& edges) const
         {
             uint8_t inCorners = 0;
 

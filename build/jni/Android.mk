@@ -79,7 +79,7 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/opensl/SoundSL.cpp \
     $(LOCAL_PATH)/../../ouzel/opensl/SoundDataSL.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Camera.cpp \
-    $(LOCAL_PATH)/../../ouzel/scene/Drawable.cpp \
+    $(LOCAL_PATH)/../../ouzel/scene/Component.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Layer.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Node.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/NodeContainer.cpp \

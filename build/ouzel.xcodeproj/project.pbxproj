@@ -43,12 +43,12 @@
 		301CF5CE1CECAD0700B89B5D /* TextureVSOGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 301CF5B81CECAD0700B89B5D /* TextureVSOGLES3.h */; };
 		301CF5CF1CECAD0700B89B5D /* TextureVSOGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 301CF5B81CECAD0700B89B5D /* TextureVSOGLES3.h */; };
 		301CF5D01CECAD0700B89B5D /* TextureVSOGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 301CF5B81CECAD0700B89B5D /* TextureVSOGLES3.h */; };
-		301EB3A21CCD691800466E92 /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Drawable.cpp */; };
-		301EB3A31CCD691800466E92 /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Drawable.cpp */; };
-		301EB3A41CCD691800466E92 /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Drawable.cpp */; };
-		301EB3A51CCD691800466E92 /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A11CCD691800466E92 /* Drawable.h */; };
-		301EB3A61CCD691800466E92 /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A11CCD691800466E92 /* Drawable.h */; };
-		301EB3A71CCD691800466E92 /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A11CCD691800466E92 /* Drawable.h */; };
+		301EB3A21CCD691800466E92 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Component.cpp */; };
+		301EB3A31CCD691800466E92 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Component.cpp */; };
+		301EB3A41CCD691800466E92 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Component.cpp */; };
+		301EB3A51CCD691800466E92 /* Component.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A11CCD691800466E92 /* Component.h */; };
+		301EB3A61CCD691800466E92 /* Component.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A11CCD691800466E92 /* Component.h */; };
+		301EB3A71CCD691800466E92 /* Component.h in Headers */ = {isa = PBXBuildFile; fileRef = 301EB3A11CCD691800466E92 /* Component.h */; };
 		301EB3AA1CCD77F600466E92 /* TextDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A81CCD77F600466E92 /* TextDrawable.cpp */; };
 		301EB3AB1CCD77F600466E92 /* TextDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A81CCD77F600466E92 /* TextDrawable.cpp */; };
 		301EB3AC1CCD77F600466E92 /* TextDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A81CCD77F600466E92 /* TextDrawable.cpp */; };
@@ -684,8 +684,8 @@
 		301CF5B61CECAD0700B89B5D /* TexturePSOGLES3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TexturePSOGLES3.h; path = opengl/TexturePSOGLES3.h; sourceTree = "<group>"; };
 		301CF5B71CECAD0700B89B5D /* TextureVSOGL3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureVSOGL3.h; path = opengl/TextureVSOGL3.h; sourceTree = "<group>"; };
 		301CF5B81CECAD0700B89B5D /* TextureVSOGLES3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureVSOGLES3.h; path = opengl/TextureVSOGLES3.h; sourceTree = "<group>"; };
-		301EB3A01CCD691800466E92 /* Drawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawable.cpp; sourceTree = "<group>"; };
-		301EB3A11CCD691800466E92 /* Drawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Drawable.h; sourceTree = "<group>"; };
+		301EB3A01CCD691800466E92 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
+		301EB3A11CCD691800466E92 /* Component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Component.h; sourceTree = "<group>"; };
 		301EB3A81CCD77F600466E92 /* TextDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextDrawable.cpp; sourceTree = "<group>"; };
 		301EB3A91CCD77F600466E92 /* TextDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextDrawable.h; sourceTree = "<group>"; };
 		302511A61CD36FBA00D04209 /* SpriteFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteFrame.cpp; sourceTree = "<group>"; };
@@ -966,8 +966,8 @@
 			children = (
 				304A8E2B1C237C70008B1151 /* Camera.cpp */,
 				304A8E2C1C237C70008B1151 /* Camera.h */,
-				301EB3A01CCD691800466E92 /* Drawable.cpp */,
-				301EB3A11CCD691800466E92 /* Drawable.h */,
+				301EB3A01CCD691800466E92 /* Component.cpp */,
+				301EB3A11CCD691800466E92 /* Component.h */,
 				30575AA41C39D1FF0009C8A7 /* Layer.cpp */,
 				30575AA51C39D1FF0009C8A7 /* Layer.h */,
 				304A8E361C237C70008B1151 /* Node.cpp */,
@@ -1487,7 +1487,7 @@
 				30547E531CB3D6720055EE79 /* ShaderMetal.h in Headers */,
 				300934201C88698500CC50D3 /* Window.h in Headers */,
 				304B277D1C95C54D00BA162D /* EditBox.h in Headers */,
-				301EB3A61CCD691800466E92 /* Drawable.h in Headers */,
+				301EB3A61CCD691800466E92 /* Component.h in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
 				30547E4D1CB3D6720055EE79 /* RenderTargetMetal.h in Headers */,
 				301CF5CC1CECAD0700B89B5D /* TextureVSOGL3.h in Headers */,
@@ -1619,7 +1619,7 @@
 				30547E421CB3D6720055EE79 /* MeshBufferMetal.h in Headers */,
 				30547E541CB3D6720055EE79 /* ShaderMetal.h in Headers */,
 				300934211C88698500CC50D3 /* Window.h in Headers */,
-				301EB3A71CCD691800466E92 /* Drawable.h in Headers */,
+				301EB3A71CCD691800466E92 /* Component.h in Headers */,
 				304B277E1C95C54D00BA162D /* EditBox.h in Headers */,
 				303B76861C355A5800FEDE92 /* AppDelegate.h in Headers */,
 				301CF5CD1CECAD0700B89B5D /* TextureVSOGL3.h in Headers */,
@@ -1768,7 +1768,7 @@
 				304A8E521C237C70008B1151 /* Camera.h in Headers */,
 				304B27B01C9A063300BA162D /* MeshBufferOGL.h in Headers */,
 				304B27CE1C9A063300BA162D /* TexturePSOGLES2.h in Headers */,
-				301EB3A51CCD691800466E92 /* Drawable.h in Headers */,
+				301EB3A51CCD691800466E92 /* Component.h in Headers */,
 				3045F0EB1D0F5A8700125436 /* TextureVSMacOS.h in Headers */,
 				3045F0E51D0F5A8700125436 /* ColorVSMacOS.h in Headers */,
 				304A8E551C237C70008B1151 /* EventHandler.h in Headers */,
@@ -1900,7 +1900,7 @@
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
 				30EF365C1CA76B9E00F04F29 /* Popup.cpp in Sources */,
-				301EB3A31CCD691800466E92 /* Drawable.cpp in Sources */,
+				301EB3A31CCD691800466E92 /* Component.cpp in Sources */,
 				3047F74F1C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				301EB3AB1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				303B75481C2A3C9200FEDE92 /* Shader.cpp in Sources */,
@@ -2001,7 +2001,7 @@
 				30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
-				301EB3A41CCD691800466E92 /* Drawable.cpp in Sources */,
+				301EB3A41CCD691800466E92 /* Component.cpp in Sources */,
 				30EF365D1CA76B9E00F04F29 /* Popup.cpp in Sources */,
 				301EB3AC1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */,
@@ -2104,7 +2104,7 @@
 				30575A8F1C38BD370009C8A7 /* AABB2.cpp in Sources */,
 				30A5BF1F1CFED89200A977CA /* RendererOGLMacOS.mm in Sources */,
 				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
-				301EB3A21CCD691800466E92 /* Drawable.cpp in Sources */,
+				301EB3A21CCD691800466E92 /* Component.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				301EB3AA1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,

@@ -43,7 +43,7 @@ namespace ouzel
                                   const graphics::RenderTargetPtr& renderTarget,
                                   const NodePtr& currentNode)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
+            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
 
             parentNode = currentNode;
 

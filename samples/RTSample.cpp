@@ -29,7 +29,7 @@ RTSample::RTSample(Samples& pSamples):
     characterSprite->play(true);
 
     scene::NodePtr rtCharacter = make_shared<scene::Node>();
-    rtCharacter->addDrawable(characterSprite);
+    rtCharacter->addComponent(characterSprite);
     rtLayer->addChild(rtCharacter);
 
     scene::SpriteFramePtr rtFrame = std::make_shared<scene::SpriteFrame>(Rectangle(0.0f, 0.0f, 256.0f, 256.0f), renderTarget->getTexture(), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
@@ -37,7 +37,7 @@ RTSample::RTSample(Samples& pSamples):
     const std::vector<scene::SpriteFramePtr>& spriteFrames = { rtFrame };
     scene::SpritePtr rtSprite = make_shared<scene::Sprite>(spriteFrames);
     scene::NodePtr rtNode = make_shared<scene::Node>();
-    rtNode->addDrawable(rtSprite);
+    rtNode->addComponent(rtSprite);
     layer->addChild(rtNode);
 
     scene::LayerPtr guiLayer = make_shared<scene::Layer>();

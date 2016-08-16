@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "scene/Drawable.h"
+#include "scene/Component.h"
 #include "utils/Types.h"
 #include "math/Size2.h"
 #include "graphics/MeshBuffer.h"
@@ -17,7 +17,7 @@ namespace ouzel
     {
         class SceneManager;
 
-        class Sprite: public Drawable
+        class Sprite: public Component
         {
         public:
             Sprite();

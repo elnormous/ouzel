@@ -77,7 +77,7 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/opengl/ShaderOGL.cpp \
 	../ouzel/opengl/TextureOGL.cpp \
 	../ouzel/scene/Camera.cpp \
-	../ouzel/scene/Drawable.cpp \
+	../ouzel/scene/Component.cpp \
 	../ouzel/scene/Layer.cpp \
 	../ouzel/scene/Node.cpp \
 	../ouzel/scene/NodeContainer.cpp \

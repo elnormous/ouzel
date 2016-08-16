@@ -9,7 +9,7 @@
 #include "Camera.h"
 #include "utils/Utils.h"
 #include "math/MathUtils.h"
-#include "Drawable.h"
+#include "Component.h"
 
 namespace ouzel
 {
@@ -121,15 +121,15 @@ namespace ouzel
                 {
                     graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
 
-                    for (const DrawablePtr& drawable : drawables)
+                    for (const ComponentPtr& component : components)
                     {
-                        if (drawable->isVisible())
+                        if (component->isVisible())
                         {
-                            drawable->draw(currentLayer->getCamera()->getViewProjection(),
-                                           transform,
-                                           drawColor,
-                                           currentLayer->getRenderTarget(),
-                                           std::static_pointer_cast<Node>(shared_from_this()));
+                            component->draw(currentLayer->getCamera()->getViewProjection(),
+                                            transform,
+                                            drawColor,
+                                            currentLayer->getRenderTarget(),
+                                            std::static_pointer_cast<Node>(shared_from_this()));
                         }
                     }
                 }
@@ -217,9 +217,9 @@ namespace ouzel
         {
             Vector2 localPosition = convertWorldToLocal(worldPosition);
 
-            for (const DrawablePtr& drawable : drawables)
+            for (const ComponentPtr& component : components)
             {
-                if (drawable->pointOn(localPosition))
+                if (component->pointOn(localPosition))
                 {
                     return true;
                 }
@@ -243,9 +243,9 @@ namespace ouzel
                 transformedEdges.push_back(Vector2(transformedEdge.x, transformedEdge.y));
             }
 
-            for (const DrawablePtr& drawable : drawables)
+            for (const ComponentPtr& component : components)
             {
-                if (drawable->shapeOverlaps(transformedEdges))
+                if (component->shapeOverlaps(transformedEdges))
                 {
                     return true;
                 }
@@ -370,28 +370,28 @@ namespace ouzel
             inverseTransformDirty = false;
         }
 
-        void Node::addDrawable(DrawablePtr drawable)
+        void Node::addComponent(const ComponentPtr& component)
         {
-            drawables.push_back(drawable);
+            components.push_back(component);
         }
 
-        void Node::removeDrawable(uint32_t index)
+        void Node::removeComponent(uint32_t index)
         {
-            if (index >= drawables.size())
+            if (index >= components.size())
             {
                 return;
             }
 
-            drawables.erase(drawables.begin() + static_cast<int>(index));
+            components.erase(components.begin() + static_cast<int>(index));
         }
 
-        void Node::removeDrawable(DrawablePtr drawable)
+        void Node::removeComponent(const ComponentPtr& component)
         {
-            for (auto i = drawables.begin(); i != drawables.end();)
+            for (auto i = components.begin(); i != components.end();)
             {
-                if (*i == drawable)
+                if (*i == component)
                 {
-                    i = drawables.erase(i);
+                    i = components.erase(i);
                 }
                 else
                 {
@@ -400,9 +400,9 @@ namespace ouzel
             }
         }
 
-        void Node::removeAllDrawables()
+        void Node::removeAllComponents()
         {
-            drawables.clear();
+            components.clear();
         }
 
     } // namespace scene

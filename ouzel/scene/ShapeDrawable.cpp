@@ -32,7 +32,7 @@ namespace ouzel
                                  const graphics::RenderTargetPtr& renderTarget,
                                  const NodePtr& currentNode)
         {
-            Drawable::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
+            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
 
             meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(indices.size()));
             meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));

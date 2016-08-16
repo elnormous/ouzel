@@ -38,7 +38,7 @@ namespace ouzel
                 normalSprite = std::make_shared<scene::Sprite>();
                 if (normalSprite->initFromFile(normalImage, false))
                 {
-                    addDrawable(normalSprite);
+                    addComponent(normalSprite);
                 }
             }
 
@@ -47,7 +47,7 @@ namespace ouzel
                 selectedSprite = std::make_shared<scene::Sprite>();
                 if (selectedSprite->initFromFile(selectedImage, false))
                 {
-                    addDrawable(selectedSprite);
+                    addComponent(selectedSprite);
                 }
             }
 
@@ -56,7 +56,7 @@ namespace ouzel
                 pressedSprite = std::make_shared<scene::Sprite>();
                 if (pressedSprite->initFromFile(pressedImage, false))
                 {
-                    addDrawable(pressedSprite);
+                    addComponent(pressedSprite);
                 }
             }
 
@@ -65,7 +65,7 @@ namespace ouzel
                 disabledSprite = std::make_shared<scene::Sprite>();
                 if (disabledSprite->initFromFile(disabledImage, false))
                 {
-                    addDrawable(disabledSprite);
+                    addComponent(disabledSprite);
                 }
             }
 
@@ -74,7 +74,7 @@ namespace ouzel
                 tickSprite = std::make_shared<scene::Sprite>();
                 if (tickSprite->initFromFile(tickImage, false))
                 {
-                    addDrawable(tickSprite);
+                    addComponent(tickSprite);
                 }
             }
 

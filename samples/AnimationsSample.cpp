@@ -26,7 +26,7 @@ AnimationsSample::AnimationsSample(Samples& pSamples):
     shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, graphics::Color(0, 0, 255, 255), true);
 
     scene::NodePtr drawNode = make_shared<scene::Node>();
-    drawNode->addDrawable(shapeDrawable);
+    drawNode->addComponent(shapeDrawable);
     drawNode->setPosition(Vector2(-300, 0.0f));
     layer->addChild(drawNode);
 
@@ -36,7 +36,7 @@ AnimationsSample::AnimationsSample(Samples& pSamples):
 
     ouzel::scene::NodePtr witch = make_shared<scene::Node>();
     witch->setPosition(Vector2(200, 0.0f));
-    witch->addDrawable(witchSprite);
+    witch->addComponent(witchSprite);
     layer->addChild(witch);
 
     vector<scene::AnimatorPtr> sequence = {
@@ -48,7 +48,7 @@ AnimationsSample::AnimationsSample(Samples& pSamples):
 
     scene::NodePtr ball = make_shared<scene::Node>();
     scene::SpritePtr ballSprite = make_shared<scene::Sprite>("ball.png");
-    ball->addDrawable(ballSprite);
+    ball->addComponent(ballSprite);
     layer->addChild(ball);
 
     vector<scene::AnimatorPtr> sequence2 = {

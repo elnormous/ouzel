@@ -20,7 +20,7 @@ SpritesSample::SpritesSample(Samples& pSamples):
     characterSprite->play(true);
 
     character = make_shared<scene::Node>();
-    character->addDrawable(characterSprite);
+    character->addComponent(characterSprite);
     layer->addChild(character);
     character->setPosition(Vector2(-300.0f, 0.0f));
     character->animate(make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f)));
@@ -30,7 +30,7 @@ SpritesSample::SpritesSample(Samples& pSamples):
     fireSprite->play(true);
 
     scene::NodePtr fireNode = make_shared<scene::Node>();
-    fireNode->addDrawable(fireSprite);
+    fireNode->addComponent(fireSprite);
     fireNode->setPosition(Vector2(-100.0f, -140.0f));
     layer->addChild(fireNode);
 

@@ -8,7 +8,7 @@
 #include "graphics/Renderer.h"
 #include "Scene.h"
 #include "math/Matrix4.h"
-#include "Drawable.h"
+#include "Component.h"
 
 namespace ouzel
 {
@@ -167,11 +167,11 @@ namespace ouzel
         {
             if (camera)
             {
-                for (const DrawablePtr& drawable : node->getDrawables())
+                for (const ComponentPtr& component : node->getComponents())
                 {
-                    if (drawable->isVisible() &&
-                        (drawable->getBoundingBox().isEmpty() ||
-                         camera->checkVisibility(node->getTransform(), drawable->getBoundingBox())))
+                    if (component->isVisible() &&
+                        (component->getBoundingBox().isEmpty() ||
+                         camera->checkVisibility(node->getTransform(), component->getBoundingBox())))
                     {
                         return true;
                     }

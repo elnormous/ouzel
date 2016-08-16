@@ -88,8 +88,8 @@ namespace ouzel
         typedef std::shared_ptr<Layer> LayerPtr;
         typedef std::weak_ptr<Layer> LayerWeakPtr;
 
-        class Drawable;
-        typedef std::shared_ptr<Drawable> DrawablePtr;
+        class Component;
+        typedef std::shared_ptr<Component> ComponentPtr;
 
         class Sprite;
         typedef std::shared_ptr<Sprite> SpritePtr;

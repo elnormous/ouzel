@@ -51,7 +51,7 @@
 #include "math/Vector2.h"
 #include "math/Vector3.h"
 #include "scene/Camera.h"
-#include "scene/Drawable.h"
+#include "scene/Component.h"
 #include "scene/Layer.h"
 #include "scene/Node.h"
 #include "scene/ParticleSystem.h"

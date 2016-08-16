@@ -83,11 +83,11 @@ namespace ouzel
             void setReceiveInput(bool newReceiveInput) { receiveInput = newReceiveInput; }
             bool isReceivingInput() const { return receiveInput; }
 
-            const std::vector<DrawablePtr>& getDrawables() const { return drawables; }
-            void addDrawable(DrawablePtr drawable);
-            void removeDrawable(uint32_t index);
-            void removeDrawable(DrawablePtr drawable);
-            void removeAllDrawables();
+            const std::vector<ComponentPtr>& getComponents() const { return components; }
+            void addComponent(const ComponentPtr& component);
+            void removeComponent(uint32_t index);
+            void removeComponent(const ComponentPtr& component);
+            void removeAllComponents();
 
         protected:
             virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty, const LayerPtr& currentLayer);
@@ -130,7 +130,7 @@ namespace ouzel
             bool addedToParent = false;
 
             AnimatorPtr currentAnimator;
-            std::vector<DrawablePtr> drawables;
+            std::vector<ComponentPtr> components;
         };
     } // namespace scene
 } // namespace ouzel

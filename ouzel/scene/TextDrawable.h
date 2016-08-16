@@ -4,7 +4,7 @@
 #pragma once
 
 #include <string>
-#include "scene/Drawable.h"
+#include "scene/Component.h"
 #include "utils/Types.h"
 #include "graphics/Color.h"
 #include "gui/BMFont.h"
@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class TextDrawable: public Drawable
+        class TextDrawable: public Component
         {
         public:
             TextDrawable();

@@ -39,7 +39,7 @@ namespace ouzel
                 return false;
             }
 
-            addDrawable(textDrawable);
+            addComponent(textDrawable);
 
             textDrawable->setText(text);
 
