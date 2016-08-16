@@ -184,6 +184,12 @@ namespace ouzel
                 return false;
             }
 
+            if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
+            {
+                log("Failed to set EGL frame interval");
+                return false;
+            }
+
             window->setSize(Size2(static_cast<float>(screenWidth),
                                   static_cast<float>(screenHeight)));
 
