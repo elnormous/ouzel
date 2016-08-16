@@ -17,11 +17,11 @@ SoundSample::SoundSample(Samples& pSamples):
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
 
-    jumpButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Jump", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    jumpButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color(0, 0, 0, 255), "arial.fnt");
     jumpButton->setPosition(Vector2(0.0f, 0.0f));
     layer->addChild(jumpButton);
 
-    ambientButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Ambient", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    ambientButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color(0, 0, 0, 255), "arial.fnt");
     ambientButton->setPosition(Vector2(0.0f, -40.0f));
     layer->addChild(ambientButton);
 
@@ -41,7 +41,7 @@ SoundSample::SoundSample(Samples& pSamples):
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
-    backButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     guiLayer->addChild(backButton);
 }

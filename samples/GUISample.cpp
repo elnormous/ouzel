@@ -16,7 +16,7 @@ GUISample::GUISample(Samples& pSamples):
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
 
-    button = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Button", graphics::Color(255, 0, 0, 255), "arial.fnt");
+    button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Button", graphics::Color(255, 0, 0, 255), "arial.fnt");
     button->setPosition(Vector2(-200.0f, 100.0f));
     layer->addChild(button);
     
@@ -24,7 +24,7 @@ GUISample::GUISample(Samples& pSamples):
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
     layer->addChild(checkBox);
 
-    fullscreenButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Fullscreen", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    fullscreenButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", graphics::Color(0, 0, 0, 255), "arial.fnt");
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
     layer->addChild(fullscreenButton);
 
@@ -43,7 +43,7 @@ GUISample::GUISample(Samples& pSamples):
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
-    backButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     guiLayer->addChild(backButton);
 }

@@ -24,27 +24,27 @@ MainMenu::MainMenu(Samples& pSamples):
 
     layer->setCamera(make_shared<scene::Camera>());
 
-    spritesButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Sprites", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    spritesButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Sprites", graphics::Color(20, 0, 0, 255), "arial.fnt");
     spritesButton->setPosition(Vector2(0.0f, 80.0f));
     layer->addChild(spritesButton);
 
-    GUIButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "GUI", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    GUIButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "GUI", graphics::Color(20, 0, 0, 255), "arial.fnt");
     GUIButton->setPosition(Vector2(0.0f, 40.0f));
     layer->addChild(GUIButton);
 
-    renderTargetButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Render target", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    renderTargetButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Render target", graphics::Color(20, 0, 0, 255), "arial.fnt");
     renderTargetButton->setPosition(Vector2(0.0f, 0.0f));
     layer->addChild(renderTargetButton);
 
-    animationsButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Animations", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    animationsButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Animations", graphics::Color(20, 0, 0, 255), "arial.fnt");
     animationsButton->setPosition(Vector2(0.0f, -40.0f));
     layer->addChild(animationsButton);
 
-    inputButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Input", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    inputButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Input", graphics::Color(20, 0, 0, 255), "arial.fnt");
     inputButton->setPosition(Vector2(0.0f, -80.0f));
     layer->addChild(inputButton);
 
-    soundButton = make_shared<gui::Button>("button.png", "button.png", "button_down.png", "", "Sound", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    soundButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Sound", graphics::Color(20, 0, 0, 255), "arial.fnt");
     soundButton->setPosition(Vector2(0.0f, -120.0f));
     layer->addChild(soundButton);
 }
