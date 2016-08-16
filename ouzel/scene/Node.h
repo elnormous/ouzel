@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <string>
 #include <vector>
 #include <memory>
 #include "utils/Types.h"
@@ -30,6 +31,9 @@ namespace ouzel
 
             virtual bool addChild(const NodePtr& node) override;
             virtual bool hasParent() const { return addedToParent; }
+
+            virtual void setName(const std::string& newName) { name = newName; }
+            virtual const std::string& getName() const { return name; }
 
             virtual void setZ(float newZ);
             virtual float getZ() const { return z; }
@@ -110,7 +114,7 @@ namespace ouzel
 
             mutable bool updateChildrenTransform = true;
 
-            //TODO: transform to parent and transform to parent
+            std::string name;
 
             Vector2 position;
             float rotation = 0.0f;
