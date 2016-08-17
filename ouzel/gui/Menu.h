@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "utils/Types.h"
 #include "gui/Widget.h"
 #include "events/EventHandler.h"
 
@@ -16,10 +17,18 @@ namespace ouzel
             Menu();
             virtual ~Menu();
 
+            virtual bool addWidget(const WidgetPtr& widget);
+            virtual bool removeWidget(const WidgetPtr& widget);
+
         protected:
+            void selectWidget(const WidgetPtr& widget);
+
             bool handleKeyboard(Event::Type type, const KeyboardEvent& event);
             bool handleGamepad(Event::Type type, const GamepadEvent& event);
             bool handleUI(Event::Type type, const UIEvent& event);
+
+            std::list<WidgetPtr> widgets;
+            WidgetPtr selectedWidget;
 
             EventHandler eventHandler;
         };

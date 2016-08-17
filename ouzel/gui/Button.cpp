@@ -93,14 +93,21 @@ namespace ouzel
             return true;
         }
 
-        void Button::setEnabled(bool enabled)
+        void Button::setEnabled(bool newEnabled)
         {
-            Widget::setEnabled(enabled);
+            Widget::setEnabled(newEnabled);
 
             selected = false;
             pointerOver = false;
             pressed = false;
-            receiveInput = enabled;
+            receiveInput = newEnabled;
+
+            updateSprite();
+        }
+
+        void Button::setSelected(bool newSelected)
+        {
+            Widget::setSelected(newSelected);
 
             updateSprite();
         }

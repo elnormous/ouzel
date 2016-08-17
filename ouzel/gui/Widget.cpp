@@ -16,5 +16,10 @@ namespace ouzel
         {
             enabled = newEnabled;
         }
+
+        void Widget::setSelected(bool newSelected)
+        {
+            selected = newSelected;
+        }
     } // namespace gui
 } // namespace ouzel

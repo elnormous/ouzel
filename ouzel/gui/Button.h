@@ -27,7 +27,8 @@ namespace ouzel
             virtual bool init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
                               const std::string& label = "", const graphics::Color& labelColor = graphics::Color(255, 255, 255, 255), const std::string& font = "");
 
-            virtual void setEnabled(bool enabled) override;
+            virtual void setEnabled(bool newEnabled) override;
+            virtual void setSelected(bool newSelected) override;
 
         protected:
             bool handleUI(Event::Type type, const UIEvent& event);
@@ -42,7 +43,6 @@ namespace ouzel
 
             EventHandler eventHandler;
 
-            bool selected = false;
             bool pointerOver = false;
             bool pressed = false;
         };
