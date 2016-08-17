@@ -13,11 +13,16 @@ namespace ouzel
         CheckBox::CheckBox():
             eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
+            eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
         }
 
         CheckBox::CheckBox(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage):
             eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
+            eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);
+            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+
             init(normalImage, selectedImage, pressedImage, disabledImage, tickImage);
         }
 
@@ -28,11 +33,6 @@ namespace ouzel
 
         bool CheckBox::init(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage)
         {
-            eventHandler.gamepadHandler = std::bind(&CheckBox::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
-            eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);
-
-            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
-
             if (!normalImage.empty())
             {
                 normalSprite = std::make_shared<scene::Sprite>();
@@ -100,11 +100,6 @@ namespace ouzel
             checked = newChecked;
 
             updateSprite();
-        }
-
-        bool CheckBox::handleGamepad(Event::Type, const GamepadEvent&)
-        {
-            return true;
         }
 
         bool CheckBox::handleUI(Event::Type type, const UIEvent& event)
