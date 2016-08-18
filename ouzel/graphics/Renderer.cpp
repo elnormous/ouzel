@@ -40,14 +40,12 @@ namespace ouzel
         bool Renderer::init(const WindowPtr& window,
                             uint32_t newSampleCount,
                             TextureFiltering newTextureFiltering,
-                            float newTargetFPS,
                             bool newVerticalSync)
         {
             size = window->getSize();
             fullscreen = window->isFullscreen();
             sampleCount = newSampleCount;
             textureFiltering = newTextureFiltering;
-            targetFPS = newTargetFPS;
             verticalSync = newVerticalSync;
 
             ready = true;

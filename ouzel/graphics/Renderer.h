@@ -123,7 +123,6 @@ namespace ouzel
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
                               TextureFiltering newTextureFiltering,
-                              float newTargetFPS,
                               bool newVerticalSync);
 
             virtual void setSize(const Size2& newSize);
@@ -134,7 +133,6 @@ namespace ouzel
             bool fullscreen = false;
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFiltering textureFiltering = TextureFiltering::NONE;
-            float targetFPS = 0.0f;
             bool verticalSync = true;
 
             Color clearColor;

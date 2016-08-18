@@ -141,15 +141,6 @@ namespace ouzel
     {
         settings = newSettings;
 
-        if (!settings.verticalSync && settings.targetFPS > 0.0f)
-        {
-            targetFrameInterval = static_cast<uint64_t>(1000000L * (1.0f / settings.targetFPS));
-        }
-        else
-        {
-            targetFrameInterval = 0L;
-        }
-
         if (settings.renderDriver == graphics::Renderer::Driver::DEFAULT)
         {
             auto availableDrivers = getAvailableRenderDrivers();
@@ -259,7 +250,6 @@ namespace ouzel
         if (!renderer->init(window,
                             settings.sampleCount,
                             settings.textureFiltering,
-                            settings.targetFPS,
                             settings.verticalSync))
         {
             return false;

@@ -41,7 +41,6 @@ namespace ouzel
         bool RendererOGLMacOS::init(const WindowPtr& window,
                                   uint32_t newSampleCount,
                                   TextureFiltering newTextureFiltering,
-                                  float newTargetFPS,
                                   bool newVerticalSync)
         {
             free();
@@ -96,7 +95,7 @@ namespace ouzel
             // Create OpenGL context
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
 
-            return RendererOGL::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync);
+            return RendererOGL::init(window, newSampleCount, newTextureFiltering, newVerticalSync);
         }
 
         bool RendererOGLMacOS::present()

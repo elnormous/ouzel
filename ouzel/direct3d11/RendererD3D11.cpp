@@ -129,12 +129,11 @@ namespace ouzel
         bool RendererD3D11::init(const WindowPtr& window,
                                  uint32_t newSampleCount,
                                  TextureFiltering newTextureFiltering,
-                                 float newTargetFPS,
                                  bool newVerticalSync)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (!Renderer::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync))
+            if (!Renderer::init(window, newSampleCount, newTextureFiltering, newVerticalSync))
             {
                 return false;
             }

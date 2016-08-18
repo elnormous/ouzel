@@ -77,7 +77,6 @@ namespace ouzel
         CachePtr cache;
         scene::SceneManagerPtr sceneManager;
 
-        uint64_t targetFrameInterval;
         std::atomic<float> currentFPS;
         uint64_t previousFrameTime;
 
