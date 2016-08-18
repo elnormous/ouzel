@@ -26,7 +26,6 @@ namespace ouzel
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
                               TextureFiltering newTextureFiltering,
-                              float newTargetFPS,
                               bool newVerticalSync) override;
 
             EGLDisplay display = 0;

@@ -22,12 +22,11 @@ namespace ouzel
         bool RendererOGLLinux::init(const WindowPtr& window,
                                     uint32_t newSampleCount,
                                     TextureFiltering newTextureFiltering,
-                                    float newTargetFPS,
                                     bool newVerticalSync)
         {
             free();
 
-            return RendererOGL::init(window, newSampleCount, newTextureFiltering, newTargetFPS, newVerticalSync);
+            return RendererOGL::init(window, newSampleCount, newTextureFiltering, newVerticalSync);
         }
 
         bool RendererOGLLinux::present()
