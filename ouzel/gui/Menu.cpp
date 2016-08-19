@@ -32,6 +32,11 @@ namespace ouzel
 
             widgets.push_back(widget);
 
+            if (!selectedWidget)
+            {
+                selectWidget(widget);
+            }
+
             return true;
         }
 
@@ -43,6 +48,11 @@ namespace ouzel
             }
 
             widgets.remove(widget);
+
+            if (selectedWidget == widget)
+            {
+                selectWidget(nullptr);
+            }
 
             return true;
         }
