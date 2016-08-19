@@ -165,8 +165,12 @@ namespace ouzel
             return Vector2(x, y);
         }
 
-        bool Renderer::saveScreenshot(const std::string&)
+        bool Renderer::saveScreenshot(const std::string& filename)
         {
+            std::lock_guard<std::mutex> lock(screenshotMutex);
+
+            screenshotQueue.push(filename);
+
             return true;
         }
 

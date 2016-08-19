@@ -604,6 +604,11 @@ namespace ouzel
                 drawCommands.pop();
             }
 
+            if (!saveScreenshots())
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -642,42 +647,56 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool RendererOGL::saveScreenshot(const std::string& filename)
+        bool RendererOGL::saveScreenshots()
         {
-            bindFrameBuffer(frameBufferId);
-
-            const GLsizei width = static_cast<GLsizei>(size.width);
-            const GLsizei height = static_cast<GLsizei>(size.height);
-            const GLsizei depth = 4;
-
-            std::vector<uint8_t> data(static_cast<size_t>(width * height * depth));
-
-            glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-
-            if (checkOpenGLError())
+            for (;;)
             {
-                log("Failed to read pixels from frame buffer");
-                return false;
-            }
+                std::string filename;
 
-            uint8_t temp;
-            for (GLsizei row = 0; row < height / 2; ++row)
-            {
-                for (GLsizei col = 0; col < width; ++col)
                 {
-                    for (GLsizei z = 0; z < depth; ++z)
+                    std::lock_guard<std::mutex> lock(screenshotMutex);
+
+                    if (screenshotQueue.empty()) break;
+
+                    filename = screenshotQueue.front();
+                    screenshotQueue.pop();
+                }
+
+                bindFrameBuffer(frameBufferId);
+
+                const GLsizei width = static_cast<GLsizei>(size.width);
+                const GLsizei height = static_cast<GLsizei>(size.height);
+                const GLsizei depth = 4;
+
+                std::vector<uint8_t> data(static_cast<size_t>(width * height * depth));
+
+                glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+
+                if (checkOpenGLError())
+                {
+                    log("Failed to read pixels from frame buffer");
+                    return false;
+                }
+
+                uint8_t temp;
+                for (GLsizei row = 0; row < height / 2; ++row)
+                {
+                    for (GLsizei col = 0; col < width; ++col)
                     {
-                        temp = data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)];
-                        data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)] = data[static_cast<size_t>((row * width + col) * depth + z)];
-                        data[static_cast<size_t>((row * width + col) * depth + z)] = temp;
+                        for (GLsizei z = 0; z < depth; ++z)
+                        {
+                            temp = data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)];
+                            data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)] = data[static_cast<size_t>((row * width + col) * depth + z)];
+                            data[static_cast<size_t>((row * width + col) * depth + z)] = temp;
+                        }
                     }
                 }
-            }
 
-            if (!stbi_write_png(filename.c_str(), width, height, depth, data.data(), width * depth))
-            {
-                log("Failed to save image to file");
-                return false;
+                if (!stbi_write_png(filename.c_str(), width, height, depth, data.data(), width * depth))
+                {
+                    log("Failed to save image to file");
+                    return false;
+                }
             }
 
             return true;

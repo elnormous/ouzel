@@ -66,8 +66,6 @@ namespace ouzel
             virtual ShaderPtr createShader() override;
             virtual MeshBufferPtr createMeshBuffer() override;
 
-            virtual bool saveScreenshot(const std::string& filename) override;
-
             MTLDevicePtr getDevice() const { return device; }
             MTKViewPtr getMetalView() const { return view; }
 
@@ -79,6 +77,7 @@ namespace ouzel
                               TextureFiltering newTextureFiltering,
                               bool newVerticalSync) override;
             bool update();
+            bool saveScreenshots();
 
             MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                           const std::shared_ptr<ShaderMetal>& shader);

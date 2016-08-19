@@ -683,6 +683,11 @@ namespace ouzel
                 currentCommandBuffer = Nil;
             }
 
+            if (!saveScreenshots())
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -765,40 +770,54 @@ namespace ouzel
             return pipelineState;
         }
 
-        bool RendererMetal::saveScreenshot(const std::string& filename)
+        bool RendererMetal::saveScreenshots()
         {
-            MTLTexturePtr texture = view.currentDrawable.texture;
-
-            if (!texture)
+            for (;;)
             {
-                return false;
-            }
+                std::string filename;
 
-            NSUInteger width = static_cast<NSUInteger>(texture.width);
-            NSUInteger height = static_cast<NSUInteger>(texture.height);
-
-            std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
-            [texture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
-
-            uint8_t temp;
-            for (uint32_t y = 0; y < height; ++y)
-            {
-                for (uint32_t x = 0; x < width; ++x)
                 {
-                    temp = data.get()[((y * width + x) * 4)];
-                    data.get()[((y * width + x) * 4)] = data.get()[((y * width + x) * 4) + 2];
-                    data.get()[((y * width + x) * 4) + 2] = temp;
-                    data.get()[((y * width + x) * 4) + 3] = 255;
+                    std::lock_guard<std::mutex> lock(screenshotMutex);
+
+                    if (screenshotQueue.empty()) break;
+
+                    filename = screenshotQueue.front();
+                    screenshotQueue.pop();
+                }
+
+                MTLTexturePtr texture = view.currentDrawable.texture;
+
+                if (!texture)
+                {
+                    return false;
+                }
+
+                NSUInteger width = static_cast<NSUInteger>(texture.width);
+                NSUInteger height = static_cast<NSUInteger>(texture.height);
+
+                std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
+                [texture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
+
+                uint8_t temp;
+                for (uint32_t y = 0; y < height; ++y)
+                {
+                    for (uint32_t x = 0; x < width; ++x)
+                    {
+                        temp = data.get()[((y * width + x) * 4)];
+                        data.get()[((y * width + x) * 4)] = data.get()[((y * width + x) * 4) + 2];
+                        data.get()[((y * width + x) * 4) + 2] = temp;
+                        data.get()[((y * width + x) * 4) + 3] = 255;
+                    }
+                }
+
+                if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
+                {
+                    log("Failed to save image to file");
+                    return false;
                 }
             }
 
-            if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
-            {
-                log("Failed to save image to file");
-                return false;
-            }
-
-            return false;
+            return true;
         }
 
         bool RendererMetal::createRenderCommandEncoder(MTLRenderPassDescriptorPtr newRenderPassDescriptor)

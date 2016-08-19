@@ -74,8 +74,6 @@ namespace ouzel
             virtual ShaderPtr createShader() override;
             virtual MeshBufferPtr createMeshBuffer() override;
 
-            virtual bool saveScreenshot(const std::string& filename) override;
-
             static bool bindTexture(GLuint textureId, uint32_t layer);
             static bool bindProgram(GLuint programId);
             static bool bindFrameBuffer(GLuint frameBufferId);
@@ -130,6 +128,7 @@ namespace ouzel
             virtual bool update();
             
             virtual void setSize(const Size2& newSize) override;
+            virtual bool saveScreenshots();
 
             static void deleteResources();
 

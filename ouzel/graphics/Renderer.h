@@ -166,6 +166,9 @@ namespace ouzel
             std::queue<ResourcePtr> updateQueue;
             std::set<ResourcePtr> updateSet;
             std::mutex updateMutex;
+
+            std::queue<std::string> screenshotQueue;
+            std::mutex screenshotMutex;
         };
     } // namespace graphics
 } // namespace ouzel

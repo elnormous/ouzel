@@ -717,6 +717,11 @@ namespace ouzel
 
             swapChain->Present(swapInterval, 0);
 
+            if (!saveScreenshots())
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -886,90 +891,104 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool RendererD3D11::saveScreenshot(const std::string& filename)
+        bool RendererD3D11::saveScreenshots()
         {
-            ID3D11Texture2D* backBufferTexture;
-            HRESULT hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture));
-
-            if (FAILED(hr))
+            for (;;)
             {
-                log("Failed to get Direct3D 11 back buffer texture");
-                return false;
-            }
+                std::string filename;
 
-            D3D11_TEXTURE2D_DESC backBufferDesc;
-            backBufferTexture->GetDesc(&backBufferDesc);
+                {
+                    std::lock_guard<std::mutex> lock(screenshotMutex);
 
-            D3D11_TEXTURE2D_DESC desc = backBufferDesc;
-            desc.SampleDesc.Count = 1;
-            desc.SampleDesc.Quality = 0;
-            desc.Usage = D3D11_USAGE_STAGING;
-            desc.BindFlags = 0;
-            desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-            desc.MiscFlags = 0;
+                    if (screenshotQueue.empty()) break;
 
-            ID3D11Texture2D* texture;
+                    filename = screenshotQueue.front();
+                    screenshotQueue.pop();
+                }
 
-            hr = device->CreateTexture2D(&desc, nullptr, &texture);
+                ID3D11Texture2D* backBufferTexture;
+                HRESULT hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture));
 
-            if (FAILED(hr))
-            {
-                log("Failed to create Direct3D 11 texture");
-                return false;
-            }
-
-            if (backBufferDesc.SampleDesc.Count > 1)
-            {
-                D3D11_TEXTURE2D_DESC tempDesc = backBufferDesc;
-                tempDesc.SampleDesc.Count = 1;
-                tempDesc.SampleDesc.Quality = 0;
-
-                ID3D11Texture2D* temp;
-                hr = device->CreateTexture2D(&tempDesc, nullptr, &temp);
                 if (FAILED(hr))
                 {
-                    texture->Release();
+                    log("Failed to get Direct3D 11 back buffer texture");
+                    return false;
+                }
+
+                D3D11_TEXTURE2D_DESC backBufferDesc;
+                backBufferTexture->GetDesc(&backBufferDesc);
+
+                D3D11_TEXTURE2D_DESC desc = backBufferDesc;
+                desc.SampleDesc.Count = 1;
+                desc.SampleDesc.Quality = 0;
+                desc.Usage = D3D11_USAGE_STAGING;
+                desc.BindFlags = 0;
+                desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+                desc.MiscFlags = 0;
+
+                ID3D11Texture2D* texture;
+
+                hr = device->CreateTexture2D(&desc, nullptr, &texture);
+
+                if (FAILED(hr))
+                {
                     log("Failed to create Direct3D 11 texture");
                     return false;
                 }
 
-                for (UINT item = 0; item < backBufferDesc.ArraySize; ++item)
+                if (backBufferDesc.SampleDesc.Count > 1)
                 {
-                    for (UINT level = 0; level < desc.MipLevels; ++level)
+                    D3D11_TEXTURE2D_DESC tempDesc = backBufferDesc;
+                    tempDesc.SampleDesc.Count = 1;
+                    tempDesc.SampleDesc.Quality = 0;
+
+                    ID3D11Texture2D* temp;
+                    hr = device->CreateTexture2D(&tempDesc, nullptr, &temp);
+                    if (FAILED(hr))
                     {
-                        UINT index = D3D11CalcSubresource(level, item, backBufferDesc.MipLevels);
-                        context->ResolveSubresource(temp, index, backBuffer, index, DXGI_FORMAT_R8G8B8A8_UNORM);
+                        texture->Release();
+                        log("Failed to create Direct3D 11 texture");
+                        return false;
                     }
+
+                    for (UINT item = 0; item < backBufferDesc.ArraySize; ++item)
+                    {
+                        for (UINT level = 0; level < desc.MipLevels; ++level)
+                        {
+                            UINT index = D3D11CalcSubresource(level, item, backBufferDesc.MipLevels);
+                            context->ResolveSubresource(temp, index, backBuffer, index, DXGI_FORMAT_R8G8B8A8_UNORM);
+                        }
+                    }
+
+                    context->CopyResource(texture, temp);
+                    temp->Release();
+                }
+                else
+                {
+                    context->CopyResource(texture, backBuffer);
                 }
 
-                context->CopyResource(texture, temp);
-                temp->Release();
-            }
-            else
-            {
-                context->CopyResource(texture, backBuffer);
-            }
+                D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+                hr = context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
 
-            D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-            hr = context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
+                if (FAILED(hr))
+                {
+                    texture->Release();
+                    log("Failed to map Direct3D 11 resource");
+                    return false;
+                }
 
-            if (FAILED(hr))
-            {
-                texture->Release();
-                log("Failed to map Direct3D 11 resource");
-                return false;
-            }
+                if (!stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
+                {
+                    context->Unmap(texture, 0);
+                    texture->Release();
+                    log("Failed to save screenshot to file");
+                    return false;
+                }
 
-            if (!stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
-            {
                 context->Unmap(texture, 0);
                 texture->Release();
-                log("Failed to save screenshot to file");
-                return false;
             }
-
-            context->Unmap(texture, 0);
-            texture->Release();
 
             return true;
         }

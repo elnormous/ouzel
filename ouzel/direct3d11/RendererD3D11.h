@@ -34,8 +34,6 @@ namespace ouzel
             virtual ShaderPtr createShader() override;
             virtual MeshBufferPtr createMeshBuffer();
 
-            virtual bool saveScreenshot(const std::string& filename) override;
-
             ID3D11Device* getDevice() const { return device; }
             ID3D11DeviceContext* getContext() const { return context; }
 
@@ -47,6 +45,8 @@ namespace ouzel
                               TextureFiltering newTextureFiltering,
                               bool newVerticalSync) override;
             bool update();
+
+            bool saveScreenshots();
 
             virtual void setClearColor(Color color) override;
             virtual void setSize(const Size2& newSize) override;
