@@ -325,7 +325,6 @@ namespace ouzel
     {
         running = false;
         active = false;
-        if (updateThread.joinable()) updateThread.join();
     }
 
     void Engine::begin()

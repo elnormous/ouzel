@@ -9,6 +9,9 @@
 #include "apple/InputApple.h"
 #include "utils/Utils.h"
 
+
+using namespace ouzel;
+
 static CVReturn renderCallback(CVDisplayLinkRef,
                                const CVTimeStamp*,
                                const CVTimeStamp*,
@@ -18,21 +21,17 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     @autoreleasepool
     {
-        if (ouzel::sharedEngine->isRunning())
+        if (!sharedEngine->isRunning() ||
+            (sharedEngine->isRunning() && !sharedEngine->draw()))
         {
-            if (!ouzel::sharedEngine->draw())
-            {
-                ouzel::sharedApplication->execute([] {
-                    ouzel::sharedEngine->getWindow()->close();
-                });
-            }
+            sharedApplication->execute([] {
+                sharedEngine->getWindow()->close();
+            });
         }
     }
 
     return kCVReturnSuccess;
 }
-
-using namespace ouzel;
 
 @implementation OpenGLView
 
