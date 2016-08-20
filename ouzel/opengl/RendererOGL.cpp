@@ -285,6 +285,11 @@ namespace ouzel
                 updateSet.clear();
             }
 
+            // reset vertex and index buffers so that they get bind again
+            RendererOGL::currentElementArrayBufferId = 0;
+            RendererOGL::currentVertexArrayId = 0;
+            RendererOGL::currentArrayBufferId = 0;
+
             while (!resources.empty())
             {
                 const ResourcePtr& resource = resources.front();
