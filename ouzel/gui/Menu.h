@@ -20,6 +20,9 @@ namespace ouzel
             virtual bool addWidget(const WidgetPtr& widget);
             virtual bool removeWidget(const WidgetPtr& widget);
 
+            virtual void selectNextWidget();
+            virtual void selectPreviousWidget();
+
         protected:
             void selectWidget(const WidgetPtr& widget);
 

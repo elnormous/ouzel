@@ -67,47 +67,59 @@ namespace ouzel
             }
         }
 
+        void Menu::selectNextWidget()
+        {
+            if (widgets.empty()) return;
+
+            std::list<WidgetPtr>::iterator widgetIterator = widgets.end();
+
+            if (selectedWidget)
+            {
+                widgetIterator = std::find(widgets.begin(), widgets.end(), selectedWidget);
+            }
+
+            if (widgetIterator != widgets.end()) widgetIterator++;
+            if (widgetIterator == widgets.end()) widgetIterator = widgets.begin();
+
+            selectWidget(*widgetIterator);
+        }
+
+        void Menu::selectPreviousWidget()
+        {
+            if (widgets.empty()) return;
+
+            std::list<WidgetPtr>::iterator widgetIterator = widgets.end();
+
+            if (selectedWidget)
+            {
+                widgetIterator = std::find(widgets.begin(), widgets.end(), selectedWidget);
+            }
+
+            if (widgetIterator == widgets.begin())
+            {
+                widgetIterator = --widgets.end();
+            }
+            else
+            {
+                widgetIterator--;
+            }
+
+            selectWidget(*widgetIterator);
+        }
+
         bool Menu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         {
             if (!enabled) return true;
 
             if (type == Event::Type::KEY_DOWN && !widgets.empty())
             {
-                if (event.key == input::KeyboardKey::UP ||
-                    event.key == input::KeyboardKey::DOWN)
+                if (event.key == input::KeyboardKey::UP)
                 {
-                    std::list<WidgetPtr>::iterator widgetIterator = widgets.end();
-
-                    if (selectedWidget)
-                    {
-                        widgetIterator = std::find(widgets.begin(), widgets.end(), selectedWidget);
-                    }
-
-                    if (widgetIterator == widgets.end())
-                    {
-                        widgetIterator = widgets.begin();
-                    }
-
-                    if (event.key == input::KeyboardKey::UP)
-                    {
-                        if (widgetIterator == widgets.begin())
-                        {
-                            widgetIterator = widgets.end();
-                        }
-
-                        widgetIterator--;
-                    }
-                    else if (event.key == input::KeyboardKey::DOWN)
-                    {
-                        widgetIterator++;
-
-                        if (widgetIterator == widgets.end())
-                        {
-                            widgetIterator = widgets.begin();
-                        }
-                    }
-
-                    selectWidget(*widgetIterator);
+                    selectPreviousWidget();
+                }
+                else if (event.key == input::KeyboardKey::DOWN)
+                {
+                    selectNextWidget();
                 }
                 else if (event.key == input::KeyboardKey::RETURN)
                 {
