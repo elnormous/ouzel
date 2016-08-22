@@ -810,6 +810,8 @@ namespace ouzel
                 glBindVertexArray(vertexArrayId);
 #endif
                 currentVertexArrayId = vertexArrayId;
+                currentElementArrayBufferId = 0;
+                currentArrayBufferId = 0;
 
                 if (checkOpenGLError())
                 {

@@ -353,12 +353,6 @@ namespace ouzel
                             log("Failed to create index buffer");
                             return false;
                         }
-
-                        if (vertexArrayId)
-                        {
-                            RendererOGL::bindVertexArray(vertexArrayId);
-                            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
-                        }
                     }
 
                     if (!localIndexData.empty())
@@ -366,6 +360,7 @@ namespace ouzel
                         if (vertexArrayId)
                         {
                             RendererOGL::bindVertexArray(vertexArrayId);
+                            RendererOGL::bindElementArrayBuffer(indexBufferId);
                         }
                         else
                         {
@@ -396,12 +391,6 @@ namespace ouzel
                             log("Failed to create vertex buffer");
                             return false;
                         }
-
-                        if (vertexArrayId)
-                        {
-                            RendererOGL::bindVertexArray(vertexArrayId);
-                            glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
-                        }
                     }
 
                     if (!localVertexData.empty())
@@ -409,6 +398,31 @@ namespace ouzel
                         if (vertexArrayId)
                         {
                             RendererOGL::bindVertexArray(vertexArrayId);
+                            RendererOGL::bindArrayBuffer(vertexBufferId);
+
+                            for (GLuint index = 0; index < 5; ++index)
+                            {
+                                if (index < vertexAttribs.size())
+                                {
+                                    glEnableVertexAttribArray(index);
+                                    glVertexAttribPointer(index,
+                                                          vertexAttribs[index].size,
+                                                          vertexAttribs[index].type,
+                                                          vertexAttribs[index].normalized,
+                                                          vertexAttribs[index].stride,
+                                                          vertexAttribs[index].pointer);
+                                }
+                                else
+                                {
+                                    glDisableVertexAttribArray(index);
+                                }
+                            }
+
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                log("Failed to update vertex attributes");
+                                return false;
+                            }
                         }
                         else
                         {
@@ -421,36 +435,6 @@ namespace ouzel
                         if (RendererOGL::checkOpenGLError())
                         {
                             log("Failed to create vertex data");
-                            return false;
-                        }
-                    }
-
-                    if (vertexArrayId)
-                    {
-                        RendererOGL::bindVertexArray(vertexArrayId);
-                        RendererOGL::bindArrayBuffer(vertexBufferId);
-
-                        for (GLuint index = 0; index < 5; ++index)
-                        {
-                            if (index < vertexAttribs.size())
-                            {
-                                glEnableVertexAttribArray(index);
-                                glVertexAttribPointer(index,
-                                                      vertexAttribs[index].size,
-                                                      vertexAttribs[index].type,
-                                                      vertexAttribs[index].normalized,
-                                                      vertexAttribs[index].stride,
-                                                      vertexAttribs[index].pointer);
-                            }
-                            else
-                            {
-                                glDisableVertexAttribArray(index);
-                            }
-                        }
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            log("Failed to update vertex attributes");
                             return false;
                         }
                     }
