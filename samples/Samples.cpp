@@ -98,6 +98,6 @@ bool Samples::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
         return false;
     }
-    
+
     return true;
 }

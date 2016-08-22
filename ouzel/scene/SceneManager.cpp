@@ -265,10 +265,10 @@ namespace ouzel
             {
                 Event event;
                 event.type = Event::Type::UI_DRAG_NODE;
-                
+
                 event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
-                
+
                 sharedEngine->getEventDispatcher()->dispatchEvent(event);
             }
         }

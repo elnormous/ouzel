@@ -15,7 +15,7 @@ namespace ouzel
         TextDrawable::TextDrawable()
         {
         }
-        
+
         TextDrawable::TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);

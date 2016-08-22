@@ -11,7 +11,7 @@ RTSample::RTSample(Samples& pSamples):
 {
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
-    
+
     ouzel::scene::LayerPtr rtLayer = make_shared<scene::Layer>();
     addLayer(rtLayer);
 
@@ -20,7 +20,7 @@ RTSample::RTSample(Samples& pSamples):
     renderTarget->setClearColor(graphics::Color(0, 64, 0));
     rtLayer->setCamera(make_shared<scene::Camera>());
     rtLayer->setRenderTarget(renderTarget);
-    
+
     ouzel::scene::LayerPtr layer = make_shared<scene::Layer>();
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());

@@ -177,7 +177,7 @@ namespace ouzel
             visibleRect.y -= halfWorldSize.height;
             visibleRect.width += halfWorldSize.width * 2.0f;
             visibleRect.height += halfWorldSize.height * 2.0f;
-            
+
             return visibleRect.containsPoint(v2p);
         }
 

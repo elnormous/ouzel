@@ -30,7 +30,7 @@ namespace ouzel
         {
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
             sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
-            
+
             init(normalImage, selectedImage, pressedImage, disabledImage, label, labelColor, font);
         }
 

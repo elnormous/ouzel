@@ -16,7 +16,7 @@ InputSample::InputSample(Samples& pSamples):
     eventHandler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
-    
+
     scene::LayerPtr layer = make_shared<scene::Layer>();
     addLayer(layer);
 
@@ -28,7 +28,7 @@ InputSample::InputSample(Samples& pSamples):
     layer->addChild(button);
 
     scene::ParticleSystemPtr flameParticleSystem = make_shared<scene::ParticleSystem>("flame.json");
-    
+
     flame = make_shared<scene::Node>();
     flame->addComponent(flameParticleSystem);
     flame->setPickable(false);
@@ -161,6 +161,6 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
             sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
         }
     }
-    
+
     return true;
 }

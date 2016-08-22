@@ -126,7 +126,7 @@ namespace ouzel
                               TextureFiltering newTextureFiltering,
                               bool newVerticalSync) override;
             virtual bool update();
-            
+
             virtual void setSize(const Size2& newSize) override;
             virtual bool saveScreenshots();
 
@@ -167,7 +167,7 @@ namespace ouzel
             static GLsizei currentViewportHeight;
             static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
             static std::mutex deleteMutex;
-            
+
             std::atomic<bool> dirty;
             std::mutex dataMutex;
         };

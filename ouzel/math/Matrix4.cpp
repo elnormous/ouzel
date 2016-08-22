@@ -1261,7 +1261,7 @@ namespace ouzel
                                  _mm_add_ps(_mm_mul_ps(col[0], col1), _mm_mul_ps(col[1], col2)),
                                  _mm_add_ps(_mm_mul_ps(col[2], col3), _mm_mul_ps(col[3], col4))
                                  );
-        
+
         _mm_storeu_ps(&dst.x, dstV);
 #endif
 

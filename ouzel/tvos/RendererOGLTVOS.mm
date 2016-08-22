@@ -160,7 +160,7 @@ namespace ouzel
                 log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
                 return false;
             }
-            
+
             return true;
         }
 

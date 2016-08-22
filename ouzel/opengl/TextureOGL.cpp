@@ -53,7 +53,7 @@ namespace ouzel
             }
 
             dirty = true;
-            
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -64,7 +64,7 @@ namespace ouzel
             free();
 
             std::lock_guard<std::mutex> lock(dataMutex);
-            
+
             if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
             {
                 return false;

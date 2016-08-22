@@ -18,7 +18,7 @@ MainMenu::MainMenu(Samples& pSamples):
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
-    
+
     scene::LayerPtr layer = make_shared<scene::Layer>();
     addLayer(layer);
 

@@ -170,7 +170,7 @@ namespace ouzel
                                  bool newVerticalSync)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
-            
+
             if (!Renderer::init(window, newSampleCount, newTextureFiltering, newVerticalSync))
             {
                 return false;
@@ -327,7 +327,7 @@ namespace ouzel
 
                 dirty = false;
             }
-            
+
             return true;
         }
 

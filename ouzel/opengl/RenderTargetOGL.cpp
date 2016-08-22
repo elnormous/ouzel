@@ -124,7 +124,7 @@ namespace ouzel
                 }
 
                 RendererOGL::bindFrameBuffer(frameBufferId);
-                
+
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
                     RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
@@ -170,7 +170,7 @@ namespace ouzel
                 ready = true;
                 dirty = false;
             }
-            
+
             return true;
         }
     } // namespace graphics

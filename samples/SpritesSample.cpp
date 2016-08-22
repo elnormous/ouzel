@@ -65,6 +65,6 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const
             character->setVisible(!character->isVisible());
         }
     }
-    
+
     return true;
 }

@@ -48,8 +48,6 @@ namespace ouzel
     void log(const char* format, ...);
     uint64_t getCurrentMicroSeconds();
 
-    
-
     uint32_t random(uint32_t min = 0, uint32_t max = std::numeric_limits<uint32_t>::max());
     float randomf(float min = 0.0f, float max = 1.0f);
 

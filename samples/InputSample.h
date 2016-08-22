@@ -21,7 +21,7 @@ private:
     Samples& samples;
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
-    
+
     ouzel::gui::ButtonPtr button;
     ouzel::scene::NodePtr flame;
     ouzel::scene::CameraPtr camera;

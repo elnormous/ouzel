@@ -27,7 +27,7 @@ namespace ouzel
         public:
             virtual ~RendererOGLIOS();
             virtual void free() override;
-            
+
             virtual bool present() override;
 
         private:

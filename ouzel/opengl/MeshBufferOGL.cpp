@@ -68,7 +68,7 @@ namespace ouzel
             free();
 
             std::lock_guard<std::mutex> lock(dataMutex);
-            
+
             if (!MeshBuffer::init(newDynamicIndexBuffer, newDynamicVertexBuffer))
             {
                 return false;
@@ -88,7 +88,7 @@ namespace ouzel
                                            uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
             free();
-            
+
             std::lock_guard<std::mutex> lock(dataMutex);
 
             if (!MeshBuffer::initFromBuffer(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))
@@ -111,7 +111,7 @@ namespace ouzel
 
             indexBufferDirty = true;
             vertexBufferDirty = true;
-            
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -311,7 +311,7 @@ namespace ouzel
                             });
                             offset += 2 * sizeof(float);
                         }
-                        
+
                         if (offset != vertexSize)
                         {
                             log("Invalid vertex size");

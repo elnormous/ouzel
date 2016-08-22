@@ -41,7 +41,7 @@ namespace ouzel
 
         protected:
             virtual void updateProgress() override;
-            
+
             AnimatorPtr animator;
             Type type;
             Func func;

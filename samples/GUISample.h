@@ -12,7 +12,7 @@ public:
     virtual ~GUISample();
 
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
-    
+
 private:
     Samples& samples;
     ouzel::gui::ButtonPtr backButton;

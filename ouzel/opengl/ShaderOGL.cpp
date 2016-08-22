@@ -315,7 +315,7 @@ namespace ouzel
                 ready = true;
                 dirty = false;
             }
-            
+
             return true;
         }
     } // namespace graphics

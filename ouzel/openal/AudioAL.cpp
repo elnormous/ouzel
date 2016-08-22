@@ -36,7 +36,7 @@ namespace ouzel
 
                 return true;
             }
-            
+
             return false;
         }
 
@@ -64,7 +64,7 @@ namespace ouzel
 
                 return true;
             }
-            
+
             return false;
         }
 
@@ -151,7 +151,7 @@ namespace ouzel
             }
 
             ready = true;
-            
+
             return true;
         }
 

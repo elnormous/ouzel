@@ -19,7 +19,7 @@ GUISample::GUISample(Samples& pSamples):
     button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Button", graphics::Color(255, 0, 0, 255), "arial.fnt");
     button->setPosition(Vector2(-200.0f, 100.0f));
     layer->addChild(button);
-    
+
     checkBox = make_shared<gui::CheckBox>("checkbox.png", "", "", "", "tick.png");
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
     layer->addChild(checkBox);

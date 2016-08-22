@@ -239,7 +239,7 @@ namespace ouzel
 
                 dirty = false;
             }
-            
+
             return true;
         }
 
@@ -1100,11 +1100,11 @@ namespace ouzel
                     {
                         break;
                     }
-                    
+
                     deleteResource = deleteQueue.front();
                     deleteQueue.pop();
                 }
-                
+
                 switch (deleteResource.second)
                 {
                     case ResourceType::Buffer:

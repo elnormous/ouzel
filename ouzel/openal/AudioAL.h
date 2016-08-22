@@ -25,7 +25,7 @@ namespace ouzel
         public:
             bool checkALCError(bool logError = true);
             static bool checkOpenALError(bool logError = true);
-            
+
             virtual ~AudioAL();
             virtual void free() override;
 

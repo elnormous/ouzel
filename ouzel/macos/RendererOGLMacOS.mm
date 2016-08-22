@@ -91,7 +91,7 @@ namespace ouzel
                 log("Failed to crete OpenGL 2 pixel format");
                 return Nil;
             }
-            
+
             // Create OpenGL context
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
 
@@ -101,7 +101,7 @@ namespace ouzel
         bool RendererOGLMacOS::present()
         {
             [openGLContext makeCurrentContext];
-            
+
             if (!RendererOGL::present())
             {
                 return false;

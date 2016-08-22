@@ -40,7 +40,7 @@ namespace ouzel
         void ShaderMetal::free()
         {
             std::lock_guard<std::mutex> lock(dataMutex);
-            
+
             Shader::free();
 
             if (vertexShader)
@@ -83,7 +83,7 @@ namespace ouzel
             vertexShaderFunction = newVertexShaderFunction;
 
             dirty = true;
-            
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -311,11 +311,11 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 ready = true;
                 dirty = false;
             }
-            
+
             return true;
         }
     } // namespace graphics

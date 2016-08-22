@@ -23,7 +23,7 @@ namespace ouzel
             }
 
             // TODO: convert to 16-bit sound if bits > 16
-            
+
             return true;
         }
     } // namespace audio

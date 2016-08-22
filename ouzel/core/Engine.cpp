@@ -363,7 +363,7 @@ namespace ouzel
 
                 float delta = static_cast<float>((currentTime - previousUpdateTime)) / 1000000.0f;
                 previousUpdateTime = currentTime;
-                
+
                 input->update();
                 eventDispatcher->update();
                 sceneManager->draw();

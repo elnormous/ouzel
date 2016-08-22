@@ -360,7 +360,7 @@ namespace ouzel
             if (visible != cursorVisible)
             {
                 cursorVisible = visible;
-                
+
                 sharedApplication->execute([visible] {
                     if (visible)
                     {
