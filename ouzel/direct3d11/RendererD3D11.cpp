@@ -462,13 +462,6 @@ namespace ouzel
 
             context->RSSetState(rasterizerState);
 
-            std::queue<DrawCommand> drawCommands;
-
-            {
-                std::lock_guard<std::mutex> lock(drawQueueMutex);
-                drawCommands = drawQueue;
-            }
-
             std::queue<ResourcePtr> resources;
 
             {
@@ -494,16 +487,16 @@ namespace ouzel
                 return false;
             }
 
-            if (drawCommands.empty())
+            if (drawQueue.empty())
             {
                 context->OMSetRenderTargets(1, &renderTargetView, nullptr);
                 context->RSSetViewports(1, &viewport);
 
                 context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
             }
-            else while (!drawCommands.empty())
+            else while (!drawQueue.empty())
             {
-                const DrawCommand& drawCommand = drawCommands.front();
+                const DrawCommand& drawCommand = drawQueue.front();
 
                 // render target
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
@@ -712,7 +705,7 @@ namespace ouzel
 
                 context->DrawIndexed(drawCommand.indexCount, drawCommand.startIndex, 0);
 
-                drawCommands.pop();
+                drawQueue.pop();
             }
 
             swapChain->Present(swapInterval, 0);

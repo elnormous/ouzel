@@ -366,8 +366,12 @@ namespace ouzel
 
                 input->update();
                 eventDispatcher->update();
-                sceneManager->draw();
-                renderer->flushDrawCommands();
+
+                if (sharedEngine->getRenderer()->getRefillDrawQueue())
+                {
+                    sceneManager->draw();
+                    renderer->flushDrawCommands();
+                }
 
                 for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
                 {

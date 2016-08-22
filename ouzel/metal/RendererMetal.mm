@@ -411,13 +411,6 @@ namespace ouzel
             bool previousScissorTestEnabled = false;
             Rectangle previousScissorTest;
 
-            std::queue<DrawCommand> drawCommands;
-
-            {
-                std::lock_guard<std::mutex> lock(drawQueueMutex);
-                drawCommands = drawQueue;
-            }
-
             std::queue<ResourcePtr> resources;
 
             {
@@ -443,16 +436,16 @@ namespace ouzel
                 return false;
             }
 
-            if (drawCommands.empty())
+            if (drawQueue.empty())
             {
                 if (!createRenderCommandEncoder(renderPassDescriptor))
                 {
                     return false;
                 }
             }
-            else while (!drawCommands.empty())
+            else while (!drawQueue.empty())
             {
-                const DrawCommand& drawCommand = drawCommands.front();
+                const DrawCommand& drawCommand = drawQueue.front();
 
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
 
@@ -664,7 +657,7 @@ namespace ouzel
                                                        indexBuffer:meshBufferMetal->getIndexBuffer()
                                                  indexBufferOffset:static_cast<NSUInteger>(drawCommand.startIndex * meshBufferMetal->getIndexSize())];
 
-                drawCommands.pop();
+                drawQueue.pop();
             }
 
             if (currentRenderCommandEncoder)

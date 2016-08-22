@@ -17,7 +17,7 @@ namespace ouzel
     namespace graphics
     {
         Renderer::Renderer(Driver pDriver):
-            driver(pDriver), clearColor(0, 0, 0, 255)
+            driver(pDriver), clearColor(0, 0, 0, 255), activeDrawQueueFinished(false), refillDrawQueue(true)
         {
 
         }
@@ -55,6 +55,14 @@ namespace ouzel
 
         bool Renderer::present()
         {
+            if (activeDrawQueueFinished)
+            {
+                drawQueue = std::move(activeDrawQueue);
+                drawCallCount = static_cast<uint32_t>(drawQueue.size());
+                activeDrawQueueFinished = false;
+                refillDrawQueue = true;
+            }
+
             return true;
         }
 
@@ -136,9 +144,8 @@ namespace ouzel
 
         void Renderer::flushDrawCommands()
         {
-            std::lock_guard<std::mutex> lock(drawQueueMutex);
-            drawQueue = std::move(activeDrawQueue);
-            drawCallCount = static_cast<uint32_t>(drawQueue.size());
+            refillDrawQueue = false;
+            activeDrawQueueFinished = true;
         }
 
         Vector2 Renderer::viewToScreenLocation(const Vector2& position)

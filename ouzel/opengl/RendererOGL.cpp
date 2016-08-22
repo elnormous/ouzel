@@ -270,13 +270,6 @@ namespace ouzel
 
             std::set<GLuint> clearedFrameBuffers;
 
-            std::queue<DrawCommand> drawCommands;
-
-            {
-                std::lock_guard<std::mutex> lock(drawQueueMutex);
-                drawCommands = drawQueue;
-            }
-
             std::queue<ResourcePtr> resources;
 
             {
@@ -304,7 +297,7 @@ namespace ouzel
                 return false;
             }
 
-            if (drawCommands.empty())
+            if (drawQueue.empty())
             {
                 if (!bindFrameBuffer(frameBufferId))
                 {
@@ -332,9 +325,9 @@ namespace ouzel
                     return false;
                 }
             }
-            else while (!drawCommands.empty())
+            else while (!drawQueue.empty())
             {
-                const DrawCommand& drawCommand = drawCommands.front();
+                const DrawCommand& drawCommand = drawQueue.front();
 
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
@@ -596,7 +589,7 @@ namespace ouzel
                     return false;
                 }
 
-                drawCommands.pop();
+                drawQueue.pop();
             }
 
             if (!saveScreenshots())

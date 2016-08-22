@@ -89,6 +89,7 @@ namespace ouzel
             virtual ShaderPtr createShader();
             virtual MeshBufferPtr createMeshBuffer();
 
+            bool getRefillDrawQueue() const { return refillDrawQueue; }
             bool addDrawCommand(const std::vector<TexturePtr>& textures,
                                 const ShaderPtr& shader,
                                 const std::vector<std::vector<float>>& pixelShaderConstants,
@@ -160,8 +161,9 @@ namespace ouzel
             };
 
             std::queue<DrawCommand> activeDrawQueue;
+            std::atomic<bool> activeDrawQueueFinished;
             std::queue<DrawCommand> drawQueue;
-            std::mutex drawQueueMutex;
+            std::atomic<bool> refillDrawQueue;
 
             std::queue<ResourcePtr> updateQueue;
             std::set<ResourcePtr> updateSet;
