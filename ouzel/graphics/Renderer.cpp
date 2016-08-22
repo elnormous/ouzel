@@ -54,6 +54,7 @@ namespace ouzel
             if (activeDrawQueueFinished)
             {
                 drawQueue = std::move(activeDrawQueue);
+                activeDrawQueue.reserve(drawQueue.size());
                 drawCallCount = static_cast<uint32_t>(drawQueue.size());
                 activeDrawQueueFinished = false;
                 refillDrawQueue = true;
