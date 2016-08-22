@@ -22,12 +22,9 @@ using namespace ouzel;
 
 -(void)drawInMTKView:(nonnull __unused MTKView*)view
 {
-    if (sharedEngine->isRunning())
+    if (sharedEngine->isRunning() && !sharedEngine->draw())
     {
-        if (!sharedEngine->draw())
-        {
-            // tvOS app should not be exited
-        }
+        // tvOS app should not be exited
     }
 }
 

@@ -21,12 +21,9 @@ using namespace ouzel;
 
 -(void)drawInMTKView:(nonnull __unused MTKView*)view
 {
-    if (sharedEngine->isRunning())
+    if (sharedEngine->isRunning() && !sharedEngine->draw())
     {
-        if (!sharedEngine->draw())
-        {
-            // iOS app should not be exited
-        }
+        // iOS app should not be exited
     }
 }
 

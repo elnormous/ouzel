@@ -46,12 +46,9 @@ using namespace ouzel;
 
 -(void)draw:(__unused id)sender
 {
-    if (sharedEngine->isRunning())
+    if (sharedEngine->isRunning() && !sharedEngine->draw())
     {
-        if (!sharedEngine->draw())
-        {
-            // iOS app should not be exited
-        }
+        // iOS app should not be exited
     }
 }
 

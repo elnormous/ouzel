@@ -51,12 +51,9 @@ using namespace ouzel;
 
 -(void)draw:(__unused id)sender
 {
-    if (sharedEngine->isRunning())
+    if (sharedEngine->isRunning() && !sharedEngine->draw())
     {
-        if (!sharedEngine->draw())
-        {
-            // tvOS app should not be exited
-        }
+        // tvOS app should not be exited
     }
 }
 
