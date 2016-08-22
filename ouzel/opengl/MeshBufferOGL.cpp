@@ -187,7 +187,7 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferOGL::bindVertexBuffer()
+        bool MeshBufferOGL::bindBuffers()
         {
             if (vertexArrayId)
             {
@@ -230,6 +230,11 @@ namespace ouzel
                 if (RendererOGL::checkOpenGLError())
                 {
                     log("Failed to update vertex attributes");
+                    return false;
+                }
+
+                if (!RendererOGL::bindElementArrayBuffer(indexBufferId))
+                {
                     return false;
                 }
             }
@@ -320,6 +325,17 @@ namespace ouzel
                     }
                 }
 
+                if (!vertexArrayId)
+                {
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+                    glGenVertexArraysOES(1, &vertexArrayId);
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+                    if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
+#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+                    glGenVertexArrays(1, &vertexArrayId);
+#endif
+                }
+
                 if (indexBufferDirty)
                 {
                     if (!indexBufferId)
@@ -331,11 +347,25 @@ namespace ouzel
                             log("Failed to create index buffer");
                             return false;
                         }
+
+                        if (vertexArrayId)
+                        {
+                            RendererOGL::bindVertexArray(vertexArrayId);
+                            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
+                        }
                     }
 
                     if (!localIndexData.empty())
                     {
-                        RendererOGL::bindElementArrayBuffer(indexBufferId);
+                        if (vertexArrayId)
+                        {
+                            RendererOGL::bindVertexArray(vertexArrayId);
+                        }
+                        else
+                        {
+                            RendererOGL::bindElementArrayBuffer(indexBufferId);
+                        }
+
                         glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(localIndexData.size()), localIndexData.data(),
                                      dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
@@ -353,20 +383,6 @@ namespace ouzel
                 {
                     if (!vertexBufferId)
                     {
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                        glGenVertexArraysOES(1, &vertexArrayId);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-                        if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
-#else
-                        glGenVertexArrays(1, &vertexArrayId);
-#endif
-
-                        if (RendererOGL::checkOpenGLError(false))
-                        {
-                            log("Failed to create vertex array");
-                            vertexArrayId = 0;
-                        }
-
                         glGenBuffers(1, &vertexBufferId);
 
                         if (RendererOGL::checkOpenGLError())
@@ -374,11 +390,25 @@ namespace ouzel
                             log("Failed to create vertex buffer");
                             return false;
                         }
+
+                        if (vertexArrayId)
+                        {
+                            RendererOGL::bindVertexArray(vertexArrayId);
+                            glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+                        }
                     }
 
                     if (!localVertexData.empty())
                     {
-                        RendererOGL::bindArrayBuffer(vertexBufferId);
+                        if (vertexArrayId)
+                        {
+                            RendererOGL::bindVertexArray(vertexArrayId);
+                        }
+                        else
+                        {
+                            RendererOGL::bindArrayBuffer(vertexBufferId);
+                        }
+
                         glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(localVertexData.size()), localVertexData.data(),
                                      dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 

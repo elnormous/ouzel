@@ -566,12 +566,7 @@ namespace ouzel
                     default: log("Invalid draw mode"); return false;
                 }
 
-                if (!meshBufferOGL->bindVertexBuffer())
-                {
-                    return false;
-                }
-
-                if (!bindElementArrayBuffer(meshBufferOGL->getIndexBufferId()))
+                if (!meshBufferOGL->bindBuffers())
                 {
                     return false;
                 }
@@ -811,7 +806,7 @@ namespace ouzel
                 glBindVertexArrayOES(vertexArrayId);
 #elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
                 if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
-#else
+#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
                 glBindVertexArray(vertexArrayId);
 #endif
                 currentVertexArrayId = vertexArrayId;

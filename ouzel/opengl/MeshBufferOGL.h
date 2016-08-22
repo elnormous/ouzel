@@ -63,7 +63,7 @@ namespace ouzel
             virtual bool uploadIndices(const void* newIndices, uint32_t newIndexCount) override;
             virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount) override;
 
-            bool bindVertexBuffer();
+            bool bindBuffers();
 
             GLuint getIndexBufferId() const { return indexBufferId; }
             GLuint getVertexBufferId() const { return vertexBufferId; }
