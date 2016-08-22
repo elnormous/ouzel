@@ -233,6 +233,12 @@ namespace ouzel
                     return false;
                 }
 
+                if (!indexBufferId)
+                {
+                    log("Index buffer not initialized");
+                    return false;
+                }
+
                 if (!RendererOGL::bindElementArrayBuffer(indexBufferId))
                 {
                     return false;
