@@ -494,10 +494,8 @@ namespace ouzel
 
                 context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
             }
-            else while (!drawQueue.empty())
+            else for (const DrawCommand& drawCommand : drawQueue)
             {
-                const DrawCommand& drawCommand = drawQueue.front();
-
                 // render target
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
                 const float* newClearColor;
@@ -704,8 +702,6 @@ namespace ouzel
                 context->IASetPrimitiveTopology(topology);
 
                 context->DrawIndexed(drawCommand.indexCount, drawCommand.startIndex, 0);
-
-                drawQueue.pop();
             }
 
             swapChain->Present(swapInterval, 0);

@@ -325,10 +325,8 @@ namespace ouzel
                     return false;
                 }
             }
-            else while (!drawQueue.empty())
+            else for (const DrawCommand& drawCommand : drawQueue)
             {
-                const DrawCommand& drawCommand = drawQueue.front();
-
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
 
@@ -588,8 +586,6 @@ namespace ouzel
                     log("Failed to draw elements");
                     return false;
                 }
-
-                drawQueue.pop();
             }
 
             if (!saveScreenshots())

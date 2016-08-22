@@ -161,9 +161,9 @@ namespace ouzel
                 Rectangle scissorTest;
             };
 
-            std::queue<DrawCommand> activeDrawQueue;
+            std::vector<DrawCommand> activeDrawQueue;
             std::atomic<bool> activeDrawQueueFinished;
-            std::queue<DrawCommand> drawQueue;
+            std::vector<DrawCommand> drawQueue;
             std::atomic<bool> refillDrawQueue;
 
             std::queue<ResourcePtr> updateQueue;

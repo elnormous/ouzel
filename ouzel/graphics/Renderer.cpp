@@ -29,11 +29,7 @@ namespace ouzel
 
         void Renderer::free()
         {
-            while (!activeDrawQueue.empty())
-            {
-                activeDrawQueue.pop();
-            }
-
+            activeDrawQueue.clear();
             ready = false;
         }
 
@@ -124,7 +120,7 @@ namespace ouzel
                                       bool scissorTestEnabled,
                                       const Rectangle& scissorTest)
         {
-            activeDrawQueue.push({
+            activeDrawQueue.push_back({
                 textures,
                 shader,
                 pixelShaderConstants,

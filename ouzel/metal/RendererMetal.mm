@@ -443,10 +443,8 @@ namespace ouzel
                     return false;
                 }
             }
-            else while (!drawQueue.empty())
+            else for (const DrawCommand& drawCommand : drawQueue)
             {
-                const DrawCommand& drawCommand = drawQueue.front();
-
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
 
                 // render target
@@ -656,8 +654,6 @@ namespace ouzel
                                                          indexType:meshBufferMetal->getIndexFormat()
                                                        indexBuffer:meshBufferMetal->getIndexBuffer()
                                                  indexBufferOffset:static_cast<NSUInteger>(drawCommand.startIndex * meshBufferMetal->getIndexSize())];
-
-                drawQueue.pop();
             }
 
             if (currentRenderCommandEncoder)
