@@ -9,6 +9,7 @@
 #include <set>
 #include <memory>
 #include <mutex>
+#include <atomic>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "math/Rectangle.h"
