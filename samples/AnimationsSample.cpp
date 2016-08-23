@@ -13,8 +13,8 @@ AnimationsSample::AnimationsSample(Samples& pSamples):
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     scene::LayerPtr layer = make_shared<scene::Layer>();
-    addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
+    addLayer(layer);
 
     scene::ShapeDrawablePtr shapeDrawable = make_shared<scene::ShapeDrawable>();
     shapeDrawable->rectangle(Rectangle(100.0f, 100.0f), graphics::Color(0, 128, 128, 255), true);
@@ -62,9 +62,12 @@ AnimationsSample::AnimationsSample(Samples& pSamples):
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
+    gui::MenuPtr menu = std::make_shared<gui::Menu>();
+    guiLayer->addChild(menu);
+
     backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    guiLayer->addChild(backButton);
+    menu->addWidget(backButton);
 }
 
 AnimationsSample::~AnimationsSample()

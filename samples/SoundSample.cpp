@@ -13,18 +13,6 @@ SoundSample::SoundSample(Samples& pSamples):
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-    scene::LayerPtr layer = make_shared<scene::Layer>();
-    addLayer(layer);
-    layer->setCamera(make_shared<scene::Camera>());
-
-    jumpButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color(0, 0, 0, 255), "arial.fnt");
-    jumpButton->setPosition(Vector2(0.0f, 0.0f));
-    layer->addChild(jumpButton);
-
-    ambientButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color(0, 0, 0, 255), "arial.fnt");
-    ambientButton->setPosition(Vector2(0.0f, -40.0f));
-    layer->addChild(ambientButton);
-
     audio::SoundDataPtr jumpData = sharedEngine->getAudio()->createSoundData();
     jumpData->initFromFile("jump.wav");
 
@@ -41,9 +29,20 @@ SoundSample::SoundSample(Samples& pSamples):
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
+    gui::MenuPtr menu = std::make_shared<gui::Menu>();
+    guiLayer->addChild(menu);
+
+    jumpButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    jumpButton->setPosition(Vector2(0.0f, 0.0f));
+    menu->addWidget(jumpButton);
+
+    ambientButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    ambientButton->setPosition(Vector2(0.0f, -40.0f));
+    menu->addWidget(ambientButton);
+
     backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    guiLayer->addChild(backButton);
+    menu->addWidget(backButton);
 }
 
 SoundSample::~SoundSample()

@@ -25,6 +25,7 @@ MainMenu::MainMenu(Samples& pSamples):
     layer->setCamera(make_shared<scene::Camera>());
 
     gui::MenuPtr menu = std::make_shared<gui::Menu>();
+    layer->addChild(menu);
 
     spritesButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Sprites", graphics::Color(20, 0, 0, 255), "arial.fnt");
     spritesButton->setPosition(Vector2(0.0f, 80.0f));
@@ -49,8 +50,6 @@ MainMenu::MainMenu(Samples& pSamples):
     soundButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Sound", graphics::Color(20, 0, 0, 255), "arial.fnt");
     soundButton->setPosition(Vector2(0.0f, -120.0f));
     menu->addWidget(soundButton);
-
-    layer->addChild(menu);
 }
 
 MainMenu::~MainMenu()

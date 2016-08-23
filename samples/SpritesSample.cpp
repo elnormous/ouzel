@@ -35,16 +35,19 @@ SpritesSample::SpritesSample(Samples& pSamples):
     layer->addChild(fireNode);
 
     ouzel::scene::LayerPtr guiLayer = make_shared<scene::Layer>();
-    addLayer(guiLayer);
     guiLayer->setCamera(make_shared<scene::Camera>());
+    addLayer(guiLayer);
+
+    gui::MenuPtr menu = std::make_shared<gui::Menu>();
+    guiLayer->addChild(menu);
 
     button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color(0, 0, 0, 255), "arial.fnt");
     button->setPosition(Vector2(-200.0f, 200.0f));
-    guiLayer->addChild(button);
+    menu->addWidget(button);
 
     backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    guiLayer->addChild(backButton);
+    menu->addWidget(backButton);
 }
 
 SpritesSample::~SpritesSample()

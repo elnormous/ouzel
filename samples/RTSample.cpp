@@ -13,17 +13,17 @@ RTSample::RTSample(Samples& pSamples):
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     ouzel::scene::LayerPtr rtLayer = make_shared<scene::Layer>();
+    rtLayer->setCamera(make_shared<scene::Camera>());
     addLayer(rtLayer);
 
     ouzel::graphics::RenderTargetPtr renderTarget = sharedEngine->getRenderer()->createRenderTarget();
     renderTarget->init(Size2(256.0f, 256.0f), false);
     renderTarget->setClearColor(graphics::Color(0, 64, 0));
-    rtLayer->setCamera(make_shared<scene::Camera>());
     rtLayer->setRenderTarget(renderTarget);
 
     ouzel::scene::LayerPtr layer = make_shared<scene::Layer>();
-    addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
+    addLayer(layer);
 
     scene::SpritePtr characterSprite = make_shared<scene::Sprite>("run.json");
     characterSprite->play(true);
@@ -44,9 +44,12 @@ RTSample::RTSample(Samples& pSamples):
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
+    gui::MenuPtr menu = std::make_shared<gui::Menu>();
+    guiLayer->addChild(menu);
+
     backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    guiLayer->addChild(backButton);
+    menu->addWidget(backButton);
 }
 
 RTSample::~RTSample()

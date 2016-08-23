@@ -18,14 +18,9 @@ InputSample::InputSample(Samples& pSamples):
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     scene::LayerPtr layer = make_shared<scene::Layer>();
-    addLayer(layer);
-
     camera = make_shared<scene::Camera>();
     layer->setCamera(camera);
-
-    button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color(0, 0, 0, 255), "arial.fnt");
-    button->setPosition(Vector2(-200.0f, 200.0f));
-    layer->addChild(button);
+    addLayer(layer);
 
     scene::ParticleSystemPtr flameParticleSystem = make_shared<scene::ParticleSystem>("flame.json");
 
@@ -38,9 +33,16 @@ InputSample::InputSample(Samples& pSamples):
     guiLayer->setCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
+    gui::MenuPtr menu = std::make_shared<gui::Menu>();
+    guiLayer->addChild(menu);
+
+    button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    button->setPosition(Vector2(-200.0f, 200.0f));
+    menu->addWidget(button);
+
     backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    guiLayer->addChild(backButton);
+    menu->addWidget(backButton);
 }
 
 InputSample::~InputSample()
@@ -56,19 +58,19 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
 
         switch (event.key)
         {
-            case input::KeyboardKey::UP:
+            case input::KeyboardKey::KEY_W:
                 position.y += 10.0f;
                 break;
-            case input::KeyboardKey::DOWN:
+            case input::KeyboardKey::KEY_S:
                 position.y -= 10.0f;
                 break;
-            case input::KeyboardKey::LEFT:
+            case input::KeyboardKey::KEY_A:
                 position.x -= 10.0f;
                 break;
-            case input::KeyboardKey::RIGHT:
+            case input::KeyboardKey::KEY_D:
                 position.x += 10.0f;
                 break;
-            case input::KeyboardKey::RETURN:
+            case input::KeyboardKey::KEY_R:
                 sharedEngine->getWindow()->setSize(Size2(640.0f, 480.0f));
                 break;
             case input::KeyboardKey::TAB:
