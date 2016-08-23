@@ -157,7 +157,7 @@ namespace ouzel
             {
                 for (const ComponentPtr& component : node->getComponents())
                 {
-                    if (component->isVisible() &&
+                    if (!component->isHidden() &&
                         (component->getBoundingBox().isEmpty() ||
                          camera->checkVisibility(node->getTransform(), component->getBoundingBox())))
                     {

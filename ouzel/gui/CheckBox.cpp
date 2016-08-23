@@ -153,32 +153,32 @@ namespace ouzel
             {
                 if (pressed && pointerOver && pressedSprite)
                 {
-                    pressedSprite->setVisible(true);
+                    pressedSprite->setHidden(false);
                 }
                 else if (selected && selectedSprite)
                 {
-                    selectedSprite->setVisible(true);
+                    selectedSprite->setHidden(false);
                 }
                 else if (normalSprite)
                 {
-                    normalSprite->setVisible(true);
+                    normalSprite->setHidden(false);
                 }
             }
             else
             {
                 if (disabledSprite)
                 {
-                    disabledSprite->setVisible(true);
+                    disabledSprite->setHidden(false);
                 }
                 else if (normalSprite)
                 {
-                    normalSprite->setVisible(true);
+                    normalSprite->setHidden(false);
                 }
             }
 
             if (tickSprite)
             {
-                tickSprite->setVisible(checked);
+                tickSprite->setHidden(!checked);
             }
         }
     } // namespace gui

@@ -156,35 +156,35 @@ namespace ouzel
 
         void Button::updateSprite()
         {
-            if (normalSprite) normalSprite->setVisible(false);
-            if (selectedSprite) selectedSprite->setVisible(false);
-            if (pressedSprite) pressedSprite->setVisible(false);
-            if (disabledSprite) disabledSprite->setVisible(false);
+            if (normalSprite) normalSprite->setHidden(true);
+            if (selectedSprite) selectedSprite->setHidden(true);
+            if (pressedSprite) pressedSprite->setHidden(true);
+            if (disabledSprite) disabledSprite->setHidden(true);
 
             if (enabled)
             {
                 if (pressed && pointerOver && pressedSprite)
                 {
-                    pressedSprite->setVisible(true);
+                    pressedSprite->setHidden(false);
                 }
                 else if (selected && selectedSprite)
                 {
-                    selectedSprite->setVisible(true);
+                    selectedSprite->setHidden(false);
                 }
                 else if (normalSprite)
                 {
-                    normalSprite->setVisible(true);
+                    normalSprite->setHidden(false);
                 }
             }
             else
             {
                 if (disabledSprite)
                 {
-                    disabledSprite->setVisible(true);
+                    disabledSprite->setHidden(false);
                 }
                 else if (normalSprite)
                 {
-                    normalSprite->setVisible(true);
+                    normalSprite->setHidden(false);
                 }
             }
         }

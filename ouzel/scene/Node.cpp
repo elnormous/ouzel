@@ -71,7 +71,7 @@ namespace ouzel
 
                     for (const ComponentPtr& component : components)
                     {
-                        if (component->isVisible())
+                        if (!component->isHidden())
                         {
                             component->draw(currentLayer->getCamera()->getViewProjection(),
                                             transform,

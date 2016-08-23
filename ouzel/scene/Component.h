@@ -30,12 +30,12 @@ namespace ouzel
             virtual bool pointOn(const Vector2& position) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
 
-            bool isVisible() const { return visible; }
-            virtual void setVisible(bool newVisible) { visible = newVisible; }
+            bool isHidden() const { return hidden; }
+            virtual void setHidden(bool newHidden) { hidden = newHidden; }
 
         protected:
             AABB2 boundingBox;
-            bool visible = true;
+            bool hidden = false;
         };
     } // namespace scene
 } // namespace ouzel
