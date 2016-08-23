@@ -72,11 +72,10 @@ namespace ouzel
                 });
 
                 auto i = children.begin();
-                NodePtr node;
 
                 for (; i != children.end(); ++i)
                 {
-                    node = *i;
+                    const NodePtr& node = *i;
 
                     if (node->getZ() < 0.0f)
                     {
@@ -98,7 +97,7 @@ namespace ouzel
 
                 for (; i != children.end(); ++i)
                 {
-                    node = *i;
+                    const NodePtr& node = *i;
 
                     if (!node->isGlobalOrder() && node->isVisible() && currentLayer->checkVisibility(node))
                     {

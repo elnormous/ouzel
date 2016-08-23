@@ -83,8 +83,8 @@ namespace ouzel
         {
             for (std::list<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                LayerPtr layer = *i;
-                CameraPtr camera = layer->getCamera();
+                const LayerPtr& layer = *i;
+                const CameraPtr& camera = layer->getCamera();
 
                 if (camera)
                 {

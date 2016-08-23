@@ -103,7 +103,7 @@ namespace ouzel
         {
             for (std::list<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
             {
-                NodePtr node = *i;
+                const NodePtr& node = *i;
 
                 if (node->isVisible() && node->isPickable() && node->pointOn(position))
                 {
@@ -120,7 +120,7 @@ namespace ouzel
 
             for (std::list<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
             {
-                NodePtr node = *i;
+                const NodePtr& node = *i;
 
                 if (node->isVisible() && node->isPickable() && node->pointOn(position))
                 {
@@ -137,7 +137,7 @@ namespace ouzel
 
             for (std::list<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
             {
-                NodePtr node = *i;
+                const NodePtr& node = *i;
 
                 if (node->isVisible() && node->isPickable() && node->shapeOverlaps(edges))
                 {
