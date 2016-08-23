@@ -38,9 +38,6 @@ namespace ouzel
             virtual void setZ(float newZ);
             virtual float getZ() const { return z; }
 
-            virtual void setGlobalOrder(bool newGlobalOrder);
-            virtual bool isGlobalOrder() const { return globalOrder; }
-
             virtual void setPosition(const Vector2& newPosition);
             virtual const Vector2& getPosition() const { return position; }
 
@@ -94,8 +91,7 @@ namespace ouzel
             void removeAllComponents();
 
         protected:
-            virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty, const LayerPtr& currentLayer);
-            virtual void process(const LayerPtr& currentLayer);
+            virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty, const LayerPtr& currentLayer, float depth);
             virtual void draw(const LayerPtr& currentLayer);
 
             virtual void calculateLocalTransform() const;
@@ -122,7 +118,6 @@ namespace ouzel
             graphics::Color color = graphics::Color(255, 255, 255, 255);
             float opacity = 1.0f;
             float z = 0.0f;
-            bool globalOrder = true;
 
             bool flipX = false;
             bool flipY = false;

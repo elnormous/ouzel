@@ -31,8 +31,7 @@ namespace ouzel
 
             virtual bool addChild(const NodePtr& node) override;
 
-            void addGlobalNode(const NodePtr& node);
-            void addToDrawQueue(const NodePtr& node);
+            void addToDrawQueue(const NodePtr& node, float depth);
 
             const CameraPtr& getCamera() const { return camera; }
             void setCamera(const CameraPtr& newCamera);
@@ -51,8 +50,7 @@ namespace ouzel
 
         protected:
             CameraPtr camera;
-            std::list<NodePtr> globalNodes;
-            std::list<NodePtr> drawQueue;
+            std::list<std::pair<NodePtr, float>> drawQueue;
 
             int32_t order = 0;
 

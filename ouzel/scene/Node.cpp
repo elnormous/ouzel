@@ -25,7 +25,7 @@ namespace ouzel
 
         }
 
-        void Node::visit(const Matrix4& newTransformMatrix, bool parentTransformDirty, const LayerPtr& currentLayer)
+        void Node::visit(const Matrix4& newTransformMatrix, bool parentTransformDirty, const LayerPtr& currentLayer, float depth)
         {
             if (parentTransformDirty)
             {
@@ -39,72 +39,21 @@ namespace ouzel
 
             if (currentLayer)
             {
+                if (currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
+                {
+                    currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()), depth + z);
+                }
+
                 for (const NodePtr& child : children)
                 {
                     if (child->isVisible())
                     {
-                        if (child->isGlobalOrder())
-                        {
-                            currentLayer->addGlobalNode(child);
-                        }
-
-                        child->visit(transform, updateChildrenTransform, currentLayer);
+                        child->visit(transform, updateChildrenTransform, currentLayer, depth + z);
                     }
                 }
             }
 
             updateChildrenTransform = false;
-        }
-
-        void Node::process(const LayerPtr& currentLayer)
-        {
-            if (children.empty())
-            {
-                if (currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
-                {
-                    currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
-                }
-            }
-            else
-            {
-                children.sort([](const NodePtr& a, const NodePtr& b) {
-                    return a->getZ() > b->getZ();
-                });
-
-                auto i = children.begin();
-
-                for (; i != children.end(); ++i)
-                {
-                    const NodePtr& node = *i;
-
-                    if (node->getZ() < 0.0f)
-                    {
-                        if (!node->isGlobalOrder() && node->isVisible() && currentLayer->checkVisibility(node))
-                        {
-                            currentLayer->addToDrawQueue(node);
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                if (currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
-                {
-                    currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
-                }
-
-                for (; i != children.end(); ++i)
-                {
-                    const NodePtr& node = *i;
-
-                    if (!node->isGlobalOrder() && node->isVisible() && currentLayer->checkVisibility(node))
-                    {
-                        currentLayer->addToDrawQueue(node);
-                    }
-                }
-            }
         }
 
         void Node::draw(const LayerPtr& currentLayer)
@@ -155,11 +104,6 @@ namespace ouzel
 
             // Currently z does not affect transformation
             //localTransformDirty = transformDirty = inverseTransformDirty = true;
-        }
-
-        void Node::setGlobalOrder(bool newGlobalOrder)
-        {
-            globalOrder = newGlobalOrder;
         }
 
         void Node::setPosition(const Vector2& newPosition)
