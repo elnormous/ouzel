@@ -16,7 +16,7 @@ namespace ouzel
 
         NodeContainer::~NodeContainer()
         {
-            for (NodePtr node : children)
+            for (const NodePtr& node : children)
             {
                 node->addedToParent = false;
             }

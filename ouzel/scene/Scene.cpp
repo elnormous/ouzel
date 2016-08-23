@@ -27,7 +27,7 @@ namespace ouzel
                 return a->getOrder() > b->getOrder();
             });
 
-            for (LayerPtr layer : layers)
+            for (const LayerPtr& layer : layers)
             {
                 layer->draw();
             }
@@ -70,7 +70,7 @@ namespace ouzel
 
         void Scene::recalculateProjection()
         {
-            for (LayerPtr layer : layers)
+            for (const LayerPtr& layer : layers)
             {
                 if (CameraPtr camera = layer->getCamera())
                 {

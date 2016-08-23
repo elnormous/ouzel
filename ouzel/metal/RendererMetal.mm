@@ -84,7 +84,7 @@ namespace ouzel
                 [currentCommandBuffer release];
             }
 
-            for (auto pipelineState : pipelineStates)
+            for (const auto& pipelineState : pipelineStates)
             {
                 [pipelineState.second release];
             }
@@ -132,7 +132,7 @@ namespace ouzel
                 currentCommandBuffer = Nil;
             }
 
-            for (auto pipelineState : pipelineStates)
+            for (const auto& pipelineState : pipelineStates)
             {
                 [pipelineState.second release];
             }
