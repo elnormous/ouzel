@@ -23,13 +23,13 @@ namespace ouzel
 
         sharedEngine->begin();
 
-        for (;;)
+        while (sharedEngine->isActive())
         {
             executeAll();
 
             if (!sharedEngine->draw())
             {
-                break;
+                sharedEngine->exit();
             }
         }
 

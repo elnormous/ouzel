@@ -28,15 +28,13 @@ namespace ouzel
 
         MSG msg;
 
-        bool running = true;
-
-        while (running)
+        while (sharedEngine->isActive())
         {
             executeAll();
 
             if (!sharedEngine->draw())
             {
-                running = false;
+                sharedEngine->exit();
             }
 
             std::set<HACCEL> accelerators = window->getAccelerators();
@@ -54,7 +52,7 @@ namespace ouzel
                 {
                     if (GetMessage(&msg, nullptr, 0, 0) <= 0)
                     {
-                        running = false;
+                        sharedEngine->exit();
                         break;
                     }
                 }
@@ -77,7 +75,7 @@ namespace ouzel
 
                 if (msg.message == WM_QUIT)
                 {
-                    running = false;
+                    sharedEngine->exit();
                     break;
                 }
             }

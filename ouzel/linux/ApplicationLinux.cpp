@@ -239,15 +239,13 @@ namespace ouzel
 
         std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(sharedEngine->getWindow());
 
-        bool running = true;
-
-        while (running)
+        while (sharedEngine->isActive())
         {
             executeAll();
 
             if (!sharedEngine->draw())
             {
-                running = false;
+                sharedEngine->exit();
             }
 
             for (;;)
@@ -265,7 +263,7 @@ namespace ouzel
                     {
                         if (static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteMessage())
                         {
-                            running = false;
+                            sharedEngine->exit();
                         }
                         break;
                     }
