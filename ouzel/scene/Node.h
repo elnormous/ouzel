@@ -62,8 +62,8 @@ namespace ouzel
             virtual void setPickable(bool newPickable) { pickable = newPickable; }
             virtual bool isPickable() const { return pickable; }
 
-            virtual void setVisible(bool newVisible);
-            virtual bool isVisible() const { return visible; }
+            virtual void setHidden(bool newHidden);
+            virtual bool isHidden() const { return hidden; }
 
             virtual bool pointOn(const Vector2& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
@@ -123,7 +123,7 @@ namespace ouzel
             bool flipY = false;
 
             bool pickable = true;
-            bool visible = true;
+            bool hidden = false;
             bool receiveInput = false;
 
             bool addedToParent = false;

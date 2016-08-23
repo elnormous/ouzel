@@ -35,7 +35,7 @@ namespace ouzel
 
                 for (const NodePtr& child : childrenCopy)
                 {
-                    if (child->isVisible())
+                    if (!child->isHidden())
                     {
                         child->visit(Matrix4::IDENTITY, false, std::static_pointer_cast<Layer>(shared_from_this()), 0.0f);
                     }
@@ -93,7 +93,7 @@ namespace ouzel
             {
                 const NodePtr& node = i->first;
 
-                if (node->isVisible() && node->isPickable() && node->pointOn(position))
+                if (!node->isHidden() && node->isPickable() && node->pointOn(position))
                 {
                     return node;
                 }
@@ -110,7 +110,7 @@ namespace ouzel
             {
                 const NodePtr& node = i->first;
 
-                if (node->isVisible() && node->isPickable() && node->pointOn(position))
+                if (!node->isHidden() && node->isPickable() && node->pointOn(position))
                 {
                     result.push_back(node);
                 }
@@ -127,7 +127,7 @@ namespace ouzel
             {
                 const NodePtr& node = i->first;
 
-                if (node->isVisible() && node->isPickable() && node->shapeOverlaps(edges))
+                if (!node->isHidden() && node->isPickable() && node->shapeOverlaps(edges))
                 {
                     result.insert(node);
                 }

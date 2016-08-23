@@ -46,7 +46,7 @@ namespace ouzel
 
                 for (const NodePtr& child : children)
                 {
-                    if (child->isVisible())
+                    if (!child->isHidden())
                     {
                         child->visit(transform, updateChildrenTransform, currentLayer, depth + z);
                     }
@@ -151,9 +151,9 @@ namespace ouzel
             localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setVisible(bool newVisible)
+        void Node::setHidden(bool newHidden)
         {
-            visible = newVisible;
+            hidden = newHidden;
         }
 
         bool Node::pointOn(const Vector2& worldPosition) const

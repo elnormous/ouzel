@@ -65,7 +65,7 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const
         }
         else if (event.node == button)
         {
-            character->setVisible(!character->isVisible());
+            character->setHidden(!character->isHidden());
         }
     }
 
