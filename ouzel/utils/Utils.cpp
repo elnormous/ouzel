@@ -3,7 +3,6 @@
 
 #include <cstdarg>
 #include <random>
-#include <chrono>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
@@ -51,14 +50,6 @@ namespace ouzel
 #elif OUZEL_PLATFORM_ANDROID
         __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", TEMP_BUFFER);
 #endif
-    }
-
-    uint64_t getCurrentMicroSeconds()
-    {
-        auto t = std::chrono::steady_clock::now();
-        auto micros = std::chrono::duration_cast<std::chrono::microseconds>(t.time_since_epoch());
-
-        return static_cast<uint64_t>(micros.count());
     }
 
     static std::mt19937 engine(std::random_device{}());

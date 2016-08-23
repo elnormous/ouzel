@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include <thread>
 #include "Engine.h"
 #include "CompileConfig.h"
 #include "Cache.h"
@@ -329,7 +328,7 @@ namespace ouzel
 
     void Engine::begin()
     {
-        previousUpdateTime = previousFrameTime = getCurrentMicroSeconds();
+        previousUpdateTime = previousFrameTime = std::chrono::steady_clock::now();
         running = true;
     }
 
@@ -347,7 +346,7 @@ namespace ouzel
 
     void Engine::resume()
     {
-        previousUpdateTime = previousFrameTime = getCurrentMicroSeconds();
+        previousUpdateTime = previousFrameTime = std::chrono::steady_clock::now();
         running = true;
     }
 
@@ -359,10 +358,11 @@ namespace ouzel
         {
             if (running)
             {
-                uint64_t currentTime = getCurrentMicroSeconds();
-
-                float delta = static_cast<float>((currentTime - previousUpdateTime)) / 1000000.0f;
+                std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+                auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousUpdateTime);
                 previousUpdateTime = currentTime;
+
+                float delta = diff.count() / 1000000000.0f;
 
                 input->update();
                 eventDispatcher->update();
@@ -395,10 +395,11 @@ namespace ouzel
 
     bool Engine::draw()
     {
-        uint64_t currentTime = getCurrentMicroSeconds();
-
-        float delta = static_cast<float>((currentTime - previousFrameTime)) / 1000000.0f;
+        std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+        auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
         previousFrameTime = currentTime;
+
+        float delta = diff.count() / 1000000000.0f;
 
         if (delta > 0.0f)
         {

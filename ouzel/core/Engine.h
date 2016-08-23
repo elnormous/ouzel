@@ -10,6 +10,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <chrono>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "graphics/Renderer.h"
@@ -78,13 +79,13 @@ namespace ouzel
         scene::SceneManagerPtr sceneManager;
 
         std::atomic<float> currentFPS;
-        uint64_t previousFrameTime;
+        std::chrono::steady_clock::time_point previousFrameTime;
 
         float accumulatedTime = 0.0f;
         float currentAccumulatedFPS = 0.0f;
         std::atomic<float> accumulatedFPS;
 
-        uint64_t previousUpdateTime;
+        std::chrono::steady_clock::time_point previousUpdateTime;
 
         std::list<const UpdateCallback*> updateCallbacks;
         std::list<const UpdateCallback*>::iterator updateCallbackIterator;
