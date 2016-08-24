@@ -54,10 +54,9 @@ namespace ouzel
         void TextDrawable::draw(const Matrix4& projectionMatrix,
                                 const Matrix4& transformMatrix,
                                 const graphics::Color& drawColor,
-                                const graphics::RenderTargetPtr& renderTarget,
-                                const NodePtr& currentNode)
+                                const graphics::RenderTargetPtr& renderTarget)
         {
-            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
+            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
 
             if (meshBuffer)
             {

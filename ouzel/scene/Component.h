@@ -16,16 +16,17 @@ namespace ouzel
     {
         class Component: public ouzel::Noncopyable
         {
+            friend Node;
         public:
             virtual ~Component();
 
             virtual void draw(const Matrix4& projectionMatrix,
                               const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
-                              const graphics::RenderTargetPtr& renderTarget,
-                              const NodePtr& currentNode);
+                              const graphics::RenderTargetPtr& renderTarget);
 
             virtual const AABB2& getBoundingBox() const { return boundingBox; }
+            bool isAddedToNode() { return node != nullptr; }
 
             virtual bool pointOn(const Vector2& position) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
@@ -34,8 +35,12 @@ namespace ouzel
             virtual void setHidden(bool newHidden) { hidden = newHidden; }
 
         protected:
+            void setNode(Node* newNode) { node = newNode; }
+
             AABB2 boundingBox;
             bool hidden = false;
+
+            Node* node = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

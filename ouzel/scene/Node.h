@@ -30,7 +30,7 @@ namespace ouzel
             virtual ~Node();
 
             virtual bool addChild(const NodePtr& node) override;
-            virtual bool hasParent() const { return addedToParent; }
+            virtual bool hasParent() const { return (parent != nullptr); }
 
             virtual void setName(const std::string& newName) { name = newName; }
             virtual const std::string& getName() const { return name; }
@@ -85,12 +85,14 @@ namespace ouzel
             bool isReceivingInput() const { return receiveInput; }
 
             const std::vector<ComponentPtr>& getComponents() const { return components; }
-            void addComponent(const ComponentPtr& component);
-            void removeComponent(uint32_t index);
-            void removeComponent(const ComponentPtr& component);
+            bool addComponent(const ComponentPtr& component);
+            bool removeComponent(uint32_t index);
+            bool removeComponent(const ComponentPtr& component);
             void removeAllComponents();
 
         protected:
+            void setParent(NodeContainer* newParent) { parent = newParent; }
+
             virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty, const LayerPtr& currentLayer, float depth);
             virtual void draw(const LayerPtr& currentLayer);
 
@@ -126,10 +128,10 @@ namespace ouzel
             bool hidden = false;
             bool receiveInput = false;
 
-            bool addedToParent = false;
-
             AnimatorPtr currentAnimator;
             std::vector<ComponentPtr> components;
+
+            NodeContainer* parent = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

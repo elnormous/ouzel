@@ -29,10 +29,9 @@ namespace ouzel
         void ShapeDrawable::draw(const Matrix4& projectionMatrix,
                                  const Matrix4& transformMatrix,
                                  const graphics::Color& drawColor,
-                                 const graphics::RenderTargetPtr& renderTarget,
-                                 const NodePtr& currentNode)
+                                 const graphics::RenderTargetPtr& renderTarget)
         {
-            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
+            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
 
             meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(indices.size()));
             meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));

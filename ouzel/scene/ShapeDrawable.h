@@ -21,8 +21,7 @@ namespace ouzel
             virtual void draw(const Matrix4& projectionMatrix,
                               const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
-                              const graphics::RenderTargetPtr& renderTarget,
-                              const NodePtr& currentNode) override;
+                              const graphics::RenderTargetPtr& renderTarget) override;
 
             void clear();
 

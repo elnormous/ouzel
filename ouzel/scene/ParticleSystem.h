@@ -65,8 +65,7 @@ namespace ouzel
             virtual void draw(const Matrix4& projectionMatrix,
                               const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
-                              const graphics::RenderTargetPtr& renderTarget,
-                              const NodePtr& currentNode);
+                              const graphics::RenderTargetPtr& renderTarget);
             virtual void update(float delta);
 
             virtual bool initFromFile(const std::string& filename);
@@ -114,8 +113,6 @@ namespace ouzel
             bool needsMeshUpdate = false;
 
             UpdateCallback updateCallback;
-
-            NodeWeakPtr parentNode;
 
             std::function<void()> finishHandler;
         };

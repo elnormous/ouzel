@@ -40,12 +40,9 @@ namespace ouzel
         void ParticleSystem::draw(const Matrix4& projectionMatrix,
                                   const Matrix4& transformMatrix,
                                   const graphics::Color& drawColor,
-                                  const graphics::RenderTargetPtr& renderTarget,
-                                  const NodePtr& currentNode)
+                                  const graphics::RenderTargetPtr& renderTarget)
         {
-            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget, currentNode);
-
-            parentNode = currentNode;
+            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
 
             if (particleCount)
             {
@@ -200,9 +197,9 @@ namespace ouzel
 
                 if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
                 {
-                    if (NodePtr parent = parentNode.lock())
+                    if (node)
                     {
-                        const Matrix4& inverseTransform = parent->getInverseTransform();
+                        const Matrix4& inverseTransform = node->getInverseTransform();
 
                         for (uint32_t i = 0; i < particleCount; i++)
                         {
@@ -310,7 +307,7 @@ namespace ouzel
 
         bool ParticleSystem::updateParticleMesh()
         {
-            if (NodePtr parent = parentNode.lock())
+            if (node)
             {
                 for (uint32_t counter = particleCount; counter > 0; --counter)
                 {
@@ -324,7 +321,7 @@ namespace ouzel
                     }
                     else if (positionType == ParticleDefinition::PositionType::RELATIVE)
                     {
-                        position = parent->getPosition() + particles[i].position;
+                        position = node->getPosition() + particles[i].position;
                     }
 
                     float size_2 = particles[i].size / 2.0f;
@@ -376,19 +373,17 @@ namespace ouzel
 
             if (count)
             {
-                NodePtr parent = parentNode.lock();
-
-                if (parent)
+                if (node)
                 {
                     Vector2 position;
 
                     if (positionType == ParticleDefinition::PositionType::FREE)
                     {
-                        position = parent->convertLocalToWorld(Vector2::ZERO);
+                        position = node->convertLocalToWorld(Vector2::ZERO);
                     }
                     else if (positionType == ParticleDefinition::PositionType::RELATIVE)
                     {
-                        position = parent->convertLocalToWorld(Vector2::ZERO) - parent->getPosition();
+                        position = node->convertLocalToWorld(Vector2::ZERO) - node->getPosition();
                     }
 
                     for (uint32_t i = particleCount; i < particleCount + count; ++i)

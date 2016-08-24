@@ -22,7 +22,10 @@ namespace ouzel
 
         Node::~Node()
         {
-
+            for (const ComponentPtr& component : components)
+            {
+                component->setNode(nullptr);
+            }
         }
 
         void Node::visit(const Matrix4& newTransformMatrix, bool parentTransformDirty, const LayerPtr& currentLayer, float depth)
@@ -76,8 +79,7 @@ namespace ouzel
                             component->draw(currentLayer->getCamera()->getViewProjection(),
                                             transform,
                                             drawColor,
-                                            currentLayer->getRenderTarget(),
-                                            std::static_pointer_cast<Node>(shared_from_this()));
+                                            currentLayer->getRenderTarget());
                         }
                     }
                 }
@@ -313,34 +315,51 @@ namespace ouzel
             inverseTransformDirty = false;
         }
 
-        void Node::addComponent(const ComponentPtr& component)
+        bool Node::addComponent(const ComponentPtr& component)
         {
+            if (component->isAddedToNode())
+            {
+                return false;
+            }
+
             components.push_back(component);
+            component->setNode(this);
+
+            return true;
         }
 
-        void Node::removeComponent(uint32_t index)
+        bool Node::removeComponent(uint32_t index)
         {
             if (index >= components.size())
             {
-                return;
+                return false;
             }
 
+            const ComponentPtr& component = components[index];
+            component->setNode(nullptr);
+
             components.erase(components.begin() + static_cast<int>(index));
+
+            return true;
         }
 
-        void Node::removeComponent(const ComponentPtr& component)
+        bool Node::removeComponent(const ComponentPtr& component)
         {
             for (auto i = components.begin(); i != components.end();)
             {
                 if (*i == component)
                 {
-                    i = components.erase(i);
+                    component->setNode(nullptr);
+                    components.erase(i);
+                    return true;
                 }
                 else
                 {
                     ++i;
                 }
             }
+
+            return false;
         }
 
         void Node::removeAllComponents()

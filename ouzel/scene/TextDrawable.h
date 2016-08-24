@@ -25,8 +25,7 @@ namespace ouzel
             virtual void draw(const Matrix4& projectionMatrix,
                               const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
-                              const graphics::RenderTargetPtr& renderTarget,
-                              const NodePtr& currentNode) override;
+                              const graphics::RenderTargetPtr& renderTarget) override;
 
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }

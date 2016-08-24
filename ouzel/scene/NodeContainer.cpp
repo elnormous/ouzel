@@ -18,7 +18,7 @@ namespace ouzel
         {
             for (const NodePtr& node : children)
             {
-                node->addedToParent = false;
+                node->setParent(nullptr);
             }
         }
 
@@ -26,7 +26,7 @@ namespace ouzel
         {
             if (!hasChild(node) && !node->hasParent())
             {
-                node->addedToParent = true;
+                node->setParent(this);
                 children.push_back(node);
 
                 return true;
@@ -43,7 +43,7 @@ namespace ouzel
 
             if (i != children.end())
             {
-                node->addedToParent = false;
+                node->setParent(nullptr);
                 children.erase(i);
 
                 return true;
@@ -60,7 +60,7 @@ namespace ouzel
 
             for (auto& node : childrenCopy)
             {
-                node->addedToParent = false;
+                node->setParent(nullptr);
             }
 
             children.clear();
