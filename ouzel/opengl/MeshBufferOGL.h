@@ -91,6 +91,7 @@ namespace ouzel
                 const GLvoid* pointer;
             };
             std::vector<VertexAttrib> vertexAttribs;
+            std::atomic<bool> vertexAttribsDirty;
 
             std::vector<uint8_t> indexData;
             std::atomic<bool> indexBufferDirty;

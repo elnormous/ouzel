@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         MeshBufferOGL::MeshBufferOGL():
-            indexBufferDirty(false), vertexBufferDirty(false)
+            indexBufferDirty(false), vertexBufferDirty(false), vertexAttribsDirty(false)
         {
 
         }
@@ -142,7 +142,7 @@ namespace ouzel
                 return false;
             }
 
-            vertexBufferDirty = true;
+            vertexAttribsDirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -250,7 +250,7 @@ namespace ouzel
 
         bool MeshBufferOGL::update()
         {
-            if (indexBufferDirty || vertexBufferDirty)
+            if (indexBufferDirty || vertexBufferDirty || vertexAttribsDirty)
             {
                 std::vector<uint8_t> localIndexData;
                 std::vector<uint8_t> localVertexData;
@@ -272,7 +272,10 @@ namespace ouzel
                     if (vertexBufferDirty)
                     {
                         localVertexData = vertexData;
+                    }
 
+                    if (vertexAttribsDirty)
+                    {
                         vertexAttribs.clear();
 
                         GLuint offset = 0;
@@ -342,19 +345,13 @@ namespace ouzel
 #endif
                 }
 
+                if (!indexBufferId)
+                {
+                    glGenBuffers(1, &indexBufferId);
+                }
+
                 if (indexBufferDirty)
                 {
-                    if (!indexBufferId)
-                    {
-                        glGenBuffers(1, &indexBufferId);
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            log("Failed to create index buffer");
-                            return false;
-                        }
-                    }
-
                     if (!localIndexData.empty())
                     {
                         if (vertexArrayId)
@@ -380,49 +377,54 @@ namespace ouzel
                     indexBufferDirty = false;
                 }
 
-                if (vertexBufferDirty)
+                if (!vertexBufferId)
                 {
-                    if (!vertexBufferId)
+                    glGenBuffers(1, &vertexBufferId);
+                }
+
+                if (vertexAttribsDirty)
+                {
+                    if (vertexArrayId)
                     {
-                        glGenBuffers(1, &vertexBufferId);
+                        RendererOGL::bindVertexArray(vertexArrayId);
+                        RendererOGL::bindArrayBuffer(vertexBufferId);
+
+                        for (GLuint index = 0; index < 5; ++index)
+                        {
+                            if (index < vertexAttribs.size())
+                            {
+                                glEnableVertexAttribArray(index);
+                                glVertexAttribPointer(index,
+                                                      vertexAttribs[index].size,
+                                                      vertexAttribs[index].type,
+                                                      vertexAttribs[index].normalized,
+                                                      vertexAttribs[index].stride,
+                                                      vertexAttribs[index].pointer);
+                            }
+                            else
+                            {
+                                glDisableVertexAttribArray(index);
+                            }
+                        }
 
                         if (RendererOGL::checkOpenGLError())
                         {
-                            log("Failed to create vertex buffer");
+                            log("Failed to update vertex attributes");
                             return false;
                         }
                     }
 
+                    vertexAttribsDirty = false;
+                }
+
+                if (vertexBufferDirty)
+                {
                     if (!localVertexData.empty())
                     {
                         if (vertexArrayId)
                         {
                             RendererOGL::bindVertexArray(vertexArrayId);
                             RendererOGL::bindArrayBuffer(vertexBufferId);
-
-                            for (GLuint index = 0; index < 5; ++index)
-                            {
-                                if (index < vertexAttribs.size())
-                                {
-                                    glEnableVertexAttribArray(index);
-                                    glVertexAttribPointer(index,
-                                                          vertexAttribs[index].size,
-                                                          vertexAttribs[index].type,
-                                                          vertexAttribs[index].normalized,
-                                                          vertexAttribs[index].stride,
-                                                          vertexAttribs[index].pointer);
-                                }
-                                else
-                                {
-                                    glDisableVertexAttribArray(index);
-                                }
-                            }
-
-                            if (RendererOGL::checkOpenGLError())
-                            {
-                                log("Failed to update vertex attributes");
-                                return false;
-                            }
                         }
                         else
                         {
