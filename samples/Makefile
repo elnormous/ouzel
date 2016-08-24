@@ -42,11 +42,12 @@ EXECUTABLE=samples
 
 all: $(SOURCES) $(EXECUTABLE)
 
+debug: target=debug
 debug: CXXFLAGS+=-DDEBUG -g
 debug: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(MAKE) -f ../build/Makefile platform=$(platform)
+	$(MAKE) -f ../build/Makefile platform=$(platform) $(target)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 .cpp.o:
