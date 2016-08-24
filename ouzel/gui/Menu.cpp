@@ -42,7 +42,7 @@ namespace ouzel
 
         bool Menu::removeWidget(const WidgetPtr& widget)
         {
-            if (!removeWidget(widget))
+            if (!removeChild(widget))
             {
                 return false;
             }
