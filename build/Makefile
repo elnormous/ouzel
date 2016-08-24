@@ -11,7 +11,7 @@ ifndef platform
 		endif
 	endif
 endif
-CPPFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb -I../ouzel
+CXXFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb -I../ouzel
 SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Ease.cpp \
 	../ouzel/animators/Fade.cpp \
@@ -97,7 +97,7 @@ SOURCES+=../ouzel/rpi/ApplicationRPI.cpp \
 	../ouzel/rpi/InputRPI.cpp \
 	../ouzel/rpi/RendererOGLRPI.cpp \
 	../ouzel/rpi/WindowRPI.cpp
-CPPFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
+CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
 SOURCES+=../ouzel/linux/ApplicationLinux.cpp \
 	../ouzel/linux/main.cpp \
@@ -129,14 +129,17 @@ LIBRARY=libouzel.a
 
 all: $(SOURCES) $(LIBRARY)
 
+debug: CXXFLAGS+=-DDEBUG -g
+debug: $(SOURCES) $(LIBRARY)
+
 $(LIBRARY): $(OBJECTS)
 	ar -r -s $@ $^
 
 %.o: %.cpp
-	$(CXX) $(CPPFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) $< -o $@
 
 %.o: %.mm
-	$(CXX) -fno-objc-arc $(CPPFLAGS) $< -o $@
+	$(CXX) -fno-objc-arc $(CXXFLAGS) $< -o $@
 
 .PHONY: clean
 clean:

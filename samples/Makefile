@@ -11,7 +11,7 @@ ifndef platform
 		endif
 	endif
 endif
-CPPFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.h
+CXXFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.h
 LDFLAGS=-L. -louzel
 ifeq ($(platform),raspbian)
 LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread
@@ -42,12 +42,15 @@ EXECUTABLE=samples
 
 all: $(SOURCES) $(EXECUTABLE)
 
+debug: CXXFLAGS+=-DDEBUG -g
+debug: $(SOURCES) $(EXECUTABLE)
+
 $(EXECUTABLE): $(OBJECTS)
 	$(MAKE) -f ../build/Makefile platform=$(platform)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 .cpp.o:
-	$(CXX) $(CPPFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) $< -o $@
 
 .PHONY: clean
 clean:
