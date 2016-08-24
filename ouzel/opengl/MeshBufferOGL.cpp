@@ -76,6 +76,7 @@ namespace ouzel
 
             indexBufferDirty = true;
             vertexBufferDirty = true;
+            vertexAttribsDirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -111,6 +112,7 @@ namespace ouzel
 
             indexBufferDirty = true;
             vertexBufferDirty = true;
+            vertexAttribsDirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
