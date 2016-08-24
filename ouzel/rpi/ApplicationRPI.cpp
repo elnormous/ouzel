@@ -12,13 +12,13 @@ namespace ouzel
     {
     }
 
-    bool ApplicationRPI::run()
+    int ApplicationRPI::run()
     {
         ouzelMain(args);
 
         if (!sharedEngine)
         {
-            return false;
+            return 1;
         }
 
         sharedEngine->begin();
@@ -35,6 +35,6 @@ namespace ouzel
 
         sharedEngine->end();
 
-        return true;
+        return 0;
     }
 }

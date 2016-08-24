@@ -31,5 +31,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     }
 
     ouzel::ApplicationWin application(args);
-    return application.run() ? 0 : 1;
+
+    return application.run();
 }

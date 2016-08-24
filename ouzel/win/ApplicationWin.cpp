@@ -14,13 +14,13 @@ namespace ouzel
     {
     }
 
-    bool ApplicationWin::run()
+    int ApplicationWin::run()
     {
         ouzelMain(args);
 
         if (!sharedEngine)
         {
-            return false;
+            return 1;
         }
 
         std::shared_ptr<WindowWin> window = std::static_pointer_cast<WindowWin>(sharedEngine->getWindow());
@@ -83,6 +83,6 @@ namespace ouzel
 
         sharedEngine->end();
 
-        return true;
+        return 0;
     }
 }

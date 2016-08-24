@@ -9,5 +9,5 @@ int main(int argc, char* argv[])
 {
     ouzel::ApplicationRPI application(argc, argv);
 
-    return application.run() ? 0 : 1;
+    return application.run();
 }

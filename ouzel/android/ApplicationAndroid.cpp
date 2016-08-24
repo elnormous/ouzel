@@ -10,17 +10,17 @@ namespace ouzel
     {
     }
     
-    bool ApplicationAndroid::run()
+    int ApplicationAndroid::run()
     {
         ouzelMain(ouzel::sharedApplication->getArgs());
 
         if (!sharedEngine)
         {
-            return false;
+            return 1;
         }
 
         sharedEngine->begin();
 
-        return true;
+        return 0;
     }
 }

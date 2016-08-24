@@ -37,9 +37,9 @@ namespace ouzel
     {
     }
 
-    bool Application::run()
+    int Application::run()
     {
-        return true;
+        return 0;
     }
 
     void Application::execute(const std::function<void(void)>& func)

@@ -13,19 +13,18 @@ namespace ouzel
         mainQueue = dispatch_get_main_queue();
     }
 
-    bool ApplicationMacOS::run()
+    int ApplicationMacOS::run()
     {
         @autoreleasepool
         {
             NSApplication* application = [NSApplication sharedApplication];
 
-            AppDelegate* appDelegate = [[AppDelegate alloc] init];
+            AppDelegate* appDelegate = [[[AppDelegate alloc] init] autorelease];
             [application setDelegate:appDelegate];
             [application run];
-            [appDelegate release];
         }
 
-        return true;
+        return 0;
     }
 
     void ApplicationMacOS::execute(const std::function<void(void)>& func)

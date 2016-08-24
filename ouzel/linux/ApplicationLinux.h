@@ -13,6 +13,6 @@ namespace ouzel
         ApplicationLinux(int pArgc, char* pArgv[]);
         virtual ~ApplicationLinux() {}
 
-        virtual bool run() override;
+        virtual int run() override;
     };
 }

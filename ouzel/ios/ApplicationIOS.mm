@@ -13,14 +13,12 @@ namespace ouzel
         mainQueue = dispatch_get_main_queue();
     }
 
-    bool ApplicationIOS::run()
+    int ApplicationIOS::run()
     {
         @autoreleasepool
         {
             return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
         }
-
-        return true;
     }
 
     void ApplicationIOS::execute(const std::function<void(void)>& func)

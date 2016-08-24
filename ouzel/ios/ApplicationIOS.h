@@ -14,7 +14,7 @@ namespace ouzel
         ApplicationIOS(int pArgc, char* pArgv[]);
         virtual ~ApplicationIOS() {}
 
-        virtual bool run() override;
+        virtual int run() override;
 
         virtual void execute(const std::function<void(void)>& func) override;
 

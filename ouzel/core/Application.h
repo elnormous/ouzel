@@ -20,7 +20,7 @@ namespace ouzel
         Application(const std::vector<std::string>& pArgs);
         virtual ~Application();
 
-        virtual bool run();
+        virtual int run();
 
         int getArgc() const { return argc; }
         char** getArgv() const { return argv; }

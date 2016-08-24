@@ -13,6 +13,6 @@ namespace ouzel
         ApplicationWin(const std::vector<std::string>& pArgs);
         virtual ~ApplicationWin() {}
 
-        virtual bool run() override;
+        virtual int run() override;
     };
 }

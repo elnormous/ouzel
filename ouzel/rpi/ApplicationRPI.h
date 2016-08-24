@@ -13,6 +13,6 @@ namespace ouzel
         ApplicationRPI(int pArgc, char* pArgv[]);
         virtual ~ApplicationRPI() {}
 
-        virtual bool run() override;
+        virtual int run() override;
     };
 }
