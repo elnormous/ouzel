@@ -56,6 +56,27 @@ namespace ouzel
                 drawQueue = std::move(activeDrawQueue);
                 activeDrawQueue.reserve(drawQueue.size());
                 drawCallCount = static_cast<uint32_t>(drawQueue.size());
+
+                std::queue<ResourcePtr> resources;
+
+                {
+                    std::lock_guard<std::mutex> lock(updateMutex);
+                    resources = std::move(updateQueue);
+                    updateSet.clear();
+                }
+
+                while (!resources.empty())
+                {
+                    const ResourcePtr& resource = resources.front();
+
+                    if (!resource->update())
+                    {
+                        return false;
+                    }
+
+                    resources.pop();
+                }
+                
                 activeDrawQueueFinished = false;
                 refillDrawQueue = true;
             }
