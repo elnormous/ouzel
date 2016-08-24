@@ -66,8 +66,10 @@ namespace ouzel
          */
         bool intersects(const AABB2& aabb) const
         {
-            return ((min.x >= aabb.min.x && min.x <= aabb.max.x) || (aabb.min.x >= min.x && aabb.min.x <= max.x)) &&
-                ((min.y >= aabb.min.y && min.y <= aabb.max.y) || (aabb.min.y >= min.y && aabb.min.y <= max.y));
+            return !(aabb.min.x > max.x ||
+                     aabb.max.x < min.x ||
+                     aabb.min.y > max.y ||
+                     aabb.max.y < min.y);
         }
 
         /**
