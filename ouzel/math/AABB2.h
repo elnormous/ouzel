@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdint>
+#include <limits>
 #include "math/Vector2.h"
 #include "math/Size2.h"
 
@@ -21,7 +22,9 @@ namespace ouzel
         /**
          * Constructor.
          */
-        AABB2()
+        AABB2():
+            min(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()),
+            max(std::numeric_limits<float>::min(), std::numeric_limits<float>::min())
         {
         }
 
@@ -44,7 +47,11 @@ namespace ouzel
         /**
          * Gets the center point of the bounding box.
          */
-        Vector2 getCenter();
+        Vector2 getCenter()
+        {
+            return Vector2(0.5f * (min.x + max.x),
+                           0.5f * (min.y + max.y));
+        }
 
         /* Near face, specified counter-clockwise looking towards the origin from the positive z-axis.
          * verts[0] : left top
@@ -60,7 +67,7 @@ namespace ouzel
         bool intersects(const AABB2& aabb) const
         {
             return ((min.x >= aabb.min.x && min.x <= aabb.max.x) || (aabb.min.x >= min.x && aabb.min.x <= max.x)) &&
-            ((min.y >= aabb.min.y && min.y <= aabb.max.y) || (aabb.min.y >= min.y && aabb.min.y <= max.y));
+                ((min.y >= aabb.min.y && min.y <= aabb.max.y) || (aabb.min.y >= min.y && aabb.min.y <= max.y));
         }
 
         /**
@@ -93,7 +100,11 @@ namespace ouzel
         /**
          * Reset min and max value.If you invoke this method, isEmpty() shall return true.
          */
-        void reset();
+        void reset()
+        {
+            min.set(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+            max.set(std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
+        }
 
         /**
          * check the AABB object is empty(reset).

@@ -2,21 +2,10 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include <limits>
-#include <cassert>
 #include "AABB2.h"
 
 namespace ouzel
 {
-    Vector2 AABB2::getCenter()
-    {
-        Vector2 center;
-        center.x = 0.5f * (min.x + max.x);
-        center.y = 0.5f * (min.y + max.y);
-
-        return center;
-    }
-
     void AABB2::getCorners(Vector2* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive z-axis.
@@ -39,12 +28,5 @@ namespace ouzel
         // Calculate the new maximum point.
         max.x = std::max(max.x, box.max.x);
         max.y = std::max(max.y, box.max.y);
-    }
-
-
-    void AABB2::reset()
-    {
-        min.set(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
-        max.set(std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
     }
 }
