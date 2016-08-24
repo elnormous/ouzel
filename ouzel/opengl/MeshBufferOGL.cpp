@@ -211,7 +211,7 @@ namespace ouzel
                     return false;
                 }
 
-                for (GLuint index = 0; index < 5; ++index)
+                for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
                 {
                     if (index < vertexAttribs.size())
                     {
@@ -391,7 +391,7 @@ namespace ouzel
                         RendererOGL::bindVertexArray(vertexArrayId);
                         RendererOGL::bindArrayBuffer(vertexBufferId);
 
-                        for (GLuint index = 0; index < 5; ++index)
+                        for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
                         {
                             if (index < vertexAttribs.size())
                             {

@@ -20,6 +20,8 @@ namespace ouzel
             VERTEX_TEXCOORD1 = 0x10
         };
 
+        const uint32_t VERTEX_ATTRIBUTE_COUNT = 5;
+
         class VertexPC
         {
         public:
