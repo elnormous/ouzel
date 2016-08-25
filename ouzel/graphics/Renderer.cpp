@@ -149,7 +149,7 @@ namespace ouzel
                 vertexShaderConstants,
                 blendState,
                 meshBuffer,
-                (indexCount > 0) ? indexCount : meshBuffer->getIndexCount(),
+                (indexCount > 0) ? indexCount : meshBuffer->getIndexCount() - startIndex,
                 drawMode,
                 startIndex,
                 renderTarget,

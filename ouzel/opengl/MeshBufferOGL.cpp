@@ -109,7 +109,6 @@ namespace ouzel
                                   static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
             }
 
-
             indexBufferDirty = true;
             vertexBufferDirty = true;
             vertexAttribsDirty = true;
