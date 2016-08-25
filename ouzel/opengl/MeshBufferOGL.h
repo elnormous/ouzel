@@ -82,6 +82,11 @@ namespace ouzel
 
             GLenum indexFormat = 0;
 
+            std::vector<uint8_t> indexData;
+            std::atomic<bool> indexBufferDirty;
+            std::vector<uint8_t> vertexData;
+            std::atomic<bool> vertexBufferDirty;
+
             struct VertexAttrib
             {
                 GLint size;
@@ -93,10 +98,6 @@ namespace ouzel
             std::vector<VertexAttrib> vertexAttribs;
             std::atomic<bool> vertexAttribsDirty;
 
-            std::vector<uint8_t> indexData;
-            std::atomic<bool> indexBufferDirty;
-            std::vector<uint8_t> vertexData;
-            std::atomic<bool> vertexBufferDirty;
             std::mutex dataMutex;
         };
     } // namespace graphics
