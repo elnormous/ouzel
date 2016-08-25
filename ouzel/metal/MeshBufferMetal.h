@@ -62,9 +62,10 @@ namespace ouzel
             MTLIndexType indexFormat;
 
             std::vector<uint8_t> indexData;
-            std::atomic<bool> indexBufferDirty;
             std::vector<uint8_t> vertexData;
+            std::atomic<bool> indexBufferDirty;
             std::atomic<bool> vertexBufferDirty;
+            
             std::mutex dataMutex;
         };
     } // namespace graphics

@@ -83,9 +83,7 @@ namespace ouzel
             GLenum indexFormat = 0;
 
             std::vector<uint8_t> indexData;
-            std::atomic<bool> indexBufferDirty;
             std::vector<uint8_t> vertexData;
-            std::atomic<bool> vertexBufferDirty;
 
             struct VertexAttrib
             {
@@ -96,6 +94,9 @@ namespace ouzel
                 const GLvoid* pointer;
             };
             std::vector<VertexAttrib> vertexAttribs;
+
+            std::atomic<bool> indexBufferDirty;
+            std::atomic<bool> vertexBufferDirty;
             std::atomic<bool> vertexAttribsDirty;
 
             std::mutex dataMutex;

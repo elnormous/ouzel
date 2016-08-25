@@ -48,14 +48,14 @@ namespace ouzel
 
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
-            bool dynamicIndexBuffer = true;
 
             uint32_t vertexCount = 0;
             uint32_t vertexSize = 0;
-            bool dynamicVertexBuffer = true;
 
             uint32_t vertexAttributes;
 
+            bool dynamicIndexBuffer = true;
+            bool dynamicVertexBuffer = true;
             bool ready = false;
         };
     } // namespace graphics

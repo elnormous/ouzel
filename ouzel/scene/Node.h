@@ -103,14 +103,20 @@ namespace ouzel
 
             Matrix4 parentTransform = Matrix4::IDENTITY;
             mutable Matrix4 transform;
-            mutable bool transformDirty = true;
             mutable Matrix4 inverseTransform;
-            mutable bool inverseTransformDirty = true;
-
             mutable Matrix4 localTransform;
-            mutable bool localTransformDirty = true;
 
+            mutable bool transformDirty = true;
+            mutable bool inverseTransformDirty = true;
+            mutable bool localTransformDirty = true;
             mutable bool updateChildrenTransform = true;
+
+            bool flipX = false;
+            bool flipY = false;
+
+            bool pickable = true;
+            bool hidden = false;
+            bool receiveInput = false;
 
             std::string name;
 
@@ -120,13 +126,6 @@ namespace ouzel
             graphics::Color color = graphics::Color(255, 255, 255, 255);
             float opacity = 1.0f;
             float z = 0.0f;
-
-            bool flipX = false;
-            bool flipY = false;
-
-            bool pickable = true;
-            bool hidden = false;
-            bool receiveInput = false;
 
             AnimatorPtr currentAnimator;
             std::vector<ComponentPtr> components;

@@ -64,13 +64,13 @@ namespace ouzel
         protected:
             BlendState();
 
-            bool enableBlending = false;
             BlendFactor colorBlendSource = BlendFactor::ONE;
             BlendFactor colorBlendDest = BlendFactor::ZERO;
             BlendOperation colorOperation = BlendOperation::ADD;
             BlendFactor alphaBlendSource = BlendFactor::ONE;
             BlendFactor alphaBlendDest = BlendFactor::ZERO;
             BlendOperation alphaOperation = BlendOperation::ADD;
+            bool enableBlending = false;
 
             bool ready = false;
         };

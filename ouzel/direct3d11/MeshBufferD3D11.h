@@ -54,8 +54,8 @@ namespace ouzel
             DXGI_FORMAT indexFormat = DXGI_FORMAT_UNKNOWN;
 
             std::vector<uint8_t> indexData;
-            std::atomic<bool> indexBufferDirty;
             std::vector<uint8_t> vertexData;
+            std::atomic<bool> indexBufferDirty;
             std::atomic<bool> vertexBufferDirty;
             std::mutex dataMutex;
         };

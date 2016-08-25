@@ -37,11 +37,10 @@ namespace ouzel
             RenderTarget();
 
             Size2 size;
-            bool depthBuffer = false;
-
             Color clearColor;
             TexturePtr texture;
 
+            bool depthBuffer = false;
             bool ready = false;
         };
     } // namespace graphics

@@ -28,8 +28,6 @@ namespace ouzel
                 GROUPED,
             };
 
-            bool ready = false;
-
             uint32_t blendFuncSource = 1;
             uint32_t blendFuncDestination = 771;
 
@@ -42,8 +40,6 @@ namespace ouzel
             float speed = 225.0f;
             float speedVariance = 30.0f;
 
-            bool absolutePosition = false;
-            bool yCoordFlipped = true;
             Vector2 sourcePosition;
             Vector2 sourcePositionVariance;
 
@@ -79,6 +75,8 @@ namespace ouzel
             float tangentialAcceleration = 0.0f;
             float tangentialAccelVariance = 0.0f;
 
+            bool absolutePosition = false;
+            bool yCoordFlipped = true;
             bool rotationIsDir = false;
 
             Vector2 gravity = Vector2(0.0f, 0.0f);

@@ -117,8 +117,6 @@ namespace ouzel
 
             result->emissionRate = static_cast<float>(result->maxParticles) / result->particleLifespan;
 
-            result->ready = true;
-
             return result;
         }
     } // namespace scene

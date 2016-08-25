@@ -132,16 +132,16 @@ namespace ouzel
 
             Driver driver;
             Size2 size;
-            bool fullscreen = false;
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFiltering textureFiltering = TextureFiltering::NONE;
-            bool verticalSync = true;
 
             Color clearColor;
             uint32_t drawCallCount = 0;
 
             uint32_t apiVersion = 0;
 
+            bool fullscreen = false;
+            bool verticalSync = true;
             bool ready = false;
 
             struct DrawCommand
@@ -161,10 +161,11 @@ namespace ouzel
                 Rectangle scissorTest;
             };
 
-            std::vector<DrawCommand> activeDrawQueue;
             std::atomic<bool> activeDrawQueueFinished;
-            std::vector<DrawCommand> drawQueue;
             std::atomic<bool> refillDrawQueue;
+
+            std::vector<DrawCommand> activeDrawQueue;
+            std::vector<DrawCommand> drawQueue;
 
             std::queue<ResourcePtr> updateQueue;
             std::set<ResourcePtr> updateSet;
