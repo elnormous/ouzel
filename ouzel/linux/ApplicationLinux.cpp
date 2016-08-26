@@ -255,9 +255,9 @@ namespace ouzel
                 {
                     break;
                 }
-            
+
                 XNextEvent(windowLinux->getDisplay(), &event);
-            
+
                 switch (event.type)
                 {
                     case ClientMessage:
@@ -336,7 +336,7 @@ namespace ouzel
                     }
                     case ConfigureNotify:
                     {
-                        sharedEngine->getWindow()->setSize(Size2(event.xconfigure.width, event.xconfigure.height));
+                        windowLinux->handleResize(event.xconfigure.width, event.xconfigure.height);
                         break;
                     }
                     case Expose:

@@ -171,7 +171,7 @@ namespace ouzel
 
         // request the X window to be displayed on the screen
         XMapWindow(display, window);
-        
+
         deleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
         XSetWMProtocols(display, window, &deleteMessage, 1);
 
@@ -201,7 +201,7 @@ namespace ouzel
             changes.height = static_cast<int>(newSize.height);
             XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
         });
-        
+
         Window::setSize(newSize);
     }
 
@@ -211,14 +211,6 @@ namespace ouzel
         {
             sharedApplication->execute([this, newFullscreen] {
                 toggleFullscreen();
-
-                if (!newFullscreen)
-                {
-                    XWindowChanges changes;
-                    changes.width = static_cast<int>(size.width);
-                    changes.height = static_cast<int>(size.height);
-                    XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
-                }
             });
         }
 
@@ -263,5 +255,10 @@ namespace ouzel
         }
 
         return true;
+    }
+
+    void WindowLinux::handleResize(int width, int height)
+    {
+        Window::setSize(Size2(width, height));
     }
 }

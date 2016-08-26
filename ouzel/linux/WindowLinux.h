@@ -9,9 +9,12 @@
 
 namespace ouzel
 {
+    class ApplicationLinux;
+
     class WindowLinux: public Window
     {
         friend Engine;
+        friend ApplicationLinux;
     public:
         virtual ~WindowLinux();
 
@@ -28,6 +31,7 @@ namespace ouzel
         WindowLinux(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
         virtual bool init() override;
         virtual bool toggleFullscreen();
+        void handleResize(int width, int height);
 
         Display* display = nullptr;
         GLXContext context = 0;
