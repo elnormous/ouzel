@@ -109,36 +109,11 @@ namespace ouzel
         }
 
         /**
-         * check the AABB object is empty(reset).
+         * Check the AABB object is empty(reset).
          */
         bool isEmpty() const
         {
             return min.x > max.x || min.y > max.y;
-        }
-
-        /**
-         * update the min and max from the given points.
-         */
-        void updateMinMax(const Vector2* points, uint32_t num)
-        {
-            for (uint32_t i = 0; i < num; ++i)
-            {
-                // Leftmost point.
-                if (points[i].x < min.x)
-                    min.x = points[i].x;
-
-                // Lowest point.
-                if (points[i].y < min.y)
-                    min.y = points[i].y;
-
-                // Rightmost point.
-                if (points[i].x > max.x)
-                    max.x = points[i].x;
-
-                // Highest point.
-                if (points[i].y > max.y)
-                    max.y = points[i].y;
-            }
         }
 
         void insertPoint(const Vector2& point)
