@@ -211,6 +211,14 @@ namespace ouzel
         {
             sharedApplication->execute([this, newFullscreen] {
                 toggleFullscreen();
+
+                if (!newFullscreen)
+                {
+                    XWindowChanges changes;
+                    changes.width = static_cast<int>(size.width);
+                    changes.height = static_cast<int>(size.height);
+                    XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
+                }
             });
         }
 
