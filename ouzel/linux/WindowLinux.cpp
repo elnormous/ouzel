@@ -10,6 +10,8 @@
 #include "opengl/RendererOGL.h"
 #include "utils/Utils.h"
 
+const long _NET_WM_STATE_TOGGLE = 2;
+
 namespace ouzel
 {
     WindowLinux::WindowLinux(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
@@ -173,11 +175,19 @@ namespace ouzel
         deleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
         XSetWMProtocols(display, window, &deleteMessage, 1);
 
+        state = XInternAtom(display, "_NET_WM_STATE", False);
+        stateFullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
+
         PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT"));
 
         if (glXSwapIntervalEXT)
         {
             glXSwapIntervalEXT(display, window, sharedEngine->getSettings().verticalSync ? 1 : 0);
+        }
+
+        if (fullscreen)
+        {
+            toggleFullscreen();
         }
 
         return Window::init();
@@ -197,6 +207,13 @@ namespace ouzel
 
     void WindowLinux::setFullscreen(bool newFullscreen)
     {
+        if (fullscreen != newFullscreen)
+        {
+            sharedApplication->execute([this, newFullscreen] {
+                toggleFullscreen();
+            });
+        }
+
         Window::setFullscreen(newFullscreen);
     }
 
@@ -210,5 +227,33 @@ namespace ouzel
         }
 
         Window::setTitle(newTitle);
+    }
+
+    bool WindowLinux::toggleFullscreen()
+    {
+        if(!state || !stateFullscreen)
+        {
+            return false;
+        }
+
+        XEvent event;
+
+        event.type = ClientMessage;
+        event.xclient.window = window;
+        event.xclient.message_type = state;
+        event.xclient.format = 32;
+        event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
+        event.xclient.data.l[1] = stateFullscreen;
+        event.xclient.data.l[2] = 0;  /* no second property to toggle */
+        event.xclient.data.l[3] = 1;  /* source indication: application */
+        event.xclient.data.l[4] = 0;  /* unused */
+
+        if(!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
+        {
+            log("Failed to send fullscreen message");
+            return false;
+        }
+
+        return true;
     }
 }

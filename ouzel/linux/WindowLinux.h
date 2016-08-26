@@ -27,10 +27,13 @@ namespace ouzel
     protected:
         WindowLinux(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
         virtual bool init() override;
+        virtual bool toggleFullscreen();
 
         Display* display = nullptr;
         GLXContext context = 0;
         ::Window window = 0;
         Atom deleteMessage;
+        Atom state;
+        Atom stateFullscreen;
     };
 }
