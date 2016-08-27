@@ -34,7 +34,7 @@ namespace ouzel
             virtual void setColor(const graphics::Color& newColor);
 
         protected:
-            void updateMesh();
+            void updateBounds();
 
             graphics::TexturePtr texture;
             graphics::MeshBufferPtr meshBuffer;
@@ -49,6 +49,8 @@ namespace ouzel
             std::vector<graphics::VertexPCT> vertices;
 
             graphics::Color color = graphics::Color(255, 255, 255, 255);
+
+            bool needsMeshUpdate = false;
         };
     } // namespace scene
 } // namespace ouzel

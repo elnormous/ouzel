@@ -58,8 +58,13 @@ namespace ouzel
         {
             Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
 
-            meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(indices.size()));
-            meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
+            if (needsMeshUpdate)
+            {
+                meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(indices.size()));
+                meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
+
+                needsMeshUpdate = false;
+            }
 
             Matrix4 modelViewProj = projectionMatrix * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
@@ -86,26 +91,31 @@ namespace ouzel
         {
             text = newText;
 
-            updateMesh();
+            font.getVertices(text, color, textAnchor, indices, vertices);
+            needsMeshUpdate = true;
+
+            updateBounds();
         }
 
         void TextDrawable::setColor(const graphics::Color& newColor)
         {
             color = newColor;
 
-            updateMesh();
+            font.getVertices(text, color, textAnchor, indices, vertices);
+            needsMeshUpdate = true;
+
+            updateBounds();
         }
 
-        void TextDrawable::updateMesh()
+        void TextDrawable::updateBounds()
         {
-            font.getVertices(text, color, textAnchor, indices, vertices);
-
             boundingBox.reset();
 
             for (const graphics::VertexPCT& vertex : vertices)
             {
                 boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
             }
+
         }
     } // namespace scene
 } // namespace ouzel
