@@ -58,28 +58,28 @@ namespace ouzel
         {
             Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
 
-            if (meshBuffer)
-            {
-                Matrix4 modelViewProj = projectionMatrix * transformMatrix;
-                float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
+            meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(indices.size()));
+            meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
 
-                std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
+            Matrix4 modelViewProj = projectionMatrix * transformMatrix;
+            float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
-                std::vector<std::vector<float>> vertexShaderConstants(1);
-                vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+            std::vector<std::vector<float>> pixelShaderConstants(1);
+            pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
 
-                sharedEngine->getRenderer()->addDrawCommand({ texture },
-                                                            shader,
-                                                            pixelShaderConstants,
-                                                            vertexShaderConstants,
-                                                            blendState,
-                                                            meshBuffer,
-                                                            indexCount,
-                                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                            0,
-                                                            renderTarget);
-            }
+            std::vector<std::vector<float>> vertexShaderConstants(1);
+            vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+
+            sharedEngine->getRenderer()->addDrawCommand({ texture },
+                                                        shader,
+                                                        pixelShaderConstants,
+                                                        vertexShaderConstants,
+                                                        blendState,
+                                                        meshBuffer,
+                                                        static_cast<uint32_t>(indices.size()),
+                                                        graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                                        0,
+                                                        renderTarget);
         }
 
         void TextDrawable::setText(const std::string& newText)
@@ -98,23 +98,13 @@ namespace ouzel
 
         void TextDrawable::updateMesh()
         {
-            std::vector<uint16_t> indices;
-            std::vector<graphics::VertexPCT> vertices;
-
             font.getVertices(text, color, textAnchor, indices, vertices);
 
-            indexCount = static_cast<uint32_t>(indices.size());
             boundingBox.reset();
 
-            if (indexCount)
+            for (const graphics::VertexPCT& vertex : vertices)
             {
-                meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(indices.size()));
-                meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
-
-                for (const graphics::VertexPCT& vertex : vertices)
-                {
-                    boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
-                }
+                boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
             }
         }
     } // namespace scene
