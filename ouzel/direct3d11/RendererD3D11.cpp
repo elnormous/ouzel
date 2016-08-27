@@ -141,9 +141,9 @@ namespace ouzel
             free();
 
             UINT deviceCreationFlags = 0;
-    #if D3D11_DEBUG
+#ifdef DEBUG
             deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
-    #endif
+#endif
 
             HRESULT hr = D3D11CreateDevice(
                 nullptr, // adapter
