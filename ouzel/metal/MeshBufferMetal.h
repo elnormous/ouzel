@@ -46,6 +46,7 @@ namespace ouzel
             MTLBufferPtr getVertexBuffer() const { return vertexBuffer; }
 
             MTLIndexType getIndexFormat() const { return indexFormat; }
+            NSUInteger getBytesPerIndex() const { return bytesPerIndex; }
 
         protected:
             MeshBufferMetal();
@@ -60,6 +61,7 @@ namespace ouzel
             uint32_t vertexBufferSize = 0;
 
             MTLIndexType indexFormat;
+            NSUInteger bytesPerIndex = 0;
 
             std::vector<uint8_t> indexData;
             std::vector<uint8_t> vertexData;

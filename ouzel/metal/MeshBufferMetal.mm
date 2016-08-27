@@ -196,9 +196,18 @@ namespace ouzel
                         localIndexData = indexData;
                         switch (indexSize)
                         {
-                            case 2: indexFormat = MTLIndexTypeUInt16; break;
-                            case 4: indexFormat = MTLIndexTypeUInt32; break;
-                            default: log("Invalid index size"); return false;
+                            case 2:
+                                indexFormat = MTLIndexTypeUInt16;
+                                bytesPerIndex = 2;
+                                break;
+                            case 4:
+                                indexFormat = MTLIndexTypeUInt32;
+                                bytesPerIndex = 4;
+                                break;
+                            default:
+                                bytesPerIndex = 0;
+                                log("Invalid index size");
+                                return false;
                         }
                     }
 

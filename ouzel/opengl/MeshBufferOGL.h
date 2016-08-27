@@ -69,8 +69,8 @@ namespace ouzel
             GLuint getVertexBufferId() const { return vertexBufferId; }
             GLuint getVertexArrayId() const { return vertexArrayId; }
 
-            static GLenum getFormat(uint32_t size);
             GLenum getIndexFormat() const { return indexFormat; }
+            GLuint getBytesPerIndex() const { return bytesPerIndex; }
 
         protected:
             MeshBufferOGL();
@@ -81,6 +81,7 @@ namespace ouzel
             GLuint vertexArrayId = 0;
 
             GLenum indexFormat = 0;
+            GLuint bytesPerIndex = 0;
 
             std::vector<uint8_t> indexData;
             std::vector<uint8_t> vertexData;

@@ -633,7 +633,7 @@ namespace ouzel
                                                         indexCount:drawCommand.indexCount
                                                          indexType:meshBufferMetal->getIndexFormat()
                                                        indexBuffer:meshBufferMetal->getIndexBuffer()
-                                                 indexBufferOffset:static_cast<NSUInteger>(drawCommand.startIndex * meshBufferMetal->getIndexSize())];
+                                                 indexBufferOffset:drawCommand.startIndex * meshBufferMetal->getBytesPerIndex()];
             }
 
             if (currentRenderCommandEncoder)
