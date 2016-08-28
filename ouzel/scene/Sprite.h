@@ -34,8 +34,11 @@ namespace ouzel
                               const graphics::Color& drawColor,
                               const graphics::RenderTargetPtr& renderTarget) override;
 
-            virtual graphics::ShaderPtr getShader() const { return shader; }
-            virtual void setShader(const graphics::ShaderPtr& newShader);
+            virtual const graphics::ShaderPtr& getShader() const { return shader; }
+            virtual void setShader(const graphics::ShaderPtr& newShader) { shader = newShader; }
+
+            virtual const graphics::BlendStatePtr& getBlendState() const { return blendState; }
+            virtual void setBlendState(const graphics::BlendStatePtr& newBlendState)  { blendState = newBlendState; }
 
             virtual const Size2& getSize() const { return size; }
 

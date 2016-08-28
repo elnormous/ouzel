@@ -31,6 +31,12 @@ namespace ouzel
             void rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill = false);
             void triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill = false);
 
+            virtual const graphics::ShaderPtr& getShader() const { return shader; }
+            virtual void setShader(const graphics::ShaderPtr& newShader) { shader = newShader; }
+
+            virtual const graphics::BlendStatePtr& getBlendState() const { return blendState; }
+            virtual void setBlendState(const graphics::BlendStatePtr& newBlendState)  { blendState = newBlendState; }
+
         protected:
             struct DrawCommand
             {

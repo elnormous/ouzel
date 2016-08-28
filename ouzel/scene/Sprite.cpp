@@ -172,11 +172,6 @@ namespace ouzel
             }
         }
 
-        void Sprite::setShader(const graphics::ShaderPtr& newShader)
-        {
-            shader = newShader;
-        }
-
         void Sprite::setOffset(const Vector2& newOffset)
         {
             offset = newOffset;

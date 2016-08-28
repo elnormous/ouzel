@@ -33,6 +33,12 @@ namespace ouzel
             virtual const graphics::Color& getColor() const { return color; }
             virtual void setColor(const graphics::Color& newColor);
 
+            virtual const graphics::ShaderPtr& getShader() const { return shader; }
+            virtual void setShader(const graphics::ShaderPtr& newShader) { shader = newShader; }
+
+            virtual const graphics::BlendStatePtr& getBlendState() const { return blendState; }
+            virtual void setBlendState(const graphics::BlendStatePtr& newBlendState)  { blendState = newBlendState; }
+
         protected:
             void updateBounds();
 
