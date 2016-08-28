@@ -40,6 +40,9 @@ namespace ouzel
         {
             Shader::free();
 
+            pixelShaderConstantLocations.clear();
+            vertexShaderConstantLocations.clear();
+
             if (vertexShader)
             {
                 [vertexShader release];
