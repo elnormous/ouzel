@@ -133,6 +133,8 @@ namespace ouzel
             static void deleteResources();
 
             GLuint frameBufferId = 0;
+            GLsizei frameBufferWidth = 0;
+            GLsizei frameBufferHeight = 0;
 #if OUZEL_PLATFORM_MACOS
             GLuint msaaTextureId = 0;
             GLuint msaaFrameBufferId = 0;

@@ -103,6 +103,9 @@ namespace ouzel
                 return false;
             }
 
+            frameBufferWidth = static_cast<GLsizei>(size.width);
+            frameBufferHeight = static_cast<GLsizei>(size.height);
+
             if (sampleCount > 1)
             {
 #if OUZEL_PLATFORM_MACOS
@@ -111,7 +114,7 @@ namespace ouzel
                 glGenTextures(1, &msaaTextureId);
                 glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId);
                 glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, sampleCount, GL_RGBA,
-                                        static_cast<GLsizei>(size.width), static_cast<GLsizei>(size.height), false);
+                                        frameBufferWidth, frameBufferHeight, false);
 
                 graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
                 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId, 0);
@@ -255,7 +258,24 @@ namespace ouzel
                 frameBufferClearColor[2] = clearColor.getB();
                 frameBufferClearColor[3] = clearColor.getA();
 
-                viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
+
+                if (frameBufferWidth != static_cast<GLsizei>(size.width) ||
+                    frameBufferHeight != static_cast<GLsizei>(size.height))
+                {
+                    frameBufferWidth = static_cast<GLsizei>(size.width);
+                    frameBufferHeight = static_cast<GLsizei>(size.height);
+
+                    if (sampleCount > 1)
+                    {
+#if OUZEL_PLATFORM_MACOS
+                        glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId);
+                        glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, sampleCount, GL_RGBA,
+                                                frameBufferWidth, frameBufferHeight, false);
+#endif
+                    }
+
+                    viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
+                }
 
                 dirty = false;
             }
