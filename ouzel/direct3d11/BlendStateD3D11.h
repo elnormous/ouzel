@@ -28,9 +28,6 @@ namespace ouzel
                               BlendFactor alphaBlendSource, BlendFactor alphaBlendDest,
                               BlendOperation alphaOperation) override;
 
-            static D3D11_BLEND getBlendFactor(BlendFactor blendFactor);
-            static D3D11_BLEND_OP getBlendOperation(BlendOperation blendOperation);
-
             ID3D11BlendState* getBlendState() const { return blendState; }
 
         protected:
@@ -40,7 +37,6 @@ namespace ouzel
             ID3D11BlendState* blendState = nullptr;
 
             std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

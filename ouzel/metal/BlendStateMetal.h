@@ -29,7 +29,6 @@ namespace ouzel
                               BlendOperation newColorOperation,
                               BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
                               BlendOperation newAlphaOperation) override;
-            virtual ~BlendStateMetal();
 
             MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
             MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
@@ -38,12 +37,7 @@ namespace ouzel
             MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
             MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
 
-            static MTLBlendFactor getBlendFactor(BlendFactor blendFactor);
-            static MTLBlendOperation getBlendOperation(BlendOperation blendOperation);
-
         protected:
-            BlendStateMetal();
-
             MTLBlendOperation rgbBlendOperation;
             MTLBlendOperation alphaBlendOperation;
             MTLBlendFactor sourceRGBBlendFactor;

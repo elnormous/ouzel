@@ -36,8 +36,6 @@ namespace ouzel
             alphaBlendDest = newAlphaBlendDest;
             alphaOperation = newAlphaOperation;
 
-            ready = true;
-
             return true;
         }
 

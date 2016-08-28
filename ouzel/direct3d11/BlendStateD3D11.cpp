@@ -27,8 +27,6 @@ namespace ouzel
 
         void BlendStateD3D11::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             BlendState::free();
 
             if (blendState)
@@ -46,8 +44,6 @@ namespace ouzel
         {
             free();
 
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             if (!BlendState::init(enableBlending,
                                   colorBlendSource, colorBlendDest,
                                   colorOperation,
@@ -64,37 +60,37 @@ namespace ouzel
             return true;
         }
 
-        D3D11_BLEND BlendStateD3D11::getBlendFactor(BlendFactor blendFactor)
+        static D3D11_BLEND getBlendFactor(BlendState::BlendFactor blendFactor)
         {
             switch (blendFactor)
             {
-                case BlendFactor::ZERO: return D3D11_BLEND_ZERO;
-                case BlendFactor::ONE: return D3D11_BLEND_ONE;
-                case BlendFactor::SRC_COLOR: return D3D11_BLEND_SRC_COLOR;
-                case BlendFactor::INV_SRC_COLOR: return D3D11_BLEND_INV_SRC_COLOR;
-                case BlendFactor::SRC_ALPHA: return D3D11_BLEND_SRC_ALPHA;
-                case BlendFactor::INV_SRC_ALPHA: return D3D11_BLEND_INV_SRC_ALPHA;
-                case BlendFactor::DEST_ALPHA: return D3D11_BLEND_DEST_ALPHA;
-                case BlendFactor::INV_DEST_ALPHA: return D3D11_BLEND_INV_DEST_ALPHA;
-                case BlendFactor::DEST_COLOR: return D3D11_BLEND_DEST_COLOR;
-                case BlendFactor::INV_DEST_COLOR: return D3D11_BLEND_INV_DEST_COLOR;
-                case BlendFactor::SRC_ALPHA_SAT: return D3D11_BLEND_SRC_ALPHA_SAT;
-                case BlendFactor::BLEND_FACTOR: return D3D11_BLEND_BLEND_FACTOR;
-                case BlendFactor::INV_BLEND_FACTOR: return D3D11_BLEND_INV_BLEND_FACTOR;
+                case BlendState::BlendFactor::ZERO: return D3D11_BLEND_ZERO;
+                case BlendState::BlendFactor::ONE: return D3D11_BLEND_ONE;
+                case BlendState::BlendFactor::SRC_COLOR: return D3D11_BLEND_SRC_COLOR;
+                case BlendState::BlendFactor::INV_SRC_COLOR: return D3D11_BLEND_INV_SRC_COLOR;
+                case BlendState::BlendFactor::SRC_ALPHA: return D3D11_BLEND_SRC_ALPHA;
+                case BlendState::BlendFactor::INV_SRC_ALPHA: return D3D11_BLEND_INV_SRC_ALPHA;
+                case BlendState::BlendFactor::DEST_ALPHA: return D3D11_BLEND_DEST_ALPHA;
+                case BlendState::BlendFactor::INV_DEST_ALPHA: return D3D11_BLEND_INV_DEST_ALPHA;
+                case BlendState::BlendFactor::DEST_COLOR: return D3D11_BLEND_DEST_COLOR;
+                case BlendState::BlendFactor::INV_DEST_COLOR: return D3D11_BLEND_INV_DEST_COLOR;
+                case BlendState::BlendFactor::SRC_ALPHA_SAT: return D3D11_BLEND_SRC_ALPHA_SAT;
+                case BlendState::BlendFactor::BLEND_FACTOR: return D3D11_BLEND_BLEND_FACTOR;
+                case BlendState::BlendFactor::INV_BLEND_FACTOR: return D3D11_BLEND_INV_BLEND_FACTOR;
             }
 
             return D3D11_BLEND_ZERO;
         }
 
-        D3D11_BLEND_OP BlendStateD3D11::getBlendOperation(BlendOperation blendOperation)
+        static D3D11_BLEND_OP getBlendOperation(BlendState::BlendOperation blendOperation)
         {
             switch (blendOperation)
             {
-                case BlendOperation::ADD: return D3D11_BLEND_OP_ADD;
-                case BlendOperation::SUBTRACT: return D3D11_BLEND_OP_SUBTRACT;
-                case BlendOperation::REV_SUBTRACT: return D3D11_BLEND_OP_REV_SUBTRACT;
-                case BlendOperation::MIN: return D3D11_BLEND_OP_MIN;
-                case BlendOperation::MAX: return D3D11_BLEND_OP_MAX;
+                case BlendState::BlendOperation::ADD: return D3D11_BLEND_OP_ADD;
+                case BlendState::BlendOperation::SUBTRACT: return D3D11_BLEND_OP_SUBTRACT;
+                case BlendState::BlendOperation::REV_SUBTRACT: return D3D11_BLEND_OP_REV_SUBTRACT;
+                case BlendState::BlendOperation::MIN: return D3D11_BLEND_OP_MIN;
+                case BlendState::BlendOperation::MAX: return D3D11_BLEND_OP_MAX;
             }
 
             return D3D11_BLEND_OP_ADD;
@@ -104,8 +100,6 @@ namespace ouzel
         {
             if (dirty)
             {
-                std::lock_guard<std::mutex> lock(dataMutex);
-
                 std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
                 // Blending state

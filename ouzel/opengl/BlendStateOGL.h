@@ -59,9 +59,6 @@ namespace ouzel
             GLenum getSourceFactorAlpha() const { return sourceFactorAlpha; }
             GLenum getDestFactorAlpha() const { return destFactorAlpha; }
 
-            static GLenum getBlendFactor(BlendFactor blendFactor);
-            static GLenum getBlendOperation(BlendOperation blendOperation);
-
         protected:
             GLenum modeRGB;
             GLenum modeAlpha;
