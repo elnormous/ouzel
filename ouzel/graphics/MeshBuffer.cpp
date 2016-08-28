@@ -23,6 +23,8 @@ namespace ouzel
         {
             indexData.clear();
             vertexData.clear();
+            uploadIndexData.clear();
+            uploadVertexData.clear();
             
             ready = false;
         }

@@ -51,23 +51,20 @@ namespace ouzel
             virtual ~ShaderOGL();
             virtual void free() override;
 
-            virtual bool initFromBuffers(const std::vector<uint8_t>& newPixelShader,
-                                         const std::vector<uint8_t>& newVertexShader,
-                                         uint32_t newVertexAttributes,
-                                         const std::string& pixelShaderFunction = "",
-                                         const std::string& vertexShaderFunction = "") override;
+            struct Location
+            {
+                GLint location;
+                uint32_t size;
+            };
 
-            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
-            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
-
-            const std::vector<GLint>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
-            const std::vector<GLint>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+            const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
             GLuint getProgramId() const { return programId; }
 
         protected:
             ShaderOGL();
-            virtual bool update() override;
+            virtual bool upload() override;
 
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage();
@@ -76,13 +73,8 @@ namespace ouzel
             GLuint vertexShaderId = 0;
             GLuint programId = 0;
 
-            std::vector<GLint> pixelShaderConstantLocations;
-            std::vector<GLint> vertexShaderConstantLocations;
-
-            std::vector<uint8_t> pixelShaderData;
-            std::vector<uint8_t> vertexShaderData;
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
+            std::vector<Location> pixelShaderConstantLocations;
+            std::vector<Location> vertexShaderConstantLocations;
         };
     } // namespace graphics
 } // namespace ouzel

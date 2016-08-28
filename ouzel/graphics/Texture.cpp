@@ -27,6 +27,7 @@ namespace ouzel
         void Texture::free()
         {
             data.clear();
+            uploadData.clear();
             
             ready = false;
         }

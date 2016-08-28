@@ -34,17 +34,14 @@ namespace ouzel
             virtual ~ShaderMetal();
             virtual void free() override;
 
-            virtual bool initFromBuffers(const std::vector<uint8_t>& newPixelShader,
-                                         const std::vector<uint8_t>& newVertexShader,
-                                         uint32_t newVertexAttributes,
-                                         const std::string& newPixelShaderFunction = "",
-                                         const std::string& newVertexShaderFunction = "") override;
+            struct Location
+            {
+                uint32_t offset;
+                uint32_t size;
+            };
 
-            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
-            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
-
-            const std::vector<uint32_t>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
-            const std::vector<uint32_t>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+            const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
             void nextBuffers();
 
@@ -60,12 +57,12 @@ namespace ouzel
 
         protected:
             ShaderMetal();
-            virtual bool update() override;
+            virtual bool upload() override;
 
             bool createPixelShaderConstantBuffer();
             bool createVertexShaderConstantBuffer();
 
-            bool uploadData(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size);
+            bool uploadBuffer(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size);
 
             MTLFunctionPtr pixelShader = Nil;
             MTLFunctionPtr vertexShader = Nil;
@@ -74,20 +71,15 @@ namespace ouzel
             MTLBufferPtr vertexShaderConstantBuffer = Nil;
             MTLVertexDescriptorPtr vertexDescriptor = Nil;
 
-            std::vector<uint32_t> pixelShaderConstantLocations;
+            std::vector<Location> pixelShaderConstantLocations;
             uint32_t pixelShaderConstantSize = 0;
             uint32_t pixelShaderConstantBufferOffset = 0;
+            uint32_t pixelShaderAlignment = 0;
 
-            std::vector<uint32_t> vertexShaderConstantLocations;
+            std::vector<Location> vertexShaderConstantLocations;
             uint32_t vertexShaderConstantSize = 0;
             uint32_t vertexShaderConstantBufferOffset = 0;
-
-            std::vector<uint8_t> pixelShaderData;
-            std::string pixelShaderFunction;
-            std::vector<uint8_t> vertexShaderData;
-            std::string vertexShaderFunction;
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
+            uint32_t vertexShaderAlignment = 0;
         };
     } // namespace graphics
 } // namespace ouzel

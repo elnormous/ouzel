@@ -14,8 +14,7 @@ namespace ouzel
     {
         static const size_t BUFFER_SIZE = 1024 * 1024;
 
-        ShaderMetal::ShaderMetal():
-            dirty(false)
+        ShaderMetal::ShaderMetal()
         {
         }
 
@@ -39,8 +38,6 @@ namespace ouzel
 
         void ShaderMetal::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             Shader::free();
 
             if (vertexShader)
@@ -60,65 +57,6 @@ namespace ouzel
                 [vertexDescriptor release];
                 vertexDescriptor = Nil;
             }
-        }
-
-        bool ShaderMetal::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
-                                          const std::vector<uint8_t>& newVertexShader,
-                                          uint32_t newVertexAttributes,
-                                          const std::string& newPixelShaderFunction,
-                                          const std::string& newVertexShaderFunction)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Shader::initFromBuffers(newPixelShader, newVertexShader, newVertexAttributes, newPixelShaderFunction, newVertexShaderFunction))
-            {
-                return false;
-            }
-
-            pixelShaderData = newPixelShader;
-            pixelShaderFunction = newPixelShaderFunction;
-            vertexShaderData = newVertexShader;
-            vertexShaderFunction = newVertexShaderFunction;
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool ShaderMetal::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Shader::setPixelShaderConstantInfo(constantInfo, alignment))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool ShaderMetal::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Shader::setVertexShaderConstantInfo(constantInfo, alignment))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
         }
 
         void ShaderMetal::nextBuffers()
@@ -146,7 +84,7 @@ namespace ouzel
             }
         }
 
-        bool ShaderMetal::uploadData(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size)
+        bool ShaderMetal::uploadBuffer(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size)
         {
             char* contents = static_cast<char*>([buffer contents]);
             memcpy((contents + offset), data, size);
@@ -154,20 +92,21 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderMetal::update()
+        bool ShaderMetal::upload()
         {
             if (dirty)
             {
-                std::lock_guard<std::mutex> lock(dataMutex);
-
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+
+                pixelShaderAlignment = uploadData.pixelShaderAlignment;
+                vertexShaderAlignment = uploadData.vertexShaderAlignment;
 
                 uint32_t index = 0;
                 NSUInteger offset = 0;
 
                 vertexDescriptor = [MTLVertexDescriptor new];
 
-                if (vertexAttributes & VERTEX_POSITION)
+                if (uploadData.vertexAttributes & VERTEX_POSITION)
                 {
                     vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
                     vertexDescriptor.attributes[index].offset = offset;
@@ -176,7 +115,7 @@ namespace ouzel
                     offset += 3 * sizeof(float);
                 }
 
-                if (vertexAttributes & VERTEX_COLOR)
+                if (uploadData.vertexAttributes & VERTEX_COLOR)
                 {
                     vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4Normalized;
                     vertexDescriptor.attributes[index].offset = offset;
@@ -185,7 +124,7 @@ namespace ouzel
                     offset += 4 * sizeof(uint8_t);
                 }
 
-                if (vertexAttributes & VERTEX_NORMAL)
+                if (uploadData.vertexAttributes & VERTEX_NORMAL)
                 {
                     vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
                     vertexDescriptor.attributes[index].offset = offset;
@@ -194,7 +133,7 @@ namespace ouzel
                     offset += 3 * sizeof(float);
                 }
 
-                if (vertexAttributes & VERTEX_TEXCOORD0)
+                if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
                 {
                     vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
                     vertexDescriptor.attributes[index].offset = offset;
@@ -203,7 +142,7 @@ namespace ouzel
                     offset += 2 * sizeof(float);
                 }
 
-                if (vertexAttributes & VERTEX_TEXCOORD1)
+                if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
                 {
                     vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
                     vertexDescriptor.attributes[index].offset = offset;
@@ -220,7 +159,7 @@ namespace ouzel
 
                 if (!pixelShader)
                 {
-                    dispatch_data_t pixelShaderDispatchData = dispatch_data_create(pixelShaderData.data(), pixelShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+                    dispatch_data_t pixelShaderDispatchData = dispatch_data_create(uploadData.pixelShaderData.data(), uploadData.pixelShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
                     id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
                     dispatch_release(pixelShaderDispatchData);
 
@@ -231,7 +170,7 @@ namespace ouzel
                         return false;
                     }
 
-                    pixelShader = [pixelShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:pixelShaderFunction.c_str()]];
+                    pixelShader = [pixelShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:uploadData.pixelShaderFunction.c_str()]];
 
                     [pixelShaderLibrary release];
 
@@ -243,13 +182,13 @@ namespace ouzel
                 }
 
                 pixelShaderConstantLocations.clear();
-                pixelShaderConstantLocations.reserve(pixelShaderConstantInfo.size());
+                pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
 
                 pixelShaderConstantSize = 0;
 
-                for (const ConstantInfo& info : pixelShaderConstantInfo)
+                for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
                 {
-                    pixelShaderConstantLocations.push_back(pixelShaderConstantSize);
+                    pixelShaderConstantLocations.push_back({ pixelShaderConstantSize, info.size });
                     pixelShaderConstantSize += info.size;
                 }
 
@@ -267,7 +206,7 @@ namespace ouzel
 
                 if (!vertexShader)
                 {
-                    dispatch_data_t vertexShaderDispatchData = dispatch_data_create(vertexShaderData.data(), vertexShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+                    dispatch_data_t vertexShaderDispatchData = dispatch_data_create(uploadData.vertexShaderData.data(), uploadData.vertexShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
                     id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
                     dispatch_release(vertexShaderDispatchData);
 
@@ -278,7 +217,7 @@ namespace ouzel
                         return false;
                     }
 
-                    vertexShader = [vertexShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:vertexShaderFunction.c_str()]];
+                    vertexShader = [vertexShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:uploadData.vertexShaderFunction.c_str()]];
 
                     [vertexShaderLibrary release];
 
@@ -290,13 +229,13 @@ namespace ouzel
                 }
 
                 vertexShaderConstantLocations.clear();
-                vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
+                vertexShaderConstantLocations.reserve(uploadData.vertexShaderConstantInfo.size());
 
                 vertexShaderConstantSize = 0;
 
-                for (const ConstantInfo& info : vertexShaderConstantInfo)
+                for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
                 {
-                    vertexShaderConstantLocations.push_back(vertexShaderConstantSize);
+                    vertexShaderConstantLocations.push_back({ vertexShaderConstantSize, info.size });
                     vertexShaderConstantSize += info.size;
                 }
 

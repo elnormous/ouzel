@@ -148,22 +148,23 @@ namespace ouzel
                 case 2:
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_OGL2), std::end(TEXTURE_PIXEL_SHADER_OGL2)),
                                                    std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_OGL2), std::end(TEXTURE_VERTEX_SHADER_OGL2)),
-                                                   VertexPCT::ATTRIBUTES);
+                                                   VertexPCT::ATTRIBUTES,
+                                                   {{"color", 4 * sizeof(float)}},
+                                                   {{"modelViewProj", sizeof(Matrix4)}});
                     break;
 #if OUZEL_SUPPORTS_OPENGL3 || OUZEL_SUPPORTS_OPENGLES3
                 case 3:
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_OGL3), std::end(TEXTURE_PIXEL_SHADER_OGL3)),
                                                    std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_OGL3), std::end(TEXTURE_VERTEX_SHADER_OGL3)),
-                                                   VertexPCT::ATTRIBUTES);
+                                                   VertexPCT::ATTRIBUTES,
+                                                   {{"color", 4 * sizeof(float)}},
+                                                   {{"modelViewProj", sizeof(Matrix4)}});
                     break;
 #endif
                 default:
                     log("Unsupported OpenGL version");
                     return false;
             }
-
-            textureShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
-            textureShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
@@ -174,13 +175,17 @@ namespace ouzel
                 case 2:
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_OGL2), std::end(COLOR_PIXEL_SHADER_OGL2)),
                                                  std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_OGL2), std::end(COLOR_VERTEX_SHADER_OGL2)),
-                                                 VertexPC::ATTRIBUTES);
+                                                 VertexPC::ATTRIBUTES,
+                                                 {{"color", 4 * sizeof(float)}},
+                                                 {{"modelViewProj", sizeof(Matrix4)}});
                     break;
 #if OUZEL_SUPPORTS_OPENGL3 || OUZEL_SUPPORTS_OPENGLES3
                 case 3:
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_OGL3), std::end(COLOR_PIXEL_SHADER_OGL3)),
                                                  std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_OGL3), std::end(COLOR_VERTEX_SHADER_OGL3)),
-                                                 VertexPC::ATTRIBUTES);
+                                                 VertexPC::ATTRIBUTES,
+                                                 {{"color", 4 * sizeof(float)}},
+                                                 {{"modelViewProj", sizeof(Matrix4)}});
                     break;
 #endif
                 default:
@@ -192,9 +197,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            colorShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}});
-            colorShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
@@ -423,10 +425,9 @@ namespace ouzel
                 bindProgram(shaderOGL->getProgramId());
 
                 // pixel shader constants
-                const std::vector<GLint>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
-                const std::vector<Shader::ConstantInfo>& pixelShaderConstantInfos = shaderOGL->getPixelShaderConstantInfo();
+                const std::vector<ShaderOGL::Location>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
 
-                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantInfos.size())
+                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                 {
                     log("Invalid pixel shader constant size");
                     return false;
@@ -434,31 +435,30 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                 {
-                    GLint location = pixelShaderConstantLocations[i];
-                    const Shader::ConstantInfo& pixelShaderConstantInfo = pixelShaderConstantInfos[i];
+                    const ShaderOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
                     const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
 
-                    uint32_t components = pixelShaderConstantInfo.size / 4;
+                    uint32_t components = pixelShaderConstantLocation.size / 4;
 
                     switch (components)
                     {
                         case 1:
-                            glUniform1fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
+                            glUniform1fv(pixelShaderConstantLocation.location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
                             break;
                         case 2:
-                            glUniform2fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
+                            glUniform2fv(pixelShaderConstantLocation.location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
                             break;
                         case 3:
-                            glUniform3fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
+                            glUniform3fv(pixelShaderConstantLocation.location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
                             break;
                         case 4:
-                            glUniform4fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
+                            glUniform4fv(pixelShaderConstantLocation.location, static_cast<GLsizei>(pixelShaderConstant.size() / components), pixelShaderConstant.data());
                             break;
                         case 9:
-                            glUniformMatrix3fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), GL_FALSE, pixelShaderConstant.data());
+                            glUniformMatrix3fv(pixelShaderConstantLocation.location, static_cast<GLsizei>(pixelShaderConstant.size() / components), GL_FALSE, pixelShaderConstant.data());
                             break;
                         case 16:
-                            glUniformMatrix4fv(location, static_cast<GLsizei>(pixelShaderConstant.size() / components), GL_FALSE, pixelShaderConstant.data());
+                            glUniformMatrix4fv(pixelShaderConstantLocation.location, static_cast<GLsizei>(pixelShaderConstant.size() / components), GL_FALSE, pixelShaderConstant.data());
                             break;
                         default:
                             log("Unsupported uniform size");
@@ -467,10 +467,9 @@ namespace ouzel
                 }
 
                 // vertex shader constants
-                const std::vector<GLint>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
-                const std::vector<Shader::ConstantInfo>& vertexShaderConstantInfos = shaderOGL->getVertexShaderConstantInfo();
+                const std::vector<ShaderOGL::Location>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
 
-                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantInfos.size())
+                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                 {
                     log("Invalid vertex shader constant size");
                     return false;
@@ -478,31 +477,30 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                 {
-                    GLint location = vertexShaderConstantLocations[i];
-                    const Shader::ConstantInfo& vertexShaderConstantInfo = vertexShaderConstantInfos[i];
+                    const ShaderOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                     const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
 
-                    uint32_t components = vertexShaderConstantInfo.size / 4;
+                    uint32_t components = vertexShaderConstantLocation.size / 4;
 
                     switch (components)
                     {
                         case 1:
-                            glUniform1fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
+                            glUniform1fv(vertexShaderConstantLocation.location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
                             break;
                         case 2:
-                            glUniform2fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
+                            glUniform2fv(vertexShaderConstantLocation.location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
                             break;
                         case 3:
-                            glUniform3fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
+                            glUniform3fv(vertexShaderConstantLocation.location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
                             break;
                         case 4:
-                            glUniform4fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
+                            glUniform4fv(vertexShaderConstantLocation.location, static_cast<GLsizei>(vertexShaderConstant.size() / components), vertexShaderConstant.data());
                             break;
                         case 9:
-                            glUniformMatrix3fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), GL_FALSE, vertexShaderConstant.data());
+                            glUniformMatrix3fv(vertexShaderConstantLocation.location, static_cast<GLsizei>(vertexShaderConstant.size() / components), GL_FALSE, vertexShaderConstant.data());
                             break;
                         case 16:
-                            glUniformMatrix4fv(location, static_cast<GLsizei>(vertexShaderConstant.size() / components), GL_FALSE, vertexShaderConstant.data());
+                            glUniformMatrix4fv(vertexShaderConstantLocation.location, static_cast<GLsizei>(vertexShaderConstant.size() / components), GL_FALSE, vertexShaderConstant.data());
                             break;
                         default:
                             log("Unsupported uniform size");

@@ -255,20 +255,22 @@ namespace ouzel
             ShaderPtr textureShader = createShader();
             textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
                                            std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
-                                           VertexPCT::ATTRIBUTES, "main_ps", "main_vs");
-
-            textureShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}}, 256);
-            textureShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
+                                           VertexPCT::ATTRIBUTES,
+                                           {{"color", 4 * sizeof(float)}},
+                                           {{"modelViewProj", sizeof(Matrix4)}},
+                                           256, 256,
+                                           "main_ps", "main_vs");
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             ShaderPtr colorShader = createShader();
             colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
                                          std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
-                                         VertexPC::ATTRIBUTES, "main_ps", "main_vs");
-
-            colorShader->setVertexShaderConstantInfo({{"modelViewProj", sizeof(Matrix4)}}, 256);
-            colorShader->setPixelShaderConstantInfo({{"color", 4 * sizeof(float)}}, 256);
+                                         VertexPC::ATTRIBUTES,
+                                         {{"color", 4 * sizeof(float)}},
+                                         {{"modelViewProj", sizeof(Matrix4)}},
+                                         256, 256,
+                                         "main_ps", "main_vs");
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
@@ -480,9 +482,9 @@ namespace ouzel
                 }
 
                 // pixel shader constants
-                const std::vector<Shader::ConstantInfo>& pixelShaderConstantInfos = shaderMetal->getPixelShaderConstantInfo();
+                const std::vector<ShaderMetal::Location>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
 
-                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantInfos.size())
+                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                 {
                     log("Invalid pixel shader constant size");
                     return false;
@@ -492,10 +494,10 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                 {
-                    const Shader::ConstantInfo& pixelShaderConstantInfo = pixelShaderConstantInfos[i];
+                    const ShaderMetal::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
                     const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
 
-                    if (vectorDataSize(pixelShaderConstant) != pixelShaderConstantInfo.size)
+                    if (vectorDataSize(pixelShaderConstant) != pixelShaderConstantLocation.size)
                     {
                         log("Invalid pixel shader constant size");
                         return false;
@@ -504,10 +506,10 @@ namespace ouzel
                     pixelShaderData.insert(pixelShaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
                 }
 
-                shaderMetal->uploadData(shaderMetal->getPixelShaderConstantBuffer(),
-                                        shaderMetal->getPixelShaderConstantBufferOffset(),
-                                        pixelShaderData.data(),
-                                        static_cast<uint32_t>(vectorDataSize(pixelShaderData)));
+                shaderMetal->uploadBuffer(shaderMetal->getPixelShaderConstantBuffer(),
+                                          shaderMetal->getPixelShaderConstantBufferOffset(),
+                                          pixelShaderData.data(),
+                                          static_cast<uint32_t>(vectorDataSize(pixelShaderData)));
 
                 [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
                                                         offset:shaderMetal->getPixelShaderConstantBufferOffset()
@@ -515,9 +517,9 @@ namespace ouzel
 
 
                 // vertex shader constants
-                const std::vector<Shader::ConstantInfo>& vertexShaderConstantInfos = shaderMetal->getVertexShaderConstantInfo();
+                const std::vector<ShaderMetal::Location>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
 
-                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantInfos.size())
+                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                 {
                     log("Invalid vertex shader constant size");
                     return false;
@@ -527,10 +529,10 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                 {
-                    const Shader::ConstantInfo& vertexShaderConstantInfo = vertexShaderConstantInfos[i];
+                    const ShaderMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                     const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
 
-                    if (vectorDataSize(vertexShaderConstant) != vertexShaderConstantInfo.size)
+                    if (vectorDataSize(vertexShaderConstant) != vertexShaderConstantLocation.size)
                     {
                         log("Invalid vertex shader constant size");
                         return false;
@@ -539,10 +541,10 @@ namespace ouzel
                     vertexShaderData.insert(vertexShaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                 }
 
-                shaderMetal->uploadData(shaderMetal->getVertexShaderConstantBuffer(),
-                                        shaderMetal->getVertexShaderConstantBufferOffset(),
-                                        vertexShaderData.data(),
-                                        static_cast<uint32_t>(vectorDataSize(vertexShaderData)));
+                shaderMetal->uploadBuffer(shaderMetal->getVertexShaderConstantBuffer(),
+                                          shaderMetal->getVertexShaderConstantBufferOffset(),
+                                          vertexShaderData.data(),
+                                          static_cast<uint32_t>(vectorDataSize(vertexShaderData)));
 
                 [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
                                                       offset:shaderMetal->getVertexShaderConstantBufferOffset()

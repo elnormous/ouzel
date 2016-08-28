@@ -41,7 +41,7 @@ namespace ouzel
             virtual bool update() override;
             virtual bool upload() override;
 
-            bool uploadData(MTLBufferPtr buffer, const std::vector<uint8_t>& data);
+            bool uploadBuffer(MTLBufferPtr buffer, const std::vector<uint8_t>& data);
 
             MTLBufferPtr indexBuffer = Nil;
             uint32_t indexBufferSize = 0;

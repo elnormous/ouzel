@@ -24,14 +24,32 @@ namespace ouzel
 
         void Shader::free()
         {
+            data.pixelShaderData.clear();
+            data.vertexShaderData.clear();
+            data.pixelShaderFunction.clear();
+            data.vertexShaderFunction.clear();
+            data.pixelShaderConstantInfo.clear();
+            data.vertexShaderConstantInfo.clear();
+
+            uploadData.pixelShaderData.clear();
+            uploadData.vertexShaderData.clear();
+            uploadData.pixelShaderFunction.clear();
+            uploadData.vertexShaderFunction.clear();
+            uploadData.pixelShaderConstantInfo.clear();
+            uploadData.vertexShaderConstantInfo.clear();
+            
             ready = false;
         }
 
         bool Shader::initFromFiles(const std::string& newPixelShader,
                                    const std::string& newVertexShader,
                                    uint32_t newVertexAttributes,
-                                   const std::string& pixelShaderFunction,
-                                   const std::string& vertexShaderFunction)
+                                   const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                                   const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                                   uint32_t newPixelShaderDataAlignment,
+                                   uint32_t newVertexShaderDataAlignment,
+                                   const std::string& newPixelShaderFunction,
+                                   const std::string& newVertexShaderFunction)
         {
             pixelShaderFilename = newPixelShader;
             vertexShaderFilename = newVertexShader;
@@ -51,59 +69,111 @@ namespace ouzel
             }
 
             return initFromBuffers(pixelShaderData, vertexShaderData,
-                                   newVertexAttributes, pixelShaderFunction, vertexShaderFunction);
+                                   newVertexAttributes,
+                                   newPixelShaderConstantInfo, newVertexShaderConstantInfo,
+                                   newPixelShaderDataAlignment, newVertexShaderDataAlignment,
+                                   newPixelShaderFunction, newVertexShaderFunction);
         }
 
-        bool Shader::initFromBuffers(const std::vector<uint8_t>&,
-                                     const std::vector<uint8_t>&,
+        bool Shader::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
+                                     const std::vector<uint8_t>& newVertexShader,
                                      uint32_t newVertexAttributes,
-                                     const std::string&,
-                                     const std::string&)
+                                     const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                                     const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                                     uint32_t newPixelShaderDataAlignment,
+                                     uint32_t newVertexShaderDataAlignment,
+                                     const std::string& newPixelShaderFunction,
+                                     const std::string& newVertexShaderFunction)
         {
-            vertexAttributes = newVertexAttributes;
+            data.pixelShaderData = newPixelShader;
+            data.vertexShaderData = newVertexShader;
+            data.vertexAttributes = newVertexAttributes;
+            data.pixelShaderConstantInfo = newPixelShaderConstantInfo;
+            data.vertexShaderConstantInfo = newVertexShaderConstantInfo;
 
-            ready = true;
+            if (newPixelShaderDataAlignment)
+            {
+                data.pixelShaderAlignment = newPixelShaderDataAlignment;
+            }
+            else
+            {
+                data.pixelShaderAlignment = 0;
+
+                for (const ConstantInfo& info : newPixelShaderConstantInfo)
+                {
+                    data.pixelShaderAlignment += info.size;
+                }
+            }
+
+            if (newVertexShaderDataAlignment)
+            {
+                data.vertexShaderAlignment = newVertexShaderDataAlignment;
+            }
+            else
+            {
+                data.vertexShaderAlignment = 0;
+
+                for (const ConstantInfo& info : newVertexShaderConstantInfo)
+                {
+                    data.vertexShaderAlignment += info.size;
+                }
+            }
+
+            data.pixelShaderFunction = newPixelShaderFunction;
+            data.vertexShaderFunction = newVertexShaderFunction;
+
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return  true;
         }
 
-        bool Shader::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
+        bool Shader::update()
         {
-            pixelShaderConstantInfo = constantInfo;
-
-            if (alignment)
+            if (uploadData.vertexAttributes != data.vertexAttributes ||
+                uploadData.pixelShaderAlignment != data.pixelShaderAlignment ||
+                uploadData.vertexShaderAlignment != data.vertexShaderAlignment)
             {
-                pixelShaderAlignment = alignment;
-            }
-            else
-            {
-                pixelShaderAlignment = 0;
-
-                for (const ConstantInfo& info : pixelShaderConstantInfo)
-                {
-                    pixelShaderAlignment += info.size;
-                }
+                uploadData.vertexAttributes = data.vertexAttributes;
+                uploadData.pixelShaderAlignment = data.pixelShaderAlignment;
+                uploadData.vertexShaderAlignment = data.vertexShaderAlignment;
+                dirty = true;
             }
 
-            return true;
-        }
-
-        bool Shader::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
-        {
-            vertexShaderConstantInfo = constantInfo;
-
-            if (alignment)
+            if (!data.pixelShaderData.empty())
             {
-                vertexShaderAlignment = alignment;
+                uploadData.pixelShaderData = std::move(data.pixelShaderData);
+                dirty = true;
             }
-            else
-            {
-                vertexShaderAlignment = 0;
 
-                for (const ConstantInfo& info : pixelShaderConstantInfo)
-                {
-                    vertexShaderAlignment += info.size;
-                }
+            if (!data.vertexShaderData.empty())
+            {
+                uploadData.vertexShaderData = std::move(data.vertexShaderData);
+                dirty = true;
+            }
+
+            if (!data.pixelShaderConstantInfo.empty())
+            {
+                uploadData.pixelShaderConstantInfo = std::move(data.pixelShaderConstantInfo);
+                dirty = true;
+            }
+
+            if (!data.vertexShaderConstantInfo.empty())
+            {
+                uploadData.vertexShaderConstantInfo = std::move(data.vertexShaderConstantInfo);
+                dirty = true;
+            }
+
+            if (!data.pixelShaderFunction.empty())
+            {
+                uploadData.pixelShaderFunction = std::move(data.pixelShaderFunction);
+                dirty = true;
+            }
+
+            if (!data.vertexShaderFunction.empty())
+            {
+                uploadData.vertexShaderFunction = std::move(data.vertexShaderFunction);
+                dirty = true;
             }
 
             return true;

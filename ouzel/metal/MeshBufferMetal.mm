@@ -45,7 +45,7 @@ namespace ouzel
             }
         }
 
-        bool MeshBufferMetal::uploadData(MTLBufferPtr buffer, const std::vector<uint8_t>& data)
+        bool MeshBufferMetal::uploadBuffer(MTLBufferPtr buffer, const std::vector<uint8_t>& data)
         {
             memcpy([buffer contents], data.data(), data.size());
 
@@ -107,7 +107,7 @@ namespace ouzel
                             }
                         }
 
-                        if (!uploadData(indexBuffer, uploadIndexData))
+                        if (!uploadBuffer(indexBuffer, uploadIndexData))
                         {
                             return false;
                         }
@@ -136,7 +136,7 @@ namespace ouzel
                             }
                         }
 
-                        if (!uploadData(vertexBuffer, uploadVertexData))
+                        if (!uploadBuffer(vertexBuffer, uploadVertexData))
                         {
                             return false;
                         }

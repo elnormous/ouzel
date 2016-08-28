@@ -34,38 +34,51 @@ namespace ouzel
             virtual bool initFromFiles(const std::string& newPixelShader,
                                        const std::string& newVertexShader,
                                        uint32_t newVertexAttributes,
-                                       const std::string& pixelShaderFunction = "",
-                                       const std::string& vertexShaderFunction = "");
+                                       const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                                       const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                                       uint32_t newPixelShaderDataAlignment = 0,
+                                       uint32_t newVertexShaderDataAlignment = 0,
+                                       const std::string& newPixelShaderFunction = "",
+                                       const std::string& newVertexShaderFunction = "");
             virtual bool initFromBuffers(const std::vector<uint8_t>& newPixelShader,
                                          const std::vector<uint8_t>& newVertexShader,
                                          uint32_t newVertexAttributes,
+                                         const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                                         const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                                         uint32_t newPixelShaderDataAlignment = 0,
+                                         uint32_t newVertexShaderDataAlignment = 0,
                                          const std::string& pixelShaderFunction = "",
                                          const std::string& vertexShaderFunction = "");
-
-            uint32_t getVertexAttributes() const { return vertexAttributes; }
-
-            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
-            const std::vector<ConstantInfo>& getPixelShaderConstantInfo() const { return pixelShaderConstantInfo; }
-
-            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0);
-            const std::vector<ConstantInfo>& getVertexShaderConstantInfo() const { return vertexShaderConstantInfo; }
 
             bool isReady() const { return ready; }
 
         protected:
             Shader();
+            virtual bool update() override;
 
             std::string pixelShaderFilename;
             std::string vertexShaderFilename;
 
-            uint32_t vertexAttributes;
+            struct Data
+            {
+                uint32_t vertexAttributes = 0;
 
-            std::vector<ConstantInfo> pixelShaderConstantInfo;
-            uint32_t pixelShaderAlignment = 0;
-            std::vector<ConstantInfo> vertexShaderConstantInfo;
-            uint32_t vertexShaderAlignment = 0;
+                std::vector<uint8_t> pixelShaderData;
+                std::vector<uint8_t> vertexShaderData;
+                std::string pixelShaderFunction;
+                std::string vertexShaderFunction;
+
+                std::vector<ConstantInfo> pixelShaderConstantInfo;
+                uint32_t pixelShaderAlignment = 0;
+                std::vector<ConstantInfo> vertexShaderConstantInfo;
+                uint32_t vertexShaderAlignment = 0;
+            };
+
+            Data data;
+            Data uploadData;
 
             bool ready = false;
+            bool dirty = false;
         };
     } // namespace graphics
 } // namespace ouzel
