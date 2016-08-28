@@ -89,6 +89,15 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
+            if (msaaTextureId)
+            {
+                glDeleteTextures(1, &msaaTextureId);
+            }
+
+            if (msaaFrameBufferId)
+            {
+                glDeleteFramebuffers(1, &msaaFrameBufferId);
+            }
         }
 
         bool RendererOGL::init(const WindowPtr& window,
@@ -109,13 +118,12 @@ namespace ouzel
             if (sampleCount > 1)
             {
 #if OUZEL_PLATFORM_MACOS
-                glGenFramebuffers(1, &msaaFrameBufferId);
-
                 glGenTextures(1, &msaaTextureId);
                 glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId);
                 glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, sampleCount, GL_RGBA,
                                         frameBufferWidth, frameBufferHeight, false);
 
+                glGenFramebuffers(1, &msaaFrameBufferId);
                 graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
                 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId, 0);
 
@@ -272,6 +280,9 @@ namespace ouzel
                         glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId);
                         glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, sampleCount, GL_RGBA,
                                                 frameBufferWidth, frameBufferHeight, false);
+
+                        bindFrameBuffer(msaaFrameBufferId);
+                        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId, 0);
 #endif
                     }
 
