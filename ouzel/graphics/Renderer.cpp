@@ -57,26 +57,26 @@ namespace ouzel
                 activeDrawQueue.reserve(drawQueue.size());
                 drawCallCount = static_cast<uint32_t>(drawQueue.size());
 
-                std::queue<ResourcePtr> resources;
+                std::set<ResourcePtr> resources;
 
                 {
                     std::lock_guard<std::mutex> lock(updateMutex);
-                    resources = std::move(updateQueue);
+                    resources = std::move(updateSet);
                     updateSet.clear();
-                }
 
-                while (!resources.empty())
-                {
-                    const ResourcePtr& resource = resources.front();
-
-                    if (!resource->update())
+                    for (const ResourcePtr& resource : resources)
                     {
-                        return false;
+                        // prepare data for upload
+                        resource->update();
                     }
-
-                    resources.pop();
                 }
-                
+
+                for (const ResourcePtr& resource : resources)
+                {
+                    // upload data to GPU
+                    resource->upload();
+                }
+
                 activeDrawQueueFinished = false;
                 refillDrawQueue = true;
             }
@@ -203,12 +203,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(updateMutex);
 
-            auto i = updateSet.insert(resource);
-
-            if (i.second)
-            {
-                updateQueue.push(resource);
-            }
+            updateSet.insert(resource);
         }
     } // namespace graphics
 } // namespace ouzel

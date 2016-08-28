@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBuffer.h"
+#include "core/Engine.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -20,22 +21,29 @@ namespace ouzel
 
         void MeshBuffer::free()
         {
+            indexData.clear();
+            vertexData.clear();
+            
             ready = false;
         }
 
         bool MeshBuffer::init(bool newDynamicIndexBuffer, bool newDynamicVertexBuffer)
         {
+            free();
+            
             dynamicIndexBuffer = newDynamicIndexBuffer;
             dynamicVertexBuffer = newDynamicVertexBuffer;
 
             return true;
         }
 
-        bool MeshBuffer::initFromBuffer(const void*, uint32_t newIndexSize,
+        bool MeshBuffer::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
                                         uint32_t newIndexCount, bool newDynamicIndexBuffer,
-                                        const void*, uint32_t newVertexAttributes,
+                                        const void* newVertices, uint32_t newVertexAttributes,
                                         uint32_t newVertexCount, bool newDynamicVertexBuffer)
         {
+            free();
+
             indexCount = newIndexCount;
             indexSize = newIndexSize;
             dynamicIndexBuffer = newDynamicIndexBuffer;
@@ -45,12 +53,24 @@ namespace ouzel
             dynamicVertexBuffer = newDynamicVertexBuffer;
             updateVertexSize();
 
-            ready = true;
+            if (newIndices && indexSize && indexCount)
+            {
+                indexData.assign(static_cast<const uint8_t*>(newIndices),
+                                 static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
+            }
+
+            if (newVertices && vertexSize && vertexCount)
+            {
+                vertexData.assign(static_cast<const uint8_t*>(newVertices),
+                                  static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
+            }
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
 
-        bool MeshBuffer::uploadIndices(const void*, uint32_t newIndexCount)
+        bool MeshBuffer::setIndices(const void* newIndices, uint32_t newIndexCount)
         {
             if (!dynamicIndexBuffer)
             {
@@ -59,10 +79,15 @@ namespace ouzel
 
             indexCount = newIndexCount;
 
+            indexData.assign(static_cast<const uint8_t*>(newIndices),
+                             static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
             return true;
         }
 
-        bool MeshBuffer::uploadVertices(const void*, uint32_t newVertexCount)
+        bool MeshBuffer::setVertices(const void* newVertices, uint32_t newVertexCount)
         {
             if (!dynamicVertexBuffer)
             {
@@ -71,12 +96,19 @@ namespace ouzel
 
             vertexCount = newVertexCount;
 
+            vertexData.assign(static_cast<const uint8_t*>(newVertices),
+                              static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
             return true;
         }
 
         bool MeshBuffer::setIndexSize(uint32_t newIndexSize)
         {
             indexSize = newIndexSize;
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
             return true;
         }
 
@@ -84,6 +116,8 @@ namespace ouzel
         {
             vertexAttributes = newVertexAttributes;
             updateVertexSize();
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -116,6 +150,23 @@ namespace ouzel
             {
                 vertexSize += 2 * sizeof(float);
             }
+        }
+
+        bool MeshBuffer::update()
+        {
+            if (!indexData.empty())
+            {
+                uploadIndexData = std::move(indexData);
+                indexBufferDirty = true;
+            }
+
+            if (!vertexData.empty())
+            {
+                uploadVertexData = std::move(vertexData);
+                vertexBufferDirty = true;
+            }
+            
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

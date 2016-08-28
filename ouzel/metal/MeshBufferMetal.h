@@ -30,18 +30,6 @@ namespace ouzel
             virtual ~MeshBufferMetal();
             virtual void free() override;
 
-            virtual bool init(bool newDynamicIndexBuffer = true, bool newDynamicVertexBuffer = true) override;
-            virtual bool initFromBuffer(const void* newIndices, uint32_t newIndexSize,
-                                        uint32_t newIndexCount, bool newDynamicIndexBuffer,
-                                        const void* newVertices, uint32_t newVertexAttributes,
-                                        uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
-
-            virtual bool setIndexSize(uint32_t indexSize) override;
-            virtual bool setVertexAttributes(uint32_t vertexAttributes) override;
-
-            virtual bool uploadIndices(const void* newIndices, uint32_t newIndexCount) override;
-            virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount) override;
-
             MTLBufferPtr getIndexBuffer() const { return indexBuffer; }
             MTLBufferPtr getVertexBuffer() const { return vertexBuffer; }
 
@@ -51,6 +39,7 @@ namespace ouzel
         protected:
             MeshBufferMetal();
             virtual bool update() override;
+            virtual bool upload() override;
 
             bool uploadData(MTLBufferPtr buffer, const std::vector<uint8_t>& data);
 
@@ -62,13 +51,6 @@ namespace ouzel
 
             MTLIndexType indexFormat;
             NSUInteger bytesPerIndex = 0;
-
-            std::vector<uint8_t> indexData;
-            std::vector<uint8_t> vertexData;
-            std::atomic<bool> indexBufferDirty;
-            std::atomic<bool> vertexBufferDirty;
-            
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

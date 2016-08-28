@@ -4,6 +4,8 @@
 #pragma once
 
 #include <vector>
+#include <atomic>
+#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 #include "graphics/Vertex.h"
@@ -37,14 +39,16 @@ namespace ouzel
             virtual bool setVertexAttributes(uint32_t newVertexAttributes);
             uint32_t getVertexAttributes() const { return vertexAttributes; }
 
-            virtual bool uploadIndices(const void* newIndices, uint32_t newIndexCount);
-            virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount);
+            virtual bool setIndices(const void* newIndices, uint32_t newIndexCount);
+            virtual bool setVertices(const void* newVertices, uint32_t newVertexCount);
 
             bool isReady() const { return ready; }
 
         protected:
             MeshBuffer();
             void updateVertexSize();
+
+            virtual bool update() override;
 
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
@@ -57,6 +61,15 @@ namespace ouzel
             bool dynamicIndexBuffer = true;
             bool dynamicVertexBuffer = true;
             bool ready = false;
+
+            std::vector<uint8_t> indexData;
+            std::vector<uint8_t> vertexData;
+
+            std::vector<uint8_t> uploadIndexData;
+            std::vector<uint8_t> uploadVertexData;
+
+            bool indexBufferDirty = false;
+            bool vertexBufferDirty = false;
         };
     } // namespace graphics
 } // namespace ouzel

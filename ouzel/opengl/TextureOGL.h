@@ -53,32 +53,14 @@ namespace ouzel
             virtual ~TextureOGL();
             virtual void free() override;
 
-            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
-
-            virtual bool upload(const std::vector<uint8_t>& newData, const Size2& newSize) override;
-
             GLuint getTextureId() const { return textureId; }
 
         protected:
             TextureOGL();
 
-            virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
-            virtual bool uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData) override;
-            virtual bool update() override;
+            virtual bool upload() override;
 
             GLuint textureId = 0;
-
-            struct Data
-            {
-                GLsizei width;
-                GLsizei height;
-                std::vector<uint8_t> data;
-            };
-
-            std::vector<Data> data;
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <atomic>
-#include <mutex>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
@@ -51,18 +49,6 @@ namespace ouzel
             virtual ~MeshBufferOGL();
             virtual void free() override;
 
-            virtual bool init(bool newDynamicIndexBuffer = true, bool newDynamicVertexBuffer = true) override;
-            virtual bool initFromBuffer(const void* newIndices, uint32_t newIndexSize,
-                                        uint32_t newIndexCount, bool newDynamicIndexBuffer,
-                                        const void* newVertices, uint32_t newVertexAttributes,
-                                        uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
-
-            virtual bool setIndexSize(uint32_t indexSize) override;
-            virtual bool setVertexAttributes(uint32_t vertexAttributes) override;
-
-            virtual bool uploadIndices(const void* newIndices, uint32_t newIndexCount) override;
-            virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount) override;
-
             bool bindBuffers();
 
             GLuint getIndexBufferId() const { return indexBufferId; }
@@ -74,7 +60,10 @@ namespace ouzel
 
         protected:
             MeshBufferOGL();
+            bool updateVertexAttributes();
+            
             virtual bool update() override;
+            virtual bool upload() override;
 
             GLuint indexBufferId = 0;
             GLuint vertexBufferId = 0;
@@ -83,8 +72,7 @@ namespace ouzel
             GLenum indexFormat = 0;
             GLuint bytesPerIndex = 0;
 
-            std::vector<uint8_t> indexData;
-            std::vector<uint8_t> vertexData;
+            uint32_t currentVertexAttributes = 0;
 
             struct VertexAttrib
             {
@@ -94,13 +82,9 @@ namespace ouzel
                 GLsizei stride;
                 const GLvoid* pointer;
             };
-            std::vector<VertexAttrib> vertexAttribs;
+            std::vector<VertexAttrib> uploadVertexAttributes;
 
-            std::atomic<bool> indexBufferDirty;
-            std::atomic<bool> vertexBufferDirty;
-            std::atomic<bool> vertexAttribsDirty;
-
-            std::mutex dataMutex;
+            bool vertexAttribsDirty = false;
         };
     } // namespace graphics
 } // namespace ouzel

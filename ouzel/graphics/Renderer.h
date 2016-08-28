@@ -167,7 +167,6 @@ namespace ouzel
             std::vector<DrawCommand> activeDrawQueue;
             std::vector<DrawCommand> drawQueue;
 
-            std::queue<ResourcePtr> updateQueue;
             std::set<ResourcePtr> updateSet;
             std::mutex updateMutex;
 

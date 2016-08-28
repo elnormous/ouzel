@@ -355,7 +355,7 @@ namespace ouzel
                     vertices[i * 4 + 3].color = color;
                 }
 
-                if (!mesh->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size())))
+                if (!mesh->setVertices(vertices.data(), static_cast<uint32_t>(vertices.size())))
                 {
                     return false;
                 }

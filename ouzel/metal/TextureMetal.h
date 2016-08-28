@@ -33,35 +33,16 @@ namespace ouzel
             virtual ~TextureMetal();
             virtual void free() override;
 
-            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
-
-            virtual bool upload(const std::vector<uint8_t>& newData, const Size2& newSize) override;
-
             MTLTexturePtr getTexture() const { return texture; }
 
         protected:
             TextureMetal();
-            virtual bool update() override;
-
-            virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
-            virtual bool uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData) override;
+            virtual bool upload() override;
 
             MTLTexturePtr texture = Nil;
 
             NSUInteger width = 0;
             NSUInteger height = 0;
-
-            struct Data
-            {
-                NSUInteger width = 0;
-                NSUInteger height = 0;
-                std::vector<uint8_t> data;
-            };
-
-            std::vector<Data> data;
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

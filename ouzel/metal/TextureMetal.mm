@@ -11,8 +11,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureMetal::TextureMetal():
-            dirty(false)
+        TextureMetal::TextureMetal()
         {
 
         }
@@ -27,11 +26,7 @@ namespace ouzel
 
         void TextureMetal::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             Texture::free();
-
-            data.clear();
 
             if (texture)
             {
@@ -40,110 +35,24 @@ namespace ouzel
             }
         }
 
-        bool TextureMetal::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Texture::init(newSize, newDynamic, newMipmaps, newRenderTarget))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool TextureMetal::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return uploadData(newData, newSize);
-        }
-
-        bool TextureMetal::upload(const std::vector<uint8_t>& newData, const Size2& newSize)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-            data.clear();
-
-            if (!Texture::upload(newData, newSize))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool TextureMetal::uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData)
-        {
-            if (!Texture::uploadMipmap(level, mipMapSize, newData))
-            {
-                return false;
-            }
-
-            if (data.size() < level + 1) data.resize(level + 1);
-
-            data[level].width = static_cast<NSUInteger>(mipMapSize.width);
-            data[level].height = static_cast<NSUInteger>(mipMapSize.height);
-            data[level].data = newData;
-
-            return true;
-        }
-
-        bool TextureMetal::uploadData(const std::vector<uint8_t>& newData, const Size2& newSize)
-        {
-            if (!Texture::uploadData(newData, newSize))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        bool TextureMetal::update()
+        bool TextureMetal::upload()
         {
             if (dirty)
             {
-                std::vector<Data> localData;
-                Size2 localSize;
-
-                {
-                    std::lock_guard<std::mutex> lock(dataMutex);
-                    localData = data;
-                    localSize = size;
-                }
-
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-                if (localSize.width > 0 && localSize.height > 0)
+                if (!uploadData.empty() &&
+                    uploadData[0].size.width > 0 &&
+                    uploadData[0].size.height > 0)
                 {
                     if (!texture ||
-                        static_cast<NSUInteger>(localSize.width) != width ||
-                        static_cast<NSUInteger>(localSize.height) != height)
+                        static_cast<NSUInteger>(uploadData[0].size.width) != width ||
+                        static_cast<NSUInteger>(uploadData[0].size.height) != height)
                     {
                         if (texture) [texture release];
 
-                        width = static_cast<NSUInteger>(localSize.width);
-                        height = static_cast<NSUInteger>(localSize.height);
+                        width = static_cast<NSUInteger>(uploadData[0].size.width);
+                        height = static_cast<NSUInteger>(uploadData[0].size.height);
 
                         if (width > 0 && height > 0)
                         {
@@ -163,13 +72,15 @@ namespace ouzel
                         }
                     }
 
-                    if (!localData.empty())
+                    if (!uploadData.empty())
                     {
-                        for (size_t level = 0; level < localData.size(); ++level)
+                        for (size_t level = 0; level < uploadData.size(); ++level)
                         {
-                            NSUInteger bytesPerRow = localData[level].width * 4;
-                            [texture replaceRegion:MTLRegionMake2D(0, 0, localData[level].width, localData[level].height)
-                                       mipmapLevel:level withBytes:localData[level].data.data()
+                            NSUInteger bytesPerRow = static_cast<NSUInteger>(uploadData[level].size.width) * 4;
+                            [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                                   static_cast<NSUInteger>(uploadData[level].size.width),
+                                                                   static_cast<NSUInteger>(uploadData[level].size.height))
+                                       mipmapLevel:level withBytes:uploadData[level].data.data()
                                        bytesPerRow:bytesPerRow];
                         }
                     }

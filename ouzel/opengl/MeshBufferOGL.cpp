@@ -11,8 +11,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferOGL::MeshBufferOGL():
-            indexBufferDirty(false), vertexBufferDirty(false), vertexAttribsDirty(false)
+        MeshBufferOGL::MeshBufferOGL()
         {
 
         }
@@ -37,12 +36,7 @@ namespace ouzel
 
         void MeshBufferOGL::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             MeshBuffer::free();
-
-            indexData.clear();
-            vertexData.clear();
 
             if (vertexArrayId)
             {
@@ -63,127 +57,63 @@ namespace ouzel
             }
         }
 
-        bool MeshBufferOGL::init(bool newDynamicIndexBuffer, bool newDynamicVertexBuffer)
+        bool MeshBufferOGL::updateVertexAttributes()
         {
-            free();
+            uploadVertexAttributes.clear();
 
-            std::lock_guard<std::mutex> lock(dataMutex);
+            GLuint offset = 0;
 
-            if (!MeshBuffer::init(newDynamicIndexBuffer, newDynamicVertexBuffer))
+            if (vertexAttributes & VERTEX_POSITION)
             {
+                uploadVertexAttributes.push_back({
+                    3, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 3 * sizeof(float);
+            }
+            if (vertexAttributes & VERTEX_COLOR)
+            {
+                uploadVertexAttributes.push_back({
+                    4, GL_UNSIGNED_BYTE, GL_TRUE,
+                    static_cast<GLsizei>(vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 4 * sizeof(uint8_t);
+            }
+            if (vertexAttributes & VERTEX_NORMAL)
+            {
+                uploadVertexAttributes.push_back({
+                    3, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 3 * sizeof(float);
+            }
+            if (vertexAttributes & VERTEX_TEXCOORD0)
+            {
+                uploadVertexAttributes.push_back({
+                    2, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 2 * sizeof(float);
+            }
+            if (vertexAttributes & VERTEX_TEXCOORD1)
+            {
+                uploadVertexAttributes.push_back({
+                    2, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 2 * sizeof(float);
+            }
+
+            if (offset != vertexSize)
+            {
+                log("Invalid vertex size");
                 return false;
             }
-
-            indexBufferDirty = true;
-            vertexBufferDirty = true;
-            vertexAttribsDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool MeshBufferOGL::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
-                                           uint32_t newIndexCount, bool newDynamicIndexBuffer,
-                                           const void* newVertices, uint32_t newVertexAttributes,
-                                           uint32_t newVertexCount, bool newDynamicVertexBuffer)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::initFromBuffer(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))
-            {
-                return false;
-            }
-
-            if (newIndices && indexSize && indexCount)
-            {
-                indexData.assign(static_cast<const uint8_t*>(newIndices),
-                                 static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
-            }
-
-            if (newVertices && vertexSize && vertexCount)
-            {
-                vertexData.assign(static_cast<const uint8_t*>(newVertices),
-                                  static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
-            }
-
-            indexBufferDirty = true;
-            vertexBufferDirty = true;
-            vertexAttribsDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool MeshBufferOGL::setIndexSize(uint32_t indexSize)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::setIndexSize(indexSize))
-            {
-                return false;
-            }
-
-            indexBufferDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool MeshBufferOGL::setVertexAttributes(uint32_t vertexAttributes)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::setVertexAttributes(vertexAttributes))
-            {
-                return false;
-            }
-
-            vertexAttribsDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool MeshBufferOGL::uploadIndices(const void* newIndices, uint32_t newIndexCount)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::uploadIndices(newIndices, newIndexCount))
-            {
-                return false;
-            }
-
-            indexData.assign(static_cast<const uint8_t*>(newIndices),
-                             static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
-
-            indexBufferDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool MeshBufferOGL::uploadVertices(const void* newVertices, uint32_t newVertexCount)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::uploadVertices(newVertices, newVertexCount))
-            {
-                return false;
-            }
-
-            vertexData.assign(static_cast<const uint8_t*>(newVertices),
-                              static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
-
-            vertexBufferDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
@@ -212,15 +142,15 @@ namespace ouzel
 
                 for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
                 {
-                    if (index < vertexAttribs.size())
+                    if (index < uploadVertexAttributes.size())
                     {
                         glEnableVertexAttribArray(index);
                         glVertexAttribPointer(index,
-                                              vertexAttribs[index].size,
-                                              vertexAttribs[index].type,
-                                              vertexAttribs[index].normalized,
-                                              vertexAttribs[index].stride,
-                                              vertexAttribs[index].pointer);
+                                              uploadVertexAttributes[index].size,
+                                              uploadVertexAttributes[index].type,
+                                              uploadVertexAttributes[index].normalized,
+                                              uploadVertexAttributes[index].stride,
+                                              uploadVertexAttributes[index].pointer);
                     }
                     else
                     {
@@ -251,100 +181,46 @@ namespace ouzel
 
         bool MeshBufferOGL::update()
         {
+            MeshBuffer::update();
+
+            if (bytesPerIndex != indexSize)
+            {
+                switch (indexSize)
+                {
+                    case 2:
+                        indexFormat = GL_UNSIGNED_SHORT;
+                        bytesPerIndex = 2;
+                        break;
+                    case 4:
+                        indexFormat = GL_UNSIGNED_INT;
+                        bytesPerIndex = 4;
+                        break;
+                    default:
+                        indexFormat = 0;
+                        bytesPerIndex = 0;
+                        log("Invalid index size");
+                        return false;
+                }
+            }
+
+            if (currentVertexAttributes != vertexAttributes)
+            {
+                currentVertexAttributes = vertexAttributes;
+
+                if (!updateVertexAttributes())
+                {
+                    return false;
+                }
+                vertexAttribsDirty = true;
+            }
+
+            return true;
+        }
+
+        bool MeshBufferOGL::upload()
+        {
             if (indexBufferDirty || vertexBufferDirty || vertexAttribsDirty)
             {
-                std::vector<uint8_t> localIndexData;
-                std::vector<uint8_t> localVertexData;
-
-                {
-                    std::lock_guard<std::mutex> lock(dataMutex);
-
-                    if (indexBufferDirty)
-                    {
-                        localIndexData = indexData;
-                        switch (indexSize)
-                        {
-                            case 2:
-                                indexFormat = GL_UNSIGNED_SHORT;
-                                bytesPerIndex = 2;
-                                break;
-                            case 4:
-                                indexFormat = GL_UNSIGNED_INT;
-                                bytesPerIndex = 4;
-                                break;
-                            default:
-                                indexFormat = 0;
-                                bytesPerIndex = 0;
-                                log("Invalid index size");
-                                return false;
-                        }
-                    }
-
-                    if (vertexBufferDirty)
-                    {
-                        localVertexData = vertexData;
-                    }
-
-                    if (vertexAttribsDirty)
-                    {
-                        vertexAttribs.clear();
-
-                        GLuint offset = 0;
-
-                        if (vertexAttributes & VERTEX_POSITION)
-                        {
-                            vertexAttribs.push_back({
-                                3, GL_FLOAT, GL_FALSE,
-                                static_cast<GLsizei>(vertexSize),
-                                reinterpret_cast<const GLvoid*>(offset)
-                            });
-                            offset += 3 * sizeof(float);
-                        }
-                        if (vertexAttributes & VERTEX_COLOR)
-                        {
-                            vertexAttribs.push_back({
-                                4, GL_UNSIGNED_BYTE, GL_TRUE,
-                                static_cast<GLsizei>(vertexSize),
-                                reinterpret_cast<const GLvoid*>(offset)
-                            });
-                            offset += 4 * sizeof(uint8_t);
-                        }
-                        if (vertexAttributes & VERTEX_NORMAL)
-                        {
-                            vertexAttribs.push_back({
-                                3, GL_FLOAT, GL_FALSE,
-                                static_cast<GLsizei>(vertexSize),
-                                reinterpret_cast<const GLvoid*>(offset)
-                            });
-                            offset += 3 * sizeof(float);
-                        }
-                        if (vertexAttributes & VERTEX_TEXCOORD0)
-                        {
-                            vertexAttribs.push_back({
-                                2, GL_FLOAT, GL_FALSE,
-                                static_cast<GLsizei>(vertexSize),
-                                reinterpret_cast<const GLvoid*>(offset)
-                            });
-                            offset += 2 * sizeof(float);
-                        }
-                        if (vertexAttributes & VERTEX_TEXCOORD1)
-                        {
-                            vertexAttribs.push_back({
-                                2, GL_FLOAT, GL_FALSE,
-                                static_cast<GLsizei>(vertexSize),
-                                reinterpret_cast<const GLvoid*>(offset)
-                            });
-                            offset += 2 * sizeof(float);
-                        }
-
-                        if (offset != vertexSize)
-                        {
-                            log("Invalid vertex size");
-                            return false;
-                        }
-                    }
-                }
-
                 if (!vertexArrayId)
                 {
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
@@ -363,7 +239,7 @@ namespace ouzel
 
                 if (indexBufferDirty)
                 {
-                    if (!localIndexData.empty())
+                    if (!uploadIndexData.empty())
                     {
                         if (vertexArrayId)
                         {
@@ -375,7 +251,7 @@ namespace ouzel
                             RendererOGL::bindElementArrayBuffer(indexBufferId);
                         }
 
-                        glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(localIndexData.size()), localIndexData.data(),
+                        glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(uploadIndexData.size()), uploadIndexData.data(),
                                      dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())
@@ -402,15 +278,15 @@ namespace ouzel
 
                         for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
                         {
-                            if (index < vertexAttribs.size())
+                            if (index < uploadVertexAttributes.size())
                             {
                                 glEnableVertexAttribArray(index);
                                 glVertexAttribPointer(index,
-                                                      vertexAttribs[index].size,
-                                                      vertexAttribs[index].type,
-                                                      vertexAttribs[index].normalized,
-                                                      vertexAttribs[index].stride,
-                                                      vertexAttribs[index].pointer);
+                                                      uploadVertexAttributes[index].size,
+                                                      uploadVertexAttributes[index].type,
+                                                      uploadVertexAttributes[index].normalized,
+                                                      uploadVertexAttributes[index].stride,
+                                                      uploadVertexAttributes[index].pointer);
                             }
                             else
                             {
@@ -430,7 +306,7 @@ namespace ouzel
 
                 if (vertexBufferDirty)
                 {
-                    if (!localVertexData.empty())
+                    if (!uploadVertexData.empty())
                     {
                         if (vertexArrayId)
                         {
@@ -442,7 +318,7 @@ namespace ouzel
                             RendererOGL::bindArrayBuffer(vertexBufferId);
                         }
 
-                        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(localVertexData.size()), localVertexData.data(),
+                        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(uploadVertexData.size()), uploadVertexData.data(),
                                      dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())

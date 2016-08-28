@@ -12,8 +12,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureOGL::TextureOGL():
-            dirty(false)
+        TextureOGL::TextureOGL()
         {
 
         }
@@ -28,8 +27,6 @@ namespace ouzel
 
         void TextureOGL::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             Texture::free();
 
             data.clear();
@@ -41,97 +38,10 @@ namespace ouzel
             }
         }
 
-        bool TextureOGL::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Texture::init(newSize, newDynamic, newMipmaps, newRenderTarget))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool TextureOGL::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return uploadData(newData, newSize);
-        }
-
-        bool TextureOGL::upload(const std::vector<uint8_t>& newData, const Size2& newSize)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            data.clear();
-
-            if (!Texture::upload(newData, newSize))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool TextureOGL::uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData)
-        {
-            if (!Texture::uploadMipmap(level, mipMapSize, newData))
-            {
-                return false;
-            }
-
-            if (data.size() < level + 1) data.resize(level + 1);
-
-            data[level].width = static_cast<GLsizei>(mipMapSize.width);
-            data[level].height = static_cast<GLsizei>(mipMapSize.height);
-            data[level].data = newData;
-
-            return true;
-        }
-
-        bool TextureOGL::uploadData(const std::vector<uint8_t>& newData, const Size2& newSize)
-        {
-            if (!Texture::uploadData(newData, newSize))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        bool TextureOGL::update()
+        bool TextureOGL::upload()
         {
             if (dirty)
             {
-                std::vector<Data> localData;
-
-                {
-                    std::lock_guard<std::mutex> lock(dataMutex);
-                    localData = data;
-                }
-
                 if (!textureId)
                 {
                     glGenTextures(1, &textureId);
@@ -143,7 +53,7 @@ namespace ouzel
                     }
                 }
 
-                if (!localData.empty())
+                if (!uploadData.empty())
                 {
                     RendererOGL::bindTexture(textureId, 0);
 
@@ -153,7 +63,7 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-                    if (localData.size() > 1) // has mip-maps
+                    if (uploadData.size() > 1) // has mip-maps
                     {
                         std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
@@ -184,11 +94,12 @@ namespace ouzel
                         return false;
                     }
 
-                    for (size_t level = 0; level < data.size(); ++level)
+                    for (size_t level = 0; level < uploadData.size(); ++level)
                     {
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
-                                     localData[level].width, localData[level].height, 0,
-                                     GL_RGBA, GL_UNSIGNED_BYTE, localData[level].data.data());
+                                     static_cast<GLsizei>(uploadData[level].size.width),
+                                     static_cast<GLsizei>(uploadData[level].size.height), 0,
+                                     GL_RGBA, GL_UNSIGNED_BYTE, uploadData[level].data.data());
 
                         if (RendererOGL::checkOpenGLError())
                         {

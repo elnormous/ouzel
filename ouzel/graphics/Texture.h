@@ -31,7 +31,7 @@ namespace ouzel
 
             const std::string& getFilename() const { return filename; }
 
-            virtual bool upload(const std::vector<uint8_t>& newData, const Size2& newSize);
+            virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
             const Size2& getSize() const { return size; }
 
@@ -43,9 +43,9 @@ namespace ouzel
 
         protected:
             Texture();
+            virtual bool update() override;
 
-            virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize);
-            virtual bool uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData);
+            bool calculateData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
             std::string filename;
 
@@ -54,8 +54,17 @@ namespace ouzel
             bool mipmaps = false;
             bool renderTarget = false;
             bool flipped = false;
-
+            bool dirty = false;
             bool ready = false;
+
+            struct Data
+            {
+                Size2 size;
+                std::vector<uint8_t> data;
+            };
+
+            std::vector<Data> data;
+            std::vector<Data> uploadData;
         };
     } // namespace graphics
 } // namespace ouzel

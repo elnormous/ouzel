@@ -33,8 +33,8 @@ namespace ouzel
         {
             Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
 
-            meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(indices.size()));
-            meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
+            meshBuffer->setIndices(indices.data(), static_cast<uint32_t>(indices.size()));
+            meshBuffer->setVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
 
             Matrix4 modelViewProj = projectionMatrix * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };

@@ -60,8 +60,8 @@ namespace ouzel
 
             if (needsMeshUpdate)
             {
-                meshBuffer->uploadIndices(indices.data(), static_cast<uint32_t>(indices.size()));
-                meshBuffer->uploadVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
+                meshBuffer->setIndices(indices.data(), static_cast<uint32_t>(indices.size()));
+                meshBuffer->setVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
 
                 needsMeshUpdate = false;
             }
