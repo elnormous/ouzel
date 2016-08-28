@@ -46,27 +46,17 @@ namespace ouzel
             free();
 
             // Create pixel format
-            std::vector<NSOpenGLPixelFormatAttribute> openGL3Attributes =
+            NSOpenGLPixelFormatAttribute openGL3Attributes[] =
             {
                 NSOpenGLPFADoubleBuffer,
                 NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
                 NSOpenGLPFAColorSize, 24,
                 NSOpenGLPFAAlphaSize, 8,
                 //NSOpenGLPFADepthSize, 32, // set depth buffer size
+                0
             };
 
-            if (newSampleCount > 1)
-            {
-                openGL3Attributes.push_back(NSOpenGLPFAMultisample);
-                openGL3Attributes.push_back(NSOpenGLPFASampleBuffers);
-                openGL3Attributes.push_back(static_cast<NSOpenGLPixelFormatAttribute>(1));
-                openGL3Attributes.push_back(NSOpenGLPFASamples);
-                openGL3Attributes.push_back(static_cast<NSOpenGLPixelFormatAttribute>(newSampleCount));
-            }
-
-            openGL3Attributes.push_back(0);
-
-            pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL3Attributes.data()];
+            pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL3Attributes];
 
             if (pixelFormat)
             {
@@ -77,27 +67,17 @@ namespace ouzel
             {
                 log("Failed to crete OpenGL 3.2 pixel format");
 
-                std::vector<NSOpenGLPixelFormatAttribute> openGL2Attributes =
+                NSOpenGLPixelFormatAttribute openGL2Attributes[] =
                 {
                     NSOpenGLPFADoubleBuffer,
                     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
                     NSOpenGLPFAColorSize, 24,
                     NSOpenGLPFAAlphaSize, 8,
                     //NSOpenGLPFAMultisample,
+                    0
                 };
 
-                if (newSampleCount > 1)
-                {
-                    openGL2Attributes.push_back(NSOpenGLPFAMultisample);
-                    openGL2Attributes.push_back(NSOpenGLPFASampleBuffers);
-                    openGL2Attributes.push_back(static_cast<NSOpenGLPixelFormatAttribute>(1));
-                    openGL2Attributes.push_back(NSOpenGLPFASamples);
-                    openGL2Attributes.push_back(static_cast<NSOpenGLPixelFormatAttribute>(newSampleCount));
-                }
-
-                openGL2Attributes.push_back(0);
-
-                pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL2Attributes.data()];
+                pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL2Attributes];
 
                 if (pixelFormat)
                 {
@@ -115,6 +95,8 @@ namespace ouzel
             // Create OpenGL context
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
 
+            [openGLContext makeCurrentContext];
+            
             return RendererOGL::init(window, newSampleCount, newTextureFiltering, newVerticalSync);
         }
 

@@ -133,6 +133,10 @@ namespace ouzel
             static void deleteResources();
 
             GLuint frameBufferId = 0;
+#if OUZEL_PLATFORM_MACOS
+            GLuint msaaTextureId = 0;
+            GLuint msaaFrameBufferId = 0;
+#endif
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
             Rectangle viewport;
