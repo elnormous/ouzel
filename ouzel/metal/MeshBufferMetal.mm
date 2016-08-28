@@ -54,7 +54,10 @@ namespace ouzel
 
         bool MeshBufferMetal::update()
         {
-            MeshBuffer::update();
+            if (!MeshBuffer::update())
+            {
+                return false;
+            }
 
             if (bytesPerIndex != indexSize)
             {

@@ -181,7 +181,10 @@ namespace ouzel
 
         bool MeshBufferOGL::update()
         {
-            MeshBuffer::update();
+            if (!MeshBuffer::update())
+            {
+                return false;
+            }
 
             if (bytesPerIndex != indexSize)
             {
