@@ -140,7 +140,6 @@ namespace ouzel
             }
 
             //glEnable(GL_DEPTH_TEST);
-            glClearColor(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
 
             ShaderPtr textureShader = createShader();
 
@@ -319,7 +318,20 @@ namespace ouzel
 
             if (drawQueue.empty())
             {
-                if (!bindFrameBuffer(frameBufferId))
+                GLuint clearFrameBufferId = 0;
+
+#if OUZEL_PLATFORM_MACOS
+                if (sampleCount > 1)
+                {
+                    clearFrameBufferId = msaaFrameBufferId;
+                }
+                else
+#endif
+                {
+                    clearFrameBufferId = frameBufferId;
+                }
+
+                if (!bindFrameBuffer(clearFrameBufferId))
                 {
                     return false;
                 }
@@ -499,7 +511,7 @@ namespace ouzel
                 }
 
                 // render target
-                GLuint newFrameBuffer = 0;
+                GLuint newFrameBufferId = 0;
                 GLbitfield newClearMask = 0;
                 const float* newClearColor;
                 Rectangle newViewport;
@@ -514,7 +526,7 @@ namespace ouzel
                         continue;
                     }
 
-                    newFrameBuffer = renderTargetOGL->getFrameBufferId();
+                    newFrameBufferId = renderTargetOGL->getFrameBufferId();
                     newClearMask = renderTargetOGL->getClearMask();
                     newClearColor = renderTargetOGL->getFrameBufferClearColor();
                     newViewport = renderTargetOGL->getViewport();
@@ -525,12 +537,12 @@ namespace ouzel
 #if OUZEL_PLATFORM_MACOS
                     if (sampleCount > 1)
                     {
-                        newFrameBuffer = msaaFrameBufferId;
+                        newFrameBufferId = msaaFrameBufferId;
                     }
                     else
 #endif
                     {
-                        newFrameBuffer = frameBufferId;
+                        newFrameBufferId = frameBufferId;
                     }
 
                     newClearMask = clearMask;
@@ -538,19 +550,19 @@ namespace ouzel
                     newViewport = viewport;
                 }
 
-                if (!bindFrameBuffer(newFrameBuffer))
+                if (!bindFrameBuffer(newFrameBufferId))
                 {
                     return false;
                 }
 
-                glBindFramebuffer(GL_FRAMEBUFFER, newFrameBuffer);
+                glBindFramebuffer(GL_FRAMEBUFFER, newFrameBufferId);
 
                 setViewport(static_cast<GLint>(newViewport.x),
                             static_cast<GLint>(newViewport.y),
                             static_cast<GLsizei>(newViewport.width),
                             static_cast<GLsizei>(newViewport.height));
 
-                auto clearedFrameBuffer = clearedFrameBuffers.insert(newFrameBuffer);
+                auto clearedFrameBuffer = clearedFrameBuffers.insert(newFrameBufferId);
 
                 if (clearedFrameBuffer.second)
                 {
