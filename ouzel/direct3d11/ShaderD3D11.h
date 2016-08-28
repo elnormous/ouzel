@@ -23,17 +23,14 @@ namespace ouzel
             virtual ~ShaderD3D11();
             virtual void free() override;
 
-            virtual bool initFromBuffers(const std::vector<uint8_t>& newPixelShader,
-                                         const std::vector<uint8_t>& newVertexShader,
-                                         uint32_t newVertexAttributes,
-                                         const std::string& pixelShaderFunction = "",
-                                         const std::string& vertexShaderFunction = "") override;
+            struct Location
+            {
+                uint32_t offset;
+                uint32_t size;
+            };
 
-            virtual bool setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
-            virtual bool setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment = 0) override;
-
-            const std::vector<uint32_t>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
-            const std::vector<uint32_t>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+            const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
             virtual ID3D11PixelShader* getPixelShader() const { return pixelShader; }
             virtual ID3D11VertexShader* getVertexShader() const { return vertexShader; }
@@ -44,9 +41,9 @@ namespace ouzel
 
         protected:
             ShaderD3D11();
-            virtual bool update() override;
+            virtual bool upload() override;
 
-            bool uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size);
+            bool uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
             ID3D11PixelShader* pixelShader = nullptr;
             ID3D11VertexShader* vertexShader = nullptr;
@@ -55,15 +52,10 @@ namespace ouzel
             ID3D11Buffer* pixelShaderConstantBuffer = nullptr;
             ID3D11Buffer* vertexShaderConstantBuffer = nullptr;
 
-            std::vector<uint32_t> pixelShaderConstantLocations;
+            std::vector<Location> pixelShaderConstantLocations;
             uint32_t pixelShaderConstantSize = 0;
-            std::vector<uint32_t> vertexShaderConstantLocations;
+            std::vector<Location> vertexShaderConstantLocations;
             uint32_t vertexShaderConstantSize = 0;
-
-            std::vector<uint8_t> pixelShaderData;
-            std::vector<uint8_t> vertexShaderData;
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

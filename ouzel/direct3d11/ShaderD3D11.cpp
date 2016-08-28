@@ -12,8 +12,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderD3D11::ShaderD3D11():
-            dirty(false)
+        ShaderD3D11::ShaderD3D11()
         {
         }
 
@@ -47,9 +46,10 @@ namespace ouzel
 
         void ShaderD3D11::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             Shader::free();
+
+            pixelShaderConstantLocations.clear();
+            vertexShaderConstantLocations.clear();
 
             if (pixelShader)
             {
@@ -82,64 +82,7 @@ namespace ouzel
             }
         }
 
-        bool ShaderD3D11::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
-                                          const std::vector<uint8_t>& newVertexShader,
-                                          uint32_t newVertexAttributes,
-                                          const std::string& pixelShaderFunction,
-                                          const std::string& vertexShaderFunction)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Shader::initFromBuffers(newPixelShader, newVertexShader, newVertexAttributes, pixelShaderFunction, vertexShaderFunction))
-            {
-                return false;
-            }
-
-            pixelShaderData = newPixelShader;
-            vertexShaderData = newVertexShader;
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool ShaderD3D11::setPixelShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Shader::setPixelShaderConstantInfo(constantInfo, alignment))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool ShaderD3D11::setVertexShaderConstantInfo(const std::vector<ConstantInfo>& constantInfo, uint32_t alignment)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Shader::setVertexShaderConstantInfo(constantInfo, alignment))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool ShaderD3D11::uploadData(ID3D11Buffer* buffer, const void* data, uint32_t size)
+        bool ShaderD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size)
         {
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
@@ -158,17 +101,15 @@ namespace ouzel
             return true;
         }
 
-        bool ShaderD3D11::update()
+        bool ShaderD3D11::upload()
         {
             if (dirty)
             {
-                std::lock_guard<std::mutex> lock(dataMutex);
-
                 std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
                 if (!pixelShader)
                 {
-                    HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), NULL, &pixelShader);
+                    HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(uploadData.pixelShaderData.data(), uploadData.pixelShaderData.size(), NULL, &pixelShader);
                     if (FAILED(hr))
                     {
                         log("Failed to create a Direct3D 11 pixel shader");
@@ -178,7 +119,7 @@ namespace ouzel
 
                 if (!vertexShader)
                 {
-                    HRESULT hr = rendererD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), NULL, &vertexShader);
+                    HRESULT hr = rendererD3D11->getDevice()->CreateVertexShader(uploadData.vertexShaderData.data(), uploadData.vertexShaderData.size(), NULL, &vertexShader);
                     if (FAILED(hr))
                     {
                         log("Failed to create a Direct3D 11 vertex shader");
@@ -189,31 +130,31 @@ namespace ouzel
 
                     UINT offset = 0;
 
-                    if (vertexAttributes & VERTEX_POSITION)
+                    if (uploadData.vertexAttributes & VERTEX_POSITION)
                     {
                         vertexInputElements.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
                         offset += 3 * sizeof(float);
                     }
 
-                    if (vertexAttributes & VERTEX_COLOR)
+                    if (uploadData.vertexAttributes & VERTEX_COLOR)
                     {
                         vertexInputElements.push_back({ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
                         offset += 4 * sizeof(uint8_t);
                     }
 
-                    if (vertexAttributes & VERTEX_NORMAL)
+                    if (uploadData.vertexAttributes & VERTEX_NORMAL)
                     {
                         vertexInputElements.push_back({ "NORMAL", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
                         offset += 3 * sizeof(float);
                     }
 
-                    if (vertexAttributes & VERTEX_TEXCOORD0)
+                    if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
                     {
                         vertexInputElements.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
                         offset += 2 * sizeof(float);
                     }
 
-                    if (vertexAttributes & VERTEX_TEXCOORD1)
+                    if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
                     {
                         vertexInputElements.push_back({ "TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
                         offset += 2 * sizeof(float);
@@ -222,8 +163,8 @@ namespace ouzel
                     hr = rendererD3D11->getDevice()->CreateInputLayout(
                         vertexInputElements.data(),
                         static_cast<UINT>(vertexInputElements.size()),
-                        vertexShaderData.data(),
-                        vertexShaderData.size(),
+                        uploadData.vertexShaderData.data(),
+                        uploadData.vertexShaderData.size(),
                         &inputLayout);
 
                     if (FAILED(hr))
@@ -234,13 +175,13 @@ namespace ouzel
                 }
 
                 pixelShaderConstantLocations.clear();
-                pixelShaderConstantLocations.reserve(pixelShaderConstantInfo.size());
+                pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
 
                 pixelShaderConstantSize = 0;
 
-                for (const ConstantInfo& info : pixelShaderConstantInfo)
+                for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
                 {
-                    pixelShaderConstantLocations.push_back(pixelShaderConstantSize);
+                    pixelShaderConstantLocations.push_back({ pixelShaderConstantSize, info.size });
                     pixelShaderConstantSize += info.size;
                 }
 
@@ -261,13 +202,11 @@ namespace ouzel
                     return false;
                 }
 
-                pixelShaderData.resize(pixelShaderConstantSize);
-
                 vertexShaderConstantSize = 0;
 
-                for (const ConstantInfo& info : vertexShaderConstantInfo)
+                for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
                 {
-                    vertexShaderConstantLocations.push_back(vertexShaderConstantSize);
+                    vertexShaderConstantLocations.push_back({ vertexShaderConstantSize, info.size });
                     vertexShaderConstantSize += info.size;
                 }
 
@@ -287,8 +226,6 @@ namespace ouzel
                     log("Failed to create Direct3D 11 constant buffer");
                     return false;
                 }
-
-                vertexShaderData.resize(vertexShaderConstantSize);
 
                 ready = true;
                 dirty = false;
