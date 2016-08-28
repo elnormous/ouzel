@@ -103,30 +103,6 @@ namespace ouzel
                 return false;
             }
 
-            if (sampleCount > 1)
-            {
-#ifndef OUZEL_SUPPORTS_OPENGLES
-                glGenTextures(1, &msaaTextureId);
-                glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId);
-                glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, sampleCount, GL_RGBA8,
-                                        static_cast<GLsizei>(size.width), static_cast<GLsizei>(size.height), false);
-
-                glGenFramebuffers(1, &msaaFrameBufferId);
-                graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
-                glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId, 0);
-
-                if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                {
-                    log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-                    return false;
-                }
-
-                glEnable(GL_MULTISAMPLE);
-#else
-                log("Multisample anti-aliasing is disabled for OpenGL ES");
-#endif
-            }
-
             if (!setViewport(static_cast<GLint>(viewport.x),
                              static_cast<GLint>(viewport.y),
                              static_cast<GLsizei>(viewport.width),
@@ -501,17 +477,7 @@ namespace ouzel
                 }
                 else
                 {
-#ifndef OUZEL_SUPPORTS_OPENGLES
-                    if (sampleCount > 0)
-                    {
-                        newFrameBuffer = msaaFrameBufferId;
-                    }
-                    else
-#endif
-                    {
-                        newFrameBuffer = frameBufferId;
-                    }
-
+                    newFrameBuffer = frameBufferId;
                     newClearMask = clearMask;
                     newClearColor = frameBufferClearColor;
                     newViewport = viewport;
@@ -590,25 +556,6 @@ namespace ouzel
                     log("Failed to draw elements");
                     return false;
                 }
-
-#ifndef OUZEL_SUPPORTS_OPENGLES
-                if (sampleCount > 1)
-                {
-                    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);   // Make sure no FBO is set as the draw framebuffer
-                    glBindFramebuffer(GL_READ_FRAMEBUFFER, msaaFrameBufferId); // Make sure your multisampled FBO is the read framebuffer
-                    glDrawBuffer(GL_BACK);                       // Set the back buffer as the draw buffer
-
-                    glBlitFramebuffer(0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
-                                      0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
-                                      GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
-                    if (checkOpenGLError())
-                    {
-                        log("Failed to blit MSAA texture");
-                        return false;
-                    }
-                }
-#endif
             }
 
             if (!saveScreenshots())
