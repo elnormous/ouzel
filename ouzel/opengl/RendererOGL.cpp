@@ -89,6 +89,7 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
+#if OUZEL_PLATFORM_MACOS
             if (msaaTextureId)
             {
                 glDeleteTextures(1, &msaaTextureId);
@@ -98,6 +99,7 @@ namespace ouzel
             {
                 glDeleteFramebuffers(1, &msaaFrameBufferId);
             }
+#endif
         }
 
         bool RendererOGL::init(const WindowPtr& window,
