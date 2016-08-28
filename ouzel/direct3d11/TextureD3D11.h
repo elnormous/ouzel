@@ -24,37 +24,18 @@ namespace ouzel
             virtual ~TextureD3D11();
             virtual void free() override;
 
-            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false) override;
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true) override;
-
-            virtual bool upload(const std::vector<uint8_t>& newData, const Size2& newSize) override;
-
             ID3D11Texture2D* getTexture() const { return texture; }
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
 
         protected:
             TextureD3D11();
-            virtual bool update() override;
-
-            virtual bool uploadData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
-            virtual bool uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData) override;
+            virtual bool upload() override;
 
             ID3D11Texture2D* texture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;
 
             UINT width = 0;
             UINT height = 0;
-
-            struct Data
-            {
-                UINT width = 0;
-                UINT height = 0;
-                std::vector<uint8_t> data;
-            };
-
-            std::vector<Data> data;
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

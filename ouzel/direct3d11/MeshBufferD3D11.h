@@ -23,17 +23,6 @@ namespace ouzel
             virtual ~MeshBufferD3D11();
             virtual void free() override;
 
-            virtual bool init(bool newDynamicIndexBuffer = true, bool newDynamicVertexBuffer = true) override;
-            virtual bool initFromBuffer(const void* newIndices, uint32_t newIndexSize,
-                                        uint32_t newIndexCount, bool newDynamicIndexBuffer,
-                                        const void* newVertices, uint32_t newVertexAttributes,
-                                        uint32_t newVertexCount, bool newDynamicVertexBuffer) override;
-
-            virtual bool setIndexSize(uint32_t indexSize) override;
-
-            virtual bool uploadIndices(const void* newIndices, uint32_t newIndexCount) override;
-            virtual bool uploadVertices(const void* newVertices, uint32_t newVertexCount) override;
-
             ID3D11Buffer* getIndexBuffer() const { return indexBuffer; }
             ID3D11Buffer* getVertexBuffer() const { return vertexBuffer; }
 
@@ -42,6 +31,7 @@ namespace ouzel
         protected:
             MeshBufferD3D11();
             virtual bool update() override;
+            virtual bool upload() override;
 
             bool uploadData(ID3D11Buffer* buffer, const std::vector<uint8_t>& data);
 
@@ -52,12 +42,7 @@ namespace ouzel
             UINT vertexBufferSize = 0;
 
             DXGI_FORMAT indexFormat = DXGI_FORMAT_UNKNOWN;
-
-            std::vector<uint8_t> indexData;
-            std::vector<uint8_t> vertexData;
-            std::atomic<bool> indexBufferDirty;
-            std::atomic<bool> vertexBufferDirty;
-            std::mutex dataMutex;
+            UINT bytesPerIndex = 0;
         };
     } // namespace graphics
 } // namespace ouzel

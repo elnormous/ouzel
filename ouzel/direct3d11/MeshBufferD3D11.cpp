@@ -10,8 +10,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferD3D11::MeshBufferD3D11():
-            indexBufferDirty(false), vertexBufferDirty(false)
+        MeshBufferD3D11::MeshBufferD3D11()
         {
 
         }
@@ -31,12 +30,7 @@ namespace ouzel
 
         void MeshBufferD3D11::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             MeshBuffer::free();
-
-            indexData.clear();
-            vertexData.clear();
 
             if (indexBuffer)
             {
@@ -49,113 +43,6 @@ namespace ouzel
                 vertexBuffer->Release();
                 vertexBuffer = nullptr;
             }
-        }
-
-        bool MeshBufferD3D11::init(bool newDynamicIndexBuffer, bool newDynamicVertexBuffer)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::init(newDynamicIndexBuffer, newDynamicVertexBuffer))
-            {
-                return false;
-            }
-
-            indexBufferDirty = true;
-            vertexBufferDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool MeshBufferD3D11::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
-                                             uint32_t newIndexCount, bool newDynamicIndexBuffer,
-                                             const void* newVertices, uint32_t newVertexAttributes,
-                                             uint32_t newVertexCount, bool newDynamicVertexBuffer)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::initFromBuffer(newIndices, newIndexSize, newIndexCount, newDynamicIndexBuffer, newVertices, newVertexAttributes, newVertexCount, newDynamicVertexBuffer))
-            {
-                return false;
-            }
-
-            if (newIndices && indexSize && indexCount)
-            {
-                indexData.assign(static_cast<const uint8_t*>(newIndices),
-                                 static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
-            }
-
-            if (newVertices && vertexSize && vertexCount)
-            {
-                vertexData.assign(static_cast<const uint8_t*>(newVertices),
-                                  static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
-            }
-
-            indexBufferDirty = true;
-            vertexBufferDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool MeshBufferD3D11::setIndexSize(uint32_t indexSize)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::setIndexSize(indexSize))
-            {
-                return false;
-            }
-
-            indexBufferDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool MeshBufferD3D11::uploadIndices(const void* newIndices, uint32_t newIndexCount)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::uploadIndices(newIndices, newIndexCount))
-            {
-                return false;
-            }
-
-            indexData.assign(static_cast<const uint8_t*>(newIndices),
-                             static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
-
-            indexBufferDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool MeshBufferD3D11::uploadVertices(const void* newVertices, uint32_t newVertexCount)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!MeshBuffer::uploadVertices(newVertices, newVertexCount))
-            {
-                return false;
-            }
-
-            vertexData.assign(static_cast<const uint8_t*>(newVertices),
-                              static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
-
-            vertexBufferDirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
         }
 
         bool MeshBufferD3D11::uploadData(ID3D11Buffer* buffer, const std::vector<uint8_t>& data)
@@ -176,45 +63,52 @@ namespace ouzel
 
             return true;
         }
-
+        
         bool MeshBufferD3D11::update()
+        {
+            if (!MeshBuffer::update())
+            {
+                return false;
+            }
+
+            if (bytesPerIndex != indexSize)
+            {
+                switch (indexSize)
+                {
+                    case 2:
+                        indexFormat = DXGI_FORMAT_R16_UINT;
+                        bytesPerIndex = 2;
+                        break;
+                    case 4:
+                        indexFormat = DXGI_FORMAT_R32_UINT;
+                        bytesPerIndex = 4;
+                        break;
+                    default:
+                        indexFormat = DXGI_FORMAT_UNKNOWN;
+                        bytesPerIndex = 0;
+                        log("Invalid index size");
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        bool MeshBufferD3D11::upload()
         {
             if (indexBufferDirty || vertexBufferDirty)
             {
-                std::vector<uint8_t> localIndexData;
-                std::vector<uint8_t> localVertexData;
-
-                {
-                    std::lock_guard<std::mutex> lock(dataMutex);
-
-                    if (indexBufferDirty)
-                    {
-                        localIndexData = indexData;
-                        switch (indexSize)
-                        {
-                            case 2: indexFormat = DXGI_FORMAT_R16_UINT; break;
-                            case 4: indexFormat = DXGI_FORMAT_R32_UINT; break;
-                            default: log("Invalid index size"); return false;
-                        }
-                    }
-
-                    if (vertexBufferDirty)
-                    {
-                        localVertexData = vertexData;
-                    }
-                }
-
                 std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
                 if (indexBufferDirty)
                 {
-                    if (!localIndexData.empty())
+                    if (!uploadIndexData.empty())
                     {
-                        if (!indexBuffer || localIndexData.size() > indexBufferSize)
+                        if (!indexBuffer || uploadIndexData.size() > indexBufferSize)
                         {
                             if (indexBuffer) indexBuffer->Release();
 
-                            indexBufferSize = static_cast<UINT>(localIndexData.size());
+                            indexBufferSize = static_cast<UINT>(uploadIndexData.size());
 
                             D3D11_BUFFER_DESC indexBufferDesc;
                             memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
@@ -226,7 +120,7 @@ namespace ouzel
 
                             D3D11_SUBRESOURCE_DATA indexBufferResourceData;
                             memset(&indexBufferResourceData, 0, sizeof(indexBufferResourceData));
-                            indexBufferResourceData.pSysMem = localIndexData.data();
+                            indexBufferResourceData.pSysMem = uploadIndexData.data();
 
                             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &indexBuffer);
                             if (FAILED(hr))
@@ -237,7 +131,7 @@ namespace ouzel
                         }
                         else
                         {
-                            if (!uploadData(indexBuffer, localIndexData))
+                            if (!uploadData(indexBuffer, uploadIndexData))
                             {
                                 return false;
                             }
@@ -249,13 +143,13 @@ namespace ouzel
 
                 if (vertexBufferDirty)
                 {
-                    if (!localVertexData.empty())
+                    if (!uploadVertexData.empty())
                     {
-                        if (!vertexBuffer || localVertexData.size() > vertexBufferSize)
+                        if (!vertexBuffer || uploadVertexData.size() > vertexBufferSize)
                         {
                             if (vertexBuffer) vertexBuffer->Release();
 
-                            vertexBufferSize = static_cast<UINT>(localVertexData.size());
+                            vertexBufferSize = static_cast<UINT>(uploadVertexData.size());
 
                             D3D11_BUFFER_DESC vertexBufferDesc;
                             memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
@@ -267,7 +161,7 @@ namespace ouzel
 
                             D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
                             memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));
-                            vertexBufferResourceData.pSysMem = localVertexData.data();
+                            vertexBufferResourceData.pSysMem = uploadVertexData.data();
 
                             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &vertexBuffer);
                             if (FAILED(hr))
@@ -278,7 +172,7 @@ namespace ouzel
                         }
                         else
                         {
-                            if (!uploadData(vertexBuffer, localVertexData))
+                            if (!uploadData(vertexBuffer, uploadVertexData))
                             {
                                 return false;
                             }

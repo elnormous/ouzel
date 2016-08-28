@@ -12,8 +12,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureD3D11::TextureD3D11():
-            dirty(false)
+        TextureD3D11::TextureD3D11()
         {
 
         }
@@ -33,11 +32,7 @@ namespace ouzel
 
         void TextureD3D11::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             Texture::free();
-
-            data.clear();
 
             if (resourceView)
             {
@@ -52,110 +47,24 @@ namespace ouzel
             }
         }
 
-        bool TextureD3D11::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Texture::init(newSize, newDynamic, newMipmaps, newRenderTarget))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool TextureD3D11::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Texture::initFromBuffer(newData, newSize, newDynamic, newMipmaps))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return uploadData(newData, newSize);
-        }
-
-        bool TextureD3D11::upload(const std::vector<uint8_t>& newData, const Size2& newSize)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-            data.clear();
-
-            if (!Texture::upload(newData, newSize))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        bool TextureD3D11::uploadData(const std::vector<uint8_t>& newData, const Size2& newSize)
-        {
-            if (!Texture::uploadData(newData, newSize))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        bool TextureD3D11::uploadMipmap(uint32_t level, const Size2& mipMapSize, const std::vector<uint8_t>& newData)
-        {
-            if (!Texture::uploadMipmap(level, mipMapSize, newData))
-            {
-                return false;
-            }
-
-            if (data.size() < level + 1) data.resize(level + 1);
-
-            data[level].width = static_cast<UINT>(mipMapSize.width);
-            data[level].height = static_cast<UINT>(mipMapSize.height);
-            data[level].data = newData;
-
-            return true;
-        }
-
-        bool TextureD3D11::update()
+        bool TextureD3D11::upload()
         {
             if (dirty)
             {
-                std::vector<Data> localData;
-                Size2 localSize;
-
-                {
-                    std::lock_guard<std::mutex> lock(dataMutex);
-                    localData = data;
-                    localSize = size;
-                }
-
                 std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
-                if (localSize.width > 0 && localSize.height > 0)
+                if (!uploadData.empty() &&
+                    uploadData[0].size.width > 0 &&
+                    uploadData[0].size.height > 0)
                 {
                     if (!texture ||
-                        static_cast<UINT>(localSize.width) != width ||
-                        static_cast<UINT>(localSize.height) != height)
+                        static_cast<UINT>(uploadData[0].size.width) != width ||
+                        static_cast<UINT>(uploadData[0].size.height) != height)
                     {
                         if (texture) texture->Release();
 
-                        width = static_cast<UINT>(localSize.width);
-                        height = static_cast<UINT>(localSize.height);
+                        width = static_cast<UINT>(uploadData[0].size.width);
+                        height = static_cast<UINT>(uploadData[0].size.height);
 
                         D3D11_TEXTURE2D_DESC textureDesc;
                         memset(&textureDesc, 0, sizeof(textureDesc));
@@ -183,7 +92,7 @@ namespace ouzel
                         srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
                         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
                         srvDesc.Texture2D.MostDetailedMip = 0;
-                        srvDesc.Texture2D.MipLevels = mipmaps ? static_cast<UINT>(localData.size()) : 1;
+                        srvDesc.Texture2D.MipLevels = mipmaps ? static_cast<UINT>(uploadData.size()) : 1;
 
                         hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
                         if (FAILED(hr))
@@ -193,12 +102,12 @@ namespace ouzel
                         }
                     }
 
-                    if (!localData.empty())
+                    if (!uploadData.empty())
                     {
-                        for (size_t level = 0; level < localData.size(); ++level)
+                        for (size_t level = 0; level < uploadData.size(); ++level)
                         {
-                            UINT rowPitch = localData[level].width * 4;
-                            rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level), nullptr, localData[level].data.data(), rowPitch, 0);
+                            UINT rowPitch = static_cast<UINT>(uploadData[level].size.width) * 4;
+                            rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level), nullptr, uploadData[level].data.data(), rowPitch, 0);
                         }
                     }
                 }
