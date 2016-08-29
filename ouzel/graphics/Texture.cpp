@@ -26,7 +26,7 @@ namespace ouzel
 
         void Texture::free()
         {
-            data.levels.clear();
+            levels.clear();
             uploadData.levels.clear();
             
             ready = false;
@@ -37,15 +37,9 @@ namespace ouzel
             free();
 
             size = newSize;
-            data.size = newSize;
-
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
-
-            data.dynamic = dynamic;
-            data.mipmaps = mipmaps;
-            data.renderTarget = renderTarget;
 
             dirty = true;
 
@@ -76,10 +70,6 @@ namespace ouzel
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = false;
-
-            data.dynamic = dynamic;
-            data.mipmaps = mipmaps;
-            data.renderTarget = false;
 
             dirty = true;
 
@@ -183,21 +173,15 @@ namespace ouzel
                 return false;
             }
 
-            data.dynamic = dynamic;
-            data.mipmaps = mipmaps;
-            data.renderTarget = false;
-
             return calculateData(newData, newSize);
         }
 
         bool Texture::calculateData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            data.levels.clear();
-
+            levels.clear();
             size = newSize;
-            data.size = newSize;
 
-            data.levels.push_back({ newSize, newData });
+            levels.push_back({ newSize, newData });
 
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
             uint32_t newHeight = static_cast<uint32_t>(newSize.height);
@@ -232,7 +216,7 @@ namespace ouzel
                     newHeight >>= 1;
 
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                    data.levels.push_back({ mipMapSize, mipMapData });
+                    levels.push_back({ mipMapSize, mipMapData });
 
                     pitch = newWidth * 4;
                 }
@@ -248,7 +232,7 @@ namespace ouzel
                         newWidth >>= 1;
 
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        data.levels.push_back({ mipMapSize, mipMapData });
+                        levels.push_back({ mipMapSize, mipMapData });
 
                         pitch = newWidth * 4;
                     }
@@ -269,7 +253,7 @@ namespace ouzel
                         newHeight >>= 1;
                         
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        data.levels.push_back({ mipMapSize, mipMapData });
+                        levels.push_back({ mipMapSize, mipMapData });
                     }
                 }
             }
@@ -281,18 +265,14 @@ namespace ouzel
 
         bool Texture::update()
         {
-            if (data.size.width || data.size.height)
-            {
-                uploadData.size = data.size;
-            }
+            uploadData.size = size;
+            uploadData.dynamic = dynamic;
+            uploadData.mipmaps = mipmaps;
+            uploadData.renderTarget = renderTarget;
 
-            uploadData.dynamic = data.dynamic;
-            uploadData.mipmaps = data.mipmaps;
-            uploadData.renderTarget = data.renderTarget;
-
-            if (!data.levels.empty())
+            if (!levels.empty())
             {
-                uploadData.levels = std::move(data.levels);
+                uploadData.levels = std::move(levels);
             }
 
             return true;

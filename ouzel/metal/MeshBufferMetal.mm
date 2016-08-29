@@ -52,50 +52,42 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferMetal::update()
-        {
-            if (!MeshBuffer::update())
-            {
-                return false;
-            }
-
-            if (bytesPerIndex != indexSize)
-            {
-                switch (indexSize)
-                {
-                    case 2:
-                        indexFormat = MTLIndexTypeUInt16;
-                        bytesPerIndex = 2;
-                        break;
-                    case 4:
-                        indexFormat = MTLIndexTypeUInt32;
-                        bytesPerIndex = 4;
-                        break;
-                    default:
-                        bytesPerIndex = 0;
-                        log("Invalid index size");
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
         bool MeshBufferMetal::upload()
         {
-            if (indexBufferDirty || vertexBufferDirty)
+            if (indexBufferDirty || vertexBufferDirty || indexSizeDirty || vertexAttributesDirty)
             {
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
+                if (indexSizeDirty)
+                {
+                    switch (uploadData.indexSize)
+                    {
+                        case 2:
+                            indexFormat = MTLIndexTypeUInt16;
+                            bytesPerIndex = 2;
+                            break;
+                        case 4:
+                            indexFormat = MTLIndexTypeUInt32;
+                            bytesPerIndex = 4;
+                            break;
+                        default:
+                            bytesPerIndex = 0;
+                            log("Invalid index size");
+                            return false;
+                    }
+
+                    indexSizeDirty = false;
+                }
+
                 if (indexBufferDirty)
                 {
-                    if (!uploadIndexData.empty())
+                    if (!uploadData.indexData.empty())
                     {
-                        if (!indexBuffer || uploadIndexData.size() > indexBufferSize)
+                        if (!indexBuffer || uploadData.indexData.size() > indexBufferSize)
                         {
                             if (indexBuffer) [indexBuffer release];
 
-                            indexBufferSize = static_cast<uint32_t>(uploadIndexData.size());
+                            indexBufferSize = static_cast<uint32_t>(uploadData.indexData.size());
 
                             indexBuffer = [rendererMetal->getDevice() newBufferWithLength:indexBufferSize
                                                                                   options:MTLResourceCPUCacheModeWriteCombined];
@@ -107,7 +99,7 @@ namespace ouzel
                             }
                         }
 
-                        if (!uploadBuffer(indexBuffer, uploadIndexData))
+                        if (!uploadBuffer(indexBuffer, uploadData.indexData))
                         {
                             return false;
                         }
@@ -118,13 +110,13 @@ namespace ouzel
 
                 if (vertexBufferDirty)
                 {
-                    if (!uploadVertexData.empty())
+                    if (!uploadData.vertexData.empty())
                     {
-                        if (!vertexBuffer || uploadVertexData.size() > vertexBufferSize)
+                        if (!vertexBuffer || uploadData.vertexData.size() > vertexBufferSize)
                         {
                             if (vertexBuffer) [vertexBuffer release];
 
-                            vertexBufferSize = static_cast<uint32_t>(uploadVertexData.size());
+                            vertexBufferSize = static_cast<uint32_t>(uploadData.vertexData.size());
 
                             vertexBuffer = [rendererMetal->getDevice() newBufferWithLength:vertexBufferSize
                                                                                    options:MTLResourceCPUCacheModeWriteCombined];
@@ -136,7 +128,7 @@ namespace ouzel
                             }
                         }
 
-                        if (!uploadBuffer(vertexBuffer, uploadVertexData))
+                        if (!uploadBuffer(vertexBuffer, uploadData.vertexData))
                         {
                             return false;
                         }
@@ -145,6 +137,7 @@ namespace ouzel
                     vertexBufferDirty = false;
                 }
 
+                vertexAttributesDirty = false;
                 ready = (indexBuffer && vertexBuffer);
             }
 

@@ -23,8 +23,8 @@ namespace ouzel
         {
             indexData.clear();
             vertexData.clear();
-            uploadIndexData.clear();
-            uploadVertexData.clear();
+            uploadData.indexData.clear();
+            uploadData.vertexData.clear();
             
             ready = false;
         }
@@ -58,7 +58,7 @@ namespace ouzel
             if (newIndices && indexSize && indexCount)
             {
                 indexData.assign(static_cast<const uint8_t*>(newIndices),
-                                 static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
+                                      static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
             }
 
             if (newVertices && vertexSize && vertexCount)
@@ -69,6 +69,8 @@ namespace ouzel
 
             indexBufferDirty = true;
             vertexBufferDirty = true;
+            indexSizeDirty = true;
+            vertexAttributesDirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -117,7 +119,7 @@ namespace ouzel
         {
             indexSize = newIndexSize;
 
-            indexBufferDirty = true;
+            indexSizeDirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -129,7 +131,7 @@ namespace ouzel
             vertexAttributes = newVertexAttributes;
             updateVertexSize();
 
-            vertexBufferDirty = true;
+            vertexAttributesDirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -168,14 +170,20 @@ namespace ouzel
 
         bool MeshBuffer::update()
         {
+            uploadData.indexSize = indexSize;
+            uploadData.vertexSize = vertexSize;
+            uploadData.vertexAttributes = vertexAttributes;
+            uploadData.dynamicIndexBuffer = dynamicIndexBuffer;
+            uploadData.dynamicVertexBuffer = dynamicVertexBuffer;
+
             if (!indexData.empty())
             {
-                uploadIndexData = std::move(indexData);
+                uploadData.indexData = std::move(indexData);
             }
 
             if (!vertexData.empty())
             {
-                uploadVertexData = std::move(vertexData);
+                uploadData.vertexData = std::move(vertexData);
             }
             
             return true;

@@ -58,18 +58,30 @@ namespace ouzel
 
             uint32_t vertexAttributes;
 
+            std::vector<uint8_t> indexData;
+            std::vector<uint8_t> vertexData;
+
+            struct Data
+            {
+                uint32_t indexSize = 0;
+                uint32_t vertexSize = 0;
+                uint32_t vertexAttributes = 0;
+                bool dynamicIndexBuffer = true;
+                bool dynamicVertexBuffer = true;
+                std::vector<uint8_t> indexData;
+                std::vector<uint8_t> vertexData;
+            };
+
+            Data uploadData;
+
             bool dynamicIndexBuffer = true;
             bool dynamicVertexBuffer = true;
             bool ready = false;
 
-            std::vector<uint8_t> indexData;
-            std::vector<uint8_t> vertexData;
-
-            std::vector<uint8_t> uploadIndexData;
-            std::vector<uint8_t> uploadVertexData;
-
             bool indexBufferDirty = false;
             bool vertexBufferDirty = false;
+            bool indexSizeDirty = false;
+            bool vertexAttributesDirty = false;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -57,67 +57,6 @@ namespace ouzel
             }
         }
 
-        bool MeshBufferOGL::updateVertexAttributes()
-        {
-            uploadVertexAttributes.clear();
-
-            GLuint offset = 0;
-
-            if (vertexAttributes & VERTEX_POSITION)
-            {
-                uploadVertexAttributes.push_back({
-                    3, GL_FLOAT, GL_FALSE,
-                    static_cast<GLsizei>(vertexSize),
-                    reinterpret_cast<const GLvoid*>(offset)
-                });
-                offset += 3 * sizeof(float);
-            }
-            if (vertexAttributes & VERTEX_COLOR)
-            {
-                uploadVertexAttributes.push_back({
-                    4, GL_UNSIGNED_BYTE, GL_TRUE,
-                    static_cast<GLsizei>(vertexSize),
-                    reinterpret_cast<const GLvoid*>(offset)
-                });
-                offset += 4 * sizeof(uint8_t);
-            }
-            if (vertexAttributes & VERTEX_NORMAL)
-            {
-                uploadVertexAttributes.push_back({
-                    3, GL_FLOAT, GL_FALSE,
-                    static_cast<GLsizei>(vertexSize),
-                    reinterpret_cast<const GLvoid*>(offset)
-                });
-                offset += 3 * sizeof(float);
-            }
-            if (vertexAttributes & VERTEX_TEXCOORD0)
-            {
-                uploadVertexAttributes.push_back({
-                    2, GL_FLOAT, GL_FALSE,
-                    static_cast<GLsizei>(vertexSize),
-                    reinterpret_cast<const GLvoid*>(offset)
-                });
-                offset += 2 * sizeof(float);
-            }
-            if (vertexAttributes & VERTEX_TEXCOORD1)
-            {
-                uploadVertexAttributes.push_back({
-                    2, GL_FLOAT, GL_FALSE,
-                    static_cast<GLsizei>(vertexSize),
-                    reinterpret_cast<const GLvoid*>(offset)
-                });
-                offset += 2 * sizeof(float);
-            }
-
-            if (offset != vertexSize)
-            {
-                log("Invalid vertex size");
-                return false;
-            }
-
-            return true;
-        }
-
         bool MeshBufferOGL::bindBuffers()
         {
             if (vertexArrayId)
@@ -142,15 +81,15 @@ namespace ouzel
 
                 for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
                 {
-                    if (index < uploadVertexAttributes.size())
+                    if (index < vertexAttribs.size())
                     {
                         glEnableVertexAttribArray(index);
                         glVertexAttribPointer(index,
-                                              uploadVertexAttributes[index].size,
-                                              uploadVertexAttributes[index].type,
-                                              uploadVertexAttributes[index].normalized,
-                                              uploadVertexAttributes[index].stride,
-                                              uploadVertexAttributes[index].pointer);
+                                              vertexAttribs[index].size,
+                                              vertexAttribs[index].type,
+                                              vertexAttribs[index].normalized,
+                                              vertexAttribs[index].stride,
+                                              vertexAttribs[index].pointer);
                     }
                     else
                     {
@@ -179,51 +118,32 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferOGL::update()
-        {
-            if (!MeshBuffer::update())
-            {
-                return false;
-            }
-
-            if (bytesPerIndex != indexSize)
-            {
-                switch (indexSize)
-                {
-                    case 2:
-                        indexFormat = GL_UNSIGNED_SHORT;
-                        bytesPerIndex = 2;
-                        break;
-                    case 4:
-                        indexFormat = GL_UNSIGNED_INT;
-                        bytesPerIndex = 4;
-                        break;
-                    default:
-                        indexFormat = 0;
-                        bytesPerIndex = 0;
-                        log("Invalid index size");
-                        return false;
-                }
-            }
-
-            if (currentVertexAttributes != vertexAttributes)
-            {
-                currentVertexAttributes = vertexAttributes;
-
-                if (!updateVertexAttributes())
-                {
-                    return false;
-                }
-                vertexAttribsDirty = true;
-            }
-
-            return true;
-        }
-
         bool MeshBufferOGL::upload()
         {
-            if (indexBufferDirty || vertexBufferDirty || vertexAttribsDirty)
+            if (indexBufferDirty || vertexBufferDirty || indexSizeDirty || vertexAttributesDirty)
             {
+                if (indexSizeDirty)
+                {
+                    switch (uploadData.indexSize)
+                    {
+                        case 2:
+                            indexFormat = GL_UNSIGNED_SHORT;
+                            bytesPerIndex = 2;
+                            break;
+                        case 4:
+                            indexFormat = GL_UNSIGNED_INT;
+                            bytesPerIndex = 4;
+                            break;
+                        default:
+                            indexFormat = 0;
+                            bytesPerIndex = 0;
+                            log("Invalid index size");
+                            return false;
+                    }
+
+                    indexSizeDirty = false;
+                }
+
                 if (!vertexArrayId)
                 {
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
@@ -242,7 +162,7 @@ namespace ouzel
 
                 if (indexBufferDirty)
                 {
-                    if (!uploadIndexData.empty())
+                    if (!uploadData.indexData.empty())
                     {
                         if (vertexArrayId)
                         {
@@ -254,8 +174,8 @@ namespace ouzel
                             RendererOGL::bindElementArrayBuffer(indexBufferId);
                         }
 
-                        glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(uploadIndexData.size()), uploadIndexData.data(),
-                                     dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                        glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(uploadData.indexData.size()), uploadData.indexData.data(),
+                                     uploadData.dynamicIndexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())
                         {
@@ -272,8 +192,64 @@ namespace ouzel
                     glGenBuffers(1, &vertexBufferId);
                 }
 
-                if (vertexAttribsDirty)
+                if (vertexAttributesDirty)
                 {
+                    vertexAttribs.clear();
+
+                    GLuint offset = 0;
+
+                    if (uploadData.vertexAttributes & VERTEX_POSITION)
+                    {
+                        vertexAttribs.push_back({
+                            3, GL_FLOAT, GL_FALSE,
+                            static_cast<GLsizei>(uploadData.vertexSize),
+                            reinterpret_cast<const GLvoid*>(offset)
+                        });
+                        offset += 3 * sizeof(float);
+                    }
+                    if (uploadData.vertexAttributes & VERTEX_COLOR)
+                    {
+                        vertexAttribs.push_back({
+                            4, GL_UNSIGNED_BYTE, GL_TRUE,
+                            static_cast<GLsizei>(uploadData.vertexSize),
+                            reinterpret_cast<const GLvoid*>(offset)
+                        });
+                        offset += 4 * sizeof(uint8_t);
+                    }
+                    if (uploadData.vertexAttributes & VERTEX_NORMAL)
+                    {
+                        vertexAttribs.push_back({
+                            3, GL_FLOAT, GL_FALSE,
+                            static_cast<GLsizei>(uploadData.vertexSize),
+                            reinterpret_cast<const GLvoid*>(offset)
+                        });
+                        offset += 3 * sizeof(float);
+                    }
+                    if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
+                    {
+                        vertexAttribs.push_back({
+                            2, GL_FLOAT, GL_FALSE,
+                            static_cast<GLsizei>(uploadData.vertexSize),
+                            reinterpret_cast<const GLvoid*>(offset)
+                        });
+                        offset += 2 * sizeof(float);
+                    }
+                    if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
+                    {
+                        vertexAttribs.push_back({
+                            2, GL_FLOAT, GL_FALSE,
+                            static_cast<GLsizei>(uploadData.vertexSize),
+                            reinterpret_cast<const GLvoid*>(offset)
+                        });
+                        offset += 2 * sizeof(float);
+                    }
+                    
+                    if (offset != uploadData.vertexSize)
+                    {
+                        log("Invalid vertex size");
+                        return false;
+                    }
+
                     if (vertexArrayId)
                     {
                         RendererOGL::bindVertexArray(vertexArrayId);
@@ -281,15 +257,15 @@ namespace ouzel
 
                         for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
                         {
-                            if (index < uploadVertexAttributes.size())
+                            if (index < vertexAttribs.size())
                             {
                                 glEnableVertexAttribArray(index);
                                 glVertexAttribPointer(index,
-                                                      uploadVertexAttributes[index].size,
-                                                      uploadVertexAttributes[index].type,
-                                                      uploadVertexAttributes[index].normalized,
-                                                      uploadVertexAttributes[index].stride,
-                                                      uploadVertexAttributes[index].pointer);
+                                                      vertexAttribs[index].size,
+                                                      vertexAttribs[index].type,
+                                                      vertexAttribs[index].normalized,
+                                                      vertexAttribs[index].stride,
+                                                      vertexAttribs[index].pointer);
                             }
                             else
                             {
@@ -304,12 +280,12 @@ namespace ouzel
                         }
                     }
 
-                    vertexAttribsDirty = false;
+                    vertexAttributesDirty = false;
                 }
 
                 if (vertexBufferDirty)
                 {
-                    if (!uploadVertexData.empty())
+                    if (!uploadData.vertexData.empty())
                     {
                         if (vertexArrayId)
                         {
@@ -321,8 +297,8 @@ namespace ouzel
                             RendererOGL::bindArrayBuffer(vertexBufferId);
                         }
 
-                        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(uploadVertexData.size()), uploadVertexData.data(),
-                                     dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(uploadData.vertexData.size()), uploadData.vertexData.data(),
+                                     uploadData.dynamicVertexBuffer ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())
                         {

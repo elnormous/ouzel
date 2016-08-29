@@ -63,6 +63,8 @@ namespace ouzel
                 std::vector<uint8_t> data;
             };
 
+            std::vector<Level> levels;
+
             struct Data
             {
                 Size2 size;
@@ -72,7 +74,6 @@ namespace ouzel
                 std::vector<Level> levels;
             };
 
-            Data data;
             Data uploadData;
         };
     } // namespace graphics

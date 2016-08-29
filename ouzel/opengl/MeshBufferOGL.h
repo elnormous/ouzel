@@ -60,9 +60,6 @@ namespace ouzel
 
         protected:
             MeshBufferOGL();
-            bool updateVertexAttributes();
-            
-            virtual bool update() override;
             virtual bool upload() override;
 
             GLuint indexBufferId = 0;
@@ -72,8 +69,6 @@ namespace ouzel
             GLenum indexFormat = 0;
             GLuint bytesPerIndex = 0;
 
-            uint32_t currentVertexAttributes = 0;
-
             struct VertexAttrib
             {
                 GLint size;
@@ -82,9 +77,7 @@ namespace ouzel
                 GLsizei stride;
                 const GLvoid* pointer;
             };
-            std::vector<VertexAttrib> uploadVertexAttributes;
-
-            bool vertexAttribsDirty = false;
+            std::vector<VertexAttrib> vertexAttribs;
         };
     } // namespace graphics
 } // namespace ouzel

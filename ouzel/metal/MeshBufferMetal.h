@@ -38,7 +38,6 @@ namespace ouzel
 
         protected:
             MeshBufferMetal();
-            virtual bool update() override;
             virtual bool upload() override;
 
             bool uploadBuffer(MTLBufferPtr buffer, const std::vector<uint8_t>& data);

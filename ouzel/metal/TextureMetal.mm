@@ -60,7 +60,7 @@ namespace ouzel
                                                                                                                         height:height
                                                                                                                      mipmapped:uploadData.mipmaps ? YES : NO];
                             textureDescriptor.textureType = MTLTextureType2D;
-                            textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
+                            textureDescriptor.usage = MTLTextureUsageShaderRead | (uploadData.renderTarget ? MTLTextureUsageRenderTarget : 0);
 
                             texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
