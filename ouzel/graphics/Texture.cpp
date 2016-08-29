@@ -79,9 +79,14 @@ namespace ouzel
 
             dirty = true;
 
+            if (!calculateData(newData, newSize))
+            {
+                return false;
+            }
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
-            return calculateData(newData, newSize);
+            return true;
         }
 
         static void imageRgba8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
