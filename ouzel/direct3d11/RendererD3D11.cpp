@@ -465,6 +465,8 @@ namespace ouzel
                 return false;
             }
 
+            std::vector<float> shaderData;
+
             if (drawQueue.empty())
             {
                 context->OMSetRenderTargets(1, &renderTargetView, nullptr);
@@ -550,7 +552,7 @@ namespace ouzel
                     return false;
                 }
 
-                std::vector<float> pixelShaderData;
+                shaderData.clear();
 
                 for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                 {
@@ -563,12 +565,12 @@ namespace ouzel
                         return false;
                     }
 
-                    pixelShaderData.insert(pixelShaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
+                    shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
                 }
 
                 shaderD3D11->uploadBuffer(shaderD3D11->getPixelShaderConstantBuffer(),
-                                          pixelShaderData.data(),
-                                          static_cast<uint32_t>(vectorDataSize(pixelShaderData)));
+                                          shaderData.data(),
+                                          static_cast<uint32_t>(vectorDataSize(shaderData)));
 
                 ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
                 context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
@@ -582,7 +584,7 @@ namespace ouzel
                     return false;
                 }
 
-                std::vector<float> vertexShaderData;
+                shaderData.clear();
 
                 for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                 {
@@ -595,12 +597,12 @@ namespace ouzel
                         return false;
                     }
 
-                    vertexShaderData.insert(vertexShaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
+                    shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                 }
 
                 shaderD3D11->uploadBuffer(shaderD3D11->getVertexShaderConstantBuffer(),
-                                          vertexShaderData.data(),
-                                          static_cast<uint32_t>(vectorDataSize(vertexShaderData)));
+                                          shaderData.data(),
+                                          static_cast<uint32_t>(vectorDataSize(shaderData)));
 
                 ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
                 context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);

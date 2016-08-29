@@ -418,6 +418,8 @@ namespace ouzel
                 return false;
             }
 
+            std::vector<float> shaderData;
+
             if (drawQueue.empty())
             {
                 if (!createRenderCommandEncoder(renderPassDescriptor))
@@ -490,7 +492,7 @@ namespace ouzel
                     return false;
                 }
 
-                std::vector<float> pixelShaderData;
+                shaderData.clear();
 
                 for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                 {
@@ -503,13 +505,13 @@ namespace ouzel
                         return false;
                     }
 
-                    pixelShaderData.insert(pixelShaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
+                    shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
                 }
 
                 shaderMetal->uploadBuffer(shaderMetal->getPixelShaderConstantBuffer(),
                                           shaderMetal->getPixelShaderConstantBufferOffset(),
-                                          pixelShaderData.data(),
-                                          static_cast<uint32_t>(vectorDataSize(pixelShaderData)));
+                                          shaderData.data(),
+                                          static_cast<uint32_t>(vectorDataSize(shaderData)));
 
                 [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
                                                         offset:shaderMetal->getPixelShaderConstantBufferOffset()
@@ -525,7 +527,7 @@ namespace ouzel
                     return false;
                 }
 
-                std::vector<float> vertexShaderData;
+                shaderData.clear();
 
                 for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                 {
@@ -538,13 +540,13 @@ namespace ouzel
                         return false;
                     }
 
-                    vertexShaderData.insert(vertexShaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
+                    shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                 }
 
                 shaderMetal->uploadBuffer(shaderMetal->getVertexShaderConstantBuffer(),
                                           shaderMetal->getVertexShaderConstantBufferOffset(),
-                                          vertexShaderData.data(),
-                                          static_cast<uint32_t>(vectorDataSize(vertexShaderData)));
+                                          shaderData.data(),
+                                          static_cast<uint32_t>(vectorDataSize(shaderData)));
 
                 [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
                                                       offset:shaderMetal->getVertexShaderConstantBufferOffset()
