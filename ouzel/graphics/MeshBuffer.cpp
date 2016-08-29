@@ -67,10 +67,7 @@ namespace ouzel
                                   static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
             }
 
-            indexBufferDirty = true;
-            vertexBufferDirty = true;
-            indexSizeDirty = true;
-            vertexAttributesDirty = true;
+            dirty = INDEX_BUFFER_DIRTY | VERTEX_BUFFER_DIRTY | INDEX_SIZE_DIRTY | VERTEX_ATTRIBUTES_DIRTY;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -89,7 +86,7 @@ namespace ouzel
             indexData.assign(static_cast<const uint8_t*>(newIndices),
                              static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
 
-            indexBufferDirty = true;
+            dirty |= INDEX_BUFFER_DIRTY;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -108,7 +105,7 @@ namespace ouzel
             vertexData.assign(static_cast<const uint8_t*>(newVertices),
                               static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
-            vertexBufferDirty = true;
+            dirty |= VERTEX_BUFFER_DIRTY;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -119,7 +116,7 @@ namespace ouzel
         {
             indexSize = newIndexSize;
 
-            indexSizeDirty = true;
+            dirty |= INDEX_SIZE_DIRTY;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -131,7 +128,7 @@ namespace ouzel
             vertexAttributes = newVertexAttributes;
             updateVertexSize();
 
-            vertexAttributesDirty = true;
+            dirty |= VERTEX_ATTRIBUTES_DIRTY;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 

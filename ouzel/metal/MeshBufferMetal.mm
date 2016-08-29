@@ -54,11 +54,11 @@ namespace ouzel
 
         bool MeshBufferMetal::upload()
         {
-            if (indexBufferDirty || vertexBufferDirty || indexSizeDirty || vertexAttributesDirty)
+            if (dirty)
             {
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-                if (indexSizeDirty)
+                if (dirty & INDEX_SIZE_DIRTY)
                 {
                     switch (uploadData.indexSize)
                     {
@@ -76,10 +76,10 @@ namespace ouzel
                             return false;
                     }
 
-                    indexSizeDirty = false;
+                    dirty &= ~INDEX_SIZE_DIRTY;
                 }
 
-                if (indexBufferDirty)
+                if (dirty & INDEX_BUFFER_DIRTY)
                 {
                     if (!uploadData.indexData.empty())
                     {
@@ -105,10 +105,10 @@ namespace ouzel
                         }
                     }
 
-                    indexBufferDirty = false;
+                    dirty &= ~INDEX_BUFFER_DIRTY;
                 }
 
-                if (vertexBufferDirty)
+                if (dirty & VERTEX_BUFFER_DIRTY)
                 {
                     if (!uploadData.vertexData.empty())
                     {
@@ -134,10 +134,10 @@ namespace ouzel
                         }
                     }
 
-                    vertexBufferDirty = false;
+                    dirty &= ~VERTEX_BUFFER_DIRTY;
                 }
 
-                vertexAttributesDirty = false;
+                dirty = 0;
                 ready = (indexBuffer && vertexBuffer);
             }
 

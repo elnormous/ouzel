@@ -120,9 +120,9 @@ namespace ouzel
 
         bool MeshBufferOGL::upload()
         {
-            if (indexBufferDirty || vertexBufferDirty || indexSizeDirty || vertexAttributesDirty)
+            if (dirty)
             {
-                if (indexSizeDirty)
+                if (dirty & INDEX_SIZE_DIRTY)
                 {
                     switch (uploadData.indexSize)
                     {
@@ -141,7 +141,7 @@ namespace ouzel
                             return false;
                     }
 
-                    indexSizeDirty = false;
+                    dirty &= ~INDEX_SIZE_DIRTY;
                 }
 
                 if (!vertexArrayId)
@@ -160,7 +160,7 @@ namespace ouzel
                     glGenBuffers(1, &indexBufferId);
                 }
 
-                if (indexBufferDirty)
+                if (dirty & INDEX_BUFFER_DIRTY)
                 {
                     if (!uploadData.indexData.empty())
                     {
@@ -184,7 +184,7 @@ namespace ouzel
                         }
                     }
 
-                    indexBufferDirty = false;
+                    dirty &= ~INDEX_BUFFER_DIRTY;
                 }
 
                 if (!vertexBufferId)
@@ -192,7 +192,7 @@ namespace ouzel
                     glGenBuffers(1, &vertexBufferId);
                 }
 
-                if (vertexAttributesDirty)
+                if (dirty & VERTEX_ATTRIBUTES_DIRTY)
                 {
                     vertexAttribs.clear();
 
@@ -280,10 +280,10 @@ namespace ouzel
                         }
                     }
 
-                    vertexAttributesDirty = false;
+                    dirty &= ~VERTEX_ATTRIBUTES_DIRTY;
                 }
 
-                if (vertexBufferDirty)
+                if (dirty & VERTEX_BUFFER_DIRTY)
                 {
                     if (!uploadData.vertexData.empty())
                     {
@@ -307,9 +307,10 @@ namespace ouzel
                         }
                     }
 
-                    vertexBufferDirty = false;
+                    dirty &= ~VERTEX_BUFFER_DIRTY;
                 }
 
+                dirty = 0;
                 ready = true;
             }
 

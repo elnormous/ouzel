@@ -78,10 +78,15 @@ namespace ouzel
             bool dynamicVertexBuffer = true;
             bool ready = false;
 
-            bool indexBufferDirty = false;
-            bool vertexBufferDirty = false;
-            bool indexSizeDirty = false;
-            bool vertexAttributesDirty = false;
+            enum Dirty
+            {
+                INDEX_BUFFER_DIRTY = 0x01,
+                VERTEX_BUFFER_DIRTY = 0x02,
+                INDEX_SIZE_DIRTY = 0x04,
+                VERTEX_ATTRIBUTES_DIRTY = 0x08,
+            };
+
+            uint32_t dirty = 0;
         };
     } // namespace graphics
 } // namespace ouzel
