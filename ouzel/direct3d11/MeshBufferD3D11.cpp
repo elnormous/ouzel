@@ -45,7 +45,7 @@ namespace ouzel
             }
         }
 
-        bool MeshBufferD3D11::uploadData(ID3D11Buffer* buffer, const std::vector<uint8_t>& data)
+        bool MeshBufferD3D11::uploadBuffer(ID3D11Buffer* buffer, const std::vector<uint8_t>& data)
         {
             std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
@@ -63,64 +63,53 @@ namespace ouzel
 
             return true;
         }
-        
-        bool MeshBufferD3D11::update()
-        {
-            if (!MeshBuffer::update())
-            {
-                return false;
-            }
-
-            if (bytesPerIndex != indexSize)
-            {
-                switch (indexSize)
-                {
-                    case 2:
-                        indexFormat = DXGI_FORMAT_R16_UINT;
-                        bytesPerIndex = 2;
-                        break;
-                    case 4:
-                        indexFormat = DXGI_FORMAT_R32_UINT;
-                        bytesPerIndex = 4;
-                        break;
-                    default:
-                        indexFormat = DXGI_FORMAT_UNKNOWN;
-                        bytesPerIndex = 0;
-                        log("Invalid index size");
-                        return false;
-                }
-            }
-
-            return true;
-        }
 
         bool MeshBufferD3D11::upload()
         {
-            if (indexBufferDirty || vertexBufferDirty)
+            if (indexBufferDirty || vertexBufferDirty || indexSizeDirty || vertexAttributesDirty)
             {
                 std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
+                if (indexSizeDirty)
+                {
+                    switch (uploadData.indexSize)
+                    {
+                    case 2:
+                        indexFormat = DXGI_FORMAT_R16_UINT;
+                        break;
+                    case 4:
+                        indexFormat = DXGI_FORMAT_R32_UINT;
+                        break;
+                    default:
+                        indexFormat = DXGI_FORMAT_UNKNOWN;
+                        log("Invalid index size");
+                        return false;
+                    }
+
+                    indexSizeDirty = false;
+                }
+
                 if (indexBufferDirty)
                 {
-                    if (!uploadIndexData.empty())
+                    if (!uploadData.indexData.empty())
                     {
-                        if (!indexBuffer || uploadIndexData.size() > indexBufferSize)
+                        if (!indexBuffer || uploadData.indexData.size() > indexBufferSize)
                         {
                             if (indexBuffer) indexBuffer->Release();
 
-                            indexBufferSize = static_cast<UINT>(uploadIndexData.size());
+                            indexBufferSize = static_cast<UINT>(uploadData.indexData.size());
 
                             D3D11_BUFFER_DESC indexBufferDesc;
                             memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
 
                             indexBufferDesc.ByteWidth = indexBufferSize;
-                            indexBufferDesc.Usage = dynamicIndexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                            indexBufferDesc.Usage = uploadData.dynamicIndexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
                             indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
                             indexBufferDesc.CPUAccessFlags = dynamicIndexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
 
                             D3D11_SUBRESOURCE_DATA indexBufferResourceData;
                             memset(&indexBufferResourceData, 0, sizeof(indexBufferResourceData));
-                            indexBufferResourceData.pSysMem = uploadIndexData.data();
+                            indexBufferResourceData.pSysMem = uploadData.indexData.data();
 
                             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &indexBuffer);
                             if (FAILED(hr))
@@ -131,7 +120,7 @@ namespace ouzel
                         }
                         else
                         {
-                            if (!uploadData(indexBuffer, uploadIndexData))
+                            if (!uploadBuffer(indexBuffer, uploadData.indexData))
                             {
                                 return false;
                             }
@@ -143,25 +132,25 @@ namespace ouzel
 
                 if (vertexBufferDirty)
                 {
-                    if (!uploadVertexData.empty())
+                    if (!uploadData.vertexData.empty())
                     {
-                        if (!vertexBuffer || uploadVertexData.size() > vertexBufferSize)
+                        if (!vertexBuffer || uploadData.vertexData.size() > vertexBufferSize)
                         {
                             if (vertexBuffer) vertexBuffer->Release();
 
-                            vertexBufferSize = static_cast<UINT>(uploadVertexData.size());
+                            vertexBufferSize = static_cast<UINT>(uploadData.vertexData.size());
 
                             D3D11_BUFFER_DESC vertexBufferDesc;
                             memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
 
                             vertexBufferDesc.ByteWidth = vertexBufferSize;
-                            vertexBufferDesc.Usage = dynamicVertexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                            vertexBufferDesc.Usage = uploadData.dynamicVertexBuffer ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
                             vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-                            vertexBufferDesc.CPUAccessFlags = dynamicVertexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
+                            vertexBufferDesc.CPUAccessFlags = uploadData.dynamicVertexBuffer ? D3D11_CPU_ACCESS_WRITE : 0;
 
                             D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
                             memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));
-                            vertexBufferResourceData.pSysMem = uploadVertexData.data();
+                            vertexBufferResourceData.pSysMem = uploadData.vertexData.data();
 
                             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &vertexBuffer);
                             if (FAILED(hr))
@@ -172,7 +161,7 @@ namespace ouzel
                         }
                         else
                         {
-                            if (!uploadData(vertexBuffer, uploadVertexData))
+                            if (!uploadBuffer(vertexBuffer, uploadData.vertexData))
                             {
                                 return false;
                             }
@@ -181,6 +170,8 @@ namespace ouzel
 
                     vertexBufferDirty = false;
                 }
+
+                vertexAttributesDirty = false;
 
                 ready = (indexBuffer && vertexBuffer);
             }

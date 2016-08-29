@@ -30,10 +30,9 @@ namespace ouzel
 
         protected:
             MeshBufferD3D11();
-            virtual bool update() override;
             virtual bool upload() override;
 
-            bool uploadData(ID3D11Buffer* buffer, const std::vector<uint8_t>& data);
+            bool uploadBuffer(ID3D11Buffer* buffer, const std::vector<uint8_t>& data);
 
             ID3D11Buffer* indexBuffer = nullptr;
             UINT indexBufferSize = 0;
@@ -42,7 +41,6 @@ namespace ouzel
             UINT vertexBufferSize = 0;
 
             DXGI_FORMAT indexFormat = DXGI_FORMAT_UNKNOWN;
-            UINT bytesPerIndex = 0;
         };
     } // namespace graphics
 } // namespace ouzel
