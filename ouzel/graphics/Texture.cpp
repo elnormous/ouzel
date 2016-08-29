@@ -40,10 +40,12 @@ namespace ouzel
             data.size = newSize;
 
             dynamic = newDynamic;
-            data.dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
-            data.renderTarget = newRenderTarget;
+
+            data.dynamic = dynamic;
+            data.mipmaps = mipmaps;
+            data.renderTarget = renderTarget;
 
             dirty = true;
 
@@ -57,9 +59,6 @@ namespace ouzel
             free();
 
             filename = newFilename;
-            dynamic = newDynamic;
-            mipmaps = newMipmaps;
-            renderTarget = false;
 
             Image image;
             if (!image.initFromFile(filename))
@@ -76,6 +75,11 @@ namespace ouzel
 
             dynamic = newDynamic;
             mipmaps = newMipmaps;
+            renderTarget = false;
+
+            data.dynamic = dynamic;
+            data.mipmaps = mipmaps;
+            data.renderTarget = false;
 
             dirty = true;
 
@@ -178,6 +182,10 @@ namespace ouzel
             {
                 return false;
             }
+
+            data.dynamic = dynamic;
+            data.mipmaps = mipmaps;
+            data.renderTarget = false;
 
             return calculateData(newData, newSize);
         }
