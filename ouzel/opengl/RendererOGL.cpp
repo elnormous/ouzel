@@ -778,28 +778,14 @@ namespace ouzel
 
         bool RendererOGL::createMSAAFrameBuffer()
         {
-            if (msaaTextureId)
-            {
-                glDeleteTextures(1, &msaaTextureId);
-                msaaTextureId = 0;
-            }
-
-            if (msaaRenderBufferId)
-            {
-                glDeleteRenderbuffers(1, &msaaRenderBufferId);
-                msaaRenderBufferId = 0;
-            }
-
-            if (msaaFrameBufferId)
-            {
-                glDeleteFramebuffers(1, &msaaFrameBufferId);
-                msaaFrameBufferId = 0;
-            }
-
 #if OUZEL_PLATFORM_MACOS
             glEnable(GL_MULTISAMPLE);
 
-            glGenTextures(1, &msaaTextureId);
+            if (!msaaTextureId)
+            {
+                glGenTextures(1, &msaaTextureId);
+            }
+
             glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId);
             glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, sampleCount, GL_RGBA,
                                     frameBufferWidth, frameBufferHeight, false);
@@ -810,7 +796,11 @@ namespace ouzel
                 return false;
             }
 
-            glGenFramebuffers(1, &msaaFrameBufferId);
+            if (!msaaFrameBufferId)
+            {
+                glGenFramebuffers(1, &msaaFrameBufferId);
+            }
+
             graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId, 0);
 
@@ -820,10 +810,11 @@ namespace ouzel
                 return false;
             }
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            glGenFramebuffers(1, &msaaFrameBufferId);
-            graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
+            if (!msaaRenderBufferId)
+            {
+                glGenRenderbuffers(1, &msaaRenderBufferId);
+            }
 
-            glGenRenderbuffers(1, &msaaRenderBufferId);
             glBindRenderbuffer(GL_RENDERBUFFER, msaaRenderBufferId);
             
             glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
@@ -834,19 +825,18 @@ namespace ouzel
                 return false;
             }
 
+            if (!msaaFrameBufferId)
+            {
+                glGenFramebuffers(1, &msaaFrameBufferId);
+            }
+
+            graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
+            
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaRenderBufferId);
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             {
                 log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-                return false;
-            }
-
-            glBindFramebuffer(GL_FRAMEBUFFER, msaaFrameBufferId);
-
-            if (checkOpenGLError())
-            {
-                log("Failed to bind MSAA frame buffer");
                 return false;
             }
 #endif
