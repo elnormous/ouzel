@@ -41,22 +41,21 @@ namespace ouzel
             {
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-                if (!uploadData.empty() &&
-                    uploadData[0].size.width > 0 &&
-                    uploadData[0].size.height > 0)
+                if (uploadData.size.width > 0 &&
+                    uploadData.size.height > 0)
                 {
                     if (!texture ||
-                        static_cast<NSUInteger>(uploadData[0].size.width) != width ||
-                        static_cast<NSUInteger>(uploadData[0].size.height) != height)
+                        static_cast<NSUInteger>(uploadData.size.width) != width ||
+                        static_cast<NSUInteger>(uploadData.size.height) != height)
                     {
                         if (texture) [texture release];
 
-                        width = static_cast<NSUInteger>(uploadData[0].size.width);
-                        height = static_cast<NSUInteger>(uploadData[0].size.height);
+                        width = static_cast<NSUInteger>(uploadData.size.width);
+                        height = static_cast<NSUInteger>(uploadData.size.height);
 
                         if (width > 0 && height > 0)
                         {
-                            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
+                            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:uploadData.renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
                                                                                                                          width:width
                                                                                                                         height:height
                                                                                                                      mipmapped:mipmaps ? YES : NO];
@@ -72,17 +71,14 @@ namespace ouzel
                         }
                     }
 
-                    if (!uploadData.empty())
+                    for (size_t level = 0; level < uploadData.levels.size(); ++level)
                     {
-                        for (size_t level = 0; level < uploadData.size(); ++level)
-                        {
-                            NSUInteger bytesPerRow = static_cast<NSUInteger>(uploadData[level].size.width) * 4;
-                            [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                                   static_cast<NSUInteger>(uploadData[level].size.width),
-                                                                   static_cast<NSUInteger>(uploadData[level].size.height))
-                                       mipmapLevel:level withBytes:uploadData[level].data.data()
-                                       bytesPerRow:bytesPerRow];
-                        }
+                        NSUInteger bytesPerRow = static_cast<NSUInteger>(uploadData.levels[level].size.width) * 4;
+                        [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                               static_cast<NSUInteger>(uploadData.levels[level].size.width),
+                                                               static_cast<NSUInteger>(uploadData.levels[level].size.height))
+                                   mipmapLevel:level withBytes:uploadData.levels[level].data.data()
+                                   bytesPerRow:bytesPerRow];
                     }
                 }
 

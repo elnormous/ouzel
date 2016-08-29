@@ -122,6 +122,7 @@ namespace ouzel
             data.pixelShaderFunction = newPixelShaderFunction;
             data.vertexShaderFunction = newVertexShaderFunction;
 
+            dirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -130,50 +131,52 @@ namespace ouzel
 
         bool Shader::update()
         {
-            if (uploadData.vertexAttributes != data.vertexAttributes ||
-                uploadData.pixelShaderAlignment != data.pixelShaderAlignment ||
-                uploadData.vertexShaderAlignment != data.vertexShaderAlignment)
+            if (data.vertexAttributes)
             {
                 uploadData.vertexAttributes = data.vertexAttributes;
+                data.vertexAttributes = 0;
+            }
+
+            if (data.pixelShaderAlignment)
+            {
                 uploadData.pixelShaderAlignment = data.pixelShaderAlignment;
+                data.pixelShaderAlignment = 0;
+            }
+
+            if (data.vertexShaderAlignment)
+            {
                 uploadData.vertexShaderAlignment = data.vertexShaderAlignment;
-                dirty = true;
+                data.vertexShaderAlignment = 0;
             }
 
             if (!data.pixelShaderData.empty())
             {
                 uploadData.pixelShaderData = std::move(data.pixelShaderData);
-                dirty = true;
             }
 
             if (!data.vertexShaderData.empty())
             {
                 uploadData.vertexShaderData = std::move(data.vertexShaderData);
-                dirty = true;
             }
 
             if (!data.pixelShaderConstantInfo.empty())
             {
                 uploadData.pixelShaderConstantInfo = std::move(data.pixelShaderConstantInfo);
-                dirty = true;
             }
 
             if (!data.vertexShaderConstantInfo.empty())
             {
                 uploadData.vertexShaderConstantInfo = std::move(data.vertexShaderConstantInfo);
-                dirty = true;
             }
 
             if (!data.pixelShaderFunction.empty())
             {
                 uploadData.pixelShaderFunction = std::move(data.pixelShaderFunction);
-                dirty = true;
             }
 
             if (!data.vertexShaderFunction.empty())
             {
                 uploadData.vertexShaderFunction = std::move(data.vertexShaderFunction);
-                dirty = true;
             }
 
             return true;

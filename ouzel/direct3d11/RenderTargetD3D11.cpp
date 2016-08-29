@@ -60,6 +60,8 @@ namespace ouzel
 
             texture = textureD3D11;
 
+            dirty = true;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -76,7 +78,7 @@ namespace ouzel
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
         }
 
-        bool RenderTargetD3D11::update()
+        bool RenderTargetD3D11::upload()
         {
             if (dirty)
             {

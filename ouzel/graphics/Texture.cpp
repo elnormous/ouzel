@@ -26,26 +26,36 @@ namespace ouzel
 
         void Texture::free()
         {
-            data.clear();
-            uploadData.clear();
+            data.levels.clear();
+            uploadData.levels.clear();
             
             ready = false;
         }
 
         bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
         {
+            free();
+
             size = newSize;
+            data.size = newSize;
+
             dynamic = newDynamic;
+            data.dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
+            data.renderTarget = newRenderTarget;
 
-            ready = true;
+            dirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
 
         bool Texture::initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps)
         {
+            free();
+
             filename = newFilename;
             dynamic = newDynamic;
             mipmaps = newMipmaps;
@@ -54,17 +64,22 @@ namespace ouzel
             Image image;
             if (!image.initFromFile(filename))
             {
-                ready = false;
                 return false;
             }
-
+            
             return initFromBuffer(image.getData(), image.getSize(), dynamic, mipmaps);
         }
 
         bool Texture::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
+            free();
+
             dynamic = newDynamic;
             mipmaps = newMipmaps;
+
+            dirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return calculateData(newData, newSize);
         }
@@ -164,11 +179,12 @@ namespace ouzel
 
         bool Texture::calculateData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            data.clear();
+            data.levels.clear();
 
             size = newSize;
+            data.size = newSize;
 
-            data.push_back({ newSize, newData });
+            data.levels.push_back({ newSize, newData });
 
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
             uint32_t newHeight = static_cast<uint32_t>(newSize.height);
@@ -203,7 +219,7 @@ namespace ouzel
                     newHeight >>= 1;
 
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                    data.push_back({ mipMapSize, mipMapData });
+                    data.levels.push_back({ mipMapSize, mipMapData });
 
                     pitch = newWidth * 4;
                 }
@@ -219,7 +235,7 @@ namespace ouzel
                         newWidth >>= 1;
 
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        data.push_back({ mipMapSize, mipMapData });
+                        data.levels.push_back({ mipMapSize, mipMapData });
 
                         pitch = newWidth * 4;
                     }
@@ -240,7 +256,7 @@ namespace ouzel
                         newHeight >>= 1;
                         
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        data.push_back({ mipMapSize, mipMapData });
+                        data.levels.push_back({ mipMapSize, mipMapData });
                     }
                 }
             }
@@ -252,10 +268,17 @@ namespace ouzel
 
         bool Texture::update()
         {
-            if (!data.empty())
+            if (data.size.width || data.size.height)
             {
-                uploadData = std::move(data);
-                dirty = true;
+                uploadData.size = data.size;
+            }
+
+            uploadData.dynamic = data.dynamic;
+            uploadData.renderTarget = data.renderTarget;
+
+            if (!data.levels.empty())
+            {
+                uploadData.levels = std::move(data.levels);
             }
 
             return true;

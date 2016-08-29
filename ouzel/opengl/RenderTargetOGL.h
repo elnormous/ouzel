@@ -65,7 +65,7 @@ namespace ouzel
 
         protected:
             RenderTargetOGL();
-            virtual bool update() override;
+            virtual bool upload() override;
 
             GLuint frameBufferId = 0;
             GLuint depthBufferId = 0;

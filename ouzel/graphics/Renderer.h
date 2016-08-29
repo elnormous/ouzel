@@ -168,6 +168,7 @@ namespace ouzel
             std::vector<DrawCommand> drawQueue;
 
             std::set<ResourcePtr> updateSet;
+            std::vector<ResourcePtr> updateQueue;
             std::mutex updateMutex;
 
             std::queue<std::string> screenshotQueue;

@@ -91,7 +91,7 @@ namespace ouzel
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
         }
 
-        bool RenderTargetOGL::update()
+        bool RenderTargetOGL::upload()
         {
             if (dirty)
             {

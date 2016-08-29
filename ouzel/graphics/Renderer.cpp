@@ -57,11 +57,11 @@ namespace ouzel
                 activeDrawQueue.reserve(drawQueue.size());
                 drawCallCount = static_cast<uint32_t>(drawQueue.size());
 
-                std::set<ResourcePtr> resources;
+                std::vector<ResourcePtr> resources;
 
                 {
                     std::lock_guard<std::mutex> lock(updateMutex);
-                    resources = std::move(updateSet);
+                    resources = std::move(updateQueue);
                     updateSet.clear();
 
                     for (const ResourcePtr& resource : resources)
@@ -203,7 +203,10 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(updateMutex);
 
-            updateSet.insert(resource);
+            if (updateSet.insert(resource).second)
+            {
+                updateQueue.push_back(resource);
+            }
         }
     } // namespace graphics
 } // namespace ouzel

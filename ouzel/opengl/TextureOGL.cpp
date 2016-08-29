@@ -29,8 +29,6 @@ namespace ouzel
         {
             Texture::free();
 
-            data.clear();
-
             if (textureId)
             {
                 RendererOGL::deleteResource(textureId, RendererOGL::ResourceType::Texture);
@@ -53,7 +51,7 @@ namespace ouzel
                     }
                 }
 
-                if (!uploadData.empty())
+                if (!uploadData.levels.empty())
                 {
                     RendererOGL::bindTexture(textureId, 0);
 
@@ -63,7 +61,7 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-                    if (uploadData.size() > 1) // has mip-maps
+                    if (uploadData.levels.size() > 1) // has mip-maps
                     {
                         std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
 
@@ -94,12 +92,12 @@ namespace ouzel
                         return false;
                     }
 
-                    for (size_t level = 0; level < uploadData.size(); ++level)
+                    for (size_t level = 0; level < uploadData.levels.size(); ++level)
                     {
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
-                                     static_cast<GLsizei>(uploadData[level].size.width),
-                                     static_cast<GLsizei>(uploadData[level].size.height), 0,
-                                     GL_RGBA, GL_UNSIGNED_BYTE, uploadData[level].data.data());
+                                     static_cast<GLsizei>(uploadData.levels[level].size.width),
+                                     static_cast<GLsizei>(uploadData.levels[level].size.height), 0,
+                                     GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
 
                         if (RendererOGL::checkOpenGLError())
                         {

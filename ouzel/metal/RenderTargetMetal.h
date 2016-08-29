@@ -40,7 +40,7 @@ namespace ouzel
 
         protected:
             RenderTargetMetal();
-            virtual bool update() override;
+            virtual bool upload() override;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
             MTLTexturePtr msaaTexture = Nil;

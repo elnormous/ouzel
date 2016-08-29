@@ -87,7 +87,7 @@ namespace ouzel
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
         }
 
-        bool RenderTargetMetal::update()
+        bool RenderTargetMetal::upload()
         {
             if (dirty)
             {

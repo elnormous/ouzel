@@ -57,14 +57,22 @@ namespace ouzel
             bool dirty = false;
             bool ready = false;
 
-            struct Data
+            struct Level
             {
                 Size2 size;
                 std::vector<uint8_t> data;
             };
 
-            std::vector<Data> data;
-            std::vector<Data> uploadData;
+            struct Data
+            {
+                Size2 size;
+                bool dynamic = false;
+                bool renderTarget = false;
+                std::vector<Level> levels;
+            };
+
+            Data data;
+            Data uploadData;
         };
     } // namespace graphics
 } // namespace ouzel

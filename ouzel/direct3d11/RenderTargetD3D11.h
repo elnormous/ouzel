@@ -34,7 +34,7 @@ namespace ouzel
 
         protected:
             RenderTargetD3D11();
-            virtual bool update() override;
+            virtual bool upload() override;
 
             ID3D11RenderTargetView* renderTargetView = nullptr;
             D3D11_VIEWPORT viewport;

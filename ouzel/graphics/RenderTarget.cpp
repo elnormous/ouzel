@@ -28,8 +28,6 @@ namespace ouzel
             size = newSize;
             depthBuffer = useDepthBuffer;
 
-            ready = true;
-
             return true;
         }
     } // namespace graphics

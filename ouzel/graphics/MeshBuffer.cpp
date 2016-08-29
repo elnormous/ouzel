@@ -67,6 +67,9 @@ namespace ouzel
                                   static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
             }
 
+            indexBufferDirty = true;
+            vertexBufferDirty = true;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -83,6 +86,8 @@ namespace ouzel
 
             indexData.assign(static_cast<const uint8_t*>(newIndices),
                              static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
+
+            indexBufferDirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -101,6 +106,8 @@ namespace ouzel
             vertexData.assign(static_cast<const uint8_t*>(newVertices),
                               static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
+            vertexBufferDirty = true;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -109,6 +116,9 @@ namespace ouzel
         bool MeshBuffer::setIndexSize(uint32_t newIndexSize)
         {
             indexSize = newIndexSize;
+
+            indexBufferDirty = true;
+
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -118,6 +128,8 @@ namespace ouzel
         {
             vertexAttributes = newVertexAttributes;
             updateVertexSize();
+
+            vertexBufferDirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
@@ -159,13 +171,11 @@ namespace ouzel
             if (!indexData.empty())
             {
                 uploadIndexData = std::move(indexData);
-                indexBufferDirty = true;
             }
 
             if (!vertexData.empty())
             {
                 uploadVertexData = std::move(vertexData);
-                vertexBufferDirty = true;
             }
             
             return true;
