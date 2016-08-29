@@ -797,6 +797,8 @@ namespace ouzel
             }
 
 #if OUZEL_PLATFORM_MACOS
+            glEnable(GL_MULTISAMPLE);
+
             glGenTextures(1, &msaaTextureId);
             glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId);
             glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, sampleCount, GL_RGBA,
