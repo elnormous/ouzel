@@ -130,15 +130,17 @@ namespace ouzel
             virtual void setSize(const Size2& newSize) override;
             virtual bool saveScreenshots();
 
+            bool createMSAAFrameBuffer();
+
             static void deleteResources();
 
             GLuint frameBufferId = 0;
             GLsizei frameBufferWidth = 0;
             GLsizei frameBufferHeight = 0;
-#if OUZEL_PLATFORM_MACOS
             GLuint msaaTextureId = 0;
             GLuint msaaFrameBufferId = 0;
-#endif
+            GLuint msaaRenderBufferIds[2];
+
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
             Rectangle viewport;
