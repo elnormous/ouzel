@@ -116,6 +116,7 @@ namespace ouzel
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
+            viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
 
             if (sampleCount > 1)
             {
@@ -201,11 +202,6 @@ namespace ouzel
                 default:
                     log("Unsupported OpenGL version");
                     return false;
-            }
-
-            if (!colorShader)
-            {
-                return false;
             }
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
@@ -541,7 +537,6 @@ namespace ouzel
                     newClearMask = renderTargetOGL->getClearMask();
                     newClearColor = renderTargetOGL->getFrameBufferClearColor();
                     newViewport = renderTargetOGL->getViewport();
-
                 }
                 else
                 {
