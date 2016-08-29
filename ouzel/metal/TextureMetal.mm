@@ -58,7 +58,7 @@ namespace ouzel
                             MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:uploadData.renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
                                                                                                                          width:width
                                                                                                                         height:height
-                                                                                                                     mipmapped:mipmaps ? YES : NO];
+                                                                                                                     mipmapped:uploadData.mipmaps ? YES : NO];
                             textureDescriptor.textureType = MTLTextureType2D;
                             textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
 

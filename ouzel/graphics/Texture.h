@@ -67,6 +67,7 @@ namespace ouzel
             {
                 Size2 size;
                 bool dynamic = false;
+                bool mipmaps = false;
                 bool renderTarget = false;
                 std::vector<Level> levels;
             };

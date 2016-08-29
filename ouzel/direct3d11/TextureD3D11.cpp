@@ -72,8 +72,8 @@ namespace ouzel
                         textureDesc.MipLevels = 0;
                         textureDesc.ArraySize = 1;
                         textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-                        textureDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
-                        textureDesc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+                        textureDesc.Usage = uploadData.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                        textureDesc.CPUAccessFlags = uploadData.dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
                         textureDesc.SampleDesc.Count = 1;
                         textureDesc.SampleDesc.Quality = 0;
                         textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (uploadData.renderTarget ? D3D11_BIND_RENDER_TARGET : 0);
@@ -91,7 +91,7 @@ namespace ouzel
                         srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
                         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
                         srvDesc.Texture2D.MostDetailedMip = 0;
-                        srvDesc.Texture2D.MipLevels = mipmaps ? static_cast<UINT>(uploadData.levels.size()) : 1;
+                        srvDesc.Texture2D.MipLevels = uploadData.mipmaps ? static_cast<UINT>(uploadData.levels.size()) : 1;
 
                         hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
                         if (FAILED(hr))

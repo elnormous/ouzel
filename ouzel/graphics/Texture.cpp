@@ -279,6 +279,7 @@ namespace ouzel
             }
 
             uploadData.dynamic = data.dynamic;
+            uploadData.mipmaps = data.mipmaps;
             uploadData.renderTarget = data.renderTarget;
 
             if (!data.levels.empty())
