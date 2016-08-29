@@ -139,7 +139,7 @@ namespace ouzel
             GLsizei frameBufferHeight = 0;
             GLuint msaaTextureId = 0;
             GLuint msaaFrameBufferId = 0;
-            GLuint msaaRenderBufferIds[2];
+            GLuint msaaRenderBufferId = 0;
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];

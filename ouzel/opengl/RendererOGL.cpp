@@ -80,8 +80,7 @@ namespace ouzel
         RendererOGL::RendererOGL():
             Renderer(Driver::OPENGL), dirty(false)
         {
-            msaaRenderBufferIds[0] = 0;
-            msaaRenderBufferIds[1] = 0;
+            msaaRenderBufferId = 0;
 
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
             glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
@@ -97,9 +96,9 @@ namespace ouzel
                 glDeleteTextures(1, &msaaTextureId);
             }
 
-            if (msaaRenderBufferIds[0])
+            if (msaaRenderBufferId)
             {
-                glDeleteRenderbuffers(2, msaaRenderBufferIds);
+                glDeleteRenderbuffers(1, &msaaRenderBufferId);
             }
 
             if (msaaFrameBufferId)
@@ -785,11 +784,10 @@ namespace ouzel
                 msaaTextureId = 0;
             }
 
-            if (msaaRenderBufferIds[0])
+            if (msaaRenderBufferId)
             {
-                glDeleteRenderbuffers(2, msaaRenderBufferIds);
-                msaaRenderBufferIds[0] = 0;
-                msaaRenderBufferIds[1] = 0;
+                glDeleteRenderbuffers(1, &msaaRenderBufferId);
+                msaaRenderBufferId = 0;
             }
 
             if (msaaFrameBufferId)
@@ -823,8 +821,8 @@ namespace ouzel
             glGenFramebuffers(1, &msaaFrameBufferId);
             graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
 
-            glGenRenderbuffers(2, msaaRenderBufferIds);
-            glBindRenderbuffer(GL_RENDERBUFFER, msaaRenderBufferIds[0]);
+            glGenRenderbuffers(1, &msaaRenderBufferId);
+            glBindRenderbuffer(GL_RENDERBUFFER, msaaRenderBufferId);
             
             glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
 
@@ -834,17 +832,7 @@ namespace ouzel
                 return false;
             }
 
-            /*glBindRenderbuffer(GL_RENDERBUFFER, msaaRenderBufferIds[1]);
-            glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_DEPTH24_STENCIL8_OES, frameBufferWidth, frameBufferHeight);
-
-            if (checkOpenGLError())
-            {
-                log("Failed to initialize MSAA depth buffer");
-                return false;
-            }*/
-
-            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaRenderBufferIds[0]);
-            //glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, msaaRenderBufferIds[1]);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaRenderBufferId);
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             {
