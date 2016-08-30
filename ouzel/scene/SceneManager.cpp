@@ -120,6 +120,9 @@ namespace ouzel
                     }
                     case Event::Type::TOUCH_MOVE:
                     {
+                        scene::NodePtr node = scene->pickNode(event.position);
+                        pointerEnterNode(0, node, event.position);
+                        
                         if (scene::NodePtr pointerDownOnNode = getPointerDownOnNode(event.touchId))
                         {
                             pointerDragNode(event.touchId, pointerDownOnNode, event.position);
