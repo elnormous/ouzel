@@ -120,6 +120,8 @@ namespace ouzel
 
             void scheduleUpdate(const ResourcePtr& resource);
 
+            virtual bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
+
         protected:
             Renderer(Driver pDriver = Driver::NONE);
             virtual bool init(const WindowPtr& window,
@@ -173,6 +175,8 @@ namespace ouzel
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
+
+            bool npotTexturesSupported = true;
         };
     } // namespace graphics
 } // namespace ouzel

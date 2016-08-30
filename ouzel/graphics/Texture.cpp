@@ -195,11 +195,7 @@ namespace ouzel
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
             uint32_t newHeight = static_cast<uint32_t>(newSize.height);
 
-#if OUZEL_SUPPORTS_OPENGLES
-            if (mipmaps && (sharedEngine->getRenderer()->getDriver() != Renderer::Driver::OPENGL || (isPOT(newWidth) && isPOT(newHeight))))
-#else
-            if (mipmaps)
-#endif
+            if (mipmaps && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
                 uint32_t pitch = newWidth * 4;
 
@@ -275,6 +271,9 @@ namespace ouzel
             uploadData.size = size;
             uploadData.dynamic = dynamic;
             uploadData.mipmaps = mipmaps;
+
+            uploadData.mipmaps = mipmaps && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(size.width) && isPOT(size.height)));
+
             uploadData.renderTarget = renderTarget;
 
             if (!levels.empty())

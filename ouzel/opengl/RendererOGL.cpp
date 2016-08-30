@@ -1,6 +1,9 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <sstream>
+#include <iterator>
+
 #include "RendererOGL.h"
 #include "TextureOGL.h"
 #include "RenderTargetOGL.h"
@@ -113,6 +116,32 @@ namespace ouzel
                                bool newVerticalSync)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
+
+#if OUZEL_SUPPORTS_OPENGLES
+            npotTexturesSupported = false;
+
+            std::string extensionStr(reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS)));
+
+            if (checkOpenGLError())
+            {
+                log("Failed to get OpenGL extensions");
+            }
+            else
+            {
+                std::istringstream iss(extensionStr);
+
+                std::vector<std::string> extensions{std::istream_iterator<std::string>{iss},
+                    std::istream_iterator<std::string>{}};
+
+                for (const std::string& extension : extensions)
+                {
+                    if (extension == "GL_OES_texture_npot")
+                    {
+                        npotTexturesSupported = true;
+                    }
+                }
+            }
+#endif
 
             if (!Renderer::init(window, newSampleCount, newTextureFiltering, newVerticalSync))
             {
