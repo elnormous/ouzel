@@ -118,7 +118,7 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(dataMutex);
 
 #if OUZEL_SUPPORTS_OPENGLES
-            npotTexturesSupported = false;
+            npotTexturesSupported = (apiVersion >= 3);
 
             std::string extensionStr(reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS)));
 

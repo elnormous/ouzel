@@ -39,9 +39,14 @@ AnimationsSample::AnimationsSample(Samples& pSamples):
     witch->addComponent(witchSprite);
     layer->addChild(witch);
 
+    vector<scene::AnimatorPtr> parallel = {
+        make_shared<scene::Scale>(2.0f, Vector2(0.1f, 0.1f), false),
+        make_shared<scene::Fade>(2.0f, 0.4f)
+    };
+
     vector<scene::AnimatorPtr> sequence = {
         make_shared<scene::Repeat>(make_shared<scene::Rotate>(1.0f, TAU, false), 3),
-        make_shared<scene::Fade>(2.0f, 0.4f)
+        make_shared<scene::Parallel>(parallel)
     };
 
     witch->animate(make_shared<scene::Sequence>(sequence));
