@@ -28,22 +28,22 @@ namespace ouzel
 
         virtual ~FileSystem();
 
-        std::string getHomeDirectory();
-        std::string getStorageDirectory(const std::string& developer, const std::string& app);
-        std::string getTempDirectory();
+        static std::string getHomeDirectory();
+        static std::string getStorageDirectory(const std::string& developer, const std::string& app);
+        static std::string getTempDirectory();
 
         bool loadFile(const std::string& filename, std::vector<uint8_t>& data) const;
 
         std::string getPath(const std::string& filename) const;
         void addResourcePath(const std::string& path);
 
-        std::string getExtensionPart(const std::string& path) const;
-        std::string getFilenamePart(const std::string& path) const;
-        std::string getDirectoryPart(const std::string& path) const;
-        bool isAbsolutePath(const std::string& path) const;
+        static std::string getExtensionPart(const std::string& path);
+        static std::string getFilenamePart(const std::string& path);
+        static std::string getDirectoryPart(const std::string& path);
+        static bool isAbsolutePath(const std::string& path);
 
-        bool directoryExists(const std::string& filename) const;
-        bool fileExists(const std::string& filename) const;
+        static bool directoryExists(const std::string& filename);
+        static bool fileExists(const std::string& filename);
 
     protected:
         FileSystem();

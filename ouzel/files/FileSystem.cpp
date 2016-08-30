@@ -15,6 +15,7 @@
     #include <Shlobj.h>
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
     #include <unistd.h>
+    #include <pwd.h>
 #endif
 #include "FileSystem.h"
 #include "utils/Utils.h"
@@ -83,7 +84,7 @@ namespace ouzel
 
     std::string FileSystem::getHomeDirectory()
     {
-#if OUZEL_PLATFORM_MACOS
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         struct passwd* pw = getpwuid(getuid());
         if (pw)
         {
@@ -96,8 +97,6 @@ namespace ouzel
             WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
             return TEMP_BUFFER;
         }
-#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
-        //TODO: implement
 #endif
         return "";
     }
@@ -259,7 +258,7 @@ namespace ouzel
         return true;
     }
 
-    bool FileSystem::directoryExists(const std::string& filename) const
+    bool FileSystem::directoryExists(const std::string& filename)
     {
         struct stat buf;
         if (stat(filename.c_str(), &buf) != 0)
@@ -270,7 +269,7 @@ namespace ouzel
         return (buf.st_mode & S_IFMT) == S_IFDIR;
     }
 
-    bool FileSystem::fileExists(const std::string& filename) const
+    bool FileSystem::fileExists(const std::string& filename)
     {
         struct stat buf;
         if (stat(filename.c_str(), &buf) != 0)
@@ -315,7 +314,7 @@ namespace ouzel
         }
     }
 
-    std::string FileSystem::getExtensionPart(const std::string& path) const
+    std::string FileSystem::getExtensionPart(const std::string& path)
     {
         size_t pos = path.find_last_of('.');
 
@@ -327,7 +326,7 @@ namespace ouzel
         return std::string();
     }
 
-    std::string FileSystem::getFilenamePart(const std::string& path) const
+    std::string FileSystem::getFilenamePart(const std::string& path)
     {
         size_t pos = path.find_last_of("/\\");
 
@@ -341,7 +340,7 @@ namespace ouzel
         }
     }
 
-    std::string FileSystem::getDirectoryPart(const std::string& path) const
+    std::string FileSystem::getDirectoryPart(const std::string& path)
     {
         size_t pos = path.find_last_of("/\\");
 
@@ -353,7 +352,7 @@ namespace ouzel
         return std::string();
     }
 
-    bool FileSystem::isAbsolutePath(const std::string& path) const
+    bool FileSystem::isAbsolutePath(const std::string& path)
     {
         return !path.empty() && path[0] == '/';
     }
