@@ -139,7 +139,7 @@ namespace ouzel
             return true;
         }
 
-        bool Menu::handleGamepad(Event::Type type, const GamepadEvent& event)
+        bool Menu::handleGamepad(Event::Type, const GamepadEvent&)
         {
             if (!enabled) return true;
 
