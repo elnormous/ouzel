@@ -71,15 +71,39 @@ namespace ouzel
             mipmaps = newMipmaps;
             renderTarget = false;
 
+            if (!calculateData(newData, newSize))
+            {
+                return false;
+            }
+
             dirty = true;
+
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
+            return true;
+        }
+
+        bool Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        {
+            if (!dynamic)
+            {
+                return false;
+            }
+
+            if (newSize.width <= 0.0f || newSize.height <= 0.0f)
+            {
+                return false;
+            }
 
             if (!calculateData(newData, newSize))
             {
                 return false;
             }
 
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            dirty = true;
 
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            
             return true;
         }
 
@@ -159,21 +183,6 @@ namespace ouzel
                     dst[3] = (uint8_t)a;
                 }
             }
-        }
-
-        bool Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
-        {
-            if (!dynamic)
-            {
-                return false;
-            }
-
-            if (newSize.width <= 0.0f || newSize.height <= 0.0f)
-            {
-                return false;
-            }
-
-            return calculateData(newData, newSize);
         }
 
         bool Texture::calculateData(const std::vector<uint8_t>& newData, const Size2& newSize)
@@ -257,8 +266,6 @@ namespace ouzel
                     }
                 }
             }
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
         }
