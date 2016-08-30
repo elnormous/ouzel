@@ -15,6 +15,10 @@
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
     #include <OpenGLES/ES2/gl.h>
     #include <OpenGLES/ES2/glext.h>
+    #if OUZEL_SUPPORTS_OPENGLES3
+        #include <OpenGLES/ES3/gl.h>
+        #include <OpenGLES/ES3/glext.h>
+    #endif
 #elif OUZEL_PLATFORM_ANDROID
     #include <GLES2/gl2platform.h>
     #ifndef GL_GLEXT_PROTOTYPES

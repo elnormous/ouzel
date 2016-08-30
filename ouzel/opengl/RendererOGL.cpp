@@ -658,6 +658,12 @@ namespace ouzel
                 glBindFramebuffer(GL_READ_FRAMEBUFFER, msaaFrameBufferId); // read from multisampled FBO
                 glDrawBuffer(GL_BACK); // set the back buffer as the draw buffer
 
+                if (checkOpenGLError())
+                {
+                    log("Failed to bind MSAA frame buffer");
+                    return false;
+                }
+
                 glBlitFramebuffer(0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
                                   0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
                                   GL_COLOR_BUFFER_BIT, GL_NEAREST);
@@ -671,7 +677,22 @@ namespace ouzel
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, frameBufferId); // draw to frame buffer
                 glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, msaaFrameBufferId); // read from multisampled FBO
 
-                glResolveMultisampleFramebufferAPPLE();
+                if (checkOpenGLError())
+                {
+                    log("Failed to bind MSAA frame buffer");
+                    return false;
+                }
+
+                if (apiVersion >= 3)
+                {
+                    glBlitFramebuffer(0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
+                                      0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
+                                      GL_COLOR_BUFFER_BIT, GL_NEAREST);
+                }
+                else
+                {
+                    glResolveMultisampleFramebufferAPPLE();
+                }
 
                 if (checkOpenGLError())
                 {
