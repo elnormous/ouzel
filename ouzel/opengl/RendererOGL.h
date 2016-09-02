@@ -51,6 +51,7 @@ extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
 
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {
@@ -62,8 +63,6 @@ namespace ouzel
         {
             friend Engine;
         public:
-            static bool checkOpenGLError(bool logError = true);
-
             virtual ~RendererOGL();
 
             virtual void setClearColor(Color color) override;
@@ -78,37 +77,394 @@ namespace ouzel
             virtual ShaderPtr createShader() override;
             virtual MeshBufferPtr createMeshBuffer() override;
 
-            static bool bindTexture(GLuint textureId, uint32_t layer);
-            static bool bindProgram(GLuint programId);
-            static bool bindFrameBuffer(GLuint frameBufferId);
-            static bool bindElementArrayBuffer(GLuint elementArrayBufferId);
-            static bool bindArrayBuffer(GLuint arrayBufferId);
-            static bool bindVertexArray(GLuint vertexArrayId);
+            static inline bool checkOpenGLError(bool logError = true)
+            {
+                GLenum error = glGetError();
 
-            static bool unbindTexture(GLuint textureId);
-            static bool unbindProgram(GLuint programId);
-            static bool unbindFrameBuffer(GLuint frameBufferId);
-            static bool unbindElementArrayBuffer(GLuint elementArrayBufferId);
-            static bool unbindArrayBuffer(GLuint arrayBufferId);
-            static bool unbindVertexArray(GLuint vertexArrayId);
+                if (error != GL_NO_ERROR)
+                {
+                    if (logError)
+                    {
+                        const char* errorStr = "Unknown error";
 
-            static bool setScissorTest(bool scissorTestEnabled,
-                                       GLint x,
-                                       GLint y,
-                                       GLsizei width,
-                                       GLsizei height);
-            static bool enableDepthTest(bool enable);
-            static bool setViewport(GLint x,
-                                    GLint y,
-                                    GLsizei width,
-                                    GLsizei height);
-            static bool setBlendState(bool blendEnabled,
-                                      GLenum modeRGB,
-                                      GLenum modeAlpha,
-                                      GLenum sfactorRGB,
-                                      GLenum dfactorRGB,
-                                      GLenum sfactorAlpha,
-                                      GLenum dfactorAlpha);
+                        switch (error)
+                        {
+                            case GL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
+                            case GL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
+                            case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
+                            case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
+                            case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
+                        }
+
+                        log("OpenGL error: %s (%x)", errorStr, error);
+                    }
+
+                    return true;
+                }
+                
+                return false;
+            }
+
+            static inline bool bindTexture(GLuint textureId, uint32_t layer)
+            {
+                if (currentTextureId[layer] != textureId)
+                {
+                    glActiveTexture(GL_TEXTURE0 + layer);
+                    glBindTexture(GL_TEXTURE_2D, textureId);
+                    currentTextureId[layer] = textureId;
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to bind texture");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            static inline bool bindProgram(GLuint programId)
+            {
+                if (currentProgramId != programId)
+                {
+                    glUseProgram(programId);
+                    currentProgramId = programId;
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to bind program");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            static inline bool bindFrameBuffer(GLuint frameBufferId)
+            {
+                if (currentFrameBufferId != frameBufferId)
+                {
+                    glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
+                    currentFrameBufferId = frameBufferId;
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to bind frame buffer");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            static inline bool bindElementArrayBuffer(GLuint elementArrayBufferId)
+            {
+                if (currentElementArrayBufferId != elementArrayBufferId)
+                {
+                    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBufferId);
+                    currentElementArrayBufferId = elementArrayBufferId;
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to bind element array buffer");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            static inline bool bindArrayBuffer(GLuint arrayBufferId)
+            {
+                if (currentArrayBufferId != arrayBufferId)
+                {
+                    glBindBuffer(GL_ARRAY_BUFFER, arrayBufferId);
+                    currentArrayBufferId = arrayBufferId;
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to bind array buffer");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            static inline bool bindVertexArray(GLuint vertexArrayId)
+            {
+                if (currentVertexArrayId != vertexArrayId)
+                {
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+                    glBindVertexArrayOES(vertexArrayId);
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+                    if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
+#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+                    glBindVertexArray(vertexArrayId);
+#endif
+                    currentVertexArrayId = vertexArrayId;
+                    currentElementArrayBufferId = 0;
+                    currentArrayBufferId = 0;
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to bind vertex array");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            static inline bool unbindTexture(GLuint textureId)
+            {
+                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                {
+                    if (currentTextureId[layer] == textureId)
+                    {
+                        bindTexture(0, layer);
+                    }
+                }
+
+                return true;
+            }
+
+            static inline bool unbindProgram(GLuint programId)
+            {
+                if (currentProgramId == programId)
+                {
+                    return bindProgram(0);
+                }
+
+                return true;
+            }
+
+            static inline bool unbindFrameBuffer(GLuint frameBufferId)
+            {
+                if (currentFrameBufferId == frameBufferId)
+                {
+                    return bindFrameBuffer(0);
+                }
+
+                return true;
+            }
+
+            static inline bool unbindElementArrayBuffer(GLuint elementArrayBufferId)
+            {
+                if (currentElementArrayBufferId == elementArrayBufferId)
+                {
+                    return bindElementArrayBuffer(0);
+                }
+
+                return true;
+            }
+
+            static inline bool unbindArrayBuffer(GLuint arrayBufferId)
+            {
+                if (currentArrayBufferId == arrayBufferId)
+                {
+                    return bindArrayBuffer(0);
+                }
+
+                return true;
+            }
+
+            static inline bool unbindVertexArray(GLuint vertexArrayId)
+            {
+                if (currentVertexArrayId == vertexArrayId)
+                {
+                    return bindVertexArray(0);
+                }
+
+                return true;
+            }
+
+            static inline bool setScissorTest(bool scissorTestEnabled,
+                                              GLint x,
+                                              GLint y,
+                                              GLsizei width,
+                                              GLsizei height)
+            {
+                if (currentScissorTestEnabled != scissorTestEnabled)
+                {
+                    if (scissorTestEnabled)
+                    {
+                        glEnable(GL_SCISSOR_TEST);
+                    }
+                    else
+                    {
+                        glDisable(GL_SCISSOR_TEST);
+                    }
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to set scissor test");
+                        return false;
+                    }
+
+                    currentScissorTestEnabled = scissorTestEnabled;
+                }
+
+                if (scissorTestEnabled)
+                {
+                    if (x != currentScissorX ||
+                        y != currentScissorY ||
+                        width != currentScissorWidth ||
+                        height != currentScissorHeight)
+                    {
+                        glScissor(x, y, width, height);
+                        currentScissorX = x;
+                        currentScissorY = y;
+                        currentScissorWidth = width;
+                        currentScissorHeight = height;
+                    }
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to set scissor test");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            static inline bool enableDepthTest(bool enable)
+            {
+                if (currentDepthTestEnabled != enable)
+                {
+                    if (enable)
+                    {
+                        glEnable(GL_DEPTH_TEST);
+                    }
+                    else
+                    {
+                        glDisable(GL_DEPTH_TEST);
+                    }
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to change depth test state");
+                        return false;
+                    }
+
+                    currentDepthTestEnabled = enable;
+                }
+                
+                return true;
+            }
+
+            static inline bool setViewport(GLint x,
+                                           GLint y,
+                                           GLsizei width,
+                                           GLsizei height)
+            {
+                if (x != currentViewportX ||
+                    y != currentViewportY ||
+                    width != currentViewportWidth ||
+                    height != currentViewportHeight)
+                {
+                    glViewport(x, y, width, height);
+                    currentViewportX = x;
+                    currentViewportY = y;
+                    currentViewportWidth = width;
+                    currentViewportHeight = height;
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to set viewport");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            static inline bool setBlendState(bool blendEnabled,
+                                             GLenum modeRGB,
+                                             GLenum modeAlpha,
+                                             GLenum sfactorRGB,
+                                             GLenum dfactorRGB,
+                                             GLenum sfactorAlpha,
+                                             GLenum dfactorAlpha)
+            {
+                bool checkError = false;
+
+                if (currentBlendEnabled != blendEnabled)
+                {
+                    if (blendEnabled)
+                    {
+                        glEnable(GL_BLEND);
+                    }
+                    else
+                    {
+                        glDisable(GL_BLEND);
+                    }
+
+                    currentBlendEnabled = blendEnabled;
+
+                    checkError = true;
+                }
+
+                if (blendEnabled)
+                {
+                    if (currentBlendModeRGB != modeRGB ||
+                        currentBlendModeAlpha != modeAlpha)
+                    {
+                        glBlendEquationSeparate(modeRGB,
+                                                modeAlpha);
+
+                        currentBlendModeRGB = modeRGB;
+                        currentBlendModeAlpha = modeAlpha;
+
+                        checkError = true;
+                    }
+
+                    if (currentBlendSourceFactorRGB != sfactorRGB ||
+                        currentBlendDestFactorRGB != dfactorRGB ||
+                        currentBlendSourceFactorAlpha != sfactorAlpha ||
+                        currentBlendDestFactorAlpha != dfactorAlpha)
+                    {
+                        glBlendFuncSeparate(sfactorRGB,
+                                            dfactorRGB,
+                                            sfactorAlpha,
+                                            dfactorAlpha);
+
+                        currentBlendSourceFactorRGB = sfactorRGB;
+                        currentBlendDestFactorRGB = dfactorRGB;
+                        currentBlendSourceFactorAlpha = sfactorAlpha;
+                        currentBlendDestFactorAlpha = dfactorAlpha;
+                        
+                        checkError = true;
+                    }
+                }
+                
+                if (checkError && checkOpenGLError())
+                {
+                    log("Failed to set blend state");
+                    return false;
+                }
+                
+                return true;
+            }
+
+            static inline bool setPolygonFillMode(GLenum polygonFillMode)
+            {
+                if (currentPolygonFillMode != polygonFillMode)
+                {
+                    glPolygonMode(GL_FRONT_AND_BACK, polygonFillMode);
+
+                    currentPolygonFillMode = polygonFillMode;
+
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to set blend state");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
 
             enum class ResourceType
             {
@@ -164,6 +520,8 @@ namespace ouzel
             static GLenum currentBlendDestFactorRGB;
             static GLenum currentBlendSourceFactorAlpha;
             static GLenum currentBlendDestFactorAlpha;
+
+            static GLenum currentPolygonFillMode;
 
             static bool currentScissorTestEnabled;
             static GLint currentScissorX;

@@ -410,6 +410,7 @@ namespace ouzel
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
+            bool previousWireframe = false;
             bool previousScissorTestEnabled = false;
             Rectangle previousScissorTest;
 
@@ -451,6 +452,7 @@ namespace ouzel
 
                 if (currentRenderPassDescriptor != newRenderPassDescriptor ||
                     !currentRenderCommandEncoder ||
+                    drawCommand.wireframe != previousWireframe ||
                     drawCommand.scissorTestEnabled != previousScissorTestEnabled || // scissor test flag changed
                     (drawCommand.scissorTestEnabled && drawCommand.scissorTest != previousScissorTest)) // scissor test enabled and rectangles differ
                 {
@@ -473,6 +475,8 @@ namespace ouzel
                     previousScissorTestEnabled = drawCommand.scissorTestEnabled;
                     previousScissorTest = drawCommand.scissorTest;
                 }
+
+                [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
 
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);

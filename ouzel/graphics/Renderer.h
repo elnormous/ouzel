@@ -101,6 +101,7 @@ namespace ouzel
                                 DrawMode drawMode = DrawMode::TRIANGLE_LIST,
                                 uint32_t startIndex = 0,
                                 const RenderTargetPtr& renderTarget = nullptr,
+                                bool wireframe = false,
                                 bool scissorTestEnabled = false,
                                 const Rectangle& scissorTest = Rectangle());
             void flushDrawCommands();
@@ -142,10 +143,6 @@ namespace ouzel
 
             uint32_t apiVersion = 0;
 
-            bool fullscreen = false;
-            bool verticalSync = true;
-            bool ready = false;
-
             struct DrawCommand
             {
                 std::vector<TexturePtr> textures;
@@ -159,12 +156,18 @@ namespace ouzel
                 uint32_t startIndex;
                 RenderTargetPtr renderTarget;
 
+                bool wireframe;
                 bool scissorTestEnabled;
                 Rectangle scissorTest;
             };
 
             std::atomic<bool> activeDrawQueueFinished;
             std::atomic<bool> refillDrawQueue;
+
+            bool fullscreen = false;
+            bool verticalSync = true;
+            bool ready = false;
+            bool npotTexturesSupported = true;
 
             std::vector<DrawCommand> activeDrawQueue;
             std::vector<DrawCommand> drawQueue;
@@ -175,8 +178,6 @@ namespace ouzel
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
-
-            bool npotTexturesSupported = true;
         };
     } // namespace graphics
 } // namespace ouzel

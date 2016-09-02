@@ -139,6 +139,7 @@ namespace ouzel
                                       DrawMode drawMode,
                                       uint32_t startIndex,
                                       const RenderTargetPtr& renderTarget,
+                                      bool wireframe,
                                       bool scissorTestEnabled,
                                       const Rectangle& scissorTest)
         {
@@ -153,6 +154,7 @@ namespace ouzel
                 drawMode,
                 startIndex,
                 renderTarget,
+                wireframe,
                 scissorTestEnabled,
                 scissorTest
             });
