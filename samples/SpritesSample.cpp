@@ -16,6 +16,7 @@ SpritesSample::SpritesSample(Samples& pSamples):
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
 
+    // character
     scene::SpritePtr characterSprite = make_shared<scene::Sprite>("run.json");
     characterSprite->play(true);
 
@@ -25,6 +26,7 @@ SpritesSample::SpritesSample(Samples& pSamples):
     character->setPosition(Vector2(-300.0f, 0.0f));
     character->animate(make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f)));
 
+    // fire
     scene::SpritePtr fireSprite = make_shared<scene::Sprite>("fire.json");
     fireSprite->setOffset(Vector2(0.0f, 20.0f));
     fireSprite->play(true);
@@ -33,6 +35,13 @@ SpritesSample::SpritesSample(Samples& pSamples):
     fireNode->addComponent(fireSprite);
     fireNode->setPosition(Vector2(-100.0f, -140.0f));
     layer->addChild(fireNode);
+
+    // triangle
+    scene::SpritePtr triangleSprite = make_shared<scene::Sprite>("triangle.json");
+    scene::NodePtr triangleNode = make_shared<scene::Node>();
+    triangleNode->addComponent(triangleSprite);
+    triangleNode->setPosition(Vector2(100.0f, -140.0f));
+    layer->addChild(triangleNode);
 
     ouzel::scene::LayerPtr guiLayer = make_shared<scene::Layer>();
     guiLayer->setCamera(make_shared<scene::Camera>());

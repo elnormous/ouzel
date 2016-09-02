@@ -76,25 +76,18 @@ namespace ouzel
                 Vector2 pivot(pivotObject["x"].GetFloat(),
                               pivotObject["y"].GetFloat());
 
-                frames.push_back(std::make_shared<SpriteFrame>(rectangle, texture, rotated, sourceSize, sourceOffset, pivot));
+                frames.push_back(std::make_shared<SpriteFrame>(texture, rectangle, rotated, sourceSize, sourceOffset, pivot));
             }
 
             return frames;
         }
 
-        SpriteFrame::SpriteFrame(Rectangle pRectangle,
-                                 graphics::MeshBufferPtr pMeshBuffer,
-                                 graphics::TexturePtr pTexture):
-            rectangle(pRectangle),
-            meshBuffer(pMeshBuffer),
-            texture(pTexture)
-        {
-        }
-
-        SpriteFrame::SpriteFrame(const Rectangle& pRectangle,
-                                 const graphics::TexturePtr& pTexture,
-                                 bool rotated, const Size2& sourceSize,
-                                 const Vector2& sourceOffset, const Vector2& pivot)
+        SpriteFrame::SpriteFrame(const graphics::TexturePtr& pTexture,
+                                 const Rectangle& pRectangle,
+                                 bool rotated,
+                                 const Size2& sourceSize,
+                                 const Vector2& sourceOffset,
+                                 const Vector2& pivot)
         {
             texture = pTexture;
 
@@ -145,15 +138,46 @@ namespace ouzel
                 textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             }
 
-            rectangle = Rectangle(finalOffset.x, finalOffset.y,
-                                  pRectangle.width, pRectangle.height);
-
             std::vector<graphics::VertexPCT> vertices = {
-                graphics::VertexPCT(Vector3(finalOffset.x, rectangle.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
-                graphics::VertexPCT(Vector3(finalOffset.x + rectangle.width, rectangle.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
-                graphics::VertexPCT(Vector3(finalOffset.x, rectangle.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
-                graphics::VertexPCT(Vector3(finalOffset.x + rectangle.width, rectangle.y + rectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
+                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
+                graphics::VertexPCT(Vector3(finalOffset.x + pRectangle.width, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
+                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + pRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
+                graphics::VertexPCT(Vector3(finalOffset.x + pRectangle.width, finalOffset.y + pRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
             };
+
+            boundingBox.set(finalOffset, finalOffset + Vector2(pRectangle.width, pRectangle.height));
+
+            rectangle = Rectangle(finalOffset.x, finalOffset.y,
+                                  sourceSize.width, sourceSize.height);
+
+            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+
+            meshBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                       static_cast<uint32_t>(indices.size()), false,
+                                       vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                       static_cast<uint32_t>(vertices.size()), true);
+        }
+
+        SpriteFrame::SpriteFrame(const graphics::TexturePtr& pTexture,
+                                 const std::vector<uint16_t>& indices,
+                                 const std::vector<graphics::VertexPCT>& vertices,
+                                 const Rectangle& pRectangle,
+                                 const Size2& sourceSize,
+                                 const Vector2& sourceOffset,
+                                 const Vector2& pivot)
+        {
+            texture = pTexture;
+
+            for (const graphics::VertexPCT& vertex : vertices)
+            {
+                boundingBox.insertPoint(vertex.position);
+            }
+
+            Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
+                                -sourceSize.height * pivot.y + (sourceSize.height - pRectangle.height - sourceOffset.y));
+
+            rectangle = Rectangle(finalOffset.x, finalOffset.y,
+                                  sourceSize.width, sourceSize.height);
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
 

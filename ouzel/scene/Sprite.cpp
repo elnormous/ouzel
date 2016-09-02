@@ -261,7 +261,7 @@ namespace ouzel
                 size.width = frame->getRectangle().width;
                 size.height = frame->getRectangle().height;
 
-                boundingBox.set(frame->getRectangle().bottomLeft(), frame->getRectangle().topRight());
+                boundingBox = frame->getBoundingBox();
                 boundingBox += offset;
             }
             else

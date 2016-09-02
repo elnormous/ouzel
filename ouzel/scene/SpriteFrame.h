@@ -7,6 +7,7 @@
 #include <vector>
 #include "utils/Noncopyable.h"
 #include "utils/Types.h"
+#include "math/AABB2.h"
 #include "math/Rectangle.h"
 #include "graphics/Vertex.h"
 
@@ -19,20 +20,30 @@ namespace ouzel
         public:
             static std::vector<SpriteFramePtr> loadSpriteFrames(const std::string& filename, bool mipmaps = true);
 
-            SpriteFrame(Rectangle pRectangle,
-                        graphics::MeshBufferPtr pMeshBuffer,
-                        graphics::TexturePtr pTexture);
-            SpriteFrame(const Rectangle& pRectangle,
-                        const graphics::TexturePtr& pTexture,
-                        bool rotated, const Size2& sourceSize,
-                        const Vector2& sourceOffset, const Vector2& pivot);
+            SpriteFrame(const graphics::TexturePtr& pTexture,
+                        const Rectangle& pRectangle,
+                        bool rotated,
+                        const Size2& sourceSize,
+                        const Vector2& sourceOffset,
+                        const Vector2& pivot);
+
+            SpriteFrame(const graphics::TexturePtr& pTexture,
+                        const std::vector<uint16_t>& indices,
+                        const std::vector<graphics::VertexPCT>& vertices,
+                        const Rectangle& pRectangle,
+                        const Size2& sourceSize,
+                        const Vector2& sourceOffset,
+                        const Vector2& pivot);
 
             const Rectangle& getRectangle() const { return rectangle; }
+
+            const AABB2& getBoundingBox() const { return boundingBox; }
             const graphics::MeshBufferPtr& getMeshBuffer() const { return meshBuffer; }
             const graphics::TexturePtr& getTexture() const { return texture; }
 
         protected:
             Rectangle rectangle;
+            AABB2 boundingBox;
             graphics::MeshBufferPtr meshBuffer;
             graphics::TexturePtr texture;
         };

@@ -90,7 +90,7 @@ namespace ouzel
 
             Rectangle rectangle(0, 0, texture->getSize().width, texture->getSize().height);
 
-            scene::SpriteFramePtr frame = std::make_shared<scene::SpriteFrame>(rectangle, texture, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+            scene::SpriteFramePtr frame = std::make_shared<scene::SpriteFrame>(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
             frames.push_back(frame);
         }
 
@@ -126,7 +126,7 @@ namespace ouzel
 
                 Rectangle rectangle(0.0f, 0.0f, texture->getSize().width, texture->getSize().height);
 
-                scene::SpriteFramePtr frame = std::make_shared<scene::SpriteFrame>(rectangle, texture, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+                scene::SpriteFramePtr frame = std::make_shared<scene::SpriteFrame>(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
                 frames.push_back(frame);
             }
 

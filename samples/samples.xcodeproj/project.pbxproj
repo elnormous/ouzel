@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30224DEF1D78F4DB0067DE35 /* triangle.json in Resources */ = {isa = PBXBuildFile; fileRef = 30224DED1D78F4DB0067DE35 /* triangle.json */; };
+		30224DF01D78F4DB0067DE35 /* triangle.json in Resources */ = {isa = PBXBuildFile; fileRef = 30224DED1D78F4DB0067DE35 /* triangle.json */; };
+		30224DF11D78F4DB0067DE35 /* triangle.json in Resources */ = {isa = PBXBuildFile; fileRef = 30224DED1D78F4DB0067DE35 /* triangle.json */; };
+		30224DF21D78F4DB0067DE35 /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 30224DEE1D78F4DB0067DE35 /* triangle.png */; };
+		30224DF31D78F4DB0067DE35 /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 30224DEE1D78F4DB0067DE35 /* triangle.png */; };
+		30224DF41D78F4DB0067DE35 /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 30224DEE1D78F4DB0067DE35 /* triangle.png */; };
 		30324D9D1CAFB20900601A64 /* lv.mo in Resources */ = {isa = PBXBuildFile; fileRef = 30324D9C1CAFB20900601A64 /* lv.mo */; };
 		30324D9E1CAFB20900601A64 /* lv.mo in Resources */ = {isa = PBXBuildFile; fileRef = 30324D9C1CAFB20900601A64 /* lv.mo */; };
 		30324D9F1CAFB20900601A64 /* lv.mo in Resources */ = {isa = PBXBuildFile; fileRef = 30324D9C1CAFB20900601A64 /* lv.mo */; };
@@ -164,6 +170,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		30224DED1D78F4DB0067DE35 /* triangle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = triangle.json; sourceTree = "<group>"; };
+		30224DEE1D78F4DB0067DE35 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
 		30324D9C1CAFB20900601A64 /* lv.mo */ = {isa = PBXFileReference; lastKnownFileType = file; path = lv.mo; sourceTree = "<group>"; };
 		3036479F1C414EF50024DB5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		303647A01C414F120024DB5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -432,6 +440,8 @@
 				303B75EB1C33581700FEDE92 /* run.json */,
 				303B75EC1C33581700FEDE92 /* run.png */,
 				30C56C861CAB4E4E007AEF8F /* tick.png */,
+				30224DED1D78F4DB0067DE35 /* triangle.json */,
+				30224DEE1D78F4DB0067DE35 /* triangle.png */,
 				303B75081C286F8D00FEDE92 /* witch.png */,
 			);
 			path = Resources;
@@ -598,11 +608,13 @@
 				305B99A81C42B3F6008589E1 /* font.fnt in Resources */,
 				305B99AB1C42B3F6008589E1 /* font.png in Resources */,
 				30C56C811CAB48A4007AEF8F /* radio_button.png in Resources */,
+				30224DF01D78F4DB0067DE35 /* triangle.json in Resources */,
 				30C56C8B1CAB4E4E007AEF8F /* tick.png in Resources */,
 				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
 				30C56C881CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E661D1F6A7600A63759 /* ambient.wav in Resources */,
+				30224DF31D78F4DB0067DE35 /* triangle.png in Resources */,
 				3045F0BB1D0E0D6800125436 /* arial.fnt in Resources */,
 				30C56C7B1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
@@ -629,11 +641,13 @@
 				305B99A91C42B3F6008589E1 /* font.fnt in Resources */,
 				305B99AC1C42B3F6008589E1 /* font.png in Resources */,
 				30C56C821CAB48A4007AEF8F /* radio_button.png in Resources */,
+				30224DF11D78F4DB0067DE35 /* triangle.json in Resources */,
 				30C56C8C1CAB4E4E007AEF8F /* tick.png in Resources */,
 				303B769B1C355AA400FEDE92 /* run.png in Resources */,
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
 				30C56C891CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E671D1F6A7600A63759 /* ambient.wav in Resources */,
+				30224DF41D78F4DB0067DE35 /* triangle.png in Resources */,
 				3045F0BC1D0E0D6800125436 /* arial.fnt in Resources */,
 				30C56C7C1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
@@ -660,11 +674,13 @@
 				305B99A71C42B3F6008589E1 /* font.fnt in Resources */,
 				305B99AA1C42B3F6008589E1 /* font.png in Resources */,
 				30C56C801CAB48A4007AEF8F /* radio_button.png in Resources */,
+				30224DEF1D78F4DB0067DE35 /* triangle.json in Resources */,
 				30C56C8A1CAB4E4E007AEF8F /* tick.png in Resources */,
 				303B75EE1C33581700FEDE92 /* run.png in Resources */,
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
 				30C56C871CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E651D1F6A7600A63759 /* ambient.wav in Resources */,
+				30224DF21D78F4DB0067DE35 /* triangle.png in Resources */,
 				3045F0BA1D0E0D6800125436 /* arial.fnt in Resources */,
 				30C56C7A1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B75F81C33756100FEDE92 /* fire.png in Resources */,
