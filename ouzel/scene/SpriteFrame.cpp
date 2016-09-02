@@ -52,12 +52,12 @@ namespace ouzel
             {
                 const rapidjson::Value& frameObject = framesArray[index];
 
-                const rapidjson::Value& rectangleObject = frameObject["frame"];
+                const rapidjson::Value& frameRectangleObject = frameObject["frame"];
 
-                Rectangle rectangle(static_cast<float>(rectangleObject["x"].GetInt()),
-                                    static_cast<float>(rectangleObject["y"].GetInt()),
-                                    static_cast<float>(rectangleObject["w"].GetInt()),
-                                    static_cast<float>(rectangleObject["h"].GetInt()));
+                Rectangle frameRectangle(static_cast<float>(frameRectangleObject["x"].GetInt()),
+                                         static_cast<float>(frameRectangleObject["y"].GetInt()),
+                                         static_cast<float>(frameRectangleObject["w"].GetInt()),
+                                         static_cast<float>(frameRectangleObject["h"].GetInt()));
 
                 bool rotated = frameObject["rotated"].GetBool();
 
@@ -76,14 +76,14 @@ namespace ouzel
                 Vector2 pivot(pivotObject["x"].GetFloat(),
                               pivotObject["y"].GetFloat());
 
-                frames.push_back(std::make_shared<SpriteFrame>(texture, rectangle, rotated, sourceSize, sourceOffset, pivot));
+                frames.push_back(std::make_shared<SpriteFrame>(texture, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
             }
 
             return frames;
         }
 
         SpriteFrame::SpriteFrame(const graphics::TexturePtr& pTexture,
-                                 const Rectangle& pRectangle,
+                                 const Rectangle& frameRectangle,
                                  bool rotated,
                                  const Size2& sourceSize,
                                  const Vector2& sourceOffset,
@@ -95,17 +95,17 @@ namespace ouzel
 
             Vector2 textCoords[4];
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
-                                -sourceSize.height * pivot.y + (sourceSize.height - pRectangle.height - sourceOffset.y));
+                                -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.height - sourceOffset.y));
 
             const Size2& textureSize = texture->getSize();
 
             if (!rotated)
             {
-                Vector2 leftTop(pRectangle.x / textureSize.width,
-                                pRectangle.y / textureSize.height);
+                Vector2 leftTop(frameRectangle.x / textureSize.width,
+                                frameRectangle.y / textureSize.height);
 
-                Vector2 rightBottom((pRectangle.x + pRectangle.width) / textureSize.width,
-                                    (pRectangle.y + pRectangle.height) / textureSize.height);
+                Vector2 rightBottom((frameRectangle.x + frameRectangle.width) / textureSize.width,
+                                    (frameRectangle.y + frameRectangle.height) / textureSize.height);
 
                 if (texture->isFlipped())
                 {
@@ -120,11 +120,11 @@ namespace ouzel
             }
             else
             {
-                Vector2 leftTop = Vector2(pRectangle.x / textureSize.width,
-                                          pRectangle.y / textureSize.height);
+                Vector2 leftTop = Vector2(frameRectangle.x / textureSize.width,
+                                          frameRectangle.y / textureSize.height);
 
-                Vector2 rightBottom = Vector2((pRectangle.x + pRectangle.height) / textureSize.width,
-                                              (pRectangle.y + pRectangle.width) / textureSize.height);
+                Vector2 rightBottom = Vector2((frameRectangle.x + frameRectangle.height) / textureSize.width,
+                                              (frameRectangle.y + frameRectangle.width) / textureSize.height);
 
                 if (texture->isFlipped())
                 {
@@ -140,12 +140,12 @@ namespace ouzel
 
             std::vector<graphics::VertexPCT> vertices = {
                 graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
-                graphics::VertexPCT(Vector3(finalOffset.x + pRectangle.width, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
-                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + pRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
-                graphics::VertexPCT(Vector3(finalOffset.x + pRectangle.width, finalOffset.y + pRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
+                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.width, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
+                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + frameRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
+                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.width, finalOffset.y + frameRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
             };
 
-            boundingBox.set(finalOffset, finalOffset + Vector2(pRectangle.width, pRectangle.height));
+            boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.width, frameRectangle.height));
 
             rectangle = Rectangle(finalOffset.x, finalOffset.y,
                                   sourceSize.width, sourceSize.height);
@@ -161,7 +161,7 @@ namespace ouzel
         SpriteFrame::SpriteFrame(const graphics::TexturePtr& pTexture,
                                  const std::vector<uint16_t>& indices,
                                  const std::vector<graphics::VertexPCT>& vertices,
-                                 const Rectangle& pRectangle,
+                                 const Rectangle& frameRectangle,
                                  const Size2& sourceSize,
                                  const Vector2& sourceOffset,
                                  const Vector2& pivot)
@@ -174,7 +174,7 @@ namespace ouzel
             }
 
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
-                                -sourceSize.height * pivot.y + (sourceSize.height - pRectangle.height - sourceOffset.y));
+                                -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.height - sourceOffset.y));
 
             rectangle = Rectangle(finalOffset.x, finalOffset.y,
                                   sourceSize.width, sourceSize.height);

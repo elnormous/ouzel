@@ -21,7 +21,7 @@ namespace ouzel
             static std::vector<SpriteFramePtr> loadSpriteFrames(const std::string& filename, bool mipmaps = true);
 
             SpriteFrame(const graphics::TexturePtr& pTexture,
-                        const Rectangle& pRectangle,
+                        const Rectangle& frameRectangle,
                         bool rotated,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
@@ -30,7 +30,7 @@ namespace ouzel
             SpriteFrame(const graphics::TexturePtr& pTexture,
                         const std::vector<uint16_t>& indices,
                         const std::vector<graphics::VertexPCT>& vertices,
-                        const Rectangle& pRectangle,
+                        const Rectangle& frameRectangle,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
                         const Vector2& pivot);
