@@ -37,14 +37,12 @@ namespace ouzel
                 depthStencilState->Release();
             }
 
-            if (scissorTestRasterizerState)
+            for (uint32_t i = 0; i < 4; ++i)
             {
-                scissorTestRasterizerState->Release();
-            }
-
-            if (rasterizerState)
-            {
-                rasterizerState->Release();
+                if (rasterizerStates[i])
+                {
+                    rasterizerStates[i]->Release();
+                }
             }
 
             if (samplerState)
@@ -83,16 +81,13 @@ namespace ouzel
                 depthStencilState = nullptr;
             }
 
-            if (scissorTestRasterizerState)
+            for (uint32_t i = 0; i < 4; ++i)
             {
-                scissorTestRasterizerState->Release();
-                scissorTestRasterizerState = nullptr;
-            }
-
-            if (rasterizerState)
-            {
-                rasterizerState->Release();
-                rasterizerState = nullptr;
+                if (rasterizerStates[i])
+                {
+                    rasterizerStates[i]->Release();
+                    rasterizerStates[i] = nullptr;
+                }
             }
 
             if (samplerState)
@@ -282,16 +277,40 @@ namespace ouzel
                 TRUE, // AA lines
             };
 
-            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerState);
+            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[0]);
             if (FAILED(hr))
             {
                 log("Failed to create Direct3D 11 rasterizer state");
                 return false;
             }
 
+            // wireframe
+            rasterStateDesc.FillMode = D3D11_FILL_WIREFRAME;
+            rasterStateDesc.ScissorEnable = FALSE;
+
+            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[1]);
+            if (FAILED(hr))
+            {
+                log("Failed to create Direct3D 11 rasterizer state");
+                return false;
+            }
+
+            // scissor test
+            rasterStateDesc.FillMode = D3D11_FILL_SOLID;
             rasterStateDesc.ScissorEnable = TRUE;
 
-            hr = device->CreateRasterizerState(&rasterStateDesc, &scissorTestRasterizerState);
+            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[2]);
+            if (FAILED(hr))
+            {
+                log("Failed to create Direct3D 11 rasterizer state");
+                return false;
+            }
+
+            // wireframe and scissor test
+            rasterStateDesc.FillMode = D3D11_FILL_WIREFRAME;
+            rasterStateDesc.ScissorEnable = TRUE;
+
+            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[3]);
             if (FAILED(hr))
             {
                 log("Failed to create Direct3D 11 rasterizer state");
@@ -458,7 +477,7 @@ namespace ouzel
 
             clearedRenderTargetViews.clear();
 
-            context->RSSetState(rasterizerState);
+            context->RSSetState(rasterizerStates[0]);
 
             if (!update())
             {
@@ -512,6 +531,12 @@ namespace ouzel
                     context->ClearRenderTargetView(newRenderTargetView, newClearColor);
                 }
 
+                uint32_t rasterizerStateIndex = 0;
+                if (drawCommand.wireframe) rasterizerStateIndex |= 0x01;
+                if (drawCommand.scissorTestEnabled) rasterizerStateIndex |= 0x02;
+
+                context->RSSetState(rasterizerStates[rasterizerStateIndex]);
+
                 // scissor test
                 if (drawCommand.scissorTestEnabled)
                 {
@@ -522,11 +547,6 @@ namespace ouzel
                     rects[0].top = static_cast<LONG>(drawCommand.scissorTest.y + drawCommand.scissorTest.height);
 
                     context->RSSetScissorRects(1, rects);
-                    context->RSSetState(scissorTestRasterizerState);
-                }
-                else
-                {
-                    context->RSSetState(rasterizerState);
                 }
 
                 // shader
