@@ -31,9 +31,7 @@ namespace ouzel
             // render only if there is an active camera
             if (camera)
             {
-                auto childrenCopy = children;
-
-                for (const NodePtr& child : childrenCopy)
+                for (const NodePtr& child : children)
                 {
                     if (!child->isHidden())
                     {
@@ -48,6 +46,14 @@ namespace ouzel
                 for (const auto& node : drawQueue)
                 {
                     node.first->draw(std::static_pointer_cast<Layer>(shared_from_this()));
+                }
+
+                if (wireframe)
+                {
+                    for (const auto& node : drawQueue)
+                    {
+                        node.first->drawWireframe(std::static_pointer_cast<Layer>(shared_from_this()));
+                    }
                 }
             }
         }

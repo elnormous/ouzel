@@ -95,6 +95,7 @@ namespace ouzel
 
             virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty, const LayerPtr& currentLayer, float depth);
             virtual void draw(const LayerPtr& currentLayer);
+            virtual void drawWireframe(const LayerPtr& currentLayer);
 
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;

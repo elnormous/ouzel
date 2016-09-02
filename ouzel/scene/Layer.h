@@ -48,11 +48,15 @@ namespace ouzel
 
             bool checkVisibility(const NodePtr& node) const;
 
+            bool getWireframe() const { return wireframe; }
+            void setWireframe(bool newWireframe) { wireframe = newWireframe; }
+
         protected:
             CameraPtr camera;
             std::list<std::pair<NodePtr, float>> drawQueue;
 
             int32_t order = 0;
+            bool wireframe = false;
 
             graphics::RenderTargetPtr renderTarget;
         };

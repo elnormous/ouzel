@@ -478,6 +478,8 @@ namespace ouzel
 
                 [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
 
+                previousWireframe = drawCommand.wireframe;
+
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
 

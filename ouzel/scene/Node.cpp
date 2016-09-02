@@ -86,6 +86,33 @@ namespace ouzel
             }
         }
 
+        void Node::drawWireframe(const LayerPtr& currentLayer)
+        {
+            if (transformDirty)
+            {
+                calculateTransform();
+            }
+
+            if (currentLayer)
+            {
+                if (currentLayer->getCamera())
+                {
+                    graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
+
+                    for (const ComponentPtr& component : components)
+                    {
+                        if (!component->isHidden())
+                        {
+                            component->drawWireframe(currentLayer->getCamera()->getViewProjection(),
+                                                     transform,
+                                                     drawColor,
+                                                     currentLayer->getRenderTarget());
+                        }
+                    }
+                }
+            }
+        }
+
         bool Node::addChild(const NodePtr& node)
         {
             if (NodeContainer::addChild(node))

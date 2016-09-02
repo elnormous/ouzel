@@ -34,6 +34,11 @@ namespace ouzel
                               const graphics::Color& drawColor,
                               const graphics::RenderTargetPtr& renderTarget) override;
 
+            virtual void drawWireframe(const Matrix4& projectionMatrix,
+                                       const Matrix4& transformMatrix,
+                                       const graphics::Color& drawColor,
+                                       const graphics::RenderTargetPtr& renderTarget) override;
+
             virtual const graphics::ShaderPtr& getShader() const { return shader; }
             virtual void setShader(const graphics::ShaderPtr& newShader) { shader = newShader; }
 
@@ -57,6 +62,7 @@ namespace ouzel
             void updateBoundingBox();
 
             graphics::ShaderPtr shader;
+            graphics::ShaderPtr colorShader;
             graphics::BlendStatePtr blendState;
 
             Size2 size;

@@ -25,6 +25,11 @@ namespace ouzel
                               const graphics::Color& drawColor,
                               const graphics::RenderTargetPtr& renderTarget);
 
+            virtual void drawWireframe(const Matrix4& projectionMatrix,
+                                       const Matrix4& transformMatrix,
+                                       const graphics::Color& drawColor,
+                                       const graphics::RenderTargetPtr& renderTarget);
+
             virtual const AABB2& getBoundingBox() const { return boundingBox; }
             bool isAddedToNode() { return node != nullptr; }
 

@@ -23,6 +23,9 @@ namespace ouzel
     {
         Sprite::Sprite()
         {
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            colorShader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
+            
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
         }
 
@@ -56,13 +59,6 @@ namespace ouzel
                 return false;
             }
 
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-
-            if (!shader)
-            {
-                return false;
-            }
-
             return true;
         }
 
@@ -75,13 +71,6 @@ namespace ouzel
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
             if (!blendState)
-            {
-                return false;
-            }
-
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-
-            if (!shader)
             {
                 return false;
             }
@@ -169,6 +158,38 @@ namespace ouzel
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
                                                             renderTarget);
+            }
+        }
+
+        void Sprite::drawWireframe(const Matrix4& projectionMatrix,
+                                   const Matrix4& transformMatrix,
+                                   const graphics::Color& drawColor,
+                                   const graphics::RenderTargetPtr& renderTarget)
+        {
+            Component::drawWireframe(projectionMatrix, transformMatrix, drawColor, renderTarget);
+
+            if (currentFrame < frames.size())
+            {
+                Matrix4 modelViewProj = projectionMatrix * transformMatrix * offsetMatrix;
+                float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
+
+                std::vector<std::vector<float>> pixelShaderConstants(1);
+                pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
+
+                std::vector<std::vector<float>> vertexShaderConstants(1);
+                vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+
+                sharedEngine->getRenderer()->addDrawCommand({ },
+                                                            colorShader,
+                                                            pixelShaderConstants,
+                                                            vertexShaderConstants,
+                                                            blendState,
+                                                            frames[currentFrame]->getMeshBuffer(),
+                                                            0,
+                                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                                            0,
+                                                            renderTarget,
+                                                            true);
             }
         }
 

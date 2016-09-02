@@ -14,11 +14,13 @@ public:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
 
 private:
+    ouzel::scene::LayerPtr layer;
+    
     Samples& samples;
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
 
     ouzel::scene::NodePtr character;
-    ouzel::gui::ButtonPtr button;
-
+    ouzel::gui::ButtonPtr hideButton;
+    ouzel::gui::ButtonPtr wireframeButton;
 };

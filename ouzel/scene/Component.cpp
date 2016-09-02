@@ -20,6 +20,13 @@ namespace ouzel
         {
         }
 
+        void Component::drawWireframe(const Matrix4& projectionMatrix,
+                                      const Matrix4& transformMatrix,
+                                      const graphics::Color& drawColor,
+                                      const graphics::RenderTargetPtr& renderTarget)
+        {
+        }
+
         bool Component::pointOn(const Vector2& position) const
         {
             return boundingBox.containsPoint(position);

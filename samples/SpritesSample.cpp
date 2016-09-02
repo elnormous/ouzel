@@ -12,7 +12,7 @@ SpritesSample::SpritesSample(Samples& pSamples):
     eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-    ouzel::scene::LayerPtr layer = make_shared<scene::Layer>();
+    layer = make_shared<scene::Layer>();
     addLayer(layer);
     layer->setCamera(make_shared<scene::Camera>());
 
@@ -50,9 +50,13 @@ SpritesSample::SpritesSample(Samples& pSamples):
     gui::MenuPtr menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu);
 
-    button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color(0, 0, 0, 255), "arial.fnt");
-    button->setPosition(Vector2(-200.0f, 200.0f));
-    menu->addWidget(button);
+    hideButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    hideButton->setPosition(Vector2(-200.0f, 200.0f));
+    menu->addWidget(hideButton);
+
+    wireframeButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Wireframe", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    wireframeButton->setPosition(Vector2(-200.0f, 160.0f));
+    menu->addWidget(wireframeButton);
 
     backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
@@ -72,9 +76,13 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const
         {
             samples.back();
         }
-        else if (event.node == button)
+        else if (event.node == hideButton)
         {
             character->setHidden(!character->isHidden());
+        }
+        else if (event.node == wireframeButton)
+        {
+            layer->setWireframe(!layer->getWireframe());
         }
     }
 
