@@ -20,10 +20,10 @@ namespace ouzel
         {
         }
 
-        void Component::drawWireframe(const Matrix4& projectionMatrix,
-                                      const Matrix4& transformMatrix,
-                                      const graphics::Color& drawColor,
-                                      const graphics::RenderTargetPtr& renderTarget)
+        void Component::drawWireframe(const Matrix4&,
+                                      const Matrix4&,
+                                      const graphics::Color&,
+                                      const graphics::RenderTargetPtr&)
         {
         }
 
