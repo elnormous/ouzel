@@ -7,7 +7,6 @@
 #include <memory>
 #include "utils/Noncopyable.h"
 #include "math/Size2.h"
-#include "core/Settings.h"
 #include "graphics/Renderer.h"
 
 namespace ouzel
