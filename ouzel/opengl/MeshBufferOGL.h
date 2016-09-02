@@ -12,23 +12,17 @@
     #include <OpenGLES/ES2/glext.h>
 #elif OUZEL_PLATFORM_ANDROID
     #include <GLES2/gl2platform.h>
-    #ifndef GL_GLEXT_PROTOTYPES
-        #define GL_GLEXT_PROTOTYPES 1
-    #endif
+    #define GL_GLEXT_PROTOTYPES 1
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
     #include <EGL/egl.h>
 #elif OUZEL_PLATFORM_LINUX
-    #ifndef GL_GLEXT_PROTOTYPES
-        #define GL_GLEXT_PROTOTYPES 1
-    #endif
+    #define GL_GLEXT_PROTOTYPES 1
     #include <GL/gl.h>
     #include <GL/glx.h>
     #include <GL/glext.h>
 #elif OUZEL_PLATFORM_RASPBIAN
-    #ifndef GL_GLEXT_PROTOTYPES
-        #define GL_GLEXT_PROTOTYPES 1
-    #endif
+    #define GL_GLEXT_PROTOTYPES 1
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
     #include <EGL/egl.h>

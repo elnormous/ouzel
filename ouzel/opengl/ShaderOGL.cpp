@@ -204,7 +204,7 @@ namespace ouzel
                         return false;
                     }
 
-                    RendererOGL::bindProgram(programId);
+                    RendererOGL::useProgram(programId);
 
                     GLint texture0Location = glGetUniformLocation(programId, "texture0");
                     if (texture0Location != -1) glUniform1i(texture0Location, 0);

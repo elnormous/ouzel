@@ -26,7 +26,7 @@ namespace ouzel
 #if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_NEON_CHECK
     AnrdoidNEONChecker anrdoidNEONChecker;
 #endif
-    char TEMP_BUFFER[65536];
+    static char TEMP_BUFFER[1024];
 
     void log(const char* format, ...)
     {

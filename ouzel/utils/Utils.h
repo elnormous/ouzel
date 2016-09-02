@@ -17,8 +17,6 @@
 
 namespace ouzel
 {
-    extern char TEMP_BUFFER[65536];
-
 #if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_NEON_CHECK
     class AnrdoidNEONChecker
     {

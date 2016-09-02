@@ -21,23 +21,17 @@
     #endif
 #elif OUZEL_PLATFORM_ANDROID
     #include <GLES2/gl2platform.h>
-    #ifndef GL_GLEXT_PROTOTYPES
-        #define GL_GLEXT_PROTOTYPES 1
-    #endif
+    #define GL_GLEXT_PROTOTYPES 1
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
     #include <EGL/egl.h>
 #elif OUZEL_PLATFORM_LINUX
-    #ifndef GL_GLEXT_PROTOTYPES
-        #define GL_GLEXT_PROTOTYPES 1
-    #endif
+    #define GL_GLEXT_PROTOTYPES 1
     #include <GL/gl.h>
     #include <GL/glx.h>
     #include <GL/glext.h>
 #elif OUZEL_PLATFORM_RASPBIAN
-    #ifndef GL_GLEXT_PROTOTYPES
-        #define GL_GLEXT_PROTOTYPES 1
-    #endif
+    #define GL_GLEXT_PROTOTYPES 1
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
     #include <EGL/egl.h>
@@ -123,7 +117,7 @@ namespace ouzel
                 return true;
             }
 
-            static inline bool bindProgram(GLuint programId)
+            static inline bool useProgram(GLuint programId)
             {
                 if (currentProgramId != programId)
                 {
@@ -229,11 +223,11 @@ namespace ouzel
                 return true;
             }
 
-            static inline bool unbindProgram(GLuint programId)
+            static inline bool unuseProgram(GLuint programId)
             {
                 if (currentProgramId == programId)
                 {
-                    return bindProgram(0);
+                    return useProgram(0);
                 }
 
                 return true;

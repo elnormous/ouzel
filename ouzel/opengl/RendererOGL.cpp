@@ -422,7 +422,7 @@ namespace ouzel
                     continue;
                 }
 
-                bindProgram(shaderOGL->getProgramId());
+                useProgram(shaderOGL->getProgramId());
 
                 // pixel shader constants
                 const std::vector<ShaderOGL::Location>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
@@ -950,7 +950,7 @@ namespace ouzel
                         glDeleteFramebuffers(1, &deleteResource.first);
                         break;
                     case ResourceType::Program:
-                        unbindProgram(deleteResource.first);
+                        unuseProgram(deleteResource.first);
                         glDeleteProgram(deleteResource.first);
                         break;
                     case ResourceType::Shader:
