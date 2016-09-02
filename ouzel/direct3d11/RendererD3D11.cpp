@@ -28,6 +28,7 @@ namespace ouzel
             Renderer(Driver::DIRECT3D11), dirty(false)
         {
             apiVersion = 11;
+            memset(&rasterizerStates, 0, sizeof(rasterizerStates));
         }
 
         RendererD3D11::~RendererD3D11()

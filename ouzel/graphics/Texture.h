@@ -56,6 +56,7 @@ namespace ouzel
             bool flipped = false;
             bool dirty = false;
             bool ready = false;
+            bool mipMapsGenerated = false;
 
             struct Level
             {

@@ -40,6 +40,7 @@ namespace ouzel
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
+            mipMapsGenerated = false;
 
             dirty = true;
 
@@ -195,7 +196,9 @@ namespace ouzel
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
             uint32_t newHeight = static_cast<uint32_t>(newSize.height);
 
-            if (mipmaps && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
+            mipMapsGenerated = mipmaps && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
+
+            if (mipMapsGenerated)
             {
                 uint32_t pitch = newWidth * 4;
 
@@ -272,7 +275,7 @@ namespace ouzel
             uploadData.dynamic = dynamic;
             uploadData.mipmaps = mipmaps;
 
-            uploadData.mipmaps = mipmaps && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(size.width) && isPOT(size.height)));
+            uploadData.mipmaps = mipMapsGenerated;
 
             uploadData.renderTarget = renderTarget;
 

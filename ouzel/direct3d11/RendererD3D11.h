@@ -61,7 +61,7 @@ namespace ouzel
             ID3D11RenderTargetView* renderTargetView = nullptr;
             std::set<ID3D11RenderTargetView*> clearedRenderTargetViews;
             ID3D11SamplerState* samplerState = nullptr;
-            ID3D11RasterizerState* rasterizerStates[4] = { nullptr, nullptr, nullptr, nullptr };
+            ID3D11RasterizerState* rasterizerStates[4];
             ID3D11DepthStencilState* depthStencilState = nullptr;
 
             UINT width = 0;
