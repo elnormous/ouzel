@@ -20,7 +20,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            static const uint32_t LAYERS = 2;
+            static const uint32_t LAYERS = 4;
 
             virtual ~Texture();
             virtual void free() override;
