@@ -59,8 +59,6 @@ namespace ouzel
                                          static_cast<float>(frameRectangleObject["w"].GetInt()),
                                          static_cast<float>(frameRectangleObject["h"].GetInt()));
 
-                bool rotated = frameObject["rotated"].GetBool();
-
                 const rapidjson::Value& sourceSizeObject = frameObject["sourceSize"];
 
                 Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].GetInt()),
@@ -76,7 +74,55 @@ namespace ouzel
                 Vector2 pivot(pivotObject["x"].GetFloat(),
                               pivotObject["y"].GetFloat());
 
-                frames.push_back(std::make_shared<SpriteFrame>(texture, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
+                if (frameObject.HasMember("vertices") &&
+                    frameObject.HasMember("verticesUV") &&
+                    frameObject.HasMember("triangles"))
+                {
+                    std::vector<uint16_t> indices;
+
+                    const rapidjson::Value& trianglesObject = frameObject["triangles"];
+
+                    for (rapidjson::SizeType triangleIndex = 0; triangleIndex < trianglesObject.Size(); ++triangleIndex)
+                    {
+                        const rapidjson::Value& triangleObject = trianglesObject[triangleIndex];
+
+                        for (rapidjson::SizeType i = 0; i < triangleObject.Size(); ++i)
+                        {
+                            indices.push_back(static_cast<uint16_t>(triangleObject[i].GetUint()));
+                        }
+                    }
+
+                    std::vector<graphics::VertexPCT> vertices;
+
+                    const rapidjson::Value& verticesObject = frameObject["vertices"];
+                    const rapidjson::Value& verticesUVObject = frameObject["verticesUV"];
+
+                    const Size2& textureSize = texture->getSize();
+
+                    Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
+                                        -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.height - sourceOffset.y));
+
+                    for (rapidjson::SizeType vertexIndex = 0; vertexIndex < verticesObject.Size(); ++vertexIndex)
+                    {
+                        const rapidjson::Value& vertexObject = verticesObject[vertexIndex];
+                        const rapidjson::Value& vertexUVObject = verticesUVObject[vertexIndex];
+
+                        vertices.push_back(graphics::VertexPCT(Vector3(static_cast<float>(vertexObject[0].GetInt()) + finalOffset.x,
+                                                                       -static_cast<float>(vertexObject[1].GetInt()) - finalOffset.y,
+                                                                       0.0f),
+                                                               graphics::Color(255, 255, 255, 255),
+                                                               Vector2(static_cast<float>(vertexUVObject[0].GetInt()) / textureSize.width,
+                                                                       static_cast<float>(vertexUVObject[1].GetInt()) / textureSize.height)));
+                    }
+
+                    frames.push_back(std::make_shared<SpriteFrame>(texture, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
+                }
+                else
+                {
+                    bool rotated = frameObject["rotated"].GetBool();
+
+                    frames.push_back(std::make_shared<SpriteFrame>(texture, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
+                }
             }
 
             return frames;
