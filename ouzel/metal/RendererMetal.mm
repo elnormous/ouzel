@@ -460,25 +460,24 @@ namespace ouzel
                     {
                         return false;
                     }
-                }
 
-                // scissor test
-                if (drawCommand.scissorTestEnabled)
-                {
-                    MTLScissorRect rect;
-                    rect.x = static_cast<NSUInteger>(drawCommand.scissorTest.x);
-                    rect.y = static_cast<NSUInteger>(drawCommand.scissorTest.y);
-                    rect.width = static_cast<NSUInteger>(drawCommand.scissorTest.width);
-                    rect.height = static_cast<NSUInteger>(drawCommand.scissorTest.height);
-                    [currentRenderCommandEncoder setScissorRect: rect];
-
+                    previousWireframe = drawCommand.wireframe;
                     previousScissorTestEnabled = drawCommand.scissorTestEnabled;
                     previousScissorTest = drawCommand.scissorTest;
+
+                    [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
+
+                    // scissor test
+                    if (drawCommand.scissorTestEnabled)
+                    {
+                        MTLScissorRect rect;
+                        rect.x = static_cast<NSUInteger>(drawCommand.scissorTest.x);
+                        rect.y = static_cast<NSUInteger>(drawCommand.scissorTest.y);
+                        rect.width = static_cast<NSUInteger>(drawCommand.scissorTest.width);
+                        rect.height = static_cast<NSUInteger>(drawCommand.scissorTest.height);
+                        [currentRenderCommandEncoder setScissorRect: rect];
+                    }
                 }
-
-                [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
-
-                previousWireframe = drawCommand.wireframe;
 
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
