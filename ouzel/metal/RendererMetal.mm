@@ -358,13 +358,14 @@ namespace ouzel
                 return false;
             }
 
-            clearedRenderPassDescriptors.clear();
+            NSUInteger frameBufferWidth = view.currentDrawable.texture.width;
+            NSUInteger frameBufferHeight = view.currentDrawable.texture.height;
 
             if (sampleCount > 1)
             {
                 if (!msaaTexture ||
-                    view.currentDrawable.texture.width != msaaTexture.width ||
-                    view.currentDrawable.texture.height != msaaTexture.height)
+                    frameBufferWidth != msaaTexture.width ||
+                    frameBufferHeight != msaaTexture.height)
                 {
                     if (msaaTexture)
                     {
@@ -373,8 +374,8 @@ namespace ouzel
                     }
 
                     MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat: MTLPixelFormatBGRA8Unorm
-                                                                                                    width: view.currentDrawable.texture.width
-                                                                                                   height: view.currentDrawable.texture.height
+                                                                                                    width: frameBufferWidth
+                                                                                                   height: frameBufferHeight
                                                                                                 mipmapped: NO];
                     desc.textureType = MTLTextureType2DMultisample;
                     desc.storageMode = MTLStorageModePrivate;
@@ -410,9 +411,8 @@ namespace ouzel
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
-            bool previousWireframe = false;
-            bool previousScissorTestEnabled = false;
-            Rectangle previousScissorTest;
+            std::set<MTLRenderPassDescriptorPtr> clearedRenderPassDescriptors;
+            MTLScissorRect scissorRect;
 
             if (!update())
             {
@@ -427,6 +427,8 @@ namespace ouzel
                 {
                     return false;
                 }
+
+                currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
             }
             else for (const DrawCommand& drawCommand : drawQueue)
             {
@@ -444,40 +446,54 @@ namespace ouzel
                     }
 
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+
+                    std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal->getTexture());
+
+                    scissorRect.x = scissorRect.y = 0;
+                    scissorRect.width = renderTargetTextureMetal->getTexture().width;
+                    scissorRect.height = renderTargetTextureMetal->getTexture().height;
                 }
                 else
                 {
                     newRenderPassDescriptor = renderPassDescriptor;
+
+                    scissorRect.x = scissorRect.y = 0;
+                    scissorRect.width = frameBufferWidth;
+                    scissorRect.height = frameBufferHeight;
                 }
 
                 if (currentRenderPassDescriptor != newRenderPassDescriptor ||
-                    !currentRenderCommandEncoder ||
-                    drawCommand.wireframe != previousWireframe ||
-                    drawCommand.scissorTestEnabled != previousScissorTestEnabled || // scissor test flag changed
-                    (drawCommand.scissorTestEnabled && drawCommand.scissorTest != previousScissorTest)) // scissor test enabled and rectangles differ
+                    !currentRenderCommandEncoder)
                 {
                     if (!createRenderCommandEncoder(newRenderPassDescriptor))
                     {
                         return false;
                     }
 
-                    previousWireframe = drawCommand.wireframe;
-                    previousScissorTestEnabled = drawCommand.scissorTestEnabled;
-                    previousScissorTest = drawCommand.scissorTest;
+                    auto clearedRenderPassDescriptor = clearedRenderPassDescriptors.insert(currentRenderPassDescriptor);
 
-                    [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
-
-                    // scissor test
-                    if (drawCommand.scissorTestEnabled)
+                    if (clearedRenderPassDescriptor.second)
                     {
-                        MTLScissorRect rect;
-                        rect.x = static_cast<NSUInteger>(drawCommand.scissorTest.x);
-                        rect.y = static_cast<NSUInteger>(drawCommand.scissorTest.y);
-                        rect.width = static_cast<NSUInteger>(drawCommand.scissorTest.width);
-                        rect.height = static_cast<NSUInteger>(drawCommand.scissorTest.height);
-                        [currentRenderCommandEncoder setScissorRect: rect];
+                        currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                    }
+                    else
+                    {
+                        currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
                     }
                 }
+
+                [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
+
+                // scissor test
+                if (drawCommand.scissorTestEnabled)
+                {
+                    scissorRect.x = static_cast<NSUInteger>(drawCommand.scissorTest.x);
+                    scissorRect.y = static_cast<NSUInteger>(drawCommand.scissorTest.y);
+                    scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorTest.width);
+                    scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorTest.height);
+                }
+
+                [currentRenderCommandEncoder setScissorRect: scissorRect];
 
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
@@ -807,18 +823,6 @@ namespace ouzel
             }
 
             currentRenderPassDescriptor = newRenderPassDescriptor;
-
-            auto clearedRenderPassDescriptor = clearedRenderPassDescriptors.insert(currentRenderPassDescriptor);
-
-            if (clearedRenderPassDescriptor.second)
-            {
-                currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            }
-            else
-            {
-                currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
-            }
-
             currentRenderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor] retain];
 
             if (!currentRenderCommandEncoder)

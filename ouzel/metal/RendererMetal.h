@@ -88,7 +88,6 @@ namespace ouzel
 
             MTLDevicePtr device = Nil;
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
-            std::set<MTLRenderPassDescriptorPtr> clearedRenderPassDescriptors;
 
             MTLSamplerStatePtr samplerState = Nil;
             MTLCommandQueuePtr commandQueue = Nil;
