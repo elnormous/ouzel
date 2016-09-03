@@ -27,6 +27,11 @@ namespace ouzel
                               const graphics::Color& drawColor,
                               const graphics::RenderTargetPtr& renderTarget) override;
 
+            virtual void drawWireframe(const Matrix4& projectionMatrix,
+                                       const Matrix4& transformMatrix,
+                                       const graphics::Color& drawColor,
+                                       const graphics::RenderTargetPtr& renderTarget) override;
+
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }
 
@@ -42,10 +47,11 @@ namespace ouzel
         protected:
             void updateBounds();
 
-            graphics::TexturePtr texture;
-            graphics::MeshBufferPtr meshBuffer;
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;
+            graphics::MeshBufferPtr meshBuffer;
+            graphics::TexturePtr texture;
+            graphics::TexturePtr whitePixelTexture;
 
             BMFont font;
             Vector2 textAnchor;

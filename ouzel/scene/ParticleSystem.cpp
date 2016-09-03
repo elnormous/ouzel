@@ -22,6 +22,7 @@ namespace ouzel
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
 
             updateCallback.callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
         }
@@ -81,6 +82,48 @@ namespace ouzel
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
                                                             renderTarget);
+            }
+        }
+
+        void ParticleSystem::drawWireframe(const Matrix4& projectionMatrix,
+                                           const Matrix4& transformMatrix,
+                                           const graphics::Color& drawColor,
+                                           const graphics::RenderTargetPtr& renderTarget)
+        {
+            Component::drawWireframe(projectionMatrix, transformMatrix, drawColor, renderTarget);
+
+            if (particleCount)
+            {
+                Matrix4 transform;
+
+                if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
+                {
+                    transform = projectionMatrix;
+                }
+                else if (positionType == ParticleDefinition::PositionType::GROUPED)
+                {
+                    transform = projectionMatrix * transformMatrix;
+                }
+
+                float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
+
+                std::vector<std::vector<float>> pixelShaderConstants(1);
+                pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
+
+                std::vector<std::vector<float>> vertexShaderConstants(1);
+                vertexShaderConstants[0] = { std::begin(transform.m), std::end(transform.m) };
+
+                sharedEngine->getRenderer()->addDrawCommand({ whitePixelTexture },
+                                                            shader,
+                                                            pixelShaderConstants,
+                                                            vertexShaderConstants,
+                                                            blendState,
+                                                            mesh,
+                                                            particleCount * 6,
+                                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                                            0,
+                                                            renderTarget,
+                                                            true);
             }
         }
 

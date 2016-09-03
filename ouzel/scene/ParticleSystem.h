@@ -65,7 +65,13 @@ namespace ouzel
             virtual void draw(const Matrix4& projectionMatrix,
                               const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
-                              const graphics::RenderTargetPtr& renderTarget);
+                              const graphics::RenderTargetPtr& renderTarget) override;
+
+            virtual void drawWireframe(const Matrix4& projectionMatrix,
+                                       const Matrix4& transformMatrix,
+                                       const graphics::Color& drawColor,
+                                       const graphics::RenderTargetPtr& renderTarget) override;
+
             virtual void update(float delta);
 
             virtual bool initFromFile(const std::string& filename);
@@ -94,6 +100,7 @@ namespace ouzel
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;
             graphics::TexturePtr texture;
+            graphics::TexturePtr whitePixelTexture;
 
             std::vector<Particle> particles;
 

@@ -14,13 +14,13 @@ namespace ouzel
     {
         TextDrawable::TextDrawable()
         {
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
         }
 
         TextDrawable::TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor)
         {
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
             meshBuffer->init();
             meshBuffer->setIndexSize(sizeof(uint16_t));
@@ -76,6 +76,34 @@ namespace ouzel
             vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
 
             sharedEngine->getRenderer()->addDrawCommand({ texture },
+                                                        shader,
+                                                        pixelShaderConstants,
+                                                        vertexShaderConstants,
+                                                        blendState,
+                                                        meshBuffer,
+                                                        static_cast<uint32_t>(indices.size()),
+                                                        graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                                        0,
+                                                        renderTarget);
+        }
+
+        void TextDrawable::drawWireframe(const Matrix4& projectionMatrix,
+                                         const Matrix4& transformMatrix,
+                                         const graphics::Color& drawColor,
+                                         const graphics::RenderTargetPtr& renderTarget)
+        {
+            Component::drawWireframe(projectionMatrix, transformMatrix, drawColor, renderTarget);
+
+            Matrix4 modelViewProj = projectionMatrix * transformMatrix;
+            float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
+
+            std::vector<std::vector<float>> pixelShaderConstants(1);
+            pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
+
+            std::vector<std::vector<float>> vertexShaderConstants(1);
+            vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+
+            sharedEngine->getRenderer()->addDrawCommand({ whitePixelTexture },
                                                         shader,
                                                         pixelShaderConstants,
                                                         vertexShaderConstants,
