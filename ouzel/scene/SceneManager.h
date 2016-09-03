@@ -47,6 +47,7 @@ namespace ouzel
             void pointerDragNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
 
             ScenePtr scene;
+            ScenePtr nextScene;
             ouzel::EventHandler eventHandler;
 
             std::map<uint64_t, scene::NodeWeakPtr> pointerOnNodes;

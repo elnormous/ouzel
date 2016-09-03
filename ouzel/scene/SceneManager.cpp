@@ -26,17 +26,22 @@ namespace ouzel
         {
             if (scene != newScene)
             {
-                scene = newScene;
+                nextScene = newScene;
+            }
+        }
+
+        void SceneManager::draw()
+        {
+            if (nextScene)
+            {
+                scene = std::move(nextScene);
 
                 if (scene)
                 {
                     scene->recalculateProjection();
                 }
             }
-        }
 
-        void SceneManager::draw()
-        {
             if (scene)
             {
                 scene->draw();
