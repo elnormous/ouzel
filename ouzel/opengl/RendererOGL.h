@@ -442,6 +442,7 @@ namespace ouzel
                 return true;
             }
 
+#ifdef OUZEL_SUPPORTS_OPENGL
             static inline bool setPolygonFillMode(GLenum polygonFillMode)
             {
                 if (currentPolygonFillMode != polygonFillMode)
@@ -459,6 +460,7 @@ namespace ouzel
                 
                 return true;
             }
+#endif
 
             enum class ResourceType
             {

@@ -579,7 +579,9 @@ namespace ouzel
                     }
                 }
 
+#ifdef OUZEL_SUPPORTS_OPENGL
                 setPolygonFillMode(drawCommand.wireframe ? GL_LINE : GL_FILL);
+#endif
 
                 // scissor test
                 setScissorTest(drawCommand.scissorTestEnabled,
@@ -885,7 +887,9 @@ namespace ouzel
         GLenum RendererOGL::currentBlendSourceFactorAlpha = 0;
         GLenum RendererOGL::currentBlendDestFactorAlpha = 0;
 
+#ifdef OUZEL_SUPPORTS_OPENGL
         GLenum RendererOGL::currentPolygonFillMode = GL_FILL;
+#endif
 
         bool RendererOGL::currentScissorTestEnabled = false;
         GLint RendererOGL::currentScissorX = 0;
