@@ -20,7 +20,6 @@ namespace ouzel
 
         SceneManager::~SceneManager()
         {
-            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
         }
 
         void SceneManager::setScene(const ScenePtr& newScene)

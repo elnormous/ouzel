@@ -20,7 +20,6 @@ namespace ouzel
 
         Menu::~Menu()
         {
-            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
         }
 
         bool Menu::addWidget(const WidgetPtr& widget)

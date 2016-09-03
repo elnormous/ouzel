@@ -28,7 +28,6 @@ namespace ouzel
 
         CheckBox::~CheckBox()
         {
-            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
         }
 
         bool CheckBox::init(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage)

@@ -54,7 +54,6 @@ MainMenu::MainMenu(Samples& pSamples):
 
 MainMenu::~MainMenu()
 {
-    sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
 bool MainMenu::handleUI(Event::Type type, const UIEvent& event)

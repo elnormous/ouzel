@@ -36,7 +36,6 @@ namespace ouzel
 
         Button::~Button()
         {
-            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
         }
 
         bool Button::init(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
