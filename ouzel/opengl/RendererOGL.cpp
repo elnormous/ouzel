@@ -88,6 +88,11 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
+            if (!Renderer::init(window, newSampleCount, newTextureFiltering, newVerticalSync))
+            {
+                return false;
+            }
+
 #if OUZEL_SUPPORTS_OPENGLES
             npotTexturesSupported = (apiVersion >= 3);
 
@@ -113,11 +118,6 @@ namespace ouzel
                 }
             }
 #endif
-
-            if (!Renderer::init(window, newSampleCount, newTextureFiltering, newVerticalSync))
-            {
-                return false;
-            }
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
