@@ -47,7 +47,6 @@ SoundSample::SoundSample(Samples& pSamples):
 
 SoundSample::~SoundSample()
 {
-    sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
 bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const

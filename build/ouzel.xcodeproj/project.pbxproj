@@ -629,6 +629,9 @@
 		30DADE9F1C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
 		30DADEA01C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
 		30DADEA11C5167BC001A63B4 /* Cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.h */; };
+		30E75F3F1D7B783B000300D4 /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E75F3E1D7B783B000300D4 /* EventHandler.cpp */; };
+		30E75F401D7B783B000300D4 /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E75F3E1D7B783B000300D4 /* EventHandler.cpp */; };
+		30E75F411D7B783B000300D4 /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E75F3E1D7B783B000300D4 /* EventHandler.cpp */; };
 		30EA710C1D5268C600AE8C3E /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EA710A1D5268C600AE8C3E /* Application.cpp */; };
 		30EA710D1D5268C600AE8C3E /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EA710A1D5268C600AE8C3E /* Application.cpp */; };
 		30EA710E1D5268C600AE8C3E /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EA710A1D5268C600AE8C3E /* Application.cpp */; };
@@ -905,6 +908,7 @@
 		30D0FB421CC2C99600477DB0 /* TextureVSTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureVSTVOS.h; path = metal/TextureVSTVOS.h; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
+		30E75F3E1D7B783B000300D4 /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandler.cpp; sourceTree = "<group>"; };
 		30EA710A1D5268C600AE8C3E /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		30EA710B1D5268C600AE8C3E /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		30EA71161D5271F200AE8C3E /* ApplicationMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApplicationMacOS.mm; sourceTree = "<group>"; };
@@ -1349,6 +1353,7 @@
 				303B75801C2B17DC00FEDE92 /* Event.h */,
 				30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */,
 				30575AD71C3B48740009C8A7 /* EventDispatcher.h */,
+				30E75F3E1D7B783B000300D4 /* EventHandler.cpp */,
 				304A8E2F1C237C70008B1151 /* EventHandler.h */,
 			);
 			path = events;
@@ -1872,6 +1877,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30E75F401D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				30547E441CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
 				30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */,
 				302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
@@ -1973,6 +1979,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30E75F411D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				30547E451CB3D6720055EE79 /* MeshBufferMetal.mm in Sources */,
 				302511AA1CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
@@ -2074,6 +2081,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30E75F3F1D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				30EF365B1CA76B9E00F04F29 /* Popup.cpp in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,

@@ -32,6 +32,7 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Engine.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Window.cpp \
     $(LOCAL_PATH)/../../ouzel/events/EventDispatcher.cpp \
+    $(LOCAL_PATH)/../../ouzel/events/EventHandler.cpp \
     $(LOCAL_PATH)/../../ouzel/files/FileSystem.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/BlendState.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Color.cpp \

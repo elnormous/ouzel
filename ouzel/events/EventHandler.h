@@ -18,6 +18,7 @@ namespace ouzel
         static const int32_t PRIORITY_MAX = 0x1000;
 
         EventHandler(int32_t pPriority = 0): priority(pPriority) { }
+        ~EventHandler();
 
         std::function<bool(Event::Type, const KeyboardEvent&)> keyboardHandler;
         std::function<bool(Event::Type, const MouseEvent&)> mouseHandler;

@@ -49,7 +49,6 @@ GUISample::GUISample(Samples& pSamples):
 
 GUISample::~GUISample()
 {
-    sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
 bool GUISample::handleUI(Event::Type type, const UIEvent& event) const

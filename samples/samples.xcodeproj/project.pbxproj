@@ -368,29 +368,13 @@
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
-				3045F0C81D0F24B800125436 /* AnimationsSample.cpp */,
-				3045F0C91D0F24B800125436 /* AnimationsSample.h */,
-				304A8EA81C27429A008B1151 /* Samples.cpp */,
-				304A8EA91C27429A008B1151 /* Samples.h */,
 				303B74EF1C27F6B000FEDE92 /* Frameworks */,
-				3045F0B31D0D95CA00125436 /* GUISample.cpp */,
-				3045F0B41D0D95CA00125436 /* GUISample.h */,
-				3045F0CD1D0F24F600125436 /* InputSample.cpp */,
-				3045F0CE1D0F24F600125436 /* InputSample.h */,
 				303B762A1C34D21100FEDE92 /* ios */,
 				304A8EA41C274113008B1151 /* macos */,
-				303B75181C29EB8400FEDE92 /* main.cpp */,
-				3045F0A61D0C2E4500125436 /* MainMenu.cpp */,
-				3045F0A71D0C2E4500125436 /* MainMenu.h */,
 				30B492A01CDF816F0021E170 /* ouzel.xcodeproj */,
 				304A8E0B1C237B95008B1151 /* Products */,
 				304A8EB21C2765C4008B1151 /* Resources */,
-				3045F0AE1D0D95BC00125436 /* RTSample.cpp */,
-				3045F0AF1D0D95BC00125436 /* RTSample.h */,
-				30419E591D1D530D00A63759 /* SoundSample.cpp */,
-				30419E5A1D1D530D00A63759 /* SoundSample.h */,
-				3045F0C01D0E103100125436 /* SpritesSample.cpp */,
-				3045F0C11D0E103100125436 /* SpritesSample.h */,
+				30E75F421D7B78DB000300D4 /* samples */,
 				30575A951C38C8ED0009C8A7 /* tvos */,
 			);
 			sourceTree = "<group>";
@@ -465,6 +449,30 @@
 				30B492AB1CDF81700021E170 /* libouzel_tvos.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		30E75F421D7B78DB000300D4 /* samples */ = {
+			isa = PBXGroup;
+			children = (
+				3045F0C81D0F24B800125436 /* AnimationsSample.cpp */,
+				3045F0C91D0F24B800125436 /* AnimationsSample.h */,
+				3045F0B31D0D95CA00125436 /* GUISample.cpp */,
+				3045F0B41D0D95CA00125436 /* GUISample.h */,
+				3045F0CD1D0F24F600125436 /* InputSample.cpp */,
+				3045F0CE1D0F24F600125436 /* InputSample.h */,
+				303B75181C29EB8400FEDE92 /* main.cpp */,
+				3045F0A61D0C2E4500125436 /* MainMenu.cpp */,
+				3045F0A71D0C2E4500125436 /* MainMenu.h */,
+				3045F0AE1D0D95BC00125436 /* RTSample.cpp */,
+				3045F0AF1D0D95BC00125436 /* RTSample.h */,
+				304A8EA81C27429A008B1151 /* Samples.cpp */,
+				304A8EA91C27429A008B1151 /* Samples.h */,
+				30419E591D1D530D00A63759 /* SoundSample.cpp */,
+				30419E5A1D1D530D00A63759 /* SoundSample.h */,
+				3045F0C01D0E103100125436 /* SpritesSample.cpp */,
+				3045F0C11D0E103100125436 /* SpritesSample.h */,
+			);
+			name = samples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

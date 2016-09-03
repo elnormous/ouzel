@@ -54,7 +54,6 @@ RTSample::RTSample(Samples& pSamples):
 
 RTSample::~RTSample()
 {
-    sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
 bool RTSample::handleUI(Event::Type type, const UIEvent& event) const

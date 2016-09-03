@@ -47,7 +47,6 @@ InputSample::InputSample(Samples& pSamples):
 
 InputSample::~InputSample()
 {
-    sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
 bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const

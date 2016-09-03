@@ -30,6 +30,7 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/core/Engine.cpp \
 	../ouzel/core/Window.cpp \
 	../ouzel/events/EventDispatcher.cpp \
+	../ouzel/events/EventHandler.cpp \
 	../ouzel/files/FileSystem.cpp \
 	../ouzel/graphics/BlendState.cpp \
 	../ouzel/graphics/Color.cpp \

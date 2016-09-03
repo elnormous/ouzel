@@ -65,7 +65,6 @@ SpritesSample::SpritesSample(Samples& pSamples):
 
 SpritesSample::~SpritesSample()
 {
-    sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
 bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const

@@ -77,7 +77,6 @@ AnimationsSample::AnimationsSample(Samples& pSamples):
 
 AnimationsSample::~AnimationsSample()
 {
-    sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 }
 
 bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
