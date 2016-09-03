@@ -35,6 +35,8 @@ namespace ouzel
         const std::string BLEND_MULTIPLY = "blendMultiply";
         const std::string BLEND_ALPHA = "blendAlpha";
 
+        const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
+
         class MeshBuffer;
 
         class Renderer: public Noncopyable

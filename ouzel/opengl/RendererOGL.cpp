@@ -239,6 +239,10 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
+            TexturePtr whitePixelTexture = createTexture();
+            whitePixelTexture->initFromBuffer( { 255 }, Size2(1.0f, 1.0f), false, false);
+            sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
+
             dirty = true;
             ready = true;
 

@@ -29,6 +29,8 @@ namespace ouzel
         {
             apiVersion = 11;
             memset(&rasterizerStates, 0, sizeof(rasterizerStates));
+            memset(&resourceViews, 0, sizeof(resourceViews));
+            memset(&samplerStates, 0, sizeof(samplerStates));
         }
 
         RendererD3D11::~RendererD3D11()
@@ -388,8 +390,9 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            memset(&resourceViews, 0, sizeof(resourceViews));
-            memset(&samplerStates, 0, sizeof(samplerStates));
+            TexturePtr whitePixelTexture = createTexture();
+            whitePixelTexture->initFromBuffer( { 255 }, Size2(1.0f, 1.0f), false, false);
+            sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             dirty = true;
             ready = true;
