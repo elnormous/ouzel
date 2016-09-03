@@ -215,13 +215,6 @@ namespace ouzel
                                        static_cast<uint32_t>(indices.size()), false,
                                        vertices.data(), graphics::VertexPCT::ATTRIBUTES,
                                        static_cast<uint32_t>(vertices.size()), true);
-
-            colorMeshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
-
-            colorMeshBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                            static_cast<uint32_t>(indices.size()), false,
-                                            colorVertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                            static_cast<uint32_t>(vertices.size()), true);
         }
 
         SpriteFrame::SpriteFrame(const graphics::TexturePtr& pTexture,
@@ -252,13 +245,6 @@ namespace ouzel
                                        static_cast<uint32_t>(indices.size()), false,
                                        vertices.data(), graphics::VertexPCT::ATTRIBUTES,
                                        static_cast<uint32_t>(vertices.size()), true);
-
-            colorMeshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
-
-            colorMeshBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                            static_cast<uint32_t>(indices.size()), false,
-                                            colorVertices.data(), graphics::VertexPC::ATTRIBUTES,
-                                            static_cast<uint32_t>(vertices.size()), true);
         }
 
     } // scene

@@ -40,14 +40,12 @@ namespace ouzel
 
             const AABB2& getBoundingBox() const { return boundingBox; }
             const graphics::MeshBufferPtr& getMeshBuffer() const { return meshBuffer; }
-            const graphics::MeshBufferPtr& getColorMeshBuffer() const { return colorMeshBuffer; }
             const graphics::TexturePtr& getTexture() const { return texture; }
 
         protected:
             Rectangle rectangle;
             AABB2 boundingBox;
             graphics::MeshBufferPtr meshBuffer;
-            graphics::MeshBufferPtr colorMeshBuffer;
             graphics::TexturePtr texture;
         };
     } // scene

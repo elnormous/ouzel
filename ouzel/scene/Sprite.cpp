@@ -24,7 +24,7 @@ namespace ouzel
         Sprite::Sprite()
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            colorShader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
+            whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
             
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
         }
@@ -179,12 +179,12 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
 
-                sharedEngine->getRenderer()->addDrawCommand({ },
-                                                            colorShader,
+                sharedEngine->getRenderer()->addDrawCommand({ whitePixelTexture },
+                                                            shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             blendState,
-                                                            frames[currentFrame]->getColorMeshBuffer(),
+                                                            frames[currentFrame]->getMeshBuffer(),
                                                             0,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,

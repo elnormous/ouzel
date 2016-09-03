@@ -62,8 +62,8 @@ namespace ouzel
             void updateBoundingBox();
 
             graphics::ShaderPtr shader;
-            graphics::ShaderPtr colorShader;
             graphics::BlendStatePtr blendState;
+            graphics::TexturePtr whitePixelTexture;
 
             Size2 size;
             Vector2 offset;
