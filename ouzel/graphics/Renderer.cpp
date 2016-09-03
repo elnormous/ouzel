@@ -18,7 +18,7 @@ namespace ouzel
     namespace graphics
     {
         Renderer::Renderer(Driver pDriver):
-            driver(pDriver), clearColor(0, 0, 0, 255), activeDrawQueueFinished(false), refillDrawQueue(true)
+            driver(pDriver), clearColor(0, 0, 0, 255), clear(true), activeDrawQueueFinished(false), refillDrawQueue(true)
         {
 
         }
@@ -52,6 +52,8 @@ namespace ouzel
 
         bool Renderer::present()
         {
+            ++currentFrame;
+            
             if (activeDrawQueueFinished)
             {
                 drawQueue = std::move(activeDrawQueue);

@@ -479,8 +479,6 @@ namespace ouzel
                 return false;
             }
 
-            clearedRenderTargetViews.clear();
-
             context->RSSetState(rasterizerStates[0]);
 
             if (!update())
@@ -492,10 +490,15 @@ namespace ouzel
 
             if (drawQueue.empty())
             {
-                context->OMSetRenderTargets(1, &renderTargetView, nullptr);
-                context->RSSetViewports(1, &viewport);
+                frameBufferClearedFrame = currentFrame;
 
-                context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
+                if (clear)
+                {
+                    context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+                    context->RSSetViewports(1, &viewport);
+
+                    context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
+                }
             }
             else for (const DrawCommand& drawCommand : drawQueue)
             {
@@ -503,6 +506,7 @@ namespace ouzel
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
                 const float* newClearColor;
                 D3D11_VIEWPORT newViewport;
+                bool clearBuffer = false;
 
                 if (drawCommand.renderTarget)
                 {
@@ -517,20 +521,30 @@ namespace ouzel
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
                     newViewport = renderTargetD3D11->getViewport();
+
+                    if (renderTargetOGL->getFrameBufferClearedFrame() != currentFrame)
+                    {
+                        renderTargetOGL->setFrameBufferClearedFrame(currentFrame);
+                        clearBuffer = renderTargetOGL->getClear();
+                    }
                 }
                 else
                 {
                     newRenderTargetView = renderTargetView;
                     newClearColor = frameBufferClearColor;
                     newViewport = viewport;
+
+                    if (frameBufferClearedFrame != currentFrame)
+                    {
+                        frameBufferClearedFrame = currentFrame;
+                        clearBuffer = clear;
+                    }
                 }
 
                 context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
                 context->RSSetViewports(1, &newViewport);
 
-                auto clearedRenderTargetView = clearedRenderTargetViews.insert(newRenderTargetView);
-
-                if (clearedRenderTargetView.second)
+                if (clearBuffer)
                 {
                     context->ClearRenderTargetView(newRenderTargetView, newClearColor);
                 }

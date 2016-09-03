@@ -415,7 +415,6 @@ namespace ouzel
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
-            std::set<MTLRenderPassDescriptorPtr> clearedRenderPassDescriptors;
             MTLScissorRect scissorRect;
 
             if (!update())
@@ -427,16 +426,22 @@ namespace ouzel
 
             if (drawQueue.empty())
             {
-                if (!createRenderCommandEncoder(renderPassDescriptor))
-                {
-                    return false;
-                }
+                frameBufferClearedFrame = currentFrame;
 
-                currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                if (clear)
+                {
+                    if (!createRenderCommandEncoder(renderPassDescriptor))
+                    {
+                        return false;
+                    }
+
+                    currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                }
             }
             else for (const DrawCommand& drawCommand : drawQueue)
             {
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
+                bool clearBuffer = false;
 
                 // render target
                 if (drawCommand.renderTarget)
@@ -456,6 +461,12 @@ namespace ouzel
                     scissorRect.x = scissorRect.y = 0;
                     scissorRect.width = renderTargetTextureMetal->getTexture().width;
                     scissorRect.height = renderTargetTextureMetal->getTexture().height;
+
+                    if (renderTargetMetal->getFrameBufferClearedFrame() != currentFrame)
+                    {
+                        renderTargetMetal->setFrameBufferClearedFrame(currentFrame);
+                        clearBuffer = renderTargetMetal->getClear();
+                    }
                 }
                 else
                 {
@@ -464,6 +475,12 @@ namespace ouzel
                     scissorRect.x = scissorRect.y = 0;
                     scissorRect.width = frameBufferWidth;
                     scissorRect.height = frameBufferHeight;
+
+                    if (frameBufferClearedFrame != currentFrame)
+                    {
+                        frameBufferClearedFrame = currentFrame;
+                        clearBuffer = clear;
+                    }
                 }
 
                 if (currentRenderPassDescriptor != newRenderPassDescriptor ||
@@ -474,16 +491,7 @@ namespace ouzel
                         return false;
                     }
 
-                    auto clearedRenderPassDescriptor = clearedRenderPassDescriptors.insert(currentRenderPassDescriptor);
-
-                    if (clearedRenderPassDescriptor.second)
-                    {
-                        currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                    }
-                    else
-                    {
-                        currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
-                    }
+                    currentRenderPassDescriptor.colorAttachments[0].loadAction = clearBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
                 }
 
                 [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];

@@ -75,6 +75,9 @@ namespace ouzel
 
             Driver getDriver() const { return driver; }
 
+            void setClear(bool newClear) { clear = newClear; }
+            bool getClear() const { return clear; }
+
             virtual void setClearColor(Color color) { clearColor = color; }
             virtual Color getClearColor() const { return clearColor; }
 
@@ -140,10 +143,15 @@ namespace ouzel
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFiltering textureFiltering = TextureFiltering::NONE;
 
+            uint32_t currentFrame = 0;
+            uint32_t frameBufferClearedFrame = 0;
+
             Color clearColor;
             uint32_t drawCallCount = 0;
 
             uint32_t apiVersion = 0;
+
+            std::atomic<bool> clear;
 
             struct DrawCommand
             {

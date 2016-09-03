@@ -313,8 +313,6 @@ namespace ouzel
                 return false;
             }
 
-            std::set<GLuint> clearedFrameBuffers;
-
             deleteResources();
 
             if (!update())
@@ -324,47 +322,59 @@ namespace ouzel
 
             if (drawQueue.empty())
             {
-                GLuint clearFrameBufferId = 0;
+                frameBufferClearedFrame = currentFrame;
+
+                if (clear)
+                {
+                    GLuint clearFrameBufferId = 0;
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                if (sampleCount > 1)
-                {
-                    clearFrameBufferId = msaaFrameBufferId;
-                }
-                else
+                    if (sampleCount > 1)
+                    {
+                        clearFrameBufferId = msaaFrameBufferId;
+                    }
+                    else
 #endif
-                {
-                    clearFrameBufferId = frameBufferId;
-                }
+                    {
+                        clearFrameBufferId = frameBufferId;
+                    }
 
-                if (!bindFrameBuffer(clearFrameBufferId))
-                {
-                    return false;
-                }
+                    if (!bindFrameBuffer(clearFrameBufferId))
+                    {
+                        return false;
+                    }
 
-                if (!setViewport(static_cast<GLint>(viewport.x),
-                                 static_cast<GLint>(viewport.y),
-                                 static_cast<GLsizei>(viewport.width),
-                                 static_cast<GLsizei>(viewport.height)))
-                {
-                    return false;
-                }
+                    if (!setViewport(static_cast<GLint>(viewport.x),
+                                     static_cast<GLint>(viewport.y),
+                                     static_cast<GLsizei>(viewport.width),
+                                     static_cast<GLsizei>(viewport.height)))
+                    {
+                        return false;
+                    }
 
-                glClearColor(frameBufferClearColor[0],
-                             frameBufferClearColor[1],
-                             frameBufferClearColor[2],
-                             frameBufferClearColor[3]);
+                    glClearColor(frameBufferClearColor[0],
+                                 frameBufferClearColor[1],
+                                 frameBufferClearColor[2],
+                                 frameBufferClearColor[3]);
 
-                glClear(clearMask);
+                    glClear(clearMask);
 
-                if (checkOpenGLError())
-                {
-                    log("Failed to clear frame buffer");
-                    return false;
+                    if (checkOpenGLError())
+                    {
+                        log("Failed to clear frame buffer");
+                        return false;
+                    }
                 }
             }
             else for (const DrawCommand& drawCommand : drawQueue)
             {
+#ifndef OUZEL_SUPPORTS_OPENGL
+                if (drawCommand.wireframe)
+                {
+                    continue;
+                }
+#endif
+
                 // blend state
                 std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
 
@@ -517,6 +527,7 @@ namespace ouzel
                 GLbitfield newClearMask = 0;
                 const float* newClearColor;
                 Rectangle newViewport;
+                bool clearBuffer = false;
 
                 if (drawCommand.renderTarget)
                 {
@@ -532,6 +543,12 @@ namespace ouzel
                     newClearMask = renderTargetOGL->getClearMask();
                     newClearColor = renderTargetOGL->getFrameBufferClearColor();
                     newViewport = renderTargetOGL->getViewport();
+
+                    if (renderTargetOGL->getFrameBufferClearedFrame() != currentFrame)
+                    {
+                        renderTargetOGL->setFrameBufferClearedFrame(currentFrame);
+                        clearBuffer = renderTargetOGL->getClear();
+                    }
                 }
                 else
                 {
@@ -549,6 +566,12 @@ namespace ouzel
                     newClearMask = clearMask;
                     newClearColor = frameBufferClearColor;
                     newViewport = viewport;
+
+                    if (frameBufferClearedFrame != currentFrame)
+                    {
+                        frameBufferClearedFrame = currentFrame;
+                        clearBuffer = clear;
+                    }
                 }
 
                 if (!bindFrameBuffer(newFrameBufferId))
@@ -561,9 +584,7 @@ namespace ouzel
                             static_cast<GLsizei>(newViewport.width),
                             static_cast<GLsizei>(newViewport.height));
 
-                auto clearedFrameBuffer = clearedFrameBuffers.insert(newFrameBufferId);
-
-                if (clearedFrameBuffer.second)
+                if (clearBuffer)
                 {
                     glClearColor(newClearColor[0],
                                  newClearColor[1],

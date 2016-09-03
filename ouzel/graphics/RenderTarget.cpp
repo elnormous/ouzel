@@ -7,7 +7,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderTarget::RenderTarget()
+        RenderTarget::RenderTarget():
+            clear(true)
         {
 
         }
