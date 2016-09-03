@@ -9,24 +9,20 @@ namespace ouzel
     {
         VertexPC::VertexPC()
         {
-
         }
 
         VertexPC::VertexPC(Vector3 pPosition, Color pColor):
             position(pPosition), color(pColor)
         {
-
         }
 
         VertexPCT::VertexPCT()
         {
-
         }
 
         VertexPCT::VertexPCT(Vector3 pPosition, Color pColor, Vector2 pTexCoord):
             position(pPosition), color(pColor), texCoord(pTexCoord)
         {
-
         }
     } // namespace graphics
 } // namespace ouzel

@@ -14,7 +14,6 @@ namespace ouzel
     {
         TextureOGL::TextureOGL()
         {
-
         }
 
         TextureOGL::~TextureOGL()

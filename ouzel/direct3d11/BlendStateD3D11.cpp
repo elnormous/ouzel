@@ -14,7 +14,6 @@ namespace ouzel
         BlendStateD3D11::BlendStateD3D11():
             dirty(false)
         {
-
         }
 
         BlendStateD3D11::~BlendStateD3D11()

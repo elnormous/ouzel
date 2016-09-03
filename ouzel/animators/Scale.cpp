@@ -11,7 +11,6 @@ namespace ouzel
         Scale::Scale(float pLength, const Vector2& pScale, bool pRelative):
             Animator(pLength), scale(pScale), relative(pRelative)
         {
-
         }
 
         void Scale::start(const NodePtr& targetNode)

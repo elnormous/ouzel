@@ -11,7 +11,6 @@ namespace ouzel
     {
         NodeContainer::NodeContainer()
         {
-
         }
 
         NodeContainer::~NodeContainer()

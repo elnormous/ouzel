@@ -11,7 +11,6 @@ namespace ouzel
         Move::Move(float pLength, const Vector2& pPosition, bool pRelative):
             Animator(pLength), position(pPosition), relative(pRelative)
         {
-
         }
 
         void Move::start(const NodePtr& targetNode)

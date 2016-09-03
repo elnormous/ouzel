@@ -14,7 +14,6 @@ namespace ouzel
         RenderTargetOGL::RenderTargetOGL():
             dirty(false)
         {
-
         }
 
         RenderTargetOGL::~RenderTargetOGL()

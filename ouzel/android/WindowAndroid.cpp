@@ -10,12 +10,10 @@ namespace ouzel
     WindowAndroid::WindowAndroid(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
         Window(pSize, pResizable, pFullscreen, pTitle)
     {
-
     }
 
     WindowAndroid::~WindowAndroid()
     {
-
     }
 
     bool WindowAndroid::init()

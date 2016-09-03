@@ -17,12 +17,10 @@ namespace ouzel
 {
     Cache::Cache()
     {
-
     }
 
     Cache::~Cache()
     {
-
     }
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)

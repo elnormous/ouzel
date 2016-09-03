@@ -16,12 +16,10 @@ namespace ouzel
     {
         Layer::Layer()
         {
-
         }
 
         Layer::~Layer()
         {
-
         }
 
         void Layer::draw()

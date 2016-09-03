@@ -12,12 +12,10 @@ namespace ouzel
     WindowRPI::WindowRPI(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
         Window(pSize, pResizable, pFullscreen, pTitle)
     {
-
     }
 
     WindowRPI::~WindowRPI()
     {
-
     }
 
     bool WindowRPI::init()

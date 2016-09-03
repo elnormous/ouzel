@@ -193,12 +193,10 @@ namespace ouzel
 
         InputWin::InputWin()
         {
-
         }
 
         InputWin::~InputWin()
         {
-
         }
 
         void InputWin::update()

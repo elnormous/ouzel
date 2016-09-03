@@ -8,12 +8,10 @@ namespace ouzel
 {
     EventDispatcher::EventDispatcher()
     {
-
     }
 
     EventDispatcher::~EventDispatcher()
     {
-
     }
 
     void EventDispatcher::update()

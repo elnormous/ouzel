@@ -62,7 +62,6 @@ using namespace ouzel;
 
 -(void)changeDisplay
 {
-
 }
 
 -(BOOL)isFlipped

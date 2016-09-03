@@ -81,7 +81,6 @@ namespace ouzel
 
     FileSystem::~FileSystem()
     {
-
     }
 
     std::string FileSystem::getHomeDirectory()

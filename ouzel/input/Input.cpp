@@ -36,12 +36,10 @@ namespace ouzel
 
         void Input::startGamepadDiscovery()
         {
-
         }
 
         void Input::stopGamepadDiscovery()
         {
-
         }
 
         void Input::keyDown(KeyboardKey key, uint32_t modifiers)

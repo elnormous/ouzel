@@ -12,7 +12,6 @@ namespace ouzel
     {
         MeshBufferMetal::MeshBufferMetal()
         {
-
         }
 
         MeshBufferMetal::~MeshBufferMetal()

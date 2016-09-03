@@ -14,12 +14,10 @@ namespace ouzel
     {
         Shader::Shader()
         {
-
         }
 
         Shader::~Shader()
         {
-
         }
 
         void Shader::free()

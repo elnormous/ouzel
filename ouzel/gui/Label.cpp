@@ -26,7 +26,6 @@ namespace ouzel
 
         Label::~Label()
         {
-
         }
 
         bool Label::init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor)

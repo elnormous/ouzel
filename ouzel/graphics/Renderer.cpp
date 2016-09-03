@@ -20,12 +20,10 @@ namespace ouzel
         Renderer::Renderer(Driver pDriver):
             driver(pDriver), clearColor(0, 0, 0, 255), clear(true), activeDrawQueueFinished(false), refillDrawQueue(true)
         {
-
         }
 
         Renderer::~Renderer()
         {
-
         }
 
         void Renderer::free()

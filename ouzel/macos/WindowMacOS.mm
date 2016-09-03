@@ -64,7 +64,6 @@ namespace ouzel
     WindowMacOS::WindowMacOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
         Window(size, resizable, fullscreen, title)
     {
-
     }
 
     WindowMacOS::~WindowMacOS()

@@ -19,7 +19,6 @@
 
 @interface ConnectDelegate: NSObject
 {
-
 }
 
 -(void)handleControllerConnected:(NSNotification*)notification;
@@ -351,7 +350,6 @@ namespace ouzel
 
         InputApple::~InputApple()
         {
-
         }
 
         void InputApple::setCursorVisible(bool visible)

@@ -13,7 +13,6 @@ namespace ouzel
     {
         TextureMetal::TextureMetal()
         {
-
         }
 
         TextureMetal::~TextureMetal()

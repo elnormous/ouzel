@@ -28,12 +28,10 @@ namespace ouzel
 
     BMFont::BMFont()
     {
-
     }
 
     BMFont::~BMFont()
     {
-
     }
 
     bool BMFont::parseFont(const std::string& filename)

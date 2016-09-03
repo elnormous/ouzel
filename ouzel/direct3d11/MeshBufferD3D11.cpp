@@ -12,7 +12,6 @@ namespace ouzel
     {
         MeshBufferD3D11::MeshBufferD3D11()
         {
-
         }
 
         MeshBufferD3D11::~MeshBufferD3D11()

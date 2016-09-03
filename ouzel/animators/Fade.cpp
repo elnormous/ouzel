@@ -11,7 +11,6 @@ namespace ouzel
         Fade::Fade(float pLength, float pOpacity, bool pRelative):
             Animator(pLength), opacity(pOpacity), relative(pRelative)
         {
-
         }
 
         void Fade::start(const NodePtr& targetNode)

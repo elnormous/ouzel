@@ -14,7 +14,6 @@ namespace ouzel
         RenderTargetMetal::RenderTargetMetal():
             dirty(false)
         {
-
         }
 
         RenderTargetMetal::~RenderTargetMetal()

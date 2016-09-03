@@ -11,12 +11,10 @@ namespace ouzel
     {
         RendererOGLLinux::~RendererOGLLinux()
         {
-
         }
 
         void RendererOGLLinux::free()
         {
-
         }
 
         bool RendererOGLLinux::init(const WindowPtr& window,

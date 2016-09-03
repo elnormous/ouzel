@@ -14,12 +14,10 @@ namespace ouzel
         fullscreen(pFullscreen),
         title(pTitle)
     {
-
     }
 
     Window::~Window()
     {
-
     }
 
     bool Window::init()
@@ -29,7 +27,6 @@ namespace ouzel
 
     void Window::close()
     {
-
     }
 
     void Window::setSize(const Size2& newSize)

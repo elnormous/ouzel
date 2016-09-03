@@ -17,7 +17,6 @@ namespace ouzel
     {
         Node::Node()
         {
-
         }
 
         Node::~Node()

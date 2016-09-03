@@ -18,12 +18,10 @@ namespace ouzel
     {
         Camera::Camera()
         {
-
         }
 
         Camera::~Camera()
         {
-
         }
 
         void Camera::setZoom(float newZoom)

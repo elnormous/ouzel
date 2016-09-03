@@ -11,12 +11,10 @@ namespace ouzel
     {
         MeshBuffer::MeshBuffer()
         {
-
         }
 
         MeshBuffer::~MeshBuffer()
         {
-
         }
 
         void MeshBuffer::free()

@@ -11,7 +11,6 @@ namespace ouzel
     {
         class SlideBar: public Widget
         {
-
         };
     } // namespace gui
 } // namespace ouzel

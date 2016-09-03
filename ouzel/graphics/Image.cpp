@@ -16,7 +16,6 @@ namespace ouzel
     {
         Image::Image()
         {
-
         }
 
         Image::~Image()

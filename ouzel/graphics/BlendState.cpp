@@ -9,12 +9,10 @@ namespace ouzel
     {
         BlendState::BlendState()
         {
-
         }
 
         BlendState::~BlendState()
         {
-
         }
 
         void BlendState::free()

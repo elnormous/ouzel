@@ -32,7 +32,6 @@ namespace ouzel
 
         TextDrawable::~TextDrawable()
         {
-
         }
 
         bool TextDrawable::init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor)

@@ -16,12 +16,10 @@ namespace ouzel
     {
         Texture::Texture()
         {
-
         }
 
         Texture::~Texture()
         {
-
         }
 
         void Texture::free()

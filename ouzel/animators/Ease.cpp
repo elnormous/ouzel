@@ -256,7 +256,6 @@ namespace ouzel
         Ease::Ease(const AnimatorPtr& pAnimator, Type pType, Func pFunc):
             Animator(pAnimator->getLength()), animator(pAnimator), type(pType), func(pFunc)
         {
-
         }
 
         void Ease::start(const NodePtr& targetNode)

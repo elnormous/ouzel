@@ -87,7 +87,6 @@ namespace ouzel
     WindowIOS::WindowIOS(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
         Window(pSize, pResizable, pFullscreen, pTitle)
     {
-
     }
 
     WindowIOS::~WindowIOS()

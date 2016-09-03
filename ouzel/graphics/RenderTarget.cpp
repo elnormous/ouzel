@@ -10,12 +10,10 @@ namespace ouzel
         RenderTarget::RenderTarget():
             clear(true)
         {
-
         }
 
         RenderTarget::~RenderTarget()
         {
-
         }
 
         void RenderTarget::free()

@@ -11,7 +11,6 @@ namespace ouzel
         Rotate::Rotate(float pLength, float pRotation, bool pRelative):
             Animator(pLength), rotation(pRotation), relative(pRelative)
         {
-
         }
 
         void Rotate::start(const NodePtr& targetNode)

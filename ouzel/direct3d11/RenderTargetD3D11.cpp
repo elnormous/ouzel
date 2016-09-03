@@ -14,7 +14,6 @@ namespace ouzel
         RenderTargetD3D11::RenderTargetD3D11():
             dirty(false)
         {
-
         }
 
         RenderTargetD3D11::~RenderTargetD3D11()

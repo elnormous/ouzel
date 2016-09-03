@@ -13,7 +13,6 @@ namespace ouzel
     {
         MeshBufferOGL::MeshBufferOGL()
         {
-
         }
 
         MeshBufferOGL::~MeshBufferOGL()

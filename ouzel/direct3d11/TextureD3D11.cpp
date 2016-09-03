@@ -14,7 +14,6 @@ namespace ouzel
     {
         TextureD3D11::TextureD3D11()
         {
-
         }
 
         TextureD3D11::~TextureD3D11()
