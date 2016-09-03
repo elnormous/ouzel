@@ -131,23 +131,9 @@ namespace ouzel
 
         bool Shader::update()
         {
-            if (data.vertexAttributes)
-            {
-                uploadData.vertexAttributes = data.vertexAttributes;
-                data.vertexAttributes = 0;
-            }
-
-            if (data.pixelShaderAlignment)
-            {
-                uploadData.pixelShaderAlignment = data.pixelShaderAlignment;
-                data.pixelShaderAlignment = 0;
-            }
-
-            if (data.vertexShaderAlignment)
-            {
-                uploadData.vertexShaderAlignment = data.vertexShaderAlignment;
-                data.vertexShaderAlignment = 0;
-            }
+            uploadData.vertexAttributes = data.vertexAttributes;
+            uploadData.pixelShaderAlignment = data.pixelShaderAlignment;
+            uploadData.vertexShaderAlignment = data.vertexShaderAlignment;
 
             if (!data.pixelShaderData.empty())
             {

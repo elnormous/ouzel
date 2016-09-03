@@ -50,6 +50,8 @@ namespace ouzel
                                          const std::string& pixelShaderFunction = "",
                                          const std::string& vertexShaderFunction = "");
 
+            uint32_t getVertexAttributes() const { return data.vertexAttributes; }
+
             bool isReady() const { return ready; }
 
         protected:

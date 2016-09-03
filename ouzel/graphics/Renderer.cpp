@@ -11,6 +11,7 @@
 #include "RenderTarget.h"
 #include "BlendState.h"
 #include "core/Window.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {
@@ -143,6 +144,15 @@ namespace ouzel
                                       bool scissorTestEnabled,
                                       const Rectangle& scissorTest)
         {
+#ifdef DEBUG
+            if (shader && meshBuffer &&
+                shader->getVertexAttributes() != meshBuffer->getVertexAttributes())
+            {
+                log("Shader's and mesh buffer's vertex attributes do not match");
+                return false;
+            }
+#endif
+
             activeDrawQueue.push_back({
                 textures,
                 shader,
