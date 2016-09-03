@@ -184,7 +184,7 @@ namespace ouzel
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             blendState,
-                                                            frames[currentFrame]->getMeshBuffer(),
+                                                            frames[currentFrame]->getColorMeshBuffer(),
                                                             0,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,

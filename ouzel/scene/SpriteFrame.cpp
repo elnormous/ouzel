@@ -93,6 +93,7 @@ namespace ouzel
                     }
 
                     std::vector<graphics::VertexPCT> vertices;
+                    std::vector<graphics::VertexPC> colorVertices;
 
                     const rapidjson::Value& verticesObject = frameObject["vertices"];
                     const rapidjson::Value& verticesUVObject = frameObject["verticesUV"];
@@ -113,9 +114,14 @@ namespace ouzel
                                                                graphics::Color(255, 255, 255, 255),
                                                                Vector2(static_cast<float>(vertexUVObject[0].GetInt()) / textureSize.width,
                                                                        static_cast<float>(vertexUVObject[1].GetInt()) / textureSize.height)));
+
+                        colorVertices.push_back(graphics::VertexPC(Vector3(static_cast<float>(vertexObject[0].GetInt()) + finalOffset.x,
+                                                                           -static_cast<float>(vertexObject[1].GetInt()) - finalOffset.y,
+                                                                           0.0f),
+                                                                   graphics::Color(255, 255, 255, 255)));
                     }
 
-                    frames.push_back(std::make_shared<SpriteFrame>(texture, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
+                    frames.push_back(std::make_shared<SpriteFrame>(texture, indices, vertices, colorVertices, frameRectangle, sourceSize, sourceOffset, pivot));
                 }
                 else
                 {
@@ -191,6 +197,13 @@ namespace ouzel
                 graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.width, finalOffset.y + frameRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
             };
 
+            std::vector<graphics::VertexPC> colorVertices = {
+                graphics::VertexPC(Vector3(finalOffset.x, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255)),
+                graphics::VertexPC(Vector3(finalOffset.x + frameRectangle.width, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255)),
+                graphics::VertexPC(Vector3(finalOffset.x, finalOffset.y + frameRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255)),
+                graphics::VertexPC(Vector3(finalOffset.x + frameRectangle.width, finalOffset.y + frameRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255))
+            };
+
             boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.width, frameRectangle.height));
 
             rectangle = Rectangle(finalOffset.x, finalOffset.y,
@@ -202,11 +215,19 @@ namespace ouzel
                                        static_cast<uint32_t>(indices.size()), false,
                                        vertices.data(), graphics::VertexPCT::ATTRIBUTES,
                                        static_cast<uint32_t>(vertices.size()), true);
+
+            colorMeshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+
+            colorMeshBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                            static_cast<uint32_t>(indices.size()), false,
+                                            colorVertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                            static_cast<uint32_t>(vertices.size()), true);
         }
 
         SpriteFrame::SpriteFrame(const graphics::TexturePtr& pTexture,
                                  const std::vector<uint16_t>& indices,
                                  const std::vector<graphics::VertexPCT>& vertices,
+                                 const std::vector<graphics::VertexPC>& colorVertices,
                                  const Rectangle& frameRectangle,
                                  const Size2& sourceSize,
                                  const Vector2& sourceOffset,
@@ -231,6 +252,13 @@ namespace ouzel
                                        static_cast<uint32_t>(indices.size()), false,
                                        vertices.data(), graphics::VertexPCT::ATTRIBUTES,
                                        static_cast<uint32_t>(vertices.size()), true);
+
+            colorMeshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+
+            colorMeshBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                            static_cast<uint32_t>(indices.size()), false,
+                                            colorVertices.data(), graphics::VertexPC::ATTRIBUTES,
+                                            static_cast<uint32_t>(vertices.size()), true);
         }
 
     } // scene

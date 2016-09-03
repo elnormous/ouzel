@@ -30,6 +30,7 @@ namespace ouzel
             SpriteFrame(const graphics::TexturePtr& pTexture,
                         const std::vector<uint16_t>& indices,
                         const std::vector<graphics::VertexPCT>& vertices,
+                        const std::vector<graphics::VertexPC>& colorVertices,
                         const Rectangle& frameRectangle,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
@@ -39,12 +40,14 @@ namespace ouzel
 
             const AABB2& getBoundingBox() const { return boundingBox; }
             const graphics::MeshBufferPtr& getMeshBuffer() const { return meshBuffer; }
+            const graphics::MeshBufferPtr& getColorMeshBuffer() const { return colorMeshBuffer; }
             const graphics::TexturePtr& getTexture() const { return texture; }
 
         protected:
             Rectangle rectangle;
             AABB2 boundingBox;
             graphics::MeshBufferPtr meshBuffer;
+            graphics::MeshBufferPtr colorMeshBuffer;
             graphics::TexturePtr texture;
         };
     } // scene
