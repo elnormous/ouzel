@@ -522,10 +522,10 @@ namespace ouzel
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
                     newViewport = renderTargetD3D11->getViewport();
 
-                    if (renderTargetOGL->getFrameBufferClearedFrame() != currentFrame)
+                    if (renderTargetD3D11->getFrameBufferClearedFrame() != currentFrame)
                     {
-                        renderTargetOGL->setFrameBufferClearedFrame(currentFrame);
-                        clearBuffer = renderTargetOGL->getClear();
+                        renderTargetD3D11->setFrameBufferClearedFrame(currentFrame);
+                        clearBuffer = renderTargetD3D11->getClear();
                     }
                 }
                 else
