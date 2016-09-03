@@ -621,14 +621,13 @@ namespace ouzel
                         }
 
                         [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
+                        [currentRenderCommandEncoder setFragmentSamplerState:samplerState atIndex:layer];
                     }
                     else
                     {
                         [currentRenderCommandEncoder setFragmentTexture:Nil atIndex:layer];
                     }
                 }
-
-                [currentRenderCommandEncoder setFragmentSamplerState:samplerState atIndex:0];
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(drawCommand.meshBuffer);
