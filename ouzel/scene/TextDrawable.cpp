@@ -19,7 +19,8 @@ namespace ouzel
             whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
         }
 
-        TextDrawable::TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor)
+        TextDrawable::TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor):
+            TextDrawable()
         {
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
             meshBuffer->init();
