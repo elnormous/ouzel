@@ -250,6 +250,9 @@
     <ClCompile Include="..\ouzel\scene\Component.cpp">
       <Filter>scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\events\EventHandler.cpp">
+      <Filter>events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />

@@ -43,6 +43,7 @@
     <ClCompile Include="..\ouzel\direct3d11\ShaderD3D11.cpp" />
     <ClCompile Include="..\ouzel\direct3d11\TextureD3D11.cpp" />
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
+    <ClCompile Include="..\ouzel\events\EventHandler.cpp" />
     <ClCompile Include="..\ouzel\files\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
     <ClCompile Include="..\ouzel\graphics\Color.cpp" />
