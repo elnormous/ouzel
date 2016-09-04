@@ -106,6 +106,7 @@
 		305B99B71C433061008589E1 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B21C433061008589E1 /* button.png */; };
 		305B99B81C433061008589E1 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B21C433061008589E1 /* button.png */; };
 		305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305F6DBA1C66C50000B76A03 /* CoreVideo.framework */; };
+		30647D931D7D94EC00DC7E61 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492A71CDF81700021E170 /* libouzel_osx.a */; };
 		308493A21D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
 		308493A31D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
 		308493A41D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
@@ -125,7 +126,6 @@
 		30AFE14F1CB5DCF100478AA2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE14E1CB5DCF100478AA2 /* OpenGLES.framework */; };
 		30AFE1511CB5DCF900478AA2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1501CB5DCF900478AA2 /* QuartzCore.framework */; };
 		30AFE1531CB5DD0500478AA2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1521CB5DD0400478AA2 /* UIKit.framework */; };
-		30B492AC1CDF81C40021E170 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492A71CDF81700021E170 /* libouzel_osx.a */; };
 		30B492AD1CDF81C70021E170 /* libouzel_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492A91CDF81700021E170 /* libouzel_ios.a */; };
 		30B492AE1CDF81CA0021E170 /* libouzel_tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492AB1CDF81700021E170 /* libouzel_tvos.a */; };
 		30C56C771CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
@@ -220,7 +220,7 @@
 		3045F0CD1D0F24F600125436 /* InputSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputSample.cpp; sourceTree = "<group>"; };
 		3045F0CE1D0F24F600125436 /* InputSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputSample.h; sourceTree = "<group>"; };
 		3045F0DA1D0F575F00125436 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
-		304A8E0A1C237B95008B1151 /* samples_osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_osx.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		304A8E0A1C237B95008B1151 /* samples_macos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_macos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		304A8EA81C27429A008B1151 /* Samples.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Samples.cpp; sourceTree = "<group>"; };
@@ -300,7 +300,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30B492AC1CDF81C40021E170 /* libouzel_osx.a in Frameworks */,
+				30647D931D7D94EC00DC7E61 /* libouzel_osx.a in Frameworks */,
 				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
 				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
@@ -382,7 +382,7 @@
 		304A8E0B1C237B95008B1151 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				304A8E0A1C237B95008B1151 /* samples_osx.app */,
+				304A8E0A1C237B95008B1151 /* samples_macos.app */,
 				303B76201C34CFE300FEDE92 /* samples_ios.app */,
 				303B76A01C355AA400FEDE92 /* samples_tvos.app */,
 			);
@@ -444,8 +444,8 @@
 		30B492A11CDF816F0021E170 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				30B492A71CDF81700021E170 /* libouzel_osx.a */,
 				30B492A91CDF81700021E170 /* libouzel_ios.a */,
+				30B492A71CDF81700021E170 /* libouzel_osx.a */,
 				30B492AB1CDF81700021E170 /* libouzel_tvos.a */,
 			);
 			name = Products;
@@ -512,9 +512,9 @@
 			productReference = 303B76A01C355AA400FEDE92 /* samples_tvos.app */;
 			productType = "com.apple.product-type.application";
 		};
-		304A8E091C237B95008B1151 /* samples_osx */ = {
+		304A8E091C237B95008B1151 /* samples_macos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "samples_osx" */;
+			buildConfigurationList = 304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "samples_macos" */;
 			buildPhases = (
 				304A8E061C237B95008B1151 /* Sources */,
 				304A8E071C237B95008B1151 /* Frameworks */,
@@ -524,9 +524,9 @@
 			);
 			dependencies = (
 			);
-			name = samples_osx;
+			name = samples_macos;
 			productName = blackbird;
-			productReference = 304A8E0A1C237B95008B1151 /* samples_osx.app */;
+			productReference = 304A8E0A1C237B95008B1151 /* samples_macos.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -565,8 +565,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				304A8E091C237B95008B1151 /* samples_osx */,
 				303B760C1C34CFE300FEDE92 /* samples_ios */,
+				304A8E091C237B95008B1151 /* samples_macos */,
 				303B768B1C355AA400FEDE92 /* samples_tvos */,
 			);
 		};
@@ -945,7 +945,7 @@
 				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = samples_osx;
+				PRODUCT_NAME = samples_macos;
 			};
 			name = Debug;
 		};
@@ -959,7 +959,7 @@
 				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
-				PRODUCT_NAME = samples_osx;
+				PRODUCT_NAME = samples_macos;
 			};
 			name = Release;
 		};
@@ -993,7 +993,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "samples_osx" */ = {
+		304A8E1E1C237B96008B1151 /* Build configuration list for PBXNativeTarget "samples_macos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				304A8E1F1C237B96008B1151 /* Debug */,
