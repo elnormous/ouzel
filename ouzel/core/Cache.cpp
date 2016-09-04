@@ -128,6 +128,8 @@ namespace ouzel
                 frames.push_back(frame);
             }
 
+            spriteFrames[filename] = frames;
+            
             return frames;
         }
     }
