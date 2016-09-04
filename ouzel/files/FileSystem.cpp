@@ -238,7 +238,7 @@ namespace ouzel
             return true;
         }
 #endif
-        std::string path = getPath(filename);
+        std::string path = isAbsolutePath(filename) ? filename : getPath(filename);
 
         // file does not exist
         if (path.empty())
