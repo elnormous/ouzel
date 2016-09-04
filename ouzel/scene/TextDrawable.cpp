@@ -12,43 +12,42 @@ namespace ouzel
 {
     namespace scene
     {
-        TextDrawable::TextDrawable()
+        TextDrawable::TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor):
+            font(fontFile)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
-        }
 
-        TextDrawable::TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor):
-            TextDrawable()
-        {
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
             meshBuffer->init();
             meshBuffer->setIndexSize(sizeof(uint16_t));
             meshBuffer->setVertexAttributes(graphics::VertexPCT::ATTRIBUTES);
 
-            init(fontFile, pText, pTextAnchor);
+            textAnchor = pTextAnchor;
+
+            texture = font.getTexture();
+
+            setText(pText);
         }
 
         TextDrawable::~TextDrawable()
         {
         }
 
-        bool TextDrawable::init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor)
+        void TextDrawable::setFont(const std::string& fontFile)
         {
-            font.loadFont(fontFile);
-            textAnchor = newTextAnchor;
-
+            font = BMFont(fontFile);
             texture = font.getTexture();
 
-            if (!texture)
-            {
-                return false;
-            }
+            setText(text);
+        }
 
-            setText(newText);
+        void TextDrawable::setTextAnchor(const Vector2& newTextAnchor)
+        {
+            textAnchor = newTextAnchor;
 
-            return true;
+            setText(text);
         }
 
         void TextDrawable::draw(const Matrix4& projectionMatrix,

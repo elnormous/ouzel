@@ -17,13 +17,6 @@ namespace ouzel
 {
     namespace gui
     {
-        Button::Button():
-            eventHandler(EventHandler::PRIORITY_MAX + 1)
-        {
-            eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
-            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
-        }
-
         Button::Button(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
                        const std::string& label, const graphics::Color& labelColor, const std::string& font):
             eventHandler(EventHandler::PRIORITY_MAX + 1)
@@ -31,16 +24,6 @@ namespace ouzel
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
             sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-            init(normalImage, selectedImage, pressedImage, disabledImage, label, labelColor, font);
-        }
-
-        Button::~Button()
-        {
-        }
-
-        bool Button::init(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
-                          const std::string& label, const graphics::Color& labelColor, const std::string& font)
-        {
             if (!normalImage.empty())
             {
                 normalSprite = std::make_shared<scene::Sprite>();
@@ -86,10 +69,12 @@ namespace ouzel
                     addComponent(labelDrawable);
                 }
             }
-
+            
             updateSprite();
+        }
 
-            return true;
+        Button::~Button()
+        {
         }
 
         void Button::setEnabled(bool newEnabled)

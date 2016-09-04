@@ -19,13 +19,9 @@ namespace ouzel
         class Button: public Widget
         {
         public:
-            Button();
             Button(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
                    const std::string& label = "", const graphics::Color& labelColor = graphics::Color(255, 255, 255, 255), const std::string& font = "");
             virtual ~Button();
-
-            virtual bool init(const std::string& normal, const std::string& selected, const std::string& pressed, const std::string& disabled,
-                              const std::string& label = "", const graphics::Color& labelColor = graphics::Color(255, 255, 255, 255), const std::string& font = "");
 
             virtual void setEnabled(bool newEnabled) override;
             virtual void setSelected(bool newSelected) override;

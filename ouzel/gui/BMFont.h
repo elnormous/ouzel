@@ -37,9 +37,9 @@ namespace ouzel
     {
     public:
         BMFont();
+        BMFont(const std::string& filename);
         ~BMFont();
 
-        bool loadFont(const std::string& filename);
         float getHeight() { return lineHeight; }
 
         void getVertices(const std::string& text, const graphics::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices);

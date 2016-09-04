@@ -15,46 +15,24 @@ namespace ouzel
 {
     namespace gui
     {
-        Label::Label()
+        Label::Label(const std::string& fontFile, const std::string& pText, const Vector2& textAnchor)
         {
-        }
+            text = pText;
+            textDrawable = std::make_shared<scene::TextDrawable>(fontFile, text, textAnchor);
 
-        Label::Label(const std::string& font, const std::string& pText, const Vector2& textAnchor)
-        {
-            init(font, pText, textAnchor);
+            addComponent(textDrawable);
+
+            textDrawable->setText(text);
         }
 
         Label::~Label()
         {
         }
 
-        bool Label::init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor)
-        {
-            text = newText;
-            textDrawable = std::make_shared<scene::TextDrawable>(fontFile, text, newTextAnchor);
-
-            if (!textDrawable)
-            {
-                return false;
-            }
-
-            addComponent(textDrawable);
-
-            textDrawable->setText(text);
-
-            return true;
-        }
-
         void Label::setText(const std::string& newText)
         {
             text = newText;
             textDrawable->setText(text);
-        }
-
-        void Label::setColor(const graphics::Color& newColor)
-        {
-            color = newColor;
-            textDrawable->setColor(color);
         }
     } // namespace gui
 } // namespace ouzel

@@ -16,11 +16,8 @@ namespace ouzel
         class TextDrawable: public Component
         {
         public:
-            TextDrawable();
             TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor = Vector2(0.5f, 0.5f));
             virtual ~TextDrawable();
-
-            bool init(const std::string& fontFile, const std::string& newText, const Vector2& newTextAnchor = Vector2(0.5f, 0.5f));
 
             virtual void draw(const Matrix4& projectionMatrix,
                               const Matrix4& transformMatrix,
@@ -31,6 +28,11 @@ namespace ouzel
                                        const Matrix4& transformMatrix,
                                        const graphics::Color& drawColor,
                                        const graphics::RenderTargetPtr& renderTarget) override;
+
+            virtual void setFont(const std::string& fontFile);
+
+            virtual void setTextAnchor(const Vector2& newTextAnchor);
+            virtual const Vector2& getTextAnchor(const std::string& newFont) const { return textAnchor; }
 
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }
