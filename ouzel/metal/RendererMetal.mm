@@ -190,7 +190,7 @@ namespace ouzel
 
             if (device.name)
             {
-                log("Using %s for rendering", [device.name cStringUsingEncoding:NSASCIIStringEncoding]);
+                log("Using %s for rendering", [device.name cStringUsingEncoding:NSUTF8StringEncoding]);
             }
 
 #if OUZEL_PLATFORM_MACOS

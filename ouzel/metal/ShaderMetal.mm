@@ -169,7 +169,7 @@ namespace ouzel
                     if (err != Nil)
                     {
                         if (pixelShaderLibrary) [pixelShaderLibrary release];
-                        log("Failed to load pixel shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
+                        log("Failed to load pixel shader, %s", [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]);
                         return false;
                     }
 
@@ -179,7 +179,7 @@ namespace ouzel
 
                     if (!pixelShader)
                     {
-                        log("Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
+                        log("Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]);
                         return false;
                     }
                 }
@@ -216,7 +216,7 @@ namespace ouzel
                     if (err != Nil)
                     {
                         if (vertexShaderLibrary) [vertexShaderLibrary release];
-                        log("Failed to load vertex shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
+                        log("Failed to load vertex shader, %s", [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]);
                         return false;
                     }
 
@@ -226,7 +226,7 @@ namespace ouzel
 
                     if (!vertexShader)
                     {
-                        log("Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSASCIIStringEncoding]);
+                        log("Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]);
                         return false;
                     }
                 }
