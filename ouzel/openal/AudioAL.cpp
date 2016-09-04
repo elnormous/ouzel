@@ -122,9 +122,12 @@ namespace ouzel
 
             free();
 
-            const char* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
+            const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
-            log("Using %s for audio", deviceName);
+            if (deviceName)
+            {
+                log("Using %s for audio", deviceName);
+            }
 
             device = alcOpenDevice(deviceName);
 

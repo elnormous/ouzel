@@ -93,23 +93,34 @@ namespace ouzel
                 return false;
             }
 
+            //const GLubyte* deviceVendor = glGetString(GL_VENDOR);
+            const GLubyte* deviceName = glGetString(GL_RENDERER);
+
+            if (checkOpenGLError())
+            {
+                log("Failed to get OpenGL renderer");
+            }
+            else if (deviceName)
+            {
+                log("Using %s for rendering", reinterpret_cast<const char*>(deviceName));
+            }
+
 #if OUZEL_SUPPORTS_OPENGLES
             npotTexturesSupported = (apiVersion >= 3);
 
-            std::string extensionStr(reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS)));
+            const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
 
             if (checkOpenGLError())
             {
                 log("Failed to get OpenGL extensions");
             }
-            else
+            else if (extensionPtr)
             {
-                std::istringstream iss(extensionStr);
+                std::string extensions(reinterpret_cast<const char*>(extensionPtr));
 
-                std::vector<std::string> extensions{std::istream_iterator<std::string>{iss},
-                    std::istream_iterator<std::string>{}};
+                std::istringstream extensionStringStream(extensions);
 
-                for (const std::string& extension : extensions)
+                for (std::string extension; extensionStringStream >> extensions;)
                 {
                     if (extension == "GL_OES_texture_npot")
                     {

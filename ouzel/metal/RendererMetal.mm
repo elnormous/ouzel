@@ -187,6 +187,12 @@ namespace ouzel
                 log("Failed to create Metal device");
                 return false;
             }
+
+            if (device.name)
+            {
+                log("Using %s for rendering", [device.name cStringUsingEncoding:NSASCIIStringEncoding]);
+            }
+
 #if OUZEL_PLATFORM_MACOS
             view = (MTKViewPtr)std::static_pointer_cast<WindowMacOS>(window)->getNativeView();
 #elif OUZEL_PLATFORM_TVOS
