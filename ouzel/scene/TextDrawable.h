@@ -32,7 +32,7 @@ namespace ouzel
             virtual void setFont(const std::string& fontFile);
 
             virtual void setTextAnchor(const Vector2& newTextAnchor);
-            virtual const Vector2& getTextAnchor(const std::string& newFont) const { return textAnchor; }
+            virtual const Vector2& getTextAnchor() const { return textAnchor; }
 
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }
