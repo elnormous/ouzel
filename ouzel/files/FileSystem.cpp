@@ -238,7 +238,7 @@ namespace ouzel
             return true;
         }
 #endif
-        std::string path = isAbsolutePath(filename) ? filename : getPath(filename);
+        std::string path = getPath(filename);
 
         // file does not exist
         if (path.empty())
@@ -283,21 +283,31 @@ namespace ouzel
 
     std::string FileSystem::getPath(const std::string& filename) const
     {
-        std::string str = appPath + DIRECTORY_SEPARATOR + filename;
-
-        if (fileExists(str))
+        if (isAbsolutePath(filename))
         {
-            return str;
+            if (fileExists(filename))
+            {
+                return filename;
+            }
         }
         else
         {
-            for (const std::string& path : resourcePaths)
-            {
-                str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
+            std::string str = appPath + DIRECTORY_SEPARATOR + filename;
 
-                if (fileExists(str))
+            if (fileExists(str))
+            {
+                return str;
+            }
+            else
+            {
+                for (const std::string& path : resourcePaths)
                 {
-                    return str;
+                    str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
+
+                    if (fileExists(str))
+                    {
+                        return str;
+                    }
                 }
             }
         }
