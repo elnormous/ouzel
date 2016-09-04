@@ -173,6 +173,19 @@ namespace ouzel
                 return false;
             }
 
+            DXGI_ADAPTER_DESC adapterDesc;
+            hr = adapter->GetDesc(&adapterDesc);
+            if (FAILED(hr))
+            {
+                log("Failed to get the DXGI adapter description");
+            }
+            else
+            {
+                char deviceName[256];
+                WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, deviceName, sizeof(deviceName), nullptr, nullptr);
+                log("Using %s for rendering", deviceName);
+            }
+
             std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(window);
 
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
