@@ -9,6 +9,7 @@
 #include <functional>
 #include <mutex>
 #include "utils/Noncopyable.h"
+#include "utils/Types.h"
 
 namespace ouzel
 {
@@ -28,6 +29,8 @@ namespace ouzel
 
         virtual void execute(const std::function<void(void)>& func);
 
+        const FileSystemPtr& getFileSystem() const { return fileSystem; }
+
     protected:
         void executeAll();
 
@@ -37,6 +40,8 @@ namespace ouzel
 
         std::queue<std::function<void(void)>> executeQueue;
         std::mutex executeMutex;
+
+        FileSystemPtr fileSystem;
     };
 
     extern Application* sharedApplication;

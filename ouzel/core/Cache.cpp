@@ -6,11 +6,13 @@
 #include <rapidjson/document.h>
 #include "Cache.h"
 #include "Engine.h"
+#include "Application.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 #include "graphics/Shader.h"
 #include "scene/ParticleDefinition.h"
 #include "scene/SpriteFrame.h"
+#include "files/FileSystem.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -69,7 +71,7 @@ namespace ouzel
 
     void Cache::preloadSpriteFrames(const std::string& filename, bool mipmaps)
     {
-        std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+        std::string extension = sharedApplication->getFileSystem()->getExtensionPart(filename);
 
         std::vector<scene::SpriteFramePtr> frames;
 
@@ -105,7 +107,7 @@ namespace ouzel
         }
         else
         {
-            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+            std::string extension = sharedApplication->getFileSystem()->getExtensionPart(filename);
 
             std::vector<scene::SpriteFramePtr> frames;
 

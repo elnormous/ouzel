@@ -6,6 +6,7 @@
 #include "Layer.h"
 #include "Camera.h"
 #include "core/Engine.h"
+#include "events/EventDispatcher.h"
 
 namespace ouzel
 {

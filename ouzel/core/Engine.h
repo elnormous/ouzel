@@ -13,11 +13,6 @@
 #include <chrono>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
-#include "graphics/Renderer.h"
-#include "scene/SceneManager.h"
-#include "files/FileSystem.h"
-#include "input/Input.h"
-#include "events/EventDispatcher.h"
 #include "core/UpdateCallback.h"
 #include "core/Settings.h"
 
@@ -43,7 +38,6 @@ namespace ouzel
         const graphics::RendererPtr& getRenderer() const { return renderer; }
         const audio::AudioPtr& getAudio() const { return audio; }
         const scene::SceneManagerPtr& getSceneManager() const { return sceneManager; }
-        const FileSystemPtr& getFileSystem() const { return fileSystem; }
         const input::InputPtr& getInput() const { return input; }
         const LocalizationPtr& getLocalization() const { return localization; }
 
@@ -71,7 +65,6 @@ namespace ouzel
         EventDispatcherPtr eventDispatcher;
         input::InputPtr input;
         WindowPtr window;
-        FileSystemPtr fileSystem;
         LocalizationPtr localization;
         graphics::RendererPtr renderer;
         audio::AudioPtr audio;

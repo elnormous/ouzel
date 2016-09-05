@@ -15,6 +15,7 @@
 #include "InputApple.h"
 #include "core/Engine.h"
 #include "GamepadApple.h"
+#include "events/EventDispatcher.h"
 #include "utils/Utils.h"
 
 @interface ConnectDelegate: NSObject

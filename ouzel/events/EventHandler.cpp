@@ -3,6 +3,7 @@
 
 #include "EventHandler.h"
 #include "core/Engine.h"
+#include "events/EventDispatcher.h"
 
 namespace ouzel
 {

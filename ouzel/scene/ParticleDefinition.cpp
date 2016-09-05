@@ -5,7 +5,7 @@
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/document.h>
 #include "ParticleDefinition.h"
-#include "core/Engine.h"
+#include "core/Application.h"
 #include "files/FileSystem.h"
 #include "utils/Utils.h"
 
@@ -18,7 +18,7 @@ namespace ouzel
             ParticleDefinitionPtr result = std::make_shared<scene::ParticleDefinition>();
 
             std::vector<uint8_t> data;
-            if (!sharedEngine->getFileSystem()->loadFile(filename, data))
+            if (!sharedApplication->getFileSystem()->loadFile(filename, data))
             {
                 return result;
             }

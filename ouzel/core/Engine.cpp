@@ -9,7 +9,8 @@
 #include "utils/Utils.h"
 #include "graphics/Renderer.h"
 #include "audio/Audio.h"
-#include "files/FileSystem.h"
+#include "scene/SceneManager.h"
+#include "events/EventDispatcher.h"
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/WindowMacOS.h"
@@ -181,7 +182,6 @@ namespace ouzel
 
         eventDispatcher.reset(new EventDispatcher());
         cache.reset(new Cache());
-        fileSystem.reset(new FileSystem());
         sceneManager.reset(new scene::SceneManager());
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS

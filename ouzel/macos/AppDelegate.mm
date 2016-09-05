@@ -5,6 +5,7 @@
 #import "OpenGLView.h"
 #include "core/Application.h"
 #include "core/Engine.h"
+#include "events/EventDispatcher.h"
 #include "graphics/Renderer.h"
 #include "WindowMacOS.h"
 #include "math/Size2.h"

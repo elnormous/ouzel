@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "Application.h"
+#include "files/FileSystem.h"
 
 namespace ouzel
 {
@@ -11,6 +12,8 @@ namespace ouzel
     Application::Application()
     {
         sharedApplication = this;
+
+        fileSystem.reset(new FileSystem());
     }
 
     Application::Application(int pArgc, char* pArgv[]):

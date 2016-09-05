@@ -2,7 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "SoundData.h"
-#include "core/Engine.h"
+#include "core/Application.h"
+#include "files/FileSystem.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -29,7 +30,7 @@ namespace ouzel
             filename = newFilename;
 
             std::vector<uint8_t> newData;
-            if (!sharedEngine->getFileSystem()->loadFile(newFilename, newData))
+            if (!sharedApplication->getFileSystem()->loadFile(newFilename, newData))
             {
                 return false;
             }

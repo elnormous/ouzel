@@ -18,11 +18,11 @@ namespace ouzel
     extern AAssetManager* assetManager;
 #endif
 
-    class Engine;
+    class Application;
 
     class FileSystem: public Noncopyable
     {
-        friend Engine;
+        friend Application;
     public:
         static const std::string DIRECTORY_SEPARATOR;
 

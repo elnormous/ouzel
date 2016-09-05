@@ -7,6 +7,7 @@
 #include <sstream>
 #include "BMFont.h"
 #include "core/Engine.h"
+#include "core/Application.h"
 #include "files/FileSystem.h"
 #include "graphics/Vertex.h"
 #include "core/Cache.h"
@@ -47,7 +48,7 @@ namespace ouzel
     bool BMFont::parseFont(const std::string& filename)
     {
         std::vector<uint8_t> data;
-        if (!sharedEngine->getFileSystem()->loadFile(filename, data))
+        if (!sharedApplication->getFileSystem()->loadFile(filename, data))
         {
             return false;
         }
