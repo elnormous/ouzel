@@ -22,7 +22,7 @@ namespace ouzel
             return 1;
         }
 
-        std::shared_ptr<InputRPI> input = std::static_pointer_cast<InputRPI>(sharedEngine->getInput());
+        std::shared_ptr<input::InputRPI> input = std::static_pointer_cast<input::InputRPI>(sharedEngine->getInput());
         sharedEngine->begin();
 
         while (sharedEngine->isActive())
