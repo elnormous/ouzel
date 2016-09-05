@@ -21,10 +21,6 @@ namespace ouzel
         {
         }
 
-        void Input::update()
-        {
-        }
-
         void Input::setCursorVisible(bool)
         {
         }

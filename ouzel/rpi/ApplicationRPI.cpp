@@ -3,6 +3,7 @@
 
 #include "ApplicationRPI.h"
 #include "core/Engine.h"
+#include "InputRPI.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -21,10 +22,12 @@ namespace ouzel
             return 1;
         }
 
+        std::shared_ptr<InputRPI> input = std::static_pointer_cast<InputRPI>(sharedEngine->getInput());
         sharedEngine->begin();
 
         while (sharedEngine->isActive())
         {
+            input->update();
             executeAll();
 
             if (!sharedEngine->draw())

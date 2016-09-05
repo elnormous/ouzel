@@ -219,8 +219,6 @@ namespace ouzel
         public:
             virtual ~Input();
 
-            virtual void update();
-
             virtual void setCursorVisible(bool visible);
             virtual bool isCursorVisible() const;
 

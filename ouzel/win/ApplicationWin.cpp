@@ -4,6 +4,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include "ApplicationWin.h"
+#include "InputWin.h"
 #include "WindowWin.h"
 #include "core/Engine.h"
 
@@ -23,6 +24,7 @@ namespace ouzel
             return 1;
         }
 
+        std::shared_ptr<InputWin> input = std::static_pointer_cast<InputWin>(sharedEngine->getInput());
         std::shared_ptr<WindowWin> window = std::static_pointer_cast<WindowWin>(sharedEngine->getWindow());
         sharedEngine->begin();
 
@@ -30,6 +32,7 @@ namespace ouzel
 
         while (sharedEngine->isActive())
         {
+            input->update();
             executeAll();
 
             if (!sharedEngine->draw())

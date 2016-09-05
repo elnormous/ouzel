@@ -20,7 +20,7 @@ namespace ouzel
 
             virtual ~InputWin();
 
-            virtual void update() override;
+            void update();
 
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;

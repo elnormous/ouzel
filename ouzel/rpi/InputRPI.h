@@ -32,7 +32,7 @@ namespace ouzel
         public:
             virtual ~InputRPI();
 
-            virtual void update() override;
+            void update();
 
         protected:
             InputRPI();
