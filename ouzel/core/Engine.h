@@ -29,7 +29,7 @@ namespace ouzel
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
         static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
-        bool init(Settings& newSettings, const std::function<void(void)>& beginCallback);
+        bool init(Settings& newSettings);
         const Settings& getSettings() const { return settings; }
 
         const EventDispatcherPtr& getEventDispatcher() const { return eventDispatcher; }
@@ -58,7 +58,7 @@ namespace ouzel
         void unscheduleUpdate(const UpdateCallback& callback);
 
     protected:
-        void run(const std::function<void(void)>& beginCallback);
+        void run();
 
         Settings settings;
 

@@ -137,7 +137,7 @@ namespace ouzel
         return availableDrivers;
     }
 
-    bool Engine::init(Settings& newSettings, const std::function<void(void)>& beginCallback)
+    bool Engine::init(Settings& newSettings)
     {
         settings = newSettings;
 
@@ -315,8 +315,6 @@ namespace ouzel
             return false;
         }
 
-        updateThread = std::thread(&Engine::run, this, beginCallback);
-
         return true;
     }
 
@@ -330,6 +328,8 @@ namespace ouzel
     {
         previousUpdateTime = previousFrameTime = std::chrono::steady_clock::now();
         running = true;
+
+        updateThread = std::thread(&Engine::run, this);
     }
 
     void Engine::end()
@@ -350,10 +350,8 @@ namespace ouzel
         running = true;
     }
 
-    void Engine::run(const std::function<void(void)>& beginCallback)
+    void Engine::run()
     {
-        beginCallback();
-
         while (active)
         {
             if (running)
