@@ -13,6 +13,7 @@
     #define NOMINMAX
     #include <windows.h>
     #include <Shlobj.h>
+    #include <Shlwapi.h>
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
     #include <unistd.h>
     #include <pwd.h>
@@ -365,6 +366,12 @@ namespace ouzel
 
     bool FileSystem::isAbsolutePath(const std::string& path)
     {
+#if OUZEL_PLATFORM_WINDOWS
+        WCHAR szBuffer[MAX_PATH];
+        MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+        return PathIsRelativeW(szBuffer) == FALSE;
+#else
         return !path.empty() && path[0] == '/';
+#endif
     }
 }
