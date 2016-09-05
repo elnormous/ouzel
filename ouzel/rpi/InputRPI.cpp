@@ -316,6 +316,8 @@ static input::KeyboardKey convertKeyCode(int keyCode)
 
 #include <linux/input.h>
 
+static char TEMP_BUFFER[256];
+
 namespace ouzel
 {
     namespace input
