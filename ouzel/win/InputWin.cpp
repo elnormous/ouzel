@@ -5,6 +5,7 @@
 #include <windows.h>
 #include "InputWin.h"
 #include "core/Engine.h"
+#include "events/EventDispatcher.h"
 #include "GamepadWin.h"
 #include "utils/Utils.h"
 
