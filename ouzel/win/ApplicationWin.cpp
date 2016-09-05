@@ -24,7 +24,7 @@ namespace ouzel
             return 1;
         }
 
-        std::shared_ptr<InputWin> input = std::static_pointer_cast<InputWin>(sharedEngine->getInput());
+        std::shared_ptr<input::InputWin> input = std::static_pointer_cast<input::InputWin>(sharedEngine->getInput());
         std::shared_ptr<WindowWin> window = std::static_pointer_cast<WindowWin>(sharedEngine->getWindow());
         sharedEngine->begin();
 
