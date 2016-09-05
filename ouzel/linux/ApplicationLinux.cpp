@@ -7,6 +7,7 @@
 #include <X11/XKBlib.h>
 #include "ApplicationLinux.h"
 #include "core/Engine.h"
+#include "events/Event.h"
 #include "input/Input.h"
 #include "WindowLinux.h"
 
