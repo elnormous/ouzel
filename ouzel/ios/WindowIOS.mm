@@ -5,6 +5,7 @@
 #import "OpenGLView.h"
 #import "MetalView.h"
 #include "core/Engine.h"
+#include "events/EventDispatcher.h"
 #include "utils/Utils.h"
 
 @interface ViewController: UIViewController

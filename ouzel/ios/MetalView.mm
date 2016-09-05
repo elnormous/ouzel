@@ -4,6 +4,7 @@
 #import "MetalView.h"
 #include "core/Engine.h"
 #include "core/Window.h"
+#include "events/EventDispatcher.h"
 #include "utils/Utils.h"
 
 using namespace ouzel;

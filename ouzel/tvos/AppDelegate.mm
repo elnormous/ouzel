@@ -5,6 +5,7 @@
 #include "core/Application.h"
 #include "core/Engine.h"
 #include "core/Cache.h"
+#include "events/EventDispatcher.h"
 #include "utils/Utils.h"
 
 @implementation AppDelegate
