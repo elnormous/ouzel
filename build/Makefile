@@ -145,4 +145,23 @@ $(LIBRARY): $(OBJECTS)
 .PHONY: clean
 clean:
 	rm -rf $(LIBRARY) \
-	../ouzel/*.o \
+	../ouzel/audio/*.o \
+	../ouzel/animators/*.o \
+	../ouzel/apple/*.o \
+	../ouzel/core/*.o \
+	../ouzel/events/*.o \
+	../ouzel/files/*.o \
+	../ouzel/graphics/*.o \
+	../ouzel/gui/*.o \
+	../ouzel/input/*.o \
+	../ouzel/linux/*.o \
+	../ouzel/localization/*.o \
+	../ouzel/macos/*.o \
+	../ouzel/math/*.o \
+	../ouzel/metal/*.o \
+	../ouzel/openal/*.o \
+	../ouzel/opengl/*.o \
+	../ouzel/rpi/*.o \
+	../ouzel/scene/*.o \
+	../ouzel/utils/*.o \
+	../ouzel/*.o
