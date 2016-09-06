@@ -47,7 +47,7 @@ namespace ouzel
 
         if (!display)
         {
-            ouzel::log(LOG_LEVEL_ERROR, "Failed to open display");
+            log(LOG_LEVEL_ERROR, "Failed to open display");
             return false;
         }
 
@@ -59,7 +59,7 @@ namespace ouzel
         int dummy;
         if (!glXQueryExtension(display, &dummy, &dummy))
         {
-            ouzel::log(LOG_LEVEL_ERROR, "X server has no OpenGL GLX extension");
+            log(LOG_LEVEL_ERROR, "X server has no OpenGL GLX extension");
             return false;
         }
 
@@ -78,7 +78,7 @@ namespace ouzel
         GLXFBConfig* framebufferConfig = glXChooseFBConfig(display, screen, attributes, &fbcount);
         if (!framebufferConfig)
         {
-            ouzel::log(LOG_LEVEL_ERROR, "Failed to get frame buffer");
+            log(LOG_LEVEL_ERROR, "Failed to get frame buffer");
         }
         else
         {
@@ -108,7 +108,7 @@ namespace ouzel
 
                     if (!vi)
                     {
-                        ouzel::log(LOG_LEVEL_INFO, "Failed to get OpenGL visual");
+                        log(LOG_LEVEL_INFO, "Failed to get OpenGL visual");
                         context = nullptr;
                     }
                 }
@@ -131,12 +131,12 @@ namespace ouzel
             vi = glXChooseVisual(display, screen, doubleBuffer);
             if (!vi)
             {
-                ouzel::log(LOG_LEVEL_ERROR, "Failed to choose OpenGL visual");
+                log(LOG_LEVEL_ERROR, "Failed to choose OpenGL visual");
                 return false;
             }
             if (vi->c_class != TrueColor)
             {
-                ouzel::log(LOG_LEVEL_ERROR, "TrueColor visual required for this program");
+                log(LOG_LEVEL_ERROR, "TrueColor visual required for this program");
                 return false;
             }
 
