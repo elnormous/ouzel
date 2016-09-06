@@ -43,7 +43,15 @@ namespace ouzel
         return sizeof(T) * vec.size();
     }
 
-    void log(const char* format, ...);
+    enum LogLevel
+    {
+        LOG_LEVEL_ERROR,
+        LOG_LEVEL_WARNING,
+        LOG_LEVEL_INFO,
+        LOG_LEVEL_VERBOSE
+    };
+
+    void log(LogLevel level, const char* format, ...);
 
     uint32_t random(uint32_t min = 0, uint32_t max = std::numeric_limits<uint32_t>::max());
     float randomf(float min = 0.0f, float max = 1.0f);

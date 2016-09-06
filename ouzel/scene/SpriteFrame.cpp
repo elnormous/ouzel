@@ -34,7 +34,7 @@ namespace ouzel
 
             if (document.HasParseError())
             {
-                log("Failed to parse %s", filename.c_str());
+                log(LOG_LEVEL_ERROR, "Failed to parse %s", filename.c_str());
                 return frames;
             }
 

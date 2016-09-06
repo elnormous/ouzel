@@ -45,7 +45,7 @@ namespace ouzel
 
             if (FAILED(audioXA2->getXAudio()->CreateSourceVoice(&sourceVoice, &soundDataXA2->getWaveFormat())))
             {
-                log("Failed to create source voice");
+                log(LOG_LEVEL_ERROR, "Failed to create source voice");
                 return false;
             }
 
@@ -74,13 +74,13 @@ namespace ouzel
 
             if (FAILED(sourceVoice->SubmitSourceBuffer(&bufferData)))
             {
-                log("Failed to upload sound data");
+                log(LOG_LEVEL_ERROR, "Failed to upload sound data");
                 return false;
             }
 
             if (FAILED(sourceVoice->Start()))
             {
-                log("Failed to start consuming sound data");
+                log(LOG_LEVEL_ERROR, "Failed to start consuming sound data");
                 return false;
             }
 
@@ -96,7 +96,7 @@ namespace ouzel
 
             if (FAILED(sourceVoice->Stop()))
             {
-                log("Failed to stop sound buffer");
+                log(LOG_LEVEL_ERROR, "Failed to stop sound buffer");
                 return false;
             }
 
@@ -112,13 +112,13 @@ namespace ouzel
 
             if (FAILED(sourceVoice->Stop()))
             {
-                log("Failed to stop sound buffer");
+                log(LOG_LEVEL_ERROR, "Failed to stop sound buffer");
                 return false;
             }
 
             if (FAILED(sourceVoice->FlushSourceBuffers()))
             {
-                log("Failed to flush sound buffer");
+                log(LOG_LEVEL_ERROR, "Failed to flush sound buffer");
                 return false;
             }
 

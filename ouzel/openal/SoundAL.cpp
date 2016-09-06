@@ -25,7 +25,7 @@ namespace ouzel
 
                 if (AudioAL::checkOpenALError())
                 {
-                    log("Failed to delete OpenAL source");
+                    log(LOG_LEVEL_ERROR, "Failed to delete OpenAL source");
                 }
             }
 
@@ -35,7 +35,7 @@ namespace ouzel
 
                 if (AudioAL::checkOpenALError())
                 {
-                    log("Failed to delete OpenAL buffer");
+                    log(LOG_LEVEL_ERROR, "Failed to delete OpenAL buffer");
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace ouzel
 
                 if (AudioAL::checkOpenALError())
                 {
-                    log("Failed to delete OpenAL source");
+                    log(LOG_LEVEL_ERROR, "Failed to delete OpenAL source");
                 }
             }
 
@@ -64,7 +64,7 @@ namespace ouzel
 
                 if (AudioAL::checkOpenALError())
                 {
-                    log("Failed to delete OpenAL buffer");
+                    log(LOG_LEVEL_ERROR, "Failed to delete OpenAL buffer");
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace ouzel
 
             if (AudioAL::checkOpenALError())
             {
-                log("Failed to create OpenAL source");
+                log(LOG_LEVEL_ERROR, "Failed to create OpenAL source");
                 return false;
             }
 
@@ -90,7 +90,7 @@ namespace ouzel
 
             if (AudioAL::checkOpenALError())
             {
-                log("Failed to create OpenAL buffer");
+                log(LOG_LEVEL_ERROR, "Failed to create OpenAL buffer");
                 return false;
             }
 
@@ -129,7 +129,7 @@ namespace ouzel
 
             if (format == 0)
             {
-                log("Unsupported audio format");
+                log(LOG_LEVEL_ERROR, "Unsupported audio format");
                 return false;
             }
 
@@ -140,7 +140,7 @@ namespace ouzel
 
             if (AudioAL::checkOpenALError())
             {
-                log("Failed to upload OpenAL data");
+                log(LOG_LEVEL_ERROR, "Failed to upload OpenAL data");
                 return false;
             }
 
@@ -151,7 +151,7 @@ namespace ouzel
 
             if (AudioAL::checkOpenALError())
             {
-                log("Failed to set OpenAL buffer");
+                log(LOG_LEVEL_ERROR, "Failed to set OpenAL buffer");
                 return false;
             }
 
@@ -172,7 +172,7 @@ namespace ouzel
 
             if (AudioAL::checkOpenALError())
             {
-                log("Failed to play OpenAL source");
+                log(LOG_LEVEL_ERROR, "Failed to play OpenAL source");
                 return false;
             }
 
@@ -197,7 +197,7 @@ namespace ouzel
 
             if (AudioAL::checkOpenALError())
             {
-                log("Failed to stop OpenAL source");
+                log(LOG_LEVEL_ERROR, "Failed to stop OpenAL source");
                 return false;
             }
 
@@ -215,7 +215,7 @@ namespace ouzel
 
             if (AudioAL::checkOpenALError())
             {
-                log("Failed to rewind OpenAL source");
+                log(LOG_LEVEL_ERROR, "Failed to rewind OpenAL source");
                 return false;
             }
 

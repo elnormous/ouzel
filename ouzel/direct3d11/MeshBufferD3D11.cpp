@@ -52,7 +52,7 @@ namespace ouzel
             HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
             if (FAILED(hr))
             {
-                log("Failed to lock Direct3D 11 buffer");
+                log(LOG_LEVEL_ERROR, "Failed to lock Direct3D 11 buffer");
                 return false;
             }
 
@@ -81,7 +81,7 @@ namespace ouzel
                         break;
                     default:
                         indexFormat = DXGI_FORMAT_UNKNOWN;
-                        log("Invalid index size");
+                        log(LOG_LEVEL_ERROR, "Invalid index size");
                         return false;
                     }
 
@@ -113,7 +113,7 @@ namespace ouzel
                             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &indexBuffer);
                             if (FAILED(hr))
                             {
-                                log("Failed to create Direct3D 11 index buffer");
+                                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 index buffer");
                                 return false;
                             }
                         }
@@ -154,7 +154,7 @@ namespace ouzel
                             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &vertexBuffer);
                             if (FAILED(hr))
                             {
-                                log("Failed to create Direct3D 11 vertex buffer");
+                                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 vertex buffer");
                                 return false;
                             }
                         }

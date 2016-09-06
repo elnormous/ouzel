@@ -61,31 +61,31 @@ namespace ouzel
 
             if (slCreateEngine(&engineObject, 0, NULL, engineMixIIDCount, &engineMixIID, &engineMixReq) != SL_RESULT_SUCCESS)
             {
-                log("Failed to create OpenSL engine object");
+                log(LOG_LEVEL_ERROR, "Failed to create OpenSL engine object");
                 return false;
             }
 
             if ((*engineObject)->Realize(engineObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
             {
-                log("Failed to create OpenSL engine object");
+                log(LOG_LEVEL_ERROR, "Failed to create OpenSL engine object");
                 return false;
             }
 
             if ((*engineObject)->GetInterface(engineObject, SL_IID_ENGINE, &engine) != SL_RESULT_SUCCESS)
             {
-                log("Failed to get OpenSL engine");
+                log(LOG_LEVEL_ERROR, "Failed to get OpenSL engine");
                 return false;
             }
 
             if ((*engine)->CreateOutputMix(engine, &outputMixObject, 0, nullptr, nullptr) != SL_RESULT_SUCCESS)
             {
-                log("Failed to create OpenSL output mix");
+                log(LOG_LEVEL_ERROR, "Failed to create OpenSL output mix");
                 return false;
             }
 
             if ((*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
             {
-                log("Failed to create OpenSL output mix");
+                log(LOG_LEVEL_ERROR, "Failed to create OpenSL output mix");
                 return false;
             }
 

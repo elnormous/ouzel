@@ -90,7 +90,7 @@ namespace ouzel
                             case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
                         }
 
-                        log("OpenGL error: %s (%x)", errorStr, error);
+                        log(LOG_LEVEL_ERROR, "OpenGL error: %s (%x)", errorStr, error);
                     }
 
                     return true;
@@ -109,7 +109,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to bind texture");
+                        log(LOG_LEVEL_ERROR, "Failed to bind texture");
                         return false;
                     }
                 }
@@ -126,7 +126,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to bind program");
+                        log(LOG_LEVEL_ERROR, "Failed to bind program");
                         return false;
                     }
                 }
@@ -143,7 +143,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to bind frame buffer");
+                        log(LOG_LEVEL_ERROR, "Failed to bind frame buffer");
                         return false;
                     }
                 }
@@ -160,7 +160,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to bind element array buffer");
+                        log(LOG_LEVEL_ERROR, "Failed to bind element array buffer");
                         return false;
                     }
                 }
@@ -177,7 +177,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to bind array buffer");
+                        log(LOG_LEVEL_ERROR, "Failed to bind array buffer");
                         return false;
                     }
                 }
@@ -202,7 +202,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to bind vertex array");
+                        log(LOG_LEVEL_ERROR, "Failed to bind vertex array");
                         return false;
                     }
                 }
@@ -292,7 +292,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to set scissor test");
+                        log(LOG_LEVEL_ERROR, "Failed to set scissor test");
                         return false;
                     }
 
@@ -315,7 +315,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to set scissor test");
+                        log(LOG_LEVEL_ERROR, "Failed to set scissor test");
                         return false;
                     }
                 }
@@ -338,7 +338,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to change depth test state");
+                        log(LOG_LEVEL_ERROR, "Failed to change depth test state");
                         return false;
                     }
 
@@ -366,7 +366,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to set viewport");
+                        log(LOG_LEVEL_ERROR, "Failed to set viewport");
                         return false;
                     }
                 }
@@ -435,7 +435,7 @@ namespace ouzel
                 
                 if (checkError && checkOpenGLError())
                 {
-                    log("Failed to set blend state");
+                    log(LOG_LEVEL_ERROR, "Failed to set blend state");
                     return false;
                 }
                 
@@ -453,7 +453,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log("Failed to set blend state");
+                        log(LOG_LEVEL_ERROR, "Failed to set blend state");
                         return false;
                     }
                 }

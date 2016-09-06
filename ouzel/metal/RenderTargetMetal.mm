@@ -96,7 +96,7 @@ namespace ouzel
 
                 if (!textureMetal->getTexture())
                 {
-                    log("Metal texture not initialized");
+                    log(LOG_LEVEL_ERROR, "Metal texture not initialized");
                     return false;
                 }
 
@@ -106,7 +106,7 @@ namespace ouzel
 
                     if (!renderPassDescriptor)
                     {
-                        log("Failed to create Metal render pass descriptor");
+                        log(LOG_LEVEL_ERROR, "Failed to create Metal render pass descriptor");
                         return false;
                     }
                 }
@@ -133,7 +133,7 @@ namespace ouzel
 
                         if (!msaaTexture)
                         {
-                            log("Failed to create MSAA texture");
+                            log(LOG_LEVEL_ERROR, "Failed to create MSAA texture");
                             return false;
                         }
                     }

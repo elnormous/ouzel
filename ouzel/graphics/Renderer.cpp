@@ -148,7 +148,7 @@ namespace ouzel
             if (shader && meshBuffer &&
                 shader->getVertexAttributes() != meshBuffer->getVertexAttributes())
             {
-                log("Shader's and mesh buffer's vertex attributes do not match");
+                log(LOG_LEVEL_ERROR, "Shader's and mesh buffer's vertex attributes do not match");
                 return false;
             }
 #endif

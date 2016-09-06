@@ -66,7 +66,7 @@ namespace ouzel
         }
         else
         {
-            log("Failed to get current directory");
+            log(LOG_LEVEL_ERROR, "Failed to get current directory");
         }
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         if (readlink("/proc/self/exe", TEMP_BUFFER, sizeof(TEMP_BUFFER)) != -1)
@@ -75,7 +75,7 @@ namespace ouzel
         }
         else
         {
-            log("Failed to get current directory");
+            log(LOG_LEVEL_ERROR, "Failed to get current directory");
         }
 #endif
     }
@@ -223,7 +223,7 @@ namespace ouzel
 
             if (!asset)
             {
-                log("Failed to open file %s", filename.c_str());
+                log(LOG_LEVEL_ERROR, "Failed to open file %s", filename.c_str());
                 return false;
             }
 
@@ -244,7 +244,7 @@ namespace ouzel
         // file does not exist
         if (path.empty())
         {
-            log("Failed to find file %s", filename.c_str());
+            log(LOG_LEVEL_ERROR, "Failed to find file %s", filename.c_str());
             return false;
         }
 
@@ -252,7 +252,7 @@ namespace ouzel
 
         if (!file)
         {
-            log("Failed to open file %s", path.c_str());
+            log(LOG_LEVEL_ERROR, "Failed to open file %s", path.c_str());
         }
 
         data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());

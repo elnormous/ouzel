@@ -46,7 +46,7 @@ namespace ouzel
 
             if (newData.size() < 16) // RIFF + size + WAVE
             {
-                log("Failed to load sound file. File too small");
+                log(LOG_LEVEL_ERROR, "Failed to load sound file, file too small");
                 return false;
             }
 
@@ -55,7 +55,7 @@ namespace ouzel
                 newData[offset + 2] != 'F' ||
                 newData[offset + 3] != 'F')
             {
-                log("Failed to load sound file. Not a RIFF format.");
+                log(LOG_LEVEL_ERROR, "Failed to load sound file, not a RIFF format");
                 return false;
             }
 
@@ -67,7 +67,7 @@ namespace ouzel
 
             if (newData.size() != length + 8)
             {
-                log("Failed to load sound file. Size mismatch.");
+                log(LOG_LEVEL_ERROR, "Failed to load sound file, size mismatch");
             }
 
             if (newData[offset + 0] != 'W' ||
@@ -75,7 +75,7 @@ namespace ouzel
                 newData[offset + 2] != 'V' ||
                 newData[offset + 3] != 'E')
             {
-                log("Failed to load sound file. Not a WAVE file.");
+                log(LOG_LEVEL_ERROR, "Failed to load sound file, not a WAVE file");
                 return false;
             }
 
@@ -88,7 +88,7 @@ namespace ouzel
             {
                 if (newData.size() < offset + 8)
                 {
-                    log("Failed to load sound file. Not enough data to read chunk.");
+                    log(LOG_LEVEL_ERROR, "Failed to load sound file, not enough data to read chunk");
                     return false;
                 }
 
@@ -105,7 +105,7 @@ namespace ouzel
 
                 if (newData.size() < offset + chunkSize)
                 {
-                    log("Failed to load sound file. Not enough data to read chunk.");
+                    log(LOG_LEVEL_ERROR, "Failed to load sound file, not enough data to read chunk");
                     return false;
                 }
 
@@ -113,7 +113,7 @@ namespace ouzel
                 {
                     if (chunkSize < 16)
                     {
-                        log("Failed to load sound file. Not enough data to read chunk.");
+                        log(LOG_LEVEL_ERROR, "Failed to load sound file, not enough data to read chunk");
                         return false;
                     }
 
@@ -124,7 +124,7 @@ namespace ouzel
 
                     if (formatTag != 1)
                     {
-                        log("Failed to load sound file. Bad format tag.");
+                        log(LOG_LEVEL_ERROR, "Failed to load sound file, bad format tag.");
                         return false;
                     }
 
@@ -157,13 +157,13 @@ namespace ouzel
 
             if (!formatChunkFound)
             {
-                log("Failed to load sound file. Failed to find a format chunk.");
+                log(LOG_LEVEL_ERROR, "Failed to load sound file, failed to find a format chunk");
                 return false;
             }
 
             if (!dataChunkFound)
             {
-                log("Failed to load sound file. Failed to find a data chunk.");
+                log(LOG_LEVEL_ERROR, "Failed to load sound file, failed to find a data chunk");
                 return false;
             }
 

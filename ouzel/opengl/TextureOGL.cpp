@@ -45,7 +45,7 @@ namespace ouzel
 
                     if (RendererOGL::checkOpenGLError())
                     {
-                        log("Failed to create texture");
+                        log(LOG_LEVEL_ERROR, "Failed to create texture");
                         return false;
                     }
                 }
@@ -85,7 +85,7 @@ namespace ouzel
 
                     if (RendererOGL::checkOpenGLError())
                     {
-                        log("Failed to set texture parameters");
+                        log(LOG_LEVEL_ERROR, "Failed to set texture parameters");
                         return false;
                     }
 
@@ -98,7 +98,7 @@ namespace ouzel
 
                         if (RendererOGL::checkOpenGLError())
                         {
-                            log("Failed to upload texture data");
+                            log(LOG_LEVEL_ERROR, "Failed to upload texture data");
                             return false;
                         }
                     }

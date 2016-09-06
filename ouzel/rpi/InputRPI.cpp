@@ -329,12 +329,12 @@ namespace ouzel
 
             if (result == GLOB_NOMATCH)
             {
-                log("No event devices found");
+                log(LOG_LEVEL_WARNING, "No event devices found");
                 return;
             }
             else if (result)
             {
-                log("Could not read /dev/input/event*");
+                log(LOG_LEVEL_ERROR, "Could not read /dev/input/event*");
                 return;
             }
 
@@ -345,23 +345,23 @@ namespace ouzel
                 inputDevice.fd = open(g.gl_pathv[i], O_RDONLY);
                 if (inputDevice.fd == -1)
                 {
-                    log("Failed to open device file descriptor");
+                    log(LOG_LEVEL_WARNING, "Failed to open device file descriptor");
                     continue;
                 }
                 
                 if (ioctl(inputDevice.fd, EVIOCGRAB, (void *)1) == -1)
                 {
-                    log("Failed to get grab device");
+                    log(LOG_LEVEL_WARNING, "Failed to get grab device");
                 }
 
                 memset(TEMP_BUFFER, 0, sizeof(TEMP_BUFFER));
                 if (ioctl(inputDevice.fd, EVIOCGNAME(sizeof(TEMP_BUFFER) - 1), TEMP_BUFFER) == -1)
                 {
-                    log("Failed to get device name");
+                    log(LOG_LEVEL_WARNING, "Failed to get device name");
                 }
                 else
                 {
-                    log("Got device: %s", TEMP_BUFFER);
+                    log(LOG_LEVEL_INFO, "Got device: %s", TEMP_BUFFER);
                 }
                 
                 unsigned long eventBits[BITS_TO_LONGS(EV_CNT)];
@@ -374,7 +374,8 @@ namespace ouzel
                     ioctl(inputDevice.fd, EVIOCGBIT(EV_REL, sizeof(relBits)), relBits) == -1 ||
                     ioctl(inputDevice.fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
                 {
-                    printf("Failed to get device event bits\n");
+                    printf(LOG_LEVEL_WARNING, "Failed to get device event bits\n");
+                    continue;
                 }
         
                 if (isBitSet(eventBits, EV_KEY) && (
@@ -390,7 +391,7 @@ namespace ouzel
                      isBitSet(keyBits, KEY_0)
                     ))
                 {
-                    log("Device class: keyboard");
+                    log(LOG_LEVEL_INFO, "Device class: keyboard");
                     inputDevice.deviceClass = InputDeviceRPI::CLASS_KEYBOARD;
                 }
         
@@ -398,22 +399,22 @@ namespace ouzel
                 {
                     if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN))
                     {
-                        log("Device class: tablet");
+                        log(LOG_LEVEL_INFO, "Device class: tablet");
                         inputDevice.deviceClass |= InputDeviceRPI::CLASS_TOUCHPAD;
                     } 
                     else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN))
                     {
-                        log("Device class: touchpad");
+                        log(LOG_LEVEL_INFO, "Device class: touchpad");
                         inputDevice.deviceClass |= InputDeviceRPI::CLASS_TOUCHPAD;
                     }
                     else if (isBitSet(keyBits, BTN_MOUSE))
                     {
-                        log("Device class: mouse");
+                        log(LOG_LEVEL_INFO, "Device class: mouse");
                         inputDevice.deviceClass |= InputDeviceRPI::CLASS_MOUSE;
                     }
                     else if (isBitSet(keyBits, BTN_TOUCH))
                     {
-                        log("Device class: touchscreen");
+                        log(LOG_LEVEL_INFO, "Device class: touchscreen");
                         inputDevice.deviceClass |= InputDeviceRPI::CLASS_TOUCHPAD;
                     }
                 }
@@ -421,20 +422,20 @@ namespace ouzel
                 {
                     if (isBitSet(keyBits, BTN_MOUSE))
                     {
-                        log("Device class: mouse");
+                        log(LOG_LEVEL_INFO, "Device class: mouse");
                         inputDevice.deviceClass |= InputDeviceRPI::CLASS_MOUSE;
                     }
                 }
 
                 if (isBitSet(keyBits, BTN_JOYSTICK))
                 {
-                    log("Device class: joystick");
+                    log(LOG_LEVEL_INFO, "Device class: joystick");
                     inputDevice.deviceClass = InputDeviceRPI::CLASS_GAMEPAD;
                 }
 
                 if (isBitSet(keyBits, BTN_GAMEPAD))
                 {
-                    log("Device class: gamepad");
+                    log(LOG_LEVEL_INFO, "Device class: gamepad");
                     inputDevice.deviceClass = InputDeviceRPI::CLASS_GAMEPAD;
                 }
 
@@ -455,12 +456,12 @@ namespace ouzel
             {
                 if (ioctl(inputDevice.fd, EVIOCGRAB, (void*)0) == -1)
                 {
-                    log("Failed to release device");
+                    log(LOG_LEVEL_WARNING "Failed to release device");
                 }
 
                 if (close(inputDevice.fd) == -1)
                 {
-                    log("Failed to close file descriptor");
+                    log(LOG_LEVEL_ERROR, "Failed to close file descriptor");
                 }
             }
         }
@@ -483,7 +484,7 @@ namespace ouzel
 
             if (retval == -1)
             {
-                log("Select failed");
+                log(LOG_LEVEL_ERROR, "Select failed");
                 return;
             }
             else if (retval > 0)

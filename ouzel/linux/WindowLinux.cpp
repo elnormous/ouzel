@@ -47,7 +47,7 @@ namespace ouzel
 
         if (!display)
         {
-            ouzel::log("Failed to open display");
+            ouzel::log(LOG_LEVEL_ERROR, "Failed to open display");
             return false;
         }
 
@@ -59,7 +59,7 @@ namespace ouzel
         int dummy;
         if (!glXQueryExtension(display, &dummy, &dummy))
         {
-            ouzel::log("X server has no OpenGL GLX extension");
+            ouzel::log(LOG_LEVEL_ERROR, "X server has no OpenGL GLX extension");
             return false;
         }
 
@@ -78,7 +78,7 @@ namespace ouzel
         GLXFBConfig* framebufferConfig = glXChooseFBConfig(display, screen, attributes, &fbcount);
         if (!framebufferConfig)
         {
-            ouzel::log("Failed to get frame buffer");
+            ouzel::log(LOG_LEVEL_ERROR, "Failed to get frame buffer");
         }
         else
         {
@@ -102,24 +102,24 @@ namespace ouzel
                 if (context)
                 {
                     rendererOGL->setAPIVersion(3);
-                    log("Using OpenGL 3.2");
+                    log(LOG_LEVEL_INFO, "Using OpenGL 3.2");
 
                     vi = glXGetVisualFromFBConfig(display, framebufferConfig[0]);
 
                     if (!vi)
                     {
-                        ouzel::log("Failed to get OpenGL visual");
+                        ouzel::log(LOG_LEVEL_INFO, "Failed to get OpenGL visual");
                         context = nullptr;
                     }
                 }
                 else
                 {
-                    log("Failed to crete OpenGL 3.2 rendering context");
+                    log(LOG_LEVEL_INFO, "Failed to crete OpenGL 3.2 rendering context");
                 }
             }
             else
             {
-                log("Could not find glXCreateContextAttribsARB");
+                log(LOG_LEVEL_INFO, "Could not find glXCreateContextAttribsARB");
             }
         }
 
@@ -131,12 +131,12 @@ namespace ouzel
             vi = glXChooseVisual(display, screen, doubleBuffer);
             if (!vi)
             {
-                ouzel::log("Failed to choose OpenGL visual");
+                ouzel::log(LOG_LEVEL_ERROR, "Failed to choose OpenGL visual");
                 return false;
             }
             if (vi->c_class != TrueColor)
             {
-                ouzel::log("TrueColor visual required for this program");
+                ouzel::log(LOG_LEVEL_ERROR, "TrueColor visual required for this program");
                 return false;
             }
 
@@ -145,11 +145,11 @@ namespace ouzel
             if (context)
             {
                 rendererOGL->setAPIVersion(2);
-                log("Using OpenGL 2");
+                log(LOG_LEVEL_INFO, "Using OpenGL 2");
             }
             else
             {
-                log("Failed to crete OpenGL 2 rendering context");
+                log(LOG_LEVEL_ERROR, "Failed to crete OpenGL 2 rendering context");
                 return false;
             }
         }
@@ -250,7 +250,7 @@ namespace ouzel
 
         if(!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
         {
-            log("Failed to send fullscreen message");
+            log(LOG_LEVEL_ERROR, "Failed to send fullscreen message");
             return false;
         }
 

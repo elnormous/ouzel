@@ -61,11 +61,11 @@ namespace ouzel
             if (pixelFormat)
             {
                 apiVersion = 3;
-                log("Using OpenGL 3.2");
+                log(LOG_LEVEL_INFO, "Using OpenGL 3.2");
             }
             else
             {
-                log("Failed to crete OpenGL 3.2 pixel format");
+                log(LOG_LEVEL_INFO, "Failed to crete OpenGL 3.2 pixel format");
 
                 NSOpenGLPixelFormatAttribute openGL2Attributes[] =
                 {
@@ -82,13 +82,13 @@ namespace ouzel
                 if (pixelFormat)
                 {
                     apiVersion = 2;
-                    log("Using OpenGL 2");
+                    log(LOG_LEVEL_INFO, "Using OpenGL 2");
                 }
             }
 
             if (!pixelFormat)
             {
-                log("Failed to crete OpenGL 2 pixel format");
+                log(LOG_LEVEL_ERROR, "Failed to crete OpenGL 2 pixel format");
                 return Nil;
             }
 

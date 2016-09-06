@@ -49,7 +49,7 @@ namespace ouzel
 
             if (FAILED(XAudio2Create(&xAudio)))
             {
-                log("Failed to initialize XAudio");
+                log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
                 return false;
             }
 

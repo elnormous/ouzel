@@ -87,7 +87,7 @@ namespace ouzel
 
                 if (!textureD3D11->getTexture())
                 {
-                    log("Direct3D 11 texture not initialized");
+                    log(LOG_LEVEL_ERROR, "Direct3D 11 texture not initialized");
                     return false;
                 }
                 
@@ -107,7 +107,7 @@ namespace ouzel
                     HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(textureD3D11->getTexture(), &renderTargetViewDesc, &renderTargetView);
                     if (FAILED(hr))
                     {
-                        log("Failed to create Direct3D 11 render target view");
+                        log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 render target view");
                         return false;
                     }
                 }

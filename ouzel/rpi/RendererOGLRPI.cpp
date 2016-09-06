@@ -19,7 +19,7 @@ namespace ouzel
             {
                 if (!eglDestroySurface(display, surface))
                 {
-                    log("Failed to destroy EGL surface");
+                    log(LOG_LEVEL_ERROR, "Failed to destroy EGL surface");
                 }
             }
 
@@ -27,7 +27,7 @@ namespace ouzel
             {
                 if (!eglDestroyContext(display, context))
                 {
-                    log("Failed to destroy EGL context");
+                    log(LOG_LEVEL_ERROR, "Failed to destroy EGL context");
                 }
             }
 
@@ -35,7 +35,7 @@ namespace ouzel
             {
                 if (!eglTerminate(display))
                 {
-                    log("Failed to terminate EGL");
+                    log(LOG_LEVEL_ERROR, "Failed to terminate EGL");
                 }
             }
 
@@ -48,7 +48,7 @@ namespace ouzel
             {
                 if (!eglDestroySurface(display, surface))
                 {
-                    log("Failed to destroy EGL surface");
+                    log(LOG_LEVEL_ERROR, "Failed to destroy EGL surface");
                 }
                 surface = 0;
             }
@@ -57,7 +57,7 @@ namespace ouzel
             {
                 if (!eglDestroyContext(display, context))
                 {
-                    log("Failed to destroy EGL context");
+                    log(LOG_LEVEL_ERROR, "Failed to destroy EGL context");
                 }
                 context = 0;
             }
@@ -66,7 +66,7 @@ namespace ouzel
             {
                 if (!eglTerminate(display))
                 {
-                    log("Failed to terminate EGL");
+                    log(LOG_LEVEL_ERROR, "Failed to terminate EGL");
                 }
                 display = 0;
             }
@@ -85,13 +85,13 @@ namespace ouzel
 
             if (!display)
             {
-                log("Failed to get display");
+                log(LOG_LEVEL_ERROR, "Failed to get display");
                 return false;
             }
 
             if (!eglInitialize(display, NULL, NULL))
             {
-                log("Failed to initialize EGL");
+                log(LOG_LEVEL_ERROR, "Failed to initialize EGL");
                 return false;
             }
 
@@ -108,13 +108,13 @@ namespace ouzel
             EGLint numConfig;
             if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
             {
-                log("Failed to choose EGL config");
+                log(LOG_LEVEL_ERROR, "Failed to choose EGL config");
                 return false;
             }
 
             if (!eglBindAPI(EGL_OPENGL_ES_API))
             {
-                log("Failed to bind OpenGL ES API");
+                log(LOG_LEVEL_ERROR, "Failed to bind OpenGL ES API");
                 return false;
             }
 
@@ -128,7 +128,7 @@ namespace ouzel
 
             if (context == EGL_NO_CONTEXT)
             {
-                log("Failed to create EGL context");
+                log(LOG_LEVEL_ERROR, "Failed to create EGL context");
                 return false;
             }
 
@@ -140,7 +140,7 @@ namespace ouzel
 
             if (success == -1)
             {
-                log("Failed to get display size");
+                log(LOG_LEVEL_ERROR, "Failed to get display size");
                 return false;
             }
 
@@ -173,19 +173,19 @@ namespace ouzel
             surface = eglCreateWindowSurface(display, config, &nativewindow, NULL);
             if (surface == EGL_NO_SURFACE)
             {
-                log("Failed to create EGL window surface");
+                log(LOG_LEVEL_ERROR, "Failed to create EGL window surface");
                 return false;
             }
 
             if (!eglMakeCurrent(display, surface, surface, context))
             {
-                log("Failed to set current EGL context");
+                log(LOG_LEVEL_ERROR, "Failed to set current EGL context");
                 return false;
             }
 
             if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
             {
-                log("Failed to set EGL frame interval");
+                log(LOG_LEVEL_ERROR, "Failed to set EGL frame interval");
                 return false;
             }
 

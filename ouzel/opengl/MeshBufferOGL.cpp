@@ -69,7 +69,7 @@ namespace ouzel
             {
                 if (!vertexBufferId)
                 {
-                    log("Vertex buffer not initialized");
+                    log(LOG_LEVEL_ERROR, "Vertex buffer not initialized");
                     return false;
                 }
 
@@ -98,13 +98,13 @@ namespace ouzel
 
                 if (RendererOGL::checkOpenGLError())
                 {
-                    log("Failed to update vertex attributes");
+                    log(LOG_LEVEL_ERROR, "Failed to update vertex attributes");
                     return false;
                 }
 
                 if (!indexBufferId)
                 {
-                    log("Index buffer not initialized");
+                    log(LOG_LEVEL_ERROR, "Index buffer not initialized");
                     return false;
                 }
 
@@ -136,7 +136,7 @@ namespace ouzel
                         default:
                             indexFormat = 0;
                             bytesPerIndex = 0;
-                            log("Invalid index size");
+                            log(LOG_LEVEL_ERROR, "Invalid index size");
                             return false;
                     }
 
@@ -178,7 +178,7 @@ namespace ouzel
 
                         if (RendererOGL::checkOpenGLError())
                         {
-                            log("Failed to upload index data");
+                            log(LOG_LEVEL_ERROR, "Failed to upload index data");
                             return false;
                         }
                     }
@@ -245,7 +245,7 @@ namespace ouzel
                     
                     if (offset != uploadData.vertexSize)
                     {
-                        log("Invalid vertex size");
+                        log(LOG_LEVEL_ERROR, "Invalid vertex size");
                         return false;
                     }
 
@@ -274,7 +274,7 @@ namespace ouzel
 
                         if (RendererOGL::checkOpenGLError())
                         {
-                            log("Failed to update vertex attributes");
+                            log(LOG_LEVEL_ERROR, "Failed to update vertex attributes");
                             return false;
                         }
                     }
@@ -301,7 +301,7 @@ namespace ouzel
 
                         if (RendererOGL::checkOpenGLError())
                         {
-                            log("Failed to create vertex data");
+                            log(LOG_LEVEL_ERROR, "Failed to create vertex data");
                             return false;
                         }
                     }

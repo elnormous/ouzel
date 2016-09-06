@@ -159,7 +159,7 @@ namespace ouzel
             }
             else
             {
-                log("Failed to select render driver");
+                log(LOG_LEVEL_ERROR, "Failed to select render driver");
                 return false;
             }
         }
@@ -203,12 +203,12 @@ namespace ouzel
         switch (settings.renderDriver)
         {
             case graphics::Renderer::Driver::NONE:
-                log("Not using render driver");
+                log(LOG_LEVEL_ERROR, "Not using render driver");
                 renderer.reset(new graphics::Renderer());
                 break;
 #if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
             case graphics::Renderer::Driver::OPENGL:
-                log("Using OpenGL render driver");
+                log(LOG_LEVEL_ERROR, "Using OpenGL render driver");
     #if OUZEL_PLATFORM_MACOS
                 renderer.reset(new graphics::RendererOGLMacOS());
     #elif OUZEL_PLATFORM_IOS
@@ -226,18 +226,18 @@ namespace ouzel
 #endif
 #if OUZEL_SUPPORTS_DIRECT3D11
             case graphics::Renderer::Driver::DIRECT3D11:
-                log("Using Direct3D 11 render driver");
+                log(LOG_LEVEL_ERROR, "Using Direct3D 11 render driver");
                 renderer.reset(new graphics::RendererD3D11());
                 break;
 #endif
 #if OUZEL_SUPPORTS_METAL
             case graphics::Renderer::Driver::METAL:
-                log("Using Metal render driver");
+                log(LOG_LEVEL_ERROR, "Using Metal render driver");
                 renderer.reset(new graphics::RendererMetal());
                 break;
 #endif
             default:
-                log("Unsupported render driver");
+                log(LOG_LEVEL_ERROR, "Unsupported render driver");
                 return false;
         }
 
@@ -272,7 +272,7 @@ namespace ouzel
             }
             else
             {
-                log("Failed to select render driver");
+                log(LOG_LEVEL_ERROR, "Failed to select audio driver");
                 return false;
             }
         }
@@ -280,12 +280,12 @@ namespace ouzel
         switch (settings.audioDriver)
         {
             case audio::Audio::Driver::NONE:
-                log("Not using audio driver");
+                log(LOG_LEVEL_ERROR, "Not using audio driver");
                 audio.reset(new audio::Audio());
                 break;
 #if OUZEL_SUPPORTS_OPENAL
             case audio::Audio::Driver::OPENAL:
-                log("Using OpenAL audio driver");
+                log(LOG_LEVEL_ERROR, "Using OpenAL audio driver");
     #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                 audio.reset(new audio::AudioALApple());
     #else
@@ -295,18 +295,18 @@ namespace ouzel
 #endif
 #if OUZEL_SUPPORTS_XAUDIO2
             case audio::Audio::Driver::XAUDIO2:
-                log("Using XAudio 2 audio driver");
+                log(LOG_LEVEL_ERROR, "Using XAudio 2 audio driver");
                 audio.reset(new audio::AudioXA2());
                 break;
 #endif
 #if OUZEL_SUPPORTS_OPENSL
             case audio::Audio::Driver::OPENSL:
-                log("Using OpenSL ES audio driver");
+                log(LOG_LEVEL_ERROR, "Using OpenSL ES audio driver");
                 audio.reset(new audio::AudioSL());
                 break;
 #endif
             default:
-                log("Unsupported render driver");
+                log(LOG_LEVEL_ERROR, "Unsupported audio driver");
                 return false;
         }
 

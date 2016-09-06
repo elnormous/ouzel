@@ -75,29 +75,29 @@ namespace ouzel
             if (context)
             {
                 apiVersion = 3;
-                log("Using OpenGL ES 3");
+                log(LOG_LEVEL_INFO, "Using OpenGL ES 3");
             }
             else
             {
-                log("Failed to create OpenGL ES 3 rendering context");
+                log(LOG_LEVEL_INFO, "Failed to create OpenGL ES 3 rendering context");
 
                 context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
                 if (context)
                 {
                     apiVersion = 2;
-                    log("Using OpenGL ES 2");
+                    log(LOG_LEVEL_INFO, "Using OpenGL ES 2");
                 }
                 else
                 {
-                    ouzel::log("Failed to initialize OpenGL ES 2 rendering context");
+                    log(LOG_LEVEL_ERROR, "Failed to initialize OpenGL ES 2 rendering context");
                     return false;
                 }
             }
 
             if (![EAGLContext setCurrentContext:context])
             {
-                ouzel::log("Failed to set current OpenGL rendering context");
+                log(LOG_LEVEL_ERROR, "Failed to set current OpenGL rendering context");
                 return false;
             }
 
@@ -157,7 +157,7 @@ namespace ouzel
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             {
-                log("Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+                log(LOG_LEVEL_ERROR, "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
                 return false;
             }
 
@@ -168,7 +168,7 @@ namespace ouzel
         {
             if (![EAGLContext setCurrentContext:context])
             {
-                ouzel::log("Failed to set current OpenGL context");
+                log(LOG_LEVEL_ERROR, "Failed to set current OpenGL context");
             }
 
             if (!RendererOGL::present())

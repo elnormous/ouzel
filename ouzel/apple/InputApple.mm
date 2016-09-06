@@ -387,7 +387,7 @@ namespace ouzel
 
         void InputApple::startGamepadDiscovery()
         {
-            log("Started gamepad discovery");
+            log(LOG_LEVEL_INFO, "Started gamepad discovery");
 
             discovering = true;
 
@@ -400,7 +400,7 @@ namespace ouzel
 
         void InputApple::stopGamepadDiscovery()
         {
-            log("Stopped gamepad discovery");
+            log(LOG_LEVEL_INFO, "Stopped gamepad discovery");
 
             if (discovering)
             {
@@ -449,7 +449,7 @@ namespace ouzel
 
         void InputApple::handleGamepadDiscoveryCompleted()
         {
-            log("Gamepad discovery completed");
+            log(LOG_LEVEL_INFO, "Gamepad discovery completed");
             discovering = false;
         }
 

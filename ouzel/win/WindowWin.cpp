@@ -254,7 +254,7 @@ namespace ouzel
         windowClass = RegisterClassExW(&wc);
         if (!windowClass)
         {
-            log("Failed to register window class");
+            log(LOG_LEVEL_ERROR, "Failed to register window class");
             return false;
         }
 
@@ -295,7 +295,7 @@ namespace ouzel
 
         if (!window)
         {
-            log("Failed to create window");
+            log(LOG_LEVEL_ERROR, "Failed to create window");
             return false;
         }
 

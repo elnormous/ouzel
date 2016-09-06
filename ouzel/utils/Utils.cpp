@@ -28,7 +28,7 @@ namespace ouzel
 #endif
     static char TEMP_BUFFER[1024];
 
-    void log(const char* format, ...)
+    void log(LogLevel level, const char* format, ...)
     {
         va_list list;
         va_start(list, format);

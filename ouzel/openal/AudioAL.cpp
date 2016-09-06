@@ -31,7 +31,7 @@ namespace ouzel
                         case ALC_OUT_OF_MEMORY: errorStr = "ALC_OUT_OF_MEMORY"; break;
                     }
 
-                    log("OpenAL error: %s (%x)", errorStr, error);
+                    log(LOG_LEVEL_ERROR, "OpenAL error: %s (%x)", errorStr, error);
                 }
 
                 return true;
@@ -59,7 +59,7 @@ namespace ouzel
                         case AL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
                     }
 
-                    log("OpenAL error: %s (%x)", errorStr, error);
+                    log(LOG_LEVEL_ERROR, "OpenAL error: %s (%x)", errorStr, error);
                 }
 
                 return true;
@@ -97,7 +97,7 @@ namespace ouzel
 
                 if (checkOpenALError())
                 {
-                    log("Failed to delete OpenAL context");
+                    log(LOG_LEVEL_ERROR, "Failed to delete OpenAL context");
                 }
             }
 
@@ -108,7 +108,7 @@ namespace ouzel
 
                 if (checkOpenALError())
                 {
-                    log("Failed to close OpenAL device");
+                    log(LOG_LEVEL_ERROR, "Failed to close OpenAL device");
                 }
             }
         }
@@ -126,14 +126,14 @@ namespace ouzel
 
             if (deviceName)
             {
-                log("Using %s for audio", deviceName);
+                log(LOG_LEVEL_INFO, "Using %s for audio", deviceName);
             }
 
             device = alcOpenDevice(deviceName);
 
             if (!device || checkALCError())
             {
-                log("Failed to create OpenAL device");
+                log(LOG_LEVEL_ERROR, "Failed to create OpenAL device");
                 return false;
             }
 
@@ -141,7 +141,7 @@ namespace ouzel
 
             if (checkALCError())
             {
-                log("Failed to create OpenAL context");
+                log(LOG_LEVEL_ERROR, "Failed to create OpenAL context");
                 return false;
             }
 
@@ -149,7 +149,7 @@ namespace ouzel
 
             if (checkALCError())
             {
-                log("Failed to make OpenAL context current");
+                log(LOG_LEVEL_ERROR, "Failed to make OpenAL context current");
                 return false;
             }
 

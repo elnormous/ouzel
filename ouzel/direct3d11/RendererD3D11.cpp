@@ -157,7 +157,7 @@ namespace ouzel
 
             if (FAILED(hr))
             {
-                log("Failed to create the Direct3D 11 device");
+                log(LOG_LEVEL_ERROR, "Failed to create the Direct3D 11 device");
                 return false;
             }
 
@@ -169,7 +169,7 @@ namespace ouzel
             hr = adapter->GetParent(IID_IDXGIFactory, (void**)&factory);
             if (FAILED(hr))
             {
-                log("Failed to get the DXGI factory");
+                log(LOG_LEVEL_ERROR, "Failed to get the DXGI factory");
                 return false;
             }
 
@@ -177,13 +177,13 @@ namespace ouzel
             hr = adapter->GetDesc(&adapterDesc);
             if (FAILED(hr))
             {
-                log("Failed to get the DXGI adapter description");
+                log(LOG_LEVEL_ERROR, "Failed to get the DXGI adapter description");
             }
             else
             {
                 char deviceName[256];
                 WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, deviceName, sizeof(deviceName), nullptr, nullptr);
-                log("Using %s for rendering", deviceName);
+                log(LOG_LEVEL_INFO, "Using %s for rendering", deviceName);
             }
 
             std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(window);
@@ -215,7 +215,7 @@ namespace ouzel
             hr = factory->CreateSwapChain(device, &swapChainDesc, &swapChain);
             if (FAILED(hr))
             {
-                log("Failed to create the Direct3D 11 swap chain");
+                log(LOG_LEVEL_ERROR, "Failed to create the Direct3D 11 swap chain");
                 return false;
             }
 
@@ -228,14 +228,14 @@ namespace ouzel
             hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer));
             if (FAILED(hr))
             {
-                log("Failed to retrieve Direct3D 11 backbuffer");
+                log(LOG_LEVEL_ERROR, "Failed to retrieve Direct3D 11 backbuffer");
                 return false;
             }
 
             hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
             if (FAILED(hr))
             {
-                log("Failed to create Direct3D 11 render target view");
+                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 render target view");
                 return false;
             }
 
@@ -276,7 +276,7 @@ namespace ouzel
             hr = device->CreateSamplerState(&samplerStateDesc, &samplerState);
             if (FAILED(hr))
             {
-                log("Failed to create Direct3D 11 sampler state");
+                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 sampler state");
                 return false;
             }
 
@@ -296,7 +296,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[0]);
             if (FAILED(hr))
             {
-                log("Failed to create Direct3D 11 rasterizer state");
+                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 rasterizer state");
                 return false;
             }
 
@@ -307,7 +307,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[1]);
             if (FAILED(hr))
             {
-                log("Failed to create Direct3D 11 rasterizer state");
+                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 rasterizer state");
                 return false;
             }
 
@@ -318,7 +318,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[2]);
             if (FAILED(hr))
             {
-                log("Failed to create Direct3D 11 rasterizer state");
+                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 rasterizer state");
                 return false;
             }
 
@@ -329,7 +329,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[3]);
             if (FAILED(hr))
             {
-                log("Failed to create Direct3D 11 rasterizer state");
+                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 rasterizer state");
                 return false;
             }
 
@@ -341,7 +341,7 @@ namespace ouzel
             hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState);
             if (FAILED(hr))
             {
-                log("Failed to create Direct3D 11 depth stencil state");
+                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 depth stencil state");
                 return false;
             }
 
@@ -447,14 +447,14 @@ namespace ouzel
                     HRESULT hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
                     if (FAILED(hr))
                     {
-                        log("Failed to retrieve Direct3D 11 backbuffer");
+                        log(LOG_LEVEL_ERROR, "Failed to retrieve Direct3D 11 backbuffer");
                         return false;
                     }
 
                     hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
                     if (FAILED(hr))
                     {
-                        log("Failed to create Direct3D 11 render target view");
+                        log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 render target view");
                         return false;
                     }
 
@@ -599,7 +599,7 @@ namespace ouzel
 
                 if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                 {
-                    log("Invalid pixel shader constant size");
+                    log(LOG_LEVEL_ERROR, "Invalid pixel shader constant size");
                     return false;
                 }
 
@@ -612,7 +612,7 @@ namespace ouzel
 
                     if (vectorDataSize(pixelShaderConstant) != pixelShaderConstantLocation.size)
                     {
-                        log("Invalid pixel shader constant size");
+                        log(LOG_LEVEL_ERROR, "Invalid pixel shader constant size");
                         return false;
                     }
 
@@ -631,7 +631,7 @@ namespace ouzel
 
                 if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                 {
-                    log("Invalid vertex shader constant size");
+                    log(LOG_LEVEL_ERROR, "Invalid vertex shader constant size");
                     return false;
                 }
 
@@ -644,7 +644,7 @@ namespace ouzel
                     
                     if (vectorDataSize(vertexShaderConstant) != vertexShaderConstantLocation.size)
                     {
-                        log("Invalid pixel shader constant size");
+                        log(LOG_LEVEL_ERROR, "Invalid pixel shader constant size");
                         return false;
                     }
 
@@ -727,7 +727,7 @@ namespace ouzel
                     case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
                     case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
                     case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
-                    default: log("Invalid draw mode");  return false;
+                    default: log(LOG_LEVEL_ERROR, "Invalid draw mode");  return false;
                 }
 
                 context->IASetPrimitiveTopology(topology);
@@ -753,7 +753,7 @@ namespace ouzel
 
             if (!monitor)
             {
-                log("Window is not on any monitor");
+                log(LOG_LEVEL_ERROR, "Window is not on any monitor");
                 return nullptr;
             }
 
@@ -795,7 +795,7 @@ namespace ouzel
             HRESULT hr = output->GetDisplayModeList(format, 0, &numModes, nullptr);
             if (FAILED(hr))
             {
-                log("Failed to get display mode list");
+                log(LOG_LEVEL_ERROR, "Failed to get display mode list");
                 output->Release();
             }
 
@@ -931,7 +931,7 @@ namespace ouzel
 
                 if (FAILED(hr))
                 {
-                    log("Failed to get Direct3D 11 back buffer texture");
+                    log(LOG_LEVEL_ERROR, "Failed to get Direct3D 11 back buffer texture");
                     return false;
                 }
 
@@ -952,7 +952,7 @@ namespace ouzel
 
                 if (FAILED(hr))
                 {
-                    log("Failed to create Direct3D 11 texture");
+                    log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 texture");
                     return false;
                 }
 
@@ -967,7 +967,7 @@ namespace ouzel
                     if (FAILED(hr))
                     {
                         texture->Release();
-                        log("Failed to create Direct3D 11 texture");
+                        log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 texture");
                         return false;
                     }
 
@@ -994,7 +994,7 @@ namespace ouzel
                 if (FAILED(hr))
                 {
                     texture->Release();
-                    log("Failed to map Direct3D 11 resource");
+                    log(LOG_LEVEL_ERROR, "Failed to map Direct3D 11 resource");
                     return false;
                 }
 
@@ -1002,7 +1002,7 @@ namespace ouzel
                 {
                     context->Unmap(texture, 0);
                     texture->Release();
-                    log("Failed to save screenshot to file");
+                    log(LOG_LEVEL_ERROR, "Failed to save screenshot to file");
                     return false;
                 }
 

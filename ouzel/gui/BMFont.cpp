@@ -35,7 +35,7 @@ namespace ouzel
     {
         if (!parseFont(filename))
         {
-            log("Failed to parse font %s",filename.c_str());
+            log(LOG_LEVEL_ERROR, "Failed to parse font %s",filename.c_str());
         }
 
         kernCount = static_cast<uint16_t>(kern.size());
@@ -62,7 +62,7 @@ namespace ouzel
 
         if (!stream)
         {
-            log("Failed to open font file %s", filename.c_str());
+            log(LOG_LEVEL_ERROR, "Failed to open font file %s", filename.c_str());
             return false;
         }
 

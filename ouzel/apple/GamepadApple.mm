@@ -184,7 +184,7 @@ namespace ouzel
         {
             if (playerIndex < -1 || playerIndex > 3)
             {
-                log("Invalid player index");
+                log(LOG_LEVEL_ERROR, "Invalid player index");
                 return false;
             }
 

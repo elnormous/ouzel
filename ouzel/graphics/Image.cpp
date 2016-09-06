@@ -45,7 +45,7 @@ namespace ouzel
 
             if (!tempData)
             {
-                log("Failed to open texture file %s, reason: %s", filename.c_str(), stbi_failure_reason());
+                log(LOG_LEVEL_ERROR, "Failed to open texture file %s, reason: %s", filename.c_str(), stbi_failure_reason());
                 return false;
             }
 

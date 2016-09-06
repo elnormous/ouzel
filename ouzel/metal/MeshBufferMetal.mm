@@ -71,7 +71,7 @@ namespace ouzel
                             break;
                         default:
                             bytesPerIndex = 0;
-                            log("Invalid index size");
+                            log(LOG_LEVEL_ERROR, "Invalid index size");
                             return false;
                     }
 
@@ -93,7 +93,7 @@ namespace ouzel
 
                             if (!indexBuffer)
                             {
-                                log("Failed to create Metal index buffer");
+                                log(LOG_LEVEL_ERROR, "Failed to create Metal index buffer");
                                 return false;
                             }
                         }
@@ -122,7 +122,7 @@ namespace ouzel
 
                             if (!vertexBuffer)
                             {
-                                log("Failed to create Metal vertex buffer");
+                                log(LOG_LEVEL_ERROR, "Failed to create Metal vertex buffer");
                                 return false;
                             }
                         }

@@ -64,7 +64,7 @@ namespace ouzel
         }
         else
         {
-            log("Wrong magic %x", magic);
+            log(LOG_LEVEL_ERROR, "Wrong magic %x", magic);
             return false;
         }
 
@@ -73,7 +73,7 @@ namespace ouzel
 
         if (revision != 0)
         {
-            log("Unsupported revision %d", revision);
+            log(LOG_LEVEL_ERROR, "Unsupported revision %d", revision);
             return false;
         }
 

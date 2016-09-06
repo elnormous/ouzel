@@ -138,7 +138,7 @@ namespace ouzel
                 view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
             default:
-                log("Unsupported render driver");
+                log(LOG_LEVEL_ERROR, "Unsupported render driver");
                 return false;
         }
 
