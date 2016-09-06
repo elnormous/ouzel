@@ -142,7 +142,7 @@ namespace ouzel
                     return false;
                 }
 #else
-                log(LOG_WARNING, "Multisample anti-aliasing is disabled for OpenGL");
+                log(LOG_LEVEL_WARNING, "Multisample anti-aliasing is disabled for OpenGL");
 #endif
             }
 
