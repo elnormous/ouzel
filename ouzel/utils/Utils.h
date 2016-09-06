@@ -51,6 +51,7 @@ namespace ouzel
         LOG_LEVEL_VERBOSE
     };
 
+    void setLogLevel(LogLevel level);
     void log(LogLevel level, const char* format, ...);
 
     uint32_t random(uint32_t min = 0, uint32_t max = std::numeric_limits<uint32_t>::max());

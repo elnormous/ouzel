@@ -28,28 +28,42 @@ namespace ouzel
 #endif
     static char TEMP_BUFFER[1024];
 
+#ifdef DEBUG
+    static LogLevel logLevel = LOG_LEVEL_VERBOSE;
+#else
+    static LogLevel logLevel = LOG_LEVEL_INFO;
+#endif
+
+    void setLogLevel(LogLevel level)
+    {
+        logLevel = level;
+    }
+
     void log(LogLevel level, const char* format, ...)
     {
-        va_list list;
-        va_start(list, format);
+        if (level <= logLevel)
+        {
+            va_list list;
+            va_start(list, format);
 
-        vsprintf(TEMP_BUFFER, format, list);
+            vsprintf(TEMP_BUFFER, format, list);
 
-        va_end(list);
+            va_end(list);
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
-        printf("%s\n", TEMP_BUFFER);
+            printf("%s\n", TEMP_BUFFER);
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        syslog(LOG_WARNING, "%s", TEMP_BUFFER);
-        printf("%s\n", TEMP_BUFFER);
+            syslog(LOG_WARNING, "%s", TEMP_BUFFER);
+            printf("%s\n", TEMP_BUFFER);
 #elif OUZEL_PLATFORM_WINDOWS
-        wchar_t szBuffer[MAX_PATH];
-        MultiByteToWideChar(CP_UTF8, 0, TEMP_BUFFER, -1, szBuffer, MAX_PATH);
-        StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
-        OutputDebugString(szBuffer);
+            wchar_t szBuffer[MAX_PATH];
+            MultiByteToWideChar(CP_UTF8, 0, TEMP_BUFFER, -1, szBuffer, MAX_PATH);
+            StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
+            OutputDebugString(szBuffer);
 #elif OUZEL_PLATFORM_ANDROID
-        __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", TEMP_BUFFER);
+            __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", TEMP_BUFFER);
 #endif
+        }
     }
 
     static std::mt19937 engine(std::random_device{}());
