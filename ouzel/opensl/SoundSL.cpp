@@ -13,7 +13,7 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
 
     if ((*bufferQueue)->Enqueue(bufferQueue, sound->getSoundData()->getData().data(), sound->getSoundData()->getData().size()) != SL_RESULT_SUCCESS)
     {
-        ouzel::log(LOG_LEVEL_ERROR, "Failed to enqueue OpenSL data");
+        ouzel::log(ouzel::LOG_LEVEL_ERROR, "Failed to enqueue OpenSL data");
     }
     
     if (!sound->isRepeating())
@@ -22,7 +22,7 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
 
         if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
         {
-            ouzel::log(LOG_LEVEL_ERROR, "Failed to stop sound");
+            ouzel::log(ouzel::LOG_LEVEL_ERROR, "Failed to stop sound");
         }
     }
 }
