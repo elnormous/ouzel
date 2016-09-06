@@ -256,7 +256,7 @@ namespace ouzel
                 event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(event);
+                sharedEngine->getEventDispatcher()->postEvent(event);
             }
         }
 
@@ -270,7 +270,7 @@ namespace ouzel
                 event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(event);
+                sharedEngine->getEventDispatcher()->postEvent(event);
             }
 
             pointerOnNodes.erase(pointerId);
@@ -288,7 +288,7 @@ namespace ouzel
                 event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(event);
+                sharedEngine->getEventDispatcher()->postEvent(event);
             }
         }
 
@@ -304,7 +304,7 @@ namespace ouzel
                 releaseEvent.uiEvent.node = pointerDownOnNode;
                 releaseEvent.uiEvent.position = pointerDownOnNode->convertWorldToLocal(position);
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(releaseEvent);
+                sharedEngine->getEventDispatcher()->postEvent(releaseEvent);
 
                 if (pointerDownOnNode == node)
                 {
@@ -314,7 +314,7 @@ namespace ouzel
                     clickEvent.uiEvent.node = pointerDownOnNode;
                     clickEvent.uiEvent.position = pointerDownOnNode->convertWorldToLocal(position);
 
-                    sharedEngine->getEventDispatcher()->dispatchEvent(clickEvent);
+                    sharedEngine->getEventDispatcher()->postEvent(clickEvent);
                 }
             }
 
@@ -331,7 +331,7 @@ namespace ouzel
                 event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
                 
-                sharedEngine->getEventDispatcher()->dispatchEvent(event);
+                sharedEngine->getEventDispatcher()->postEvent(event);
             }
         }
     } // namespace scene

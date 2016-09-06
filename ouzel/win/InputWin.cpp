@@ -221,7 +221,7 @@ namespace ouzel
 
                         event.gamepadEvent.gamepad = gamepads[i];
 
-                        sharedEngine->getEventDispatcher()->dispatchEvent(event);
+                        sharedEngine->getEventDispatcher()->postEvent(event);
                     }
 
                     gamepads[i]->update(state);
@@ -235,7 +235,7 @@ namespace ouzel
 
                         event.gamepadEvent.gamepad = gamepads[i];
 
-                        sharedEngine->getEventDispatcher()->dispatchEvent(event);
+                        sharedEngine->getEventDispatcher()->postEvent(event);
 
                         gamepads[i].reset();
                     }

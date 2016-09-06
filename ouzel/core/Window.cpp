@@ -45,7 +45,7 @@ namespace ouzel
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event);
+            sharedEngine->getEventDispatcher()->postEvent(event);
         }
     }
 
@@ -65,7 +65,7 @@ namespace ouzel
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event);
+            sharedEngine->getEventDispatcher()->postEvent(event);
         }
     }
 
@@ -83,7 +83,7 @@ namespace ouzel
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event);
+            sharedEngine->getEventDispatcher()->postEvent(event);
         }
     }
 }

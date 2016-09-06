@@ -130,7 +130,7 @@ namespace ouzel
                         clickEvent.uiEvent.node = selectedWidget;
                         clickEvent.uiEvent.position = selectedWidget->getPosition();
 
-                        sharedEngine->getEventDispatcher()->dispatchEvent(clickEvent);
+                        sharedEngine->getEventDispatcher()->postEvent(clickEvent);
                     }
                 }
             }

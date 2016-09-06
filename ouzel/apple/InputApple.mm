@@ -463,7 +463,7 @@ namespace ouzel
 
             event.gamepadEvent.gamepad = gamepad;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event);
+            sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
         void InputApple::handleGamepadDisconnected(id controller)
@@ -479,7 +479,7 @@ namespace ouzel
 
                 event.gamepadEvent.gamepad = *i;
 
-                sharedEngine->getEventDispatcher()->dispatchEvent(event);
+                sharedEngine->getEventDispatcher()->postEvent(event);
 
                 gamepads.erase(i);
             }

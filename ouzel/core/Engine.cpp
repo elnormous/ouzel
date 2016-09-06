@@ -362,7 +362,7 @@ namespace ouzel
 
                 float delta = diff.count() / 1000000000.0f;
 
-                eventDispatcher->update();
+                eventDispatcher->dispatchEvents();
 
                 if (sharedEngine->getRenderer()->getRefillDrawQueue())
                 {

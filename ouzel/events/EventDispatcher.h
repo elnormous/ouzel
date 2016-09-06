@@ -23,12 +23,12 @@ namespace ouzel
     public:
         virtual ~EventDispatcher();
 
-        void update();
+        void dispatchEvents();
 
         void addEventHandler(const EventHandler& eventHandler);
         void removeEventHandler(const EventHandler& eventHandler);
 
-        void dispatchEvent(const Event& event);
+        void postEvent(const Event& event);
 
     protected:
         EventDispatcher();

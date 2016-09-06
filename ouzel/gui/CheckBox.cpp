@@ -126,7 +126,7 @@ namespace ouzel
                     Event changeEvent;
                     changeEvent.type = Event::Type::UI_WIDGET_CHANGE;
                     changeEvent.uiEvent.node = std::static_pointer_cast<Node>(shared_from_this());
-                    sharedEngine->getEventDispatcher()->dispatchEvent(changeEvent);
+                    sharedEngine->getEventDispatcher()->postEvent(changeEvent);
                 }
             }
 

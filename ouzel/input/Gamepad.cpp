@@ -55,7 +55,7 @@ namespace ouzel
             event.gamepadEvent.pressed = pressed;
             event.gamepadEvent.value = value;
 
-            sharedEngine->getEventDispatcher()->dispatchEvent(event);
+            sharedEngine->getEventDispatcher()->postEvent(event);
 
             buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
             buttonStates[static_cast<uint32_t>(button)].value = value;

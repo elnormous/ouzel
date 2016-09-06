@@ -14,7 +14,7 @@ namespace ouzel
     {
     }
 
-    void EventDispatcher::update()
+    void EventDispatcher::dispatchEvents()
     {
         Event event;
 
@@ -161,7 +161,7 @@ namespace ouzel
         }
     }
 
-    void EventDispatcher::dispatchEvent(const Event& event)
+    void EventDispatcher::postEvent(const Event& event)
     {
         std::lock_guard<std::mutex> lock(queueMutex);
 
