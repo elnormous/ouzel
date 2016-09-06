@@ -714,7 +714,7 @@ namespace ouzel
                 // reset framebuffer
 #if OUZEL_PLATFORM_MACOS
                 glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBufferId);
-                RendererOGL::currentFrameBufferId = frameBufferId;
+                stateCache.frameBufferId = frameBufferId;
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 
                 const GLenum discard[] = { GL_COLOR_ATTACHMENT0 /*, GL_DEPTH_ATTACHMENT */ };
@@ -726,7 +726,7 @@ namespace ouzel
                     return false;
                 }
 
-                RendererOGL::currentFrameBufferId = 0;
+                stateCache.frameBufferId = 0;
 
                 glBindRenderbuffer(GL_RENDERBUFFER, frameBufferId);
 
@@ -903,38 +903,7 @@ namespace ouzel
             return true;
         }
 
-        GLuint RendererOGL::currentTextureId[Texture::LAYERS] = { 0 };
-        GLuint RendererOGL::currentProgramId = 0;
-        GLuint RendererOGL::currentFrameBufferId = 0;
-
-        GLuint RendererOGL::currentElementArrayBufferId = 0;
-        GLuint RendererOGL::currentArrayBufferId = 0;
-        GLuint RendererOGL::currentVertexArrayId = 0;
-
-        bool RendererOGL::currentBlendEnabled = false;
-        GLenum RendererOGL::currentBlendModeRGB = 0;
-        GLenum RendererOGL::currentBlendModeAlpha = 0;
-        GLenum RendererOGL::currentBlendSourceFactorRGB = 0;
-        GLenum RendererOGL::currentBlendDestFactorRGB = 0;
-        GLenum RendererOGL::currentBlendSourceFactorAlpha = 0;
-        GLenum RendererOGL::currentBlendDestFactorAlpha = 0;
-
-#ifdef OUZEL_SUPPORTS_OPENGL
-        GLenum RendererOGL::currentPolygonFillMode = GL_FILL;
-#endif
-
-        bool RendererOGL::currentScissorTestEnabled = false;
-        GLint RendererOGL::currentScissorX = 0;
-        GLint RendererOGL::currentScissorY = 0;
-        GLsizei RendererOGL::currentScissorWidth = 0;
-        GLsizei RendererOGL::currentScissorHeight = 0;
-
-        bool RendererOGL::currentDepthTestEnabled = false;
-
-        GLint RendererOGL::currentViewportX = 0;
-        GLint RendererOGL::currentViewportY = 0;
-        GLsizei RendererOGL::currentViewportWidth = 0;
-        GLsizei RendererOGL::currentViewportHeight = 0;
+        RendererOGL::StateCache RendererOGL::stateCache;
         std::queue<std::pair<GLuint, RendererOGL::ResourceType>> RendererOGL::deleteQueue;
         std::mutex RendererOGL::deleteMutex;
 

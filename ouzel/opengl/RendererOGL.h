@@ -101,11 +101,11 @@ namespace ouzel
 
             static inline bool bindTexture(GLuint textureId, uint32_t layer)
             {
-                if (currentTextureId[layer] != textureId)
+                if (stateCache.textureId[layer] != textureId)
                 {
                     glActiveTexture(GL_TEXTURE0 + layer);
                     glBindTexture(GL_TEXTURE_2D, textureId);
-                    currentTextureId[layer] = textureId;
+                    stateCache.textureId[layer] = textureId;
 
                     if (checkOpenGLError())
                     {
@@ -119,10 +119,10 @@ namespace ouzel
 
             static inline bool useProgram(GLuint programId)
             {
-                if (currentProgramId != programId)
+                if (stateCache.programId != programId)
                 {
                     glUseProgram(programId);
-                    currentProgramId = programId;
+                    stateCache.programId = programId;
 
                     if (checkOpenGLError())
                     {
@@ -136,10 +136,10 @@ namespace ouzel
 
             static inline bool bindFrameBuffer(GLuint frameBufferId)
             {
-                if (currentFrameBufferId != frameBufferId)
+                if (stateCache.frameBufferId != frameBufferId)
                 {
                     glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
-                    currentFrameBufferId = frameBufferId;
+                    stateCache.frameBufferId = frameBufferId;
 
                     if (checkOpenGLError())
                     {
@@ -153,10 +153,10 @@ namespace ouzel
 
             static inline bool bindElementArrayBuffer(GLuint elementArrayBufferId)
             {
-                if (currentElementArrayBufferId != elementArrayBufferId)
+                if (stateCache.elementArrayBufferId != elementArrayBufferId)
                 {
                     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBufferId);
-                    currentElementArrayBufferId = elementArrayBufferId;
+                    stateCache.elementArrayBufferId = elementArrayBufferId;
 
                     if (checkOpenGLError())
                     {
@@ -170,10 +170,10 @@ namespace ouzel
 
             static inline bool bindArrayBuffer(GLuint arrayBufferId)
             {
-                if (currentArrayBufferId != arrayBufferId)
+                if (stateCache.arrayBufferId != arrayBufferId)
                 {
                     glBindBuffer(GL_ARRAY_BUFFER, arrayBufferId);
-                    currentArrayBufferId = arrayBufferId;
+                    stateCache.arrayBufferId = arrayBufferId;
 
                     if (checkOpenGLError())
                     {
@@ -187,7 +187,7 @@ namespace ouzel
 
             static inline bool bindVertexArray(GLuint vertexArrayId)
             {
-                if (currentVertexArrayId != vertexArrayId)
+                if (stateCache.vertexArrayId != vertexArrayId)
                 {
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                     glBindVertexArrayOES(vertexArrayId);
@@ -196,9 +196,9 @@ namespace ouzel
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
                     glBindVertexArray(vertexArrayId);
 #endif
-                    currentVertexArrayId = vertexArrayId;
-                    currentElementArrayBufferId = 0;
-                    currentArrayBufferId = 0;
+                    stateCache.vertexArrayId = vertexArrayId;
+                    stateCache.elementArrayBufferId = 0;
+                    stateCache.arrayBufferId = 0;
 
                     if (checkOpenGLError())
                     {
@@ -214,7 +214,7 @@ namespace ouzel
             {
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
-                    if (currentTextureId[layer] == textureId)
+                    if (stateCache.textureId[layer] == textureId)
                     {
                         bindTexture(0, layer);
                     }
@@ -225,7 +225,7 @@ namespace ouzel
 
             static inline bool unuseProgram(GLuint programId)
             {
-                if (currentProgramId == programId)
+                if (stateCache.programId == programId)
                 {
                     return useProgram(0);
                 }
@@ -235,7 +235,7 @@ namespace ouzel
 
             static inline bool unbindFrameBuffer(GLuint frameBufferId)
             {
-                if (currentFrameBufferId == frameBufferId)
+                if (stateCache.frameBufferId == frameBufferId)
                 {
                     return bindFrameBuffer(0);
                 }
@@ -245,7 +245,7 @@ namespace ouzel
 
             static inline bool unbindElementArrayBuffer(GLuint elementArrayBufferId)
             {
-                if (currentElementArrayBufferId == elementArrayBufferId)
+                if (stateCache.elementArrayBufferId == elementArrayBufferId)
                 {
                     return bindElementArrayBuffer(0);
                 }
@@ -255,7 +255,7 @@ namespace ouzel
 
             static inline bool unbindArrayBuffer(GLuint arrayBufferId)
             {
-                if (currentArrayBufferId == arrayBufferId)
+                if (stateCache.arrayBufferId == arrayBufferId)
                 {
                     return bindArrayBuffer(0);
                 }
@@ -265,7 +265,7 @@ namespace ouzel
 
             static inline bool unbindVertexArray(GLuint vertexArrayId)
             {
-                if (currentVertexArrayId == vertexArrayId)
+                if (stateCache.vertexArrayId == vertexArrayId)
                 {
                     return bindVertexArray(0);
                 }
@@ -279,7 +279,7 @@ namespace ouzel
                                               GLsizei width,
                                               GLsizei height)
             {
-                if (currentScissorTestEnabled != scissorTestEnabled)
+                if (stateCache.scissorTestEnabled != scissorTestEnabled)
                 {
                     if (scissorTestEnabled)
                     {
@@ -296,21 +296,21 @@ namespace ouzel
                         return false;
                     }
 
-                    currentScissorTestEnabled = scissorTestEnabled;
+                    stateCache.scissorTestEnabled = scissorTestEnabled;
                 }
 
                 if (scissorTestEnabled)
                 {
-                    if (x != currentScissorX ||
-                        y != currentScissorY ||
-                        width != currentScissorWidth ||
-                        height != currentScissorHeight)
+                    if (stateCache.scissorX != x ||
+                        stateCache.scissorY != y ||
+                        stateCache.scissorWidth != width ||
+                        stateCache.scissorHeight != height)
                     {
                         glScissor(x, y, width, height);
-                        currentScissorX = x;
-                        currentScissorY = y;
-                        currentScissorWidth = width;
-                        currentScissorHeight = height;
+                        stateCache.scissorX = x;
+                        stateCache.scissorY = y;
+                        stateCache.scissorWidth = width;
+                        stateCache.scissorHeight = height;
                     }
 
                     if (checkOpenGLError())
@@ -325,7 +325,7 @@ namespace ouzel
 
             static inline bool enableDepthTest(bool enable)
             {
-                if (currentDepthTestEnabled != enable)
+                if (stateCache.depthTestEnabled != enable)
                 {
                     if (enable)
                     {
@@ -342,7 +342,7 @@ namespace ouzel
                         return false;
                     }
 
-                    currentDepthTestEnabled = enable;
+                    stateCache.depthTestEnabled = enable;
                 }
                 
                 return true;
@@ -353,16 +353,16 @@ namespace ouzel
                                            GLsizei width,
                                            GLsizei height)
             {
-                if (x != currentViewportX ||
-                    y != currentViewportY ||
-                    width != currentViewportWidth ||
-                    height != currentViewportHeight)
+                if (stateCache.viewportX != x ||
+                    stateCache.viewportY != y ||
+                    stateCache.viewportWidth != width ||
+                    stateCache.viewportHeight != height)
                 {
                     glViewport(x, y, width, height);
-                    currentViewportX = x;
-                    currentViewportY = y;
-                    currentViewportWidth = width;
-                    currentViewportHeight = height;
+                    stateCache.viewportX = x;
+                    stateCache.viewportY = y;
+                    stateCache.viewportWidth = width;
+                    stateCache.viewportHeight = height;
 
                     if (checkOpenGLError())
                     {
@@ -384,7 +384,7 @@ namespace ouzel
             {
                 bool checkError = false;
 
-                if (currentBlendEnabled != blendEnabled)
+                if (stateCache.blendEnabled != blendEnabled)
                 {
                     if (blendEnabled)
                     {
@@ -395,39 +395,39 @@ namespace ouzel
                         glDisable(GL_BLEND);
                     }
 
-                    currentBlendEnabled = blendEnabled;
+                    stateCache.blendEnabled = blendEnabled;
 
                     checkError = true;
                 }
 
                 if (blendEnabled)
                 {
-                    if (currentBlendModeRGB != modeRGB ||
-                        currentBlendModeAlpha != modeAlpha)
+                    if (stateCache.blendModeRGB != modeRGB ||
+                        stateCache.blendModeAlpha != modeAlpha)
                     {
                         glBlendEquationSeparate(modeRGB,
                                                 modeAlpha);
 
-                        currentBlendModeRGB = modeRGB;
-                        currentBlendModeAlpha = modeAlpha;
+                        stateCache.blendModeRGB = modeRGB;
+                        stateCache.blendModeAlpha = modeAlpha;
 
                         checkError = true;
                     }
 
-                    if (currentBlendSourceFactorRGB != sfactorRGB ||
-                        currentBlendDestFactorRGB != dfactorRGB ||
-                        currentBlendSourceFactorAlpha != sfactorAlpha ||
-                        currentBlendDestFactorAlpha != dfactorAlpha)
+                    if (stateCache.blendSourceFactorRGB != sfactorRGB ||
+                        stateCache.blendDestFactorRGB != dfactorRGB ||
+                        stateCache.blendSourceFactorAlpha != sfactorAlpha ||
+                        stateCache.blendDestFactorAlpha != dfactorAlpha)
                     {
                         glBlendFuncSeparate(sfactorRGB,
                                             dfactorRGB,
                                             sfactorAlpha,
                                             dfactorAlpha);
 
-                        currentBlendSourceFactorRGB = sfactorRGB;
-                        currentBlendDestFactorRGB = dfactorRGB;
-                        currentBlendSourceFactorAlpha = sfactorAlpha;
-                        currentBlendDestFactorAlpha = dfactorAlpha;
+                        stateCache.blendSourceFactorRGB = sfactorRGB;
+                        stateCache.blendDestFactorRGB = dfactorRGB;
+                        stateCache.blendSourceFactorAlpha = sfactorAlpha;
+                        stateCache.blendDestFactorAlpha = dfactorAlpha;
                         
                         checkError = true;
                     }
@@ -445,11 +445,11 @@ namespace ouzel
 #ifdef OUZEL_SUPPORTS_OPENGL
             static inline bool setPolygonFillMode(GLenum polygonFillMode)
             {
-                if (currentPolygonFillMode != polygonFillMode)
+                if (stateCache.polygonFillMode != polygonFillMode)
                 {
                     glPolygonMode(GL_FRONT_AND_BACK, polygonFillMode);
 
-                    currentPolygonFillMode = polygonFillMode;
+                    stateCache.polygonFillMode = polygonFillMode;
 
                     if (checkOpenGLError())
                     {
@@ -501,36 +501,44 @@ namespace ouzel
             GLfloat frameBufferClearColor[4];
             Rectangle viewport;
 
-            static GLuint currentTextureId[Texture::LAYERS];
-            static GLuint currentProgramId;
-            static GLuint currentFrameBufferId;
+            struct StateCache
+            {
+                GLuint textureId[Texture::LAYERS] = { 0 };
+                GLuint programId = 0;
+                GLuint frameBufferId = 0;
 
-            static GLuint currentElementArrayBufferId;
-            static GLuint currentArrayBufferId;
-            static GLuint currentVertexArrayId;
+                GLuint elementArrayBufferId = 0;
+                GLuint arrayBufferId = 0;
+                GLuint vertexArrayId = 0;
 
-            static bool currentBlendEnabled;
-            static GLenum currentBlendModeRGB;
-            static GLenum currentBlendModeAlpha;
-            static GLenum currentBlendSourceFactorRGB;
-            static GLenum currentBlendDestFactorRGB;
-            static GLenum currentBlendSourceFactorAlpha;
-            static GLenum currentBlendDestFactorAlpha;
+                bool blendEnabled = false;
+                GLenum blendModeRGB = 0;
+                GLenum blendModeAlpha = 0;
+                GLenum blendSourceFactorRGB = 0;
+                GLenum blendDestFactorRGB = 0;
+                GLenum blendSourceFactorAlpha = 0;
+                GLenum blendDestFactorAlpha = 0;
 
-            static GLenum currentPolygonFillMode;
+#ifdef OUZEL_SUPPORTS_OPENGL
+                GLenum polygonFillMode = GL_FILL;
+#endif
 
-            static bool currentScissorTestEnabled;
-            static GLint currentScissorX;
-            static GLint currentScissorY;
-            static GLsizei currentScissorWidth;
-            static GLsizei currentScissorHeight;
+                bool scissorTestEnabled = false;
+                GLint scissorX = 0;
+                GLint scissorY = 0;
+                GLsizei scissorWidth = 0;
+                GLsizei scissorHeight = 0;
 
-            static bool currentDepthTestEnabled;
+                bool depthTestEnabled = false;
 
-            static GLint currentViewportX;
-            static GLint currentViewportY;
-            static GLsizei currentViewportWidth;
-            static GLsizei currentViewportHeight;
+                GLint viewportX = 0;
+                GLint viewportY = 0;
+                GLsizei viewportWidth = 0;
+                GLsizei viewportHeight = 0;
+            };
+
+            static StateCache stateCache;
+
             static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
             static std::mutex deleteMutex;
 
