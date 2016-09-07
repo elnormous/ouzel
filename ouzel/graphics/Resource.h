@@ -13,7 +13,7 @@ namespace ouzel
         {
         public:
             virtual void free() {}
-            virtual bool update() { return true; }
+            virtual void update() { }
             virtual bool upload() { return true; }
         };
     } // graphics

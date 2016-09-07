@@ -90,6 +90,11 @@ namespace ouzel
         {
             if (dirty)
             {
+                if (!texture->upload())
+                {
+                    return false;
+                }
+
                 std::lock_guard<std::mutex> lock(dataMutex);
 
                 std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(texture);

@@ -56,7 +56,7 @@ namespace ouzel
 
         protected:
             Shader();
-            virtual bool update() override;
+            virtual void update() override;
 
             std::string pixelShaderFilename;
             std::string vertexShaderFilename;

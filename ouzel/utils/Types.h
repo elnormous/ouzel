@@ -47,9 +47,11 @@ namespace ouzel
         typedef std::shared_ptr<BlendState> BlendStatePtr;
         typedef std::weak_ptr<BlendState> BlendStateWeakPtr;
 
-        class Texture;
-        typedef std::shared_ptr<Texture> TexturePtr;
-        typedef std::weak_ptr<Texture> TextureWeakPtr;
+        class IndexBuffer;
+        typedef std::shared_ptr<IndexBuffer> IndexBufferPtr;
+
+        class MeshBuffer;
+        typedef std::shared_ptr<MeshBuffer> MeshBufferPtr;
 
         class RenderTarget;
         typedef std::shared_ptr<RenderTarget> RenderTargetPtr;
@@ -59,8 +61,12 @@ namespace ouzel
         typedef std::shared_ptr<Shader> ShaderPtr;
         typedef std::weak_ptr<Shader> ShaderWeakPtr;
 
-        class MeshBuffer;
-        typedef std::shared_ptr<MeshBuffer> MeshBufferPtr;
+        class Texture;
+        typedef std::shared_ptr<Texture> TexturePtr;
+        typedef std::weak_ptr<Texture> TextureWeakPtr;
+
+        class VertexBuffer;
+        typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
     }
 
     class FileSystem;

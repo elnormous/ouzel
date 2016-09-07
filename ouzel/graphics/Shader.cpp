@@ -128,7 +128,7 @@ namespace ouzel
             return  true;
         }
 
-        bool Shader::update()
+        void Shader::update()
         {
             uploadData.vertexAttributes = data.vertexAttributes;
             uploadData.pixelShaderAlignment = data.pixelShaderAlignment;
@@ -163,8 +163,6 @@ namespace ouzel
             {
                 uploadData.vertexShaderFunction = std::move(data.vertexShaderFunction);
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

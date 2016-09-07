@@ -5,11 +5,13 @@
 #include "core/Engine.h"
 #include "Texture.h"
 #include "Shader.h"
-#include "events/EventHandler.h"
-#include "MeshBuffer.h"
-#include "events/EventDispatcher.h"
 #include "RenderTarget.h"
 #include "BlendState.h"
+#include "MeshBuffer.h"
+#include "IndexBuffer.h"
+#include "VertexBuffer.h"
+#include "events/EventHandler.h"
+#include "events/EventDispatcher.h"
 #include "core/Window.h"
 #include "utils/Utils.h"
 
@@ -58,11 +60,11 @@ namespace ouzel
                 activeDrawQueue.reserve(drawQueue.size());
                 drawCallCount = static_cast<uint32_t>(drawQueue.size());
 
-                std::vector<ResourcePtr> resources;
+                std::set<ResourcePtr> resources;
 
                 {
                     std::lock_guard<std::mutex> lock(updateMutex);
-                    resources = std::move(updateQueue);
+                    resources = std::move(updateSet);
                     updateSet.clear();
 
                     for (const ResourcePtr& resource : resources)
@@ -75,7 +77,10 @@ namespace ouzel
                 for (const ResourcePtr& resource : resources)
                 {
                     // upload data to GPU
-                    resource->upload();
+                    if (!resource->upload())
+                    {
+                        return false;
+                    }
                 }
 
                 activeDrawQueueFinished = false;
@@ -128,6 +133,18 @@ namespace ouzel
         {
             MeshBufferPtr meshBuffer(new MeshBuffer());
             return meshBuffer;
+        }
+
+        IndexBufferPtr Renderer::createIndexBuffer()
+        {
+            IndexBufferPtr indexBuffer(new IndexBuffer());
+            return indexBuffer;
+        }
+
+        VertexBufferPtr Renderer::createVertexBuffer()
+        {
+            VertexBufferPtr vertexBuffer(new VertexBuffer());
+            return vertexBuffer;
         }
 
         bool Renderer::addDrawCommand(const std::vector<TexturePtr>& textures,

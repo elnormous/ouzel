@@ -28,31 +28,31 @@
     #include <EGL/egl.h>
 #endif
 
-#include "graphics/MeshBuffer.h"
+#include "graphics/IndexBuffer.h"
 
 namespace ouzel
 {
     namespace graphics
     {
         class RendererOGL;
-
-        class MeshBufferOGL: public MeshBuffer
+        
+        class IndexBufferOGL: public IndexBuffer
         {
             friend RendererOGL;
         public:
-            virtual ~MeshBufferOGL();
+            virtual ~IndexBufferOGL();
             virtual void free() override;
 
-            bool bindBuffers();
-
-            GLuint getVertexArrayId() const { return vertexArrayId; }
-
+            GLuint getBufferId() const { return bufferId; }
+            GLenum getFormat() const { return indexFormat; }
+            GLuint getBytesPerIndex() const { return bytesPerIndex; }
+            
         protected:
-            MeshBufferOGL();
-            virtual bool upload() override;
+            IndexBufferOGL();
 
-
-            GLuint vertexArrayId = 0;
+            GLuint bufferId = 0;
+            GLenum format = 0;
+            GLuint bytesPerIndex = 0;
         };
-    } // namespace graphics
-} // namespace ouzel
+    }
+}

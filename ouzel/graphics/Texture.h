@@ -43,7 +43,7 @@ namespace ouzel
 
         protected:
             Texture();
-            virtual bool update() override;
+            virtual void update() override;
 
             bool calculateData(const std::vector<uint8_t>& newData, const Size2& newSize);
 

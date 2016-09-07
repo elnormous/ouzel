@@ -81,6 +81,11 @@ namespace ouzel
         {
             if (dirty)
             {
+                if (!texture->upload())
+                {
+                    return false;
+                }
+
                 std::lock_guard<std::mutex> lock(dataMutex);
 
                 std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(texture);

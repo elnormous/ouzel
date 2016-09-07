@@ -94,6 +94,11 @@ namespace ouzel
         {
             if (dirty)
             {
+                if (!texture->upload())
+                {
+                    return false;
+                }
+
                 std::lock_guard<std::mutex> lock(dataMutex);
 
                 if (!frameBufferId)

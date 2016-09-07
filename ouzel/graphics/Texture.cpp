@@ -267,7 +267,7 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::update()
+        void Texture::update()
         {
             uploadData.size = size;
             uploadData.dynamic = dynamic;
@@ -281,8 +281,6 @@ namespace ouzel
             {
                 uploadData.levels = std::move(levels);
             }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

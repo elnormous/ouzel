@@ -28,31 +28,37 @@
     #include <EGL/egl.h>
 #endif
 
-#include "graphics/MeshBuffer.h"
+#include "graphics/VertexBuffer.h"
 
 namespace ouzel
 {
     namespace graphics
     {
         class RendererOGL;
-
-        class MeshBufferOGL: public MeshBuffer
+        
+        class VertexBufferOGL: public VertexBuffer
         {
             friend RendererOGL;
         public:
-            virtual ~MeshBufferOGL();
+            virtual ~VertexBufferOGL();
             virtual void free() override;
 
-            bool bindBuffers();
-
-            GLuint getVertexArrayId() const { return vertexArrayId; }
+            GLuint getBufferId() const { return bufferId; }
 
         protected:
-            MeshBufferOGL();
-            virtual bool upload() override;
+            VertexBufferOGL();
 
+            GLuint bufferId = 0;
 
-            GLuint vertexArrayId = 0;
+            struct VertexAttrib
+            {
+                GLint size;
+                GLenum type;
+                GLboolean normalized;
+                GLsizei stride;
+                const GLvoid* pointer;
+            };
+            std::vector<VertexAttrib> vertexAttribs;
         };
-    } // namespace graphics
-} // namespace ouzel
+    }
+}
