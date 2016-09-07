@@ -57,7 +57,7 @@ namespace ouzel
         switch (sharedEngine->getRenderer()->getDriver())
         {
             case graphics::Renderer::Driver::NONE:
-                view = [[NSView alloc] initWithFrame:windowFrame];
+                view = [[UIView alloc] initWithFrame:windowFrame];
                 break;
             case graphics::Renderer::Driver::OPENGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];
