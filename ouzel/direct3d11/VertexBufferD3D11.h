@@ -3,6 +3,11 @@
 
 #pragma once
 
+#include <vector>
+#include <mutex>
+#include <atomic>
+#define NOMINMAX
+#include <d3d11.h>
 #include "graphics/VertexBuffer.h"
 
 namespace ouzel
@@ -18,8 +23,14 @@ namespace ouzel
             virtual ~VertexBufferD3D11();
             virtual void free() override;
 
+            ID3D11Buffer* getBuffer() const { return buffer; }
+
         protected:
             VertexBufferD3D11();
+            virtual bool upload() override;
+
+            ID3D11Buffer* buffer = nullptr;
+            UINT bufferSize = 0;
         };
     }
 }

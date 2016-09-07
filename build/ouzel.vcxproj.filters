@@ -253,6 +253,18 @@
     <ClCompile Include="..\ouzel\events\EventHandler.cpp">
       <Filter>events</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\IndexBuffer.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\VertexBuffer.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\direct3d11\IndexBufferD3D11.cpp">
+      <Filter>direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\direct3d11\VertexBufferD3D11.cpp">
+      <Filter>direct3d11</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -534,6 +546,18 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\Component.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\IndexBuffer.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\VertexBuffer.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\direct3d11\IndexBufferD3D11.h">
+      <Filter>direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\direct3d11\VertexBufferD3D11.h">
+      <Filter>direct3d11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

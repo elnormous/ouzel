@@ -6,6 +6,8 @@
 #include "TextureD3D11.h"
 #include "ShaderD3D11.h"
 #include "MeshBufferD3D11.h"
+#include "IndexBufferD3D11.h"
+#include "VertexBufferD3D11.h"
 #include "RenderTargetD3D11.h"
 #include "utils/Utils.h"
 #include "TexturePSD3D11.h"
@@ -712,11 +714,15 @@ namespace ouzel
                 // draw
                 context->OMSetDepthStencilState(depthStencilState, 0);
 
-                ID3D11Buffer* buffers[] = { meshBufferD3D11->getVertexBuffer() };
-                UINT strides[] = { meshBufferD3D11->getVertexSize() };
+                std::shared_ptr<IndexBufferD3D11> indexBufferD3D11 = std::static_pointer_cast<IndexBufferD3D11>(meshBufferD3D11->getIndexBuffer());
+                std::shared_ptr<VertexBufferD3D11> vertexBufferD3D11 = std::static_pointer_cast<VertexBufferD3D11>(meshBufferD3D11->getVertexBuffer());
+
+
+                ID3D11Buffer* buffers[] = { vertexBufferD3D11->getBuffer() };
+                UINT strides[] = { vertexBufferD3D11->getVertexSize() };
                 UINT offsets[] = { 0 };
                 context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-                context->IASetIndexBuffer(meshBufferD3D11->getIndexBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+                context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), indexBufferD3D11->getFormat(), 0);
 
                 D3D_PRIMITIVE_TOPOLOGY topology;
 
@@ -908,6 +914,18 @@ namespace ouzel
         MeshBufferPtr RendererD3D11::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
+            return meshBuffer;
+        }
+
+        IndexBufferPtr RendererD3D11::createIndexBuffer()
+        {
+            std::shared_ptr<IndexBufferD3D11> meshBuffer(new IndexBufferD3D11());
+            return meshBuffer;
+        }
+
+        VertexBufferPtr RendererD3D11::createVertexBuffer()
+        {
+            std::shared_ptr<VertexBufferD3D11> meshBuffer(new VertexBufferD3D11());
             return meshBuffer;
         }
 

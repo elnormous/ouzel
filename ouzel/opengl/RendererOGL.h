@@ -70,8 +70,8 @@ namespace ouzel
             virtual RenderTargetPtr createRenderTarget() override;
             virtual ShaderPtr createShader() override;
             virtual MeshBufferPtr createMeshBuffer() override;
-            virtual IndexBufferPtr createIndexBuffer();
-            virtual VertexBufferPtr createVertexBuffer();
+            virtual IndexBufferPtr createIndexBuffer() override;
+            virtual VertexBufferPtr createVertexBuffer() override;
 
             static inline bool checkOpenGLError(bool logError = true)
             {

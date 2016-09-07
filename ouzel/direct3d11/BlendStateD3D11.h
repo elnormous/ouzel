@@ -32,7 +32,7 @@ namespace ouzel
 
         protected:
             BlendStateD3D11();
-            virtual bool update() override;
+            virtual bool upload() override;
 
             ID3D11BlendState* blendState = nullptr;
 

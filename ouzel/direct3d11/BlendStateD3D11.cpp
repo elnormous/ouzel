@@ -95,7 +95,7 @@ namespace ouzel
             return D3D11_BLEND_OP_ADD;
         }
 
-        bool BlendStateD3D11::update()
+        bool BlendStateD3D11::upload()
         {
             if (dirty)
             {
@@ -105,9 +105,9 @@ namespace ouzel
                 D3D11_BLEND_DESC blendStateDesc = { FALSE, FALSE }; // alpha to coverage, independent blend
                 D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc =
                 {
-                    enableBlending ? TRUE : FALSE,
-                    getBlendFactor(colorBlendSource), getBlendFactor(colorBlendDest), getBlendOperation(colorOperation),
-                    getBlendFactor(alphaBlendSource), getBlendFactor(alphaBlendDest), getBlendOperation(alphaOperation),
+                    uploadData.enableBlending ? TRUE : FALSE,
+                    getBlendFactor(uploadData.colorBlendSource), getBlendFactor(uploadData.colorBlendDest), getBlendOperation(uploadData.colorOperation),
+                    getBlendFactor(uploadData.alphaBlendSource), getBlendFactor(uploadData.alphaBlendDest), getBlendOperation(uploadData.alphaOperation),
                     D3D11_COLOR_WRITE_ENABLE_ALL, // color write mask
                 };
                 blendStateDesc.RenderTarget[0] = targetBlendDesc;
