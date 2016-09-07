@@ -43,7 +43,11 @@ void ouzelMain(const std::vector<std::string>& args)
 
             if (nextArg != args.end())
             {
-                if (*nextArg == "opengl")
+                if (*nextArg == "none")
+                {
+                    settings.renderDriver = ouzel::graphics::Renderer::Driver::NONE;
+                }
+                else if (*nextArg == "opengl")
                 {
                     settings.renderDriver = ouzel::graphics::Renderer::Driver::OPENGL;
                 }
