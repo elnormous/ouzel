@@ -74,10 +74,12 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/math/Vector4.cpp \
     $(LOCAL_PATH)/../../ouzel/opengl/BlendStateOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/opengl/MeshBufferOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/opengl/IndexBufferOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/opengl/RendererOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/opengl/RenderTargetOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/opengl/ShaderOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/opengl/TextureOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/opengl/VertexBufferOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/opensl/AudioSL.cpp \
     $(LOCAL_PATH)/../../ouzel/opensl/SoundSL.cpp \
     $(LOCAL_PATH)/../../ouzel/opensl/SoundDataSL.cpp \

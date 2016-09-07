@@ -74,13 +74,13 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/openal/SoundAL.cpp \
 	../ouzel/openal/SoundDataAL.cpp \
 	../ouzel/opengl/BlendStateOGL.cpp \
-	../ouzel/opengl/IndexBuffer.cpp \
+	../ouzel/opengl/IndexBufferOGL.cpp \
 	../ouzel/opengl/MeshBufferOGL.cpp \
 	../ouzel/opengl/RendererOGL.cpp \
 	../ouzel/opengl/RenderTargetOGL.cpp \
 	../ouzel/opengl/ShaderOGL.cpp \
 	../ouzel/opengl/TextureOGL.cpp \
-	../ouzel/opengl/VertexBuffer.cpp \
+	../ouzel/opengl/VertexBufferOGL.cpp \
 	../ouzel/scene/Camera.cpp \
 	../ouzel/scene/Component.cpp \
 	../ouzel/scene/Layer.cpp \
