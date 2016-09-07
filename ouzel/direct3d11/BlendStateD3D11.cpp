@@ -11,8 +11,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        BlendStateD3D11::BlendStateD3D11():
-            dirty(false)
+        BlendStateD3D11::BlendStateD3D11()
         {
         }
 
@@ -33,30 +32,6 @@ namespace ouzel
                 blendState->Release();
                 blendState = nullptr;
             }
-        }
-
-        bool BlendStateD3D11::init(bool enableBlending,
-                                   BlendFactor colorBlendSource, BlendFactor colorBlendDest,
-                                   BlendOperation colorOperation,
-                                   BlendFactor alphaBlendSource, BlendFactor alphaBlendDest,
-                                   BlendOperation alphaOperation)
-        {
-            free();
-
-            if (!BlendState::init(enableBlending,
-                                  colorBlendSource, colorBlendDest,
-                                  colorOperation,
-                                  alphaBlendSource, alphaBlendDest,
-                                  alphaOperation))
-            {
-                return false;
-            }
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
         }
 
         static D3D11_BLEND getBlendFactor(BlendState::BlendFactor blendFactor)

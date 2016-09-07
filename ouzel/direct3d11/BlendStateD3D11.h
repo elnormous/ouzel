@@ -22,12 +22,6 @@ namespace ouzel
             virtual ~BlendStateD3D11();
             virtual void free() override;
 
-            virtual bool init(bool enableBlending,
-                              BlendFactor colorBlendSource, BlendFactor colorBlendDest,
-                              BlendOperation colorOperation,
-                              BlendFactor alphaBlendSource, BlendFactor alphaBlendDest,
-                              BlendOperation alphaOperation) override;
-
             ID3D11BlendState* getBlendState() const { return blendState; }
 
         protected:
@@ -35,8 +29,6 @@ namespace ouzel
             virtual bool upload() override;
 
             ID3D11BlendState* blendState = nullptr;
-
-            std::atomic<bool> dirty;
         };
     } // namespace graphics
 } // namespace ouzel
