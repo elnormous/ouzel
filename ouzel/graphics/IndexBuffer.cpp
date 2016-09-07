@@ -50,7 +50,6 @@ namespace ouzel
             }
 
             dirty = INDEX_BUFFER_DIRTY | INDEX_SIZE_DIRTY;
-
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -69,7 +68,6 @@ namespace ouzel
                         static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
 
             dirty |= INDEX_BUFFER_DIRTY;
-
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -80,7 +78,6 @@ namespace ouzel
             indexSize = newIndexSize;
 
             dirty |= INDEX_SIZE_DIRTY;
-
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;

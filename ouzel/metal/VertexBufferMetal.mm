@@ -50,7 +50,7 @@ namespace ouzel
                             bufferSize = static_cast<uint32_t>(uploadData.data.size());
 
                             buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
-                                                                                   options:MTLResourceCPUCacheModeWriteCombined];
+                                                                             options:MTLResourceCPUCacheModeWriteCombined];
 
                             if (!buffer)
                             {
@@ -59,7 +59,7 @@ namespace ouzel
                             }
                         }
 
-                        memcpy([buffer contents], data.data(), data.size());
+                        memcpy([buffer contents], uploadData.data.data(), uploadData.data.size());
                     }
                     
                     dirty &= ~VERTEX_BUFFER_DIRTY;

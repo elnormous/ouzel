@@ -52,7 +52,6 @@ namespace ouzel
             }
 
             dirty = VERTEX_BUFFER_DIRTY | VERTEX_ATTRIBUTES_DIRTY;
-
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -71,7 +70,6 @@ namespace ouzel
                         static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
             dirty |= VERTEX_BUFFER_DIRTY;
-
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
             
             return true;
@@ -83,7 +81,6 @@ namespace ouzel
             updateVertexSize();
 
             dirty |= VERTEX_ATTRIBUTES_DIRTY;
-
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
