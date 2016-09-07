@@ -11,6 +11,8 @@
 #include "Layer.h"
 #include "scene/Camera.h"
 #include "graphics/MeshBuffer.h"
+#include "graphics/IndexBuffer.h"
+#include "graphics/VertexBuffer.h"
 #include "utils/Utils.h"
 #include "math/MathUtils.h"
 
@@ -77,7 +79,7 @@ namespace ouzel
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             blendState,
-                                                            mesh,
+                                                            meshBuffer,
                                                             particleCount * 6,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
@@ -118,7 +120,7 @@ namespace ouzel
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             blendState,
-                                                            mesh,
+                                                            meshBuffer,
                                                             particleCount * 6,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
@@ -336,12 +338,16 @@ namespace ouzel
                 vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
             }
 
-            mesh = sharedEngine->getRenderer()->createMeshBuffer();
+            indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
+            indexBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
+                                        static_cast<uint32_t>(indices.size()), false);
 
-            mesh->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                 static_cast<uint32_t>(indices.size()), false,
-                                 vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                 static_cast<uint32_t>(vertices.size()), true);
+            vertexBuffer = sharedEngine->getRenderer()->createVertexBuffer();
+            vertexBuffer->initFromBuffer(vertices.data(), graphics::VertexPCT::ATTRIBUTES,
+                                         static_cast<uint32_t>(vertices.size()), true);
+
+            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+            meshBuffer->init(indexBuffer, vertexBuffer);
 
             particles.resize(particleDefinition.maxParticles);
 
@@ -398,7 +404,7 @@ namespace ouzel
                     vertices[i * 4 + 3].color = color;
                 }
 
-                if (!mesh->setVertices(vertices.data(), static_cast<uint32_t>(vertices.size())))
+                if (!vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size())))
                 {
                     return false;
                 }

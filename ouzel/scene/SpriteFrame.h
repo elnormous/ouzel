@@ -45,6 +45,8 @@ namespace ouzel
             Rectangle rectangle;
             AABB2 boundingBox;
             graphics::MeshBufferPtr meshBuffer;
+            graphics::IndexBufferPtr indexBuffer;
+            graphics::VertexBufferPtr vertexBuffer;
             graphics::TexturePtr texture;
         };
     } // scene

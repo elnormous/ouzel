@@ -3,6 +3,15 @@
 
 #pragma once
 
+#if defined(__OBJC__)
+#import <Metal/Metal.h>
+typedef id<MTLBuffer> MTLBufferPtr;
+#else
+#include <objc/objc.h>
+typedef id MTLBufferPtr;
+typedef NSUInteger MTLIndexType;
+#endif
+
 #include "graphics/VertexBuffer.h"
 
 namespace ouzel
@@ -18,8 +27,14 @@ namespace ouzel
             virtual ~VertexBufferMetal();
             virtual void free() override;
 
+            MTLBufferPtr getBuffer() const { return buffer; }
+
         protected:
             VertexBufferMetal();
+            virtual bool upload() override;
+
+            MTLBufferPtr buffer = Nil;
+            uint32_t bufferSize = 0;
         };
     }
 }

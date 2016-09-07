@@ -9,6 +9,8 @@
 #include "RenderTargetOGL.h"
 #include "ShaderOGL.h"
 #include "MeshBufferOGL.h"
+#include "IndexBufferOGL.h"
+#include "VertexBufferOGL.h"
 #include "BlendStateOGL.h"
 #include "core/Engine.h"
 #include "core/Window.h"
@@ -631,6 +633,8 @@ namespace ouzel
                     continue;
                 }
 
+                std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(meshBufferOGL->getIndexBuffer());
+
                 // draw
                 GLenum mode;
 
@@ -651,8 +655,8 @@ namespace ouzel
 
                 glDrawElements(mode,
                                static_cast<GLsizei>(drawCommand.indexCount),
-                               meshBufferOGL->getIndexFormat(),
-                               static_cast<const char*>(nullptr) + (drawCommand.startIndex * meshBufferOGL->getBytesPerIndex()));
+                               indexBufferOGL->getType(),
+                               static_cast<const char*>(nullptr) + (drawCommand.startIndex * indexBufferOGL->getBytesPerIndex()));
 
                 if (checkOpenGLError())
                 {
@@ -778,6 +782,18 @@ namespace ouzel
         MeshBufferPtr RendererOGL::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
+            return meshBuffer;
+        }
+
+        IndexBufferPtr RendererOGL::createIndexBuffer()
+        {
+            std::shared_ptr<IndexBufferOGL> meshBuffer(new IndexBufferOGL());
+            return meshBuffer;
+        }
+
+        VertexBufferPtr RendererOGL::createVertexBuffer()
+        {
+            std::shared_ptr<VertexBufferOGL> meshBuffer(new VertexBufferOGL());
             return meshBuffer;
         }
 

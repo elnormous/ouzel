@@ -51,7 +51,6 @@ namespace ouzel
             MeshBufferOGL();
             virtual bool upload() override;
 
-
             GLuint vertexArrayId = 0;
         };
     } // namespace graphics

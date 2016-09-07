@@ -130,5 +130,12 @@ namespace ouzel
                 uploadData.data = std::move(data);
             }
         }
+
+        bool VertexBuffer::upload()
+        {
+            ready = true;
+            dirty = 0;
+            return true;
+        }
     }
 }

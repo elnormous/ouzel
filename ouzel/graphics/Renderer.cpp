@@ -161,14 +161,19 @@ namespace ouzel
                                       bool scissorTestEnabled,
                                       const Rectangle& scissorTest)
         {
-#ifdef DEBUG
-            if (shader && meshBuffer &&
-                shader->getVertexAttributes() != meshBuffer->getVertexAttributes())
+
+            if (!shader)
             {
-                log(LOG_LEVEL_ERROR, "Shader's and mesh buffer's vertex attributes do not match");
+                log(LOG_LEVEL_ERROR, "No shader passed to render queue");
                 return false;
             }
-#endif
+
+            if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer() ||
+                shader->getVertexAttributes() != meshBuffer->getVertexBuffer()->getVertexAttributes())
+            {
+                log(LOG_LEVEL_ERROR, "Invalid mesh buffer passed to render queue");
+                return false;
+            }
 
             activeDrawQueue.push_back({
                 textures,
@@ -177,7 +182,7 @@ namespace ouzel
                 vertexShaderConstants,
                 blendState,
                 meshBuffer,
-                (indexCount > 0) ? indexCount : meshBuffer->getIndexCount() - startIndex,
+                (indexCount > 0) ? indexCount : meshBuffer->getIndexBuffer()->getIndexCount() - startIndex,
                 drawMode,
                 startIndex,
                 renderTarget,
@@ -232,10 +237,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(updateMutex);
 
-            if (updateSet.insert(resource).second)
-            {
-                updateQueue.push_back(resource);
-            }
+            updateSet.insert(resource);
         }
     } // namespace graphics
 } // namespace ouzel

@@ -23,6 +23,10 @@ namespace ouzel
         public:
             virtual ~MeshBuffer();
             virtual void free() override;
+            virtual bool upload() override;
+
+            bool init(const IndexBufferPtr& newIndexBuffer,
+                      const VertexBufferPtr& newVertexBuffer);
 
             void setIndexBuffer(const IndexBufferPtr& newIndexBuffer);
             void setVertexBuffer(const VertexBufferPtr& newVertexBuffer);

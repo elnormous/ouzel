@@ -24,6 +24,7 @@ namespace ouzel
         public:
             virtual ~RenderTarget();
             virtual void free() override;
+            virtual bool upload() override;
 
             virtual bool init(const Size2& newSize, bool useDepthBuffer);
 

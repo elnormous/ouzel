@@ -282,5 +282,12 @@ namespace ouzel
                 uploadData.levels = std::move(levels);
             }
         }
+
+        bool Texture::upload()
+        {
+            ready = true;
+            dirty = false;
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

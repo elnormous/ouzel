@@ -16,32 +16,6 @@ namespace ouzel
 
         MeshBufferMetal::~MeshBufferMetal()
         {
-            if (indexBuffer)
-            {
-                [indexBuffer release];
-            }
-
-            if (vertexBuffer)
-            {
-                [vertexBuffer release];
-            }
-        }
-
-        void MeshBufferMetal::free()
-        {
-            MeshBuffer::free();
-
-            if (indexBuffer)
-            {
-                [indexBuffer release];
-                indexBuffer = Nil;
-            }
-
-            if (vertexBuffer)
-            {
-                [vertexBuffer release];
-                vertexBuffer = Nil;
-            }
         }
     } // namespace graphics
 } // namespace ouzel

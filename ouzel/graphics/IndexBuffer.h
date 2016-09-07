@@ -19,6 +19,7 @@ namespace ouzel
         public:
             virtual ~IndexBuffer();
             virtual void free() override;
+            virtual bool upload() override;
 
             virtual bool init(bool newDynamic = true);
             virtual bool initFromBuffer(const void* newIndices, uint32_t newIndexSize,

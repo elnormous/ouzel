@@ -6,6 +6,8 @@
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "graphics/MeshBuffer.h"
+#include "graphics/IndexBuffer.h"
+#include "graphics/VertexBuffer.h"
 #include "core/Cache.h"
 #include "Layer.h"
 #include "Camera.h"
@@ -20,10 +22,17 @@ namespace ouzel
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+
+            indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
+            indexBuffer->init();
+            indexBuffer->setIndexSize(sizeof(uint16_t));
+
+            vertexBuffer = sharedEngine->getRenderer()->createVertexBuffer();
+            vertexBuffer->init();
+            vertexBuffer->setVertexAttributes(ouzel::graphics::VertexPC::ATTRIBUTES);
+
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
-            meshBuffer->init();
-            meshBuffer->setIndexSize(sizeof(uint16_t));
-            meshBuffer->setVertexAttributes(ouzel::graphics::VertexPC::ATTRIBUTES);
+            meshBuffer->init(indexBuffer, vertexBuffer);
         }
 
         void ShapeDrawable::draw(const Matrix4& projectionMatrix,
@@ -33,8 +42,8 @@ namespace ouzel
         {
             Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
 
-            meshBuffer->setIndices(indices.data(), static_cast<uint32_t>(indices.size()));
-            meshBuffer->setVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
+            indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
+            vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
 
             Matrix4 modelViewProj = projectionMatrix * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };

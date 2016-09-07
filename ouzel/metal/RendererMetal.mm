@@ -7,6 +7,8 @@
 #include "RenderTargetMetal.h"
 #include "ShaderMetal.h"
 #include "MeshBufferMetal.h"
+#include "IndexBufferMetal.h"
+#include "VertexBufferMetal.h"
 #include "BlendStateMetal.h"
 #if OUZEL_PLATFORM_MACOS
     #include "macos/WindowMacOS.h"
@@ -656,7 +658,10 @@ namespace ouzel
                     continue;
                 }
 
-                [currentRenderCommandEncoder setVertexBuffer:meshBufferMetal->getVertexBuffer() offset:0 atIndex:0];
+                std::shared_ptr<IndexBufferMetal> indexBufferMetal = std::static_pointer_cast<IndexBufferMetal>(meshBufferMetal->getIndexBuffer());
+                std::shared_ptr<VertexBufferMetal> vertexBufferMetal = std::static_pointer_cast<VertexBufferMetal>(meshBufferMetal->getVertexBuffer());
+
+                [currentRenderCommandEncoder setVertexBuffer:vertexBufferMetal->getBuffer() offset:0 atIndex:0];
 
                 // draw
                 MTLPrimitiveType primitiveType;
@@ -673,9 +678,9 @@ namespace ouzel
 
                 [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
                                                         indexCount:drawCommand.indexCount
-                                                         indexType:meshBufferMetal->getIndexFormat()
-                                                       indexBuffer:meshBufferMetal->getIndexBuffer()
-                                                 indexBufferOffset:drawCommand.startIndex * meshBufferMetal->getBytesPerIndex()];
+                                                         indexType:indexBufferMetal->getType()
+                                                       indexBuffer:indexBufferMetal->getBuffer()
+                                                 indexBufferOffset:drawCommand.startIndex * indexBufferMetal->getBytesPerIndex()];
             }
 
             if (currentRenderCommandEncoder)
@@ -734,6 +739,19 @@ namespace ouzel
         MeshBufferPtr RendererMetal::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
+            return meshBuffer;
+        }
+
+
+        IndexBufferPtr RendererMetal::createIndexBuffer()
+        {
+            std::shared_ptr<IndexBufferMetal> meshBuffer(new IndexBufferMetal());
+            return meshBuffer;
+        }
+
+        VertexBufferPtr RendererMetal::createVertexBuffer()
+        {
+            std::shared_ptr<VertexBufferMetal> meshBuffer(new VertexBufferMetal());
             return meshBuffer;
         }
 

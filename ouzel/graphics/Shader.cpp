@@ -164,5 +164,12 @@ namespace ouzel
                 uploadData.vertexShaderFunction = std::move(data.vertexShaderFunction);
             }
         }
+
+        bool Shader::upload()
+        {
+            ready = true;
+            dirty = false;
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

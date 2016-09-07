@@ -35,23 +35,27 @@ namespace ouzel
     namespace graphics
     {
         class RendererOGL;
+        class MeshBufferOGL;
         
         class IndexBufferOGL: public IndexBuffer
         {
             friend RendererOGL;
+            friend MeshBufferOGL;
         public:
             virtual ~IndexBufferOGL();
             virtual void free() override;
 
             GLuint getBufferId() const { return bufferId; }
-            GLenum getFormat() const { return indexFormat; }
+            GLenum getType() const { return type; }
             GLuint getBytesPerIndex() const { return bytesPerIndex; }
             
         protected:
             IndexBufferOGL();
+            bool bindBuffer();
+            virtual bool upload() override;
 
             GLuint bufferId = 0;
-            GLenum format = 0;
+            GLenum type = 0;
             GLuint bytesPerIndex = 0;
         };
     }

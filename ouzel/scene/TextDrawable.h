@@ -51,7 +51,11 @@ namespace ouzel
 
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;
+
             graphics::MeshBufferPtr meshBuffer;
+            graphics::IndexBufferPtr indexBuffer;
+            graphics::VertexBufferPtr vertexBuffer;
+
             graphics::TexturePtr texture;
             graphics::TexturePtr whitePixelTexture;
 

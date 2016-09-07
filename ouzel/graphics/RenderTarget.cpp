@@ -29,5 +29,11 @@ namespace ouzel
 
             return true;
         }
+
+        bool RenderTarget::upload()
+        {
+            ready = true;
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

@@ -96,5 +96,12 @@ namespace ouzel
                 uploadData.data = std::move(data);
             }
         }
+
+        bool IndexBuffer::upload()
+        {
+            ready = true;
+            dirty = 0;
+            return true;
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace ouzel
 
             virtual ~BlendState();
             virtual void free() override;
+            virtual bool upload() override;
 
             virtual bool init(bool newEnableBlending,
                               BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,

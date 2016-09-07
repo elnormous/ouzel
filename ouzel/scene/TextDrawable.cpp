@@ -5,6 +5,8 @@
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "graphics/MeshBuffer.h"
+#include "graphics/IndexBuffer.h"
+#include "graphics/VertexBuffer.h"
 #include "core/Cache.h"
 #include "utils/Utils.h"
 
@@ -19,10 +21,16 @@ namespace ouzel
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
 
+            indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
+            indexBuffer->init();
+            indexBuffer->setIndexSize(sizeof(uint16_t));
+
+            vertexBuffer = sharedEngine->getRenderer()->createVertexBuffer();
+            vertexBuffer->init();
+            vertexBuffer->setVertexAttributes(graphics::VertexPCT::ATTRIBUTES);
+
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
-            meshBuffer->init();
-            meshBuffer->setIndexSize(sizeof(uint16_t));
-            meshBuffer->setVertexAttributes(graphics::VertexPCT::ATTRIBUTES);
+            meshBuffer->init(indexBuffer, vertexBuffer);
 
             textAnchor = pTextAnchor;
 
@@ -59,8 +67,8 @@ namespace ouzel
 
             if (needsMeshUpdate)
             {
-                meshBuffer->setIndices(indices.data(), static_cast<uint32_t>(indices.size()));
-                meshBuffer->setVertices(vertices.data(), static_cast<uint32_t>(vertices.size()));
+                indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
+                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
 
                 needsMeshUpdate = false;
             }

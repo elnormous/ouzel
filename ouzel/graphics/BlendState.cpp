@@ -37,5 +37,10 @@ namespace ouzel
             return true;
         }
 
+        bool BlendState::upload()
+        {
+            ready = true;
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

@@ -259,15 +259,15 @@
 		303820241D80A40700677CAB /* TextureVSTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FDE1D80A40700677CAB /* TextureVSTVOS.h */; };
 		303820251D80A40700677CAB /* TextureVSTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FDE1D80A40700677CAB /* TextureVSTVOS.h */; };
 		303820261D80A40700677CAB /* TextureVSTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FDE1D80A40700677CAB /* TextureVSTVOS.h */; };
-		3038202B1D80A55700677CAB /* IndexBufferMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* IndexBufferMetal.cpp */; };
-		3038202C1D80A55700677CAB /* IndexBufferMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* IndexBufferMetal.cpp */; };
-		3038202D1D80A55700677CAB /* IndexBufferMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* IndexBufferMetal.cpp */; };
+		3038202B1D80A55700677CAB /* IndexBufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* IndexBufferMetal.mm */; };
+		3038202C1D80A55700677CAB /* IndexBufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* IndexBufferMetal.mm */; };
+		3038202D1D80A55700677CAB /* IndexBufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820271D80A55700677CAB /* IndexBufferMetal.mm */; };
 		3038202E1D80A55700677CAB /* IndexBufferMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 303820281D80A55700677CAB /* IndexBufferMetal.h */; };
 		3038202F1D80A55700677CAB /* IndexBufferMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 303820281D80A55700677CAB /* IndexBufferMetal.h */; };
 		303820301D80A55700677CAB /* IndexBufferMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 303820281D80A55700677CAB /* IndexBufferMetal.h */; };
-		303820311D80A55700677CAB /* VertexBufferMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820291D80A55700677CAB /* VertexBufferMetal.cpp */; };
-		303820321D80A55700677CAB /* VertexBufferMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820291D80A55700677CAB /* VertexBufferMetal.cpp */; };
-		303820331D80A55700677CAB /* VertexBufferMetal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820291D80A55700677CAB /* VertexBufferMetal.cpp */; };
+		303820311D80A55700677CAB /* VertexBufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820291D80A55700677CAB /* VertexBufferMetal.mm */; };
+		303820321D80A55700677CAB /* VertexBufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820291D80A55700677CAB /* VertexBufferMetal.mm */; };
+		303820331D80A55700677CAB /* VertexBufferMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820291D80A55700677CAB /* VertexBufferMetal.mm */; };
 		303820341D80A55700677CAB /* VertexBufferMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3038202A1D80A55700677CAB /* VertexBufferMetal.h */; };
 		303820351D80A55700677CAB /* VertexBufferMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3038202A1D80A55700677CAB /* VertexBufferMetal.h */; };
 		303820361D80A55700677CAB /* VertexBufferMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3038202A1D80A55700677CAB /* VertexBufferMetal.h */; };
@@ -795,9 +795,9 @@
 		30381FDC1D80A40700677CAB /* TextureVSIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSIOS.h; sourceTree = "<group>"; };
 		30381FDD1D80A40700677CAB /* TextureVSMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSMacOS.h; sourceTree = "<group>"; };
 		30381FDE1D80A40700677CAB /* TextureVSTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSTVOS.h; sourceTree = "<group>"; };
-		303820271D80A55700677CAB /* IndexBufferMetal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexBufferMetal.cpp; sourceTree = "<group>"; };
+		303820271D80A55700677CAB /* IndexBufferMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IndexBufferMetal.mm; sourceTree = "<group>"; };
 		303820281D80A55700677CAB /* IndexBufferMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexBufferMetal.h; sourceTree = "<group>"; };
-		303820291D80A55700677CAB /* VertexBufferMetal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexBufferMetal.cpp; sourceTree = "<group>"; };
+		303820291D80A55700677CAB /* VertexBufferMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VertexBufferMetal.mm; sourceTree = "<group>"; };
 		3038202A1D80A55700677CAB /* VertexBufferMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexBufferMetal.h; sourceTree = "<group>"; };
 		303B74E11C277A7500FEDE92 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		303B74E21C277A7500FEDE92 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
@@ -1350,8 +1350,8 @@
 				30381FCC1D80A40700677CAB /* ColorVSIOS.h */,
 				30381FCD1D80A40700677CAB /* ColorVSMacOS.h */,
 				30381FCE1D80A40700677CAB /* ColorVSTVOS.h */,
-				303820271D80A55700677CAB /* IndexBufferMetal.cpp */,
 				303820281D80A55700677CAB /* IndexBufferMetal.h */,
+				303820271D80A55700677CAB /* IndexBufferMetal.mm */,
 				30381FCF1D80A40700677CAB /* MeshBufferMetal.h */,
 				30381FD01D80A40700677CAB /* MeshBufferMetal.mm */,
 				30381FD11D80A40700677CAB /* RendererMetal.h */,
@@ -1368,8 +1368,8 @@
 				30381FDC1D80A40700677CAB /* TextureVSIOS.h */,
 				30381FDD1D80A40700677CAB /* TextureVSMacOS.h */,
 				30381FDE1D80A40700677CAB /* TextureVSTVOS.h */,
-				303820291D80A55700677CAB /* VertexBufferMetal.cpp */,
 				3038202A1D80A55700677CAB /* VertexBufferMetal.h */,
+				303820291D80A55700677CAB /* VertexBufferMetal.mm */,
 			);
 			path = metal;
 			sourceTree = "<group>";
@@ -1989,7 +1989,7 @@
 				301EB3AB1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				303B75481C2A3C9200FEDE92 /* Shader.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
-				3038202B1D80A55700677CAB /* IndexBufferMetal.cpp in Sources */,
+				3038202B1D80A55700677CAB /* IndexBufferMetal.mm in Sources */,
 				303820121D80A40700677CAB /* TextureMetal.mm in Sources */,
 				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
 				305B99921C41F06F008589E1 /* Widget.cpp in Sources */,
@@ -2047,7 +2047,7 @@
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
 				3047F7781C4D39C500774E3D /* Repeat.cpp in Sources */,
 				303820061D80A40700677CAB /* RenderTargetMetal.mm in Sources */,
-				303820311D80A55700677CAB /* VertexBufferMetal.cpp in Sources */,
+				303820311D80A55700677CAB /* VertexBufferMetal.mm in Sources */,
 				30381FBB1D80A3F900677CAB /* SoundAL.cpp in Sources */,
 				30381F791D80A3EC00677CAB /* RendererOGL.cpp in Sources */,
 				30419DE21D162BCF00A63759 /* Audio.cpp in Sources */,
@@ -2097,7 +2097,7 @@
 				301EB3AC1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */,
 				3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */,
-				3038202D1D80A55700677CAB /* IndexBufferMetal.cpp in Sources */,
+				3038202D1D80A55700677CAB /* IndexBufferMetal.mm in Sources */,
 				303820141D80A40700677CAB /* TextureMetal.mm in Sources */,
 				303B763D1C355A3B00FEDE92 /* Shader.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
@@ -2155,7 +2155,7 @@
 				303B76541C355A3B00FEDE92 /* Node.cpp in Sources */,
 				3047F7791C4D39C500774E3D /* Repeat.cpp in Sources */,
 				303820081D80A40700677CAB /* RenderTargetMetal.mm in Sources */,
-				303820331D80A55700677CAB /* VertexBufferMetal.cpp in Sources */,
+				303820331D80A55700677CAB /* VertexBufferMetal.mm in Sources */,
 				30381FBD1D80A3F900677CAB /* SoundAL.cpp in Sources */,
 				30381F7B1D80A3EC00677CAB /* RendererOGL.cpp in Sources */,
 				30419DE31D162BCF00A63759 /* Audio.cpp in Sources */,
@@ -2205,7 +2205,7 @@
 				301EB3A21CCD691800466E92 /* Component.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				301EB3AA1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
-				3038202C1D80A55700677CAB /* IndexBufferMetal.cpp in Sources */,
+				3038202C1D80A55700677CAB /* IndexBufferMetal.mm in Sources */,
 				303820131D80A40700677CAB /* TextureMetal.mm in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,
@@ -2263,7 +2263,7 @@
 				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,
 				30381FBC1D80A3F900677CAB /* SoundAL.cpp in Sources */,
 				303820071D80A40700677CAB /* RenderTargetMetal.mm in Sources */,
-				303820321D80A55700677CAB /* VertexBufferMetal.cpp in Sources */,
+				303820321D80A55700677CAB /* VertexBufferMetal.mm in Sources */,
 				30381F7A1D80A3EC00677CAB /* RendererOGL.cpp in Sources */,
 				30419DE11D162BCF00A63759 /* Audio.cpp in Sources */,
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,

@@ -5,6 +5,8 @@
 #include "core/CompileConfig.h"
 #include "core/Engine.h"
 #include "RendererOGL.h"
+#include "IndexBufferOGL.h"
+#include "VertexBufferOGL.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -21,16 +23,6 @@ namespace ouzel
             {
                 RendererOGL::deleteResource(vertexArrayId, RendererOGL::ResourceType::VertexArray);
             }
-
-            if (vertexBufferId)
-            {
-                RendererOGL::deleteResource(vertexBufferId, RendererOGL::ResourceType::Buffer);
-            }
-
-            if (indexBufferId)
-            {
-                RendererOGL::deleteResource(indexBufferId, RendererOGL::ResourceType::Buffer);
-            }
         }
 
         void MeshBufferOGL::free()
@@ -42,18 +34,91 @@ namespace ouzel
                 RendererOGL::deleteResource(vertexArrayId, RendererOGL::ResourceType::VertexArray);
                 vertexArrayId = 0;
             }
+        }
 
-            if (vertexBufferId)
+        bool MeshBufferOGL::bindBuffers()
+        {
+            if (vertexArrayId)
             {
-                RendererOGL::deleteResource(vertexBufferId, RendererOGL::ResourceType::Buffer);
-                vertexBufferId = 0;
+                if (!RendererOGL::bindVertexArray(vertexArrayId))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(indexBuffer);
+
+                if (!indexBufferOGL || !indexBufferOGL->bindBuffer())
+                {
+                    return false;
+                }
+
+                std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(vertexBuffer);
+
+                if (!vertexBufferOGL || !vertexBufferOGL->bindBuffer())
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        bool MeshBufferOGL::upload()
+        {
+            if (dirty)
+            {
+                if (!indexBuffer->upload())
+                {
+                    return false;
+                }
+
+                if (!vertexBuffer->upload())
+                {
+                    return false;
+                }
+
+                if (!vertexArrayId)
+                {
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+                    glGenVertexArraysOES(1, &vertexArrayId);
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+                    if (glGenVertexArraysOESEXT) glGenVertexArraysOESEXT(1, &vertexArrayId);
+#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+                    glGenVertexArrays(1, &vertexArrayId);
+#endif
+                }
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    log(LOG_LEVEL_WARNING, "Failed to create vertex array");
+                }
+
+                if (vertexArrayId)
+                {
+                    RendererOGL::bindVertexArray(vertexArrayId);
+
+                    std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(indexBuffer);
+
+                    if (indexBufferOGL && !indexBufferOGL->bindBuffer())
+                    {
+                        return false;
+                    }
+
+                    std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(vertexBuffer);
+
+                    if (vertexBufferOGL && !vertexBufferOGL->bindBuffer())
+                    {
+                        return false;
+                    }
+                }
+
+                ready = indexBuffer && vertexBuffer;
+                dirty = false;
             }
 
-            if (indexBufferId)
-            {
-                RendererOGL::deleteResource(indexBufferId, RendererOGL::ResourceType::Buffer);
-                indexBufferId = 0;
-            }
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel
