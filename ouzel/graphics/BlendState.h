@@ -52,28 +52,36 @@ namespace ouzel
                               BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
                               BlendOperation newAlphaOperation);
 
-            bool isBlendingEnabled() const { return enableBlending; }
-            BlendFactor getColorBlendSource() const { return colorBlendSource; }
-            BlendFactor getColorBlendDest() const { return colorBlendDest; }
-            BlendOperation getColorOperation() const { return colorOperation; }
-            BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
-            BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
-            BlendOperation getAlphaOperation() const { return alphaOperation; }
+            bool isBlendingEnabled() const { return data.enableBlending; }
+            BlendFactor getColorBlendSource() const { return data.colorBlendSource; }
+            BlendFactor getColorBlendDest() const { return data.colorBlendDest; }
+            BlendOperation getColorOperation() const { return data.colorOperation; }
+            BlendFactor getAlphaBlendSource() const { return data.alphaBlendSource; }
+            BlendFactor getAlphaBlendDest() const { return data.alphaBlendDest; }
+            BlendOperation getAlphaOperation() const { return data.alphaOperation; }
 
             bool isReady() const { return ready; }
 
         protected:
             BlendState();
+            virtual void update() override;
 
-            BlendFactor colorBlendSource = BlendFactor::ONE;
-            BlendFactor colorBlendDest = BlendFactor::ZERO;
-            BlendOperation colorOperation = BlendOperation::ADD;
-            BlendFactor alphaBlendSource = BlendFactor::ONE;
-            BlendFactor alphaBlendDest = BlendFactor::ZERO;
-            BlendOperation alphaOperation = BlendOperation::ADD;
-            bool enableBlending = false;
+            struct Data
+            {
+                BlendFactor colorBlendSource = BlendFactor::ONE;
+                BlendFactor colorBlendDest = BlendFactor::ZERO;
+                BlendOperation colorOperation = BlendOperation::ADD;
+                BlendFactor alphaBlendSource = BlendFactor::ONE;
+                BlendFactor alphaBlendDest = BlendFactor::ZERO;
+                BlendOperation alphaOperation = BlendOperation::ADD;
+                bool enableBlending = false;
+            };
+
+            Data data;
+            Data uploadData;
 
             bool ready = false;
+            bool dirty = false;
         };
     } // namespace graphics
 } // namespace ouzel

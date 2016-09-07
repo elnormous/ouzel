@@ -771,7 +771,7 @@ namespace ouzel
             // blending
             std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(blendState);
 
-            pipelineStateDescriptor.colorAttachments[0].blendingEnabled = blendState->isBlendingEnabled() ? YES : NO;
+            pipelineStateDescriptor.colorAttachments[0].blendingEnabled = blendState->isMetalBlendingEnabled() ? YES : NO;
 
             pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = blendStateMetal->getSourceRGBBlendFactor();
             pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = blendStateMetal->getDestinationRGBBlendFactor();

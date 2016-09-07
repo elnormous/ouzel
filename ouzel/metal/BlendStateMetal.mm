@@ -43,29 +43,15 @@ namespace ouzel
             return MTLBlendOperationAdd;
         }
 
-        bool BlendStateMetal::init(bool newEnableBlending,
-                                   BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
-                                   BlendOperation newColorOperation,
-                                   BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                                   BlendOperation newAlphaOperation)
+        bool BlendStateMetal::upload()
         {
-            if (!BlendState::init(newEnableBlending,
-                                  newColorBlendSource,
-                                  newColorBlendDest,
-                                  newColorOperation,
-                                  newAlphaBlendSource,
-                                  newAlphaBlendDest,
-                                  newAlphaOperation))
-            {
-                return false;
-            }
-
-            rgbBlendOperation = getBlendOperation(newColorOperation);
-            alphaBlendOperation = getBlendOperation(newAlphaOperation);
-            sourceRGBBlendFactor = getBlendFactor(newColorBlendSource);
-            destinationRGBBlendFactor = getBlendFactor(newColorBlendDest);
-            sourceAlphaBlendFactor = getBlendFactor(newAlphaBlendSource);
-            destinationAlphaBlendFactor = getBlendFactor(newAlphaBlendDest);
+            rgbBlendOperation = getBlendOperation(uploadData.colorOperation);
+            alphaBlendOperation = getBlendOperation(uploadData.alphaOperation);
+            sourceRGBBlendFactor = getBlendFactor(uploadData.colorBlendSource);
+            destinationRGBBlendFactor = getBlendFactor(uploadData.colorBlendDest);
+            sourceAlphaBlendFactor = getBlendFactor(uploadData.alphaBlendSource);
+            destinationAlphaBlendFactor = getBlendFactor(uploadData.alphaBlendDest);
+            metalBlendingEnabled = uploadData.enableBlending;
 
             ready = true;
 

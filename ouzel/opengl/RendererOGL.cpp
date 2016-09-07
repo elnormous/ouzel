@@ -397,7 +397,7 @@ namespace ouzel
                     continue;
                 }
 
-                if (!setBlendState(blendStateOGL->isBlendingEnabled(),
+                if (!setBlendState(blendStateOGL->isGLBlendEnabled(),
                                    blendStateOGL->getModeRGB(),
                                    blendStateOGL->getModeAlpha(),
                                    blendStateOGL->getSourceFactorRGB(),

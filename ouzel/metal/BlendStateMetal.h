@@ -24,26 +24,24 @@ namespace ouzel
         {
             friend RendererMetal;
         public:
-            virtual bool init(bool newEnableBlending,
-                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
-                              BlendOperation newColorOperation,
-                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                              BlendOperation newAlphaOperation) override;
-
             MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
             MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
             MTLBlendFactor getSourceRGBBlendFactor() const { return sourceRGBBlendFactor; }
             MTLBlendFactor getDestinationRGBBlendFactor() const { return destinationRGBBlendFactor; }
             MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
             MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
+            bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
 
         protected:
+            virtual bool upload() override;
+
             MTLBlendOperation rgbBlendOperation;
             MTLBlendOperation alphaBlendOperation;
             MTLBlendFactor sourceRGBBlendFactor;
             MTLBlendFactor destinationRGBBlendFactor;
             MTLBlendFactor sourceAlphaBlendFactor;
             MTLBlendFactor destinationAlphaBlendFactor;
+            bool metalBlendingEnabled;
         };
     } // namespace graphics
 } // namespace ouzel
