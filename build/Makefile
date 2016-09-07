@@ -35,12 +35,14 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/graphics/BlendState.cpp \
 	../ouzel/graphics/Color.cpp \
 	../ouzel/graphics/Image.cpp \
+	../ouzel/graphics/IndexBuffer.cpp \
 	../ouzel/graphics/MeshBuffer.cpp \
 	../ouzel/graphics/Renderer.cpp \
 	../ouzel/graphics/RenderTarget.cpp \
 	../ouzel/graphics/Shader.cpp \
 	../ouzel/graphics/Texture.cpp \
 	../ouzel/graphics/Vertex.cpp \
+	../ouzel/graphics/VertexBuffer.cpp \
 	../ouzel/gui/BMFont.cpp \
 	../ouzel/gui/Button.cpp \
 	../ouzel/gui/CheckBox.cpp \
@@ -72,11 +74,13 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/openal/SoundAL.cpp \
 	../ouzel/openal/SoundDataAL.cpp \
 	../ouzel/opengl/BlendStateOGL.cpp \
+	../ouzel/opengl/IndexBuffer.cpp \
 	../ouzel/opengl/MeshBufferOGL.cpp \
 	../ouzel/opengl/RendererOGL.cpp \
 	../ouzel/opengl/RenderTargetOGL.cpp \
 	../ouzel/opengl/ShaderOGL.cpp \
 	../ouzel/opengl/TextureOGL.cpp \
+	../ouzel/opengl/VertexBuffer.cpp \
 	../ouzel/scene/Camera.cpp \
 	../ouzel/scene/Component.cpp \
 	../ouzel/scene/Layer.cpp \
@@ -118,11 +122,13 @@ SOURCES+=../ouzel/apple/AudioALApple.mm \
 	../ouzel/macos/RendererOGLMacOS.mm \
 	../ouzel/macos/WindowMacOS.mm \
 	../ouzel/metal/BlendStateMetal.mm \
+	../ouzel/metal/IndexBufferMetal.mm \
 	../ouzel/metal/MeshBufferMetal.mm \
 	../ouzel/metal/RendererMetal.mm \
 	../ouzel/metal/RenderTargetMetal.mm \
 	../ouzel/metal/ShaderMetal.mm \
-	../ouzel/metal/TextureMetal.mm
+	../ouzel/metal/TextureMetal.mm \
+	../ouzel/metal/VertexBufferMetal.mm
 endif
 TMP=$(SOURCES:.cpp=.o)
 OBJECTS=$(TMP:.mm=.o)

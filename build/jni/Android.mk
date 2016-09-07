@@ -37,12 +37,14 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/BlendState.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Color.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Image.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/IndexBuffer.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/MeshBuffer.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Renderer.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/RenderTarget.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Shader.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Texture.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Vertex.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/VertexBuffer.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/BMFont.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/Button.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/CheckBox.cpp \
