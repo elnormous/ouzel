@@ -1,7 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <fstream>
 #include "Shader.h"
 #include "core/Engine.h"
 #include "core/Application.h"
@@ -162,13 +161,6 @@ namespace ouzel
             {
                 uploadData.vertexShaderFunction = std::move(data.vertexShaderFunction);
             }
-        }
-
-        bool Shader::upload()
-        {
-            ready = true;
-            dirty = false;
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

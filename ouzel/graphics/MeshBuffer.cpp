@@ -53,11 +53,8 @@ namespace ouzel
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
         }
 
-        bool MeshBuffer::upload()
+        void MeshBuffer::update()
         {
-            ready = true;
-            dirty = false;
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -10,11 +10,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../external/stb \
     $(LOCAL_PATH)/../../external/rapidjson/include
 
-LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
-    $(LOCAL_PATH)/../../ouzel/android/GamepadAndroid.cpp \
-    $(LOCAL_PATH)/../../ouzel/android/InputAndroid.cpp \
-    $(LOCAL_PATH)/../../ouzel/android/WindowAndroid.cpp \
-    $(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
+LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Ease.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Fade.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Move.cpp \
@@ -24,9 +20,17 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Scale.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Sequence.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Shake.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/opensl/AudioSL.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/opensl/SoundSL.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/opensl/SoundDataSL.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/void/AudioVoid.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/void/SoundVoid.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/void/SoundDataVoid.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/Audio.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/Sound.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/SoundData.cpp \
+    $(LOCAL_PATH)/../../ouzel/core/android/ApplicationAndroid.cpp \
+    $(LOCAL_PATH)/../../ouzel/core/android/WindowAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Application.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Cache.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Engine.cpp \
@@ -34,6 +38,22 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/events/EventDispatcher.cpp \
     $(LOCAL_PATH)/../../ouzel/events/EventHandler.cpp \
     $(LOCAL_PATH)/../../ouzel/files/FileSystem.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/opengl/BlendStateOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/opengl/MeshBufferOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/opengl/IndexBufferOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/opengl/RendererOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/opengl/RenderTargetOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/opengl/ShaderOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/opengl/TextureOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/opengl/VertexBufferOGL.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/void/BlendStateVoid.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/void/IndexBufferVoid.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/void/MeshBufferVoid.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/void/RendererVoid.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/void/RenderTargetVoid.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/void/ShaderVoid.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/void/TextureVoid.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/void/VertexBufferVoid.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/BlendState.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Color.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Image.cpp \
@@ -58,6 +78,8 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/ScrollBar.cpp \
 	$(LOCAL_PATH)/../../ouzel/gui/SlideBar.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/Widget.cpp \
+    $(LOCAL_PATH)/../../ouzel/input/android/GamepadAndroid.cpp \
+    $(LOCAL_PATH)/../../ouzel/input/android/InputAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/input/Gamepad.cpp \
     $(LOCAL_PATH)/../../ouzel/input/Input.cpp \
     $(LOCAL_PATH)/../../ouzel/localization/Language.cpp \
@@ -72,17 +94,6 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/android/ApplicationAndroid.cpp \
     $(LOCAL_PATH)/../../ouzel/math/Vector2.cpp \
     $(LOCAL_PATH)/../../ouzel/math/Vector3.cpp \
     $(LOCAL_PATH)/../../ouzel/math/Vector4.cpp \
-    $(LOCAL_PATH)/../../ouzel/opengl/BlendStateOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opengl/MeshBufferOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opengl/IndexBufferOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opengl/RendererOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opengl/RenderTargetOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opengl/ShaderOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opengl/TextureOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opengl/VertexBufferOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opensl/AudioSL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opensl/SoundSL.cpp \
-    $(LOCAL_PATH)/../../ouzel/opensl/SoundDataSL.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Camera.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Component.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Layer.cpp \

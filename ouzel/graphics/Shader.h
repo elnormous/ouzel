@@ -30,7 +30,6 @@ namespace ouzel
 
             virtual ~Shader();
             virtual void free() override;
-            virtual bool upload() override;
 
             virtual bool initFromFiles(const std::string& newPixelShader,
                                        const std::string& newVertexShader,

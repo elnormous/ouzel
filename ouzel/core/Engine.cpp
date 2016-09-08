@@ -14,55 +14,59 @@
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/WindowMacOS.h"
-#include "macos/RendererOGLMacOS.h"
+#include "graphics/macos/RendererOGLMacOS.h"
 #elif OUZEL_PLATFORM_IOS
 #include "ios/WindowIOS.h"
-#include "ios/RendererOGLIOS.h"
+#include "graphics/ios/RendererOGLIOS.h"
 #elif OUZEL_PLATFORM_TVOS
 #include "tvos/WindowTVOS.h"
-#include "tvos/RendererOGLTVOS.h"
+#include "graphics/tvos/RendererOGLTVOS.h"
 #elif OUZEL_PLATFORM_ANDROID
 #include "android/WindowAndroid.h"
-#include "android/InputAndroid.h"
+#include "input/android/InputAndroid.h"
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowLinux.h"
-#include "linux/RendererOGLLinux.h"
-#include "linux/InputLinux.h"
+#include "graphics/linux/RendererOGLLinux.h"
+#include "input/linux/InputLinux.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "win/WindowWin.h"
 #elif OUZEL_PLATFORM_RASPBIAN
 #include "rpi/WindowRPI.h"
-#include "rpi/RendererOGLRPI.h"
-#include "rpi/InputRPI.h"
+#include "graphics/rpi/RendererOGLRPI.h"
+#include "input/rpi/InputRPI.h"
 #endif
 
+#include "graphics/void/RendererVoid.h"
+
 #if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
-#include "opengl/RendererOGL.h"
+#include "graphics/opengl/RendererOGL.h"
 #endif
 
 #if OUZEL_SUPPORTS_DIRECT3D11
-#include "direct3d11/RendererD3D11.h"
+#include "graphics/direct3d11/RendererD3D11.h"
 #endif
 
 #if OUZEL_SUPPORTS_METAL
-#include "metal/RendererMetal.h"
+#include "graphics/metal/RendererMetal.h"
 #endif
 
+#include "audio/void/AudioVoid.h"
+
 #if OUZEL_SUPPORTS_OPENAL
-#include "openal/AudioAL.h"
+#include "audio/openal/AudioAL.h"
 #endif
 
 #if OUZEL_SUPPORTS_XAUDIO2
-#include "xaudio2/AudioXA2.h"
+#include "audio/xaudio2/AudioXA2.h"
 #endif
 
 #if OUZEL_SUPPORTS_OPENSL
-#include "opensl/AudioSL.h"
+#include "audio/opensl/AudioSL.h"
 #endif
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#include "apple/AudioALApple.h"
-#include "apple/InputApple.h"
+#include "audio/apple/AudioALApple.h"
+#include "input/apple/InputApple.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "win/InputWin.h"
 #endif
@@ -202,9 +206,9 @@ namespace ouzel
 
         switch (settings.renderDriver)
         {
-            case graphics::Renderer::Driver::NONE:
+            case graphics::Renderer::Driver::VOID:
                 log(LOG_LEVEL_ERROR, "Not using render driver");
-                renderer.reset(new graphics::Renderer());
+                renderer.reset(new graphics::RendererVoid());
                 break;
 #if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
             case graphics::Renderer::Driver::OPENGL:
@@ -279,9 +283,9 @@ namespace ouzel
 
         switch (settings.audioDriver)
         {
-            case audio::Audio::Driver::NONE:
+            case audio::Audio::Driver::VOID:
                 log(LOG_LEVEL_ERROR, "Not using audio driver");
-                audio.reset(new audio::Audio());
+                audio.reset(new audio::AudioVoid());
                 break;
 #if OUZEL_SUPPORTS_OPENAL
             case audio::Audio::Driver::OPENAL:

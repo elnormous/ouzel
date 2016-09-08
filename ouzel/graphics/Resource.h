@@ -12,9 +12,9 @@ namespace ouzel
         class Resource: public std::enable_shared_from_this<Resource>
         {
         public:
-            virtual void free() {}
-            virtual void update() { }
-            virtual bool upload() { return true; }
+            virtual void free() = 0;
+            virtual void update() = 0;
+            virtual bool upload() = 0;
         };
     } // graphics
 } // ouzel

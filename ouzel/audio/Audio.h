@@ -22,7 +22,7 @@ namespace ouzel
             enum class Driver
             {
                 DEFAULT,
-                NONE,
+                VOID,
                 OPENAL,
                 XAUDIO2,
                 OPENSL
@@ -33,13 +33,13 @@ namespace ouzel
 
             virtual bool init();
 
-            virtual SoundDataPtr createSoundData();
-            virtual SoundPtr createSound();
+            virtual SoundDataPtr createSoundData() = 0;
+            virtual SoundPtr createSound() = 0;
 
             bool isReady() const { return ready; }
 
         protected:
-            Audio(Driver pDriver = Driver::NONE);
+            Audio(Driver pDriver);
 
             Driver driver;
 

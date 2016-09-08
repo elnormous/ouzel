@@ -29,17 +29,5 @@ namespace ouzel
 
             return true;
         }
-
-        SoundDataPtr Audio::createSoundData()
-        {
-            SoundDataPtr soundData(new SoundData());
-            return soundData;
-        }
-
-        SoundPtr Audio::createSound()
-        {
-            SoundPtr sound(new Sound());
-            return sound;
-        }
     } // namespace audio
 } // namespace ouzel

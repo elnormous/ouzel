@@ -47,7 +47,7 @@ namespace ouzel
             enum class Driver
             {
                 DEFAULT,
-                NONE,
+                VOID,
                 OPENGL,
                 DIRECT3D11,
                 METAL
@@ -89,13 +89,13 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
-            virtual BlendStatePtr createBlendState();
-            virtual TexturePtr createTexture();
-            virtual RenderTargetPtr createRenderTarget();
-            virtual ShaderPtr createShader();
-            virtual MeshBufferPtr createMeshBuffer();
-            virtual IndexBufferPtr createIndexBuffer();
-            virtual VertexBufferPtr createVertexBuffer();
+            virtual BlendStatePtr createBlendState() = 0;
+            virtual TexturePtr createTexture() = 0;
+            virtual RenderTargetPtr createRenderTarget() = 0;
+            virtual ShaderPtr createShader() = 0;
+            virtual MeshBufferPtr createMeshBuffer() = 0;
+            virtual IndexBufferPtr createIndexBuffer() = 0;
+            virtual VertexBufferPtr createVertexBuffer() = 0;
 
             bool getRefillDrawQueue() const { return refillDrawQueue; }
             bool addDrawCommand(const std::vector<TexturePtr>& textures,
@@ -131,7 +131,7 @@ namespace ouzel
             virtual bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
 
         protected:
-            Renderer(Driver pDriver = Driver::NONE);
+            Renderer(Driver pDriver);
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
                               TextureFiltering newTextureFiltering,

@@ -22,6 +22,12 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Scale.cpp \
 	../ouzel/animators/Sequence.cpp \
 	../ouzel/animators/Shake.cpp \
+	../ouzel/audio/openal/AudioAL.cpp \
+	../ouzel/audio/openal/SoundAL.cpp \
+	../ouzel/audio/openal/SoundDataAL.cpp \
+	../ouzel/audio/void/AudioVoid.cpp \
+	../ouzel/audio/void/SoundVoid.cpp \
+	../ouzel/audio/void/SoundDataVoid.cpp \
 	../ouzel/audio/Audio.cpp \
 	../ouzel/audio/Sound.cpp \
 	../ouzel/audio/SoundData.cpp \
@@ -32,6 +38,22 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/events/EventDispatcher.cpp \
 	../ouzel/events/EventHandler.cpp \
 	../ouzel/files/FileSystem.cpp \
+	../ouzel/graphics/opengl/BlendStateOGL.cpp \
+	../ouzel/graphics/opengl/IndexBufferOGL.cpp \
+	../ouzel/graphics/opengl/MeshBufferOGL.cpp \
+	../ouzel/graphics/opengl/RendererOGL.cpp \
+	../ouzel/graphics/opengl/RenderTargetOGL.cpp \
+	../ouzel/graphics/opengl/ShaderOGL.cpp \
+	../ouzel/graphics/opengl/TextureOGL.cpp \
+	../ouzel/graphics/opengl/VertexBufferOGL.cpp \
+	../ouzel/graphics/void/BlendStateVoid.cpp \
+	../ouzel/graphics/void/IndexBufferVoid.cpp \
+	../ouzel/graphics/void/MeshBufferVoid.cpp \
+	../ouzel/graphics/void/RendererVoid.cpp \
+	../ouzel/graphics/void/RenderTargetVoid.cpp \
+	../ouzel/graphics/void/ShaderVoid.cpp \
+	../ouzel/graphics/void/TextureVoid.cpp \
+	../ouzel/graphics/void/VertexBufferVoid.cpp \
 	../ouzel/graphics/BlendState.cpp \
 	../ouzel/graphics/Color.cpp \
 	../ouzel/graphics/Image.cpp \
@@ -70,17 +92,6 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/math/Vector2.cpp \
 	../ouzel/math/Vector3.cpp \
 	../ouzel/math/Vector4.cpp \
-	../ouzel/openal/AudioAL.cpp \
-	../ouzel/openal/SoundAL.cpp \
-	../ouzel/openal/SoundDataAL.cpp \
-	../ouzel/opengl/BlendStateOGL.cpp \
-	../ouzel/opengl/IndexBufferOGL.cpp \
-	../ouzel/opengl/MeshBufferOGL.cpp \
-	../ouzel/opengl/RendererOGL.cpp \
-	../ouzel/opengl/RenderTargetOGL.cpp \
-	../ouzel/opengl/ShaderOGL.cpp \
-	../ouzel/opengl/TextureOGL.cpp \
-	../ouzel/opengl/VertexBufferOGL.cpp \
 	../ouzel/scene/Camera.cpp \
 	../ouzel/scene/Component.cpp \
 	../ouzel/scene/Layer.cpp \
@@ -96,39 +107,39 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/scene/TextDrawable.cpp \
 	../ouzel/utils/Utils.cpp
 ifeq ($(platform),raspbian)
-SOURCES+=../ouzel/rpi/ApplicationRPI.cpp \
-	../ouzel/rpi/main.cpp \
-	../ouzel/rpi/GamepadRPI.cpp \
-	../ouzel/rpi/InputRPI.cpp \
-	../ouzel/rpi/RendererOGLRPI.cpp \
-	../ouzel/rpi/WindowRPI.cpp
+SOURCES+=../ouzel/core/rpi/ApplicationRPI.cpp \
+	../ouzel/core/rpi/main.cpp \
+	../ouzel/core/rpi/WindowRPI.cpp \
+	../ouzel/graphics/rpi/RendererOGLRPI.cpp \
+	../ouzel/input/rpi/GamepadRPI.cpp \
+	../ouzel/input/rpi/InputRPI.cpp
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
-SOURCES+=../ouzel/linux/ApplicationLinux.cpp \
-	../ouzel/linux/main.cpp \
-	../ouzel/linux/GamepadLinux.cpp \
-	../ouzel/linux/InputLinux.cpp \
-	../ouzel/linux/RendererOGLLinux.cpp \
-	../ouzel/linux/WindowLinux.cpp
+SOURCES+=../ouzel/core/linux/ApplicationLinux.cpp \
+	../ouzel/core/linux/main.cpp \
+	../ouzel/core/linux/WindowLinux.cpp \
+	../ouzel/input/linux/GamepadLinux.cpp \
+	../ouzel/input/linux/InputLinux.cpp \
+	../ouzel/graphics/linux/RendererOGLLinux.cpp
 else ifeq ($(platform),macos)
-SOURCES+=../ouzel/apple/AudioALApple.mm \
-	../ouzel/apple/GamepadApple.mm \
-	../ouzel/apple/InputApple.mm \
-	../ouzel/macos/AppDelegate.mm \
-	../ouzel/macos/ApplicationMacOS.mm \
-	../ouzel/macos/main.cpp \
-	../ouzel/macos/MetalView.mm \
-	../ouzel/macos/OpenGLView.mm \
-	../ouzel/macos/RendererOGLMacOS.mm \
-	../ouzel/macos/WindowMacOS.mm \
-	../ouzel/metal/BlendStateMetal.mm \
-	../ouzel/metal/IndexBufferMetal.mm \
-	../ouzel/metal/MeshBufferMetal.mm \
-	../ouzel/metal/RendererMetal.mm \
-	../ouzel/metal/RenderTargetMetal.mm \
-	../ouzel/metal/ShaderMetal.mm \
-	../ouzel/metal/TextureMetal.mm \
-	../ouzel/metal/VertexBufferMetal.mm
+SOURCES+=../ouzel/audio/apple/AudioALApple.mm \
+	../ouzel/core/macos/AppDelegate.mm \
+	../ouzel/core/macos/ApplicationMacOS.mm \
+	../ouzel/core/macos/main.cpp \
+	../ouzel/core/macos/WindowMacOS.mm \
+	../ouzel/input/apple/GamepadApple.mm \
+	../ouzel/input/apple/InputApple.mm \
+	../ouzel/graphics/macos/MetalView.mm \
+	../ouzel/graphics/macos/OpenGLView.mm \
+	../ouzel/graphics/macos/RendererOGLMacOS.mm \
+	../ouzel/graphics/metal/BlendStateMetal.mm \
+	../ouzel/graphics/metal/IndexBufferMetal.mm \
+	../ouzel/graphics/metal/MeshBufferMetal.mm \
+	../ouzel/graphics/metal/RendererMetal.mm \
+	../ouzel/graphics/metal/RenderTargetMetal.mm \
+	../ouzel/graphics/metal/ShaderMetal.mm \
+	../ouzel/graphics/metal/TextureMetal.mm \
+	../ouzel/graphics/metal/VertexBufferMetal.mm
 endif
 TMP=$(SOURCES:.cpp=.o)
 OBJECTS=$(TMP:.mm=.o)

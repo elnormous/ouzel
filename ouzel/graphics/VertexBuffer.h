@@ -19,7 +19,6 @@ namespace ouzel
         public:
             virtual ~VertexBuffer();
             virtual void free() override;
-            virtual bool upload() override;
 
             virtual bool init(bool newDynamic = true);
             virtual bool initFromBuffer(const void* newVertices, uint32_t newVertexAttributes,
@@ -66,5 +65,5 @@ namespace ouzel
             
             uint8_t dirty = 0;
         };
-    }
-}
+    } // namespace graphics
+} // namespace ouzel

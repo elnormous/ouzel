@@ -105,48 +105,6 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        BlendStatePtr Renderer::createBlendState()
-        {
-            BlendStatePtr blendState(new BlendState());
-            return blendState;
-        }
-
-        TexturePtr Renderer::createTexture()
-        {
-            TexturePtr texture(new Texture());
-            return texture;
-        }
-
-        RenderTargetPtr Renderer::createRenderTarget()
-        {
-            RenderTargetPtr renderTarget(new RenderTarget());
-            return renderTarget;
-        }
-
-        ShaderPtr Renderer::createShader()
-        {
-            ShaderPtr shader(new Shader());
-            return shader;
-        }
-
-        MeshBufferPtr Renderer::createMeshBuffer()
-        {
-            MeshBufferPtr meshBuffer(new MeshBuffer());
-            return meshBuffer;
-        }
-
-        IndexBufferPtr Renderer::createIndexBuffer()
-        {
-            IndexBufferPtr indexBuffer(new IndexBuffer());
-            return indexBuffer;
-        }
-
-        VertexBufferPtr Renderer::createVertexBuffer()
-        {
-            VertexBufferPtr vertexBuffer(new VertexBuffer());
-            return vertexBuffer;
-        }
-
         bool Renderer::addDrawCommand(const std::vector<TexturePtr>& textures,
                                       const ShaderPtr& shader,
                                       const std::vector<std::vector<float>>& pixelShaderConstants,

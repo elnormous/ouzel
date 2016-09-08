@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <jni.h>
-#include "android/ApplicationAndroid.h"
+#include "core/android/ApplicationAndroid.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "files/FileSystem.h"

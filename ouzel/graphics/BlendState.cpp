@@ -46,13 +46,5 @@ namespace ouzel
         {
             uploadData = data;
         }
-
-        bool BlendState::upload()
-        {
-            ready = true;
-            dirty = false;
-            
-            return true;
-        }
     } // namespace graphics
 } // namespace ouzel

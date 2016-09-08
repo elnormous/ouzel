@@ -30,10 +30,8 @@ namespace ouzel
             return true;
         }
 
-        bool RenderTarget::upload()
+        void RenderTarget::update()
         {
-            ready = true;
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel
