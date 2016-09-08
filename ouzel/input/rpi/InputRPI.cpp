@@ -374,7 +374,7 @@ namespace ouzel
                     ioctl(inputDevice.fd, EVIOCGBIT(EV_REL, sizeof(relBits)), relBits) == -1 ||
                     ioctl(inputDevice.fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
                 {
-                    printf(LOG_LEVEL_WARNING, "Failed to get device event bits\n");
+                    log(LOG_LEVEL_WARNING, "Failed to get device event bits");
                     continue;
                 }
         
