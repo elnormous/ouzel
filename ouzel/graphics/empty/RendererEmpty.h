@@ -11,12 +11,12 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererVoid: public Renderer
+        class RendererEmpty: public Renderer
         {
             friend Engine;
             friend Window;
         public:
-            virtual ~RendererVoid();
+            virtual ~RendererEmpty();
 
             virtual BlendStatePtr createBlendState() override;
             virtual TexturePtr createTexture() override;
@@ -27,7 +27,7 @@ namespace ouzel
             virtual VertexBufferPtr createVertexBuffer() override;
 
         protected:
-            RendererVoid();
+            RendererEmpty();
             
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,

@@ -1,26 +1,24 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#pragma once
+#include "graphics/BlendState.h"
 
-#include "graphics/Texture.h"
+#pragma once
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RendererVoid;
-        class RenderTargetVoid;
+        class RendererEmpty;
 
-        class TextureVoid: public Texture
+        class BlendStateEmpty: public BlendState
         {
-            friend RendererVoid;
-            friend RenderTargetVoid;
+            friend RendererEmpty;
         public:
-            virtual ~TextureVoid();
+            virtual ~BlendStateEmpty();
 
         protected:
-            TextureVoid();
+            BlendStateEmpty();
             virtual bool upload() override;
         };
     } // namespace graphics

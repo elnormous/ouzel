@@ -1,17 +1,17 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "SoundVoid.h"
+#include "SoundEmpty.h"
 
 namespace ouzel
 {
     namespace audio
     {
-        SoundVoid::SoundVoid()
+        SoundEmpty::SoundEmpty()
         {
         }
 
-        SoundVoid::~SoundVoid()
+        SoundEmpty::~SoundEmpty()
         {
         }
     } // namespace audio

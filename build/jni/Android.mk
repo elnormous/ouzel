@@ -20,12 +20,12 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Scale.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Sequence.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Shake.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/empty/AudioEmpty.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/empty/SoundEmpty.cpp \
+    $(LOCAL_PATH)/../../ouzel/audio/empty/SoundDataEmpty.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/opensl/AudioSL.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/opensl/SoundSL.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/opensl/SoundDataSL.cpp \
-    $(LOCAL_PATH)/../../ouzel/audio/void/AudioVoid.cpp \
-    $(LOCAL_PATH)/../../ouzel/audio/void/SoundVoid.cpp \
-    $(LOCAL_PATH)/../../ouzel/audio/void/SoundDataVoid.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/Audio.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/Sound.cpp \
     $(LOCAL_PATH)/../../ouzel/audio/SoundData.cpp \
@@ -38,6 +38,14 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/events/EventDispatcher.cpp \
     $(LOCAL_PATH)/../../ouzel/events/EventHandler.cpp \
     $(LOCAL_PATH)/../../ouzel/files/FileSystem.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/empty/BlendStateEmpty.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/empty/IndexBufferEmpty.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/empty/MeshBufferEmpty.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/empty/RendererEmpty.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/empty/RenderTargetEmpty.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/empty/ShaderEmpty.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/empty/TextureEmpty.cpp \
+    $(LOCAL_PATH)/../../ouzel/graphics/empty/VertexBufferEmpty.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/opengl/BlendStateOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/opengl/MeshBufferOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/opengl/IndexBufferOGL.cpp \
@@ -46,14 +54,6 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/opengl/ShaderOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/opengl/TextureOGL.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/opengl/VertexBufferOGL.cpp \
-    $(LOCAL_PATH)/../../ouzel/graphics/void/BlendStateVoid.cpp \
-    $(LOCAL_PATH)/../../ouzel/graphics/void/IndexBufferVoid.cpp \
-    $(LOCAL_PATH)/../../ouzel/graphics/void/MeshBufferVoid.cpp \
-    $(LOCAL_PATH)/../../ouzel/graphics/void/RendererVoid.cpp \
-    $(LOCAL_PATH)/../../ouzel/graphics/void/RenderTargetVoid.cpp \
-    $(LOCAL_PATH)/../../ouzel/graphics/void/ShaderVoid.cpp \
-    $(LOCAL_PATH)/../../ouzel/graphics/void/TextureVoid.cpp \
-    $(LOCAL_PATH)/../../ouzel/graphics/void/VertexBufferVoid.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/BlendState.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Color.cpp \
     $(LOCAL_PATH)/../../ouzel/graphics/Image.cpp \

@@ -1,24 +1,25 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "MeshBufferVoid.h"
+#include "BlendStateEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferVoid::MeshBufferVoid()
+        BlendStateEmpty::BlendStateEmpty()
         {
         }
 
-        MeshBufferVoid::~MeshBufferVoid()
+        BlendStateEmpty::~BlendStateEmpty()
         {
         }
 
-        bool MeshBufferVoid::upload()
+        bool BlendStateEmpty::upload()
         {
             ready = true;
             dirty = false;
+
             return true;
         }
     } // namespace graphics

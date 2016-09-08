@@ -22,12 +22,12 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Scale.cpp \
 	../ouzel/animators/Sequence.cpp \
 	../ouzel/animators/Shake.cpp \
+	../ouzel/audio/empty/AudioEmpty.cpp \
+	../ouzel/audio/empty/SoundEmpty.cpp \
+	../ouzel/audio/empty/SoundDataEmpty.cpp \
 	../ouzel/audio/openal/AudioAL.cpp \
 	../ouzel/audio/openal/SoundAL.cpp \
 	../ouzel/audio/openal/SoundDataAL.cpp \
-	../ouzel/audio/void/AudioVoid.cpp \
-	../ouzel/audio/void/SoundVoid.cpp \
-	../ouzel/audio/void/SoundDataVoid.cpp \
 	../ouzel/audio/Audio.cpp \
 	../ouzel/audio/Sound.cpp \
 	../ouzel/audio/SoundData.cpp \
@@ -38,6 +38,14 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/events/EventDispatcher.cpp \
 	../ouzel/events/EventHandler.cpp \
 	../ouzel/files/FileSystem.cpp \
+	../ouzel/graphics/empty/BlendStateEmpty.cpp \
+	../ouzel/graphics/empty/IndexBufferEmpty.cpp \
+	../ouzel/graphics/empty/MeshBufferEmpty.cpp \
+	../ouzel/graphics/empty/RendererEmpty.cpp \
+	../ouzel/graphics/empty/RenderTargetEmpty.cpp \
+	../ouzel/graphics/empty/ShaderEmpty.cpp \
+	../ouzel/graphics/empty/TextureEmpty.cpp \
+	../ouzel/graphics/empty/VertexBufferEmpty.cpp \
 	../ouzel/graphics/opengl/BlendStateOGL.cpp \
 	../ouzel/graphics/opengl/IndexBufferOGL.cpp \
 	../ouzel/graphics/opengl/MeshBufferOGL.cpp \
@@ -46,14 +54,6 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/graphics/opengl/ShaderOGL.cpp \
 	../ouzel/graphics/opengl/TextureOGL.cpp \
 	../ouzel/graphics/opengl/VertexBufferOGL.cpp \
-	../ouzel/graphics/void/BlendStateVoid.cpp \
-	../ouzel/graphics/void/IndexBufferVoid.cpp \
-	../ouzel/graphics/void/MeshBufferVoid.cpp \
-	../ouzel/graphics/void/RendererVoid.cpp \
-	../ouzel/graphics/void/RenderTargetVoid.cpp \
-	../ouzel/graphics/void/ShaderVoid.cpp \
-	../ouzel/graphics/void/TextureVoid.cpp \
-	../ouzel/graphics/void/VertexBufferVoid.cpp \
 	../ouzel/graphics/BlendState.cpp \
 	../ouzel/graphics/Color.cpp \
 	../ouzel/graphics/Image.cpp \
@@ -165,7 +165,7 @@ clean:
 	../ouzel/audio/*.o \
 	../ouzel/audio/apple/*.o \
 	../ouzel/audio/openal/*.o \
-	../ouzel/audio/void/*.o \
+	../ouzel/audio/empty/*.o \
 	../ouzel/animators/*.o \
 	../ouzel/core/*.o \
 	../ouzel/core/apple/*.o \
@@ -180,7 +180,7 @@ clean:
 	../ouzel/graphics/metal/*.o \
 	../ouzel/graphics/opengl/*.o \
 	../ouzel/graphics/rpi/*.o \
-	../ouzel/graphics/void/*.o \
+	../ouzel/graphics/empty/*.o \
 	../ouzel/gui/*.o \
 	../ouzel/input/*.o \
 	../ouzel/input/apple/*.o \

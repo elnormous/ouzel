@@ -36,7 +36,7 @@
 #include "input/rpi/InputRPI.h"
 #endif
 
-#include "graphics/void/RendererVoid.h"
+#include "graphics/empty/RendererEmpty.h"
 
 #if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
 #include "graphics/opengl/RendererOGL.h"
@@ -50,7 +50,7 @@
 #include "graphics/metal/RendererMetal.h"
 #endif
 
-#include "audio/void/AudioVoid.h"
+#include "audio/empty/AudioEmpty.h"
 
 #if OUZEL_SUPPORTS_OPENAL
 #include "audio/openal/AudioAL.h"
@@ -206,9 +206,9 @@ namespace ouzel
 
         switch (settings.renderDriver)
         {
-            case graphics::Renderer::Driver::VOID:
+            case graphics::Renderer::Driver::EMPTY:
                 log(LOG_LEVEL_ERROR, "Not using render driver");
-                renderer.reset(new graphics::RendererVoid());
+                renderer.reset(new graphics::RendererEmpty());
                 break;
 #if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
             case graphics::Renderer::Driver::OPENGL:
@@ -283,9 +283,9 @@ namespace ouzel
 
         switch (settings.audioDriver)
         {
-            case audio::Audio::Driver::VOID:
+            case audio::Audio::Driver::EMPTY:
                 log(LOG_LEVEL_ERROR, "Not using audio driver");
-                audio.reset(new audio::AudioVoid());
+                audio.reset(new audio::AudioEmpty());
                 break;
 #if OUZEL_SUPPORTS_OPENAL
             case audio::Audio::Driver::OPENAL:

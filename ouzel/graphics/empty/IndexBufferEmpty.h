@@ -3,22 +3,22 @@
 
 #pragma once
 
-#include "graphics/VertexBuffer.h"
+#include "graphics/IndexBuffer.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RendererVoid;
-
-        class VertexBufferVoid: public VertexBuffer
+        class RendererEmpty;
+        
+        class IndexBufferEmpty: public IndexBuffer
         {
-            friend RendererVoid;
+            friend RendererEmpty;
         public:
-            virtual ~VertexBufferVoid();
+            virtual ~IndexBufferEmpty();
 
         protected:
-            VertexBufferVoid();
+            IndexBufferEmpty();
             virtual bool upload() override;
         };
     }

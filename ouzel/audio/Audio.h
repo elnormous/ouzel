@@ -22,7 +22,7 @@ namespace ouzel
             enum class Driver
             {
                 DEFAULT,
-                VOID,
+                EMPTY,
                 OPENAL,
                 XAUDIO2,
                 OPENSL

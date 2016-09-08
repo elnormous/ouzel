@@ -9,18 +9,18 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererVoid;
+        class RendererEmpty;
 
-        class RenderTargetVoid: public RenderTarget
+        class RenderTargetEmpty: public RenderTarget
         {
-            friend RendererVoid;
+            friend RendererEmpty;
         public:
-            virtual ~RenderTargetVoid();
+            virtual ~RenderTargetEmpty();
 
             virtual bool init(const Size2& newSize, bool depthBuffer) override;
 
         protected:
-            RenderTargetVoid();
+            RenderTargetEmpty();
             virtual bool upload() override;
         };
     } // namespace graphics

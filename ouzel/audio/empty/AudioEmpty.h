@@ -11,17 +11,17 @@ namespace ouzel
 
     namespace audio
     {
-        class AudioVoid: public Audio
+        class AudioEmpty: public Audio
         {
             friend Engine;
         public:
-            virtual ~AudioVoid();
+            virtual ~AudioEmpty();
 
             virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
 
         protected:
-            AudioVoid();
+            AudioEmpty();
         };
     } // namespace audio
 } // namespace ouzel

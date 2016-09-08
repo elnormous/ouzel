@@ -3,23 +3,23 @@
 
 #pragma once
 
-#include "graphics/Shader.h"
+#include "graphics/VertexBuffer.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RendererVoid;
+        class RendererEmpty;
 
-        class ShaderVoid: public Shader
+        class VertexBufferEmpty: public VertexBuffer
         {
-            friend RendererVoid;
+            friend RendererEmpty;
         public:
-            virtual ~ShaderVoid();
+            virtual ~VertexBufferEmpty();
 
         protected:
-            ShaderVoid();
+            VertexBufferEmpty();
             virtual bool upload() override;
         };
-    } // namespace graphics
-} // namespace ouzel
+    }
+}

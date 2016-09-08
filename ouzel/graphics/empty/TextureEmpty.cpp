@@ -1,21 +1,21 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ShaderVoid.h"
+#include "TextureEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        ShaderVoid::ShaderVoid()
+        TextureEmpty::TextureEmpty()
         {
         }
 
-        ShaderVoid::~ShaderVoid()
+        TextureEmpty::~TextureEmpty()
         {
         }
 
-        bool ShaderVoid::upload()
+        bool TextureEmpty::upload()
         {
             ready = true;
             dirty = false;

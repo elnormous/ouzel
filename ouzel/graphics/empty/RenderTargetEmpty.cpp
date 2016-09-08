@@ -1,22 +1,22 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "RenderTargetVoid.h"
-#include "TextureVoid.h"
+#include "RenderTargetEmpty.h"
+#include "TextureEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RenderTargetVoid::RenderTargetVoid()
+        RenderTargetEmpty::RenderTargetEmpty()
         {
         }
 
-        RenderTargetVoid::~RenderTargetVoid()
+        RenderTargetEmpty::~RenderTargetEmpty()
         {
         }
 
-        bool RenderTargetVoid::init(const Size2& newSize, bool depthBuffer)
+        bool RenderTargetEmpty::init(const Size2& newSize, bool depthBuffer)
         {
             free();
 
@@ -25,19 +25,19 @@ namespace ouzel
                 return false;
             }
 
-            std::shared_ptr<TextureVoid> textureVoid(new TextureVoid());
+            std::shared_ptr<TextureEmpty> textureEmpty(new TextureEmpty());
 
-            if (!textureVoid->init(size, false, false, true))
+            if (!textureEmpty->init(size, false, false, true))
             {
                 return false;
             }
 
-            texture = textureVoid;
+            texture = textureEmpty;
             
             return true;
         }
 
-        bool RenderTargetVoid::upload()
+        bool RenderTargetEmpty::upload()
         {
             ready = true;
             return true;

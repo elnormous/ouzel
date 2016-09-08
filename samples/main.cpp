@@ -43,9 +43,9 @@ void ouzelMain(const std::vector<std::string>& args)
 
             if (nextArg != args.end())
             {
-                if (*nextArg == "void")
+                if (*nextArg == "empty")
                 {
-                    settings.renderDriver = ouzel::graphics::Renderer::Driver::VOID;
+                    settings.renderDriver = ouzel::graphics::Renderer::Driver::EMPTY;
                 }
                 else if (*nextArg == "opengl")
                 {

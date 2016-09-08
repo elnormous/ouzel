@@ -1,26 +1,26 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "BlendStateVoid.h"
+#include "IndexBufferEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BlendStateVoid::BlendStateVoid()
+        IndexBufferEmpty::IndexBufferEmpty()
         {
         }
 
-        BlendStateVoid::~BlendStateVoid()
+        IndexBufferEmpty::~IndexBufferEmpty()
         {
         }
 
-        bool BlendStateVoid::upload()
+
+        bool IndexBufferEmpty::upload()
         {
             ready = true;
-            dirty = false;
-
+            dirty = 0;
             return true;
         }
-    } // namespace graphics
-} // namespace ouzel
+    }
+}

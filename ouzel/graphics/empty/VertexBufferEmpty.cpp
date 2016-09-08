@@ -1,21 +1,21 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "VertexBufferVoid.h"
+#include "VertexBufferEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        VertexBufferVoid::VertexBufferVoid()
+        VertexBufferEmpty::VertexBufferEmpty()
         {
         }
 
-        VertexBufferVoid::~VertexBufferVoid()
+        VertexBufferEmpty::~VertexBufferEmpty()
         {
         }
 
-        bool VertexBufferVoid::upload()
+        bool VertexBufferEmpty::upload()
         {
             ready = true;
             dirty = 0;

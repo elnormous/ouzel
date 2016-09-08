@@ -1,26 +1,25 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "IndexBufferVoid.h"
+#include "ShaderEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        IndexBufferVoid::IndexBufferVoid()
+        ShaderEmpty::ShaderEmpty()
         {
         }
 
-        IndexBufferVoid::~IndexBufferVoid()
+        ShaderEmpty::~ShaderEmpty()
         {
         }
 
-
-        bool IndexBufferVoid::upload()
+        bool ShaderEmpty::upload()
         {
             ready = true;
-            dirty = 0;
+            dirty = false;
             return true;
         }
-    }
-}
+    } // namespace graphics
+} // namespace ouzel

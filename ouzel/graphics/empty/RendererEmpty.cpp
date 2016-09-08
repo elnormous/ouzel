@@ -1,31 +1,31 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "RendererVoid.h"
+#include "RendererEmpty.h"
 #include "core/Engine.h"
 #include "core/Cache.h"
-#include "BlendStateVoid.h"
-#include "TextureVoid.h"
-#include "RenderTargetVoid.h"
-#include "ShaderVoid.h"
-#include "MeshBufferVoid.h"
-#include "IndexBufferVoid.h"
-#include "VertexBufferVoid.h"
+#include "BlendStateEmpty.h"
+#include "TextureEmpty.h"
+#include "RenderTargetEmpty.h"
+#include "ShaderEmpty.h"
+#include "MeshBufferEmpty.h"
+#include "IndexBufferEmpty.h"
+#include "VertexBufferEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RendererVoid::RendererVoid():
-            Renderer(Driver::VOID)
+        RendererEmpty::RendererEmpty():
+            Renderer(Driver::EMPTY)
         {
         }
 
-        RendererVoid::~RendererVoid()
+        RendererEmpty::~RendererEmpty()
         {
         }
 
-        bool RendererVoid::init(const WindowPtr& window,
+        bool RendererEmpty::init(const WindowPtr& window,
                                 uint32_t newSampleCount,
                                 TextureFiltering newTextureFiltering,
                                 bool newVerticalSync)
@@ -102,45 +102,45 @@ namespace ouzel
             return true;
         }
 
-        BlendStatePtr RendererVoid::createBlendState()
+        BlendStatePtr RendererEmpty::createBlendState()
         {
-            BlendStatePtr blendState(new BlendStateVoid());
+            BlendStatePtr blendState(new BlendStateEmpty());
             return blendState;
         }
 
-        TexturePtr RendererVoid::createTexture()
+        TexturePtr RendererEmpty::createTexture()
         {
-            TexturePtr texture(new TextureVoid());
+            TexturePtr texture(new TextureEmpty());
             return texture;
         }
 
-        RenderTargetPtr RendererVoid::createRenderTarget()
+        RenderTargetPtr RendererEmpty::createRenderTarget()
         {
-            RenderTargetPtr renderTarget(new RenderTargetVoid());
+            RenderTargetPtr renderTarget(new RenderTargetEmpty());
             return renderTarget;
         }
 
-        ShaderPtr RendererVoid::createShader()
+        ShaderPtr RendererEmpty::createShader()
         {
-            ShaderPtr shader(new ShaderVoid());
+            ShaderPtr shader(new ShaderEmpty());
             return shader;
         }
 
-        MeshBufferPtr RendererVoid::createMeshBuffer()
+        MeshBufferPtr RendererEmpty::createMeshBuffer()
         {
-            MeshBufferPtr meshBuffer(new MeshBufferVoid());
+            MeshBufferPtr meshBuffer(new MeshBufferEmpty());
             return meshBuffer;
         }
 
-        IndexBufferPtr RendererVoid::createIndexBuffer()
+        IndexBufferPtr RendererEmpty::createIndexBuffer()
         {
-            IndexBufferPtr indexBuffer(new IndexBufferVoid());
+            IndexBufferPtr indexBuffer(new IndexBufferEmpty());
             return indexBuffer;
         }
 
-        VertexBufferPtr RendererVoid::createVertexBuffer()
+        VertexBufferPtr RendererEmpty::createVertexBuffer()
         {
-            VertexBufferPtr vertexBuffer(new VertexBufferVoid());
+            VertexBufferPtr vertexBuffer(new VertexBufferEmpty());
             return vertexBuffer;
         }
     } // namespace graphics
