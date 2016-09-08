@@ -456,7 +456,7 @@ namespace ouzel
             {
                 if (ioctl(inputDevice.fd, EVIOCGRAB, (void*)0) == -1)
                 {
-                    log(LOG_LEVEL_WARNING "Failed to release device");
+                    log(LOG_LEVEL_WARNING, "Failed to release device");
                 }
 
                 if (close(inputDevice.fd) == -1)
