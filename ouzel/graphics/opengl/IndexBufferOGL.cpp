@@ -97,10 +97,13 @@ namespace ouzel
                         else
                         {
 #ifdef OUZEL_PLATFORM_ANDROID
-    #ifdef GL_EXT_map_buffer_range
+    #if GL_EXT_map_buffer_range
                             void* bufferPtr = glMapBufferRangeEXT(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
-    #else
+    #elif GL_OES_mapbuffer
                             void* bufferPtr = glMapBufferOES(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_OES);
+    #else
+                            log(LOG_LEVEL_ERROR, "OpenGL buffer mapping not supported");
+                            return false;
     #endif
 #else
                             void* bufferPtr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
@@ -109,7 +112,9 @@ namespace ouzel
                             memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
 
 #ifdef OUZEL_PLATFORM_ANDROID
+    #if GL_EXT_map_buffer_range || GL_OES_mapbuffer
                             glUnmapBufferOES(GL_ELEMENT_ARRAY_BUFFER);
+    #endif
 #else
                             glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 #endif
