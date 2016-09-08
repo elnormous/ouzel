@@ -106,7 +106,7 @@
 		305B99B71C433061008589E1 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B21C433061008589E1 /* button.png */; };
 		305B99B81C433061008589E1 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B21C433061008589E1 /* button.png */; };
 		305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305F6DBA1C66C50000B76A03 /* CoreVideo.framework */; };
-		30647D931D7D94EC00DC7E61 /* libouzel_osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492A71CDF81700021E170 /* libouzel_osx.a */; };
+		30647D931D7D94EC00DC7E61 /* libouzel_macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492A71CDF81700021E170 /* libouzel_macos.a */; };
 		308493A21D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
 		308493A31D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
 		308493A41D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
@@ -300,7 +300,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30647D931D7D94EC00DC7E61 /* libouzel_osx.a in Frameworks */,
+				30647D931D7D94EC00DC7E61 /* libouzel_macos.a in Frameworks */,
 				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
 				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
@@ -445,7 +445,7 @@
 			isa = PBXGroup;
 			children = (
 				30B492A91CDF81700021E170 /* libouzel_ios.a */,
-				30B492A71CDF81700021E170 /* libouzel_osx.a */,
+				30B492A71CDF81700021E170 /* libouzel_macos.a */,
 				30B492AB1CDF81700021E170 /* libouzel_tvos.a */,
 			);
 			name = Products;
@@ -536,7 +536,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = "Bool Games";
+				ORGANIZATIONNAME = "Elviss Strazdins";
 				TargetAttributes = {
 					303B760C1C34CFE300FEDE92 = {
 						DevelopmentTeam = XHH29823R9;
@@ -573,10 +573,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		30B492A71CDF81700021E170 /* libouzel_osx.a */ = {
+		30B492A71CDF81700021E170 /* libouzel_macos.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libouzel_osx.a;
+			path = libouzel_macos.a;
 			remoteRef = 30B492A61CDF81700021E170 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

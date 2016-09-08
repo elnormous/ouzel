@@ -1181,8 +1181,7 @@
 				303821671D81876E00677CAB /* SoundEmpty.cpp */,
 				303821681D81876E00677CAB /* SoundEmpty.h */,
 			);
-			name = empty;
-			path = void;
+			path = empty;
 			sourceTree = "<group>";
 		};
 		303B750D1C28828600FEDE92 /* scene */ = {
@@ -2114,7 +2113,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = "Bool Games";
+				ORGANIZATIONNAME = "Elviss Strazdins";
 				TargetAttributes = {
 					303B75321C2A3C5800FEDE92 = {
 						CreatedOnToolsVersion = 7.2;
