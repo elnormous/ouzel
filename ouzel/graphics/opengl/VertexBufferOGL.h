@@ -53,6 +53,7 @@ namespace ouzel
             virtual bool upload() override;
 
             GLuint bufferId = 0;
+            GLsizeiptr bufferSize = 0;
 
             struct VertexAttrib
             {

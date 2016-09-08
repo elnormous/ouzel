@@ -31,6 +31,8 @@ namespace ouzel
                 [buffer release];
                 buffer = Nil;
             }
+
+            bufferSize = 0;
         }
 
         bool IndexBufferMetal::upload()

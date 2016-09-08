@@ -31,6 +31,8 @@ namespace ouzel
                 buffer->Release();
                 buffer = nullptr;
             }
+
+            bufferSize = 0;
         }
 
         bool VertexBufferD3D11::upload()

@@ -29,6 +29,8 @@ namespace ouzel
                 RendererOGL::deleteResource(bufferId, RendererOGL::ResourceType::Buffer);
                 bufferId = 0;
             }
+
+            bufferSize = 0;
         }
 
         bool VertexBufferOGL::bindBuffer()
@@ -148,8 +150,21 @@ namespace ouzel
                         RendererOGL::bindVertexArray(0);
                         RendererOGL::bindArrayBuffer(bufferId);
 
-                        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(uploadData.data.size()), uploadData.data.data(),
-                                     uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                        if (uploadData.data.size() > bufferSize)
+                        {
+                            bufferSize = static_cast<GLsizeiptr>(uploadData.data.size());
+
+                            glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(uploadData.data.size()), uploadData.data.data(),
+                                         uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                        }
+                        else
+                        {
+                            void* bufferPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
+
+                            memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
+                            
+                            glUnmapBuffer(GL_ARRAY_BUFFER);
+                        }
                         
                         if (RendererOGL::checkOpenGLError())
                         {

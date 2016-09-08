@@ -55,6 +55,8 @@ namespace ouzel
             virtual bool upload() override;
 
             GLuint bufferId = 0;
+            GLsizeiptr bufferSize = 0;
+
             GLenum type = 0;
             GLuint bytesPerIndex = 0;
         };
