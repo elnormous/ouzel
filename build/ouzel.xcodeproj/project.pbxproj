@@ -1089,13 +1089,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		303820391D816B2100677CAB /* none */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = none;
-			sourceTree = "<group>";
-		};
 		303820881D816EAB00677CAB /* void */ = {
 			isa = PBXGroup;
 			children = (
@@ -1497,7 +1490,6 @@
 				303B76051C34A91B00FEDE92 /* input */,
 				30A9C1371CAEBA420084C4BF /* localization */,
 				303B750F1C2882CA00FEDE92 /* math */,
-				303820391D816B2100677CAB /* none */,
 				304A8E2A1C237C70008B1151 /* ouzel.h */,
 				303B750D1C28828600FEDE92 /* scene */,
 				30A5BF0C1CFCE3F800A977CA /* utils */,
