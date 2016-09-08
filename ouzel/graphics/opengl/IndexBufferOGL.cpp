@@ -87,7 +87,7 @@ namespace ouzel
                         RendererOGL::bindVertexArray(0);
                         RendererOGL::bindElementArrayBuffer(bufferId);
 
-                        if (uploadData.data.size() > bufferSize)
+                        if (static_cast<GLsizeiptr>(uploadData.data.size()) > bufferSize)
                         {
                             bufferSize = static_cast<GLsizeiptr>(uploadData.data.size());
 

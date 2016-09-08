@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <memory.h>
 #include "VertexBufferOGL.h"
 #include "RendererOGL.h"
 
@@ -150,7 +151,7 @@ namespace ouzel
                         RendererOGL::bindVertexArray(0);
                         RendererOGL::bindArrayBuffer(bufferId);
 
-                        if (uploadData.data.size() > bufferSize)
+                        if (static_cast<GLsizeiptr>(uploadData.data.size()) > bufferSize)
                         {
                             bufferSize = static_cast<GLsizeiptr>(uploadData.data.size());
 
