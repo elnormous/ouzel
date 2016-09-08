@@ -157,6 +157,12 @@ namespace ouzel
 
                             glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(uploadData.data.size()), uploadData.data.data(),
                                          uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                log(LOG_LEVEL_ERROR, "Failed to create vertex buffer");
+                                return false;
+                            }
                         }
                         else
                         {
@@ -174,7 +180,7 @@ namespace ouzel
 
                             if (!bufferPtr)
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to map buffer");
+                                log(LOG_LEVEL_ERROR, "Failed to map vertex buffer");
                                 return false;
                             }
 
@@ -191,7 +197,7 @@ namespace ouzel
                         
                         if (RendererOGL::checkOpenGLError())
                         {
-                            log(LOG_LEVEL_ERROR, "Failed to create vertex data");
+                            log(LOG_LEVEL_ERROR, "Failed to upload vertex buffer");
                             return false;
                         }
                     }
