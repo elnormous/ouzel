@@ -163,12 +163,14 @@ $(LIBRARY): $(OBJECTS)
 clean:
 	rm -rf $(LIBRARY) \
 	../ouzel/audio/*.o \
+	../ouzel/audio/apple/*.o \
 	../ouzel/audio/openal/*.o \
-	../ouzel/graphics/void/*.o \
+	../ouzel/audio/void/*.o \
 	../ouzel/animators/*.o \
 	../ouzel/core/*.o \
 	../ouzel/core/apple/*.o \
 	../ouzel/core/linux/*.o \
+	../ouzel/core/macos/*.o \
 	../ouzel/core/rpi/*.o \
 	../ouzel/events/*.o \
 	../ouzel/files/*.o \
