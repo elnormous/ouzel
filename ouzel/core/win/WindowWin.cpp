@@ -5,7 +5,7 @@
 #include "WindowWin.h"
 #include "core/Application.h"
 #include "core/Engine.h"
-#include "InputWin.h"
+#include "input/win/InputWin.h"
 #include "graphics/Renderer.h"
 #include "utils/Utils.h"
 

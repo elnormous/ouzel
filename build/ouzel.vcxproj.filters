@@ -1,36 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\ouzel\win\GamepadWin.cpp">
-      <Filter>win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\win\InputWin.cpp">
-      <Filter>win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\win\main.cpp">
-      <Filter>win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\win\WindowWin.cpp">
-      <Filter>win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\direct3d11\MeshBufferD3D11.cpp">
-      <Filter>direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\direct3d11\RendererD3D11.cpp">
-      <Filter>direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\direct3d11\RenderTargetD3D11.cpp">
-      <Filter>direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\direct3d11\ShaderD3D11.cpp">
-      <Filter>direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\direct3d11\TextureD3D11.cpp">
-      <Filter>direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\direct3d11\BlendStateD3D11.cpp">
-      <Filter>direct3d11</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\animators\Animator.cpp">
       <Filter>animators</Filter>
     </ClCompile>
@@ -229,20 +199,8 @@
     <ClCompile Include="..\ouzel\audio\SoundData.cpp">
       <Filter>audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\xaudio2\AudioXA2.cpp">
-      <Filter>xaudio2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\xaudio2\SoundDataXA2.cpp">
-      <Filter>xaudio2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\xaudio2\SoundXA2.cpp">
-      <Filter>xaudio2</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\core\Application.cpp">
       <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\win\ApplicationWin.cpp">
-      <Filter>win</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\ShapeDrawable.cpp">
       <Filter>scene</Filter>
@@ -259,54 +217,90 @@
     <ClCompile Include="..\ouzel\graphics\VertexBuffer.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\direct3d11\IndexBufferD3D11.cpp">
-      <Filter>direct3d11</Filter>
+    <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp">
+      <Filter>audio\xaudio2</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\direct3d11\VertexBufferD3D11.cpp">
-      <Filter>direct3d11</Filter>
+    <ClCompile Include="..\ouzel\audio\xaudio2\SoundDataXA2.cpp">
+      <Filter>audio\xaudio2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\xaudio2\SoundXA2.cpp">
+      <Filter>audio\xaudio2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\BlendStateD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\IndexBufferD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\MeshBufferD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\RendererD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\TextureD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\VertexBufferD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\win\GamepadWin.cpp">
+      <Filter>input\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\win\InputWin.cpp">
+      <Filter>input\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\win\ApplicationWin.cpp">
+      <Filter>core\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\win\main.cpp">
+      <Filter>core\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\win\WindowWin.cpp">
+      <Filter>core\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp">
+      <Filter>audio\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\empty\SoundDataEmpty.cpp">
+      <Filter>audio\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\empty\SoundEmpty.cpp">
+      <Filter>audio\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\BlendStateEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\IndexBufferEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\MeshBufferEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\RendererEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\RenderTargetEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\ShaderEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\TextureEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\VertexBufferEmpty.cpp">
+      <Filter>graphics\empty</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
-    <ClInclude Include="..\ouzel\win\GamepadWin.h">
-      <Filter>win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\win\InputWin.h">
-      <Filter>win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\win\WindowWin.h">
-      <Filter>win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\ColorPSD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\ColorVSD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\MeshBufferD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\RendererD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\RenderTargetD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\ShaderD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\TextureD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\TexturePSD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\TextureVSD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\BlendStateD3D11.h">
-      <Filter>direct3d11</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\animators\Animator.h">
       <Filter>animators</Filter>
     </ClInclude>
@@ -523,23 +517,11 @@
     <ClInclude Include="..\ouzel\audio\SoundData.h">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\xaudio2\AudioXA2.h">
-      <Filter>xaudio2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\xaudio2\SoundDataXA2.h">
-      <Filter>xaudio2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\xaudio2\SoundXA2.h">
-      <Filter>xaudio2</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\events\EventHandler.h">
       <Filter>events</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Application.h">
       <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\win\ApplicationWin.h">
-      <Filter>win</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\ShapeDrawable.h">
       <Filter>scene</Filter>
@@ -553,11 +535,95 @@
     <ClInclude Include="..\ouzel\graphics\VertexBuffer.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\IndexBufferD3D11.h">
-      <Filter>direct3d11</Filter>
+    <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h">
+      <Filter>audio\xaudio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\direct3d11\VertexBufferD3D11.h">
-      <Filter>direct3d11</Filter>
+    <ClInclude Include="..\ouzel\audio\xaudio2\SoundDataXA2.h">
+      <Filter>audio\xaudio2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\xaudio2\SoundXA2.h">
+      <Filter>audio\xaudio2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\ColorVSD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\IndexBufferD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\MeshBufferD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\RendererD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\TextureD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\TexturePSD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\TextureVSD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\VertexBufferD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\win\GamepadWin.h">
+      <Filter>input\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\win\InputWin.h">
+      <Filter>input\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\win\ApplicationWin.h">
+      <Filter>core\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\win\WindowWin.h">
+      <Filter>core\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h">
+      <Filter>audio\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\empty\SoundDataEmpty.h">
+      <Filter>audio\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\empty\SoundEmpty.h">
+      <Filter>audio\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\BlendStateEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\IndexBufferEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\MeshBufferEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\RendererEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\RenderTargetEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\ShaderEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\TextureEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\VertexBufferEmpty.h">
+      <Filter>graphics\empty</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -585,17 +651,11 @@
     <Filter Include="scene">
       <UniqueIdentifier>{32b0e54b-c4e4-4a19-85be-b0211fe26a14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="win">
-      <UniqueIdentifier>{13c9cfb5-22dc-476d-94c2-c1d0d171f005}</UniqueIdentifier>
-    </Filter>
     <Filter Include="animators">
       <UniqueIdentifier>{a9680758-dcaa-488a-949b-ca09c57945a3}</UniqueIdentifier>
     </Filter>
     <Filter Include="graphics">
       <UniqueIdentifier>{0877872b-c7d8-414e-a082-3147a5d62586}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="direct3d11">
-      <UniqueIdentifier>{423e908c-7ccf-496a-bbee-22b3ab9c5b14}</UniqueIdentifier>
     </Filter>
     <Filter Include="utils">
       <UniqueIdentifier>{dc211bb0-6985-40a2-9430-937b5bc6e2fc}</UniqueIdentifier>
@@ -603,8 +663,23 @@
     <Filter Include="audio">
       <UniqueIdentifier>{0c56ca23-cef7-4fcd-9088-b27c396897b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="xaudio2">
-      <UniqueIdentifier>{18a9f010-0e90-4147-b876-917b28230686}</UniqueIdentifier>
+    <Filter Include="graphics\direct3d11">
+      <UniqueIdentifier>{319b84f7-2020-4f98-ad74-d94671d8e7d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio\xaudio2">
+      <UniqueIdentifier>{624c4758-686f-4ec5-b816-aa529f335d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input\win">
+      <UniqueIdentifier>{2a295899-8a84-4406-9935-36b4c3e6bc66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\win">
+      <UniqueIdentifier>{98efb4ac-70c9-4096-b891-b8b516ee6062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio\empty">
+      <UniqueIdentifier>{aef7d0f6-d766-4a61-a514-62e5c0727217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\empty">
+      <UniqueIdentifier>{5a3eb0b2-9e34-4ff6-b961-e72972456368}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

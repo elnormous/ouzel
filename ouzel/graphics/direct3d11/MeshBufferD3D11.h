@@ -24,6 +24,7 @@ namespace ouzel
 
         protected:
             MeshBufferD3D11();
+            virtual bool upload() override;
         };
     } // namespace graphics
 } // namespace ouzel

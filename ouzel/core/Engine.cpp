@@ -68,7 +68,7 @@
 #include "audio/apple/AudioALApple.h"
 #include "input/apple/InputApple.h"
 #elif OUZEL_PLATFORM_WINDOWS
-#include "win/InputWin.h"
+#include "input/win/InputWin.h"
 #endif
 
 #ifdef OPENAL

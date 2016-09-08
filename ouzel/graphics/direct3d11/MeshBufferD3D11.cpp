@@ -17,5 +17,13 @@ namespace ouzel
         MeshBufferD3D11::~MeshBufferD3D11()
         {
         }
+
+        bool MeshBufferD3D11::upload()
+        {
+            ready = indexBuffer && vertexBuffer;
+            dirty = false;
+
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel
