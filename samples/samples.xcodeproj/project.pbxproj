@@ -762,7 +762,7 @@
 				GCC_PREFIX_HEADER = ios/Prefix.pch;
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
 				PRODUCT_NAME = samples_ios;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -783,7 +783,7 @@
 				GCC_PREFIX_HEADER = ios/Prefix.pch;
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
 				PRODUCT_NAME = samples_ios;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -804,7 +804,7 @@
 				GCC_PREFIX_HEADER = tvos/Prefix.pch;
 				INFOPLIST_FILE = tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
 				PRODUCT_NAME = samples_tvos;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
@@ -824,7 +824,7 @@
 				GCC_PREFIX_HEADER = tvos/Prefix.pch;
 				INFOPLIST_FILE = tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
 				PRODUCT_NAME = samples_tvos;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
@@ -944,7 +944,7 @@
 				GCC_PREFIX_HEADER = macos/Prefix.pch;
 				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
 				PRODUCT_NAME = samples_macos;
 			};
 			name = Debug;
@@ -958,7 +958,7 @@
 				GCC_PREFIX_HEADER = macos/Prefix.pch;
 				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.boolgames.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
 				PRODUCT_NAME = samples_macos;
 			};
 			name = Release;
