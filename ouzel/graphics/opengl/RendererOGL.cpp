@@ -44,9 +44,19 @@
 #endif
 
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT = nullptr;
-PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT = nullptr;
-PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT = nullptr;
+PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES = nullptr;
+PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES = nullptr;
+PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES = nullptr;
+
+#ifdef GL_OES_mapbuffer
+    PFNGLMAPBUFFEROESPROC mapBufferOES;
+    PFNGLUNMAPBUFFEROESPROC unmapBufferOES;
+#endif
+
+#ifdef GL_EXT_map_buffer_range
+    PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeEXT;
+#endif
+
 #endif
 
 namespace ouzel
@@ -59,9 +69,19 @@ namespace ouzel
             msaaRenderBufferId = 0;
 
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-            glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-            glBindVertexArrayOESEXT = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-            glDeleteVertexArraysOESEXT = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
+            genVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
+            bindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
+            deleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
+
+#ifdef GL_OES_mapbuffer
+            mapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
+            unmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+#endif
+
+#ifdef GL_EXT_map_buffer_range
+            mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
+#endif
+            
 #endif
         }
 
@@ -962,7 +982,7 @@ namespace ouzel
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                         glDeleteVertexArraysOES(1, &deleteResource.first);
 #elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-                        if (glDeleteVertexArraysOESEXT) glDeleteVertexArraysOESEXT(1, &deleteResource.first);
+                        if (deleteVertexArraysOES) deleteVertexArraysOES(1, &deleteResource.first);
 #else
                         glDeleteVertexArrays(1, &deleteResource.first);
 #endif

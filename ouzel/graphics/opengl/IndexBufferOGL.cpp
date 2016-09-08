@@ -97,23 +97,29 @@ namespace ouzel
                         }
                         else
                         {
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-    #if GL_EXT_map_buffer_range
-                            void* bufferPtr = glMapBufferRangeEXT(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
-    #elif GL_OES_mapbuffer
-                            void* bufferPtr = glMapBufferOES(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_OES);
-    #else
-                            log(LOG_LEVEL_ERROR, "OpenGL buffer mapping not supported");
-                            return false;
-    #endif
-#else
-                            void* bufferPtr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
-#endif
+                            void* bufferPtr;
 
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-    #if GL_EXT_map_buffer_range || GL_OES_mapbuffer
+    #if defined(GL_EXT_map_buffer_range)
+                            bufferPtr = mapBufferRangeEXT ? mapBufferRangeEXT(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT) : nullptr;
+    #elif defined(GL_OES_mapbuffer)
+                            bufferPtr = mapBufferOES ? mapBufferOES(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_OES) : nullptr;
+    #endif
+#else
+                            bufferPtr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
+#endif
+
+                            if (!bufferPtr)
+                            {
+                                log(LOG_LEVEL_ERROR, "Failed to map buffer");
+                                return false;
+                            }
+                            
                             memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
-                            glUnmapBufferOES(GL_ELEMENT_ARRAY_BUFFER);
+
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+    #if defined(GL_OES_mapbuffer)
+                            if (unmapBufferOES) unmapBufferOES(GL_ELEMENT_ARRAY_BUFFER);
     #endif
 #else
                             memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());

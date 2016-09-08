@@ -38,9 +38,19 @@
 #endif
 
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT;
-extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT;
-extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
+extern PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
+extern PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
+extern PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES;
+
+#ifdef GL_OES_mapbuffer
+    extern PFNGLMAPBUFFEROESPROC mapBufferOES;
+    extern PFNGLUNMAPBUFFEROESPROC unmapBufferOES;
+#endif
+
+#ifdef GL_EXT_map_buffer_range
+    extern PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeEXT;
+#endif
+
 #endif
 
 #include "graphics/Renderer.h"
@@ -194,7 +204,7 @@ namespace ouzel
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                     glBindVertexArrayOES(vertexArrayId);
 #elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
-                    if (glBindVertexArrayOESEXT) glBindVertexArrayOESEXT(vertexArrayId);
+                    if (bindVertexArrayOES) bindVertexArrayOES(vertexArrayId);
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
                     glBindVertexArray(vertexArrayId);
 #endif
