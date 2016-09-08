@@ -97,7 +97,7 @@ namespace ouzel
                         }
                         else
                         {
-#ifdef OUZEL_PLATFORM_ANDROID
+#ifdef OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
     #if GL_EXT_map_buffer_range
                             void* bufferPtr = glMapBufferRangeEXT(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
     #elif GL_OES_mapbuffer
@@ -112,7 +112,7 @@ namespace ouzel
 
                             memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
 
-#ifdef OUZEL_PLATFORM_ANDROID
+#ifdef OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
     #if GL_EXT_map_buffer_range || GL_OES_mapbuffer
                             glUnmapBufferOES(GL_ELEMENT_ARRAY_BUFFER);
     #endif
