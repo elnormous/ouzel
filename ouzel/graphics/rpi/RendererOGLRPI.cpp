@@ -6,7 +6,7 @@
 
 #include "RendererOGLRPI.h"
 #include "core/Engine.h"
-#include "WindowRPI.h"
+#include "core/rpi/WindowRPI.h"
 #include "utils/Utils.h"
 
 namespace ouzel

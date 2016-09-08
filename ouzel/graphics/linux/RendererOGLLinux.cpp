@@ -3,7 +3,7 @@
 
 #include "RendererOGLLinux.h"
 #include "core/Engine.h"
-#include "WindowLinux.h"
+#include "core/linux/WindowLinux.h"
 
 namespace ouzel
 {

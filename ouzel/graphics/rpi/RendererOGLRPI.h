@@ -5,7 +5,7 @@
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#include "opengl/RendererOGL.h"
+#include "graphics/opengl/RendererOGL.h"
 
 namespace ouzel
 {

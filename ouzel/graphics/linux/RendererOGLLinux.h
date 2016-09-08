@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "opengl/RendererOGL.h"
+#include "graphics/opengl/RendererOGL.h"
 
 namespace ouzel
 {
