@@ -163,22 +163,29 @@ $(LIBRARY): $(OBJECTS)
 clean:
 	rm -rf $(LIBRARY) \
 	../ouzel/audio/*.o \
+	../ouzel/audio/openal/*.o \
+	../ouzel/graphics/void/*.o \
 	../ouzel/animators/*.o \
-	../ouzel/apple/*.o \
 	../ouzel/core/*.o \
+	../ouzel/core/apple/*.o \
+	../ouzel/core/linux/*.o \
+	../ouzel/core/rpi/*.o \
 	../ouzel/events/*.o \
 	../ouzel/files/*.o \
 	../ouzel/graphics/*.o \
+	../ouzel/graphics/linux/*.o \
+	../ouzel/graphics/macos/*.o \
+	../ouzel/graphics/metal/*.o \
+	../ouzel/graphics/opengl/*.o \
+	../ouzel/graphics/rpi/*.o \
+	../ouzel/graphics/void/*.o \
 	../ouzel/gui/*.o \
 	../ouzel/input/*.o \
-	../ouzel/linux/*.o \
+	../ouzel/input/apple/*.o \
+	../ouzel/input/linux/*.o \
+	../ouzel/input/rpi/*.o \
 	../ouzel/localization/*.o \
-	../ouzel/macos/*.o \
 	../ouzel/math/*.o \
-	../ouzel/metal/*.o \
-	../ouzel/openal/*.o \
-	../ouzel/opengl/*.o \
-	../ouzel/rpi/*.o \
 	../ouzel/scene/*.o \
 	../ouzel/utils/*.o \
 	../ouzel/*.o
