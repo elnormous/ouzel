@@ -173,13 +173,14 @@ namespace ouzel
                             void* bufferPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
 #endif
 
-                            memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
 
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
     #if GL_EXT_map_buffer_range || GL_OES_mapbuffer
+                            memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
                             glUnmapBufferOES(GL_ARRAY_BUFFER);
     #endif
 #else
+                            memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
                             glUnmapBuffer(GL_ARRAY_BUFFER);
 #endif
                         }
