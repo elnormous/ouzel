@@ -109,6 +109,8 @@ namespace ouzel
                         bufferPtr = mapBufferRangeEXT ? mapBufferRangeEXT(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT) : nullptr;
     #elif defined(GL_OES_mapbuffer)
                         bufferPtr = mapBufferOES ? mapBufferOES(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_OES) : nullptr;
+    #else
+                        bufferPtr = nullptr;
     #endif
 #else
                         bufferPtr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
