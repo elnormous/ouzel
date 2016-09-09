@@ -55,6 +55,9 @@ namespace ouzel
             virtual bool upload() override;
 
             GLuint textureId = 0;
+
+            GLsizei width = 0;
+            GLsizei height = 0;
         };
     } // namespace graphics
 } // namespace ouzel

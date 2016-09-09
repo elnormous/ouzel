@@ -32,6 +32,9 @@ namespace ouzel
                 [texture release];
                 texture = Nil;
             }
+
+            width = 0;
+            height = 0;
         }
 
         bool TextureMetal::upload()

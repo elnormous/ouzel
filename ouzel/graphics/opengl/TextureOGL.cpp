@@ -33,6 +33,9 @@ namespace ouzel
                 RendererOGL::deleteResource(textureId, RendererOGL::ResourceType::Texture);
                 textureId = 0;
             }
+
+            width = 0;
+            height = 0;
         }
 
         bool TextureOGL::upload()
@@ -89,20 +92,36 @@ namespace ouzel
                         return false;
                     }
 
-                    for (size_t level = 0; level < uploadData.levels.size(); ++level)
+                    if (static_cast<GLsizei>(uploadData.size.width) != width ||
+                        static_cast<GLsizei>(uploadData.size.height) != height)
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
-                                     static_cast<GLsizei>(uploadData.levels[level].size.width),
-                                     static_cast<GLsizei>(uploadData.levels[level].size.height), 0,
-                                     GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
+                        width = static_cast<GLsizei>(uploadData.size.width);
+                        height = static_cast<GLsizei>(uploadData.size.height);
 
-                        if (RendererOGL::checkOpenGLError())
+                        for (size_t level = 0; level < uploadData.levels.size(); ++level)
                         {
-                            log(LOG_LEVEL_ERROR, "Failed to upload texture data");
-                            return false;
+                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
+                                         static_cast<GLsizei>(uploadData.levels[level].size.width),
+                                         static_cast<GLsizei>(uploadData.levels[level].size.height), 0,
+                                         GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
                         }
                     }
+                    else
+                    {
+                        for (size_t level = 0; level < uploadData.levels.size(); ++level)
+                        {
+                            glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                            static_cast<GLsizei>(uploadData.levels[level].size.width),
+                                            static_cast<GLsizei>(uploadData.levels[level].size.height),
+                                            GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
 
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                log(LOG_LEVEL_ERROR, "Failed to upload texture data");
+                                return false;
+                            }
+                        }
+                    }
                 }
 
                 ready = true;

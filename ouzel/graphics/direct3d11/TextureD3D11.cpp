@@ -27,6 +27,9 @@ namespace ouzel
             {
                 texture->Release();
             }
+
+            width = 0;
+            height = 0;
         }
 
         void TextureD3D11::free()

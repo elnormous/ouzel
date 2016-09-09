@@ -59,6 +59,10 @@ void ouzelMain(const std::vector<std::string>& args)
                 {
                     settings.renderDriver = ouzel::graphics::Renderer::Driver::METAL;
                 }
+                else
+                {
+                    ouzel::log(ouzel::LOG_LEVEL_WARNING, "Invalid renderer specified");
+                }
             }
             else
             {
