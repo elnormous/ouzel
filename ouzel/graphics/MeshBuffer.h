@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#include <atomic>
 #include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
@@ -33,16 +32,23 @@ namespace ouzel
             const IndexBufferPtr& getIndexBuffer() const { return indexBuffer; }
             const VertexBufferPtr& getVertexBuffer() const { return vertexBuffer; }
 
-            bool isReady() const { return ready; }
-
         protected:
             MeshBuffer();
             virtual void update() override;
 
+            struct Data
+            {
+                IndexBufferPtr indexBuffer;
+                VertexBufferPtr vertexBuffer;
+                bool dirty = false;
+            };
+
+            Data uploadData;
+
+        private:
             IndexBufferPtr indexBuffer;
             VertexBufferPtr vertexBuffer;
 
-            bool ready = false;
             bool dirty = false;
         };
     } // namespace graphics

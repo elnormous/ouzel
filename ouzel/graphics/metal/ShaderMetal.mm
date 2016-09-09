@@ -97,7 +97,7 @@ namespace ouzel
 
         bool ShaderMetal::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
@@ -254,8 +254,7 @@ namespace ouzel
                     }
                 }
 
-                ready = true;
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

@@ -3,9 +3,6 @@
 
 #pragma once
 
-#include <mutex>
-#include <atomic>
-
 #include "core/CompileConfig.h"
 #include "graphics/RenderTarget.h"
 #include "math/Size2.h"
@@ -32,10 +29,6 @@ namespace ouzel
             virtual ~RenderTargetMetal();
             virtual void free() override;
 
-            virtual bool init(const Size2& newSize, bool depthBuffer) override;
-
-            virtual void setClearColor(Color color) override;
-
             MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
         protected:
@@ -44,9 +37,6 @@ namespace ouzel
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
             MTLTexturePtr msaaTexture = Nil;
-
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

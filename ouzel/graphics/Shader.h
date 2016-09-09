@@ -52,14 +52,9 @@ namespace ouzel
 
             uint32_t getVertexAttributes() const { return data.vertexAttributes; }
 
-            bool isReady() const { return ready; }
-
         protected:
             Shader();
             virtual void update() override;
-
-            std::string pixelShaderFilename;
-            std::string vertexShaderFilename;
 
             struct Data
             {
@@ -74,13 +69,17 @@ namespace ouzel
                 uint32_t pixelShaderAlignment = 0;
                 std::vector<ConstantInfo> vertexShaderConstantInfo;
                 uint32_t vertexShaderAlignment = 0;
+
+                bool dirty = false;
             };
 
-            Data data;
             Data uploadData;
 
-            bool ready = false;
-            bool dirty = false;
+        private:
+            Data data;
+            
+            std::string pixelShaderFilename;
+            std::string vertexShaderFilename;
         };
     } // namespace graphics
 } // namespace ouzel

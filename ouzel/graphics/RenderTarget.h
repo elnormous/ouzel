@@ -4,7 +4,6 @@
 #pragma once
 
 #include <memory>
-#include <atomic>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
@@ -27,10 +26,10 @@ namespace ouzel
 
             virtual bool init(const Size2& newSize, bool useDepthBuffer);
 
-            void setClear(bool newClear) { clear = newClear; }
-            bool getClear() const { return clear; }
+            virtual void setClear(bool newClear);
+            virtual bool getClear() const { return clear; }
 
-            virtual void setClearColor(Color color) { clearColor = color; }
+            virtual void setClearColor(Color color);
             virtual Color getClearColor() const { return clearColor; }
 
             void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
@@ -38,20 +37,30 @@ namespace ouzel
 
             TexturePtr getTexture() const { return texture; }
 
-            bool isReady() const { return ready; }
-
         protected:
             RenderTarget();
             virtual void update() override;
 
+            struct Data
+            {
+                Size2 size;
+                Color clearColor;
+                bool depthBuffer = false;
+                bool clear = true;
+                bool dirty = false;
+            };
+
+            Data uploadData;
+            TexturePtr texture;
+
+        private:
             Size2 size;
             Color clearColor;
-            TexturePtr texture;
             uint32_t frameBufferClearedFrame = 0;
 
-            std::atomic<bool> clear;
+            bool clear = true;
             bool depthBuffer = false;
-            bool ready = false;
+            bool dirty = false;
         };
     } // namespace graphics
 } // namespace ouzel

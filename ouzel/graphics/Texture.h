@@ -39,24 +39,11 @@ namespace ouzel
             bool isFlipped() const { return flipped; }
             void setFlipped(bool newFlipped) { flipped = newFlipped; }
 
-            bool isReady() const { return ready; }
-
         protected:
             Texture();
             virtual void update() override;
 
             bool calculateData(const std::vector<uint8_t>& newData, const Size2& newSize);
-
-            std::string filename;
-
-            Size2 size;
-            bool dynamic = false;
-            bool mipmaps = false;
-            bool renderTarget = false;
-            bool flipped = false;
-            bool dirty = false;
-            bool ready = false;
-            bool mipMapsGenerated = false;
 
             struct Level
             {
@@ -64,18 +51,30 @@ namespace ouzel
                 std::vector<uint8_t> data;
             };
 
-            std::vector<Level> levels;
-
             struct Data
             {
                 Size2 size;
                 bool dynamic = false;
                 bool mipmaps = false;
                 bool renderTarget = false;
+                bool dirty = false;
                 std::vector<Level> levels;
             };
 
             Data uploadData;
+
+        private:
+            std::string filename;
+            std::vector<Level> levels;
+
+            Size2 size;
+            bool dynamic = false;
+            bool mipmaps = false;
+            bool renderTarget = false;
+            bool flipped = false;
+            bool dirty = false;
+            bool mipMapsGenerated = false;
+
         };
     } // namespace graphics
 } // namespace ouzel

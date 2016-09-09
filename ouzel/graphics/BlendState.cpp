@@ -19,7 +19,6 @@ namespace ouzel
 
         void BlendState::free()
         {
-            ready = false;
         }
 
         bool BlendState::init(bool newEnableBlending,
@@ -36,7 +35,7 @@ namespace ouzel
             data.alphaBlendDest = newAlphaBlendDest;
             data.alphaOperation = newAlphaOperation;
 
-            dirty = true;
+            data.dirty = true;
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return true;
@@ -45,6 +44,8 @@ namespace ouzel
         void BlendState::update()
         {
             uploadData = data;
+
+            data.dirty = false;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -37,6 +37,24 @@ namespace ouzel
             void updateVertexSize();
             virtual void update() override;
 
+            enum Dirty
+            {
+                VERTEX_BUFFER_DIRTY = 0x01,
+                VERTEX_ATTRIBUTES_DIRTY = 0x02,
+            };
+
+            struct Data
+            {
+                uint32_t vertexSize = 0;
+                uint32_t vertexAttributes = 0;
+                std::vector<uint8_t> data;
+                bool dynamic = true;
+                uint8_t dirty = false;
+            };
+
+            Data uploadData;
+
+        private:
             uint32_t vertexCount = 0;
             uint32_t vertexSize = 0;
 
@@ -44,25 +62,8 @@ namespace ouzel
 
             std::vector<uint8_t> data;
 
-            struct Data
-            {
-                uint32_t vertexSize = 0;
-                uint32_t vertexAttributes = 0;
-                bool dynamic = true;
-                std::vector<uint8_t> data;
-            };
-
-            Data uploadData;
-
             bool dynamic = true;
-            bool ready = false;
 
-            enum Dirty
-            {
-                VERTEX_BUFFER_DIRTY = 0x01,
-                VERTEX_ATTRIBUTES_DIRTY = 0x02,
-            };
-            
             uint8_t dirty = 0;
         };
     } // namespace graphics

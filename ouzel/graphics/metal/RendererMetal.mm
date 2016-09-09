@@ -456,12 +456,6 @@ namespace ouzel
                 {
                     std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(drawCommand.renderTarget);
 
-                    if (!renderTargetMetal->isReady())
-                    {
-                        // don't render if invalid render target
-                        continue;
-                    }
-
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
 
                     std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal->getTexture());
@@ -518,7 +512,7 @@ namespace ouzel
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
 
-                if (!shaderMetal || !shaderMetal->isReady())
+                if (!shaderMetal)
                 {
                     // don't render if invalid shader
                     continue;
@@ -598,7 +592,7 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(drawCommand.blendState);
 
-                if (!blendStateMetal || !blendStateMetal->isReady())
+                if (!blendStateMetal)
                 {
                     // don't render if invalid blend state
                     continue;
@@ -634,12 +628,6 @@ namespace ouzel
 
                     if (textureMetal)
                     {
-                        if (!textureMetal->isReady())
-                        {
-                            // don't render if invalid texture
-                            continue;
-                        }
-
                         [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
                         [currentRenderCommandEncoder setFragmentSamplerState:samplerState atIndex:layer];
                     }
@@ -652,7 +640,7 @@ namespace ouzel
                 // mesh buffer
                 std::shared_ptr<MeshBufferMetal> meshBufferMetal = std::static_pointer_cast<MeshBufferMetal>(drawCommand.meshBuffer);
 
-                if (!meshBufferMetal || !meshBufferMetal->isReady())
+                if (!meshBufferMetal)
                 {
                     // don't render if invalid mesh buffer
                     continue;

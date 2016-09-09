@@ -17,8 +17,7 @@ namespace ouzel
 
         bool BlendStateEmpty::upload()
         {
-            ready = true;
-            dirty = false;
+            uploadData.dirty = false;
 
             return true;
         }

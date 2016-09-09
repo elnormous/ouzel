@@ -21,8 +21,6 @@ namespace ouzel
         {
             data.clear();
             uploadData.data.clear();
-
-            ready = false;
         }
 
         bool VertexBuffer::init(bool newDynamic)
@@ -121,11 +119,11 @@ namespace ouzel
             uploadData.vertexSize = vertexSize;
             uploadData.vertexAttributes = vertexAttributes;
             uploadData.dynamic = dynamic;
+            uploadData.dirty = dirty;
 
-            if (!data.empty())
-            {
-                uploadData.data = std::move(data);
-            }
+            uploadData.data = std::move(data);
+
+            dirty = 0;
         }
     } // namespace graphics
 } // namespace ouzel

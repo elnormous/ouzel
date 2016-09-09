@@ -16,30 +16,10 @@ namespace ouzel
         {
         }
 
-        bool RenderTargetEmpty::init(const Size2& newSize, bool depthBuffer)
-        {
-            free();
-
-            if (!RenderTarget::init(newSize, depthBuffer))
-            {
-                return false;
-            }
-
-            std::shared_ptr<TextureEmpty> textureEmpty(new TextureEmpty());
-
-            if (!textureEmpty->init(size, false, false, true))
-            {
-                return false;
-            }
-
-            texture = textureEmpty;
-            
-            return true;
-        }
-
         bool RenderTargetEmpty::upload()
         {
-            ready = true;
+            uploadData.dirty = false;
+            
             return true;
         }
     } // namespace graphics

@@ -76,14 +76,14 @@ namespace ouzel
 
         bool VertexBufferOGL::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 if (!bufferId)
                 {
                     glGenBuffers(1, &bufferId);
                 }
 
-                if (dirty & VERTEX_ATTRIBUTES_DIRTY)
+                if (uploadData.dirty & VERTEX_ATTRIBUTES_DIRTY)
                 {
                     vertexAttribs.clear();
 
@@ -141,10 +141,10 @@ namespace ouzel
                         return false;
                     }
 
-                    dirty &= ~VERTEX_ATTRIBUTES_DIRTY;
+                    uploadData.dirty &= ~VERTEX_ATTRIBUTES_DIRTY;
                 }
 
-                if (dirty & VERTEX_BUFFER_DIRTY)
+                if (uploadData.dirty & VERTEX_BUFFER_DIRTY)
                 {
                     if (!uploadData.data.empty())
                     {
@@ -202,11 +202,10 @@ namespace ouzel
                         return false;
                     }
                     
-                    dirty &= ~VERTEX_BUFFER_DIRTY;
+                    uploadData.dirty &= ~VERTEX_BUFFER_DIRTY;
                 }
                 
-                dirty = 0;
-                ready = true;
+                uploadData.dirty = 0;
             }
             
             return true;

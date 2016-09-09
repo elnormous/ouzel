@@ -50,7 +50,7 @@ namespace ouzel
 
         bool BlendStateOGL::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 modeRGB = getBlendOperation(uploadData.colorOperation);
                 modeAlpha = getBlendOperation(uploadData.alphaOperation);
@@ -62,8 +62,7 @@ namespace ouzel
 
                 glBlendEnabled = uploadData.enableBlending;
 
-                ready = true;
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

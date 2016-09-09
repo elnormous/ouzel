@@ -40,7 +40,7 @@ namespace ouzel
 
         bool TextureOGL::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 if (!textureId)
                 {
@@ -124,8 +124,7 @@ namespace ouzel
                     }
                 }
 
-                ready = true;
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

@@ -128,7 +128,8 @@ namespace ouzel
 
             void scheduleUpdate(const ResourcePtr& resource);
 
-            virtual bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
+            bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
+            bool isRenderTargetsFlipped() const { return renderTargetsFlipped; }
 
         protected:
             Renderer(Driver pDriver);
@@ -180,6 +181,7 @@ namespace ouzel
             bool verticalSync = true;
             bool ready = false;
             bool npotTexturesSupported = true;
+            bool renderTargetsFlipped = false;
 
             std::vector<DrawCommand> activeDrawQueue;
             std::vector<DrawCommand> drawQueue;

@@ -17,8 +17,8 @@ namespace ouzel
 
         bool ShaderEmpty::upload()
         {
-            ready = true;
-            dirty = false;
+            uploadData.dirty = false;
+            
             return true;
         }
     } // namespace graphics

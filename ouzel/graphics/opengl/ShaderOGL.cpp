@@ -89,7 +89,7 @@ namespace ouzel
 
         bool ShaderOGL::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 if (!pixelShaderId)
                 {
@@ -250,8 +250,7 @@ namespace ouzel
                     vertexShaderConstantLocations.push_back({ location, info.size });
                 }
 
-                ready = true;
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

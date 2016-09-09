@@ -34,29 +34,30 @@ namespace ouzel
             IndexBuffer();
             virtual void update() override;
 
-            uint32_t indexCount = 0;
-            uint32_t indexSize = 0;
-
-            std::vector<uint8_t> data;
-
-            struct Data
-            {
-                uint32_t indexSize = 0;
-                bool dynamic = true;
-                std::vector<uint8_t> data;
-            };
-
-            Data uploadData;
-
-            bool dynamic = true;
-            bool ready = false;
-
             enum Dirty
             {
                 INDEX_BUFFER_DIRTY = 0x01,
                 INDEX_SIZE_DIRTY = 0x02
             };
-            
+
+            struct Data
+            {
+                uint32_t indexSize = 0;
+                std::vector<uint8_t> data;
+                bool dynamic = true;
+                uint8_t dirty = 0;
+            };
+
+            Data uploadData;
+
+        private:
+            uint32_t indexCount = 0;
+            uint32_t indexSize = 0;
+
+            std::vector<uint8_t> data;
+
+            bool dynamic = true;
+
             uint8_t dirty = 0;
         };
     } // namespace graphics

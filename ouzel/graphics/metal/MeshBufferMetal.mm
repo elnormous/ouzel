@@ -20,8 +20,7 @@ namespace ouzel
 
         bool MeshBufferMetal::upload()
         {
-            ready = true;
-            dirty = false;
+            uploadData.dirty = false;
             return true;
         }
     } // namespace graphics

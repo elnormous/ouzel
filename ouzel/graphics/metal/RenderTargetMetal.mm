@@ -11,8 +11,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderTargetMetal::RenderTargetMetal():
-            dirty(false)
+        RenderTargetMetal::RenderTargetMetal()
         {
         }
 
@@ -31,8 +30,6 @@ namespace ouzel
 
         void RenderTargetMetal::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             RenderTarget::free();
 
             if (msaaTexture)
@@ -48,54 +45,14 @@ namespace ouzel
             }
         }
 
-        bool RenderTargetMetal::init(const Size2& newSize, bool depthBuffer)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!RenderTarget::init(newSize, depthBuffer))
-            {
-                return false;
-            }
-
-            std::shared_ptr<TextureMetal> textureMetal(new TextureMetal());
-
-            if (!textureMetal->init(size, false, false, true))
-            {
-                return false;
-            }
-
-            texture = textureMetal;
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        void RenderTargetMetal::setClearColor(Color color)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            RenderTarget::setClearColor(color);
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-        }
-
         bool RenderTargetMetal::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 if (!texture->upload())
                 {
                     return false;
                 }
-
-                std::lock_guard<std::mutex> lock(dataMutex);
 
                 std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(texture);
 
@@ -117,7 +74,10 @@ namespace ouzel
                 }
 
                 renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.getR(), clearColor.getG(), clearColor.getB(), clearColor.getA());
+                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(uploadData.clearColor.getR(),
+                                                                                        uploadData.clearColor.getG(),
+                                                                                        uploadData.clearColor.getB(),
+                                                                                        uploadData.clearColor.getA());
 
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
@@ -126,8 +86,8 @@ namespace ouzel
                     if (!msaaTexture)
                     {
                         MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
-                                                                                                        width:static_cast<NSUInteger>(size.width)
-                                                                                                       height:static_cast<NSUInteger>(size.height)
+                                                                                                        width:static_cast<NSUInteger>(uploadData.size.width)
+                                                                                                       height:static_cast<NSUInteger>(uploadData.size.height)
                                                                                                     mipmapped:NO];
                         desc.textureType = MTLTextureType2DMultisample;
                         desc.storageMode = MTLStorageModePrivate;
@@ -153,8 +113,7 @@ namespace ouzel
                     renderPassDescriptor.colorAttachments[0].texture = textureMetal->getTexture();
                 }
 
-                ready = true;
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

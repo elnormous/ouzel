@@ -35,8 +35,6 @@ namespace ouzel
             uploadData.vertexShaderFunction.clear();
             uploadData.pixelShaderConstantInfo.clear();
             uploadData.vertexShaderConstantInfo.clear();
-            
-            ready = false;
         }
 
         bool Shader::initFromFiles(const std::string& newPixelShader,
@@ -120,7 +118,7 @@ namespace ouzel
             data.pixelShaderFunction = newPixelShaderFunction;
             data.vertexShaderFunction = newVertexShaderFunction;
 
-            dirty = true;
+            data.dirty = true;
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
 
             return  true;
@@ -131,36 +129,16 @@ namespace ouzel
             uploadData.vertexAttributes = data.vertexAttributes;
             uploadData.pixelShaderAlignment = data.pixelShaderAlignment;
             uploadData.vertexShaderAlignment = data.vertexShaderAlignment;
+            uploadData.dirty = data.dirty;
 
-            if (!data.pixelShaderData.empty())
-            {
-                uploadData.pixelShaderData = std::move(data.pixelShaderData);
-            }
+            uploadData.pixelShaderData = std::move(data.pixelShaderData);
+            uploadData.vertexShaderData = std::move(data.vertexShaderData);
+            uploadData.pixelShaderConstantInfo = std::move(data.pixelShaderConstantInfo);
+            uploadData.vertexShaderConstantInfo = std::move(data.vertexShaderConstantInfo);
+            uploadData.pixelShaderFunction = std::move(data.pixelShaderFunction);
+            uploadData.vertexShaderFunction = std::move(data.vertexShaderFunction);
 
-            if (!data.vertexShaderData.empty())
-            {
-                uploadData.vertexShaderData = std::move(data.vertexShaderData);
-            }
-
-            if (!data.pixelShaderConstantInfo.empty())
-            {
-                uploadData.pixelShaderConstantInfo = std::move(data.pixelShaderConstantInfo);
-            }
-
-            if (!data.vertexShaderConstantInfo.empty())
-            {
-                uploadData.vertexShaderConstantInfo = std::move(data.vertexShaderConstantInfo);
-            }
-
-            if (!data.pixelShaderFunction.empty())
-            {
-                uploadData.pixelShaderFunction = std::move(data.pixelShaderFunction);
-            }
-
-            if (!data.vertexShaderFunction.empty())
-            {
-                uploadData.vertexShaderFunction = std::move(data.vertexShaderFunction);
-            }
+            data.dirty = false;
         }
     } // namespace graphics
 } // namespace ouzel

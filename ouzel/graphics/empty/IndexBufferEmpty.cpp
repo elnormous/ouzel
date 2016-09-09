@@ -18,8 +18,8 @@ namespace ouzel
 
         bool IndexBufferEmpty::upload()
         {
-            ready = true;
-            dirty = 0;
+            uploadData.dirty = 0;
+            
             return true;
         }
     }

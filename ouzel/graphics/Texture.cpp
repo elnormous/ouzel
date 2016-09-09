@@ -26,8 +26,6 @@ namespace ouzel
         {
             levels.clear();
             uploadData.levels.clear();
-            
-            ready = false;
         }
 
         bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
@@ -271,16 +269,13 @@ namespace ouzel
         {
             uploadData.size = size;
             uploadData.dynamic = dynamic;
-            uploadData.mipmaps = mipmaps;
-
             uploadData.mipmaps = mipMapsGenerated;
+            uploadData.dirty = dirty;
 
             uploadData.renderTarget = renderTarget;
+            uploadData.levels = std::move(levels);
 
-            if (!levels.empty())
-            {
-                uploadData.levels = std::move(levels);
-            }
+            dirty = false;
         }
     } // namespace graphics
 } // namespace ouzel

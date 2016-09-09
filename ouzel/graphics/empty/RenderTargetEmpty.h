@@ -17,8 +17,6 @@ namespace ouzel
         public:
             virtual ~RenderTargetEmpty();
 
-            virtual bool init(const Size2& newSize, bool depthBuffer) override;
-
         protected:
             RenderTargetEmpty();
             virtual bool upload() override;

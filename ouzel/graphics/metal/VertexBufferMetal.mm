@@ -37,11 +37,11 @@ namespace ouzel
 
         bool VertexBufferMetal::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-                if (dirty & VERTEX_BUFFER_DIRTY)
+                if (uploadData.dirty & VERTEX_BUFFER_DIRTY)
                 {
                     if (!uploadData.data.empty())
                     {
@@ -64,12 +64,10 @@ namespace ouzel
                         memcpy([buffer contents], uploadData.data.data(), uploadData.data.size());
                     }
                     
-                    dirty &= ~VERTEX_BUFFER_DIRTY;
-
-                    ready = true;
+                    uploadData.dirty &= ~VERTEX_BUFFER_DIRTY;
                 }
                 
-                dirty = 0;
+                uploadData.dirty = 0;
             }
             
             return true;

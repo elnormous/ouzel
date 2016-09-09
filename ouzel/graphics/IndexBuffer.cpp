@@ -21,8 +21,6 @@ namespace ouzel
         {
             data.clear();
             uploadData.data.clear();
-
-            ready = false;
         }
 
         bool IndexBuffer::init(bool newDynamic)
@@ -87,11 +85,10 @@ namespace ouzel
         {
             uploadData.indexSize = indexSize;
             uploadData.dynamic = dynamic;
-            
-            if (!data.empty())
-            {
-                uploadData.data = std::move(data);
-            }
+            uploadData.dirty = dirty;
+            uploadData.data = std::move(data);
+
+            dirty = 0;
         }
     } // namespace graphics
 } // namespace ouzel

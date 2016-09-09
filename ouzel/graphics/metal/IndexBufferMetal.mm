@@ -37,11 +37,11 @@ namespace ouzel
 
         bool IndexBufferMetal::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
-                if (dirty & INDEX_SIZE_DIRTY)
+                if (uploadData.dirty & INDEX_SIZE_DIRTY)
                 {
                     switch (uploadData.indexSize)
                     {
@@ -59,10 +59,10 @@ namespace ouzel
                             return false;
                     }
 
-                    dirty &= ~INDEX_SIZE_DIRTY;
+                    uploadData.dirty &= ~INDEX_SIZE_DIRTY;
                 }
 
-                if (dirty & INDEX_BUFFER_DIRTY)
+                if (uploadData.dirty & INDEX_BUFFER_DIRTY)
                 {
                     if (!uploadData.data.empty())
                     {
@@ -85,12 +85,10 @@ namespace ouzel
                         memcpy([buffer contents], uploadData.data.data(), uploadData.data.size());
                     }
 
-                    dirty &= ~INDEX_BUFFER_DIRTY;
-
-                    ready = true;
+                    uploadData.dirty &= ~INDEX_BUFFER_DIRTY;
                 }
 
-                dirty = 0;
+                uploadData.dirty = 0;
             }
             
             return true;

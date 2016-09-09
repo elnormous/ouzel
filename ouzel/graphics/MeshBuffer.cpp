@@ -21,8 +21,6 @@ namespace ouzel
         {
             indexBuffer.reset();
             vertexBuffer.reset();
-            
-            ready = false;
         }
 
         bool MeshBuffer::init(const IndexBufferPtr& newIndexBuffer,
@@ -55,6 +53,11 @@ namespace ouzel
 
         void MeshBuffer::update()
         {
+            uploadData.indexBuffer = indexBuffer;
+            uploadData.vertexBuffer = vertexBuffer;
+            uploadData.dirty = dirty;
+
+            dirty = false;
         }
     } // namespace graphics
 } // namespace ouzel

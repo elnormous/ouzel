@@ -47,14 +47,14 @@ namespace ouzel
             }
             else
             {
-                std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(indexBuffer);
+                std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(uploadData.indexBuffer);
 
                 if (!indexBufferOGL || !indexBufferOGL->bindBuffer())
                 {
                     return false;
                 }
 
-                std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(vertexBuffer);
+                std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(uploadData.vertexBuffer);
 
                 if (!vertexBufferOGL || !vertexBufferOGL->bindBuffer())
                 {
@@ -67,14 +67,14 @@ namespace ouzel
 
         bool MeshBufferOGL::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
-                if (!indexBuffer->upload())
+                if (!uploadData.indexBuffer->upload())
                 {
                     return false;
                 }
 
-                if (!vertexBuffer->upload())
+                if (!uploadData.vertexBuffer->upload())
                 {
                     return false;
                 }
@@ -99,14 +99,14 @@ namespace ouzel
                 {
                     RendererOGL::bindVertexArray(vertexArrayId);
 
-                    std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(indexBuffer);
+                    std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(uploadData.indexBuffer);
 
                     if (indexBufferOGL && !indexBufferOGL->bindBuffer())
                     {
                         return false;
                     }
 
-                    std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(vertexBuffer);
+                    std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(uploadData.vertexBuffer);
 
                     if (vertexBufferOGL && !vertexBufferOGL->bindBuffer())
                     {
@@ -114,8 +114,7 @@ namespace ouzel
                     }
                 }
 
-                ready = indexBuffer && vertexBuffer;
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

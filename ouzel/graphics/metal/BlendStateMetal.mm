@@ -45,7 +45,7 @@ namespace ouzel
 
         bool BlendStateMetal::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 rgbBlendOperation = getBlendOperation(uploadData.colorOperation);
                 alphaBlendOperation = getBlendOperation(uploadData.alphaOperation);
@@ -55,8 +55,7 @@ namespace ouzel
                 destinationAlphaBlendFactor = getBlendFactor(uploadData.alphaBlendDest);
                 metalBlendingEnabled = uploadData.enableBlending;
 
-                ready = true;
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

@@ -52,14 +52,14 @@ namespace ouzel
 
         bool IndexBufferOGL::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 if (!bufferId)
                 {
                     glGenBuffers(1, &bufferId);
                 }
 
-                if (dirty & INDEX_SIZE_DIRTY)
+                if (uploadData.dirty & INDEX_SIZE_DIRTY)
                 {
                     switch (uploadData.indexSize)
                     {
@@ -78,10 +78,10 @@ namespace ouzel
                             return false;
                     }
 
-                    dirty &= ~INDEX_SIZE_DIRTY;
+                    uploadData.dirty &= ~INDEX_SIZE_DIRTY;
                 }
 
-                if (dirty & INDEX_BUFFER_DIRTY)
+                if (uploadData.dirty & INDEX_BUFFER_DIRTY)
                 {
                     if (!uploadData.data.empty())
                     {
@@ -140,11 +140,10 @@ namespace ouzel
                         }
                     }
 
-                    dirty &= ~INDEX_BUFFER_DIRTY;
+                    uploadData.dirty &= ~INDEX_BUFFER_DIRTY;
                 }
                 
-                dirty = 0;
-                ready = true;
+                uploadData.dirty = 0;
             }
             
             return true;

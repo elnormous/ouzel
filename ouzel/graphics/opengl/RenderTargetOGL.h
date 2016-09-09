@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <atomic>
-#include <mutex>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
@@ -47,10 +45,6 @@ namespace ouzel
             virtual ~RenderTargetOGL();
             void free() override;
 
-            virtual bool init(const Size2& newSize, bool depthBuffer) override;
-
-            virtual void setClearColor(Color color) override;
-
             GLuint getFrameBufferId() const { return frameBufferId; }
             const Rectangle& getViewport() const { return viewport; }
 
@@ -67,9 +61,6 @@ namespace ouzel
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
-
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

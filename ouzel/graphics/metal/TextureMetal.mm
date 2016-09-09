@@ -39,7 +39,7 @@ namespace ouzel
 
         bool TextureMetal::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
 
@@ -84,8 +84,7 @@ namespace ouzel
                     }
                 }
 
-                ready = (texture != Nil);
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

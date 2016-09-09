@@ -59,8 +59,6 @@ namespace ouzel
             BlendFactor getAlphaBlendDest() const { return data.alphaBlendDest; }
             BlendOperation getAlphaOperation() const { return data.alphaOperation; }
 
-            bool isReady() const { return ready; }
-
         protected:
             BlendState();
             virtual void update() override;
@@ -74,13 +72,13 @@ namespace ouzel
                 BlendFactor alphaBlendDest = BlendFactor::ZERO;
                 BlendOperation alphaOperation = BlendOperation::ADD;
                 bool enableBlending = false;
+                bool dirty = false;
             };
 
-            Data data;
             Data uploadData;
 
-            bool ready = false;
-            bool dirty = false;
+        private:
+            Data data;
         };
     } // namespace graphics
 } // namespace ouzel
