@@ -37,11 +37,11 @@ namespace ouzel
 
         bool VertexBufferD3D11::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
-                if (dirty & VERTEX_BUFFER_DIRTY)
+                if (uploadData.dirty & VERTEX_BUFFER_DIRTY)
                 {
                     if (!uploadData.data.empty())
                     {
@@ -80,18 +80,16 @@ namespace ouzel
                                 return false;
                             }
 
-                            memcpy(mappedSubResource.pData, data.data(), data.size());
+                            memcpy(mappedSubResource.pData, uploadData.data.data(), uploadData.data.size());
 
                             rendererD3D11->getContext()->Unmap(buffer, 0);
                         }
-
-                        ready = true;
                     }
 
-                    dirty &= ~VERTEX_BUFFER_DIRTY;
+                    uploadData.dirty &= ~VERTEX_BUFFER_DIRTY;
                 }
 
-                dirty = 0;
+                uploadData.dirty = 0;
             }
 
             return true;

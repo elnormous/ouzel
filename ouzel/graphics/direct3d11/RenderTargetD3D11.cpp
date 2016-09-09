@@ -11,8 +11,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderTargetD3D11::RenderTargetD3D11():
-            dirty(false)
+        RenderTargetD3D11::RenderTargetD3D11()
         {
         }
 
@@ -26,8 +25,6 @@ namespace ouzel
 
         void RenderTargetD3D11::free()
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             RenderTarget::free();
 
             if (renderTargetView)
@@ -37,56 +34,16 @@ namespace ouzel
             }
         }
 
-        bool RenderTargetD3D11::init(const Size2& newSize, bool depthBuffer)
-        {
-            free();
-
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!RenderTarget::init(newSize, depthBuffer))
-            {
-                return false;
-            }
-
-            viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
-
-            std::shared_ptr<TextureD3D11> textureD3D11(new TextureD3D11());
-
-            if (!textureD3D11->init(size, false, false, true))
-            {
-                return false;
-            }
-
-            texture = textureD3D11;
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-
-            return true;
-        }
-
-        void RenderTargetD3D11::setClearColor(Color color)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            RenderTarget::setClearColor(color);
-
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-        }
-
         bool RenderTargetD3D11::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 if (!texture->upload())
                 {
                     return false;
                 }
 
-                std::lock_guard<std::mutex> lock(dataMutex);
+                viewport = { 0, 0, uploadData.size.width, uploadData.size.height, 0.0f, 1.0f };
 
                 std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(texture);
 
@@ -117,13 +74,12 @@ namespace ouzel
                     }
                 }
 
-                frameBufferClearColor[0] = clearColor.getR();
-                frameBufferClearColor[1] = clearColor.getG();
-                frameBufferClearColor[2] = clearColor.getB();
-                frameBufferClearColor[3] = clearColor.getA();
+                frameBufferClearColor[0] = uploadData.clearColor.getR();
+                frameBufferClearColor[1] = uploadData.clearColor.getG();
+                frameBufferClearColor[2] = uploadData.clearColor.getB();
+                frameBufferClearColor[3] = uploadData.clearColor.getA();
 
-                ready = true;
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

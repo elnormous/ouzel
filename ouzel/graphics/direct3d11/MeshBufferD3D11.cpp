@@ -20,8 +20,7 @@ namespace ouzel
 
         bool MeshBufferD3D11::upload()
         {
-            ready = indexBuffer && vertexBuffer;
-            dirty = false;
+            uploadData.dirty = false;
 
             return true;
         }

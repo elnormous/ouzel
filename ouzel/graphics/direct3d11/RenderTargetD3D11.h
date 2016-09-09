@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <mutex>
-#include <atomic>
 #define NOMINMAX
 #include <d3d11.h>
 #include <memory>
@@ -23,10 +21,6 @@ namespace ouzel
             virtual ~RenderTargetD3D11();
             virtual void free() override;
 
-            virtual bool init(const Size2& newSize, bool depthBuffer);
-
-            virtual void setClearColor(Color color) override;
-
             ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
             const D3D11_VIEWPORT& getViewport() const { return viewport; }
 
@@ -40,9 +34,6 @@ namespace ouzel
             D3D11_VIEWPORT viewport;
 
             FLOAT frameBufferClearColor[4];
-
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

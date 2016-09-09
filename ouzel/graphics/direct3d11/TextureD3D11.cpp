@@ -51,7 +51,7 @@ namespace ouzel
 
         bool TextureD3D11::upload()
         {
-            if (dirty)
+            if (uploadData.dirty)
             {
                 std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
 
@@ -110,8 +110,7 @@ namespace ouzel
                     }
                 }
 
-                ready = (texture != nullptr);
-                dirty = false;
+                uploadData.dirty = false;
             }
 
             return true;

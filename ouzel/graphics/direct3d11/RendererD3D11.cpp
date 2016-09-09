@@ -527,12 +527,6 @@ namespace ouzel
                 {
                     std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(drawCommand.renderTarget);
 
-                    if (!renderTargetD3D11->isReady())
-                    {
-                        // don't render if invalid render target
-                        continue;
-                    }
-
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
                     newViewport = renderTargetD3D11->getViewport();
@@ -585,7 +579,7 @@ namespace ouzel
                 // shader
                 std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(drawCommand.shader);
 
-                if (!shaderD3D11 || !shaderD3D11->isReady())
+                if (!shaderD3D11)
                 {
                     // don't render if invalid shader
                     continue;
@@ -663,7 +657,7 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(drawCommand.blendState);
 
-                if (!blendStateD3D11 || !blendStateD3D11->isReady())
+                if (!blendStateD3D11)
                 {
                     // don't render if invalid blend state
                     continue;
@@ -683,12 +677,6 @@ namespace ouzel
 
                     if (textureD3D11)
                     {
-                        if (!textureD3D11->isReady())
-                        {
-                            // don't render if invalid texture
-                            continue;
-                        }
-
                         resourceViews[layer] = textureD3D11->getResourceView();
                         samplerStates[layer] = samplerState;
                     }
@@ -705,7 +693,7 @@ namespace ouzel
                 // mesh buffer
                 std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(drawCommand.meshBuffer);
 
-                if (!meshBufferD3D11 || !meshBufferD3D11->isReady())
+                if (!meshBufferD3D11)
                 {
                     // don't render if invalid mesh buffer
                     continue;
