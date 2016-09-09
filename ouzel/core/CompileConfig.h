@@ -113,6 +113,9 @@
             #define OUZEL_32BITS 1
         #endif
     #endif
+#elif defined(EMSCRIPTEN)
+    #define OUZEL_PLATFORM_EMSCRIPTEN 1
+    #define OUZEL_SUPPORTS_OPENGLES 1
 #endif
 
 #if defined(__SSE__)
