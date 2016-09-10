@@ -27,17 +27,17 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM)
 
 static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
 {
-    Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
-                static_cast<float>(GET_Y_LPARAM(lParam)));
+    Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
+                     static_cast<float>(GET_Y_LPARAM(lParam)));
 
-    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(position),
                                         input::InputWin::getMouseModifiers(wParam));
 }
 
 static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
-                static_cast<float>(GET_Y_LPARAM(lParam)));
+    Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
+                     static_cast<float>(GET_Y_LPARAM(lParam)));
 
     input::MouseButton button;
 
@@ -70,35 +70,79 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
         sharedEngine->getInput()->mouseDown(button,
-                                            sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                            sharedEngine->getRenderer()->viewToScreenLocation(position),
                                             input::InputWin::getMouseModifiers(wParam));
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
         sharedEngine->getInput()->mouseUp(button,
-                                          sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                          sharedEngine->getRenderer()->viewToScreenLocation(position),
                                           input::InputWin::getMouseModifiers(wParam));
     }
 }
 
 static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    Vector2 pos(static_cast<float>(GET_X_LPARAM(lParam)),
-                static_cast<float>(GET_Y_LPARAM(lParam)));
+    Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
+                     static_cast<float>(GET_Y_LPARAM(lParam)));
 
     if (msg == WM_MOUSEWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
         sharedEngine->getInput()->mouseScroll(Vector2(0.0f, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
-                                              sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                              sharedEngine->getRenderer()->viewToScreenLocation(position),
                                               input::InputWin::getMouseModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
         sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0f),
-                                              sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                              sharedEngine->getRenderer()->viewToScreenLocation(position),
                                               input::InputWin::getMouseModifiers(wParam));
+    }
+}
+
+static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
+{
+    UINT inputCount = LOWORD(wParam);
+    std::vector<TOUCHINPUT> touches(inputCount);
+
+    if (GetTouchInputInfo(reinterpret_cast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))
+    {
+        Vector2 position;
+
+        for (const TOUCHINPUT& touch : touches)
+        {
+            position.x = static_cast<float>(touch.x);
+            position.y = static_cast<float>(touch.y);
+
+            if (touch.dwFlags & TOUCHEVENTF_DOWN)
+            {
+                sharedEngine->getInput()->touchBegin(touch.dwID,
+                                                     sharedEngine->getRenderer()->viewToScreenLocation(position));
+            }
+
+            if (touch.dwFlags & TOUCHEVENTF_UP)
+            {
+                sharedEngine->getInput()->touchEnd(touch.dwID,
+                                                   sharedEngine->getRenderer()->viewToScreenLocation(position));
+            }
+
+            if (touch.dwFlags & TOUCHEVENTF_MOVE)
+            {
+                sharedEngine->getInput()->touchMove(touch.dwID,
+                                                    sharedEngine->getRenderer()->viewToScreenLocation(position));
+            }
+        }
+
+        if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
+        {
+            ouzel::log(ouzel::LOG_LEVEL_ERROR, "Failed to close touch input handle");
+        }
+    }
+    else
+    {
+        ouzel::log(ouzel::LOG_LEVEL_ERROR, "Failed to get touch info");
     }
 }
 
@@ -153,6 +197,11 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         case WM_MOUSEHWHEEL:
         {
             handleMouseWheelEvent(msg, wParam, lParam);
+            return 0;
+        }
+        case WM_TOUCH:
+        {
+            handleTouchEvent(wParam, lParam);
             return 0;
         }
         case WM_SETCURSOR:
