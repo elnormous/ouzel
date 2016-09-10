@@ -349,6 +349,7 @@ namespace ouzel
         }
 
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+        RegisterTouchWindow(window, 0);
         ShowWindow(window, SW_SHOW);
 
         return Window::init();
