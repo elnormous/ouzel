@@ -39,19 +39,16 @@ namespace ouzel
                 calculateTransform();
             }
 
-            if (currentLayer)
+            if (currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
             {
-                if (currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
-                {
-                    currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()), depth + z);
-                }
+                currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()), depth + z);
+            }
 
-                for (const NodePtr& child : children)
+            for (const NodePtr& child : children)
+            {
+                if (!child->isHidden())
                 {
-                    if (!child->isHidden())
-                    {
-                        child->visit(transform, updateChildrenTransform, currentLayer, depth + z);
-                    }
+                    child->visit(transform, updateChildrenTransform, currentLayer, depth + z);
                 }
             }
 
@@ -65,21 +62,18 @@ namespace ouzel
                 calculateTransform();
             }
 
-            if (currentLayer)
+            if (currentLayer->getCamera())
             {
-                if (currentLayer->getCamera())
-                {
-                    graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
+                graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
 
-                    for (const ComponentPtr& component : components)
+                for (const ComponentPtr& component : components)
+                {
+                    if (!component->isHidden())
                     {
-                        if (!component->isHidden())
-                        {
-                            component->draw(currentLayer->getCamera()->getViewProjection(),
-                                            transform,
-                                            drawColor,
-                                            currentLayer->getRenderTarget());
-                        }
+                        component->draw(currentLayer->getCamera()->getViewProjection(),
+                                        transform,
+                                        drawColor,
+                                        currentLayer->getRenderTarget());
                     }
                 }
             }
@@ -92,21 +86,18 @@ namespace ouzel
                 calculateTransform();
             }
 
-            if (currentLayer)
+            if (currentLayer->getCamera())
             {
-                if (currentLayer->getCamera())
-                {
-                    graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
+                graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
 
-                    for (const ComponentPtr& component : components)
+                for (const ComponentPtr& component : components)
+                {
+                    if (!component->isHidden())
                     {
-                        if (!component->isHidden())
-                        {
-                            component->drawWireframe(currentLayer->getCamera()->getViewProjection(),
-                                                     transform,
-                                                     drawColor,
-                                                     currentLayer->getRenderTarget());
-                        }
+                        component->drawWireframe(currentLayer->getCamera()->getViewProjection(),
+                                                 transform,
+                                                 drawColor,
+                                                 currentLayer->getRenderTarget());
                     }
                 }
             }
