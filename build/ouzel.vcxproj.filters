@@ -298,6 +298,9 @@
     <ClCompile Include="..\ouzel\graphics\empty\VertexBufferEmpty.cpp">
       <Filter>graphics\empty</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\core\UpdateCallback.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />

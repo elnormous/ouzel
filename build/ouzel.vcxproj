@@ -41,6 +41,7 @@
     <ClCompile Include="..\ouzel\core\Application.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
+    <ClCompile Include="..\ouzel\core\UpdateCallback.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
     <ClCompile Include="..\ouzel\core\win\ApplicationWin.cpp" />
     <ClCompile Include="..\ouzel\core\win\main.cpp" />
