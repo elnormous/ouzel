@@ -40,9 +40,9 @@ namespace ouzel
         {
             Size2 screenSize = sharedEngine->getRenderer()->getSize();
 
-            if (LayerPtr currentLayer = layer.lock())
+            if (layer)
             {
-                if (const graphics::RenderTargetPtr& renderTarget = currentLayer->getRenderTarget())
+                if (const graphics::RenderTargetPtr& renderTarget = layer->getRenderTarget())
                 {
                     screenSize = renderTarget->getTexture()->getSize();
                 }
@@ -209,14 +209,14 @@ namespace ouzel
             recalculateProjection();
         }
 
-        void Camera::addToLayer(const LayerWeakPtr& newLayer)
+        void Camera::addToLayer(Layer* newLayer)
         {
             layer = newLayer;
         }
 
         void Camera::removeFromLayer()
         {
-            layer.reset();
+            layer = nullptr;
         }
     } // namespace scene
 } // namespace ouzel

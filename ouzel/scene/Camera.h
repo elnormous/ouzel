@@ -49,7 +49,7 @@ namespace ouzel
             virtual const Size2& getContentSize() const { return contentSize; }
             virtual const Vector2& getContentScale() const { return contentScale; }
 
-            virtual void addToLayer(const LayerWeakPtr& newLayer);
+            virtual void addToLayer(Layer* newLayer);
             virtual void removeFromLayer();
 
         protected:
@@ -69,7 +69,7 @@ namespace ouzel
             bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection = Matrix4::IDENTITY;
 
-            LayerWeakPtr layer;
+            Layer* layer = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

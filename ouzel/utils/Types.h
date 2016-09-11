@@ -45,7 +45,6 @@ namespace ouzel
 
         class BlendState;
         typedef std::shared_ptr<BlendState> BlendStatePtr;
-        typedef std::weak_ptr<BlendState> BlendStateWeakPtr;
 
         class IndexBuffer;
         typedef std::shared_ptr<IndexBuffer> IndexBufferPtr;
@@ -55,15 +54,12 @@ namespace ouzel
 
         class RenderTarget;
         typedef std::shared_ptr<RenderTarget> RenderTargetPtr;
-        typedef std::weak_ptr<RenderTarget> RenderTargetWeakPtr;
 
         class Shader;
         typedef std::shared_ptr<Shader> ShaderPtr;
-        typedef std::weak_ptr<Shader> ShaderWeakPtr;
 
         class Texture;
         typedef std::shared_ptr<Texture> TexturePtr;
-        typedef std::weak_ptr<Texture> TextureWeakPtr;
 
         class VertexBuffer;
         typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
@@ -88,11 +84,9 @@ namespace ouzel
 
         class Scene;
         typedef std::shared_ptr<Scene> ScenePtr;
-        typedef std::weak_ptr<Scene> SceneWeakPtr;
 
         class Layer;
         typedef std::shared_ptr<Layer> LayerPtr;
-        typedef std::weak_ptr<Layer> LayerWeakPtr;
 
         class Component;
         typedef std::shared_ptr<Component> ComponentPtr;
@@ -105,7 +99,6 @@ namespace ouzel
 
         class NodeContainer;
         typedef std::shared_ptr<NodeContainer> NodeContainerPtr;
-        typedef std::weak_ptr<NodeContainer> NodeContainerWeakPtr;
 
         class Node;
         typedef std::shared_ptr<Node> NodePtr;
@@ -128,7 +121,6 @@ namespace ouzel
 
         class Animator;
         typedef std::shared_ptr<Animator> AnimatorPtr;
-        typedef std::weak_ptr<Animator> AnimatorWeakPtr;
     } // namespace scene
 
     namespace gui

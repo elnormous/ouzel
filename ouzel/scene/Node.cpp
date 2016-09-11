@@ -27,7 +27,7 @@ namespace ouzel
             }
         }
 
-        void Node::visit(const Matrix4& newTransformMatrix, bool parentTransformDirty, const LayerPtr& currentLayer, float depth)
+        void Node::visit(const Matrix4& newTransformMatrix, bool parentTransformDirty, Layer* currentLayer, float depth)
         {
             if (parentTransformDirty)
             {
@@ -58,7 +58,7 @@ namespace ouzel
             updateChildrenTransform = false;
         }
 
-        void Node::draw(const LayerPtr& currentLayer)
+        void Node::draw(Layer* currentLayer)
         {
             if (transformDirty)
             {
@@ -85,7 +85,7 @@ namespace ouzel
             }
         }
 
-        void Node::drawWireframe(const LayerPtr& currentLayer)
+        void Node::drawWireframe(Layer* currentLayer)
         {
             if (transformDirty)
             {
