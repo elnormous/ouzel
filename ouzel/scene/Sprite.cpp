@@ -43,7 +43,6 @@ namespace ouzel
 
         Sprite::~Sprite()
         {
-            sharedEngine->unscheduleUpdate(updateCallback);
         }
 
         bool Sprite::initFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames)

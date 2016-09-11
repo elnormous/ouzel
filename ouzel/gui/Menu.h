@@ -24,8 +24,8 @@ namespace ouzel
             virtual void selectPreviousWidget();
 
         protected:
-            virtual void enter();
-            virtual void leave();
+            virtual void enter() override;
+            virtual void leave() override;
 
             void selectWidget(const WidgetPtr& widget);
 
