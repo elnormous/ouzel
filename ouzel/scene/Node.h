@@ -18,11 +18,8 @@ namespace ouzel
 {
     namespace scene
     {
-        class SceneManager;
-
         class Node: public NodeContainer
         {
-            friend SceneManager;
             friend NodeContainer;
             friend Layer;
         public:

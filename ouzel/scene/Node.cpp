@@ -383,6 +383,5 @@ namespace ouzel
         {
             components.clear();
         }
-
     } // namespace scene
 } // namespace ouzel

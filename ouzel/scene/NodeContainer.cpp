@@ -17,6 +17,7 @@ namespace ouzel
         {
             for (const NodePtr& node : children)
             {
+                if (entered) node->leave();
                 node->setParent(nullptr);
             }
         }
@@ -26,6 +27,7 @@ namespace ouzel
             if (!hasChild(node) && !node->hasParent())
             {
                 node->setParent(this);
+                if (entered) node->enter();
                 children.push_back(node);
 
                 return true;
@@ -42,6 +44,7 @@ namespace ouzel
 
             if (i != children.end())
             {
+                if (entered) node->leave();
                 node->setParent(nullptr);
                 children.erase(i);
 
@@ -59,6 +62,7 @@ namespace ouzel
 
             for (auto& node : childrenCopy)
             {
+                if (entered) node->leave();
                 node->setParent(nullptr);
             }
 
@@ -78,6 +82,26 @@ namespace ouzel
             }
 
             return false;
+        }
+
+        void NodeContainer::enter()
+        {
+            entered = true;
+
+            for (const NodePtr& node : children)
+            {
+                node->enter();
+            }
+        }
+
+        void NodeContainer::leave()
+        {
+            entered = false;
+
+            for (const NodePtr& node : children)
+            {
+                node->leave();
+            }
         }
     } // namespace scene
 } // namespace ouzel

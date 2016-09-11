@@ -24,6 +24,9 @@ namespace ouzel
             virtual void selectPreviousWidget();
 
         protected:
+            virtual void enter();
+            virtual void leave();
+
             void selectWidget(const WidgetPtr& widget);
 
             bool handleKeyboard(Event::Type type, const KeyboardEvent& event);

@@ -19,8 +19,11 @@ namespace ouzel
 {
     namespace scene
     {
+        class SceneManager;
+
         class Scene: public Noncopyable
         {
+            friend SceneManager;
         public:
             Scene();
             virtual ~Scene();
@@ -39,6 +42,9 @@ namespace ouzel
             std::set<NodePtr> pickNodes(const std::vector<Vector2>& edges) const;
 
         protected:
+            virtual void enter();
+            virtual void leave();
+
             bool handleWindow(Event::Type type, const WindowEvent& event);
             bool handleMouse(Event::Type type, const MouseEvent& event);
             bool handleTouch(Event::Type type, const TouchEvent& event);
@@ -57,6 +63,8 @@ namespace ouzel
 
             std::map<uint64_t, scene::NodeWeakPtr> pointerOnNodes;
             std::map<uint64_t, scene::NodeWeakPtr> pointerDownOnNodes;
+
+            bool entered = false;
         };
     } // namespace scene
 } // namespace ouzel
