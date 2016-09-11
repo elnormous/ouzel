@@ -17,6 +17,7 @@ namespace ouzel
         static const int32_t PRIORITY_MAX = 0x1000;
 
         UpdateCallback(int32_t pPriority = 0): priority(pPriority) { }
+        ~UpdateCallback();
 
         std::function<void(float)> callback;
 

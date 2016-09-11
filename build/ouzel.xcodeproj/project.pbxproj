@@ -377,6 +377,9 @@
 		303821781D81876E00677CAB /* SoundEmpty.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821681D81876E00677CAB /* SoundEmpty.h */; };
 		303821791D81876E00677CAB /* SoundEmpty.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821681D81876E00677CAB /* SoundEmpty.h */; };
 		3038217A1D81876E00677CAB /* SoundEmpty.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821681D81876E00677CAB /* SoundEmpty.h */; };
+		303821ED1D8500E500677CAB /* UpdateCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821EC1D8500E500677CAB /* UpdateCallback.cpp */; };
+		303821EE1D8500E500677CAB /* UpdateCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821EC1D8500E500677CAB /* UpdateCallback.cpp */; };
+		303821EF1D8500E500677CAB /* UpdateCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821EC1D8500E500677CAB /* UpdateCallback.cpp */; };
 		303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* Image.cpp */; };
 		303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
 		303B75011C28208800FEDE92 /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B74FF1C28208800FEDE92 /* FileSystem.h */; };
@@ -920,6 +923,7 @@
 		303821661D81876E00677CAB /* SoundDataEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundDataEmpty.h; path = ../empty/SoundDataEmpty.h; sourceTree = "<group>"; };
 		303821671D81876E00677CAB /* SoundEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundEmpty.cpp; path = ../empty/SoundEmpty.cpp; sourceTree = "<group>"; };
 		303821681D81876E00677CAB /* SoundEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundEmpty.h; path = ../empty/SoundEmpty.h; sourceTree = "<group>"; };
+		303821EC1D8500E500677CAB /* UpdateCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UpdateCallback.cpp; sourceTree = "<group>"; };
 		303B74E11C277A7500FEDE92 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		303B74E21C277A7500FEDE92 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		303B74FE1C28208800FEDE92 /* FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
@@ -1294,6 +1298,7 @@
 				303B751B1C29EDD900FEDE92 /* macos */,
 				303647631C3F218E0024DB5B /* Settings.h */,
 				303B76311C355A3400FEDE92 /* tvos */,
+				303821EC1D8500E500677CAB /* UpdateCallback.cpp */,
 				30C8B6211C6D0E350031B64F /* UpdateCallback.h */,
 				3009341A1C88698500CC50D3 /* Window.cpp */,
 				3009341B1C88698500CC50D3 /* Window.h */,
@@ -2191,6 +2196,7 @@
 				3047F74F1C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				301EB3AB1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				303B75481C2A3C9200FEDE92 /* Shader.cpp in Sources */,
+				303821ED1D8500E500677CAB /* UpdateCallback.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
 				3038202B1D80A55700677CAB /* IndexBufferMetal.mm in Sources */,
 				303820D71D817E8D00677CAB /* RendererOGLIOS.mm in Sources */,
@@ -2310,6 +2316,7 @@
 				3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				3038202D1D80A55700677CAB /* IndexBufferMetal.mm in Sources */,
 				303820141D80A40700677CAB /* TextureMetal.mm in Sources */,
+				303821EF1D8500E500677CAB /* UpdateCallback.cpp in Sources */,
 				303B763D1C355A3B00FEDE92 /* Shader.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
@@ -2429,6 +2436,7 @@
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				301EB3AA1CCD77F600466E92 /* TextDrawable.cpp in Sources */,
 				3038202C1D80A55700677CAB /* IndexBufferMetal.mm in Sources */,
+				303821EE1D8500E500677CAB /* UpdateCallback.cpp in Sources */,
 				303820131D80A40700677CAB /* TextureMetal.mm in Sources */,
 				30B328841C4E9EAC00040927 /* Ease.cpp in Sources */,
 				304A8E9A1C26F5CF008B1151 /* Size2.cpp in Sources */,

@@ -34,6 +34,7 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Application.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Cache.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Engine.cpp \
+    $(LOCAL_PATH)/../../ouzel/core/UpdateCallback.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Window.cpp \
     $(LOCAL_PATH)/../../ouzel/events/EventDispatcher.cpp \
     $(LOCAL_PATH)/../../ouzel/events/EventHandler.cpp \
