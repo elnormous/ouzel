@@ -2,11 +2,10 @@
 // This file is part of the Ouzel engine.
 
 #include <cstring>
-#include "core/CompileConfig.h"
 #include "Texture.h"
-#include "core/Engine.h"
 #include "Renderer.h"
 #include "Image.h"
+#include "core/Engine.h"
 #include "utils/Utils.h"
 #include "math/MathUtils.h"
 
