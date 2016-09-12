@@ -31,16 +31,22 @@ GUISample::GUISample(Samples& pSamples):
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
     menu->addWidget(fullscreenButton);
 
-    gui::LabelPtr label = make_shared<gui::Label>("arial.fnt", "label");
+    gui::LabelPtr label = make_shared<gui::Label>("arial.fnt", "checkbox");
     label->setColor(graphics::Color(0, 255, 255, 255));
-    label->setPosition(Vector2(-70.0f, 100.0f));
+    label->setPosition(Vector2(-60.0f, 100.0f));
     guiLayer->addChild(label);
 
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
     sharedEngine->getLocalization()->setLanguage("latvian");
 
-    gui::LabelPtr label2 = make_shared<gui::Label>("ArialBlack.fnt", sharedEngine->getLocalization()->getString("UTF-8"));
+    gui::LabelPtr label2 = make_shared<gui::Label>("ArialBlack.fnt", sharedEngine->getLocalization()->getString("Ouzel"));
+    label2->setPosition(Vector2(10.0f, 0.0f));
     guiLayer->addChild(label2);
+
+    gui::LabelPtr label3 = make_shared<gui::Label>("ArialBlack.fnt", "UTF-8 ĀāČč");
+    label3->setPosition(Vector2(10.0f, -100.0f));
+    label3->setScale(Vector2(0.5f, 0.5f));
+    guiLayer->addChild(label3);
 
     backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
