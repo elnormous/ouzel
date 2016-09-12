@@ -250,7 +250,7 @@ namespace ouzel
                 sharedEngine->exit();
             }
 
-            for (;;)
+            while (sharedEngine->isActive())
             {
                 if ((sharedEngine->isRunning() && !XPending(windowLinux->getDisplay())) ||
                     !sharedEngine->isActive())

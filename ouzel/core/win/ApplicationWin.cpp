@@ -32,7 +32,6 @@ namespace ouzel
 
         while (sharedEngine->isActive())
         {
-            input->update();
             executeAll();
 
             if (!sharedEngine->draw())
@@ -42,7 +41,7 @@ namespace ouzel
 
             std::set<HACCEL> accelerators = window->getAccelerators();
 
-            for (;;)
+            while (sharedEngine->isActive())
             {
                 if (sharedEngine->isRunning())
                 {
@@ -82,6 +81,8 @@ namespace ouzel
                     break;
                 }
             }
+
+            input->update();
         }
 
         sharedEngine->end();
