@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "utf8.h"
+#include "utf8/unchecked.h"
 #include "BMFont.h"
 #include "core/Engine.h"
 #include "core/Application.h"
@@ -194,7 +194,7 @@ namespace ouzel
         float total = 0.0f;
 
         std::vector<uint32_t> utf32Text;
-        utf8::utf8to32(text.begin(), text.end(), std::back_inserter(utf32Text));
+        utf8::unchecked::utf8to32(text.begin(), text.end(), std::back_inserter(utf32Text));
 
         for (size_t i = 0; i < utf32Text.size(); ++i)
         {
@@ -216,7 +216,7 @@ namespace ouzel
         float y = lineHeight * (1.0f - anchor.y);
 
         std::vector<uint32_t> utf32Text;
-        utf8::utf8to32(text.begin(), text.end(), std::back_inserter(utf32Text));
+        utf8::unchecked::utf8to32(text.begin(), text.end(), std::back_inserter(utf32Text));
 
         indices.clear();
         vertices.clear();
