@@ -44,6 +44,7 @@ GUISample::GUISample(Samples& pSamples):
     guiLayer->addChild(label2);
 
     gui::LabelPtr label3 = make_shared<gui::Label>("ArialBlack.fnt", "UTF-8 ĀāČč");
+    label3->setColor(graphics::Color(0, 0, 255, 255));
     label3->setPosition(Vector2(10.0f, -100.0f));
     label3->setScale(Vector2(0.5f, 0.5f));
     guiLayer->addChild(label3);
