@@ -44,6 +44,7 @@ Windows Phone platform support is under development.
 * Resource caching system
 * Localization support via loading string translations
 * Audio engine for sound effect playback
+* Easy to install (just pull the repository and it's subrepositories and build it)
 
 ## Example app
 
@@ -75,7 +76,7 @@ $ git submodule update
 
 Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in the samples directory.
 
-To build Ouzel for Raspbian pass "platform=raspbian" to make as follows:
+You will need to download OpenGL (e.g. Mesa) and OpenAL drivers in order to build Ouzel on Linux. To build it for Raspbian pass "platform=raspbian" to make as follows:
 
 ```
 $ make platform=raspbian
