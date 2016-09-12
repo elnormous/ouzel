@@ -39,7 +39,7 @@ GUISample::GUISample(Samples& pSamples):
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
     sharedEngine->getLocalization()->setLanguage("latvian");
 
-    gui::LabelPtr label2 = make_shared<gui::Label>("font.fnt", sharedEngine->getLocalization()->getString("Test"));
+    gui::LabelPtr label2 = make_shared<gui::Label>("ArialBlack.fnt", sharedEngine->getLocalization()->getString("UTF-8"));
     guiLayer->addChild(label2);
 
     backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");

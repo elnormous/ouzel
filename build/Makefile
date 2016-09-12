@@ -11,7 +11,7 @@ ifndef platform
 		endif
 	endif
 endif
-CXXFLAGS=-c -std=c++11 -Wall -I../external/rapidjson/include -I../external/stb -I../ouzel
+CXXFLAGS=-c -std=c++11 -Wall -I../ouzel -I../external/stb -I../external/rapidjson/include -I../external/utfcpp/source
 SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Ease.cpp \
 	../ouzel/animators/Fade.cpp \
