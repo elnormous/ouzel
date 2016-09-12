@@ -193,12 +193,11 @@ namespace ouzel
     {
         float total = 0.0f;
 
-        std::vector<uint32_t> utf32Text;
-        utf8::unchecked::utf8to32(text.begin(), text.end(), std::back_inserter(utf32Text));
-
-        for (size_t i = 0; i < utf32Text.size(); ++i)
+        for (auto i = text.begin(); i != text.end();)
         {
-            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(utf32Text[i]);
+            uint32_t c = utf8::unchecked::next(i);
+
+            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(c);
 
             if (iter != chars.end())
             {
