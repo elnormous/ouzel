@@ -287,21 +287,29 @@ namespace ouzel
         {
             if (dirty)
             {
-                std::lock_guard<std::mutex> lock(dataMutex);
+                Size2 newSize;
+                Color newClearColor;
+
+                {
+                    std::lock_guard<std::mutex> lock(dataMutex);
+
+                    newSize = size;
+                    newClearColor = clearColor;
+                }
 
                 clearMask = GL_COLOR_BUFFER_BIT;
 
-                frameBufferClearColor[0] = clearColor.getR();
-                frameBufferClearColor[1] = clearColor.getG();
-                frameBufferClearColor[2] = clearColor.getB();
-                frameBufferClearColor[3] = clearColor.getA();
+                frameBufferClearColor[0] = newClearColor.getR();
+                frameBufferClearColor[1] = newClearColor.getG();
+                frameBufferClearColor[2] = newClearColor.getB();
+                frameBufferClearColor[3] = newClearColor.getA();
 
 
-                if (frameBufferWidth != static_cast<GLsizei>(size.width) ||
-                    frameBufferHeight != static_cast<GLsizei>(size.height))
+                if (frameBufferWidth != static_cast<GLsizei>(newSize.width) ||
+                    frameBufferHeight != static_cast<GLsizei>(newSize.height))
                 {
-                    frameBufferWidth = static_cast<GLsizei>(size.width);
-                    frameBufferHeight = static_cast<GLsizei>(size.height);
+                    frameBufferWidth = static_cast<GLsizei>(newSize.width);
+                    frameBufferHeight = static_cast<GLsizei>(newSize.height);
 
                     if (sampleCount > 1)
                     {
@@ -313,7 +321,7 @@ namespace ouzel
 #endif
                     }
 
-                    viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
+                    viewport = Rectangle(0.0f, 0.0f, newSize.width, newSize.height);
                 }
 
                 dirty = false;
@@ -687,8 +695,8 @@ namespace ouzel
                     return false;
                 }
 
-                glBlitFramebuffer(0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
-                                  0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
+                glBlitFramebuffer(0, 0, frameBufferWidth, frameBufferHeight,
+                                  0, 0, frameBufferWidth, frameBufferHeight,
                                   GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
                 if (checkOpenGLError())
@@ -708,8 +716,8 @@ namespace ouzel
 
                 if (apiVersion >= 3)
                 {
-                    glBlitFramebuffer(0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
-                                      0, 0, static_cast<GLint>(size.width), static_cast<GLint>(size.height),
+                    glBlitFramebuffer(0, 0, frameBufferWidth, frameBufferHeight,
+                                      0, 0, frameBufferWidth, frameBufferHeight,
                                       GL_COLOR_BUFFER_BIT, GL_NEAREST);
                 }
                 else
@@ -823,8 +831,8 @@ namespace ouzel
 
                 bindFrameBuffer(frameBufferId);
 
-                const GLsizei width = static_cast<GLsizei>(size.width);
-                const GLsizei height = static_cast<GLsizei>(size.height);
+                const GLsizei width = frameBufferWidth;
+                const GLsizei height = frameBufferHeight;
                 const GLsizei depth = 4;
 
                 std::vector<uint8_t> data(static_cast<size_t>(width * height * depth));
