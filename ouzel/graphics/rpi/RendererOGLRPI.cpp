@@ -132,7 +132,8 @@ namespace ouzel
                 return false;
             }
 
-            apiVersion = 2;
+            apiMajorVersion = 2;
+            apiMinorVersion = 0;
 
             uint32_t screenWidth;
             uint32_t screenHeight;

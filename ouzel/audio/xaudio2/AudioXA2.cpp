@@ -58,13 +58,23 @@ namespace ouzel
 
             HMODULE xAudio2Library = LoadLibraryA("xaudio2_8.dll");
 
-            if (!xAudio2Library)
+            if (xAudio2Library)
+            {
+                apiMajorVersion = 2;
+                apiMinorVersion = 8;
+            }
+            else
             {
                 log(LOG_LEVEL_INFO, "Failed to load xaudio2_8.dll");
 
                 xAudio2Library = LoadLibraryA("xaudio2_7.dll");
 
-                if (!xAudio2Library)
+                if (xAudio2Library)
+                {
+                    apiMajorVersion = 2;
+                    apiMinorVersion = 7;
+                }
+                else
                 {
                     log(LOG_LEVEL_ERROR, "Failed to load xaudio2_7.dll");
                     return false;

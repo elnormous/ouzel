@@ -74,7 +74,8 @@ namespace ouzel
 
             if (context)
             {
-                apiVersion = 3;
+                apiMajorVersion = 3;
+                apiMinorVersion = 0;
                 log(LOG_LEVEL_INFO, "Using OpenGL ES 3");
             }
             else
@@ -85,7 +86,8 @@ namespace ouzel
 
                 if (context)
                 {
-                    apiVersion = 2;
+                    apiMajorVersion = 2;
+                    apiMinorVersion = 0;
                     log(LOG_LEVEL_INFO, "Using OpenGL ES 2");
                 }
                 else

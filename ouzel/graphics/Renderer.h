@@ -121,8 +121,14 @@ namespace ouzel
 
             virtual uint32_t getDrawCallCount() const { return drawCallCount; }
 
-            uint32_t getAPIVersion() const { return apiVersion; }
-            void setAPIVersion(uint32_t version) { apiVersion = version; }
+            uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
+            uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
+
+            void setAPIVersion(uint16_t majorVersion, uint16_t minorVersion)
+            {
+                apiMajorVersion = majorVersion;
+                apiMinorVersion = minorVersion;
+            }
 
             bool isReady() const { return ready; }
 
@@ -152,7 +158,8 @@ namespace ouzel
             Color clearColor;
             uint32_t drawCallCount = 0;
 
-            uint32_t apiVersion = 0;
+            uint16_t apiMajorVersion = 0;
+            uint16_t apiMinorVersion = 0;
 
             std::atomic<bool> clear;
 

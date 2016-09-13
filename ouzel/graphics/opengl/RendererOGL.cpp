@@ -128,7 +128,7 @@ namespace ouzel
             }
 
 #if OUZEL_SUPPORTS_OPENGLES
-            npotTexturesSupported = (apiVersion >= 3);
+            npotTexturesSupported = (apiMajorVersion >= 3);
 
             const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
 
@@ -181,7 +181,7 @@ namespace ouzel
 
             ShaderPtr textureShader = createShader();
 
-            switch (apiVersion)
+            switch (apiMajorVersion)
             {
                 case 2:
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_OGL2), std::end(TEXTURE_PIXEL_SHADER_OGL2)),
@@ -208,7 +208,7 @@ namespace ouzel
 
             ShaderPtr colorShader = createShader();
 
-            switch (apiVersion)
+            switch (apiMajorVersion)
             {
                 case 2:
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_OGL2), std::end(COLOR_PIXEL_SHADER_OGL2)),
@@ -714,7 +714,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (apiVersion >= 3)
+                if (apiMajorVersion >= 3)
                 {
                     glBlitFramebuffer(0, 0, frameBufferWidth, frameBufferHeight,
                                       0, 0, frameBufferWidth, frameBufferHeight,

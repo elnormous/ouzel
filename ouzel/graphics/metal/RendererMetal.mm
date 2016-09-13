@@ -66,7 +66,8 @@ namespace ouzel
         RendererMetal::RendererMetal():
             Renderer(Driver::METAL), dirty(false)
         {
-            apiVersion = 1;
+            apiMajorVersion = 1;
+            apiMinorVersion = 0;
         }
 
         RendererMetal::~RendererMetal()
