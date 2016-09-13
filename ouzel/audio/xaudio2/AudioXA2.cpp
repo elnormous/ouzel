@@ -63,7 +63,7 @@ namespace ouzel
 			std::string library = "xaudio2_8.dll";
 #endif
 
-			HMODULE xAudio2Library = LoadLibraryA(library.c_str());
+			xAudio2Library = LoadLibraryA(library.c_str());
 
             if (xAudio2Library)
             {
@@ -80,7 +80,7 @@ namespace ouzel
 
                 if (FAILED(xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
+                    log(LOG_LEVEL_ERROR, "Failed to initialize XAudio2");
                     return false;
                 }
 			}
@@ -109,14 +109,14 @@ namespace ouzel
 
                 if (FAILED(XAudio27CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
+                    log(LOG_LEVEL_ERROR, "Failed to initialize XAudio2");
                     return false;
                 }
             }
 
             if (FAILED(xAudio->CreateMasteringVoice(&masteringVoice)))
             {
-                xAudio->Release();
+                log(LOG_LEVEL_ERROR, "Failed to create XAudio2 mastering voice");
                 return false;
             }
 
