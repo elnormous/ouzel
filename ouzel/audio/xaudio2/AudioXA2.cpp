@@ -22,7 +22,7 @@ namespace ouzel
         {
             if (masteringVoice) masteringVoice->DestroyVoice();
             if (xAudio) xAudio->Release();
-			if (xAudio2Library) FreeModule(xAudio2Library);
+            if (xAudio2Library) FreeModule(xAudio2Library);
         }
 
         void AudioXA2::free()
@@ -41,11 +41,11 @@ namespace ouzel
                 xAudio = nullptr;
             }
 
-			if (xAudio2Library)
-			{
-				FreeModule(xAudio2Library);
-				xAudio2Library = nullptr;
-			}
+            if (xAudio2Library)
+            {
+                FreeModule(xAudio2Library);
+                xAudio2Library = nullptr;
+            }
         }
 
         bool AudioXA2::init()
@@ -65,22 +65,24 @@ namespace ouzel
 
 			HMODULE xAudio2Library = LoadLibraryA(library.c_str());
 
+            if (xAudio2Library)
+            {
+                apiMajorVersion = 2;
+                apiMinorVersion = 8;
 
-			if (xAudio2Library)
-			{
-				XAudio2CreateProc xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
+                XAudio2CreateProc xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
 
-				if (!xAudio2CreateProc)
-				{
-					log(LOG_LEVEL_ERROR, "Failed to get address of XAudio2Create");
-					return false;
-				}
+                if (!xAudio2CreateProc)
+                {
+                    log(LOG_LEVEL_ERROR, "Failed to get address of XAudio2Create");
+                    return false;
+                }
 
-				if (FAILED(xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
-				{
-					log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
-					return false;
-				}
+                if (FAILED(xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
+                {
+                    log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
+                    return false;
+                }
 			}
 			else
             {
@@ -94,17 +96,22 @@ namespace ouzel
 
 				xAudio2Library = LoadLibraryA(library.c_str());
 
-                if (!xAudio2Library)
+                if (xAudio2Library)
+                {
+                    apiMajorVersion = 2;
+                    apiMinorVersion = 7;
+                }
+                else
                 {
 					log(LOG_LEVEL_ERROR, "Failed to load %s", library.c_str());
                     return false;
                 }
 
-				if (FAILED(XAudio2CreateProc27(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
-				{
-					log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
-					return false;
-				}
+                if (FAILED(XAudio2CreateProc27(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
+                {
+                    log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
+                    return false;
+                }
             }
 
             if (FAILED(xAudio->CreateMasteringVoice(&masteringVoice)))

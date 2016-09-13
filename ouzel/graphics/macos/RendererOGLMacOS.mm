@@ -60,7 +60,8 @@ namespace ouzel
 
             if (pixelFormat)
             {
-                apiVersion = 3;
+                apiMajorVersion = 3;
+                apiMinorVersion = 2;
                 log(LOG_LEVEL_INFO, "Using OpenGL 3.2");
             }
             else
@@ -81,7 +82,8 @@ namespace ouzel
 
                 if (pixelFormat)
                 {
-                    apiVersion = 2;
+                    apiMajorVersion = 2;
+                    apiMinorVersion = 0;
                     log(LOG_LEVEL_INFO, "Using OpenGL 2");
                 }
             }
