@@ -21,6 +21,7 @@ namespace ouzel
         {
             if (masteringVoice) masteringVoice->DestroyVoice();
             if (xAudio) xAudio->Release();
+			if (xAudio2Library) FreeModule(xAudio2Library);
         }
 
         void AudioXA2::free()
@@ -38,6 +39,12 @@ namespace ouzel
                 xAudio->Release();
                 xAudio = nullptr;
             }
+
+			if (xAudio2Library)
+			{
+				FreeModule(xAudio2Library);
+				xAudio2Library = nullptr;
+			}
         }
 
         bool AudioXA2::init()
@@ -65,6 +72,12 @@ namespace ouzel
             }
 
             XAudio2CreateProc xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
+
+			if (!xAudio2CreateProc)
+			{
+				log(LOG_LEVEL_ERROR, "Failed to get address of XAudio2Create");
+				return false;
+			}
 
             if (FAILED(xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
             {

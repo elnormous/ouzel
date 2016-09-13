@@ -163,6 +163,11 @@ namespace ouzel
                 return false;
             }
 
+			if (device->GetFeatureLevel() < D3D_FEATURE_LEVEL_10_0)
+			{
+				npotTexturesSupported = false;
+			}
+
             IDXGIDevice* dxgiDevice;
             IDXGIFactory* factory;
 
@@ -195,6 +200,19 @@ namespace ouzel
 
             width = static_cast<UINT>(size.width);
             height = static_cast<UINT>(size.height);
+
+			UINT qualityLevels;
+
+			if (FAILED(device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, sampleCount, &qualityLevels)))
+			{
+				log(LOG_LEVEL_WARNING, "Failed to check Direct3D 11 multisample quality levels");
+			}
+
+			if (qualityLevels == 0)
+			{
+				log(LOG_LEVEL_WARNING, "Direct3D 11 device does not support chosen sample count, multisampling disabled");
+				sampleCount = 1;
+			}
 
             swapChainDesc.BufferDesc.Width = width;
             swapChainDesc.BufferDesc.Height = height;
@@ -289,7 +307,7 @@ namespace ouzel
                 D3D11_CULL_NONE,
                 FALSE, // front = ccw?
                 0, 0, 0, // depth bias, clamp, slope scale
-                FALSE, // depth clip
+                TRUE, // depth clip
                 FALSE, // scissor test
                 (sampleCount > 1) ? TRUE : FALSE, // MSAA
                 TRUE, // AA lines

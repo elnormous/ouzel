@@ -29,6 +29,8 @@ namespace ouzel
         protected:
             AudioXA2();
 
+			HMODULE xAudio2Library = nullptr;
+
             IXAudio2* xAudio = nullptr;
             IXAudio2MasteringVoice* masteringVoice = nullptr;
         };
