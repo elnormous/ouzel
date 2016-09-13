@@ -21,7 +21,11 @@ namespace ouzel
         AudioXA2::~AudioXA2()
         {
             if (masteringVoice) masteringVoice->DestroyVoice();
-            if (xAudio) xAudio->Release();
+            if (xAudio)
+            {
+                if (apiMajorVersion == 2 && apiMinorVersion == 7) IXAudio2Release(xAudio);
+                else xAudio->Release();
+            }
             if (xAudio2Library) FreeModule(xAudio2Library);
         }
 
@@ -37,7 +41,8 @@ namespace ouzel
 
             if (xAudio)
             {
-                xAudio->Release();
+                if (apiMajorVersion == 2 && apiMinorVersion == 7) IXAudio2Release(xAudio);
+                else xAudio->Release();
                 xAudio = nullptr;
             }
 
@@ -114,11 +119,21 @@ namespace ouzel
                 }
             }
 
-            if (FAILED(xAudio->CreateMasteringVoice(&masteringVoice)))
+            if (apiMajorVersion == 2 && apiMinorVersion == 7)
+            {
+                if (FAILED(IXAudio2CreateMasteringVoice(xAudio, &masteringVoice)))
+                {
+                    log(LOG_LEVEL_ERROR, "Failed to create XAudio2 mastering voice");
+                    return false;
+                }
+            }
+            else if (FAILED(xAudio->CreateMasteringVoice(&masteringVoice)))
             {
                 log(LOG_LEVEL_ERROR, "Failed to create XAudio2 mastering voice");
                 return false;
             }
+
+            log(LOG_LEVEL_INFO, "voice: %p", masteringVoice);
 
             ready = true;
 
@@ -135,6 +150,27 @@ namespace ouzel
         {
             SoundPtr sound(new SoundXA2());
             return sound;
+        }
+
+        IXAudio2SourceVoice* AudioXA2::createSourceVoice(const WAVEFORMATEX& sourceFormat)
+        {
+            IXAudio2SourceVoice* sourceVoice;
+
+            if (apiMajorVersion == 2 && apiMinorVersion == 7)
+            {
+                if (FAILED(IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &sourceFormat)))
+                {
+                    log(LOG_LEVEL_ERROR, "Failed to create source voice");
+                    return nullptr;
+                }
+            }
+            else if (FAILED(xAudio->CreateSourceVoice(&sourceVoice, &sourceFormat)))
+            {
+                log(LOG_LEVEL_ERROR, "Failed to create source voice");
+                return nullptr;
+            }
+
+            return sourceVoice;
         }
     } // namespace audio
 } // namespace ouzel

@@ -43,9 +43,10 @@ namespace ouzel
             std::shared_ptr<AudioXA2> audioXA2 = std::static_pointer_cast<AudioXA2>(sharedEngine->getAudio());
             std::shared_ptr<SoundDataXA2> soundDataXA2 = std::static_pointer_cast<SoundDataXA2>(soundData);
 
-            if (FAILED(audioXA2->getXAudio()->CreateSourceVoice(&sourceVoice, &soundDataXA2->getWaveFormat())))
+            sourceVoice = audioXA2->createSourceVoice(soundDataXA2->getWaveFormat());
+
+            if (!sourceVoice)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create source voice");
                 return false;
             }
 

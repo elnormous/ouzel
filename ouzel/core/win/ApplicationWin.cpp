@@ -18,7 +18,7 @@ namespace ouzel
 
 	ApplicationWin::~ApplicationWin()
 	{
-		CoUninitialize();
+		//CoUninitialize();
 	}
 
     int ApplicationWin::run()
