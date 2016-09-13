@@ -6,6 +6,8 @@
 #include "SoundXA2.h"
 #include "utils/Utils.h"
 
+typedef HRESULT (*XAudio2CreateProc)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
+
 namespace ouzel
 {
     namespace audio
@@ -47,7 +49,24 @@ namespace ouzel
 
             free();
 
-            if (FAILED(XAudio2Create(&xAudio)))
+            HMODULE xAudio2Library = LoadLibraryA("xaudio2_8.dll");
+
+            if (!xAudio2Library)
+            {
+                log(LOG_LEVEL_INFO, "Failed to load xaudio2_8.dll");
+
+                xAudio2Library = LoadLibraryA("xaudio2_7.dll");
+
+                if (!xAudio2Library)
+                {
+                    log(LOG_LEVEL_ERROR, "Failed to load xaudio2_7.dll");
+                    return false;
+                }
+            }
+
+            XAudio2CreateProc xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
+
+            if (FAILED(xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
             {
                 log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
                 return false;
