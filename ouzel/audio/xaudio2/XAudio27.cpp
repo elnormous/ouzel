@@ -193,7 +193,7 @@ DECLARE_INTERFACE_(IXAudio2, IUnknown)
 		__in_opt __reserved void* pReserved X2DEFAULT(NULL)) PURE;
 };
 
-HRESULT XAudio2CreateProc27(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor)
+HRESULT XAudio27CreateProc(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor)
 {
 	IXAudio2* pXAudio2;
 

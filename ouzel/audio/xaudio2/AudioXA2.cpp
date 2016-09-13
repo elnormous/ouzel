@@ -4,10 +4,10 @@
 #include "AudioXA2.h"
 #include "SoundDataXA2.h"
 #include "SoundXA2.h"
+#include "XAudio27.h"
 #include "utils/Utils.h"
 
 typedef HRESULT (*XAudio2CreateProc)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
-HRESULT XAudio2CreateProc27(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
 
 namespace ouzel
 {
@@ -107,7 +107,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (FAILED(XAudio2CreateProc27(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
+                if (FAILED(XAudio27CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
                 {
                     log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
                     return false;
