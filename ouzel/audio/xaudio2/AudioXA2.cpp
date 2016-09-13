@@ -7,6 +7,7 @@
 #include "utils/Utils.h"
 
 typedef HRESULT (*XAudio2CreateProc)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
+HRESULT XAudio2CreateProc27(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
 
 namespace ouzel
 {
@@ -14,7 +15,7 @@ namespace ouzel
     {
         AudioXA2::AudioXA2():
             Audio(Driver::XAUDIO2)
-        {
+		{
         }
 
         AudioXA2::~AudioXA2()
@@ -56,33 +57,54 @@ namespace ouzel
 
             free();
 
-            HMODULE xAudio2Library = LoadLibraryA("xaudio2_8.dll");
+#ifdef DEBUG
+			std::string library = "xaudiod2_8.dll";
+#else
+			std::string library = "xaudio2_8.dll";
+#endif
 
-            if (!xAudio2Library)
+			HMODULE xAudio2Library = LoadLibraryA(library.c_str());
+
+
+			if (xAudio2Library)
+			{
+				XAudio2CreateProc xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
+
+				if (!xAudio2CreateProc)
+				{
+					log(LOG_LEVEL_ERROR, "Failed to get address of XAudio2Create");
+					return false;
+				}
+
+				if (FAILED(xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
+				{
+					log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
+					return false;
+				}
+			}
+			else
             {
-                log(LOG_LEVEL_INFO, "Failed to load xaudio2_8.dll");
+                log(LOG_LEVEL_INFO, "Failed to load %s", library.c_str());
 
-                xAudio2Library = LoadLibraryA("xaudio2_7.dll");
+#ifdef DEBUG
+				library = "xaudiod2_7.dll";
+#else
+				library = "xaudio2_7.dll";
+#endif
+
+				xAudio2Library = LoadLibraryA(library.c_str());
 
                 if (!xAudio2Library)
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to load xaudio2_7.dll");
+					log(LOG_LEVEL_ERROR, "Failed to load %s", library.c_str());
                     return false;
                 }
-            }
 
-            XAudio2CreateProc xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
-
-			if (!xAudio2CreateProc)
-			{
-				log(LOG_LEVEL_ERROR, "Failed to get address of XAudio2Create");
-				return false;
-			}
-
-            if (FAILED(xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
-            {
-                log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
-                return false;
+				if (FAILED(XAudio2CreateProc27(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
+				{
+					log(LOG_LEVEL_ERROR, "Failed to initialize XAudio");
+					return false;
+				}
             }
 
             if (FAILED(xAudio->CreateMasteringVoice(&masteringVoice)))

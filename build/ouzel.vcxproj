@@ -38,6 +38,7 @@
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\SoundDataXA2.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\SoundXA2.cpp" />
+    <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp" />
     <ClCompile Include="..\ouzel\core\Application.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\SoundDataXA2.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\SoundXA2.h" />
+    <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h" />
     <ClInclude Include="..\ouzel\core\Application.h" />
     <ClInclude Include="..\ouzel\core\Cache.h" />
     <ClInclude Include="..\ouzel\core\CompileConfig.h" />
