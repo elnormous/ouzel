@@ -71,7 +71,7 @@ namespace ouzel
                         memset(&textureDesc, 0, sizeof(textureDesc));
                         textureDesc.Width = width;
                         textureDesc.Height = height;
-                        textureDesc.MipLevels = 0;
+                        textureDesc.MipLevels = uploadData.mipmaps ? 0 : 1;
                         textureDesc.ArraySize = 1;
                         textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
                         textureDesc.Usage = uploadData.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
