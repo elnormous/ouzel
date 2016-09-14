@@ -62,7 +62,7 @@ namespace ouzel
 
             free();
 
-			char library28[] = "xaudio2_8.dll";
+			const char* library28 = "xaudio2_8.dll";
 
             xAudio2Library = LoadLibraryA(library28);
 
@@ -89,7 +89,7 @@ namespace ouzel
             {
                 log(LOG_LEVEL_INFO, "Failed to load %s", library28);
 
-                char library27[] = "xaudio2_7.dll";
+                const char* library27 = "xaudio2_7.dll";
 
                 xAudio2Library = LoadLibraryA(library27);
 
