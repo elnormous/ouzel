@@ -618,6 +618,11 @@ namespace ouzel
                 {
                     std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(drawCommand.renderTarget);
 
+                    if (!renderTargetD3D11->getRenderTargetView())
+                    {
+                        continue;
+                    }
+
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
                     newViewport = renderTargetD3D11->getViewport();
@@ -670,7 +675,7 @@ namespace ouzel
                 // shader
                 std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(drawCommand.shader);
 
-                if (!shaderD3D11)
+                if (!shaderD3D11 || !shaderD3D11->getPixelShader() || !shaderD3D11->getVertexShader())
                 {
                     // don't render if invalid shader
                     continue;
@@ -748,13 +753,15 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(drawCommand.blendState);
 
-                if (!blendStateD3D11)
+                if (!blendStateD3D11 || !blendStateD3D11->getBlendState())
                 {
                     // don't render if invalid blend state
                     continue;
                 }
 
                 context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
+
+                bool texturesValid = true;
 
                 // textures
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
@@ -768,6 +775,12 @@ namespace ouzel
 
                     if (textureD3D11)
                     {
+                        if (!textureD3D11->getResourceView())
+                        {
+                            texturesValid = false;
+                            break;
+                        }
+
                         resourceViews[layer] = textureD3D11->getResourceView();
                         samplerStates[layer] = samplerState;
                     }
@@ -776,6 +789,11 @@ namespace ouzel
                         resourceViews[layer] = nullptr;
                         samplerStates[layer] = nullptr;
                     }
+                }
+
+                if (!texturesValid)
+                {
+                    continue;
                 }
 
                 context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
@@ -796,6 +814,11 @@ namespace ouzel
                 std::shared_ptr<IndexBufferD3D11> indexBufferD3D11 = std::static_pointer_cast<IndexBufferD3D11>(meshBufferD3D11->getIndexBuffer());
                 std::shared_ptr<VertexBufferD3D11> vertexBufferD3D11 = std::static_pointer_cast<VertexBufferD3D11>(meshBufferD3D11->getVertexBuffer());
 
+                if (!indexBufferD3D11 || !indexBufferD3D11->getBuffer() ||
+                    !vertexBufferD3D11 || !vertexBufferD3D11->getBuffer())
+                {
+                    continue;
+                }
 
                 ID3D11Buffer* buffers[] = { vertexBufferD3D11->getBuffer() };
                 UINT strides[] = { vertexBufferD3D11->getVertexSize() };

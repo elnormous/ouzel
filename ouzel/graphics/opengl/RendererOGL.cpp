@@ -437,6 +437,8 @@ namespace ouzel
                     return false;
                 }
 
+                bool texturesValid = true;
+
                 // textures
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
@@ -449,6 +451,12 @@ namespace ouzel
 
                     if (textureOGL)
                     {
+                        if (!textureOGL->getTextureId())
+                        {
+                            texturesValid = false;
+                            break;
+                        }
+
                         if (!bindTexture(textureOGL->getTextureId(), layer))
                         {
                             return false;
@@ -463,10 +471,15 @@ namespace ouzel
                     }
                 }
 
+                if (!texturesValid)
+                {
+                    continue;
+                }
+
                 // shader
                 std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(drawCommand.shader);
 
-                if (!shaderOGL)
+                if (!shaderOGL || !shaderOGL->getProgramId())
                 {
                     // don't render if invalid shader
                     continue;
@@ -569,6 +582,11 @@ namespace ouzel
                 {
                     std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(drawCommand.renderTarget);
 
+                    if (!renderTargetOGL->getFrameBufferId())
+                    {
+                        continue;
+                    }
+
                     newFrameBufferId = renderTargetOGL->getFrameBufferId();
                     newClearMask = renderTargetOGL->getClearMask();
                     newClearColor = renderTargetOGL->getFrameBufferClearColor();
@@ -651,6 +669,13 @@ namespace ouzel
                 }
 
                 std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(meshBufferOGL->getIndexBuffer());
+                std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(meshBufferOGL->getVertexBuffer());
+
+                if (!indexBufferOGL || !indexBufferOGL->getBufferId() ||
+                    !vertexBufferOGL || !vertexBufferOGL->getBufferId())
+                {
+                    continue;
+                }
 
                 // draw
                 GLenum mode;

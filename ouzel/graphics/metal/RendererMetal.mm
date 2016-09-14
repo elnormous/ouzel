@@ -457,6 +457,11 @@ namespace ouzel
                 {
                     std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(drawCommand.renderTarget);
 
+                    if (!renderTargetMetal->getRenderPassDescriptor())
+                    {
+                        continue;
+                    }
+
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
 
                     std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal->getTexture());
@@ -513,7 +518,7 @@ namespace ouzel
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
 
-                if (!shaderMetal)
+                if (!shaderMetal || !shaderMetal->getPixelShader() || !shaderMetal->getVertexShader())
                 {
                     // don't render if invalid shader
                     continue;
@@ -617,6 +622,8 @@ namespace ouzel
                     [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
                 }
 
+                bool texturesValid = true;
+
                 // textures
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
@@ -629,6 +636,12 @@ namespace ouzel
 
                     if (textureMetal)
                     {
+                        if (!textureMetal->getTexture())
+                        {
+                            texturesValid = false;
+                            break;
+                        }
+
                         [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
                         [currentRenderCommandEncoder setFragmentSamplerState:samplerState atIndex:layer];
                     }
@@ -636,6 +649,11 @@ namespace ouzel
                     {
                         [currentRenderCommandEncoder setFragmentTexture:Nil atIndex:layer];
                     }
+                }
+
+                if (!texturesValid)
+                {
+                    continue;
                 }
 
                 // mesh buffer
@@ -649,6 +667,12 @@ namespace ouzel
 
                 std::shared_ptr<IndexBufferMetal> indexBufferMetal = std::static_pointer_cast<IndexBufferMetal>(meshBufferMetal->getIndexBuffer());
                 std::shared_ptr<VertexBufferMetal> vertexBufferMetal = std::static_pointer_cast<VertexBufferMetal>(meshBufferMetal->getVertexBuffer());
+
+                if (!indexBufferMetal || !indexBufferMetal->getBuffer() ||
+                    !vertexBufferMetal || !vertexBufferMetal->getBuffer())
+                {
+                    continue;
+                }
 
                 [currentRenderCommandEncoder setVertexBuffer:vertexBufferMetal->getBuffer() offset:0 atIndex:0];
 
