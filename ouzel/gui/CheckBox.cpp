@@ -61,6 +61,8 @@ namespace ouzel
                     addComponent(tickSprite);
                 }
             }
+
+            pickable = true;
             
             updateSprite();
         }

@@ -9,6 +9,7 @@ namespace ouzel
     {
         EditBox::EditBox()
         {
+            pickable = true;
         }
 
         EditBox::~EditBox()

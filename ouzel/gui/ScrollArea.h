@@ -11,6 +11,8 @@ namespace ouzel
     {
         class ScrollArea: public Widget
         {
+        public:
+            ScrollArea();
         };
     } // namespace gui
 } // namespace ouzel

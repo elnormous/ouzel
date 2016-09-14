@@ -7,5 +7,9 @@ namespace ouzel
 {
     namespace gui
     {
+        RadioButton::RadioButton()
+        {
+            pickable = true;
+        }
     } // namespace gui
 } // namespace ouzel

@@ -112,7 +112,7 @@ namespace ouzel
             bool flipX = false;
             bool flipY = false;
 
-            bool pickable = true;
+            bool pickable = false;
             bool hidden = false;
             bool receiveInput = false;
 

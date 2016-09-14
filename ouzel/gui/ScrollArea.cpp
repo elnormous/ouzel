@@ -7,5 +7,8 @@ namespace ouzel
 {
     namespace gui
     {
+        ScrollArea::ScrollArea()
+        {
+        }
     } // namespace gui
 } // namespace ouzel

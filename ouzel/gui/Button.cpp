@@ -69,6 +69,8 @@ namespace ouzel
                     addComponent(labelDrawable);
                 }
             }
+
+            pickable = true;
             
             updateSprite();
         }
