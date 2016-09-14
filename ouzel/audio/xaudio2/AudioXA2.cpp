@@ -7,7 +7,10 @@
 #include "XAudio27.h"
 #include "utils/Utils.h"
 
-typedef HRESULT (*XAudio2CreateProc)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
+static const char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
+static const char* XAUDIO2_DLL_27 = "xaudio2_7.dll";
+
+typedef HRESULT(__stdcall *XAudio2CreateProc)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
 
 namespace ouzel
 {
@@ -62,9 +65,7 @@ namespace ouzel
 
             free();
 
-			const char* library28 = "xaudio2_8.dll";
-
-            xAudio2Library = LoadLibraryA(library28);
+            xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 
             if (xAudio2Library)
             {
@@ -87,11 +88,9 @@ namespace ouzel
 			}
 			else
             {
-                log(LOG_LEVEL_INFO, "Failed to load %s", library28);
+                log(LOG_LEVEL_INFO, "Failed to load %s", XAUDIO2_DLL_28);
 
-                const char* library27 = "xaudio2_7.dll";
-
-                xAudio2Library = LoadLibraryA(library27);
+                xAudio2Library = LoadLibraryA(XAUDIO2_DLL_27);
 
                 if (xAudio2Library)
                 {
@@ -100,7 +99,7 @@ namespace ouzel
                 }
                 else
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to load %s", library27);
+                    log(LOG_LEVEL_ERROR, "Failed to load %s", XAUDIO2_DLL_27);
                     return false;
                 }
 
