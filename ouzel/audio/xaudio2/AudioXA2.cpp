@@ -133,8 +133,6 @@ namespace ouzel
                 return false;
             }
 
-            log(LOG_LEVEL_INFO, "voice: %p", masteringVoice);
-
             ready = true;
 
             return true;
