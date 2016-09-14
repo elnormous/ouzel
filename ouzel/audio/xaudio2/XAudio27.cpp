@@ -3,6 +3,9 @@
 
 #include <objbase.h>
 
+const GUID CLSID_XAudio2 = { 0x5a508685, 0xa254, 0x4fba, 0x9b, 0x82, 0x9a, 0x24, 0xb0, 0x03, 0x06, 0xaf };
+const GUID CLSID_IXAudio2 = { 0x8bcf1f58, 0x9fe7, 0x4583, 0x8a, 0xc6, 0xe2, 0xad, 0xc4, 0x65, 0xc8, 0xbb };
+
 struct XAUDIO2_DEVICE_DETAILS;
 struct IXAudio2EngineCallback;
 struct IXAudio2SourceVoice;
@@ -66,10 +69,7 @@ HRESULT XAudio27CreateProc(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR
 {
 	IXAudio2* pXAudio2;
 
-	HRESULT hr = CoCreateInstance({ 0x5a508685, 0xa254, 0x4fba, 0x9b, 0x82, 0x9a, 0x24, 0xb0, 0x03, 0x06, 0xaf }, //__uuidof(XAudio2)
-		NULL, CLSCTX_INPROC_SERVER,
-		{ 0x8bcf1f58, 0x9fe7, 0x4583, 0x8a, 0xc6, 0xe2, 0xad, 0xc4, 0x65, 0xc8, 0xbb }, //__uuidof(IXAudio2)
-		(void**)&pXAudio2);
+	HRESULT hr = CoCreateInstance(CLSID_XAudio2, NULL, CLSCTX_INPROC_SERVER, CLSID_IXAudio2, reinterpret_cast<LPVOID*>(&pXAudio2));
 
 	if (SUCCEEDED(hr))
 	{
