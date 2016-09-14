@@ -8,7 +8,7 @@ Ouzel is a C++ game engine mainly targeted for development of 2D games.
 
 Supported platforms:
 
-* Windows Vista, 7, 8, 10 
+* Windows 7, 8, 10 
 * OS X 10.8+
 * Linux
 * iOS 7+
