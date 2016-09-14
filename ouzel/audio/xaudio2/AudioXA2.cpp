@@ -62,13 +62,9 @@ namespace ouzel
 
             free();
 
-#ifdef DEBUG
-			std::string library = "xaudiod2_8.dll";
-#else
-			std::string library = "xaudio2_8.dll";
-#endif
+			char library28[] = "xaudio2_8.dll";
 
-			xAudio2Library = LoadLibraryA(library.c_str());
+            xAudio2Library = LoadLibraryA(library28);
 
             if (xAudio2Library)
             {
@@ -91,15 +87,11 @@ namespace ouzel
 			}
 			else
             {
-                log(LOG_LEVEL_INFO, "Failed to load %s", library.c_str());
+                log(LOG_LEVEL_INFO, "Failed to load %s", library28);
 
-#ifdef DEBUG
-				library = "xaudiod2_7.dll";
-#else
-				library = "xaudio2_7.dll";
-#endif
+                char library27[] = "xaudio2_7.dll";
 
-				xAudio2Library = LoadLibraryA(library.c_str());
+                xAudio2Library = LoadLibraryA(library27);
 
                 if (xAudio2Library)
                 {
@@ -108,7 +100,7 @@ namespace ouzel
                 }
                 else
                 {
-					log(LOG_LEVEL_ERROR, "Failed to load %s", library.c_str());
+                    log(LOG_LEVEL_ERROR, "Failed to load %s", library27);
                     return false;
                 }
 
