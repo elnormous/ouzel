@@ -92,6 +92,7 @@ $ make platform=raspbian
 You can ask question in the following locations:
 
 * Ouzel Twitter account: https://twitter.com/ouzelengine
+* Ouzel server on Discord: https://discord.gg/aDJTz
 * #ouzel channel on the Freenode network ([Freenode Webchat](http://webchat.freenode.net/?channels=ouzel))
 * Author of the Ouzel engine: https://twitter.com/elnormous
 * Development roadmap: https://trello.com/b/5tRlUXKR/ouzel-roadmap
