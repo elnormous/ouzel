@@ -21,7 +21,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     @autoreleasepool
     {
-        if (sharedEngine->isRunning() && !sharedEngine->draw())
+        if (!sharedEngine->isActive() ||
+            (sharedEngine->isRunning() && !sharedEngine->draw()))
         {
             sharedApplication->execute([] {
                 sharedEngine->getWindow()->close();
