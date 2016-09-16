@@ -9,7 +9,6 @@
 #include "input/apple/InputApple.h"
 #include "utils/Utils.h"
 
-
 using namespace ouzel;
 
 static CVReturn renderCallback(CVDisplayLinkRef,

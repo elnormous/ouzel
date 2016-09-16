@@ -558,7 +558,6 @@ namespace ouzel
                                                         offset:shaderMetal->getPixelShaderConstantBufferOffset()
                                                        atIndex:1];
 
-
                 // vertex shader constants
                 const std::vector<ShaderMetal::Location>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
 
@@ -754,7 +753,6 @@ namespace ouzel
             std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
             return meshBuffer;
         }
-
 
         IndexBufferPtr RendererMetal::createIndexBuffer()
         {

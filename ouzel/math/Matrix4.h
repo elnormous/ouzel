@@ -31,7 +31,6 @@ namespace ouzel
         float m[16];
 #endif
 
-
         /**
          * Constructs a matrix initialized to the zero matrix
          *

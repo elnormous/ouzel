@@ -143,7 +143,6 @@ namespace ouzel
                                                               0.0f), color));
             }
 
-
             if (fill)
             {
                 command.mode = graphics::Renderer::DrawMode::TRIANGLE_STRIP;

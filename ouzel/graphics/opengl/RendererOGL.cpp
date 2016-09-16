@@ -304,7 +304,6 @@ namespace ouzel
                 frameBufferClearColor[2] = newClearColor.getB();
                 frameBufferClearColor[3] = newClearColor.getA();
 
-
                 if (frameBufferWidth != static_cast<GLsizei>(newSize.width) ||
                     frameBufferHeight != static_cast<GLsizei>(newSize.height))
                 {
