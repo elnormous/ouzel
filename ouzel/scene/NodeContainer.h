@@ -28,7 +28,11 @@ namespace ouzel
             virtual const std::list<NodePtr>& getChildren() const { return children; }
 
         protected:
+            virtual void enter();
+            virtual void leave();
+            
             std::list<NodePtr> children;
+            bool entered = false;
         };
     } // namespace scene
 } // namespace ouzel

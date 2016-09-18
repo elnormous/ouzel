@@ -30,11 +30,16 @@ namespace ouzel
         {
             if (nextScene)
             {
+                if (scene)
+                {
+                    scene->leave();
+                }
+
                 scene = std::move(nextScene);
 
                 if (scene)
                 {
-                    scene->recalculateProjection();
+                    scene->enter();
                 }
             }
 

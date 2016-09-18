@@ -27,13 +27,14 @@ namespace ouzel
 
         while (sharedEngine->isActive())
         {
-            input->update();
             executeAll();
 
             if (!sharedEngine->draw())
             {
                 sharedEngine->exit();
             }
+
+            input->update();
         }
 
         sharedEngine->end();

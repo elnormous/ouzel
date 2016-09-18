@@ -7,6 +7,7 @@
 #include "input/win/InputWin.h"
 #include "WindowWin.h"
 #include "core/Engine.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {
@@ -15,8 +16,20 @@ namespace ouzel
     {
     }
 
+	ApplicationWin::~ApplicationWin()
+	{
+		//CoUninitialize();
+	}
+
     int ApplicationWin::run()
     {
+		HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+		if (FAILED(hr))
+		{
+			log(LOG_LEVEL_ERROR, "Failed to initialize COM");
+			return 1;
+		}
+
         ouzelMain(args);
 
         if (!sharedEngine)
@@ -32,7 +45,6 @@ namespace ouzel
 
         while (sharedEngine->isActive())
         {
-            input->update();
             executeAll();
 
             if (!sharedEngine->draw())
@@ -42,7 +54,7 @@ namespace ouzel
 
             std::set<HACCEL> accelerators = window->getAccelerators();
 
-            for (;;)
+            while (sharedEngine->isActive())
             {
                 if (sharedEngine->isRunning())
                 {
@@ -82,6 +94,8 @@ namespace ouzel
                     break;
                 }
             }
+
+            input->update();
         }
 
         sharedEngine->end();

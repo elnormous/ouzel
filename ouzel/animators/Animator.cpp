@@ -17,7 +17,6 @@ namespace ouzel
 
         Animator::~Animator()
         {
-            sharedEngine->unscheduleUpdate(updateCallback);
         }
 
         void Animator::update(float delta)

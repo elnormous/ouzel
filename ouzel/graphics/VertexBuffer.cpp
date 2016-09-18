@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "VertexBuffer.h"
+#include "Renderer.h"
 #include "core/Engine.h"
-#include "graphics/Renderer.h"
 
 namespace ouzel
 {

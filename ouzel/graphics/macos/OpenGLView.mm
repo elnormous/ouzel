@@ -9,7 +9,6 @@
 #include "input/apple/InputApple.h"
 #include "utils/Utils.h"
 
-
 using namespace ouzel;
 
 static CVReturn renderCallback(CVDisplayLinkRef,
@@ -21,7 +20,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     @autoreleasepool
     {
-        if (sharedEngine->isRunning() && !sharedEngine->draw())
+        if (!sharedEngine->isActive() ||
+            (sharedEngine->isRunning() && !sharedEngine->draw()))
         {
             sharedApplication->execute([] {
                 sharedEngine->getWindow()->close();

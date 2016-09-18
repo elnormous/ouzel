@@ -29,7 +29,8 @@ namespace ouzel
         RendererD3D11::RendererD3D11():
             Renderer(Driver::DIRECT3D11), dirty(false)
         {
-            apiVersion = 11;
+            apiMajorVersion = 11;
+            apiMinorVersion = 0;
             memset(&rasterizerStates, 0, sizeof(rasterizerStates));
             memset(&resourceViews, 0, sizeof(resourceViews));
             memset(&samplerStates, 0, sizeof(samplerStates));
@@ -163,6 +164,11 @@ namespace ouzel
                 return false;
             }
 
+            if (device->GetFeatureLevel() < D3D_FEATURE_LEVEL_10_0)
+            {
+                npotTexturesSupported = false;
+            }
+
             IDXGIDevice* dxgiDevice;
             IDXGIFactory* factory;
 
@@ -195,6 +201,19 @@ namespace ouzel
 
             width = static_cast<UINT>(size.width);
             height = static_cast<UINT>(size.height);
+
+            UINT qualityLevels;
+
+            if (FAILED(device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, sampleCount, &qualityLevels)))
+            {
+                log(LOG_LEVEL_WARNING, "Failed to check Direct3D 11 multisample quality levels");
+            }
+
+            if (qualityLevels == 0)
+            {
+                log(LOG_LEVEL_WARNING, "Direct3D 11 device does not support chosen sample count, multisampling disabled");
+                sampleCount = 1;
+            }
 
             swapChainDesc.BufferDesc.Width = width;
             swapChainDesc.BufferDesc.Height = height;
@@ -289,7 +308,7 @@ namespace ouzel
                 D3D11_CULL_NONE,
                 FALSE, // front = ccw?
                 0, 0, 0, // depth bias, clamp, slope scale
-                FALSE, // depth clip
+                TRUE, // depth clip
                 FALSE, // scissor test
                 (sampleCount > 1) ? TRUE : FALSE, // MSAA
                 TRUE, // AA lines
@@ -419,18 +438,90 @@ namespace ouzel
         {
             if (dirty)
             {
-                std::lock_guard<std::mutex> lock(dataMutex);
+                bool newFullscreen;
+                Size2 newSize;
+                Color newClearColor;
 
-                frameBufferClearColor[0] = clearColor.getR();
-                frameBufferClearColor[1] = clearColor.getG();
-                frameBufferClearColor[2] = clearColor.getB();
-                frameBufferClearColor[3] = clearColor.getA();
-                
-                if (width != static_cast<UINT>(size.width) ||
-                    height != static_cast<UINT>(size.height))
                 {
-                    width = static_cast<UINT>(size.width);
-                    height = static_cast<UINT>(size.height);
+                    std::lock_guard<std::mutex> lock(dataMutex);
+
+                    newFullscreen = fullscreen;
+                    newSize = size;
+                    newClearColor = clearColor;
+                }
+
+                frameBufferClearColor[0] = newClearColor.getR();
+                frameBufferClearColor[1] = newClearColor.getG();
+                frameBufferClearColor[2] = newClearColor.getB();
+                frameBufferClearColor[3] = newClearColor.getA();
+
+                BOOL isFullscreen;
+                swapChain->GetFullscreenState(&isFullscreen, nullptr);
+
+                if (isFullscreen != static_cast<BOOL>(newFullscreen))
+                {
+                    if (newFullscreen)
+                    {
+                        IDXGIOutput* output = getOutput();
+
+                        if (!output)
+                        {
+                            return false;
+                        }
+
+                        DXGI_OUTPUT_DESC desc;
+                        HRESULT hr = output->GetDesc(&desc);
+                        if (FAILED(hr))
+                        {
+                            output->Release();
+                            return false;
+                        }
+
+                        MONITORINFOEX info;
+                        info.cbSize = sizeof(MONITORINFOEX);
+                        GetMonitorInfo(desc.Monitor, &info);
+                        DEVMODE devMode;
+                        devMode.dmSize = sizeof(DEVMODE);
+                        devMode.dmDriverExtra = 0;
+                        EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
+
+                        DXGI_MODE_DESC current;
+                        current.Width = devMode.dmPelsWidth;
+                        current.Height = devMode.dmPelsHeight;
+                        bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
+                        current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
+                        current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
+                        current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                        current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+                        current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+                        DXGI_MODE_DESC closestDisplayMode;
+                        hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
+                        if (FAILED(hr))
+                        {
+                            output->Release();
+                            return false;
+                        }
+
+                        newSize = Size2(static_cast<float>(closestDisplayMode.Width),
+                                        static_cast<float>(closestDisplayMode.Height));
+
+                        sharedEngine->getWindow()->setSize(newSize);
+                        swapChain->SetFullscreenState(TRUE, output);
+
+                        output->Release();
+                    }
+                    else
+                    {
+                        swapChain->SetFullscreenState(FALSE, nullptr);
+                    }
+                }
+
+                if (width != static_cast<UINT>(newSize.width) ||
+                    height != static_cast<UINT>(newSize.height))
+                {
+                    width = static_cast<UINT>(newSize.width);
+                    height = static_cast<UINT>(newSize.height);
 
                     if (renderTargetView)
                     {
@@ -460,7 +551,7 @@ namespace ouzel
                         return false;
                     }
 
-                    viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
+                    viewport = { 0, 0, static_cast<FLOAT>(width), static_cast<FLOAT>(height), 0.0f, 1.0f };
                 }
 
                 dirty = false;
@@ -527,6 +618,11 @@ namespace ouzel
                 {
                     std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(drawCommand.renderTarget);
 
+                    if (!renderTargetD3D11->getRenderTargetView())
+                    {
+                        continue;
+                    }
+
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
                     newViewport = renderTargetD3D11->getViewport();
@@ -579,7 +675,7 @@ namespace ouzel
                 // shader
                 std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(drawCommand.shader);
 
-                if (!shaderD3D11)
+                if (!shaderD3D11 || !shaderD3D11->getPixelShader() || !shaderD3D11->getVertexShader())
                 {
                     // don't render if invalid shader
                     continue;
@@ -657,13 +753,15 @@ namespace ouzel
                 // blend state
                 std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(drawCommand.blendState);
 
-                if (!blendStateD3D11)
+                if (!blendStateD3D11 || !blendStateD3D11->getBlendState())
                 {
                     // don't render if invalid blend state
                     continue;
                 }
 
                 context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
+
+                bool texturesValid = true;
 
                 // textures
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
@@ -677,6 +775,12 @@ namespace ouzel
 
                     if (textureD3D11)
                     {
+                        if (!textureD3D11->getResourceView())
+                        {
+                            texturesValid = false;
+                            break;
+                        }
+
                         resourceViews[layer] = textureD3D11->getResourceView();
                         samplerStates[layer] = samplerState;
                     }
@@ -685,6 +789,11 @@ namespace ouzel
                         resourceViews[layer] = nullptr;
                         samplerStates[layer] = nullptr;
                     }
+                }
+
+                if (!texturesValid)
+                {
+                    continue;
                 }
 
                 context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
@@ -705,6 +814,11 @@ namespace ouzel
                 std::shared_ptr<IndexBufferD3D11> indexBufferD3D11 = std::static_pointer_cast<IndexBufferD3D11>(meshBufferD3D11->getIndexBuffer());
                 std::shared_ptr<VertexBufferD3D11> vertexBufferD3D11 = std::static_pointer_cast<VertexBufferD3D11>(meshBufferD3D11->getVertexBuffer());
 
+                if (!indexBufferD3D11 || !indexBufferD3D11->getBuffer() ||
+                    !vertexBufferD3D11 || !vertexBufferD3D11->getBuffer())
+                {
+                    continue;
+                }
 
                 ID3D11Buffer* buffers[] = { vertexBufferD3D11->getBuffer() };
                 UINT strides[] = { vertexBufferD3D11->getVertexSize() };
@@ -814,65 +928,7 @@ namespace ouzel
         {
             Renderer::setFullscreen(newFullscreen);
 
-            BOOL isFullscreen;
-            swapChain->GetFullscreenState(&isFullscreen, nullptr);
-
-            if (isFullscreen != static_cast<BOOL>(fullscreen))
-            {
-                if (fullscreen)
-                {
-                    IDXGIOutput* output = getOutput();
-
-                    if (!output)
-                    {
-                        return;
-                    }
-
-                    DXGI_OUTPUT_DESC desc;
-                    HRESULT hr = output->GetDesc(&desc);
-                    if (FAILED(hr))
-                    {
-                        output->Release();
-                        return;
-                    }
-
-                    MONITORINFOEX info;
-                    info.cbSize = sizeof(MONITORINFOEX);
-                    GetMonitorInfo(desc.Monitor, &info);
-                    DEVMODE devMode;
-                    devMode.dmSize = sizeof(DEVMODE);
-                    devMode.dmDriverExtra = 0;
-                    EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
-
-                    DXGI_MODE_DESC current;
-                    current.Width = devMode.dmPelsWidth;
-                    current.Height = devMode.dmPelsHeight;
-                    bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
-                    current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
-                    current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
-                    current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-                    current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-                    current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-                    DXGI_MODE_DESC closestDisplayMode;
-                    hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
-                    if (FAILED(hr))
-                    {
-                        output->Release();
-                        return;
-                    }
-
-                    setSize(Size2(static_cast<float>(closestDisplayMode.Width),
-                                  static_cast<float>(closestDisplayMode.Height)));
-                    swapChain->SetFullscreenState(TRUE, output);
-
-                    output->Release();
-                }
-                else
-                {
-                    swapChain->SetFullscreenState(FALSE, nullptr);
-                }
-            }
+            dirty = true;
         }
 
         BlendStatePtr RendererD3D11::createBlendState()

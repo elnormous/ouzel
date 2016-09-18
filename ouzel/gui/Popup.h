@@ -11,6 +11,8 @@ namespace ouzel
     {
         class Popup: public Widget
         {
+        public:
+            Popup();
         };
     } // namespace gui
 } // namespace ouzel

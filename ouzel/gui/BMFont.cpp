@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <sstream>
+#include "utf8/unchecked.h"
 #include "BMFont.h"
 #include "core/Engine.h"
 #include "core/Application.h"
@@ -15,18 +15,6 @@
 
 namespace ouzel
 {
-    template<typename CharT, typename TraitsT = std::char_traits<CharT>>
-    class VectorBuffer: public std::basic_streambuf<CharT, TraitsT>
-    {
-    public:
-        VectorBuffer(std::vector<uint8_t>& vec)
-        {
-            std::basic_streambuf<CharT, TraitsT>::setg(reinterpret_cast<CharT*>(vec.data()),
-                                                       reinterpret_cast<CharT*>(vec.data()),
-                                                       reinterpret_cast<CharT*>(vec.data() + vec.size()));
-        }
-    };
-
     BMFont::BMFont()
     {
     }
@@ -53,8 +41,8 @@ namespace ouzel
             return false;
         }
 
-        VectorBuffer<char> databuf(data);
-        std::istream stream(&databuf);
+        std::stringstream stream;
+        std::copy(data.begin(), data.end(), std::ostream_iterator<uint8_t>(stream));
 
         std::string line;
         std::string read, key, value;
@@ -191,7 +179,7 @@ namespace ouzel
 
     int32_t BMFont::getKerningPair(int32_t first, int32_t second)
     {
-        std::map<std::pair<int32_t, int32_t>, KerningInfo>::iterator i = kern.find(std::make_pair(first, second));
+        std::map<std::pair<uint32_t, uint32_t>, KerningInfo>::iterator i = kern.find(std::make_pair(first, second));
 
         if (i != kern.end())
         {
@@ -203,20 +191,19 @@ namespace ouzel
 
     float BMFont::getStringWidth(const std::string& text)
     {
-        float total = 0;
-        CharDescriptor* f;
+        float total = 0.0f;
 
-        for (uint32_t i = 0; i < static_cast<uint32_t>(text.length()); ++i)
+        for (auto i = text.begin(); i != text.end();)
         {
-            std::map<int32_t, CharDescriptor>::iterator iter = chars.find(text[i]);
+            uint32_t c = utf8::unchecked::next(i);
 
-            if (iter == chars.end())
+            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(c);
+
+            if (iter != chars.end())
             {
-                continue;
+                const CharDescriptor& f = iter->second;
+                total += f.xAdvance;
             }
-
-            f = &iter->second;
-            total += f->xAdvance;
         }
 
         return total;
@@ -224,82 +211,75 @@ namespace ouzel
 
     void BMFont::getVertices(const std::string& text, const graphics::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices)
     {
-        uint32_t flen;
-
-        CharDescriptor  *f;
-
         float x = 0.0f;
         float y = lineHeight * (1.0f - anchor.y);
 
-        flen = static_cast<uint32_t>(text.length());
+        std::vector<uint32_t> utf32Text;
+        utf8::unchecked::utf8to32(text.begin(), text.end(), std::back_inserter(utf32Text));
 
         indices.clear();
         vertices.clear();
 
-        indices.reserve(flen * 6);
-        vertices.reserve(flen * 4);
+        indices.reserve(utf32Text.size() * 6);
+        vertices.reserve(utf32Text.size() * 4);
 
         Vector2 textCoords[4];
 
-        for (uint32_t i = 0; i != flen; ++i)
+        for (size_t i = 0; i != utf32Text.size(); ++i)
         {
-            std::map<int32_t, CharDescriptor>::iterator iter = chars.find(text[i]);
+            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(utf32Text[i]);
 
-            if (iter == chars.end())
+            if (iter != chars.end())
             {
-                continue;
+                const CharDescriptor& f = iter->second;
+
+                uint16_t startIndex = static_cast<uint16_t>(vertices.size());
+                indices.push_back(startIndex + 0);
+                indices.push_back(startIndex + 1);
+                indices.push_back(startIndex + 2);
+
+                indices.push_back(startIndex + 1);
+                indices.push_back(startIndex + 3);
+                indices.push_back(startIndex + 2);
+
+                Vector2 leftTop(f.x / static_cast<float>(width),
+                                f.y / static_cast<float>(height));
+
+                Vector2 rightBottom((f.x + f.width) / static_cast<float>(width),
+                                    (f.y + f.height) / static_cast<float>(height));
+
+                textCoords[0] = Vector2(leftTop.x, leftTop.y);
+                textCoords[1] = Vector2(rightBottom.x, leftTop.y);
+                textCoords[2] = Vector2(leftTop.x, rightBottom.y);
+                textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
+
+                if (texture->isFlipped())
+                {
+                    leftTop.y = 1.0f - leftTop.y;
+                    rightBottom.y = 1.0f - rightBottom.y;
+                }
+
+                vertices.push_back(graphics::VertexPCT(Vector3(x + f.xOffset, y - f.yOffset, 0.0f),
+                                             color, textCoords[0]));
+
+                vertices.push_back(graphics::VertexPCT(Vector3(x + f.xOffset + f.width, y - f.yOffset, 0.0f),
+                                             color, textCoords[1]));
+
+                vertices.push_back(graphics::VertexPCT(Vector3(x + f.xOffset, y - f.yOffset - f.height, 0.0f),
+                                             color, textCoords[2]));
+
+                vertices.push_back(graphics::VertexPCT(Vector3(x + f.xOffset + f.width, y - f.yOffset - f.height, 0.0f),
+                                             color, textCoords[3]));
+
+                // Only check kerning if there is greater then 1 character and
+                // if the check character is 1 less then the end of the string.
+                if (utf32Text.size() > 1 && i < utf32Text.size() - 1)
+                {
+                    x += getKerningPair(text[i], text[i + 1]);
+                }
+
+                x +=  f.xAdvance;
             }
-            else
-            {
-                f = &iter->second;
-            }
-
-            uint16_t startIndex = static_cast<uint16_t>(vertices.size());
-            indices.push_back(startIndex + 0);
-            indices.push_back(startIndex + 1);
-            indices.push_back(startIndex + 2);
-
-            indices.push_back(startIndex + 1);
-            indices.push_back(startIndex + 3);
-            indices.push_back(startIndex + 2);
-
-            Vector2 leftTop(f->x / static_cast<float>(width),
-                            f->y / static_cast<float>(height));
-
-            Vector2 rightBottom((f->x + f->width) / static_cast<float>(width),
-                                (f->y + f->height) / static_cast<float>(height));
-
-            textCoords[0] = Vector2(leftTop.x, leftTop.y);
-            textCoords[1] = Vector2(rightBottom.x, leftTop.y);
-            textCoords[2] = Vector2(leftTop.x, rightBottom.y);
-            textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
-
-            if (texture->isFlipped())
-            {
-                leftTop.y = 1.0f - leftTop.y;
-                rightBottom.y = 1.0f - rightBottom.y;
-            }
-
-            vertices.push_back(graphics::VertexPCT(Vector3(x + f->xOffset, y - f->yOffset, 0.0f),
-                                         color, textCoords[0]));
-
-            vertices.push_back(graphics::VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset, 0.0f),
-                                         color, textCoords[1]));
-
-            vertices.push_back(graphics::VertexPCT(Vector3(x + f->xOffset, y - f->yOffset - f->height, 0.0f),
-                                         color, textCoords[2]));
-
-            vertices.push_back(graphics::VertexPCT(Vector3(x + f->xOffset + f->width, y - f->yOffset - f->height, 0.0f),
-                                         color, textCoords[3]));
-
-            // Only check kerning if there is greater then 1 character and
-            // if the check character is 1 less then the end of the string.
-            if (flen > 1 && i < flen)
-            {
-                x += getKerningPair(text[i], text[i+1]);
-            }
-
-            x +=  f->xAdvance;
         }
 
         float totalWidth = x;

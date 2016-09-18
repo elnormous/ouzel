@@ -14,7 +14,6 @@ namespace ouzel
     {
         Scene::Scene()
         {
-            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
             eventHandler.windowHandler = std::bind(&Scene::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
             eventHandler.mouseHandler = std::bind(&Scene::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
             eventHandler.touchHandler = std::bind(&Scene::handleTouch, this, std::placeholders::_1, std::placeholders::_2);
@@ -22,6 +21,13 @@ namespace ouzel
 
         Scene::~Scene()
         {
+            if (entered)
+            {
+                for (const LayerPtr& layer : layers)
+                {
+                    layer->leave();
+                }
+            }
         }
 
         void Scene::draw()
@@ -46,6 +52,8 @@ namespace ouzel
                 {
                     camera->recalculateProjection();
                 }
+
+                if (entered) layer->enter();
             }
         }
 
@@ -55,12 +63,25 @@ namespace ouzel
 
             if (i != layers.end())
             {
+                if (entered)
+                {
+                    layer->leave();
+                }
+
                 layers.erase(i);
             }
         }
 
         void Scene::removeAllLayers()
         {
+            if (entered)
+            {
+                for (const LayerPtr& layer : layers)
+                {
+                    layer->leave();
+                }
+            }
+
             layers.clear();
         }
 
@@ -115,6 +136,31 @@ namespace ouzel
             }
 
             return result;
+        }
+
+        void Scene::enter()
+        {
+            entered = true;
+
+            recalculateProjection();
+            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+
+            for (const LayerPtr& layer : layers)
+            {
+                layer->enter();
+            }
+        }
+
+        void Scene::leave()
+        {
+            entered = false;
+            
+            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
+
+            for (const LayerPtr& layer : layers)
+            {
+                layer->leave();
+            }
         }
 
         bool Scene::handleWindow(Event::Type type, const WindowEvent&)

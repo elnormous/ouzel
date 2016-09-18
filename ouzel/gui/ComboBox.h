@@ -11,6 +11,8 @@ namespace ouzel
     {
         class ComboBox: public Widget
         {
+        public:
+            ComboBox();
         };
     } // namespace gui
 } // namespace ouzel

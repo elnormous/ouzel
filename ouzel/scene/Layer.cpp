@@ -20,6 +20,7 @@ namespace ouzel
 
         Layer::~Layer()
         {
+            if (camera) camera->removeFromLayer();
         }
 
         void Layer::draw()
@@ -33,7 +34,7 @@ namespace ouzel
                 {
                     if (!child->isHidden())
                     {
-                        child->visit(Matrix4::IDENTITY, false, std::static_pointer_cast<Layer>(shared_from_this()), 0.0f);
+                        child->visit(Matrix4::IDENTITY, false, this, 0.0f);
                     }
                 }
 
@@ -43,14 +44,14 @@ namespace ouzel
 
                 for (const auto& node : drawQueue)
                 {
-                    node.first->draw(std::static_pointer_cast<Layer>(shared_from_this()));
+                    node.first->draw(this);
                 }
 
                 if (wireframe)
                 {
                     for (const auto& node : drawQueue)
                     {
-                        node.first->drawWireframe(std::static_pointer_cast<Layer>(shared_from_this()));
+                        node.first->drawWireframe(this);
                     }
                 }
             }
@@ -86,7 +87,7 @@ namespace ouzel
 
             if (camera)
             {
-                camera->addToLayer(std::static_pointer_cast<Layer>(shared_from_this()));
+                camera->addToLayer(this);
                 camera->recalculateProjection();
             }
         }

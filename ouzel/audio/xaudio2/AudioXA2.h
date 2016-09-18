@@ -24,10 +24,12 @@ namespace ouzel
             virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
 
-            IXAudio2* getXAudio() const { return xAudio; }
+            IXAudio2SourceVoice* createSourceVoice(const WAVEFORMATEX& sourceFormat);
 
         protected:
             AudioXA2();
+
+            HMODULE xAudio2Library = nullptr;
 
             IXAudio2* xAudio = nullptr;
             IXAudio2MasteringVoice* masteringVoice = nullptr;

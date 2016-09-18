@@ -184,6 +184,7 @@ namespace ouzel
             uint32_t modifiers = 0;
 
             if (wParam & MK_SHIFT) modifiers |= SHIFT_DOWN;
+            if (GetKeyState(VK_MENU) & 0x8000) modifiers |= ALT_DOWN;
             if (wParam & MK_CONTROL) modifiers |= CONTROL_DOWN;
             if (wParam & MK_LBUTTON) modifiers |= LEFT_MOUSE_DOWN;
             if (wParam & MK_RBUTTON) modifiers |= RIGHT_MOUSE_DOWN;

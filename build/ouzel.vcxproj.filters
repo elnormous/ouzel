@@ -298,6 +298,12 @@
     <ClCompile Include="..\ouzel\graphics\empty\VertexBufferEmpty.cpp">
       <Filter>graphics\empty</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\core\UpdateCallback.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
+      <Filter>audio\xaudio2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -624,6 +630,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\empty\VertexBufferEmpty.h">
       <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h">
+      <Filter>audio\xaudio2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

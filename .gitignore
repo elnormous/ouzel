@@ -1,6 +1,5 @@
 *.o
 *.a
-samples
 build/ouzel.xcodeproj/xcuserdata
 build/ouzel.xcodeproj/project.xcworkspace
 build/obj

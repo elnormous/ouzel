@@ -37,7 +37,6 @@ namespace ouzel
 
         ParticleSystem::~ParticleSystem()
         {
-            sharedEngine->unscheduleUpdate(updateCallback);
         }
 
         void ParticleSystem::draw(const Matrix4& projectionMatrix,

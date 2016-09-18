@@ -7,5 +7,9 @@ namespace ouzel
 {
     namespace gui
     {
+        ScrollBar::ScrollBar()
+        {
+            pickable = true;
+        }
     } // namespace gui
 } // namespace ouzel

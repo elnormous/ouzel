@@ -23,6 +23,8 @@ namespace ouzel
             addComponent(textDrawable);
 
             textDrawable->setText(text);
+
+            pickable = true;
         }
 
         Label::~Label()

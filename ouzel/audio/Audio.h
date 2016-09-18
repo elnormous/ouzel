@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include "utils/Types.h"
 
 #ifdef OPENAL
@@ -36,12 +37,24 @@ namespace ouzel
             virtual SoundDataPtr createSoundData() = 0;
             virtual SoundPtr createSound() = 0;
 
+            uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
+            uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
+
+            void setAPIVersion(uint16_t majorVersion, uint16_t minorVersion)
+            {
+                apiMajorVersion = majorVersion;
+                apiMinorVersion = minorVersion;
+            }
+
             bool isReady() const { return ready; }
 
         protected:
             Audio(Driver pDriver);
 
             Driver driver;
+
+            uint16_t apiMajorVersion = 0;
+            uint16_t apiMinorVersion = 0;
 
             bool ready = false;
         };

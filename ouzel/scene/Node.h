@@ -18,11 +18,8 @@ namespace ouzel
 {
     namespace scene
     {
-        class SceneManager;
-
         class Node: public NodeContainer
         {
-            friend SceneManager;
             friend NodeContainer;
             friend Layer;
         public:
@@ -93,9 +90,9 @@ namespace ouzel
         protected:
             void setParent(NodeContainer* newParent) { parent = newParent; }
 
-            virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty, const LayerPtr& currentLayer, float depth);
-            virtual void draw(const LayerPtr& currentLayer);
-            virtual void drawWireframe(const LayerPtr& currentLayer);
+            virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty, Layer* currentLayer, float depth);
+            virtual void draw(Layer* currentLayer);
+            virtual void drawWireframe(Layer* currentLayer);
 
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
@@ -115,7 +112,7 @@ namespace ouzel
             bool flipX = false;
             bool flipY = false;
 
-            bool pickable = true;
+            bool pickable = false;
             bool hidden = false;
             bool receiveInput = false;
 

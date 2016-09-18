@@ -15,11 +15,20 @@ namespace ouzel
             eventHandler.keyboardHandler = std::bind(&Menu::handleKeyboard, this, std::placeholders::_1, std::placeholders::_2);
             eventHandler.gamepadHandler = std::bind(&Menu::handleGamepad, this, std::placeholders::_1, std::placeholders::_2);
             eventHandler.uiHandler = std::bind(&Menu::handleUI, this, std::placeholders::_1, std::placeholders::_2);
-            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
         }
 
         Menu::~Menu()
         {
+        }
+
+        void Menu::enter()
+        {
+            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+        }
+
+        void Menu::leave()
+        {
+            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
         }
 
         bool Menu::addWidget(const WidgetPtr& widget)

@@ -8,7 +8,7 @@ Ouzel is a C++ game engine mainly targeted for development of 2D games.
 
 Supported platforms:
 
-* Windows Vista, 7, 8, 10 
+* Windows 7, 8, 10 
 * OS X 10.8+
 * Linux
 * iOS 7+
@@ -44,6 +44,7 @@ Windows Phone platform support is under development.
 * Resource caching system
 * Localization support via loading string translations
 * Audio engine for sound effect playback
+* Easy to install (just pull the repository and it's subrepositories and build it)
 
 ## Example app
 
@@ -66,7 +67,7 @@ The following code will open a 640px x 480px window:
 
 ## Compilation
 
-Ouzel uses rapidjson and stb submodules. The following commands have to be run after cloning Ouzel engine:
+Ouzel uses stb, rapidjson and utfcpp submodules. The following commands have to be run after cloning Ouzel engine:
 
 ```
 $ git submodule init
@@ -75,7 +76,7 @@ $ git submodule update
 
 Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in the samples directory.
 
-To build Ouzel for Raspbian pass "platform=raspbian" to make as follows:
+You will need to download OpenGL (e.g. Mesa) and OpenAL drivers in order to build Ouzel on Linux. To build it for Raspbian pass "platform=raspbian" to make as follows:
 
 ```
 $ make platform=raspbian
@@ -91,6 +92,7 @@ $ make platform=raspbian
 You can ask question in the following locations:
 
 * Ouzel Twitter account: https://twitter.com/ouzelengine
+* Ouzel server on Discord: https://discord.gg/4sWuJE8
 * #ouzel channel on the Freenode network ([Freenode Webchat](http://webchat.freenode.net/?channels=ouzel))
 * Author of the Ouzel engine: https://twitter.com/elnormous
 * Development roadmap: https://trello.com/b/5tRlUXKR/ouzel-roadmap

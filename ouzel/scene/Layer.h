@@ -17,7 +17,6 @@ namespace ouzel
 {
     namespace scene
     {
-        class Camera;
         class Scene;
 
         class Layer: public NodeContainer

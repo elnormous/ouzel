@@ -12,7 +12,7 @@ namespace ouzel
         class RadioButton: public Widget
         {
         public:
-            virtual ~RadioButton() {}
+            RadioButton();
         };
     } // namespace gui
 } // namespace ouzel

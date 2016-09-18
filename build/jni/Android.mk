@@ -8,7 +8,8 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
 LOCAL_CPPFLAGS += -std=c++11
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../external/stb \
-    $(LOCAL_PATH)/../../external/rapidjson/include
+    $(LOCAL_PATH)/../../external/rapidjson/include \
+    $(LOCAL_PATH)/../../external/utfcpp/source
 
 LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/animators/Ease.cpp \
@@ -34,6 +35,7 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Application.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Cache.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Engine.cpp \
+    $(LOCAL_PATH)/../../ouzel/core/UpdateCallback.cpp \
     $(LOCAL_PATH)/../../ouzel/core/Window.cpp \
     $(LOCAL_PATH)/../../ouzel/events/EventDispatcher.cpp \
     $(LOCAL_PATH)/../../ouzel/events/EventHandler.cpp \
