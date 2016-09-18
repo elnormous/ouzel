@@ -237,114 +237,129 @@ namespace ouzel
 
         sharedEngine->begin();
 
-        XEvent event;
-
-        std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(sharedEngine->getWindow());
-
-        while (sharedEngine->isActive())
+        if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
-            executeAll();
-
-            if (!sharedEngine->draw())
+            while (sharedEngine->isActive())
             {
-                sharedEngine->exit();
+                executeAll();
+
+                if (!sharedEngine->draw())
+                {
+                    sharedEngine->exit();
+                }
             }
+        }
+        else
+        {
+            XEvent event;
+
+            std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(sharedEngine->getWindow());
 
             while (sharedEngine->isActive())
             {
-                if ((sharedEngine->isRunning() && !XPending(windowLinux->getDisplay())) ||
-                    !sharedEngine->isActive())
+                executeAll();
+
+                if (!sharedEngine->draw())
                 {
-                    break;
+                    sharedEngine->exit();
                 }
 
-                XNextEvent(windowLinux->getDisplay(), &event);
-
-                switch (event.type)
+                while (sharedEngine->isActive())
                 {
-                    case ClientMessage:
+                    if ((sharedEngine->isRunning() && !XPending(windowLinux->getDisplay())) ||
+                        !sharedEngine->isActive())
                     {
-                        if (static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteMessage())
-                        {
-                            sharedEngine->exit();
-                        }
                         break;
                     }
-                    case FocusIn:
-                        sharedEngine->resume();
-                        break;
-                    case FocusOut:
-                        sharedEngine->pause();
-                        break;
-                    case KeyPress: // keyboard
-                    case KeyRelease:
+
+                    XNextEvent(windowLinux->getDisplay(), &event);
+
+                    switch (event.type)
                     {
-                        KeySym keySym = XkbKeycodeToKeysym(windowLinux->getDisplay(), event.xkey.keycode, 0, event.xkey.state & ShiftMask ? 1 : 0);
-
-                        if (event.type == KeyPress)
+                        case ClientMessage:
                         {
-                            sharedEngine->getInput()->keyDown(convertKeyCode(keySym), getModifiers(event.xkey.state));
-                        }
-                        else
-                        {
-                            sharedEngine->getInput()->keyUp(convertKeyCode(keySym), getModifiers(event.xkey.state));
-                        }
-                        break;
-                    }
-                    case ButtonPress: // mouse button
-                    case ButtonRelease:
-                    {
-                        Vector2 pos(static_cast<float>(event.xbutton.x),
-                                    static_cast<float>(event.xbutton.y));
-
-                        input::MouseButton button;
-
-                        switch (event.xbutton.button)
-                        {
-                        case 1:
-                            button = input::MouseButton::LEFT;
-                            break;
-                        case 2:
-                            button = input::MouseButton::RIGHT;
-                            break;
-                        case 3:
-                            button = input::MouseButton::MIDDLE;
+                            if (static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteMessage())
+                            {
+                                sharedEngine->exit();
+                            }
                             break;
                         }
-
-                        if (event.type == ButtonPress)
+                        case FocusIn:
+                            sharedEngine->resume();
+                            break;
+                        case FocusOut:
+                            sharedEngine->pause();
+                            break;
+                        case KeyPress: // keyboard
+                        case KeyRelease:
                         {
-                            sharedEngine->getInput()->mouseDown(button,
-                                                                sharedEngine->getRenderer()->viewToScreenLocation(pos),
-                                                                getModifiers(event.xbutton.state));
+                            KeySym keySym = XkbKeycodeToKeysym(windowLinux->getDisplay(), event.xkey.keycode, 0, event.xkey.state & ShiftMask ? 1 : 0);
+
+                            if (event.type == KeyPress)
+                            {
+                                sharedEngine->getInput()->keyDown(convertKeyCode(keySym), getModifiers(event.xkey.state));
+                            }
+                            else
+                            {
+                                sharedEngine->getInput()->keyUp(convertKeyCode(keySym), getModifiers(event.xkey.state));
+                            }
+                            break;
                         }
-                        else
+                        case ButtonPress: // mouse button
+                        case ButtonRelease:
                         {
-                            sharedEngine->getInput()->mouseUp(button,
-                                                              sharedEngine->getRenderer()->viewToScreenLocation(pos),
-                                                              getModifiers(event.xbutton.state));
+                            Vector2 pos(static_cast<float>(event.xbutton.x),
+                                        static_cast<float>(event.xbutton.y));
+
+                            input::MouseButton button;
+
+                            switch (event.xbutton.button)
+                            {
+                            case 1:
+                                button = input::MouseButton::LEFT;
+                                break;
+                            case 2:
+                                button = input::MouseButton::RIGHT;
+                                break;
+                            case 3:
+                                button = input::MouseButton::MIDDLE;
+                                break;
+                            }
+
+                            if (event.type == ButtonPress)
+                            {
+                                sharedEngine->getInput()->mouseDown(button,
+                                                                    sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                                                    getModifiers(event.xbutton.state));
+                            }
+                            else
+                            {
+                                sharedEngine->getInput()->mouseUp(button,
+                                                                  sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                                                  getModifiers(event.xbutton.state));
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    case MotionNotify:
-                    {
-                        Vector2 pos(static_cast<float>(event.xmotion.x),
-                                    static_cast<float>(event.xmotion.y));
+                        case MotionNotify:
+                        {
+                            Vector2 pos(static_cast<float>(event.xmotion.x),
+                                        static_cast<float>(event.xmotion.y));
 
-                        sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos),
-                                                            getModifiers(event.xmotion.state));
+                            sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->viewToScreenLocation(pos),
+                                                                getModifiers(event.xmotion.state));
 
-                        break;
-                    }
-                    case ConfigureNotify:
-                    {
-                        windowLinux->handleResize(event.xconfigure.width, event.xconfigure.height);
-                        break;
-                    }
-                    case Expose:
-                    {
-                        // need redraw
-                        break;
+                            break;
+                        }
+                        case ConfigureNotify:
+                        {
+                            windowLinux->handleResize(event.xconfigure.width, event.xconfigure.height);
+                            break;
+                        }
+                        case Expose:
+                        {
+                            // need redraw
+                            break;
+                        }
                     }
                 }
             }
