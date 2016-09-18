@@ -8,9 +8,9 @@
 #include <set>
 #include <functional>
 #include <thread>
-#include <mutex>
 #include <atomic>
 #include <chrono>
+#include "CompileConfig.h"
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "core/UpdateCallback.h"
@@ -83,7 +83,10 @@ namespace ouzel
         std::list<const UpdateCallback*> updateCallbacks;
         std::list<const UpdateCallback*>::iterator updateCallbackIterator;
         bool updateCallbackDeleted = false;
+
+#if OUZEL_MULTITHREADED
         std::thread updateThread;
+#endif
 
         std::atomic<bool> running;
         std::atomic<bool> active;

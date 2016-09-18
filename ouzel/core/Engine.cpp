@@ -90,7 +90,10 @@ namespace ouzel
         running = false;
         active = false;
 
+#if OUZEL_MULTITHREADED
         if (updateThread.joinable()) updateThread.join();
+#endif
+
         sceneManager.reset();
     }
 
@@ -333,14 +336,19 @@ namespace ouzel
         previousUpdateTime = previousFrameTime = std::chrono::steady_clock::now();
         running = true;
 
+#if OUZEL_MULTITHREADED
         updateThread = std::thread(&Engine::run, this);
+#endif
     }
 
     void Engine::end()
     {
         running = false;
         active = false;
+
+#if OUZEL_MULTITHREADED
         if (updateThread.joinable()) updateThread.join();
+#endif
     }
 
     void Engine::pause()
@@ -356,8 +364,10 @@ namespace ouzel
 
     void Engine::run()
     {
+#if OUZEL_MULTITHREADED
         while (active)
         {
+#endif
             if (running)
             {
                 std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
@@ -391,11 +401,17 @@ namespace ouzel
                     }
                 }
             }
+#if OUZEL_MULTITHREADED
         }
+#endif
     }
 
     bool Engine::draw()
     {
+#if !OUZEL_MULTITHREADED
+        Engine::run();
+#endif
+
         std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
         auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
         previousFrameTime = currentTime;

@@ -8,13 +8,13 @@
     #define OUZEL_SUPPORTS_DIRECT3D 1
     #define OUZEL_SUPPORTS_DIRECT3D11 1
     #define OUZEL_SUPPORTS_XAUDIO2 1
+    #define OUZEL_MULTITHREADED 1
 
     #if defined(_M_X64)
         #define OUZEL_64BITS 1
     #elif defined(_M_IX86)
         #define OUZEL_32BITS 1
     #endif
-
 #elif defined(__APPLE__)
     #include <TargetConditionals.h>
     #if TARGET_OS_IOS
@@ -37,6 +37,8 @@
         #define OUZEL_SUPPORTS_OPENAL 1
     #endif
 
+    #define OUZEL_MULTITHREADED 1
+
     #if defined(__x86_64__)
         #define OUZEL_64BITS 1
     #elif defined(__i386__)
@@ -50,11 +52,13 @@
             #define OUZEL_32BITS 1
         #endif
     #endif
+
 #elif defined(__ANDROID__)
     #define OUZEL_PLATFORM_ANDROID 1
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_SUPPORTS_OPENGLES3 1
     #define OUZEL_SUPPORTS_OPENSL 1
+    #define OUZEL_MULTITHREADED 1
 
     #if defined(__x86_64__)
         #define OUZEL_64BITS 1
@@ -75,6 +79,7 @@
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_SUPPORTS_OPENGLES3 1
     #define OUZEL_SUPPORTS_OPENAL 1
+    #define OUZEL_MULTITHREADED 1
 
     #if defined(__x86_64__)
         #define OUZEL_64BITS 1
@@ -99,6 +104,7 @@
         #define OUZEL_SUPPORTS_OPENGLES3 1
     #endif
     #define OUZEL_SUPPORTS_OPENAL 1
+    #define OUZEL_MULTITHREADED 1
 
     #if defined(__x86_64__)
         #define OUZEL_64BITS 1
