@@ -186,17 +186,16 @@ namespace ouzel
             levels.clear();
             size = newSize;
 
-            levels.push_back({ newSize, newData });
-
             uint32_t newWidth = static_cast<uint32_t>(newSize.width);
             uint32_t newHeight = static_cast<uint32_t>(newSize.height);
+
+            uint32_t pitch = newWidth * 4;
+            levels.push_back({ newSize, pitch, newData });
 
             mipMapsGenerated = mipmaps && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
 
             if (mipMapsGenerated)
             {
-                uint32_t pitch = newWidth * 4;
-
                 uint32_t bufferSize = newWidth * newHeight * 4;
 
                 if (newWidth == 1)
@@ -219,9 +218,9 @@ namespace ouzel
                     newHeight >>= 1;
 
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                    levels.push_back({ mipMapSize, mipMapData });
-
                     pitch = newWidth * 4;
+
+                    levels.push_back({ mipMapSize, pitch, mipMapData });
                 }
 
                 if (newWidth > newHeight)
@@ -235,9 +234,9 @@ namespace ouzel
                         newWidth >>= 1;
 
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        levels.push_back({ mipMapSize, mipMapData });
-
                         pitch = newWidth * 4;
+
+                        levels.push_back({ mipMapSize, pitch, mipMapData });
                     }
                 }
                 else
@@ -256,7 +255,7 @@ namespace ouzel
                         newHeight >>= 1;
                         
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        levels.push_back({ mipMapSize, mipMapData });
+                        levels.push_back({ mipMapSize, pitch, mipMapData });
                     }
                 }
             }

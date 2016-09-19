@@ -105,8 +105,9 @@ namespace ouzel
 
                     for (size_t level = 0; level < uploadData.levels.size(); ++level)
                     {
-                        UINT rowPitch = static_cast<UINT>(uploadData.levels[level].size.width) * 4;
-                        rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level), nullptr, uploadData.levels[level].data.data(), rowPitch, 0);
+                        rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
+                                                                       nullptr, uploadData.levels[level].data.data(),
+                                                                       static_cast<UINT>(uploadData.levels[level].pitch), 0);
                     }
                 }
 
