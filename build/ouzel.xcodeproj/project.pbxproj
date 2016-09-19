@@ -715,6 +715,12 @@
 		30B328871C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
 		30B328881C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
 		30B328891C4E9EAC00040927 /* Ease.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B328831C4E9EAC00040927 /* Ease.h */; };
+		30B546551D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B546531D90575B00E45DB6 /* RadioButtonGroup.cpp */; };
+		30B546561D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B546531D90575B00E45DB6 /* RadioButtonGroup.cpp */; };
+		30B546571D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B546531D90575B00E45DB6 /* RadioButtonGroup.cpp */; };
+		30B546581D90575B00E45DB6 /* RadioButtonGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B546541D90575B00E45DB6 /* RadioButtonGroup.h */; };
+		30B546591D90575B00E45DB6 /* RadioButtonGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B546541D90575B00E45DB6 /* RadioButtonGroup.h */; };
+		30B5465A1D90575B00E45DB6 /* RadioButtonGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B546541D90575B00E45DB6 /* RadioButtonGroup.h */; };
 		30C56C5B1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
 		30C56C5C1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
 		30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
@@ -1044,6 +1050,8 @@
 		30A9C1391CAEBA540084C4BF /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
+		30B546531D90575B00E45DB6 /* RadioButtonGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButtonGroup.cpp; sourceTree = "<group>"; };
+		30B546541D90575B00E45DB6 /* RadioButtonGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioButtonGroup.h; sourceTree = "<group>"; };
 		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
 		30C56C5A1CAA88F8007AEF8F /* CheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
 		30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButton.cpp; sourceTree = "<group>"; };
@@ -1559,6 +1567,8 @@
 				30EF365A1CA76B9E00F04F29 /* Popup.h */,
 				30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */,
 				30C56C641CAB3F2D007AEF8F /* RadioButton.h */,
+				30B546531D90575B00E45DB6 /* RadioButtonGroup.cpp */,
+				30B546541D90575B00E45DB6 /* RadioButtonGroup.h */,
 				30EF36491CA76ACD00F04F29 /* ScrollArea.cpp */,
 				30EF364A1CA76ACD00F04F29 /* ScrollArea.h */,
 				30EF36511CA76AE200F04F29 /* ScrollBar.cpp */,
@@ -1628,6 +1638,7 @@
 				304B27591C9384A600BA162D /* Size3.h in Headers */,
 				3038202E1D80A55700677CAB /* IndexBufferMetal.h in Headers */,
 				30419DE51D162BCF00A63759 /* Audio.h in Headers */,
+				30B546581D90575B00E45DB6 /* RadioButtonGroup.h in Headers */,
 				30381FAC1D80A3EC00677CAB /* VertexBufferOGL.h in Headers */,
 				30381F701D80A3EC00677CAB /* IndexBufferOGL.h in Headers */,
 				30381F761D80A3EC00677CAB /* MeshBufferOGL.h in Headers */,
@@ -1777,6 +1788,7 @@
 				30419DE61D162BCF00A63759 /* Audio.h in Headers */,
 				30381FAE1D80A3EC00677CAB /* VertexBufferOGL.h in Headers */,
 				30381F721D80A3EC00677CAB /* IndexBufferOGL.h in Headers */,
+				30B5465A1D90575B00E45DB6 /* RadioButtonGroup.h in Headers */,
 				30381F781D80A3EC00677CAB /* MeshBufferOGL.h in Headers */,
 				303B76581C355A3B00FEDE92 /* Texture.h in Headers */,
 				30C56C6A1CAB3F2D007AEF8F /* RadioButton.h in Headers */,
@@ -1942,6 +1954,7 @@
 				305B99941C41F06F008589E1 /* Widget.h in Headers */,
 				30381F151D8094F100677CAB /* IndexBuffer.h in Headers */,
 				30381FB91D80A3F900677CAB /* AudioAL.h in Headers */,
+				30B546591D90575B00E45DB6 /* RadioButtonGroup.h in Headers */,
 				30381FA11D80A3EC00677CAB /* TextureVSOGL3.h in Headers */,
 				304A8E5D1C237C70008B1151 /* Node.h in Headers */,
 				304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */,
@@ -2242,6 +2255,7 @@
 				303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */,
 				302511B11CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */,
 				304B27561C9384A600BA162D /* Size3.cpp in Sources */,
+				30B546551D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30547E791CB47E050055EE79 /* Shake.cpp in Sources */,
 				303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */,
@@ -2362,6 +2376,7 @@
 				302511B21CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */,
 				304B27571C9384A600BA162D /* Size3.cpp in Sources */,
 				303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */,
+				30B546571D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
 				30547E7A1CB47E050055EE79 /* Shake.cpp in Sources */,
 				30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B764E1C355A3B00FEDE92 /* Color.cpp in Sources */,
@@ -2482,6 +2497,7 @@
 				306B0E5F1C567D05005C75C1 /* ShapeDrawable.cpp in Sources */,
 				302511B01CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */,
 				30575ACD1C3B175D0009C8A7 /* Label.cpp in Sources */,
+				30B546561D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
 				303820EF1D817EA900677CAB /* RendererOGLMacOS.mm in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,

@@ -41,6 +41,8 @@
 #include "gui/CheckBox.h"
 #include "gui/Label.h"
 #include "gui/Menu.h"
+#include "gui/RadioButton.h"
+#include "gui/RadioButtonGroup.h"
 #include "gui/Widget.h"
 #include "input/Gamepad.h"
 #include "input/Input.h"

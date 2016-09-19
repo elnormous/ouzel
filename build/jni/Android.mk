@@ -76,6 +76,7 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/Menu.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/Popup.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/RadioButton.cpp \
+    $(LOCAL_PATH)/../../ouzel/gui/RadioButtonGroup.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/ScrollArea.cpp \
     $(LOCAL_PATH)/../../ouzel/gui/ScrollBar.cpp \
 	$(LOCAL_PATH)/../../ouzel/gui/SlideBar.cpp \
