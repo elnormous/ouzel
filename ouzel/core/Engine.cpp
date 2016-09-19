@@ -103,6 +103,8 @@ namespace ouzel
 
         if (availableDrivers.empty())
         {
+            availableDrivers.insert(graphics::Renderer::Driver::EMPTY);
+
 #if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
             availableDrivers.insert(graphics::Renderer::Driver::OPENGL);
 #endif
@@ -128,6 +130,8 @@ namespace ouzel
 
         if (availableDrivers.empty())
         {
+            availableDrivers.insert(audio::Audio::Driver::EMPTY);
+
 #if OUZEL_SUPPORTS_OPENAL
             availableDrivers.insert(audio::Audio::Driver::OPENAL);
 #endif
@@ -166,8 +170,7 @@ namespace ouzel
             }
             else
             {
-                log(LOG_LEVEL_ERROR, "Failed to select render driver");
-                return false;
+                settings.renderDriver = graphics::Renderer::Driver::EMPTY;
             }
         }
 
@@ -279,8 +282,7 @@ namespace ouzel
             }
             else
             {
-                log(LOG_LEVEL_ERROR, "Failed to select audio driver");
-                return false;
+                settings.audioDriver = audio::Audio::Driver::EMPTY;
             }
         }
 

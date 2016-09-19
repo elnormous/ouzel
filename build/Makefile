@@ -75,6 +75,7 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/gui/Menu.cpp \
 	../ouzel/gui/Popup.cpp \
 	../ouzel/gui/RadioButton.cpp \
+	../ouzel/gui/RadioButtonGroup.cpp \
 	../ouzel/gui/ScrollArea.cpp \
 	../ouzel/gui/ScrollBar.cpp \
 	../ouzel/gui/SlideBar.cpp \

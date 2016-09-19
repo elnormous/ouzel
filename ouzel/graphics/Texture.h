@@ -48,6 +48,7 @@ namespace ouzel
             struct Level
             {
                 Size2 size;
+                uint32_t pitch;
                 std::vector<uint8_t> data;
             };
 

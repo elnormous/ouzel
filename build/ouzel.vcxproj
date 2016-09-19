@@ -86,6 +86,7 @@
     <ClCompile Include="..\ouzel\gui\Menu.cpp" />
     <ClCompile Include="..\ouzel\gui\Popup.cpp" />
     <ClCompile Include="..\ouzel\gui\RadioButton.cpp" />
+    <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp" />
     <ClCompile Include="..\ouzel\gui\ScrollArea.cpp" />
     <ClCompile Include="..\ouzel\gui\ScrollBar.cpp" />
     <ClCompile Include="..\ouzel\gui\SlideBar.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="..\ouzel\gui\Menu.h" />
     <ClInclude Include="..\ouzel\gui\Popup.h" />
     <ClInclude Include="..\ouzel\gui\RadioButton.h" />
+    <ClInclude Include="..\ouzel\gui\RadioButtonGroup.h" />
     <ClInclude Include="..\ouzel\gui\ScrollArea.h" />
     <ClInclude Include="..\ouzel\gui\ScrollBar.h" />
     <ClInclude Include="..\ouzel\gui\SlideBar.h" />
