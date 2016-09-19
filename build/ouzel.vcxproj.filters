@@ -304,6 +304,9 @@
     <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -633,6 +636,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h">
       <Filter>audio\xaudio2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\gui\RadioButtonGroup.h">
+      <Filter>gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
