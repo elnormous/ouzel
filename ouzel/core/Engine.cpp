@@ -30,7 +30,7 @@
 #include "graphics/linux/RendererOGLLinux.h"
 #include "input/linux/InputLinux.h"
 #elif OUZEL_PLATFORM_WINDOWS
-#include "win/WindowWin.h"
+#include "windows/WindowWin.h"
 #elif OUZEL_PLATFORM_RASPBIAN
 #include "rpi/WindowRPI.h"
 #include "graphics/rpi/RendererOGLRPI.h"
@@ -69,7 +69,7 @@
 #include "audio/apple/AudioALApple.h"
 #include "input/apple/InputApple.h"
 #elif OUZEL_PLATFORM_WINDOWS
-#include "input/win/InputWin.h"
+#include "input/windows/InputWin.h"
 #endif
 
 #ifdef OPENAL

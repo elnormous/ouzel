@@ -17,7 +17,7 @@
 #include "scene/Camera.h"
 #include "core/Cache.h"
 #include "BlendStateD3D11.h"
-#include "core/win/WindowWin.h"
+#include "core/windows/WindowWin.h"
 #include "stb_image_write.h"
 
 using namespace ouzel;
