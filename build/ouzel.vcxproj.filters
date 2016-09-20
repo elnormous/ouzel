@@ -250,21 +250,6 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\VertexBufferD3D11.cpp">
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\win\GamepadWin.cpp">
-      <Filter>input\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\input\win\InputWin.cpp">
-      <Filter>input\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\core\win\ApplicationWin.cpp">
-      <Filter>core\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\core\win\main.cpp">
-      <Filter>core\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\core\win\WindowWin.cpp">
-      <Filter>core\win</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp">
       <Filter>audio\empty</Filter>
     </ClCompile>
@@ -306,6 +291,21 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp">
       <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\windows\ApplicationWin.cpp">
+      <Filter>core\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\windows\main.cpp">
+      <Filter>core\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\windows\WindowWin.cpp">
+      <Filter>core\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\windows\GamepadWin.cpp">
+      <Filter>input\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\windows\InputWin.cpp">
+      <Filter>input\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -589,18 +589,6 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\VertexBufferD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\win\GamepadWin.h">
-      <Filter>input\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\input\win\InputWin.h">
-      <Filter>input\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\core\win\ApplicationWin.h">
-      <Filter>core\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\core\win\WindowWin.h">
-      <Filter>core\win</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h">
       <Filter>audio\empty</Filter>
     </ClInclude>
@@ -639,6 +627,18 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\RadioButtonGroup.h">
       <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\windows\ApplicationWin.h">
+      <Filter>core\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\windows\WindowWin.h">
+      <Filter>core\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\windows\GamepadWin.h">
+      <Filter>input\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\windows\InputWin.h">
+      <Filter>input\windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -684,17 +684,17 @@
     <Filter Include="audio\xaudio2">
       <UniqueIdentifier>{624c4758-686f-4ec5-b816-aa529f335d08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="input\win">
-      <UniqueIdentifier>{2a295899-8a84-4406-9935-36b4c3e6bc66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core\win">
-      <UniqueIdentifier>{98efb4ac-70c9-4096-b891-b8b516ee6062}</UniqueIdentifier>
-    </Filter>
     <Filter Include="audio\empty">
       <UniqueIdentifier>{aef7d0f6-d766-4a61-a514-62e5c0727217}</UniqueIdentifier>
     </Filter>
     <Filter Include="graphics\empty">
       <UniqueIdentifier>{5a3eb0b2-9e34-4ff6-b961-e72972456368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\windows">
+      <UniqueIdentifier>{98efb4ac-70c9-4096-b891-b8b516ee6062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input\windows">
+      <UniqueIdentifier>{2a295899-8a84-4406-9935-36b4c3e6bc66}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

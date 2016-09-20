@@ -44,9 +44,9 @@
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\UpdateCallback.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
-    <ClCompile Include="..\ouzel\core\win\ApplicationWin.cpp" />
-    <ClCompile Include="..\ouzel\core\win\main.cpp" />
-    <ClCompile Include="..\ouzel\core\win\WindowWin.cpp" />
+    <ClCompile Include="..\ouzel\core\windows\ApplicationWin.cpp" />
+    <ClCompile Include="..\ouzel\core\windows\main.cpp" />
+    <ClCompile Include="..\ouzel\core\windows\WindowWin.cpp" />
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
     <ClCompile Include="..\ouzel\events\EventHandler.cpp" />
     <ClCompile Include="..\ouzel\files\FileSystem.cpp" />
@@ -93,8 +93,8 @@
     <ClCompile Include="..\ouzel\gui\Widget.cpp" />
     <ClCompile Include="..\ouzel\input\Gamepad.cpp" />
     <ClCompile Include="..\ouzel\input\Input.cpp" />
-    <ClCompile Include="..\ouzel\input\win\GamepadWin.cpp" />
-    <ClCompile Include="..\ouzel\input\win\InputWin.cpp" />
+    <ClCompile Include="..\ouzel\input\windows\GamepadWin.cpp" />
+    <ClCompile Include="..\ouzel\input\windows\InputWin.cpp" />
     <ClCompile Include="..\ouzel\localization\Language.cpp" />
     <ClCompile Include="..\ouzel\localization\Localization.cpp" />
     <ClCompile Include="..\ouzel\math\AABB2.cpp" />
@@ -150,8 +150,8 @@
     <ClInclude Include="..\ouzel\core\Settings.h" />
     <ClInclude Include="..\ouzel\core\UpdateCallback.h" />
     <ClInclude Include="..\ouzel\core\Window.h" />
-    <ClInclude Include="..\ouzel\core\win\ApplicationWin.h" />
-    <ClInclude Include="..\ouzel\core\win\WindowWin.h" />
+    <ClInclude Include="..\ouzel\core\windows\ApplicationWin.h" />
+    <ClInclude Include="..\ouzel\core\windows\WindowWin.h" />
     <ClInclude Include="..\ouzel\events\Event.h" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.h" />
     <ClInclude Include="..\ouzel\events\EventHandler.h" />
@@ -203,8 +203,8 @@
     <ClInclude Include="..\ouzel\gui\Widget.h" />
     <ClInclude Include="..\ouzel\input\Gamepad.h" />
     <ClInclude Include="..\ouzel\input\Input.h" />
-    <ClInclude Include="..\ouzel\input\win\GamepadWin.h" />
-    <ClInclude Include="..\ouzel\input\win\InputWin.h" />
+    <ClInclude Include="..\ouzel\input\windows\GamepadWin.h" />
+    <ClInclude Include="..\ouzel\input\windows\InputWin.h" />
     <ClInclude Include="..\ouzel\localization\Language.h" />
     <ClInclude Include="..\ouzel\localization\Localization.h" />
     <ClInclude Include="..\ouzel\math\AABB2.h" />
