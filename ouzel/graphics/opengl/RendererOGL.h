@@ -30,14 +30,14 @@
     #include <GL/gl.h>
     #include <GL/glx.h>
     #include <GL/glext.h>
-#elif OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
     #define GL_GLEXT_PROTOTYPES 1
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
     #include <EGL/egl.h>
 #endif
 
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
 extern PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
 extern PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
 extern PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES;
@@ -203,7 +203,7 @@ namespace ouzel
                 {
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                     glBindVertexArrayOES(vertexArrayId);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
                     if (bindVertexArrayOES) bindVertexArrayOES(vertexArrayId);
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
                     glBindVertexArray(vertexArrayId);

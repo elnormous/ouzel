@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "CompileConfig.h"
 #include "Cache.h"
+#include "Window.h"
 #include "localization/Localization.h"
 #include "utils/Utils.h"
 #include "graphics/Renderer.h"
@@ -188,6 +189,8 @@ namespace ouzel
         window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif OUZEL_PLATFORM_RASPBIAN
         window.reset(new WindowRPI(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#else
+        window.reset(new Window(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #endif
 
         eventDispatcher.reset(new EventDispatcher());

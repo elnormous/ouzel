@@ -83,7 +83,7 @@ namespace ouzel
                 {
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                     glGenVertexArraysOES(1, &vertexArrayId);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
                     if (genVertexArraysOES) genVertexArraysOES(1, &vertexArrayId);
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
                     glGenVertexArrays(1, &vertexArrayId);

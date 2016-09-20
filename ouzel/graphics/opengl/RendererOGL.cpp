@@ -43,7 +43,7 @@
 #endif
 #endif
 
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
 PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES = nullptr;
 PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES = nullptr;
 PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES = nullptr;
@@ -68,7 +68,7 @@ namespace ouzel
         {
             msaaRenderBufferId = 0;
 
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
             genVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
             bindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
             deleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
@@ -1002,7 +1002,7 @@ namespace ouzel
                         unbindVertexArray(deleteResource.first);
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                         glDeleteVertexArraysOES(1, &deleteResource.first);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
                         if (deleteVertexArraysOES) deleteVertexArraysOES(1, &deleteResource.first);
 #else
                         glDeleteVertexArrays(1, &deleteResource.first);

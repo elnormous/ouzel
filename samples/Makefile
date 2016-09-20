@@ -42,7 +42,11 @@ SOURCES=AnimationsSample.cpp \
 	SpritesSample.cpp \
 	RTSample.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
+ifeq ($(platform),emscripten)
+EXECUTABLE=samples.html
+else
 EXECUTABLE=samples
+endif
 
 all: $(SOURCES) $(EXECUTABLE)
 
