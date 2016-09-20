@@ -15,8 +15,8 @@ ifeq ($(platform),emscripten)
 CC=emcc
 CXX=em++
 endif
-CXXFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.h
-LDFLAGS=-L. -louzel
+CXXFLAGS=-c -std=c++11 -Wall -O2 -I../ouzel -Winvalid-pch -include linux/Prefix.h
+LDFLAGS=-L. -O2 -louzel
 ifeq ($(platform),raspbian)
 LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread
 else ifeq ($(platform),linux)

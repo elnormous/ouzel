@@ -16,7 +16,8 @@ CC=emcc
 CXX=em++
 AR=emar
 endif
-CXXFLAGS=-c -std=c++11 -Wall -I../ouzel -I../external/stb -I../external/rapidjson/include -I../external/utfcpp/source
+CXXFLAGS=-c -std=c++11 -Wall -O2 -I../ouzel -I../external/stb -I../external/rapidjson/include -I../external/utfcpp/source
+LDFLAGS=-O2
 SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Ease.cpp \
 	../ouzel/animators/Fade.cpp \
@@ -147,6 +148,9 @@ SOURCES+=../ouzel/audio/apple/AudioALApple.mm \
 	../ouzel/graphics/metal/ShaderMetal.mm \
 	../ouzel/graphics/metal/TextureMetal.mm \
 	../ouzel/graphics/metal/VertexBufferMetal.mm
+else ifeq ($(platform),emscripten)
+SOURCES+=../ouzel/core/emscripten/ApplicationEm.cpp \
+	../ouzel/core/emscripten/main.cpp
 endif
 TMP=$(SOURCES:.cpp=.o)
 OBJECTS=$(TMP:.mm=.o)
