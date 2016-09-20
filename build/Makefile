@@ -153,7 +153,7 @@ debug: CXXFLAGS+=-DDEBUG -g
 debug: $(SOURCES) $(LIBRARY)
 
 $(LIBRARY): $(OBJECTS)
-	ar -r -s $@ $^
+	$(AR) -r -s $@ $^
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
