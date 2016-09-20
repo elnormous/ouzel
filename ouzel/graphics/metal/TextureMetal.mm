@@ -75,12 +75,11 @@ namespace ouzel
 
                     for (size_t level = 0; level < uploadData.levels.size(); ++level)
                     {
-                        NSUInteger bytesPerRow = static_cast<NSUInteger>(uploadData.levels[level].size.width) * 4;
                         [texture replaceRegion:MTLRegionMake2D(0, 0,
                                                                static_cast<NSUInteger>(uploadData.levels[level].size.width),
                                                                static_cast<NSUInteger>(uploadData.levels[level].size.height))
                                    mipmapLevel:level withBytes:uploadData.levels[level].data.data()
-                                   bytesPerRow:bytesPerRow];
+                                   bytesPerRow:static_cast<NSUInteger>(uploadData.levels[level].pitch)];
                     }
                 }
 
