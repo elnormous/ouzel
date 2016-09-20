@@ -11,6 +11,10 @@ ifndef platform
 		endif
 	endif
 endif
+ifeq ($(platform),emscripten)
+CC=emcc
+CXX=em++
+endif
 CXXFLAGS=-c -std=c++11 -Wall -I../ouzel -I../external/stb -I../external/rapidjson/include -I../external/utfcpp/source
 SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Ease.cpp \

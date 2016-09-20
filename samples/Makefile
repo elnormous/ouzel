@@ -11,6 +11,10 @@ ifndef platform
 		endif
 	endif
 endif
+ifeq ($(platform),emscripten)
+CC=emcc
+CXX=em++
+endif
 CXXFLAGS=-c -std=c++11 -Wall -I../ouzel -Winvalid-pch -include linux/Prefix.h
 LDFLAGS=-L. -louzel
 ifeq ($(platform),raspbian)
