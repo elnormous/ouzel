@@ -14,7 +14,7 @@
     #include <windows.h>
     #include <Shlobj.h>
     #include <Shlwapi.h>
-#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
     #include <unistd.h>
     #include <pwd.h>
 #endif
@@ -160,7 +160,7 @@ namespace ouzel
         OUZEL_UNUSED(developer);
         OUZEL_UNUSED(app);
         //TODO: implement
-#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
         OUZEL_UNUSED(developer);
         OUZEL_UNUSED(app);
         //TODO: implement
