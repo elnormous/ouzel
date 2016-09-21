@@ -20,6 +20,7 @@ namespace ouzel
         bool resizable = false;
         bool fullscreen = false;
         bool verticalSync = true;
+        graphics::Renderer::PixelFormat backBufferFormat = graphics::Renderer::PixelFormat::DEFAULT;
         std::string title = "ouzel";
     };
 }

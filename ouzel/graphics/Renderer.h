@@ -70,6 +70,12 @@ namespace ouzel
                 TRIANGLE_STRIP
             };
 
+            enum class PixelFormat
+            {
+                DEFAULT,
+                R8G8B8A8_UNORM
+            };
+
             virtual ~Renderer();
             virtual void free();
 
@@ -142,6 +148,7 @@ namespace ouzel
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
                               TextureFiltering newTextureFiltering,
+                              PixelFormat newBackBufferFormat,
                               bool newVerticalSync);
 
             virtual void setSize(const Size2& newSize);
@@ -151,6 +158,7 @@ namespace ouzel
             Size2 size;
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFiltering textureFiltering = TextureFiltering::NONE;
+            PixelFormat backBufferFormat;
 
             uint32_t currentFrame = 0;
             uint32_t frameBufferClearedFrame = 0;
