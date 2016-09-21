@@ -24,6 +24,7 @@ namespace ouzel
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
                               TextureFiltering newTextureFiltering,
+                              PixelFormat newBackBufferFormat,
                               bool newVerticalSync) override;
         };
     } // namespace graphics
