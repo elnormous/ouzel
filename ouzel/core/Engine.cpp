@@ -259,6 +259,7 @@ namespace ouzel
         if (!renderer->init(window,
                             settings.sampleCount,
                             settings.textureFiltering,
+                            settings.backBufferFormat,
                             settings.verticalSync))
         {
             return false;
