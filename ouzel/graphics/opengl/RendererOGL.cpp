@@ -115,6 +115,9 @@ namespace ouzel
                 return false;
             }
 
+#if OUZEL_PLATFORM_EMSCRIPTEN
+            log(LOG_LEVEL_INFO, "Using WebGL for rendering");
+#else
             //const GLubyte* deviceVendor = glGetString(GL_VENDOR);
             const GLubyte* deviceName = glGetString(GL_RENDERER);
 
@@ -126,6 +129,7 @@ namespace ouzel
             {
                 log(LOG_LEVEL_INFO, "Using %s for rendering", reinterpret_cast<const char*>(deviceName));
             }
+#endif
 
 #if OUZEL_SUPPORTS_OPENGLES
             npotTexturesSupported = (apiMajorVersion >= 3);
