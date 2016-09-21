@@ -64,4 +64,4 @@ $(EXECUTABLE): $(OBJECTS)
 .PHONY: clean
 clean:
 	$(MAKE) -f ../build/Makefile clean
-	rm -f $(EXECUTABLE) *.o
+	rm -f $(EXECUTABLE) *.o *.html *.html.mem *.js
