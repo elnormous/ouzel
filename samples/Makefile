@@ -57,7 +57,7 @@ debug: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
 	$(MAKE) -f ../build/Makefile platform=$(platform) $(target)
-	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
+	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@ --embed-file Resources
 
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $< -o $@
