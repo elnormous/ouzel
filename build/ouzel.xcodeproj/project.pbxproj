@@ -1043,6 +1043,8 @@
 		305B99C71C451962008589E1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 		306B0E5D1C567D05005C75C1 /* ShapeDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeDrawable.cpp; sourceTree = "<group>"; };
 		306B0E5E1C567D05005C75C1 /* ShapeDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeDrawable.h; sourceTree = "<group>"; };
+		3082C3461D94A8D90090FC9D /* PixelFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelFormat.h; sourceTree = "<group>"; };
+		3082C3471D94A90E0090FC9D /* TextureFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureFilter.h; sourceTree = "<group>"; };
 		309ACD261C70DA73005325D3 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
 		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
@@ -1274,6 +1276,7 @@
 				304A8E911C26ED32008B1151 /* MeshBuffer.h */,
 				30547E351CB3D6570055EE79 /* metal */,
 				303B75131C288CCE00FEDE92 /* opengl */,
+				3082C3461D94A8D90090FC9D /* PixelFormat.h */,
 				304A8E3E1C237C70008B1151 /* Renderer.cpp */,
 				304A8E3F1C237C70008B1151 /* Renderer.h */,
 				304A8E881C2486C6008B1151 /* RenderTarget.cpp */,
@@ -1283,6 +1286,7 @@
 				304A8E431C237C70008B1151 /* Shader.h */,
 				304A8E461C237C70008B1151 /* Texture.cpp */,
 				304A8E471C237C70008B1151 /* Texture.h */,
+				3082C3471D94A90E0090FC9D /* TextureFilter.h */,
 				303820CA1D817E3800677CAB /* tvos */,
 				304A8EA01C270833008B1151 /* Vertex.cpp */,
 				304A8EA11C270833008B1151 /* Vertex.h */,

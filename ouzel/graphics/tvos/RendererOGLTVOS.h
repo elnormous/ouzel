@@ -33,7 +33,7 @@ namespace ouzel
         private:
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
-                              TextureFiltering newTextureFiltering,
+                              TextureFilter newTextureFilter,
                               bool newVerticalSync) override;
 
             virtual void setSize(const Size2& newSize) override;

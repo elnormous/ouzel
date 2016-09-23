@@ -20,6 +20,8 @@
 #include "graphics/Vertex.h"
 #include "graphics/Shader.h"
 #include "graphics/BlendState.h"
+#include "graphics/PixelFormat.h"
+#include "graphics/TextureFilter.h"
 
 namespace ouzel
 {
@@ -53,14 +55,6 @@ namespace ouzel
                 METAL
             };
 
-            enum class TextureFiltering
-            {
-                NONE,
-                LINEAR,
-                BILINEAR,
-                TRILINEAR
-            };
-
             enum class DrawMode
             {
                 POINT_LIST,
@@ -68,45 +62,6 @@ namespace ouzel
                 LINE_STRIP,
                 TRIANGLE_LIST,
                 TRIANGLE_STRIP
-            };
-
-            enum class PixelFormat
-            {
-                DEFAULT,
-                R8_UNORM,
-                R8_SNORM,
-                R8_UINT,
-                R8_SINT,
-                R16_UNORM,
-                R16_SNORM,
-                R16_UINT,
-                R16_SINT,
-                R16_FLOAT,
-                R32_UINT,
-                R32_SINT,
-                R32_FLOAT,
-                RG8_UNORM,
-                RG8_SNORM,
-                RG8_UINT,
-                RG8_SINT,
-                RGB8_UNORM,
-                RGB8_SNORM,
-                RGB8_UINT,
-                RGB8_SINT,
-                RGBA8_UNORM,
-                RGBA8_SNORM,
-                RGBA8_UINT,
-                RGBA8_SINT,
-                ABGR8_UNORM,
-                RGBA16_UNORM,
-                RGBA16_SNORM,
-                RGBA16_UINT,
-                RGBA16_SINT,
-                RGBA16_FLOAT,
-                RGBA32_UINT,
-                RGBA32_SINT,
-                RGBA32_FLOAT,
-                R5G5B5A1_UNORM
             };
 
             virtual ~Renderer();
@@ -124,7 +79,7 @@ namespace ouzel
 
             const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
-            TextureFiltering getTextureFiltering() const { return textureFiltering; }
+            TextureFilter getTextureFilter() const { return textureFilter; }
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
@@ -180,7 +135,7 @@ namespace ouzel
             Renderer(Driver pDriver);
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
-                              TextureFiltering newTextureFiltering,
+                              TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync);
 
@@ -190,7 +145,7 @@ namespace ouzel
             Driver driver;
             Size2 size;
             uint32_t sampleCount = 1; // MSAA sample count
-            TextureFiltering textureFiltering = TextureFiltering::NONE;
+            TextureFilter textureFilter = TextureFilter::NONE;
             PixelFormat backBufferFormat;
 
             uint32_t currentFrame = 0;

@@ -169,13 +169,13 @@ namespace ouzel
 
         bool RendererMetal::init(const WindowPtr& window,
                                  uint32_t newSampleCount,
-                                 TextureFiltering newTextureFiltering,
+                                 TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (!Renderer::init(window, newSampleCount, newTextureFiltering, newBackBufferFormat, newVerticalSync))
+            if (!Renderer::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
             {
                 return false;
             }
@@ -231,21 +231,21 @@ namespace ouzel
 
             MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
-            switch (textureFiltering)
+            switch (textureFilter)
             {
-                case TextureFiltering::NONE:
+                case TextureFilter::NONE:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                     break;
-                case TextureFiltering::LINEAR:
+                case TextureFilter::LINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                     break;
-                case TextureFiltering::BILINEAR:
+                case TextureFilter::BILINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
                     break;
-                case TextureFiltering::TRILINEAR:
+                case TextureFilter::TRILINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
                     break;

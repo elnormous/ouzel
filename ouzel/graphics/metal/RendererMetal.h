@@ -76,7 +76,7 @@ namespace ouzel
 
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
-                              TextureFiltering newTextureFiltering,
+                              TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync) override;
             bool update();
