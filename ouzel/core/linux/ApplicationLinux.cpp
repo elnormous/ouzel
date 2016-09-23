@@ -324,6 +324,9 @@ namespace ouzel
                             case 3:
                                 button = input::MouseButton::MIDDLE;
                                 break;
+                            default:
+                                button = input::MouseButton::NONE;
+                                break;
                             }
 
                             if (event.type == ButtonPress)
