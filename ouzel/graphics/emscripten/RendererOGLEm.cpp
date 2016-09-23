@@ -13,12 +13,16 @@ namespace ouzel
     {
         RendererOGLEm::~RendererOGLEm()
         {
-
+            emscripten_webgl_destroy_context(webGLContext);
         }
 
         void RendererOGLEm::free()
         {
-
+            if (webGLContext)
+            {
+                emscripten_webgl_destroy_context(webGLContext);
+                webGLContext = 0;
+            }
         }
 
         bool RendererOGLEm::init(const WindowPtr& window,
@@ -34,8 +38,6 @@ namespace ouzel
 
             EmscriptenWebGLContextAttributes attrs;
             emscripten_webgl_init_context_attributes(&attrs);
-            attrs.majorVersion = 2;
-            attrs.minorVersion = 0;
 
             webGLContext = emscripten_webgl_create_context(0, &attrs);
 
