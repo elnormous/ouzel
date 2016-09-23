@@ -17,7 +17,7 @@ void Samples::begin(const std::string& sample)
 {
     sharedEngine->getInput()->startGamepadDiscovery();
 
-#if OUZEL_PLATFORM_LINUX
+#if OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
     sharedApplication->getFileSystem()->addResourcePath("Resources");
 #elif OUZEL_PLATFORM_WINDOWS
     sharedApplication->getFileSystem()->addResourcePath("Resources");
