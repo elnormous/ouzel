@@ -33,7 +33,7 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework OpenAL \
 	-framework OpenGL
 else ifeq ($(platform),emscripten)
-	LDFLAGS+=--embed-file Resources
+	LDFLAGS+=--embed-file Resources -s TOTAL_MEMORY=33554432
 endif
 SOURCES=AnimationsSample.cpp \
 	main.cpp \
