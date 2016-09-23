@@ -1,9 +1,24 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <emscripten.h>
 #include "ApplicationEm.h"
 #include "core/Engine.h"
 #include "utils/Utils.h"
+
+static void loop(void)
+{
+    emscripten_sleep(1);
+
+    if (ouzel::sharedEngine->isActive())
+    {
+        static_cast<ouzel::ApplicationEm*>(ouzel::sharedApplication)->step();
+    }
+    else
+    {
+        emscripten_cancel_main_loop();
+    }
+}
 
 namespace ouzel
 {
@@ -23,18 +38,20 @@ namespace ouzel
 
         sharedEngine->begin();
 
-        while (sharedEngine->isActive())
-        {
-            executeAll();
-
-            if (!sharedEngine->draw())
-            {
-                sharedEngine->exit();
-            }
-        }
+        emscripten_set_main_loop(loop, 1, 1);
 
         sharedEngine->end();
 
         return 0;
+    }
+
+    void ApplicationEm::step()
+    {
+        executeAll();
+
+        if (!sharedEngine->draw())
+        {
+            sharedEngine->exit();
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace ouzel
         virtual ~ApplicationEm() {}
 
         virtual int run() override;
+
+        void step();
     };
 }
