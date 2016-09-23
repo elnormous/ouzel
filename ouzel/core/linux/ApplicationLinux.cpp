@@ -113,17 +113,17 @@ namespace ouzel
             case XK_ISO_Level3_Shift: return input::KeyboardKey::RWIN;
             case XK_Menu: return input::KeyboardKey::LWIN;
             case XK_space: return input::KeyboardKey::SPACE;
-            case XK_exclam: return input::KeyboardKey::NONE; //?
-            case XK_quotedbl: return input::KeyboardKey::NONE; //?
+            case XK_exclam: return input::KeyboardKey::KEY_1;
+            case XK_quotedbl: return input::KeyboardKey::KEY_2;
             case XK_section: return input::KeyboardKey::NONE; //?
             case XK_numbersign: return input::KeyboardKey::SLASH;
-            case XK_dollar: return input::KeyboardKey::NONE; //?
-            case XK_percent: return input::KeyboardKey::NONE; //?
-            case XK_ampersand: return input::KeyboardKey::NONE; //?
+            case XK_dollar: return input::KeyboardKey::KEY_4;
+            case XK_percent: return input::KeyboardKey::KEY_5;
+            case XK_ampersand: return input::KeyboardKey::KEY_7;
             case XK_apostrophe: return input::KeyboardKey::QUOTE;
-            case XK_parenleft: return input::KeyboardKey::NONE; //?
-            case XK_parenright: return input::KeyboardKey::NONE; //?
-            case XK_asterisk: return input::KeyboardKey::NONE; //?
+            case XK_parenleft: return input::KeyboardKey::KEY_9;
+            case XK_parenright: return input::KeyboardKey::KEY_0;
+            case XK_asterisk: return input::KeyboardKey::KEY_8;
             case XK_plus: return input::KeyboardKey::PLUS;
             case XK_comma: return input::KeyboardKey::COMMA;
             case XK_minus: return input::KeyboardKey::MINUS;
@@ -139,12 +139,12 @@ namespace ouzel
             case XK_7: return input::KeyboardKey::KEY_7;
             case XK_8: return input::KeyboardKey::KEY_8;
             case XK_9: return input::KeyboardKey::KEY_9;
-            case XK_colon: return input::KeyboardKey::NONE; //?
+            case XK_colon: return input::KeyboardKey::SEMICOLON;
             case XK_semicolon: return input::KeyboardKey::SEMICOLON;
-            case XK_less: return input::KeyboardKey::LESS;
+            case XK_less: return input::KeyboardKey::COMMA;
             case XK_equal: return input::KeyboardKey::PLUS;
-            case XK_greater: return input::KeyboardKey::NONE; //?
-            case XK_question: return input::KeyboardKey::NONE; //?
+            case XK_greater: return input::KeyboardKey::PERIOD;
+            case XK_question: return input::KeyboardKey::SLASH;
             case XK_at: return input::KeyboardKey::KEY_2; //?
             case XK_mu: return input::KeyboardKey::NONE; //?
             case XK_EuroSign: return input::KeyboardKey::NONE; //?
@@ -180,7 +180,7 @@ namespace ouzel
             case XK_asciicircum: return input::KeyboardKey::BACKSLASH;
             case XK_dead_circumflex: return input::KeyboardKey::BACKSLASH;
             case XK_degree: return input::KeyboardKey::NONE; //?
-            case XK_underscore: return input::KeyboardKey::MINUS; //?
+            case XK_underscore: return input::KeyboardKey::MINUS;
             case XK_grave: return input::KeyboardKey::GRAVE;
             case XK_dead_grave: return input::KeyboardKey::GRAVE;
             case XK_acute: return input::KeyboardKey::BRACKET_RIGHT;
