@@ -181,10 +181,12 @@
     <ClInclude Include="..\ouzel\graphics\Image.h" />
     <ClInclude Include="..\ouzel\graphics\IndexBuffer.h" />
     <ClInclude Include="..\ouzel\graphics\MeshBuffer.h" />
+    <ClInclude Include="..\ouzel\graphics\PixelFormat.h" />
     <ClInclude Include="..\ouzel\graphics\Renderer.h" />
     <ClInclude Include="..\ouzel\graphics\RenderTarget.h" />
     <ClInclude Include="..\ouzel\graphics\Shader.h" />
     <ClInclude Include="..\ouzel\graphics\Texture.h" />
+    <ClInclude Include="..\ouzel\graphics\TextureFilter.h" />
     <ClInclude Include="..\ouzel\graphics\Vertex.h" />
     <ClInclude Include="..\ouzel\graphics\VertexBuffer.h" />
     <ClInclude Include="..\ouzel\gui\BMFont.h" />
