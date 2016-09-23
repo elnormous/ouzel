@@ -565,6 +565,8 @@ namespace ouzel
                                     case BTN_MIDDLE:
                                         button = input::MouseButton::MIDDLE;
                                         break;
+                                    default:
+                                        button = input::MouseButton::NONE;
                                     }
 
                                     if (event->value == 1)
