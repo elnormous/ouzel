@@ -35,6 +35,8 @@
 #include "rpi/WindowRPI.h"
 #include "graphics/rpi/RendererOGLRPI.h"
 #include "input/rpi/InputRPI.h"
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+#include "graphics/emscripten/RendererOGLEm.h"
 #endif
 
 #include "graphics/empty/RendererEmpty.h"
@@ -232,6 +234,8 @@ namespace ouzel
                 renderer.reset(new graphics::RendererOGLLinux());
     #elif OUZEL_PLATFORM_RASPBIAN
                 renderer.reset(new graphics::RendererOGLRPI());
+    #elif OUZEL_PLATFORM_EMSCRIPTEN
+                renderer.reset(new graphics::RendererOGLEm());
     #else
                 renderer.reset(new graphics::RendererOGL());
     #endif

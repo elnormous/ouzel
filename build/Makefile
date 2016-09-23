@@ -149,7 +149,8 @@ SOURCES+=../ouzel/audio/apple/AudioALApple.mm \
 	../ouzel/graphics/metal/VertexBufferMetal.mm
 else ifeq ($(platform),emscripten)
 SOURCES+=../ouzel/core/emscripten/ApplicationEm.cpp \
-	../ouzel/core/emscripten/main.cpp
+	../ouzel/core/emscripten/main.cpp \
+	../ouzel/graphics/emscripten/RendererOGLEm.cpp
 endif
 TMP=$(SOURCES:.cpp=.o)
 OBJECTS=$(TMP:.mm=.o)

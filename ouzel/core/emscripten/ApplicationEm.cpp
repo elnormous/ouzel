@@ -8,8 +8,6 @@
 
 static void loop(void)
 {
-    emscripten_sleep(1);
-
     if (ouzel::sharedEngine->isActive())
     {
         static_cast<ouzel::ApplicationEm*>(ouzel::sharedApplication)->step();
