@@ -4,16 +4,16 @@
 #include <bcm_host.h>
 #include <GLES2/gl2.h>
 
-#include "RendererOGLRPI.h"
+#include "RendererOGLRasp.h"
 #include "core/Engine.h"
-#include "core/rpi/WindowRPI.h"
+#include "core/raspbian/WindowRasp.h"
 #include "utils/Utils.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RendererOGLRPI::~RendererOGLRPI()
+        RendererOGLRasp::~RendererOGLRasp()
         {
             if (surface)
             {
@@ -42,7 +42,7 @@ namespace ouzel
             bcm_host_deinit();
         }
 
-        void RendererOGLRPI::free()
+        void RendererOGLRasp::free()
         {
             if (surface)
             {
@@ -72,11 +72,11 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLRPI::init(const WindowPtr& window,
-                                  uint32_t newSampleCount,
-                                  TextureFilter newTextureFilter,
-                                  PixelFormat newBackBufferFormat,
-                                  bool newVerticalSync)
+        bool RendererOGLRasp::init(const WindowPtr& window,
+                                   uint32_t newSampleCount,
+                                   TextureFilter newTextureFilter,
+                                   PixelFormat newBackBufferFormat,
+                                   bool newVerticalSync)
         {
             free();
 
@@ -197,7 +197,7 @@ namespace ouzel
             return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
-        bool RendererOGLRPI::present()
+        bool RendererOGLRasp::present()
         {
             if (!RendererOGL::present())
             {

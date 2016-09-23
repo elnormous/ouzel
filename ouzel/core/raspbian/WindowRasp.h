@@ -7,18 +7,18 @@
 
 namespace ouzel
 {
-    class WindowRPI: public Window
+    class WindowRasp: public Window
     {
         friend Engine;
     public:
-        virtual ~WindowRPI();
+        virtual ~WindowRasp();
 
         virtual void setSize(const Size2& newSize) override;
         virtual void setFullscreen(bool newFullscreen) override;
         virtual void setTitle(const std::string& newTitle) override;
 
     protected:
-        WindowRPI(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
+        WindowRasp(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
         virtual bool init() override;
     };
 }

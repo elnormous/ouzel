@@ -109,12 +109,12 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/scene/TextDrawable.cpp \
 	../ouzel/utils/Utils.cpp
 ifeq ($(platform),raspbian)
-SOURCES+=../ouzel/core/rpi/ApplicationRPI.cpp \
-	../ouzel/core/rpi/main.cpp \
-	../ouzel/core/rpi/WindowRPI.cpp \
-	../ouzel/graphics/rpi/RendererOGLRPI.cpp \
-	../ouzel/input/rpi/GamepadRPI.cpp \
-	../ouzel/input/rpi/InputRPI.cpp
+SOURCES+=../ouzel/core/raspbian/ApplicationRasp.cpp \
+	../ouzel/core/raspbian/main.cpp \
+	../ouzel/core/raspbian/WindowRasp.cpp \
+	../ouzel/graphics/raspbian/RendererOGLRasp.cpp \
+	../ouzel/input/raspbian/GamepadRasp.cpp \
+	../ouzel/input/raspbian/InputRasp.cpp
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
 SOURCES+=../ouzel/core/linux/ApplicationLinux.cpp \
@@ -173,7 +173,7 @@ clean:
 	../ouzel/core/apple/*.o \
 	../ouzel/core/linux/*.o \
 	../ouzel/core/macos/*.o \
-	../ouzel/core/rpi/*.o \
+	../ouzel/core/raspbian/*.o \
 	../ouzel/events/*.o \
 	../ouzel/files/*.o \
 	../ouzel/graphics/*.o \
@@ -181,13 +181,13 @@ clean:
 	../ouzel/graphics/macos/*.o \
 	../ouzel/graphics/metal/*.o \
 	../ouzel/graphics/opengl/*.o \
-	../ouzel/graphics/rpi/*.o \
+	../ouzel/graphics/raspbian/*.o \
 	../ouzel/graphics/empty/*.o \
 	../ouzel/gui/*.o \
 	../ouzel/input/*.o \
 	../ouzel/input/apple/*.o \
 	../ouzel/input/linux/*.o \
-	../ouzel/input/rpi/*.o \
+	../ouzel/input/raspbian/*.o \
 	../ouzel/localization/*.o \
 	../ouzel/math/*.o \
 	../ouzel/scene/*.o \

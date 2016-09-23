@@ -9,13 +9,13 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadRPI: public Gamepad
+        class GamepadRasp: public Gamepad
         {
         public:
-            virtual ~GamepadRPI();
+            virtual ~GamepadRasp();
 
         protected:
-            GamepadRPI();
+            GamepadRasp();
         };
     } // namespace input
 } // namespace ouzel

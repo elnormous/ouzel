@@ -12,7 +12,7 @@ namespace ouzel
 
     namespace input
     {
-        struct InputDeviceRPI
+        struct InputDeviceRasp
         {
             enum DeviceClass
             {
@@ -26,19 +26,19 @@ namespace ouzel
             int fd = 0;
         };
 
-        class InputRPI: public Input
+        class InputRasp: public Input
         {
             friend Engine;
         public:
-            virtual ~InputRPI();
+            virtual ~InputRasp();
 
             void update();
 
         protected:
-            InputRPI();
+            InputRasp();
 
             int maxFd = 0;
-            std::vector<InputDeviceRPI> inputDevices;
+            std::vector<InputDeviceRasp> inputDevices;
         };
     } // namespace input
 } // namespace ouzel
