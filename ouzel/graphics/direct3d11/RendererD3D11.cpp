@@ -129,13 +129,13 @@ namespace ouzel
 
         bool RendererD3D11::init(const WindowPtr& window,
                                  uint32_t newSampleCount,
-                                 TextureFiltering newTextureFiltering,
+                                 TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (!Renderer::init(window, newSampleCount, newTextureFiltering, newBackBufferFormat, newVerticalSync))
+            if (!Renderer::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
             {
                 return false;
             }
@@ -265,18 +265,18 @@ namespace ouzel
 
             // Sampler state
             D3D11_SAMPLER_DESC samplerStateDesc;
-            switch (textureFiltering)
+            switch (textureFilter)
             {
-                case Renderer::TextureFiltering::NONE:
+                case TextureFilter::NONE:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
                     break;
-                case Renderer::TextureFiltering::LINEAR:
+                case TextureFilter::LINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
                     break;
-                case Renderer::TextureFiltering::BILINEAR:
+                case TextureFilter::BILINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
                     break;
-                case Renderer::TextureFiltering::TRILINEAR:
+                case TextureFilter::TRILINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
                     break;
             }
