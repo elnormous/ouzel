@@ -47,6 +47,13 @@ namespace ouzel
                 return false;
             }
 
+            EMSCRIPTEN_RESULT res = emscripten_webgl_make_context_current(webGLContext);
+
+            if (res != EMSCRIPTEN_RESULT_SUCCESS)
+            {
+                return false;
+            }
+
             return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
