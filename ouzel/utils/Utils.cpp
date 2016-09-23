@@ -61,7 +61,15 @@ namespace ouzel
             StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
             OutputDebugString(szBuffer);
 #elif OUZEL_PLATFORM_ANDROID
-            __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", TEMP_BUFFER);
+            int prio;
+            switch (level)
+            {
+                case LOG_LEVEL_ERROR: prio = ANDROID_LOG_ERROR; break;
+                case LOG_LEVEL_WARNING: prio = ANDROID_LOG_WARN; break;
+                case LOG_LEVEL_INFO: prio = ANDROID_LOG_INFO; break;
+                case LOG_LEVEL_VERBOSE: prio = ANDROID_LOG_DEBUG; break;
+            }
+            __android_log_print(0, "Ouzel", "%s", TEMP_BUFFER);
 #endif
         }
     }
