@@ -22,12 +22,12 @@ namespace ouzel
 
             void update();
 
-            virtual void setCursorVisible(bool visible) override;
-            virtual bool isCursorVisible() const override;
-
             static KeyboardKey convertKeyCode(WPARAM wParam);
             static uint32_t getKeyboardModifiers(WPARAM wParam);
             static uint32_t getMouseModifiers(WPARAM wParam);
+
+            virtual void setCursorVisible(bool visible) override;
+            virtual bool isCursorVisible() const override;
 
         protected:
             InputWin();

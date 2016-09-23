@@ -150,6 +150,7 @@ SOURCES+=../ouzel/audio/apple/AudioALApple.mm \
 else ifeq ($(platform),emscripten)
 SOURCES+=../ouzel/core/emscripten/ApplicationEm.cpp \
 	../ouzel/core/emscripten/main.cpp \
+	../ouzel/core/emscripten/WindowEm.cpp \
 	../ouzel/graphics/emscripten/RendererOGLEm.cpp \
 	../ouzel/input/emscripten/InputEm.cpp
 endif

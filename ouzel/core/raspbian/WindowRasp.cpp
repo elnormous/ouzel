@@ -2,10 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowRasp.h"
-#include "core/Engine.h"
-#include "graphics/Renderer.h"
-#include "graphics/opengl/RendererOGL.h"
-#include "utils/Utils.h"
 
 namespace ouzel
 {
@@ -16,25 +12,5 @@ namespace ouzel
 
     WindowRasp::~WindowRasp()
     {
-    }
-
-    bool WindowRasp::init()
-    {
-        return Window::init();
-    }
-
-    void WindowRasp::setSize(const Size2& newSize)
-    {
-        Window::setSize(newSize);
-    }
-
-    void WindowRasp::setFullscreen(bool newFullscreen)
-    {
-        Window::setFullscreen(newFullscreen);
-    }
-
-    void WindowRasp::setTitle(const std::string& newTitle)
-    {
-        Window::setTitle(newTitle);
     }
 }

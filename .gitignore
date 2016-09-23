@@ -28,6 +28,5 @@ samples/sprite/win/ipch/
 samples/sprite/win/sprite.sdf
 samples/sprite/win/x64/
 samples/samples
-samples/samples.html
 samples/samples.js
-samples/samples.html.mem
+samples/samples.js.mem

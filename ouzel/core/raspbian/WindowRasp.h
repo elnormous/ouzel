@@ -13,12 +13,7 @@ namespace ouzel
     public:
         virtual ~WindowRasp();
 
-        virtual void setSize(const Size2& newSize) override;
-        virtual void setFullscreen(bool newFullscreen) override;
-        virtual void setTitle(const std::string& newTitle) override;
-
     protected:
         WindowRasp(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
-        virtual bool init() override;
     };
 }

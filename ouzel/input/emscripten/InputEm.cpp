@@ -14,14 +14,14 @@ EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, vo
         case EMSCRIPTEN_EVENT_KEYDOWN:
             ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
                                                      ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
-            break;
+            return true;
         case EMSCRIPTEN_EVENT_KEYUP:
             ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
                                                    ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
-            break;
+            return true;
     }
 
-    return 1;
+    return false;
 }
 
 EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData)
@@ -55,19 +55,19 @@ EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, v
             ouzel::sharedEngine->getInput()->mouseDown(button,
                                                        ouzel::sharedEngine->getRenderer()->viewToScreenLocation(position),
                                                        ouzel::input::InputEm::getMouseModifiers(mouseEvent));
-            break;
+            return true;
         case EMSCRIPTEN_EVENT_MOUSEUP:
             ouzel::sharedEngine->getInput()->mouseUp(button,
                                                      ouzel::sharedEngine->getRenderer()->viewToScreenLocation(position),
                                                      ouzel::input::InputEm::getMouseModifiers(mouseEvent));
-            break;
+            return true;
         case EMSCRIPTEN_EVENT_MOUSEMOVE:
             ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getRenderer()->viewToScreenLocation(position),
                                                        ouzel::input::InputEm::getMouseModifiers(mouseEvent));
-        break;
+            return true;
     }   
 
-    return 1;
+    return false;
 }
 
 EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelEvent, void* userData)
@@ -80,16 +80,18 @@ EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelEvent, v
         ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
                                                      ouzel::sharedEngine->getRenderer()->viewToScreenLocation(position),
                                                      ouzel::input::InputEm::getMouseModifiers(&wheelEvent->mouse));
+
+        return true;
     }
 
-    return 1;
+    return false;
 }
 
 namespace ouzel
 {
     namespace input
     {
-        static std::map<std::string, KeyboardKey> keyMap {
+        static std::map<std::string, KeyboardKey> keyMap = {
             { "Backspace", KeyboardKey::BACKSPACE },
             { "Tab", KeyboardKey::TAB },
             { "Enter", KeyboardKey::RETURN },
@@ -247,6 +249,20 @@ namespace ouzel
             if (mouseEvent->metaKey) modifiers |= ouzel::COMMAND_DOWN;
 
             return modifiers;
+        }
+
+        void InputEm::setCursorVisible(bool visible)
+        {
+            if (!visible)
+            {
+                cursorVisible = visible;
+                emscripten_hide_mouse();
+            }
+        }
+
+        bool InputEm::isCursorVisible() const
+        {
+            return cursorVisible;
         }
     } // namespace input
 } // namespace ouzel

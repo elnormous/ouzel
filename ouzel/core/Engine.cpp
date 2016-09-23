@@ -36,6 +36,7 @@
 #include "graphics/raspbian/RendererOGLRasp.h"
 #include "input/raspbian/InputRasp.h"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
+#include "emscripten/WindowEm.h"
 #include "graphics/emscripten/RendererOGLEm.h"
 #include "input/emscripten/InputEm.h"
 #endif
@@ -192,6 +193,8 @@ namespace ouzel
         window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif OUZEL_PLATFORM_RASPBIAN
         window.reset(new WindowRasp(settings.size, settings.resizable, settings.fullscreen, settings.title));
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+        window.reset(new WindowEm(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #else
         window.reset(new Window(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #endif

@@ -46,7 +46,7 @@ SOURCES=AnimationsSample.cpp \
 	RTSample.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 ifeq ($(platform),emscripten)
-EXECUTABLE=samples.html
+EXECUTABLE=samples.js
 else
 EXECUTABLE=samples
 endif
@@ -67,4 +67,4 @@ $(EXECUTABLE): $(OBJECTS)
 .PHONY: clean
 clean:
 	$(MAKE) -f ../build/Makefile clean
-	rm -f $(EXECUTABLE) *.o *.html *.html.mem *.js
+	rm -f $(EXECUTABLE) *.html.mem *.js

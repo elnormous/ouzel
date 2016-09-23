@@ -24,8 +24,13 @@ namespace ouzel
             static uint32_t getKeyboardModifiers(const EmscriptenKeyboardEvent* keyboardEvent);
             static uint32_t getMouseModifiers(const EmscriptenMouseEvent* mouseEvent);
 
+            virtual void setCursorVisible(bool visible) override;
+            virtual bool isCursorVisible() const override;
+
         protected:
             InputEm();
+
+            bool cursorVisible = true;
         };
     } // namespace input
 } // namespace ouzel
