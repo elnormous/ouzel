@@ -640,6 +640,12 @@
     <ClInclude Include="..\ouzel\input\windows\InputWin.h">
       <Filter>input\windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\PixelFormat.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\TextureFilter.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">

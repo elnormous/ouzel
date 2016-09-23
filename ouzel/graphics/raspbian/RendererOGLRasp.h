@@ -13,11 +13,11 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererOGLRPI: public RendererOGL
+        class RendererOGLRasp: public RendererOGL
         {
             friend Engine;
         public:
-            virtual ~RendererOGLRPI();
+            virtual ~RendererOGLRasp();
             virtual void free() override;
 
             virtual bool present() override;

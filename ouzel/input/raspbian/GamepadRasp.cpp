@@ -1,17 +1,17 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "GamepadRPI.h"
+#include "GamepadRasp.h"
 
 namespace ouzel
 {
     namespace input
     {
-        GamepadRPI::GamepadRPI()
+        GamepadRasp::GamepadRasp()
         {
         }
 
-        GamepadRPI::~GamepadRPI()
+        GamepadRasp::~GamepadRasp()
         {
         }
     } // namespace input

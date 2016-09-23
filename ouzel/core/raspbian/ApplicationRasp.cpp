@@ -1,19 +1,19 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ApplicationRPI.h"
+#include "ApplicationRasp.h"
 #include "core/Engine.h"
-#include "input/rpi/InputRPI.h"
+#include "input/raspbian/InputRasp.h"
 #include "utils/Utils.h"
 
 namespace ouzel
 {
-    ApplicationRPI::ApplicationRPI(int pArgc, char* pArgv[]):
+    ApplicationRasp::ApplicationRasp(int pArgc, char* pArgv[]):
         Application(pArgc, pArgv)
     {
     }
 
-    int ApplicationRPI::run()
+    int ApplicationRasp::run()
     {
         ouzelMain(args);
 
@@ -22,7 +22,7 @@ namespace ouzel
             return 1;
         }
 
-        std::shared_ptr<input::InputRPI> input = std::static_pointer_cast<input::InputRPI>(sharedEngine->getInput());
+        std::shared_ptr<input::InputRasp> input = std::static_pointer_cast<input::InputRasp>(sharedEngine->getInput());
         sharedEngine->begin();
 
         while (sharedEngine->isActive())

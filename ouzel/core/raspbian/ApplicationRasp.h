@@ -7,11 +7,11 @@
 
 namespace ouzel
 {
-    class ApplicationRPI: public Application
+    class ApplicationRasp: public Application
     {
     public:
-        ApplicationRPI(int pArgc, char* pArgv[]);
-        virtual ~ApplicationRPI() {}
+        ApplicationRasp(int pArgc, char* pArgv[]);
+        virtual ~ApplicationRasp() {}
 
         virtual int run() override;
     };

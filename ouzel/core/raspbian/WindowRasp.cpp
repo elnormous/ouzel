@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "WindowRPI.h"
+#include "WindowRasp.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "graphics/opengl/RendererOGL.h"
@@ -9,31 +9,31 @@
 
 namespace ouzel
 {
-    WindowRPI::WindowRPI(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
+    WindowRasp::WindowRasp(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
         Window(pSize, pResizable, pFullscreen, pTitle)
     {
     }
 
-    WindowRPI::~WindowRPI()
+    WindowRasp::~WindowRasp()
     {
     }
 
-    bool WindowRPI::init()
+    bool WindowRasp::init()
     {
         return Window::init();
     }
 
-    void WindowRPI::setSize(const Size2& newSize)
+    void WindowRasp::setSize(const Size2& newSize)
     {
         Window::setSize(newSize);
     }
 
-    void WindowRPI::setFullscreen(bool newFullscreen)
+    void WindowRasp::setFullscreen(bool newFullscreen)
     {
         Window::setFullscreen(newFullscreen);
     }
 
-    void WindowRPI::setTitle(const std::string& newTitle)
+    void WindowRasp::setTitle(const std::string& newTitle)
     {
         Window::setTitle(newTitle);
     }

@@ -32,9 +32,9 @@
 #elif OUZEL_PLATFORM_WINDOWS
 #include "windows/WindowWin.h"
 #elif OUZEL_PLATFORM_RASPBIAN
-#include "rpi/WindowRPI.h"
-#include "graphics/rpi/RendererOGLRPI.h"
-#include "input/rpi/InputRPI.h"
+#include "raspbian/WindowRasp.h"
+#include "graphics/raspbian/RendererOGLRasp.h"
+#include "input/raspbian/InputRasp.h"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
 #include "graphics/emscripten/RendererOGLEm.h"
 #endif
@@ -190,7 +190,7 @@ namespace ouzel
 #elif OUZEL_PLATFORM_WINDOWS
         window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif OUZEL_PLATFORM_RASPBIAN
-        window.reset(new WindowRPI(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new WindowRasp(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #else
         window.reset(new Window(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #endif
@@ -208,7 +208,7 @@ namespace ouzel
 #elif OUZEL_PLATFORM_WINDOWS
         input.reset(new input::InputWin());
 #elif OUZEL_PLATFORM_RASPBIAN
-        input.reset(new input::InputRPI());
+        input.reset(new input::InputRasp());
 #else
         input.reset(new input::Input());
 #endif
@@ -233,7 +233,7 @@ namespace ouzel
     #elif OUZEL_PLATFORM_LINUX
                 renderer.reset(new graphics::RendererOGLLinux());
     #elif OUZEL_PLATFORM_RASPBIAN
-                renderer.reset(new graphics::RendererOGLRPI());
+                renderer.reset(new graphics::RendererOGLRasp());
     #elif OUZEL_PLATFORM_EMSCRIPTEN
                 renderer.reset(new graphics::RendererOGLEm());
     #else
