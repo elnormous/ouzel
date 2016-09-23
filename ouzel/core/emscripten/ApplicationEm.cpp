@@ -36,7 +36,7 @@ namespace ouzel
 
         sharedEngine->begin();
 
-        emscripten_set_main_loop(loop, 1, 1);
+        emscripten_set_main_loop(loop, 0, 1);
 
         sharedEngine->end();
 
