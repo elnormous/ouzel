@@ -180,12 +180,14 @@ clean:
 	../ouzel/animators/*.o \
 	../ouzel/core/*.o \
 	../ouzel/core/apple/*.o \
+	../ouzel/core/emscripten/*.o \
 	../ouzel/core/linux/*.o \
 	../ouzel/core/macos/*.o \
 	../ouzel/core/rpi/*.o \
 	../ouzel/events/*.o \
 	../ouzel/files/*.o \
 	../ouzel/graphics/*.o \
+	../ouzel/graphics/emscripten/*.o \
 	../ouzel/graphics/linux/*.o \
 	../ouzel/graphics/macos/*.o \
 	../ouzel/graphics/metal/*.o \
