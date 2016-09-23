@@ -14,6 +14,7 @@ Supported platforms:
 * iOS 7+
 * tvOS 9+
 * Android 2.3+
+* Emscripten
 
 Supported rendering backends:
 
@@ -76,11 +77,13 @@ $ git submodule update
 
 Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in the samples directory.
 
-You will need to download OpenGL (e.g. Mesa) and OpenAL drivers in order to build Ouzel on Linux. To build it for Raspbian pass "platform=raspbian" to make as follows:
+You will need to download OpenGL (e.g. Mesa) and OpenAL drivers in order to build Ouzel on Linux. To build it for Raspbian pass "platform=raspbian" to "make" as follows:
 
 ```
 $ make platform=raspbian
 ```
+
+To build Ouzel with Emscripten, pass "platform=emscripten" to "make" command, but be sure to install Emscripten SDK before doing so.
 
 ## System requirements
 * Windows 7+ with Visual Studio 2013 or Visual Studio 2015
