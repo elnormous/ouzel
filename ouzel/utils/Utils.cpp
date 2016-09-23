@@ -19,6 +19,10 @@
 #include <android/log.h>
 #endif
 
+#if OUZEL_PLATFORM_EMSCRIPTEN
+#include <emscripten.h>
+#endif
+
 #include "Utils.h"
 
 namespace ouzel
@@ -50,7 +54,7 @@ namespace ouzel
 
             va_end(list);
 
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
             printf("%s\n", TEMP_BUFFER);
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
             syslog(LOG_WARNING, "%s", TEMP_BUFFER);
@@ -62,6 +66,11 @@ namespace ouzel
             OutputDebugString(szBuffer);
 #elif OUZEL_PLATFORM_ANDROID
             __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", TEMP_BUFFER);
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+            int flags = EM_LOG_CONSOLE;
+            if (level == LOG_LEVEL_ERROR) flags |= EM_LOG_ERROR;
+            else if (level == LOG_LEVEL_WARNING) flags |= EM_LOG_WARN;
+            emscripten_log(level, "%s", TEMP_BUFFER);
 #endif
         }
     }
