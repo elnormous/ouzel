@@ -16,11 +16,11 @@ namespace ouzel
 
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
-        graphics::Renderer::TextureFiltering textureFiltering = graphics::Renderer::TextureFiltering::NONE;
+        graphics::TextureFilter textureFilter = graphics::TextureFilter::NONE;
         bool resizable = false;
         bool fullscreen = false;
         bool verticalSync = true;
-        graphics::Renderer::PixelFormat backBufferFormat = graphics::Renderer::PixelFormat::DEFAULT;
+        graphics::PixelFormat backBufferFormat = graphics::PixelFormat::DEFAULT;
         std::string title = "ouzel";
     };
 }

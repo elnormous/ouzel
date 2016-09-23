@@ -19,13 +19,13 @@ namespace ouzel
 
         bool RendererOGLLinux::init(const WindowPtr& window,
                                     uint32_t newSampleCount,
-                                    TextureFiltering newTextureFiltering,
+                                    TextureFilter newTextureFilter,
                                     PixelFormat newBackBufferFormat,
                                     bool newVerticalSync)
         {
             free();
 
-            return RendererOGL::init(window, newSampleCount, newTextureFiltering, newBackBufferFormat, newVerticalSync);
+            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
         bool RendererOGLLinux::present()

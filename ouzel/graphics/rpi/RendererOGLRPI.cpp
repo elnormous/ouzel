@@ -74,7 +74,7 @@ namespace ouzel
 
         bool RendererOGLRPI::init(const WindowPtr& window,
                                   uint32_t newSampleCount,
-                                  TextureFiltering newTextureFiltering,
+                                  TextureFilter newTextureFilter,
                                   PixelFormat newBackBufferFormat,
                                   bool newVerticalSync)
         {
@@ -194,7 +194,7 @@ namespace ouzel
             window->setSize(Size2(static_cast<float>(screenWidth),
                                   static_cast<float>(screenHeight)));
 
-            return RendererOGL::init(window, newSampleCount, newTextureFiltering, newBackBufferFormat, newVerticalSync);
+            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
         bool RendererOGLRPI::present()

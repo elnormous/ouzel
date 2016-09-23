@@ -20,6 +20,8 @@
 #include "graphics/Vertex.h"
 #include "graphics/Shader.h"
 #include "graphics/BlendState.h"
+#include "graphics/PixelFormat.h"
+#include "graphics/TextureFilter.h"
 
 namespace ouzel
 {
@@ -53,14 +55,6 @@ namespace ouzel
                 METAL
             };
 
-            enum class TextureFiltering
-            {
-                NONE,
-                LINEAR,
-                BILINEAR,
-                TRILINEAR
-            };
-
             enum class DrawMode
             {
                 POINT_LIST,
@@ -68,12 +62,6 @@ namespace ouzel
                 LINE_STRIP,
                 TRIANGLE_LIST,
                 TRIANGLE_STRIP
-            };
-
-            enum class PixelFormat
-            {
-                DEFAULT,
-                R8G8B8A8_UNORM
             };
 
             virtual ~Renderer();
@@ -91,7 +79,7 @@ namespace ouzel
 
             const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
-            TextureFiltering getTextureFiltering() const { return textureFiltering; }
+            TextureFilter getTextureFilter() const { return textureFilter; }
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
@@ -147,7 +135,7 @@ namespace ouzel
             Renderer(Driver pDriver);
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
-                              TextureFiltering newTextureFiltering,
+                              TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync);
 
@@ -157,7 +145,7 @@ namespace ouzel
             Driver driver;
             Size2 size;
             uint32_t sampleCount = 1; // MSAA sample count
-            TextureFiltering textureFiltering = TextureFiltering::NONE;
+            TextureFilter textureFilter = TextureFilter::NONE;
             PixelFormat backBufferFormat;
 
             uint32_t currentFrame = 0;
