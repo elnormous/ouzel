@@ -192,7 +192,7 @@ namespace ouzel
                                 return false;
                             }
 
-                            glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr,
+                            glBufferData(GL_ARRAY_BUFFER, bufferSize, uploadData.data.data(),
                                          uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                             if (RendererOGL::checkOpenGLError())
