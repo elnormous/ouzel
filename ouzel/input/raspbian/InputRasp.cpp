@@ -194,8 +194,8 @@ static input::KeyboardKey convertKeyCode(int keyCode)
         case KEY_I: return input::KeyboardKey::KEY_I;
         case KEY_O: return input::KeyboardKey::KEY_O;
         case KEY_P: return input::KeyboardKey::KEY_P;
-        case KEY_LEFTBRACE: return input::KeyboardKey::OEM_4;
-        case KEY_RIGHTBRACE: return input::KeyboardKey::OEM_6;
+        case KEY_LEFTBRACE: return input::KeyboardKey::BRACKET_LEFT;
+        case KEY_RIGHTBRACE: return input::KeyboardKey::BRACKET_RIGHT;
         case KEY_ENTER: return input::KeyboardKey::RETURN;
         case KEY_LEFTCTRL: return input::KeyboardKey::LCONTROL;
         case KEY_A: return input::KeyboardKey::KEY_A;
@@ -207,11 +207,11 @@ static input::KeyboardKey convertKeyCode(int keyCode)
         case KEY_J: return input::KeyboardKey::KEY_J;
         case KEY_K: return input::KeyboardKey::KEY_K;
         case KEY_L: return input::KeyboardKey::KEY_L;
-        case KEY_SEMICOLON: return input::KeyboardKey::OEM_1;
-        case KEY_APOSTROPHE: return input::KeyboardKey::OEM_7;
-        case KEY_GRAVE: return input::KeyboardKey::OEM_3;
+        case KEY_SEMICOLON: return input::KeyboardKey::SEMICOLON;
+        case KEY_APOSTROPHE: return input::KeyboardKey::QUOTE;
+        case KEY_GRAVE: return input::KeyboardKey::GRAVE;
         case KEY_LEFTSHIFT: return input::KeyboardKey::LSHIFT;
-        case KEY_BACKSLASH: return input::KeyboardKey::OEM_5;
+        case KEY_BACKSLASH: return input::KeyboardKey::BACKSLASH;
         case KEY_Z: return input::KeyboardKey::KEY_Z;
         case KEY_X: return input::KeyboardKey::KEY_X;
         case KEY_C: return input::KeyboardKey::KEY_C;
@@ -221,10 +221,10 @@ static input::KeyboardKey convertKeyCode(int keyCode)
         case KEY_M: return input::KeyboardKey::KEY_M;
         case KEY_COMMA: return input::KeyboardKey::COMMA;
         case KEY_DOT: return input::KeyboardKey::PERIOD;
-        case KEY_SLASH: return input::KeyboardKey::OEM_2;
+        case KEY_SLASH: return input::KeyboardKey::SLASH;
         case KEY_RIGHTSHIFT: return input::KeyboardKey::RSHIFT;
         case KEY_KPASTERISK: return input::KeyboardKey::MULTIPLY;
-        case KEY_LEFTALT: return input::KeyboardKey::LMENU;
+        case KEY_LEFTALT: return input::KeyboardKey::LALT;
         case KEY_SPACE: return input::KeyboardKey::SPACE;
         case KEY_CAPSLOCK: return input::KeyboardKey::CAPITAL;
         case KEY_F1: return input::KeyboardKey::F1;
@@ -254,7 +254,7 @@ static input::KeyboardKey convertKeyCode(int keyCode)
         case KEY_KPDOT: return input::KeyboardKey::DECIMAL;
 
         case KEY_ZENKAKUHANKAKU: return input::KeyboardKey::NONE; // ??
-        case KEY_102ND: return input::KeyboardKey::OEM_102;
+        case KEY_102ND: return input::KeyboardKey::LESS;
         case KEY_F11: return input::KeyboardKey::F11;
         case KEY_F12: return input::KeyboardKey::F12;
         case KEY_RO: return input::KeyboardKey::NONE; // ??
@@ -268,7 +268,7 @@ static input::KeyboardKey convertKeyCode(int keyCode)
         case KEY_RIGHTCTRL: return input::KeyboardKey::RCONTROL;
         case KEY_KPSLASH: return input::KeyboardKey::DIVIDE;
         case KEY_SYSRQ: return input::KeyboardKey::NONE; // ??
-        case KEY_RIGHTALT: return input::KeyboardKey::RMENU;
+        case KEY_RIGHTALT: return input::KeyboardKey::RALT;
         case KEY_LINEFEED: return input::KeyboardKey::NONE; // ??
         case KEY_HOME: return input::KeyboardKey::HOME;
         case KEY_UP: return input::KeyboardKey::UP;

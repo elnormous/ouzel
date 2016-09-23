@@ -23,7 +23,6 @@ namespace ouzel
             RETURN,         // ENTER key
             SHIFT,          // SHIFT key
             CONTROL,        // CTRL key
-            MENU,           // ALT key
             PAUSE,          // PAUSE key
             CAPITAL,        // CAPS LOCK key
             KANA,           // IME Kana mode
@@ -49,7 +48,7 @@ namespace ouzel
             DOWN,           // DOWN ARROW key
             SELECT,         // SELECT key
             PRINT,          // PRINT key
-            EXECUT,         // EXECUTE key
+            EXECUTE,        // EXECUTE key
             SNAPSHOT,       // PRINT SCREEN key
             INSERT,         // INS key
             DEL,            // DEL key
@@ -141,22 +140,21 @@ namespace ouzel
             RSHIFT,         // Right SHIFT key
             LCONTROL,       // Left CONTROL key
             RCONTROL,       // Right CONTROL key
-            LMENU,          // Left MENU (alt) key
-            RMENU,          // Right MENU (alt) key
-            OEM_1,          // for US    ";:"
+            LALT,           // Left alt key
+            RALT,           // Right alt key
+            SEMICOLON,      // for US    ";:"
             PLUS,           // Plus Key   "+"
             COMMA,          // Comma Key  ","
             MINUS,          // Minus Key  "-"
             PERIOD,         // Period Key "."
-            OEM_2,          // for US    "/?"
-            OEM_3,          // for US    "`~"
-            OEM_4,          // for US    "[{"
-            OEM_5,          // for US    "\|"
-            OEM_6,          // for US    "]}"
-            OEM_7,          // for US    "'""
-            OEM_8,          // None
+            SLASH,          // for US    "/?"
+            GRAVE,          // for US    "`~"
+            BRACKET_LEFT,   // for US    "[{"
+            BACKSLASH,      // for US    "\|"
+            BRACKET_RIGHT,  // for US    "]}"
+            QUOTE,          // for US    "'""
             OEM_AX,         // for Japan "AX"
-            OEM_102,        // "<>" or "\|"
+            LESS,           // "<>" or "\|"
             ATTN,           // Attn key
             CRSEL,          // CrSel key
             EXSEL,          // ExSel key

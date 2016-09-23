@@ -217,7 +217,7 @@ namespace ouzel
                 case kVK_Help: return KeyboardKey::HELP;
                 case NSSelectFunctionKey: return KeyboardKey::SELECT;
                 case NSPrintFunctionKey: return KeyboardKey::PRINT;
-                case NSExecuteFunctionKey: return KeyboardKey::EXECUT;
+                case NSExecuteFunctionKey: return KeyboardKey::EXECUTE;
                 case NSPrintScreenFunctionKey: return KeyboardKey::SNAPSHOT;
                 case NSPauseFunctionKey: return KeyboardKey::PAUSE;
                 case NSScrollLockFunctionKey: return KeyboardKey::SCROLL;
@@ -227,7 +227,7 @@ namespace ouzel
                 case kVK_Escape: return KeyboardKey::ESCAPE;
                 case kVK_Control: return KeyboardKey::CONTROL;
                 case kVK_RightControl: return KeyboardKey::RCONTROL;
-                case kVK_Command: return KeyboardKey::MENU;
+                case kVK_Command: return KeyboardKey::LWIN;
                 case kVK_Shift: return KeyboardKey::SHIFT;
                 case kVK_RightShift: return KeyboardKey::RSHIFT;
                 case kVK_Space: return KeyboardKey::SPACE;
@@ -294,12 +294,12 @@ namespace ouzel
                 case kVK_ANSI_KeypadEnter: return KeyboardKey::RETURN;
                 case kVK_ANSI_KeypadMinus: return KeyboardKey::SUBTRACT;
 
-                case kVK_ANSI_Semicolon: return KeyboardKey::OEM_1;
-                case kVK_ANSI_Slash: return KeyboardKey::OEM_2;
-                case kVK_ANSI_Grave: return KeyboardKey::OEM_3;
-                case kVK_ANSI_LeftBracket: return KeyboardKey::OEM_4;
-                case kVK_ANSI_Backslash: return KeyboardKey::OEM_5;
-                case kVK_ANSI_RightBracket: return KeyboardKey::OEM_6;
+                case kVK_ANSI_Semicolon: return KeyboardKey::SEMICOLON;
+                case kVK_ANSI_Slash: return KeyboardKey::SLASH;
+                case kVK_ANSI_Grave: return KeyboardKey::GRAVE;
+                case kVK_ANSI_LeftBracket: return KeyboardKey::BRACKET_LEFT;
+                case kVK_ANSI_Backslash: return KeyboardKey::BACKSLASH;
+                case kVK_ANSI_RightBracket: return KeyboardKey::BRACKET_RIGHT;
                 default: return KeyboardKey::NONE;
             }
         }

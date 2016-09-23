@@ -24,7 +24,7 @@ namespace ouzel
             case VK_RETURN: return KeyboardKey::RETURN;
             case VK_SHIFT: return KeyboardKey::SHIFT;
             case VK_CONTROL: return KeyboardKey::CONTROL;
-            case VK_MENU: return KeyboardKey::MENU;
+            case VK_MENU: return KeyboardKey::LALT;
             case VK_PAUSE: return KeyboardKey::PAUSE;
             case VK_CAPITAL: return KeyboardKey::CAPITAL;
 
@@ -46,7 +46,7 @@ namespace ouzel
 
             case VK_SELECT: return KeyboardKey::SELECT;
             case VK_PRINT: return KeyboardKey::PRINT;
-            case VK_EXECUTE: return KeyboardKey::EXECUT;
+            case VK_EXECUTE: return KeyboardKey::EXECUTE;
 
             case VK_SNAPSHOT: return KeyboardKey::SNAPSHOT;
             case VK_INSERT: return KeyboardKey::INSERT;
@@ -93,7 +93,7 @@ namespace ouzel
 
             case VK_LWIN: return KeyboardKey::LWIN;
             case VK_RWIN: return KeyboardKey::RWIN;
-            case VK_APPS: return KeyboardKey::MENU;
+            case VK_APPS: return KeyboardKey::APPS;
             case VK_SLEEP: return KeyboardKey::SLEEP;
 
             case VK_NUMPAD0: return KeyboardKey::NUMPAD0;
@@ -145,23 +145,23 @@ namespace ouzel
             case VK_RSHIFT: return KeyboardKey::RSHIFT;
             case VK_LCONTROL: return KeyboardKey::LCONTROL;
             case VK_RCONTROL: return KeyboardKey::RCONTROL;
-            case VK_LMENU: return KeyboardKey::LMENU;
-            case VK_RMENU: return KeyboardKey::RMENU;
+            case VK_LMENU: return KeyboardKey::LALT;
+            case VK_RMENU: return KeyboardKey::RALT;
 
-            case VK_OEM_1: return KeyboardKey::OEM_1;
+            case VK_OEM_1: return KeyboardKey::SEMICOLON;
             case VK_OEM_PLUS: return KeyboardKey::PLUS;
             case VK_OEM_COMMA: return KeyboardKey::COMMA;
             case VK_OEM_MINUS: return KeyboardKey::MINUS;
             case VK_OEM_PERIOD: return KeyboardKey::PERIOD;
-            case VK_OEM_2: return KeyboardKey::OEM_2;
-            case VK_OEM_3: return KeyboardKey::OEM_3;
-            case VK_OEM_4: return KeyboardKey::OEM_4;
-            case VK_OEM_5: return KeyboardKey::OEM_5;
-            case VK_OEM_6: return KeyboardKey::OEM_6;
-            case VK_OEM_7: return KeyboardKey::OEM_7;
-            case VK_OEM_8: return KeyboardKey::OEM_8;
+            case VK_OEM_2: return KeyboardKey::SLASH;
+            case VK_OEM_3: return KeyboardKey::GRAVE;
+            case VK_OEM_4: return KeyboardKey::BRACKET_LEFT;
+            case VK_OEM_5: return KeyboardKey::BACKSLASH;
+            case VK_OEM_6: return KeyboardKey::BRACKET_RIGHT;
+            case VK_OEM_7: return KeyboardKey::QUOTE;
+            case VK_OEM_8: return KeyboardKey::GRAVE;
             case VK_OEM_AX: return KeyboardKey::OEM_AX;
-            case VK_OEM_102: return KeyboardKey::OEM_102;
+            case VK_OEM_102: return KeyboardKey::LESS;
 
                 // ... misc keys ...
             }
