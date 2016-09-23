@@ -8,6 +8,19 @@
 
 EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
 {
+    switch (eventType)
+    {
+        case EMSCRIPTEN_EVENT_KEYPRESS:
+        case EMSCRIPTEN_EVENT_KEYDOWN:
+            ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputEm::convertKeyCode(keyEvent->key),
+                                                     ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
+            break;
+        case EMSCRIPTEN_EVENT_KEYUP:
+            ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputEm::convertKeyCode(keyEvent->key),
+                                                   ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
+            break;
+    }
+
     return 1;
 }
 
@@ -76,6 +89,8 @@ namespace ouzel
 {
     namespace input
     {
+        static std::map<std::string, KeyboardKey> keyMap;
+
         InputEm::InputEm()
         {
             emscripten_set_keypress_callback(nullptr, this, 1, emKeyCallback);
@@ -91,6 +106,32 @@ namespace ouzel
 
         InputEm::~InputEm()
         {
+        }
+        
+        KeyboardKey InputEm::convertKeyCode(const EM_UTF8 key[32])
+        {
+            auto i = keyMap.find(key);
+
+            if (i != keyMap.end())
+            {
+                return i->second;
+            }
+            else
+            {
+                return KeyboardKey::NONE;
+            }
+        }
+
+        uint32_t InputEm::getKeyboardModifiers(const EmscriptenKeyboardEvent* keyboardEvent)
+        {
+            uint32_t modifiers = 0;
+
+            if (keyboardEvent->ctrlKey) modifiers |= ouzel::CONTROL_DOWN;
+            if (keyboardEvent->shiftKey) modifiers |= ouzel::SHIFT_DOWN;
+            if (keyboardEvent->altKey) modifiers |= ouzel::ALT_DOWN;
+            if (keyboardEvent->metaKey) modifiers |= ouzel::COMMAND_DOWN;
+
+            return modifiers;
         }
 
         uint32_t InputEm::getMouseModifiers(const EmscriptenMouseEvent* mouseEvent)
