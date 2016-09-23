@@ -14,6 +14,7 @@ endif
 CXXFLAGS=-c -std=c++11 -Wall -O2 -I../ouzel -Winvalid-pch -include linux/Prefix.h
 LDFLAGS=-O2 -L. -louzel
 ifeq ($(platform),raspbian)
+CXXFLAGS+=-DRASPBIAN
 LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread
 else ifeq ($(platform),linux)
 LDFLAGS+=-lX11 -lGL -lopenal -lpthread
