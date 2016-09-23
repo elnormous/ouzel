@@ -37,6 +37,7 @@
 #include "input/raspbian/InputRasp.h"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
 #include "graphics/emscripten/RendererOGLEm.h"
+#include "input/emscripten/InputEm.h"
 #endif
 
 #include "graphics/empty/RendererEmpty.h"

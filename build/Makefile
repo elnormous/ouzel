@@ -150,7 +150,8 @@ SOURCES+=../ouzel/audio/apple/AudioALApple.mm \
 else ifeq ($(platform),emscripten)
 SOURCES+=../ouzel/core/emscripten/ApplicationEm.cpp \
 	../ouzel/core/emscripten/main.cpp \
-	../ouzel/graphics/emscripten/RendererOGLEm.cpp
+	../ouzel/graphics/emscripten/RendererOGLEm.cpp \
+	../ouzel/input/emscripten/InputEm.cpp
 endif
 TMP=$(SOURCES:.cpp=.o)
 OBJECTS=$(TMP:.mm=.o)
@@ -197,6 +198,7 @@ clean:
 	../ouzel/gui/*.o \
 	../ouzel/input/*.o \
 	../ouzel/input/apple/*.o \
+	../ouzel/input/emscripten/*.o \
 	../ouzel/input/linux/*.o \
 	../ouzel/input/raspbian/*.o \
 	../ouzel/localization/*.o \
