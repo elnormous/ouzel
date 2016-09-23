@@ -100,6 +100,7 @@ namespace ouzel
             { "AltRight", KeyboardKey::RALT },
             { "Pause", KeyboardKey::PAUSE },
             { "CapsLock", KeyboardKey::CAPITAL },
+            { "Escape", KeyboardKey::ESCAPE },
             { "PageUp", KeyboardKey::PRIOR },
             { "PageDown", KeyboardKey::NEXT },
             { "Home", KeyboardKey::HOME },
