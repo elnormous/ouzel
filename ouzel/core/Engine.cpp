@@ -210,6 +210,8 @@ namespace ouzel
         input.reset(new input::InputWin());
 #elif OUZEL_PLATFORM_RASPBIAN
         input.reset(new input::InputRasp());
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+        input.reset(new input::InputEm());
 #else
         input.reset(new input::Input());
 #endif

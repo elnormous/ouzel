@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <html5.h>
 #include "input/Input.h"
 
 namespace ouzel
@@ -16,6 +17,8 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~InputEm();
+
+            static uint32_t getMouseModifiers(const EmscriptenMouseEvent* mouseEvent);
 
         protected:
             InputEm();
