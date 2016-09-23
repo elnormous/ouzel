@@ -34,6 +34,7 @@ namespace ouzel
             virtual bool init(const WindowPtr& window,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
+                              PixelFormat newBackBufferFormat,
                               bool newVerticalSync) override;
 
             virtual void setSize(const Size2& newSize) override;

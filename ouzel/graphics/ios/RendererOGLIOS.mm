@@ -59,6 +59,7 @@ namespace ouzel
         bool RendererOGLIOS::init(const WindowPtr& window,
                                   uint32_t newSampleCount,
                                   TextureFilter newTextureFilter,
+                                  PixelFormat newBackBufferFormat,
                                   bool newVerticalSync)
         {
             free();
@@ -113,7 +114,7 @@ namespace ouzel
 
             window->setSize(renderBufferSize);
 
-            return RendererOGL::init(window, newSampleCount, newTextureFilter, newVerticalSync);
+            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
         void RendererOGLIOS::setSize(const Size2& newSize)

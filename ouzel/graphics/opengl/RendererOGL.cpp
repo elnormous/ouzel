@@ -18,28 +18,28 @@
 #include "stb_image_write.h"
 
 #if OUZEL_SUPPORTS_OPENGL
-#include "ColorPSOGL2.h"
-#include "ColorVSOGL2.h"
-#include "TexturePSOGL2.h"
-#include "TextureVSOGL2.h"
+#include "ColorPSGL2.h"
+#include "ColorVSGL2.h"
+#include "TexturePSGL2.h"
+#include "TextureVSGL2.h"
 #if OUZEL_SUPPORTS_OPENGL3
-#include "ColorPSOGL3.h"
-#include "ColorVSOGL3.h"
-#include "TexturePSOGL3.h"
-#include "TextureVSOGL3.h"
+#include "ColorPSGL3.h"
+#include "ColorVSGL3.h"
+#include "TexturePSGL3.h"
+#include "TextureVSGL3.h"
 #endif
 #endif
 
 #if OUZEL_SUPPORTS_OPENGLES
-#include "ColorPSOGLES2.h"
-#include "ColorVSOGLES2.h"
-#include "TexturePSOGLES2.h"
-#include "TextureVSOGLES2.h"
+#include "ColorPSGLES2.h"
+#include "ColorVSGLES2.h"
+#include "TexturePSGLES2.h"
+#include "TextureVSGLES2.h"
 #if OUZEL_SUPPORTS_OPENGLES3
-#include "ColorPSOGLES3.h"
-#include "ColorVSOGLES3.h"
-#include "TexturePSOGLES3.h"
-#include "TextureVSOGLES3.h"
+#include "ColorPSGLES3.h"
+#include "ColorVSGLES3.h"
+#include "TexturePSGLES3.h"
+#include "TextureVSGLES3.h"
 #endif
 #endif
 
@@ -185,21 +185,35 @@ namespace ouzel
             switch (apiMajorVersion)
             {
                 case 2:
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_OGL2), std::end(TEXTURE_PIXEL_SHADER_OGL2)),
-                                                   std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_OGL2), std::end(TEXTURE_VERTEX_SHADER_OGL2)),
+#if OUZEL_SUPPORTS_OPENGL
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TextureGL2_ps), std::end(TextureGL2_ps)),
+                                                   std::vector<uint8_t>(std::begin(TextureGL2_vs), std::end(TextureGL2_vs)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", 4 * sizeof(float)}},
                                                    {{"modelViewProj", sizeof(Matrix4)}});
-                    break;
-#if OUZEL_SUPPORTS_OPENGL3 || OUZEL_SUPPORTS_OPENGLES3
-                case 3:
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_OGL3), std::end(TEXTURE_PIXEL_SHADER_OGL3)),
-                                                   std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_OGL3), std::end(TEXTURE_VERTEX_SHADER_OGL3)),
+#elif OUZEL_SUPPORTS_OPENGLES
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TextureGLES2_ps), std::end(TextureGLES2_ps)),
+                                                   std::vector<uint8_t>(std::begin(TextureGLES2_vs), std::end(TextureGLES2_vs)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", 4 * sizeof(float)}},
                                                    {{"modelViewProj", sizeof(Matrix4)}});
-                    break;
 #endif
+                    break;
+                case 3:
+#if OUZEL_SUPPORTS_OPENGL3
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TextureGL3_ps), std::end(TextureGL3_ps)),
+                                                   std::vector<uint8_t>(std::begin(TextureGL3_vs), std::end(TextureGL3_vs)),
+                                                   VertexPCT::ATTRIBUTES,
+                                                   {{"color", 4 * sizeof(float)}},
+                                                   {{"modelViewProj", sizeof(Matrix4)}});
+#elif OUZEL_SUPPORTS_OPENGLES3
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TextureGLES3_ps), std::end(TextureGLES3_ps)),
+                                                   std::vector<uint8_t>(std::begin(TextureGLES3_vs), std::end(TextureGLES3_vs)),
+                                                   VertexPCT::ATTRIBUTES,
+                                                   {{"color", 4 * sizeof(float)}},
+                                                   {{"modelViewProj", sizeof(Matrix4)}});
+#endif
+                    break;
                 default:
                     log(LOG_LEVEL_ERROR, "Unsupported OpenGL version");
                     return false;
@@ -212,21 +226,35 @@ namespace ouzel
             switch (apiMajorVersion)
             {
                 case 2:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_OGL2), std::end(COLOR_PIXEL_SHADER_OGL2)),
-                                                 std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_OGL2), std::end(COLOR_VERTEX_SHADER_OGL2)),
+#if OUZEL_SUPPORTS_OPENGL
+                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorGL2_ps), std::end(ColorGL2_ps)),
+                                                 std::vector<uint8_t>(std::begin(ColorGL2_vs), std::end(ColorGL2_vs)),
                                                  VertexPC::ATTRIBUTES,
                                                  {{"color", 4 * sizeof(float)}},
                                                  {{"modelViewProj", sizeof(Matrix4)}});
-                    break;
-#if OUZEL_SUPPORTS_OPENGL3 || OUZEL_SUPPORTS_OPENGLES3
-                case 3:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_OGL3), std::end(COLOR_PIXEL_SHADER_OGL3)),
-                                                 std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_OGL3), std::end(COLOR_VERTEX_SHADER_OGL3)),
+#elif OUZEL_SUPPORTS_OPENGLES
+                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorGLES2_ps), std::end(ColorGLES2_ps)),
+                                                 std::vector<uint8_t>(std::begin(ColorGLES2_vs), std::end(ColorGLES2_vs)),
                                                  VertexPC::ATTRIBUTES,
                                                  {{"color", 4 * sizeof(float)}},
                                                  {{"modelViewProj", sizeof(Matrix4)}});
-                    break;
 #endif
+                    break;
+#if OUZEL_SUPPORTS_OPENGL3
+                case 3:
+                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorGL3_ps), std::end(ColorGL3_ps)),
+                                                 std::vector<uint8_t>(std::begin(ColorGL3_vs), std::end(ColorGL3_vs)),
+                                                 VertexPC::ATTRIBUTES,
+                                                 {{"color", 4 * sizeof(float)}},
+                                                 {{"modelViewProj", sizeof(Matrix4)}});
+#elif OUZEL_SUPPORTS_OPENGLES3
+                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorGLES3_ps), std::end(ColorGLES3_ps)),
+                                                 std::vector<uint8_t>(std::begin(ColorGLES3_vs), std::end(ColorGLES3_vs)),
+                                                 VertexPC::ATTRIBUTES,
+                                                 {{"color", 4 * sizeof(float)}},
+                                                 {{"modelViewProj", sizeof(Matrix4)}});
+#endif
+                    break;
                 default:
                     log(LOG_LEVEL_ERROR, "Unsupported OpenGL version");
                     return false;

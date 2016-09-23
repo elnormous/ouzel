@@ -57,20 +57,20 @@ $TVOS_PLATFORM/usr/bin/metal -arch air64 -ffast-math -o TextureVSTVOS.air -std=i
 $TVOS_PLATFORM/usr/bin/metal-ar r TextureVSTVOS.metalar TextureVSTVOS.air
 $TVOS_PLATFORM/usr/bin/metallib -o TextureVSTVOS.metallib TextureVSTVOS.metalar
 
-xxd -i ColorPSMacOS.metallib ../../ouzel/metal/ColorPSMacOS.h
-xxd -i ColorVSMacOS.metallib ../../ouzel/metal/ColorVSMacOS.h
-xxd -i TexturePSMacOS.metallib ../../ouzel/metal/TexturePSMacOS.h
-xxd -i TextureVSMacOS.metallib ../../ouzel/metal/TextureVSMacOS.h
+xxd -i ColorPSMacOS.metallib ../../ouzel/graphics/metal/ColorPSMacOS.h
+xxd -i ColorVSMacOS.metallib ../../ouzel/graphics/metal/ColorVSMacOS.h
+xxd -i TexturePSMacOS.metallib ../../ouzel/graphics/metal/TexturePSMacOS.h
+xxd -i TextureVSMacOS.metallib ../../ouzel/graphics/metal/TextureVSMacOS.h
 
-xxd -i ColorPSIOS.metallib ../../ouzel/metal/ColorPSIOS.h
-xxd -i ColorVSIOS.metallib ../../ouzel/metal/ColorVSIOS.h
-xxd -i TexturePSIOS.metallib ../../ouzel/metal/TexturePSIOS.h
-xxd -i TextureVSIOS.metallib ../../ouzel/metal/TextureVSIOS.h
+xxd -i ColorPSIOS.metallib ../../ouzel/graphics/metal/ColorPSIOS.h
+xxd -i ColorVSIOS.metallib ../../ouzel/graphics/metal/ColorVSIOS.h
+xxd -i TexturePSIOS.metallib ../../ouzel/graphics/metal/TexturePSIOS.h
+xxd -i TextureVSIOS.metallib ../../ouzel/graphics/metal/TextureVSIOS.h
 
-xxd -i ColorPSTVOS.metallib ../../ouzel/metal/ColorPSTVOS.h
-xxd -i ColorVSTVOS.metallib ../../ouzel/metal/ColorVSTVOS.h
-xxd -i TexturePSTVOS.metallib ../../ouzel/metal/TexturePSTVOS.h
-xxd -i TextureVSTVOS.metallib ../../ouzel/metal/TextureVSTVOS.h
+xxd -i ColorPSTVOS.metallib ../../ouzel/graphics/metal/ColorPSTVOS.h
+xxd -i ColorVSTVOS.metallib ../../ouzel/graphics/metal/ColorVSTVOS.h
+xxd -i TexturePSTVOS.metallib ../../ouzel/graphics/metal/TexturePSTVOS.h
+xxd -i TextureVSTVOS.metallib ../../ouzel/graphics/metal/TextureVSTVOS.h
 
 rm -rf ./*.air
 rm -rf ./*.metalar
