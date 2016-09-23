@@ -116,13 +116,21 @@ namespace ouzel
                         bufferPtr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, uploadData.data.size(), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
 #endif
 
-                        if (!bufferPtr)
+                        if (bufferPtr)
                         {
-                            log(LOG_LEVEL_ERROR, "Failed to map index buffer");
-                            return false;
+                            memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
                         }
-                        
-                        memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
+                        else
+                        {
+                            glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, nullptr,
+                                         uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                log(LOG_LEVEL_ERROR, "Failed to upload index buffer");
+                                return false;
+                            }
+                        }
 
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
     #if defined(GL_OES_mapbuffer)

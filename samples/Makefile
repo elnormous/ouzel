@@ -32,6 +32,8 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework MetalKit \
 	-framework OpenAL \
 	-framework OpenGL
+else ifeq ($(platform),emscripten)
+	LDFLAGS+=--embed-file Resources
 endif
 SOURCES=AnimationsSample.cpp \
 	main.cpp \
@@ -57,7 +59,7 @@ debug: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
 	$(MAKE) -f ../build/Makefile platform=$(platform) $(target)
-	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@ --embed-file Resources
+	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $< -o $@
