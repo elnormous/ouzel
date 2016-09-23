@@ -57,7 +57,15 @@ namespace ouzel
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
             printf("%s\n", TEMP_BUFFER);
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            syslog(LOG_WARNING, "%s", TEMP_BUFFER);
+            int prio = 0;
+            switch (level)
+            {
+                case LOG_LEVEL_ERROR: prio = LOG_ERR; break;
+                case LOG_LEVEL_WARNING: prio = LOG_WARNING; break;
+                case LOG_LEVEL_INFO: prio = LOG_INFO; break;
+                case LOG_LEVEL_VERBOSE: prio = LOG_DEBUG; break;
+            }
+            syslog(prio, "%s", TEMP_BUFFER);
             printf("%s\n", TEMP_BUFFER);
 #elif OUZEL_PLATFORM_WINDOWS
             wchar_t szBuffer[MAX_PATH];
@@ -65,7 +73,15 @@ namespace ouzel
             StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
             OutputDebugString(szBuffer);
 #elif OUZEL_PLATFORM_ANDROID
-            __android_log_print(ANDROID_LOG_DEBUG, "Ouzel", "%s", TEMP_BUFFER);
+            int prio = 0;
+            switch (level)
+            {
+                case LOG_LEVEL_ERROR: prio = ANDROID_LOG_ERROR; break;
+                case LOG_LEVEL_WARNING: prio = ANDROID_LOG_WARN; break;
+                case LOG_LEVEL_INFO: prio = ANDROID_LOG_INFO; break;
+                case LOG_LEVEL_VERBOSE: prio = ANDROID_LOG_DEBUG; break;
+            }
+            __android_log_print(prio, "Ouzel", "%s", TEMP_BUFFER);
 #elif OUZEL_PLATFORM_EMSCRIPTEN
             int flags = EM_LOG_CONSOLE;
             if (level == LOG_LEVEL_ERROR) flags |= EM_LOG_ERROR;
