@@ -185,6 +185,13 @@ namespace ouzel
                         }
                         else
                         {
+                            // glMapBufferRange failed
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                log(LOG_LEVEL_ERROR, "Failed to map vertex buffer");
+                                return false;
+                            }
+
                             glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr,
                                          uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 

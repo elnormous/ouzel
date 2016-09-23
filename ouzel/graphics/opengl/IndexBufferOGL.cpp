@@ -122,6 +122,13 @@ namespace ouzel
                         }
                         else
                         {
+                            // glMapBufferRange failed
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                log(LOG_LEVEL_ERROR, "Failed to map index buffer");
+                                return false;
+                            }
+
                             glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, nullptr,
                                          uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
