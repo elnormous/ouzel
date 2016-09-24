@@ -54,7 +54,7 @@ namespace ouzel
             }
 
             Screen* screen = XDefaultScreenOfDisplay(display);
-            int screenIndex = ScreenNumberOfScreen(screen);
+            int screenIndex = XScreenNumberOfScreen(screen);
 
             XVisualInfo* vi = nullptr;
 
