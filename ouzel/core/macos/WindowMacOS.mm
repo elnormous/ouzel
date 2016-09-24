@@ -92,10 +92,12 @@ namespace ouzel
     bool WindowMacOS::init()
     {
         NSScreen* screen = [NSScreen mainScreen];
-        NSRect screenFrame = screen.frame;
 
-        NSRect frame = NSMakeRect(screenFrame.size.width / 2 - size.width / 2,
-                                  screenFrame.size.height / 2 - size.height / 2,
+        if (size.width <= 0.0f) size.width = screen.frame.size.width * 0.6f;
+        if (size.height <= 0.0f) size.height = screen.frame.size.height * 0.6f;
+
+        NSRect frame = NSMakeRect(screen.frame.size.width / 2 - size.width / 2,
+                                  screen.frame.size.height / 2 - size.height / 2,
                                   size.width, size.height);
 
         NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;

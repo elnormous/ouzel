@@ -83,7 +83,11 @@ You will need to download OpenGL (e.g. Mesa) and OpenAL drivers in order to buil
 $ make platform=raspbian
 ```
 
-To build Ouzel with Emscripten, pass "platform=emscripten" to "make" command, but be sure to install Emscripten SDK before doing so.
+To build Ouzel with Emscripten, pass "platform=emscripten" to "make" command, but you have to install Emscripten SDK before doing so.
+
+```
+$ make platform=emscripten
+```
 
 ## System requirements
 * Windows 7+ with Visual Studio 2013 or Visual Studio 2015

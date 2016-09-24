@@ -11,9 +11,7 @@
 #include "graphics/opengl/RendererOGL.h"
 #include "utils/Utils.h"
 
-const long _NET_WM_STATE_TOGGLE = 2;
-const float DEFAULT_WIDTH = 640.0f;
-const float DEFAULT_HEIGHT= 480.0f;
+static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
@@ -55,7 +53,8 @@ namespace ouzel
                 return false;
             }
 
-            int screen = DefaultScreen(display);
+            Screen* screen = XDefaultScreenOfDisplay(display);
+            int screenIndex = ScreenNumberOfScreen(screen);
 
             XVisualInfo* vi = nullptr;
 
@@ -79,7 +78,7 @@ namespace ouzel
                 None
             };
 
-            GLXFBConfig* framebufferConfig = glXChooseFBConfig(display, screen, attributes, &fbcount);
+            GLXFBConfig* framebufferConfig = glXChooseFBConfig(display, screenIndex, attributes, &fbcount);
             if (!framebufferConfig)
             {
                 log(LOG_LEVEL_ERROR, "Failed to get frame buffer");
@@ -132,7 +131,7 @@ namespace ouzel
                 // find an OpenGL-capable RGB visual with depth buffer
                 static int doubleBuffer[] = {GLX_RGBA, GLX_DEPTH_SIZE, 16, GLX_DOUBLEBUFFER, None};
 
-                vi = glXChooseVisual(display, screen, doubleBuffer);
+                vi = glXChooseVisual(display, screenIndex, doubleBuffer);
                 if (!vi)
                 {
                     log(LOG_LEVEL_ERROR, "Failed to choose OpenGL visual");
@@ -165,8 +164,8 @@ namespace ouzel
             swa.border_pixel = 0;
             swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
-            if (size.width <= 0.0f) size.width = DEFAULT_WIDTH;
-            if (size.height <= 0.0f) size.height = DEFAULT_HEIGHT;
+            if (size.width <= 0.0f) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
+            if (size.height <= 0.0f) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
 
             window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
                                    static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height), 0,
