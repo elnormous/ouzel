@@ -12,6 +12,8 @@
 #include "utils/Utils.h"
 
 const long _NET_WM_STATE_TOGGLE = 2;
+const float DEFAULT_WIDTH = 640.0f;
+const float DEFAULT_HEIGHT= 480.0f;
 
 namespace ouzel
 {
@@ -162,6 +164,10 @@ namespace ouzel
             swa.colormap = cmap;
             swa.border_pixel = 0;
             swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
+
+            if (size.width <= 0.0f) size.width = DEFAULT_WIDTH;
+            if (size.height <= 0.0f) size.height = DEFAULT_HEIGHT;
+
             window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
                                    static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height), 0,
                                    vi->depth, InputOutput, vi->visual,
