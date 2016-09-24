@@ -334,22 +334,16 @@ namespace ouzel
         RECT windowRect = { 0, 0, static_cast<LONG>(size.width), static_cast<LONG>(size.height) };
         AdjustWindowRect(&windowRect, windowStyle, FALSE);
 
+        int width = CW_USEDEFAULT;
+        int height = CW_USEDEFAULT;
+        if (size.width > 0.0f) width = windowRect.right - windowRect.left;
+        if (size.height > 0.0f) height = windowRect.bottom - windowRect.top;
+
         wchar_t titleBuffer[256];
         MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256);
 
-        window = CreateWindowExW(
-            0,
-            WINDOW_CLASS_NAME,
-            titleBuffer,
-            windowStyle,
-            x,
-            y,
-            windowRect.right - windowRect.left,
-            windowRect.bottom - windowRect.top,
-            nullptr,
-            nullptr,
-            hInstance,
-            nullptr);
+        window = CreateWindowExW(0, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
+                                 x, y, width, height, nullptr, nullptr, hInstance, nullptr);
 
         if (!window)
         {
