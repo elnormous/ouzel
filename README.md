@@ -33,7 +33,7 @@ Windows Phone platform support is under development.
 
 ## Features
 
-* Cross-platform (Windows, OS X, iOS, tvOS, Android and Linux supported, and Windows Phone support under development)
+* Cross-platform (Windows, OS X, iOS, tvOS, Android, Linux, Emscripten supported and Windows Phone support under development)
 * Multi-threaded (separate threads for rendering and game update)
 * Scene management
 * GUI helper classes and management
