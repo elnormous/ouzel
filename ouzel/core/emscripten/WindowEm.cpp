@@ -30,6 +30,15 @@ namespace ouzel
 
     bool WindowEm::init()
     {
+        if (size.width <= 0.0f || size.height <= 0.0f)
+        {
+            int width, height, fullscreen;
+            emscripten_get_canvas_size(&width, &height, &fullscreen);
+
+            if (size.width <= 0.0f) size.width = static_cast<float>(width);
+            if (size.height <= 0.0f) size.height = static_cast<float>(height);
+        }
+
         emscripten_set_canvas_size(static_cast<int>(size.width),
                                    static_cast<int>(size.height));
 
