@@ -164,12 +164,17 @@ namespace ouzel
             swa.border_pixel = 0;
             swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
-            if (size.width <= 0.0f) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
-            if (size.height <= 0.0f) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
+            int screenWidth = XWidthOfScreen(screen);
+            int screenHeight = XHeightOfScreen(screen)
 
-            window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
-                                   static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height), 0,
-                                   vi->depth, InputOutput, vi->visual,
+            if (size.width <= 0.0f) size.width = static_cast<float>(screenWidth) * 0.8f;
+            if (size.height <= 0.0f) size.height = static_cast<float>(screenHeight) * 0.8f;
+
+            window = XCreateWindow(display, RootWindow(display, vi->screen),
+                                   screenWidth / 2 - static_cast<unsigned int>(size.width),
+                                   screenHeight / 2 - static_cast<unsigned int>(size.height),
+                                   static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
+                                   0, vi->depth, InputOutput, vi->visual,
                                    CWBorderPixel | CWColormap | CWEventMask, &swa);
             XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, sharedApplication->getArgv(), sharedApplication->getArgc(), nullptr);
 
