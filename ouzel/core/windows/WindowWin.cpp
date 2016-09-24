@@ -351,6 +351,13 @@ namespace ouzel
             return false;
         }
 
+        if (size.width <= 0.0f || size.height <= 0.0f)
+        {
+            GetClientRect(window, &windowRect);
+            if (size.width > 0.0f) size.width = static_cast<float>(windowRect.right - windowRect.left);
+            if (size.height > 0.0f) size.height = static_cast<float>(windowRect.bottom - windowRect.top);
+        }
+
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
         RegisterTouchWindow(window, 0);
         ShowWindow(window, SW_SHOW);
