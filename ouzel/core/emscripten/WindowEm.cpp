@@ -22,7 +22,6 @@ namespace ouzel
         Window(pSize, pResizable, pFullscreen, pTitle)
     {
         emscripten_set_resize_callback(nullptr, this, 1, emUICallback);
-        printf("callback registered\n");
     }
 
     WindowEm::~WindowEm()
