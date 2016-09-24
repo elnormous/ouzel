@@ -122,6 +122,7 @@
 #elif defined(EMSCRIPTEN)
     #define OUZEL_PLATFORM_EMSCRIPTEN 1
     #define OUZEL_SUPPORTS_OPENGLES 1
+    #define OUZEL_SUPPORTS_OPENAL 1
 #endif
 
 #if defined(__SSE__)
