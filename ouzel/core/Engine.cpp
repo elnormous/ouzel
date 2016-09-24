@@ -229,7 +229,7 @@ namespace ouzel
                 break;
 #if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
             case graphics::Renderer::Driver::OPENGL:
-                log(LOG_LEVEL_ERROR, "Using OpenGL render driver");
+                log(LOG_LEVEL_INFO, "Using OpenGL render driver");
     #if OUZEL_PLATFORM_MACOS
                 renderer.reset(new graphics::RendererOGLMacOS());
     #elif OUZEL_PLATFORM_IOS
@@ -249,13 +249,13 @@ namespace ouzel
 #endif
 #if OUZEL_SUPPORTS_DIRECT3D11
             case graphics::Renderer::Driver::DIRECT3D11:
-                log(LOG_LEVEL_ERROR, "Using Direct3D 11 render driver");
+                log(LOG_LEVEL_INFO, "Using Direct3D 11 render driver");
                 renderer.reset(new graphics::RendererD3D11());
                 break;
 #endif
 #if OUZEL_SUPPORTS_METAL
             case graphics::Renderer::Driver::METAL:
-                log(LOG_LEVEL_ERROR, "Using Metal render driver");
+                log(LOG_LEVEL_INFO, "Using Metal render driver");
                 renderer.reset(new graphics::RendererMetal());
                 break;
 #endif
@@ -308,7 +308,7 @@ namespace ouzel
                 break;
 #if OUZEL_SUPPORTS_OPENAL
             case audio::Audio::Driver::OPENAL:
-                log(LOG_LEVEL_ERROR, "Using OpenAL audio driver");
+                log(LOG_LEVEL_INFO, "Using OpenAL audio driver");
     #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                 audio.reset(new audio::AudioALApple());
     #else
@@ -318,13 +318,13 @@ namespace ouzel
 #endif
 #if OUZEL_SUPPORTS_XAUDIO2
             case audio::Audio::Driver::XAUDIO2:
-                log(LOG_LEVEL_ERROR, "Using XAudio 2 audio driver");
+                log(LOG_LEVEL_INFO, "Using XAudio 2 audio driver");
                 audio.reset(new audio::AudioXA2());
                 break;
 #endif
 #if OUZEL_SUPPORTS_OPENSL
             case audio::Audio::Driver::OPENSL:
-                log(LOG_LEVEL_ERROR, "Using OpenSL ES audio driver");
+                log(LOG_LEVEL_INFO, "Using OpenSL ES audio driver");
                 audio.reset(new audio::AudioSL());
                 break;
 #endif
