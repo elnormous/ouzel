@@ -164,11 +164,8 @@ namespace ouzel
             swa.border_pixel = 0;
             swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
-            int screenWidth = XWidthOfScreen(screen);
-            int screenHeight = XHeightOfScreen(screen);
-
-            if (size.width <= 0.0f) size.width = static_cast<float>(screenWidth) * 0.8f;
-            if (size.height <= 0.0f) size.height = static_cast<float>(screenHeight) * 0.8f;
+            if (size.width <= 0.0f) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
+            if (size.height <= 0.0f) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
 
             window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
                                    static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
