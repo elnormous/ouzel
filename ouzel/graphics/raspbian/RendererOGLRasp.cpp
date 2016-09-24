@@ -1,7 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <bcm_host.h>
 #include <GLES2/gl2.h>
 
 #include "RendererOGLRasp.h"
@@ -38,8 +37,6 @@ namespace ouzel
                     log(LOG_LEVEL_ERROR, "Failed to terminate EGL");
                 }
             }
-
-            bcm_host_deinit();
         }
 
         void RendererOGLRasp::free()
@@ -79,8 +76,6 @@ namespace ouzel
                                    bool newVerticalSync)
         {
             free();
-
-            bcm_host_init();
 
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
@@ -136,27 +131,20 @@ namespace ouzel
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 
-            uint32_t screenWidth;
-            uint32_t screenHeight;
-            int32_t success = graphics_get_display_size(0, &screenWidth, &screenHeight);
-
-            if (success == -1)
-            {
-                log(LOG_LEVEL_ERROR, "Failed to get display size");
-                return false;
-            }
+            uint32_t width = static_cast<uint32_t>(window->getSize().width);
+            uint32_t height = static_cast<uint32_t>(window->getSize().height);
 
             VC_RECT_T dstRect;
             dstRect.x = 0;
             dstRect.y = 0;
-            dstRect.width = screenWidth;
-            dstRect.height = screenHeight;
+            dstRect.width = width;
+            dstRect.height = height;
 
             VC_RECT_T srcRect;
             srcRect.x = 0;
             srcRect.y = 0;
-            srcRect.width = screenWidth;
-            srcRect.height = screenHeight;
+            srcRect.width = width;
+            srcRect.height = height;
 
             DISPMANX_DISPLAY_HANDLE_T dispmanDisplay = vc_dispmanx_display_open(0);
             DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
@@ -168,8 +156,8 @@ namespace ouzel
 
             static EGL_DISPMANX_WINDOW_T nativewindow;
             nativewindow.element = dispmanElement;
-            nativewindow.width = screenWidth;
-            nativewindow.height = screenHeight;
+            nativewindow.width = width;
+            nativewindow.height = height;
             vc_dispmanx_update_submit_sync(dispmanUpdate);
 
             surface = eglCreateWindowSurface(display, config, &nativewindow, NULL);
@@ -190,9 +178,6 @@ namespace ouzel
                 log(LOG_LEVEL_ERROR, "Failed to set EGL frame interval");
                 return false;
             }
-
-            window->setSize(Size2(static_cast<float>(screenWidth),
-                                  static_cast<float>(screenHeight)));
 
             return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }

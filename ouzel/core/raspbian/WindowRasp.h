@@ -15,5 +15,6 @@ namespace ouzel
 
     protected:
         WindowRasp(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
+        virtual bool init() override;
     };
 }
