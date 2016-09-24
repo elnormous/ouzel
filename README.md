@@ -14,7 +14,7 @@ Supported platforms:
 * iOS 7+
 * tvOS 9+
 * Android 2.3+
-* Emscripten
+* Emscripten ([sample](http://www.ouzelengine.org/samples/))
 
 Supported rendering backends:
 
