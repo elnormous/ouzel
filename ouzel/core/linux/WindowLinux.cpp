@@ -165,7 +165,7 @@ namespace ouzel
             swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
             int screenWidth = XWidthOfScreen(screen);
-            int screenHeight = XHeightOfScreen(screen)
+            int screenHeight = XHeightOfScreen(screen);
 
             if (size.width <= 0.0f) size.width = static_cast<float>(screenWidth) * 0.8f;
             if (size.height <= 0.0f) size.height = static_cast<float>(screenHeight) * 0.8f;
