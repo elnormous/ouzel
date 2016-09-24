@@ -3,6 +3,7 @@
 
 #include <bcm_host.h>
 #include "WindowRasp.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {
