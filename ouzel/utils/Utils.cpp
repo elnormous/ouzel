@@ -86,7 +86,7 @@ namespace ouzel
             int flags = EM_LOG_CONSOLE;
             if (level == LOG_LEVEL_ERROR) flags |= EM_LOG_ERROR;
             else if (level == LOG_LEVEL_WARNING) flags |= EM_LOG_WARN;
-            emscripten_log(level, "%s", TEMP_BUFFER);
+            emscripten_log(flags, "%s", TEMP_BUFFER);
 #endif
         }
     }

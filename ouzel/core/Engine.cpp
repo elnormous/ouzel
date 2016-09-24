@@ -224,7 +224,7 @@ namespace ouzel
         switch (settings.renderDriver)
         {
             case graphics::Renderer::Driver::EMPTY:
-                log(LOG_LEVEL_ERROR, "Not using render driver");
+                log(LOG_LEVEL_INFO, "Not using render driver");
                 renderer.reset(new graphics::RendererEmpty());
                 break;
 #if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
@@ -303,7 +303,7 @@ namespace ouzel
         switch (settings.audioDriver)
         {
             case audio::Audio::Driver::EMPTY:
-                log(LOG_LEVEL_ERROR, "Not using audio driver");
+                log(LOG_LEVEL_INFO, "Not using audio driver");
                 audio.reset(new audio::AudioEmpty());
                 break;
 #if OUZEL_SUPPORTS_OPENAL
