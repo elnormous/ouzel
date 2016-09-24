@@ -171,8 +171,8 @@ namespace ouzel
             if (size.height <= 0.0f) size.height = static_cast<float>(screenHeight) * 0.8f;
 
             window = XCreateWindow(display, RootWindow(display, vi->screen),
-                                   screenWidth / 2 - static_cast<unsigned int>(size.width),
-                                   screenHeight / 2 - static_cast<unsigned int>(size.height),
+                                   screenWidth / 2 - static_cast<unsigned int>(size.width) / 2,
+                                   screenHeight / 2 - static_cast<unsigned int>(size.height) / 2,
                                    static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
                                    0, vi->depth, InputOutput, vi->visual,
                                    CWBorderPixel | CWColormap | CWEventMask, &swa);
