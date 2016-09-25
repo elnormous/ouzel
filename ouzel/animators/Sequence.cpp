@@ -41,9 +41,7 @@ namespace ouzel
 
             for (const auto& animator : animators)
             {
-                float animationLength = animator->getLength();
-
-                if (animationLength <= 0.0f || currentTime > time + animationLength)
+                if (animator->getLength() <= 0.0f || currentTime > time + animator->getLength())
                 {
                     animator->setProgress(1.0f);
                 }
@@ -53,7 +51,7 @@ namespace ouzel
                 }
                 else
                 {
-                    animator->setProgress((currentTime - time) / animationLength);
+                    animator->setProgress((currentTime - time) / animator->getLength());
                 }
 
                 time += animator->getLength();

@@ -17,6 +17,7 @@ namespace ouzel
     {
         Node::Node()
         {
+            animationUpdateCallback.callback = std::bind(&Node::updateAnimation, this, std::placeholders::_1);
         }
 
         Node::~Node()
@@ -269,27 +270,24 @@ namespace ouzel
 
         void Node::animate(const AnimatorPtr& animator)
         {
-            stopAnimation();
+            removeAnimation();
             currentAnimator = animator;
 
             if (currentAnimator)
             {
                 currentAnimator->start(std::static_pointer_cast<Node>(shared_from_this()));
-            }
-        }
-
-        void Node::stopAnimation()
-        {
-            if (currentAnimator)
-            {
-                currentAnimator->stop();
-                removeAnimation();
+                sharedEngine->scheduleUpdate(animationUpdateCallback);
             }
         }
 
         void Node::removeAnimation()
         {
-            currentAnimator.reset();
+            if (currentAnimator)
+            {
+                currentAnimator->stop();
+                currentAnimator.reset();
+                sharedEngine->unscheduleUpdate(animationUpdateCallback);
+            }
         }
 
         void Node::calculateLocalTransform() const
@@ -382,6 +380,23 @@ namespace ouzel
         void Node::removeAllComponents()
         {
             components.clear();
+        }
+
+        void Node::updateAnimation(float delta)
+        {
+            if (currentAnimator)
+            {
+                currentAnimator->update(delta);
+
+                if (currentAnimator->isDone())
+                {
+                    removeAnimation();
+                }
+            }
+            else
+            {
+                sharedEngine->unscheduleUpdate(animationUpdateCallback);
+            }
         }
     } // namespace scene
 } // namespace ouzel

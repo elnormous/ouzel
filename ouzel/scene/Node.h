@@ -13,6 +13,7 @@
 #include "math/Rectangle.h"
 #include "math/AABB2.h"
 #include "graphics/Color.h"
+#include "core/UpdateCallback.h"
 
 namespace ouzel
 {
@@ -75,7 +76,6 @@ namespace ouzel
 
             virtual void animate(const AnimatorPtr& animator);
             virtual AnimatorPtr getAnimator() const { return currentAnimator; }
-            virtual void stopAnimation();
             virtual void removeAnimation();
 
             void setReceiveInput(bool newReceiveInput) { receiveInput = newReceiveInput; }
@@ -98,6 +98,8 @@ namespace ouzel
             virtual void calculateTransform() const;
 
             virtual void calculateInverseTransform() const;
+
+            void updateAnimation(float delta);
 
             Matrix4 parentTransform = Matrix4::IDENTITY;
             mutable Matrix4 transform;
@@ -129,6 +131,8 @@ namespace ouzel
             std::vector<ComponentPtr> components;
 
             NodeContainer* parent = nullptr;
+
+            UpdateCallback animationUpdateCallback;
         };
     } // namespace scene
 } // namespace ouzel

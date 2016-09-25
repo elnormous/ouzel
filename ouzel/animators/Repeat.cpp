@@ -12,39 +12,6 @@ namespace ouzel
         {
         }
 
-        void Repeat::update(float delta)
-        {
-            if (running)
-            {
-                if (!animator || animator->getLength() <= 0.0f)
-                {
-                    currentCount = count;
-                    done = true;
-                    running = false;
-                    currentTime = length;
-                    setProgress(1.0f);
-                }
-                else
-                {
-                    currentTime += delta;
-                    currentCount = static_cast<uint32_t>(currentTime / animator->getLength());
-
-                    if (count == 0 || currentCount < count)
-                    {
-                        float remainingTime = currentTime - animator->getLength() * currentCount;
-                        animator->setProgress(remainingTime / animator->getLength());
-                    }
-                    else
-                    {
-                        done = true;
-                        running = false;
-                        currentTime = length;
-                        setProgress(1.0f);
-                    }
-                }
-            }
-        }
-
         void Repeat::start(const NodePtr& targetNode)
         {
             Animator::start(targetNode);
@@ -65,6 +32,38 @@ namespace ouzel
             }
 
             currentCount = 0;
+        }
+
+        void Repeat::updateProgress()
+        {
+            if (!animator || animator->getLength() <= 0.0f)
+            {
+                currentCount = count;
+                done = true;
+                running = false;
+                currentTime = length;
+                progress = 1.0f;
+            }
+            else
+            {
+                currentCount = static_cast<uint32_t>(currentTime / animator->getLength());
+
+                if (count == 0 || currentCount < count)
+                {
+                    done = false;
+                    running = true;
+
+                    float remainingTime = currentTime - animator->getLength() * static_cast<float>(currentCount);
+                    animator->setProgress(remainingTime / animator->getLength());
+                }
+                else
+                {
+                    done = true;
+                    running = false;
+                    currentTime = length;
+                    progress = 1.0f;
+                }
+            }
         }
     } // namespace scene
 } // namespace ouzel

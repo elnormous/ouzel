@@ -5,7 +5,6 @@
 
 #include <functional>
 #include "utils/Types.h"
-#include "core/UpdateCallback.h"
 
 namespace ouzel
 {
@@ -46,8 +45,6 @@ namespace ouzel
             bool running = false;
 
             NodeWeakPtr node;
-
-            UpdateCallback updateCallback;
 
             std::function<void()> finishHandler;
         };

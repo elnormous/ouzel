@@ -12,7 +12,6 @@ namespace ouzel
         Animator::Animator(float pLength):
             length(pLength)
         {
-            updateCallback.callback = std::bind(&Animator::update, this, std::placeholders::_1);
         }
 
         Animator::~Animator()
@@ -29,7 +28,6 @@ namespace ouzel
                     running = false;
                     progress = 1.0f;
                     currentTime = length;
-                    sharedEngine->unscheduleUpdate(updateCallback);
                     if (finishHandler) finishHandler();
                 }
                 else
@@ -48,8 +46,6 @@ namespace ouzel
             {
                 running = true;
                 node = targetNode;
-
-                sharedEngine->scheduleUpdate(updateCallback);
             }
         }
 
@@ -58,7 +54,6 @@ namespace ouzel
             if (!running)
             {
                 running = true;
-                sharedEngine->scheduleUpdate(updateCallback);
             }
         }
 
@@ -67,7 +62,6 @@ namespace ouzel
             if (running)
             {
                 running = false;
-                sharedEngine->unscheduleUpdate(updateCallback);
             }
 
             if (resetAnimation)
@@ -94,6 +88,5 @@ namespace ouzel
         void Animator::updateProgress()
         {
         }
-
     } // namespace scene
 } // namespace ouzel
