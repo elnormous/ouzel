@@ -11,10 +11,6 @@
     CGDirectDisplayID displayId;
 }
 
--(id)initWithFrame:(NSRect)frameRect;
-
--(void)prepareOpenGL;
-
 // input
 -(BOOL)acceptsFirstResponder;
 

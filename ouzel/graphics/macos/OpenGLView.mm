@@ -34,16 +34,6 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 
 @implementation OpenGLView
 
--(id)initWithFrame:(NSRect)frameRect
-{
-    if (self = [super initWithFrame:frameRect])
-    {
-        displayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription]objectForKey:@"NSScreenNumber"] unsignedIntValue];
-    }
-
-    return self;
-}
-
 -(void)dealloc
 {
     if (displayLink)
@@ -78,6 +68,11 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 
 -(void)prepareOpenGL
 {
+    NSScreen* screen = [_window screen];
+    displayId = (CGDirectDisplayID)[[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
+
+    if (!displayId) displayId = CGMainDisplayID();
+
     std::shared_ptr<graphics::RendererOGLMacOS> rendererOGL = std::static_pointer_cast<graphics::RendererOGLMacOS>(sharedEngine->getRenderer());
 
     NSOpenGLContext* openGLContext = rendererOGL->getOpenGLContext();
@@ -91,21 +86,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
     CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr);
 
-    NSOpenGLPixelFormat* pixelFormat = rendererOGL->getPixelFormat();
-
-    CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, [openGLContext CGLContextObj], [pixelFormat CGLPixelFormatObj]);
     CVDisplayLinkStart(displayLink);
-}
-
--(void)changeDisplay
-{
-    CGDirectDisplayID currentDisplayId = (CGDirectDisplayID)[[[[_window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-
-    if (displayId != 0 && displayId != currentDisplayId)
-    {
-        CVDisplayLinkSetCurrentCGDisplay(displayLink, currentDisplayId);
-        displayId = currentDisplayId;
-    }
 }
 
 -(void)lockFocus
