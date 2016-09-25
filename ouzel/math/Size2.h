@@ -84,11 +84,11 @@ namespace ouzel
 
     inline Size2 operator*(const Size2& size, const Vector2& v)
     {
-        return Size2(v.x * size.width, v.y * size.height);
+        return Size2(size.width * v.x, size.height * v.y);
     }
 
     inline Size2 operator/(const Size2& size, const Vector2& v)
     {
-        return Size2(v.x / size.width, v.y / size.height);
+        return Size2(size.width / v.x, size.height / v.y);
     }
 }

@@ -87,11 +87,11 @@ namespace ouzel
 
     inline Size3 operator*(const Size3& size, const Vector3& v)
     {
-        return Size3(v.x * size.width, v.y * size.height, v.z * size.depth);
+        return Size3(size.width * v.x, size.height * v.y, size.depth * v.z);
     }
 
     inline Size3 operator/(const Size3& size, const Vector3& v)
     {
-        return Size3(v.x / size.width, v.y / size.height, v.z / size.depth);
+        return Size3(size.width / v.x, size.height / v.y, size.depth / v.z);
     }
 }
