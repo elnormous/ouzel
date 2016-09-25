@@ -48,10 +48,7 @@ namespace ouzel
                 }
             }
 
-            if (screenSize.width == 0.0f || screenSize.height == 0.0f)
-            {
-                return;
-            }
+            assert(screenSize.width > 0.0f && screenSize.height > 0.0f);
 
             if (targetContentSize.width > 0.0f && targetContentSize.height > 0.0f)
             {
@@ -82,7 +79,7 @@ namespace ouzel
                     }
                 }
 
-                contentSize = targetContentSize * contentScale;
+                contentSize = targetContentSize / contentScale;
                 contentPosition = Vector2((contentSize.width - targetContentSize.width) / 2.0f,
                                           (contentSize.height - targetContentSize.height) / 2.0f);
             }

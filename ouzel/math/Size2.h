@@ -86,4 +86,9 @@ namespace ouzel
     {
         return Size2(v.x * size.width, v.y * size.height);
     }
+
+    inline Size2 operator/(const Size2& size, const Vector2& v)
+    {
+        return Size2(v.x / size.width, v.y / size.height);
+    }
 }
