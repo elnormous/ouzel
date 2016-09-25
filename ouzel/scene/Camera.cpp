@@ -79,7 +79,7 @@ namespace ouzel
                     }
                 }
 
-                contentSize = targetContentSize / contentScale;
+                contentSize = screenSize / contentScale;
                 contentPosition = Vector2((contentSize.width - targetContentSize.width) / 2.0f,
                                           (contentSize.height - targetContentSize.height) / 2.0f);
             }
