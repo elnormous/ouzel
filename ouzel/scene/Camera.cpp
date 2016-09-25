@@ -55,12 +55,13 @@ namespace ouzel
 
             if (targetContentSize.width > 0.0f && targetContentSize.height > 0.0f)
             {
+                contentScale.x = screenSize.width / targetContentSize.width;
+                contentScale.y = screenSize.height / targetContentSize.height;
+                
                 switch (scaleMode)
                 {
                     case ScaleMode::NONE:
                     {
-                        contentScale.x = screenSize.width / targetContentSize.width;
-                        contentScale.y = screenSize.height / targetContentSize.height;
                         break;
                     }
                     case ScaleMode::EXACT_FIT:
@@ -82,6 +83,8 @@ namespace ouzel
                 }
 
                 contentSize = targetContentSize * contentScale;
+                contentPosition = Vector2((contentSize.width - targetContentSize.width) / 2.0f,
+                                          (contentSize.height - targetContentSize.height) / 2.0f);
             }
             else
             {

@@ -41,13 +41,14 @@ namespace ouzel
             Vector2 projectPoint(const Vector3& src) const;
 
             virtual void setScaleMode(ScaleMode newScaleMode);
-            virtual ScaleMode getScaleMode() const { return scaleMode; }
+            ScaleMode getScaleMode() const { return scaleMode; }
 
             virtual void setTargetContentSize(const Size2& newTargetContentSize);
             const Size2& getTargetContentSize() const { return targetContentSize; }
 
-            virtual const Size2& getContentSize() const { return contentSize; }
-            virtual const Vector2& getContentScale() const { return contentScale; }
+            const Size2& getContentSize() const { return contentSize; }
+            const Vector2& getContentScale() const { return contentScale; }
+            const Vector2& getContentPosition() const { return contentPosition; }
 
             virtual void addToLayer(Layer* newLayer);
             virtual void removeFromLayer();
@@ -65,6 +66,7 @@ namespace ouzel
             ScaleMode scaleMode = ScaleMode::NONE;
             Size2 contentSize;
             Vector2 contentScale;
+            Vector2 contentPosition;
 
             bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection = Matrix4::IDENTITY;
