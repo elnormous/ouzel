@@ -53,16 +53,14 @@ namespace ouzel
                 return;
             }
 
-            if (targetContentSize.width != 0.0f && targetContentSize.height != 0.0f)
+            if (targetContentSize.width > 0.0f && targetContentSize.height > 0.0f)
             {
-                contentSize = targetContentSize;
-                contentScale.x = screenSize.width / contentSize.width;
-                contentScale.y = screenSize.height / contentSize.height;
-
                 switch (scaleMode)
                 {
                     case ScaleMode::NONE:
                     {
+                        contentScale.x = screenSize.width / targetContentSize.width;
+                        contentScale.y = screenSize.height / targetContentSize.height;
                         break;
                     }
                     case ScaleMode::EXACT_FIT:
@@ -82,6 +80,8 @@ namespace ouzel
                         break;
                     }
                 }
+
+                contentSize = targetContentSize * contentScale;
             }
             else
             {

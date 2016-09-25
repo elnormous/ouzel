@@ -81,4 +81,9 @@ namespace ouzel
             return width == 1.0f && height == 1.0f;
         }
     };
+
+    inline Size2 operator*(const Size2& size, const Vector2& v)
+    {
+        return Size2(v.x * size.width, v.y * size.height);
+    }
 }

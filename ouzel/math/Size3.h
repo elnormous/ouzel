@@ -84,4 +84,9 @@ namespace ouzel
             return width == 1.0f && height == 1.0f && depth == 1.0f;
         }
     };
+
+    inline Size3 operator*(const Size3& size, const Vector3& v)
+    {
+        return Size3(v.x * size.width, v.y * size.height, v.z * size.depth);
+    }
 }
