@@ -24,18 +24,6 @@ namespace ouzel
         {
         }
 
-        void Camera::setZoom(float newZoom)
-        {
-            zoom = newZoom;
-
-            if (zoom < 0.1f)
-            {
-                zoom = 0.1f;
-            }
-
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
-        }
-
         void Camera::recalculateProjection()
         {
             Size2 screenSize = sharedEngine->getRenderer()->getSize();
@@ -116,7 +104,7 @@ namespace ouzel
             rotationMatrix.rotate(Vector3(0.0f, 0.0f, -1.0f), -rotation);
 
             Matrix4 scaleMatrix = Matrix4::IDENTITY;
-            scaleMatrix.scale(zoom);
+            scaleMatrix.scale(scale);
 
             localTransform = scaleMatrix * rotationMatrix * translationMatrix;
 
@@ -154,9 +142,8 @@ namespace ouzel
             Vector2 diff = boundingBox.max - boundingBox.min;
 
             Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
-            diff *= zoom;
-            diff.x *= contentScale.x;
-            diff.y *= contentScale.y;
+            diff.x *= scale.x * contentScale.x;
+            diff.y *= scale.y * contentScale.y;
 
             transform.transformPoint(v3p);
 

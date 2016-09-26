@@ -25,9 +25,6 @@ namespace ouzel
             Camera();
             virtual ~Camera();
 
-            float getZoom() const { return zoom; }
-            void setZoom(float newZoom);
-
             const Matrix4& getProjection() const { return projection; }
             virtual void recalculateProjection();
 
@@ -55,8 +52,6 @@ namespace ouzel
 
         protected:
             virtual void calculateLocalTransform() const override;
-
-            float zoom = 1.0f;
 
             Matrix4 projection = Matrix4::IDENTITY;
             Matrix4 inverseProjection = Matrix4::IDENTITY;
