@@ -104,7 +104,7 @@ namespace ouzel
             rotationMatrix.rotate(Vector3(0.0f, 0.0f, -1.0f), -rotation);
 
             Matrix4 scaleMatrix = Matrix4::IDENTITY;
-            scaleMatrix.scale(scale);
+            scaleMatrix.scale(Vector3(scale.x, scale.y, 1.0f));
 
             localTransform = scaleMatrix * rotationMatrix * translationMatrix;
 
