@@ -388,32 +388,35 @@ namespace ouzel
             {
                 std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
                 auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousUpdateTime);
-                previousUpdateTime = currentTime;
 
-                float delta = diff.count() / 1000000000.0f;
-
-                eventDispatcher->dispatchEvents();
-
-                if (sharedEngine->getRenderer()->getRefillDrawQueue())
+                if (diff.count() > 1000000) // at least one millisecond has passed
                 {
-                    sceneManager->draw();
-                    renderer->flushDrawCommands();
-                }
+                    previousUpdateTime = currentTime;
+                    float delta = diff.count() / 1000000000.0f;
 
-                for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
-                {
-                    updateCallbackDeleted = false;
+                    eventDispatcher->dispatchEvents();
 
-                    const UpdateCallback* updateCallback = *updateCallbackIterator;
-                    if (updateCallback && updateCallback->callback)
+                    if (sharedEngine->getRenderer()->getRefillDrawQueue())
                     {
-                        updateCallback->callback(delta);
+                        sceneManager->draw();
+                        renderer->flushDrawCommands();
                     }
 
-                    // current element wasn't delete from the list
-                    if (!updateCallbackDeleted)
+                    for (updateCallbackIterator = updateCallbacks.begin(); updateCallbackIterator != updateCallbacks.end();)
                     {
-                        ++updateCallbackIterator;
+                        updateCallbackDeleted = false;
+
+                        const UpdateCallback* updateCallback = *updateCallbackIterator;
+                        if (updateCallback && updateCallback->callback)
+                        {
+                            updateCallback->callback(delta);
+                        }
+
+                        // current element wasn't delete from the list
+                        if (!updateCallbackDeleted)
+                        {
+                            ++updateCallbackIterator;
+                        }
                     }
                 }
             }
