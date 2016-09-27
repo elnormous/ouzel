@@ -136,7 +136,7 @@ namespace ouzel
             return Vector2(result.x, result.y);
         }
 
-        bool Camera::checkVisibility(const Matrix4& transform, const AABB2& boundingBox)
+        bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox)
         {
             if (scale.x == 0.0f || scale.y == 0.0f) return false;
 
@@ -150,7 +150,7 @@ namespace ouzel
             diff.x *= contentScale.x / scale.x;
             diff.y *= contentScale.y / scale.y;
 
-            getTransform().transformPoint(v3p);
+            boxTransform.transformPoint(v3p);
 
             Vector2 v2p = projectPoint(v3p);
 
@@ -158,6 +158,11 @@ namespace ouzel
 
             // convert content size to world coordinates
             Size2 halfWorldSize;
+
+            if (transformDirty)
+            {
+                calculateTransform();
+            }
 
             halfWorldSize.width = std::max(fabsf(halfSize.width * transform.m[0] + halfSize.height * transform.m[4]), fabsf(halfSize.width * transform.m[0] - halfSize.height * transform.m[4]));
             halfWorldSize.height = std::max(fabsf(halfSize.width * transform.m[1] + halfSize.height * transform.m[5]), fabsf(halfSize.width * transform.m[1] - halfSize.height * transform.m[5]));
