@@ -20,12 +20,12 @@ namespace ouzel
         public:
             virtual ~Component();
 
-            virtual void draw(const Matrix4& projectionMatrix,
+            virtual void draw(const Matrix4& viewProjectionMatrix,
                               const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
                               const graphics::RenderTargetPtr& renderTarget);
 
-            virtual void drawWireframe(const Matrix4& projectionMatrix,
+            virtual void drawWireframe(const Matrix4& viewProjectionMatrix,
                                        const Matrix4& transformMatrix,
                                        const graphics::Color& drawColor,
                                        const graphics::RenderTargetPtr& renderTarget);

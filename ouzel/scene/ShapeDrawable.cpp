@@ -35,17 +35,17 @@ namespace ouzel
             meshBuffer->init(indexBuffer, vertexBuffer);
         }
 
-        void ShapeDrawable::draw(const Matrix4& projectionMatrix,
+        void ShapeDrawable::draw(const Matrix4& viewProjectionMatrix,
                                  const Matrix4& transformMatrix,
                                  const graphics::Color& drawColor,
                                  const graphics::RenderTargetPtr& renderTarget)
         {
-            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::draw(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
 
             indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
             vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
 
-            Matrix4 modelViewProj = projectionMatrix * transformMatrix;
+            Matrix4 modelViewProj = viewProjectionMatrix * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             for (const DrawCommand& drawCommand : drawCommands)

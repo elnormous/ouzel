@@ -29,12 +29,12 @@ namespace ouzel
             virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
 
             virtual void update(float delta);
-            virtual void draw(const Matrix4& projectionMatrix,
+            virtual void draw(const Matrix4& viewProjectionMatrix,
                               const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
                               const graphics::RenderTargetPtr& renderTarget) override;
 
-            virtual void drawWireframe(const Matrix4& projectionMatrix,
+            virtual void drawWireframe(const Matrix4& viewProjectionMatrix,
                                        const Matrix4& transformMatrix,
                                        const graphics::Color& drawColor,
                                        const graphics::RenderTargetPtr& renderTarget) override;

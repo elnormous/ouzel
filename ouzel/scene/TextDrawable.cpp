@@ -58,12 +58,12 @@ namespace ouzel
             setText(text);
         }
 
-        void TextDrawable::draw(const Matrix4& projectionMatrix,
+        void TextDrawable::draw(const Matrix4& viewProjectionMatrix,
                                 const Matrix4& transformMatrix,
                                 const graphics::Color& drawColor,
                                 const graphics::RenderTargetPtr& renderTarget)
         {
-            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::draw(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
 
             if (needsMeshUpdate)
             {
@@ -73,7 +73,7 @@ namespace ouzel
                 needsMeshUpdate = false;
             }
 
-            Matrix4 modelViewProj = projectionMatrix * transformMatrix;
+            Matrix4 modelViewProj = viewProjectionMatrix * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -94,14 +94,14 @@ namespace ouzel
                                                         renderTarget);
         }
 
-        void TextDrawable::drawWireframe(const Matrix4& projectionMatrix,
+        void TextDrawable::drawWireframe(const Matrix4& viewProjectionMatrix,
                                          const Matrix4& transformMatrix,
                                          const graphics::Color& drawColor,
                                          const graphics::RenderTargetPtr& renderTarget)
         {
-            Component::drawWireframe(projectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::drawWireframe(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
 
-            Matrix4 modelViewProj = projectionMatrix * transformMatrix;
+            Matrix4 modelViewProj = viewProjectionMatrix * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             std::vector<std::vector<float>> pixelShaderConstants(1);

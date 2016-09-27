@@ -18,7 +18,7 @@ namespace ouzel
         public:
             ShapeDrawable();
 
-            virtual void draw(const Matrix4& projectionMatrix,
+            virtual void draw(const Matrix4& viewProjectionMatrix,
                               const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
                               const graphics::RenderTargetPtr& renderTarget) override;

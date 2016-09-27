@@ -39,12 +39,12 @@ namespace ouzel
         {
         }
 
-        void ParticleSystem::draw(const Matrix4& projectionMatrix,
+        void ParticleSystem::draw(const Matrix4& viewProjectionMatrix,
                                   const Matrix4& transformMatrix,
                                   const graphics::Color& drawColor,
                                   const graphics::RenderTargetPtr& renderTarget)
         {
-            Component::draw(projectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::draw(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
 
             if (particleCount)
             {
@@ -58,11 +58,11 @@ namespace ouzel
 
                 if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
                 {
-                    transform = projectionMatrix;
+                    transform = viewProjectionMatrix;
                 }
                 else if (positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    transform = projectionMatrix * transformMatrix;
+                    transform = viewProjectionMatrix * transformMatrix;
                 }
 
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
@@ -86,12 +86,12 @@ namespace ouzel
             }
         }
 
-        void ParticleSystem::drawWireframe(const Matrix4& projectionMatrix,
+        void ParticleSystem::drawWireframe(const Matrix4& viewProjectionMatrix,
                                            const Matrix4& transformMatrix,
                                            const graphics::Color& drawColor,
                                            const graphics::RenderTargetPtr& renderTarget)
         {
-            Component::drawWireframe(projectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::drawWireframe(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
 
             if (particleCount)
             {
@@ -99,11 +99,11 @@ namespace ouzel
 
                 if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
                 {
-                    transform = projectionMatrix;
+                    transform = viewProjectionMatrix;
                 }
                 else if (positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    transform = projectionMatrix * transformMatrix;
+                    transform = viewProjectionMatrix * transformMatrix;
                 }
 
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
