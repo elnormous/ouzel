@@ -37,7 +37,7 @@ namespace ouzel
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
 
             bool isHidden() const { return hidden; }
-            virtual void setHidden(bool newHidden) { hidden = newHidden; }
+            void setHidden(bool newHidden) { hidden = newHidden; }
 
         protected:
             void setNode(Node* newNode) { node = newNode; }

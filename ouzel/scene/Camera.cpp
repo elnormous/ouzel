@@ -104,7 +104,10 @@ namespace ouzel
             rotationMatrix.rotate(Vector3(0.0f, 0.0f, -1.0f), -rotation);
 
             Matrix4 scaleMatrix = Matrix4::IDENTITY;
-            scaleMatrix.scale(Vector3(scale.x, scale.y, 1.0f));
+            Vector3 inverseScale(0.0f, 0.0f, 1.0f);
+            if (scale.x != 0.0f) inverseScale.x = 1.0f / scale.x;
+            if (scale.y != 0.0f) inverseScale.y = 1.0f / scale.y;
+            scaleMatrix.scale(inverseScale);
 
             localTransform = scaleMatrix * rotationMatrix * translationMatrix;
 
@@ -135,6 +138,8 @@ namespace ouzel
 
         bool Camera::checkVisibility(const Matrix4& transform, const AABB2& boundingBox)
         {
+            if (scale.x == 0.0f || scale.y == 0.0f) return false;
+
             Size2 size = sharedEngine->getRenderer()->getSize();
             Rectangle visibleRect(0.0f, 0.0f, size.width, size.height);
 
@@ -142,8 +147,8 @@ namespace ouzel
             Vector2 diff = boundingBox.max - boundingBox.min;
 
             Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
-            diff.x *= scale.x * contentScale.x;
-            diff.y *= scale.y * contentScale.y;
+            diff.x *= contentScale.x / scale.x;
+            diff.y *= contentScale.y / scale.y;
 
             getTransform().transformPoint(v3p);
 

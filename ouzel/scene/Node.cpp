@@ -40,7 +40,7 @@ namespace ouzel
                 calculateTransform();
             }
 
-            if (currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
+            if (alwaysVisible || currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
             {
                 currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()), depth + z);
             }

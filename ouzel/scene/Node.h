@@ -60,6 +60,9 @@ namespace ouzel
             virtual void setPickable(bool newPickable) { pickable = newPickable; }
             virtual bool isPickable() const { return pickable; }
 
+            bool isAlwaysVisible() const { return alwaysVisible; }
+            void setAlwaysVisible(bool newAlwaysVisible) { alwaysVisible = newAlwaysVisible; }
+
             virtual void setHidden(bool newHidden);
             virtual bool isHidden() const { return hidden; }
 
@@ -137,6 +140,7 @@ namespace ouzel
             bool flipY = false;
 
             bool pickable = false;
+            bool alwaysVisible = false;
             bool hidden = false;
             bool receiveInput = false;
 
