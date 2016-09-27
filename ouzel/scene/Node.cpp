@@ -217,31 +217,6 @@ namespace ouzel
             return false;
         }
 
-        const Matrix4& Node::getTransform() const
-        {
-            if (transformDirty)
-            {
-                calculateTransform();
-            }
-
-            return transform;
-        }
-
-        const Matrix4& Node::getInverseTransform() const
-        {
-            if (transformDirty)
-            {
-                calculateTransform();
-            }
-
-            if (inverseTransformDirty)
-            {
-                calculateInverseTransform();
-            }
-
-            return inverseTransform;
-        }
-
         void Node::updateTransform(const Matrix4& newParentTransform)
         {
             parentTransform = newParentTransform;

@@ -26,7 +26,7 @@ namespace ouzel
             virtual ~Camera();
 
             const Matrix4& getProjection() const { return projection; }
-            virtual void recalculateProjection();
+            void recalculateProjection();
 
             const Matrix4& getViewProjection() const;
 
@@ -37,10 +37,10 @@ namespace ouzel
 
             Vector2 projectPoint(const Vector3& src) const;
 
-            virtual void setScaleMode(ScaleMode newScaleMode);
+            void setScaleMode(ScaleMode newScaleMode);
             ScaleMode getScaleMode() const { return scaleMode; }
 
-            virtual void setTargetContentSize(const Size2& newTargetContentSize);
+            void setTargetContentSize(const Size2& newTargetContentSize);
             const Size2& getTargetContentSize() const { return targetContentSize; }
 
             const Size2& getContentSize() const { return contentSize; }

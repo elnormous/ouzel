@@ -145,7 +145,7 @@ namespace ouzel
             diff.x *= scale.x * contentScale.x;
             diff.y *= scale.y * contentScale.y;
 
-            transform.transformPoint(v3p);
+            getTransform().transformPoint(v3p);
 
             Vector2 v2p = projectPoint(v3p);
 

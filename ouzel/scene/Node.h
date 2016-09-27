@@ -66,17 +66,39 @@ namespace ouzel
             virtual bool pointOn(const Vector2& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
 
-            virtual const Matrix4& getTransform() const;
-            const Matrix4& getInverseTransform() const;
+            const Matrix4& getTransform() const
+            {
+                if (transformDirty)
+                {
+                    calculateTransform();
+                }
+
+                return transform;
+            }
+
+            const Matrix4& getInverseTransform() const
+            {
+                if (transformDirty)
+                {
+                    calculateTransform();
+                }
+
+                if (inverseTransformDirty)
+                {
+                    calculateInverseTransform();
+                }
+                
+                return inverseTransform;
+            }
 
             virtual void updateTransform(const Matrix4& newParentTransform);
 
             Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
             Vector2 convertLocalToWorld(const Vector2& localPosition) const;
 
-            virtual void animate(const AnimatorPtr& animator);
-            virtual AnimatorPtr getAnimator() const { return currentAnimator; }
-            virtual void removeAnimation();
+            void animate(const AnimatorPtr& animator);
+            AnimatorPtr getAnimator() const { return currentAnimator; }
+            void removeAnimation();
 
             void setReceiveInput(bool newReceiveInput) { receiveInput = newReceiveInput; }
             bool isReceivingInput() const { return receiveInput; }
