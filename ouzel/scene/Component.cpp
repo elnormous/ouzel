@@ -14,9 +14,9 @@ namespace ouzel
         }
 
         void Component::draw(const Matrix4&,
-                            const Matrix4&,
-                            const graphics::Color&,
-                            const graphics::RenderTargetPtr&)
+                             const Matrix4&,
+                             const graphics::Color&,
+                             const graphics::RenderTargetPtr&)
         {
         }
 
