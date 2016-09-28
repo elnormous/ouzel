@@ -68,20 +68,20 @@ The following code will open a 640px x 480px window:
 
 ## Compilation
 
-Ouzel uses stb, rapidjson and utfcpp submodules. The following commands have to be run after cloning Ouzel engine:
+Ouzel uses stb, rapidjson and utfcpp submodules. The following command has to be run after cloning the Ouzel engine:
+
+```
+$ git submodule update --init
+```
+
+or these commands if you have a really old version of git:
 
 ```
 $ git submodule init
 $ git submodule update
 ```
 
-If you have a git version 2.10 or above, you can do it with a single command:
-
-```
-$ git submodule update --init
-```
-
-Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in the samples directory.
+Makefiles and Xcode and Visual Studio project files are located in the "build" directory. Makefiles and project files for sample project are located in the "samples" directory.
 
 You will need to download OpenGL (e.g. Mesa) and OpenAL drivers in order to build Ouzel on Linux. To build it for Raspbian pass "platform=raspbian" to "make" as follows:
 
@@ -89,7 +89,7 @@ You will need to download OpenGL (e.g. Mesa) and OpenAL drivers in order to buil
 $ make platform=raspbian
 ```
 
-To build Ouzel with Emscripten, pass "platform=emscripten" to "make" command, but you have to install Emscripten SDK before doing so.
+To build Ouzel with Emscripten, pass "platform=emscripten" to "make" command, but make sure that you have Emscripten SDK installed before doing so:
 
 ```
 $ make platform=emscripten
