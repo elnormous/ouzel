@@ -211,8 +211,7 @@ namespace ouzel
 
     void BMFont::getVertices(const std::string& text, const graphics::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices)
     {
-        float x = 0.0f;
-        float y = 0.0f;
+        Vector2 position;
 
         std::vector<uint32_t> utf32Text;
         utf8::unchecked::utf8to32(text.begin(), text.end(), std::back_inserter(utf32Text));
@@ -250,45 +249,45 @@ namespace ouzel
                 Vector2 rightBottom((f.x + f.width) / static_cast<float>(width),
                                     (f.y + f.height) / static_cast<float>(height));
 
-                textCoords[0] = Vector2(leftTop.x, leftTop.y);
-                textCoords[1] = Vector2(rightBottom.x, leftTop.y);
-                textCoords[2] = Vector2(leftTop.x, rightBottom.y);
-                textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
-
                 if (texture->isFlipped())
                 {
                     leftTop.y = 1.0f - leftTop.y;
                     rightBottom.y = 1.0f - rightBottom.y;
                 }
 
-                vertices.push_back(graphics::VertexPCT(Vector3(x + f.xOffset, y - f.yOffset, 0.0f),
+                textCoords[0] = Vector2(leftTop.x, leftTop.y);
+                textCoords[1] = Vector2(rightBottom.x, leftTop.y);
+                textCoords[2] = Vector2(leftTop.x, rightBottom.y);
+                textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
+
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset, -position.y - f.yOffset, 0.0f),
                                              color, textCoords[0]));
 
-                vertices.push_back(graphics::VertexPCT(Vector3(x + f.xOffset + f.width, y - f.yOffset, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset, 0.0f),
                                              color, textCoords[1]));
 
-                vertices.push_back(graphics::VertexPCT(Vector3(x + f.xOffset, y - f.yOffset - f.height, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset, -position.y - f.yOffset - f.height, 0.0f),
                                              color, textCoords[2]));
 
-                vertices.push_back(graphics::VertexPCT(Vector3(x + f.xOffset + f.width, y - f.yOffset - f.height, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset - f.height, 0.0f),
                                              color, textCoords[3]));
 
                 // Only check kerning if there is greater then 1 character and
                 // if the check character is 1 less then the end of the string.
                 if (utf32Text.size() > 1 && i < utf32Text.size() - 1)
                 {
-                    x += getKerningPair(text[i], text[i + 1]);
+                    position.x += getKerningPair(text[i], text[i + 1]);
                 }
 
-                x +=  f.xAdvance;
+                position.x +=  f.xAdvance;
             }
 
             if (utf32Text[i] == static_cast<uint32_t>('\n') || // line feed
                 i + 1 == utf32Text.size()) // end of string
             {
-                float lineWidth = x;
-                x = 0.0f;
-                y += lineHeight;
+                float lineWidth = position.x;
+                position.x = 0.0f;
+                position.y += lineHeight;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
                 {
@@ -299,7 +298,7 @@ namespace ouzel
             }
         }
 
-        float height = y;
+        float height = position.y;
 
         for (size_t c = 0; c < vertices.size(); ++c)
         {
