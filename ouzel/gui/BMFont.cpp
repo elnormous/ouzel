@@ -212,7 +212,7 @@ namespace ouzel
     void BMFont::getVertices(const std::string& text, const graphics::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices)
     {
         float x = 0.0f;
-        float y = lineHeight * (1.0f - anchor.y);
+        float y = 0.0f;
 
         std::vector<uint32_t> utf32Text;
         utf8::unchecked::utf8to32(text.begin(), text.end(), std::back_inserter(utf32Text));
@@ -225,7 +225,9 @@ namespace ouzel
 
         Vector2 textCoords[4];
 
-        for (size_t i = 0; i != utf32Text.size(); ++i)
+        size_t firstChar = 0;
+
+        for (size_t i = 0; i < utf32Text.size(); ++i)
         {
             std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(utf32Text[i]);
 
@@ -280,13 +282,28 @@ namespace ouzel
 
                 x +=  f.xAdvance;
             }
+
+            if (utf32Text[i] == static_cast<uint32_t>('\n') || // line feed
+                i + 1 == utf32Text.size()) // end of string
+            {
+                float lineWidth = x;
+                x = 0.0f;
+                y += lineHeight;
+
+                for (size_t c = firstChar; c < vertices.size(); ++c)
+                {
+                    vertices[c].position.x -= lineWidth * anchor.x;
+                }
+
+                firstChar = vertices.size();
+            }
         }
 
-        float totalWidth = x;
+        float height = y;
 
-        for (graphics::VertexPCT& vertex : vertices)
+        for (size_t c = 0; c < vertices.size(); ++c)
         {
-            vertex.position.x -= totalWidth * anchor.x;
+            vertices[c].position.y += height * anchor.y;
         }
     }
 }
