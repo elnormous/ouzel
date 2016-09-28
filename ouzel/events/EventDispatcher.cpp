@@ -137,7 +137,7 @@ namespace ouzel
             eventHandlers.push_back(&eventHandler);
 
             eventHandlers.sort([](const EventHandler* a, const EventHandler* b) {
-                return a->priority < b->priority;
+                return a->priority > b->priority;
             });
         }
     }

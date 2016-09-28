@@ -469,7 +469,7 @@ namespace ouzel
             updateCallbacks.push_back(&callback);
 
             updateCallbacks.sort([](const UpdateCallback* a, const UpdateCallback* b) {
-                return a->priority < b->priority;
+                return a->priority > b->priority;
             });
         }
     }
