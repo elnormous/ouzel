@@ -75,6 +75,12 @@ $ git submodule init
 $ git submodule update
 ```
 
+If you have a git version 2.10 or above, you can do it with a single command:
+
+```
+$ git submodule update --init
+```
+
 Makefiles and Xcode and Visual Studio project files are located in the build directory. Makefiles and project files for sample project are located in the samples directory.
 
 You will need to download OpenGL (e.g. Mesa) and OpenAL drivers in order to build Ouzel on Linux. To build it for Raspbian pass "platform=raspbian" to "make" as follows:
