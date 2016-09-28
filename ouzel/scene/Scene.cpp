@@ -12,7 +12,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Scene::Scene()
+        Scene::Scene():
+            eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
             eventHandler.windowHandler = std::bind(&Scene::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
             eventHandler.mouseHandler = std::bind(&Scene::handleMouse, this, std::placeholders::_1, std::placeholders::_2);
