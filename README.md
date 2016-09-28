@@ -9,7 +9,7 @@ Ouzel is a C++ game engine mainly targeted for development of 2D games.
 Supported platforms:
 
 * Windows 7, 8, 10 
-* OS X 10.8+
+* macOS 10.8+
 * Linux
 * iOS 7+
 * tvOS 9+
@@ -33,13 +33,13 @@ Windows Phone platform support is under development.
 
 ## Features
 
-* Cross-platform (Windows, OS X, iOS, tvOS, Android, Linux, Emscripten supported and Windows Phone support under development)
+* Cross-platform (Windows, macOS, iOS, tvOS, Android, Linux and Emscripten targets supported)
 * Multi-threaded (separate threads for rendering and game update)
 * Scene management
 * GUI helper classes and management
 * Bitmap font support
 * Xbox 360 gamepad support
-* OS X, iOS and tvOS gamepad support
+* macOS, iOS and tvOS gamepad support
 * Node animation (including tweening) system
 * Particle systems
 * Resource caching system
@@ -97,7 +97,7 @@ $ make platform=emscripten
 
 ## System requirements
 * Windows 7+ with Visual Studio 2013 or Visual Studio 2015
-* OS X 10.10+ with Xcode 7.2+
+* macOS 10.10+ with Xcode 7.2+
 * Any reasonable new Linux distro (including Raspbian)
 
 ## Getting help
