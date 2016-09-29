@@ -147,8 +147,6 @@ namespace ouzel
             Vector2 diff = boundingBox.max - boundingBox.min;
 
             Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
-            diff.x *= contentScale.x / scale.x;
-            diff.y *= contentScale.y / scale.y;
 
             boxTransform.transformPoint(v3p);
 
