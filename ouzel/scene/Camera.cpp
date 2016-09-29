@@ -116,7 +116,7 @@ namespace ouzel
 
         Vector2 Camera::convertScreenToWorld(const Vector2& position)
         {
-            Matrix4 projViewMatrix = projection * getTransform();
+            Matrix4 projViewMatrix = getViewProjection();
             Matrix4 inverseViewMatrix = projViewMatrix;
             inverseViewMatrix.invert();
 
@@ -128,7 +128,7 @@ namespace ouzel
 
         Vector2 Camera::convertWorldToScreen(const Vector2& position)
         {
-            Matrix4 projViewMatrix = projection * getTransform();
+            Matrix4 projViewMatrix = getViewProjection();
 
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             projViewMatrix.transformPoint(result);
