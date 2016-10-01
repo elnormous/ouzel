@@ -42,9 +42,6 @@ namespace ouzel
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
 
-            void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
-            const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
-
             bool checkVisibility(const NodePtr& node) const;
 
             bool getWireframe() const { return wireframe; }
@@ -56,8 +53,6 @@ namespace ouzel
 
             int32_t order = 0;
             bool wireframe = false;
-
-            graphics::RenderTargetPtr renderTarget;
         };
     } // namespace scene
 } // namespace ouzel

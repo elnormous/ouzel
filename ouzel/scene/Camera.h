@@ -50,6 +50,9 @@ namespace ouzel
             virtual void addToLayer(Layer* newLayer);
             virtual void removeFromLayer();
 
+            void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
+            const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
+
         protected:
             virtual void calculateLocalTransform() const override;
 
@@ -67,6 +70,8 @@ namespace ouzel
             mutable Matrix4 viewProjection = Matrix4::IDENTITY;
 
             Layer* layer = nullptr;
+
+            graphics::RenderTargetPtr renderTarget;
         };
     } // namespace scene
 } // namespace ouzel

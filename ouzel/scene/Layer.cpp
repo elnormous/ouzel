@@ -146,16 +146,6 @@ namespace ouzel
             order = newOrder;
         }
 
-        void Layer::setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget)
-        {
-            renderTarget = newRenderTarget;
-
-            if (camera)
-            {
-                camera->recalculateProjection();
-            }
-        }
-
         bool Layer::checkVisibility(const NodePtr& node) const
         {
             if (camera)

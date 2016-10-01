@@ -30,7 +30,7 @@ namespace ouzel
 
             if (layer)
             {
-                if (const graphics::RenderTargetPtr& renderTarget = layer->getRenderTarget())
+                if (renderTarget)
                 {
                     screenSize = renderTarget->getTexture()->getSize();
                 }
@@ -212,6 +212,13 @@ namespace ouzel
         void Camera::removeFromLayer()
         {
             layer = nullptr;
+        }
+
+        void Camera::setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget)
+        {
+            renderTarget = newRenderTarget;
+
+            recalculateProjection();
         }
     } // namespace scene
 } // namespace ouzel

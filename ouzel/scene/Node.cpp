@@ -74,7 +74,7 @@ namespace ouzel
                         component->draw(currentLayer->getCamera()->getViewProjection(),
                                         transform,
                                         drawColor,
-                                        currentLayer->getRenderTarget());
+                                        currentLayer->getCamera()->getRenderTarget());
                     }
                 }
             }
@@ -98,7 +98,7 @@ namespace ouzel
                         component->drawWireframe(currentLayer->getCamera()->getViewProjection(),
                                                  transform,
                                                  drawColor,
-                                                 currentLayer->getRenderTarget());
+                                                 currentLayer->getCamera()->getRenderTarget());
                     }
                 }
             }

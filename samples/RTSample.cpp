@@ -13,13 +13,15 @@ RTSample::RTSample(Samples& pSamples):
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     ouzel::scene::LayerPtr rtLayer = make_shared<scene::Layer>();
-    rtLayer->setCamera(make_shared<scene::Camera>());
     addLayer(rtLayer);
 
     ouzel::graphics::RenderTargetPtr renderTarget = sharedEngine->getRenderer()->createRenderTarget();
     renderTarget->init(Size2(256.0f, 256.0f), false);
     renderTarget->setClearColor(graphics::Color(0, 64, 0));
-    rtLayer->setRenderTarget(renderTarget);
+
+    ouzel::scene::CameraPtr rtCamera = make_shared<scene::Camera>();
+    rtCamera->setRenderTarget(renderTarget);
+    rtLayer->setCamera(rtCamera);
 
     ouzel::scene::LayerPtr layer = make_shared<scene::Layer>();
     layer->setCamera(make_shared<scene::Camera>());
