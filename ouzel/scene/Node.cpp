@@ -89,7 +89,7 @@ namespace ouzel
 
             if (currentLayer->getCamera())
             {
-                graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
+                graphics::Color drawColor(color.r, color.g, color.b, 255);
 
                 for (const ComponentPtr& component : components)
                 {
