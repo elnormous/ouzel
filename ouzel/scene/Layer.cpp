@@ -160,15 +160,7 @@ namespace ouzel
         {
             if (camera)
             {
-                AABB2 boundingBox;
-
-                for (const ComponentPtr& component : node->getComponents())
-                {
-                    if (!component->isHidden())
-                    {
-                        boundingBox.merge(component->getBoundingBox());
-                    }
-                }
+                AABB2 boundingBox = node->getBoundingBox();
 
                 if (!boundingBox.isEmpty() && camera->checkVisibility(node->getTransform(), boundingBox))
                 {

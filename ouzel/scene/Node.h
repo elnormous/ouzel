@@ -112,6 +112,8 @@ namespace ouzel
             bool removeComponent(const ComponentPtr& component);
             void removeAllComponents();
 
+            AABB2 getBoundingBox() const;
+
         protected:
             void setParent(NodeContainer* newParent) { parent = newParent; }
 

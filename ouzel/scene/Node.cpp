@@ -373,5 +373,20 @@ namespace ouzel
                 sharedEngine->unscheduleUpdate(animationUpdateCallback);
             }
         }
+
+        AABB2 Node::getBoundingBox() const
+        {
+            AABB2 boundingBox;
+
+            for (const ComponentPtr& component : components)
+            {
+                if (!component->isHidden())
+                {
+                    boundingBox.merge(component->getBoundingBox());
+                }
+            }
+
+            return boundingBox;
+        }
     } // namespace scene
 } // namespace ouzel
