@@ -164,8 +164,8 @@ namespace ouzel
                                             fabsf(halfSize.width * boxTransform.m[1] - halfSize.height * boxTransform.m[5]));
 
             // scale half size by camera scale
-            halfWorldSize.width *= transform.m[0];
-            halfWorldSize.height *= transform.m[5];
+            halfWorldSize.width *= transform.m[0] + fabsf(transform.m[4]);
+            halfWorldSize.height *= fabsf(transform.m[1]) + transform.m[5];
 
             // enlarge visible rect half size in screen coord
             Size2 viewport = sharedEngine->getRenderer()->getSize();
