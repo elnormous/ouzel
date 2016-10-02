@@ -22,7 +22,7 @@ MainMenu::MainMenu(Samples& pSamples):
     scene::LayerPtr layer = make_shared<scene::Layer>();
     addLayer(layer);
 
-    layer->setCamera(make_shared<scene::Camera>());
+    layer->addCamera(make_shared<scene::Camera>());
 
     gui::MenuPtr menu = std::make_shared<gui::Menu>();
     layer->addChild(menu);

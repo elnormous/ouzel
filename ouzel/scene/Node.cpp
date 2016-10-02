@@ -28,7 +28,11 @@ namespace ouzel
             }
         }
 
-        void Node::visit(const Matrix4& newTransformMatrix, bool parentTransformDirty, Layer* currentLayer, float depth)
+        void Node::visit(const Matrix4& newTransformMatrix,
+                         bool parentTransformDirty,
+                         const CameraPtr& camera,
+                         Layer* currentLayer,
+                         float depth)
         {
             if (parentTransformDirty)
             {
@@ -40,7 +44,9 @@ namespace ouzel
                 calculateTransform();
             }
 
-            if (cullDisabled || currentLayer->checkVisibility(std::static_pointer_cast<Node>(shared_from_this())))
+            AABB2 boundingBox = getBoundingBox();
+
+            if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
             {
                 currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()), depth + z);
             }
@@ -49,57 +55,52 @@ namespace ouzel
             {
                 if (!child->isHidden())
                 {
-                    child->visit(transform, updateChildrenTransform, currentLayer, depth + z);
+                    child->visit(transform, updateChildrenTransform, camera, currentLayer, depth + z);
                 }
             }
 
             updateChildrenTransform = false;
         }
 
-        void Node::draw(Layer* currentLayer)
+        void Node::draw(const CameraPtr& camera)
         {
             if (transformDirty)
             {
                 calculateTransform();
             }
 
-            if (currentLayer->getCamera())
-            {
-                graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
+            graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
 
-                for (const ComponentPtr& component : components)
+            for (const ComponentPtr& component : components)
+            {
+                if (!component->isHidden())
                 {
-                    if (!component->isHidden())
-                    {
-                        component->draw(currentLayer->getCamera()->getViewProjection(),
-                                        transform,
-                                        drawColor,
-                                        currentLayer->getCamera()->getRenderTarget());
-                    }
+                    component->draw(camera->getViewProjection(),
+                                    transform,
+                                    drawColor,
+                                    camera->getRenderTarget());
                 }
             }
         }
 
-        void Node::drawWireframe(Layer* currentLayer)
+        void Node::drawWireframe(const CameraPtr& camera)
         {
             if (transformDirty)
             {
                 calculateTransform();
             }
 
-            if (currentLayer->getCamera())
-            {
-                graphics::Color drawColor(color.r, color.g, color.b, 255);
 
-                for (const ComponentPtr& component : components)
+            graphics::Color drawColor(color.r, color.g, color.b, 255);
+
+            for (const ComponentPtr& component : components)
+            {
+                if (!component->isHidden())
                 {
-                    if (!component->isHidden())
-                    {
-                        component->drawWireframe(currentLayer->getCamera()->getViewProjection(),
-                                                 transform,
-                                                 drawColor,
-                                                 currentLayer->getCamera()->getRenderTarget());
-                    }
+                    component->drawWireframe(camera->getViewProjection(),
+                                             transform,
+                                             drawColor,
+                                             camera->getRenderTarget());
                 }
             }
         }

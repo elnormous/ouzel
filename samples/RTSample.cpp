@@ -21,10 +21,10 @@ RTSample::RTSample(Samples& pSamples):
 
     ouzel::scene::CameraPtr rtCamera = make_shared<scene::Camera>();
     rtCamera->setRenderTarget(renderTarget);
-    rtLayer->setCamera(rtCamera);
+    rtLayer->addCamera(rtCamera);
 
     ouzel::scene::LayerPtr layer = make_shared<scene::Layer>();
-    layer->setCamera(make_shared<scene::Camera>());
+    layer->addCamera(make_shared<scene::Camera>());
     addLayer(layer);
 
     scene::SpritePtr characterSprite = make_shared<scene::Sprite>("run.json");
@@ -43,7 +43,7 @@ RTSample::RTSample(Samples& pSamples):
     layer->addChild(rtNode);
 
     scene::LayerPtr guiLayer = make_shared<scene::Layer>();
-    guiLayer->setCamera(make_shared<scene::Camera>());
+    guiLayer->addCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
     gui::MenuPtr menu = std::make_shared<gui::Menu>();

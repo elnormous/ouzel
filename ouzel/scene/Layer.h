@@ -32,8 +32,9 @@ namespace ouzel
 
             void addToDrawQueue(const NodePtr& node, float depth);
 
-            const CameraPtr& getCamera() const { return camera; }
-            void setCamera(const CameraPtr& newCamera);
+            void addCamera(const CameraPtr& camera);
+            void removeCamera(const CameraPtr& camera);
+            const std::set<CameraPtr>& getCameras() const { return cameras; }
 
             NodePtr pickNode(const Vector2& position) const;
             std::vector<NodePtr> pickNodes(const Vector2& position) const;
@@ -42,13 +43,14 @@ namespace ouzel
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
 
-            bool checkVisibility(const NodePtr& node) const;
-
             bool getWireframe() const { return wireframe; }
             void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
         protected:
-            CameraPtr camera;
+            virtual void recalculateProjection();
+            virtual void enter() override;
+
+            std::set<CameraPtr> cameras;
             std::list<std::pair<NodePtr, float>> drawQueue;
 
             int32_t order = 0;

@@ -117,9 +117,13 @@ namespace ouzel
         protected:
             void setParent(NodeContainer* newParent) { parent = newParent; }
 
-            virtual void visit(const Matrix4& newParentTransform, bool parentTransformDirty, Layer* currentLayer, float depth);
-            virtual void draw(Layer* currentLayer);
-            virtual void drawWireframe(Layer* currentLayer);
+            virtual void visit(const Matrix4& newParentTransform,
+                               bool parentTransformDirty,
+                               const CameraPtr& camera,
+                               Layer* currentLayer,
+                               float depth);
+            virtual void draw(const CameraPtr& camera);
+            virtual void drawWireframe(const CameraPtr& camera);
 
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;

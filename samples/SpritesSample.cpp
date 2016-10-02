@@ -14,7 +14,7 @@ SpritesSample::SpritesSample(Samples& pSamples):
 
     layer = make_shared<scene::Layer>();
     addLayer(layer);
-    layer->setCamera(make_shared<scene::Camera>());
+    layer->addCamera(make_shared<scene::Camera>());
 
     // character
     scene::SpritePtr characterSprite = make_shared<scene::Sprite>("run.json");
@@ -44,7 +44,7 @@ SpritesSample::SpritesSample(Samples& pSamples):
     layer->addChild(triangleNode);
 
     ouzel::scene::LayerPtr guiLayer = make_shared<scene::Layer>();
-    guiLayer->setCamera(make_shared<scene::Camera>());
+    guiLayer->addCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
     gui::MenuPtr menu = std::make_shared<gui::Menu>();

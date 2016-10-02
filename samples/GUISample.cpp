@@ -13,7 +13,7 @@ GUISample::GUISample(Samples& pSamples):
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     scene::LayerPtr guiLayer = make_shared<scene::Layer>();
-    guiLayer->setCamera(make_shared<scene::Camera>());
+    guiLayer->addCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
     gui::MenuPtr menu = std::make_shared<gui::Menu>();

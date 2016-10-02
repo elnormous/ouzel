@@ -19,7 +19,7 @@ InputSample::InputSample(Samples& pSamples):
 
     scene::LayerPtr layer = make_shared<scene::Layer>();
     camera = make_shared<scene::Camera>();
-    layer->setCamera(camera);
+    layer->addCamera(camera);
     addLayer(layer);
 
     scene::ParticleSystemPtr flameParticleSystem = make_shared<scene::ParticleSystem>("flame.json");
@@ -30,7 +30,7 @@ InputSample::InputSample(Samples& pSamples):
     layer->addChild(flame);
 
     scene::LayerPtr guiLayer = make_shared<scene::Layer>();
-    guiLayer->setCamera(make_shared<scene::Camera>());
+    guiLayer->addCamera(make_shared<scene::Camera>());
     addLayer(guiLayer);
 
     gui::MenuPtr menu = std::make_shared<gui::Menu>();

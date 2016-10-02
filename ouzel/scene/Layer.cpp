@@ -20,21 +20,23 @@ namespace ouzel
 
         Layer::~Layer()
         {
-            if (camera) camera->removeFromLayer();
+            for (const CameraPtr& camera : cameras)
+            {
+                camera->removeFromLayer();
+            }
         }
 
         void Layer::draw()
         {
             drawQueue.clear();
 
-            // render only if there is an active camera
-            if (camera)
+            for (const CameraPtr& camera : cameras)
             {
                 for (const NodePtr& child : children)
                 {
                     if (!child->isHidden())
                     {
-                        child->visit(Matrix4::IDENTITY, false, this, 0.0f);
+                        child->visit(Matrix4::IDENTITY, false, camera, this, 0.0f);
                     }
                 }
 
@@ -44,14 +46,14 @@ namespace ouzel
 
                 for (const auto& node : drawQueue)
                 {
-                    node.first->draw(this);
+                    node.first->draw(camera);
                 }
 
                 if (wireframe)
                 {
                     for (const auto& node : drawQueue)
                     {
-                        node.first->drawWireframe(this);
+                        node.first->drawWireframe(camera);
                     }
                 }
             }
@@ -76,31 +78,42 @@ namespace ouzel
             drawQueue.push_back({ node, depth });
         }
 
-        void Layer::setCamera(const CameraPtr& newCamera)
+        void Layer::addCamera(const CameraPtr& camera)
         {
-            if (camera)
-            {
-                camera->removeFromLayer();
-            }
+            auto i = cameras.insert(camera);
 
-            camera = newCamera;
-
-            if (camera)
+            if (i.second)
             {
                 camera->addToLayer(this);
                 camera->recalculateProjection();
             }
         }
 
+        void Layer::removeCamera(const CameraPtr& camera)
+        {
+            auto i = cameras.find(camera);
+
+            if (i != cameras.end())
+            {
+                camera->removeFromLayer();
+                cameras.erase(i);
+            }
+        }
+
         NodePtr Layer::pickNode(const Vector2& position) const
         {
-            for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+            for (const CameraPtr& camera : cameras)
             {
-                const NodePtr& node = i->first;
+                Vector2 worldPosition = camera->convertScreenToWorld(position);
 
-                if (!node->isHidden() && node->isPickable() && node->pointOn(position))
+                for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
-                    return node;
+                    const NodePtr& node = i->first;
+
+                    if (!node->isHidden() && node->isPickable() && node->pointOn(worldPosition))
+                    {
+                        return node;
+                    }
                 }
             }
 
@@ -111,13 +124,18 @@ namespace ouzel
         {
             std::vector<NodePtr> result;
 
-            for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+            for (const CameraPtr& camera : cameras)
             {
-                const NodePtr& node = i->first;
+                Vector2 worldPosition = camera->convertScreenToWorld(position);
 
-                if (!node->isHidden() && node->isPickable() && node->pointOn(position))
+                for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
-                    result.push_back(node);
+                    const NodePtr& node = i->first;
+
+                    if (!node->isHidden() && node->isPickable() && node->pointOn(worldPosition))
+                    {
+                        result.push_back(node);
+                    }
                 }
             }
 
@@ -128,13 +146,23 @@ namespace ouzel
         {
             std::set<NodePtr> result;
 
-            for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+            for (const CameraPtr& camera : cameras)
             {
-                const NodePtr& node = i->first;
+                std::vector<Vector2> worldEdges(edges.size());
 
-                if (!node->isHidden() && node->isPickable() && node->shapeOverlaps(edges))
+                for (const Vector2& edge : edges)
                 {
-                    result.insert(node);
+                    worldEdges.push_back(camera->convertScreenToWorld(edge));
+                }
+
+                for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+                {
+                    const NodePtr& node = i->first;
+
+                    if (!node->isHidden() && node->isPickable() && node->shapeOverlaps(worldEdges))
+                    {
+                        result.insert(node);
+                    }
                 }
             }
 
@@ -146,19 +174,19 @@ namespace ouzel
             order = newOrder;
         }
 
-        bool Layer::checkVisibility(const NodePtr& node) const
+        void Layer::recalculateProjection()
         {
-            if (camera)
+            for (const CameraPtr& camera : cameras)
             {
-                AABB2 boundingBox = node->getBoundingBox();
-
-                if (!boundingBox.isEmpty() && camera->checkVisibility(node->getTransform(), boundingBox))
-                {
-                    return true;
-                }
+                camera->recalculateProjection();
             }
+        }
 
-            return false;
+        void Layer::enter()
+        {
+            NodeContainer::enter();
+
+            recalculateProjection();
         }
     } // namespace scene
 } // namespace ouzel

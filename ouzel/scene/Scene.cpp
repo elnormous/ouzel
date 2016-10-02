@@ -49,11 +49,6 @@ namespace ouzel
             {
                 layers.push_back(layer);
 
-                if (CameraPtr camera = layer->getCamera())
-                {
-                    camera->recalculateProjection();
-                }
-
                 if (entered) layer->enter();
             }
         }
@@ -97,10 +92,7 @@ namespace ouzel
         {
             for (const LayerPtr& layer : layers)
             {
-                if (CameraPtr camera = layer->getCamera())
-                {
-                    camera->recalculateProjection();
-                }
+                layer->recalculateProjection();
             }
         }
 
@@ -109,16 +101,10 @@ namespace ouzel
             for (std::list<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 const LayerPtr& layer = *i;
-                const CameraPtr& camera = layer->getCamera();
 
-                if (camera)
+                if (NodePtr result = layer->pickNode(position))
                 {
-                    Vector2 worldPosition = camera->convertScreenToWorld(position);
-
-                    if (NodePtr result = layer->pickNode(worldPosition))
-                    {
-                        return result;
-                    }
+                    return result;
                 }
             }
 
