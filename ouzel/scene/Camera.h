@@ -35,8 +35,6 @@ namespace ouzel
 
             bool checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox);
 
-            Vector2 projectPoint(const Vector3& src) const;
-
             void setScaleMode(ScaleMode newScaleMode);
             ScaleMode getScaleMode() const { return scaleMode; }
 

@@ -107,9 +107,29 @@ namespace ouzel
                                 const Rectangle& scissorTest = Rectangle());
             void flushDrawCommands();
 
-            Vector2 viewToScreenLocation(const Vector2& position);
-            Vector2 viewToScreenRelativeLocation(const Vector2& position);
-            Vector2 screenToViewLocation(const Vector2& position);
+            Vector2 viewToScreenLocation(const Vector2& position)
+            {
+                float x = 2.0f * position.x / size.width - 1.0f;
+                float y = 2.0f * (size.height - position.y) / size.height - 1.0f;
+
+                return Vector2(x, y);
+            }
+
+            Vector2 viewToScreenRelativeLocation(const Vector2& position)
+            {
+                float x = 2.0f * position.x / size.width;
+                float y = -2.0f * position.y / size.height;
+
+                return Vector2(x, y);
+            }
+
+            Vector2 screenToViewLocation(const Vector2& position)
+            {
+                float x = (position.x + 1.0f) * 0.5f * size.width;
+                float y = size.height - (position.y + 1.0f) * 0.5f * size.height;
+                
+                return Vector2(x, y);
+            }
 
             virtual bool saveScreenshot(const std::string& filename);
 

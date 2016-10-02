@@ -138,10 +138,8 @@ namespace ouzel
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox)
         {
-            if (scale.x == 0.0f || scale.y == 0.0f) return false;
-
-            Size2 size = sharedEngine->getRenderer()->getSize();
-            Rectangle visibleRect(0.0f, 0.0f, size.width, size.height);
+            Size2 viewport = sharedEngine->getRenderer()->getSize();
+            Rectangle visibleRect(0.0f, 0.0f, viewport.width, viewport.height);
 
             // transform center point to screen space
             Vector2 diff = boundingBox.max - boundingBox.min;
@@ -150,7 +148,13 @@ namespace ouzel
 
             boxTransform.transformPoint(v3p);
 
-            Vector2 v2p = projectPoint(v3p);
+            Vector4 clipPos;
+            getViewProjection().transformVector(Vector4(v3p.x, v3p.y, v3p.z, 1.0f), clipPos);
+
+            assert(clipPos.w != 0.0f);
+            Vector2 ndc(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
+
+            Vector2 v2p = sharedEngine->getRenderer()->screenToViewLocation(ndc);
 
             Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
 
@@ -172,24 +176,6 @@ namespace ouzel
             visibleRect.height += halfWorldSize.height * 2.0f;
 
             return visibleRect.containsPoint(v2p);
-        }
-
-        Vector2 Camera::projectPoint(const Vector3& src) const
-        {
-            Vector2 screenPos;
-
-            auto viewport = sharedEngine->getRenderer()->getSize();
-            Vector4 clipPos;
-
-            getViewProjection().transformVector(Vector4(src.x, src.y, src.z, 1.0f), clipPos);
-
-            assert(clipPos.w != 0.0f);
-            Vector2 ndc(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
-
-            screenPos.x = (ndc.x + 1.0f) * 0.5f * viewport.width;
-            screenPos.y = (ndc.y + 1.0f) * 0.5f * viewport.height;
-
-            return screenPos;
         }
 
         void Camera::setScaleMode(ScaleMode newScaleMode)

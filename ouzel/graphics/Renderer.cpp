@@ -160,30 +160,6 @@ namespace ouzel
             activeDrawQueueFinished = true;
         }
 
-        Vector2 Renderer::viewToScreenLocation(const Vector2& position)
-        {
-            float x = 2.0f * position.x / size.width - 1.0f;
-            float y = 2.0f * (size.height - position.y) / size.height - 1.0f;
-
-            return Vector2(x, y);
-        }
-
-        Vector2 Renderer::viewToScreenRelativeLocation(const Vector2& position)
-        {
-            float x = 2.0f * position.x / size.width;
-            float y = -2.0f * position.y / size.height;
-
-            return Vector2(x, y);
-        }
-
-        Vector2 Renderer::screenToViewLocation(const Vector2& position)
-        {
-            float x = (position.x + 1.0f) / 2.0f * size.width;
-            float y = size.height - (position.y + 1.0f) / 2.0f * size.height;
-
-            return Vector2(x, y);
-        }
-
         bool Renderer::saveScreenshot(const std::string& filename)
         {
             std::lock_guard<std::mutex> lock(screenshotMutex);
