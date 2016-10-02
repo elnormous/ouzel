@@ -138,9 +138,6 @@ namespace ouzel
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox)
         {
-            Size2 viewport = sharedEngine->getRenderer()->getSize();
-            Rectangle visibleRect(0.0f, 0.0f, viewport.width, viewport.height);
-
             // transform center point to screen space
             Vector2 diff = boundingBox.max - boundingBox.min;
 
@@ -161,14 +158,14 @@ namespace ouzel
             // convert content size to world coordinates
             Size2 halfWorldSize;
 
-            if (transformDirty)
-            {
-                calculateTransform();
-            }
+            halfWorldSize.width = std::max(fabsf(halfSize.width * boxTransform.m[0] + halfSize.height * boxTransform.m[4]),
+                                           fabsf(halfSize.width * boxTransform.m[0] - halfSize.height * boxTransform.m[4]));
+            halfWorldSize.height = std::max(fabsf(halfSize.width * boxTransform.m[1] + halfSize.height * boxTransform.m[5]),
+                                            fabsf(halfSize.width * boxTransform.m[1] - halfSize.height * boxTransform.m[5]));
 
-            halfWorldSize.width = std::max(fabsf(halfSize.width * transform.m[0] + halfSize.height * transform.m[4]), fabsf(halfSize.width * transform.m[0] - halfSize.height * transform.m[4]));
-            halfWorldSize.height = std::max(fabsf(halfSize.width * transform.m[1] + halfSize.height * transform.m[5]), fabsf(halfSize.width * transform.m[1] - halfSize.height * transform.m[5]));
-
+            Size2 viewport = sharedEngine->getRenderer()->getSize();
+            Rectangle visibleRect(0.0f, 0.0f, viewport.width, viewport.height);
+            
             // enlarge visible rect half size in screen coord
             visibleRect.x -= halfWorldSize.width;
             visibleRect.y -= halfWorldSize.height;
