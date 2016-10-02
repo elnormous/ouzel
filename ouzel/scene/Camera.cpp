@@ -154,7 +154,7 @@ namespace ouzel
             assert(clipPos.w != 0.0f);
             Vector2 ndc(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
 
-            Vector2 v2p = sharedEngine->getRenderer()->screenToViewLocation(ndc);
+            Vector2 v2p = sharedEngine->getRenderer()->clipToWindowLocation(ndc);
 
             Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
 

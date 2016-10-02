@@ -53,16 +53,16 @@ EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, v
     {
         case EMSCRIPTEN_EVENT_MOUSEDOWN:
             ouzel::sharedEngine->getInput()->mouseDown(button,
-                                                       ouzel::sharedEngine->getRenderer()->viewToScreenLocation(position),
+                                                       ouzel::sharedEngine->getRenderer()->windowToClipLocation(position),
                                                        ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEUP:
             ouzel::sharedEngine->getInput()->mouseUp(button,
-                                                     ouzel::sharedEngine->getRenderer()->viewToScreenLocation(position),
+                                                     ouzel::sharedEngine->getRenderer()->windowToClipLocation(position),
                                                      ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEMOVE:
-            ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getRenderer()->viewToScreenLocation(position),
+            ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getRenderer()->windowToClipLocation(position),
                                                        ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
     }   
@@ -78,7 +78,7 @@ EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelEvent, v
                                 static_cast<float>(wheelEvent->mouse.clientY));
 
         ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
-                                                     ouzel::sharedEngine->getRenderer()->viewToScreenLocation(position),
+                                                     ouzel::sharedEngine->getRenderer()->windowToClipLocation(position),
                                                      ouzel::input::InputEm::getMouseModifiers(&wheelEvent->mouse));
 
         return true;

@@ -526,11 +526,11 @@ namespace ouzel
 
                                     if (event->code == ABS_X)
                                     {
-                                        absolutePos.x = sharedEngine->getRenderer()->viewToScreenLocation(Vector2(static_cast<float>(event->value), 0.0f)).x;
+                                        absolutePos.x = sharedEngine->getRenderer()->windowToClipLocation(Vector2(static_cast<float>(event->value), 0.0f)).x;
                                     }
                                     else if (event->code == ABS_Y)
                                     {
-                                        absolutePos.y = sharedEngine->getRenderer()->viewToScreenLocation(Vector2(0.0f, static_cast<float>(event->value))).y;
+                                        absolutePos.y = sharedEngine->getRenderer()->windowToClipLocation(Vector2(0.0f, static_cast<float>(event->value))).y;
                                     }
 
                                     mouseMove(absolutePos, 0);
