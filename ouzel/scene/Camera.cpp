@@ -163,15 +163,19 @@ namespace ouzel
             halfWorldSize.height = std::max(fabsf(halfSize.width * boxTransform.m[1] + halfSize.height * boxTransform.m[5]),
                                             fabsf(halfSize.width * boxTransform.m[1] - halfSize.height * boxTransform.m[5]));
 
+            // scale half size by camera scale
+            halfWorldSize.width *= transform.m[0];
+            halfWorldSize.height *= transform.m[5];
+
+            // enlarge visible rect half size in screen coord
             Size2 viewport = sharedEngine->getRenderer()->getSize();
             Rectangle visibleRect(0.0f, 0.0f, viewport.width, viewport.height);
-            
-            // enlarge visible rect half size in screen coord
+
             visibleRect.x -= halfWorldSize.width;
             visibleRect.y -= halfWorldSize.height;
             visibleRect.width += halfWorldSize.width * 2.0f;
             visibleRect.height += halfWorldSize.height * 2.0f;
-
+            
             return visibleRect.containsPoint(v2p);
         }
 
