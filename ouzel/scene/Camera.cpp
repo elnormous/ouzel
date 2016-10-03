@@ -164,8 +164,8 @@ namespace ouzel
             halfWorldSize.height *= fabsf(transform.m[1]) + transform.m[5];
 
             // enlarge visible rect half size in screen coord
-            Size2 viewport = sharedEngine->getRenderer()->getSize();
-            Rectangle visibleRect(0.0f, 0.0f, viewport.width, viewport.height);
+            Size2 renderTargetSize = sharedEngine->getRenderer()->getSize();
+            Rectangle visibleRect(0.0f, 0.0f, renderTargetSize.width, renderTargetSize.height);
 
             visibleRect.x -= halfWorldSize.width;
             visibleRect.y -= halfWorldSize.height;
