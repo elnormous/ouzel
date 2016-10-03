@@ -69,9 +69,9 @@ namespace ouzel
         {
             selectedWidget = widget;
 
-            for (const WidgetPtr& widget : widgets)
+            for (const WidgetPtr& childWidget : widgets)
             {
-                widget->setSelected(widget == selectedWidget);
+                childWidget->setSelected(childWidget == selectedWidget);
             }
         }
 

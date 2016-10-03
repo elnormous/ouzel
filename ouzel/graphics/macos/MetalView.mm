@@ -20,7 +20,7 @@ using namespace ouzel;
 {
 }
 
--(void)drawInMTKView:(nonnull MTKView*)view
+-(void)drawInMTKView:(nonnull __unused MTKView*)view
 {
     if (!sharedEngine->isActive() ||
         (sharedEngine->isRunning() && !sharedEngine->draw()))

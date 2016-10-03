@@ -41,10 +41,6 @@ namespace ouzel
             }
 
             const rapidjson::Value& metaObject = document["meta"];
-            const rapidjson::Value& sizeObject = metaObject["size"];
-
-            Size2 textureSize(static_cast<float>(sizeObject["w"].GetInt()),
-                              static_cast<float>(sizeObject["h"].GetInt()));
 
             graphics::TexturePtr texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
 

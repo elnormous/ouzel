@@ -37,11 +37,6 @@
     window->handleResize();
 }
 
--(void)windowDidChangeScreen:(__unused NSNotification*)notification
-{
-    window->handleDisplayChange();
-}
-
 -(void)windowWillClose:(__unused NSNotification*)notification
 {
     window->handleClose();
@@ -93,11 +88,11 @@ namespace ouzel
     {
         NSScreen* screen = [NSScreen mainScreen];
 
-        if (size.width <= 0.0f) size.width = screen.frame.size.width * 0.6f;
-        if (size.height <= 0.0f) size.height = screen.frame.size.height * 0.6f;
+        if (size.width <= 0.0f) size.width = static_cast<float>(screen.frame.size.width) * 0.6f;
+        if (size.height <= 0.0f) size.height = static_cast<float>(screen.frame.size.height) * 0.6f;
 
-        NSRect frame = NSMakeRect(screen.frame.size.width / 2 - size.width / 2,
-                                  screen.frame.size.height / 2 - size.height / 2,
+        NSRect frame = NSMakeRect(static_cast<float>(screen.frame.size.width) / 2.0f - size.width / 2.0f,
+                                  static_cast<float>(screen.frame.size.height) / 2.0f - size.height / 2.0f,
                                   size.width, size.height);
 
         NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
@@ -250,14 +245,6 @@ namespace ouzel
 
         Window::setSize(Size2(static_cast<float>(frame.size.width),
                               static_cast<float>(frame.size.height)));
-    }
-
-    void WindowMacOS::handleDisplayChange()
-    {
-        if ([view respondsToSelector:@selector(changeDisplay)])
-        {
-            [view performSelector:@selector(changeDisplay)];
-        }
     }
 
     void WindowMacOS::handleClose()

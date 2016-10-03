@@ -16,7 +16,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
                                const CVTimeStamp*,
                                CVOptionFlags,
                                CVOptionFlags*,
-                               void* displayLinkContext)
+                               void*)
 {
     @autoreleasepool
     {

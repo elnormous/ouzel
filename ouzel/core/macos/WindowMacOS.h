@@ -34,7 +34,6 @@ namespace ouzel
         virtual void setTitle(const std::string& newTitle) override;
 
         void handleResize();
-        void handleDisplayChange();
         void handleClose();
         void handleFullscreenChange(bool fullscreen);
 

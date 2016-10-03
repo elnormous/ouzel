@@ -298,11 +298,11 @@ namespace ouzel
             }
         }
 
-        float height = position.y;
+        float textHeight = position.y;
 
         for (size_t c = 0; c < vertices.size(); ++c)
         {
-            vertices[c].position.y += height * anchor.y;
+            vertices[c].position.y += textHeight * anchor.y;
         }
     }
 }

@@ -933,7 +933,7 @@ namespace ouzel
             }
 
             glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId);
-            glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, sampleCount, GL_RGBA,
+            glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, static_cast<GLsizei>(sampleCount), GL_RGBA,
                                     frameBufferWidth, frameBufferHeight, false);
 
             if (checkOpenGLError())
