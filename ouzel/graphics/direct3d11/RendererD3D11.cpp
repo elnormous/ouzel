@@ -620,6 +620,14 @@ namespace ouzel
                 const float* newClearColor;
                 bool clearBuffer = false;
 
+                viewport = {
+                    drawCommand.viewport.x,
+                    drawCommand.viewport.y,
+                    drawCommand.viewport.width,
+                    drawCommand.viewport.height,
+                    0.0f, 1.0f
+                };
+
                 if (drawCommand.renderTarget)
                 {
                     std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(drawCommand.renderTarget);
@@ -628,6 +636,9 @@ namespace ouzel
                     {
                         continue;
                     }
+
+                    std::shared_ptr<TextureD3D11> renderTargetTextureD3D11 = std::static_pointer_cast<TextureD3D11>(renderTargetD3D11->getTexture());
+                    viewport.TopLeftY = renderTargetTextureD3D11->getSize().height - (viewport.TopLeftY + newViewport.Height);
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
@@ -643,6 +654,8 @@ namespace ouzel
                     newRenderTargetView = renderTargetView;
                     newClearColor = frameBufferClearColor;
 
+                    viewport.TopLeftY = height - (viewport.TopLeftY + viewport.Height);
+
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
@@ -651,15 +664,6 @@ namespace ouzel
                 }
 
                 context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
-
-                viewport = {
-                    drawCommand.viewport.x,
-                    drawCommand.viewport.y,
-                    drawCommand.viewport.width,
-                    drawCommand.viewport.height,
-                    0.0f, 1.0f
-                };
-
                 context->RSSetViewports(1, &viewport);
 
                 if (clearBuffer)

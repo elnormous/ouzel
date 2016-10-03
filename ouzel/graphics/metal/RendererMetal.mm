@@ -434,6 +434,8 @@ namespace ouzel
 
             std::vector<float> shaderData;
 
+            MTLViewport viewport;
+
             if (drawQueue.empty())
             {
                 frameBufferClearedFrame = currentFrame;
@@ -446,17 +448,29 @@ namespace ouzel
                     }
 
                     currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                    [currentRenderCommandEncoder setViewport: {
+
+                    viewport = {
                         0.0, 0.0,
                         static_cast<double>(frameBufferWidth),
                         static_cast<double>(frameBufferHeight),
-                        0.0, 1.0 }];
+                        0.0, 1.0
+                    };
+
+                    [currentRenderCommandEncoder setViewport: viewport];
                 }
             }
             else for (const DrawCommand& drawCommand : drawQueue)
             {
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
                 bool clearBuffer = false;
+
+                viewport = {
+                    static_cast<double>(drawCommand.viewport.x),
+                    static_cast<double>(drawCommand.viewport.y),
+                    static_cast<double>(drawCommand.viewport.width),
+                    static_cast<double>(drawCommand.viewport.height),
+                    0.0, 1.0
+                };
 
                 // render target
                 if (drawCommand.renderTarget)
@@ -471,6 +485,7 @@ namespace ouzel
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
 
                     std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal->getTexture());
+                    viewport.originY = renderTargetTextureMetal->getSize().height - (viewport.originY + viewport.height);
 
                     scissorRect.x = scissorRect.y = 0;
                     scissorRect.width = renderTargetTextureMetal->getTexture().width;
@@ -485,6 +500,8 @@ namespace ouzel
                 else
                 {
                     newRenderPassDescriptor = renderPassDescriptor;
+
+                    viewport.originY = static_cast<float>(frameBufferHeight) - (viewport.originY + viewport.height);
 
                     scissorRect.x = scissorRect.y = 0;
                     scissorRect.width = frameBufferWidth;
@@ -508,13 +525,7 @@ namespace ouzel
                     currentRenderPassDescriptor.colorAttachments[0].loadAction = clearBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
                 }
 
-                Rectangle newViewport = drawCommand.viewport;
-                [currentRenderCommandEncoder setViewport: {
-                    static_cast<double>(newViewport.x),
-                    static_cast<double>(newViewport.y),
-                    static_cast<double>(newViewport.width),
-                    static_cast<double>(newViewport.height),
-                    0.0, 1.0 }];
+                [currentRenderCommandEncoder setViewport: viewport];
 
                 [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
 
