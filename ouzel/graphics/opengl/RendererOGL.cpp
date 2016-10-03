@@ -240,8 +240,8 @@ namespace ouzel
                                                  {{"modelViewProj", sizeof(Matrix4)}});
 #endif
                     break;
-#if OUZEL_SUPPORTS_OPENGL3
                 case 3:
+#if OUZEL_SUPPORTS_OPENGL3
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorGL3_ps), std::end(ColorGL3_ps)),
                                                  std::vector<uint8_t>(std::begin(ColorGL3_vs), std::end(ColorGL3_vs)),
                                                  VertexPC::ATTRIBUTES,
