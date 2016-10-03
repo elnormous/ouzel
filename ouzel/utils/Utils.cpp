@@ -55,7 +55,19 @@ namespace ouzel
             va_end(list);
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
-            printf("%s\n", TEMP_BUFFER);
+            FILE* f = nullptr;
+            switch (logLevel)
+            {
+                case LOG_LEVEL_ERROR:
+                case LOG_LEVEL_WARNING:
+                    f = stderr;
+                    break;
+                case LOG_LEVEL_INFO:
+                case LOG_LEVEL_VERBOSE:
+                    f = stdout;
+                    break;
+            }
+            fprintf(f, "%s\n", TEMP_BUFFER);
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
             int prio = 0;
             switch (level)
