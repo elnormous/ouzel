@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdint>
 #include <limits>
+#include <functional>
 
 #include "core/CompileConfig.h"
 #if OUZEL_PLATFORM_ANDROID
@@ -52,6 +53,7 @@ namespace ouzel
     };
 
     void setLogLevel(LogLevel level);
+    void setLogCallback(const std::function<void(LogLevel, const std::string&)>& callback);
     void log(LogLevel level, const char* format, ...);
 
     uint32_t random(uint32_t min = 0, uint32_t max = std::numeric_limits<uint32_t>::max());
