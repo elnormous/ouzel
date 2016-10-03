@@ -39,11 +39,6 @@ namespace ouzel
     extern AnrdoidNEONChecker anrdoidNEONChecker;
 #endif
 
-    template<typename T> size_t vectorDataSize(const typename std::vector<T>& vec)
-    {
-        return sizeof(T) * vec.size();
-    }
-
     enum LogLevel
     {
         LOG_LEVEL_ERROR,
