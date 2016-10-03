@@ -148,7 +148,8 @@ namespace ouzel
 
             for (const CameraPtr& camera : cameras)
             {
-                std::vector<Vector2> worldEdges(edges.size());
+                std::vector<Vector2> worldEdges;
+                worldEdges.reserve(edges.size());
 
                 for (const Vector2& edge : edges)
                 {
