@@ -261,8 +261,6 @@ namespace ouzel
                 return false;
             }
 
-            viewport = { 0, 0, size.width, size.height, 0.0f, 1.0f };
-
             // Sampler state
             D3D11_SAMPLER_DESC samplerStateDesc;
             switch (textureFilter)
@@ -551,8 +549,6 @@ namespace ouzel
                         log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 render target view");
                         return false;
                     }
-
-                    viewport = { 0, 0, static_cast<FLOAT>(width), static_cast<FLOAT>(height), 0.0f, 1.0f };
                 }
 
                 dirty = false;
@@ -595,6 +591,8 @@ namespace ouzel
 
             std::vector<float> shaderData;
 
+            D3D11_VIEWPORT viewport;
+
             if (drawQueue.empty())
             {
                 frameBufferClearedFrame = currentFrame;
@@ -602,6 +600,14 @@ namespace ouzel
                 if (clear)
                 {
                     context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+
+                    viewport = {
+                        0.0f, 0.0f,
+                        static_cast<FLOAT>(width),
+                        static_cast<FLOAT>(height),
+                        0.0f, 1.0f
+                    };
+
                     context->RSSetViewports(1, &viewport);
 
                     context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
@@ -612,7 +618,6 @@ namespace ouzel
                 // render target
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
                 const float* newClearColor;
-                D3D11_VIEWPORT newViewport;
                 bool clearBuffer = false;
 
                 if (drawCommand.renderTarget)
@@ -626,7 +631,6 @@ namespace ouzel
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
-                    newViewport = renderTargetD3D11->getViewport();
 
                     if (renderTargetD3D11->getFrameBufferClearedFrame() != currentFrame)
                     {
@@ -638,7 +642,6 @@ namespace ouzel
                 {
                     newRenderTargetView = renderTargetView;
                     newClearColor = frameBufferClearColor;
-                    newViewport = viewport;
 
                     if (frameBufferClearedFrame != currentFrame)
                     {
@@ -648,7 +651,16 @@ namespace ouzel
                 }
 
                 context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
-                context->RSSetViewports(1, &newViewport);
+
+                viewport = {
+                    drawCommand.viewport.x,
+                    drawCommand.viewport.y,
+                    drawCommand.viewport.width,
+                    drawCommand.viewport.height,
+                    0.0f, 1.0f
+                };
+
+                context->RSSetViewports(1, &viewport);
 
                 if (clearBuffer)
                 {

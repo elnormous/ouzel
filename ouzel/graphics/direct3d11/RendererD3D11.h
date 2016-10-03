@@ -69,7 +69,6 @@ namespace ouzel
 
             UINT width = 0;
             UINT height = 0;
-            D3D11_VIEWPORT viewport;
 
             ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
             ID3D11SamplerState* samplerStates[Texture::LAYERS];
