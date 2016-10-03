@@ -145,9 +145,9 @@ namespace ouzel
             getViewProjection().transformVector(Vector4(v3p.x, v3p.y, v3p.z, 1.0f), clipPos);
 
             assert(clipPos.w != 0.0f);
-            Vector2 ndc(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
 
-            Vector2 v2p = sharedEngine->getRenderer()->clipToScreenLocation(ndc);
+            Vector2 v2p((clipPos.x / clipPos.w + 1.0f) * 0.5f * renderViewport.width,
+                        (clipPos.y / clipPos.w + 1.0f) * 0.5f * renderViewport.height);
 
             Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
 
@@ -164,8 +164,7 @@ namespace ouzel
             halfWorldSize.height *= fabsf(transform.m[1]) + transform.m[5];
 
             // enlarge visible rect half size in screen coord
-            Size2 renderTargetSize = sharedEngine->getRenderer()->getSize();
-            Rectangle visibleRect(0.0f, 0.0f, renderTargetSize.width, renderTargetSize.height);
+            Rectangle visibleRect(0.0f, 0.0f, renderViewport.width, renderViewport.height);
 
             visibleRect.x -= halfWorldSize.width;
             visibleRect.y -= halfWorldSize.height;
