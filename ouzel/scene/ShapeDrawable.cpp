@@ -35,17 +35,16 @@ namespace ouzel
             meshBuffer->init(indexBuffer, vertexBuffer);
         }
 
-        void ShapeDrawable::draw(const Matrix4& viewProjectionMatrix,
-                                 const Matrix4& transformMatrix,
+        void ShapeDrawable::draw(const Matrix4& transformMatrix,
                                  const graphics::Color& drawColor,
-                                 const graphics::RenderTargetPtr& renderTarget)
+                                 const scene::CameraPtr& camera)
         {
-            Component::draw(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::draw(transformMatrix, drawColor, camera);
 
             indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
             vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
 
-            Matrix4 modelViewProj = viewProjectionMatrix * transformMatrix;
+            Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             for (const DrawCommand& drawCommand : drawCommands)
@@ -65,7 +64,43 @@ namespace ouzel
                                                             drawCommand.indexCount,
                                                             drawCommand.mode,
                                                             drawCommand.startIndex,
-                                                            renderTarget);
+                                                            camera->getRenderTarget(),
+                                                            camera->getRenderViewport());
+            }
+        }
+
+        void ShapeDrawable::drawWireframe(const Matrix4& transformMatrix,
+                                          const graphics::Color& drawColor,
+                                          const scene::CameraPtr& camera)
+        {
+            Component::drawWireframe(transformMatrix, drawColor, camera);
+
+            indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
+            vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
+
+            Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
+            float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
+
+            for (const DrawCommand& drawCommand : drawCommands)
+            {
+                std::vector<std::vector<float>> pixelShaderConstants(1);
+                pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
+
+                std::vector<std::vector<float>> vertexShaderConstants(1);
+                vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+
+                sharedEngine->getRenderer()->addDrawCommand(std::vector<graphics::TexturePtr>(),
+                                                            shader,
+                                                            pixelShaderConstants,
+                                                            vertexShaderConstants,
+                                                            blendState,
+                                                            meshBuffer,
+                                                            drawCommand.indexCount,
+                                                            drawCommand.mode,
+                                                            drawCommand.startIndex,
+                                                            camera->getRenderTarget(),
+                                                            camera->getRenderViewport(),
+                                                            true);
             }
         }
 

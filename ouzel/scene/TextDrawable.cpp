@@ -7,6 +7,7 @@
 #include "graphics/MeshBuffer.h"
 #include "graphics/IndexBuffer.h"
 #include "graphics/VertexBuffer.h"
+#include "scene/Camera.h"
 #include "core/Cache.h"
 #include "utils/Utils.h"
 
@@ -58,12 +59,11 @@ namespace ouzel
             setText(text);
         }
 
-        void TextDrawable::draw(const Matrix4& viewProjectionMatrix,
-                                const Matrix4& transformMatrix,
+        void TextDrawable::draw(const Matrix4& transformMatrix,
                                 const graphics::Color& drawColor,
-                                const graphics::RenderTargetPtr& renderTarget)
+                                const scene::CameraPtr& camera)
         {
-            Component::draw(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::draw(transformMatrix, drawColor, camera);
 
             if (needsMeshUpdate)
             {
@@ -73,7 +73,7 @@ namespace ouzel
                 needsMeshUpdate = false;
             }
 
-            Matrix4 modelViewProj = viewProjectionMatrix * transformMatrix;
+            Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -91,17 +91,17 @@ namespace ouzel
                                                         static_cast<uint32_t>(indices.size()),
                                                         graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                         0,
-                                                        renderTarget);
+                                                        camera->getRenderTarget(),
+                                                        camera->getRenderViewport());
         }
 
-        void TextDrawable::drawWireframe(const Matrix4& viewProjectionMatrix,
-                                         const Matrix4& transformMatrix,
+        void TextDrawable::drawWireframe(const Matrix4& transformMatrix,
                                          const graphics::Color& drawColor,
-                                         const graphics::RenderTargetPtr& renderTarget)
+                                         const scene::CameraPtr& camera)
         {
-            Component::drawWireframe(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::drawWireframe(transformMatrix, drawColor, camera);
 
-            Matrix4 modelViewProj = viewProjectionMatrix * transformMatrix;
+            Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -119,7 +119,9 @@ namespace ouzel
                                                         static_cast<uint32_t>(indices.size()),
                                                         graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                         0,
-                                                        renderTarget);
+                                                        camera->getRenderTarget(),
+                                                        camera->getRenderViewport(),
+                                                        true);
         }
 
         void TextDrawable::setText(const std::string& newText)

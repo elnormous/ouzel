@@ -46,7 +46,6 @@ namespace ouzel
             void free() override;
 
             GLuint getFrameBufferId() const { return frameBufferId; }
-            const Rectangle& getViewport() const { return viewport; }
 
             GLbitfield getClearMask() const { return clearMask; }
             const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
@@ -57,7 +56,6 @@ namespace ouzel
 
             GLuint frameBufferId = 0;
             GLuint depthBufferId = 0;
-            Rectangle viewport;
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];

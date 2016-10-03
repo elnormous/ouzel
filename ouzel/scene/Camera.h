@@ -35,6 +35,10 @@ namespace ouzel
 
             bool checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox);
 
+            void setViewport(const Rectangle& newViewport);
+            const Rectangle& getViewport() const { return viewport; }
+            const Rectangle& getRenderViewport() const { return renderViewport; }
+
             void setScaleMode(ScaleMode newScaleMode);
             ScaleMode getScaleMode() const { return scaleMode; }
 
@@ -57,6 +61,8 @@ namespace ouzel
             Matrix4 projection = Matrix4::IDENTITY;
             Matrix4 inverseProjection = Matrix4::IDENTITY;
 
+            Rectangle viewport = Rectangle(0.0f, 0.0f, 1.0f, 1.0f);
+            Rectangle renderViewport;
             Size2 targetContentSize;
 
             ScaleMode scaleMode = ScaleMode::NONE;

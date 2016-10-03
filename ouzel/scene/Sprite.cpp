@@ -129,16 +129,15 @@ namespace ouzel
             }
         }
 
-        void Sprite::draw(const Matrix4& viewProjectionMatrix,
-                          const Matrix4& transformMatrix,
+        void Sprite::draw(const Matrix4& transformMatrix,
                           const graphics::Color& drawColor,
-                          const graphics::RenderTargetPtr& renderTarget)
+                          const scene::CameraPtr& camera)
         {
-            Component::draw(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::draw(transformMatrix, drawColor, camera);
 
             if (currentFrame < frames.size())
             {
-                Matrix4 modelViewProj = viewProjectionMatrix * transformMatrix * offsetMatrix;
+                Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix * offsetMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -156,20 +155,20 @@ namespace ouzel
                                                             0,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
-                                                            renderTarget);
+                                                            camera->getRenderTarget(),
+                                                            camera->getRenderViewport());
             }
         }
 
-        void Sprite::drawWireframe(const Matrix4& viewProjectionMatrix,
-                                   const Matrix4& transformMatrix,
+        void Sprite::drawWireframe(const Matrix4& transformMatrix,
                                    const graphics::Color& drawColor,
-                                   const graphics::RenderTargetPtr& renderTarget)
+                                   const scene::CameraPtr& camera)
         {
-            Component::drawWireframe(viewProjectionMatrix, transformMatrix, drawColor, renderTarget);
+            Component::drawWireframe(transformMatrix, drawColor, camera);
 
             if (currentFrame < frames.size())
             {
-                Matrix4 modelViewProj = viewProjectionMatrix * transformMatrix * offsetMatrix;
+                Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix * offsetMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -187,7 +186,8 @@ namespace ouzel
                                                             0,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
-                                                            renderTarget,
+                                                            camera->getRenderTarget(),
+                                                            camera->getRenderViewport(),
                                                             true);
             }
         }

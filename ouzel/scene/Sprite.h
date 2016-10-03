@@ -29,15 +29,14 @@ namespace ouzel
             virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
 
             virtual void update(float delta);
-            virtual void draw(const Matrix4& viewProjectionMatrix,
-                              const Matrix4& transformMatrix,
-                              const graphics::Color& drawColor,
-                              const graphics::RenderTargetPtr& renderTarget) override;
 
-            virtual void drawWireframe(const Matrix4& viewProjectionMatrix,
-                                       const Matrix4& transformMatrix,
+            virtual void draw(const Matrix4& transformMatrix,
+                              const graphics::Color& drawColor,
+                              const scene::CameraPtr& camera) override;
+
+            virtual void drawWireframe(const Matrix4& transformMatrix,
                                        const graphics::Color& drawColor,
-                                       const graphics::RenderTargetPtr& renderTarget) override;
+                                       const scene::CameraPtr& camera) override;
 
             virtual const graphics::ShaderPtr& getShader() const { return shader; }
             virtual void setShader(const graphics::ShaderPtr& newShader) { shader = newShader; }

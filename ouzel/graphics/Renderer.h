@@ -102,6 +102,7 @@ namespace ouzel
                                 DrawMode drawMode = DrawMode::TRIANGLE_LIST,
                                 uint32_t startIndex = 0,
                                 const RenderTargetPtr& renderTarget = nullptr,
+                                const Rectangle& viewport = Rectangle(0.0f, 0.0f, 1.0f, 1.0f),
                                 bool wireframe = false,
                                 bool scissorTestEnabled = false,
                                 const Rectangle& scissorTest = Rectangle());
@@ -191,7 +192,7 @@ namespace ouzel
                 DrawMode drawMode;
                 uint32_t startIndex;
                 RenderTargetPtr renderTarget;
-
+                Rectangle viewport;
                 bool wireframe;
                 bool scissorTestEnabled;
                 Rectangle scissorTest;

@@ -23,8 +23,14 @@ RTSample::RTSample(Samples& pSamples):
     rtCamera->setRenderTarget(renderTarget);
     rtLayer->addCamera(rtCamera);
 
+    scene::CameraPtr camera1 = make_shared<scene::Camera>();
+    camera1->setViewport(Rectangle(0.0f, 0.0f, 0.5f, 1.0f));
+    scene::CameraPtr camera2 = make_shared<scene::Camera>();
+    camera2->setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
+
     ouzel::scene::LayerPtr layer = make_shared<scene::Layer>();
-    layer->addCamera(make_shared<scene::Camera>());
+    layer->addCamera(camera1);
+    layer->addCamera(camera2);
     addLayer(layer);
 
     scene::SpritePtr characterSprite = make_shared<scene::Sprite>("run.json");

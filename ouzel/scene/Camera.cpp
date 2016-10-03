@@ -26,22 +26,21 @@ namespace ouzel
 
         void Camera::recalculateProjection()
         {
-            Size2 screenSize = sharedEngine->getRenderer()->getSize();
+            Size2 renderTargetSize = renderTarget ?
+                renderTarget->getTexture()->getSize() :
+                sharedEngine->getRenderer()->getSize();
 
-            if (layer)
-            {
-                if (renderTarget)
-                {
-                    screenSize = renderTarget->getTexture()->getSize();
-                }
-            }
+            renderViewport.x = renderTargetSize.width * viewport.x;
+            renderViewport.y = renderTargetSize.height * viewport.y;
+            renderViewport.width = renderTargetSize.width * viewport.width;
+            renderViewport.height = renderTargetSize.height * viewport.height;
 
-            assert(screenSize.width > 0.0f && screenSize.height > 0.0f);
+            assert(renderViewport.width > 0.0f && renderViewport.height > 0.0f);
 
             if (targetContentSize.width > 0.0f && targetContentSize.height > 0.0f)
             {
-                contentScale.x = screenSize.width / targetContentSize.width;
-                contentScale.y = screenSize.height / targetContentSize.height;
+                contentScale.x = renderViewport.width / targetContentSize.width;
+                contentScale.y = renderViewport.height / targetContentSize.height;
                 
                 switch (scaleMode)
                 {
@@ -67,17 +66,17 @@ namespace ouzel
                     }
                 }
 
-                contentSize = screenSize / contentScale;
+                contentSize = Size2(renderViewport.width / contentScale.x, renderViewport.height / contentScale.y);
                 contentPosition = Vector2((contentSize.width - targetContentSize.width) / 2.0f,
                                           (contentSize.height - targetContentSize.height) / 2.0f);
             }
             else
             {
-                contentSize = screenSize;
+                contentSize = Size2(renderViewport.width, renderViewport.height);
                 contentScale = Vector2(1.0f, 1.0f);
             }
 
-            Matrix4::createOrthographic(screenSize.width / contentScale.x, screenSize.height / contentScale.y, -1.0f, 1.0f, projection);
+            Matrix4::createOrthographic(renderViewport.width / contentScale.x, renderViewport.height / contentScale.y, -1.0f, 1.0f, projection);
 
             inverseProjection = projection;
             inverseProjection.invert();
@@ -174,6 +173,12 @@ namespace ouzel
             visibleRect.height += halfWorldSize.height * 2.0f;
             
             return visibleRect.containsPoint(v2p);
+        }
+
+        void Camera::setViewport(const Rectangle& newViewport)
+        {
+            viewport = newViewport;
+            recalculateProjection();
         }
 
         void Camera::setScaleMode(ScaleMode newScaleMode)

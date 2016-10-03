@@ -19,15 +19,13 @@ namespace ouzel
             TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor = Vector2(0.5f, 0.5f));
             virtual ~TextDrawable();
 
-            virtual void draw(const Matrix4& viewProjectionMatrix,
-                              const Matrix4& transformMatrix,
+            virtual void draw(const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
-                              const graphics::RenderTargetPtr& renderTarget) override;
+                              const scene::CameraPtr& camera) override;
 
-            virtual void drawWireframe(const Matrix4& viewProjectionMatrix,
-                                       const Matrix4& transformMatrix,
+            virtual void drawWireframe(const Matrix4& transformMatrix,
                                        const graphics::Color& drawColor,
-                                       const graphics::RenderTargetPtr& renderTarget) override;
+                                       const scene::CameraPtr& camera) override;
 
             virtual void setFont(const std::string& fontFile);
 

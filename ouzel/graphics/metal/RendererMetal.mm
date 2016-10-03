@@ -446,6 +446,11 @@ namespace ouzel
                     }
 
                     currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                    [currentRenderCommandEncoder setViewport: {
+                        0.0, 0.0,
+                        static_cast<double>(frameBufferWidth),
+                        static_cast<double>(frameBufferHeight),
+                        0.0, 1.0 }];
                 }
             }
             else for (const DrawCommand& drawCommand : drawQueue)
@@ -502,6 +507,14 @@ namespace ouzel
 
                     currentRenderPassDescriptor.colorAttachments[0].loadAction = clearBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
                 }
+
+                Rectangle newViewport = drawCommand.viewport;
+                [currentRenderCommandEncoder setViewport: {
+                    static_cast<double>(newViewport.x),
+                    static_cast<double>(newViewport.y),
+                    static_cast<double>(newViewport.width),
+                    static_cast<double>(newViewport.height),
+                    0.0, 1.0 }];
 
                 [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
 

@@ -20,15 +20,13 @@ namespace ouzel
         public:
             virtual ~Component();
 
-            virtual void draw(const Matrix4& viewProjectionMatrix,
-                              const Matrix4& transformMatrix,
+            virtual void draw(const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
-                              const graphics::RenderTargetPtr& renderTarget);
+                              const scene::CameraPtr& camera);
 
-            virtual void drawWireframe(const Matrix4& viewProjectionMatrix,
-                                       const Matrix4& transformMatrix,
+            virtual void drawWireframe(const Matrix4& transformMatrix,
                                        const graphics::Color& drawColor,
-                                       const graphics::RenderTargetPtr& renderTarget);
+                                       const scene::CameraPtr& camera);
 
             virtual const AABB2& getBoundingBox() const { return boundingBox; }
             bool isAddedToNode() { return node != nullptr; }

@@ -603,7 +603,6 @@ namespace ouzel
                 GLuint newFrameBufferId = 0;
                 GLbitfield newClearMask = 0;
                 const float* newClearColor;
-                Rectangle newViewport;
                 bool clearBuffer = false;
 
                 if (drawCommand.renderTarget)
@@ -618,7 +617,6 @@ namespace ouzel
                     newFrameBufferId = renderTargetOGL->getFrameBufferId();
                     newClearMask = renderTargetOGL->getClearMask();
                     newClearColor = renderTargetOGL->getFrameBufferClearColor();
-                    newViewport = renderTargetOGL->getViewport();
 
                     if (renderTargetOGL->getFrameBufferClearedFrame() != currentFrame)
                     {
@@ -641,7 +639,6 @@ namespace ouzel
 
                     newClearMask = clearMask;
                     newClearColor = frameBufferClearColor;
-                    newViewport = viewport;
 
                     if (frameBufferClearedFrame != currentFrame)
                     {
@@ -655,10 +652,10 @@ namespace ouzel
                     return false;
                 }
 
-                setViewport(static_cast<GLint>(newViewport.x),
-                            static_cast<GLint>(newViewport.y),
-                            static_cast<GLsizei>(newViewport.width),
-                            static_cast<GLsizei>(newViewport.height));
+                setViewport(static_cast<GLint>(drawCommand.viewport.x),
+                            static_cast<GLint>(drawCommand.viewport.y),
+                            static_cast<GLsizei>(drawCommand.viewport.width),
+                            static_cast<GLsizei>(drawCommand.viewport.height));
 
                 if (clearBuffer)
                 {

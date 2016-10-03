@@ -54,10 +54,6 @@ namespace ouzel
                     return false;
                 }
 
-                viewport = Rectangle(0.0f, 0.0f,
-                                     uploadData.size.width,
-                                     uploadData.size.height);
-
                 if (!frameBufferId)
                 {
                     glGenFramebuffers(1, &frameBufferId);

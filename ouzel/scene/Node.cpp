@@ -75,10 +75,7 @@ namespace ouzel
             {
                 if (!component->isHidden())
                 {
-                    component->draw(camera->getViewProjection(),
-                                    transform,
-                                    drawColor,
-                                    camera->getRenderTarget());
+                    component->draw(transform, drawColor, camera);
                 }
             }
         }
@@ -90,17 +87,13 @@ namespace ouzel
                 calculateTransform();
             }
 
-
             graphics::Color drawColor(color.r, color.g, color.b, 255);
 
             for (const ComponentPtr& component : components)
             {
                 if (!component->isHidden())
                 {
-                    component->drawWireframe(camera->getViewProjection(),
-                                             transform,
-                                             drawColor,
-                                             camera->getRenderTarget());
+                    component->drawWireframe(transform, drawColor, camera);
                 }
             }
         }
