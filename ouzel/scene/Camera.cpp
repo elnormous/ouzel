@@ -114,10 +114,9 @@ namespace ouzel
             localTransformDirty = false;
         }
 
-        Vector2 Camera::convertScreenToWorld(const Vector2& position)
+        Vector2 Camera::convertClipToWorld(const Vector2& position)
         {
-            Matrix4 projViewMatrix = getViewProjection();
-            Matrix4 inverseViewMatrix = projViewMatrix;
+            Matrix4 inverseViewMatrix = getViewProjection();
             inverseViewMatrix.invert();
 
             Vector3 result = Vector3(position.x, position.y, 0.0f);
@@ -126,12 +125,10 @@ namespace ouzel
             return Vector2(result.x, result.y);
         }
 
-        Vector2 Camera::convertWorldToScreen(const Vector2& position)
+        Vector2 Camera::convertWorldToClip(const Vector2& position)
         {
-            Matrix4 projViewMatrix = getViewProjection();
-
             Vector3 result = Vector3(position.x, position.y, 0.0f);
-            projViewMatrix.transformPoint(result);
+            getViewProjection().transformPoint(result);
 
             return Vector2(result.x, result.y);
         }

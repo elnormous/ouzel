@@ -91,7 +91,7 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event) const
     {
         case Event::Type::MOUSE_MOVE:
         {
-            Vector2 worldLocation = camera->convertScreenToWorld(event.position);
+            Vector2 worldLocation = camera->convertClipToWorld(event.position);
             flame->setPosition(worldLocation);
             break;
         }
@@ -104,7 +104,7 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event) const
 
 bool InputSample::handleTouch(Event::Type, const TouchEvent& event) const
 {
-    Vector2 worldLocation = camera->convertScreenToWorld(event.position);
+    Vector2 worldLocation = camera->convertClipToWorld(event.position);
     flame->setPosition(worldLocation);
 
     return true;
@@ -114,7 +114,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event) con
 {
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
-        Vector2 position = camera->convertWorldToScreen(flame->getPosition());
+        Vector2 position = camera->convertWorldToClip(flame->getPosition());
 
         switch (event.button)
         {
@@ -142,7 +142,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event) con
                 break;
         }
 
-        Vector2 worldLocation = camera->convertScreenToWorld(position);
+        Vector2 worldLocation = camera->convertClipToWorld(position);
         flame->setPosition(worldLocation);
     }
 
