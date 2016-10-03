@@ -28,7 +28,7 @@ static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
     ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
-    ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getRenderer()->windowToClipLocation(position),
+    ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getRenderer()->screenToClipLocation(position),
                                                ouzel::input::InputWin::getMouseModifiers(wParam));
 }
 
@@ -68,13 +68,13 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
         ouzel::sharedEngine->getInput()->mouseDown(button,
-                                                   ouzel::sharedEngine->getRenderer()->windowToClipLocation(position),
+                                                   ouzel::sharedEngine->getRenderer()->screenToClipLocation(position),
                                                    ouzel::input::InputWin::getMouseModifiers(wParam));
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
         ouzel::sharedEngine->getInput()->mouseUp(button,
-                                                 ouzel::sharedEngine->getRenderer()->windowToClipLocation(position),
+                                                 ouzel::sharedEngine->getRenderer()->screenToClipLocation(position),
                                                  ouzel::input::InputWin::getMouseModifiers(wParam));
     }
 }
@@ -88,14 +88,14 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     {
         short param = static_cast<short>(HIWORD(wParam));
         ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(0.0f, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
-                                                     ouzel::sharedEngine->getRenderer()->windowToClipLocation(position),
+                                                     ouzel::sharedEngine->getRenderer()->screenToClipLocation(position),
                                                      ouzel::input::InputWin::getMouseModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
         ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0f),
-                                                     ouzel::sharedEngine->getRenderer()->windowToClipLocation(position),
+                                                     ouzel::sharedEngine->getRenderer()->screenToClipLocation(position),
                                                      ouzel::input::InputWin::getMouseModifiers(wParam));
     }
 }
@@ -117,19 +117,19 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
             {
                 ouzel::sharedEngine->getInput()->touchBegin(touch.dwID,
-                                                            ouzel::sharedEngine->getRenderer()->windowToClipLocation(position));
+                                                            ouzel::sharedEngine->getRenderer()->screenToClipLocation(position));
             }
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
             {
                 ouzel::sharedEngine->getInput()->touchEnd(touch.dwID,
-                                                          ouzel::sharedEngine->getRenderer()->windowToClipLocation(position));
+                                                          ouzel::sharedEngine->getRenderer()->screenToClipLocation(position));
             }
 
             if (touch.dwFlags & TOUCHEVENTF_MOVE)
             {
                 ouzel::sharedEngine->getInput()->touchMove(touch.dwID,
-                                                           ouzel::sharedEngine->getRenderer()->windowToClipLocation(position));
+                                                           ouzel::sharedEngine->getRenderer()->screenToClipLocation(position));
             }
         }
 
