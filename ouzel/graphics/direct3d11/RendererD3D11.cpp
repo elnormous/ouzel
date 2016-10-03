@@ -638,7 +638,7 @@ namespace ouzel
                     }
 
                     std::shared_ptr<TextureD3D11> renderTargetTextureD3D11 = std::static_pointer_cast<TextureD3D11>(renderTargetD3D11->getTexture());
-                    viewport.TopLeftY = renderTargetTextureD3D11->getSize().height - (viewport.TopLeftY + newViewport.Height);
+                    viewport.TopLeftY = renderTargetTextureD3D11->getSize().height - (viewport.TopLeftY + viewport.Height);
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
