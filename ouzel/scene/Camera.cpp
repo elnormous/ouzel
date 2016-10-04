@@ -89,6 +89,7 @@ namespace ouzel
             if (viewProjectionDirty || transformDirty)
             {
                 viewProjection = projection * getTransform();
+                viewProjectionDirty = false;
             }
 
             return viewProjection;

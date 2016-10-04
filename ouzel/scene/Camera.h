@@ -70,7 +70,7 @@ namespace ouzel
             Vector2 contentScale;
             Vector2 contentPosition;
 
-            bool viewProjectionDirty = false;
+            mutable bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection = Matrix4::IDENTITY;
 
             Layer* layer = nullptr;
