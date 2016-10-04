@@ -141,21 +141,26 @@ namespace ouzel
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox)
         {
-            // transform center point to screen space
+            // calculate center point of the bounding box
             Vector2 diff = boundingBox.max - boundingBox.min;
 
+            // offset the center point, so that it is relative to 0,0
             Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
 
+            // apply local transform to the center point
             boxTransform.transformPoint(v3p);
 
+            // tranform the center to viewport's clip space
             Vector4 clipPos;
             getViewProjection().transformVector(Vector4(v3p.x, v3p.y, v3p.z, 1.0f), clipPos);
 
             assert(clipPos.w != 0.0f);
 
-            Vector2 v2p((clipPos.x / clipPos.w + 1.0f) * 0.5f * renderViewport.width,
-                        (clipPos.y / clipPos.w + 1.0f) * 0.5f * renderViewport.height);
+            // normalize position of the center point
+            Vector2 v2p((clipPos.x / clipPos.w + 1.0f) * 0.5f,
+                        (clipPos.y / clipPos.w + 1.0f) * 0.5f);
 
+            // calculate half size
             Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
 
             // convert content size to world coordinates
@@ -166,17 +171,15 @@ namespace ouzel
             halfWorldSize.height = std::max(fabsf(halfSize.width * boxTransform.m[1] + halfSize.height * boxTransform.m[5]),
                                             fabsf(halfSize.width * boxTransform.m[1] - halfSize.height * boxTransform.m[5]));
 
-            // scale half size by camera scale
-            halfWorldSize.width *= transform.m[0] + fabsf(transform.m[4]);
-            halfWorldSize.height *= fabsf(transform.m[1]) + transform.m[5];
+            // scale half size by camera projection to get the size in clip space coordinates
+            halfWorldSize.width *= (fabsf(viewProjection.m[0]) + fabsf(viewProjection.m[4])) / 2.0f;
+            halfWorldSize.height *= (fabsf(viewProjection.m[1]) + fabsf(viewProjection.m[5])) / 2.0f;
 
-            // enlarge visible rect half size in screen coord
-            Rectangle visibleRect(0.0f, 0.0f, renderViewport.width, renderViewport.height);
-
-            visibleRect.x -= halfWorldSize.width;
-            visibleRect.y -= halfWorldSize.height;
-            visibleRect.width += halfWorldSize.width * 2.0f;
-            visibleRect.height += halfWorldSize.height * 2.0f;
+            // create visible rect in clip space
+            Rectangle visibleRect(visibleRect.x = -halfWorldSize.width,
+                                  visibleRect.y = -halfWorldSize.height,
+                                  visibleRect.width = 1.0f + halfWorldSize.width * 2.0f,
+                                  visibleRect.height = 1.0f + halfWorldSize.height * 2.0f);
             
             return visibleRect.containsPoint(v2p);
         }
