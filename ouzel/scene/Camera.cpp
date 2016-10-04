@@ -76,7 +76,7 @@ namespace ouzel
                 contentScale = Vector2(1.0f, 1.0f);
             }
 
-            Matrix4::createOrthographic(renderViewport.width / contentScale.x, renderViewport.height / contentScale.y, -1.0f, 1.0f, projection);
+            Matrix4::createOrthographic(contentSize.width, contentSize.height, -1.0f, 1.0f, projection);
 
             inverseProjection = projection;
             inverseProjection.invert();
