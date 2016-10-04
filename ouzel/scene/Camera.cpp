@@ -176,10 +176,10 @@ namespace ouzel
             halfWorldSize.height *= (fabsf(viewProjection.m[1]) + fabsf(viewProjection.m[5])) / 2.0f;
 
             // create visible rect in clip space
-            Rectangle visibleRect(visibleRect.x = -halfWorldSize.width,
-                                  visibleRect.y = -halfWorldSize.height,
-                                  visibleRect.width = 1.0f + halfWorldSize.width * 2.0f,
-                                  visibleRect.height = 1.0f + halfWorldSize.height * 2.0f);
+            Rectangle visibleRect(-halfWorldSize.width,
+                                  -halfWorldSize.height,
+                                  1.0f + halfWorldSize.width * 2.0f,
+                                  1.0f + halfWorldSize.height * 2.0f);
             
             return visibleRect.containsPoint(v2p);
         }
