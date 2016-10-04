@@ -37,6 +37,7 @@ Windows Phone platform support is under development.
 * Multi-threaded (separate threads for rendering and game update)
 * Scene management
 * GUI helper classes and management
+* Multiple side-by-side viewport support
 * Bitmap font support
 * Xbox 360 gamepad support
 * macOS, iOS and tvOS gamepad support

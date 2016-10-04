@@ -113,29 +113,29 @@ namespace ouzel
             localTransformDirty = false;
         }
 
-        Vector2 Camera::convertClipToWorld(const Vector2& position)
+        Vector2 Camera::convertNormalizedToWorld(const Vector2& position)
         {
             Matrix4 inverseViewMatrix = getViewProjection();
             inverseViewMatrix.invert();
 
-            // convert window clip to viewport clip position
-            Vector2 viewportClip = Vector2(((position.x / 2.0f + 0.5f - viewport.x) / viewport.width - 0.5f) * 2.0f,
-                                           ((position.y / 2.0f + 0.5f - viewport.y) / viewport.height - 0.5f) * 2.0f);
+            // convert window normalized to viewport clip position
+            Vector3 result = Vector3(((position.x - viewport.x) / viewport.width - 0.5f) * 2.0f,
+                                     ((position.y - viewport.y) / viewport.height - 0.5f) * 2.0f,
+                                     0.0f);
 
-            Vector3 result = Vector3(viewportClip.x, viewportClip.y, 0.0f);
             inverseViewMatrix.transformPoint(result);
 
             return Vector2(result.x, result.y);
         }
 
-        Vector2 Camera::convertWorldToClip(const Vector2& position)
+        Vector2 Camera::convertWorldToNormalized(const Vector2& position)
         {
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             getViewProjection().transformPoint(result);
 
-            // convert viewport clip to window clip position
-            return Vector2(((result.x / 2.0f + 0.5f) * viewport.width + viewport.x - 0.5f) * 2.0f,
-                           ((result.y / 2.0f + 0.5f) * viewport.height + viewport.y - 0.5f) * 2.0f);
+            // convert viewport clip position to window normalized
+            return Vector2((result.x / 2.0f + 0.5f) * viewport.width + viewport.x,
+                           (result.y / 2.0f + 0.5f) * viewport.height + viewport.y);
         }
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox)

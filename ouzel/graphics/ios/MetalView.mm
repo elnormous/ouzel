@@ -69,7 +69,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                             sharedEngine->getRenderer()->screenToClipLocation(Vector2(location.x, location.y)));
+                                             sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -80,7 +80,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                            sharedEngine->getRenderer()->screenToClipLocation(Vector2(location.x, location.y)));
+                                            sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -91,7 +91,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                           sharedEngine->getRenderer()->screenToClipLocation(Vector2(location.x, location.y)));
+                                           sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -102,7 +102,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                              sharedEngine->getRenderer()->screenToClipLocation(Vector2(location.x, location.y)));
+                                              sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 

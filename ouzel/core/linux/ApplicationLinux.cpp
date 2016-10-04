@@ -332,13 +332,13 @@ namespace ouzel
                             if (event.type == ButtonPress)
                             {
                                 sharedEngine->getInput()->mouseDown(button,
-                                                                    sharedEngine->getRenderer()->screenToClipLocation(pos),
+                                                                    sharedEngine->getRenderer()->screenToNormalizedLocation(pos),
                                                                     getModifiers(event.xbutton.state));
                             }
                             else
                             {
                                 sharedEngine->getInput()->mouseUp(button,
-                                                                  sharedEngine->getRenderer()->screenToClipLocation(pos),
+                                                                  sharedEngine->getRenderer()->screenToNormalizedLocation(pos),
                                                                   getModifiers(event.xbutton.state));
                             }
                             break;
@@ -348,7 +348,7 @@ namespace ouzel
                             Vector2 pos(static_cast<float>(event.xmotion.x),
                                         static_cast<float>(event.xmotion.y));
 
-                            sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToClipLocation(pos),
+                            sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToNormalizedLocation(pos),
                                                                 getModifiers(event.xmotion.state));
 
                             break;

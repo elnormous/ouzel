@@ -54,21 +54,21 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
     if (type == Event::Type::KEY_DOWN)
     {
         Vector2 position = camera->getPosition();
-        Vector2 flamePosition = camera->convertWorldToClip(flame->getPosition());
+        Vector2 flamePosition = camera->convertWorldToNormalized(flame->getPosition());
 
         switch (event.key)
         {
             case input::KeyboardKey::UP:
-                flamePosition.y += 0.02f;
+                flamePosition.y += 0.01f;
                 break;
             case input::KeyboardKey::DOWN:
-                flamePosition.y -= 0.02f;
+                flamePosition.y -= 0.01f;
                 break;
             case input::KeyboardKey::LEFT:
-                flamePosition.x -= 0.02f;
+                flamePosition.x -= 0.01f;
                 break;
             case input::KeyboardKey::RIGHT:
-                flamePosition.x += 0.02f;
+                flamePosition.x += 0.01f;
                 break;
             case input::KeyboardKey::KEY_W:
                 position.y += 10.0f;
@@ -94,7 +94,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
 
         camera->setPosition(position);
 
-        Vector2 worldLocation = camera->convertClipToWorld(flamePosition);
+        Vector2 worldLocation = camera->convertNormalizedToWorld(flamePosition);
 
         flame->setPosition(worldLocation);
     }
@@ -108,7 +108,7 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event) const
     {
         case Event::Type::MOUSE_MOVE:
         {
-            Vector2 worldLocation = camera->convertClipToWorld(event.position);
+            Vector2 worldLocation = camera->convertNormalizedToWorld(event.position);
             flame->setPosition(worldLocation);
             break;
         }
@@ -121,7 +121,7 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event) const
 
 bool InputSample::handleTouch(Event::Type, const TouchEvent& event) const
 {
-    Vector2 worldLocation = camera->convertClipToWorld(event.position);
+    Vector2 worldLocation = camera->convertNormalizedToWorld(event.position);
     flame->setPosition(worldLocation);
 
     return true;
@@ -131,7 +131,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event) con
 {
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
-        Vector2 flamePosition = camera->convertWorldToClip(flame->getPosition());
+        Vector2 flamePosition = camera->convertWorldToNormalized(flame->getPosition());
 
         switch (event.button)
         {
@@ -159,7 +159,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event) con
                 break;
         }
 
-        Vector2 worldLocation = camera->convertClipToWorld(flamePosition);
+        Vector2 worldLocation = camera->convertNormalizedToWorld(flamePosition);
         flame->setPosition(worldLocation);
     }
 

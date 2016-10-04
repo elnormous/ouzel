@@ -104,7 +104,7 @@ namespace ouzel
         {
             for (const CameraPtr& camera : cameras)
             {
-                Vector2 worldPosition = camera->convertClipToWorld(position);
+                Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
                 for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
@@ -126,7 +126,7 @@ namespace ouzel
 
             for (const CameraPtr& camera : cameras)
             {
-                Vector2 worldPosition = camera->convertClipToWorld(position);
+                Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
                 for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
@@ -153,7 +153,7 @@ namespace ouzel
 
                 for (const Vector2& edge : edges)
                 {
-                    worldEdges.push_back(camera->convertClipToWorld(edge));
+                    worldEdges.push_back(camera->convertNormalizedToWorld(edge));
                 }
 
                 for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
