@@ -118,7 +118,10 @@ namespace ouzel
             Matrix4 inverseViewMatrix = getViewProjection();
             inverseViewMatrix.invert();
 
-            Vector3 result = Vector3(position.x, position.y, 0.0f);
+            Vector2 cameraPosition = Vector2(((position.x / 2.0f + 0.5f - viewport.x) / viewport.width - 0.5f) * 2.0f,
+                                             ((position.y / 2.0f + 0.5f - viewport.y) / viewport.height - 0.5f) * 2.0f);
+
+            Vector3 result = Vector3(cameraPosition.x, cameraPosition.y, 0.0f);
             inverseViewMatrix.transformPoint(result);
 
             return Vector2(result.x, result.y);
@@ -129,7 +132,8 @@ namespace ouzel
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             getViewProjection().transformPoint(result);
 
-            return Vector2(result.x, result.y);
+            return Vector2(((result.x / 2.0f + 0.5f) * viewport.width + viewport.x - 0.5f) * 2.0f,
+                           ((result.y / 2.0f + 0.5f) * viewport.height + viewport.y - 0.5f) * 2.0f);
         }
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox)

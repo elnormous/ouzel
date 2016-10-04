@@ -54,9 +54,22 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
     if (type == Event::Type::KEY_DOWN)
     {
         Vector2 position = camera->getPosition();
+        Vector2 flamePosition = camera->convertWorldToClip(flame->getPosition());
 
         switch (event.key)
         {
+            case input::KeyboardKey::UP:
+                flamePosition.y += 0.02f;
+                break;
+            case input::KeyboardKey::DOWN:
+                flamePosition.y -= 0.02f;
+                break;
+            case input::KeyboardKey::LEFT:
+                flamePosition.x -= 0.02f;
+                break;
+            case input::KeyboardKey::RIGHT:
+                flamePosition.x += 0.02f;
+                break;
             case input::KeyboardKey::KEY_W:
                 position.y += 10.0f;
                 break;
@@ -80,6 +93,10 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
         }
 
         camera->setPosition(position);
+
+        Vector2 worldLocation = camera->convertClipToWorld(flamePosition);
+
+        flame->setPosition(worldLocation);
     }
 
     return true;
@@ -114,35 +131,35 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event) con
 {
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
-        Vector2 position = camera->convertWorldToClip(flame->getPosition());
+        Vector2 flamePosition = camera->convertWorldToClip(flame->getPosition());
 
         switch (event.button)
         {
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
             case input::GamepadButton::RIGHT_THUMB_UP:
-                position.y = event.value;
+                flamePosition.y = event.value;
                 break;
             case input::GamepadButton::DPAD_DOWN:
             case input::GamepadButton::LEFT_THUMB_DOWN:
             case input::GamepadButton::RIGHT_THUMB_DOWN:
-                position.y = -event.value;
+                flamePosition.y = -event.value;
                 break;
             case input::GamepadButton::DPAD_LEFT:
             case input::GamepadButton::LEFT_THUMB_LEFT:
             case input::GamepadButton::RIGHT_THUMB_LEFT:
-                position.x = -event.value;
+                flamePosition.x = -event.value;
                 break;
             case input::GamepadButton::DPAD_RIGHT:
             case input::GamepadButton::LEFT_THUMB_RIGHT:
             case input::GamepadButton::RIGHT_THUMB_RIGHT:
-                position.x = event.value;
+                flamePosition.x = event.value;
                 break;
             default:
                 break;
         }
 
-        Vector2 worldLocation = camera->convertClipToWorld(position);
+        Vector2 worldLocation = camera->convertClipToWorld(flamePosition);
         flame->setPosition(worldLocation);
     }
 
