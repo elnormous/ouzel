@@ -118,10 +118,11 @@ namespace ouzel
             Matrix4 inverseViewMatrix = getViewProjection();
             inverseViewMatrix.invert();
 
-            Vector2 cameraPosition = Vector2(((position.x / 2.0f + 0.5f - viewport.x) / viewport.width - 0.5f) * 2.0f,
-                                             ((position.y / 2.0f + 0.5f - viewport.y) / viewport.height - 0.5f) * 2.0f);
+            // convert window clip to viewport clip position
+            Vector2 viewportClip = Vector2(((position.x / 2.0f + 0.5f - viewport.x) / viewport.width - 0.5f) * 2.0f,
+                                           ((position.y / 2.0f + 0.5f - viewport.y) / viewport.height - 0.5f) * 2.0f);
 
-            Vector3 result = Vector3(cameraPosition.x, cameraPosition.y, 0.0f);
+            Vector3 result = Vector3(viewportClip.x, viewportClip.y, 0.0f);
             inverseViewMatrix.transformPoint(result);
 
             return Vector2(result.x, result.y);
@@ -132,6 +133,7 @@ namespace ouzel
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             getViewProjection().transformPoint(result);
 
+            // convert viewport clip to window clip position
             return Vector2(((result.x / 2.0f + 0.5f) * viewport.width + viewport.x - 0.5f) * 2.0f,
                            ((result.y / 2.0f + 0.5f) * viewport.height + viewport.y - 0.5f) * 2.0f);
         }
