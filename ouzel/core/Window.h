@@ -31,6 +31,8 @@ namespace ouzel
         virtual const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
+        virtual float getContentScale() const { return 1.0f; }
+
         Vector2 convertWindowToNormalizedLocation(const Vector2& position)
         {
             return Vector2(position.x / size.width,

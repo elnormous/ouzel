@@ -238,6 +238,11 @@ namespace ouzel
         Window::setTitle(newTitle);
     }
 
+    float WindowMacOS::getContentScale() const
+    {
+        return window.backingScaleFactor;
+    }
+
     void WindowMacOS::handleResize()
     {
         NSRect frame = [NSWindow contentRectForFrameRect:[window frame]

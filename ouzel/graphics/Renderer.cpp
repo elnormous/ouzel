@@ -41,7 +41,7 @@ namespace ouzel
                             bool newVerticalSync)
         {
             window = newWindow;
-            size = window->getSize();
+            size = window->getSize() * window->getContentScale();
             sampleCount = newSampleCount;
             textureFilter = newTextureFilter;
             backBufferFormat = newBackBufferFormat;
