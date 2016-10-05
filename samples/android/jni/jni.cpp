@@ -3,6 +3,7 @@
 
 #include <jni.h>
 #include "core/android/ApplicationAndroid.h"
+#include "core/android/WindowAndroid.h"
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "files/FileSystem.h"
@@ -36,7 +37,8 @@ extern "C"
 
         if (ouzel::sharedEngine)
         {
-            ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
+            std::shared_ptr<ouzel::WindowAndroid> windowAndroid = std::static_pointer_cast<ouzel::WindowAndroid>(ouzel::sharedEngine->getWindow());
+            windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
         }
     }
 

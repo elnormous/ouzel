@@ -13,6 +13,8 @@ namespace ouzel
     public:
         virtual ~WindowAndroid();
 
+        void handleResize(const Size2& newSize);
+
     protected:
         WindowAndroid(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
         virtual bool init() override;
