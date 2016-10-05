@@ -155,7 +155,7 @@ namespace ouzel
             Vector2 position;
             float rotation = 0.0f;
             Vector2 scale = Vector2(1.0f, 1.0f);
-            graphics::Color color = graphics::Color(255, 255, 255, 255);
+            graphics::Color color = graphics::Color::WHITE;
             float opacity = 1.0f;
             float z = 0.0f;
 
