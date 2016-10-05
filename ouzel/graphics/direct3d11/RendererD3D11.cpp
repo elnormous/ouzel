@@ -16,6 +16,7 @@
 #include "ColorVSD3D11.h"
 #include "scene/Camera.h"
 #include "core/Cache.h"
+#include "events/EventDispatcher.h"
 #include "BlendStateD3D11.h"
 #include "core/windows/WindowWin.h"
 #include "stb_image_write.h"
@@ -202,6 +203,7 @@ namespace ouzel
 
             width = static_cast<UINT>(size.width);
             height = static_cast<UINT>(size.height);
+            fullscreen = windowWin->isFullscreen();
 
             UINT qualityLevels;
 
@@ -566,12 +568,31 @@ namespace ouzel
             dirty = true;
         }
 
-        void RendererD3D11::setSize(const Size2& newSize)
+        void RendererD3D11::handleResize(const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            Renderer::setSize(newSize);
+            if (size != newSize)
+            {
+                size = newSize;
 
+                Event event;
+                event.type = Event::Type::WINDOW_RESOLUTION_CHANGE;
+
+                event.windowEvent.window = window;
+                event.windowEvent.size = size;
+
+                sharedEngine->getEventDispatcher()->postEvent(event);
+            }
+
+            dirty = true;
+        }
+
+        void RendererD3D11::handleFullscreenChange(bool newFullscreen)
+        {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
+            fullscreen = newFullscreen;
             dirty = true;
         }
 
@@ -939,13 +960,6 @@ namespace ouzel
             output->Release();
 
             return result;
-        }
-
-        void RendererD3D11::setFullscreen(bool newFullscreen)
-        {
-            Renderer::setFullscreen(newFullscreen);
-
-            dirty = true;
         }
 
         BlendStatePtr RendererD3D11::createBlendState()

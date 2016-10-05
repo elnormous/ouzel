@@ -20,6 +20,7 @@ namespace ouzel
 
         virtual void setSize(const Size2& newSize) override;
         virtual void setTitle(const std::string& newTitle) override;
+        virtual void setFullscreen(bool newFullscreen) override;
 
         void handleResize(INT width, INT height);
 

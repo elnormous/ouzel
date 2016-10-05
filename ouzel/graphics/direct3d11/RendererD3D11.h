@@ -22,11 +22,12 @@ namespace ouzel
             virtual ~RendererD3D11();
             virtual void free() override;
 
+            void handleResize(const Size2& newSize);
+            void handleFullscreenChange(bool newFullscreen);
+
             virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
-
-            virtual void setFullscreen(bool newFullscreen) override;
 
             virtual BlendStatePtr createBlendState() override;
             virtual TexturePtr createTexture() override;
@@ -52,7 +53,6 @@ namespace ouzel
             bool saveScreenshots();
 
             virtual void setClearColor(Color color) override;
-            virtual void setSize(const Size2& newSize) override;
 
             IDXGIOutput* getOutput() const;
 
@@ -76,6 +76,7 @@ namespace ouzel
             UINT swapInterval = 0;
             FLOAT frameBufferClearColor[4];
 
+            bool fullscreen = false;
             std::atomic<bool> dirty;
             std::mutex dataMutex;
         };

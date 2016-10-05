@@ -8,6 +8,7 @@
 #include "core/Window.h"
 #include "input/windows/InputWin.h"
 #include "graphics/Renderer.h"
+#include "graphics/direct3d11/RendererD3D11.h"
 #include "utils/Utils.h"
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM)
@@ -388,6 +389,8 @@ namespace ouzel
         });
 
         Window::setSize(newSize);
+        std::shared_ptr<graphics::RendererD3D11> rendererD3D11 = std::static_pointer_cast<graphics::RendererD3D11>(sharedEngine->getRenderer());
+        rendererD3D11->handleResize(size);
     }
 
     void WindowWin::setTitle(const std::string& newTitle)
@@ -405,9 +408,18 @@ namespace ouzel
         Window::setTitle(newTitle);
     }
 
+    void WindowWin::setFullscreen(bool newFullscreen)
+    {
+        Window::setFullscreen(newFullscreen);
+        std::shared_ptr<graphics::RendererD3D11> rendererD3D11 = std::static_pointer_cast<graphics::RendererD3D11>(sharedEngine->getRenderer());
+        rendererD3D11->handleFullscreenChange(newFullscreen);
+    }
+
     void WindowWin::handleResize(INT width, INT height)
     {
         Window::setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
+        std::shared_ptr<graphics::RendererD3D11> rendererD3D11 = std::static_pointer_cast<graphics::RendererD3D11>(sharedEngine->getRenderer());
+        rendererD3D11->handleResize(size);
     }
 
     void WindowWin::addAccelerator(HACCEL accelerator)
