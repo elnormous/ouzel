@@ -389,8 +389,7 @@ namespace ouzel
         });
 
         Window::setSize(newSize);
-        std::shared_ptr<graphics::RendererD3D11> rendererD3D11 = std::static_pointer_cast<graphics::RendererD3D11>(sharedEngine->getRenderer());
-        rendererD3D11->handleResize(size);
+        sharedEngine->getRenderer()->setSize(size);
     }
 
     void WindowWin::setTitle(const std::string& newTitle)
@@ -412,14 +411,13 @@ namespace ouzel
     {
         Window::setFullscreen(newFullscreen);
         std::shared_ptr<graphics::RendererD3D11> rendererD3D11 = std::static_pointer_cast<graphics::RendererD3D11>(sharedEngine->getRenderer());
-        rendererD3D11->handleFullscreenChange(newFullscreen);
+        rendererD3D11->setFullscreen(fullscreen);
     }
 
     void WindowWin::handleResize(INT width, INT height)
     {
         Window::setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
-        std::shared_ptr<graphics::RendererD3D11> rendererD3D11 = std::static_pointer_cast<graphics::RendererD3D11>(sharedEngine->getRenderer());
-        rendererD3D11->handleResize(size);
+        sharedEngine->getRenderer()->setSize(size);
     }
 
     void WindowWin::addAccelerator(HACCEL accelerator)

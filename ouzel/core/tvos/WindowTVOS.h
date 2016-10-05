@@ -31,6 +31,8 @@ namespace ouzel
         UIViewPtr getNativeView() const { return view; }
         UITextFieldPtr getTextField() const { return textField; }
 
+        void handleResize(const Size2& newSize);
+
     protected:
         WindowTVOS(const Size2& pSize, bool resizable, bool pFullscreen, const std::string& pTitle);
         virtual bool init() override;

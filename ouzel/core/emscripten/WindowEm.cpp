@@ -4,6 +4,7 @@
 #include <emscripten.h>
 #include <html5.h>
 #include "WindowEm.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
@@ -58,5 +59,7 @@ namespace ouzel
         int width, height, fullscreen;
         emscripten_get_canvas_size(&width, &height, &fullscreen);
         Window::setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
+
+        sharedEngine->getRenderer()->setSize(size);
     }
 }

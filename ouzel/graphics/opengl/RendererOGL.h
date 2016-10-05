@@ -70,8 +70,7 @@ namespace ouzel
             virtual ~RendererOGL();
 
             virtual void setClearColor(Color color) override;
-
-            virtual void handleResize(const Size2& newSize);
+            virtual void setSize(const Size2& newSize) override;
 
             virtual bool present() override;
 

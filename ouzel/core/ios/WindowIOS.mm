@@ -89,8 +89,8 @@
     {
         CGSize size = self.view.frame.size;
 
-        window->setSize(ouzel::Size2(static_cast<float>(size.width),
-                                     static_cast<float>(size.height)));
+        window->handleResize(ouzel::Size2(static_cast<float>(size.width),
+                                          static_cast<float>(size.height)));
     }
 }
 
@@ -155,5 +155,10 @@ namespace ouzel
         [window makeKeyAndVisible];
 
         return Window::init();
+    }
+
+    void WindowIOS::handleResize(const Size2& newSize)
+    {
+        Window::setSize(newSize);
     }
 }

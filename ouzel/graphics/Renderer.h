@@ -78,6 +78,7 @@ namespace ouzel
             virtual bool present();
 
             const Size2& getSize() const { return size; }
+            virtual void setSize(const Size2& newSize);
             uint32_t getSampleCount() const { return sampleCount; }
             TextureFilter getTextureFilter() const { return textureFilter; }
 

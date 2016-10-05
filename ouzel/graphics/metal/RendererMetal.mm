@@ -357,22 +357,11 @@ namespace ouzel
             dirty = true;
         }
 
-        void RendererMetal::handleResize(const Size2& newSize)
+        void RendererMetal::setSize(const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (size != newSize)
-            {
-                size = newSize;
-
-                Event event;
-                event.type = Event::Type::WINDOW_RESOLUTION_CHANGE;
-
-                event.windowEvent.window = window;
-                event.windowEvent.size = size;
-                
-                sharedEngine->getEventDispatcher()->postEvent(event);
-            }
+            Renderer::setSize(newSize);
 
             dirty = true;
         }

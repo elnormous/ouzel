@@ -22,8 +22,8 @@ namespace ouzel
             virtual ~RendererD3D11();
             virtual void free() override;
 
-            void handleResize(const Size2& newSize);
-            void handleFullscreenChange(bool newFullscreen);
+            virtual void setSize(const Size2& newSize) override;
+            void setFullscreen(bool newFullscreen);
 
             virtual bool present() override;
 

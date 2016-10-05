@@ -34,8 +34,8 @@
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
-    window->setSize(ouzel::Size2(static_cast<float>(size.width),
-                                 static_cast<float>(size.height)));
+    window->handleResize(ouzel::Size2(static_cast<float>(size.width),
+                                      static_cast<float>(size.height)));
 }
 
 @end
@@ -94,5 +94,10 @@ namespace ouzel
         [window makeKeyAndVisible];
 
         return Window::init();
+    }
+
+    void WindowTVOS::handleResize(const Size2& newSize)
+    {
+        Window::setSize(newSize);
     }
 }

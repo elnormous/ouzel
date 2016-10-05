@@ -70,20 +70,16 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     [super viewDidChangeBackingProperties];
 
-    std::shared_ptr<ouzel::graphics::RendererOGL> rendererOGL = std::static_pointer_cast<ouzel::graphics::RendererOGL>(sharedEngine->getRenderer());
-
-    rendererOGL->handleResize(Size2(static_cast<float>(_bounds.size.width * _window.backingScaleFactor),
-                                    static_cast<float>(_bounds.size.height * _window.backingScaleFactor)));
+    sharedEngine->getRenderer()->setSize(Size2(static_cast<float>(_bounds.size.width * _window.backingScaleFactor),
+                                               static_cast<float>(_bounds.size.height * _window.backingScaleFactor)));
 }
 
 -(void)setFrameSize:(NSSize)newSize
 {
     [super setFrameSize:newSize];
 
-    std::shared_ptr<ouzel::graphics::RendererOGL> rendererOGL = std::static_pointer_cast<ouzel::graphics::RendererOGL>(sharedEngine->getRenderer());
-
-    rendererOGL->handleResize(Size2(static_cast<float>(_bounds.size.width * _window.backingScaleFactor),
-                                    static_cast<float>(_bounds.size.height * _window.backingScaleFactor)));
+    sharedEngine->getRenderer()->setSize(Size2(static_cast<float>(_bounds.size.width * _window.backingScaleFactor),
+                                               static_cast<float>(_bounds.size.height * _window.backingScaleFactor)));
 }
 
 -(void)prepareOpenGL

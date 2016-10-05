@@ -27,8 +27,6 @@ namespace ouzel
     void WindowAndroid::handleResize(const Size2& newSize)
     {
         Window::setSize(newSize);
-
-        std::shared_ptr<graphics::RendererOGL> rendererOGL = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
-        rendererOGL->handleResize(newSize);
+        sharedEngine->getRenderer()->setSize(newSize);
     }
 }

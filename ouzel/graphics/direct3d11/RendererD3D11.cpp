@@ -568,27 +568,16 @@ namespace ouzel
             dirty = true;
         }
 
-        void RendererD3D11::handleResize(const Size2& newSize)
+        void RendererD3D11::setSize(const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (size != newSize)
-            {
-                size = newSize;
-
-                Event event;
-                event.type = Event::Type::WINDOW_RESOLUTION_CHANGE;
-
-                event.windowEvent.window = window;
-                event.windowEvent.size = size;
-
-                sharedEngine->getEventDispatcher()->postEvent(event);
-            }
+            Renderer::setSize(newSize);
 
             dirty = true;
         }
 
-        void RendererD3D11::handleFullscreenChange(bool newFullscreen)
+        void RendererD3D11::setFullscreen(bool newFullscreen)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
