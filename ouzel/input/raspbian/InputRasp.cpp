@@ -341,14 +341,14 @@ namespace ouzel
             for (size_t i = 0; i < g.gl_pathc; i++)
             {
                 InputDeviceRasp inputDevice;
-                
+
                 inputDevice.fd = open(g.gl_pathv[i], O_RDONLY);
                 if (inputDevice.fd == -1)
                 {
                     log(LOG_LEVEL_WARNING, "Failed to open device file descriptor");
                     continue;
                 }
-                
+
                 if (ioctl(inputDevice.fd, EVIOCGRAB, (void *)1) == -1)
                 {
                     log(LOG_LEVEL_WARNING, "Failed to get grab device");
@@ -363,7 +363,7 @@ namespace ouzel
                 {
                     log(LOG_LEVEL_INFO, "Got device: %s", TEMP_BUFFER);
                 }
-                
+
                 unsigned long eventBits[BITS_TO_LONGS(EV_CNT)];
                 unsigned long absBits[BITS_TO_LONGS(ABS_CNT)];
                 unsigned long relBits[BITS_TO_LONGS(REL_CNT)];
@@ -377,7 +377,7 @@ namespace ouzel
                     log(LOG_LEVEL_WARNING, "Failed to get device event bits");
                     continue;
                 }
-        
+
                 if (isBitSet(eventBits, EV_KEY) && (
                      isBitSet(keyBits, KEY_1) ||
                      isBitSet(keyBits, KEY_2) ||
@@ -394,14 +394,14 @@ namespace ouzel
                     log(LOG_LEVEL_INFO, "Device class: keyboard");
                     inputDevice.deviceClass = InputDeviceRasp::CLASS_KEYBOARD;
                 }
-        
+
                 if (isBitSet(eventBits, EV_ABS) && isBitSet(absBits, ABS_X) && isBitSet(absBits, ABS_Y))
                 {
                     if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN))
                     {
                         log(LOG_LEVEL_INFO, "Device class: tablet");
                         inputDevice.deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
-                    } 
+                    }
                     else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN))
                     {
                         log(LOG_LEVEL_INFO, "Device class: touchpad");
@@ -474,7 +474,7 @@ namespace ouzel
             tv.tv_usec = 0;
 
             FD_ZERO(&rfds);
-            
+
             for (const InputDeviceRasp& inputDevice : inputDevices)
             {
                 FD_SET(inputDevice.fd, &rfds);
@@ -494,7 +494,7 @@ namespace ouzel
                     if (FD_ISSET(inputDevice.fd, &rfds))
                     {
                         ssize_t bytesRead = read(inputDevice.fd, TEMP_BUFFER, sizeof(TEMP_BUFFER));
-                        
+
                         if (bytesRead == -1)
                         {
                             continue;
@@ -503,7 +503,7 @@ namespace ouzel
                         for (ssize_t i = 0; i < bytesRead - static_cast<ssize_t>(sizeof(input_event)) + 1; i += sizeof(input_event))
                         {
                             input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
-                            
+
                             if (inputDevice.deviceClass & InputDeviceRasp::CLASS_KEYBOARD)
                             {
                                 if (event->type == EV_KEY)

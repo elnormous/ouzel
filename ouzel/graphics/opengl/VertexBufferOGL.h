@@ -36,7 +36,7 @@ namespace ouzel
     {
         class RendererOGL;
         class MeshBufferOGL;
-        
+
         class VertexBufferOGL: public VertexBuffer
         {
             friend RendererOGL;

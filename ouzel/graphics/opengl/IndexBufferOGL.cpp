@@ -156,10 +156,10 @@ namespace ouzel
 
                     uploadData.dirty &= ~INDEX_BUFFER_DIRTY;
                 }
-                
+
                 uploadData.dirty = 0;
             }
-            
+
             return true;
         }
     } // namespace graphics

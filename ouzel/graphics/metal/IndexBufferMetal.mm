@@ -90,7 +90,7 @@ namespace ouzel
 
                 uploadData.dirty = 0;
             }
-            
+
             return true;
         }
     } // namespace graphics

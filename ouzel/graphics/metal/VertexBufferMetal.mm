@@ -63,13 +63,13 @@ namespace ouzel
 
                         memcpy([buffer contents], uploadData.data.data(), uploadData.data.size());
                     }
-                    
+
                     uploadData.dirty &= ~VERTEX_BUFFER_DIRTY;
                 }
-                
+
                 uploadData.dirty = 0;
             }
-            
+
             return true;
         }
     } // namespace graphics

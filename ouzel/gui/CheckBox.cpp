@@ -63,7 +63,7 @@ namespace ouzel
             }
 
             pickable = true;
-            
+
             updateSprite();
         }
 

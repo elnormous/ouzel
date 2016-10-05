@@ -127,7 +127,7 @@ namespace ouzel
             }
         }
 
-        bool RendererD3D11::init(const WindowPtr& window,
+        bool RendererD3D11::init(const WindowPtr& newWindow,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
@@ -135,7 +135,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (!Renderer::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
+            if (!Renderer::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
             {
                 return false;
             }
@@ -750,7 +750,7 @@ namespace ouzel
                 {
                     const ShaderD3D11::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                     const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
-                    
+
                     if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
                     {
                         log(LOG_LEVEL_ERROR, "Invalid pixel shader constant size");

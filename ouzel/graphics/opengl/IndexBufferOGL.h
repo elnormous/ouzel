@@ -36,7 +36,7 @@ namespace ouzel
     {
         class RendererOGL;
         class MeshBufferOGL;
-        
+
         class IndexBufferOGL: public IndexBuffer
         {
             friend RendererOGL;
@@ -48,7 +48,7 @@ namespace ouzel
             GLuint getBufferId() const { return bufferId; }
             GLenum getType() const { return type; }
             GLuint getBytesPerIndex() const { return bytesPerIndex; }
-            
+
         protected:
             IndexBufferOGL();
             bool bindBuffer();

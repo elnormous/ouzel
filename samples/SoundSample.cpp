@@ -6,7 +6,6 @@
 using namespace std;
 using namespace ouzel;
 
-
 SoundSample::SoundSample(Samples& pSamples):
     samples(pSamples)
 {

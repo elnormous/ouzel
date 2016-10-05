@@ -25,13 +25,13 @@ namespace ouzel
         {
         }
 
-        bool RendererEmpty::init(const WindowPtr& window,
+        bool RendererEmpty::init(const WindowPtr& newWindow,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync)
         {
-            if (!Renderer::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
+            if (!Renderer::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
             {
                 return false;
             }

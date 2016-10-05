@@ -47,8 +47,6 @@ EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, v
     ouzel::Vector2 position(static_cast<float>(mouseEvent->clientX),
                             static_cast<float>(mouseEvent->clientY));
 
-    
-
     switch (eventType)
     {
         case EMSCRIPTEN_EVENT_MOUSEDOWN:
@@ -65,7 +63,7 @@ EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, v
             ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
                                                        ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
-    }   
+    }
 
     return false;
 }
@@ -212,7 +210,7 @@ namespace ouzel
         InputEm::~InputEm()
         {
         }
-        
+
         KeyboardKey InputEm::convertKeyCode(const EM_UTF8 key[32])
         {
             auto i = keyMap.find(key);

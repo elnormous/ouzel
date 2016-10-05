@@ -55,7 +55,7 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             return initFromBuffer(image.getData(), image.getSize(), newDynamic, newMipmaps);
         }
 
@@ -99,7 +99,7 @@ namespace ouzel
             dirty = true;
 
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-            
+
             return true;
         }
 
@@ -249,11 +249,11 @@ namespace ouzel
                             src[i * 2] = src[i];
                             src[i * 2 + 1] = src[i];
                         }
-                        
+
                         imageRgba8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
-                        
+
                         newHeight >>= 1;
-                        
+
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                         levels.push_back({ mipMapSize, pitch, mipMapData });
                     }

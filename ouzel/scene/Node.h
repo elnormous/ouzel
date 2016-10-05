@@ -90,7 +90,7 @@ namespace ouzel
                 {
                     calculateInverseTransform();
                 }
-                
+
                 return inverseTransform;
             }
 

@@ -61,7 +61,7 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             XAUDIO2_BUFFER bufferData;
             bufferData.Flags = XAUDIO2_END_OF_STREAM;
             bufferData.AudioBytes = static_cast<UINT32>(soundData->getData().size());

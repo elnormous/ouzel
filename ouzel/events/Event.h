@@ -111,6 +111,7 @@ namespace ouzel
             WINDOW_SIZE_CHANGE,
             WINDOW_TITLE_CHANGE,
             WINDOW_FULLSCREEN_CHANGE,
+            WINDOW_RESOLUTION_CHANGE,
             ORIENTATION_CHANGE,
             LOW_MEMORY,
             OPEN_FILE,

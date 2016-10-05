@@ -30,7 +30,7 @@ namespace ouzel
         protected:
             virtual void enter();
             virtual void leave();
-            
+
             std::list<NodePtr> children;
             bool entered = false;
         };

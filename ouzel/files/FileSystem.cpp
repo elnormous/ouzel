@@ -28,7 +28,7 @@
 namespace ouzel
 {
     static char TEMP_BUFFER[1024];
-    
+
 #if OUZEL_PLATFORM_WINDOWS
     const std::string FileSystem::DIRECTORY_SEPARATOR = "\\";
 #else

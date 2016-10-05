@@ -10,7 +10,7 @@ namespace ouzel
     namespace graphics
     {
         class RendererEmpty;
-        
+
         class IndexBufferEmpty: public IndexBuffer
         {
             friend RendererEmpty;

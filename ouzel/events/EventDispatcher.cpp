@@ -80,6 +80,7 @@ namespace ouzel
                         case Event::Type::WINDOW_SIZE_CHANGE:
                         case Event::Type::WINDOW_TITLE_CHANGE:
                         case Event::Type::WINDOW_FULLSCREEN_CHANGE:
+                        case Event::Type::WINDOW_RESOLUTION_CHANGE:
                             if (eventHandler->windowHandler)
                             {
                                 propagate = eventHandler->windowHandler(event.type, event.windowEvent);

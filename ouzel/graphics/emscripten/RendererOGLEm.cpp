@@ -25,7 +25,7 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLEm::init(const WindowPtr& window,
+        bool RendererOGLEm::init(const WindowPtr& newWindow,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
@@ -54,7 +54,7 @@ namespace ouzel
                 return false;
             }
 
-            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
+            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
         bool RendererOGLEm::present()

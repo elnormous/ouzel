@@ -19,7 +19,7 @@ namespace ouzel
         bool RenderTargetEmpty::upload()
         {
             uploadData.dirty = false;
-            
+
             return true;
         }
     } // namespace graphics

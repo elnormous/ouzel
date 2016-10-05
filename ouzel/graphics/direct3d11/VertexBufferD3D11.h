@@ -15,7 +15,7 @@ namespace ouzel
     namespace graphics
     {
         class RendererD3D11;
-        
+
         class VertexBufferD3D11: public VertexBuffer
         {
             friend RendererD3D11;

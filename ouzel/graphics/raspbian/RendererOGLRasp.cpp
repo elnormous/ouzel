@@ -69,7 +69,7 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLRasp::init(const WindowPtr& window,
+        bool RendererOGLRasp::init(const WindowPtr& newWindow,
                                    uint32_t newSampleCount,
                                    TextureFilter newTextureFilter,
                                    PixelFormat newBackBufferFormat,
@@ -131,8 +131,8 @@ namespace ouzel
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 
-            uint32_t width = static_cast<uint32_t>(window->getSize().width);
-            uint32_t height = static_cast<uint32_t>(window->getSize().height);
+            uint32_t width = static_cast<uint32_t>(newWindow->getSize().width);
+            uint32_t height = static_cast<uint32_t>(newWindow->getSize().height);
 
             VC_RECT_T dstRect;
             dstRect.x = 0;
@@ -179,7 +179,7 @@ namespace ouzel
                 return false;
             }
 
-            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
+            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
         bool RendererOGLRasp::present()

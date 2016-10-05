@@ -77,7 +77,7 @@ namespace ouzel
 
         private:
             Data data;
-            
+
             std::string pixelShaderFilename;
             std::string vertexShaderFilename;
         };

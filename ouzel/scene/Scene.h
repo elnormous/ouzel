@@ -57,7 +57,7 @@ namespace ouzel
             void pointerDownOnNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
             void pointerUpOnNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
             void pointerDragNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
-            
+
             std::list<LayerPtr> layers;
             ouzel::EventHandler eventHandler;
 

@@ -69,7 +69,7 @@ namespace ouzel
 
             dirty |= VERTEX_BUFFER_DIRTY;
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-            
+
             return true;
         }
 

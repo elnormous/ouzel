@@ -15,7 +15,7 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
     {
         ouzel::log(ouzel::LOG_LEVEL_ERROR, "Failed to enqueue OpenSL data");
     }
-    
+
     if (!sound->isRepeating())
     {
         SLPlayItf player = sound->getPlayer();

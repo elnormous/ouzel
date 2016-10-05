@@ -107,7 +107,7 @@ namespace ouzel
 
                     return true;
                 }
-                
+
                 return false;
             }
 
@@ -125,7 +125,7 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 
@@ -142,7 +142,7 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 
@@ -159,7 +159,7 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 
@@ -176,7 +176,7 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 
@@ -193,7 +193,7 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 
@@ -218,7 +218,7 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 
@@ -331,7 +331,7 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 
@@ -356,7 +356,7 @@ namespace ouzel
 
                     stateCache.depthTestEnabled = enable;
                 }
-                
+
                 return true;
             }
 
@@ -382,7 +382,7 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 
@@ -440,17 +440,17 @@ namespace ouzel
                         stateCache.blendDestFactorRGB = dfactorRGB;
                         stateCache.blendSourceFactorAlpha = sfactorAlpha;
                         stateCache.blendDestFactorAlpha = dfactorAlpha;
-                        
+
                         checkError = true;
                     }
                 }
-                
+
                 if (checkError && checkOpenGLError())
                 {
                     log(LOG_LEVEL_ERROR, "Failed to set blend state");
                     return false;
                 }
-                
+
                 return true;
             }
 
@@ -469,7 +469,7 @@ namespace ouzel
                         return false;
                     }
                 }
-                
+
                 return true;
             }
 #endif
@@ -489,7 +489,7 @@ namespace ouzel
         protected:
             RendererOGL();
 
-            virtual bool init(const WindowPtr& window,
+            virtual bool init(const WindowPtr& newWindow,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,

@@ -9,7 +9,7 @@ namespace ouzel
     ApplicationAndroid::ApplicationAndroid()
     {
     }
-    
+
     int ApplicationAndroid::run()
     {
         ouzelMain(ouzel::sharedApplication->getArgs());

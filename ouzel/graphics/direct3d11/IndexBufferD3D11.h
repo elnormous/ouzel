@@ -15,7 +15,7 @@ namespace ouzel
     namespace graphics
     {
         class RendererD3D11;
-        
+
         class IndexBufferD3D11: public IndexBuffer
         {
             friend RendererD3D11;

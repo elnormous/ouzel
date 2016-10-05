@@ -141,7 +141,7 @@ namespace ouzel
         void Scene::leave()
         {
             entered = false;
-            
+
             sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
 
             for (const LayerPtr& layer : layers)
@@ -360,10 +360,10 @@ namespace ouzel
             {
                 Event event;
                 event.type = Event::Type::UI_DRAG_NODE;
-                
+
                 event.uiEvent.node = node;
                 event.uiEvent.position = node->convertWorldToLocal(position);
-                
+
                 sharedEngine->getEventDispatcher()->postEvent(event);
             }
         }

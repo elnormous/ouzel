@@ -167,7 +167,7 @@ namespace ouzel
             }
         }
 
-        bool RendererMetal::init(const WindowPtr& window,
+        bool RendererMetal::init(const WindowPtr& newWindow,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
@@ -175,7 +175,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (!Renderer::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
+            if (!Renderer::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
             {
                 return false;
             }

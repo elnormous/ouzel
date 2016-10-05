@@ -12,7 +12,7 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
-        
+
         class IndexBuffer: public Resource, public Noncopyable
         {
             friend Renderer;

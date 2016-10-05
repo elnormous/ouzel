@@ -66,8 +66,16 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     return YES;
 }
 
+-(void)viewDidChangeBackingProperties
+{
+    [super viewDidChangeBackingProperties];
+    // TODO: resize
+}
+
 -(void)prepareOpenGL
 {
+    [self setWantsBestResolutionOpenGLSurface:YES];
+
     NSScreen* screen = [_window screen];
     displayId = (CGDirectDisplayID)[[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 

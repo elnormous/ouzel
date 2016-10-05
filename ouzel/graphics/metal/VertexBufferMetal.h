@@ -19,7 +19,7 @@ namespace ouzel
     namespace graphics
     {
         class RendererMetal;
-        
+
         class VertexBufferMetal: public VertexBuffer
         {
             friend RendererMetal;

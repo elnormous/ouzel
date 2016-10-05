@@ -34,12 +34,13 @@ namespace ouzel
             ready = false;
         }
 
-        bool Renderer::init(const WindowPtr& window,
+        bool Renderer::init(const WindowPtr& newWindow,
                             uint32_t newSampleCount,
                             TextureFilter newTextureFilter,
                             PixelFormat newBackBufferFormat,
                             bool newVerticalSync)
         {
+            window = newWindow;
             size = window->getSize();
             fullscreen = window->isFullscreen();
             sampleCount = newSampleCount;
@@ -55,7 +56,7 @@ namespace ouzel
         bool Renderer::present()
         {
             ++currentFrame;
-            
+
             if (activeDrawQueueFinished)
             {
                 drawQueue = std::move(activeDrawQueue);
@@ -94,7 +95,18 @@ namespace ouzel
 
         void Renderer::setSize(const Size2& newSize)
         {
-            size = newSize;
+            if (size != newSize)
+            {
+                size = newSize;
+
+                Event event;
+                event.type = Event::Type::WINDOW_RESOLUTION_CHANGE;
+
+                event.windowEvent.window = window;
+                event.windowEvent.size = size;
+
+                sharedEngine->getEventDispatcher()->postEvent(event);
+            }
         }
 
         void Renderer::setFullscreen(bool newFullscreen)

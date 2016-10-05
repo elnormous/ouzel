@@ -131,7 +131,7 @@ namespace ouzel
             }
 
             spriteFrames[filename] = frames;
-            
+
             return frames;
         }
     }

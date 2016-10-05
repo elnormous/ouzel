@@ -28,7 +28,7 @@ namespace ouzel
 
         kernCount = static_cast<uint16_t>(kern.size());
     }
-    
+
     BMFont::~BMFont()
     {
     }

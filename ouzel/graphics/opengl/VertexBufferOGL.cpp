@@ -210,19 +210,19 @@ namespace ouzel
                         glUnmapBuffer(GL_ARRAY_BUFFER);
 #endif
                     }
-                    
+
                     if (RendererOGL::checkOpenGLError())
                     {
                         log(LOG_LEVEL_ERROR, "Failed to upload vertex buffer");
                         return false;
                     }
-                    
+
                     uploadData.dirty &= ~VERTEX_BUFFER_DIRTY;
                 }
-                
+
                 uploadData.dirty = 0;
             }
-            
+
             return true;
         }
     } // namespace graphics

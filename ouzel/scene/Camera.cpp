@@ -41,7 +41,7 @@ namespace ouzel
             {
                 contentScale.x = renderViewport.width / targetContentSize.width;
                 contentScale.y = renderViewport.height / targetContentSize.height;
-                
+
                 switch (scaleMode)
                 {
                     case ScaleMode::NONE:
@@ -180,7 +180,7 @@ namespace ouzel
                                   -halfWorldSize.height,
                                   1.0f + halfWorldSize.width * 2.0f,
                                   1.0f + halfWorldSize.height * 2.0f);
-            
+
             return visibleRect.containsPoint(v2p);
         }
 

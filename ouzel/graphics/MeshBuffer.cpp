@@ -31,7 +31,7 @@ namespace ouzel
 
             dirty = true;
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
-            
+
             return true;
         }
 

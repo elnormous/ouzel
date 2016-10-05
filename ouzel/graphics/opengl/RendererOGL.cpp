@@ -81,7 +81,7 @@ namespace ouzel
 #ifdef GL_EXT_map_buffer_range
             mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
 #endif
-            
+
 #endif
         }
 
@@ -103,7 +103,7 @@ namespace ouzel
             }
         }
 
-        bool RendererOGL::init(const WindowPtr& window,
+        bool RendererOGL::init(const WindowPtr& newWindow,
                                uint32_t newSampleCount,
                                TextureFilter newTextureFilter,
                                PixelFormat newBackBufferFormat,
@@ -111,7 +111,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            if (!Renderer::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
+            if (!Renderer::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync))
             {
                 return false;
             }
@@ -959,7 +959,7 @@ namespace ouzel
             }
 
             glBindRenderbuffer(GL_RENDERBUFFER, msaaRenderBufferId);
-            
+
             glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
 
             if (checkOpenGLError())
@@ -974,7 +974,7 @@ namespace ouzel
             }
 
             graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
-            
+
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaRenderBufferId);
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)

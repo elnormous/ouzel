@@ -61,7 +61,7 @@ namespace ouzel
                     return false;
                 }
             }
-            
+
             return true;
         }
 

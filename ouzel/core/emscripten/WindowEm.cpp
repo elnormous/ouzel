@@ -17,7 +17,7 @@ namespace ouzel
 
         return false;
     }
-    
+
     WindowEm::WindowEm(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
         Window(pSize, pResizable, pFullscreen, pTitle)
     {

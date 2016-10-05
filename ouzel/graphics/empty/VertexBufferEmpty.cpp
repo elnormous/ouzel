@@ -18,7 +18,7 @@ namespace ouzel
         bool VertexBufferEmpty::upload()
         {
             uploadData.dirty = 0;
-            
+
             return true;
         }
     }

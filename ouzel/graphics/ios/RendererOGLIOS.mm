@@ -56,7 +56,7 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLIOS::init(const WindowPtr& window,
+        bool RendererOGLIOS::init(const WindowPtr& newWindow,
                                   uint32_t newSampleCount,
                                   TextureFilter newTextureFilter,
                                   PixelFormat newBackBufferFormat,
@@ -64,7 +64,7 @@ namespace ouzel
         {
             free();
 
-            UIView* view = std::static_pointer_cast<WindowIOS>(window)->getNativeView();
+            UIView* view = std::static_pointer_cast<WindowIOS>(newWindow)->getNativeView();
 
             eaglLayer = (CAEAGLLayer*)view.layer;
             eaglLayer.opaque = YES;
@@ -112,9 +112,9 @@ namespace ouzel
                 return false;
             }
 
-            window->setSize(renderBufferSize);
+            newWindow->setSize(renderBufferSize);
 
-            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
+            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
         void RendererOGLIOS::setSize(const Size2& newSize)
@@ -130,7 +130,7 @@ namespace ouzel
 
             if (renderBufferSize != size)
             {
-                sharedEngine->getWindow()->setSize(renderBufferSize);
+                window->setSize(renderBufferSize);
             }
         }
 

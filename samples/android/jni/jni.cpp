@@ -17,7 +17,7 @@ extern "C"
     {
         OUZEL_UNUSED(env);
         OUZEL_UNUSED(cls);
-        
+
         ouzel::assetManager = AAssetManager_fromJava(env, assetManager);
     }
 
@@ -50,7 +50,7 @@ extern "C"
             ouzel::sharedEngine->draw();
         }
     }
-    
+
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_handleActionDown(JNIEnv* env, jclass cls, jint pointerId, jfloat x, jfloat y)
     {
         OUZEL_UNUSED(env);
@@ -59,7 +59,7 @@ extern "C"
         ouzel::sharedEngine->getInput()->touchBegin(static_cast<uint64_t>(pointerId),
                                                     ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(ouzel::Vector2(x, y)));
     }
-    
+
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_handleActionMove(JNIEnv* env, jclass cls, jint pointerId, jfloat x, jfloat y)
     {
         OUZEL_UNUSED(env);
@@ -68,7 +68,7 @@ extern "C"
         ouzel::sharedEngine->getInput()->touchMove(static_cast<uint64_t>(pointerId),
                                                    ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(ouzel::Vector2(x, y)));
     }
-    
+
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_handleActionUp(JNIEnv* env, jclass cls, jint pointerId, jfloat x, jfloat y)
     {
         OUZEL_UNUSED(env);
@@ -77,7 +77,7 @@ extern "C"
         ouzel::sharedEngine->getInput()->touchEnd(static_cast<uint64_t>(pointerId),
                                                   ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(ouzel::Vector2(x, y)));
     }
-    
+
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_handleActionCancel(JNIEnv* env, jclass cls, jint pointerId, jfloat x, jfloat y)
     {
         OUZEL_UNUSED(env);

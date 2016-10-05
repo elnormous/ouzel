@@ -18,7 +18,7 @@ namespace ouzel
         bool MeshBufferEmpty::upload()
         {
             uploadData.dirty = false;
-            
+
             return true;
         }
     } // namespace graphics

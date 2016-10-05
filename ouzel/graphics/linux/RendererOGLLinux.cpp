@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "RendererOGLLinux.h"
-#include "core/Engine.h"
 #include "core/linux/WindowLinux.h"
 
 namespace ouzel
@@ -17,7 +16,7 @@ namespace ouzel
         {
         }
 
-        bool RendererOGLLinux::init(const WindowPtr& window,
+        bool RendererOGLLinux::init(const WindowPtr& newWindow,
                                     uint32_t newSampleCount,
                                     TextureFilter newTextureFilter,
                                     PixelFormat newBackBufferFormat,
@@ -25,7 +24,7 @@ namespace ouzel
         {
             free();
 
-            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
+            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
         bool RendererOGLLinux::present()
@@ -35,7 +34,7 @@ namespace ouzel
                 return false;
             }
 
-            std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(sharedEngine->getWindow());
+            std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(window);
 
             glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
 

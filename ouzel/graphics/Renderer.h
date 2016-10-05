@@ -142,7 +142,7 @@ namespace ouzel
 
         protected:
             Renderer(Driver pDriver);
-            virtual bool init(const WindowPtr& window,
+            virtual bool init(const WindowPtr& newWindow,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
@@ -152,6 +152,7 @@ namespace ouzel
             virtual void setFullscreen(bool newFullscreen);
 
             Driver driver;
+            WindowPtr window;
             Size2 size;
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFilter textureFilter = TextureFilter::NONE;

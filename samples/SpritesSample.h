@@ -15,7 +15,7 @@ public:
 
 private:
     ouzel::scene::LayerPtr layer;
-    
+
     Samples& samples;
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;

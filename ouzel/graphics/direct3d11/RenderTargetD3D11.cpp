@@ -52,7 +52,7 @@ namespace ouzel
                     log(LOG_LEVEL_ERROR, "Direct3D 11 texture not initialized");
                     return false;
                 }
-                
+
                 if (!renderTargetView)
                 {
                     D3D11_TEXTURE2D_DESC textureDesc;
