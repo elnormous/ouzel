@@ -69,7 +69,21 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 -(void)viewDidChangeBackingProperties
 {
     [super viewDidChangeBackingProperties];
-    // TODO: resize
+
+    std::shared_ptr<ouzel::graphics::RendererOGL> rendererOGL = std::static_pointer_cast<ouzel::graphics::RendererOGL>(sharedEngine->getRenderer());
+
+    rendererOGL->handleResize(Size2(static_cast<float>(_bounds.size.width * _window.backingScaleFactor),
+                                    static_cast<float>(_bounds.size.height * _window.backingScaleFactor)));
+}
+
+-(void)setFrameSize:(NSSize)newSize
+{
+    [super setFrameSize:newSize];
+
+    std::shared_ptr<ouzel::graphics::RendererOGL> rendererOGL = std::static_pointer_cast<ouzel::graphics::RendererOGL>(sharedEngine->getRenderer());
+
+    rendererOGL->handleResize(Size2(static_cast<float>(_bounds.size.width * _window.backingScaleFactor),
+                                    static_cast<float>(_bounds.size.height * _window.backingScaleFactor)));
 }
 
 -(void)prepareOpenGL
@@ -131,9 +145,9 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::LEFT,
-                                                 sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                                 static_cast<float>(location.y))),
-                                                 ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
+                                        sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
+                                        ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)mouseUp:(NSEvent*)event
@@ -141,9 +155,9 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::LEFT,
-                                               sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                               static_cast<float>(location.y))),
-                                               ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
+                                      sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                           static_cast<float>(location.y))),
+                                      ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)rightMouseDown:(NSEvent*)event
@@ -151,9 +165,9 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::RIGHT,
-                                                 sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                                 static_cast<float>(location.y))),
-                                                 ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
+                                        sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
+                                        ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)rightMouseUp:(NSEvent*)event
@@ -161,8 +175,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::RIGHT,
-                                      sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                      static_cast<float>(location.y))),
+                                      sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                           static_cast<float>(location.y))),
                                       ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -171,8 +185,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::MIDDLE,
-                                        sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+                                        sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -181,8 +195,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::MIDDLE,
-                                      sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                      static_cast<float>(location.y))),
+                                      sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                           static_cast<float>(location.y))),
                                       ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -190,8 +204,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -199,8 +213,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, NSEvent.pressedMouseButtons));
 }
 
@@ -208,8 +222,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, NSEvent.pressedMouseButtons));
 }
 
@@ -217,8 +231,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, NSEvent.pressedMouseButtons));
 }
 
@@ -228,8 +242,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 
     sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(event.scrollingDeltaX),
                                                   static_cast<float>(event.scrollingDeltaY)),
-                                          sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                          static_cast<float>(location.y))),
+                                          sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                               static_cast<float>(location.y))),
                                           ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 

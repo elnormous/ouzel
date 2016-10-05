@@ -35,7 +35,6 @@ namespace ouzel
         if (size != newSize)
         {
             size = newSize;
-            sharedEngine->getRenderer()->setSize(size);
 
             Event event;
             event.type = Event::Type::WINDOW_SIZE_CHANGE;
@@ -54,8 +53,6 @@ namespace ouzel
         if (fullscreen != newFullscreen)
         {
             fullscreen = newFullscreen;
-
-            sharedEngine->getRenderer()->setFullscreen(fullscreen);
 
             Event event;
             event.type = Event::Type::WINDOW_FULLSCREEN_CHANGE;

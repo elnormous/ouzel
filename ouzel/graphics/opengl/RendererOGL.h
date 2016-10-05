@@ -71,6 +71,8 @@ namespace ouzel
 
             virtual void setClearColor(Color color) override;
 
+            virtual void handleResize(const Size2& newSize);
+
             virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
@@ -496,7 +498,6 @@ namespace ouzel
                               bool newVerticalSync) override;
             virtual bool update();
 
-            virtual void setSize(const Size2& newSize) override;
             virtual bool saveScreenshots();
 
             bool createMSAAFrameBuffer();

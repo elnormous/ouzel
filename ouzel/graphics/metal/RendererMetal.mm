@@ -10,6 +10,7 @@
 #include "IndexBufferMetal.h"
 #include "VertexBufferMetal.h"
 #include "BlendStateMetal.h"
+#include "events/EventDispatcher.h"
 #if OUZEL_PLATFORM_MACOS
     #include "core/macos/WindowMacOS.h"
     #include "ColorPSMacOS.h"
@@ -356,11 +357,22 @@ namespace ouzel
             dirty = true;
         }
 
-        void RendererMetal::setSize(const Size2& newSize)
+        void RendererMetal::handleResize(const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            Renderer::setSize(newSize);
+            if (size != newSize)
+            {
+                size = newSize;
+
+                Event event;
+                event.type = Event::Type::WINDOW_RESOLUTION_CHANGE;
+
+                event.windowEvent.window = window;
+                event.windowEvent.size = size;
+                
+                sharedEngine->getEventDispatcher()->postEvent(event);
+            }
 
             dirty = true;
         }

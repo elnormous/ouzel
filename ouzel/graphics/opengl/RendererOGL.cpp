@@ -15,6 +15,7 @@
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "core/Cache.h"
+#include "events/EventDispatcher.h"
 #include "stb_image_write.h"
 
 #if OUZEL_SUPPORTS_OPENGL
@@ -367,11 +368,22 @@ namespace ouzel
             dirty = true;
         }
 
-        void RendererOGL::setSize(const Size2& newSize)
+        void RendererOGL::handleResize(const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            Renderer::setSize(newSize);
+            if (size != newSize)
+            {
+                size = newSize;
+
+                Event event;
+                event.type = Event::Type::WINDOW_RESOLUTION_CHANGE;
+
+                event.windowEvent.window = window;
+                event.windowEvent.size = size;
+
+                sharedEngine->getEventDispatcher()->postEvent(event);
+            }
 
             dirty = true;
         }

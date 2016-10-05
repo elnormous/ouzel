@@ -3,6 +3,7 @@
 
 #import "OpenGLView.h"
 #include "core/Engine.h"
+#include "core/Window.h"
 #include "input/Input.h"
 #include "utils/Utils.h"
 
@@ -56,7 +57,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                             sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
+                                             sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -67,7 +68,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                            sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
+                                            sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -78,7 +79,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                           sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
+                                           sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -89,7 +90,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                              sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
+                                              sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 

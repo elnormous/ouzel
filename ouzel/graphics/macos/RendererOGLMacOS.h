@@ -40,8 +40,6 @@ namespace ouzel
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync) override;
 
-            virtual void setSize(const Size2& newSize) override;
-
             virtual bool update() override;
 
             NSOpenGLContextPtr openGLContext = Nil;

@@ -3,6 +3,7 @@
 
 #import "OpenGLView.h"
 #include "core/Engine.h"
+#include "core/Window.h"
 #include "utils/Utils.h"
 
 using namespace ouzel;

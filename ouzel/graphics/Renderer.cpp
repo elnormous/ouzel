@@ -42,7 +42,6 @@ namespace ouzel
         {
             window = newWindow;
             size = window->getSize();
-            fullscreen = window->isFullscreen();
             sampleCount = newSampleCount;
             textureFilter = newTextureFilter;
             backBufferFormat = newBackBufferFormat;
@@ -91,27 +90,6 @@ namespace ouzel
             }
 
             return true;
-        }
-
-        void Renderer::setSize(const Size2& newSize)
-        {
-            if (size != newSize)
-            {
-                size = newSize;
-
-                Event event;
-                event.type = Event::Type::WINDOW_RESOLUTION_CHANGE;
-
-                event.windowEvent.window = window;
-                event.windowEvent.size = size;
-
-                sharedEngine->getEventDispatcher()->postEvent(event);
-            }
-        }
-
-        void Renderer::setFullscreen(bool newFullscreen)
-        {
-            fullscreen = newFullscreen;
         }
 
         std::vector<Size2> Renderer::getSupportedResolutions() const

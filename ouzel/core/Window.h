@@ -31,6 +31,18 @@ namespace ouzel
         virtual const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
+        Vector2 convertWindowToNormalizedLocation(const Vector2& position)
+        {
+            return Vector2(position.x / size.width,
+                           1.0f - (position.y / size.height));
+        }
+
+        Vector2 convertNormalizedToWindowLocation(const Vector2& position)
+        {
+            return Vector2(position.x * size.width,
+                           (1.0f - position.y) * size.height);
+        }
+
     protected:
         Window(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
         virtual bool init();

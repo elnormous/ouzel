@@ -117,9 +117,9 @@ namespace ouzel
             return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
         }
 
-        void RendererOGLIOS::setSize(const Size2& newSize)
+        void RendererOGLIOS::handleResize(const Size2& newSize)
         {
-            RendererOGL::setSize(newSize);
+            RendererOGL::handleResize(newSize);
 
             Size2 renderBufferSize;
 

@@ -8,7 +8,6 @@
 #include "InputRasp.h"
 #include "core/Engine.h"
 #include "core/Window.h"
-#include "graphics/Renderer.h"
 #include "utils/Utils.h"
 
 #define DIV_ROUND_UP(n,d) (((n) + (d) - 1) / (d))
@@ -526,11 +525,11 @@ namespace ouzel
 
                                     if (event->code == ABS_X)
                                     {
-                                        absolutePos.x = sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0f)).x;
+                                        absolutePos.x = sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0f)).x;
                                     }
                                     else if (event->code == ABS_Y)
                                     {
-                                        absolutePos.y = sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(0.0f, static_cast<float>(event->value))).y;
+                                        absolutePos.y = sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0f, static_cast<float>(event->value))).y;
                                     }
 
                                     mouseMove(absolutePos, 0);
@@ -548,7 +547,7 @@ namespace ouzel
                                         relativePos.y = static_cast<float>(event->value);
                                     }
 
-                                    mouseRelativeMove(sharedEngine->getRenderer()->screenToNormalizedLocation(relativePos), 0);
+                                    mouseRelativeMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(relativePos), 0);
                                 }
                                 else if (event->type == EV_KEY)
                                 {

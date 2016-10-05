@@ -5,6 +5,7 @@
 #include "WindowWin.h"
 #include "core/Application.h"
 #include "core/Engine.h"
+#include "core/Window.h"
 #include "input/windows/InputWin.h"
 #include "graphics/Renderer.h"
 #include "utils/Utils.h"
@@ -28,7 +29,7 @@ static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
     ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
-    ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
+    ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
                                                ouzel::input::InputWin::getMouseModifiers(wParam));
 }
 
@@ -68,13 +69,13 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
         ouzel::sharedEngine->getInput()->mouseDown(button,
-                                                   ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
+                                                   ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
                                                    ouzel::input::InputWin::getMouseModifiers(wParam));
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
         ouzel::sharedEngine->getInput()->mouseUp(button,
-                                                 ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
+                                                 ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
                                                  ouzel::input::InputWin::getMouseModifiers(wParam));
     }
 }
@@ -88,14 +89,14 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     {
         short param = static_cast<short>(HIWORD(wParam));
         ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(0.0f, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
-                                                     ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
+                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      ouzel::input::InputWin::getMouseModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
         ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0f),
-                                                     ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
+                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      ouzel::input::InputWin::getMouseModifiers(wParam));
     }
 }
@@ -115,21 +116,21 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
             position.y = static_cast<float>(touch.y);
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
-            {
+            {}
                 ouzel::sharedEngine->getInput()->touchBegin(touch.dwID,
-                                                            ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position));
-            }
+                                                            ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position));
+            
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
             {
                 ouzel::sharedEngine->getInput()->touchEnd(touch.dwID,
-                                                          ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position));
+                                                          ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position));
             }
 
             if (touch.dwFlags & TOUCHEVENTF_MOVE)
             {
                 ouzel::sharedEngine->getInput()->touchMove(touch.dwID,
-                                                           ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position));
+                                                           ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position));
             }
         }
 

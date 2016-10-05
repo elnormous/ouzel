@@ -138,22 +138,22 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event) con
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
             case input::GamepadButton::RIGHT_THUMB_UP:
-                flamePosition.y = event.value;
+                flamePosition.y = event.value / 2.0f + 0.5f;
                 break;
             case input::GamepadButton::DPAD_DOWN:
             case input::GamepadButton::LEFT_THUMB_DOWN:
             case input::GamepadButton::RIGHT_THUMB_DOWN:
-                flamePosition.y = -event.value;
+                flamePosition.y = -event.value / 2.0f + 0.5f;
                 break;
             case input::GamepadButton::DPAD_LEFT:
             case input::GamepadButton::LEFT_THUMB_LEFT:
             case input::GamepadButton::RIGHT_THUMB_LEFT:
-                flamePosition.x = -event.value;
+                flamePosition.x = -event.value / 2.0f + 0.5f;
                 break;
             case input::GamepadButton::DPAD_RIGHT:
             case input::GamepadButton::LEFT_THUMB_RIGHT:
             case input::GamepadButton::RIGHT_THUMB_RIGHT:
-                flamePosition.x = event.value;
+                flamePosition.x = event.value / 2.0f + 0.5f;
                 break;
             default:
                 break;

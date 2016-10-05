@@ -117,13 +117,6 @@ namespace ouzel
             return true;
         }
 
-        void RendererOGLMacOS::setSize(const Size2& newSize)
-        {
-            RendererOGL::setSize(newSize);
-
-            dirty = true;
-        }
-
         bool RendererOGLMacOS::update()
         {
             if (dirty)

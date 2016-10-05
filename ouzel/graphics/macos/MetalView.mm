@@ -6,6 +6,7 @@
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "input/apple/InputApple.h"
+#include "graphics/metal/RendererMetal.h"
 #include "utils/Utils.h"
 
 using namespace ouzel;
@@ -16,8 +17,11 @@ using namespace ouzel;
 
 @implementation ViewDelegate
 
--(void)mtkView:(nonnull __unused MTKView*)view drawableSizeWillChange:(__unused CGSize)size
+-(void)mtkView:(nonnull __unused MTKView*)view drawableSizeWillChange:(CGSize)size
 {
+    std::shared_ptr<ouzel::graphics::RendererMetal> rendererMetal = std::static_pointer_cast<ouzel::graphics::RendererMetal>(sharedEngine->getRenderer());
+    rendererMetal->handleResize(ouzel::Size2(static_cast<float>(size.width),
+                                             static_cast<float>(size.height)));
 }
 
 -(void)drawInMTKView:(nonnull __unused MTKView*)view
@@ -97,8 +101,8 @@ using namespace ouzel;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::LEFT,
-                                        sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+                                        sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -107,8 +111,8 @@ using namespace ouzel;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::LEFT,
-                                      sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                      static_cast<float>(location.y))),
+                                      sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                           static_cast<float>(location.y))),
                                       ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -117,8 +121,8 @@ using namespace ouzel;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::RIGHT,
-                                        sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+                                        sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -127,8 +131,8 @@ using namespace ouzel;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::RIGHT,
-                                      sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                      static_cast<float>(location.y))),
+                                      sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                           static_cast<float>(location.y))),
                                       ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -137,8 +141,8 @@ using namespace ouzel;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseDown(input::MouseButton::MIDDLE,
-                                        sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+                                        sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -147,8 +151,8 @@ using namespace ouzel;
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
     sharedEngine->getInput()->mouseUp(input::MouseButton::MIDDLE,
-                                      sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                      static_cast<float>(location.y))),
+                                      sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                           static_cast<float>(location.y))),
                                       ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -156,8 +160,8 @@ using namespace ouzel;
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 
@@ -165,8 +169,8 @@ using namespace ouzel;
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, NSEvent.pressedMouseButtons));
 }
 
@@ -174,8 +178,8 @@ using namespace ouzel;
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, NSEvent.pressedMouseButtons));
 }
 
@@ -183,8 +187,8 @@ using namespace ouzel;
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    sharedEngine->getInput()->mouseMove(sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                        static_cast<float>(location.y))),
+    sharedEngine->getInput()->mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                             static_cast<float>(location.y))),
                                         ouzel::input::InputApple::getModifiers(event.modifierFlags, NSEvent.pressedMouseButtons));
 }
 
@@ -194,8 +198,8 @@ using namespace ouzel;
 
     sharedEngine->getInput()->mouseScroll(Vector2(static_cast<float>(event.scrollingDeltaX),
                                                   static_cast<float>(event.scrollingDeltaY)),
-                                          sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(static_cast<float>(location.x),
-                                                                                                          static_cast<float>(location.y))),
+                                          sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(location.x),
+                                                                                                               static_cast<float>(location.y))),
                                           ouzel::input::InputApple::getModifiers(event.modifierFlags, 0));
 }
 

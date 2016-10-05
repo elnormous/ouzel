@@ -108,13 +108,13 @@ namespace ouzel
                                 const Rectangle& scissorTest = Rectangle());
             void flushDrawCommands();
 
-            Vector2 screenToNormalizedLocation(const Vector2& position)
+            Vector2 convertScreenToNormalizedLocation(const Vector2& position)
             {
                 return Vector2(position.x / size.width,
                                1.0f - (position.y / size.height));
             }
 
-            Vector2 normalizedToScreenLocation(const Vector2& position)
+            Vector2 convertNormalizedToScreenLocation(const Vector2& position)
             {
                 return Vector2(position.x * size.width,
                                (1.0f - position.y) * size.height);
@@ -140,6 +140,8 @@ namespace ouzel
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
             bool isRenderTargetsFlipped() const { return renderTargetsFlipped; }
 
+            const WindowPtr& getWindow() const { return window; }
+
         protected:
             Renderer(Driver pDriver);
             virtual bool init(const WindowPtr& newWindow,
@@ -147,9 +149,6 @@ namespace ouzel
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync);
-
-            virtual void setSize(const Size2& newSize);
-            virtual void setFullscreen(bool newFullscreen);
 
             Driver driver;
             WindowPtr window;
@@ -190,7 +189,6 @@ namespace ouzel
             std::atomic<bool> activeDrawQueueFinished;
             std::atomic<bool> refillDrawQueue;
 
-            bool fullscreen = false;
             bool verticalSync = true;
             bool ready = false;
             bool npotTexturesSupported = true;

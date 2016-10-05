@@ -4,7 +4,8 @@
 #import "MetalView.h"
 #include "core/Engine.h"
 #include "core/Window.h"
-#include "events/EventDispatcher.h"
+#include "input/Input.h"
+#include "graphics/metal/RendererMetal.h"
 #include "utils/Utils.h"
 
 using namespace ouzel;
@@ -17,7 +18,9 @@ using namespace ouzel;
 
 -(void)mtkView:(nonnull __unused MTKView *)view drawableSizeWillChange:(CGSize)size
 {
-    sharedEngine->getWindow()->setSize(Size2(size.width, size.height));
+    std::shared_ptr<ouzel::graphics::RendererMetal> rendererMetal = std::static_pointer_cast<ouzel::graphics::RendererMetal>(sharedEngine->getRenderer());
+    rendererMetal->handleResize(ouzel::Size2(static_cast<float>(size.width),
+                                             static_cast<float>(size.height)));
 }
 
 -(void)drawInMTKView:(nonnull __unused MTKView*)view
@@ -69,7 +72,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                             sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
+                                             sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -80,7 +83,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                            sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
+                                            sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -91,7 +94,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                           sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
+                                           sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 
@@ -102,7 +105,7 @@ using namespace ouzel;
         CGPoint location = [touch locationInView:self];
 
         sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                              sharedEngine->getRenderer()->screenToNormalizedLocation(Vector2(location.x, location.y)));
+                                              sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(location.x, location.y)));
     }
 }
 

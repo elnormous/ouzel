@@ -28,6 +28,8 @@ namespace ouzel
             virtual ~RendererOGLTVOS();
             virtual void free() override;
 
+            virtual void handleResize(const Size2& newSize) override;
+
             virtual bool present() override;
 
         private:
@@ -36,8 +38,6 @@ namespace ouzel
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync) override;
-
-            virtual void setSize(const Size2& newSize) override;
 
             bool createRenderBuffer(Size2& renderBufferSize);
 

@@ -54,7 +54,7 @@ namespace ouzel
 
             virtual void setClearColor(Color newColor) override;
 
-            virtual void setSize(const Size2& newSize) override;
+            void handleResize(const Size2& newSize);
 
             virtual bool present() override;
 

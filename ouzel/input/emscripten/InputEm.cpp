@@ -4,6 +4,7 @@
 #include <emscripten.h>
 #include "InputEm.h"
 #include "core/Engine.h"
+#include "core/Window.h"
 #include "events/Event.h"
 
 EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
@@ -51,16 +52,16 @@ EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, v
     {
         case EMSCRIPTEN_EVENT_MOUSEDOWN:
             ouzel::sharedEngine->getInput()->mouseDown(button,
-                                                       ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
+                                                       ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
                                                        ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEUP:
             ouzel::sharedEngine->getInput()->mouseUp(button,
-                                                     ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
+                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEMOVE:
-            ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
+            ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
                                                        ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
     }
@@ -76,7 +77,7 @@ EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelEvent, v
                                 static_cast<float>(wheelEvent->mouse.clientY));
 
         ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
-                                                     ouzel::sharedEngine->getRenderer()->screenToNormalizedLocation(position),
+                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      ouzel::input::InputEm::getMouseModifiers(&wheelEvent->mouse));
 
         return true;
