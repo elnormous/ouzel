@@ -8,10 +8,23 @@
 #include "utils/Utils.h"
 
 @interface ViewController: UIViewController
+{
+    ouzel::WindowTVOS* window;
+}
 
 @end
 
 @implementation ViewController
+
+-(id)initWithWindow:(ouzel::WindowTVOS*)newWindow
+{
+    if (self = [super init])
+    {
+        window = newWindow;
+    }
+
+    return self;
+}
 
 -(void)textFieldDidChange:(__unused id)sender
 {
@@ -21,8 +34,8 @@
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
-    ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(size.width),
-                                                           static_cast<float>(size.height)));
+    window->setSize(ouzel::Size2(static_cast<float>(size.width),
+                                 static_cast<float>(size.height)));
 }
 
 @end
@@ -46,7 +59,7 @@ namespace ouzel
     {
         window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-        viewController = [[[ViewController alloc] init] autorelease];
+        viewController = [[[ViewController alloc] initWithWindow:this] autorelease];
         window.rootViewController = viewController;
 
         CGRect windowFrame = [window bounds];

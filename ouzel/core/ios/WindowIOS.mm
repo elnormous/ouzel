@@ -9,10 +9,23 @@
 #include "utils/Utils.h"
 
 @interface ViewController: UIViewController
+{
+    ouzel::WindowIOS* window;
+}
 
 @end
 
 @implementation ViewController
+
+-(id)initWithWindow:(ouzel::WindowIOS*)newWindow
+{
+    if (self = [super init])
+    {
+        window = newWindow;
+    }
+
+    return self;
+}
 
 -(BOOL)prefersStatusBarHidden
 {
@@ -33,8 +46,8 @@
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
-    ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(size.width),
-                                                           static_cast<float>(size.height)));
+    window->setSize(ouzel::Size2(static_cast<float>(size.width),
+                                 static_cast<float>(size.height)));
 }
 
 -(void)deviceOrientationDidChange:(NSNotification*)note
@@ -76,8 +89,8 @@
     {
         CGSize size = self.view.frame.size;
 
-        ouzel::sharedEngine->getWindow()->setSize(ouzel::Size2(static_cast<float>(size.width),
-                                                               static_cast<float>(size.height)));
+        window->setSize(ouzel::Size2(static_cast<float>(size.width),
+                                     static_cast<float>(size.height)));
     }
 }
 
@@ -102,7 +115,7 @@ namespace ouzel
     {
         window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-        viewController = [[[ViewController alloc] init] autorelease];
+        viewController = [[[ViewController alloc] initWithWindow:this] autorelease];
         window.rootViewController = viewController;
 
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];

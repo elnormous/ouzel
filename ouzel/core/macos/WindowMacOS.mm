@@ -111,7 +111,7 @@ namespace ouzel
 
         window.acceptsMouseMovedEvents = YES;
 
-        windowDelegate = [[WindowDelegate alloc] initWithWindow: this];
+        windowDelegate = [[WindowDelegate alloc] initWithWindow:this];
         window.delegate = windowDelegate;
 
         [window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];

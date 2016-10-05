@@ -505,7 +505,7 @@ namespace ouzel
                         newSize = Size2(static_cast<float>(closestDisplayMode.Width),
                                         static_cast<float>(closestDisplayMode.Height));
 
-                        sharedEngine->getWindow()->setSize(newSize);
+                        window->setSize(newSize);
                         swapChain->SetFullscreenState(TRUE, output);
 
                         output->Release();
@@ -872,7 +872,7 @@ namespace ouzel
 
         IDXGIOutput* RendererD3D11::getOutput() const
         {
-            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(sharedEngine->getWindow());
+            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(window);
 
             HMONITOR monitor = windowWin->getMonitor();
 
