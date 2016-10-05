@@ -110,7 +110,7 @@ namespace ouzel
                         vertices.push_back(graphics::VertexPCT(Vector3(static_cast<float>(vertexObject[0].GetInt()) + finalOffset.x,
                                                                        -static_cast<float>(vertexObject[1].GetInt()) - finalOffset.y,
                                                                        0.0f),
-                                                               graphics::Color(255, 255, 255, 255),
+                                                               graphics::Color::WHITE,
                                                                Vector2(static_cast<float>(vertexUVObject[0].GetInt()) / textureSize.width,
                                                                        static_cast<float>(vertexUVObject[1].GetInt()) / textureSize.height)));
                     }
@@ -185,10 +185,10 @@ namespace ouzel
             }
 
             std::vector<graphics::VertexPCT> vertices = {
-                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[0]),
-                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.width, finalOffset.y, 0.0f), graphics::Color(255, 255, 255, 255), textCoords[1]),
-                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + frameRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[2]),
-                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.width, finalOffset.y + frameRectangle.height, 0.0f),  graphics::Color(255, 255, 255, 255), textCoords[3])
+                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y, 0.0f), graphics::Color::WHITE, textCoords[0]),
+                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.width, finalOffset.y, 0.0f), graphics::Color::WHITE, textCoords[1]),
+                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + frameRectangle.height, 0.0f),  graphics::Color::WHITE, textCoords[2]),
+                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.width, finalOffset.y + frameRectangle.height, 0.0f),  graphics::Color::WHITE, textCoords[3])
             };
 
             boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.width, frameRectangle.height));

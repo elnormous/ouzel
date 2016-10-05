@@ -55,7 +55,7 @@ RTSample::RTSample(Samples& pSamples):
     gui::MenuPtr menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu);
 
-    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton);
 }

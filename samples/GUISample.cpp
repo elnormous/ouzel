@@ -19,7 +19,7 @@ GUISample::GUISample(Samples& pSamples):
     gui::MenuPtr menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu);
 
-    button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Button", graphics::Color(255, 0, 0, 255), "arial.fnt");
+    button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Button", graphics::Color::RED, "arial.fnt");
     button->setPosition(Vector2(-200.0f, 100.0f));
     menu->addWidget(button);
 
@@ -27,12 +27,12 @@ GUISample::GUISample(Samples& pSamples):
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
     guiLayer->addChild(checkBox);
 
-    fullscreenButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    fullscreenButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", graphics::Color::BLACK, "arial.fnt");
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
     menu->addWidget(fullscreenButton);
 
     gui::LabelPtr label = make_shared<gui::Label>("arial.fnt", "checkbox");
-    label->setColor(graphics::Color(0, 255, 255, 255));
+    label->setColor(graphics::Color::CYAN);
     label->setPosition(Vector2(-60.0f, 100.0f));
     guiLayer->addChild(label);
 
@@ -44,12 +44,12 @@ GUISample::GUISample(Samples& pSamples):
     guiLayer->addChild(label2);
 
     gui::LabelPtr label3 = make_shared<gui::Label>("ArialBlack.fnt", "UTF-8 ĀāČč\nNew line", Vector2(0.0f, 0.5f));
-    label3->setColor(graphics::Color(0, 0, 255, 255));
+    label3->setColor(graphics::Color::BLUE);
     label3->setPosition(Vector2(-100.0f, -100.0f));
     label3->setScale(Vector2(0.5f, 0.5f));
     guiLayer->addChild(label3);
 
-    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton);
 }

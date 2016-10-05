@@ -331,10 +331,10 @@ namespace ouzel
                 indices.push_back(i * 4 + 3);
                 indices.push_back(i * 4 + 2);
 
-                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), graphics::Color(255, 255, 255, 255), Vector2(0.0f, 1.0f)));
-                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), graphics::Color(255, 255, 255, 255), Vector2(1.0f, 1.0f)));
-                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(0.0f, 0.0f)));
-                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  graphics::Color(255, 255, 255, 255), Vector2(1.0f, 0.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), graphics::Color::WHITE, Vector2(0.0f, 1.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), graphics::Color::WHITE, Vector2(1.0f, 1.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  graphics::Color::WHITE, Vector2(0.0f, 0.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  graphics::Color::WHITE, Vector2(1.0f, 0.0f)));
             }
 
             indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();

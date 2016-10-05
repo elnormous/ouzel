@@ -32,15 +32,15 @@ SoundSample::SoundSample(Samples& pSamples):
     gui::MenuPtr menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu);
 
-    jumpButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    jumpButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color::BLACK, "arial.fnt");
     jumpButton->setPosition(Vector2(0.0f, 0.0f));
     menu->addWidget(jumpButton);
 
-    ambientButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    ambientButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color::BLACK, "arial.fnt");
     ambientButton->setPosition(Vector2(0.0f, -40.0f));
     menu->addWidget(ambientButton);
 
-    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color(0, 0, 0, 255), "arial.fnt");
+    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt");
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton);
 }

@@ -64,7 +64,7 @@ namespace ouzel
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPCT> vertices;
 
-            graphics::Color color = graphics::Color(255, 255, 255, 255);
+            graphics::Color color = graphics::Color::WHITE;
 
             bool needsMeshUpdate = false;
         };

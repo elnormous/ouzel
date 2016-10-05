@@ -12,6 +12,15 @@ namespace ouzel
         class Color
         {
         public:
+            static Color BLACK;
+            static Color RED;
+            static Color MAGENTA;
+            static Color GREEN;
+            static Color CYAN;
+            static Color BLUE;
+            static Color YELLOW;
+            static Color WHITE;
+
             uint8_t r;
             uint8_t g;
             uint8_t b;
