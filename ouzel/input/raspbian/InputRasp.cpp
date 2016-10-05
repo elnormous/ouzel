@@ -547,7 +547,7 @@ namespace ouzel
                                         relativePos.y = static_cast<float>(event->value);
                                     }
 
-                                    mouseRelativeMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(relativePos), 0);
+                                    mouseRelativeMove(sharedEngine->getWindow()->convertWindowToNormalizedLocationRelative(relativePos), 0);
                                 }
                                 else if (event->type == EV_KEY)
                                 {
