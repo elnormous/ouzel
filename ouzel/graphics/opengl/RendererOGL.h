@@ -512,7 +512,6 @@ namespace ouzel
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
-            Rectangle viewport;
 
             struct StateCache
             {

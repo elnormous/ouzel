@@ -156,7 +156,6 @@ namespace ouzel
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
-            viewport = Rectangle(0.0f, 0.0f, size.width, size.height);
 
             if (sampleCount > 1)
             {
@@ -309,21 +308,21 @@ namespace ouzel
             if (dirty)
             {
                 Size2 newSize;
-                Color newClearColor;
 
                 {
                     std::lock_guard<std::mutex> lock(dataMutex);
 
                     newSize = size;
-                    newClearColor = clearColor;
+
+                    clearMask = GL_COLOR_BUFFER_BIT;
+
+                    frameBufferClearColor[0] = clearColor.getR();
+                    frameBufferClearColor[1] = clearColor.getG();
+                    frameBufferClearColor[2] = clearColor.getB();
+                    frameBufferClearColor[3] = clearColor.getA();
+
+                    dirty = false;
                 }
-
-                clearMask = GL_COLOR_BUFFER_BIT;
-
-                frameBufferClearColor[0] = newClearColor.getR();
-                frameBufferClearColor[1] = newClearColor.getG();
-                frameBufferClearColor[2] = newClearColor.getB();
-                frameBufferClearColor[3] = newClearColor.getA();
 
                 if (frameBufferWidth != static_cast<GLsizei>(newSize.width) ||
                     frameBufferHeight != static_cast<GLsizei>(newSize.height))
@@ -340,11 +339,7 @@ namespace ouzel
                         }
 #endif
                     }
-
-                    viewport = Rectangle(0.0f, 0.0f, newSize.width, newSize.height);
                 }
-
-                dirty = false;
             }
 
             return true;
@@ -406,10 +401,9 @@ namespace ouzel
                         return false;
                     }
 
-                    if (!setViewport(static_cast<GLint>(viewport.x),
-                                     static_cast<GLint>(viewport.y),
-                                     static_cast<GLsizei>(viewport.width),
-                                     static_cast<GLsizei>(viewport.height)))
+                    if (!setViewport(0, 0,
+                                     frameBufferWidth,
+                                     frameBufferHeight))
                     {
                         return false;
                     }
