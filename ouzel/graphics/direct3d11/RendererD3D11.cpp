@@ -536,9 +536,14 @@ namespace ouzel
                         backBuffer = nullptr;
                     }
 
-                    swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+                    HRESULT hr = swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+                    if (FAILED(hr))
+                    {
+                        log(LOG_LEVEL_ERROR, "Failed to resize Direct3D 11 backbuffer");
+                        return false;
+                    }
 
-                    HRESULT hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
+                    hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
                     if (FAILED(hr))
                     {
                         log(LOG_LEVEL_ERROR, "Failed to retrieve Direct3D 11 backbuffer");
