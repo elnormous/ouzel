@@ -49,6 +49,7 @@ namespace ouzel
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync) override;
             bool update();
+            bool resizeBackBuffer(UINT newWidth, UINT newHeight);
 
             bool saveScreenshots();
 
@@ -77,6 +78,8 @@ namespace ouzel
             FLOAT frameBufferClearColor[4];
 
             bool fullscreen = false;
+            bool fullscreenDirty = false;
+            bool sizeDirty = false;
             std::atomic<bool> dirty;
             std::mutex dataMutex;
         };

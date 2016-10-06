@@ -440,125 +440,112 @@ namespace ouzel
             if (dirty)
             {
                 bool newFullscreen;
-                Size2 newSize;
-                Color newClearColor;
+                bool newFullscreenDirty;
+                bool newSizeDirty;
 
                 {
                     std::lock_guard<std::mutex> lock(dataMutex);
 
                     newFullscreen = fullscreen;
-                    newSize = size;
-                    newClearColor = clearColor;
+                    newFullscreenDirty = fullscreenDirty;
+                    newSizeDirty = sizeDirty;
+
+                    frameBufferClearColor[0] = clearColor.getR();
+                    frameBufferClearColor[1] = clearColor.getG();
+                    frameBufferClearColor[2] = clearColor.getB();
+                    frameBufferClearColor[3] = clearColor.getA();
+
+                    fullscreenDirty = false;
+                    sizeDirty = false;
+                    dirty = false;
                 }
 
-                frameBufferClearColor[0] = newClearColor.getR();
-                frameBufferClearColor[1] = newClearColor.getG();
-                frameBufferClearColor[2] = newClearColor.getB();
-                frameBufferClearColor[3] = newClearColor.getA();
-
-                BOOL isFullscreen;
-                swapChain->GetFullscreenState(&isFullscreen, nullptr);
-
-                if (isFullscreen != static_cast<BOOL>(newFullscreen))
+                if (newFullscreenDirty)
                 {
-                    if (newFullscreen)
+                    BOOL isFullscreen;
+                    swapChain->GetFullscreenState(&isFullscreen, nullptr);
+
+                    if (isFullscreen != static_cast<BOOL>(newFullscreen))
                     {
-                        IDXGIOutput* output = getOutput();
-
-                        if (!output)
+                        if (newFullscreen)
                         {
-                            return false;
-                        }
+                            IDXGIOutput* output = getOutput();
 
-                        DXGI_OUTPUT_DESC desc;
-                        HRESULT hr = output->GetDesc(&desc);
-                        if (FAILED(hr))
-                        {
+                            if (!output)
+                            {
+                                return false;
+                            }
+
+                            DXGI_OUTPUT_DESC desc;
+                            HRESULT hr = output->GetDesc(&desc);
+                            if (FAILED(hr))
+                            {
+                                output->Release();
+                                return false;
+                            }
+
+                            MONITORINFOEX info;
+                            info.cbSize = sizeof(MONITORINFOEX);
+                            GetMonitorInfo(desc.Monitor, &info);
+                            DEVMODE devMode;
+                            devMode.dmSize = sizeof(DEVMODE);
+                            devMode.dmDriverExtra = 0;
+                            EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
+
+                            DXGI_MODE_DESC current;
+                            current.Width = devMode.dmPelsWidth;
+                            current.Height = devMode.dmPelsHeight;
+                            bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
+                            current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
+                            current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
+                            current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                            current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+                            current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+                            DXGI_MODE_DESC closestDisplayMode;
+                            hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
+                            if (FAILED(hr))
+                            {
+                                output->Release();
+                                return false;
+                            }
+
+                            if (!resizeBackBuffer(closestDisplayMode.Width, closestDisplayMode.Height))
+                            {
+                                return false;
+                            }
+
+                            Renderer::setSize(Size2(static_cast<float>(width),
+                                                    static_cast<float>(height)));
+
+                            swapChain->SetFullscreenState(TRUE, output);
+
                             output->Release();
-                            return false;
                         }
-
-                        MONITORINFOEX info;
-                        info.cbSize = sizeof(MONITORINFOEX);
-                        GetMonitorInfo(desc.Monitor, &info);
-                        DEVMODE devMode;
-                        devMode.dmSize = sizeof(DEVMODE);
-                        devMode.dmDriverExtra = 0;
-                        EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
-
-                        DXGI_MODE_DESC current;
-                        current.Width = devMode.dmPelsWidth;
-                        current.Height = devMode.dmPelsHeight;
-                        bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
-                        current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
-                        current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
-                        current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-                        current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-                        current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-                        DXGI_MODE_DESC closestDisplayMode;
-                        hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
-                        if (FAILED(hr))
+                        else
                         {
-                            output->Release();
-                            return false;
+                            if (!resizeBackBuffer(0, 0))
+                            {
+                                return false;
+                            }
+
+                            Renderer::setSize(Size2(static_cast<float>(width),
+                                static_cast<float>(height)));
+
+                            swapChain->SetFullscreenState(FALSE, nullptr);
                         }
-
-                        newSize = Size2(static_cast<float>(closestDisplayMode.Width),
-                                        static_cast<float>(closestDisplayMode.Height));
-
-                        window->setSize(newSize);
-                        swapChain->SetFullscreenState(TRUE, output);
-
-                        output->Release();
-                    }
-                    else
-                    {
-                        swapChain->SetFullscreenState(FALSE, nullptr);
                     }
                 }
-
-                if (width != static_cast<UINT>(newSize.width) ||
-                    height != static_cast<UINT>(newSize.height))
+                else if (newSizeDirty)
                 {
-                    width = static_cast<UINT>(newSize.width);
-                    height = static_cast<UINT>(newSize.height);
-
-                    if (renderTargetView)
+                    if (!resizeBackBuffer(0, 0))
                     {
-                        renderTargetView->Release();
-                        renderTargetView = nullptr;
-                    }
-
-                    if (backBuffer)
-                    {
-                        backBuffer->Release();
-                        backBuffer = nullptr;
-                    }
-
-                    HRESULT hr = swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
-                    if (FAILED(hr))
-                    {
-                        log(LOG_LEVEL_ERROR, "Failed to resize Direct3D 11 backbuffer");
                         return false;
                     }
 
-                    hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
-                    if (FAILED(hr))
-                    {
-                        log(LOG_LEVEL_ERROR, "Failed to retrieve Direct3D 11 backbuffer");
-                        return false;
-                    }
-
-                    hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
-                    if (FAILED(hr))
-                    {
-                        log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 render target view");
-                        return false;
-                    }
+                    Renderer::setSize(Size2(static_cast<float>(width),
+                                            static_cast<float>(height)));
                 }
-
-                dirty = false;
             }
 
             return true;
@@ -573,12 +560,11 @@ namespace ouzel
             dirty = true;
         }
 
-        void RendererD3D11::setSize(const Size2& newSize)
+        void RendererD3D11::setSize(const Size2&)
         {
             std::lock_guard<std::mutex> lock(dataMutex);
 
-            Renderer::setSize(newSize);
-
+            sizeDirty = true;
             dirty = true;
         }
 
@@ -587,6 +573,7 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(dataMutex);
 
             fullscreen = newFullscreen;
+            fullscreenDirty = true;
             dirty = true;
         }
 
@@ -1095,6 +1082,54 @@ namespace ouzel
 
                 context->Unmap(texture, 0);
                 texture->Release();
+            }
+
+            return true;
+        }
+
+        bool RendererD3D11::resizeBackBuffer(UINT newWidth, UINT newHeight)
+        {
+            if (width != newWidth || newWidth == 0 ||
+                height != newHeight || newHeight == 0)
+            {
+                if (renderTargetView)
+                {
+                    renderTargetView->Release();
+                    renderTargetView = nullptr;
+                }
+
+                if (backBuffer)
+                {
+                    backBuffer->Release();
+                    backBuffer = nullptr;
+                }
+
+                HRESULT hr = swapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+                if (FAILED(hr))
+                {
+                    log(LOG_LEVEL_ERROR, "Failed to resize Direct3D 11 backbuffer");
+                    return false;
+                }
+
+                hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
+                if (FAILED(hr))
+                {
+                    log(LOG_LEVEL_ERROR, "Failed to retrieve Direct3D 11 backbuffer");
+                    return false;
+                }
+
+                hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
+                if (FAILED(hr))
+                {
+                    log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 render target view");
+                    return false;
+                }
+
+                D3D11_TEXTURE2D_DESC desc;
+                backBuffer->GetDesc(&desc);
+
+                width = desc.Width;
+                height = desc.Height;
             }
 
             return true;
