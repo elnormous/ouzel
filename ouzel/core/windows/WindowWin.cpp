@@ -218,13 +218,18 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         }
         case WM_SIZE:
         {
-            if (wParam == SIZE_MINIMIZED)
+            switch (wParam)
             {
-                // TODO: stop engine
-            }
-            else if (wParam == SIZE_MAXIMIZED || wParam == SIZE_RESTORED)
-            {
-                windowWin->handleResize(LOWORD(lParam), HIWORD(lParam));
+                case SIZE_MINIMIZED:
+                    ouzel::sharedEngine->pause();
+                    break;
+                case SIZE_RESTORED:
+                    ouzel::sharedEngine->resume();
+                    ouzel::log(ouzel::LOG_LEVEL_INFO, "resize");
+                    // fall through
+                case SIZE_MAXIMIZED:
+                    windowWin->handleResize(LOWORD(lParam), HIWORD(lParam));
+                    break;
             }
             return 0;
         }

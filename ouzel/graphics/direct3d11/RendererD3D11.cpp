@@ -455,85 +455,81 @@ namespace ouzel
                     frameBufferClearColor[2] = clearColor.getB();
                     frameBufferClearColor[3] = clearColor.getA();
 
-                    fullscreenDirty = false;
                     sizeDirty = false;
                     dirty = false;
                 }
 
-                if (newFullscreenDirty)
+                BOOL isFullscreen;
+                swapChain->GetFullscreenState(&isFullscreen, nullptr);
+
+                if (newFullscreenDirty && isFullscreen != static_cast<BOOL>(newFullscreen))
                 {
-                    BOOL isFullscreen;
-                    swapChain->GetFullscreenState(&isFullscreen, nullptr);
-
-                    if (isFullscreen != static_cast<BOOL>(newFullscreen))
+                    if (newFullscreen)
                     {
-                        if (newFullscreen)
+                        IDXGIOutput* output = getOutput();
+
+                        if (!output)
                         {
-                            IDXGIOutput* output = getOutput();
+                            return false;
+                        }
 
-                            if (!output)
-                            {
-                                return false;
-                            }
-
-                            DXGI_OUTPUT_DESC desc;
-                            HRESULT hr = output->GetDesc(&desc);
-                            if (FAILED(hr))
-                            {
-                                output->Release();
-                                return false;
-                            }
-
-                            MONITORINFOEX info;
-                            info.cbSize = sizeof(MONITORINFOEX);
-                            GetMonitorInfo(desc.Monitor, &info);
-                            DEVMODE devMode;
-                            devMode.dmSize = sizeof(DEVMODE);
-                            devMode.dmDriverExtra = 0;
-                            EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
-
-                            DXGI_MODE_DESC current;
-                            current.Width = devMode.dmPelsWidth;
-                            current.Height = devMode.dmPelsHeight;
-                            bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
-                            current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
-                            current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
-                            current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-                            current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-                            current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-                            DXGI_MODE_DESC closestDisplayMode;
-                            hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
-                            if (FAILED(hr))
-                            {
-                                output->Release();
-                                return false;
-                            }
-
-                            if (!resizeBackBuffer(closestDisplayMode.Width, closestDisplayMode.Height))
-                            {
-                                return false;
-                            }
-
-                            Renderer::setSize(Size2(static_cast<float>(width),
-                                                    static_cast<float>(height)));
-
-                            swapChain->SetFullscreenState(TRUE, output);
-
+                        DXGI_OUTPUT_DESC desc;
+                        HRESULT hr = output->GetDesc(&desc);
+                        if (FAILED(hr))
+                        {
+                            log(LOG_LEVEL_ERROR, "Failed to get Direct3D 11 output description");
                             output->Release();
+                            return false;
                         }
-                        else
+
+                        MONITORINFOEX info;
+                        info.cbSize = sizeof(MONITORINFOEX);
+                        GetMonitorInfo(desc.Monitor, &info);
+                        DEVMODE devMode;
+                        devMode.dmSize = sizeof(DEVMODE);
+                        devMode.dmDriverExtra = 0;
+                        EnumDisplaySettings(info.szDevice, ENUM_CURRENT_SETTINGS, &devMode);
+
+                        log(LOG_LEVEL_INFO, "monitor resolution: %d, %d", devMode.dmPelsWidth, devMode.dmPelsHeight);
+
+                        DXGI_MODE_DESC current;
+                        current.Width = devMode.dmPelsWidth;
+                        current.Height = devMode.dmPelsHeight;
+                        bool defaultRefreshRate = (devMode.dmDisplayFrequency == 0 || devMode.dmDisplayFrequency == 1);
+                        current.RefreshRate.Numerator = defaultRefreshRate ? 0 : devMode.dmDisplayFrequency;
+                        current.RefreshRate.Denominator = defaultRefreshRate ? 0 : 1;
+                        current.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                        current.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+                        current.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+                        DXGI_MODE_DESC closestDisplayMode;
+                        hr = output->FindClosestMatchingMode(&current, &closestDisplayMode, nullptr);
+                        if (FAILED(hr))
                         {
-                            if (!resizeBackBuffer(0, 0))
-                            {
-                                return false;
-                            }
-
-                            Renderer::setSize(Size2(static_cast<float>(width),
-                                static_cast<float>(height)));
-
-                            swapChain->SetFullscreenState(FALSE, nullptr);
+                            log(LOG_LEVEL_ERROR, "Failed to find closest matching display mode");
+                            output->Release();
+                            return false;
                         }
+
+                        if (!resizeBackBuffer(closestDisplayMode.Width, closestDisplayMode.Height))
+                        {
+                            output->Release();
+                            return false;
+                        }
+
+                        log(LOG_LEVEL_INFO, "resized back buffer (fullscreen): %d, %d", width, height);
+
+                        swapChain->SetFullscreenState(TRUE, output);
+                        isFullscreen = TRUE;
+
+                        output->Release();
+
+                        Renderer::setSize(Size2(static_cast<float>(width),
+                                                static_cast<float>(height)));
+                    }
+                    else
+                    {
+                        swapChain->SetFullscreenState(FALSE, nullptr);
                     }
                 }
                 else if (newSizeDirty)
@@ -542,6 +538,8 @@ namespace ouzel
                     {
                         return false;
                     }
+
+                    log(LOG_LEVEL_INFO, "resized back buffer: %d, %d", width, height);
 
                     Renderer::setSize(Size2(static_cast<float>(width),
                                             static_cast<float>(height)));
