@@ -149,6 +149,7 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     ouzel::WindowWin* windowWin = reinterpret_cast<ouzel::WindowWin*>(GetWindowLongPtr(window, GWLP_USERDATA));
+    if (!windowWin) return DefWindowProcW(window, msg, wParam, lParam);
 
     switch (msg)
     {
@@ -323,21 +324,20 @@ namespace ouzel
             return false;
         }
 
-        windowStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+        windowWindowedStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPSIBLINGS | WS_BORDER | WS_DLGFRAME | WS_THICKFRAME | WS_GROUP | WS_TABSTOP;
 
         if (resizable)
         {
-            windowStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
+            windowWindowedStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
         }
+
+        windowFullscreenStyle = WS_CLIPSIBLINGS | WS_GROUP | WS_TABSTOP;
 
         int x = CW_USEDEFAULT;
         int y = CW_USEDEFAULT;
-        if (fullscreen)
-        {
-            windowStyle = WS_POPUP;
-            x = 0;
-            y = 0;
-        }
+
+        windowStyle = windowWindowedStyle;
+
         RECT windowRect = { 0, 0, static_cast<LONG>(size.width), static_cast<LONG>(size.height) };
         AdjustWindowRect(&windowRect, windowStyle, FALSE);
 
@@ -349,7 +349,7 @@ namespace ouzel
         wchar_t titleBuffer[256];
         MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256);
 
-        window = CreateWindowExW(0, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
+        window = CreateWindowExW(WS_EX_APPWINDOW, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
                                  x, y, width, height, nullptr, nullptr, hInstance, nullptr);
 
         if (!window)
@@ -358,16 +358,22 @@ namespace ouzel
             return false;
         }
 
-        if (size.width <= 0.0f || size.height <= 0.0f)
+        if (fullscreen)
         {
-            GetClientRect(window, &windowRect);
-            if (size.width > 0.0f) size.width = static_cast<float>(windowRect.right - windowRect.left);
-            if (size.height > 0.0f) size.height = static_cast<float>(windowRect.bottom - windowRect.top);
+            switchFullscreen(fullscreen);
         }
 
-        SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-        RegisterTouchWindow(window, 0);
+        GetClientRect(window, &windowRect);
+        size.width = static_cast<float>(windowRect.right - windowRect.left);
+        size.height = static_cast<float>(windowRect.bottom - windowRect.top);
+
+        if (!RegisterTouchWindow(window, 0))
+        {
+            log(LOG_LEVEL_WARNING, "Failed to enable touch for window");
+        }
+
         ShowWindow(window, SW_SHOW);
+        SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
         return Window::init();
     }
@@ -415,8 +421,43 @@ namespace ouzel
     void WindowWin::setFullscreen(bool newFullscreen)
     {
         Window::setFullscreen(newFullscreen);
-        std::shared_ptr<graphics::RendererD3D11> rendererD3D11 = std::static_pointer_cast<graphics::RendererD3D11>(sharedEngine->getRenderer());
-        rendererD3D11->setFullscreen(fullscreen);
+
+        sharedApplication->execute([this, newFullscreen] {
+            switchFullscreen(newFullscreen);
+        });
+    }
+
+    void WindowWin::switchFullscreen(bool newFullscreen)
+    {
+        windowStyle = (newFullscreen ? windowFullscreenStyle : windowWindowedStyle) | WS_VISIBLE;
+        SetWindowLong(window, GWL_STYLE, windowStyle);
+
+        if (newFullscreen)
+        {
+            RECT windowRect;
+            GetWindowRect(window, &windowRect);
+
+            windowX = windowRect.left;
+            windowY = windowRect.top;
+            windowWidth = windowRect.right - windowRect.left;
+            windowHeight = windowRect.bottom - windowRect.top;
+
+            HMONITOR monitor = getMonitor();
+
+            MONITORINFO info;
+            info.cbSize = sizeof(MONITORINFO);
+            GetMonitorInfo(monitor, &info);
+
+            SetWindowPos(window, nullptr, info.rcMonitor.left, info.rcMonitor.top,
+                         info.rcMonitor.right - info.rcMonitor.left,
+                         info.rcMonitor.bottom - info.rcMonitor.top,
+                         SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER);
+        }
+        else
+        {
+            SetWindowPos(window, nullptr, windowX, windowY, windowWidth, windowHeight,
+                         SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER);
+        }
     }
 
     void WindowWin::handleResize(INT width, INT height)

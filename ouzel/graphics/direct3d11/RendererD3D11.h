@@ -23,7 +23,6 @@ namespace ouzel
             virtual void free() override;
 
             virtual void setSize(const Size2& newSize) override;
-            void setFullscreen(bool newFullscreen);
 
             virtual bool present() override;
 
@@ -77,8 +76,6 @@ namespace ouzel
             UINT swapInterval = 0;
             FLOAT frameBufferClearColor[4];
 
-            bool fullscreen = false;
-            bool fullscreenDirty = false;
             bool sizeDirty = false;
             std::atomic<bool> dirty;
             std::mutex dataMutex;

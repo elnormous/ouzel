@@ -34,9 +34,19 @@ namespace ouzel
         WindowWin(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
         virtual bool init() override;
 
+        void switchFullscreen(bool newFullscreen);
+
         ATOM windowClass = 0;
         HWND window = 0;
         DWORD windowStyle = 0;
+        DWORD windowWindowedStyle = 0;
+        DWORD windowFullscreenStyle = 0;
+
+        int windowX = 0;
+        int windowY = 0;
+        int windowWidth = 0;
+        int windowHeight = 0;
+
         std::set<HACCEL> accelerators;
     };
 }
