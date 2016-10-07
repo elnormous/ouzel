@@ -922,6 +922,7 @@ namespace ouzel
             {
                 log(LOG_LEVEL_ERROR, "Failed to get display mode list");
                 output->Release();
+                return result;
             }
 
             if (numModes > 0)
