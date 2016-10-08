@@ -56,8 +56,8 @@
 
 namespace ouzel
 {
-    WindowMacOS::WindowMacOS(const Size2& size, bool resizable, bool fullscreen, const std::string& title):
-        Window(size, resizable, fullscreen, title)
+    WindowMacOS::WindowMacOS(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
+        Window(pSize, pResizable, pFullscreen, pTitle)
     {
     }
 
@@ -72,14 +72,11 @@ namespace ouzel
             [view release];
         }
 
-        if (windowDelegate)
-        {
-            [windowDelegate release];
-        }
-
         if (window)
         {
+            [window.delegate release];
             window.delegate = Nil;
+            [window close];
             [window release];
         }
     }
@@ -110,9 +107,7 @@ namespace ouzel
         [window setReleasedWhenClosed:NO];
 
         window.acceptsMouseMovedEvents = YES;
-
-        windowDelegate = [[WindowDelegate alloc] initWithWindow:this];
-        window.delegate = windowDelegate;
+        window.delegate = [[WindowDelegate alloc] initWithWindow:this];
 
         [window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
 
@@ -173,14 +168,9 @@ namespace ouzel
             view = Nil;
         }
 
-        if (windowDelegate)
-        {
-            [windowDelegate release];
-            windowDelegate = Nil;
-        }
-
         if (window)
         {
+            [window.delegate release];
             window.delegate = Nil;
             [window close];
             [window release];

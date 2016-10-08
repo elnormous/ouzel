@@ -36,13 +36,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 
 -(void)dealloc
 {
-    if (displayLink)
-    {
-        CVDisplayLinkStop(displayLink);
-        CVDisplayLinkRelease(displayLink);
-        displayLink = Nil;
-    }
-
+    [self close];
     [super dealloc];
 }
 
