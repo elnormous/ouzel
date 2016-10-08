@@ -182,6 +182,7 @@ namespace ouzel
         if (window)
         {
             window.delegate = Nil;
+            [window close];
             [window release];
             window = Nil;
         }
