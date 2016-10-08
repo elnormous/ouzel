@@ -19,7 +19,7 @@
 
 -(void)handleQuit:(__unused id)sender
 {
-    [window->getNativeWindow() close];
+    window->close();
 }
 
 -(id)initWithWindow:(ouzel::WindowMacOS*)newWindow
