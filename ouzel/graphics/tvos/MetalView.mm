@@ -49,23 +49,15 @@ using namespace ouzel;
 
 -(void)dealloc
 {
-    [self close];
+    [viewDelegate release];
+    viewDelegate = Nil;
+    
     [super dealloc];
 }
 
 -(BOOL)canBecomeFirstResponder
 {
     return YES;
-}
-
--(void)close
-{
-    if (viewDelegate)
-    {
-        [viewDelegate release];
-        viewDelegate = Nil;
-        self.delegate = Nil;
-    }
 }
 
 @end

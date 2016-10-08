@@ -54,18 +54,18 @@ using namespace ouzel;
 
 -(void)dealloc
 {
+    [self close];
+    [super dealloc];
+}
+
+-(void)close
+{
     if (viewDelegate)
     {
         [viewDelegate release];
         viewDelegate = Nil;
         self.delegate = Nil;
     }
-
-    [super dealloc];
-}
-
--(void)changeDisplay
-{
 }
 
 -(BOOL)isFlipped

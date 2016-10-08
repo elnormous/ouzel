@@ -50,18 +50,10 @@ using namespace ouzel;
 
 -(void)dealloc
 {
-    [self close];
+    [viewDelegate release];
+    viewDelegate = Nil;
+    
     [super dealloc];
-}
-
--(void)close
-{
-    if (viewDelegate)
-    {
-        [viewDelegate release];
-        viewDelegate = Nil;
-        self.delegate = Nil;
-    }
 }
 
 -(void)touchesBegan:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
