@@ -50,8 +50,8 @@ using namespace ouzel;
 
 -(void)dealloc
 {
+    self.delegate = Nil;
     [viewDelegate release];
-    viewDelegate = Nil;
     
     [super dealloc];
 }

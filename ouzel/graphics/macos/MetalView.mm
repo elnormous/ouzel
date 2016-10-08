@@ -47,6 +47,11 @@ using namespace ouzel;
     {
         viewDelegate = [[ViewDelegate alloc] init];
         self.delegate = viewDelegate;
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(windowWillClose:)
+                                                     name:NSWindowWillCloseNotification
+                                                   object:nil];
     }
 
     return self;
@@ -54,17 +59,29 @@ using namespace ouzel;
 
 -(void)dealloc
 {
-    [self close];
+    if (viewDelegate)
+    {
+        self.delegate = Nil;
+        [viewDelegate release];
+    }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [super dealloc];
 }
 
--(void)close
+-(void)windowWillClose:(NSNotification*)notification
 {
-    if (viewDelegate)
+    if (notification.object == self.window)
     {
-        [viewDelegate release];
-        viewDelegate = Nil;
-        self.delegate = Nil;
+        if (viewDelegate)
+        {
+            self.delegate = Nil;
+            [viewDelegate release];
+            viewDelegate = Nil;
+        }
+
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
 

@@ -34,19 +34,44 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 
 @implementation OpenGLView
 
--(void)dealloc
+-(id)initWithFrame:(NSRect)frameRect
 {
-    [self close];
-    [super dealloc];
+    if (self = [super initWithFrame:frameRect])
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(windowWillClose:)
+                                                     name:NSWindowWillCloseNotification
+                                                   object:nil];
+    }
+
+    return self;
 }
 
--(void)close
+-(void)dealloc
 {
     if (displayLink)
     {
         CVDisplayLinkStop(displayLink);
         CVDisplayLinkRelease(displayLink);
-        displayLink = Nil;
+    }
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [super dealloc];
+}
+
+-(void)windowWillClose:(NSNotification*)notification
+{
+    if (notification.object == self.window)
+    {
+        if (displayLink)
+        {
+            CVDisplayLinkStop(displayLink);
+            CVDisplayLinkRelease(displayLink);
+            displayLink = Nil;
+        }
+
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
 

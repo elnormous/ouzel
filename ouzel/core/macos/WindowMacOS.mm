@@ -65,19 +65,19 @@ namespace ouzel
     {
         if (view)
         {
-            if ([view respondsToSelector:@selector(close)])
-            {
-                [view performSelector:@selector(close)];
-            }
             [view release];
         }
 
         if (window)
         {
-            [window.delegate release];
             window.delegate = Nil;
             [window close];
             [window release];
+        }
+
+        if (windowDelegate)
+        {
+            [windowDelegate release];
         }
     }
 
@@ -107,7 +107,8 @@ namespace ouzel
         [window setReleasedWhenClosed:NO];
 
         window.acceptsMouseMovedEvents = YES;
-        window.delegate = [[WindowDelegate alloc] initWithWindow:this];
+        windowDelegate = [[WindowDelegate alloc] initWithWindow:this];
+        window.delegate = windowDelegate;
 
         [window setCollectionBehavior: NSWindowCollectionBehaviorFullScreenPrimary];
 
@@ -160,21 +161,22 @@ namespace ouzel
     {
         if (view)
         {
-            if ([view respondsToSelector:@selector(close)])
-            {
-                [view performSelector:@selector(close)];
-            }
             [view release];
             view = Nil;
         }
 
         if (window)
         {
-            [window.delegate release];
             window.delegate = Nil;
             [window close];
             [window release];
             window = Nil;
+        }
+
+        if (windowDelegate)
+        {
+            [windowDelegate release];
+            windowDelegate = Nil;
         }
     }
 

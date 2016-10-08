@@ -48,5 +48,6 @@ namespace ouzel
 
         NSWindowPtr window = Nil;
         NSViewPtr view = Nil;
+        NSWindowDelegatePtr windowDelegate = Nil;
     };
 }
