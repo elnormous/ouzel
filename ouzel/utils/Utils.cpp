@@ -70,6 +70,7 @@ namespace ouzel
         syslog(prio, "%s", str.c_str());
     #endif
 #elif OUZEL_PLATFORM_WINDOWS
+        OUZEL_UNUSED(level);
         wchar_t szBuffer[MAX_PATH];
         MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, szBuffer, MAX_PATH);
         StringCchCat(szBuffer, sizeof(szBuffer), L"\n");
