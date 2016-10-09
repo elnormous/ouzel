@@ -203,22 +203,6 @@ namespace ouzel
         cache.reset(new Cache());
         sceneManager.reset(new scene::SceneManager());
 
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        input.reset(new input::InputApple());
-#elif OUZEL_PLATFORM_ANDROID
-        input.reset(new input::InputAndroid());
-#elif OUZEL_PLATFORM_LINUX
-        input.reset(new input::InputLinux());
-#elif OUZEL_PLATFORM_WINDOWS
-        input.reset(new input::InputWin());
-#elif OUZEL_PLATFORM_RASPBIAN
-        input.reset(new input::InputRasp());
-#elif OUZEL_PLATFORM_EMSCRIPTEN
-        input.reset(new input::InputEm());
-#else
-        input.reset(new input::Input());
-#endif
-
         localization.reset(new Localization());
 
         switch (settings.renderDriver)
@@ -337,6 +321,22 @@ namespace ouzel
         {
             return false;
         }
+
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+        input.reset(new input::InputApple());
+#elif OUZEL_PLATFORM_ANDROID
+        input.reset(new input::InputAndroid());
+#elif OUZEL_PLATFORM_LINUX
+        input.reset(new input::InputLinux(window));
+#elif OUZEL_PLATFORM_WINDOWS
+        input.reset(new input::InputWin());
+#elif OUZEL_PLATFORM_RASPBIAN
+        input.reset(new input::InputRasp());
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+        input.reset(new input::InputEm());
+#else
+        input.reset(new input::Input());
+#endif
 
         return true;
     }

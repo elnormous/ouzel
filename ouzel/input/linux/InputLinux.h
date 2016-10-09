@@ -5,7 +5,10 @@
 
 #include <X11/keysym.h>
 #include <X11/XKBlib.h>
+#include <X11/cursorfont.h>
+#include <X11/X.h>
 #include "input/Input.h"
+#include "utils/Types.h"
 
 namespace ouzel
 {
@@ -20,9 +23,18 @@ namespace ouzel
             static KeyboardKey convertKeyCode(KeySym keyCode);
             static uint32_t getModifiers(unsigned int state);
 
+            virtual void setCursorVisible(bool visible) override;
+            virtual bool isCursorVisible() const override;
+
             virtual ~InputLinux();
         protected:
-            InputLinux();
+            InputLinux(const WindowPtr& pWindow);
+
+            Display* display = nullptr;
+            ::Window window = 0;
+
+            bool cursorVisible = true;
+            Cursor emptyCursor = None;
         };
     } // namespace input
 } // namespace ouzel

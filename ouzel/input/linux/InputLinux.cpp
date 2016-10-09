@@ -3,6 +3,7 @@
 
 #include "InputLinux.h"
 #include "events/Event.h"
+#include "core/linux/WindowLinux.h"
 
 namespace ouzel
 {
@@ -216,12 +217,52 @@ namespace ouzel
             return modifiers;
         }
 
-        InputLinux::InputLinux()
+        InputLinux::InputLinux(const WindowPtr& pWindow)
         {
+            std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(window);
+            display = windowLinux->getDisplay();
+            window = windowLinux->getWindow();
+
+            char data[1] = { 0 };
+            XColor color;
+            Pixmap pixmap;
+
+            color.red = color.green = color.blue = 0;
+            pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display), data, 1, 1);
+            if (pixmap)
+            {
+                emptyCursor = X11_XCreatePixmapCursor(display, pixmap, pixmap, &color, &color, 0, 0);
+                X11_XFreePixmap(display, pixmap);
+            }
         }
 
         InputLinux::~InputLinux()
         {
+            if (emptyCursor != None) X11_XFreeCursor(GetDisplay(), emptyCursor);
+        }
+
+        void InputLinux::setCursorVisible(bool visible)
+        {
+            if (visible != cursorVisible)
+            {
+                cursorVisible = visible;
+
+                if (visible)
+                {
+                    X11_XUndefineCursor(display, window);
+                }
+                else
+                {
+                    X11_XDefineCursor(display, window, emptyCursor);
+                }
+
+                X11_XFlush(display);
+            }
+        }
+
+        bool InputApple::isCursorVisible() const
+        {
+            return cursorVisible;
         }
     } // namespace input
 } // namespace ouzel

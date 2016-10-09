@@ -63,11 +63,11 @@ namespace ouzel
         Settings settings;
 
         EventDispatcherPtr eventDispatcher;
-        input::InputPtr input;
         WindowPtr window;
         LocalizationPtr localization;
         graphics::RendererPtr renderer;
         audio::AudioPtr audio;
+        input::InputPtr input;
         CachePtr cache;
         scene::SceneManagerPtr sceneManager;
 
