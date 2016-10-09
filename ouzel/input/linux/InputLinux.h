@@ -4,6 +4,7 @@
 #pragma once
 
 #include <X11/keysym.h>
+#include <X11/XKBlib.h>
 #include "input/Input.h"
 
 namespace ouzel
