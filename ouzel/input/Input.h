@@ -90,8 +90,8 @@ namespace ouzel
             KEY_X,          // X key
             KEY_Y,          // Y key
             KEY_Z,          // Z key
-            LWIN,           // Left Windows key (MicrosoftŽ NaturalŽ keyboard)
-            RWIN,           // Right Windows key (Natural keyboard)
+            LSUPER,         // Left Windows key (Microsoft Natural keyboard) on Windows, left Command key on macOS
+            RSUPER,         // Right Windows key (Natural keyboard) on Windows, right Command key on macOS
             APPS,           // Applications key (Natural keyboard)
             SLEEP,          // Computer Sleep key
             NUMPAD0,        // Numeric keypad 0 key

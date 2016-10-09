@@ -227,7 +227,7 @@ namespace ouzel
                 case kVK_Escape: return KeyboardKey::ESCAPE;
                 case kVK_Control: return KeyboardKey::CONTROL;
                 case kVK_RightControl: return KeyboardKey::RCONTROL;
-                case kVK_Command: return KeyboardKey::LWIN;
+                case kVK_Command: return KeyboardKey::LSUPER;
                 case kVK_Shift: return KeyboardKey::SHIFT;
                 case kVK_RightShift: return KeyboardKey::RSHIFT;
                 case kVK_Space: return KeyboardKey::SPACE;
@@ -311,7 +311,7 @@ namespace ouzel
             if (modifierFlags & NSShiftKeyMask) modifiers |= SHIFT_DOWN;
             if (modifierFlags & NSAlternateKeyMask) modifiers |= ALT_DOWN;
             if (modifierFlags & NSControlKeyMask) modifiers |= CONTROL_DOWN;
-            if (modifierFlags & NSCommandKeyMask) modifiers |= COMMAND_DOWN;
+            if (modifierFlags & NSCommandKeyMask) modifiers |= SUPER_DOWN;
             if (modifierFlags & NSFunctionKeyMask) modifiers |= FUNCTION_DOWN;
 
             if (pressedMouseButtons)

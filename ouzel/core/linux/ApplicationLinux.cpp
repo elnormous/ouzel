@@ -106,12 +106,12 @@ namespace ouzel
             case XK_Control_R: return input::KeyboardKey::RCONTROL;
             case XK_Caps_Lock: return input::KeyboardKey::CAPITAL;
             case XK_Shift_Lock: return input::KeyboardKey::CAPITAL;
-            case XK_Meta_L: return input::KeyboardKey::LWIN;
-            case XK_Meta_R: return input::KeyboardKey::RWIN;
+            case XK_Meta_L: return input::KeyboardKey::LSUPER;
+            case XK_Meta_R: return input::KeyboardKey::RSUPER;
             case XK_Alt_L: return input::KeyboardKey::LALT;
             case XK_Alt_R: return input::KeyboardKey::RALT;
-            case XK_ISO_Level3_Shift: return input::KeyboardKey::RWIN;
-            case XK_Menu: return input::KeyboardKey::LWIN;
+            case XK_ISO_Level3_Shift: return input::KeyboardKey::RSUPER;
+            case XK_Menu: return input::KeyboardKey::LSUPER;
             case XK_space: return input::KeyboardKey::SPACE;
             case XK_exclam: return input::KeyboardKey::KEY_1;
             case XK_quotedbl: return input::KeyboardKey::KEY_2;
@@ -215,8 +215,8 @@ namespace ouzel
             case XK_adiaeresis: return input::KeyboardKey::QUOTE;
             case XK_odiaeresis: return input::KeyboardKey::GRAVE;
             case XK_udiaeresis: return input::KeyboardKey::SEMICOLON;
-            case XK_Super_L: return input::KeyboardKey::LWIN;
-            case XK_Super_R: return input::KeyboardKey::RWIN;
+            case XK_Super_L: return input::KeyboardKey::LSUPER;
+            case XK_Super_R: return input::KeyboardKey::RSUPER;
             default: return input::KeyboardKey::NONE;
         }
     }

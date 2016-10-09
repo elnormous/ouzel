@@ -91,8 +91,8 @@ namespace ouzel
             case 'Y': return KeyboardKey::KEY_Y;
             case 'Z': return KeyboardKey::KEY_Z;
 
-            case VK_LWIN: return KeyboardKey::LWIN;
-            case VK_RWIN: return KeyboardKey::RWIN;
+            case VK_LWIN: return KeyboardKey::LSUPER;
+            case VK_RWIN: return KeyboardKey::RSUPER;
             case VK_APPS: return KeyboardKey::APPS;
             case VK_SLEEP: return KeyboardKey::SLEEP;
 

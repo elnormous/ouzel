@@ -293,8 +293,8 @@ static input::KeyboardKey convertKeyCode(int keyCode)
         case KEY_HANGEUL: return input::KeyboardKey::NONE; // KEY_HANGUEL
         case KEY_HANJA: return input::KeyboardKey::HANJA;
         case KEY_YEN: return input::KeyboardKey::NONE; // ??
-        case KEY_LEFTMETA: return input::KeyboardKey::LWIN;
-        case KEY_RIGHTMETA: return input::KeyboardKey::RWIN;
+        case KEY_LEFTMETA: return input::KeyboardKey::LSUPER;
+        case KEY_RIGHTMETA: return input::KeyboardKey::RSUPER;
         case KEY_COMPOSE: return input::KeyboardKey::NONE; // ??
 
         case KEY_F13: return input::KeyboardKey::F13;

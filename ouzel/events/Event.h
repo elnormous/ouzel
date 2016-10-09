@@ -19,7 +19,7 @@ namespace ouzel
         SHIFT_DOWN          = 0x0001,
         ALT_DOWN            = 0x0002,
         CONTROL_DOWN        = 0x0004,
-        COMMAND_DOWN        = 0x0008,
+        SUPER_DOWN          = 0x0008, // Windows key on Windows, Command key on macOS
         FUNCTION_DOWN       = 0x0010,
         LEFT_MOUSE_DOWN     = 0x0020,
         RIGHT_MOUSE_DOWN    = 0x0040,
