@@ -260,7 +260,7 @@ namespace ouzel
             }
         }
 
-        bool InputApple::isCursorVisible() const
+        bool InputLinux::isCursorVisible() const
         {
             return cursorVisible;
         }
