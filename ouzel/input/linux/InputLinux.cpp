@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "InputLinux.h"
+#include "events/Event.h"
 
 namespace ouzel
 {
