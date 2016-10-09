@@ -221,7 +221,7 @@ namespace ouzel
         {
             std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(pWindow);
             display = windowLinux->getDisplay();
-            window = windowLinux->getWindow();
+            window = windowLinux->getNativeWindow();
 
             char data[1] = { 0 };
             XColor color;
