@@ -228,17 +228,17 @@ namespace ouzel
             Pixmap pixmap;
 
             color.red = color.green = color.blue = 0;
-            pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display), data, 1, 1);
+            pixmap = XCreateBitmapFromData(display, DefaultRootWindow(display), data, 1, 1);
             if (pixmap)
             {
-                emptyCursor = X11_XCreatePixmapCursor(display, pixmap, pixmap, &color, &color, 0, 0);
-                X11_XFreePixmap(display, pixmap);
+                emptyCursor = XCreatePixmapCursor(display, pixmap, pixmap, &color, &color, 0, 0);
+                XFreePixmap(display, pixmap);
             }
         }
 
         InputLinux::~InputLinux()
         {
-            if (emptyCursor != None) X11_XFreeCursor(GetDisplay(), emptyCursor);
+            if (emptyCursor != None) XFreeCursor(GetDisplay(), emptyCursor);
         }
 
         void InputLinux::setCursorVisible(bool visible)
@@ -249,14 +249,14 @@ namespace ouzel
 
                 if (visible)
                 {
-                    X11_XUndefineCursor(display, window);
+                    XUndefineCursor(display, window);
                 }
                 else
                 {
-                    X11_XDefineCursor(display, window, emptyCursor);
+                    XDefineCursor(display, window, emptyCursor);
                 }
 
-                X11_XFlush(display);
+                XFlush(display);
             }
         }
 
