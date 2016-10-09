@@ -173,7 +173,7 @@ namespace ouzel
                         return false;
                     }
 
-                    pixelShader = [pixelShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:uploadData.pixelShaderFunction.c_str()]];
+                    pixelShader = [pixelShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:uploadData.pixelShaderFunction.c_str()])];
 
                     [pixelShaderLibrary release];
 
@@ -220,7 +220,7 @@ namespace ouzel
                         return false;
                     }
 
-                    vertexShader = [vertexShaderLibrary newFunctionWithName:[NSString stringWithUTF8String:uploadData.vertexShaderFunction.c_str()]];
+                    vertexShader = [vertexShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:uploadData.vertexShaderFunction.c_str()])];
 
                     [vertexShaderLibrary release];
 

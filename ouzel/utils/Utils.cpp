@@ -45,7 +45,7 @@ namespace ouzel
     static const std::function<void(LogLevel, const std::string&)> defaultLogCallback = [] (LogLevel level, const std::string& str) {
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         FILE* f = nullptr;
-        switch (logLevel)
+        switch (level)
         {
             case LOG_LEVEL_ERROR:
             case LOG_LEVEL_WARNING:

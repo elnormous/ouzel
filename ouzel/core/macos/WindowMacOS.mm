@@ -117,7 +117,7 @@ namespace ouzel
             [window toggleFullScreen:nil];
         }
 
-        [window setTitle:[NSString stringWithUTF8String:title.c_str()]];
+        [window setTitle:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:title.c_str()])];
 
         NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
                                                      styleMask:[window styleMask]];
@@ -233,7 +233,7 @@ namespace ouzel
 
     float WindowMacOS::getContentScale() const
     {
-        return window.backingScaleFactor;
+        return static_cast<float>(window.backingScaleFactor);
     }
 
     void WindowMacOS::handleResize()

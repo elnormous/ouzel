@@ -730,7 +730,7 @@ namespace ouzel
 
             if (currentCommandBuffer)
             {
-                [currentCommandBuffer presentDrawable:view.currentDrawable];
+                [currentCommandBuffer presentDrawable:static_cast<id<CAMetalDrawable> _Nonnull>(view.currentDrawable)];
 
                 [currentCommandBuffer commit];
                 [currentCommandBuffer release];
