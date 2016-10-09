@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <X11/keysym.h>
 #include "input/Input.h"
 
 namespace ouzel
@@ -15,6 +16,9 @@ namespace ouzel
         {
             friend Engine;
         public:
+            static KeyboardKey convertKeyCode(KeySym keyCode);
+            static uint32_t getModifiers(unsigned int state);
+
             virtual ~InputLinux();
         protected:
             InputLinux();
