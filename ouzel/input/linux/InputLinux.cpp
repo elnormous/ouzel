@@ -219,7 +219,7 @@ namespace ouzel
 
         InputLinux::InputLinux(const WindowPtr& pWindow)
         {
-            std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(window);
+            std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(pWindow);
             display = windowLinux->getDisplay();
             window = windowLinux->getWindow();
 
@@ -238,7 +238,7 @@ namespace ouzel
 
         InputLinux::~InputLinux()
         {
-            if (emptyCursor != None) XFreeCursor(GetDisplay(), emptyCursor);
+            if (emptyCursor != None) XFreeCursor(display, emptyCursor);
         }
 
         void InputLinux::setCursorVisible(bool visible)
