@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cstdlib>
 #include "ApplicationRasp.h"
 #include "core/Engine.h"
 #include "input/raspbian/InputRasp.h"
@@ -19,7 +20,7 @@ namespace ouzel
 
         if (!sharedEngine)
         {
-            return 1;
+            return EXIT_FAILURE;
         }
 
         std::shared_ptr<input::InputRasp> input = std::static_pointer_cast<input::InputRasp>(sharedEngine->getInput());
@@ -39,6 +40,6 @@ namespace ouzel
 
         sharedEngine->end();
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 }

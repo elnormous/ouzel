@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cstdlib>
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include "ApplicationLinux.h"
@@ -23,7 +24,7 @@ namespace ouzel
 
         if (!sharedEngine)
         {
-            return 1;
+            return EXIT_FAILURE;
         }
 
         sharedEngine->begin();
@@ -163,6 +164,6 @@ namespace ouzel
 
         sharedEngine->end();
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 }

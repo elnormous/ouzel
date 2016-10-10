@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cstdlib>
 #include "ApplicationAndroid.h"
 #include "core/Engine.h"
 
@@ -16,11 +17,11 @@ namespace ouzel
 
         if (!sharedEngine)
         {
-            return 1;
+            return EXIT_FAILURE;
         }
 
         sharedEngine->begin();
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 }

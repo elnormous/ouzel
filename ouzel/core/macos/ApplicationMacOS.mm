@@ -24,7 +24,7 @@ namespace ouzel
             [application run];
         }
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     void ApplicationMacOS::execute(const std::function<void(void)>& func)

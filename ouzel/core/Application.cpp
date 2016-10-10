@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cstdlib>
 #include <cstdint>
 #include "Application.h"
 #include "files/FileSystem.h"
@@ -42,7 +43,7 @@ namespace ouzel
 
     int Application::run()
     {
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     void Application::execute(const std::function<void(void)>& func)

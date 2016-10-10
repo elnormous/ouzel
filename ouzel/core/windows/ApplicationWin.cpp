@@ -3,6 +3,7 @@
 
 #define NOMINMAX
 #include <windows.h>
+#include <cstdlib>
 #include "ApplicationWin.h"
 #include "input/windows/InputWin.h"
 #include "WindowWin.h"
@@ -27,14 +28,14 @@ namespace ouzel
 		if (FAILED(hr))
 		{
 			log(LOG_LEVEL_ERROR, "Failed to initialize COM");
-			return 1;
+			return EXIT_FAILURE;
 		}
 
         ouzelMain(args);
 
         if (!sharedEngine)
         {
-            return 1;
+            return EXIT_FAILURE;
         }
 
         std::shared_ptr<input::InputWin> input = std::static_pointer_cast<input::InputWin>(sharedEngine->getInput());
@@ -100,6 +101,6 @@ namespace ouzel
 
         sharedEngine->end();
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 }
