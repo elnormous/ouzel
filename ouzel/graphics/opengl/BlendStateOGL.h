@@ -37,6 +37,7 @@ namespace ouzel
         class BlendStateOGL: public BlendState
         {
         public:
+            BlendStateOGL();
             virtual ~BlendStateOGL() {}
 
             GLenum getModeRGB() const { return modeRGB; }

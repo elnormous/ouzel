@@ -12,12 +12,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererD3D11;
-
         class RenderTargetD3D11: public RenderTarget
         {
-            friend RendererD3D11;
         public:
+            RenderTargetD3D11();
             virtual ~RenderTargetD3D11();
             virtual void free() override;
 
@@ -27,7 +25,6 @@ namespace ouzel
             const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
         protected:
-            RenderTargetD3D11();
             virtual bool upload() override;
 
             ID3D11RenderTargetView* renderTargetView = nullptr;

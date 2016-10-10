@@ -13,19 +13,16 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererD3D11;
-
         class BlendStateD3D11: public BlendState
         {
-            friend RendererD3D11;
         public:
+            BlendStateD3D11();
             virtual ~BlendStateD3D11();
             virtual void free() override;
 
             ID3D11BlendState* getBlendState() const { return blendState; }
 
         protected:
-            BlendStateD3D11();
             virtual bool upload() override;
 
             ID3D11BlendState* blendState = nullptr;

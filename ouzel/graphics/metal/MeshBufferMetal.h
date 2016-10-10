@@ -11,16 +11,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetal;
-
         class MeshBufferMetal: public MeshBuffer
         {
-            friend RendererMetal;
         public:
+            MeshBufferMetal();
             virtual ~MeshBufferMetal();
 
         protected:
-            MeshBufferMetal();
             virtual bool upload() override;
         };
     } // namespace graphics

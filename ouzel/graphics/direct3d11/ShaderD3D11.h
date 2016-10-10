@@ -14,12 +14,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererD3D11;
-
         class ShaderD3D11: public Shader
         {
-            friend RendererD3D11;
         public:
+            ShaderD3D11();
             virtual ~ShaderD3D11();
             virtual void free() override;
 
@@ -40,7 +38,6 @@ namespace ouzel
             virtual ID3D11InputLayout* getInputLayout() const { return inputLayout;  }
 
         protected:
-            ShaderD3D11();
             virtual bool upload() override;
 
             bool uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size);

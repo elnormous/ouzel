@@ -810,19 +810,19 @@ namespace ouzel
 
         BlendStatePtr RendererOGL::createBlendState()
         {
-            std::shared_ptr<BlendStateOGL> blendState(new BlendStateOGL());
+            std::shared_ptr<BlendStateOGL> blendState = std::make_shared<BlendStateOGL>();
             return blendState;
         }
 
         TexturePtr RendererOGL::createTexture()
         {
-            std::shared_ptr<TextureOGL> texture(new TextureOGL());
+            std::shared_ptr<TextureOGL> texture = std::make_shared<TextureOGL>();
             return texture;
         }
 
         RenderTargetPtr RendererOGL::createRenderTarget()
         {
-            std::shared_ptr<RenderTargetOGL> renderTarget(new RenderTargetOGL());
+            std::shared_ptr<RenderTargetOGL> renderTarget = std::make_shared<RenderTargetOGL>();
             return renderTarget;
         }
 
@@ -834,19 +834,19 @@ namespace ouzel
 
         MeshBufferPtr RendererOGL::createMeshBuffer()
         {
-            std::shared_ptr<MeshBufferOGL> meshBuffer(new MeshBufferOGL());
+            std::shared_ptr<MeshBufferOGL> meshBuffer = std::make_shared<MeshBufferOGL>();
             return meshBuffer;
         }
 
         IndexBufferPtr RendererOGL::createIndexBuffer()
         {
-            std::shared_ptr<IndexBufferOGL> meshBuffer(new IndexBufferOGL());
+            std::shared_ptr<IndexBufferOGL> meshBuffer = std::make_shared<IndexBufferOGL>();
             return meshBuffer;
         }
 
         VertexBufferPtr RendererOGL::createVertexBuffer()
         {
-            std::shared_ptr<VertexBufferOGL> meshBuffer(new VertexBufferOGL());
+            std::shared_ptr<VertexBufferOGL> meshBuffer = std::make_shared<VertexBufferOGL>();
             return meshBuffer;
         }
 

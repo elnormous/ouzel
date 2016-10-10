@@ -752,7 +752,7 @@ namespace ouzel
 
         BlendStatePtr RendererMetal::createBlendState()
         {
-            std::shared_ptr<BlendStateMetal> blendState(new BlendStateMetal());
+            std::shared_ptr<BlendStateMetal> blendState = std::make_shared<BlendStateMetal>();
             return blendState;
         }
 
@@ -764,7 +764,7 @@ namespace ouzel
 
         RenderTargetPtr RendererMetal::createRenderTarget()
         {
-            std::shared_ptr<RenderTargetMetal> renderTarget(new RenderTargetMetal());
+            std::shared_ptr<RenderTargetMetal> renderTarget = std::make_shared<RenderTargetMetal>();
             return renderTarget;
         }
 
@@ -776,19 +776,19 @@ namespace ouzel
 
         MeshBufferPtr RendererMetal::createMeshBuffer()
         {
-            std::shared_ptr<MeshBufferMetal> meshBuffer(new MeshBufferMetal());
+            std::shared_ptr<MeshBufferMetal> meshBuffer = std::make_shared<MeshBufferMetal>();
             return meshBuffer;
         }
 
         IndexBufferPtr RendererMetal::createIndexBuffer()
         {
-            std::shared_ptr<IndexBufferMetal> meshBuffer(new IndexBufferMetal());
+            std::shared_ptr<IndexBufferMetal> meshBuffer = std::make_shared<IndexBufferMetal>();
             return meshBuffer;
         }
 
         VertexBufferPtr RendererMetal::createVertexBuffer()
         {
-            std::shared_ptr<VertexBufferMetal> meshBuffer(new VertexBufferMetal());
+            std::shared_ptr<VertexBufferMetal> meshBuffer = std::make_shared<VertexBufferMetal>();
             return meshBuffer;
         }
 

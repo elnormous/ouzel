@@ -36,22 +36,19 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererOGL;
         class RenderTargetOGL;
 
         class TextureOGL: public Texture
         {
-            friend RendererOGL;
             friend RenderTargetOGL;
         public:
+            TextureOGL();
             virtual ~TextureOGL();
             virtual void free() override;
 
             GLuint getTextureId() const { return textureId; }
 
         protected:
-            TextureOGL();
-
             virtual bool upload() override;
 
             GLuint textureId = 0;

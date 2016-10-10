@@ -13,14 +13,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererD3D11;
         class RenderTargetD3D11;
 
         class TextureD3D11: public Texture
         {
-            friend RendererD3D11;
             friend RenderTargetD3D11;
         public:
+            TextureD3D11();
             virtual ~TextureD3D11();
             virtual void free() override;
 
@@ -28,7 +27,6 @@ namespace ouzel
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
 
         protected:
-            TextureD3D11();
             virtual bool upload() override;
 
             ID3D11Texture2D* texture = nullptr;

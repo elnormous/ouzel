@@ -25,12 +25,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetal;
-
         class ShaderMetal: public Shader
         {
-            friend RendererMetal;
         public:
+            ShaderMetal();
             virtual ~ShaderMetal();
             virtual void free() override;
 
@@ -55,14 +53,13 @@ namespace ouzel
             uint32_t getPixelShaderConstantBufferOffset() const { return pixelShaderConstantBufferOffset; }
             uint32_t getVertexShaderConstantBufferOffset() const { return vertexShaderConstantBufferOffset; }
 
+            bool uploadBuffer(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size);
+            
         protected:
-            ShaderMetal();
             virtual bool upload() override;
 
             bool createPixelShaderConstantBuffer();
             bool createVertexShaderConstantBuffer();
-
-            bool uploadBuffer(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size);
 
             MTLFunctionPtr pixelShader = Nil;
             MTLFunctionPtr vertexShader = Nil;

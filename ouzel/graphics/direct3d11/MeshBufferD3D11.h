@@ -14,16 +14,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererD3D11;
-
         class MeshBufferD3D11: public MeshBuffer
         {
-            friend RendererD3D11;
         public:
+            MeshBufferD3D11();
             virtual ~MeshBufferD3D11();
 
         protected:
-            MeshBufferD3D11();
             virtual bool upload() override;
         };
     } // namespace graphics

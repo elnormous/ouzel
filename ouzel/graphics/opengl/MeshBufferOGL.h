@@ -34,12 +34,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererOGL;
-
         class MeshBufferOGL: public MeshBuffer
         {
-            friend RendererOGL;
         public:
+            MeshBufferOGL();
             virtual ~MeshBufferOGL();
             virtual void free() override;
 
@@ -48,7 +46,6 @@ namespace ouzel
             GLuint getVertexArrayId() const { return vertexArrayId; }
 
         protected:
-            MeshBufferOGL();
             virtual bool upload() override;
 
             GLuint vertexArrayId = 0;

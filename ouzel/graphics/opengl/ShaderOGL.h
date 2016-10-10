@@ -36,12 +36,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererOGL;
-
         class ShaderOGL: public Shader
         {
-            friend RendererOGL;
         public:
+            ShaderOGL();
             virtual ~ShaderOGL();
             virtual void free() override;
 
@@ -57,7 +55,6 @@ namespace ouzel
             GLuint getProgramId() const { return programId; }
 
         protected:
-            ShaderOGL();
             virtual bool upload() override;
 
             void printShaderMessage(GLuint shaderId);

@@ -22,21 +22,19 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetal;
         class RenderTargetMetal;
 
         class TextureMetal: public Texture
         {
-            friend RendererMetal;
             friend RenderTargetMetal;
         public:
+            TextureMetal();
             virtual ~TextureMetal();
             virtual void free() override;
 
             MTLTexturePtr getTexture() const { return texture; }
 
         protected:
-            TextureMetal();
             virtual bool upload() override;
 
             MTLTexturePtr texture = Nil;

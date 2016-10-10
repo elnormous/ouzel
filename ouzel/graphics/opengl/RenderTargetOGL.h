@@ -36,12 +36,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererOGL;
-
         class RenderTargetOGL: public RenderTarget
         {
-            friend RendererOGL;
         public:
+            RenderTargetOGL();
             virtual ~RenderTargetOGL();
             void free() override;
 
@@ -51,7 +49,6 @@ namespace ouzel
             const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
         protected:
-            RenderTargetOGL();
             virtual bool upload() override;
 
             GLuint frameBufferId = 0;

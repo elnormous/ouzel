@@ -20,19 +20,16 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetal;
-
         class RenderTargetMetal: public RenderTarget
         {
-            friend RendererMetal;
         public:
+            RenderTargetMetal();
             virtual ~RenderTargetMetal();
             virtual void free() override;
 
             MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
         protected:
-            RenderTargetMetal();
             virtual bool upload() override;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;

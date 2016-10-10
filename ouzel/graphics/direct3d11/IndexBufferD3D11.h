@@ -14,12 +14,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererD3D11;
-
         class IndexBufferD3D11: public IndexBuffer
         {
-            friend RendererD3D11;
         public:
+            IndexBufferD3D11();
             virtual ~IndexBufferD3D11();
             virtual void free() override;
 
@@ -27,7 +25,6 @@ namespace ouzel
             DXGI_FORMAT getFormat() const { return format; }
 
         protected:
-            IndexBufferD3D11();
             virtual bool upload() override;
 
             ID3D11Buffer* buffer = nullptr;

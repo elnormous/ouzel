@@ -18,19 +18,16 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetal;
-
         class VertexBufferMetal: public VertexBuffer
         {
-            friend RendererMetal;
         public:
+            VertexBufferMetal();
             virtual ~VertexBufferMetal();
             virtual void free() override;
 
             MTLBufferPtr getBuffer() const { return buffer; }
 
         protected:
-            VertexBufferMetal();
             virtual bool upload() override;
 
             MTLBufferPtr buffer = Nil;

@@ -18,12 +18,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetal;
-
         class IndexBufferMetal: public IndexBuffer
         {
-            friend RendererMetal;
         public:
+            IndexBufferMetal();
             virtual ~IndexBufferMetal();
             virtual void free() override;
 
@@ -32,7 +30,6 @@ namespace ouzel
             NSUInteger getBytesPerIndex() const { return bytesPerIndex; }
 
         protected:
-            IndexBufferMetal();
             virtual bool upload() override;
 
             MTLBufferPtr buffer = Nil;

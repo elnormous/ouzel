@@ -48,6 +48,10 @@ namespace ouzel
             }
         }
 
+        BlendStateOGL::BlendStateOGL()
+        {
+        }
+
         bool BlendStateOGL::upload()
         {
             if (uploadData.dirty)

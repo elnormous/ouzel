@@ -43,6 +43,10 @@ namespace ouzel
             return MTLBlendOperationAdd;
         }
 
+        BlendStateMetal::BlendStateMetal()
+        {
+        }
+
         bool BlendStateMetal::upload()
         {
             if (uploadData.dirty)

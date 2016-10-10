@@ -34,21 +34,19 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererOGL;
         class MeshBufferOGL;
 
         class VertexBufferOGL: public VertexBuffer
         {
-            friend RendererOGL;
             friend MeshBufferOGL;
         public:
+            VertexBufferOGL();
             virtual ~VertexBufferOGL();
             virtual void free() override;
 
             GLuint getBufferId() const { return bufferId; }
 
         protected:
-            VertexBufferOGL();
             bool bindBuffer();
             virtual bool upload() override;
 

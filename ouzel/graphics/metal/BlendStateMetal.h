@@ -18,12 +18,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetal;
-
         class BlendStateMetal: public BlendState
         {
-            friend RendererMetal;
         public:
+            BlendStateMetal();
+
             MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
             MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
             MTLBlendFactor getSourceRGBBlendFactor() const { return sourceRGBBlendFactor; }

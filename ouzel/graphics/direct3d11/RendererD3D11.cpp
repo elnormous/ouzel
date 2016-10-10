@@ -857,43 +857,43 @@ namespace ouzel
 
         BlendStatePtr RendererD3D11::createBlendState()
         {
-            std::shared_ptr<BlendStateD3D11> blendState(new BlendStateD3D11());
+            std::shared_ptr<BlendStateD3D11> blendState = std::make_shared<BlendStateD3D11>();
             return blendState;
         }
 
         TexturePtr RendererD3D11::createTexture()
         {
-            std::shared_ptr<TextureD3D11> texture(new TextureD3D11());
+            std::shared_ptr<TextureD3D11> texture = std::make_shared<TextureD3D11>();
             return texture;
         }
 
         RenderTargetPtr RendererD3D11::createRenderTarget()
         {
-            std::shared_ptr<RenderTargetD3D11> renderTarget(new RenderTargetD3D11());
+            std::shared_ptr<RenderTargetD3D11> renderTarget = std::make_shared<RenderTargetD3D11>();
             return renderTarget;
         }
 
         ShaderPtr RendererD3D11::createShader()
         {
-            std::shared_ptr<ShaderD3D11> shader(new ShaderD3D11());
+            std::shared_ptr<ShaderD3D11> shader = std::make_shared<ShaderD3D11>();
             return shader;
         }
 
         MeshBufferPtr RendererD3D11::createMeshBuffer()
         {
-            std::shared_ptr<MeshBufferD3D11> meshBuffer(new MeshBufferD3D11());
+            std::shared_ptr<MeshBufferD3D11> meshBuffer = std::make_shared<MeshBufferD3D11>();
             return meshBuffer;
         }
 
         IndexBufferPtr RendererD3D11::createIndexBuffer()
         {
-            std::shared_ptr<IndexBufferD3D11> meshBuffer(new IndexBufferD3D11());
+            std::shared_ptr<IndexBufferD3D11> meshBuffer = std::make_shared<IndexBufferD3D11>();
             return meshBuffer;
         }
 
         VertexBufferPtr RendererD3D11::createVertexBuffer()
         {
-            std::shared_ptr<VertexBufferD3D11> meshBuffer(new VertexBufferD3D11());
+            std::shared_ptr<VertexBufferD3D11> meshBuffer = std::make_shared<VertexBufferD3D11>();
             return meshBuffer;
         }
 
