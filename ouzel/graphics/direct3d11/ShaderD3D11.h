@@ -37,10 +37,10 @@ namespace ouzel
             virtual ID3D11Buffer* getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
             virtual ID3D11InputLayout* getInputLayout() const { return inputLayout;  }
 
+            bool uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size);
+
         protected:
             virtual bool upload() override;
-
-            bool uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
             ID3D11PixelShader* pixelShader = nullptr;
             ID3D11VertexShader* vertexShader = nullptr;
