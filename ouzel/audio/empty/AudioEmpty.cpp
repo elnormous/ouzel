@@ -20,13 +20,13 @@ namespace ouzel
 
         SoundDataPtr AudioEmpty::createSoundData()
         {
-            SoundDataPtr soundData(new SoundDataEmpty());
+            SoundDataPtr soundData = std::make_shared<SoundDataEmpty>();
             return soundData;
         }
 
         SoundPtr AudioEmpty::createSound()
         {
-            SoundPtr sound(new SoundEmpty());
+            SoundPtr sound = std::make_shared<SoundEmpty>();
             return sound;
         }
     } // namespace audio

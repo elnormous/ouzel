@@ -9,18 +9,13 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioAL;
-
         class SoundDataAL: public SoundData
         {
-            friend AudioAL;
         public:
+            SoundDataAL();
             virtual ~SoundDataAL();
 
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
-
-        protected:
-            SoundDataAL();
         };
     } // namespace audio
 } // namespace ouzel

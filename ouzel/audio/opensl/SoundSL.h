@@ -13,12 +13,10 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioSL;
-
         class SoundSL: public Sound
         {
-            friend AudioSL;
         public:
+            SoundSL();
             virtual ~SoundSL();
             virtual void free() override;
 
@@ -31,8 +29,6 @@ namespace ouzel
             SLPlayItf getPlayer() const { return player; }
 
         protected:
-            SoundSL();
-
             SLObjectItf playerObject = nullptr;
             SLPlayItf player = nullptr;
             SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;

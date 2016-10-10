@@ -9,16 +9,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererEmpty;
-
         class BlendStateEmpty: public BlendState
         {
-            friend RendererEmpty;
         public:
+            BlendStateEmpty();
             virtual ~BlendStateEmpty();
 
         protected:
-            BlendStateEmpty();
             virtual bool upload() override;
         };
     } // namespace graphics

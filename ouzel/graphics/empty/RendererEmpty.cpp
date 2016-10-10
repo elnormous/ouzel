@@ -105,7 +105,7 @@ namespace ouzel
 
         BlendStatePtr RendererEmpty::createBlendState()
         {
-            BlendStatePtr blendState(new BlendStateEmpty());
+            BlendStatePtr blendState = std::make_shared<BlendStateEmpty>();
             return blendState;
         }
 
@@ -117,31 +117,31 @@ namespace ouzel
 
         RenderTargetPtr RendererEmpty::createRenderTarget()
         {
-            RenderTargetPtr renderTarget(new RenderTargetEmpty());
+            RenderTargetPtr renderTarget = std::make_shared<RenderTargetEmpty>();
             return renderTarget;
         }
 
         ShaderPtr RendererEmpty::createShader()
         {
-            ShaderPtr shader(new ShaderEmpty());
+            ShaderPtr shader = std::make_shared<ShaderEmpty>();
             return shader;
         }
 
         MeshBufferPtr RendererEmpty::createMeshBuffer()
         {
-            MeshBufferPtr meshBuffer(new MeshBufferEmpty());
+            MeshBufferPtr meshBuffer = std::make_shared<MeshBufferEmpty>();
             return meshBuffer;
         }
 
         IndexBufferPtr RendererEmpty::createIndexBuffer()
         {
-            IndexBufferPtr indexBuffer(new IndexBufferEmpty());
+            IndexBufferPtr indexBuffer = std::make_shared<IndexBufferEmpty>();
             return indexBuffer;
         }
 
         VertexBufferPtr RendererEmpty::createVertexBuffer()
         {
-            VertexBufferPtr vertexBuffer(new VertexBufferEmpty());
+            VertexBufferPtr vertexBuffer = std::make_shared<VertexBufferEmpty>();
             return vertexBuffer;
         }
     } // namespace graphics

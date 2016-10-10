@@ -160,13 +160,13 @@ namespace ouzel
 
         SoundDataPtr AudioAL::createSoundData()
         {
-            SoundDataPtr soundData(new SoundDataAL());
+            SoundDataPtr soundData = std::make_shared<SoundDataAL>();
             return soundData;
         }
 
         SoundPtr AudioAL::createSound()
         {
-            SoundPtr sound(new SoundAL());
+            SoundPtr sound = std::make_shared<SoundAL>();
             return sound;
         }
     } // namespace audio

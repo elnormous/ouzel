@@ -9,16 +9,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioEmpty;
-
         class SoundEmpty: public Sound
         {
-            friend AudioEmpty;
         public:
-            virtual ~SoundEmpty();
-
-        protected:
             SoundEmpty();
+            virtual ~SoundEmpty();
         };
     } // namespace audio
 } // namespace ouzel

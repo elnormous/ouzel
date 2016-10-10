@@ -19,12 +19,10 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioAL;
-
         class SoundAL: public Sound
         {
-            friend AudioAL;
         public:
+            SoundAL();
             virtual ~SoundAL();
             virtual void free() override;
 
@@ -35,8 +33,6 @@ namespace ouzel
             virtual bool reset() override;
 
         protected:
-            SoundAL();
-
             ALuint sourceId = 0;
             ALuint outputBuffer = 0;
         };

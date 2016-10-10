@@ -12,12 +12,10 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioXA2;
-
         class SoundXA2: public Sound
         {
-            friend AudioXA2;
         public:
+            SoundXA2();
             virtual ~SoundXA2();
             virtual void free() override;
 
@@ -28,8 +26,6 @@ namespace ouzel
             virtual bool reset() override;
 
         protected:
-            SoundXA2();
-
             IXAudio2SourceVoice* sourceVoice = nullptr;
         };
     } // namespace audio

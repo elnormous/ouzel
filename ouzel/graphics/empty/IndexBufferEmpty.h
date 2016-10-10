@@ -9,16 +9,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererEmpty;
-
         class IndexBufferEmpty: public IndexBuffer
         {
-            friend RendererEmpty;
         public:
+            IndexBufferEmpty();
             virtual ~IndexBufferEmpty();
 
         protected:
-            IndexBufferEmpty();
             virtual bool upload() override;
         };
     }

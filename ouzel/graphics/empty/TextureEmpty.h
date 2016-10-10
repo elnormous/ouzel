@@ -9,18 +9,16 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererEmpty;
         class RenderTargetEmpty;
 
         class TextureEmpty: public Texture
         {
-            friend RendererEmpty;
             friend RenderTargetEmpty;
         public:
+            TextureEmpty();
             virtual ~TextureEmpty();
 
         protected:
-            TextureEmpty();
             virtual bool upload() override;
         };
     } // namespace graphics

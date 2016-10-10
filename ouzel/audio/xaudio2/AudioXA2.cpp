@@ -131,13 +131,13 @@ namespace ouzel
 
         SoundDataPtr AudioXA2::createSoundData()
         {
-            SoundDataPtr soundData(new SoundDataXA2());
+            SoundDataPtr soundData = std::make_shared<SoundDataXA2>();
             return soundData;
         }
 
         SoundPtr AudioXA2::createSound()
         {
-            SoundPtr sound(new SoundXA2());
+            SoundPtr sound = std::make_shared<SoundXA2>();
             return sound;
         }
 
