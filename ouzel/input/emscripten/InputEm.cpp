@@ -6,6 +6,7 @@
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "events/Event.h"
+#include "utils/Utils.h"
 
 EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
 {
@@ -148,8 +149,8 @@ namespace ouzel
             { "KeyX", KeyboardKey::KEY_X },
             { "KeyY", KeyboardKey::KEY_Y },
             { "KeyZ", KeyboardKey::KEY_Z },
-            { "OSLeft", KeyboardKey::LWIN },
-            { "OSRight", KeyboardKey::RWIN },
+            { "OSLeft", KeyboardKey::LSUPER },
+            { "OSRight", KeyboardKey::RSUPER },
             { "Delete", KeyboardKey::DEL },
             { "NumpadEnter", KeyboardKey::SEPARATOR },
             { "NumpadDigit0", KeyboardKey::NUMPAD0 },
@@ -233,7 +234,7 @@ namespace ouzel
             if (keyboardEvent->ctrlKey) modifiers |= ouzel::CONTROL_DOWN;
             if (keyboardEvent->shiftKey) modifiers |= ouzel::SHIFT_DOWN;
             if (keyboardEvent->altKey) modifiers |= ouzel::ALT_DOWN;
-            if (keyboardEvent->metaKey) modifiers |= ouzel::COMMAND_DOWN;
+            if (keyboardEvent->metaKey) modifiers |= ouzel::SUPER_DOWN;
 
             return modifiers;
         }
@@ -245,7 +246,7 @@ namespace ouzel
             if (mouseEvent->ctrlKey) modifiers |= ouzel::CONTROL_DOWN;
             if (mouseEvent->shiftKey) modifiers |= ouzel::SHIFT_DOWN;
             if (mouseEvent->altKey) modifiers |= ouzel::ALT_DOWN;
-            if (mouseEvent->metaKey) modifiers |= ouzel::COMMAND_DOWN;
+            if (mouseEvent->metaKey) modifiers |= ouzel::SUPER_DOWN;
 
             return modifiers;
         }
@@ -256,6 +257,10 @@ namespace ouzel
             {
                 cursorVisible = visible;
                 emscripten_hide_mouse();
+            }
+            else
+            {
+                log(LOG_LEVEL_WARNING, "Cursors showing is not implemented for Emscripten target");
             }
         }
 
