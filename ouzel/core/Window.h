@@ -33,25 +33,25 @@ namespace ouzel
 
         virtual float getContentScale() const { return 1.0f; }
 
-        Vector2 convertWindowToNormalizedLocation(const Vector2& position)
+        Vector2 convertWindowToNormalizedLocation(const Vector2& position) const
         {
             return Vector2(position.x / size.width,
                            1.0f - (position.y / size.height));
         }
 
-        Vector2 convertWindowToNormalizedLocationRelative(const Vector2& position)
+        Vector2 convertWindowToNormalizedLocationRelative(const Vector2& position) const
         {
             return Vector2(position.x / size.width,
                            -(position.y / size.height));
         }
 
-        Vector2 convertNormalizedToWindowLocation(const Vector2& position)
+        Vector2 convertNormalizedToWindowLocation(const Vector2& position) const
         {
             return Vector2(position.x * size.width,
                            (1.0f - position.y) * size.height);
         }
 
-        Vector2 convertNormalizedToWindowLocationRelative(const Vector2& position)
+        Vector2 convertNormalizedToWindowLocationRelative(const Vector2& position) const
         {
             return Vector2(position.x * size.width,
                            -(position.y) * size.height);

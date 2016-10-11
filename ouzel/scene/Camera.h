@@ -30,10 +30,10 @@ namespace ouzel
 
             const Matrix4& getViewProjection() const;
 
-            Vector2 convertNormalizedToWorld(const Vector2& position);
-            Vector2 convertWorldToNormalized(const Vector2& position);
+            Vector2 convertNormalizedToWorld(const Vector2& position) const;
+            Vector2 convertWorldToNormalized(const Vector2& position) const;
 
-            bool checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox);
+            bool checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox) const;
 
             void setViewport(const Rectangle& newViewport);
             const Rectangle& getViewport() const { return viewport; }

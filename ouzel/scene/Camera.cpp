@@ -114,7 +114,7 @@ namespace ouzel
             localTransformDirty = false;
         }
 
-        Vector2 Camera::convertNormalizedToWorld(const Vector2& position)
+        Vector2 Camera::convertNormalizedToWorld(const Vector2& position) const
         {
             Matrix4 inverseViewMatrix = getViewProjection();
             inverseViewMatrix.invert();
@@ -129,7 +129,7 @@ namespace ouzel
             return Vector2(result.x, result.y);
         }
 
-        Vector2 Camera::convertWorldToNormalized(const Vector2& position)
+        Vector2 Camera::convertWorldToNormalized(const Vector2& position) const
         {
             Vector3 result = Vector3(position.x, position.y, 0.0f);
             getViewProjection().transformPoint(result);
@@ -139,7 +139,7 @@ namespace ouzel
                            (result.y / 2.0f + 0.5f) * viewport.height + viewport.y);
         }
 
-        bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox)
+        bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox) const
         {
             // calculate center point of the bounding box
             Vector2 diff = boundingBox.max - boundingBox.min;
