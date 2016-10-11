@@ -4,8 +4,8 @@
 #pragma once
 
 #include <memory>
-#include <list>
 #include <set>
+#include <vector>
 #include <functional>
 #include <thread>
 #include <atomic>
@@ -80,9 +80,8 @@ namespace ouzel
 
         std::chrono::steady_clock::time_point previousUpdateTime;
 
-        std::list<const UpdateCallback*> updateCallbacks;
-        std::list<const UpdateCallback*>::iterator updateCallbackIterator;
-        bool updateCallbackDeleted = false;
+        std::vector<const UpdateCallback*> updateCallbacks;
+        std::set<const UpdateCallback*> updateCallbackAddSet;
 
 #if OUZEL_MULTITHREADED
         std::thread updateThread;

@@ -3,10 +3,10 @@
 
 #pragma once
 
-#include <list>
-#include <memory>
+#include <vector>
 #include <mutex>
 #include <queue>
+#include <set>
 #include <cstdint>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
@@ -33,10 +33,10 @@ namespace ouzel
     protected:
         EventDispatcher();
 
-        std::list<const EventHandler*> eventHandlers;
-        std::list<const EventHandler*>::iterator eventHandlerIterator;
-        bool eventHandlerDeleted = false;
+        std::vector<const EventHandler*> eventHandlers;
+        std::set<const EventHandler*> eventHandlerAddSet;
+
+        std::mutex eventQueueMutex;
         std::queue<Event> eventQueue;
-        std::mutex queueMutex;
     };
 }

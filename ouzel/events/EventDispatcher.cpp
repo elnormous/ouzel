@@ -16,12 +16,35 @@ namespace ouzel
 
     void EventDispatcher::dispatchEvents()
     {
+        // erase all null event handlers from the list
+        for (auto i = eventHandlers.begin(); i != eventHandlers.end();)
+        {
+            i = (*i) ? ++i : eventHandlers.erase(i);
+        }
+
+        if (!eventHandlerAddSet.empty())
+        {
+            for (const EventHandler* eventHandler : eventHandlerAddSet)
+            {
+                auto i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+
+                if (i == eventHandlers.end())
+                {
+                    eventHandlers.push_back(eventHandler);
+                }
+            }
+
+            std::stable_sort(eventHandlers.begin(), eventHandlers.end(), [](const EventHandler* a, const EventHandler* b) {
+                return a->priority > b->priority;
+            });
+        }
+
         Event event;
 
         for (;;)
         {
             {
-                std::lock_guard<std::mutex> lock(queueMutex);
+                std::lock_guard<std::mutex> lock(eventQueueMutex);
                 if (eventQueue.empty())
                 {
                     break;
@@ -33,11 +56,8 @@ namespace ouzel
 
             bool propagate = true;
 
-            for (eventHandlerIterator = eventHandlers.begin(); eventHandlerIterator != eventHandlers.end();)
+            for (const EventHandler* eventHandler : eventHandlers)
             {
-                eventHandlerDeleted = false;
-
-                const EventHandler* eventHandler = *eventHandlerIterator;
                 if (eventHandler)
                 {
                     switch (event.type)
@@ -114,57 +134,40 @@ namespace ouzel
                             break;
                     }
                 }
+            }
 
-                if (!propagate)
-                {
-                    break;
-                }
-
-                // current element wasn't delete from the list
-                if (!eventHandlerDeleted)
-                {
-                    ++eventHandlerIterator;
-                }
+            if (!propagate)
+            {
+                break;
             }
         }
     }
 
     void EventDispatcher::addEventHandler(const EventHandler& eventHandler)
     {
-        std::list<const EventHandler*>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), &eventHandler);
-
-        if (i == eventHandlers.end())
-        {
-            eventHandlers.push_back(&eventHandler);
-
-            eventHandlers.sort([](const EventHandler* a, const EventHandler* b) {
-                return a->priority > b->priority;
-            });
-        }
+        eventHandlerAddSet.insert(&eventHandler);
     }
 
     void EventDispatcher::removeEventHandler(const EventHandler& eventHandler)
     {
-        std::list<const EventHandler*>::iterator i = std::find(eventHandlers.begin(), eventHandlers.end(), &eventHandler);
+        auto vectorIterator = std::find(eventHandlers.begin(), eventHandlers.end(), &eventHandler);
 
-        if (i != eventHandlers.end())
+        if (vectorIterator != eventHandlers.end())
         {
-            // increment the iterator if current element is deleted
-            if (i == eventHandlerIterator)
-            {
-                eventHandlerIterator = eventHandlers.erase(i);
-                eventHandlerDeleted = true;
-            }
-            else
-            {
-                eventHandlers.erase(i);
-            }
+            *vectorIterator = nullptr;
+        }
+
+        auto setIterator = eventHandlerAddSet.find(&eventHandler);
+
+        if (setIterator != eventHandlerAddSet.end())
+        {
+            eventHandlerAddSet.erase(setIterator);
         }
     }
 
     void EventDispatcher::postEvent(const Event& event)
     {
-        std::lock_guard<std::mutex> lock(queueMutex);
+        std::lock_guard<std::mutex> lock(eventQueueMutex);
 
         eventQueue.push(event);
     }
