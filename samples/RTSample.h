@@ -8,13 +8,13 @@
 class RTSample: public ouzel::scene::Scene
 {
 public:
-    RTSample(Samples& pSamples);
+    RTSample();
     virtual ~RTSample();
 
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
-
 private:
-    Samples& samples;
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
+    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
+
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
 };

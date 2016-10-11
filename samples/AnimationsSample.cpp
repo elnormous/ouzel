@@ -2,14 +2,15 @@
 // This file is part of the Ouzel engine.
 
 #include "AnimationsSample.h"
+#include "MainMenu.h"
 
 using namespace std;
 using namespace ouzel;
 
-AnimationsSample::AnimationsSample(Samples& pSamples):
-    samples(pSamples)
+AnimationsSample::AnimationsSample()
 {
     eventHandler.uiHandler = bind(&AnimationsSample::handleUI, this, placeholders::_1, placeholders::_2);
+    eventHandler.keyboardHandler = bind(&AnimationsSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     scene::LayerPtr layer = make_shared<scene::Layer>();
@@ -83,7 +84,24 @@ bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
     {
-        samples.back();
+        sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+    }
+
+    return true;
+}
+
+bool AnimationsSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
+{
+    if (type == Event::Type::KEY_DOWN)
+    {
+        switch (event.key)
+        {
+            case input::KeyboardKey::ESCAPE:
+                sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+                break;
+            default:
+                break;
+        }
     }
 
     return true;

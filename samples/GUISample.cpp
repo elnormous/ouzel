@@ -2,14 +2,15 @@
 // This file is part of the Ouzel engine.
 
 #include "GUISample.h"
+#include "MainMenu.h"
 
 using namespace std;
 using namespace ouzel;
 
-GUISample::GUISample(Samples& pSamples):
-    samples(pSamples)
+GUISample::GUISample()
 {
     eventHandler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
+    eventHandler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     scene::LayerPtr guiLayer = make_shared<scene::Layer>();
@@ -64,7 +65,7 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == backButton)
         {
-            samples.back();
+            sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
         }
         else if (event.node == button)
         {
@@ -74,6 +75,23 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event) const
         {
             bool fullscreen = ouzel::sharedEngine->getWindow()->isFullscreen();
             ouzel::sharedEngine->getWindow()->setFullscreen(!fullscreen);
+        }
+    }
+
+    return true;
+}
+
+bool GUISample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
+{
+    if (type == Event::Type::KEY_DOWN)
+    {
+        switch (event.key)
+        {
+            case input::KeyboardKey::ESCAPE:
+                sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+                break;
+            default:
+                break;
         }
     }
 

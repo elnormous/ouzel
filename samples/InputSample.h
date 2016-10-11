@@ -8,17 +8,16 @@
 class InputSample: public ouzel::scene::Scene
 {
 public:
-    InputSample(Samples& pSamples);
+    InputSample();
     virtual ~InputSample();
 
+private:
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
     bool handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event) const;
     bool handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event) const;
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event) const;
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
-
-private:
-    Samples& samples;
+    
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
 

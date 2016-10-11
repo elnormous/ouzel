@@ -2,14 +2,15 @@
 // This file is part of the Ouzel engine.
 
 #include "RTSample.h"
+#include "MainMenu.h"
 
 using namespace std;
 using namespace ouzel;
 
-RTSample::RTSample(Samples& pSamples):
-    samples(pSamples)
+RTSample::RTSample()
 {
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
+    eventHandler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     ouzel::scene::LayerPtr rtLayer = make_shared<scene::Layer>();
@@ -68,8 +69,25 @@ bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
     {
-        samples.back();
+        sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
     }
 
+    return true;
+}
+
+bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
+{
+    if (type == Event::Type::KEY_DOWN)
+    {
+        switch (event.key)
+        {
+            case input::KeyboardKey::ESCAPE:
+                sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+                break;
+            default:
+                break;
+        }
+    }
+    
     return true;
 }

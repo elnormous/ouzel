@@ -8,13 +8,13 @@
 class MainMenu: public ouzel::scene::Scene
 {
 public:
-    MainMenu(Samples& pSamples);
+    MainMenu();
     virtual ~MainMenu();
 
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
-
 private:
-    Samples& samples;
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
+    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event);
+    
     ouzel::EventHandler eventHandler;
     ouzel::gui::ButtonPtr spritesButton;
     ouzel::gui::ButtonPtr GUIButton;

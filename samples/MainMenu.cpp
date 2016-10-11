@@ -12,11 +12,10 @@
 using namespace std;
 using namespace ouzel;
 
-MainMenu::MainMenu(Samples& pSamples):
-    samples(pSamples)
+MainMenu::MainMenu()
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
-
+    eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
     scene::LayerPtr layer = make_shared<scene::Layer>();
@@ -56,6 +55,21 @@ MainMenu::~MainMenu()
 {
 }
 
+bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
+{
+    if (event.key == ouzel::input::KeyboardKey::ESCAPE)
+    {
+        if (type == Event::Type::KEY_DOWN)
+        {
+            sharedEngine->exit();
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
 bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
@@ -64,27 +78,27 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 
         if (event.node == spritesButton)
         {
-            newScene = make_shared<SpritesSample>(samples);
+            newScene = make_shared<SpritesSample>();
         }
         else if (event.node == GUIButton)
         {
-            newScene = make_shared<GUISample>(samples);
+            newScene = make_shared<GUISample>();
         }
         else if (event.node == renderTargetButton)
         {
-            newScene = make_shared<RTSample>(samples);
+            newScene = make_shared<RTSample>();
         }
         else if (event.node == animationsButton)
         {
-            newScene = make_shared<AnimationsSample>(samples);
+            newScene = make_shared<AnimationsSample>();
         }
         else if (event.node == inputButton)
         {
-            newScene = make_shared<InputSample>(samples);
+            newScene = make_shared<InputSample>();
         }
         else if (event.node == soundButton)
         {
-            newScene = make_shared<SoundSample>(samples);
+            newScene = make_shared<SoundSample>();
         }
 
         if (newScene)

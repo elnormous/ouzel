@@ -8,13 +8,13 @@
 class SoundSample: public ouzel::scene::Scene
 {
 public:
-    SoundSample(Samples& pSamples);
+    SoundSample();
     virtual ~SoundSample();
 
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
-
 private:
-    Samples& samples;
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
+    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
+
     ouzel::gui::ButtonPtr backButton;
     ouzel::gui::ButtonPtr jumpButton;
     ouzel::gui::ButtonPtr ambientButton;

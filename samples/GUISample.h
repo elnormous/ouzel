@@ -8,13 +8,13 @@
 class GUISample: public ouzel::scene::Scene
 {
 public:
-    GUISample(Samples& pSamples);
+    GUISample();
     virtual ~GUISample();
 
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
-
 private:
-    Samples& samples;
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
+    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
+    
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
 

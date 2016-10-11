@@ -2,12 +2,12 @@
 // This file is part of the Ouzel engine.
 
 #include "InputSample.h"
+#include "MainMenu.h"
 
 using namespace std;
 using namespace ouzel;
 
-InputSample::InputSample(Samples& pSamples):
-    samples(pSamples)
+InputSample::InputSample()
 {
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -87,6 +87,10 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
                 break;
             case input::KeyboardKey::TAB:
                 button->setEnabled(!button->isEnabled());
+                break;
+            case input::KeyboardKey::ESCAPE:
+                sharedEngine->getInput()->setCursorVisible(true);
+                sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
                 break;
             default:
                 break;
@@ -172,7 +176,8 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == backButton)
         {
-            samples.back();
+            sharedEngine->getInput()->setCursorVisible(true);
+            sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
         }
         else if (event.node == button)
         {

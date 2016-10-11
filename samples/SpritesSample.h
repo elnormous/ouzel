@@ -8,15 +8,15 @@
 class SpritesSample: public ouzel::scene::Scene
 {
 public:
-    SpritesSample(Samples& pSamples);
+    SpritesSample();
     virtual ~SpritesSample();
 
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
-
 private:
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
+    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
+
     ouzel::scene::LayerPtr layer;
 
-    Samples& samples;
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
 
