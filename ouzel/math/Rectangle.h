@@ -346,6 +346,34 @@ public:
     {
         return (x != r.x || width != r.width || y != r.y || height != r.height);
     }
+
+    inline Rectangle operator*(float scalar) const
+    {
+        return Rectangle(x * scalar, y * scalar, width * scalar, height * scalar);
+    }
+
+    inline Rectangle& operator*=(float scalar)
+    {
+        x *= scalar;
+        y *= scalar;
+        width *= scalar;
+        height *= scalar;
+        return *this;
+    }
+
+    inline Rectangle operator/(float scalar) const
+    {
+        return Rectangle(x / scalar, y / scalar, width / scalar, height / scalar);
+    }
+
+    inline Rectangle& operator/=(float scalar)
+    {
+        x /= scalar;
+        y /= scalar;
+        width /= scalar;
+        height /= scalar;
+        return *this;
+    }
 };
 
 }
