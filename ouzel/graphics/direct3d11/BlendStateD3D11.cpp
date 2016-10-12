@@ -5,7 +5,7 @@
 #include "BlendStateD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -92,7 +92,7 @@ namespace ouzel
                 HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 blend state");
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 blend state";
                     return false;
                 }
 

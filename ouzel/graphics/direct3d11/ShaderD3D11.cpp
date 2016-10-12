@@ -6,7 +6,7 @@
 #include "core/Engine.h"
 #include "RendererD3D11.h"
 #include "files/FileSystem.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -90,7 +90,7 @@ namespace ouzel
             HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer");
+                Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer";
                 return false;
             }
 
@@ -112,7 +112,7 @@ namespace ouzel
                     HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(uploadData.pixelShaderData.data(), uploadData.pixelShaderData.size(), NULL, &pixelShader);
                     if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader");
+                        Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader";
                         return false;
                     }
                 }
@@ -122,7 +122,7 @@ namespace ouzel
                     HRESULT hr = rendererD3D11->getDevice()->CreateVertexShader(uploadData.vertexShaderData.data(), uploadData.vertexShaderData.size(), NULL, &vertexShader);
                     if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to create a Direct3D 11 vertex shader");
+                        Log(Log::Level::ERR) << "Failed to create a Direct3D 11 vertex shader";
                         return false;
                     }
 
@@ -169,7 +169,7 @@ namespace ouzel
 
                     if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 input layout for vertex shader");
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 input layout for vertex shader";
                         return false;
                     }
                 }
@@ -198,7 +198,7 @@ namespace ouzel
                 HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer");
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer";
                     return false;
                 }
 
@@ -223,7 +223,7 @@ namespace ouzel
                 hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer");
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer";
                     return false;
                 }
 

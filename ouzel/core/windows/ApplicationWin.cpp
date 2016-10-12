@@ -8,7 +8,7 @@
 #include "input/windows/InputWin.h"
 #include "WindowWin.h"
 #include "core/Engine.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -27,7 +27,7 @@ namespace ouzel
 		HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 		if (FAILED(hr))
 		{
-			Log(Log::Level::ERR) << "Failed to initialize COM");
+			Log(Log::Level::ERR) << "Failed to initialize COM";
 			return EXIT_FAILURE;
 		}
 

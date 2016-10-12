@@ -7,7 +7,7 @@
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
 #include "GamepadWin.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -243,7 +243,7 @@ namespace ouzel
                 }
                 else
                 {
-                    Log(Log::Level::WARN) << "Failed to get state for gamepad %d", i);
+                    Log(Log::Level::WARN) << "Failed to get state for gamepad " << i;
                 }
             }
         }

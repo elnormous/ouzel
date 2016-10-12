@@ -6,7 +6,7 @@
 #include "RendererD3D11.h"
 #include "graphics/Image.h"
 #include "math/MathUtils.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -84,7 +84,7 @@ namespace ouzel
                         HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
                         if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture");
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture";
                             return false;
                         }
 
@@ -98,7 +98,7 @@ namespace ouzel
                         hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
                         if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view");
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view";
                             return false;
                         }
                     }

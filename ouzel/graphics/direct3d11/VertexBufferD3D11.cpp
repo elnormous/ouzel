@@ -4,7 +4,7 @@
 #include "VertexBufferD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -66,7 +66,7 @@ namespace ouzel
                             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &buffer);
                             if (FAILED(hr))
                             {
-                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 vertex buffer");
+                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 vertex buffer";
                                 return false;
                             }
                         }
@@ -76,7 +76,7 @@ namespace ouzel
                             HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
                             if (FAILED(hr))
                             {
-                                Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer");
+                                Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer";
                                 return false;
                             }
 

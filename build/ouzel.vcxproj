@@ -120,6 +120,7 @@
     <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
     <ClCompile Include="..\ouzel\scene\SpriteFrame.cpp" />
     <ClCompile Include="..\ouzel\scene\TextDrawable.cpp" />
+    <ClCompile Include="..\ouzel\utils\Log.cpp" />
     <ClCompile Include="..\ouzel\utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +234,7 @@
     <ClInclude Include="..\ouzel\scene\Sprite.h" />
     <ClInclude Include="..\ouzel\scene\SpriteFrame.h" />
     <ClInclude Include="..\ouzel\scene\TextDrawable.h" />
+    <ClInclude Include="..\ouzel\utils\Log.h" />
     <ClInclude Include="..\ouzel\utils\Noncopyable.h" />
     <ClInclude Include="..\ouzel\utils\Types.h" />
     <ClInclude Include="..\ouzel\utils\Utils.h" />

@@ -5,7 +5,7 @@
 #include "AudioXA2.h"
 #include "SoundDataXA2.h"
 #include "core/Engine.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -75,13 +75,13 @@ namespace ouzel
 
             if (FAILED(sourceVoice->SubmitSourceBuffer(&bufferData)))
             {
-                Log(Log::Level::ERR) << "Failed to upload sound data");
+                Log(Log::Level::ERR) << "Failed to upload sound data";
                 return false;
             }
 
             if (FAILED(sourceVoice->Start()))
             {
-                Log(Log::Level::ERR) << "Failed to start consuming sound data");
+                Log(Log::Level::ERR) << "Failed to start consuming sound data";
                 return false;
             }
 
@@ -97,7 +97,7 @@ namespace ouzel
 
             if (FAILED(sourceVoice->Stop()))
             {
-                Log(Log::Level::ERR) << "Failed to stop sound buffer");
+                Log(Log::Level::ERR) << "Failed to stop sound buffer";
                 return false;
             }
 
@@ -113,13 +113,13 @@ namespace ouzel
 
             if (FAILED(sourceVoice->Stop()))
             {
-                Log(Log::Level::ERR) << "Failed to stop sound buffer");
+                Log(Log::Level::ERR) << "Failed to stop sound buffer";
                 return false;
             }
 
             if (FAILED(sourceVoice->FlushSourceBuffers()))
             {
-                Log(Log::Level::ERR) << "Failed to flush sound buffer");
+                Log(Log::Level::ERR) << "Failed to flush sound buffer";
                 return false;
             }
 

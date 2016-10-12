@@ -307,6 +307,9 @@
     <ClCompile Include="..\ouzel\input\windows\InputWin.cpp">
       <Filter>input\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\utils\Log.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -645,6 +648,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\TextureFilter.h">
       <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\utils\Log.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

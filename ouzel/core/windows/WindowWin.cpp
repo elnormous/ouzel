@@ -9,7 +9,7 @@
 #include "input/windows/InputWin.h"
 #include "graphics/Renderer.h"
 #include "graphics/direct3d11/RendererD3D11.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM)
 {
@@ -137,12 +137,12 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
 
         if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
         {
-            ouzel::log(ouzel::LOG_LEVEL_ERROR, "Failed to close touch input handle");
+            ouzel::Log(ouzel::Log::Level::ERR) << "Failed to close touch input handle";
         }
     }
     else
     {
-        ouzel::log(ouzel::LOG_LEVEL_ERROR, "Failed to get touch info");
+        ouzel::Log(ouzel::Log::Level::ERR) << "Failed to get touch info";
     }
 }
 
@@ -226,7 +226,6 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
                     break;
                 case SIZE_RESTORED:
                     ouzel::sharedEngine->resume();
-                    ouzel::log(ouzel::LOG_LEVEL_INFO, "resize");
                     // fall through
                 case SIZE_MAXIMIZED:
                     windowWin->handleResize(LOWORD(lParam), HIWORD(lParam));
@@ -320,7 +319,7 @@ namespace ouzel
         windowClass = RegisterClassExW(&wc);
         if (!windowClass)
         {
-            Log(Log::Level::ERR) << "Failed to register window class");
+            Log(Log::Level::ERR) << "Failed to register window class";
             return false;
         }
 
@@ -354,7 +353,7 @@ namespace ouzel
 
         if (!window)
         {
-            Log(Log::Level::ERR) << "Failed to create window");
+            Log(Log::Level::ERR) << "Failed to create window";
             return false;
         }
 
@@ -369,7 +368,7 @@ namespace ouzel
 
         if (!RegisterTouchWindow(window, 0))
         {
-            Log(Log::Level::WARN) << "Failed to enable touch for window");
+            Log(Log::Level::WARN) << "Failed to enable touch for window";
         }
 
         ShowWindow(window, SW_SHOW);
