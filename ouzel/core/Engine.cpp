@@ -387,12 +387,12 @@ namespace ouzel
             if (running)
             {
                 std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
-                auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousUpdateTime);
+                auto diff = currentTime - previousUpdateTime;
 
-                if (diff.count() > 1000000) // at least one millisecond has passed
+                if (diff > std::chrono::milliseconds(1)) // at least one millisecond has passed
                 {
                     previousUpdateTime = currentTime;
-                    float delta = diff.count() / 1000000000.0f;
+                    float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0f;
 
                     eventDispatcher->dispatchEvents();
 
