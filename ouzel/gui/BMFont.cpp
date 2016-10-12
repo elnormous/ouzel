@@ -11,7 +11,7 @@
 #include "files/FileSystem.h"
 #include "graphics/Vertex.h"
 #include "core/Cache.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -23,7 +23,7 @@ namespace ouzel
     {
         if (!parseFont(filename))
         {
-            log(LOG_LEVEL_ERROR, "Failed to parse font %s",filename.c_str());
+            Log(Log::Level::ERR) << "Failed to parse font " << filename;
         }
 
         kernCount = static_cast<uint16_t>(kern.size());
@@ -50,7 +50,7 @@ namespace ouzel
 
         if (!stream)
         {
-            log(LOG_LEVEL_ERROR, "Failed to open font file %s", filename.c_str());
+            Log(Log::Level::ERR) << "Failed to open font file " << filename;
             return false;
         }
 

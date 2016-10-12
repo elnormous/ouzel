@@ -6,7 +6,7 @@
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "events/Event.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
 {
@@ -260,7 +260,7 @@ namespace ouzel
             }
             else
             {
-                log(LOG_LEVEL_WARNING, "Cursors showing is not implemented for Emscripten target");
+                Log(Log::Level::WARN) << "Cursors showing is not implemented for Emscripten target";
             }
         }
 

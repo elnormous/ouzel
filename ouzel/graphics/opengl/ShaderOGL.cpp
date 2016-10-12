@@ -5,7 +5,7 @@
 #include "core/Engine.h"
 #include "RendererOGL.h"
 #include "files/FileSystem.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -69,7 +69,7 @@ namespace ouzel
                 std::vector<char> logMessage(static_cast<size_t>(logLength));
                 glGetShaderInfoLog(shaderId, logLength, nullptr, logMessage.data());
 
-                log(LOG_LEVEL_ERROR, "Shader compilation error: %s", logMessage.data());
+                Log(Log::Level::ERR) << "Shader compilation error: " << logMessage.data();
             }
         }
 
@@ -83,7 +83,7 @@ namespace ouzel
                 std::vector<char> logMessage(static_cast<size_t>(logLength));
                 glGetProgramInfoLog(programId, logLength, nullptr, logMessage.data());
 
-                log(LOG_LEVEL_ERROR, "Shader linking error: %s", logMessage.data());
+                Log(Log::Level::ERR) << "Shader linking error: " << logMessage.data();
             }
         }
 
@@ -105,7 +105,7 @@ namespace ouzel
                     glGetShaderiv(pixelShaderId, GL_COMPILE_STATUS, &status);
                     if (status == GL_FALSE)
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to compile pixel shader");
+                        Log(Log::Level::ERR) << "Failed to compile pixel shader";
                         printShaderMessage(pixelShaderId);
                         return false;
                     }
@@ -130,7 +130,7 @@ namespace ouzel
                     glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);
                     if (status == GL_FALSE)
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to compile vertex shader");
+                        Log(Log::Level::ERR) << "Failed to compile vertex shader";
                         printShaderMessage(vertexShaderId);
                         return false;
                     }
@@ -181,7 +181,7 @@ namespace ouzel
                     glGetProgramiv(programId, GL_LINK_STATUS, &status);
                     if (status == GL_FALSE)
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to link shader");
+                        Log(Log::Level::ERR) << "Failed to link shader";
                         printProgramMessage();
                         return false;
                     }
@@ -227,7 +227,7 @@ namespace ouzel
 
                     if (location == -1 || RendererOGL::checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to get OpenGL uniform location");
+                        Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
                         return false;
                     }
 
@@ -243,7 +243,7 @@ namespace ouzel
 
                     if (location == -1 || RendererOGL::checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to get OpenGL uniform location");
+                        Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
                         return false;
                     }
 

@@ -320,7 +320,7 @@ namespace ouzel
         windowClass = RegisterClassExW(&wc);
         if (!windowClass)
         {
-            log(LOG_LEVEL_ERROR, "Failed to register window class");
+            Log(Log::Level::ERR) << "Failed to register window class");
             return false;
         }
 
@@ -354,7 +354,7 @@ namespace ouzel
 
         if (!window)
         {
-            log(LOG_LEVEL_ERROR, "Failed to create window");
+            Log(Log::Level::ERR) << "Failed to create window");
             return false;
         }
 
@@ -369,7 +369,7 @@ namespace ouzel
 
         if (!RegisterTouchWindow(window, 0))
         {
-            log(LOG_LEVEL_WARNING, "Failed to enable touch for window");
+            Log(Log::Level::WARN) << "Failed to enable touch for window");
         }
 
         ShowWindow(window, SW_SHOW);

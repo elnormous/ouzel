@@ -15,6 +15,7 @@
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "core/Cache.h"
+#include "utils/Log.h"
 #include "stb_image_write.h"
 
 #if OUZEL_SUPPORTS_OPENGL
@@ -121,11 +122,11 @@ namespace ouzel
 
             if (checkOpenGLError() || !deviceName)
             {
-                log(LOG_LEVEL_WARNING, "Failed to get OpenGL renderer");
+                Log(Log::Level::WARN) << "Failed to get OpenGL renderer";
             }
             else
             {
-                log(LOG_LEVEL_INFO, "Using %s for rendering", reinterpret_cast<const char*>(deviceName));
+                Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
             }
 
 #if OUZEL_SUPPORTS_OPENGLES
@@ -135,7 +136,7 @@ namespace ouzel
 
             if (checkOpenGLError() || !extensionPtr)
             {
-                log(LOG_LEVEL_WARNING, "Failed to get OpenGL extensions");
+                Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
             }
             else
             {
@@ -165,7 +166,7 @@ namespace ouzel
                     return false;
                 }
 #else
-                log(LOG_LEVEL_WARNING, "Multisample anti-aliasing is disabled for OpenGL");
+                Log(Log::Level::WARN) << "Multisample anti-aliasing is disabled for OpenGL";
 #endif
             }
 
@@ -206,7 +207,7 @@ namespace ouzel
 #endif
                     break;
                 default:
-                    log(LOG_LEVEL_ERROR, "Unsupported OpenGL version");
+                    Log(Log::Level::ERR) << "Unsupported OpenGL version";
                     return false;
             }
 
@@ -247,7 +248,7 @@ namespace ouzel
 #endif
                     break;
                 default:
-                    log(LOG_LEVEL_ERROR, "Unsupported OpenGL version");
+                    Log(Log::Level::ERR) << "Unsupported OpenGL version";
                     return false;
             }
 
@@ -417,7 +418,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to clear frame buffer");
+                        Log(Log::Level::ERR) << "Failed to clear frame buffer";
                         return false;
                     }
                 }
@@ -506,7 +507,7 @@ namespace ouzel
 
                 if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                 {
-                    log(LOG_LEVEL_ERROR, "Invalid pixel shader constant size");
+                    Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                     return false;
                 }
 
@@ -538,7 +539,7 @@ namespace ouzel
                             glUniformMatrix4fv(pixelShaderConstantLocation.location, static_cast<GLsizei>(pixelShaderConstant.size() / components), GL_FALSE, pixelShaderConstant.data());
                             break;
                         default:
-                            log(LOG_LEVEL_ERROR, "Unsupported uniform size");
+                            Log(Log::Level::ERR) << "Unsupported uniform size";
                             return false;
                     }
                 }
@@ -548,7 +549,7 @@ namespace ouzel
 
                 if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                 {
-                    log(LOG_LEVEL_ERROR, "Invalid vertex shader constant size");
+                    Log(Log::Level::ERR) << "Invalid vertex shader constant size";
                     return false;
                 }
 
@@ -580,7 +581,7 @@ namespace ouzel
                             glUniformMatrix4fv(vertexShaderConstantLocation.location, static_cast<GLsizei>(vertexShaderConstant.size() / components), GL_FALSE, vertexShaderConstant.data());
                             break;
                         default:
-                            log(LOG_LEVEL_ERROR, "Unsupported uniform size");
+                            Log(Log::Level::ERR) << "Unsupported uniform size";
                             return false;
                     }
                 }
@@ -654,7 +655,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to clear frame buffer");
+                        Log(Log::Level::ERR) << "Failed to clear frame buffer";
                         return false;
                     }
                 }
@@ -698,7 +699,7 @@ namespace ouzel
                     case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
                     case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
                     case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-                    default: log(LOG_LEVEL_ERROR, "Invalid draw mode"); return false;
+                    default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
                 }
 
                 if (!meshBufferOGL->bindBuffers())
@@ -713,7 +714,7 @@ namespace ouzel
 
                 if (checkOpenGLError())
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to draw elements");
+                    Log(Log::Level::ERR) << "Failed to draw elements";
                     return false;
                 }
             }
@@ -727,7 +728,7 @@ namespace ouzel
 
                 if (checkOpenGLError())
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to bind MSAA frame buffer");
+                    Log(Log::Level::ERR) << "Failed to bind MSAA frame buffer";
                     return false;
                 }
 
@@ -737,7 +738,7 @@ namespace ouzel
 
                 if (checkOpenGLError())
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to blit MSAA texture");
+                    Log(Log::Level::ERR) << "Failed to blit MSAA texture";
                     return false;
                 }
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
@@ -746,7 +747,7 @@ namespace ouzel
 
                 if (checkOpenGLError())
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to bind MSAA frame buffer");
+                    Log(Log::Level::ERR) << "Failed to bind MSAA frame buffer";
                     return false;
                 }
 
@@ -763,7 +764,7 @@ namespace ouzel
 
                 if (checkOpenGLError())
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to blit MSAA texture");
+                    Log(Log::Level::ERR) << "Failed to blit MSAA texture";
                     return false;
                 }
 #endif
@@ -779,7 +780,7 @@ namespace ouzel
 
                 if (checkOpenGLError())
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to discard render buffers");
+                    Log(Log::Level::ERR) << "Failed to discard render buffers";
                     return false;
                 }
 
@@ -789,7 +790,7 @@ namespace ouzel
 
                 if (checkOpenGLError())
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to set render buffer");
+                    Log(Log::Level::ERR) << "Failed to set render buffer";
                     return false;
                 }
 #endif
@@ -877,7 +878,7 @@ namespace ouzel
 
                 if (checkOpenGLError())
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to read pixels from frame buffer");
+                    Log(Log::Level::ERR) << "Failed to read pixels from frame buffer";
                     return false;
                 }
 
@@ -897,7 +898,7 @@ namespace ouzel
 
                 if (!stbi_write_png(filename.c_str(), width, height, depth, data.data(), width * depth))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to save image to file");
+                    Log(Log::Level::ERR) << "Failed to save image to file";
                     return false;
                 }
             }
@@ -921,7 +922,7 @@ namespace ouzel
 
             if (checkOpenGLError())
             {
-                log(LOG_LEVEL_ERROR, "Failed to initialize MSAA color buffer");
+                Log(Log::Level::ERR) << "Failed to initialize MSAA color buffer";
                 return false;
             }
 
@@ -935,7 +936,7 @@ namespace ouzel
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+                Log(Log::Level::ERR) << "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 return false;
             }
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
@@ -950,7 +951,7 @@ namespace ouzel
 
             if (checkOpenGLError())
             {
-                log(LOG_LEVEL_ERROR, "Failed to initialize MSAA color buffer");
+                Log(Log::Level::ERR) << "Failed to initialize MSAA color buffer";
                 return false;
             }
 
@@ -965,7 +966,7 @@ namespace ouzel
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+                Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 return false;
             }
 #endif

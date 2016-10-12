@@ -4,6 +4,7 @@
 #include <cstring>
 #include "IndexBufferOGL.h"
 #include "RendererOGL.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -38,7 +39,7 @@ namespace ouzel
         {
             if (!bufferId)
             {
-                log(LOG_LEVEL_ERROR, "Index buffer not initialized");
+                Log(Log::Level::ERR) << "Index buffer not initialized";
                 return false;
             }
 
@@ -74,7 +75,7 @@ namespace ouzel
                         default:
                             type = 0;
                             bytesPerIndex = 0;
-                            log(LOG_LEVEL_ERROR, "Invalid index size");
+                            Log(Log::Level::ERR) << "Invalid index size";
                             return false;
                     }
 
@@ -97,7 +98,7 @@ namespace ouzel
 
                             if (RendererOGL::checkOpenGLError())
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to create index buffer");
+                                Log(Log::Level::ERR) << "Failed to create index buffer";
                                 return false;
                             }
                         }
@@ -125,7 +126,7 @@ namespace ouzel
                             // glMapBufferRange failed
                             if (RendererOGL::checkOpenGLError())
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to map index buffer");
+                                Log(Log::Level::ERR) << "Failed to map index buffer";
                                 return false;
                             }
 
@@ -134,7 +135,7 @@ namespace ouzel
 
                             if (RendererOGL::checkOpenGLError())
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to upload index buffer");
+                                Log(Log::Level::ERR) << "Failed to upload index buffer";
                                 return false;
                             }
                         }
@@ -149,7 +150,7 @@ namespace ouzel
 
                         if (RendererOGL::checkOpenGLError())
                         {
-                            log(LOG_LEVEL_ERROR, "Failed to upload index buffer");
+                            Log(Log::Level::ERR) << "Failed to upload index buffer";
                             return false;
                         }
                     }

@@ -18,7 +18,7 @@ namespace ouzel
             {
                 if (!eglDestroySurface(display, surface))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to destroy EGL surface");
+                    Log(Log::Level::ERR) << "Failed to destroy EGL surface");
                 }
             }
 
@@ -26,7 +26,7 @@ namespace ouzel
             {
                 if (!eglDestroyContext(display, context))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to destroy EGL context");
+                    Log(Log::Level::ERR) << "Failed to destroy EGL context");
                 }
             }
 
@@ -34,7 +34,7 @@ namespace ouzel
             {
                 if (!eglTerminate(display))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to terminate EGL");
+                    Log(Log::Level::ERR) << "Failed to terminate EGL");
                 }
             }
         }
@@ -45,7 +45,7 @@ namespace ouzel
             {
                 if (!eglDestroySurface(display, surface))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to destroy EGL surface");
+                    Log(Log::Level::ERR) << "Failed to destroy EGL surface");
                 }
                 surface = 0;
             }
@@ -54,7 +54,7 @@ namespace ouzel
             {
                 if (!eglDestroyContext(display, context))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to destroy EGL context");
+                    Log(Log::Level::ERR) << "Failed to destroy EGL context");
                 }
                 context = 0;
             }
@@ -63,7 +63,7 @@ namespace ouzel
             {
                 if (!eglTerminate(display))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to terminate EGL");
+                    Log(Log::Level::ERR) << "Failed to terminate EGL");
                 }
                 display = 0;
             }
@@ -81,13 +81,13 @@ namespace ouzel
 
             if (!display)
             {
-                log(LOG_LEVEL_ERROR, "Failed to get display");
+                Log(Log::Level::ERR) << "Failed to get display");
                 return false;
             }
 
             if (!eglInitialize(display, NULL, NULL))
             {
-                log(LOG_LEVEL_ERROR, "Failed to initialize EGL");
+                Log(Log::Level::ERR) << "Failed to initialize EGL");
                 return false;
             }
 
@@ -104,13 +104,13 @@ namespace ouzel
             EGLint numConfig;
             if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
             {
-                log(LOG_LEVEL_ERROR, "Failed to choose EGL config");
+                Log(Log::Level::ERR) << "Failed to choose EGL config");
                 return false;
             }
 
             if (!eglBindAPI(EGL_OPENGL_ES_API))
             {
-                log(LOG_LEVEL_ERROR, "Failed to bind OpenGL ES API");
+                Log(Log::Level::ERR) << "Failed to bind OpenGL ES API");
                 return false;
             }
 
@@ -124,7 +124,7 @@ namespace ouzel
 
             if (context == EGL_NO_CONTEXT)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create EGL context");
+                Log(Log::Level::ERR) << "Failed to create EGL context");
                 return false;
             }
 
@@ -163,19 +163,19 @@ namespace ouzel
             surface = eglCreateWindowSurface(display, config, &nativewindow, NULL);
             if (surface == EGL_NO_SURFACE)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create EGL window surface");
+                Log(Log::Level::ERR) << "Failed to create EGL window surface");
                 return false;
             }
 
             if (!eglMakeCurrent(display, surface, surface, context))
             {
-                log(LOG_LEVEL_ERROR, "Failed to set current EGL context");
+                Log(Log::Level::ERR) << "Failed to set current EGL context");
                 return false;
             }
 
             if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
             {
-                log(LOG_LEVEL_ERROR, "Failed to set EGL frame interval");
+                Log(Log::Level::ERR) << "Failed to set EGL frame interval");
                 return false;
             }
 

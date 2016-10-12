@@ -60,7 +60,7 @@ namespace ouzel
 
                     if (RendererOGL::checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to create frame buffer");
+                        Log(Log::Level::ERR) << "Failed to create frame buffer";
                         return false;
                     }
 
@@ -76,7 +76,7 @@ namespace ouzel
 
                 if (!textureOGL->getTextureId())
                 {
-                    log(LOG_LEVEL_ERROR, "OpenGL texture not initialized");
+                    Log(Log::Level::ERR) << "OpenGL texture not initialized";
                     return false;
                 }
 
@@ -114,7 +114,7 @@ namespace ouzel
 
                     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to create frame buffer");
+                        Log(Log::Level::ERR) << "Failed to create frame buffer";
                         return false;
                     }
                 }

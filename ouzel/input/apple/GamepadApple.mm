@@ -7,6 +7,7 @@
 #include "GamepadApple.h"
 #include "core/CompileConfig.h"
 #include "events/EventDispatcher.h"
+#include "utils/Log.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -184,7 +185,7 @@ namespace ouzel
         {
             if (playerIndex < -1 || playerIndex > 3)
             {
-                log(LOG_LEVEL_ERROR, "Invalid player index");
+                Log(Log::Level::ERR) << "Invalid player index";
                 return false;
             }
 

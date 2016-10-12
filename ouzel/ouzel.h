@@ -66,5 +66,6 @@
 #include "scene/SceneManager.h"
 #include "scene/ShapeDrawable.h"
 #include "scene/Sprite.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 #include "utils/Types.h"
+#include "utils/Utils.h"

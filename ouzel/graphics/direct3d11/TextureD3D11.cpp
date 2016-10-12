@@ -84,7 +84,7 @@ namespace ouzel
                         HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
                         if (FAILED(hr))
                         {
-                            log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 texture");
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture");
                             return false;
                         }
 
@@ -98,7 +98,7 @@ namespace ouzel
                         hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &srvDesc, &resourceView);
                         if (FAILED(hr))
                         {
-                            log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 shader resource view");
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view");
                             return false;
                         }
                     }

@@ -110,6 +110,7 @@ SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/scene/Sprite.cpp \
 	../ouzel/scene/SpriteFrame.cpp \
 	../ouzel/scene/TextDrawable.cpp \
+	../ouzel/utils/Log.cpp \
 	../ouzel/utils/Utils.cpp
 ifeq ($(platform),raspbian)
 SOURCES+=../ouzel/core/raspbian/ApplicationRasp.cpp \

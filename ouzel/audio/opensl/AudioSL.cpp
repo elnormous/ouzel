@@ -4,7 +4,7 @@
 #include "AudioSL.h"
 #include "SoundDataSL.h"
 #include "SoundSL.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -61,31 +61,31 @@ namespace ouzel
 
             if (slCreateEngine(&engineObject, 0, NULL, engineMixIIDCount, &engineMixIID, &engineMixReq) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create OpenSL engine object");
+                Log(Log::Level::ERR) << "Failed to create OpenSL engine object";
                 return false;
             }
 
             if ((*engineObject)->Realize(engineObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create OpenSL engine object");
+                Log(Log::Level::ERR) << "Failed to create OpenSL engine object";
                 return false;
             }
 
             if ((*engineObject)->GetInterface(engineObject, SL_IID_ENGINE, &engine) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to get OpenSL engine");
+                Log(Log::Level::ERR) << "Failed to get OpenSL engine";
                 return false;
             }
 
             if ((*engine)->CreateOutputMix(engine, &outputMixObject, 0, nullptr, nullptr) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create OpenSL output mix");
+                Log(Log::Level::ERR) << "Failed to create OpenSL output mix";
                 return false;
             }
 
             if ((*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create OpenSL output mix");
+                Log(Log::Level::ERR) << "Failed to create OpenSL output mix";
                 return false;
             }
 

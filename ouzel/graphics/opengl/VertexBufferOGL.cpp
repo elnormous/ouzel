@@ -38,7 +38,7 @@ namespace ouzel
         {
             if (!bufferId)
             {
-                log(LOG_LEVEL_ERROR, "Vertex buffer not initialized");
+                Log(Log::Level::ERR) << "Vertex buffer not initialized";
                 return false;
             }
 
@@ -67,7 +67,7 @@ namespace ouzel
 
             if (RendererOGL::checkOpenGLError())
             {
-                log(LOG_LEVEL_ERROR, "Failed to update vertex attributes");
+                Log(Log::Level::ERR) << "Failed to update vertex attributes";
                 return false;
             }
 
@@ -137,7 +137,7 @@ namespace ouzel
 
                     if (offset != uploadData.vertexSize)
                     {
-                        log(LOG_LEVEL_ERROR, "Invalid vertex size");
+                        Log(Log::Level::ERR) << "Invalid vertex size";
                         return false;
                     }
 
@@ -160,7 +160,7 @@ namespace ouzel
 
                             if (RendererOGL::checkOpenGLError())
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to create vertex buffer");
+                                Log(Log::Level::ERR) << "Failed to create vertex buffer";
                                 return false;
                             }
                         }
@@ -188,7 +188,7 @@ namespace ouzel
                             // glMapBufferRange failed
                             if (RendererOGL::checkOpenGLError())
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to map vertex buffer");
+                                Log(Log::Level::ERR) << "Failed to map vertex buffer";
                                 return false;
                             }
 
@@ -197,7 +197,7 @@ namespace ouzel
 
                             if (RendererOGL::checkOpenGLError())
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to upload vertex buffer");
+                                Log(Log::Level::ERR) << "Failed to upload vertex buffer";
                                 return false;
                             }
                         }
@@ -213,7 +213,7 @@ namespace ouzel
 
                     if (RendererOGL::checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to upload vertex buffer");
+                        Log(Log::Level::ERR) << "Failed to upload vertex buffer";
                         return false;
                     }
 

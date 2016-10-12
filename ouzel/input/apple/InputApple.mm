@@ -16,6 +16,7 @@
 #include "core/Engine.h"
 #include "GamepadApple.h"
 #include "events/EventDispatcher.h"
+#include "utils/Log.h"
 #include "utils/Utils.h"
 
 @interface ConnectDelegate: NSObject
@@ -387,7 +388,7 @@ namespace ouzel
 
         void InputApple::startGamepadDiscovery()
         {
-            log(LOG_LEVEL_INFO, "Started gamepad discovery");
+            Log(Log::Level::INFO) << "Started gamepad discovery";
 
             discovering = true;
 
@@ -400,7 +401,7 @@ namespace ouzel
 
         void InputApple::stopGamepadDiscovery()
         {
-            log(LOG_LEVEL_INFO, "Stopped gamepad discovery");
+            Log(Log::Level::INFO) << "Stopped gamepad discovery";
 
             if (discovering)
             {
@@ -449,7 +450,7 @@ namespace ouzel
 
         void InputApple::handleGamepadDiscoveryCompleted()
         {
-            log(LOG_LEVEL_INFO, "Gamepad discovery completed");
+            Log(Log::Level::INFO) << "Gamepad discovery completed";
             discovering = false;
         }
 

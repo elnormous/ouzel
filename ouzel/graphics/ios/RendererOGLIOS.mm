@@ -77,11 +77,11 @@ namespace ouzel
             {
                 apiMajorVersion = 3;
                 apiMinorVersion = 0;
-                log(LOG_LEVEL_INFO, "Using OpenGL ES 3");
+                Log(Log::Level::INFO) << "Using OpenGL ES 3";
             }
             else
             {
-                log(LOG_LEVEL_INFO, "Failed to create OpenGL ES 3 rendering context");
+                Log(Log::Level::INFO) << "Failed to create OpenGL ES 3 rendering context";
 
                 context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -89,18 +89,18 @@ namespace ouzel
                 {
                     apiMajorVersion = 2;
                     apiMinorVersion = 0;
-                    log(LOG_LEVEL_INFO, "Using OpenGL ES 2");
+                    Log(Log::Level::INFO) << "Using OpenGL ES 2";
                 }
                 else
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to initialize OpenGL ES 2 rendering context");
+                    Log(Log::Level::ERR) << "Failed to initialize OpenGL ES 2 rendering context";
                     return false;
                 }
             }
 
             if (![EAGLContext setCurrentContext:context])
             {
-                log(LOG_LEVEL_ERROR, "Failed to set current OpenGL rendering context");
+                Log(Log::Level::ERR) << "Failed to set current OpenGL rendering context";
                 return false;
             }
 
@@ -160,7 +160,7 @@ namespace ouzel
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+                Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 return false;
             }
 
@@ -171,7 +171,7 @@ namespace ouzel
         {
             if (![EAGLContext setCurrentContext:context])
             {
-                log(LOG_LEVEL_ERROR, "Failed to set current OpenGL context");
+                Log(Log::Level::ERR) << "Failed to set current OpenGL context";
             }
 
             if (!RendererOGL::present())

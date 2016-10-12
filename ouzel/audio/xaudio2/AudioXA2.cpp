@@ -76,19 +76,19 @@ namespace ouzel
 
                 if (!xAudio2CreateProc)
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to get address of XAudio2Create");
+                    Log(Log::Level::ERR) << "Failed to get address of XAudio2Create");
                     return false;
                 }
 
                 if (FAILED(xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to initialize XAudio2");
+                    Log(Log::Level::ERR) << "Failed to initialize XAudio2");
                     return false;
                 }
 			}
 			else
             {
-                log(LOG_LEVEL_INFO, "Failed to load %s", XAUDIO2_DLL_28);
+                Log(Log::Level::INFO) << "Failed to load %s", XAUDIO2_DLL_28);
 
                 xAudio2Library = LoadLibraryA(XAUDIO2_DLL_27);
 
@@ -99,13 +99,13 @@ namespace ouzel
                 }
                 else
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to load %s", XAUDIO2_DLL_27);
+                    Log(Log::Level::ERR) << "Failed to load %s", XAUDIO2_DLL_27);
                     return false;
                 }
 
                 if (FAILED(XAudio27CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to initialize XAudio2");
+                    Log(Log::Level::ERR) << "Failed to initialize XAudio2");
                     return false;
                 }
             }
@@ -114,13 +114,13 @@ namespace ouzel
             {
                 if (FAILED(IXAudio2CreateMasteringVoice(xAudio, &masteringVoice)))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to create XAudio2 mastering voice");
+                    Log(Log::Level::ERR) << "Failed to create XAudio2 mastering voice");
                     return false;
                 }
             }
             else if (FAILED(xAudio->CreateMasteringVoice(&masteringVoice)))
             {
-                log(LOG_LEVEL_ERROR, "Failed to create XAudio2 mastering voice");
+                Log(Log::Level::ERR) << "Failed to create XAudio2 mastering voice");
                 return false;
             }
 
@@ -149,13 +149,13 @@ namespace ouzel
             {
                 if (FAILED(IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &sourceFormat)))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to create source voice");
+                    Log(Log::Level::ERR) << "Failed to create source voice");
                     return nullptr;
                 }
             }
             else if (FAILED(xAudio->CreateSourceVoice(&sourceVoice, &sourceFormat)))
             {
-                log(LOG_LEVEL_ERROR, "Failed to create source voice");
+                Log(Log::Level::ERR) << "Failed to create source voice");
                 return nullptr;
             }
 

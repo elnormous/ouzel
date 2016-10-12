@@ -7,7 +7,7 @@
 #include "ParticleDefinition.h"
 #include "core/Application.h"
 #include "files/FileSystem.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -30,7 +30,7 @@ namespace ouzel
 
             if (document.HasParseError())
             {
-                log(LOG_LEVEL_ERROR, "Failed to parse %s", filename.c_str());
+                Log(Log::Level::ERR) << "Failed to parse " << filename;
                 return result;
             }
 

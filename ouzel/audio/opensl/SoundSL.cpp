@@ -5,7 +5,7 @@
 #include "AudioSL.h"
 #include "SoundDataSL.h"
 #include "core/Engine.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
 {
@@ -13,7 +13,7 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
 
     if ((*bufferQueue)->Enqueue(bufferQueue, sound->getSoundData()->getData().data(), sound->getSoundData()->getData().size()) != SL_RESULT_SUCCESS)
     {
-        ouzel::log(ouzel::LOG_LEVEL_ERROR, "Failed to enqueue OpenSL data");
+        ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
     }
 
     if (!sound->isRepeating())
@@ -22,7 +22,7 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
 
         if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
         {
-            ouzel::log(ouzel::LOG_LEVEL_ERROR, "Failed to stop sound");
+            ouzel::Log(ouzel::Log::Level::ERR) << "Failed to stop sound";
         }
     }
 }
@@ -87,7 +87,7 @@ namespace ouzel
             }
             else
             {
-                log(LOG_LEVEL_ERROR, "Invalid channel count");
+                Log(Log::Level::ERR) << "Invalid channel count";
                 return false;
             }
 
@@ -109,49 +109,49 @@ namespace ouzel
 
             if ((*audioSL->getEngine())->CreateAudioPlayer(audioSL->getEngine(), &playerObject, &dataSource, &dataSink, playerIIDCount, playerIIDs, playerReqs) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create OpenSL player object");
+                Log(Log::Level::ERR) << "Failed to create OpenSL player object";
                 return false;
             }
 
             if ((*playerObject)->Realize(playerObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create OpenSL player object");
+                Log(Log::Level::ERR) << "Failed to create OpenSL player object";
                 return false;
             }
 
             if ((*playerObject)->GetInterface(playerObject, SL_IID_PLAY, &player) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to get OpenSL player");
+                Log(Log::Level::ERR) << "Failed to get OpenSL player";
                 return false;
             }
 
             if ((*playerObject)->GetInterface(playerObject, SL_IID_BUFFERQUEUE, &bufferQueue) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to get OpenSL buffer queue");
+                Log(Log::Level::ERR) << "Failed to get OpenSL buffer queue";
                 return false;
             }
 
             if ((*playerObject)->GetInterface(playerObject, SL_IID_VOLUME, &playerVolume) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to get OpenSL volume");
+                Log(Log::Level::ERR) << "Failed to get OpenSL volume";
                 return false;
             }
 
             if ((*bufferQueue)->Clear(bufferQueue) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to clear OpenSL buffer");
+                Log(Log::Level::ERR) << "Failed to clear OpenSL buffer";
                 return false;
             }
 
             if ((*bufferQueue)->RegisterCallback(bufferQueue, playerCallback, this) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to register OpenSL buffer queue callback");
+                Log(Log::Level::ERR) << "Failed to register OpenSL buffer queue callback";
                 return false;
             }
 
             if ((*bufferQueue)->Enqueue(bufferQueue, soundData->getData().data(), soundData->getData().size()) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to enqueue OpenSL data");
+                Log(Log::Level::ERR) << "Failed to enqueue OpenSL data";
                 return false;
             }
 
@@ -169,7 +169,7 @@ namespace ouzel
 
             if ((*player)->SetPlayState(player, SL_PLAYSTATE_PLAYING) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to play sound");
+                Log(Log::Level::ERR) << "Failed to play sound";
                 return false;
             }
 
@@ -185,7 +185,7 @@ namespace ouzel
 
             if ((*player)->SetPlayState(player, resetSound ? SL_PLAYSTATE_STOPPED : SL_PLAYSTATE_PAUSED) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to %s sound", (resetSound ? "stop" : "pause"));
+                Log(Log::Level::ERR) << "Failed to " << (resetSound ? "stop" : "pause") << " sound";
                 return false;
             }
 
@@ -201,7 +201,7 @@ namespace ouzel
 
             if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
             {
-                log(LOG_LEVEL_ERROR, "Failed to stop sound");
+                Log(Log::Level::ERR) << "Failed to stop sound";
                 return false;
             }
 

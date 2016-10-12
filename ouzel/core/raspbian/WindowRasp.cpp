@@ -26,7 +26,7 @@ namespace ouzel
 
         if (success == -1)
         {
-            log(LOG_LEVEL_ERROR, "Failed to get display size");
+            Log(Log::Level::ERR) << "Failed to get display size");
             return false;
         }
 

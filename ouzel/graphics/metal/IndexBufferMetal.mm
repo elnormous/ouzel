@@ -4,7 +4,7 @@
 #include "IndexBufferMetal.h"
 #include "RendererMetal.h"
 #include "core/Engine.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -55,7 +55,7 @@ namespace ouzel
                             break;
                         default:
                             bytesPerIndex = 0;
-                            log(LOG_LEVEL_ERROR, "Invalid index size");
+                            Log(Log::Level::ERR) << "Invalid index size";
                             return false;
                     }
 
@@ -77,7 +77,7 @@ namespace ouzel
 
                             if (!buffer)
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to create Metal index buffer");
+                                Log(Log::Level::ERR) << "Failed to create Metal index buffer";
                                 return false;
                             }
                         }

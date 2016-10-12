@@ -34,7 +34,7 @@ void ouzelMain(const std::vector<std::string>& args)
             }
             else
             {
-                ouzel::log(ouzel::LOG_LEVEL_WARNING, "No sample specified");
+                ouzel::Log(ouzel::Log::Level::WARN) << "No sample specified";
             }
         }
         else if (*arg == "-renderer")
@@ -61,17 +61,17 @@ void ouzelMain(const std::vector<std::string>& args)
                 }
                 else
                 {
-                    ouzel::log(ouzel::LOG_LEVEL_WARNING, "Invalid renderer specified");
+                    ouzel::Log(ouzel::Log::Level::WARN) << "Invalid renderer specified";
                 }
             }
             else
             {
-                ouzel::log(ouzel::LOG_LEVEL_WARNING, "No renderer specified");
+                ouzel::Log(ouzel::Log::Level::WARN) << "No renderer specified";
             }
         }
         else
         {
-            ouzel::log(ouzel::LOG_LEVEL_WARNING, "Invalid argument \"%s\"", arg->c_str());
+            ouzel::Log(ouzel::Log::Level::WARN) << "Invalid argument \"" << *arg << "\"";
         }
     }
 

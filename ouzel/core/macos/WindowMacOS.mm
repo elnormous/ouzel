@@ -6,7 +6,7 @@
 #include "graphics/macos/MetalView.h"
 #include "core/Application.h"
 #include "core/Engine.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
 {
@@ -134,7 +134,7 @@ namespace ouzel
                 view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
             default:
-                log(LOG_LEVEL_ERROR, "Unsupported render driver");
+                Log(Log::Level::ERR) << "Unsupported render driver";
                 return false;
         }
 

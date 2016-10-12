@@ -5,7 +5,7 @@
 #include "TextureMetal.h"
 #include "core/Engine.h"
 #include "RendererMetal.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -58,7 +58,7 @@ namespace ouzel
 
                 if (!textureMetal->getTexture())
                 {
-                    log(LOG_LEVEL_ERROR, "Metal texture not initialized");
+                    Log(Log::Level::ERR) << "Metal texture not initialized";
                     return false;
                 }
 
@@ -68,7 +68,7 @@ namespace ouzel
 
                     if (!renderPassDescriptor)
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to create Metal render pass descriptor");
+                        Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
                         return false;
                     }
                 }
@@ -98,7 +98,7 @@ namespace ouzel
 
                         if (!msaaTexture)
                         {
-                            log(LOG_LEVEL_ERROR, "Failed to create MSAA texture");
+                            Log(Log::Level::ERR) << "Failed to create MSAA texture";
                             return false;
                         }
                     }

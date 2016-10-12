@@ -7,7 +7,7 @@
 #include "RendererOGL.h"
 #include "IndexBufferOGL.h"
 #include "VertexBufferOGL.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -92,7 +92,7 @@ namespace ouzel
 
                 if (RendererOGL::checkOpenGLError())
                 {
-                    log(LOG_LEVEL_WARNING, "Failed to create vertex array");
+                    Log(Log::Level::WARN) << "Failed to create vertex array";
                 }
 
                 if (vertexArrayId)

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "BlendStateOGL.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -26,7 +26,7 @@ namespace ouzel
                 case BlendState::BlendFactor::BLEND_FACTOR: return GL_CONSTANT_COLOR;
                 case BlendState::BlendFactor::INV_BLEND_FACTOR: return GL_ONE_MINUS_CONSTANT_COLOR;
                 default:
-                    log(LOG_LEVEL_ERROR, "Unsupported blend factor");
+                    Log(Log::Level::ERR) << "Unsupported blend factor";
                     return GL_ZERO;
             }
         }
@@ -43,7 +43,7 @@ namespace ouzel
                 case BlendState::BlendOperation::MAX: return GL_MAX;
 #endif
                 default:
-                    log(LOG_LEVEL_ERROR, "Unsupported blend operation");
+                    Log(Log::Level::ERR) << "Unsupported blend operation";
                     return GL_FUNC_ADD;
             }
         }

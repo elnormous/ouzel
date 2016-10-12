@@ -6,7 +6,7 @@
 #import "graphics/ios/MetalView.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 @interface ViewController: UIViewController
 {
@@ -140,7 +140,7 @@ namespace ouzel
                 view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
             default:
-                log(LOG_LEVEL_ERROR, "Unsupported render driver");
+                Log(Log::Level::ERR) << "Unsupported render driver";
                 return false;
         }
 

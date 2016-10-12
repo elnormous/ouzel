@@ -43,7 +43,7 @@ namespace ouzel
 
             if (!webGLContext)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create WebGL context");
+                Log(Log::Level::ERR) << "Failed to create WebGL context";
                 return false;
             }
 

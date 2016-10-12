@@ -4,7 +4,7 @@
 #include "VertexBufferMetal.h"
 #include "RendererMetal.h"
 #include "core/Engine.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -56,7 +56,7 @@ namespace ouzel
 
                             if (!buffer)
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to create Metal vertex buffer");
+                                Log(Log::Level::ERR) << "Failed to create Metal vertex buffer";
                                 return false;
                             }
                         }

@@ -243,7 +243,7 @@ namespace ouzel
                 }
                 else
                 {
-                    log(LOG_LEVEL_WARNING, "Failed to get state for gamepad %d", i);
+                    Log(Log::Level::WARN) << "Failed to get state for gamepad %d", i);
                 }
             }
         }

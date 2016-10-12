@@ -27,7 +27,7 @@ namespace ouzel
 		HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 		if (FAILED(hr))
 		{
-			log(LOG_LEVEL_ERROR, "Failed to initialize COM");
+			Log(Log::Level::ERR) << "Failed to initialize COM");
 			return EXIT_FAILURE;
 		}
 

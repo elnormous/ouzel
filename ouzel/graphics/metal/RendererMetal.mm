@@ -44,7 +44,7 @@
 #endif
 #include "core/Engine.h"
 #include "core/Cache.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 #include "stb_image_write.h"
 
 namespace ouzel
@@ -189,13 +189,13 @@ namespace ouzel
 
             if (!device)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create Metal device");
+                Log(Log::Level::ERR) << "Failed to create Metal device";
                 return false;
             }
 
             if (device.name)
             {
-                log(LOG_LEVEL_INFO, "Using %s for rendering", [device.name cStringUsingEncoding:NSUTF8StringEncoding]);
+                Log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
             }
 
 #if OUZEL_PLATFORM_MACOS
@@ -214,7 +214,7 @@ namespace ouzel
 
             if (!renderPassDescriptor)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create Metal render pass descriptor");
+                Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
                 return false;
             }
 
@@ -226,7 +226,7 @@ namespace ouzel
 
             if (!commandQueue)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create Metal command queue");
+                Log(Log::Level::ERR) << "Failed to create Metal command queue";
                 return false;
             }
 
@@ -259,7 +259,7 @@ namespace ouzel
 
             if (!samplerState)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create Metal sampler state");
+                Log(Log::Level::ERR) << "Failed to create Metal sampler state";
                 return false;
             }
 
@@ -416,7 +416,7 @@ namespace ouzel
 
             if (!currentCommandBuffer)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create Metal command buffer");
+                Log(Log::Level::ERR) << "Failed to create Metal command buffer";
                 return false;
             }
 
@@ -555,7 +555,7 @@ namespace ouzel
 
                 if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                 {
-                    log(LOG_LEVEL_ERROR, "Invalid pixel shader constant size");
+                    Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                     return false;
                 }
 
@@ -568,7 +568,7 @@ namespace ouzel
 
                     if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
                     {
-                        log(LOG_LEVEL_ERROR, "Invalid pixel shader constant size");
+                        Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                         return false;
                     }
 
@@ -589,7 +589,7 @@ namespace ouzel
 
                 if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                 {
-                    log(LOG_LEVEL_ERROR, "Invalid vertex shader constant size");
+                    Log(Log::Level::ERR) << "Invalid vertex shader constant size";
                     return false;
                 }
 
@@ -602,7 +602,7 @@ namespace ouzel
 
                     if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
                     {
-                        log(LOG_LEVEL_ERROR, "Invalid vertex shader constant size");
+                        Log(Log::Level::ERR) << "Invalid vertex shader constant size";
                         return false;
                     }
 
@@ -711,7 +711,7 @@ namespace ouzel
                     case DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
                     case DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
                     case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
-                    default: log(LOG_LEVEL_ERROR, "Invalid draw mode"); return false;
+                    default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
                 }
 
                 [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
@@ -827,7 +827,7 @@ namespace ouzel
             {
                 if (pipelineState) [pipelineState release];
 
-                log(LOG_LEVEL_ERROR, "Failed to created Metal pipeline state");
+                Log(Log::Level::ERR) << "Failed to created Metal pipeline state";
                 return Nil;
             }
 
@@ -878,7 +878,7 @@ namespace ouzel
 
                 if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to save image to file");
+                    Log(Log::Level::ERR) << "Failed to save image to file";
                     return false;
                 }
             }
@@ -899,7 +899,7 @@ namespace ouzel
 
             if (!currentRenderCommandEncoder)
             {
-                log(LOG_LEVEL_ERROR, "Failed to create Metal render command encoder");
+                Log(Log::Level::ERR) << "Failed to create Metal render command encoder";
                 return false;
             }
 

@@ -19,6 +19,7 @@
     #include <pwd.h>
 #endif
 #include "FileSystem.h"
+#include "utils/Log.h"
 #include "utils/Utils.h"
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
@@ -66,7 +67,7 @@ namespace ouzel
         }
         else
         {
-            log(LOG_LEVEL_ERROR, "Failed to get current directory");
+            Log(Log::Level::ERR) << "Failed to get current directory";
         }
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         if (readlink("/proc/self/exe", TEMP_BUFFER, sizeof(TEMP_BUFFER)) != -1)
@@ -75,7 +76,7 @@ namespace ouzel
         }
         else
         {
-            log(LOG_LEVEL_ERROR, "Failed to get current directory");
+            Log(Log::Level::ERR) << "Failed to get current directory";
         }
 #endif
     }
@@ -223,7 +224,7 @@ namespace ouzel
 
             if (!asset)
             {
-                log(LOG_LEVEL_ERROR, "Failed to open file %s", filename.c_str());
+                Log(Log::Level::ERR) << "Failed to open file " << filename;
                 return false;
             }
 
@@ -244,7 +245,7 @@ namespace ouzel
         // file does not exist
         if (path.empty())
         {
-            log(LOG_LEVEL_ERROR, "Failed to find file %s", filename.c_str());
+            Log(Log::Level::ERR) << "Failed to find file " << filename;
             return false;
         }
 
@@ -252,7 +253,7 @@ namespace ouzel
 
         if (!file)
         {
-            log(LOG_LEVEL_ERROR, "Failed to open file %s", path.c_str());
+            Log(Log::Level::ERR) << "Failed to open file " << path;
         }
 
         data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());

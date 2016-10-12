@@ -13,7 +13,7 @@
 #include "events/EventHandler.h"
 #include "events/EventDispatcher.h"
 #include "core/Window.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -131,14 +131,14 @@ namespace ouzel
 
             if (!shader)
             {
-                log(LOG_LEVEL_ERROR, "No shader passed to render queue");
+                Log(Log::Level::ERR) << "No shader passed to render queue";
                 return false;
             }
 
             if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer() ||
                 shader->getVertexAttributes() != meshBuffer->getVertexBuffer()->getVertexAttributes())
             {
-                log(LOG_LEVEL_ERROR, "Invalid mesh buffer passed to render queue");
+                Log(Log::Level::ERR) << "Invalid mesh buffer passed to render queue";
                 return false;
             }
 

@@ -36,6 +36,12 @@
 		302511B01CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */; };
 		302511B11CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */; };
 		302511B21CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */; };
+		3030D5021DAEF1FA007CC8EB /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3030D5001DAEF1FA007CC8EB /* Log.cpp */; };
+		3030D5031DAEF1FA007CC8EB /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3030D5001DAEF1FA007CC8EB /* Log.cpp */; };
+		3030D5041DAEF1FA007CC8EB /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3030D5001DAEF1FA007CC8EB /* Log.cpp */; };
+		3030D5051DAEF1FA007CC8EB /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 3030D5011DAEF1FA007CC8EB /* Log.h */; };
+		3030D5061DAEF1FA007CC8EB /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 3030D5011DAEF1FA007CC8EB /* Log.h */; };
+		3030D5071DAEF1FA007CC8EB /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 3030D5011DAEF1FA007CC8EB /* Log.h */; };
 		30324E141CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
 		30324E151CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
 		30324E161CB2898E00601A64 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendState.cpp */; };
@@ -794,6 +800,8 @@
 		302511A61CD36FBA00D04209 /* SpriteFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteFrame.cpp; sourceTree = "<group>"; };
 		302511A71CD36FBA00D04209 /* SpriteFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteFrame.h; sourceTree = "<group>"; };
 		302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleDefinition.cpp; sourceTree = "<group>"; };
+		3030D5001DAEF1FA007CC8EB /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
+		3030D5011DAEF1FA007CC8EB /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		30324E121CB2898E00601A64 /* BlendState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendState.cpp; sourceTree = "<group>"; };
 		30324E131CB2898E00601A64 /* BlendState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendState.h; sourceTree = "<group>"; };
 		303647121C3DFEAF0024DB5B /* Gamepad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gamepad.cpp; sourceTree = "<group>"; };
@@ -1600,6 +1608,8 @@
 		30A5BF0C1CFCE3F800A977CA /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
+				3030D5011DAEF1FA007CC8EB /* Log.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
 				305B99C71C451962008589E1 /* Types.h */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
@@ -1671,6 +1681,7 @@
 				3047F76B1C4D2C2000774E3D /* Sequence.h in Headers */,
 				30381FF71D80A40700677CAB /* MeshBufferMetal.h in Headers */,
 				30575AAA1C39D1FF0009C8A7 /* Layer.h in Headers */,
+				3030D5051DAEF1FA007CC8EB /* Log.h in Headers */,
 				30381FF41D80A40700677CAB /* ColorVSTVOS.h in Headers */,
 				3038213C1D81876E00677CAB /* IndexBufferEmpty.h in Headers */,
 				303821041D817F6400677CAB /* AudioALApple.h in Headers */,
@@ -1821,6 +1832,7 @@
 				3047F76C1C4D2C2000774E3D /* Sequence.h in Headers */,
 				30381FF61D80A40700677CAB /* ColorVSTVOS.h in Headers */,
 				30381F8A1D80A3EC00677CAB /* ShaderOGL.h in Headers */,
+				3030D5071DAEF1FA007CC8EB /* Log.h in Headers */,
 				30575AAB1C39D1FF0009C8A7 /* Layer.h in Headers */,
 				3038213E1D81876E00677CAB /* IndexBufferEmpty.h in Headers */,
 				303821061D817F6400677CAB /* AudioALApple.h in Headers */,
@@ -2041,6 +2053,7 @@
 				3038201C1D80A40700677CAB /* TexturePSTVOS.h in Headers */,
 				303820EE1D817EA900677CAB /* RendererOGLMacOS.h in Headers */,
 				30A9C13D1CAEBA540084C4BF /* Language.h in Headers */,
+				3030D5061DAEF1FA007CC8EB /* Log.h in Headers */,
 				303821731D81876E00677CAB /* SoundDataEmpty.h in Headers */,
 				303821051D817F6400677CAB /* AudioALApple.h in Headers */,
 				30381F771D80A3EC00677CAB /* MeshBufferOGL.h in Headers */,
@@ -2266,6 +2279,7 @@
 				303B753E1C2A3C9200FEDE92 /* Color.cpp in Sources */,
 				30C56C661CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
 				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
+				3030D5021DAEF1FA007CC8EB /* Log.cpp in Sources */,
 				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				303B755B1C2A3CB700FEDE92 /* Vector4.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
@@ -2387,6 +2401,7 @@
 				30C56C671CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
 				303B76501C355A3B00FEDE92 /* Vector4.cpp in Sources */,
 				30575ADA1C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
+				3030D5041DAEF1FA007CC8EB /* Log.cpp in Sources */,
 				303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				3047F7601C4C60B900774E3D /* Fade.cpp in Sources */,
@@ -2508,6 +2523,7 @@
 				304A8E681C237C70008B1151 /* Shader.cpp in Sources */,
 				30C56C951CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
 				304A8E531C237C70008B1151 /* Engine.cpp in Sources */,
+				3030D5031DAEF1FA007CC8EB /* Log.cpp in Sources */,
 				303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				30324E141CB2898E00601A64 /* BlendState.cpp in Sources */,
 				304A8E8A1C2486C6008B1151 /* RenderTarget.cpp in Sources */,

@@ -110,6 +110,7 @@ LOCAL_SRC_FILES :=$(LOCAL_PATH)/../../ouzel/animators/Animator.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/Sprite.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/SpriteFrame.cpp \
     $(LOCAL_PATH)/../../ouzel/scene/TextDrawable.cpp \
+    $(LOCAL_PATH)/../../ouzel/utils/Log.cpp \
     $(LOCAL_PATH)/../../ouzel/utils/Utils.cpp
 
 include $(BUILD_STATIC_LIBRARY)

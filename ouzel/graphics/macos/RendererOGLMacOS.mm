@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "RendererOGLMacOS.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -63,11 +63,11 @@ namespace ouzel
             {
                 apiMajorVersion = 3;
                 apiMinorVersion = 2;
-                log(LOG_LEVEL_INFO, "Using OpenGL 3.2");
+                Log(Log::Level::INFO) << "Using OpenGL 3.2";
             }
             else
             {
-                log(LOG_LEVEL_INFO, "Failed to crete OpenGL 3.2 pixel format");
+                Log(Log::Level::INFO) << "Failed to crete OpenGL 3.2 pixel format";
 
                 NSOpenGLPixelFormatAttribute openGL2Attributes[] =
                 {
@@ -85,13 +85,13 @@ namespace ouzel
                 {
                     apiMajorVersion = 2;
                     apiMinorVersion = 0;
-                    log(LOG_LEVEL_INFO, "Using OpenGL 2");
+                    Log(Log::Level::INFO) << "Using OpenGL 2";
                 }
             }
 
             if (!pixelFormat)
             {
-                log(LOG_LEVEL_ERROR, "Failed to crete OpenGL 2 pixel format");
+                Log(Log::Level::ERR) << "Failed to crete OpenGL 2 pixel format";
                 return Nil;
             }
 

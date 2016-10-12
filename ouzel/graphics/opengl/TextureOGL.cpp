@@ -6,7 +6,7 @@
 #include "core/Engine.h"
 #include "RendererOGL.h"
 #include "graphics/Image.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -48,7 +48,7 @@ namespace ouzel
 
                     if (RendererOGL::checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to create texture");
+                        Log(Log::Level::ERR) << "Failed to create texture";
                         return false;
                     }
                 }
@@ -88,7 +88,7 @@ namespace ouzel
 
                     if (RendererOGL::checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to set texture parameters");
+                        Log(Log::Level::ERR) << "Failed to set texture parameters";
                         return false;
                     }
 
@@ -117,7 +117,7 @@ namespace ouzel
 
                             if (RendererOGL::checkOpenGLError())
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to upload texture data");
+                                Log(Log::Level::ERR) << "Failed to upload texture data";
                                 return false;
                             }
                         }

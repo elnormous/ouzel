@@ -6,7 +6,7 @@
 #include "files/FileSystem.h"
 #include "ShaderMetal.h"
 #include "RendererMetal.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -169,7 +169,7 @@ namespace ouzel
                     if (err != Nil)
                     {
                         if (pixelShaderLibrary) [pixelShaderLibrary release];
-                        log(LOG_LEVEL_ERROR, "Failed to load pixel shader, %s", [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]);
+                        Log(Log::Level::ERR) << "Failed to load pixel shader, " << [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding];
                         return false;
                     }
 
@@ -179,7 +179,7 @@ namespace ouzel
 
                     if (!pixelShader)
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]);
+                        Log(Log::Level::ERR) << "Failed to get function from shader, " << [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding];
                         return false;
                     }
                 }
@@ -202,7 +202,7 @@ namespace ouzel
 
                     if (pixelShaderConstantBuffer == Nil)
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to create Metal index buffer");
+                        Log(Log::Level::ERR) << "Failed to create Metal index buffer";
                         return false;
                     }
                 }
@@ -216,7 +216,7 @@ namespace ouzel
                     if (err != Nil)
                     {
                         if (vertexShaderLibrary) [vertexShaderLibrary release];
-                        log(LOG_LEVEL_ERROR, "Failed to load vertex shader, %s", [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]);
+                        Log(Log::Level::ERR) << "Failed to load vertex shader, " << [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding];
                         return false;
                     }
 
@@ -226,7 +226,7 @@ namespace ouzel
 
                     if (!vertexShader)
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to get function from shader, %s", [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]);
+                        Log(Log::Level::ERR) << "Failed to get function from shader, " << [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding];
                         return false;
                     }
                 }
@@ -249,7 +249,7 @@ namespace ouzel
 
                     if (vertexShaderConstantBuffer == Nil)
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to create Metal constant buffer");
+                        Log(Log::Level::ERR) << "Failed to create Metal constant buffer";
                         return false;
                     }
                 }

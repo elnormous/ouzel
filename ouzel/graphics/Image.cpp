@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Image.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 #include "core/Application.h"
 #include "files/FileSystem.h"
 #define STB_IMAGE_IMPLEMENTATION
@@ -45,7 +45,7 @@ namespace ouzel
 
             if (!tempData)
             {
-                log(LOG_LEVEL_ERROR, "Failed to open texture file %s, reason: %s", filename.c_str(), stbi_failure_reason());
+                Log(Log::Level::ERR) << "Failed to open texture file " << filename << ", reason: " << stbi_failure_reason();
                 return false;
             }
 

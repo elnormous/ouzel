@@ -53,7 +53,7 @@ namespace ouzel
                         break;
                     default:
                         format = DXGI_FORMAT_UNKNOWN;
-                        log(LOG_LEVEL_ERROR, "Invalid index size");
+                        Log(Log::Level::ERR) << "Invalid index size");
                         return false;
                     }
 
@@ -85,7 +85,7 @@ namespace ouzel
                             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &buffer);
                             if (FAILED(hr))
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to create Direct3D 11 index buffer");
+                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 index buffer");
                                 return false;
                             }
                         }
@@ -95,7 +95,7 @@ namespace ouzel
                             HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
                             if (FAILED(hr))
                             {
-                                log(LOG_LEVEL_ERROR, "Failed to lock Direct3D 11 buffer");
+                                Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer");
                                 return false;
                             }
 

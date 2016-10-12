@@ -5,6 +5,7 @@
 #include "Language.h"
 #include "core/Application.h"
 #include "files/FileSystem.h"
+#include "utils/Log.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -64,7 +65,7 @@ namespace ouzel
         }
         else
         {
-            log(LOG_LEVEL_ERROR, "Wrong magic %x", magic);
+            Log(Log::Level::ERR) << "Wrong magic " << magic;
             return false;
         }
 
@@ -73,7 +74,7 @@ namespace ouzel
 
         if (revision != 0)
         {
-            log(LOG_LEVEL_ERROR, "Unsupported revision %d", revision);
+            Log(Log::Level::ERR) << "Unsupported revision " << revision;
             return false;
         }
 

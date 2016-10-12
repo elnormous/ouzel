@@ -55,7 +55,7 @@ extern PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES;
 
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -103,7 +103,7 @@ namespace ouzel
                             case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
                         }
 
-                        log(LOG_LEVEL_ERROR, "OpenGL error: %s (%x)", errorStr, error);
+                        Log(Log::Level::ERR) << "OpenGL error: " << errorStr << " (" << error << ")";
                     }
 
                     return true;
@@ -122,7 +122,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to bind texture");
+                        Log(Log::Level::ERR) << "Failed to bind texture";
                         return false;
                     }
                 }
@@ -139,7 +139,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to bind program");
+                        Log(Log::Level::ERR) << "Failed to bind program";
                         return false;
                     }
                 }
@@ -156,7 +156,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to bind frame buffer");
+                        Log(Log::Level::ERR) << "Failed to bind frame buffer";
                         return false;
                     }
                 }
@@ -173,7 +173,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to bind element array buffer");
+                        Log(Log::Level::ERR) << "Failed to bind element array buffer";
                         return false;
                     }
                 }
@@ -190,7 +190,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to bind array buffer");
+                        Log(Log::Level::ERR) << "Failed to bind array buffer";
                         return false;
                     }
                 }
@@ -215,7 +215,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to bind vertex array");
+                        Log(Log::Level::ERR) << "Failed to bind vertex array";
                         return false;
                     }
                 }
@@ -305,7 +305,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to set scissor test");
+                        Log(Log::Level::ERR) << "Failed to set scissor test";
                         return false;
                     }
 
@@ -328,7 +328,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to set scissor test");
+                        Log(Log::Level::ERR) << "Failed to set scissor test";
                         return false;
                     }
                 }
@@ -351,7 +351,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to change depth test state");
+                        Log(Log::Level::ERR) << "Failed to change depth test state";
                         return false;
                     }
 
@@ -379,7 +379,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to set viewport");
+                        Log(Log::Level::ERR) << "Failed to set viewport";
                         return false;
                     }
                 }
@@ -448,7 +448,7 @@ namespace ouzel
 
                 if (checkError && checkOpenGLError())
                 {
-                    log(LOG_LEVEL_ERROR, "Failed to set blend state");
+                    Log(Log::Level::ERR) << "Failed to set blend state";
                     return false;
                 }
 
@@ -466,7 +466,7 @@ namespace ouzel
 
                     if (checkOpenGLError())
                     {
-                        log(LOG_LEVEL_ERROR, "Failed to set blend state");
+                        Log(Log::Level::ERR) << "Failed to set blend state";
                         return false;
                     }
                 }
