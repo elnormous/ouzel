@@ -3,7 +3,7 @@
 
 #include <bcm_host.h>
 #include "WindowRasp.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -26,7 +26,7 @@ namespace ouzel
 
         if (success == -1)
         {
-            Log(Log::Level::ERR) << "Failed to get display size");
+            Log(Log::Level::ERR) << "Failed to get display size";
             return false;
         }
 
