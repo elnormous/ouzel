@@ -9,16 +9,16 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../ouzel
 
 LOCAL_PCH := Prefix.h
 
-LOCAL_SRC_FILES := $(LOCAL_PATH)/jni.cpp \
-    $(LOCAL_PATH)/../../AnimationsSample.cpp \
-    $(LOCAL_PATH)/../../Samples.cpp \
-    $(LOCAL_PATH)/../../GUISample.cpp \
-    $(LOCAL_PATH)/../../InputSample.cpp \
-    $(LOCAL_PATH)/../../main.cpp \
-    $(LOCAL_PATH)/../../MainMenu.cpp \
-    $(LOCAL_PATH)/../../SoundSample.cpp \
-    $(LOCAL_PATH)/../../SpritesSample.cpp \
-    $(LOCAL_PATH)/../../RTSample.cpp
+LOCAL_SRC_FILES := jni.cpp \
+    ../../AnimationsSample.cpp \
+    ../../Samples.cpp \
+    ../../GUISample.cpp \
+    ../../InputSample.cpp \
+    ../../main.cpp \
+    ../../MainMenu.cpp \
+    ../../SoundSample.cpp \
+    ../../SpritesSample.cpp \
+    ../../RTSample.cpp
 
 LOCAL_STATIC_LIBRARIES := ouzel
 LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -lEGL -llog -landroid -lOpenSLES
