@@ -96,6 +96,13 @@ To build Ouzel with Emscripten, pass "platform=emscripten" to "make" command, bu
 $ make platform=emscripten
 ```
 
+You can build Android samples and run them on an Android device by executing the following commands in "samples/android" directory (Android SDK and NDK must be installed and added to PATH):
+
+```
+$ ant
+$ adb shell am start -n lv.elviss.ouzel/lv.elviss.ouzel.MainActivity
+```
+
 ## System requirements
 * Windows 7+ with Visual Studio 2013 or Visual Studio 2015
 * macOS 10.10+ with Xcode 7.2+
