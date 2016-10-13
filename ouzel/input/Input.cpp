@@ -117,8 +117,8 @@ namespace ouzel
         {
             Vector2 newPosition = cursorPosition + relativePosition;
 
-            newPosition.x = clamp(newPosition.x, -1.0f, 1.0f);
-            newPosition.y = clamp(newPosition.y, -1.0f, 1.0f);
+            newPosition.x = clamp(newPosition.x, 0.0f, 1.0f);
+            newPosition.y = clamp(newPosition.y, 0.0f, 1.0f);
 
             mouseMove(newPosition, modifiers);
         }
