@@ -8,7 +8,7 @@
 #include "InputRasp.h"
 #include "core/Engine.h"
 #include "core/Window.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 #define DIV_ROUND_UP(n,d) (((n) + (d) - 1) / (d))
 #define BITS_PER_LONG (8 * sizeof(long))
@@ -328,12 +328,12 @@ namespace ouzel
 
             if (result == GLOB_NOMATCH)
             {
-                Log(Log::Level::WARN) << "No event devices found");
+                Log(Log::Level::WARN) << "No event devices found";
                 return;
             }
             else if (result)
             {
-                Log(Log::Level::ERR) << "Could not read /dev/input/event*");
+                Log(Log::Level::ERR) << "Could not read /dev/input/event*";
                 return;
             }
 
@@ -344,23 +344,23 @@ namespace ouzel
                 inputDevice.fd = open(g.gl_pathv[i], O_RDONLY);
                 if (inputDevice.fd == -1)
                 {
-                    Log(Log::Level::WARN) << "Failed to open device file descriptor");
+                    Log(Log::Level::WARN) << "Failed to open device file descriptor";
                     continue;
                 }
 
                 if (ioctl(inputDevice.fd, EVIOCGRAB, (void *)1) == -1)
                 {
-                    Log(Log::Level::WARN) << "Failed to get grab device");
+                    Log(Log::Level::WARN) << "Failed to get grab device";
                 }
 
                 memset(TEMP_BUFFER, 0, sizeof(TEMP_BUFFER));
                 if (ioctl(inputDevice.fd, EVIOCGNAME(sizeof(TEMP_BUFFER) - 1), TEMP_BUFFER) == -1)
                 {
-                    Log(Log::Level::WARN) << "Failed to get device name");
+                    Log(Log::Level::WARN) << "Failed to get device name";
                 }
                 else
                 {
-                    Log(Log::Level::INFO) << "Got device: %s", TEMP_BUFFER);
+                    Log(Log::Level::INFO) << "Got device: " << TEMP_BUFFER;
                 }
 
                 unsigned long eventBits[BITS_TO_LONGS(EV_CNT)];
@@ -373,7 +373,7 @@ namespace ouzel
                     ioctl(inputDevice.fd, EVIOCGBIT(EV_REL, sizeof(relBits)), relBits) == -1 ||
                     ioctl(inputDevice.fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
                 {
-                    Log(Log::Level::WARN) << "Failed to get device event bits");
+                    Log(Log::Level::WARN) << "Failed to get device event bits";
                     continue;
                 }
 
@@ -390,7 +390,7 @@ namespace ouzel
                      isBitSet(keyBits, KEY_0)
                     ))
                 {
-                    Log(Log::Level::INFO) << "Device class: keyboard");
+                    Log(Log::Level::INFO) << "Device class: keyboard";
                     inputDevice.deviceClass = InputDeviceRasp::CLASS_KEYBOARD;
                 }
 
@@ -398,22 +398,22 @@ namespace ouzel
                 {
                     if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN))
                     {
-                        Log(Log::Level::INFO) << "Device class: tablet");
+                        Log(Log::Level::INFO) << "Device class: tablet";
                         inputDevice.deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
                     }
                     else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN))
                     {
-                        Log(Log::Level::INFO) << "Device class: touchpad");
+                        Log(Log::Level::INFO) << "Device class: touchpad";
                         inputDevice.deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
                     }
                     else if (isBitSet(keyBits, BTN_MOUSE))
                     {
-                        Log(Log::Level::INFO) << "Device class: mouse");
+                        Log(Log::Level::INFO) << "Device class: mouse";
                         inputDevice.deviceClass |= InputDeviceRasp::CLASS_MOUSE;
                     }
                     else if (isBitSet(keyBits, BTN_TOUCH))
                     {
-                        Log(Log::Level::INFO) << "Device class: touchscreen");
+                        Log(Log::Level::INFO) << "Device class: touchscreen";
                         inputDevice.deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
                     }
                 }
@@ -421,20 +421,20 @@ namespace ouzel
                 {
                     if (isBitSet(keyBits, BTN_MOUSE))
                     {
-                        Log(Log::Level::INFO) << "Device class: mouse");
+                        Log(Log::Level::INFO) << "Device class: mouse";
                         inputDevice.deviceClass |= InputDeviceRasp::CLASS_MOUSE;
                     }
                 }
 
                 if (isBitSet(keyBits, BTN_JOYSTICK))
                 {
-                    Log(Log::Level::INFO) << "Device class: joystick");
+                    Log(Log::Level::INFO) << "Device class: joystick";
                     inputDevice.deviceClass = InputDeviceRasp::CLASS_GAMEPAD;
                 }
 
                 if (isBitSet(keyBits, BTN_GAMEPAD))
                 {
-                    Log(Log::Level::INFO) << "Device class: gamepad");
+                    Log(Log::Level::INFO) << "Device class: gamepad";
                     inputDevice.deviceClass = InputDeviceRasp::CLASS_GAMEPAD;
                 }
 
@@ -455,12 +455,12 @@ namespace ouzel
             {
                 if (ioctl(inputDevice.fd, EVIOCGRAB, (void*)0) == -1)
                 {
-                    Log(Log::Level::WARN) << "Failed to release device");
+                    Log(Log::Level::WARN) << "Failed to release device";
                 }
 
                 if (close(inputDevice.fd) == -1)
                 {
-                    Log(Log::Level::ERR) << "Failed to close file descriptor");
+                    Log(Log::Level::ERR) << "Failed to close file descriptor";
                 }
             }
         }
@@ -483,7 +483,7 @@ namespace ouzel
 
             if (retval == -1)
             {
-                Log(Log::Level::ERR) << "Select failed");
+                Log(Log::Level::ERR) << "Select failed";
                 return;
             }
             else if (retval > 0)
