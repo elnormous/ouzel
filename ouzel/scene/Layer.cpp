@@ -40,7 +40,7 @@ namespace ouzel
                     }
                 }
 
-                drawQueue.sort([](const std::pair<NodePtr, float>& a, const std::pair<NodePtr, float>& b) {
+                std::stable_sort(drawQueue.begin(), drawQueue.end(), [](const std::pair<NodePtr, float>& a, const std::pair<NodePtr, float>& b) {
                     return a.second > b.second;
                 });
 
@@ -106,7 +106,7 @@ namespace ouzel
             {
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
-                for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+                for (std::vector<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
                     const NodePtr& node = i->first;
 
@@ -128,7 +128,7 @@ namespace ouzel
             {
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
-                for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+                for (std::vector<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
                     const NodePtr& node = i->first;
 
@@ -156,7 +156,7 @@ namespace ouzel
                     worldEdges.push_back(camera->convertNormalizedToWorld(edge));
                 }
 
-                for (std::list<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+                for (std::vector<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
                     const NodePtr& node = i->first;
 

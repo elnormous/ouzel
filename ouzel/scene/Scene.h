@@ -5,7 +5,6 @@
 
 #include <vector>
 #include <memory>
-#include <list>
 #include <set>
 #include <map>
 #include <cstdint>
@@ -34,7 +33,7 @@ namespace ouzel
             void removeLayer(const LayerPtr& layer);
             void removeAllLayers();
             bool hasLayer(const LayerPtr& layer) const;
-            const std::list<LayerPtr>& getLayers() const { return layers; }
+            const std::vector<LayerPtr>& getLayers() const { return layers; }
 
             virtual void recalculateProjection();
 
@@ -58,7 +57,7 @@ namespace ouzel
             void pointerUpOnNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
             void pointerDragNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position);
 
-            std::list<LayerPtr> layers;
+            std::vector<LayerPtr> layers;
             ouzel::EventHandler eventHandler;
 
             std::map<uint64_t, scene::NodeWeakPtr> pointerOnNodes;

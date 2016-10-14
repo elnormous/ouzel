@@ -33,7 +33,7 @@ namespace ouzel
             bool handleGamepad(Event::Type type, const GamepadEvent& event);
             bool handleUI(Event::Type type, const UIEvent& event);
 
-            std::list<WidgetPtr> widgets;
+            std::vector<WidgetPtr> widgets;
             WidgetPtr selectedWidget;
 
             EventHandler eventHandler;

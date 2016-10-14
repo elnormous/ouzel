@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <list>
+#include <vector>
 #include <memory>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
@@ -25,13 +25,13 @@ namespace ouzel
             virtual bool removeChild(const NodePtr& node);
             virtual void removeAllChildren();
             virtual bool hasChild(const NodePtr& node, bool recursive = false) const;
-            virtual const std::list<NodePtr>& getChildren() const { return children; }
+            virtual const std::vector<NodePtr>& getChildren() const { return children; }
 
         protected:
             virtual void enter();
             virtual void leave();
 
-            std::list<NodePtr> children;
+            std::vector<NodePtr> children;
             bool entered = false;
         };
     } // namespace scene

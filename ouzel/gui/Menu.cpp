@@ -55,7 +55,12 @@ namespace ouzel
                 return false;
             }
 
-            widgets.remove(widget);
+            auto i = std::find(widgets.begin(), widgets.end(), widget);
+
+            if (i != widgets.end())
+            {
+                widgets.erase(i);
+            }
 
             if (selectedWidget == widget)
             {
@@ -79,7 +84,7 @@ namespace ouzel
         {
             if (widgets.empty()) return;
 
-            std::list<WidgetPtr>::iterator widgetIterator = widgets.end();
+            std::vector<WidgetPtr>::iterator widgetIterator = widgets.end();
 
             if (selectedWidget)
             {
@@ -96,7 +101,7 @@ namespace ouzel
         {
             if (widgets.empty()) return;
 
-            std::list<WidgetPtr>::iterator widgetIterator = widgets.end();
+            std::vector<WidgetPtr>::iterator widgetIterator = widgets.end();
 
             if (selectedWidget)
             {

@@ -33,7 +33,7 @@ namespace ouzel
 
         void Scene::draw()
         {
-            layers.sort([](LayerPtr a, LayerPtr b) {
+            std::stable_sort(layers.begin(), layers.end(), [](LayerPtr a, LayerPtr b) {
                 return a->getOrder() > b->getOrder();
             });
 
@@ -55,7 +55,7 @@ namespace ouzel
 
         void Scene::removeLayer(const LayerPtr& layer)
         {
-            std::list<LayerPtr>::iterator i = std::find(layers.begin(), layers.end(), layer);
+            std::vector<LayerPtr>::iterator i = std::find(layers.begin(), layers.end(), layer);
 
             if (i != layers.end())
             {
@@ -83,7 +83,7 @@ namespace ouzel
 
         bool Scene::hasLayer(const LayerPtr& layer) const
         {
-            std::list<LayerPtr>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
+            std::vector<LayerPtr>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
 
             return i != layers.end();
         }
@@ -98,7 +98,7 @@ namespace ouzel
 
         NodePtr Scene::pickNode(const Vector2& position) const
         {
-            for (std::list<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
+            for (std::vector<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 const LayerPtr& layer = *i;
 
@@ -115,7 +115,7 @@ namespace ouzel
         {
             std::set<NodePtr> result;
 
-            for (std::list<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
+            for (std::vector<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 std::set<NodePtr> nodes = (*i)->pickNodes(edges);
 

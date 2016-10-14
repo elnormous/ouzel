@@ -40,7 +40,7 @@ namespace ouzel
 
         bool NodeContainer::removeChild(const NodePtr& node)
         {
-            std::list<NodePtr>::iterator i = std::find(children.begin(), children.end(), node);
+            std::vector<NodePtr>::iterator i = std::find(children.begin(), children.end(), node);
 
             if (i != children.end())
             {
@@ -71,7 +71,7 @@ namespace ouzel
 
         bool NodeContainer::hasChild(const NodePtr& node, bool recursive) const
         {
-            for (std::list<NodePtr>::const_iterator i = children.begin(); i != children.end(); ++i)
+            for (std::vector<NodePtr>::const_iterator i = children.begin(); i != children.end(); ++i)
             {
                 const NodePtr& child = *i;
 

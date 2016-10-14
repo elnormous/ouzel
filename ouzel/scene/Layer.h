@@ -51,7 +51,7 @@ namespace ouzel
             virtual void enter() override;
 
             std::set<CameraPtr> cameras;
-            std::list<std::pair<NodePtr, float>> drawQueue;
+            std::vector<std::pair<NodePtr, float>> drawQueue;
 
             int32_t order = 0;
             bool wireframe = false;
