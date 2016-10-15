@@ -98,18 +98,13 @@ namespace ouzel
         {
             for (const CameraPtr& camera : cameras)
             {
+                std::vector<NodePtr> nodes;
+
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
-                const auto& drawQueue = camera->getDrawQueue();
 
-                for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
-                {
-                    const NodePtr& node = *i;
+                NodeContainer::pickNodes(worldPosition, nodes);
 
-                    if (!node->isHidden() && node->isPickable() && node->pointOn(worldPosition))
-                    {
-                        return node;
-                    }
-                }
+                if (!nodes.empty()) return nodes.front();
             }
 
             return nullptr;
@@ -122,17 +117,11 @@ namespace ouzel
             for (const CameraPtr& camera : cameras)
             {
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
-                const auto& drawQueue = camera->getDrawQueue();
 
-                for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
-                {
-                    const NodePtr& node = *i;
+                std::vector<NodePtr> nodes;
+                NodeContainer::pickNodes(worldPosition, nodes);
 
-                    if (!node->isHidden() && node->isPickable() && node->pointOn(worldPosition))
-                    {
-                        result.push_back(node);
-                    }
-                }
+                result.insert(result.end(), nodes.begin(), nodes.end());
             }
 
             return result;
@@ -154,15 +143,10 @@ namespace ouzel
                     worldEdges.push_back(camera->convertNormalizedToWorld(edge));
                 }
 
-                for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
-                {
-                    const NodePtr& node = *i;
+                std::vector<NodePtr> nodes;
+                NodeContainer::pickNodes(worldEdges, nodes);
 
-                    if (!node->isHidden() && node->isPickable() && node->shapeOverlaps(worldEdges))
-                    {
-                        result.push_back(node);
-                    }
-                }
+                result.insert(result.end(), nodes.begin(), nodes.end());
             }
 
             return result;

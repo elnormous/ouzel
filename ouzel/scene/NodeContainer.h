@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include "utils/Types.h"
+#include "math/Vector2.h"
 #include "utils/Noncopyable.h"
 
 namespace ouzel
@@ -23,6 +24,9 @@ namespace ouzel
             virtual void removeAllChildren();
             virtual bool hasChild(const NodePtr& node, bool recursive = false) const;
             virtual const std::vector<NodePtr>& getChildren() const { return children; }
+
+            virtual void pickNodes(const Vector2& position, std::vector<NodePtr>& nodes) const;
+            virtual void pickNodes(const std::vector<Vector2>& edges, std::vector<NodePtr>& nodes) const;
 
         protected:
             virtual void enter();

@@ -103,5 +103,47 @@ namespace ouzel
                 node->leave();
             }
         }
+
+        void NodeContainer::pickNodes(const Vector2& position, std::vector<NodePtr>& nodes) const
+        {
+            for (const NodePtr& node : children)
+            {
+                if (!node->isHidden())
+                {
+                    if (node->isPickable() && node->pointOn(position))
+                    {
+                        auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
+                                                           [](const NodePtr& a, NodePtr& b) {
+                                                               return a->getWorldZ() < b->getWorldZ();
+                                                           });
+
+                        nodes.insert(upperBound, node);
+                    }
+
+                    node->pickNodes(position, nodes);
+                }
+            }
+        }
+
+        void NodeContainer::pickNodes(const std::vector<Vector2>& edges, std::vector<NodePtr>& nodes) const
+        {
+            for (const NodePtr& node : children)
+            {
+                if (!node->isHidden())
+                {
+                    if (node->isPickable() && node->shapeOverlaps(edges))
+                    {
+                        auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
+                                                           [](const NodePtr& a, NodePtr& b) {
+                                                               return a->getWorldZ() < b->getWorldZ();
+                                                           });
+
+                        nodes.insert(upperBound, node);
+                    }
+
+                    node->pickNodes(edges, nodes);
+                }
+            }
+        }
     } // namespace scene
 } // namespace ouzel
