@@ -121,9 +121,9 @@ namespace ouzel
             return nullptr;
         }
 
-        std::set<NodePtr> Layer::pickNodes(const Vector2& position) const
+        std::vector<NodePtr> Layer::pickNodes(const Vector2& position) const
         {
-            std::set<NodePtr> result;
+            std::vector<NodePtr> result;
 
             for (const CameraPtr& camera : cameras)
             {
@@ -135,7 +135,7 @@ namespace ouzel
 
                     if (!node->isHidden() && node->isPickable() && node->pointOn(worldPosition))
                     {
-                        result.insert(node);
+                        result.push_back(node);
                     }
                 }
             }
