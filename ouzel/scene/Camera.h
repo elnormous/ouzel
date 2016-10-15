@@ -56,7 +56,7 @@ namespace ouzel
             void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
             const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
 
-            void addToDrawQueue(const NodePtr& node, float depth);
+            void addToDrawQueue(const NodePtr& node);
             const std::vector<NodePtr>& getDrawQueue() const { return drawQueue; }
             
         protected:
