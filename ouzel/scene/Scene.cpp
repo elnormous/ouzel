@@ -115,7 +115,7 @@ namespace ouzel
         {
             std::vector<NodePtr> result;
 
-            for (std::vector<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
+            for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 std::vector<NodePtr> nodes = (*i)->pickNodes(position);
 
@@ -129,7 +129,7 @@ namespace ouzel
         {
             std::vector<NodePtr> result;
 
-            for (std::vector<LayerPtr>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
+            for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 std::vector<NodePtr> nodes = (*i)->pickNodes(edges);
 

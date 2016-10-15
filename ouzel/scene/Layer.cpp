@@ -96,8 +96,10 @@ namespace ouzel
 
         NodePtr Layer::pickNode(const Vector2& position) const
         {
-            for (const CameraPtr& camera : cameras)
+            for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
+                const CameraPtr& camera = *i;
+
                 std::vector<NodePtr> nodes;
 
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
@@ -114,8 +116,10 @@ namespace ouzel
         {
             std::vector<NodePtr> result;
 
-            for (const CameraPtr& camera : cameras)
+            for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
+                const CameraPtr& camera = *i;
+
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
                 std::vector<NodePtr> nodes;
@@ -131,10 +135,10 @@ namespace ouzel
         {
             std::vector<NodePtr> result;
 
-            for (const CameraPtr& camera : cameras)
+            for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
-                const auto& drawQueue = camera->getDrawQueue();
-
+                const CameraPtr& camera = *i;
+                
                 std::vector<Vector2> worldEdges;
                 worldEdges.reserve(edges.size());
 

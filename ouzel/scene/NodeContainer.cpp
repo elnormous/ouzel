@@ -106,8 +106,10 @@ namespace ouzel
 
         void NodeContainer::pickNodes(const Vector2& position, std::vector<NodePtr>& nodes) const
         {
-            for (const NodePtr& node : children)
+            for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
+                const NodePtr& node = *i;
+
                 if (!node->isHidden())
                 {
                     if (node->isPickable() && node->pointOn(position))
@@ -127,8 +129,10 @@ namespace ouzel
 
         void NodeContainer::pickNodes(const std::vector<Vector2>& edges, std::vector<NodePtr>& nodes) const
         {
-            for (const NodePtr& node : children)
+            for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
+                const NodePtr& node = *i;
+
                 if (!node->isHidden())
                 {
                     if (node->isPickable() && node->shapeOverlaps(edges))
