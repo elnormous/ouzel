@@ -218,5 +218,17 @@ namespace ouzel
 
             recalculateProjection();
         }
+
+        void Camera::addToDrawQueue(const NodePtr& node, float depth)
+        {
+            auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(),
+                                               std::pair<NodePtr, float>{ node, depth },
+                                               [](const std::pair<NodePtr, float>& a, const std::pair<NodePtr, float>& b) {
+                                                   return a.second > b.second;
+                                               });
+
+            drawQueue.insert(upperBound, { node, depth });
+
+        }
     } // namespace scene
 } // namespace ouzel

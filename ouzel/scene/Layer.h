@@ -30,8 +30,6 @@ namespace ouzel
 
             virtual bool addChild(const NodePtr& node) override;
 
-            void addToDrawQueue(const NodePtr& node, float depth);
-
             void addCamera(const CameraPtr& camera);
             void removeCamera(const CameraPtr& camera);
             const std::set<CameraPtr>& getCameras() const { return cameras; }
@@ -51,7 +49,6 @@ namespace ouzel
             virtual void enter() override;
 
             std::set<CameraPtr> cameras;
-            std::vector<std::pair<NodePtr, float>> drawQueue;
 
             int32_t order = 0;
             bool wireframe = false;

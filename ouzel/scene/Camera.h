@@ -9,11 +9,14 @@ namespace ouzel
 {
     namespace scene
     {
-        class SceneManager;
+        class Layer;
 
         class Camera: public Node
         {
+            friend Layer;
         public:
+            typedef std::vector<std::pair<NodePtr, float>> DrawQueue;
+
             enum class ScaleMode
             {
                 NONE,
@@ -55,7 +58,11 @@ namespace ouzel
             void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
             const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
 
+            void addToDrawQueue(const NodePtr& node, float depth);
+            const DrawQueue& getDrawQueue() const { return drawQueue; }
+            
         protected:
+            void clearDrawQueue() { drawQueue.clear(); }
             virtual void calculateLocalTransform() const override;
 
             Matrix4 projection = Matrix4::IDENTITY;
@@ -76,6 +83,8 @@ namespace ouzel
             Layer* layer = nullptr;
 
             graphics::RenderTargetPtr renderTarget;
+
+            DrawQueue drawQueue;
         };
     } // namespace scene
 } // namespace ouzel

@@ -29,10 +29,10 @@ namespace ouzel
 
         void Layer::draw()
         {
-            drawQueue.clear();
-
             for (const CameraPtr& camera : cameras)
             {
+                camera->clearDrawQueue();
+                
                 for (const NodePtr& child : children)
                 {
                     if (!child->isHidden())
@@ -41,9 +41,7 @@ namespace ouzel
                     }
                 }
 
-                std::stable_sort(drawQueue.begin(), drawQueue.end(), [](const std::pair<NodePtr, float>& a, const std::pair<NodePtr, float>& b) {
-                    return a.second > b.second;
-                });
+                const auto& drawQueue = camera->getDrawQueue();
 
                 for (const auto& node : drawQueue)
                 {
@@ -74,11 +72,6 @@ namespace ouzel
             }
         }
 
-        void Layer::addToDrawQueue(const NodePtr& node, float depth)
-        {
-            drawQueue.push_back({ node, depth });
-        }
-
         void Layer::addCamera(const CameraPtr& camera)
         {
             auto i = cameras.insert(camera);
@@ -106,6 +99,7 @@ namespace ouzel
             for (const CameraPtr& camera : cameras)
             {
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
+                const auto& drawQueue = camera->getDrawQueue();
 
                 for (std::vector<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
@@ -128,6 +122,7 @@ namespace ouzel
             for (const CameraPtr& camera : cameras)
             {
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
+                const auto& drawQueue = camera->getDrawQueue();
 
                 for (std::vector<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
@@ -149,6 +144,8 @@ namespace ouzel
 
             for (const CameraPtr& camera : cameras)
             {
+                const auto& drawQueue = camera->getDrawQueue();
+
                 std::vector<Vector2> worldEdges;
                 worldEdges.reserve(edges.size());
 

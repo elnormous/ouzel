@@ -48,7 +48,7 @@ namespace ouzel
 
             if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
             {
-                currentLayer->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()), depth + z);
+                camera->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()), depth + z);
             }
 
             for (const NodePtr& child : children)
