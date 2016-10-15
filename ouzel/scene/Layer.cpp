@@ -138,9 +138,9 @@ namespace ouzel
             return result;
         }
 
-        std::set<NodePtr> Layer::pickNodes(const std::vector<Vector2>& edges) const
+        std::vector<NodePtr> Layer::pickNodes(const std::vector<Vector2>& edges) const
         {
-            std::set<NodePtr> result;
+            std::vector<NodePtr> result;
 
             for (const CameraPtr& camera : cameras)
             {
@@ -160,7 +160,7 @@ namespace ouzel
 
                     if (!node->isHidden() && node->isPickable() && node->shapeOverlaps(worldEdges))
                     {
-                        result.insert(node);
+                        result.push_back(node);
                     }
                 }
             }

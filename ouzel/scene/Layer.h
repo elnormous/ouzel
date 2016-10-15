@@ -36,7 +36,7 @@ namespace ouzel
 
             NodePtr pickNode(const Vector2& position) const;
             std::vector<NodePtr> pickNodes(const Vector2& position) const;
-            std::set<NodePtr> pickNodes(const std::vector<Vector2>& edges) const;
+            std::vector<NodePtr> pickNodes(const std::vector<Vector2>& edges) const;
 
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
