@@ -11,7 +11,7 @@ Supported platforms:
 * Windows 7, 8, 10 
 * macOS 10.8+
 * Linux
-* iOS 7+
+* iOS 8+
 * tvOS 9+
 * Android 2.3+
 * Emscripten ([sample](http://www.ouzelengine.org/samples/))
