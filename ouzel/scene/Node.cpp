@@ -31,8 +31,10 @@ namespace ouzel
         void Node::visit(const Matrix4& newTransformMatrix,
                          bool parentTransformDirty,
                          const CameraPtr& camera,
-                         float depth)
+                         float newParentZ)
         {
+            parentZ = newParentZ;
+
             if (parentTransformDirty)
             {
                 updateTransform(newTransformMatrix);
@@ -47,14 +49,14 @@ namespace ouzel
 
             if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
             {
-                camera->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()), depth + z);
+                camera->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()), newParentZ + z);
             }
 
             for (const NodePtr& child : children)
             {
                 if (!child->isHidden())
                 {
-                    child->visit(transform, updateChildrenTransform, camera, depth + z);
+                    child->visit(transform, updateChildrenTransform, camera, newParentZ + z);
                 }
             }
 
@@ -214,6 +216,14 @@ namespace ouzel
         {
             parentTransform = newParentTransform;
             transformDirty = inverseTransformDirty = true;
+        }
+
+        Vector2 Node::getWorldPosition() const
+        {
+            Vector3 result = position;
+            getTransform().transformPoint(result);
+
+            return Vector2(position.x, position.y);
         }
 
         Vector2 Node::convertWorldToLocal(const Vector2& worldPosition) const

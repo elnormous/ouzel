@@ -45,14 +45,14 @@ namespace ouzel
 
                 for (const auto& node : drawQueue)
                 {
-                    node.first->draw(camera);
+                    node->draw(camera);
                 }
 
                 if (wireframe)
                 {
                     for (const auto& node : drawQueue)
                     {
-                        node.first->drawWireframe(camera);
+                        node->drawWireframe(camera);
                     }
                 }
             }
@@ -101,9 +101,9 @@ namespace ouzel
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
                 const auto& drawQueue = camera->getDrawQueue();
 
-                for (std::vector<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+                for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
-                    const NodePtr& node = i->first;
+                    const NodePtr& node = *i;
 
                     if (!node->isHidden() && node->isPickable() && node->pointOn(worldPosition))
                     {
@@ -124,9 +124,9 @@ namespace ouzel
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
                 const auto& drawQueue = camera->getDrawQueue();
 
-                for (std::vector<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+                for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
-                    const NodePtr& node = i->first;
+                    const NodePtr& node = *i;
 
                     if (!node->isHidden() && node->isPickable() && node->pointOn(worldPosition))
                     {
@@ -154,9 +154,9 @@ namespace ouzel
                     worldEdges.push_back(camera->convertNormalizedToWorld(edge));
                 }
 
-                for (std::vector<std::pair<NodePtr, float>>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
+                for (std::vector<NodePtr>::const_reverse_iterator i = drawQueue.rbegin(); i != drawQueue.rend(); ++i)
                 {
-                    const NodePtr& node = i->first;
+                    const NodePtr& node = *i;
 
                     if (!node->isHidden() && node->isPickable() && node->shapeOverlaps(worldEdges))
                     {

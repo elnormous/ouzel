@@ -15,8 +15,6 @@ namespace ouzel
         {
             friend Layer;
         public:
-            typedef std::vector<std::pair<NodePtr, float>> DrawQueue;
-
             enum class ScaleMode
             {
                 NONE,
@@ -59,7 +57,7 @@ namespace ouzel
             const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
 
             void addToDrawQueue(const NodePtr& node, float depth);
-            const DrawQueue& getDrawQueue() const { return drawQueue; }
+            const std::vector<NodePtr>& getDrawQueue() const { return drawQueue; }
             
         protected:
             void clearDrawQueue() { drawQueue.clear(); }
@@ -84,7 +82,7 @@ namespace ouzel
 
             graphics::RenderTargetPtr renderTarget;
 
-            DrawQueue drawQueue;
+            std::vector<NodePtr> drawQueue;
         };
     } // namespace scene
 } // namespace ouzel
