@@ -120,7 +120,6 @@ namespace ouzel
             virtual void visit(const Matrix4& newParentTransform,
                                bool parentTransformDirty,
                                const CameraPtr& camera,
-                               Layer* currentLayer,
                                float depth);
             virtual void draw(const CameraPtr& camera);
             virtual void drawWireframe(const CameraPtr& camera);

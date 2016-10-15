@@ -31,7 +31,6 @@ namespace ouzel
         void Node::visit(const Matrix4& newTransformMatrix,
                          bool parentTransformDirty,
                          const CameraPtr& camera,
-                         Layer* currentLayer,
                          float depth)
         {
             if (parentTransformDirty)
@@ -55,7 +54,7 @@ namespace ouzel
             {
                 if (!child->isHidden())
                 {
-                    child->visit(transform, updateChildrenTransform, camera, currentLayer, depth + z);
+                    child->visit(transform, updateChildrenTransform, camera, depth + z);
                 }
             }
 

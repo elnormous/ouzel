@@ -37,7 +37,7 @@ namespace ouzel
                 {
                     if (!child->isHidden())
                     {
-                        child->visit(Matrix4::IDENTITY, false, camera, this, 0.0f);
+                        child->visit(Matrix4::IDENTITY, false, camera, 0.0f);
                     }
                 }
 
