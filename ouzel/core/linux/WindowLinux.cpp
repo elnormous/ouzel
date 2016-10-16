@@ -42,7 +42,7 @@ namespace ouzel
     {
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
-            std::shared_ptr<graphics::RendererOGL> rendererOGL = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
+            graphics::RendererOGL* rendererOGL = static_cast<graphics::RendererOGL*>(sharedEngine->getRenderer());
 
             // open a connection to the X server
             display = XOpenDisplay(nullptr);
@@ -214,7 +214,7 @@ namespace ouzel
         }
 
         Window::setSize(newSize);
-        std::shared_ptr<graphics::RendererOGL> rendererOGL = std::static_pointer_cast<graphics::RendererOGL>(sharedEngine->getRenderer());
+        graphics::RendererOGL* rendererOGL = static_cast<graphics::RendererOGL*>(sharedEngine->getRenderer());
         rendererOGL->setSize(size);
     }
 
