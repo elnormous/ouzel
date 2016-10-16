@@ -217,9 +217,9 @@ namespace ouzel
             return modifiers;
         }
 
-        InputLinux::InputLinux(const WindowPtr& pWindow)
+        InputLinux::InputLinux(Window* pWindow)
         {
-            std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(pWindow);
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(pWindow);
             display = windowLinux->getDisplay();
             window = windowLinux->getNativeWindow();
 

@@ -28,7 +28,7 @@ namespace ouzel
 
             virtual ~InputLinux();
         protected:
-            InputLinux(const WindowPtr& pWindow);
+            InputLinux(Window* pWindow);
 
             Display* display = nullptr;
             ::Window window = 0;

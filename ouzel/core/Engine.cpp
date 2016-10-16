@@ -327,7 +327,7 @@ namespace ouzel
 #elif OUZEL_PLATFORM_ANDROID
         input.reset(new input::InputAndroid());
 #elif OUZEL_PLATFORM_LINUX
-        input.reset(new input::InputLinux(window));
+        input.reset(new input::InputLinux(window.get()));
 #elif OUZEL_PLATFORM_WINDOWS
         input.reset(new input::InputWin());
 #elif OUZEL_PLATFORM_RASPBIAN
