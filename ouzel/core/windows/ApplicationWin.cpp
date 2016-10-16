@@ -38,8 +38,8 @@ namespace ouzel
             return EXIT_FAILURE;
         }
 
-        std::shared_ptr<input::InputWin> input = std::static_pointer_cast<input::InputWin>(sharedEngine->getInput());
-        std::shared_ptr<WindowWin> window = std::static_pointer_cast<WindowWin>(sharedEngine->getWindow());
+        input::InputWin* input = static_cast<input::InputWin*>(sharedEngine->getInput());
+        WindowWin* window = static_cast<WindowWin*>(sharedEngine->getWindow());
         sharedEngine->begin();
 
         MSG msg;

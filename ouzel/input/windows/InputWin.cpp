@@ -220,7 +220,7 @@ namespace ouzel
                         Event event;
                         event.type = Event::Type::GAMEPAD_CONNECT;
 
-                        event.gamepadEvent.gamepad = gamepads[i];
+                        event.gamepadEvent.gamepad = gamepads[i].get();
 
                         sharedEngine->getEventDispatcher()->postEvent(event);
                     }
@@ -234,7 +234,7 @@ namespace ouzel
                         Event event;
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
 
-                        event.gamepadEvent.gamepad = gamepads[i];
+                        event.gamepadEvent.gamepad = gamepads[i].get();
 
                         sharedEngine->getEventDispatcher()->postEvent(event);
 
