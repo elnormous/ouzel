@@ -17,7 +17,6 @@ namespace ouzel
         {
         public:
             Image();
-            virtual ~Image();
 
             const Size2& getSize() const { return size; }
             const std::vector<uint8_t>& getData() const { return data; }

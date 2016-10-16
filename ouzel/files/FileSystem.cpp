@@ -81,10 +81,6 @@ namespace ouzel
 #endif
     }
 
-    FileSystem::~FileSystem()
-    {
-    }
-
     std::string FileSystem::getHomeDirectory()
     {
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN

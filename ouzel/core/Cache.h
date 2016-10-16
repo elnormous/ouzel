@@ -15,7 +15,6 @@ namespace ouzel
     {
     public:
         Cache();
-        virtual ~Cache();
 
         void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
         graphics::TexturePtr getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;

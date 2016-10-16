@@ -15,7 +15,6 @@ namespace ouzel
         {
         public:
             Menu();
-            virtual ~Menu();
 
             virtual bool addWidget(const WidgetPtr& widget);
             virtual bool removeWidget(const WidgetPtr& widget);

@@ -40,10 +40,6 @@ namespace ouzel
             setText(pText);
         }
 
-        TextDrawable::~TextDrawable()
-        {
-        }
-
         void TextDrawable::setFont(const std::string& fontFile)
         {
             font = BMFont(fontFile);

@@ -67,10 +67,6 @@ namespace ouzel
             updateSprite();
         }
 
-        CheckBox::~CheckBox()
-        {
-        }
-
         void CheckBox::setEnabled(bool enabled)
         {
             Widget::setEnabled(enabled);

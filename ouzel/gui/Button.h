@@ -21,7 +21,6 @@ namespace ouzel
         public:
             Button(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
                    const std::string& label = "", const graphics::Color& labelColor = graphics::Color::WHITE, const std::string& font = "");
-            virtual ~Button();
 
             virtual void setEnabled(bool newEnabled) override;
             virtual void setSelected(bool newSelected) override;

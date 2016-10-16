@@ -41,10 +41,6 @@ namespace ouzel
             initFromFile(filename, mipmaps);
         }
 
-        Sprite::~Sprite()
-        {
-        }
-
         bool Sprite::initFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames)
         {
             frames = spriteFrames;

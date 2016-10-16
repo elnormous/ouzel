@@ -23,7 +23,6 @@ namespace ouzel
             Sprite();
             Sprite(const std::vector<SpriteFramePtr>& spriteFrames);
             Sprite(const std::string& filename, bool mipmaps = true);
-            virtual ~Sprite();
 
             virtual bool initFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames);
             virtual bool initFromFile(const std::string& filename, bool mipmaps = true);

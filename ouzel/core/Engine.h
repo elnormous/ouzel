@@ -24,7 +24,7 @@ namespace ouzel
     {
     public:
         Engine();
-        virtual ~Engine();
+        ~Engine();
 
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
         static std::set<audio::Audio::Driver> getAvailableAudioDrivers();

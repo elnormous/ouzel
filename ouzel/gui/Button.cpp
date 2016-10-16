@@ -75,10 +75,6 @@ namespace ouzel
             updateSprite();
         }
 
-        Button::~Button()
-        {
-        }
-
         void Button::setEnabled(bool newEnabled)
         {
             Widget::setEnabled(newEnabled);

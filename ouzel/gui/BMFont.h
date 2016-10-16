@@ -38,7 +38,6 @@ namespace ouzel
     public:
         BMFont();
         BMFont(const std::string& filename);
-        ~BMFont();
 
         float getHeight() { return lineHeight; }
 

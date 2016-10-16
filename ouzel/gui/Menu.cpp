@@ -17,10 +17,6 @@ namespace ouzel
             eventHandler.uiHandler = std::bind(&Menu::handleUI, this, std::placeholders::_1, std::placeholders::_2);
         }
 
-        Menu::~Menu()
-        {
-        }
-
         void Menu::enter()
         {
             sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);

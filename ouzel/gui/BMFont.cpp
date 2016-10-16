@@ -29,10 +29,6 @@ namespace ouzel
         kernCount = static_cast<uint16_t>(kern.size());
     }
 
-    BMFont::~BMFont()
-    {
-    }
-
     bool BMFont::parseFont(const std::string& filename)
     {
         std::vector<uint8_t> data;

@@ -4,13 +4,14 @@
 #pragma once
 
 #include <functional>
+#include "utils/Noncopyable.h"
 #include "utils/Types.h"
 
 namespace ouzel
 {
     namespace scene
     {
-        class Animator
+        class Animator: public Noncopyable
         {
         public:
             Animator(float pLength);

@@ -35,10 +35,6 @@ namespace ouzel
             initFromFile(filename);
         }
 
-        ParticleSystem::~ParticleSystem()
-        {
-        }
-
         void ParticleSystem::draw(const Matrix4& transformMatrix,
                                   const graphics::Color& drawColor,
                                   const scene::CameraPtr& camera)

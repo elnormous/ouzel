@@ -26,8 +26,6 @@ namespace ouzel
     public:
         static const std::string DIRECTORY_SEPARATOR;
 
-        virtual ~FileSystem();
-
         static std::string getHomeDirectory();
         static std::string getStorageDirectory(const std::string& developer, const std::string& app);
         static std::string getTempDirectory();

@@ -27,10 +27,6 @@ namespace ouzel
             pickable = true;
         }
 
-        Label::~Label()
-        {
-        }
-
         void Label::setText(const std::string& newText)
         {
             text = newText;

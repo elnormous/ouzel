@@ -60,7 +60,6 @@ namespace ouzel
         public:
             ParticleSystem();
             ParticleSystem(const std::string& filename);
-            virtual ~ParticleSystem();
 
             virtual void draw(const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,

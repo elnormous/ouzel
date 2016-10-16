@@ -21,10 +21,6 @@ namespace ouzel
     {
     }
 
-    Cache::~Cache()
-    {
-    }
-
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
         std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = textures.find(filename);

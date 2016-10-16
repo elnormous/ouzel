@@ -14,7 +14,6 @@ namespace ouzel
         {
         public:
             EditBox();
-            virtual ~EditBox();
 
             void setValue(const std::string& newValue);
             const std::string& getValue() const { return value; }

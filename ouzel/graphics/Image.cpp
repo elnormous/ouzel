@@ -18,10 +18,6 @@ namespace ouzel
         {
         }
 
-        Image::~Image()
-        {
-        }
-
         bool Image::initFromFile(const std::string& newFilename)
         {
             filename = newFilename;

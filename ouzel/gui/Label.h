@@ -16,7 +16,6 @@ namespace ouzel
         {
         public:
             Label(const std::string& fontFile, const std::string& pText, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
-            virtual ~Label();
 
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }

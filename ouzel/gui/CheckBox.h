@@ -15,7 +15,6 @@ namespace ouzel
         {
         public:
             CheckBox(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage);
-            virtual ~CheckBox();
 
             virtual void setEnabled(bool enabled) override;
 
