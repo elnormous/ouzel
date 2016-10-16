@@ -9,7 +9,6 @@ class SpritesSample: public ouzel::scene::Scene
 {
 public:
     SpritesSample();
-    virtual ~SpritesSample();
 
 private:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;

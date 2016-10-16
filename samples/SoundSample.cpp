@@ -45,10 +45,6 @@ SoundSample::SoundSample()
     menu->addWidget(backButton);
 }
 
-SoundSample::~SoundSample()
-{
-}
-
 bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)

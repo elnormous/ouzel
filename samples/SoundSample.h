@@ -9,7 +9,6 @@ class SoundSample: public ouzel::scene::Scene
 {
 public:
     SoundSample();
-    virtual ~SoundSample();
 
 private:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;

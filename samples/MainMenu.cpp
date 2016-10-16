@@ -51,10 +51,6 @@ MainMenu::MainMenu()
     menu->addWidget(soundButton);
 }
 
-MainMenu::~MainMenu()
-{
-}
-
 bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
     if (event.key == ouzel::input::KeyboardKey::ESCAPE)

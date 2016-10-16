@@ -9,7 +9,6 @@ class InputSample: public ouzel::scene::Scene
 {
 public:
     InputSample();
-    virtual ~InputSample();
 
 private:
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;

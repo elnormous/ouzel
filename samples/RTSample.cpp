@@ -61,10 +61,6 @@ RTSample::RTSample()
     menu->addWidget(backButton);
 }
 
-RTSample::~RTSample()
-{
-}
-
 bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE && event.node == backButton.get())

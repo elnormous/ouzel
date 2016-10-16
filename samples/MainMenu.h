@@ -9,7 +9,6 @@ class MainMenu: public ouzel::scene::Scene
 {
 public:
     MainMenu();
-    virtual ~MainMenu();
 
 private:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
