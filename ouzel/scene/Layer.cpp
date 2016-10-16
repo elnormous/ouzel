@@ -104,7 +104,7 @@ namespace ouzel
 
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
-                NodeContainer::pickNodes(worldPosition, nodes);
+                findNodes(worldPosition, nodes);
 
                 if (!nodes.empty()) return nodes.front();
             }
@@ -123,7 +123,7 @@ namespace ouzel
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
                 std::vector<NodePtr> nodes;
-                NodeContainer::pickNodes(worldPosition, nodes);
+                findNodes(worldPosition, nodes);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());
             }
@@ -148,7 +148,7 @@ namespace ouzel
                 }
 
                 std::vector<NodePtr> nodes;
-                NodeContainer::pickNodes(worldEdges, nodes);
+                findNodes(worldEdges, nodes);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());
             }

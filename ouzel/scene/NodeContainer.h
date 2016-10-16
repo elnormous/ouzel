@@ -25,10 +25,10 @@ namespace ouzel
             virtual bool hasChild(const NodePtr& node, bool recursive = false) const;
             virtual const std::vector<NodePtr>& getChildren() const { return children; }
 
-            virtual void pickNodes(const Vector2& position, std::vector<NodePtr>& nodes) const;
-            virtual void pickNodes(const std::vector<Vector2>& edges, std::vector<NodePtr>& nodes) const;
-
         protected:
+            void findNodes(const Vector2& position, std::vector<NodePtr>& nodes) const;
+            void findNodes(const std::vector<Vector2>& edges, std::vector<NodePtr>& nodes) const;
+
             virtual void enter();
             virtual void leave();
 

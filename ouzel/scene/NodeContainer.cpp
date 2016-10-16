@@ -104,7 +104,7 @@ namespace ouzel
             }
         }
 
-        void NodeContainer::pickNodes(const Vector2& position, std::vector<NodePtr>& nodes) const
+        void NodeContainer::findNodes(const Vector2& position, std::vector<NodePtr>& nodes) const
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
@@ -122,12 +122,12 @@ namespace ouzel
                         nodes.insert(upperBound, node);
                     }
 
-                    node->pickNodes(position, nodes);
+                    node->findNodes(position, nodes);
                 }
             }
         }
 
-        void NodeContainer::pickNodes(const std::vector<Vector2>& edges, std::vector<NodePtr>& nodes) const
+        void NodeContainer::findNodes(const std::vector<Vector2>& edges, std::vector<NodePtr>& nodes) const
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
@@ -145,7 +145,7 @@ namespace ouzel
                         nodes.insert(upperBound, node);
                     }
 
-                    node->pickNodes(edges, nodes);
+                    node->findNodes(edges, nodes);
                 }
             }
         }
