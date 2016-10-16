@@ -2553,6 +2553,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EXECUTABLE_PREFIX = lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = ouzel_ios;
 				SDKROOT = iphoneos;
 			};
@@ -2563,6 +2564,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EXECUTABLE_PREFIX = lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = ouzel_ios;
 				SDKROOT = iphoneos;
 			};
@@ -2575,6 +2577,7 @@
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = ouzel_tvos;
 				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -2585,6 +2588,7 @@
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = ouzel_tvos;
 				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -2641,7 +2645,7 @@
 					../external/rapidjson/include/,
 					../external/utfcpp/source,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -2696,7 +2700,7 @@
 					../external/rapidjson/include/,
 					../external/utfcpp/source,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wself-assign";
@@ -2707,7 +2711,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = ouzel_macos;
 			};
 			name = Debug;
@@ -2716,7 +2719,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = ouzel_macos;
 			};
 			name = Release;
