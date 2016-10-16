@@ -23,7 +23,7 @@ namespace ouzel
             return EXIT_FAILURE;
         }
 
-        std::shared_ptr<input::InputRasp> input = std::static_pointer_cast<input::InputRasp>(sharedEngine->getInput());
+        input::InputRasp* input = static_cast<input::InputRasp*>(sharedEngine->getInput());
         sharedEngine->begin();
 
         while (sharedEngine->isActive())
