@@ -141,7 +141,7 @@ namespace ouzel
                         Event clickEvent;
                         clickEvent.type = Event::Type::UI_CLICK_NODE;
 
-                        clickEvent.uiEvent.node = selectedWidget;
+                        clickEvent.uiEvent.node = selectedWidget.get();
                         clickEvent.uiEvent.position = selectedWidget->getPosition();
 
                         sharedEngine->getEventDispatcher()->postEvent(clickEvent);
@@ -165,9 +165,9 @@ namespace ouzel
 
             if (type == Event::Type::UI_ENTER_NODE)
             {
-                if (std::find(widgets.begin(), widgets.end(), event.node) != widgets.end())
+                if (std::find(widgets.begin(), widgets.end(), event.node->shared_from_this()) != widgets.end())
                 {
-                    selectWidget(std::static_pointer_cast<Widget>(event.node));
+                    selectWidget(std::static_pointer_cast<Widget>(event.node->shared_from_this()));
                 }
             }
 

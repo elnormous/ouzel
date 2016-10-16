@@ -79,7 +79,7 @@ namespace ouzel
                                                                                         uploadData.clearColor.getB(),
                                                                                         uploadData.clearColor.getA());
 
-                std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
                 if (rendererMetal->getSampleCount() > 1)
                 {

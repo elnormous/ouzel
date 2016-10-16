@@ -66,7 +66,7 @@ namespace ouzel
 
             free();
 
-            std::shared_ptr<AudioSL> audioSL = std::static_pointer_cast<AudioSL>(sharedEngine->getAudio());
+            AudioSL* audioSL = static_cast<AudioSL*>(sharedEngine->getAudio());
 
             SLDataLocator_AndroidSimpleBufferQueue location = { SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE, 2 };
 

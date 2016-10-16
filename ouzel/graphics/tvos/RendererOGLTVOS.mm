@@ -56,7 +56,7 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLTVOS::init(const WindowPtr& newWindow,
+        bool RendererOGLTVOS::init(Window* newWindow,
                                    uint32_t newSampleCount,
                                    TextureFilter newTextureFilter,
                                    PixelFormat newBackBufferFormat,
@@ -64,7 +64,7 @@ namespace ouzel
         {
             free();
 
-            UIView* view = std::static_pointer_cast<WindowTVOS>(newWindow)->getNativeView();
+            UIView* view = static_cast<WindowTVOS*>(newWindow)->getNativeView();
 
             eaglLayer = (CAEAGLLayer*)view.layer;
             eaglLayer.opaque = YES;

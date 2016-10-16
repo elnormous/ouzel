@@ -63,15 +63,15 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton)
+        if (event.node == backButton.get())
         {
             sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
         }
-        else if (event.node == button)
+        else if (event.node == button.get())
         {
             checkBox->setChecked(!checkBox->isChecked());
         }
-        else if (event.node == fullscreenButton)
+        else if (event.node == fullscreenButton.get())
         {
             bool fullscreen = ouzel::sharedEngine->getWindow()->isFullscreen();
             ouzel::sharedEngine->getWindow()->setFullscreen(!fullscreen);

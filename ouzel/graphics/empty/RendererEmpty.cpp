@@ -25,7 +25,7 @@ namespace ouzel
         {
         }
 
-        bool RendererEmpty::init(const WindowPtr& newWindow,
+        bool RendererEmpty::init(Window* newWindow,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,

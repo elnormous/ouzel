@@ -63,7 +63,7 @@ namespace ouzel
 
                     if (uploadData.mipmaps) // has mip-maps
                     {
-                        std::shared_ptr<RendererOGL> rendererOGL = std::static_pointer_cast<RendererOGL>(sharedEngine->getRenderer());
+                        RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
                         switch (rendererOGL->getTextureFilter())
                         {

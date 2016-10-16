@@ -29,7 +29,7 @@ namespace ouzel
 
         virtual void execute(const std::function<void(void)>& func);
 
-        const FileSystemPtr& getFileSystem() const { return fileSystem; }
+        FileSystem* getFileSystem() const { return fileSystem.get(); }
 
     protected:
         void executeAll();
@@ -41,7 +41,7 @@ namespace ouzel
         std::queue<std::function<void(void)>> executeQueue;
         std::mutex executeMutex;
 
-        FileSystemPtr fileSystem;
+        std::unique_ptr<FileSystem> fileSystem;
     };
 
     extern Application* sharedApplication;

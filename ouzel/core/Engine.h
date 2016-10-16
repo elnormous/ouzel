@@ -32,14 +32,14 @@ namespace ouzel
         bool init(Settings& newSettings);
         const Settings& getSettings() const { return settings; }
 
-        const EventDispatcherPtr& getEventDispatcher() const { return eventDispatcher; }
-        const CachePtr& getCache() const { return cache; }
-        const WindowPtr& getWindow() const { return window; }
-        const graphics::RendererPtr& getRenderer() const { return renderer; }
-        const audio::AudioPtr& getAudio() const { return audio; }
-        const scene::SceneManagerPtr& getSceneManager() const { return sceneManager; }
-        const input::InputPtr& getInput() const { return input; }
-        const LocalizationPtr& getLocalization() const { return localization; }
+        EventDispatcher* getEventDispatcher() const { return eventDispatcher.get(); }
+        Cache* getCache() const { return cache.get(); }
+        Window* getWindow() const { return window.get(); }
+        graphics::Renderer* getRenderer() const { return renderer.get(); }
+        audio::Audio* getAudio() const { return audio.get(); }
+        scene::SceneManager* getSceneManager() const { return sceneManager.get(); }
+        input::Input* getInput() const { return input.get(); }
+        Localization* getLocalization() const { return localization.get(); }
 
         void exit();
 
@@ -62,14 +62,14 @@ namespace ouzel
 
         Settings settings;
 
-        EventDispatcherPtr eventDispatcher;
-        WindowPtr window;
-        LocalizationPtr localization;
-        graphics::RendererPtr renderer;
-        audio::AudioPtr audio;
-        input::InputPtr input;
-        CachePtr cache;
-        scene::SceneManagerPtr sceneManager;
+        std::unique_ptr<EventDispatcher> eventDispatcher;
+        std::unique_ptr<Window> window;
+        std::unique_ptr<Localization> localization;
+        std::unique_ptr<graphics::Renderer> renderer;
+        std::unique_ptr<audio::Audio> audio;
+        std::unique_ptr<input::Input> input;
+        std::unique_ptr<Cache> cache;
+        std::unique_ptr<scene::SceneManager> sceneManager;
 
         std::atomic<float> currentFPS;
         std::chrono::steady_clock::time_point previousFrameTime;

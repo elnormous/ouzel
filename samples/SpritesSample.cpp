@@ -72,15 +72,15 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton)
+        if (event.node == backButton.get())
         {
             sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
         }
-        else if (event.node == hideButton)
+        else if (event.node == hideButton.get())
         {
             character->setHidden(!character->isHidden());
         }
-        else if (event.node == wireframeButton)
+        else if (event.node == wireframeButton.get())
         {
             layer->setWireframe(!layer->getWireframe());
         }

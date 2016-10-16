@@ -29,7 +29,7 @@ namespace ouzel
         protected:
             RendererEmpty();
 
-            virtual bool init(const WindowPtr& newWindow,
+            virtual bool init(Window* newWindow,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,

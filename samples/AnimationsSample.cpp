@@ -82,7 +82,7 @@ AnimationsSample::~AnimationsSample()
 
 bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
+    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton.get())
     {
         sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
     }

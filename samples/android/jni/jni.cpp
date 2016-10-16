@@ -37,7 +37,7 @@ extern "C"
 
         if (ouzel::sharedEngine)
         {
-            std::shared_ptr<ouzel::WindowAndroid> windowAndroid = std::static_pointer_cast<ouzel::WindowAndroid>(ouzel::sharedEngine->getWindow());
+            ouzel::WindowAndroid* windowAndroid = static_cast<ouzel::WindowAndroid*>(ouzel::sharedEngine->getWindow());
             windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
         }
     }

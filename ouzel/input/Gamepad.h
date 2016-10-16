@@ -17,7 +17,7 @@ namespace ouzel
             float value;
         };
 
-        class Gamepad: public Noncopyable, public std::enable_shared_from_this<Gamepad>
+        class Gamepad: public Noncopyable
         {
         public:
             enum class Motor

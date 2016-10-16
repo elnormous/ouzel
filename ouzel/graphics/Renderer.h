@@ -141,18 +141,16 @@ namespace ouzel
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
             bool isRenderTargetsFlipped() const { return renderTargetsFlipped; }
 
-            const WindowPtr& getWindow() const { return window; }
-
         protected:
             Renderer(Driver pDriver);
-            virtual bool init(const WindowPtr& newWindow,
+            virtual bool init(Window* newWindow,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync);
 
             Driver driver;
-            WindowPtr window;
+            Window* window;
             Size2 size;
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFilter textureFilter = TextureFilter::NONE;

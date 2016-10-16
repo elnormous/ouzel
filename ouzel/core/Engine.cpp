@@ -253,7 +253,7 @@ namespace ouzel
             return false;
         }
 
-        if (!renderer->init(window,
+        if (!renderer->init(window.get(),
                             settings.sampleCount,
                             settings.textureFilter,
                             settings.backBufferFormat,

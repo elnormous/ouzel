@@ -50,7 +50,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_BUTTON_CHANGE;
 
-            event.gamepadEvent.gamepad = shared_from_this();
+            event.gamepadEvent.gamepad = this;
             event.gamepadEvent.button = button;
             event.gamepadEvent.pressed = pressed;
             event.gamepadEvent.value = value;

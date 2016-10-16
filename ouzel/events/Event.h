@@ -48,7 +48,7 @@ namespace ouzel
 
     struct GamepadEvent
     {
-        input::GamepadPtr gamepad;
+        input::Gamepad* gamepad;
         input::GamepadButton button = input::GamepadButton::NONE;
         bool pressed = false;
         float value = 0.0f;
@@ -56,7 +56,7 @@ namespace ouzel
 
     struct WindowEvent
     {
-        WindowPtr window;
+        Window* window;
         Size2 size;
         std::string title;
         bool fullscreen = false;
@@ -81,7 +81,7 @@ namespace ouzel
 
     struct UIEvent
     {
-        scene::NodePtr node;
+        scene::Node* node;
         Vector2 position;
     };
 

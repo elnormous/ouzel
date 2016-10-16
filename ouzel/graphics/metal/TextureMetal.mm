@@ -41,7 +41,7 @@ namespace ouzel
         {
             if (uploadData.dirty)
             {
-                std::shared_ptr<RendererMetal> rendererMetal = std::static_pointer_cast<RendererMetal>(sharedEngine->getRenderer());
+                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
                 if (uploadData.size.width > 0 &&
                     uploadData.size.height > 0)

@@ -42,7 +42,7 @@ namespace ouzel
         protected:
             RendererD3D11();
 
-            virtual bool init(const WindowPtr& newWindow,
+            virtual bool init(Window* newWindow,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,

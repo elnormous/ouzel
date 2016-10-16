@@ -94,7 +94,7 @@ namespace ouzel
         {
             if (!enabled) return true;
 
-            if (event.node.get() == this)
+            if (event.node == this)
             {
                 if (type == Event::Type::UI_ENTER_NODE)
                 {
@@ -127,7 +127,7 @@ namespace ouzel
 
                     Event changeEvent;
                     changeEvent.type = Event::Type::UI_WIDGET_CHANGE;
-                    changeEvent.uiEvent.node = std::static_pointer_cast<Node>(shared_from_this());
+                    changeEvent.uiEvent.node = this;
                     sharedEngine->getEventDispatcher()->postEvent(changeEvent);
                 }
             }

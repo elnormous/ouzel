@@ -110,7 +110,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 
     if (!displayId) displayId = CGMainDisplayID();
 
-    std::shared_ptr<graphics::RendererOGLMacOS> rendererOGL = std::static_pointer_cast<graphics::RendererOGLMacOS>(sharedEngine->getRenderer());
+    graphics::RendererOGLMacOS* rendererOGL = static_cast<graphics::RendererOGLMacOS*>(sharedEngine->getRenderer());
 
     NSOpenGLContext* openGLContext = rendererOGL->getOpenGLContext();
 
@@ -130,7 +130,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     [super lockFocus];
 
-    std::shared_ptr<graphics::RendererOGLMacOS> rendererOGL = std::static_pointer_cast<graphics::RendererOGLMacOS>(sharedEngine->getRenderer());
+    graphics::RendererOGLMacOS* rendererOGL = static_cast<graphics::RendererOGLMacOS*>(sharedEngine->getRenderer());
 
     NSOpenGLContext* openGLContext = rendererOGL->getOpenGLContext();
 

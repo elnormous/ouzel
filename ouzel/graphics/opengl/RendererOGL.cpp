@@ -104,7 +104,7 @@ namespace ouzel
             }
         }
 
-        bool RendererOGL::init(const WindowPtr& newWindow,
+        bool RendererOGL::init(Window* newWindow,
                                uint32_t newSampleCount,
                                TextureFilter newTextureFilter,
                                PixelFormat newBackBufferFormat,

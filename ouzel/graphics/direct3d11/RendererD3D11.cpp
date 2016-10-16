@@ -128,7 +128,7 @@ namespace ouzel
             }
         }
 
-        bool RendererD3D11::init(const WindowPtr& newWindow,
+        bool RendererD3D11::init(Window* newWindow,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
@@ -196,7 +196,7 @@ namespace ouzel
                 Log(Log::Level::INFO) << "Using " << deviceName << " for rendering";
             }
 
-            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(window);
+            WindowWin* windowWin = static_cast<WindowWin*>(window);
 
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
             memset(&swapChainDesc, 0, sizeof(swapChainDesc));

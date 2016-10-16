@@ -76,27 +76,27 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
     {
         scene::ScenePtr newScene;
 
-        if (event.node == spritesButton)
+        if (event.node == spritesButton.get())
         {
             newScene = make_shared<SpritesSample>();
         }
-        else if (event.node == GUIButton)
+        else if (event.node == GUIButton.get())
         {
             newScene = make_shared<GUISample>();
         }
-        else if (event.node == renderTargetButton)
+        else if (event.node == renderTargetButton.get())
         {
             newScene = make_shared<RTSample>();
         }
-        else if (event.node == animationsButton)
+        else if (event.node == animationsButton.get())
         {
             newScene = make_shared<AnimationsSample>();
         }
-        else if (event.node == inputButton)
+        else if (event.node == inputButton.get())
         {
             newScene = make_shared<InputSample>();
         }
-        else if (event.node == soundButton)
+        else if (event.node == soundButton.get())
         {
             newScene = make_shared<SoundSample>();
         }

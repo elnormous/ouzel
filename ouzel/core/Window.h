@@ -13,7 +13,7 @@ namespace ouzel
 {
     class Engine;
 
-    class Window: public Noncopyable, public std::enable_shared_from_this<Window>
+    class Window: public Noncopyable
     {
         friend Engine;
     public:

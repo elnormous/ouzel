@@ -168,7 +168,7 @@ namespace ouzel
             }
         }
 
-        bool RendererMetal::init(const WindowPtr& newWindow,
+        bool RendererMetal::init(Window* newWindow,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
@@ -199,11 +199,11 @@ namespace ouzel
             }
 
 #if OUZEL_PLATFORM_MACOS
-            view = (MTKViewPtr)std::static_pointer_cast<WindowMacOS>(window)->getNativeView();
+            view = (MTKViewPtr)static_cast<WindowMacOS*>(window)->getNativeView();
 #elif OUZEL_PLATFORM_TVOS
-            view = (MTKViewPtr)std::static_pointer_cast<WindowTVOS>(window)->getNativeView();
+            view = (MTKViewPtr)static_cast<WindowTVOS*>(window)->getNativeView();
 #elif OUZEL_PLATFORM_IOS
-            view = (MTKViewPtr)std::static_pointer_cast<WindowIOS>(window)->getNativeView();
+            view = (MTKViewPtr)static_cast<WindowIOS*>(window)->getNativeView();
 #endif
             view.device = device;
             view.sampleCount = sampleCount;

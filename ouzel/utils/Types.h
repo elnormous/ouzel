@@ -9,24 +9,18 @@
 namespace ouzel
 {
     class Window;
-    typedef std::shared_ptr<Window> WindowPtr;
-
     class EventDispatcher;
-    typedef std::shared_ptr<EventDispatcher> EventDispatcherPtr;
-
     class Cache;
-    typedef std::shared_ptr<Cache> CachePtr;
-
     class Localization;
-    typedef std::shared_ptr<Localization> LocalizationPtr;
 
     class Language;
     typedef std::shared_ptr<Language> LanguagePtr;
 
+    class FileSystem;
+
     namespace audio
     {
         class Audio;
-        typedef std::shared_ptr<Audio> AudioPtr;
 
         class Sound;
         typedef std::shared_ptr<Sound> SoundPtr;
@@ -38,7 +32,6 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
-        typedef std::shared_ptr<Renderer> RendererPtr;
 
         class Resource;
         typedef std::shared_ptr<Resource> ResourcePtr;
@@ -65,13 +58,9 @@ namespace ouzel
         typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
     }
 
-    class FileSystem;
-    typedef std::shared_ptr<FileSystem> FileSystemPtr;
-
     namespace input
     {
         class Input;
-        typedef std::shared_ptr<Input> InputPtr;
 
         class Gamepad;
         typedef std::shared_ptr<Gamepad> GamepadPtr;
@@ -80,7 +69,6 @@ namespace ouzel
     namespace scene
     {
         class SceneManager;
-        typedef std::shared_ptr<SceneManager> SceneManagerPtr;
 
         class Scene;
         typedef std::shared_ptr<Scene> ScenePtr;

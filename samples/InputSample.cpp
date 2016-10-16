@@ -174,12 +174,12 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton)
+        if (event.node == backButton.get())
         {
             sharedEngine->getInput()->setCursorVisible(true);
             sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
         }
-        else if (event.node == button)
+        else if (event.node == button.get())
         {
             sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
         }

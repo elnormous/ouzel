@@ -34,7 +34,7 @@ namespace ouzel
             ready = false;
         }
 
-        bool Renderer::init(const WindowPtr& newWindow,
+        bool Renderer::init(Window* newWindow,
                             uint32_t newSampleCount,
                             TextureFilter newTextureFilter,
                             PixelFormat newBackBufferFormat,

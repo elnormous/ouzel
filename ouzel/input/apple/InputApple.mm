@@ -32,13 +32,13 @@
 
 -(void)handleControllerConnected:(NSNotification*)notification
 {
-    std::shared_ptr<ouzel::input::InputApple> inputApple = std::static_pointer_cast<ouzel::input::InputApple>(ouzel::sharedEngine->getInput());
+    ouzel::input::InputApple* inputApple = static_cast<ouzel::input::InputApple*>(ouzel::sharedEngine->getInput());
     inputApple->handleGamepadConnected(notification.object);
 }
 
 -(void)handleControllerDisconnected:(NSNotification*)notification
 {
-    std::shared_ptr<ouzel::input::InputApple> inputApple = std::static_pointer_cast<ouzel::input::InputApple>(ouzel::sharedEngine->getInput());
+    ouzel::input::InputApple* inputApple = static_cast<ouzel::input::InputApple*>(ouzel::sharedEngine->getInput());
     inputApple->handleGamepadDisconnected(notification.object);
 }
 
@@ -417,12 +417,12 @@ namespace ouzel
         bool InputApple::showVirtualKeyboard()
         {
 #if OUZEL_PLATFORM_IOS
-            UITextField* textField = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow())->getTextField();
+            UITextField* textField = static_cast<WindowIOS*>(sharedEngine->getWindow())->getTextField();
             [textField becomeFirstResponder];
 
             return true;
 #elif OUZEL_PLATFORM_TVOS
-            UITextField* textField = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow())->getTextField();
+            UITextField* textField = static_cast<WindowTVOS*>(sharedEngine->getWindow())->getTextField();
             [textField becomeFirstResponder];
 
             return true;
@@ -434,12 +434,12 @@ namespace ouzel
         bool InputApple::hideVirtualKeyboard()
         {
 #if OUZEL_PLATFORM_IOS
-            UITextField* textField = std::static_pointer_cast<WindowIOS>(sharedEngine->getWindow())->getTextField();
+            UITextField* textField = static_cast<WindowIOS*>(sharedEngine->getWindow())->getTextField();
             [textField resignFirstResponder];
 
             return true;
 #elif OUZEL_PLATFORM_TVOS
-            UITextField* textField = std::static_pointer_cast<WindowTVOS>(sharedEngine->getWindow())->getTextField();
+            UITextField* textField = static_cast<WindowTVOS*>(sharedEngine->getWindow())->getTextField();
             [textField resignFirstResponder];
 
             return true;
@@ -462,7 +462,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            event.gamepadEvent.gamepad = gamepad;
+            event.gamepadEvent.gamepad = gamepad.get();
 
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
@@ -478,7 +478,7 @@ namespace ouzel
                 Event event;
                 event.type = Event::Type::GAMEPAD_DISCONNECT;
 
-                event.gamepadEvent.gamepad = *i;
+                event.gamepadEvent.gamepad = (*i).get();
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
 

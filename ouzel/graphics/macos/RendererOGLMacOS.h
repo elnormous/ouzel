@@ -34,7 +34,7 @@ namespace ouzel
             NSOpenGLPixelFormatPtr getPixelFormat() const { return pixelFormat; }
 
         protected:
-            virtual bool init(const WindowPtr& window,
+            virtual bool init(Window* window,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,

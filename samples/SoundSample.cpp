@@ -53,15 +53,15 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton)
+        if (event.node == backButton.get())
         {
             sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
         }
-        else if (event.node == jumpButton)
+        else if (event.node == jumpButton.get())
         {
             jumpSound->play();
         }
-        else if (event.node == ambientButton)
+        else if (event.node == ambientButton.get())
         {
             ambientSound->play();
         }

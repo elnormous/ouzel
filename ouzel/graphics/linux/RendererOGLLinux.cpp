@@ -16,7 +16,7 @@ namespace ouzel
         {
         }
 
-        bool RendererOGLLinux::init(const WindowPtr& newWindow,
+        bool RendererOGLLinux::init(Window* newWindow,
                                     uint32_t newSampleCount,
                                     TextureFilter newTextureFilter,
                                     PixelFormat newBackBufferFormat,
@@ -34,7 +34,7 @@ namespace ouzel
                 return false;
             }
 
-            std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(window);
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
 
             glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
 

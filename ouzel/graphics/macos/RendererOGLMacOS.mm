@@ -38,7 +38,7 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLMacOS::init(const WindowPtr& window,
+        bool RendererOGLMacOS::init(Window* window,
                                     uint32_t newSampleCount,
                                     TextureFilter newTextureFilter,
                                     PixelFormat newBackBufferFormat,
