@@ -45,7 +45,7 @@ namespace ouzel
         {
             XEvent event;
 
-            std::shared_ptr<WindowLinux> windowLinux = std::static_pointer_cast<WindowLinux>(sharedEngine->getWindow());
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
 
             while (sharedEngine->isActive())
             {
