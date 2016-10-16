@@ -39,7 +39,7 @@ namespace ouzel
         {
             if (uploadData.dirty)
             {
-                std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
                 if (uploadData.dirty & VERTEX_BUFFER_DIRTY)
                 {

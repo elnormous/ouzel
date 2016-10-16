@@ -785,7 +785,7 @@ namespace ouzel
 
         IDXGIOutput* RendererD3D11::getOutput() const
         {
-            std::shared_ptr<WindowWin> windowWin = std::static_pointer_cast<WindowWin>(window);
+            WindowWin* windowWin = static_cast<WindowWin*>(window);
 
             HMONITOR monitor = windowWin->getMonitor();
 

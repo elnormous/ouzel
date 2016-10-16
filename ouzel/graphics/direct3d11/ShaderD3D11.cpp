@@ -84,7 +84,7 @@ namespace ouzel
 
         bool ShaderD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size)
         {
-            std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
             D3D11_MAPPED_SUBRESOURCE mappedSubresource;
             HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
@@ -105,7 +105,7 @@ namespace ouzel
         {
             if (uploadData.dirty)
             {
-                std::shared_ptr<RendererD3D11> rendererD3D11 = std::static_pointer_cast<RendererD3D11>(sharedEngine->getRenderer());
+                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
                 if (!pixelShader)
                 {
