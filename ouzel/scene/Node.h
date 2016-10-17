@@ -27,7 +27,7 @@ namespace ouzel
             Node();
             virtual ~Node();
 
-            virtual bool addChild(const NodePtr& node) override;
+            virtual void addChild(const NodePtr& node) override;
             virtual bool hasParent() const { return (parent != nullptr); }
 
             virtual void setName(const std::string& newName) { name = newName; }
@@ -110,7 +110,7 @@ namespace ouzel
             bool isReceivingInput() const { return receiveInput; }
 
             const std::vector<ComponentPtr>& getComponents() const { return components; }
-            bool addComponent(const ComponentPtr& component);
+            void addComponent(const ComponentPtr& component);
             bool removeComponent(uint32_t index);
             bool removeComponent(const ComponentPtr& component);
             void removeAllComponents();

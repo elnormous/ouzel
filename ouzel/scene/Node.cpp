@@ -99,18 +99,11 @@ namespace ouzel
             }
         }
 
-        bool Node::addChild(const NodePtr& node)
+        void Node::addChild(const NodePtr& node)
         {
-            if (NodeContainer::addChild(node))
-            {
-                node->updateTransform(getTransform());
+            NodeContainer::addChild(node);
 
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            node->updateTransform(getTransform());
         }
 
         void Node::setZ(float newZ)
@@ -308,17 +301,17 @@ namespace ouzel
             inverseTransformDirty = false;
         }
 
-        bool Node::addComponent(const ComponentPtr& component)
+        void Node::addComponent(const ComponentPtr& component)
         {
-            if (component->isAddedToNode())
+            Node* oldNode = component->node;
+
+            if (oldNode)
             {
-                return false;
+                oldNode->removeComponent(component);
             }
 
-            components.push_back(component);
             component->setNode(this);
-
-            return true;
+            components.push_back(component);
         }
 
         bool Node::removeComponent(uint32_t index)

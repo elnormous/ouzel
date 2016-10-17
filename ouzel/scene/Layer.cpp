@@ -58,18 +58,10 @@ namespace ouzel
             }
         }
 
-        bool Layer::addChild(const NodePtr& node)
+        void Layer::addChild(const NodePtr& node)
         {
-            if (NodeContainer::addChild(node))
-            {
-                node->updateTransform(Matrix4::IDENTITY);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            NodeContainer::addChild(node);
+            node->updateTransform(Matrix4::IDENTITY);
         }
 
         void Layer::addCamera(const CameraPtr& camera)

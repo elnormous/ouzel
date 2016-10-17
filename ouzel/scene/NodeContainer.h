@@ -19,7 +19,7 @@ namespace ouzel
             NodeContainer();
             virtual ~NodeContainer();
 
-            virtual bool addChild(const NodePtr& node);
+            virtual void addChild(const NodePtr& node);
             virtual bool removeChild(const NodePtr& node);
             virtual void removeAllChildren();
             virtual bool hasChild(const NodePtr& node, bool recursive = false) const;

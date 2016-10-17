@@ -28,7 +28,7 @@ namespace ouzel
 
             virtual void draw();
 
-            virtual bool addChild(const NodePtr& node) override;
+            virtual void addChild(const NodePtr& node) override;
 
             void addCamera(const CameraPtr& camera);
             void removeCamera(const CameraPtr& camera);
