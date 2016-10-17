@@ -49,7 +49,7 @@ namespace ouzel
             bool isReady() const { return ready; }
 
         protected:
-            Audio(Driver pDriver);
+            Audio(Driver aDriver);
 
             Driver driver;
 

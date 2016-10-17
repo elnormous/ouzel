@@ -34,7 +34,7 @@ namespace ouzel
                 BOUNCE
             };
 
-            Ease(const AnimatorPtr& pAnimator, Type pType, Func pFunc);
+            Ease(const AnimatorPtr& aAnimator, Type aType, Func aFunc);
 
             virtual void start(const NodePtr& targetNode) override;
             virtual void reset() override;

@@ -13,17 +13,14 @@ namespace ouzel
     Application::Application()
     {
         sharedApplication = this;
-
         fileSystem.reset(new FileSystem());
     }
 
-    Application::Application(int pArgc, char* pArgv[]):
-        Application()
+    Application::Application(int aArgc, char* aArgv[]):
+        argc(aArgc), argv(aArgv)
     {
-        argc = pArgc;
-        argv = pArgv;
-
-        args.clear();
+        sharedApplication = this;
+        fileSystem.reset(new FileSystem());
 
         for (int32_t i = 0; i < argc; ++i)
         {
@@ -31,10 +28,11 @@ namespace ouzel
         }
     }
 
-    Application::Application(const std::vector<std::string>& pArgs):
-        Application()
+    Application::Application(const std::vector<std::string>& aArgs):
+        args(aArgs)
     {
-        args = pArgs;
+        sharedApplication = this;
+        fileSystem.reset(new FileSystem());
     }
 
     Application::~Application()

@@ -14,7 +14,7 @@ namespace ouzel
         class Parallel: public Animator
         {
         public:
-            Parallel(const std::vector<AnimatorPtr>& pAnimators);
+            Parallel(const std::vector<AnimatorPtr>& aAnimators);
 
             virtual void start(const NodePtr& targetNode) override;
             virtual void reset() override;

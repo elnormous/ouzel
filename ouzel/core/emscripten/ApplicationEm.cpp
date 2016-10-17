@@ -21,8 +21,8 @@ static void loop(void)
 
 namespace ouzel
 {
-    ApplicationEm::ApplicationEm(int pArgc, char* pArgv[]):
-        Application(pArgc, pArgv)
+    ApplicationEm::ApplicationEm(int aArgc, char* aArgv[]):
+        Application(aArgc, aArgv)
     {
     }
 

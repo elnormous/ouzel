@@ -14,7 +14,7 @@ namespace ouzel
         class Animator: public Noncopyable
         {
         public:
-            Animator(float pLength);
+            Animator(float aLength);
             virtual ~Animator();
 
             virtual void update(float delta);

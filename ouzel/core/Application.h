@@ -17,8 +17,8 @@ namespace ouzel
     {
     public:
         Application();
-        Application(int pArgc, char* pArgv[]);
-        Application(const std::vector<std::string>& pArgs);
+        Application(int aArgc, char* aArgv[]);
+        Application(const std::vector<std::string>& aArgs);
         virtual ~Application();
 
         virtual int run();

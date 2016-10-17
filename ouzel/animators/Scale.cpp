@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Scale::Scale(float pLength, const Vector2& pScale, bool pRelative):
-            Animator(pLength), scale(pScale), relative(pRelative)
+        Scale::Scale(float aLength, const Vector2& aScale, bool aRelative):
+            Animator(aLength), scale(aScale), relative(aRelative)
         {
         }
 

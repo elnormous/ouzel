@@ -25,7 +25,10 @@ namespace ouzel
                      float pm31, float pm32, float pm33, float pm34,
                      float pm41, float pm42, float pm43, float pm44)
     {
-        set(pm11, pm12, pm13, pm14, pm21, pm22, pm23, pm24, pm31, pm32, pm33, pm34, pm41, pm42, pm43, pm44);
+        set(pm11, pm12, pm13, pm14,
+            pm21, pm22, pm23, pm24,
+            pm31, pm32, pm33, pm34,
+            pm41, pm42, pm43, pm44);
     }
 
     Matrix4::Matrix4(const float* array)
@@ -1048,8 +1051,10 @@ namespace ouzel
         scale(s.x, s.y, s.z, dst);
     }
 
-    void Matrix4::set(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
-                      float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+    void Matrix4::set(float m11, float m12, float m13, float m14,
+                      float m21, float m22, float m23, float m24,
+                      float m31, float m32, float m33, float m34,
+                      float m41, float m42, float m43, float m44)
     {
         m[0]  = m11;
         m[1]  = m21;

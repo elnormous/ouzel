@@ -12,8 +12,8 @@ namespace ouzel
         static const int32_t MAX_THUMB_VALUE = 32767;
         static const int32_t MIN_THUMB_VALUE = -32768;
 
-        GamepadWin::GamepadWin(int32_t pPlayerIndex):
-            playerIndex(pPlayerIndex)
+        GamepadWin::GamepadWin(int32_t aPlayerIndex):
+            playerIndex(aPlayerIndex)
         {
             memset(&state, 0, sizeof(XINPUT_STATE));
             memset(&vibration, 0, sizeof(XINPUT_VIBRATION));

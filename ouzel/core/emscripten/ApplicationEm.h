@@ -10,8 +10,7 @@ namespace ouzel
     class ApplicationEm: public Application
     {
     public:
-        ApplicationEm(int pArgc, char* pArgv[]);
-        virtual ~ApplicationEm() {}
+        ApplicationEm(int aArgc, char* aArgv[]);
 
         virtual int run() override;
 

@@ -19,8 +19,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        Renderer::Renderer(Driver pDriver):
-            driver(pDriver), clearColor(Color::BLACK), clear(true), activeDrawQueueFinished(false), refillDrawQueue(true)
+        Renderer::Renderer(Driver aDriver):
+            driver(aDriver), clearColor(Color::BLACK), clear(true), activeDrawQueueFinished(false), refillDrawQueue(true)
         {
         }
 

@@ -34,7 +34,7 @@ namespace ouzel
         void handleResize(const Size2& newSize);
 
     protected:
-        WindowTVOS(const Size2& pSize, bool resizable, bool pFullscreen, const std::string& pTitle);
+        WindowTVOS(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
         virtual bool init() override;
 
         UIWindowPtr window = Nil;

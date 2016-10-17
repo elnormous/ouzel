@@ -11,8 +11,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Shake::Shake(float pLength, const Vector2& pDistance, float pTimeScale):
-            Animator(pLength), distance(pDistance), timeScale(pTimeScale)
+        Shake::Shake(float aLength, const Vector2& aDistance, float aTimeScale):
+            Animator(aLength), distance(aDistance), timeScale(aTimeScale)
         {
             seedX = random();
             seedY = random();

@@ -47,29 +47,29 @@ public:
     /**
      * Constructs a new rectangle with the x = 0, y = 0 and the specified width and height.
      *
-     * @param pWidth The width of the rectangle.
-     * @param pHeight The height of the rectangle.
+     * @param aWidth The width of the rectangle.
+     * @param aHeight The height of the rectangle.
      */
-    Rectangle(float pWidth, float pHeight):
-        x(0.0f), y(0.0f), width(pWidth), height(pHeight)
+    Rectangle(float aWidth, float aHeight):
+        x(0.0f), y(0.0f), width(aWidth), height(aHeight)
     {
     }
 
     /**
      * Constructs a new rectangle with the specified x, y, width and height.
      *
-     * @param pX The x-coordinate of the rectangle.
-     * @param pY The y-coordinate of the rectangle.
-     * @param pWidth The width of the rectangle.
-     * @param pHeight The height of the rectangle.
+     * @param aX The x-coordinate of the rectangle.
+     * @param aY The y-coordinate of the rectangle.
+     * @param aWidth The width of the rectangle.
+     * @param aHeight The height of the rectangle.
      */
-    Rectangle(float pX, float pY, float pWidth, float pHeight):
-        x(pX), y(pY), width(pWidth), height(pHeight)
+    Rectangle(float aX, float aY, float aWidth, float aHeight):
+        x(aX), y(aY), width(aWidth), height(aHeight)
     {
     }
 
-    Rectangle(const Vector2& position, float pWidth, float pHeight):
-        x(position.x), y(position.y), width(pWidth), height(pHeight)
+    Rectangle(const Vector2& position, float aWidth, float aHeight):
+        x(position.x), y(position.y), width(aWidth), height(aHeight)
     {
     }
 
@@ -203,14 +203,14 @@ public:
     /**
      * Determines whether this rectangle contains a specified point.
      *
-     * @param pX The x-coordinate of the point.
-     * @param pY The y-coordinate of the point.
+     * @param aX The x-coordinate of the point.
+     * @param aY The y-coordinate of the point.
      *
      * @return true if the rectangle contains the point, false otherwise.
      */
-    bool containsPoint(float pX, float pY) const
+    bool containsPoint(float aX, float aY) const
     {
-        return (pX >= x && pX <= (x + width) && pY >= y && pY <= (y + height));
+        return (aX >= x && aX <= (x + width) && aY >= y && aY <= (y + height));
     }
 
     bool containsPoint(const Vector2& point) const
@@ -221,17 +221,17 @@ public:
     /**
      * Determines whether this rectangle contains a specified rectangle.
      *
-     * @param pX The x-coordinate of the rectangle.
-     * @param pY The y-coordinate of the rectangle.
-     * @param pWidth The width of the rectangle.
-     * @param pHeight The height of the rectangle.
+     * @param aX The x-coordinate of the rectangle.
+     * @param aY The y-coordinate of the rectangle.
+     * @param aWidth The width of the rectangle.
+     * @param aHeight The height of the rectangle.
      *
      * @return true if the rectangle contains the specified rectangle, false
      * otherwise.
      */
-    bool contains(float pX, float pY, float pWidth, float pHeight) const
+    bool contains(float aX, float aY, float aWidth, float aHeight) const
     {
-        return (containsPoint(pX, pY) && containsPoint(pX + pWidth, pY + pHeight));
+        return (containsPoint(aX, aY) && containsPoint(aX + aWidth, aY + aHeight));
     }
 
     /**
@@ -251,19 +251,19 @@ public:
      * Determines whether a specified rectangle intersects with this rectangle.
      * Rectangles intersect if there is a common point that is contained in both rectangles.
      *
-     * @param pX The x-coordinate of the rectangle.
-     * @param pY The y-coordinate of the rectangle.
-     * @param pWidth The width of the rectangle.
-     * @param pHeight The height of the rectangle.
+     * @param aX The x-coordinate of the rectangle.
+     * @param aY The y-coordinate of the rectangle.
+     * @param aWidth The width of the rectangle.
+     * @param aHeight The height of the rectangle.
      *
      * @return true if the specified Rectangle intersects with this one, false otherwise.
      */
-    bool intersects(float pX, float pY, float pWidth, float pHeight) const
+    bool intersects(float aX, float aY, float aWidth, float aHeight) const
     {
         float t;
-        if ((t = pX - x) > width || -t > pWidth)
+        if ((t = aX - x) > width || -t > aWidth)
             return false;
-        if ((t = pY - y) > height || -t > pHeight)
+        if ((t = aY - y) > height || -t > aHeight)
             return false;
         return true;
     }

@@ -11,8 +11,8 @@ namespace ouzel
         {
         }
 
-        VertexPC::VertexPC(Vector3 pPosition, Color pColor):
-            position(pPosition), color(pColor)
+        VertexPC::VertexPC(const Vector3& aPosition, Color aColor):
+            position(aPosition), color(aColor)
         {
         }
 
@@ -20,8 +20,8 @@ namespace ouzel
         {
         }
 
-        VertexPCT::VertexPCT(Vector3 pPosition, Color pColor, Vector2 pTexCoord):
-            position(pPosition), color(pColor), texCoord(pTexCoord)
+        VertexPCT::VertexPCT(const Vector3& aPosition, Color aColor, const Vector2& aTexCoord):
+            position(aPosition), color(aColor), texCoord(aTexCoord)
         {
         }
     } // namespace graphics

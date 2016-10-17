@@ -31,7 +31,7 @@ namespace ouzel
             Color color;
 
             VertexPC();
-            VertexPC(Vector3 pPosition, Color pColor);
+            VertexPC(const Vector3& aPosition, Color aColor);
         };
 
         class VertexPCT
@@ -44,7 +44,7 @@ namespace ouzel
             Vector2 texCoord;
 
             VertexPCT();
-            VertexPCT(Vector3 pPosition, Color pColor, Vector2 pTexCoord);
+            VertexPCT(const Vector3& aPosition, Color aColor, const Vector2& aTexCoord);
         };
     } // namespace graphics
 } // namespace ouzel

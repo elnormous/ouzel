@@ -42,12 +42,12 @@ namespace ouzel
         /**
          * Constructs a new vector initialized to the specified values.
          *
-         * @param pX The x coordinate.
-         * @param pY The y coordinate.
-         * @param pZ The z coordinate.
+         * @param aX The x coordinate.
+         * @param aY The y coordinate.
+         * @param aZ The z coordinate.
          */
-        Vector3(float pX, float pY, float pZ):
-            x(pX), y(pY), z(pZ)
+        Vector3(float aX, float aY, float aZ):
+            x(aX), y(aY), z(aZ)
         {
         }
 
@@ -320,15 +320,15 @@ namespace ouzel
         /**
          * Sets the elements of this vector to the specified values.
          *
-         * @param pX The new x coordinate.
-         * @param pY The new y coordinate.
-         * @param pZ The new z coordinate.
+         * @param newX The new x coordinate.
+         * @param newY The new y coordinate.
+         * @param newZ The new z coordinate.
          */
-        void set(float pX, float pY, float pZ)
+        void set(float newX, float newY, float newZ)
         {
-            x = pX;
-            y = pY;
-            z = pZ;
+            x = newX;
+            y = newY;
+            z = newZ;
         }
 
         /**

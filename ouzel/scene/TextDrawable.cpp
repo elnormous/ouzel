@@ -15,7 +15,7 @@ namespace ouzel
 {
     namespace scene
     {
-        TextDrawable::TextDrawable(const std::string& fontFile, const std::string& pText, const Vector2& pTextAnchor):
+        TextDrawable::TextDrawable(const std::string& fontFile, const std::string& aText, const Vector2& aTextAnchor):
             font(fontFile)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
@@ -33,11 +33,11 @@ namespace ouzel
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
             meshBuffer->init(indexBuffer, vertexBuffer);
 
-            textAnchor = pTextAnchor;
+            textAnchor = aTextAnchor;
 
             texture = font.getTexture();
 
-            setText(pText);
+            setText(aText);
         }
 
         void TextDrawable::setFont(const std::string& fontFile)

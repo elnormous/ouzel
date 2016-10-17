@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Rotate::Rotate(float pLength, float pRotation, bool pRelative):
-            Animator(pLength), rotation(pRotation), relative(pRelative)
+        Rotate::Rotate(float aLength, float aRotation, bool aRelative):
+            Animator(aLength), rotation(aRotation), relative(aRelative)
         {
         }
 

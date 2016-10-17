@@ -7,8 +7,8 @@
 
 namespace ouzel
 {
-    ApplicationTVOS::ApplicationTVOS(int pArgc, char* pArgv[]):
-        Application(pArgc, pArgv)
+    ApplicationTVOS::ApplicationTVOS(int aArgc, char* aArgv[]):
+        Application(aArgc, aArgv)
     {
         mainQueue = dispatch_get_main_queue();
     }

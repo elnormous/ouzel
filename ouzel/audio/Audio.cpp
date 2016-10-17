@@ -9,8 +9,8 @@ namespace ouzel
 {
     namespace audio
     {
-        Audio::Audio(Driver pDriver):
-            driver(pDriver)
+        Audio::Audio(Driver aDriver):
+            driver(aDriver)
         {
         }
 

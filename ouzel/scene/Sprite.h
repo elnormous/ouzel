@@ -48,7 +48,7 @@ namespace ouzel
             const Vector2& getOffset() const { return offset; }
             void setOffset(const Vector2& newOffset);
 
-            virtual void play(bool pRepeat = true, float newFrameInterval = 0.1f);
+            virtual void play(bool repeat = true, float newFrameInterval = 0.1f);
             virtual void stop(bool resetAnimation = true);
             virtual void reset();
             virtual bool isPlaying() const { return playing; }
@@ -72,7 +72,7 @@ namespace ouzel
             uint32_t currentFrame = 0;
             float frameInterval = 0.0f;
             bool playing = false;
-            bool repeat = false;
+            bool repeating = false;
             float timeSinceLastFrame = 0.0f;
 
             UpdateCallback updateCallback;

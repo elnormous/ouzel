@@ -279,7 +279,8 @@ namespace ouzel
         scale(s.x, s.y, dst);
     }
 
-    void Matrix3::set(float m11, float m12, float m13, float m21, float m22, float m23,
+    void Matrix3::set(float m11, float m12, float m13,
+                      float m21, float m22, float m23,
                       float m31, float m32, float m33)
     {
         m[0]  = m11;

@@ -31,7 +31,7 @@ namespace ouzel
         HMONITOR getMonitor() const;
 
     protected:
-        WindowWin(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
+        WindowWin(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
         virtual bool init() override;
 
         void switchFullscreen(bool newFullscreen);

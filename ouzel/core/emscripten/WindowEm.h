@@ -11,14 +11,12 @@ namespace ouzel
     {
         friend Engine;
     public:
-        virtual ~WindowEm();
-
         virtual void setSize(const Size2& newSize) override;
 
         void handleResize();
 
     protected:
-        WindowEm(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
+        WindowEm(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
         virtual bool init() override;
     };
 }

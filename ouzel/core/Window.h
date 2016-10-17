@@ -58,7 +58,7 @@ namespace ouzel
         }
 
     protected:
-        Window(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
+        Window(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
         virtual bool init();
 
         Size2 size;

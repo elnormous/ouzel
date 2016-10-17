@@ -11,7 +11,7 @@ namespace ouzel
     class ApplicationTVOS: public Application
     {
     public:
-        ApplicationTVOS(int pArgc, char* pArgv[]);
+        ApplicationTVOS(int aArgc, char* aArgv[]);
         virtual ~ApplicationTVOS() {}
 
         virtual int run() override;

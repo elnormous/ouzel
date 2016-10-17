@@ -43,7 +43,7 @@ namespace ouzel
         NSViewPtr getNativeView() const { return view; }
 
     protected:
-        WindowMacOS(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle);
+        WindowMacOS(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
         virtual bool init() override;
 
         NSWindowPtr window = Nil;

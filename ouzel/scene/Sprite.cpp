@@ -89,7 +89,7 @@ namespace ouzel
 
                         if (currentFrame >= frames.size())
                         {
-                            if (repeat)
+                            if (repeating)
                             {
                                 currentFrame = 0;
                             }
@@ -107,7 +107,7 @@ namespace ouzel
 
                         if (currentFrame >= frames.size()) // wrap around happened
                         {
-                            if (repeat)
+                            if (repeating)
                             {
                                 currentFrame = static_cast<uint32_t>(frames.size() - 1);
                             }
@@ -195,7 +195,7 @@ namespace ouzel
             updateBoundingBox();
         }
 
-        void Sprite::play(bool pRepeat, float newFrameInterval)
+        void Sprite::play(bool repeat, float newFrameInterval)
         {
             if (newFrameInterval == 0.0f)
             {
@@ -203,7 +203,7 @@ namespace ouzel
                 return;
             }
 
-            repeat = pRepeat;
+            repeating = repeat;
             frameInterval = newFrameInterval;
 
             if (!playing && frames.size() > 1)

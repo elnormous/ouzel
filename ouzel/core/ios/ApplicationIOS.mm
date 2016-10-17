@@ -7,8 +7,8 @@
 
 namespace ouzel
 {
-    ApplicationIOS::ApplicationIOS(int pArgc, char* pArgv[]):
-        Application(pArgc, pArgv)
+    ApplicationIOS::ApplicationIOS(int aArgc, char* aArgv[]):
+        Application(aArgc, aArgv)
     {
         mainQueue = dispatch_get_main_queue();
     }

@@ -14,8 +14,8 @@ namespace ouzel
 {
     namespace input
     {
-        GamepadApple::GamepadApple(GCControllerPtr pController):
-            controller(pController)
+        GamepadApple::GamepadApple(GCControllerPtr aController):
+            controller(aController)
         {
             if (controller.extendedGamepad)
             {

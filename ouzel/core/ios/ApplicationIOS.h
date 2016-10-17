@@ -11,7 +11,7 @@ namespace ouzel
     class ApplicationIOS: public Application
     {
     public:
-        ApplicationIOS(int pArgc, char* pArgv[]);
+        ApplicationIOS(int aArgc, char* aArgv[]);
         virtual ~ApplicationIOS() {}
 
         virtual int run() override;

@@ -19,14 +19,10 @@ namespace ouzel
         return false;
     }
 
-    WindowEm::WindowEm(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
-        Window(pSize, pResizable, pFullscreen, pTitle)
+    WindowEm::WindowEm(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle):
+        Window(aSize, aResizable, aFullscreen, aTitle)
     {
         emscripten_set_resize_callback(nullptr, this, 1, emUICallback);
-    }
-
-    WindowEm::~WindowEm()
-    {
     }
 
     bool WindowEm::init()

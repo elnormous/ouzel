@@ -7,8 +7,8 @@
 
 namespace ouzel
 {
-    ApplicationMacOS::ApplicationMacOS(int pArgc, char* pArgv[]):
-        Application(pArgc, pArgv)
+    ApplicationMacOS::ApplicationMacOS(int aArgc, char* aArgv[]):
+        Application(aArgc, aArgv)
     {
         mainQueue = dispatch_get_main_queue();
     }

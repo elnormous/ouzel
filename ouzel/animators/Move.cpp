@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Move::Move(float pLength, const Vector2& pPosition, bool pRelative):
-            Animator(pLength), position(pPosition), relative(pRelative)
+        Move::Move(float aLength, const Vector2& aPosition, bool aRelative):
+            Animator(aLength), position(aPosition), relative(aRelative)
         {
         }
 

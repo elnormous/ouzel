@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Fade::Fade(float pLength, float pOpacity, bool pRelative):
-            Animator(pLength), opacity(pOpacity), relative(pRelative)
+        Fade::Fade(float aLength, float aOpacity, bool aRelative):
+            Animator(aLength), opacity(aOpacity), relative(aRelative)
         {
         }
 

@@ -9,11 +9,11 @@
 
 namespace ouzel
 {
-    Window::Window(const Size2& pSize, bool pResizable, bool pFullscreen, const std::string& pTitle):
-        size(pSize),
-        resizable(pResizable),
-        fullscreen(pFullscreen),
-        title(pTitle)
+    Window::Window(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle):
+        size(aSize),
+        resizable(aResizable),
+        fullscreen(aFullscreen),
+        title(aTitle)
     {
     }
 

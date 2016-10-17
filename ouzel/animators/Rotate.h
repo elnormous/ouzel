@@ -12,7 +12,7 @@ namespace ouzel
         class Rotate: public Animator
         {
         public:
-            Rotate(float pLength, float pRotation, bool pRelative = false);
+            Rotate(float aLength, float aRotation, bool aRelative = false);
 
             virtual void start(const NodePtr& node) override;
 

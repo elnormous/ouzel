@@ -142,7 +142,7 @@ namespace ouzel
             bool isRenderTargetsFlipped() const { return renderTargetsFlipped; }
 
         protected:
-            Renderer(Driver pDriver);
+            Renderer(Driver aDriver);
             virtual bool init(Window* newWindow,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,

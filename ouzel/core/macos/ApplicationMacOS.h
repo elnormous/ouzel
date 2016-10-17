@@ -11,7 +11,7 @@ namespace ouzel
     class ApplicationMacOS: public Application
     {
     public:
-        ApplicationMacOS(int pArgc, char* pArgv[]);
+        ApplicationMacOS(int aArgc, char* aArgv[]);
         virtual ~ApplicationMacOS() {}
 
         virtual int run() override;

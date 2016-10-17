@@ -13,8 +13,8 @@
 
 namespace ouzel
 {
-    ApplicationLinux::ApplicationLinux(int pArgc, char* pArgv[]):
-        Application(pArgc, pArgv)
+    ApplicationLinux::ApplicationLinux(int aArgc, char* aArgv[]):
+        Application(aArgc, aArgv)
     {
     }
 

@@ -9,8 +9,8 @@
 
 namespace ouzel
 {
-    ApplicationRasp::ApplicationRasp(int pArgc, char* pArgv[]):
-        Application(pArgc, pArgv)
+    ApplicationRasp::ApplicationRasp(int aArgc, char* aArgv[]):
+        Application(aArgc, aArgv)
     {
     }
 

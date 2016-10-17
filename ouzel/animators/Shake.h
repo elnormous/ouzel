@@ -15,7 +15,7 @@ namespace ouzel
         class Shake: public Animator
         {
         public:
-            Shake(float pLength, const Vector2& pDistance, float pTimeScale);
+            Shake(float aLength, const Vector2& aDistance, float aTimeScale);
 
             void start(const NodePtr& targetNode) override;
 

@@ -10,8 +10,7 @@ namespace ouzel
     class ApplicationLinux: public Application
     {
     public:
-        ApplicationLinux(int pArgc, char* pArgv[]);
-        virtual ~ApplicationLinux() {}
+        ApplicationLinux(int aArgc, char* aArgv[]);
 
         virtual int run() override;
     };

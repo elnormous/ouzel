@@ -13,7 +13,7 @@ namespace ouzel
         class Move: public Animator
         {
         public:
-            Move(float pLength, const Vector2& pPosition, bool pRelative = false);
+            Move(float aLength, const Vector2& aPosition, bool aRelative = false);
 
             virtual void start(const NodePtr& targetNode) override;
 

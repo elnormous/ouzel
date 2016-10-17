@@ -31,8 +31,8 @@ namespace ouzel
         /**
          * Constructor.
          */
-        AABB2(const Vector2& pMin, const Vector2& pMax):
-            min(pMin), max(pMax)
+        AABB2(const Vector2& aMin, const Vector2& aMax):
+            min(aMin), max(aMax)
         {
         }
 
@@ -93,10 +93,10 @@ namespace ouzel
         /**
          * Sets this bounding box to the specified values.
          */
-        void set(const Vector2& pMin, const Vector2& pMax)
+        void set(const Vector2& newMin, const Vector2& newMax)
         {
-            min = pMin;
-            max = pMax;
+            min = newMin;
+            max = newMax;
         }
 
         /**

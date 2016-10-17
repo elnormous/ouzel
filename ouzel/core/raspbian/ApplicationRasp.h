@@ -10,8 +10,7 @@ namespace ouzel
     class ApplicationRasp: public Application
     {
     public:
-        ApplicationRasp(int pArgc, char* pArgv[]);
-        virtual ~ApplicationRasp() {}
+        ApplicationRasp(int aArgc, char* aArgv[]);
 
         virtual int run() override;
     };
