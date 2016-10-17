@@ -284,6 +284,13 @@ namespace ouzel
         }
 
         /**
+         * Rotates this vector by angle (specified in radians) around the 0,0 point.
+         *
+         * @param angle The angle to rotate by (in radians).
+         */
+        void rotate(float angle);
+
+        /**
          * Rotates this vector by angle (specified in radians) around the given point.
          *
          * @param point The point to rotate around.

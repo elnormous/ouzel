@@ -142,6 +142,16 @@ namespace ouzel
         dst.y *= n;
     }
 
+    void Vector2::rotate(float angle)
+    {
+        float sinAngle = sinf(angle);
+        float cosAngle = cosf(angle);
+
+        float tempX = x * cosAngle + y * sinAngle;
+        y = y * cosAngle - x * sinAngle;
+        x = tempX;
+    }
+
     void Vector2::rotate(const Vector2& point, float angle)
     {
         float sinAngle = sinf(angle);
