@@ -12,14 +12,17 @@ namespace ouzel
         class Color
         {
         public:
-            static const Color BLACK;
-            static const Color RED;
-            static const Color MAGENTA;
-            static const Color GREEN;
-            static const Color CYAN;
-            static const Color BLUE;
-            static const Color YELLOW;
-            static const Color WHITE;
+            enum
+            {
+                BLACK = 0x000000ff,
+                RED = 0xff0000ff,
+                MAGENTA = 0xff00ffff,
+                GREEN = 0x00ff00ff,
+                CYAN = 0x00ffffff,
+                BLUE = 0x0000ffff,
+                YELLOW = 0xffff00ff,
+                WHITE = 0xffffffff
+            };
 
             uint8_t r;
             uint8_t g;
