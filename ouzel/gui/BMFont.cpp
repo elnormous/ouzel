@@ -268,9 +268,7 @@ namespace ouzel
                 vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset - f.height, 0.0f),
                                              color, textCoords[3]));
 
-                // Only check kerning if there is greater then 1 character and
-                // if the check character is 1 less then the end of the string.
-                if (utf32Text.size() > 1 && (i + 1) != utf32Text.end())
+                if ((i + 1) != utf32Text.end())
                 {
                     position.x += getKerningPair(*i, *(i + 1));
                 }
