@@ -92,23 +92,23 @@ namespace ouzel
             }
             else if ((cp >> 5) == 0x6) // length = 2
             {
-                ++i;
+                if (++i == text.end()) return result;
                 cp = ((cp << 6) & 0x7ff) + (*i & 0x3f);
             }
             else if ((cp >> 4) == 0xe) // length = 3
             {
-                ++i;
+                if (++i == text.end()) return result;
                 cp = ((cp << 12) & 0xffff) + (((*i & 0xff) << 6) & 0xfff);
-                ++i;
+                if (++i == text.end()) return result;
                 cp += *i & 0x3f;
             }
             else if ((cp >> 3) == 0x1e) // length = 4
             {
-                ++i;
+                if (++i == text.end()) return result;
                 cp = ((cp << 18) & 0x1fffff) + (((*i & 0xff) << 12) & 0x3ffff);
-                ++i;
+                if (++i == text.end()) return result;
                 cp += ((*i & 0xff) << 6) & 0xfff;
-                ++i;
+                if (++i == text.end()) return result;
                 cp += (*i) & 0x3f;
             }
 
