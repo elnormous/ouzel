@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "utf8/unchecked.h"
+#include <iterator>
 #include "BMFont.h"
 #include "core/Engine.h"
 #include "core/Application.h"
@@ -12,6 +12,7 @@
 #include "graphics/Vertex.h"
 #include "core/Cache.h"
 #include "utils/Log.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {
@@ -189,11 +190,11 @@ namespace ouzel
     {
         float total = 0.0f;
 
-        for (auto i = text.begin(); i != text.end();)
-        {
-            uint32_t c = utf8::unchecked::next(i);
+        std::vector<uint32_t> utf32Text = utf8to32(text);
 
-            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(c);
+        for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
+        {
+            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(*i);
 
             if (iter != chars.end())
             {
@@ -209,8 +210,7 @@ namespace ouzel
     {
         Vector2 position;
 
-        std::vector<uint32_t> utf32Text;
-        utf8::unchecked::utf8to32(text.begin(), text.end(), std::back_inserter(utf32Text));
+        std::vector<uint32_t> utf32Text = utf8to32(text);
 
         indices.clear();
         vertices.clear();
@@ -222,9 +222,9 @@ namespace ouzel
 
         size_t firstChar = 0;
 
-        for (size_t i = 0; i < utf32Text.size(); ++i)
+        for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {
-            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(utf32Text[i]);
+            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(*i);
 
             if (iter != chars.end())
             {
@@ -270,16 +270,16 @@ namespace ouzel
 
                 // Only check kerning if there is greater then 1 character and
                 // if the check character is 1 less then the end of the string.
-                if (utf32Text.size() > 1 && i < utf32Text.size() - 1)
+                if (utf32Text.size() > 1 && (i + 1) != utf32Text.end())
                 {
-                    position.x += getKerningPair(text[i], text[i + 1]);
+                    position.x += getKerningPair(text[*i], text[*(i + 1)]);
                 }
 
                 position.x +=  f.xAdvance;
             }
 
-            if (utf32Text[i] == static_cast<uint32_t>('\n') || // line feed
-                i + 1 == utf32Text.size()) // end of string
+            if (*i == static_cast<uint32_t>('\n') || // line feed
+                (i + 1) == utf32Text.end()) // end of string
             {
                 float lineWidth = position.x;
                 position.x = 0.0f;

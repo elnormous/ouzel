@@ -77,4 +77,44 @@ namespace ouzel
 
         return static_cast<uint16_t>(result);
     };
+
+    inline std::vector<uint32_t> utf8to32(const std::string& text)
+    {
+        std::vector<uint32_t> result;
+
+        for (auto i = text.begin(); i != text.end(); ++i)
+        {
+            uint32_t cp = *i & 0xff;
+
+            if (cp < 0x80) // length = 1
+            {
+                // do nothing
+            }
+            else if ((cp >> 5) == 0x6) // length = 2
+            {
+                ++i;
+                cp = ((cp << 6) & 0x7ff) + (*i & 0x3f);
+            }
+            else if ((cp >> 4) == 0xe) // length = 3
+            {
+                ++i;
+                cp = ((cp << 12) & 0xffff) + (((*i & 0xff) << 6) & 0xfff);
+                ++i;
+                cp += *i & 0x3f;
+            }
+            else if ((cp >> 3) == 0x1e) // length = 4
+            {
+                ++i;
+                cp = ((cp << 18) & 0x1fffff) + (((*i & 0xff) << 12) & 0x3ffff);
+                ++i;
+                cp += ((*i & 0xff) << 6) & 0xfff;
+                ++i;
+                cp += (*i) & 0x3f;
+            }
+
+            result.push_back(cp);
+        }
+        
+        return result;
+    }
 }

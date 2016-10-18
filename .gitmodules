@@ -4,6 +4,3 @@
 [submodule "external/rapidjson"]
 	path = external/rapidjson
 	url = https://github.com/miloyip/rapidjson.git
-[submodule "external/utfcpp"]
-	path = external/utfcpp
-	url = https://github.com/nemtrif/utfcpp.git

@@ -14,7 +14,7 @@ CC=emcc
 CXX=em++
 AR=emar
 endif
-CXXFLAGS=-c -std=c++11 -Wall -O2 -I../ouzel -I../external/stb -I../external/rapidjson/include -I../external/utfcpp/source
+CXXFLAGS=-c -std=c++11 -Wall -O2 -I../ouzel -I../external/stb -I../external/rapidjson/include
 SOURCES=../ouzel/animators/Animator.cpp \
 	../ouzel/animators/Ease.cpp \
 	../ouzel/animators/Fade.cpp \

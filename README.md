@@ -69,7 +69,7 @@ The following code will open a 640px x 480px window:
 
 ## Compilation
 
-Ouzel uses stb, rapidjson and utfcpp submodules. The following command has to be run after cloning the Ouzel engine:
+Ouzel uses stb and rapidjson submodules. The following command has to be run after cloning the Ouzel engine:
 
 ```
 $ git submodule update --init
