@@ -272,7 +272,7 @@ namespace ouzel
                 // if the check character is 1 less then the end of the string.
                 if (utf32Text.size() > 1 && (i + 1) != utf32Text.end())
                 {
-                    position.x += getKerningPair(text[*i], text[*(i + 1)]);
+                    position.x += getKerningPair(*i, *(i + 1));
                 }
 
                 position.x +=  f.xAdvance;
