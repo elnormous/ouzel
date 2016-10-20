@@ -38,7 +38,7 @@ namespace ouzel
 
     Matrix4::Matrix4(const Matrix4& copy)
     {
-        std::copy(std::begin(copy.m), std::end(copy.m), m);
+        std::copy(copy.m, copy.m + sizeof(copy.m) / sizeof(float), m);
     }
 
     void Matrix4::createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst)
@@ -188,7 +188,7 @@ namespace ouzel
 
     void Matrix4::createScale(const Vector3& scale, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
         dst.m[0] = scale.x;
         dst.m[5] = scale.y;
@@ -197,7 +197,7 @@ namespace ouzel
 
     void Matrix4::createScale(float xScale, float yScale, float zScale, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
         dst.m[0] = xScale;
         dst.m[5] = yScale;
@@ -263,7 +263,7 @@ namespace ouzel
 
     void Matrix4::createRotationX(float angle, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
         float c = cosf(angle);
         float s = sinf(angle);
@@ -276,7 +276,7 @@ namespace ouzel
 
     void Matrix4::createRotationY(float angle, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
         float c = cosf(angle);
         float s = sinf(angle);
@@ -289,7 +289,7 @@ namespace ouzel
 
     void Matrix4::createRotationZ(float angle, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
         float c = cosf(angle);
         float s = sinf(angle);
@@ -302,7 +302,7 @@ namespace ouzel
 
     void Matrix4::createTranslation(const Vector3& translation, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
         dst.m[12] = translation.x;
         dst.m[13] = translation.y;
@@ -311,7 +311,7 @@ namespace ouzel
 
     void Matrix4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
         dst.m[12] = xTranslation;
         dst.m[13] = yTranslation;
@@ -604,7 +604,7 @@ namespace ouzel
 
     bool Matrix4::isIdentity() const
     {
-        return std::equal(std::begin(m), std::end(m), IDENTITY.m);
+        return std::equal(m, m + sizeof(m) / sizeof(float), IDENTITY.m);
     }
 
     void Matrix4::multiply(float scalar)
@@ -883,7 +883,7 @@ namespace ouzel
         product[14] = m1.m[2] * m2.m[12] + m1.m[6] * m2.m[13] + m1.m[10] * m2.m[14] + m1.m[14] * m2.m[15];
         product[15] = m1.m[3] * m2.m[12] + m1.m[7] * m2.m[13] + m1.m[11] * m2.m[14] + m1.m[15] * m2.m[15];
 
-        std::copy(std::begin(product), std::end(product), dst.m);
+        std::copy(product, product + sizeof(product) / sizeof(float), dst.m);
     #if OUZEL_SUPPORTS_NEON_CHECK
         }
     #endif
@@ -1082,17 +1082,17 @@ namespace ouzel
 
     void Matrix4::set(const Matrix4& matrix)
     {
-        std::copy(std::begin(matrix.m), std::end(matrix.m), m);
+        std::copy(matrix.m, matrix.m + sizeof(matrix.m) / sizeof(float), m);
     }
 
     void Matrix4::setIdentity()
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), m);
+        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), m);
     }
 
     void Matrix4::setZero()
     {
-        std::fill(std::begin(m), std::end(m), 0.0f);
+        std::fill(m, m + sizeof(m) / sizeof(float), 0.0f);
     }
 
     void Matrix4::subtract(const Matrix4& matrix)
@@ -1368,7 +1368,7 @@ namespace ouzel
             m[2], m[6], m[10], m[14],
             m[3], m[7], m[11], m[15]
         };
-        std::copy(std::begin(t), std::end(t), dst.m);
+        std::copy(t, t + sizeof(m) / sizeof(float), dst.m);
     #if OUZEL_SUPPORTS_NEON_CHECK
         }
     #endif
