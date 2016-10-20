@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <cstring>
+#include <algorithm>
 #include "Texture.h"
 #include "Renderer.h"
 #include "Image.h"
@@ -208,7 +208,7 @@ namespace ouzel
                 }
 
                 std::vector<uint8_t> mipMapData(bufferSize);
-                memcpy(mipMapData.data(), newData.data(), newWidth * newHeight * 4);
+                std::copy(newData.begin(), newData.begin() + newWidth * newHeight * 4, mipMapData.begin());
 
                 while (newWidth >= 2 && newHeight >= 2)
                 {
@@ -227,7 +227,7 @@ namespace ouzel
                 {
                     for (; newWidth >= 2;)
                     {
-                        memcpy(&mipMapData.data()[newWidth*4], mipMapData.data(), newWidth * 4);
+                        std::copy(mipMapData.begin(), mipMapData.begin() + newWidth * 4, mipMapData.begin() + newWidth * 4);
 
                         imageRgba8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
 

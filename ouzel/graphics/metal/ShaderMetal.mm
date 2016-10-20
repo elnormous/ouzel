@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "core/Engine.h"
 #include "RendererMetal.h"
 #include "files/FileSystem.h"
@@ -89,8 +90,7 @@ namespace ouzel
 
         bool ShaderMetal::uploadBuffer(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size)
         {
-            char* contents = static_cast<char*>([buffer contents]);
-            memcpy((contents + offset), data, size);
+            std::copy(static_cast<const char*>(data), static_cast<const char*>(data) + size, static_cast<char*>([buffer contents]) + offset);
 
             return true;
         }

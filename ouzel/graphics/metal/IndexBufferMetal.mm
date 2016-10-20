@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "IndexBufferMetal.h"
 #include "RendererMetal.h"
 #include "core/Engine.h"
@@ -82,7 +83,7 @@ namespace ouzel
                             }
                         }
 
-                        memcpy([buffer contents], uploadData.data.data(), uploadData.data.size());
+                        std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>([buffer contents]));
                     }
 
                     uploadData.dirty &= ~INDEX_BUFFER_DIRTY;

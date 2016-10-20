@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <cstring>
+#include <algorithm>
 #include "Input.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
@@ -13,8 +13,8 @@ namespace ouzel
     {
         Input::Input()
         {
-            memset(keyboardKeyStates, 0, sizeof(keyboardKeyStates));
-            memset(mouseButtonStates, 0, sizeof(mouseButtonStates));
+            std::fill(std::begin(keyboardKeyStates), std::end(keyboardKeyStates), false);
+            std::fill(std::begin(mouseButtonStates), std::end(mouseButtonStates), false);
         }
 
         Input::~Input()

@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <cstring>
+#include <algorithm>
 #include "VertexBufferOGL.h"
 #include "RendererOGL.h"
 
@@ -181,7 +181,7 @@ namespace ouzel
 
                         if (bufferPtr)
                         {
-                            memcpy(bufferPtr, uploadData.data.data(), uploadData.data.size());
+                            std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(bufferPtr));
                         }
                         else
                         {
