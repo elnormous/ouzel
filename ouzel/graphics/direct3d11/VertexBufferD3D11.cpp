@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "VertexBufferD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
@@ -80,7 +81,7 @@ namespace ouzel
                                 return false;
                             }
 
-                            memcpy(mappedSubResource.pData, uploadData.data.data(), uploadData.data.size());
+                            std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(mappedSubResource.pData));
 
                             rendererD3D11->getContext()->Unmap(buffer, 0);
                         }

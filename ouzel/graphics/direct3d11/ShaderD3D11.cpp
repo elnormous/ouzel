@@ -1,7 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <fstream>
+#include <algorithm>
 #include "ShaderD3D11.h"
 #include "core/Engine.h"
 #include "RendererD3D11.h"
@@ -94,7 +94,7 @@ namespace ouzel
                 return false;
             }
 
-            memcpy(mappedSubresource.pData, data, size);
+            std::copy(static_cast<const uint8_t*>(data), static_cast<const uint8_t*>(data) + size, static_cast<uint8_t*>(mappedSubresource.pData));
 
             rendererD3D11->getContext()->Unmap(buffer, 0);
 

@@ -13,7 +13,9 @@ namespace ouzel
     {
         Gamepad::Gamepad()
         {
-            std::fill(std::begin(buttonStates), std::end(buttonStates), (GamepadButtonState) { false, 0.0f });
+            GamepadButtonState emptyState{ false, 0.0f };
+
+            std::fill(std::begin(buttonStates), std::end(buttonStates), emptyState);
         }
 
         bool Gamepad::isAttached() const
