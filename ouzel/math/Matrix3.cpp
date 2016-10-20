@@ -165,7 +165,7 @@ namespace ouzel
 
     bool Matrix3::isIdentity() const
     {
-        return (memcmp(m, IDENTITY.m, sizeof(m)) == 0);
+        return std::equal(std::begin(m), std::end(m), IDENTITY.m);
     }
 
     void Matrix3::multiply(float scalar)

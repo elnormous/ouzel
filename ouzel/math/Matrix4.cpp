@@ -604,7 +604,7 @@ namespace ouzel
 
     bool Matrix4::isIdentity() const
     {
-        return (memcmp(m, IDENTITY.m, sizeof(m)) == 0);
+        return std::equal(std::begin(m), std::end(m), IDENTITY.m);
     }
 
     void Matrix4::multiply(float scalar)
