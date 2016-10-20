@@ -56,14 +56,11 @@ namespace ouzel
 
         appPath = std::string(TEMP_BUFFER);
 #elif OUZEL_PLATFORM_WINDOWS
-        if (_wpgmptr)
+        char* exePath;
+
+        if (_get_pgmptr(&exePath) == 0)
         {
-            WideCharToMultiByte(CP_UTF8, 0, _wpgmptr, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
-            appPath = getDirectoryPart(TEMP_BUFFER);
-        }
-        else if (_pgmptr)
-        {
-            appPath = getDirectoryPart(_pgmptr);
+            appPath = getDirectoryPart(exePath);
         }
         else
         {
