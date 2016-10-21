@@ -50,7 +50,12 @@ namespace ouzel
 
             if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
             {
-                drawQueue.push_back(this);
+                auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(), this,
+                                                   [](Node* a, Node* b) {
+                                                       return a->getWorldZ() > b->getWorldZ();
+                                                   });
+
+                drawQueue.insert(upperBound, this);
             }
 
             for (const NodePtr& child : children)

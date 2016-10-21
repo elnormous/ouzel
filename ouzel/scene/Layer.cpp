@@ -48,7 +48,7 @@ namespace ouzel
 
                 if (wireframe)
                 {
-                    for (const auto& node : drawQueue)
+                    for (Node* node : drawQueue)
                     {
                         node->drawWireframe(camera);
                     }
