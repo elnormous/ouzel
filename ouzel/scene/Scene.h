@@ -58,7 +58,6 @@ namespace ouzel
             std::vector<LayerPtr> layers;
             ouzel::EventHandler eventHandler;
 
-            std::map<uint64_t, scene::NodeWeakPtr> pointerOnNodes;
             std::map<uint64_t, scene::NodeWeakPtr> pointerDownOnNodes;
 
             bool entered = false;

@@ -192,6 +192,9 @@ namespace ouzel
                 }
                 case Event::Type::MOUSE_MOVE:
                 {
+                    scene::NodePtr previousNode = pickNode(event.previousPosition);
+                    pointerLeaveNode(0, previousNode, event.position);
+
                     scene::NodePtr node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
@@ -228,6 +231,9 @@ namespace ouzel
                 }
                 case Event::Type::TOUCH_MOVE:
                 {
+                    scene::NodePtr previousNode = pickNode(event.previousPosition);
+                    pointerLeaveNode(0, previousNode, event.position);
+
                     scene::NodePtr node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
@@ -254,27 +260,6 @@ namespace ouzel
 
         void Scene::pointerEnterNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
         {
-            auto i = pointerOnNodes.find(pointerId);
-
-            if (i != pointerOnNodes.end())
-            {
-                auto pointerOnNode = i->second.lock();
-
-                if (pointerOnNode)
-                {
-                    if (pointerOnNode == node)
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        pointerLeaveNode(pointerId, pointerOnNode, position);
-                    }
-                }
-            }
-
-            pointerOnNodes[pointerId] = node;
-
             if (node)
             {
                 Event event;
@@ -299,8 +284,6 @@ namespace ouzel
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
             }
-
-            pointerOnNodes.erase(pointerId);
         }
 
         void Scene::pointerDownOnNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
