@@ -17,7 +17,7 @@ namespace ouzel
             Menu();
 
             virtual void addWidget(const WidgetPtr& widget);
-            virtual bool removeWidget(const WidgetPtr& widget);
+            virtual bool removeChild(const scene::NodePtr& node) override;
 
             virtual void selectNextWidget();
             virtual void selectPreviousWidget();

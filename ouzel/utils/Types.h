@@ -85,9 +85,6 @@ namespace ouzel
         class SpriteFrame;
         typedef std::shared_ptr<SpriteFrame> SpriteFramePtr;
 
-        class NodeContainer;
-        typedef std::shared_ptr<NodeContainer> NodeContainerPtr;
-
         class Node;
         typedef std::shared_ptr<Node> NodePtr;
         typedef std::weak_ptr<Node> NodeWeakPtr;
