@@ -300,7 +300,7 @@ namespace ouzel
                 event.type = Event::Type::UI_ENTER_NODE;
 
                 event.uiEvent.node = node.get();
-                event.uiEvent.position = node->convertWorldToLocal(position);
+                event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
             }
@@ -314,7 +314,7 @@ namespace ouzel
                 event.type = Event::Type::UI_LEAVE_NODE;
 
                 event.uiEvent.node = node.get();
-                event.uiEvent.position = node->convertWorldToLocal(position);
+                event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
             }
@@ -332,7 +332,7 @@ namespace ouzel
                 event.type = Event::Type::UI_PRESS_NODE;
 
                 event.uiEvent.node = node.get();
-                event.uiEvent.position = node->convertWorldToLocal(position);
+                event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
             }
@@ -348,7 +348,7 @@ namespace ouzel
                 releaseEvent.type = Event::Type::UI_RELEASE_NODE;
 
                 releaseEvent.uiEvent.node = pointerDownOnNode.get();
-                releaseEvent.uiEvent.position = pointerDownOnNode->convertWorldToLocal(position);
+                releaseEvent.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(releaseEvent);
 
@@ -358,7 +358,7 @@ namespace ouzel
                     clickEvent.type = Event::Type::UI_CLICK_NODE;
 
                     clickEvent.uiEvent.node = pointerDownOnNode.get();
-                    clickEvent.uiEvent.position = pointerDownOnNode->convertWorldToLocal(position);
+                    clickEvent.uiEvent.position = position;
 
                     sharedEngine->getEventDispatcher()->postEvent(clickEvent);
                 }
@@ -375,7 +375,7 @@ namespace ouzel
                 event.type = Event::Type::UI_DRAG_NODE;
 
                 event.uiEvent.node = node.get();
-                event.uiEvent.position = node->convertWorldToLocal(position);
+                event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
             }
