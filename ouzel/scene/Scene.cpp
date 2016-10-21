@@ -195,9 +195,11 @@ namespace ouzel
                     scene::NodePtr node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
-                    if (scene::NodePtr pointerDownOnNode = getPointerDownOnNode(0))
+                    auto i = pointerDownOnNodes.find(0);
+
+                    if (i != pointerDownOnNodes.end())
                     {
-                        pointerDragNode(0, pointerDownOnNode, event.position);
+                        pointerDragNode(0, i->second.lock(), event.position);
                     }
                     break;
                 }
@@ -229,9 +231,11 @@ namespace ouzel
                     scene::NodePtr node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
-                    if (scene::NodePtr pointerDownOnNode = getPointerDownOnNode(event.touchId))
+                    auto i = pointerDownOnNodes.find(event.touchId);
+
+                    if (i != pointerDownOnNodes.end())
                     {
-                        pointerDragNode(event.touchId, pointerDownOnNode, event.position);
+                        pointerDragNode(event.touchId, i->second.lock(), event.position);
                     }
                     break;
                 }
@@ -248,47 +252,24 @@ namespace ouzel
             return true;
         }
 
-        scene::NodePtr Scene::getPointerOnNode(uint64_t pointerId) const
-        {
-            scene::NodePtr result;
-
-            auto i = pointerOnNodes.find(pointerId);
-
-            if (i != pointerOnNodes.end() && !i->second.expired())
-            {
-                result = i->second.lock();
-            }
-
-            return result;
-        }
-
-        scene::NodePtr Scene::getPointerDownOnNode(uint64_t pointerId) const
-        {
-            scene::NodePtr result;
-
-            auto i = pointerDownOnNodes.find(pointerId);
-
-            if (i != pointerDownOnNodes.end() && !i->second.expired())
-            {
-                result = i->second.lock();
-            }
-
-            return result;
-        }
-
         void Scene::pointerEnterNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
         {
-            scene::NodePtr pointerOnNode = getPointerOnNode(pointerId);
+            auto i = pointerOnNodes.find(pointerId);
 
-            if (pointerOnNode)
+            if (i != pointerOnNodes.end())
             {
-                if (pointerOnNode == node)
+                auto pointerOnNode = i->second.lock();
+
+                if (pointerOnNode)
                 {
-                    return;
-                }
-                else
-                {
-                    pointerLeaveNode(pointerId, pointerOnNode, position);
+                    if (pointerOnNode == node)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        pointerLeaveNode(pointerId, pointerOnNode, position);
+                    }
                 }
             }
 
@@ -340,27 +321,32 @@ namespace ouzel
 
         void Scene::pointerUpOnNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
         {
-            scene::NodePtr pointerDownOnNode = getPointerDownOnNode(pointerId);
+            auto i = pointerDownOnNodes.find(pointerId);
 
-            if (pointerDownOnNode)
+            if (i != pointerDownOnNodes.end())
             {
-                Event releaseEvent;
-                releaseEvent.type = Event::Type::UI_RELEASE_NODE;
+                auto pointerDownOnNode = i->second.lock();
 
-                releaseEvent.uiEvent.node = pointerDownOnNode.get();
-                releaseEvent.uiEvent.position = position;
-
-                sharedEngine->getEventDispatcher()->postEvent(releaseEvent);
-
-                if (pointerDownOnNode == node)
+                if (pointerDownOnNode)
                 {
-                    Event clickEvent;
-                    clickEvent.type = Event::Type::UI_CLICK_NODE;
+                    Event releaseEvent;
+                    releaseEvent.type = Event::Type::UI_RELEASE_NODE;
 
-                    clickEvent.uiEvent.node = pointerDownOnNode.get();
-                    clickEvent.uiEvent.position = position;
+                    releaseEvent.uiEvent.node = pointerDownOnNode.get();
+                    releaseEvent.uiEvent.position = position;
 
-                    sharedEngine->getEventDispatcher()->postEvent(clickEvent);
+                    sharedEngine->getEventDispatcher()->postEvent(releaseEvent);
+
+                    if (pointerDownOnNode == node)
+                    {
+                        Event clickEvent;
+                        clickEvent.type = Event::Type::UI_CLICK_NODE;
+
+                        clickEvent.uiEvent.node = pointerDownOnNode.get();
+                        clickEvent.uiEvent.position = position;
+
+                        sharedEngine->getEventDispatcher()->postEvent(clickEvent);
+                    }
                 }
             }
 
