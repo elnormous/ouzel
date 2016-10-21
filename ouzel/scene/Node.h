@@ -106,9 +106,6 @@ namespace ouzel
             AnimatorPtr getAnimator() const { return currentAnimator; }
             void removeAnimation();
 
-            void setReceiveInput(bool newReceiveInput) { receiveInput = newReceiveInput; }
-            bool isReceivingInput() const { return receiveInput; }
-
             const std::vector<ComponentPtr>& getComponents() const { return components; }
             void addComponent(const ComponentPtr& component);
             bool removeComponent(uint32_t index);
@@ -150,7 +147,6 @@ namespace ouzel
             bool pickable = false;
             bool cullDisabled = false;
             bool hidden = false;
-            bool receiveInput = false;
 
             std::string name;
 

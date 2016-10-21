@@ -294,7 +294,7 @@ namespace ouzel
 
             pointerOnNodes[pointerId] = node;
 
-            if (node && node->isReceivingInput())
+            if (node)
             {
                 Event event;
                 event.type = Event::Type::UI_ENTER_NODE;
@@ -308,7 +308,7 @@ namespace ouzel
 
         void Scene::pointerLeaveNode(uint64_t pointerId, const scene::NodePtr& node, const Vector2& position)
         {
-            if (node && node->isReceivingInput())
+            if (node)
             {
                 Event event;
                 event.type = Event::Type::UI_LEAVE_NODE;
@@ -326,7 +326,7 @@ namespace ouzel
         {
             pointerDownOnNodes[pointerId] = node;
 
-            if (node && node->isReceivingInput())
+            if (node)
             {
                 Event event;
                 event.type = Event::Type::UI_PRESS_NODE;
@@ -342,7 +342,7 @@ namespace ouzel
         {
             scene::NodePtr pointerDownOnNode = getPointerDownOnNode(pointerId);
 
-            if (pointerDownOnNode && pointerDownOnNode->isReceivingInput())
+            if (pointerDownOnNode)
             {
                 Event releaseEvent;
                 releaseEvent.type = Event::Type::UI_RELEASE_NODE;
@@ -369,7 +369,7 @@ namespace ouzel
 
         void Scene::pointerDragNode(uint64_t, const scene::NodePtr& node, const Vector2& position)
         {
-            if (node && node->isReceivingInput())
+            if (node)
             {
                 Event event;
                 event.type = Event::Type::UI_DRAG_NODE;

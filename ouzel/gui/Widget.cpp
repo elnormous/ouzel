@@ -9,7 +9,6 @@ namespace ouzel
     {
         Widget::Widget()
         {
-            receiveInput = true;
         }
 
         void Widget::setEnabled(bool newEnabled)
