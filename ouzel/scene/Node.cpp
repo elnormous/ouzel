@@ -28,7 +28,8 @@ namespace ouzel
             }
         }
 
-        void Node::visit(const Matrix4& newTransformMatrix,
+        void Node::visit(std::vector<Node*>& drawQueue,
+                         const Matrix4& newTransformMatrix,
                          bool parentTransformDirty,
                          const CameraPtr& camera,
                          float newParentZ)
@@ -49,14 +50,14 @@ namespace ouzel
 
             if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
             {
-                camera->addToDrawQueue(std::static_pointer_cast<Node>(shared_from_this()));
+                drawQueue.push_back(this);
             }
 
             for (const NodePtr& child : children)
             {
                 if (!child->isHidden())
                 {
-                    child->visit(transform, updateChildrenTransform, camera, newParentZ + z);
+                    child->visit(drawQueue, transform, updateChildrenTransform, camera, newParentZ + z);
                 }
             }
 

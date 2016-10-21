@@ -117,7 +117,8 @@ namespace ouzel
         protected:
             void setParent(NodeContainer* newParent) { parent = newParent; }
 
-            virtual void visit(const Matrix4& newParentTransform,
+            virtual void visit(std::vector<Node*>& drawQueue,
+                               const Matrix4& newParentTransform,
                                bool parentTransformDirty,
                                const CameraPtr& camera,
                                float newParentZ);

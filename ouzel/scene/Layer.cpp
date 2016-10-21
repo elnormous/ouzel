@@ -31,19 +31,17 @@ namespace ouzel
         {
             for (const CameraPtr& camera : cameras)
             {
-                camera->clearDrawQueue();
+                std::vector<Node*> drawQueue;
                 
                 for (const NodePtr& child : children)
                 {
                     if (!child->isHidden())
                     {
-                        child->visit(Matrix4::IDENTITY, false, camera, 0.0f);
+                        child->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0.0f);
                     }
                 }
 
-                const auto& drawQueue = camera->getDrawQueue();
-
-                for (const auto& node : drawQueue)
+                for (Node* node : drawQueue)
                 {
                     node->draw(camera);
                 }
