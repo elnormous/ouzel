@@ -102,13 +102,14 @@ namespace ouzel
 
         void Input::mouseMove(const Vector2& position, uint32_t modifiers)
         {
-            cursorPosition = position;
-
             Event event;
             event.type = Event::Type::MOUSE_MOVE;
 
+            event.mouseEvent.previousPosition = cursorPosition;
             event.mouseEvent.position = position;
             event.mouseEvent.modifiers = modifiers;
+
+            cursorPosition = position;
 
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
@@ -143,6 +144,8 @@ namespace ouzel
             event.touchEvent.touchId = touchId;
             event.touchEvent.position = position;
 
+            touchPositions[touchId] = position;
+
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
@@ -154,6 +157,13 @@ namespace ouzel
             event.touchEvent.touchId = touchId;
             event.touchEvent.position = position;
 
+            auto i = touchPositions.find(touchId);
+
+            if (i != touchPositions.end())
+            {
+                touchPositions.erase(i);
+            }
+
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
@@ -163,7 +173,10 @@ namespace ouzel
             event.type = Event::Type::TOUCH_MOVE;
 
             event.touchEvent.touchId = touchId;
+            event.touchEvent.previousPosition = touchPositions[touchId];
             event.touchEvent.position = position;
+
+            touchPositions[touchId] = position;
 
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
@@ -175,6 +188,13 @@ namespace ouzel
 
             event.touchEvent.touchId = touchId;
             event.touchEvent.position = position;
+
+            auto i = touchPositions.find(touchId);
+
+            if (i != touchPositions.end())
+            {
+                touchPositions.erase(i);
+            }
 
             sharedEngine->getEventDispatcher()->postEvent(event);
         }

@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <map>
 #include <memory>
 #include "utils/Noncopyable.h"
 #include "utils/Types.h"
@@ -250,6 +251,8 @@ namespace ouzel
             Vector2 cursorPosition;
             bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
             bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
+
+            std::map<uint64_t, Vector2> touchPositions;
         };
     } // namespace input
 } // namespace ouzel
