@@ -55,7 +55,10 @@ namespace ouzel
 
             void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
             const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
-            
+
+            bool getWireframe() const { return wireframe; }
+            void setWireframe(bool newWireframe) { wireframe = newWireframe; }
+
         protected:
             virtual void calculateLocalTransform() const override;
 
@@ -77,6 +80,8 @@ namespace ouzel
             Layer* layer = nullptr;
 
             graphics::RenderTargetPtr renderTarget;
+
+            bool wireframe = false;
         };
     } // namespace scene
 } // namespace ouzel

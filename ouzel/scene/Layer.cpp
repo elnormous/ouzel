@@ -43,11 +43,8 @@ namespace ouzel
                 for (Node* node : drawQueue)
                 {
                     node->draw(camera);
-                }
 
-                if (wireframe)
-                {
-                    for (Node* node : drawQueue)
+                    if (camera->getWireframe())
                     {
                         node->drawWireframe(camera);
                     }

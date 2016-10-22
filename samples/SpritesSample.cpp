@@ -15,7 +15,9 @@ SpritesSample::SpritesSample()
 
     layer = make_shared<scene::Layer>();
     addLayer(layer);
-    layer->addCamera(make_shared<scene::Camera>());
+
+    camera = make_shared<scene::Camera>();
+    layer->addCamera(camera);
 
     // character
     scene::SpritePtr characterSprite = make_shared<scene::Sprite>("run.json");
@@ -78,7 +80,7 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const
         }
         else if (event.node == wireframeButton.get())
         {
-            layer->setWireframe(!layer->getWireframe());
+            camera->setWireframe(!camera->getWireframe());
         }
     }
 

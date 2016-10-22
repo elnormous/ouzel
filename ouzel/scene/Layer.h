@@ -41,9 +41,6 @@ namespace ouzel
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
 
-            bool getWireframe() const { return wireframe; }
-            void setWireframe(bool newWireframe) { wireframe = newWireframe; }
-
         protected:
             virtual void recalculateProjection();
             virtual void enter() override;
@@ -51,7 +48,6 @@ namespace ouzel
             std::set<CameraPtr> cameras;
 
             int32_t order = 0;
-            bool wireframe = false;
         };
     } // namespace scene
 } // namespace ouzel

@@ -15,6 +15,7 @@ private:
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
 
     ouzel::scene::LayerPtr layer;
+    ouzel::scene::CameraPtr camera;
 
     ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
