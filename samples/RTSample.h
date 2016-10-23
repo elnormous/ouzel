@@ -19,16 +19,16 @@ private:
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
 
-    std::unique_ptr<ouzel::scene::Layer> rtLayer;
-    std::unique_ptr<ouzel::scene::Camera> rtCamera;
-    std::unique_ptr<ouzel::scene::Camera> camera1;
-    std::unique_ptr<ouzel::scene::Camera> camera2;
+    ouzel::scene::Layer rtLayer;
+    ouzel::scene::Camera rtCamera;
+    ouzel::scene::Camera camera1;
+    ouzel::scene::Camera camera2;
 
-    std::unique_ptr<ouzel::scene::Sprite> characterSprite;
-    std::unique_ptr<ouzel::scene::Node> rtCharacter;
+    ouzel::scene::Sprite characterSprite;
+    ouzel::scene::Node rtCharacter;
 
     std::unique_ptr<ouzel::scene::Sprite> rtSprite;
-    std::unique_ptr<ouzel::scene::Node> rtNode;
+    ouzel::scene::Node rtNode;
 
     ouzel::EventHandler eventHandler;
 
