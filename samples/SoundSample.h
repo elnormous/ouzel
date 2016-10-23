@@ -16,8 +16,8 @@ private:
 
     Samples& samples;
     
-    std::unique_ptr<ouzel::gui::Button> jumpButton;
-    std::unique_ptr<ouzel::gui::Button> ambientButton;
+    ouzel::gui::Button jumpButton;
+    ouzel::gui::Button ambientButton;
     ouzel::EventHandler eventHandler;
 
     ouzel::audio::SoundPtr jumpSound;

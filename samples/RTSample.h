@@ -16,8 +16,8 @@ private:
 
     Samples& samples;
 
-    std::unique_ptr<ouzel::scene::Layer> layer;
-    std::unique_ptr<ouzel::scene::Camera> camera;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
 
     std::unique_ptr<ouzel::scene::Layer> rtLayer;
     std::unique_ptr<ouzel::scene::Camera> rtCamera;

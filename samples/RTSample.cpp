@@ -31,10 +31,9 @@ RTSample::RTSample(Samples& aSamples):
     camera2.reset(new scene::Camera());
     camera2->setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
 
-    layer.reset(new scene::Layer());
-    layer->addCamera(camera1.get());
-    layer->addCamera(camera2.get());
-    addLayer(layer.get());
+    layer.addCamera(camera1.get());
+    layer.addCamera(camera2.get());
+    addLayer(&layer);
 
     characterSprite.reset(new scene::Sprite("run.json"));
     characterSprite->play(true);
@@ -49,7 +48,7 @@ RTSample::RTSample(Samples& aSamples):
     rtSprite.reset(new scene::Sprite(spriteFrames));
     rtNode.reset(new scene::Node());
     rtNode->addComponent(rtSprite.get());
-    layer->addChild(rtNode.get());
+    layer.addChild(rtNode.get());
 
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);

@@ -11,7 +11,7 @@ public:
     InputSample(Samples& aSamples);
 
 private:
-    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
+    bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event);
     bool handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event) const;
     bool handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event) const;
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event) const;
@@ -19,8 +19,8 @@ private:
 
     Samples& samples;
 
-    std::unique_ptr<ouzel::scene::Layer> layer;
-    std::unique_ptr<ouzel::scene::Camera> camera;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
     
     ouzel::EventHandler eventHandler;
 

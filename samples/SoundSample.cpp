@@ -9,6 +9,8 @@ using namespace ouzel;
 
 SoundSample::SoundSample(Samples& aSamples):
     samples(aSamples),
+    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color::BLACK, "arial.fnt"),
+    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color::BLACK, "arial.fnt"),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
 {
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -32,13 +34,11 @@ SoundSample::SoundSample(Samples& aSamples):
 
     guiLayer.addChild(&menu);
 
-    jumpButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color::BLACK, "arial.fnt"));
-    jumpButton->setPosition(Vector2(0.0f, 0.0f));
-    menu.addWidget(jumpButton.get());
+    jumpButton.setPosition(Vector2(0.0f, 0.0f));
+    menu.addWidget(&jumpButton);
 
-    ambientButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color::BLACK, "arial.fnt"));
-    ambientButton->setPosition(Vector2(0.0f, -40.0f));
-    menu.addWidget(ambientButton.get());
+    ambientButton.setPosition(Vector2(0.0f, -40.0f));
+    menu.addWidget(&ambientButton);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
@@ -52,11 +52,11 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
         {
             samples.setSample("");
         }
-        else if (event.node == jumpButton.get())
+        else if (event.node == &jumpButton)
         {
             jumpSound->play();
         }
-        else if (event.node == ambientButton.get())
+        else if (event.node == &ambientButton)
         {
             ambientSound->play();
         }

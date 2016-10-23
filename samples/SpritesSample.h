@@ -11,13 +11,13 @@ public:
     SpritesSample(Samples& aSamples);
 
 private:
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
 
     Samples& samples;
 
-    std::unique_ptr<ouzel::scene::Layer> layer;
-    std::unique_ptr<ouzel::scene::Camera> camera;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
 
     std::unique_ptr<ouzel::scene::Sprite> characterSprite;
     std::unique_ptr<ouzel::scene::Sprite> fireSprite;

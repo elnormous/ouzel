@@ -14,10 +14,8 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&AnimationsSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    layer.reset(new scene::Layer());
-    camera.reset(new scene::Camera());
-    layer->addCamera(camera.get());
-    addLayer(layer.get());
+    layer.addCamera(&camera);
+    addLayer(&layer);
 
     shapeDrawable.reset(new scene::ShapeDrawable());
     shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), graphics::Color(0, 128, 128, 255), true);
@@ -31,7 +29,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     drawNode.reset(new scene::Node());
     drawNode->addComponent(shapeDrawable.get());
     drawNode->setPosition(Vector2(-300, 0.0f));
-    layer->addChild(drawNode.get());
+    layer.addChild(drawNode.get());
 
     shake.reset(new scene::Shake(10.0f, Vector2(10.0f, 20.0f), 20.0f));
     drawNode->animate(shake.get());
@@ -41,7 +39,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     witch.reset(new scene::Node());
     witch->setPosition(Vector2(200, 0.0f));
     witch->addComponent(witchSprite.get());
-    layer->addChild(witch.get());
+    layer.addChild(witch.get());
 
     witchScale.reset(new scene::Scale(2.0f, Vector2(0.1f, 0.1f), false));
     witchFade.reset(new scene::Fade(2.0f, 0.4f));
@@ -68,7 +66,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     ball.reset(new scene::Node());
     ballSprite.reset(new scene::Sprite("ball.png"));
     ball->addComponent(ballSprite.get());
-    layer->addChild(ball.get());
+    layer.addChild(ball.get());
 
     ballDelay.reset(new scene::Animator(1.0f));
     ballMove.reset(new scene::Move(2.0f, Vector2(0.0f, -240.0f), false));

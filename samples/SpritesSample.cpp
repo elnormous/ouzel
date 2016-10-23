@@ -15,11 +15,8 @@ SpritesSample::SpritesSample(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    layer.reset(new scene::Layer());
-    addLayer(layer.get());
-
-    camera.reset(new scene::Camera());
-    layer->addCamera(camera.get());
+    addLayer(&layer);
+    layer.addCamera(&camera);
 
     // character
     characterSprite.reset(new scene::Sprite("run.json"));
@@ -27,7 +24,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
 
     character.reset(new scene::Node());
     character->addComponent(characterSprite.get());
-    layer->addChild(character.get());
+    layer.addChild(character.get());
     character->setPosition(Vector2(-300.0f, 0.0f));
 
     move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
@@ -41,14 +38,14 @@ SpritesSample::SpritesSample(Samples& aSamples):
     fireNode.reset(new scene::Node());
     fireNode->addComponent(fireSprite.get());
     fireNode->setPosition(Vector2(-100.0f, -140.0f));
-    layer->addChild(fireNode.get());
+    layer.addChild(fireNode.get());
 
     // triangle
     triangleSprite.reset(new scene::Sprite("triangle.json"));
     triangleNode.reset(new scene::Node());
     triangleNode->addComponent(triangleSprite.get());
     triangleNode->setPosition(Vector2(100.0f, -140.0f));
-    layer->addChild(triangleNode.get());
+    layer.addChild(triangleNode.get());
 
 
     guiLayer.addCamera(&guiCamera);
@@ -68,7 +65,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
     menu.addWidget(&backButton);
 }
 
-bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const
+bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
@@ -82,7 +79,7 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const
         }
         else if (event.node == wireframeButton.get())
         {
-            camera->setWireframe(!camera->getWireframe());
+            camera.setWireframe(!camera.getWireframe());
         }
     }
 
