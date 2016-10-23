@@ -16,7 +16,7 @@ namespace ouzel
         public:
             Sequence(const std::vector<AnimatorPtr>& aAnimators);
 
-            virtual void start(const NodePtr& node) override;
+            virtual void start(Node* node) override;
             virtual void reset() override;
 
         protected:

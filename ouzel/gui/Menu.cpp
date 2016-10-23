@@ -27,7 +27,7 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
         }
 
-        void Menu::addWidget(const WidgetPtr& widget)
+        void Menu::addWidget(Widget* widget)
         {
             addChild(widget);
 
@@ -39,7 +39,7 @@ namespace ouzel
             }
         }
 
-        bool Menu::removeChild(const scene::NodePtr& node)
+        bool Menu::removeChild(scene::Node* node)
         {
             if (!Node::removeChild(node))
             {
@@ -61,7 +61,7 @@ namespace ouzel
             return true;
         }
 
-        void Menu::selectWidget(const WidgetPtr& widget)
+        void Menu::selectWidget(Widget* widget)
         {
             selectedWidget = widget;
 
@@ -132,7 +132,7 @@ namespace ouzel
                         Event clickEvent;
                         clickEvent.type = Event::Type::UI_CLICK_NODE;
 
-                        clickEvent.uiEvent.node = selectedWidget.get();
+                        clickEvent.uiEvent.node = selectedWidget;
                         clickEvent.uiEvent.position = selectedWidget->getPosition();
 
                         sharedEngine->getEventDispatcher()->postEvent(clickEvent);
@@ -156,9 +156,9 @@ namespace ouzel
 
             if (type == Event::Type::UI_ENTER_NODE)
             {
-                if (std::find(widgets.begin(), widgets.end(), event.node->shared_from_this()) != widgets.end())
+                if (std::find(widgets.begin(), widgets.end(), event.node) != widgets.end())
                 {
-                    selectWidget(std::static_pointer_cast<Widget>(event.node->shared_from_this()));
+                    selectWidget(static_cast<Widget*>(event.node));
                 }
             }
 

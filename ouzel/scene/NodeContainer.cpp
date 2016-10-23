@@ -15,14 +15,14 @@ namespace ouzel
 
         NodeContainer::~NodeContainer()
         {
-            for (const NodePtr& node : children)
+            for (Node* node : children)
             {
                 if (entered) node->leave();
                 node->setParent(nullptr);
             }
         }
 
-        void NodeContainer::addChild(const NodePtr& node)
+        void NodeContainer::addChild(Node* node)
         {
             NodeContainer* oldParent = node->parent;
             if (oldParent)
@@ -35,7 +35,7 @@ namespace ouzel
             children.push_back(node);
         }
 
-        bool NodeContainer::removeChild(const NodePtr& node)
+        bool NodeContainer::removeChild(Node* node)
         {
             std::vector<NodePtr>::iterator i = std::find(children.begin(), children.end(), node);
 
@@ -66,11 +66,11 @@ namespace ouzel
             children.clear();
         }
 
-        bool NodeContainer::hasChild(const NodePtr& node, bool recursive) const
+        bool NodeContainer::hasChild(Node* node, bool recursive) const
         {
             for (std::vector<NodePtr>::const_iterator i = children.begin(); i != children.end(); ++i)
             {
-                const NodePtr& child = *i;
+                Node* child = *i;
 
                 if (child == node || (recursive && child->hasChild(node, true)))
                 {
@@ -85,7 +85,7 @@ namespace ouzel
         {
             entered = true;
 
-            for (const NodePtr& node : children)
+            for (Node* node : children)
             {
                 node->enter();
             }
@@ -95,7 +95,7 @@ namespace ouzel
         {
             entered = false;
 
-            for (const NodePtr& node : children)
+            for (Node* node : children)
             {
                 node->leave();
             }
@@ -105,14 +105,14 @@ namespace ouzel
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
-                const NodePtr& node = *i;
+                Node* node = *i;
 
                 if (!node->isHidden())
                 {
                     if (node->isPickable() && node->pointOn(position))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
-                                                           [](const NodePtr& a, NodePtr& b) {
+                                                           [](Node* a, NodePtr& b) {
                                                                return a->getWorldZ() < b->getWorldZ();
                                                            });
 
@@ -128,14 +128,14 @@ namespace ouzel
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
-                const NodePtr& node = *i;
+                Node* node = *i;
 
                 if (!node->isHidden())
                 {
                     if (node->isPickable() && node->shapeOverlaps(edges))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
-                                                           [](const NodePtr& a, NodePtr& b) {
+                                                           [](Node* a, NodePtr& b) {
                                                                return a->getWorldZ() < b->getWorldZ();
                                                            });
 

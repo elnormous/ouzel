@@ -12,7 +12,7 @@ namespace ouzel
         {
         }
 
-        void Repeat::start(const NodePtr& targetNode)
+        void Repeat::start(Node* targetNode)
         {
             Animator::start(targetNode);
 

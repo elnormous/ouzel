@@ -32,7 +32,7 @@ namespace ouzel
             {
                 std::vector<Node*> drawQueue;
                 
-                for (const NodePtr& child : children)
+                for (Node* child : children)
                 {
                     if (!child->isHidden())
                     {
@@ -52,7 +52,7 @@ namespace ouzel
             }
         }
 
-        void Layer::addChild(const NodePtr& node)
+        void Layer::addChild(Node* node)
         {
             NodeContainer::addChild(node);
             node->updateTransform(Matrix4::IDENTITY);

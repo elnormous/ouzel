@@ -27,7 +27,7 @@ namespace ouzel
             Node();
             virtual ~Node();
 
-            virtual void addChild(const NodePtr& node) override;
+            virtual void addChild(Node* node) override;
             virtual bool hasParent() const { return (parent != nullptr); }
 
             virtual void setName(const std::string& newName) { name = newName; }
@@ -106,8 +106,8 @@ namespace ouzel
             AnimatorPtr getAnimator() const { return currentAnimator; }
             void removeAnimation();
 
-            const std::vector<ComponentPtr>& getComponents() const { return components; }
-            void addComponent(const ComponentPtr& component);
+            const std::vector<Component*>& getComponents() const { return components; }
+            void addComponent(Component* component);
             bool removeComponent(uint32_t index);
             bool removeComponent(const ComponentPtr& component);
             void removeAllComponents();
@@ -160,7 +160,7 @@ namespace ouzel
             float z = 0.0f;
 
             AnimatorPtr currentAnimator;
-            std::vector<ComponentPtr> components;
+            std::vector<Component*> components;
 
             NodeContainer* parent = nullptr;
 

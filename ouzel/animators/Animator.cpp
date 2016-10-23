@@ -40,7 +40,7 @@ namespace ouzel
             }
         }
 
-        void Animator::start(const NodePtr& targetNode)
+        void Animator::start(Node* targetNode)
         {
             if (!running)
             {

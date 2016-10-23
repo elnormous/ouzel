@@ -13,7 +13,7 @@ namespace ouzel
         {
         }
 
-        void Sequence::start(const NodePtr& node)
+        void Sequence::start(Node* node)
         {
             Animator::start(node);
 

@@ -71,38 +71,38 @@ namespace ouzel
         class SceneManager;
 
         class Scene;
-        typedef std::shared_ptr<Scene> ScenePtr;
+        typedef Scene* ScenePtr;
 
         class Layer;
-        typedef std::shared_ptr<Layer> LayerPtr;
+        typedef Layer* LayerPtr;
 
         class Component;
-        typedef std::shared_ptr<Component> ComponentPtr;
+        typedef Component* ComponentPtr;
 
         class Sprite;
-        typedef std::shared_ptr<Sprite> SpritePtr;
+        typedef Sprite* SpritePtr;
 
         class SpriteFrame;
         typedef std::shared_ptr<SpriteFrame> SpriteFramePtr;
 
         class Node;
-        typedef std::shared_ptr<Node> NodePtr;
-        typedef std::weak_ptr<Node> NodeWeakPtr;
+        typedef Node* NodePtr;
+        typedef Node* NodeWeakPtr;
 
         class Camera;
-        typedef std::shared_ptr<Camera> CameraPtr;
+        typedef Camera* CameraPtr;
 
         struct ParticleDefinition;
         typedef std::shared_ptr<ParticleDefinition> ParticleDefinitionPtr;
 
         class ParticleSystem;
-        typedef std::shared_ptr<ParticleSystem> ParticleSystemPtr;
+        typedef ParticleSystem* ParticleSystemPtr;
 
         class ShapeDrawable;
-        typedef std::shared_ptr<ShapeDrawable> ShapeDrawablePtr;
+        typedef ShapeDrawable* ShapeDrawablePtr;
 
         class TextDrawable;
-        typedef std::shared_ptr<TextDrawable> TextDrawablePtr;
+        typedef TextDrawable* TextDrawablePtr;
 
         class Animator;
         typedef std::shared_ptr<Animator> AnimatorPtr;
@@ -111,36 +111,36 @@ namespace ouzel
     namespace gui
     {
         class Widget;
-        typedef std::shared_ptr<Widget> WidgetPtr;
+        typedef Widget* WidgetPtr;
 
         class Menu;
-        typedef std::shared_ptr<Menu> MenuPtr;
+        typedef Menu* MenuPtr;
 
         class Label;
-        typedef std::shared_ptr<Label> LabelPtr;
+        typedef Label* LabelPtr;
 
         class Button;
-        typedef std::shared_ptr<Button> ButtonPtr;
+        typedef Button* ButtonPtr;
 
         class CheckBox;
-        typedef std::shared_ptr<CheckBox> CheckBoxPtr;
+        typedef CheckBox* CheckBoxPtr;
 
         class RadioButton;
-        typedef std::shared_ptr<RadioButton> RadioButtonPtr;
+        typedef RadioButton* RadioButtonPtr;
 
         class ComboBox;
-        typedef std::shared_ptr<ComboBox> ComboBoxPtr;
+        typedef ComboBox* ComboBoxPtr;
 
         class Popup;
-        typedef std::shared_ptr<Popup> PopupPtr;
+        typedef Popup* PopupPtr;
 
         class EditBox;
-        typedef std::shared_ptr<EditBox> EditBoxPtr;
+        typedef EditBox* EditBoxPtr;
 
         class ScrollArea;
-        typedef std::shared_ptr<ScrollArea> ScrollAreaPtr;
+        typedef ScrollArea* ScrollAreaPtr;
 
         class ScrollBar;
-        typedef std::shared_ptr<ScrollBar> ScrollBarPtr;
+        typedef ScrollBar* ScrollBarPtr;
     } // namespace gui
 } // namespace ouzel

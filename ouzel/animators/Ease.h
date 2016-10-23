@@ -36,7 +36,7 @@ namespace ouzel
 
             Ease(const AnimatorPtr& aAnimator, Type aType, Func aFunc);
 
-            virtual void start(const NodePtr& targetNode) override;
+            virtual void start(Node* targetNode) override;
             virtual void reset() override;
 
         protected:

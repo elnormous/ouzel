@@ -26,47 +26,47 @@ namespace ouzel
 
             if (!normalImage.empty())
             {
-                normalSprite = std::make_shared<scene::Sprite>();
+                normalSprite.reset(new scene::Sprite());
                 if (normalSprite->initFromFile(normalImage, false))
                 {
-                    addComponent(normalSprite);
+                    addComponent(normalSprite.get());
                 }
             }
 
             if (!selectedImage.empty())
             {
-                selectedSprite = std::make_shared<scene::Sprite>();
+                selectedSprite.reset(new scene::Sprite());
                 if (selectedSprite->initFromFile(selectedImage, false))
                 {
-                    addComponent(selectedSprite);
+                    addComponent(selectedSprite.get());
                 }
             }
 
             if (!pressedImage.empty())
             {
-                pressedSprite = std::make_shared<scene::Sprite>();
+                pressedSprite.reset(new scene::Sprite());
                 if (pressedSprite->initFromFile(pressedImage, false))
                 {
-                    addComponent(pressedSprite);
+                    addComponent(pressedSprite.get());
                 }
             }
 
             if (!disabledImage.empty())
             {
-                disabledSprite = std::make_shared<scene::Sprite>();
+                disabledSprite.reset(new scene::Sprite());
                 if (disabledSprite->initFromFile(disabledImage, false))
                 {
-                    addComponent(disabledSprite);
+                    addComponent(disabledSprite.get());
                 }
             }
 
             if (!label.empty())
             {
-                labelDrawable = std::make_shared<scene::TextDrawable>(font, label);
+                labelDrawable.reset(new scene::TextDrawable(font, label));
                 if (labelDrawable)
                 {
                     labelDrawable->setColor(labelColor);
-                    addComponent(labelDrawable);
+                    addComponent(labelDrawable.get());
                 }
             }
 

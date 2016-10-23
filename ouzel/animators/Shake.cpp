@@ -18,7 +18,7 @@ namespace ouzel
             seedY = random();
         }
 
-        void Shake::start(const NodePtr& targetNode)
+        void Shake::start(Node* targetNode)
         {
             Animator::start(targetNode);
 
@@ -32,7 +32,7 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (NodePtr targetNode = node.lock())
+            if (node)
             {
                 float x = length * progress * timeScale;
 
@@ -58,7 +58,7 @@ namespace ouzel
                 Vector2 noise(smoothstep(previousPosition.x, nextPosition.x, t),
                               smoothstep(previousPosition.y, nextPosition.y, t));
 
-                targetNode->setPosition(startPosition + noise);
+                node->setPosition(startPosition + noise);
             }
         }
     } // namespace scene

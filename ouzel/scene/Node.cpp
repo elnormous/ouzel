@@ -59,7 +59,7 @@ namespace ouzel
                 drawQueue.insert(upperBound, this);
             }
 
-            for (const NodePtr& child : children)
+            for (Node* child : children)
             {
                 if (!child->isHidden())
                 {
@@ -106,7 +106,7 @@ namespace ouzel
             }
         }
 
-        void Node::addChild(const NodePtr& node)
+        void Node::addChild(Node* node)
         {
             NodeContainer::addChild(node);
 
@@ -253,7 +253,7 @@ namespace ouzel
 
             if (currentAnimator)
             {
-                currentAnimator->start(std::static_pointer_cast<Node>(shared_from_this()));
+                currentAnimator->start(static_cast<Node*>(this));
                 sharedEngine->scheduleUpdate(animationUpdateCallback);
             }
         }
@@ -308,7 +308,7 @@ namespace ouzel
             inverseTransformDirty = false;
         }
 
-        void Node::addComponent(const ComponentPtr& component)
+        void Node::addComponent(Component* component)
         {
             Node* oldNode = component->node;
 

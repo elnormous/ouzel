@@ -18,9 +18,9 @@ namespace ouzel
         Label::Label(const std::string& fontFile, const std::string& pText, const Vector2& textAnchor)
         {
             text = pText;
-            textDrawable = std::make_shared<scene::TextDrawable>(fontFile, text, textAnchor);
+            textDrawable.reset(new scene::TextDrawable(fontFile, text, textAnchor));
 
-            addComponent(textDrawable);
+            addComponent(textDrawable.get());
 
             textDrawable->setText(text);
 

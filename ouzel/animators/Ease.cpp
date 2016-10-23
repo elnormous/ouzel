@@ -258,7 +258,7 @@ namespace ouzel
         {
         }
 
-        void Ease::start(const NodePtr& targetNode)
+        void Ease::start(Node* targetNode)
         {
             Animator::start(targetNode);
 

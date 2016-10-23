@@ -19,7 +19,7 @@ namespace ouzel
 
             virtual void update(float delta);
 
-            virtual void start(const NodePtr& targetNode);
+            virtual void start(Node* targetNode);
 
             virtual void resume();
             virtual void stop(bool resetAnimation = false);
@@ -45,7 +45,7 @@ namespace ouzel
             bool done = false;
             bool running = false;
 
-            NodeWeakPtr node;
+            Node* node = nullptr;
 
             std::function<void()> finishHandler;
         };

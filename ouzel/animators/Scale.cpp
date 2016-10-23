@@ -13,7 +13,7 @@ namespace ouzel
         {
         }
 
-        void Scale::start(const NodePtr& targetNode)
+        void Scale::start(Node* targetNode)
         {
             Animator::start(targetNode);
 
@@ -30,9 +30,9 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (NodePtr targetNode = node.lock())
+            if (node)
             {
-                targetNode->setScale(startScale + (diff * progress));
+                node->setScale(startScale + (diff * progress));
             }
         }
     } // namespace scene

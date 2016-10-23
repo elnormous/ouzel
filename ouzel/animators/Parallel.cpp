@@ -19,7 +19,7 @@ namespace ouzel
             }
         }
 
-        void Parallel::start(const NodePtr& targetNode)
+        void Parallel::start(Node* targetNode)
         {
             Animator::start(targetNode);
 

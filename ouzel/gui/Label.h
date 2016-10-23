@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include "gui/Widget.h"
 #include "utils/Types.h"
@@ -22,7 +23,7 @@ namespace ouzel
 
         protected:
             std::string text;
-            scene::TextDrawablePtr textDrawable;
+            std::unique_ptr<scene::TextDrawable> textDrawable;
         };
     } // namespace gui
 } // namespace ouzel

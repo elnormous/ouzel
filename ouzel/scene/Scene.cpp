@@ -202,7 +202,7 @@ namespace ouzel
 
                     if (i != pointerDownOnNodes.end())
                     {
-                        pointerDragNode(0, i->second.lock(), event.position);
+                        pointerDragNode(0, i->second, event.position);
                     }
                     break;
                 }
@@ -241,7 +241,7 @@ namespace ouzel
 
                     if (i != pointerDownOnNodes.end())
                     {
-                        pointerDragNode(event.touchId, i->second.lock(), event.position);
+                        pointerDragNode(event.touchId, i->second, event.position);
                     }
                     break;
                 }
@@ -265,7 +265,7 @@ namespace ouzel
                 Event event;
                 event.type = Event::Type::UI_ENTER_NODE;
 
-                event.uiEvent.node = node.get();
+                event.uiEvent.node = node;
                 event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
@@ -279,7 +279,7 @@ namespace ouzel
                 Event event;
                 event.type = Event::Type::UI_LEAVE_NODE;
 
-                event.uiEvent.node = node.get();
+                event.uiEvent.node = node;
                 event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
@@ -295,7 +295,7 @@ namespace ouzel
                 Event event;
                 event.type = Event::Type::UI_PRESS_NODE;
 
-                event.uiEvent.node = node.get();
+                event.uiEvent.node = node;
                 event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
@@ -308,14 +308,14 @@ namespace ouzel
 
             if (i != pointerDownOnNodes.end())
             {
-                auto pointerDownOnNode = i->second.lock();
+                auto pointerDownOnNode = i->second;
 
                 if (pointerDownOnNode)
                 {
                     Event releaseEvent;
                     releaseEvent.type = Event::Type::UI_RELEASE_NODE;
 
-                    releaseEvent.uiEvent.node = pointerDownOnNode.get();
+                    releaseEvent.uiEvent.node = pointerDownOnNode;
                     releaseEvent.uiEvent.position = position;
 
                     sharedEngine->getEventDispatcher()->postEvent(releaseEvent);
@@ -325,7 +325,7 @@ namespace ouzel
                         Event clickEvent;
                         clickEvent.type = Event::Type::UI_CLICK_NODE;
 
-                        clickEvent.uiEvent.node = pointerDownOnNode.get();
+                        clickEvent.uiEvent.node = pointerDownOnNode;
                         clickEvent.uiEvent.position = position;
 
                         sharedEngine->getEventDispatcher()->postEvent(clickEvent);
@@ -343,7 +343,7 @@ namespace ouzel
                 Event event;
                 event.type = Event::Type::UI_DRAG_NODE;
 
-                event.uiEvent.node = node.get();
+                event.uiEvent.node = node;
                 event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
