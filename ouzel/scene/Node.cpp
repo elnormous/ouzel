@@ -23,7 +23,7 @@ namespace ouzel
 
         Node::~Node()
         {
-            if (currentAnimator) currentAnimator->setNode(nullptr);
+            if (currentAnimator) currentAnimator->setParentNode(nullptr);
 
             for (Component* component : components)
             {
@@ -259,7 +259,7 @@ namespace ouzel
         {
             if (currentAnimator)
             {
-                currentAnimator->setNode(nullptr);
+                currentAnimator->setParentNode(nullptr);
                 currentAnimator->stop();
             }
 
@@ -267,6 +267,7 @@ namespace ouzel
 
             if (currentAnimator)
             {
+                currentAnimator->setParentNode(this);
                 currentAnimator->start(this);
             }
 
@@ -277,7 +278,7 @@ namespace ouzel
         {
             if (animator && animator == currentAnimator)
             {
-                currentAnimator->setNode(nullptr);
+                currentAnimator->setParentNode(nullptr);
                 currentAnimator->stop();
                 currentAnimator = nullptr;
                 sharedEngine->unscheduleUpdate(animationUpdateCallback);
@@ -288,7 +289,7 @@ namespace ouzel
         {
             if (currentAnimator)
             {
-                currentAnimator->setNode(nullptr);
+                currentAnimator->setParentNode(nullptr);
                 currentAnimator->stop();
                 currentAnimator = nullptr;
                 sharedEngine->unscheduleUpdate(animationUpdateCallback);

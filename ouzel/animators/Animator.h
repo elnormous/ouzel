@@ -20,7 +20,7 @@ namespace ouzel
 
             virtual void update(float delta);
 
-            virtual void start(Node* targetNode);
+            virtual void start(Node* newTargetNode);
 
             virtual void resume();
             virtual void stop(bool resetAnimation = false);
@@ -39,7 +39,7 @@ namespace ouzel
 
         protected:
             virtual void removeAnimator(Animator* animator);
-            void setNode(Node* newNode) { node = newNode; }
+            void setParentNode(Node* newParentNode) { parentNode = newParentNode; }
 
             virtual void updateProgress();
 
@@ -50,7 +50,8 @@ namespace ouzel
             bool running = false;
 
             Animator* parent = nullptr;
-            Node* node = nullptr;
+            Node* parentNode = nullptr;
+            Node* targetNode = nullptr;
 
             std::function<void()> finishHandler;
         };

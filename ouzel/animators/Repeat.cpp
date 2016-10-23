@@ -12,9 +12,9 @@ namespace ouzel
         {
         }
 
-        void Repeat::start(Node* targetNode)
+        void Repeat::start(Node* newTargetNode)
         {
-            Animator::start(targetNode);
+            Animator::start(newTargetNode);
 
             if (animator)
             {

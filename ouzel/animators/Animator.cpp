@@ -18,7 +18,7 @@ namespace ouzel
         Animator::~Animator()
         {
             if (parent) parent->removeAnimator(this);
-            if (node) node->removeAnimator(this);
+            if (parentNode) parentNode->removeAnimator(this);
         }
 
         void Animator::update(float delta)
@@ -43,13 +43,10 @@ namespace ouzel
             }
         }
 
-        void Animator::start(Node* targetNode)
+        void Animator::start(Node* newTargetNode)
         {
-            if (!running)
-            {
-                running = true;
-                node = targetNode;
-            }
+            targetNode = newTargetNode;
+            running = true;
         }
 
         void Animator::resume()

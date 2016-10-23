@@ -15,7 +15,7 @@ namespace ouzel
         public:
             Move(float aLength, const Vector2& aPosition, bool aRelative = false);
 
-            virtual void start(Node* targetNode) override;
+            virtual void start(Node* newTargetNode) override;
 
         protected:
             virtual void updateProgress() override;

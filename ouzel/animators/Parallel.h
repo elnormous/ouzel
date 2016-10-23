@@ -16,7 +16,7 @@ namespace ouzel
         public:
             Parallel(const std::vector<Animator*>& aAnimators);
 
-            virtual void start(Node* targetNode) override;
+            virtual void start(Node* newTargetNode) override;
             virtual void reset() override;
 
         protected:

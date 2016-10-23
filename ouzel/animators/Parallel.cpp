@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "Parallel.h"
 
 namespace ouzel
@@ -19,9 +20,9 @@ namespace ouzel
             }
         }
 
-        void Parallel::start(Node* targetNode)
+        void Parallel::start(Node* newTargetNode)
         {
-            Animator::start(targetNode);
+            Animator::start(newTargetNode);
 
             for (const auto& animator : animators)
             {

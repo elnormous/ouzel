@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include <numeric>
 #include "Sequence.h"
 
@@ -13,13 +14,13 @@ namespace ouzel
         {
         }
 
-        void Sequence::start(Node* node)
+        void Sequence::start(Node* newTargetNode)
         {
-            Animator::start(node);
+            Animator::start(newTargetNode);
 
             for (const auto& animator : animators)
             {
-                animator->start(node);
+                animator->start(targetNode);
             }
         }
 
