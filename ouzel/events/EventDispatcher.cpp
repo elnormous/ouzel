@@ -143,21 +143,21 @@ namespace ouzel
         }
     }
 
-    void EventDispatcher::addEventHandler(const EventHandler& eventHandler)
+    void EventDispatcher::addEventHandler(const EventHandler* eventHandler)
     {
-        eventHandlerAddSet.insert(&eventHandler);
+        eventHandlerAddSet.insert(eventHandler);
     }
 
-    void EventDispatcher::removeEventHandler(const EventHandler& eventHandler)
+    void EventDispatcher::removeEventHandler(const EventHandler* eventHandler)
     {
-        auto vectorIterator = std::find(eventHandlers.begin(), eventHandlers.end(), &eventHandler);
+        auto vectorIterator = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
 
         if (vectorIterator != eventHandlers.end())
         {
             *vectorIterator = nullptr;
         }
 
-        auto setIterator = eventHandlerAddSet.find(&eventHandler);
+        auto setIterator = eventHandlerAddSet.find(eventHandler);
 
         if (setIterator != eventHandlerAddSet.end())
         {

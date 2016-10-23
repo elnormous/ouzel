@@ -33,8 +33,8 @@ private:
     std::unique_ptr<ouzel::gui::Button> hideButton;
     std::unique_ptr<ouzel::gui::Button> wireframeButton;
 
-    std::unique_ptr<ouzel::scene::Layer> guiLayer;
-    std::unique_ptr<ouzel::scene::Camera> guiCamera;
-    std::unique_ptr<ouzel::gui::Menu> menu;
-    std::unique_ptr<ouzel::gui::Button> backButton;
+    ouzel::scene::Layer guiLayer;
+    ouzel::scene::Camera guiCamera;
+    ouzel::gui::Menu menu;
+    ouzel::gui::Button backButton;
 };

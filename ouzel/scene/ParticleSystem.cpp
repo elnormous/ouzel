@@ -153,7 +153,7 @@ namespace ouzel
             else if (active && !particleCount)
             {
                 active = false;
-                sharedEngine->unscheduleUpdate(updateCallback);
+                sharedEngine->unscheduleUpdate(&updateCallback);
                 if (finishHandler) finishHandler();
             }
 
@@ -295,7 +295,7 @@ namespace ouzel
                 if (!active)
                 {
                     active = true;
-                    sharedEngine->scheduleUpdate(updateCallback);
+                    sharedEngine->scheduleUpdate(&updateCallback);
                 }
             }
         }

@@ -25,8 +25,8 @@ namespace ouzel
 
         void dispatchEvents();
 
-        void addEventHandler(const EventHandler& eventHandler);
-        void removeEventHandler(const EventHandler& eventHandler);
+        void addEventHandler(const EventHandler* eventHandler);
+        void removeEventHandler(const EventHandler* eventHandler);
 
         void postEvent(const Event& event);
 

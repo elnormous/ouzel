@@ -151,7 +151,7 @@ namespace ouzel
             entered = true;
 
             recalculateProjection();
-            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+            sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             for (Layer* layer : layers)
             {
@@ -163,7 +163,7 @@ namespace ouzel
         {
             entered = false;
 
-            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
+            sharedEngine->getEventDispatcher()->removeEventHandler(&eventHandler);
 
             for (Layer* layer : layers)
             {

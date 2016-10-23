@@ -8,11 +8,12 @@ using namespace std;
 using namespace ouzel;
 
 SoundSample::SoundSample(Samples& aSamples):
-    samples(aSamples)
+    samples(aSamples),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
 {
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     audio::SoundDataPtr jumpData = sharedEngine->getAudio()->createSoundData();
     jumpData->initFromFile("jump.wav");
@@ -26,32 +27,28 @@ SoundSample::SoundSample(Samples& aSamples):
     ambientSound = sharedEngine->getAudio()->createSound();
     ambientSound->init(ambientData);
 
-    guiLayer.reset(new scene::Layer());
-    guiCamera.reset(new scene::Camera());
-    guiLayer->addCamera(guiCamera.get());
-    addLayer(guiLayer.get());
+    guiLayer.addCamera(&guiCamera);
+    addLayer(&guiLayer);
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addChild(&menu);
 
     jumpButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color::BLACK, "arial.fnt"));
     jumpButton->setPosition(Vector2(0.0f, 0.0f));
-    menu->addWidget(jumpButton.get());
+    menu.addWidget(jumpButton.get());
 
     ambientButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color::BLACK, "arial.fnt"));
     ambientButton->setPosition(Vector2(0.0f, -40.0f));
-    menu->addWidget(ambientButton.get());
+    menu.addWidget(ambientButton.get());
 
-    backButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt"));
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton.get())
+        if (event.node == &backButton)
         {
             samples.setSample("");
         }

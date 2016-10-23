@@ -19,12 +19,12 @@ namespace ouzel
 
         void Menu::enter()
         {
-            sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+            sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
         }
 
         void Menu::leave()
         {
-            sharedEngine->getEventDispatcher()->removeEventHandler(eventHandler);
+            sharedEngine->getEventDispatcher()->removeEventHandler(&eventHandler);
         }
 
         void Menu::addWidget(Widget* widget)

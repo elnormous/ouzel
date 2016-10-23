@@ -8,7 +8,8 @@ using namespace std;
 using namespace ouzel;
 
 InputSample::InputSample(Samples& aSamples):
-    samples(aSamples)
+    samples(aSamples),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
 {
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -16,7 +17,7 @@ InputSample::InputSample(Samples& aSamples):
     eventHandler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2);
 
-    sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     layer.reset(new scene::Layer());
     camera.reset(new scene::Camera());
@@ -30,21 +31,17 @@ InputSample::InputSample(Samples& aSamples):
     flame->setPickable(false);
     layer->addChild(flame.get());
 
-    guiLayer.reset(new scene::Layer());
-    guiCamera.reset(new scene::Camera());
-    guiLayer->addCamera(guiCamera.get());
-    addLayer(guiLayer.get());
+    guiLayer.addCamera(&guiCamera);
+    addLayer(&guiLayer);
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addChild(&menu);
 
     button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color::BLACK, "arial.fnt"));
     button->setPosition(Vector2(-200.0f, 200.0f));
-    menu->addWidget(button.get());
+    menu.addWidget(button.get());
 
-    backButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt"));
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
@@ -172,7 +169,7 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton.get())
+        if (event.node == &backButton)
         {
             sharedEngine->getInput()->setCursorVisible(true);
             samples.setSample("");

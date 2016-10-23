@@ -97,7 +97,7 @@ namespace ouzel
                             {
                                 currentFrame = static_cast<uint32_t>(frames.size() - 1);
                                 playing = false;
-                                sharedEngine->unscheduleUpdate(updateCallback);
+                                sharedEngine->unscheduleUpdate(&updateCallback);
                             }
                         }
                     }
@@ -115,7 +115,7 @@ namespace ouzel
                             {
                                 currentFrame = 0;
                                 playing = false;
-                                sharedEngine->unscheduleUpdate(updateCallback);
+                                sharedEngine->unscheduleUpdate(&updateCallback);
                             }
                         }
                     }
@@ -229,7 +229,7 @@ namespace ouzel
 
                 updateBoundingBox();
 
-                sharedEngine->scheduleUpdate(updateCallback);
+                sharedEngine->scheduleUpdate(&updateCallback);
             }
         }
 
@@ -238,7 +238,7 @@ namespace ouzel
             if (playing)
             {
                 playing = false;
-                sharedEngine->unscheduleUpdate(updateCallback);
+                sharedEngine->unscheduleUpdate(&updateCallback);
             }
 
             if (resetAnimation)

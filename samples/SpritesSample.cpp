@@ -8,11 +8,12 @@ using namespace std;
 using namespace ouzel;
 
 SpritesSample::SpritesSample(Samples& aSamples):
-    samples(aSamples)
+    samples(aSamples),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
 {
     eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     layer.reset(new scene::Layer());
     addLayer(layer.get());
@@ -49,32 +50,29 @@ SpritesSample::SpritesSample(Samples& aSamples):
     triangleNode->setPosition(Vector2(100.0f, -140.0f));
     layer->addChild(triangleNode.get());
 
-    guiLayer.reset(new scene::Layer());
-    guiCamera.reset(new scene::Camera());
-    guiLayer->addCamera(guiCamera.get());
-    addLayer(guiLayer.get());
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addCamera(&guiCamera);
+    addLayer(&guiLayer);
+
+    guiLayer.addChild(&menu);
 
     hideButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color::BLACK, "arial.fnt"));
     hideButton->setPosition(Vector2(-200.0f, 200.0f));
-    menu->addWidget(hideButton.get());
+    menu.addWidget(hideButton.get());
 
     wireframeButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Wireframe", graphics::Color::BLACK, "arial.fnt"));
     wireframeButton->setPosition(Vector2(-200.0f, 160.0f));
-    menu->addWidget(wireframeButton.get());
+    menu.addWidget(wireframeButton.get());
 
-    backButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt"));
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool SpritesSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton.get())
+        if (event.node == &backButton)
         {
             samples.setSample("");
         }

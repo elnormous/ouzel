@@ -474,21 +474,21 @@ namespace ouzel
         return active;
     }
 
-    void Engine::scheduleUpdate(const UpdateCallback& callback)
+    void Engine::scheduleUpdate(const UpdateCallback* callback)
     {
-        updateCallbackAddSet.insert(&callback);
+        updateCallbackAddSet.insert(callback);
     }
 
-    void Engine::unscheduleUpdate(const UpdateCallback& callback)
+    void Engine::unscheduleUpdate(const UpdateCallback* callback)
     {
-        auto vectorIterator = std::find(updateCallbacks.begin(), updateCallbacks.end(), &callback);
+        auto vectorIterator = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
 
         if (vectorIterator != updateCallbacks.end())
         {
             *vectorIterator = nullptr;
         }
 
-        auto setIterator = updateCallbackAddSet.find(&callback);
+        auto setIterator = updateCallbackAddSet.find(callback);
 
         if (setIterator != updateCallbackAddSet.end())
         {

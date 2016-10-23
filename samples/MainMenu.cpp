@@ -17,7 +17,7 @@ MainMenu::MainMenu(Samples& aSamples):
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     addLayer(&layer);
     layer.addCamera(&camera);

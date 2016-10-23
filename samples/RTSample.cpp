@@ -8,11 +8,12 @@ using namespace std;
 using namespace ouzel;
 
 RTSample::RTSample(Samples& aSamples):
-    samples(aSamples)
+    samples(aSamples),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
 {
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     rtLayer.reset(new scene::Layer());
     addLayer(rtLayer.get());
@@ -50,22 +51,18 @@ RTSample::RTSample(Samples& aSamples):
     rtNode->addComponent(rtSprite.get());
     layer->addChild(rtNode.get());
 
-    guiLayer.reset(new scene::Layer());
-    guiCamera.reset(new scene::Camera());
-    guiLayer->addCamera(guiCamera.get());
-    addLayer(guiLayer.get());
+    guiLayer.addCamera(&guiCamera);
+    addLayer(&guiLayer);
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addChild(&menu);
 
-    backButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt"));
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton.get())
+    if (type == Event::Type::UI_CLICK_NODE && event.node == &backButton)
     {
         samples.setSample("");
     }

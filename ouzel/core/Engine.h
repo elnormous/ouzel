@@ -54,8 +54,8 @@ namespace ouzel
         float getFPS() const { return currentFPS; }
         float getAccumulatedFPS() const { return accumulatedFPS; }
 
-        void scheduleUpdate(const UpdateCallback& callback);
-        void unscheduleUpdate(const UpdateCallback& callback);
+        void scheduleUpdate(const UpdateCallback* callback);
+        void unscheduleUpdate(const UpdateCallback* callback);
 
     protected:
         void run();

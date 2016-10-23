@@ -7,11 +7,12 @@ using namespace std;
 using namespace ouzel;
 
 AnimationsSample::AnimationsSample(Samples& aSamples):
-    samples(aSamples)
+    samples(aSamples),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
 {
     eventHandler.uiHandler = bind(&AnimationsSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&AnimationsSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
+    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     layer.reset(new scene::Layer());
     camera.reset(new scene::Camera());
@@ -82,22 +83,18 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     ball->animate(ballSequence.get());
 
-    guiLayer.reset(new scene::Layer());
-    guiCamera.reset(new scene::Camera());
-    guiLayer->addCamera(guiCamera.get());
-    addLayer(guiLayer.get());
+    guiLayer.addCamera(&guiCamera);
+    addLayer(&guiLayer);
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addChild(&menu);
 
-    backButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt"));
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton.get())
+    if (type == Event::Type::UI_CLICK_NODE && event.node == &backButton)
     {
         samples.setSample("");
     }
