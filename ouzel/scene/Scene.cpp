@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "Layer.h"
 #include "Camera.h"
+#include "SceneManager.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
 
@@ -29,6 +30,8 @@ namespace ouzel
                     layer->leave();
                 }
             }
+
+            sharedEngine->getSceneManager()->removeScene(this);
         }
 
         void Scene::draw()

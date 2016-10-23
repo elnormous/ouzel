@@ -26,6 +26,12 @@ namespace ouzel
             }
         }
 
+        void SceneManager::removeScene(Scene* oldScene)
+        {
+            if (scene == oldScene) scene = nullptr;
+            if (nextScene == oldScene) nextScene = nullptr;
+        }
+
         void SceneManager::draw()
         {
             if (nextScene)

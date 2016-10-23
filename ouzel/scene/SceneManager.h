@@ -22,6 +22,7 @@ namespace ouzel
 
             void setScene(Scene* newScene);
             const Scene* getScene() const { return scene; }
+            void removeScene(Scene* oldScene);
 
         protected:
             SceneManager();
