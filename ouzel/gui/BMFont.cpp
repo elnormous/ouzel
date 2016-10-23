@@ -51,7 +51,8 @@ namespace ouzel
             return false;
         }
 
-        KerningInfo k;
+        int16_t k;
+        uint32_t first, second;
         CharDescriptor c;
 
         while (!stream.eof())
@@ -153,34 +154,36 @@ namespace ouzel
             }
             else if (read == "kerning")
             {
+                k = 0;
+                first = second = 0;
                 while (!lineStream.eof())
                 {
-                    std::stringstream converter;
                     lineStream >> read;
                     i = read.find('=');
                     key = read.substr(0, i);
                     value = read.substr(i + 1);
 
                     //assign the correct value
+                    std::stringstream converter;
                     converter << value;
-                    if (key == "first") converter >> k.first;
-                    else if (key == "second") converter >> k.second;
-                    else if (key == "amount") converter >> k.amount;
+                    if (key == "first") converter >> first;
+                    else if (key == "second") converter >> second;
+                    else if (key == "amount") converter >> k;
                 }
-                kern[std::make_pair(k.first, k.second)] = k;
+                kern[std::make_pair(first, second)] = k;
             }
         }
 
         return true;
     }
 
-    int32_t BMFont::getKerningPair(int32_t first, int32_t second)
+    int16_t BMFont::getKerningPair(uint32_t first, uint32_t second)
     {
-        std::map<std::pair<uint32_t, uint32_t>, KerningInfo>::iterator i = kern.find(std::make_pair(first, second));
+        auto i = kern.find(std::make_pair(first, second));
 
         if (i != kern.end())
         {
-            return i->second.amount;
+            return i->second;
         }
 
         return 0;

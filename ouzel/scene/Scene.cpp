@@ -266,6 +266,7 @@ namespace ouzel
                 event.type = Event::Type::UI_ENTER_NODE;
 
                 event.uiEvent.node = node.get();
+                event.uiEvent.touchId = pointerId;
                 event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
@@ -318,6 +319,7 @@ namespace ouzel
                     releaseEvent.type = Event::Type::UI_RELEASE_NODE;
 
                     releaseEvent.uiEvent.node = pointerDownOnNode.get();
+                    releaseEvent.uiEvent.touchId = pointerId;
                     releaseEvent.uiEvent.position = position;
 
                     sharedEngine->getEventDispatcher()->postEvent(releaseEvent);
@@ -328,6 +330,7 @@ namespace ouzel
                         clickEvent.type = Event::Type::UI_CLICK_NODE;
 
                         clickEvent.uiEvent.node = pointerDownOnNode.get();
+                        clickEvent.uiEvent.touchId = pointerId;
                         clickEvent.uiEvent.position = position;
 
                         sharedEngine->getEventDispatcher()->postEvent(clickEvent);
