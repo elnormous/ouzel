@@ -24,6 +24,8 @@ namespace ouzel
             {
                 camera->removeFromLayer();
             }
+
+            if (scene) scene->removeLayer(this);
         }
 
         void Layer::draw()

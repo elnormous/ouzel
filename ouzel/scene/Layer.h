@@ -42,8 +42,12 @@ namespace ouzel
             void setOrder(int32_t newOrder);
 
         protected:
+            void setScene(Scene* newScene) { scene = newScene; }
+
             virtual void recalculateProjection();
             virtual void enter() override;
+
+            Scene* scene = nullptr;
 
             std::set<Camera*> cameras;
 

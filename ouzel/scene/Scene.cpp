@@ -53,6 +53,8 @@ namespace ouzel
                 layers.push_back(layer);
 
                 if (entered) layer->enter();
+
+                layer->setScene(this);
             }
         }
 
@@ -68,6 +70,8 @@ namespace ouzel
                 }
 
                 layers.erase(i);
+
+                layer->setScene(nullptr);
             }
         }
 

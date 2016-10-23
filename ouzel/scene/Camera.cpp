@@ -22,6 +22,7 @@ namespace ouzel
 
         Camera::~Camera()
         {
+            if (layer) layer->removeCamera(this);
         }
 
         void Camera::recalculateProjection()
