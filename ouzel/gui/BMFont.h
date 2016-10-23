@@ -13,14 +13,6 @@
 
 namespace ouzel
 {
-    class KerningInfo
-    {
-    public:
-        int16_t first = 0;
-        int16_t second = 0;
-        int16_t amount = 0;
-    };
-
     class CharDescriptor
     {
     public:
@@ -47,7 +39,7 @@ namespace ouzel
 
     protected:
         bool parseFont(const std::string& filename);
-        int32_t getKerningPair(int32_t, int32_t);
+        int16_t getKerningPair(uint32_t, uint32_t);
         float getStringWidth(const std::string& text);
 
         int16_t lineHeight = 0;
@@ -58,7 +50,7 @@ namespace ouzel
         int16_t outline = 0;
         uint16_t kernCount = 0;
         std::map<uint32_t, CharDescriptor> chars;
-        std::map<std::pair<uint32_t, uint32_t>, KerningInfo> kern;
+        std::map<std::pair<uint32_t, uint32_t>, int16_t> kern;
         graphics::TexturePtr texture;
     };
 }
