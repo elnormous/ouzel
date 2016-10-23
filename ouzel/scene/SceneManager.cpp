@@ -41,7 +41,8 @@ namespace ouzel
                     scene->leave();
                 }
 
-                scene = std::move(nextScene);
+                scene = nextScene;
+                nextScene = nullptr;
 
                 if (scene)
                 {

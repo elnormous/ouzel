@@ -21,15 +21,15 @@ private:
 
     std::unique_ptr<ouzel::scene::Sprite> characterSprite;
     std::unique_ptr<ouzel::scene::Sprite> fireSprite;
-    std::unique_ptr<ouzel::scene::Node> fireNode;
+    ouzel::scene::Node fireNode;
     std::unique_ptr<ouzel::scene::Sprite> triangleSprite;
-    std::unique_ptr<ouzel::scene::Node> triangleNode;
+    ouzel::scene::Node triangleNode;
 
     std::unique_ptr<ouzel::scene::Animator> move;
 
     ouzel::EventHandler eventHandler;
 
-    std::unique_ptr<ouzel::scene::Node> character;
+    ouzel::scene::Node character;
     std::unique_ptr<ouzel::gui::Button> hideButton;
     std::unique_ptr<ouzel::gui::Button> wireframeButton;
 

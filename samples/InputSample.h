@@ -12,9 +12,9 @@ public:
 
 private:
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event);
-    bool handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event) const;
-    bool handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event) const;
-    bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event) const;
+    bool handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event);
+    bool handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event);
+    bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
 
     Samples& samples;
@@ -26,7 +26,7 @@ private:
 
     std::unique_ptr<ouzel::gui::Button> button;
     std::unique_ptr<ouzel::scene::ParticleSystem> flameParticleSystem;
-    std::unique_ptr<ouzel::scene::Node> flame;
+    ouzel::scene::Node flame;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;

@@ -41,8 +41,6 @@ namespace ouzel
             virtual void removeAnimator(Animator* animator);
 
         protected:
-            void setParentNode(Node* newParentNode) { parentNode = newParentNode; }
-
             virtual void updateProgress();
 
             float length = 0.0f;

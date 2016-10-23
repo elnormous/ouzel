@@ -24,10 +24,9 @@ InputSample::InputSample(Samples& aSamples):
 
     flameParticleSystem.reset(new scene::ParticleSystem("flame.json"));
 
-    flame.reset(new scene::Node());
-    flame->addComponent(flameParticleSystem.get());
-    flame->setPickable(false);
-    layer.addChild(flame.get());
+    flame.addComponent(flameParticleSystem.get());
+    flame.setPickable(false);
+    layer.addChild(&flame);
 
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
@@ -47,7 +46,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     if (type == Event::Type::KEY_DOWN)
     {
         Vector2 position = camera.getPosition();
-        Vector2 flamePosition = camera.convertWorldToNormalized(flame->getPosition());
+        Vector2 flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
         switch (event.key)
         {
@@ -93,20 +92,20 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
         Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
 
-        flame->setPosition(worldLocation);
+        flame.setPosition(worldLocation);
     }
 
     return true;
 }
 
-bool InputSample::handleMouse(Event::Type type, const MouseEvent& event) const
+bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
 {
     switch (type)
     {
         case Event::Type::MOUSE_MOVE:
         {
             Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
-            flame->setPosition(worldLocation);
+            flame.setPosition(worldLocation);
             break;
         }
         default:
@@ -116,19 +115,19 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event) const
     return true;
 }
 
-bool InputSample::handleTouch(Event::Type, const TouchEvent& event) const
+bool InputSample::handleTouch(Event::Type, const TouchEvent& event)
 {
     Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
-    flame->setPosition(worldLocation);
+    flame.setPosition(worldLocation);
 
     return true;
 }
 
-bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event) const
+bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 {
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
-        Vector2 flamePosition = camera.convertWorldToNormalized(flame->getPosition());
+        Vector2 flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
         switch (event.button)
         {
@@ -157,7 +156,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event) con
         }
 
         Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
-        flame->setPosition(worldLocation);
+        flame.setPosition(worldLocation);
     }
 
     return true;

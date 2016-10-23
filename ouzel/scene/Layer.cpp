@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "Layer.h"
 #include "core/Engine.h"
 #include "Node.h"
@@ -22,7 +23,7 @@ namespace ouzel
         {
             for (Camera* camera : cameras)
             {
-                camera->removeFromLayer();
+                camera->layer = nullptr;
             }
 
             if (scene) scene->removeLayer(this);
@@ -62,22 +63,25 @@ namespace ouzel
 
         void Layer::addCamera(Camera* camera)
         {
-            auto i = cameras.insert(camera);
+            Layer* oldLayer = camera->layer;
 
-            if (i.second)
+            if (oldLayer)
             {
-                camera->addToLayer(this);
-                camera->recalculateProjection();
+                oldLayer->removeCamera(camera);
             }
+
+            cameras.push_back(camera);
+            camera->layer = this;
+            camera->recalculateProjection();
         }
 
         void Layer::removeCamera(Camera* camera)
         {
-            auto i = cameras.find(camera);
+            auto i = std::find(cameras.begin(), cameras.end(), camera);
 
             if (i != cameras.end())
             {
-                camera->removeFromLayer();
+                camera->layer = nullptr;
                 cameras.erase(i);
             }
         }

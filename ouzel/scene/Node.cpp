@@ -23,16 +23,16 @@ namespace ouzel
 
         Node::~Node()
         {
-            if (currentAnimator) currentAnimator->setParentNode(nullptr);
+            if (currentAnimator) currentAnimator->parentNode = nullptr;
 
             for (Component* component : components)
             {
-                component->setNode(nullptr);
+                component->node = nullptr;
             }
 
             for (Node* child : children)
             {
-                child->setParent(nullptr);
+                child->parent = nullptr;
             }
 
             if (parent) parent->removeChild(this);
@@ -120,6 +120,14 @@ namespace ouzel
             NodeContainer::addChild(node);
 
             node->updateTransform(getTransform());
+        }
+
+        void Node::removeFromParent()
+        {
+            if (parent)
+            {
+                parent->removeChild(this);
+            }
         }
 
         void Node::setZ(float newZ)
@@ -259,7 +267,7 @@ namespace ouzel
         {
             if (currentAnimator)
             {
-                currentAnimator->setParentNode(nullptr);
+                currentAnimator->parentNode = nullptr;
                 currentAnimator->stop();
             }
 
@@ -268,7 +276,7 @@ namespace ouzel
             if (currentAnimator)
             {
                 currentAnimator->removeFromParent();
-                currentAnimator->setParentNode(this);
+                currentAnimator->parentNode = this;
                 currentAnimator->start(this);
             }
 
@@ -279,7 +287,7 @@ namespace ouzel
         {
             if (animator && animator == currentAnimator)
             {
-                currentAnimator->setParentNode(nullptr);
+                currentAnimator->parentNode = nullptr;
                 currentAnimator->stop();
                 currentAnimator = nullptr;
                 sharedEngine->unscheduleUpdate(&animationUpdateCallback);
@@ -290,7 +298,7 @@ namespace ouzel
         {
             if (currentAnimator)
             {
-                currentAnimator->setParentNode(nullptr);
+                currentAnimator->parentNode = nullptr;
                 currentAnimator->stop();
                 currentAnimator = nullptr;
                 sharedEngine->unscheduleUpdate(&animationUpdateCallback);
@@ -346,7 +354,7 @@ namespace ouzel
                 oldNode->removeComponent(component);
             }
 
-            component->setNode(this);
+            component->node = this;
             components.push_back(component);
         }
 
@@ -358,7 +366,7 @@ namespace ouzel
             }
 
             Component* component = components[index];
-            component->setNode(nullptr);
+            component->node = nullptr;
 
             components.erase(components.begin() + static_cast<int>(index));
 
@@ -371,7 +379,7 @@ namespace ouzel
             {
                 if (*i == component)
                 {
-                    component->setNode(nullptr);
+                    component->node = nullptr;
                     components.erase(i);
                     return true;
                 }

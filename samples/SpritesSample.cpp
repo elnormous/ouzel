@@ -22,30 +22,27 @@ SpritesSample::SpritesSample(Samples& aSamples):
     characterSprite.reset(new scene::Sprite("run.json"));
     characterSprite->play(true);
 
-    character.reset(new scene::Node());
-    character->addComponent(characterSprite.get());
-    layer.addChild(character.get());
-    character->setPosition(Vector2(-300.0f, 0.0f));
+    character.addComponent(characterSprite.get());
+    layer.addChild(&character);
+    character.setPosition(Vector2(-300.0f, 0.0f));
 
     move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
-    character->animate(move.get());
+    character.animate(move.get());
 
     // fire
     fireSprite.reset(new scene::Sprite("fire.json"));
     fireSprite->setOffset(Vector2(0.0f, 20.0f));
     fireSprite->play(true);
 
-    fireNode.reset(new scene::Node());
-    fireNode->addComponent(fireSprite.get());
-    fireNode->setPosition(Vector2(-100.0f, -140.0f));
-    layer.addChild(fireNode.get());
+    fireNode.addComponent(fireSprite.get());
+    fireNode.setPosition(Vector2(-100.0f, -140.0f));
+    layer.addChild(&fireNode);
 
     // triangle
     triangleSprite.reset(new scene::Sprite("triangle.json"));
-    triangleNode.reset(new scene::Node());
-    triangleNode->addComponent(triangleSprite.get());
-    triangleNode->setPosition(Vector2(100.0f, -140.0f));
-    layer.addChild(triangleNode.get());
+    triangleNode.addComponent(triangleSprite.get());
+    triangleNode.setPosition(Vector2(100.0f, -140.0f));
+    layer.addChild(&triangleNode);
 
 
     guiLayer.addCamera(&guiCamera);
@@ -75,7 +72,7 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
         }
         else if (event.node == hideButton.get())
         {
-            character->setHidden(!character->isHidden());
+            character.setHidden(!character.isHidden());
         }
         else if (event.node == wireframeButton.get())
         {

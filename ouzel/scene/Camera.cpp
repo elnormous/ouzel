@@ -203,16 +203,6 @@ namespace ouzel
             recalculateProjection();
         }
 
-        void Camera::addToLayer(Layer* newLayer)
-        {
-            layer = newLayer;
-        }
-
-        void Camera::removeFromLayer()
-        {
-            layer = nullptr;
-        }
-
         void Camera::setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget)
         {
             renderTarget = newRenderTarget;

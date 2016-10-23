@@ -54,7 +54,7 @@ namespace ouzel
 
                 if (entered) layer->enter();
 
-                layer->setScene(this);
+                layer->scene = this;
             }
         }
 
@@ -71,7 +71,7 @@ namespace ouzel
 
                 layers.erase(i);
 
-                layer->setScene(nullptr);
+                layer->scene = nullptr;
             }
         }
 

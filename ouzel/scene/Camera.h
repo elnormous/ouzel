@@ -50,9 +50,6 @@ namespace ouzel
             const Vector2& getContentScale() const { return contentScale; }
             const Vector2& getContentPosition() const { return contentPosition; }
 
-            virtual void addToLayer(Layer* newLayer);
-            virtual void removeFromLayer();
-
             void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
             const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
 

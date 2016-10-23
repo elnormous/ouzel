@@ -29,7 +29,8 @@ namespace ouzel
             virtual ~Node();
 
             virtual void addChild(Node* node) override;
-            virtual bool hasParent() const { return (parent != nullptr); }
+            virtual NodeContainer* getParent() const { return parent; }
+            virtual void removeFromParent();
 
             virtual void setName(const std::string& newName) { name = newName; }
             virtual const std::string& getName() const { return name; }
@@ -116,7 +117,6 @@ namespace ouzel
             AABB2 getBoundingBox() const;
 
         protected:
-            void setParent(NodeContainer* newParent) { parent = newParent; }
             void removeAnimator(Animator* animator);
 
             virtual void visit(std::vector<Node*>& drawQueue,

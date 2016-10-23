@@ -32,7 +32,7 @@ namespace ouzel
 
             void addCamera(Camera* camera);
             void removeCamera(Camera* camera);
-            const std::set<Camera*>& getCameras() const { return cameras; }
+            const std::vector<Camera*>& getCameras() const { return cameras; }
 
             Node* pickNode(const Vector2& position) const;
             std::vector<Node*> pickNodes(const Vector2& position) const;
@@ -42,14 +42,12 @@ namespace ouzel
             void setOrder(int32_t newOrder);
 
         protected:
-            void setScene(Scene* newScene) { scene = newScene; }
-
             virtual void recalculateProjection();
             virtual void enter() override;
 
             Scene* scene = nullptr;
 
-            std::set<Camera*> cameras;
+            std::vector<Camera*> cameras;
 
             int32_t order = 0;
         };

@@ -38,8 +38,6 @@ namespace ouzel
             void setHidden(bool newHidden) { hidden = newHidden; }
 
         protected:
-            void setNode(Node* newNode) { node = newNode; }
-
             AABB2 boundingBox;
             bool hidden = false;
 

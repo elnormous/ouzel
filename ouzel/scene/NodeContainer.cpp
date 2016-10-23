@@ -18,7 +18,7 @@ namespace ouzel
             for (Node* node : children)
             {
                 if (entered) node->leave();
-                node->setParent(nullptr);
+                node->parent = nullptr;
             }
         }
 
@@ -30,7 +30,7 @@ namespace ouzel
                 oldParent->removeChild(node);
             }
 
-            node->setParent(this);
+            node->parent = this;
             if (entered) node->enter();
             children.push_back(node);
         }
@@ -42,7 +42,7 @@ namespace ouzel
             if (i != children.end())
             {
                 if (entered) node->leave();
-                node->setParent(nullptr);
+                node->parent = nullptr;
                 children.erase(i);
 
                 return true;
@@ -60,7 +60,7 @@ namespace ouzel
             for (auto& node : childrenCopy)
             {
                 if (entered) node->leave();
-                node->setParent(nullptr);
+                node->parent = nullptr;
             }
 
             children.clear();
