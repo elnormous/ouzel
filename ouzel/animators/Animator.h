@@ -37,8 +37,10 @@ namespace ouzel
 
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
-        protected:
+            void removeFromParent();
             virtual void removeAnimator(Animator* animator);
+
+        protected:
             void setParentNode(Node* newParentNode) { parentNode = newParentNode; }
 
             virtual void updateProgress();

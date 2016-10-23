@@ -89,6 +89,15 @@ namespace ouzel
         {
         }
 
+        void Animator::removeFromParent()
+        {
+            if (parent)
+            {
+                parent->removeAnimator(this);
+                parent = nullptr;
+            }
+        }
+
         void Animator::removeAnimator(Animator* animator)
         {
             if (animator->parent == this) animator->parent = nullptr;

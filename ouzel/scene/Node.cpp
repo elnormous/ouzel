@@ -267,6 +267,7 @@ namespace ouzel
 
             if (currentAnimator)
             {
+                currentAnimator->removeFromParent();
                 currentAnimator->setParentNode(this);
                 currentAnimator->start(this);
             }

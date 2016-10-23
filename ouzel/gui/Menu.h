@@ -33,7 +33,7 @@ namespace ouzel
             bool handleUI(Event::Type type, const UIEvent& event);
 
             std::vector<Widget*> widgets;
-            Widget* selectedWidget;
+            Widget* selectedWidget = nullptr;
 
             EventHandler eventHandler;
         };
