@@ -159,7 +159,7 @@ namespace ouzel
             float parentZ = 0.0f;
             float z = 0.0f;
 
-            Animator* currentAnimator;
+            Animator* currentAnimator = nullptr;
             std::vector<Component*> components;
 
             NodeContainer* parent = nullptr;

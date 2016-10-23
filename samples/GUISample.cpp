@@ -7,52 +7,54 @@
 using namespace std;
 using namespace ouzel;
 
-GUISample::GUISample()
+GUISample::GUISample(Samples& aSamples):
+    samples(aSamples)
 {
     eventHandler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-    scene::LayerPtr guiLayer = make_shared<scene::Layer>();
-    guiLayer->addCamera(make_shared<scene::Camera>());
-    addLayer(guiLayer);
+    guiLayer.reset(new scene::Layer());
+    guiCamera.reset(new scene::Camera());
+    guiLayer->addCamera(guiCamera.get());
+    addLayer(guiLayer.get());
 
-    gui::MenuPtr menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    menu.reset(new gui::Menu());
+    guiLayer->addChild(menu.get());
 
-    button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Button", graphics::Color::RED, "arial.fnt");
+    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Button", graphics::Color::RED, "arial.fnt"));
     button->setPosition(Vector2(-200.0f, 100.0f));
-    menu->addWidget(button);
+    menu->addWidget(button.get());
 
-    checkBox = make_shared<gui::CheckBox>("checkbox.png", "", "", "", "tick.png");
+    checkBox.reset(new gui::CheckBox("checkbox.png", "", "", "", "tick.png"));
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
-    guiLayer->addChild(checkBox);
+    guiLayer->addChild(checkBox.get());
 
-    fullscreenButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", graphics::Color::BLACK, "arial.fnt");
+    fullscreenButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", graphics::Color::BLACK, "arial.fnt"));
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
-    menu->addWidget(fullscreenButton);
+    menu->addWidget(fullscreenButton.get());
 
-    gui::LabelPtr label = make_shared<gui::Label>("arial.fnt", "checkbox");
-    label->setColor(graphics::Color::CYAN);
-    label->setPosition(Vector2(-60.0f, 100.0f));
-    guiLayer->addChild(label);
+    label1.reset(new gui::Label("arial.fnt", "checkbox"));
+    label1->setColor(graphics::Color::CYAN);
+    label1->setPosition(Vector2(-60.0f, 100.0f));
+    guiLayer->addChild(label1.get());
 
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
     sharedEngine->getLocalization()->setLanguage("latvian");
 
-    gui::LabelPtr label2 = make_shared<gui::Label>("ArialBlack.fnt", sharedEngine->getLocalization()->getString("Ouzel"));
+    label2.reset(new gui::Label("ArialBlack.fnt", sharedEngine->getLocalization()->getString("Ouzel")));
     label2->setPosition(Vector2(10.0f, 0.0f));
-    guiLayer->addChild(label2);
+    guiLayer->addChild(label2.get());
 
-    gui::LabelPtr label3 = make_shared<gui::Label>("ArialBlack.fnt", "UTF-8 ĀāČč\nNew line", Vector2(0.0f, 0.5f));
+    label3.reset(new gui::Label("ArialBlack.fnt", "UTF-8 ĀāČč\nNew line", Vector2(0.0f, 0.5f)));
     label3->setColor(graphics::Color::BLUE);
     label3->setPosition(Vector2(-100.0f, -100.0f));
     label3->setScale(Vector2(0.5f, 0.5f));
-    guiLayer->addChild(label3);
+    guiLayer->addChild(label3.get());
 
-    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt");
+    backButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt"));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool GUISample::handleUI(Event::Type type, const UIEvent& event) const
@@ -61,7 +63,7 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == backButton.get())
         {
-            sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+            samples.setSample("");
         }
         else if (event.node == button.get())
         {
@@ -84,7 +86,7 @@ bool GUISample::handleKeyboard(Event::Type type, const KeyboardEvent& event) con
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+                samples.setSample("");
                 break;
             default:
                 break;

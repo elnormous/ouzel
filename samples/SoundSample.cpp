@@ -7,7 +7,8 @@
 using namespace std;
 using namespace ouzel;
 
-SoundSample::SoundSample()
+SoundSample::SoundSample(Samples& aSamples):
+    samples(aSamples)
 {
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
@@ -25,24 +26,25 @@ SoundSample::SoundSample()
     ambientSound = sharedEngine->getAudio()->createSound();
     ambientSound->init(ambientData);
 
-    scene::LayerPtr guiLayer = make_shared<scene::Layer>();
-    guiLayer->addCamera(make_shared<scene::Camera>());
-    addLayer(guiLayer);
+    guiLayer.reset(new scene::Layer());
+    guiCamera.reset(new scene::Camera());
+    guiLayer->addCamera(guiCamera.get());
+    addLayer(guiLayer.get());
 
-    gui::MenuPtr menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    menu.reset(new gui::Menu());
+    guiLayer->addChild(menu.get());
 
-    jumpButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color::BLACK, "arial.fnt");
+    jumpButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Jump", graphics::Color::BLACK, "arial.fnt"));
     jumpButton->setPosition(Vector2(0.0f, 0.0f));
-    menu->addWidget(jumpButton);
+    menu->addWidget(jumpButton.get());
 
-    ambientButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color::BLACK, "arial.fnt");
+    ambientButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Ambient", graphics::Color::BLACK, "arial.fnt"));
     ambientButton->setPosition(Vector2(0.0f, -40.0f));
-    menu->addWidget(ambientButton);
+    menu->addWidget(ambientButton.get());
 
-    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt");
+    backButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt"));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
@@ -51,7 +53,7 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == backButton.get())
         {
-            sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+            samples.setSample("");
         }
         else if (event.node == jumpButton.get())
         {
@@ -73,7 +75,7 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+                samples.setSample("");
                 break;
             default:
                 break;

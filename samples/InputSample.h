@@ -8,7 +8,7 @@
 class InputSample: public ouzel::scene::Scene
 {
 public:
-    InputSample();
+    InputSample(Samples& aSamples);
 
 private:
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
@@ -16,11 +16,20 @@ private:
     bool handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event) const;
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event) const;
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
+
+    Samples& samples;
+
+    std::unique_ptr<ouzel::scene::Layer> layer;
+    std::unique_ptr<ouzel::scene::Camera> camera;
     
-    ouzel::gui::ButtonPtr backButton;
     ouzel::EventHandler eventHandler;
 
-    ouzel::gui::ButtonPtr button;
-    ouzel::scene::NodePtr flame;
-    ouzel::scene::CameraPtr camera;
+    std::unique_ptr<ouzel::gui::Button> button;
+    std::unique_ptr<ouzel::scene::ParticleSystem> flameParticleSystem;
+    std::unique_ptr<ouzel::scene::Node> flame;
+
+    std::unique_ptr<ouzel::scene::Layer> guiLayer;
+    std::unique_ptr<ouzel::scene::Camera> guiCamera;
+    std::unique_ptr<ouzel::gui::Menu> menu;
+    std::unique_ptr<ouzel::gui::Button> backButton;
 };

@@ -8,19 +8,33 @@
 class SpritesSample: public ouzel::scene::Scene
 {
 public:
-    SpritesSample();
+    SpritesSample(Samples& aSamples);
 
 private:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
 
-    ouzel::scene::LayerPtr layer;
-    ouzel::scene::CameraPtr camera;
+    Samples& samples;
 
-    ouzel::gui::ButtonPtr backButton;
+    std::unique_ptr<ouzel::scene::Layer> layer;
+    std::unique_ptr<ouzel::scene::Camera> camera;
+
+    std::unique_ptr<ouzel::scene::Sprite> characterSprite;
+    std::unique_ptr<ouzel::scene::Sprite> fireSprite;
+    std::unique_ptr<ouzel::scene::Node> fireNode;
+    std::unique_ptr<ouzel::scene::Sprite> triangleSprite;
+    std::unique_ptr<ouzel::scene::Node> triangleNode;
+
+    std::unique_ptr<ouzel::scene::Animator> move;
+
     ouzel::EventHandler eventHandler;
 
-    ouzel::scene::NodePtr character;
-    ouzel::gui::ButtonPtr hideButton;
-    ouzel::gui::ButtonPtr wireframeButton;
+    std::unique_ptr<ouzel::scene::Node> character;
+    std::unique_ptr<ouzel::gui::Button> hideButton;
+    std::unique_ptr<ouzel::gui::Button> wireframeButton;
+
+    std::unique_ptr<ouzel::scene::Layer> guiLayer;
+    std::unique_ptr<ouzel::scene::Camera> guiCamera;
+    std::unique_ptr<ouzel::gui::Menu> menu;
+    std::unique_ptr<ouzel::gui::Button> backButton;
 };

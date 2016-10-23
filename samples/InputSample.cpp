@@ -7,7 +7,8 @@
 using namespace std;
 using namespace ouzel;
 
-InputSample::InputSample()
+InputSample::InputSample(Samples& aSamples):
+    samples(aSamples)
 {
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -17,32 +18,33 @@ InputSample::InputSample()
 
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-    scene::LayerPtr layer = make_shared<scene::Layer>();
-    camera = make_shared<scene::Camera>();
-    layer->addCamera(camera);
-    addLayer(layer);
+    layer.reset(new scene::Layer());
+    camera.reset(new scene::Camera());
+    layer->addCamera(camera.get());
+    addLayer(layer.get());
 
-    scene::ParticleSystemPtr flameParticleSystem = make_shared<scene::ParticleSystem>("flame.json");
+    flameParticleSystem.reset(new scene::ParticleSystem("flame.json"));
 
-    flame = make_shared<scene::Node>();
-    flame->addComponent(flameParticleSystem);
+    flame.reset(new scene::Node());
+    flame->addComponent(flameParticleSystem.get());
     flame->setPickable(false);
-    layer->addChild(flame);
+    layer->addChild(flame.get());
 
-    scene::LayerPtr guiLayer = make_shared<scene::Layer>();
-    guiLayer->addCamera(make_shared<scene::Camera>());
-    addLayer(guiLayer);
+    guiLayer.reset(new scene::Layer());
+    guiCamera.reset(new scene::Camera());
+    guiLayer->addCamera(guiCamera.get());
+    addLayer(guiLayer.get());
 
-    gui::MenuPtr menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    menu.reset(new gui::Menu());
+    guiLayer->addChild(menu.get());
 
-    button = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color::BLACK, "arial.fnt");
+    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color::BLACK, "arial.fnt"));
     button->setPosition(Vector2(-200.0f, 200.0f));
-    menu->addWidget(button);
+    menu->addWidget(button.get());
 
-    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt");
+    backButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt"));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
@@ -86,7 +88,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
                 break;
             case input::KeyboardKey::ESCAPE:
                 sharedEngine->getInput()->setCursorVisible(true);
-                sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+                samples.setSample("");
                 break;
             default:
                 break;
@@ -173,7 +175,7 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
         if (event.node == backButton.get())
         {
             sharedEngine->getInput()->setCursorVisible(true);
-            sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+            samples.setSample("");
         }
         else if (event.node == button.get())
         {

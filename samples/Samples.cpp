@@ -28,40 +28,45 @@ void Samples::begin(const std::string& sample)
     sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
     sharedEngine->getWindow()->setTitle("Samples");
 
-    scene::ScenePtr newScene;
+    setSample(sample);
+}
+
+void Samples::setSample(const std::string& sample)
+{
+    currentScene.reset();
 
     if (!sample.empty())
     {
         if (sample == "sprites")
         {
-            newScene = make_shared<SpritesSample>();
+            currentScene.reset(new SpritesSample(*this));
         }
         else if (sample == "gui")
         {
-            newScene = make_shared<GUISample>();
+            currentScene.reset(new GUISample(*this));
         }
         else if (sample == "render_target")
         {
-            newScene = make_shared<RTSample>();
+            currentScene.reset(new RTSample(*this));
         }
         else if (sample == "animations")
         {
-            newScene = make_shared<AnimationsSample>();
+            currentScene.reset(new AnimationsSample(*this));
         }
         else if (sample == "input")
         {
-            newScene = make_shared<InputSample>();
+            currentScene.reset(new InputSample(*this));
         }
         else if (sample == "sound")
         {
-            newScene = make_shared<SoundSample>();
+            currentScene.reset(new SoundSample(*this));
         }
     }
 
-    if (!newScene)
+    if (!currentScene)
     {
-        newScene = make_shared<MainMenu>();
+        currentScene.reset(new MainMenu(*this));
     }
 
-    sharedEngine->getSceneManager()->setScene(newScene);
+    sharedEngine->getSceneManager()->setScene(currentScene.get());
 }

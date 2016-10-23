@@ -2,53 +2,49 @@
 // This file is part of the Ouzel engine.
 
 #include "MainMenu.h"
-#include "SpritesSample.h"
-#include "GUISample.h"
-#include "RTSample.h"
-#include "AnimationsSample.h"
-#include "InputSample.h"
-#include "SoundSample.h"
 
 using namespace std;
 using namespace ouzel;
 
-MainMenu::MainMenu()
+MainMenu::MainMenu(Samples& aSamples):
+    samples(aSamples)
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-    scene::LayerPtr layer = make_shared<scene::Layer>();
-    addLayer(layer);
+    layer.reset(new scene::Layer());
+    addLayer(layer.get());
 
-    layer->addCamera(make_shared<scene::Camera>());
+    camera.reset(new scene::Camera());
+    layer->addCamera(camera.get());
 
-    gui::MenuPtr menu = std::make_shared<gui::Menu>();
-    layer->addChild(menu);
+    menu.reset(new gui::Menu());
+    layer->addChild(menu.get());
 
-    spritesButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Sprites", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    spritesButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sprites", graphics::Color(20, 0, 0, 255), "arial.fnt"));
     spritesButton->setPosition(Vector2(0.0f, 80.0f));
-    menu->addWidget(spritesButton);
+    menu->addWidget(spritesButton.get());
 
-    GUIButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "GUI", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    GUIButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "GUI", graphics::Color(20, 0, 0, 255), "arial.fnt"));
     GUIButton->setPosition(Vector2(0.0f, 40.0f));
-    menu->addWidget(GUIButton);
+    menu->addWidget(GUIButton.get());
 
-    renderTargetButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Render target", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    renderTargetButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Render target", graphics::Color(20, 0, 0, 255), "arial.fnt"));
     renderTargetButton->setPosition(Vector2(0.0f, 0.0f));
-    menu->addWidget(renderTargetButton);
+    menu->addWidget(renderTargetButton.get());
 
-    animationsButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Animations", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    animationsButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Animations", graphics::Color(20, 0, 0, 255), "arial.fnt"));
     animationsButton->setPosition(Vector2(0.0f, -40.0f));
-    menu->addWidget(animationsButton);
+    menu->addWidget(animationsButton.get());
 
-    inputButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Input", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    inputButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Input", graphics::Color(20, 0, 0, 255), "arial.fnt"));
     inputButton->setPosition(Vector2(0.0f, -80.0f));
-    menu->addWidget(inputButton);
+    menu->addWidget(inputButton.get());
 
-    soundButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Sound", graphics::Color(20, 0, 0, 255), "arial.fnt");
+    soundButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sound", graphics::Color(20, 0, 0, 255), "arial.fnt"));
     soundButton->setPosition(Vector2(0.0f, -120.0f));
-    menu->addWidget(soundButton);
+    menu->addWidget(soundButton.get());
 }
 
 bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
@@ -70,36 +66,29 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        scene::ScenePtr newScene;
-
         if (event.node == spritesButton.get())
         {
-            newScene = make_shared<SpritesSample>();
+            samples.setSample("sprites");
         }
         else if (event.node == GUIButton.get())
         {
-            newScene = make_shared<GUISample>();
+            samples.setSample("gui");
         }
         else if (event.node == renderTargetButton.get())
         {
-            newScene = make_shared<RTSample>();
+            samples.setSample("render_target");
         }
         else if (event.node == animationsButton.get())
         {
-            newScene = make_shared<AnimationsSample>();
+            samples.setSample("animations");
         }
         else if (event.node == inputButton.get())
         {
-            newScene = make_shared<InputSample>();
+            samples.setSample("input");
         }
         else if (event.node == soundButton.get())
         {
-            newScene = make_shared<SoundSample>();
-        }
-
-        if (newScene)
-        {
-            sharedEngine->getSceneManager()->setScene(newScene);
+            samples.setSample("sound");
         }
     }
 

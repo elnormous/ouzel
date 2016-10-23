@@ -7,65 +7,67 @@
 using namespace std;
 using namespace ouzel;
 
-RTSample::RTSample()
+RTSample::RTSample(Samples& aSamples):
+    samples(aSamples)
 {
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(eventHandler);
 
-    ouzel::scene::LayerPtr rtLayer = make_shared<scene::Layer>();
-    addLayer(rtLayer);
+    rtLayer.reset(new scene::Layer());
+    addLayer(rtLayer.get());
 
     ouzel::graphics::RenderTargetPtr renderTarget = sharedEngine->getRenderer()->createRenderTarget();
     renderTarget->init(Size2(256.0f, 256.0f), false);
     renderTarget->setClearColor(graphics::Color(0, 64, 0));
 
-    ouzel::scene::CameraPtr rtCamera = make_shared<scene::Camera>();
+    rtCamera.reset(new scene::Camera());
     rtCamera->setRenderTarget(renderTarget);
-    rtLayer->addCamera(rtCamera);
+    rtLayer->addCamera(rtCamera.get());
 
-    scene::CameraPtr camera1 = make_shared<scene::Camera>();
+    camera1.reset(new scene::Camera());
     camera1->setViewport(Rectangle(0.0f, 0.0f, 0.5f, 1.0f));
-    scene::CameraPtr camera2 = make_shared<scene::Camera>();
+    camera2.reset(new scene::Camera());
     camera2->setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
 
-    ouzel::scene::LayerPtr layer = make_shared<scene::Layer>();
-    layer->addCamera(camera1);
-    layer->addCamera(camera2);
-    addLayer(layer);
+    layer.reset(new scene::Layer());
+    layer->addCamera(camera1.get());
+    layer->addCamera(camera2.get());
+    addLayer(layer.get());
 
-    scene::SpritePtr characterSprite = make_shared<scene::Sprite>("run.json");
+    characterSprite.reset(new scene::Sprite("run.json"));
     characterSprite->play(true);
 
-    scene::NodePtr rtCharacter = make_shared<scene::Node>();
-    rtCharacter->addComponent(characterSprite);
-    rtLayer->addChild(rtCharacter);
+    rtCharacter.reset(new scene::Node());
+    rtCharacter->addComponent(characterSprite.get());
+    rtLayer->addChild(rtCharacter.get());
 
     scene::SpriteFramePtr rtFrame = std::make_shared<scene::SpriteFrame>(renderTarget->getTexture(), Rectangle(0.0f, 0.0f, 256.0f, 256.0f), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
     const std::vector<scene::SpriteFramePtr>& spriteFrames = { rtFrame };
-    scene::SpritePtr rtSprite = make_shared<scene::Sprite>(spriteFrames);
-    scene::NodePtr rtNode = make_shared<scene::Node>();
-    rtNode->addComponent(rtSprite);
-    layer->addChild(rtNode);
+    rtSprite.reset(new scene::Sprite(spriteFrames));
+    rtNode.reset(new scene::Node());
+    rtNode->addComponent(rtSprite.get());
+    layer->addChild(rtNode.get());
 
-    scene::LayerPtr guiLayer = make_shared<scene::Layer>();
-    guiLayer->addCamera(make_shared<scene::Camera>());
-    addLayer(guiLayer);
+    guiLayer.reset(new scene::Layer());
+    guiCamera.reset(new scene::Camera());
+    guiLayer->addCamera(guiCamera.get());
+    addLayer(guiLayer.get());
 
-    gui::MenuPtr menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    menu.reset(new gui::Menu());
+    guiLayer->addChild(menu.get());
 
-    backButton = make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt");
+    backButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt"));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE && event.node == backButton.get())
     {
-        sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+        samples.setSample("");
     }
 
     return true;
@@ -78,7 +80,7 @@ bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) cons
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                sharedEngine->getSceneManager()->setScene(std::make_shared<MainMenu>());
+                samples.setSample("");
                 break;
             default:
                 break;
