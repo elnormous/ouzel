@@ -69,78 +69,39 @@ namespace ouzel
     namespace scene
     {
         class SceneManager;
-
         class Scene;
-        typedef Scene* ScenePtr;
-
         class Layer;
-        typedef Layer* LayerPtr;
-
         class Component;
-        typedef Component* ComponentPtr;
-
         class Sprite;
-        typedef Sprite* SpritePtr;
 
         class SpriteFrame;
         typedef std::shared_ptr<SpriteFrame> SpriteFramePtr;
 
         class Node;
-        typedef Node* NodePtr;
-        typedef Node* NodeWeakPtr;
-
         class Camera;
-        typedef Camera* CameraPtr;
 
         struct ParticleDefinition;
         typedef std::shared_ptr<ParticleDefinition> ParticleDefinitionPtr;
 
         class ParticleSystem;
-        typedef ParticleSystem* ParticleSystemPtr;
-
         class ShapeDrawable;
-        typedef ShapeDrawable* ShapeDrawablePtr;
-
         class TextDrawable;
-        typedef TextDrawable* TextDrawablePtr;
 
         class Animator;
-        typedef std::shared_ptr<Animator> AnimatorPtr;
     } // namespace scene
 
     namespace gui
     {
         class Widget;
-        typedef Widget* WidgetPtr;
-
         class Menu;
-        typedef Menu* MenuPtr;
-
         class Label;
-        typedef Label* LabelPtr;
-
         class Button;
-        typedef Button* ButtonPtr;
-
         class CheckBox;
-        typedef CheckBox* CheckBoxPtr;
-
         class RadioButton;
-        typedef RadioButton* RadioButtonPtr;
-
         class ComboBox;
-        typedef ComboBox* ComboBoxPtr;
-
         class Popup;
-        typedef Popup* PopupPtr;
-
         class EditBox;
-        typedef EditBox* EditBoxPtr;
-
         class ScrollArea;
-        typedef ScrollArea* ScrollAreaPtr;
-
         class ScrollBar;
-        typedef ScrollBar* ScrollBarPtr;
     } // namespace gui
 } // namespace ouzel

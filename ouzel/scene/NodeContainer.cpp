@@ -37,7 +37,7 @@ namespace ouzel
 
         bool NodeContainer::removeChild(Node* node)
         {
-            std::vector<NodePtr>::iterator i = std::find(children.begin(), children.end(), node);
+            std::vector<Node*>::iterator i = std::find(children.begin(), children.end(), node);
 
             if (i != children.end())
             {
@@ -68,7 +68,7 @@ namespace ouzel
 
         bool NodeContainer::hasChild(Node* node, bool recursive) const
         {
-            for (std::vector<NodePtr>::const_iterator i = children.begin(); i != children.end(); ++i)
+            for (std::vector<Node*>::const_iterator i = children.begin(); i != children.end(); ++i)
             {
                 Node* child = *i;
 
@@ -101,7 +101,7 @@ namespace ouzel
             }
         }
 
-        void NodeContainer::findNodes(const Vector2& position, std::vector<NodePtr>& nodes) const
+        void NodeContainer::findNodes(const Vector2& position, std::vector<Node*>& nodes) const
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
@@ -112,7 +112,7 @@ namespace ouzel
                     if (node->isPickable() && node->pointOn(position))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
-                                                           [](Node* a, NodePtr& b) {
+                                                           [](Node* a, Node* b) {
                                                                return a->getWorldZ() < b->getWorldZ();
                                                            });
 
@@ -124,7 +124,7 @@ namespace ouzel
             }
         }
 
-        void NodeContainer::findNodes(const std::vector<Vector2>& edges, std::vector<NodePtr>& nodes) const
+        void NodeContainer::findNodes(const std::vector<Vector2>& edges, std::vector<Node*>& nodes) const
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
@@ -135,7 +135,7 @@ namespace ouzel
                     if (node->isPickable() && node->shapeOverlaps(edges))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
-                                                           [](Node* a, NodePtr& b) {
+                                                           [](Node* a, Node* b) {
                                                                return a->getWorldZ() < b->getWorldZ();
                                                            });
 

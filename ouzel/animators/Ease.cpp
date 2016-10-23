@@ -253,7 +253,7 @@ namespace ouzel
                 return bounceOut(t * 2.0f - 1.0f) * 0.5f + 0.5f;
         }
 
-        Ease::Ease(const AnimatorPtr& aAnimator, Type aType, Func aFunc):
+        Ease::Ease(Animator* aAnimator, Type aType, Func aFunc):
             Animator(aAnimator->getLength()), animator(aAnimator), type(aType), func(aFunc)
         {
         }

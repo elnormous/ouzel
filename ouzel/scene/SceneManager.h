@@ -20,14 +20,14 @@ namespace ouzel
 
             void draw();
 
-            void setScene(const ScenePtr& newScene);
-            const ScenePtr& getScene() const { return scene; }
+            void setScene(Scene* newScene);
+            const Scene* getScene() const { return scene; }
 
         protected:
             SceneManager();
 
-            ScenePtr scene;
-            ScenePtr nextScene;
+            Scene* scene;
+            Scene* nextScene;
         };
     } // namespace scene
 } // namespace ouzel

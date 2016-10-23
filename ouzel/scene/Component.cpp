@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Component.h"
+#include "Node.h"
 #include "utils/Utils.h"
 #include "math/MathUtils.h"
 
@@ -11,17 +12,18 @@ namespace ouzel
     {
         Component::~Component()
         {
+            if (node) node->removeComponent(this);
         }
 
         void Component::draw(const Matrix4&,
                              const graphics::Color&,
-                             const scene::CameraPtr&)
+                             scene::Camera*)
         {
         }
 
         void Component::drawWireframe(const Matrix4&,
                                       const graphics::Color&,
-                                      const scene::CameraPtr&)
+                                      scene::Camera*)
         {
         }
 

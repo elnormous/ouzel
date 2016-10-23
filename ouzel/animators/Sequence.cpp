@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Sequence::Sequence(const std::vector<AnimatorPtr>& aAnimators):
-            Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, const AnimatorPtr& b) { return a + b->getLength(); })), animators(aAnimators)
+        Sequence::Sequence(const std::vector<Animator*>& aAnimators):
+            Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, Animator* b) { return a + b->getLength(); })), animators(aAnimators)
         {
         }
 

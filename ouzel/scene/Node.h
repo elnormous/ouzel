@@ -102,14 +102,14 @@ namespace ouzel
             Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
             Vector2 convertLocalToWorld(const Vector2& localPosition) const;
 
-            void animate(const AnimatorPtr& animator);
-            AnimatorPtr getAnimator() const { return currentAnimator; }
+            void animate(Animator* animator);
+            Animator* getAnimator() const { return currentAnimator; }
             void removeAnimation();
 
             const std::vector<Component*>& getComponents() const { return components; }
             void addComponent(Component* component);
             bool removeComponent(uint32_t index);
-            bool removeComponent(const ComponentPtr& component);
+            bool removeComponent(Component* component);
             void removeAllComponents();
 
             AABB2 getBoundingBox() const;
@@ -120,10 +120,10 @@ namespace ouzel
             virtual void visit(std::vector<Node*>& drawQueue,
                                const Matrix4& newParentTransform,
                                bool parentTransformDirty,
-                               const CameraPtr& camera,
+                               Camera* camera,
                                float newParentZ);
-            virtual void draw(const CameraPtr& camera);
-            virtual void drawWireframe(const CameraPtr& camera);
+            virtual void draw(Camera* camera);
+            virtual void drawWireframe(Camera* camera);
 
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
@@ -159,7 +159,7 @@ namespace ouzel
             float parentZ = 0.0f;
             float z = 0.0f;
 
-            AnimatorPtr currentAnimator;
+            Animator* currentAnimator;
             std::vector<Component*> components;
 
             NodeContainer* parent = nullptr;

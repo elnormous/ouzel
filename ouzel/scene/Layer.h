@@ -30,13 +30,13 @@ namespace ouzel
 
             virtual void addChild(Node* node) override;
 
-            void addCamera(const CameraPtr& camera);
-            void removeCamera(const CameraPtr& camera);
-            const std::set<CameraPtr>& getCameras() const { return cameras; }
+            void addCamera(Camera* camera);
+            void removeCamera(Camera* camera);
+            const std::set<Camera*>& getCameras() const { return cameras; }
 
-            NodePtr pickNode(const Vector2& position) const;
-            std::vector<NodePtr> pickNodes(const Vector2& position) const;
-            std::vector<NodePtr> pickNodes(const std::vector<Vector2>& edges) const;
+            Node* pickNode(const Vector2& position) const;
+            std::vector<Node*> pickNodes(const Vector2& position) const;
+            std::vector<Node*> pickNodes(const std::vector<Vector2>& edges) const;
 
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
@@ -45,7 +45,7 @@ namespace ouzel
             virtual void recalculateProjection();
             virtual void enter() override;
 
-            std::set<CameraPtr> cameras;
+            std::set<Camera*> cameras;
 
             int32_t order = 0;
         };

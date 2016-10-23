@@ -65,7 +65,7 @@ namespace ouzel
         {
             selectedWidget = widget;
 
-            for (const WidgetPtr& childWidget : widgets)
+            for (Widget* childWidget : widgets)
             {
                 childWidget->setSelected(childWidget == selectedWidget);
             }
@@ -75,7 +75,7 @@ namespace ouzel
         {
             if (widgets.empty()) return;
 
-            std::vector<WidgetPtr>::iterator widgetIterator = widgets.end();
+            std::vector<Widget*>::iterator widgetIterator = widgets.end();
 
             if (selectedWidget)
             {
@@ -92,7 +92,7 @@ namespace ouzel
         {
             if (widgets.empty()) return;
 
-            std::vector<WidgetPtr>::iterator widgetIterator = widgets.end();
+            std::vector<Widget*>::iterator widgetIterator = widgets.end();
 
             if (selectedWidget)
             {

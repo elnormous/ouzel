@@ -37,7 +37,7 @@ namespace ouzel
 
         void ParticleSystem::draw(const Matrix4& transformMatrix,
                                   const graphics::Color& drawColor,
-                                  const scene::CameraPtr& camera)
+                                  scene::Camera* camera)
         {
             Component::draw(transformMatrix, drawColor, camera);
 
@@ -84,7 +84,7 @@ namespace ouzel
 
         void ParticleSystem::drawWireframe(const Matrix4& transformMatrix,
                                            const graphics::Color& drawColor,
-                                           const scene::CameraPtr& camera)
+                                           scene::Camera* camera)
         {
             Component::drawWireframe(transformMatrix, drawColor, camera);
 

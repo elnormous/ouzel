@@ -22,11 +22,11 @@ namespace ouzel
 
             virtual void draw(const Matrix4& transformMatrix,
                               const graphics::Color& drawColor,
-                              const scene::CameraPtr& camera);
+                              scene::Camera* camera);
 
             virtual void drawWireframe(const Matrix4& transformMatrix,
                                        const graphics::Color& drawColor,
-                                       const scene::CameraPtr& camera);
+                                       scene::Camera* camera);
 
             virtual const AABB2& getBoundingBox() const { return boundingBox; }
             bool isAddedToNode() { return node != nullptr; }

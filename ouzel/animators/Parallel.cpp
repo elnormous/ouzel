@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace scene
     {
-        Parallel::Parallel(const std::vector<AnimatorPtr>& aAnimators):
+        Parallel::Parallel(const std::vector<Animator*>& aAnimators):
             Animator(0.0f), animators(aAnimators)
         {
             for (const auto& animator : animators)
@@ -43,7 +43,7 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            for (const auto& animator : animators)
+            for (Animator* animator : animators)
             {
                 float animationLength = animator->getLength();
 

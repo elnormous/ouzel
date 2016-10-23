@@ -14,7 +14,7 @@ namespace ouzel
         class Sequence: public Animator
         {
         public:
-            Sequence(const std::vector<AnimatorPtr>& aAnimators);
+            Sequence(const std::vector<Animator*>& aAnimators);
 
             virtual void start(Node* node) override;
             virtual void reset() override;
@@ -22,7 +22,7 @@ namespace ouzel
         protected:
             virtual void updateProgress() override;
 
-            std::vector<AnimatorPtr> animators;
+            std::vector<Animator*> animators;
         };
     } // namespace scene
 } // namespace ouzel

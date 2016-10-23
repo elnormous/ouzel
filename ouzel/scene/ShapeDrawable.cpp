@@ -37,7 +37,7 @@ namespace ouzel
 
         void ShapeDrawable::draw(const Matrix4& transformMatrix,
                                  const graphics::Color& drawColor,
-                                 const scene::CameraPtr& camera)
+                                 scene::Camera* camera)
         {
             Component::draw(transformMatrix, drawColor, camera);
 
@@ -71,7 +71,7 @@ namespace ouzel
 
         void ShapeDrawable::drawWireframe(const Matrix4& transformMatrix,
                                           const graphics::Color& drawColor,
-                                          const scene::CameraPtr& camera)
+                                          scene::Camera* camera)
         {
             Component::drawWireframe(transformMatrix, drawColor, camera);
 

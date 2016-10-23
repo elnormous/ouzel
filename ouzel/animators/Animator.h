@@ -13,6 +13,7 @@ namespace ouzel
     {
         class Animator: public Noncopyable
         {
+            friend Node;
         public:
             Animator(float aLength);
             virtual ~Animator();
@@ -37,6 +38,8 @@ namespace ouzel
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
         protected:
+            void setNode(Node* newNode) { node = newNode; }
+
             virtual void updateProgress();
 
             float length = 0.0f;
