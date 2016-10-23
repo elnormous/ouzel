@@ -280,6 +280,7 @@ namespace ouzel
                 event.type = Event::Type::UI_LEAVE_NODE;
 
                 event.uiEvent.node = node.get();
+                event.uiEvent.touchId = pointerId;
                 event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
@@ -296,6 +297,7 @@ namespace ouzel
                 event.type = Event::Type::UI_PRESS_NODE;
 
                 event.uiEvent.node = node.get();
+                event.uiEvent.touchId = pointerId;
                 event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
