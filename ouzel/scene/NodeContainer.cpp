@@ -112,7 +112,7 @@ namespace ouzel
                     if (node->isPickable() && node->pointOn(position))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
-                                                           [](const NodePtr& a, NodePtr& b) {
+                                                           [](const NodePtr& a, const NodePtr& b) {
                                                                return a->getWorldZ() < b->getWorldZ();
                                                            });
 
@@ -135,7 +135,7 @@ namespace ouzel
                     if (node->isPickable() && node->shapeOverlaps(edges))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
-                                                           [](const NodePtr& a, NodePtr& b) {
+                                                           [](const NodePtr& a, const NodePtr& b) {
                                                                return a->getWorldZ() < b->getWorldZ();
                                                            });
 
