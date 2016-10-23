@@ -20,6 +20,7 @@ namespace ouzel
             virtual void reset() override;
 
         protected:
+            virtual void removeAnimator(Animator* animator) override;
             virtual void updateProgress() override;
 
             std::vector<Animator*> animators;

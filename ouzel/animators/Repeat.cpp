@@ -34,6 +34,16 @@ namespace ouzel
             currentCount = 0;
         }
 
+        void Repeat::removeAnimator(Animator* oldAnimator)
+        {
+            Animator::removeAnimator(oldAnimator);
+
+            if (oldAnimator == animator)
+            {
+                animator = nullptr;
+            }
+        }
+
         void Repeat::updateProgress()
         {
             if (!animator || animator->getLength() <= 0.0f)

@@ -4,6 +4,7 @@
 #include "Animator.h"
 #include "utils/Utils.h"
 #include "core/Engine.h"
+#include "scene/Node.h"
 
 namespace ouzel
 {
@@ -16,6 +17,8 @@ namespace ouzel
 
         Animator::~Animator()
         {
+            if (parent) parent->removeAnimator(this);
+            if (node) node->removeAnimator(this);
         }
 
         void Animator::update(float delta)
@@ -87,6 +90,11 @@ namespace ouzel
 
         void Animator::updateProgress()
         {
+        }
+
+        void Animator::removeAnimator(Animator* animator)
+        {
+            if (animator->parent == this) animator->parent = nullptr;
         }
     } // namespace scene
 } // namespace ouzel

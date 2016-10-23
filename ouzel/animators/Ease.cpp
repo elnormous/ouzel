@@ -272,6 +272,16 @@ namespace ouzel
             animator->reset();
         }
 
+        void Ease::removeAnimator(Animator* oldAnimator)
+        {
+            Animator::removeAnimator(oldAnimator);
+
+            if (oldAnimator == animator)
+            {
+                animator = nullptr;
+            }
+        }
+
         void Ease::updateProgress()
         {
             Animator::updateProgress();

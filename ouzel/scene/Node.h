@@ -23,6 +23,7 @@ namespace ouzel
         {
             friend NodeContainer;
             friend Layer;
+            friend Animator;
         public:
             Node();
             virtual ~Node();
@@ -104,7 +105,7 @@ namespace ouzel
 
             void animate(Animator* animator);
             Animator* getAnimator() const { return currentAnimator; }
-            void removeAnimation();
+            void removeCurrentAnimator();
 
             const std::vector<Component*>& getComponents() const { return components; }
             void addComponent(Component* component);
@@ -116,6 +117,7 @@ namespace ouzel
 
         protected:
             void setParent(NodeContainer* newParent) { parent = newParent; }
+            void removeAnimator(Animator* animator);
 
             virtual void visit(std::vector<Node*>& drawQueue,
                                const Matrix4& newParentTransform,

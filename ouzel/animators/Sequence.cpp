@@ -33,6 +33,18 @@ namespace ouzel
             }
         }
 
+        void Sequence::removeAnimator(Animator* oldAnimator)
+        {
+            Animator::removeAnimator(oldAnimator);
+
+            auto i = std::find(animators.begin(), animators.end(), oldAnimator);
+
+            if (i != animators.end())
+            {
+                animators.erase(i);
+            }
+        }
+
         void Sequence::updateProgress()
         {
             Animator::updateProgress();

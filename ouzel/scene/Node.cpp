@@ -257,17 +257,34 @@ namespace ouzel
 
         void Node::animate(Animator* animator)
         {
-            removeAnimation();
+            if (currentAnimator)
+            {
+                currentAnimator->setNode(nullptr);
+                currentAnimator->stop();
+            }
+
             currentAnimator = animator;
 
             if (currentAnimator)
             {
                 currentAnimator->start(this);
-                sharedEngine->scheduleUpdate(animationUpdateCallback);
+            }
+
+            sharedEngine->scheduleUpdate(animationUpdateCallback);
+        }
+
+        void Node::removeAnimator(Animator* animator)
+        {
+            if (animator && animator == currentAnimator)
+            {
+                currentAnimator->setNode(nullptr);
+                currentAnimator->stop();
+                currentAnimator = nullptr;
+                sharedEngine->unscheduleUpdate(animationUpdateCallback);
             }
         }
 
-        void Node::removeAnimation()
+        void Node::removeCurrentAnimator()
         {
             if (currentAnimator)
             {
@@ -378,7 +395,8 @@ namespace ouzel
 
                 if (currentAnimator->isDone())
                 {
-                    removeAnimation();
+                    removeCurrentAnimator();
+                    sharedEngine->unscheduleUpdate(animationUpdateCallback);
                 }
             }
             else

@@ -40,6 +40,7 @@ namespace ouzel
             virtual void reset() override;
 
         protected:
+            virtual void removeAnimator(Animator* oldAnimator) override;
             virtual void updateProgress() override;
 
             Animator* animator = nullptr;
