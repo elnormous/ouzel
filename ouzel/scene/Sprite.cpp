@@ -29,7 +29,7 @@ namespace ouzel
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
         }
 
-        Sprite::Sprite(const std::vector<SpriteFramePtr>& spriteFrames):
+        Sprite::Sprite(const std::vector<SpriteFrame>& spriteFrames):
             Sprite()
         {
             initFromSpriteFrames(spriteFrames);
@@ -41,7 +41,7 @@ namespace ouzel
             initFromFile(filename, mipmaps);
         }
 
-        bool Sprite::initFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames)
+        bool Sprite::initFromSpriteFrames(const std::vector<SpriteFrame>& spriteFrames)
         {
             frames = spriteFrames;
 
@@ -142,12 +142,12 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
 
-                sharedEngine->getRenderer()->addDrawCommand({ frames[currentFrame]->getTexture() },
+                sharedEngine->getRenderer()->addDrawCommand({ frames[currentFrame].getTexture() },
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             blendState,
-                                                            frames[currentFrame]->getMeshBuffer(),
+                                                            frames[currentFrame].getMeshBuffer(),
                                                             0,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
@@ -178,7 +178,7 @@ namespace ouzel
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             blendState,
-                                                            frames[currentFrame]->getMeshBuffer(),
+                                                            frames[currentFrame].getMeshBuffer(),
                                                             0,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
@@ -272,12 +272,12 @@ namespace ouzel
         {
             if (currentFrame < frames.size())
             {
-                const SpriteFramePtr& frame = frames[currentFrame];
+                const SpriteFrame& frame = frames[currentFrame];
 
-                size.width = frame->getRectangle().width;
-                size.height = frame->getRectangle().height;
+                size.width = frame.getRectangle().width;
+                size.height = frame.getRectangle().height;
 
-                boundingBox = frame->getBoundingBox();
+                boundingBox = frame.getBoundingBox();
                 boundingBox += offset;
             }
             else

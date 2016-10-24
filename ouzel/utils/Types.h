@@ -73,20 +73,12 @@ namespace ouzel
         class Layer;
         class Component;
         class Sprite;
-
         class SpriteFrame;
-        typedef std::shared_ptr<SpriteFrame> SpriteFramePtr;
-
         class Node;
         class Camera;
-
-        struct ParticleDefinition;
-        typedef std::shared_ptr<ParticleDefinition> ParticleDefinitionPtr;
-
         class ParticleSystem;
         class ShapeDrawable;
         class TextDrawable;
-
         class Animator;
     } // namespace scene
 

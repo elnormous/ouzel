@@ -21,10 +21,10 @@ namespace ouzel
         {
         public:
             Sprite();
-            Sprite(const std::vector<SpriteFramePtr>& spriteFrames);
+            Sprite(const std::vector<SpriteFrame>& spriteFrames);
             Sprite(const std::string& filename, bool mipmaps = true);
 
-            virtual bool initFromSpriteFrames(const std::vector<SpriteFramePtr>& spriteFrames);
+            virtual bool initFromSpriteFrames(const std::vector<SpriteFrame>& spriteFrames);
             virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
 
             virtual void update(float delta);
@@ -53,7 +53,7 @@ namespace ouzel
             virtual void reset();
             virtual bool isPlaying() const { return playing; }
 
-            const std::vector<SpriteFramePtr>& getFrames() const { return frames; }
+            const std::vector<SpriteFrame>& getFrames() const { return frames; }
             virtual void setCurrentFrame(uint32_t frame);
 
         protected:
@@ -67,7 +67,7 @@ namespace ouzel
             Vector2 offset;
             Matrix4 offsetMatrix = Matrix4::IDENTITY;
 
-            std::vector<SpriteFramePtr> frames;
+            std::vector<SpriteFrame> frames;
 
             uint32_t currentFrame = 0;
             float frameInterval = 0.0f;

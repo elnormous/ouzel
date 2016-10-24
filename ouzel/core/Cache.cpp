@@ -69,7 +69,7 @@ namespace ouzel
     {
         std::string extension = sharedApplication->getFileSystem()->getExtensionPart(filename);
 
-        std::vector<scene::SpriteFramePtr> frames;
+        std::vector<scene::SpriteFrame> frames;
 
         if (extension == "json")
         {
@@ -86,26 +86,22 @@ namespace ouzel
 
             Rectangle rectangle(0, 0, texture->getSize().width, texture->getSize().height);
 
-            scene::SpriteFramePtr frame = std::make_shared<scene::SpriteFrame>(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+            scene::SpriteFrame frame(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
             frames.push_back(frame);
         }
 
         spriteFrames[filename] = frames;
     }
 
-    std::vector<scene::SpriteFramePtr> Cache::getSpriteFrames(const std::string& filename, bool mipmaps) const
+    const std::vector<scene::SpriteFrame>& Cache::getSpriteFrames(const std::string& filename, bool mipmaps) const
     {
-        std::unordered_map<std::string, std::vector<scene::SpriteFramePtr>>::const_iterator i = spriteFrames.find(filename);
+        auto i = spriteFrames.find(filename);
 
-        if (i != spriteFrames.end())
-        {
-            return i->second;
-        }
-        else
+        if (i == spriteFrames.end())
         {
             std::string extension = sharedApplication->getFileSystem()->getExtensionPart(filename);
 
-            std::vector<scene::SpriteFramePtr> frames;
+            std::vector<scene::SpriteFrame> frames;
 
             if (extension == "json")
             {
@@ -122,17 +118,17 @@ namespace ouzel
 
                 Rectangle rectangle(0.0f, 0.0f, texture->getSize().width, texture->getSize().height);
 
-                scene::SpriteFramePtr frame = std::make_shared<scene::SpriteFrame>(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+                scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
                 frames.push_back(frame);
             }
 
             spriteFrames[filename] = frames;
-
-            return frames;
         }
+
+        return spriteFrames[filename];
     }
 
-    void Cache::setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFramePtr>& frames)
+    void Cache::setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFrame>& frames)
     {
         spriteFrames[filename] = frames;
     }
@@ -163,40 +159,26 @@ namespace ouzel
 
     void Cache::preloadParticleDefinition(const std::string& filename)
     {
-        std::unordered_map<std::string, scene::ParticleDefinitionPtr>::const_iterator i = particleDefinitions.find(filename);
+        std::unordered_map<std::string, scene::ParticleDefinition>::const_iterator i = particleDefinitions.find(filename);
 
         if (i == particleDefinitions.end())
         {
-            scene::ParticleDefinitionPtr result = scene::ParticleDefinition::loadParticleDefinition(filename);
-
-            if (result)
-            {
-                particleDefinitions[filename] = result;
-            }
+            particleDefinitions[filename] = scene::ParticleDefinition::loadParticleDefinition(filename);
         }
     }
 
-    scene::ParticleDefinitionPtr Cache::getParticleDefinition(const std::string& filename) const
+    const scene::ParticleDefinition& Cache::getParticleDefinition(const std::string& filename) const
     {
-        scene::ParticleDefinitionPtr result;
+        scene::ParticleDefinition result;
 
-        std::unordered_map<std::string, scene::ParticleDefinitionPtr>::const_iterator i = particleDefinitions.find(filename);
+        auto i = particleDefinitions.find(filename);
 
-        if (i != particleDefinitions.end())
+        if (i == particleDefinitions.end())
         {
-            return i->second;
-        }
-        else
-        {
-            result = scene::ParticleDefinition::loadParticleDefinition(filename);
-
-            if (result)
-            {
-                particleDefinitions[filename] = result;
-            }
+            particleDefinitions[filename] = scene::ParticleDefinition::loadParticleDefinition(filename);
         }
 
-        return result;
+        return particleDefinitions[filename];
     }
 
     graphics::BlendStatePtr Cache::getBlendState(const std::string& blendStateName) const

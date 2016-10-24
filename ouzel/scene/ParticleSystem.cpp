@@ -263,14 +263,8 @@ namespace ouzel
 
         bool ParticleSystem::initFromFile(const std::string& filename)
         {
-            ParticleDefinitionPtr newParticleDefinition = sharedEngine->getCache()->getParticleDefinition(filename);
+            particleDefinition = sharedEngine->getCache()->getParticleDefinition(filename);
 
-            if (!newParticleDefinition)
-            {
-                return false;
-            }
-
-            particleDefinition = *newParticleDefinition;
             positionType = particleDefinition.positionType;
             texture = sharedEngine->getCache()->getTexture(particleDefinition.textureFilename);
 

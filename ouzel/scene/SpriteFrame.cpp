@@ -19,9 +19,9 @@ namespace ouzel
 {
     namespace scene
     {
-        std::vector<SpriteFramePtr> SpriteFrame::loadSpriteFrames(const std::string& filename, bool mipmaps)
+        std::vector<SpriteFrame> SpriteFrame::loadSpriteFrames(const std::string& filename, bool mipmaps)
         {
-            std::vector<SpriteFramePtr> frames;
+            std::vector<SpriteFrame> frames;
 
             std::vector<uint8_t> data;
             if (!sharedApplication->getFileSystem()->loadFile(filename, data))
@@ -115,13 +115,13 @@ namespace ouzel
                                                                        static_cast<float>(vertexUVObject[1].GetInt()) / textureSize.height)));
                     }
 
-                    frames.push_back(std::make_shared<SpriteFrame>(texture, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
+                    frames.push_back(SpriteFrame(texture, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
                 }
                 else
                 {
                     bool rotated = frameObject["rotated"].GetBool();
 
-                    frames.push_back(std::make_shared<SpriteFrame>(texture, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
+                    frames.push_back(SpriteFrame(texture, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }
             }
 

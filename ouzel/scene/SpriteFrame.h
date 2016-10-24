@@ -5,7 +5,6 @@
 
 #include <string>
 #include <vector>
-#include "utils/Noncopyable.h"
 #include "utils/Types.h"
 #include "math/AABB2.h"
 #include "math/Rectangle.h"
@@ -15,10 +14,10 @@ namespace ouzel
 {
     namespace scene
     {
-        class SpriteFrame: public Noncopyable
+        class SpriteFrame
         {
         public:
-            static std::vector<SpriteFramePtr> loadSpriteFrames(const std::string& filename, bool mipmaps = true);
+            static std::vector<SpriteFrame> loadSpriteFrames(const std::string& filename, bool mipmaps = true);
 
             SpriteFrame(const graphics::TexturePtr& pTexture,
                         const Rectangle& frameRectangle,
