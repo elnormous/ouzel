@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <set>
 #include <queue>
 #include <utility>
 #include <mutex>

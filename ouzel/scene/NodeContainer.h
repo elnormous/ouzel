@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#include <memory>
 #include "utils/Types.h"
 #include "math/Vector2.h"
 #include "utils/Noncopyable.h"
@@ -13,7 +12,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class NodeContainer: public Noncopyable, public std::enable_shared_from_this<NodeContainer>
+        class NodeContainer: public Noncopyable
         {
         public:
             NodeContainer();

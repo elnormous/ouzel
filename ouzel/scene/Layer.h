@@ -4,8 +4,6 @@
 #pragma once
 
 #include <vector>
-#include <memory>
-#include <set>
 #include "utils/Types.h"
 #include "scene/NodeContainer.h"
 #include "math/Size2.h"

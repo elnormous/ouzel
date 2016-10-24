@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <set>
 #include <map>
 #include <dispatch/dispatch.h>
 
