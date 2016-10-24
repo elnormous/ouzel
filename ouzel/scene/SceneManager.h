@@ -27,8 +27,8 @@ namespace ouzel
         protected:
             SceneManager();
 
-            Scene* scene;
-            Scene* nextScene;
+            Scene* scene = nullptr;
+            Scene* nextScene = nullptr;
         };
     } // namespace scene
 } // namespace ouzel
