@@ -134,7 +134,7 @@ namespace ouzel
 
             void updateAnimation(float delta);
 
-            Matrix4 parentTransform = Matrix4::IDENTITY;
+            Matrix4 parentTransform;
             mutable Matrix4 transform;
             mutable Matrix4 inverseTransform;
             mutable Matrix4 localTransform;

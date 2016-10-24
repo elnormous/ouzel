@@ -72,6 +72,7 @@ namespace ouzel
 
             cameras.push_back(camera);
             camera->layer = this;
+            if (!camera->parent) camera->updateTransform(Matrix4::IDENTITY);
             camera->recalculateProjection();
         }
 
