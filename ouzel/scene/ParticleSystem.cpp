@@ -51,7 +51,8 @@ namespace ouzel
 
                 Matrix4 transform;
 
-                if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
+                if (positionType == ParticleDefinition::PositionType::FREE ||
+                    positionType == ParticleDefinition::PositionType::PARENT)
                 {
                     transform = camera->getViewProjection();
                 }
@@ -92,7 +93,8 @@ namespace ouzel
             {
                 Matrix4 transform;
 
-                if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
+                if (positionType == ParticleDefinition::PositionType::FREE ||
+                    positionType == ParticleDefinition::PositionType::PARENT)
                 {
                     transform = camera->getViewProjection();
                 }
@@ -235,7 +237,8 @@ namespace ouzel
                 // Update bounding box
                 boundingBox.reset();
 
-                if (positionType == ParticleDefinition::PositionType::FREE || positionType == ParticleDefinition::PositionType::RELATIVE)
+                if (positionType == ParticleDefinition::PositionType::FREE ||
+                    positionType == ParticleDefinition::PositionType::PARENT)
                 {
                     if (node)
                     {
@@ -357,7 +360,7 @@ namespace ouzel
                     {
                         position = particles[i].position;
                     }
-                    else if (positionType == ParticleDefinition::PositionType::RELATIVE)
+                    else if (positionType == ParticleDefinition::PositionType::PARENT)
                     {
                         position = node->getPosition() + particles[i].position;
                     }
@@ -419,7 +422,7 @@ namespace ouzel
                     {
                         position = node->convertLocalToWorld(Vector2::ZERO);
                     }
-                    else if (positionType == ParticleDefinition::PositionType::RELATIVE)
+                    else if (positionType == ParticleDefinition::PositionType::PARENT)
                     {
                         position = node->convertLocalToWorld(Vector2::ZERO) - node->getPosition();
                     }

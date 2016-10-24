@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "RendererD3D11.h"
+#include "core/Cache.h"
 #include "core/Engine.h"
 #include "TextureD3D11.h"
 #include "ShaderD3D11.h"
@@ -15,7 +16,6 @@
 #include "ColorPSD3D11.h"
 #include "ColorVSD3D11.h"
 #include "scene/Camera.h"
-#include "core/Cache.h"
 #include "events/EventDispatcher.h"
 #include "BlendStateD3D11.h"
 #include "core/windows/WindowWin.h"
@@ -30,6 +30,7 @@ namespace ouzel
         RendererD3D11::RendererD3D11():
             Renderer(Driver::DIRECT3D11), dirty(false)
         {
+            RELATIVE;
             apiMajorVersion = 11;
             apiMinorVersion = 0;
             memset(&rasterizerStates, 0, sizeof(rasterizerStates));
