@@ -18,42 +18,6 @@ namespace ouzel
 {
     namespace scene
     {
-        class SceneManager;
-
-        struct Particle
-        {
-            float life = 0.0f;
-
-            Vector2 position;
-
-            float colorRed = 0.0f;
-            float colorGreen = 0.0f;
-            float colorBlue = 0.0f;
-            float colorAlpha = 0.0f;
-
-            float deltaColorRed = 0.0f;
-            float deltaColorGreen = 0.0f;
-            float deltaColorBlue = 0.0f;
-            float deltaColorAlpha = 0.0f;
-
-            float angle = 0.0f;
-            float speed = 0.0f;
-
-            float size = 0.0f;
-            float deltaSize = 0.0f;
-
-            float rotation = 0.0f;
-            float deltaRotation = 0.0f;
-
-            float radialAcceleration = 0.0f;
-            float tangentialAcceleration = 0.0f;
-
-            Vector2 direction;
-            float radius = 0.0f;
-            float degreesPerSecond = 0.0f;
-            float deltaRadius = 0.0f;
-        };
-
         class ParticleSystem: public Component
         {
         public:
@@ -98,6 +62,40 @@ namespace ouzel
             graphics::TexturePtr texture;
             graphics::TexturePtr whitePixelTexture;
 
+            struct Particle
+            {
+                float life = 0.0f;
+
+                Vector2 position;
+
+                float colorRed = 0.0f;
+                float colorGreen = 0.0f;
+                float colorBlue = 0.0f;
+                float colorAlpha = 0.0f;
+
+                float deltaColorRed = 0.0f;
+                float deltaColorGreen = 0.0f;
+                float deltaColorBlue = 0.0f;
+                float deltaColorAlpha = 0.0f;
+
+                float angle = 0.0f;
+                float speed = 0.0f;
+
+                float size = 0.0f;
+                float deltaSize = 0.0f;
+
+                float rotation = 0.0f;
+                float deltaRotation = 0.0f;
+
+                float radialAcceleration = 0.0f;
+                float tangentialAcceleration = 0.0f;
+                
+                Vector2 direction;
+                float radius = 0.0f;
+                float degreesPerSecond = 0.0f;
+                float deltaRadius = 0.0f;
+            };
+            
             std::vector<Particle> particles;
 
             graphics::MeshBufferPtr meshBuffer;
