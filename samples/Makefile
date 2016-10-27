@@ -50,10 +50,16 @@ EXECUTABLE=samples
 endif
 
 all: $(SOURCES) $(EXECUTABLE)
+ifeq ($(platform),macos)
+all: bundle
+endif
 
 debug: target=debug
 debug: CXXFLAGS+=-DDEBUG -g
 debug: $(SOURCES) $(EXECUTABLE)
+ifeq ($(platform),macos)
+debug: bundle
+endif
 
 $(EXECUTABLE): $(OBJECTS)
 	$(MAKE) -f ../build/Makefile platform=$(platform) $(target)
@@ -67,3 +73,14 @@ $(EXECUTABLE): $(OBJECTS)
 clean:
 	$(MAKE) -f ../build/Makefile clean
 	rm -f $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch
+	rm -rf samples.app
+
+bundle: $(EXECUTABLE)
+	mkdir -p samples.app
+	mkdir -p samples.app/Contents
+	cp -f macos/app/Info.plist samples.app/Contents
+	mkdir -p samples.app/Contents/MacOS
+	cp -f $(EXECUTABLE) samples.app/Contents/MacOS
+	mkdir -p samples.app/Contents/Resources
+	cp -f Resources/* samples.app/Contents/Resources/
+	cp -f macos/app/AppIcon.icns samples.app/Contents/Resources
