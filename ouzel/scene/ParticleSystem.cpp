@@ -431,25 +431,25 @@ namespace ouzel
                     {
                         if (particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
                         {
-                            particles[i].life = fmaxf(particleDefinition.particleLifespan + particleDefinition.particleLifespanVariance * randomf(-1.0f, 1.0f), 0.0f);
+                            particles[i].life = fmaxf(particleDefinition.particleLifespan + particleDefinition.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
 
-                            particles[i].position = particleDefinition.sourcePosition + position + Vector2(particleDefinition.sourcePositionVariance.x * randomf(-1.0f, 1.0f),
-                                                                                                             particleDefinition.sourcePositionVariance.y * randomf(-1.0f, 1.0f));
+                            particles[i].position = particleDefinition.sourcePosition + position + Vector2(particleDefinition.sourcePositionVariance.x * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine),
+                                                                                                             particleDefinition.sourcePositionVariance.y * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
 
-                            particles[i].size = fmaxf(particleDefinition.startParticleSize + particleDefinition.startParticleSizeVariance * randomf(-1.0f, 1.0f), 0.0f);
+                            particles[i].size = fmaxf(particleDefinition.startParticleSize + particleDefinition.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
 
-                            float finishSize = fmaxf(particleDefinition.finishParticleSize + particleDefinition.finishParticleSizeVariance * randomf(-1.0f, 1.0f), 0.0f);
+                            float finishSize = fmaxf(particleDefinition.finishParticleSize + particleDefinition.finishParticleSizeVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
                             particles[i].deltaSize = (finishSize - particles[i].size) / particles[i].life;
 
-                            particles[i].colorRed = clamp(particleDefinition.startColorRed + particleDefinition.startColorRedVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            particles[i].colorGreen = clamp(particleDefinition.startColorGreen + particleDefinition.startColorGreenVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            particles[i].colorBlue = clamp(particleDefinition.startColorBlue + particleDefinition.startColorBlueVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            particles[i].colorAlpha = clamp(particleDefinition.startColorAlpha + particleDefinition.startColorAlphaVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            particles[i].colorRed = clamp(particleDefinition.startColorRed + particleDefinition.startColorRedVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
+                            particles[i].colorGreen = clamp(particleDefinition.startColorGreen + particleDefinition.startColorGreenVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
+                            particles[i].colorBlue = clamp(particleDefinition.startColorBlue + particleDefinition.startColorBlueVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
+                            particles[i].colorAlpha = clamp(particleDefinition.startColorAlpha + particleDefinition.startColorAlphaVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
 
-                            float finishColorRed = clamp(particleDefinition.finishColorRed + particleDefinition.finishColorRedVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            float finishColorGreen = clamp(particleDefinition.finishColorGreen + particleDefinition.finishColorGreenVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            float finishColorBlue = clamp(particleDefinition.finishColorBlue + particleDefinition.finishColorBlueVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
-                            float finishColorAlpha = clamp(particleDefinition.finishColorAlpha + particleDefinition.finishColorAlphaVariance * randomf(-1.0f, 1.0f), 0.0f, 1.0f);
+                            float finishColorRed = clamp(particleDefinition.finishColorRed + particleDefinition.finishColorRedVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
+                            float finishColorGreen = clamp(particleDefinition.finishColorGreen + particleDefinition.finishColorGreenVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
+                            float finishColorBlue = clamp(particleDefinition.finishColorBlue + particleDefinition.finishColorBlueVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
+                            float finishColorAlpha = clamp(particleDefinition.finishColorAlpha + particleDefinition.finishColorAlphaVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
 
                             particles[i].deltaColorRed = (finishColorRed - particles[i].colorRed) / particles[i].life;
                             particles[i].deltaColorGreen = (finishColorGreen - particles[i].colorGreen) / particles[i].life;
@@ -458,39 +458,39 @@ namespace ouzel
 
                             //_particles[i].finishColor = finishColor;
 
-                            particles[i].rotation = particleDefinition.startRotation + particleDefinition.startRotationVariance * randomf(-1.0f, 1.0f);
+                            particles[i].rotation = particleDefinition.startRotation + particleDefinition.startRotationVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
 
-                            float finishRotation = particleDefinition.finishRotation + particleDefinition.finishRotationVariance * randomf(-1.0f, 1.0f);
+                            float finishRotation = particleDefinition.finishRotation + particleDefinition.finishRotationVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
                             particles[i].deltaRotation = (finishRotation - particles[i].rotation) / particles[i].life;
 
-                            particles[i].radialAcceleration = particleDefinition.radialAcceleration + particleDefinition.radialAcceleration * randomf(-1.0f, 1.0f);
-                            particles[i].tangentialAcceleration = particleDefinition.tangentialAcceleration + particleDefinition.tangentialAcceleration * randomf(-1.0f, 1.0f);
+                            particles[i].radialAcceleration = particleDefinition.radialAcceleration + particleDefinition.radialAcceleration * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
+                            particles[i].tangentialAcceleration = particleDefinition.tangentialAcceleration + particleDefinition.tangentialAcceleration * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
 
                             if (particleDefinition.rotationIsDir)
                             {
-                                float a = degToRad(particleDefinition.angle + particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
+                                float a = degToRad(particleDefinition.angle + particleDefinition.angleVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
                                 Vector2 v(cosf(a), sinf(a));
-                                float s = particleDefinition.speed + particleDefinition.speedVariance * randomf(-1.0f, 1.0f);
+                                float s = particleDefinition.speed + particleDefinition.speedVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
                                 Vector2 dir = v * s;
                                 particles[i].direction = dir;
                                 particles[i].rotation = -radToDeg(dir.getAngle());
                             }
                             else
                             {
-                                float a = degToRad(particleDefinition.angle + particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
+                                float a = degToRad(particleDefinition.angle + particleDefinition.angleVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
                                 Vector2 v(cosf(a), sinf(a));
-                                float s = particleDefinition.speed + particleDefinition.speedVariance * randomf(-1.0f, 1.0f);
+                                float s = particleDefinition.speed + particleDefinition.speedVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
                                 Vector2 dir = v * s;
                                 particles[i].direction = dir;
                             }
                         }
                         else
                         {
-                            particles[i].radius = particleDefinition.maxRadius + particleDefinition.maxRadiusVariance * randomf(-1.0f, 1.0f);
-                            particles[i].angle = degToRad(particleDefinition.angle + particleDefinition.angleVariance * randomf(-1.0f, 1.0f));
-                            particles[i].degreesPerSecond = degToRad(particleDefinition.rotatePerSecond + particleDefinition.rotatePerSecondVariance * randomf(-1.0f, 1.0f));
+                            particles[i].radius = particleDefinition.maxRadius + particleDefinition.maxRadiusVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
+                            particles[i].angle = degToRad(particleDefinition.angle + particleDefinition.angleVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
+                            particles[i].degreesPerSecond = degToRad(particleDefinition.rotatePerSecond + particleDefinition.rotatePerSecondVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
 
-                            float endRadius = particleDefinition.minRadius + particleDefinition.minRadiusVariance * randomf(-1.0f, 1.0f);
+                            float endRadius = particleDefinition.minRadius + particleDefinition.minRadiusVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
                             particles[i].deltaRadius = (endRadius - particles[i].radius) / particles[i].life;
                         }
                     }

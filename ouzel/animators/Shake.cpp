@@ -14,8 +14,8 @@ namespace ouzel
         Shake::Shake(float aLength, const Vector2& aDistance, float aTimeScale):
             Animator(aLength), distance(aDistance), timeScale(aTimeScale)
         {
-            seedX = random();
-            seedY = random();
+            seedX = std::uniform_int_distribution<uint32_t>{0, std::numeric_limits<uint32_t>::max()}(randomEngine);
+            seedY = std::uniform_int_distribution<uint32_t>{0, std::numeric_limits<uint32_t>::max()}(randomEngine);
         }
 
         void Shake::start(Node* newTargetNode)

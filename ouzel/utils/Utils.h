@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <limits>
 #include <functional>
+#include <random>
 
 #include "core/CompileConfig.h"
 #if OUZEL_PLATFORM_ANDROID
@@ -39,8 +40,7 @@ namespace ouzel
     extern AnrdoidNEONChecker anrdoidNEONChecker;
 #endif
 
-    uint32_t random(uint32_t min = 0, uint32_t max = std::numeric_limits<uint32_t>::max());
-    float randomf(float min = 0.0f, float max = 1.0f);
+    extern std::mt19937 randomEngine;
 
     inline uint32_t readUInt32Big(const uint8_t* buffer)
     {
