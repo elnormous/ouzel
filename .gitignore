@@ -30,3 +30,4 @@ samples/sprite/win/x64/
 samples/samples
 samples/samples.js
 samples/samples.js.mem
+*.gch

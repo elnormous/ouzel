@@ -13,7 +13,7 @@ ifeq ($(platform),emscripten)
 CC=emcc
 CXX=em++
 endif
-CXXFLAGS=-c -std=c++11 -Wall -O2 -I../ouzel -Winvalid-pch -include linux/Prefix.h
+CXXFLAGS=-c -std=c++11 -Wall -O2 -I../ouzel -Winvalid-pch -include Prefix.hpp
 LDFLAGS=-O2 -L. -louzel
 ifeq ($(platform),raspbian)
 CXXFLAGS+=-DRASPBIAN
@@ -57,6 +57,7 @@ debug: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
 	$(MAKE) -f ../build/Makefile platform=$(platform) $(target)
+	$(CXX) $(CXXFLAGS) Prefix.hpp
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 .cpp.o:
@@ -65,4 +66,4 @@ $(EXECUTABLE): $(OBJECTS)
 .PHONY: clean
 clean:
 	$(MAKE) -f ../build/Makefile clean
-	rm -f $(EXECUTABLE) *.o *.js.mem *.js
+	rm -f $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch
