@@ -18,6 +18,7 @@ namespace ouzel
         @autoreleasepool
         {
             NSApplication* application = [NSApplication sharedApplication];
+            [application activateIgnoringOtherApps : YES];
 
             AppDelegate* appDelegate = [[[AppDelegate alloc] init] autorelease];
             [application setDelegate:appDelegate];
