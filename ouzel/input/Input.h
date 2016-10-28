@@ -4,7 +4,6 @@
 #pragma once
 
 #include <map>
-#include <memory>
 #include "utils/Noncopyable.h"
 #include "utils/Types.h"
 #include "math/Vector2.h"

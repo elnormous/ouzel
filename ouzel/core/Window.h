@@ -4,10 +4,8 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include "utils/Noncopyable.h"
 #include "math/Size2.h"
-#include "graphics/Renderer.h"
 
 namespace ouzel
 {
