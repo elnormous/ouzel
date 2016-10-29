@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include <memory>
 #include <cmath>
 #include <cassert>
 #include "Matrix4.h"
