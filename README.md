@@ -54,7 +54,7 @@ The following code will open a 640px x 480px window:
 
     ouzel::Engine engine;
 
-    ouzel::AppPtr ouzelMain(const std::vector<std::string>& args)
+    void ouzelMain(const std::vector<std::string>& args)
     {
         ouzel::Settings settings;
         settings.size = ouzel::Size2(640.0f, 480.0f);
