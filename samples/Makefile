@@ -49,16 +49,24 @@ else
 EXECUTABLE=samples
 endif
 
-all: $(EXECUTABLE)
-ifeq ($(platform),macos)
 all: bundle
-endif
 
 debug: target=debug
 debug: CXXFLAGS+=-DDEBUG -g
-debug: $(EXECUTABLE)
-ifeq ($(platform),macos)
 debug: bundle
+
+.PHONY: bundle
+bundle: $(EXECUTABLE)
+ifeq ($(platform),macos)
+bundle:
+	mkdir -p samples.app
+	mkdir -p samples.app/Contents
+	cp -f macos/app/Info.plist samples.app/Contents
+	mkdir -p samples.app/Contents/MacOS
+	cp -f $(EXECUTABLE) samples.app/Contents/MacOS
+	mkdir -p samples.app/Contents/Resources
+	cp -f Resources/* samples.app/Contents/Resources/
+	cp -f macos/app/AppIcon.icns samples.app/Contents/Resources
 endif
 
 $(EXECUTABLE): $(OBJECTS)
@@ -74,13 +82,3 @@ clean:
 	$(MAKE) -f ../build/Makefile clean
 	rm -f $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch
 	rm -rf samples.app
-
-bundle: $(EXECUTABLE)
-	mkdir -p samples.app
-	mkdir -p samples.app/Contents
-	cp -f macos/app/Info.plist samples.app/Contents
-	mkdir -p samples.app/Contents/MacOS
-	cp -f $(EXECUTABLE) samples.app/Contents/MacOS
-	mkdir -p samples.app/Contents/Resources
-	cp -f Resources/* samples.app/Contents/Resources/
-	cp -f macos/app/AppIcon.icns samples.app/Contents/Resources
