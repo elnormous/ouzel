@@ -158,7 +158,7 @@ TMP=$(SOURCES:.cpp=.o)
 OBJECTS=$(TMP:.mm=.o)
 LIBRARY=libouzel.a
 
-all: $(SOURCES) $(LIBRARY)
+all: $(LIBRARY)
 
 debug: CXXFLAGS+=-DDEBUG -g
 debug: $(SOURCES) $(LIBRARY)

@@ -49,14 +49,14 @@ else
 EXECUTABLE=samples
 endif
 
-all: $(SOURCES) $(EXECUTABLE)
+all: $(EXECUTABLE)
 ifeq ($(platform),macos)
 all: bundle
 endif
 
 debug: target=debug
 debug: CXXFLAGS+=-DDEBUG -g
-debug: $(SOURCES) $(EXECUTABLE)
+debug: $(EXECUTABLE)
 ifeq ($(platform),macos)
 debug: bundle
 endif
