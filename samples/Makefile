@@ -72,13 +72,20 @@ bundle:
 	cp -f macos/app/AppIcon.icns samples.app/Contents/Resources
 endif
 
-$(EXECUTABLE): $(OBJECTS)
-	$(MAKE) -f ../build/Makefile platform=$(platform) $(target)
-	$(CXX) $(CXXFLAGS) Prefix.hpp
+$(EXECUTABLE): ouzel $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
-.cpp.o:
+$(OBJECTS): Prefix.hpp.gch
+
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
+
+%.hpp.gch: %.hpp
+	$(CXX) $(CXXFLAGS) $< -o $@
+
+.PHONY: ouzel
+ouzel:
+	$(MAKE) -f ../build/Makefile platform=$(platform) $(target)
 
 .PHONY: clean
 clean:
