@@ -22,9 +22,9 @@ InputSample::InputSample(Samples& aSamples):
     layer.addCamera(&camera);
     addLayer(&layer);
 
-    flameParticleSystem.reset(new scene::ParticleSystem("flame.json"));
+    flameParticleSystem.initFromFile("flame.json");
 
-    flame.addComponent(flameParticleSystem.get());
+    flame.addComponent(&flameParticleSystem);
     flame.setPickable(false);
     layer.addChild(&flame);
 
