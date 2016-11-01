@@ -28,13 +28,6 @@ void Samples::begin(const std::string& sample)
     sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
     sharedEngine->getWindow()->setTitle("Samples");
 
-    setSample(sample);
-}
-
-void Samples::setSample(const std::string& sample)
-{
-    currentScene.reset();
-
     if (!sample.empty())
     {
         if (sample == "sprites")
@@ -69,4 +62,14 @@ void Samples::setSample(const std::string& sample)
     }
 
     sharedEngine->getSceneManager()->setScene(currentScene.get());
+}
+
+void Samples::setScene(std::unique_ptr<ouzel::scene::Scene>&& scene)
+{
+    currentScene = std::forward<std::unique_ptr<ouzel::scene::Scene>>(scene);
+
+    if (currentScene)
+    {
+        sharedEngine->getSceneManager()->setScene(currentScene.get());
+    }
 }

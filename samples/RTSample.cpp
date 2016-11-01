@@ -40,8 +40,8 @@ RTSample::RTSample(Samples& aSamples):
     scene::SpriteFrame rtFrame(renderTarget->getTexture(), Rectangle(0.0f, 0.0f, 256.0f, 256.0f), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
     std::vector<scene::SpriteFrame> spriteFrames = { rtFrame };
-    rtSprite.reset(new scene::Sprite(spriteFrames));
-    rtNode.addComponent(rtSprite.get());
+    rtSprite.initFromSpriteFrames(spriteFrames);
+    rtNode.addComponent(&rtSprite);
     layer.addChild(&rtNode);
 
     guiLayer.addCamera(&guiCamera);
@@ -57,7 +57,7 @@ bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE && event.node == &backButton)
     {
-        samples.setSample("");
+        samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
     }
 
     return true;
@@ -70,7 +70,7 @@ bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) cons
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setSample("");
+                samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
                 break;
             default:
                 break;

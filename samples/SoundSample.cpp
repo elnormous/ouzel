@@ -50,7 +50,7 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == &backButton)
         {
-            samples.setSample("");
+            samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
         }
         else if (event.node == &jumpButton)
         {
@@ -72,7 +72,7 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setSample("");
+                samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
                 break;
             default:
                 break;

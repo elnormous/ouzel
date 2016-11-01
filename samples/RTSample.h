@@ -27,7 +27,7 @@ private:
     ouzel::scene::Sprite characterSprite;
     ouzel::scene::Node rtCharacter;
 
-    std::unique_ptr<ouzel::scene::Sprite> rtSprite;
+    ouzel::scene::Sprite rtSprite;
     ouzel::scene::Node rtNode;
 
     ouzel::EventHandler eventHandler;

@@ -2,6 +2,12 @@
 // This file is part of the Ouzel engine.
 
 #include "MainMenu.h"
+#include "SpritesSample.h"
+#include "GUISample.h"
+#include "RTSample.h"
+#include "AnimationsSample.h"
+#include "InputSample.h"
+#include "SoundSample.h"
 
 using namespace std;
 using namespace ouzel;
@@ -63,27 +69,27 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
     {
         if (event.node == &spritesButton)
         {
-            samples.setSample("sprites");
+            samples.setScene(std::unique_ptr<SpritesSample>(new SpritesSample(samples)));
         }
         else if (event.node == &guiButton)
         {
-            samples.setSample("gui");
+            samples.setScene(std::unique_ptr<GUISample>(new GUISample(samples)));
         }
         else if (event.node == &renderTargetButton)
         {
-            samples.setSample("render_target");
+            samples.setScene(std::unique_ptr<RTSample>(new RTSample(samples)));
         }
         else if (event.node == &animationsButton)
         {
-            samples.setSample("animations");
+            samples.setScene(std::unique_ptr<AnimationsSample>(new AnimationsSample(samples)));
         }
         else if (event.node == &inputButton)
         {
-            samples.setSample("input");
+            samples.setScene(std::unique_ptr<InputSample>(new InputSample(samples)));
         }
         else if (event.node == &soundButton)
         {
-            samples.setSample("sound");
+            samples.setScene(std::unique_ptr<SoundSample>(new SoundSample(samples)));
         }
     }
 

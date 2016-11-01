@@ -19,10 +19,10 @@ private:
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
 
-    std::unique_ptr<ouzel::scene::Sprite> characterSprite;
-    std::unique_ptr<ouzel::scene::Sprite> fireSprite;
+    ouzel::scene::Sprite characterSprite;
+    ouzel::scene::Sprite fireSprite;
     ouzel::scene::Node fireNode;
-    std::unique_ptr<ouzel::scene::Sprite> triangleSprite;
+    ouzel::scene::Sprite triangleSprite;
     ouzel::scene::Node triangleNode;
 
     std::unique_ptr<ouzel::scene::Animator> move;
