@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "utils/Types.h"
 #include "utils/Noncopyable.h"
 
 namespace ouzel
@@ -12,6 +11,8 @@ namespace ouzel
 
     namespace scene
     {
+        class Scene;
+        
         class SceneManager: public Noncopyable
         {
             friend Engine;

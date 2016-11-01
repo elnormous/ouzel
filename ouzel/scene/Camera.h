@@ -4,6 +4,7 @@
 #pragma once
 
 #include "scene/Node.h"
+#include "math/Rectangle.h"
 
 namespace ouzel
 {

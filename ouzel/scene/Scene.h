@@ -9,7 +9,6 @@
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "math/Vector2.h"
-#include "math/Rectangle.h"
 #include "events/EventHandler.h"
 
 namespace ouzel

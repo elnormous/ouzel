@@ -9,7 +9,6 @@
 #include "scene/NodeContainer.h"
 #include "math/Vector2.h"
 #include "math/Matrix4.h"
-#include "math/Rectangle.h"
 #include "math/AABB2.h"
 #include "graphics/Color.h"
 #include "core/UpdateCallback.h"

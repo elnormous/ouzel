@@ -4,18 +4,16 @@
 #pragma once
 
 #include <vector>
-#include "utils/Types.h"
 #include "scene/NodeContainer.h"
-#include "math/Size2.h"
-#include "math/Matrix4.h"
 #include "math/Vector2.h"
-#include "math/Rectangle.h"
 
 namespace ouzel
 {
     namespace scene
     {
         class Scene;
+        class Node;
+        class Camera;
 
         class Layer: public NodeContainer
         {
