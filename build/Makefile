@@ -154,8 +154,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/emscripten/ApplicationEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/emscripten/RendererOGLEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputEm.cpp
 endif
-TMP=$(SOURCES:.cpp=.o)
-OBJECTS=$(TMP:.mm=.o)
+BASE_NAMES=$(basename $(SOURCES))
+OBJECTS=$(BASE_NAMES:=.o)
 LIBRARY=libouzel.a
 
 all: $(LIBRARY)

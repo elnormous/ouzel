@@ -42,7 +42,8 @@ SOURCES=AnimationsSample.cpp \
 	SoundSample.cpp \
 	SpritesSample.cpp \
 	RTSample.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
+BASE_NAMES=$(basename $(SOURCES))
+OBJECTS=$(BASE_NAMES:=.o)
 ifeq ($(platform),emscripten)
 EXECUTABLE=samples.js
 else
