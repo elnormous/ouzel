@@ -50,8 +50,10 @@ else
 EXECUTABLE=samples
 endif
 
+.PHONY: all
 all: bundle
 
+.PHONY: debug
 debug: target=debug
 debug: CXXFLAGS+=-DDEBUG -g
 debug: bundle

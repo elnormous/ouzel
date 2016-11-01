@@ -158,8 +158,10 @@ BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)
 LIBRARY=libouzel.a
 
+.PHONY: all
 all: $(LIBRARY)
 
+.PHONY: debug
 debug: CXXFLAGS+=-DDEBUG -g
 debug: $(LIBRARY)
 
