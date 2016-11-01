@@ -161,7 +161,7 @@ LIBRARY=libouzel.a
 all: $(LIBRARY)
 
 debug: CXXFLAGS+=-DDEBUG -g
-debug: $(SOURCES) $(LIBRARY)
+debug: $(LIBRARY)
 
 $(LIBRARY): $(OBJECTS)
 	$(AR) rs $@ $^
