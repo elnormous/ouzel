@@ -72,7 +72,7 @@ namespace ouzel
             {
                 if (!child->isHidden())
                 {
-                    child->visit(drawQueue, transform, updateChildrenTransform, camera, newParentZ + z);
+                    child->visit(drawQueue, transform, updateChildrenTransform, camera, newParentZ + position.z);
                 }
             }
 
@@ -130,15 +130,7 @@ namespace ouzel
             }
         }
 
-        void Node::setZ(float newZ)
-        {
-            z = newZ;
-
-            // Currently z does not affect transformation
-            //localTransformDirty = transformDirty = inverseTransformDirty = true;
-        }
-
-        void Node::setPosition(const Vector2& newPosition)
+        void Node::setPosition(const Vector3& newPosition)
         {
             position = newPosition;
 

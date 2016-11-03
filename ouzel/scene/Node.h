@@ -33,11 +33,8 @@ namespace ouzel
             virtual void setName(const std::string& newName) { name = newName; }
             virtual const std::string& getName() const { return name; }
 
-            virtual void setZ(float newZ);
-            virtual float getZ() const { return z; }
-
-            virtual void setPosition(const Vector2& newPosition);
-            virtual const Vector2& getPosition() const { return position; }
+            virtual void setPosition(const Vector3& newPosition);
+            virtual const Vector3& getPosition() const { return position; }
 
             virtual void setRotation(float newRotation);
             virtual float getRotation() const { return rotation; }
@@ -97,7 +94,7 @@ namespace ouzel
             virtual void updateTransform(const Matrix4& newParentTransform);
 
             Vector2 getWorldPosition() const;
-            float getWorldZ() const { return parentZ + z; }
+            float getWorldZ() const { return parentZ + position.z; }
 
             Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
             Vector2 convertLocalToWorld(const Vector2& localPosition) const;
@@ -151,13 +148,12 @@ namespace ouzel
 
             std::string name;
 
-            Vector2 position;
+            Vector3 position;
             float rotation = 0.0f;
             Vector2 scale = Vector2(1.0f, 1.0f);
             graphics::Color color = graphics::Color::WHITE;
             float opacity = 1.0f;
             float parentZ = 0.0f;
-            float z = 0.0f;
 
             Animator* currentAnimator = nullptr;
             std::vector<Component*> components;
