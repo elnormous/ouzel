@@ -42,7 +42,7 @@ namespace ouzel
                          const Matrix4& newTransformMatrix,
                          bool parentTransformDirty,
                          Camera* camera,
-                         uint32_t parentOrder)
+                         int32_t parentOrder)
         {
             worldOrder = parentOrder + order;
 

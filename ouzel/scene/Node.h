@@ -98,7 +98,7 @@ namespace ouzel
             virtual void updateTransform(const Matrix4& newParentTransform);
 
             Vector3 getWorldPosition() const;
-            uint32_t getWorldOrder() const { return worldOrder; }
+            int32_t getWorldOrder() const { return worldOrder; }
 
             Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
             Vector2 convertLocalToWorld(const Vector2& localPosition) const;
@@ -122,7 +122,7 @@ namespace ouzel
                                const Matrix4& newParentTransform,
                                bool parentTransformDirty,
                                Camera* camera,
-                               uint32_t parentOrder);
+                               int32_t parentOrder);
             virtual void draw(Camera* camera);
             virtual void drawWireframe(Camera* camera);
 
@@ -157,8 +157,8 @@ namespace ouzel
             Vector2 scale = Vector2(1.0f, 1.0f);
             graphics::Color color = graphics::Color::WHITE;
             float opacity = 1.0f;
-            uint32_t worldOrder = 0;
-            uint32_t order = 0;
+            int32_t worldOrder = 0;
+            int32_t order = 0;
 
             Animator* currentAnimator = nullptr;
             std::vector<Component*> components;
