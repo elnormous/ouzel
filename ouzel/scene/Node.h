@@ -33,6 +33,7 @@ namespace ouzel
             virtual void setName(const std::string& newName) { name = newName; }
             virtual const std::string& getName() const { return name; }
 
+            virtual void setPosition(const Vector2& newPosition);
             virtual void setPosition(const Vector3& newPosition);
             virtual const Vector3& getPosition() const { return position; }
 

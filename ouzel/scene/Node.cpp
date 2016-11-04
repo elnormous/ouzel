@@ -130,6 +130,14 @@ namespace ouzel
             }
         }
 
+        void Node::setPosition(const Vector2& newPosition)
+        {
+            position.x = newPosition.x;
+            position.y = newPosition.y;
+
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
+        }
+
         void Node::setPosition(const Vector3& newPosition)
         {
             position = newPosition;
