@@ -130,6 +130,10 @@ namespace ouzel
          */
         static void createPerspective(float fieldOfView, float aspectRatio, float zNearPlane, float zFarPlane, Matrix4& dst);
 
+        static void createPerspectiveFromSize(float width, float height, float fieldOfView, float zNearPlane, float zFarPlane, Matrix4& dst);
+        static void createPerspectiveOffCenter(float left, float right, float bottom, float top,
+                                               float fieldOfView, float zNearPlane, float zFarPlane, Matrix4& dst);
+
         /**
          * Creates an orthographic projection matrix.
          *
@@ -139,7 +143,7 @@ namespace ouzel
          * @param zFarPlane The maximum z-value of the view volume.
          * @param dst A matrix to store the result in.
          */
-        static void createOrthographic(float width, float height, float zNearPlane, float zFarPlane, Matrix4& dst);
+        static void createOrthographicFromSize(float width, float height, float zNearPlane, float zFarPlane, Matrix4& dst);
 
         /**
          * Creates an orthographic projection matrix.

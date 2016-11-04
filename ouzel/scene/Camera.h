@@ -4,6 +4,7 @@
 #pragma once
 
 #include "scene/Node.h"
+#include "math/MathUtils.h"
 #include "math/Rectangle.h"
 
 namespace ouzel
@@ -16,6 +17,12 @@ namespace ouzel
         {
             friend Layer;
         public:
+            enum class Type
+            {
+                ORTHOGRAPHIC,
+                PERSPECTIVE
+            };
+
             enum class ScaleMode
             {
                 NONE,
@@ -24,7 +31,7 @@ namespace ouzel
                 SHOW_ALL
             };
 
-            Camera();
+            Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = TAU / 6.0f);
             virtual ~Camera();
 
             const Matrix4& getProjection() const { return projection; }
@@ -59,6 +66,9 @@ namespace ouzel
 
         protected:
             virtual void calculateLocalTransform() const override;
+
+            Type type;
+            float fov;
 
             Matrix4 projection = Matrix4::IDENTITY;
             Matrix4 inverseProjection = Matrix4::IDENTITY;

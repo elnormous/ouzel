@@ -16,7 +16,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Camera::Camera()
+        Camera::Camera(Type aType, float aFov):
+            type(aType), fov(aFov)
         {
         }
 
@@ -77,7 +78,15 @@ namespace ouzel
                 contentScale = Vector2(1.0f, 1.0f);
             }
 
-            Matrix4::createOrthographic(contentSize.width, contentSize.height, -1.0f, 1.0f, projection);
+            switch (type)
+            {
+                case Type::ORTHOGRAPHIC:
+                    Matrix4::createOrthographicFromSize(contentSize.width, contentSize.height, -1.0f, 1.0f, projection);
+                    break;
+                case Type::PERSPECTIVE:
+                    Matrix4::createPerspectiveFromSize(contentSize.width, contentSize.height, fov, -1.0f, 1.0f, projection);
+                    break;
+            }
 
             inverseProjection = projection;
             inverseProjection.invert();
