@@ -50,7 +50,7 @@ namespace ouzel
         return x + 1;
     }
 
-    template <typename T> int sgn(T val)
+    template<typename T> int sgn(T val)
     {
         return (T(0) < val) - (val < T(0));
     }
