@@ -37,8 +37,8 @@ namespace ouzel
             virtual void setPosition(const Vector3& newPosition);
             virtual const Vector3& getPosition() const { return position; }
 
-            void setOrder(uint32_t newOrder) { order = newOrder; }
-            uint32_t getOrder() const { return order; }
+            void setOrder(int32_t newOrder) { order = newOrder; }
+            int32_t getOrder() const { return order; }
 
             virtual void setRotation(float newRotation);
             virtual float getRotation() const { return rotation; }
