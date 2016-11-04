@@ -42,9 +42,9 @@ namespace ouzel
                          const Matrix4& newTransformMatrix,
                          bool parentTransformDirty,
                          Camera* camera,
-                         float newParentZ)
+                         uint32_t parentOrder)
         {
-            parentZ = newParentZ;
+            worldOrder = parentOrder + order;
 
             if (parentTransformDirty)
             {
@@ -62,7 +62,7 @@ namespace ouzel
             {
                 auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(), this,
                                                    [](Node* a, Node* b) {
-                                                       return a->getWorldZ() > b->getWorldZ();
+                                                       return a->worldOrder > b->worldOrder;
                                                    });
 
                 drawQueue.insert(upperBound, this);
@@ -72,7 +72,7 @@ namespace ouzel
             {
                 if (!child->isHidden())
                 {
-                    child->visit(drawQueue, transform, updateChildrenTransform, camera, newParentZ + position.z);
+                    child->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder);
                 }
             }
 
@@ -235,12 +235,12 @@ namespace ouzel
             transformDirty = inverseTransformDirty = true;
         }
 
-        Vector2 Node::getWorldPosition() const
+        Vector3 Node::getWorldPosition() const
         {
             Vector3 result = position;
             getTransform().transformPoint(result);
 
-            return Vector2(position.x, position.y);
+            return position;
         }
 
         Vector2 Node::convertWorldToLocal(const Vector2& worldPosition) const
@@ -308,7 +308,7 @@ namespace ouzel
         void Node::calculateLocalTransform() const
         {
             localTransform = Matrix4::IDENTITY;
-            localTransform.translate(Vector3(position.x, position.y, 0.0f));
+            localTransform.translate(position);
             if (rotation != 0.0f) localTransform.rotateZ(-rotation);
 
             Vector3 realScale = Vector3(scale.x * (flipX ? -1.0f : 1.0f),

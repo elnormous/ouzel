@@ -113,7 +113,7 @@ namespace ouzel
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
                                                            [](Node* a, Node* b) {
-                                                               return a->getWorldZ() < b->getWorldZ();
+                                                               return a->worldOrder < b->worldOrder;
                                                            });
 
                         nodes.insert(upperBound, node);
@@ -136,7 +136,7 @@ namespace ouzel
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
                                                            [](Node* a, Node* b) {
-                                                               return a->getWorldZ() < b->getWorldZ();
+                                                               return a->worldOrder < b->worldOrder;
                                                            });
 
                         nodes.insert(upperBound, node);

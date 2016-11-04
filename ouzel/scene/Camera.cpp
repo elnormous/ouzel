@@ -99,10 +99,10 @@ namespace ouzel
         void Camera::calculateLocalTransform() const
         {
             Matrix4 translationMatrix = Matrix4::IDENTITY;
-            translationMatrix.translate(-position.x, -position.y, 0.0f);
+            translationMatrix.translate(-position);
 
             Matrix4 rotationMatrix = Matrix4::IDENTITY;
-            rotationMatrix.rotate(Vector3(0.0f, 0.0f, -1.0f), -rotation);
+            rotationMatrix.rotateZ(rotation);
 
             Matrix4 scaleMatrix = Matrix4::IDENTITY;
             Vector3 inverseScale(0.0f, 0.0f, 1.0f);
