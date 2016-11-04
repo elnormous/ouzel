@@ -27,9 +27,14 @@ namespace ouzel
         set(p1, p2);
     }
 
-    Vector3::Vector3(const Vector2& v)
+    Vector3::Vector3(const Vector2& v):
+        x(v.x), y(v.y), z(0.0f)
     {
-        set(v.x, v.y, 0.0f);
+    }
+
+    Vector3::Vector3(const Vector2& v, float aZ):
+    x(v.x), y(v.y), z(aZ)
+    {
     }
 
     Vector3& Vector3::operator=(const Vector2& v)

@@ -79,6 +79,7 @@ namespace ouzel
         }
 
         Vector3(const Vector2& v);
+        Vector3(const Vector2& v, float aZ);
 
         Vector3& operator=(const Vector2& v);
 
