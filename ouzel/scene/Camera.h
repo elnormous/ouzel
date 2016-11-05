@@ -31,7 +31,7 @@ namespace ouzel
                 SHOW_ALL
             };
 
-            Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = TAU / 6.0f);
+            Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = 60.0f);
             virtual ~Camera();
 
             const Matrix4& getProjection() const { return projection; }
@@ -70,8 +70,8 @@ namespace ouzel
             Type type;
             float fov;
 
-            Matrix4 projection = Matrix4::IDENTITY;
-            Matrix4 inverseProjection = Matrix4::IDENTITY;
+            Matrix4 projection;
+            Matrix4 inverseProjection;
 
             Rectangle viewport = Rectangle(0.0f, 0.0f, 1.0f, 1.0f);
             Rectangle renderViewport;
@@ -83,7 +83,7 @@ namespace ouzel
             Vector2 contentPosition;
 
             mutable bool viewProjectionDirty = false;
-            mutable Matrix4 viewProjection = Matrix4::IDENTITY;
+            mutable Matrix4 viewProjection;
 
             Layer* layer = nullptr;
 
