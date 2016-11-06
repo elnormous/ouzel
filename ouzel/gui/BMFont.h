@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include "utils/Types.h"
 #include "graphics/Color.h"
 #include "graphics/Texture.h"
@@ -49,7 +50,7 @@ namespace ouzel
         int16_t pages = 0;
         int16_t outline = 0;
         uint16_t kernCount = 0;
-        std::map<uint32_t, CharDescriptor> chars;
+        std::unordered_map<uint32_t, CharDescriptor> chars;
         std::map<std::pair<uint32_t, uint32_t>, int16_t> kern;
         graphics::TexturePtr texture;
     };

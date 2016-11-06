@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <map>
+#include <unordered_map>
 #include "utils/Noncopyable.h"
 #include "utils/Types.h"
 #include "math/Vector2.h"
@@ -251,7 +251,7 @@ namespace ouzel
             bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
             bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
 
-            std::map<uint64_t, Vector2> touchPositions;
+            std::unordered_map<uint64_t, Vector2> touchPositions;
         };
     } // namespace input
 } // namespace ouzel

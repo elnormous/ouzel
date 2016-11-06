@@ -4,7 +4,7 @@
 #pragma once
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <cstdint>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
@@ -55,7 +55,7 @@ namespace ouzel
             std::vector<Layer*> layers;
             ouzel::EventHandler eventHandler;
 
-            std::map<uint64_t, scene::Node*> pointerDownOnNodes;
+            std::unordered_map<uint64_t, scene::Node*> pointerDownOnNodes;
 
             bool entered = false;
         };

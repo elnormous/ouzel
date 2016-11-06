@@ -135,7 +135,7 @@ namespace ouzel
                     else if (key == "page") converter >> c.page;
                 }
 
-                chars.insert(std::map<int32_t, CharDescriptor>::value_type(charId, c));
+                chars.insert(std::unordered_map<int32_t, CharDescriptor>::value_type(charId, c));
             }
             else if (read == "kernings")
             {
@@ -197,7 +197,7 @@ namespace ouzel
 
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {
-            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(*i);
+            std::unordered_map<uint32_t, CharDescriptor>::iterator iter = chars.find(*i);
 
             if (iter != chars.end())
             {
@@ -227,7 +227,7 @@ namespace ouzel
 
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {
-            std::map<uint32_t, CharDescriptor>::iterator iter = chars.find(*i);
+            std::unordered_map<uint32_t, CharDescriptor>::iterator iter = chars.find(*i);
 
             if (iter != chars.end())
             {

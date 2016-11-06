@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include "utils/Types.h"
 
@@ -17,7 +17,7 @@ namespace ouzel
         std::string getString(const std::string& str);
 
     protected:
-        std::map<std::string, LanguagePtr> languages;
+        std::unordered_map<std::string, LanguagePtr> languages;
         LanguagePtr currentLanguage;
     };
 }
