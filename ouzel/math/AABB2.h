@@ -24,7 +24,7 @@ namespace ouzel
          */
         AABB2():
             min(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()),
-            max(std::numeric_limits<float>::min(), std::numeric_limits<float>::min())
+            max(std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest())
         {
         }
 
@@ -105,7 +105,7 @@ namespace ouzel
         void reset()
         {
             min.set(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
-            max.set(std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
+            max.set(std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest());
         }
 
         /**
