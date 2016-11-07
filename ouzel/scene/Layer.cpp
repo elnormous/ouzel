@@ -39,7 +39,7 @@ namespace ouzel
                 {
                     if (!child->isHidden())
                     {
-                        child->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0.0f);
+                        child->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0);
                     }
                 }
 
