@@ -89,13 +89,13 @@ namespace ouzel
 
                 float radialAcceleration = 0.0f;
                 float tangentialAcceleration = 0.0f;
-                
+
                 Vector2 direction;
                 float radius = 0.0f;
                 float degreesPerSecond = 0.0f;
                 float deltaRadius = 0.0f;
             };
-            
+
             std::vector<Particle> particles;
 
             graphics::MeshBufferPtr meshBuffer;

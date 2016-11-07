@@ -168,7 +168,7 @@ namespace ouzel
     {
         spriteFrames[filename] = frames;
     }
-    
+
     void Cache::releaseSpriteFrames()
     {
         spriteFrames.clear();

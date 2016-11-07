@@ -120,7 +120,6 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
             {}
                 ouzel::sharedEngine->getInput()->touchBegin(touch.dwID,
                                                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position));
-            
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
             {

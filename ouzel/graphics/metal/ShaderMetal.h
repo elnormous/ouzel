@@ -54,7 +54,7 @@ namespace ouzel
             uint32_t getVertexShaderConstantBufferOffset() const { return vertexShaderConstantBufferOffset; }
 
             bool uploadBuffer(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size);
-            
+
         protected:
             virtual bool upload() override;
 

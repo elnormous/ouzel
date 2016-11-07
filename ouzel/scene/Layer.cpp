@@ -34,7 +34,7 @@ namespace ouzel
             for (Camera* camera : cameras)
             {
                 std::vector<Node*> drawQueue;
-                
+
                 for (Node* child : children)
                 {
                     if (!child->isHidden())
@@ -131,7 +131,7 @@ namespace ouzel
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
                 Camera* camera = *i;
-                
+
                 std::vector<Vector2> worldEdges;
                 worldEdges.reserve(edges.size());
 

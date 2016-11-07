@@ -419,7 +419,7 @@ namespace ouzel
                                 updateCallbacks.push_back(updateCallback);
                             }
                         }
-                        
+
                         std::stable_sort(updateCallbacks.begin(), updateCallbacks.end(), [](const UpdateCallback* a, const UpdateCallback* b) {
                             return a->priority > b->priority;
                         });

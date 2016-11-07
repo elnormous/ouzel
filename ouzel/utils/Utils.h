@@ -114,7 +114,7 @@ namespace ouzel
 
             result.push_back(cp);
         }
-        
+
         return result;
     }
 }

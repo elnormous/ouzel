@@ -64,7 +64,7 @@ using namespace ouzel;
         self.delegate = Nil;
         [viewDelegate release];
     }
-    
+
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [super dealloc];

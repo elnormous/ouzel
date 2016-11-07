@@ -12,7 +12,7 @@ namespace ouzel
     namespace scene
     {
         class Scene;
-        
+
         class SceneManager: public Noncopyable
         {
             friend Engine;

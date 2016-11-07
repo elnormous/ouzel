@@ -56,7 +56,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     }
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+
     [super dealloc];
 }
 

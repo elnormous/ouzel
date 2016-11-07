@@ -29,7 +29,7 @@ namespace ouzel
             virtual void free() override;
 
             virtual void setSize(const Size2& newSize) override;
-            
+
             virtual bool present() override;
 
         private:

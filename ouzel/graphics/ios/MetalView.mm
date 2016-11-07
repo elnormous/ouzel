@@ -52,7 +52,7 @@ using namespace ouzel;
 {
     self.delegate = Nil;
     [viewDelegate release];
-    
+
     [super dealloc];
 }
 
