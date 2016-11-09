@@ -126,13 +126,23 @@ namespace ouzel
     {
         assert(zFarPlane != zNearPlane);
 
+        float theta = degToRad(fieldOfView) * 0.5f;
+        if (fabsf(fmodf(theta, PIOVER2)) < EPSILON)
+        {
+            return;
+        }
+        float divisor = tanf(theta);
+        assert(divisor);
+        float factor = 1.0f / divisor;
+
+        assert(top != bottom);
+        float aspectRatio = (right - left) / (top - bottom);
+
         dst.setZero();
 
-        dst.m[0] = 2.0f * zNearPlane / (right - left);
-        dst.m[5] = 2.0f * zNearPlane / (top - bottom);
-        dst.m[8] = (right + left) / (right - left);
-        dst.m[9] = (top + bottom) / (top - bottom);
-        dst.m[10] = -(zFarPlane + zNearPlane) / (zFarPlane - zNearPlane);
+        dst.m[0] = (1.0f / aspectRatio) * factor;
+        dst.m[5] = factor;
+        dst.m[10] = (-(zFarPlane + zNearPlane)) / (zFarPlane - zNearPlane);
         dst.m[11] = -1.0f;
         dst.m[14] = -2.0f * zFarPlane * zNearPlane / (zFarPlane - zNearPlane);
     }
