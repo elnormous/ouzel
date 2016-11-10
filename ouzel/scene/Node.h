@@ -70,6 +70,16 @@ namespace ouzel
             virtual bool pointOn(const Vector2& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
 
+            const Matrix4& getLocalTransform() const
+            {
+                if (localTransformDirty)
+                {
+                    calculateLocalTransform();
+                }
+
+                return localTransform;
+            }
+
             const Matrix4& getTransform() const
             {
                 if (transformDirty)

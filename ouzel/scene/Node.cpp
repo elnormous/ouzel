@@ -322,12 +322,7 @@ namespace ouzel
 
         void Node::calculateTransform() const
         {
-            if (localTransformDirty)
-            {
-                calculateLocalTransform();
-            }
-
-            transform = parentTransform * localTransform;
+            transform = parentTransform * getLocalTransform();
             transformDirty = false;
 
             updateChildrenTransform = true;
