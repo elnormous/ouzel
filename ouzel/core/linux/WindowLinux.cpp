@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <memory>
 #define GL_GLEXT_PROTOTYPES 1
 #include <GL/gl.h>
 #include <GL/glext.h>
@@ -56,7 +57,7 @@ namespace ouzel
             Screen* screen = XDefaultScreenOfDisplay(display);
             int screenIndex = XScreenNumberOfScreen(screen);
 
-            XVisualInfo* vi = nullptr;
+            std::unique_ptr<XVisualInfo, int(*)(void*)> visualInfo(nullptr, XFree);
 
             // make sure OpenGL's GLX extension supported
             int dummy;
@@ -78,7 +79,7 @@ namespace ouzel
                 None
             };
 
-            GLXFBConfig* framebufferConfig = glXChooseFBConfig(display, screenIndex, attributes, &fbcount);
+            std::unique_ptr<GLXFBConfig, int(*)(void*)> framebufferConfig(glXChooseFBConfig(display, screenIndex, attributes, &fbcount), XFree);
             if (!framebufferConfig)
             {
                 Log(Log::Level::ERR) << "Failed to get frame buffer";
@@ -107,9 +108,9 @@ namespace ouzel
                         rendererOGL->setAPIVersion(3, 2);
                         Log(Log::Level::INFO) << "Using OpenGL 3.2";
 
-                        vi = glXGetVisualFromFBConfig(display, framebufferConfig[0]);
+                        visualInfo.reset(glXGetVisualFromFBConfig(display, framebufferConfig[0]));
 
-                        if (!vi)
+                        if (!visualInfo)
                         {
                             Log(Log::Level::INFO) << "Failed to get OpenGL visual";
                             context = nullptr;
@@ -131,19 +132,19 @@ namespace ouzel
                 // find an OpenGL-capable RGB visual with depth buffer
                 static int doubleBuffer[] = {GLX_RGBA, GLX_DEPTH_SIZE, 16, GLX_DOUBLEBUFFER, None};
 
-                vi = glXChooseVisual(display, screenIndex, doubleBuffer);
-                if (!vi)
+                visualInfo.reset(glXChooseVisual(display, screenIndex, doubleBuffer));
+                if (!visualInfo)
                 {
                     Log(Log::Level::ERR) << "Failed to choose OpenGL visual";
                     return false;
                 }
-                if (vi->c_class != TrueColor)
+                if (visualInfo->c_class != TrueColor)
                 {
                     Log(Log::Level::ERR) << "TrueColor visual required for this program";
                     return false;
                 }
 
-                context = glXCreateContext(display, vi, None, GL_TRUE);
+                context = glXCreateContext(display, visualInfo.get(), None, GL_TRUE);
 
                 if (context)
                 {
@@ -158,7 +159,7 @@ namespace ouzel
             }
 
             // create an X colormap since probably not using default visual
-            Colormap cmap = XCreateColormap(display, RootWindow(display, vi->screen), vi->visual, AllocNone);
+            Colormap cmap = XCreateColormap(display, RootWindow(display, visualInfo->screen), visualInfo->visual, AllocNone);
             XSetWindowAttributes swa;
             swa.colormap = cmap;
             swa.border_pixel = 0;
@@ -167,9 +168,9 @@ namespace ouzel
             if (size.width <= 0.0f) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
             if (size.height <= 0.0f) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
 
-            window = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
+            window = XCreateWindow(display, RootWindow(display, visualInfo->screen), 0, 0,
                                    static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
-                                   0, vi->depth, InputOutput, vi->visual,
+                                   0, visualInfo->depth, InputOutput, visualInfo->visual,
                                    CWBorderPixel | CWColormap | CWEventMask, &swa);
             XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, sharedApplication->getArgv(), sharedApplication->getArgc(), nullptr);
 
