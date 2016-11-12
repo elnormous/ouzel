@@ -101,14 +101,14 @@ namespace ouzel
 
                 if (glXCreateContextAttribsARB)
                 {
-                    context = glXCreateContextAttribsARB(display, framebufferConfig[0], NULL, GL_TRUE, contextAttribs);
+                    context = glXCreateContextAttribsARB(display, *framebufferConfig, NULL, GL_TRUE, contextAttribs);
 
                     if (context)
                     {
                         rendererOGL->setAPIVersion(3, 2);
                         Log(Log::Level::INFO) << "Using OpenGL 3.2";
 
-                        visualInfo.reset(glXGetVisualFromFBConfig(display, framebufferConfig[0]));
+                        visualInfo.reset(glXGetVisualFromFBConfig(display, *framebufferConfig));
 
                         if (!visualInfo)
                         {
