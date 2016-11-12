@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <string>
 #include <vector>
 #include "utils/Types.h"
 #include "scene/NodeContainer.h"
@@ -29,9 +28,6 @@ namespace ouzel
             virtual void addChild(Node* node) override;
             virtual NodeContainer* getParent() const { return parent; }
             virtual void removeFromParent();
-
-            virtual void setName(const std::string& newName) { name = newName; }
-            virtual const std::string& getName() const { return name; }
 
             virtual void setPosition(const Vector2& newPosition);
             virtual void setPosition(const Vector3& newPosition);
@@ -159,8 +155,6 @@ namespace ouzel
             bool pickable = false;
             bool cullDisabled = false;
             bool hidden = false;
-
-            std::string name;
 
             Vector3 position;
             float rotation = 0.0f;
