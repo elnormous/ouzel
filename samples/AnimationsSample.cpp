@@ -15,6 +15,8 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&AnimationsSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
+    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera.setTargetContentSize(Size2(800.0f, 600.0f));
     layer.addCamera(&camera);
     addLayer(&layer);
 
@@ -78,6 +80,8 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     ball.animate(ballSequence.get());
 
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 

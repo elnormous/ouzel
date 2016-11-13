@@ -15,8 +15,10 @@ SpritesSample::SpritesSample(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    addLayer(&layer);
+    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera.setTargetContentSize(Size2(800.0f, 600.0f));
     layer.addCamera(&camera);
+    addLayer(&layer);
 
     // character
     characterSprite.initFromFile("run.json");
@@ -44,7 +46,8 @@ SpritesSample::SpritesSample(Samples& aSamples):
     triangleNode.setPosition(Vector2(100.0f, -140.0f));
     layer.addChild(&triangleNode);
 
-
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 

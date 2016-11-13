@@ -26,6 +26,9 @@ MainMenu::MainMenu(Samples& aSamples):
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     addLayer(&layer);
+
+    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera.setTargetContentSize(Size2(800.0f, 600.0f));
     layer.addCamera(&camera);
     layer.addChild(&menu);
 

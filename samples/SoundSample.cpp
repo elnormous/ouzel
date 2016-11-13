@@ -29,6 +29,8 @@ SoundSample::SoundSample(Samples& aSamples):
     ambientSound = sharedEngine->getAudio()->createSound();
     ambientSound->init(ambientData);
 
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 

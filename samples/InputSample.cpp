@@ -19,6 +19,8 @@ InputSample::InputSample(Samples& aSamples):
 
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
+    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera.setTargetContentSize(Size2(800.0f, 600.0f));
     layer.addCamera(&camera);
     addLayer(&layer);
 
@@ -28,6 +30,8 @@ InputSample::InputSample(Samples& aSamples):
     flame.setPickable(false);
     layer.addChild(&flame);
 
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 

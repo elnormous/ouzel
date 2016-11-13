@@ -25,7 +25,12 @@ RTSample::RTSample(Samples& aSamples):
     rtCamera.setRenderTarget(renderTarget);
     rtLayer.addCamera(&rtCamera);
 
+    camera1.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera1.setTargetContentSize(Size2(400.0f, 600.0f));
     camera1.setViewport(Rectangle(0.0f, 0.0f, 0.5f, 1.0f));
+
+    camera2.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera2.setTargetContentSize(Size2(400.0f, 600.0f));
     camera2.setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
 
     layer.addCamera(&camera1);
@@ -44,6 +49,8 @@ RTSample::RTSample(Samples& aSamples):
     rtNode.addComponent(&rtSprite);
     layer.addChild(&rtNode);
 
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 
