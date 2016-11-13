@@ -4,14 +4,15 @@
 #pragma once
 
 #include <vector>
-#include "utils/Types.h"
-#include "math/Vector2.h"
 #include "utils/Noncopyable.h"
+#include "math/Vector2.h"
 
 namespace ouzel
 {
     namespace scene
     {
+        class Node;
+
         class NodeContainer: public Noncopyable
         {
         public:

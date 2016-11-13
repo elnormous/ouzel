@@ -5,7 +5,6 @@
 
 #include <vector>
 #include "utils/Noncopyable.h"
-#include "utils/Types.h"
 #include "math/AABB2.h"
 #include "math/Matrix4.h"
 #include "graphics/Color.h"
@@ -14,6 +13,9 @@ namespace ouzel
 {
     namespace scene
     {
+        class Camera;
+        class Node;
+
         class Component: public ouzel::Noncopyable
         {
             friend Node;

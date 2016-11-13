@@ -12,8 +12,6 @@
 
 namespace ouzel
 {
-    class EventHandler;
-
     namespace gui
     {
         class Button: public Widget

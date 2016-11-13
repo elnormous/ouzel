@@ -5,7 +5,6 @@
 
 #include <vector>
 #include "animators/Animator.h"
-#include "utils/Types.h"
 
 namespace ouzel
 {

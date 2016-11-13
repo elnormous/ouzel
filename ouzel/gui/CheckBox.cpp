@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "CheckBox.h"
+#include "Widget.h"
 #include "core/Engine.h"
 #include "scene/Sprite.h"
 #include "events/EventDispatcher.h"

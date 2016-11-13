@@ -5,12 +5,13 @@
 
 #include <functional>
 #include "utils/Noncopyable.h"
-#include "utils/Types.h"
 
 namespace ouzel
 {
     namespace scene
     {
+        class Node;
+
         class Animator: public Noncopyable
         {
             friend Node;

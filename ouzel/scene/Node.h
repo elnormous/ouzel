@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#include "utils/Types.h"
 #include "scene/NodeContainer.h"
 #include "math/Vector2.h"
 #include "math/Matrix4.h"
@@ -16,6 +15,11 @@ namespace ouzel
 {
     namespace scene
     {
+        class Animator;
+        class Camera;
+        class Component;
+        class Layer;
+
         class Node: public NodeContainer
         {
             friend NodeContainer;

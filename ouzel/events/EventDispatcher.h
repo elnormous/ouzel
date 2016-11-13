@@ -8,7 +8,6 @@
 #include <queue>
 #include <set>
 #include <cstdint>
-#include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "events/Event.h"
 #include "events/EventHandler.h"

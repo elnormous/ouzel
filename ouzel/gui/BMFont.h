@@ -7,7 +7,6 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
-#include "utils/Types.h"
 #include "graphics/Color.h"
 #include "graphics/Texture.h"
 #include "graphics/MeshBuffer.h"

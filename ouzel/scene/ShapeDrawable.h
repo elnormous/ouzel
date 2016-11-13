@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#include "utils/Types.h"
 #include "scene/Component.h"
 #include "graphics/Renderer.h"
 #include "graphics/Color.h"
