@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include "animators/Animator.h"
 
 namespace ouzel

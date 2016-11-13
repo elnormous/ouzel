@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include "scene/NodeContainer.h"
 #include "math/Vector2.h"
