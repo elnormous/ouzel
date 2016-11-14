@@ -69,12 +69,12 @@ namespace ouzel
         {
             if (uploadData.dirty)
             {
-                if (!uploadData.indexBuffer->upload())
+                if (uploadData.indexBuffer && !uploadData.indexBuffer->upload())
                 {
                     return false;
                 }
 
-                if (!uploadData.vertexBuffer->upload())
+                if (uploadData.vertexBuffer && !uploadData.vertexBuffer->upload())
                 {
                     return false;
                 }

@@ -120,6 +120,20 @@ namespace ouzel
                         if (bufferPtr)
                         {
                             std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(bufferPtr));
+
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#if defined(GL_OES_mapbuffer)
+                            if (unmapBufferOES) unmapBufferOES(GL_ELEMENT_ARRAY_BUFFER);
+#endif
+#else
+                            glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+#endif
+
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to upload index buffer";
+                                return false;
+                            }
                         }
                         else
                         {
@@ -138,20 +152,6 @@ namespace ouzel
                                 Log(Log::Level::ERR) << "Failed to upload index buffer";
                                 return false;
                             }
-                        }
-
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
-    #if defined(GL_OES_mapbuffer)
-                        if (unmapBufferOES) unmapBufferOES(GL_ELEMENT_ARRAY_BUFFER);
-    #endif
-#else
-                        glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
-#endif
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to upload index buffer";
-                            return false;
                         }
                     }
 
