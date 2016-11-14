@@ -1012,7 +1012,8 @@ namespace ouzel
                         glDeleteBuffers(1, &deleteResource.first);
                         break;
                     case ResourceType::VertexArray:
-                        unbindVertexArray(deleteResource.first);
+                        //unbindVertexArray(deleteResource.first);
+                        bindVertexArray(0); // workaround for Android (current VAO's element array buffer is set to 0 if glDeleteVertexArrays is called on Android)
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                         glDeleteVertexArraysOES(1, &deleteResource.first);
 #elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
