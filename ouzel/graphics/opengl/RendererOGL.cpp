@@ -1007,12 +1007,12 @@ namespace ouzel
                 switch (deleteResource.second)
                 {
                     case ResourceType::Buffer:
-                        unbindArrayBuffer(deleteResource.first);
-                        unbindElementArrayBuffer(deleteResource.first);
+                        if (stateCache.elementArrayBufferId == deleteResource.first) stateCache.elementArrayBufferId = 0;
+                        if (stateCache.arrayBufferId == deleteResource.first) stateCache.arrayBufferId = 0;
                         glDeleteBuffers(1, &deleteResource.first);
                         break;
                     case ResourceType::VertexArray:
-                        //unbindVertexArray(deleteResource.first);
+                        // if (stateCache.vertexArrayId == deleteResource.first) stateCache.vertexArrayId = 0;
                         bindVertexArray(0); // workaround for Android (current VAO's element array buffer is set to 0 if glDeleteVertexArrays is called on Android)
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                         glDeleteVertexArraysOES(1, &deleteResource.first);
@@ -1026,18 +1026,24 @@ namespace ouzel
                         glDeleteRenderbuffers(1, &deleteResource.first);
                         break;
                     case ResourceType::FrameBuffer:
-                        unbindFrameBuffer(deleteResource.first);
+                        if (stateCache.frameBufferId == deleteResource.first) stateCache.frameBufferId = 0;
                         glDeleteFramebuffers(1, &deleteResource.first);
                         break;
                     case ResourceType::Program:
-                        unuseProgram(deleteResource.first);
+                        if (stateCache.programId == deleteResource.first) stateCache.programId = 0;
                         glDeleteProgram(deleteResource.first);
                         break;
                     case ResourceType::Shader:
                         glDeleteShader(deleteResource.first);
                         break;
                     case ResourceType::Texture:
-                        unbindTexture(deleteResource.first);
+                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        {
+                            if (stateCache.textureId[layer] == deleteResource.first)
+                            {
+                                stateCache.textureId[layer] = 0;
+                            }
+                        }
                         glDeleteTextures(1, &deleteResource.first);
                         break;
                 }

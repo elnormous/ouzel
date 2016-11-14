@@ -222,69 +222,6 @@ namespace ouzel
                 return true;
             }
 
-            static inline bool unbindTexture(GLuint textureId)
-            {
-                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                {
-                    if (stateCache.textureId[layer] == textureId)
-                    {
-                        bindTexture(0, layer);
-                    }
-                }
-
-                return true;
-            }
-
-            static inline bool unuseProgram(GLuint programId)
-            {
-                if (stateCache.programId == programId)
-                {
-                    return useProgram(0);
-                }
-
-                return true;
-            }
-
-            static inline bool unbindFrameBuffer(GLuint frameBufferId)
-            {
-                if (stateCache.frameBufferId == frameBufferId)
-                {
-                    return bindFrameBuffer(0);
-                }
-
-                return true;
-            }
-
-            static inline bool unbindElementArrayBuffer(GLuint elementArrayBufferId)
-            {
-                if (stateCache.elementArrayBufferId == elementArrayBufferId)
-                {
-                    return bindElementArrayBuffer(0);
-                }
-
-                return true;
-            }
-
-            static inline bool unbindArrayBuffer(GLuint arrayBufferId)
-            {
-                if (stateCache.arrayBufferId == arrayBufferId)
-                {
-                    return bindArrayBuffer(0);
-                }
-
-                return true;
-            }
-
-            static inline bool unbindVertexArray(GLuint vertexArrayId)
-            {
-                if (stateCache.vertexArrayId == vertexArrayId)
-                {
-                    return bindVertexArray(0);
-                }
-
-                return true;
-            }
-
             static inline bool setScissorTest(bool scissorTestEnabled,
                                               GLint x,
                                               GLint y,
