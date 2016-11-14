@@ -41,8 +41,12 @@ namespace ouzel
         {
             Component::draw(transformMatrix, drawColor, camera);
 
-            indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
-            vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
+            if (dirty)
+            {
+                indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
+                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
+                dirty = false;
+            }
 
             Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
@@ -75,8 +79,12 @@ namespace ouzel
         {
             Component::drawWireframe(transformMatrix, drawColor, camera);
 
-            indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
-            vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
+            if (dirty)
+            {
+                indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
+                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
+                dirty = false;
+            }
 
             Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
@@ -111,6 +119,8 @@ namespace ouzel
             drawCommands.clear();
             indices.clear();
             vertices.clear();
+
+            dirty = true;
         }
 
         void ShapeDrawable::point(const Vector2& position, const graphics::Color& color)
@@ -129,6 +139,8 @@ namespace ouzel
             drawCommands.push_back(command);
 
             boundingBox.insertPoint(position);
+
+            dirty = true;
         }
 
         void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const graphics::Color& color)
@@ -151,6 +163,8 @@ namespace ouzel
 
             boundingBox.insertPoint(start);
             boundingBox.insertPoint(finish);
+
+            dirty = true;
         }
 
         void ShapeDrawable::circle(const Vector2& position, float radius, const graphics::Color& color, bool fill, uint32_t segments)
@@ -182,16 +196,13 @@ namespace ouzel
             {
                 command.mode = graphics::Renderer::DrawMode::TRIANGLE_STRIP;
 
-                for (uint16_t i = 1; i <= segments; ++i)
+                for (uint16_t i = 0; i < segments; ++i)
                 {
-                    indices.push_back(startVertex + i);
+                    indices.push_back(startVertex + i + 1);
                     ++command.indexCount;
 
-                    if (i & 1)
-                    {
-                        indices.push_back(startVertex); // center
-                        ++command.indexCount;
-                    }
+                    indices.push_back(startVertex); // center
+                    ++command.indexCount;
                 }
 
                 indices.push_back(startVertex + 1);
@@ -201,17 +212,22 @@ namespace ouzel
             {
                 command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
 
-                for (uint16_t i = 0; i <= segments; ++i)
+                for (uint16_t i = 0; i < segments; ++i)
                 {
                     indices.push_back(startVertex + i);
                     ++command.indexCount;
                 }
+
+                indices.push_back(startVertex);
+                ++command.indexCount;
             }
 
             drawCommands.push_back(command);
 
             boundingBox.insertPoint(Vector2(position.x - radius, position.y - radius));
             boundingBox.insertPoint(Vector2(position.x + radius, position.y + radius));
+
+            dirty = true;
         }
 
         void ShapeDrawable::rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill)
@@ -253,12 +269,14 @@ namespace ouzel
 
             boundingBox.insertPoint(Vector2(rectangle.x, rectangle.y));
             boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
+
+            dirty = true;
         }
 
         void ShapeDrawable::triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill)
         {
             DrawCommand command;
-            command.indexCount = 4;
+            command.indexCount = 3;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
@@ -282,6 +300,8 @@ namespace ouzel
             }
 
             drawCommands.push_back(command);
+
+            dirty = true;
         }
 
     } // namespace scene

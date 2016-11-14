@@ -57,6 +57,7 @@ namespace ouzel
 
             std::vector<uint16_t> indices;
             std::vector<ouzel::graphics::VertexPC> vertices;
+            bool dirty = false;
         };
     } // namespace scene
 } // namespace ouzel
