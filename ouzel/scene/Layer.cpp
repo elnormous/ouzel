@@ -37,10 +37,7 @@ namespace ouzel
 
                 for (Node* child : children)
                 {
-                    if (!child->isHidden())
-                    {
-                        child->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0);
-                    }
+                    child->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0);
                 }
 
                 for (Node* node : drawQueue)

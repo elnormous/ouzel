@@ -39,7 +39,7 @@ namespace ouzel
         }
 
         void Node::visit(std::vector<Node*>& drawQueue,
-                         const Matrix4& newTransformMatrix,
+                         const Matrix4& newParentTransform,
                          bool parentTransformDirty,
                          Camera* camera,
                          int32_t parentOrder)
@@ -48,7 +48,7 @@ namespace ouzel
 
             if (parentTransformDirty)
             {
-                updateTransform(newTransformMatrix);
+                updateTransform(newParentTransform);
             }
 
             if (transformDirty)
@@ -56,16 +56,19 @@ namespace ouzel
                 calculateTransform();
             }
 
-            AABB2 boundingBox = getBoundingBox();
-
-            if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
+            if (!hidden)
             {
-                auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(), this,
-                                                   [](Node* a, Node* b) {
-                                                       return a->worldOrder > b->worldOrder;
-                                                   });
+                AABB2 boundingBox = getBoundingBox();
 
-                drawQueue.insert(upperBound, this);
+                if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
+                {
+                    auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(), this,
+                                                       [](Node* a, Node* b) {
+                                                           return a->worldOrder > b->worldOrder;
+                                                       });
+
+                    drawQueue.insert(upperBound, this);
+                }
             }
 
             for (Node* child : children)
