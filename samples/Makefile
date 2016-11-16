@@ -36,6 +36,7 @@ endif
 SOURCES=AnimationsSample.cpp \
 	main.cpp \
 	Samples.cpp \
+	GameSample.cpp \
 	GUISample.cpp \
 	InputSample.cpp \
 	MainMenu.cpp \

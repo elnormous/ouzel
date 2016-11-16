@@ -13,6 +13,7 @@ LOCAL_SRC_FILES := jni.cpp \
     ../../AnimationsSample.cpp \
     ../../Samples.cpp \
     ../../GUISample.cpp \
+    ../../GameSample.cpp \
     ../../InputSample.cpp \
     ../../main.cpp \
     ../../MainMenu.cpp \
