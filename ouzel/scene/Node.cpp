@@ -73,10 +73,7 @@ namespace ouzel
 
             for (Node* child : children)
             {
-                if (!child->isHidden())
-                {
-                    child->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder);
-                }
+                child->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder);
             }
 
             updateChildrenTransform = false;
