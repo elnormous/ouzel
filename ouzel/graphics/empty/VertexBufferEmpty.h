@@ -13,7 +13,6 @@ namespace ouzel
         {
         public:
             VertexBufferEmpty();
-            virtual ~VertexBufferEmpty();
 
         protected:
             virtual bool upload() override;

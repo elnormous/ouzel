@@ -350,10 +350,6 @@ namespace ouzel
             }
         }
 
-        InputApple::~InputApple()
-        {
-        }
-
         void InputApple::setCursorVisible(bool visible)
         {
 #if OUZEL_PLATFORM_MACOS

@@ -11,7 +11,6 @@ namespace ouzel
     {
     public:
         ApplicationAndroid();
-        virtual ~ApplicationAndroid() {}
 
         virtual int run() override;
     };

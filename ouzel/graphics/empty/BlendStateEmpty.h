@@ -13,7 +13,6 @@ namespace ouzel
         {
         public:
             BlendStateEmpty();
-            virtual ~BlendStateEmpty();
 
         protected:
             virtual bool upload() override;

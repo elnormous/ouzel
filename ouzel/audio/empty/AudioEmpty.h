@@ -15,8 +15,6 @@ namespace ouzel
         {
             friend Engine;
         public:
-            virtual ~AudioEmpty();
-
             virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
 

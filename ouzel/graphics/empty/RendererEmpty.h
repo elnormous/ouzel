@@ -14,10 +14,7 @@ namespace ouzel
         class RendererEmpty: public Renderer
         {
             friend Engine;
-            friend Window;
         public:
-            virtual ~RendererEmpty();
-
             virtual BlendStatePtr createBlendState() override;
             virtual TexturePtr createTexture() override;
             virtual RenderTargetPtr createRenderTarget() override;

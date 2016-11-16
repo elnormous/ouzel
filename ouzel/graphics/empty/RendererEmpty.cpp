@@ -21,10 +21,6 @@ namespace ouzel
         {
         }
 
-        RendererEmpty::~RendererEmpty()
-        {
-        }
-
         bool RendererEmpty::init(Window* newWindow,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,

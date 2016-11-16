@@ -12,10 +12,6 @@ namespace ouzel
         {
         }
 
-        RenderTargetEmpty::~RenderTargetEmpty()
-        {
-        }
-
         bool RenderTargetEmpty::upload()
         {
             uploadData.dirty = false;

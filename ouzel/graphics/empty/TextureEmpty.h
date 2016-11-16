@@ -16,7 +16,6 @@ namespace ouzel
             friend RenderTargetEmpty;
         public:
             TextureEmpty();
-            virtual ~TextureEmpty();
 
         protected:
             virtual bool upload() override;

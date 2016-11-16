@@ -13,7 +13,6 @@ namespace ouzel
         {
         public:
             SoundEmpty();
-            virtual ~SoundEmpty();
         };
     } // namespace audio
 } // namespace ouzel

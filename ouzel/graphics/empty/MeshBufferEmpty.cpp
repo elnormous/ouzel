@@ -11,10 +11,6 @@ namespace ouzel
         {
         }
 
-        MeshBufferEmpty::~MeshBufferEmpty()
-        {
-        }
-
         bool MeshBufferEmpty::upload()
         {
             uploadData.dirty = false;

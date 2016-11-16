@@ -26,8 +26,6 @@ namespace ouzel
         {
             friend Engine;
         public:
-            virtual ~InputApple();
-
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 

@@ -14,10 +14,6 @@ namespace ouzel
         {
         }
 
-        AudioEmpty::~AudioEmpty()
-        {
-        }
-
         SoundDataPtr AudioEmpty::createSoundData()
         {
             SoundDataPtr soundData = std::make_shared<SoundDataEmpty>();

@@ -10,9 +10,5 @@ namespace ouzel
         SoundDataEmpty::SoundDataEmpty()
         {
         }
-
-        SoundDataEmpty::~SoundDataEmpty()
-        {
-        }
     } // namespace audio
 } // namespace ouzel

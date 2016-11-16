@@ -13,7 +13,6 @@ namespace ouzel
         {
         public:
             MeshBufferEmpty();
-            virtual ~MeshBufferEmpty();
 
         protected:
             virtual bool upload() override;

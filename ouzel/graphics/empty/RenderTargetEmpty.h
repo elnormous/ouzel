@@ -13,7 +13,6 @@ namespace ouzel
         {
         public:
             RenderTargetEmpty();
-            virtual ~RenderTargetEmpty();
 
         protected:
             virtual bool upload() override;

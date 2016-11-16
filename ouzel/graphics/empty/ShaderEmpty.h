@@ -13,7 +13,6 @@ namespace ouzel
         {
         public:
             ShaderEmpty();
-            virtual ~ShaderEmpty();
 
         protected:
             virtual bool upload() override;
