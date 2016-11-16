@@ -5,11 +5,14 @@
 
 #include "Samples.h"
 
-class GameSample
+class GameSample: public ouzel::scene::Scene
 {
 public:
     GameSample(Samples& aSamples);
 
 private:
     Samples& samples;
+
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
 };

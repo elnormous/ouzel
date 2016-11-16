@@ -6,4 +6,6 @@
 GameSample::GameSample(Samples& aSamples):
     samples(aSamples)
 {
+    addLayer(&layer);
+    layer.addCamera(&camera);
 }

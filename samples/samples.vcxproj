@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationsSample.cpp" />
+    <ClCompile Include="GameSample.cpp" />
     <ClCompile Include="GUISample.cpp" />
     <ClCompile Include="InputSample.cpp" />
     <ClCompile Include="main.cpp" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationsSample.h" />
+    <ClInclude Include="GameSample.h" />
     <ClInclude Include="GUISample.h" />
     <ClInclude Include="InputSample.h" />
     <ClInclude Include="MainMenu.h" />
