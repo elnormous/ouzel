@@ -8,6 +8,7 @@
 #include "gui/Widget.h"
 #include "utils/Types.h"
 #include "graphics/Color.h"
+#include "scene/TextDrawable.h"
 
 namespace ouzel
 {
@@ -23,7 +24,7 @@ namespace ouzel
 
         protected:
             std::string text;
-            std::unique_ptr<scene::TextDrawable> textDrawable;
+            scene::TextDrawable textDrawable;
         };
     } // namespace gui
 } // namespace ouzel

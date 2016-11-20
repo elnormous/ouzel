@@ -9,20 +9,16 @@
 #include "scene/Camera.h"
 #include "BMFont.h"
 #include "core/Cache.h"
-#include "scene/TextDrawable.h"
 
 namespace ouzel
 {
     namespace gui
     {
-        Label::Label(const std::string& fontFile, const std::string& pText, const Vector2& textAnchor)
+        Label::Label(const std::string& fontFile, const std::string& pText, const Vector2& textAnchor):
+            text(pText), textDrawable(fontFile, text, textAnchor)
         {
-            text = pText;
-            textDrawable.reset(new scene::TextDrawable(fontFile, text, textAnchor));
-
-            addComponent(textDrawable.get());
-
-            textDrawable->setText(text);
+            addComponent(&textDrawable);
+            textDrawable.setText(text);
 
             pickable = true;
         }
@@ -30,7 +26,7 @@ namespace ouzel
         void Label::setText(const std::string& newText)
         {
             text = newText;
-            textDrawable->setText(text);
+            textDrawable.setText(text);
         }
     } // namespace gui
 } // namespace ouzel
