@@ -81,7 +81,7 @@ namespace ouzel
     std::string FileSystem::getHomeDirectory()
     {
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
-        struct passwd* pw = getpwuid(getuid());
+        passwd* pw = getpwuid(getuid());
         if (pw)
         {
             return pw->pw_dir;
