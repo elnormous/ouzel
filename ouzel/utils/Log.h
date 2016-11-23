@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include "utils/Utils.h"
 #include "math/Vector2.h"
 #include "math/Vector3.h"
 #include "math/Vector4.h"
@@ -73,7 +74,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val);
+                s += toString(val);
             }
 
             return *this;
@@ -113,7 +114,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.x) + "," + std::to_string(val.y);
+                s += toString(val.x) + "," + toString(val.y);
             }
 
             return *this;
@@ -123,8 +124,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
-                    std::to_string(val.z);
+                s += toString(val.x) + "," + toString(val.y) + "," +
+                    toString(val.z);
             }
 
             return *this;
@@ -134,8 +135,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
-                    std::to_string(val.z) + "," + std::to_string(val.w);
+                s += toString(val.x) + "," + toString(val.y) + "," +
+                    toString(val.z) + "," + toString(val.w);
             }
 
             return *this;
@@ -145,7 +146,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.width) + "," + std::to_string(val.height);
+                s += toString(val.width) + "," + toString(val.height);
             }
 
             return *this;
@@ -155,8 +156,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.width) + "," + std::to_string(val.height) + "," +
-                    std::to_string(val.depth);
+                s += toString(val.width) + "," + toString(val.height) + "," +
+                    toString(val.depth);
             }
 
             return *this;

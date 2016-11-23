@@ -12,6 +12,7 @@
 
 #include "core/CompileConfig.h"
 #if OUZEL_PLATFORM_ANDROID
+#include <sstream>
 #include <cpu-features.h>
 #endif
 
@@ -116,5 +117,17 @@ namespace ouzel
         }
 
         return result;
+    }
+
+    template<class T>
+    inline std::string toString(T val)
+    {
+#if OUZEL_PLATFORM_ANDROID
+        std::stringstream ss;
+        ss << val;
+        return ss.str();
+#else
+        return std::to_string(val);
+#endif
     }
 }
