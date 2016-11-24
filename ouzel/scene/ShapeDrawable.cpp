@@ -304,26 +304,26 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::polygon(const std::vector<Vector2>& verts, const graphics::Color& color, bool fill)
+        void ShapeDrawable::polygon(const std::vector<Vector2>& edges, const graphics::Color& color, bool fill)
         {
-            if (verts.size() < 3) return;
+            if (edges.size() < 3) return;
 
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
-            for (uint16_t i = 0; i < verts.size(); ++i)
+            for (uint16_t i = 0; i < edges.size(); ++i)
             {
                 indices.push_back(startVertex + i);
-                boundingBox.insertPoint(verts[i]);
+                boundingBox.insertPoint(edges[i]);
             }
 
             if (fill)
             {
                 command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
 
-                for (uint16_t i = 1; i < verts.size() - 1; ++i)
+                for (uint16_t i = 1; i < edges.size() - 1; ++i)
                 {
                     indices.push_back(startVertex);
                     indices.push_back(startVertex + i);
@@ -333,9 +333,9 @@ namespace ouzel
             else
             {
                 command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-                command.indexCount = static_cast<uint32_t>(verts.size()) + 1;
+                command.indexCount = static_cast<uint32_t>(edges.size()) + 1;
 
-                for (uint16_t i = 0; i < verts.size(); ++i)
+                for (uint16_t i = 0; i < edges.size(); ++i)
                 {
                     indices.push_back(startVertex + i);
                 }
