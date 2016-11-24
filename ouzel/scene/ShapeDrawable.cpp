@@ -304,5 +304,49 @@ namespace ouzel
             dirty = true;
         }
 
+        void ShapeDrawable::polygon(const std::vector<Vector2>& verts, const graphics::Color& color, bool fill)
+        {
+            if (verts.size() < 3) return;
+
+            DrawCommand command;
+            command.startIndex = static_cast<uint32_t>(indices.size());
+
+            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+
+            for (uint16_t i = 0; i < verts.size(); ++i)
+            {
+                indices.push_back(startVertex + i);
+                boundingBox.insertPoint(verts[i]);
+            }
+
+            if (fill)
+            {
+                command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
+
+                for (uint16_t i = 1; i < verts.size() - 1; ++i)
+                {
+                    indices.push_back(startVertex);
+                    indices.push_back(startVertex + i);
+                    indices.push_back(startVertex + i + 1);
+                }
+            }
+            else
+            {
+                command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
+                command.indexCount = static_cast<uint32_t>(verts.size()) + 1;
+
+                for (uint16_t i = 0; i < verts.size(); ++i)
+                {
+                    indices.push_back(startVertex + i);
+                }
+
+                indices.push_back(startVertex);
+            }
+
+            drawCommands.push_back(command);
+            
+            dirty = true;
+        }
+
     } // namespace scene
 } // namespace ouzel

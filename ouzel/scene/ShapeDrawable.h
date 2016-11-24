@@ -32,6 +32,7 @@ namespace ouzel
             void circle(const Vector2& position, float radius, const graphics::Color& color, bool fill = false, uint32_t segments = 20);
             void rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill = false);
             void triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill = false);
+            void polygon(const std::vector<Vector2>& verts, const graphics::Color& color, bool fill = false);
 
             virtual const graphics::ShaderPtr& getShader() const { return shader; }
             virtual void setShader(const graphics::ShaderPtr& newShader) { shader = newShader; }
