@@ -316,6 +316,7 @@ namespace ouzel
             for (uint16_t i = 0; i < edges.size(); ++i)
             {
                 indices.push_back(startVertex + i);
+                vertices.push_back(graphics::VertexPC(edges[i], color));
                 boundingBox.insertPoint(edges[i]);
             }
 
