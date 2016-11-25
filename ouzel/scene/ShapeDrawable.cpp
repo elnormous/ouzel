@@ -315,7 +315,6 @@ namespace ouzel
 
             for (uint16_t i = 0; i < edges.size(); ++i)
             {
-                indices.push_back(startVertex + i);
                 vertices.push_back(graphics::VertexPC(edges[i], color));
                 boundingBox.insertPoint(edges[i]);
             }
@@ -323,6 +322,7 @@ namespace ouzel
             if (fill)
             {
                 command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
+                command.indexCount = static_cast<uint32_t>(edges.size() - 2) * 3;
 
                 for (uint16_t i = 1; i < edges.size() - 1; ++i)
                 {
