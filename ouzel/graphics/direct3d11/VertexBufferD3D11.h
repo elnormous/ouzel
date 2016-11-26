@@ -3,9 +3,6 @@
 
 #pragma once
 
-#include <vector>
-#include <mutex>
-#include <atomic>
 #define NOMINMAX
 #include <d3d11.h>
 #include "graphics/VertexBuffer.h"

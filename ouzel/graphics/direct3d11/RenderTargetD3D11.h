@@ -5,7 +5,6 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include <memory>
 #include "graphics/RenderTarget.h"
 
 namespace ouzel

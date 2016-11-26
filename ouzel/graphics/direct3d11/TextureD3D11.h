@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <mutex>
-#include <atomic>
 #define NOMINMAX
 #include <d3d11.h>
 #include "graphics/Texture.h"

@@ -23,21 +23,37 @@ GameSample::GameSample(Samples& aSamples):
 
 bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
+    if (type == Event::Type::KEY_DOWN)
+    {
+
+    }
     return true;
 }
 
 bool GameSample::handleMouse(Event::Type type, const MouseEvent& event)
 {
+    if (type == Event::Type::MOUSE_DOWN)
+    {
+
+    }
     return true;
 }
 
-bool GameSample::handleTouch(Event::Type, const TouchEvent& event)
+bool GameSample::handleTouch(Event::Type type, const TouchEvent& event)
 {
+    if (type == Event::Type::TOUCH_BEGIN)
+    {
+
+    }
     return true;
 }
 
 bool GameSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 {
+    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    {
+
+    }
     return true;
 }
 
