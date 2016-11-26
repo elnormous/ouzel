@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <vector>
-#include <mutex>
 #include "graphics/MeshBuffer.h"
 
 namespace ouzel

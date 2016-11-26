@@ -3,9 +3,6 @@
 
 #pragma once
 
-#include <vector>
-#include <atomic>
-#include <mutex>
 #include "core/CompileConfig.h"
 #include "graphics/Shader.h"
 

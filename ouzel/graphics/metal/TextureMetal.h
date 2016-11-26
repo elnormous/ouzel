@@ -3,10 +3,6 @@
 
 #pragma once
 
-#include <vector>
-#include <mutex>
-#include <atomic>
-
 #if defined(__OBJC__)
 #import <Metal/Metal.h>
 typedef id<MTLTexture> MTLTexturePtr;
