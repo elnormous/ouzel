@@ -3,11 +3,8 @@
 
 #pragma once
 
-#include <vector>
-#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
-#include "graphics/Vertex.h"
 #include "utils/Types.h"
 
 namespace ouzel

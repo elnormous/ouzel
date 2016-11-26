@@ -10,6 +10,7 @@
 #include "graphics/Color.h"
 #include "graphics/Texture.h"
 #include "graphics/MeshBuffer.h"
+#include "graphics/Vertex.h"
 
 namespace ouzel
 {
