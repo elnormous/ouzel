@@ -44,13 +44,6 @@ namespace ouzel
         }
 
         /**
-         * Constructs a new vector from the values in the specified array.
-         *
-         * @param array An array containing the elements of the vector in the order x, y.
-         */
-        Vector2(const float* array);
-
-        /**
          * Constructs a vector that describes the direction between the specified points.
          *
          * @param p1 The first point.
@@ -308,24 +301,6 @@ namespace ouzel
         {
             x = newX;
             y = newY;
-        }
-
-        /**
-         * Sets the elements of this vector from the values in the specified array.
-         *
-         * @param array An array containing the elements of the vector in the order x, y.
-         */
-        void set(const float* array);
-
-        /**
-         * Sets the elements of this vector to those in the specified vector.
-         *
-         * @param v The vector to copy.
-         */
-        void set(const Vector2& v)
-        {
-            x = v.x;
-            y = v.y;
         }
 
         /**

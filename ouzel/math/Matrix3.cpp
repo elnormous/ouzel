@@ -299,11 +299,6 @@ namespace ouzel
         std::copy(array, array + sizeof(m) / sizeof(float), m);
     }
 
-    void Matrix3::set(const Matrix3& matrix)
-    {
-        std::copy(matrix.m, matrix.m + sizeof(matrix.m) / sizeof(float), m);
-    }
-
     void Matrix3::setIdentity()
     {
         std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), m);

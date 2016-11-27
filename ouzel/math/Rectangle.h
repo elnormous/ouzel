@@ -83,9 +83,9 @@ public:
      *
      * @param copy The rectangle to copy.
      */
-    Rectangle(const Rectangle& copy)
+    Rectangle(const Rectangle& copy):
+        x(copy.x), y(copy.y), width(copy.width), height(copy.height)
     {
-        set(copy);
     }
 
     /**
@@ -120,16 +120,6 @@ public:
         y = position.y;
         width = newWidth;
         height = newHeight;
-    }
-
-    /**
-     * Sets the values of this rectangle to those in the specified rectangle.
-     *
-     * @param r The rectangle to copy.
-     */
-    void set(const Rectangle& r)
-    {
-        set(r.x, r.y, r.width, r.height);
     }
 
     /**

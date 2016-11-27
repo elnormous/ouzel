@@ -16,11 +16,6 @@ namespace ouzel
     const Vector2 Vector2::UNIT_X(1.0f, 0.0f);
     const Vector2 Vector2::UNIT_Y(0.0f, 1.0f);
 
-    Vector2::Vector2(const float* array)
-    {
-        set(array);
-    }
-
     Vector2::Vector2(const Vector2& p1, const Vector2& p2)
     {
         set(p1, p2);
@@ -171,14 +166,6 @@ namespace ouzel
             x = tempX * cosAngle + tempY * sinAngle + point.x;
             y = tempY * cosAngle - tempX * sinAngle + point.y;
         }
-    }
-
-    void Vector2::set(const float* array)
-    {
-        assert(array);
-
-        x = array[0];
-        y = array[1];
     }
 
     void Vector2::smooth(const Vector2& target, float elapsedTime, float responseTime)

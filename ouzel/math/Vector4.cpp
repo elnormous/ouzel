@@ -18,11 +18,6 @@ namespace ouzel
     const Vector4 Vector4::UNIT_Z(0.0f, 0.0f, 1.0f, 0.0f);
     const Vector4 Vector4::UNIT_W(0.0f, 0.0f, 0.0f, 1.0f);
 
-    Vector4::Vector4(const float* src)
-    {
-        set(src);
-    }
-
     Vector4::Vector4(const Vector4& p1, const Vector4& p2)
     {
         set(p1, p2);
@@ -75,7 +70,7 @@ namespace ouzel
             components[componentIndex++] = static_cast<float>(component) / 255.0f;
         }
 
-        Vector4 value(components);
+        Vector4 value(components[0], components[1], components[2], components[3]);
         return value;
     }
 
@@ -196,16 +191,6 @@ namespace ouzel
         dst.y *= n;
         dst.z *= n;
         dst.w *= n;
-    }
-
-    void Vector4::set(const float* array)
-    {
-        assert(array);
-
-        x = array[0];
-        y = array[1];
-        z = array[2];
-        w = array[3];
     }
 
     void Vector4::smooth(const Vector4& target, float elapsedTime, float responseTime)

@@ -595,13 +595,6 @@ namespace ouzel
         void set(const float* array);
 
         /**
-         * Sets the values of this matrix to those of the specified matrix.
-         *
-         * @param matrix The source matrix.
-         */
-        void set(const Matrix4& matrix);
-
-        /**
          * Sets this matrix to the identity matrix.
          */
         void setIdentity();

@@ -17,11 +17,6 @@ namespace ouzel
     const Vector3 Vector3::UNIT_Y(0.0f, 1.0f, 0.0f);
     const Vector3 Vector3::UNIT_Z(0.0f, 0.0f, 1.0f);
 
-    Vector3::Vector3(const float* array)
-    {
-        set(array);
-    }
-
     Vector3::Vector3(const Vector3& p1, const Vector3& p2)
     {
         set(p1, p2);
@@ -71,7 +66,7 @@ namespace ouzel
             components[componentIndex++] = static_cast<float>(component) / 255.0f;
         }
 
-        Vector3 value(components);
+        Vector3 value(components[0], components[1], components[2]);
         return value;
     }
 
@@ -188,15 +183,6 @@ namespace ouzel
         dst.x *= n;
         dst.y *= n;
         dst.z *= n;
-    }
-
-    void Vector3::set(const float* array)
-    {
-        assert(array);
-
-        x = array[0];
-        y = array[1];
-        z = array[2];
     }
 
     void Vector3::smooth(const Vector3& target, float elapsedTime, float responseTime)

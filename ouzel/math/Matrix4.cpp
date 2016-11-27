@@ -175,19 +175,19 @@ namespace ouzel
     void Matrix4::createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
                                  const Vector3& cameraUpVector, Matrix4& dst)
     {
-        createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, NULL, dst);
+        createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, Vector3(), dst);
     }
 
     void Matrix4::createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                 const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
-                                 Matrix4& dst)
+                                  const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
+                                  Matrix4& dst)
     {
         createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, cameraForwardVector, dst);
     }
 
     void Matrix4::createBillboardHelper(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                       const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
-                                       Matrix4& dst)
+                                        const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
+                                        Matrix4& dst)
     {
         Vector3 delta(objectPosition, cameraPosition);
         bool isSufficientDelta = delta.lengthSquared() > EPSILON;
@@ -1110,11 +1110,6 @@ namespace ouzel
     {
         assert(array);
         std::copy(array, array + sizeof(m) / sizeof(float), m);
-    }
-
-    void Matrix4::set(const Matrix4& matrix)
-    {
-        std::copy(matrix.m, matrix.m + sizeof(matrix.m) / sizeof(float), m);
     }
 
     void Matrix4::setIdentity()
