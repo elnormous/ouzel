@@ -7,7 +7,7 @@
 #include "utils/Noncopyable.h"
 #include "math/AABB2.h"
 #include "math/Matrix4.h"
-#include "graphics/Color.h"
+#include "math/Color.h"
 
 namespace ouzel
 {
@@ -23,11 +23,11 @@ namespace ouzel
             virtual ~Component();
 
             virtual void draw(const Matrix4& transformMatrix,
-                              const graphics::Color& drawColor,
+                              const Color& drawColor,
                               scene::Camera* camera);
 
             virtual void drawWireframe(const Matrix4& transformMatrix,
-                                       const graphics::Color& drawColor,
+                                       const Color& drawColor,
                                        scene::Camera* camera);
 
             virtual const AABB2& getBoundingBox() const { return boundingBox; }

@@ -12,6 +12,7 @@ namespace ouzel
 {
     class Vector2;
     class Vector3;
+    class Color;
 
     /**
      * Defines 4-element floating point vector.
@@ -91,7 +92,7 @@ namespace ouzel
          *
          * @return A vector corresponding to the interpreted RGBA color.
          */
-        static Vector4 fromColor(unsigned int color);
+        static Vector4 fromColor(const Color& color);
 
         /**
          * Indicates whether this vector contains all zeros.

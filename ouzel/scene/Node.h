@@ -8,7 +8,7 @@
 #include "math/Vector2.h"
 #include "math/Matrix4.h"
 #include "math/AABB2.h"
-#include "graphics/Color.h"
+#include "math/Color.h"
 #include "core/UpdateCallback.h"
 
 namespace ouzel
@@ -46,8 +46,8 @@ namespace ouzel
             virtual void setScale(const Vector2& newScale);
             virtual const Vector2& getScale() const { return scale; }
 
-            virtual void setColor(const graphics::Color& newColor);
-            virtual const graphics::Color& getColor() const { return color; }
+            virtual void setColor(const Color& newColor);
+            virtual const Color& getColor() const { return color; }
 
             virtual void setOpacity(float newOpacity);
             virtual float getOpacity() const { return opacity; }
@@ -163,7 +163,7 @@ namespace ouzel
             Vector3 position;
             float rotation = 0.0f;
             Vector2 scale = Vector2(1.0f, 1.0f);
-            graphics::Color color = graphics::Color::WHITE;
+            Color color = Color::WHITE;
             float opacity = 1.0f;
             int32_t worldOrder = 0;
             int32_t order = 0;

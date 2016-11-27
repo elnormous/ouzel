@@ -7,7 +7,7 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
-#include "graphics/Color.h"
+#include "math/Color.h"
 #include "graphics/Texture.h"
 #include "graphics/MeshBuffer.h"
 #include "graphics/Vertex.h"
@@ -34,7 +34,7 @@ namespace ouzel
 
         float getHeight() { return lineHeight; }
 
-        void getVertices(const std::string& text, const graphics::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices);
+        void getVertices(const std::string& text, const Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices);
 
         const graphics::TexturePtr& getTexture() const { return texture; }
 

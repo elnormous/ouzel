@@ -14,12 +14,12 @@ using namespace ouzel;
 
 MainMenu::MainMenu(Samples& aSamples):
     samples(aSamples),
-    spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", graphics::Color(20, 0, 0, 255), "arial.fnt"),
-    guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", graphics::Color(20, 0, 0, 255), "arial.fnt"),
-    renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", graphics::Color(20, 0, 0, 255), "arial.fnt"),
-    animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", graphics::Color(20, 0, 0, 255), "arial.fnt"),
-    inputButton("button.png", "button_selected.png", "button_down.png", "", "Input", graphics::Color(20, 0, 0, 255), "arial.fnt"),
-    soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", graphics::Color(20, 0, 0, 255), "arial.fnt")
+    spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", Color(20, 0, 0, 255), "arial.fnt"),
+    guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", Color(20, 0, 0, 255), "arial.fnt"),
+    renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", Color(20, 0, 0, 255), "arial.fnt"),
+    animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", Color(20, 0, 0, 255), "arial.fnt"),
+    inputButton("button.png", "button_selected.png", "button_down.png", "", "Input", Color(20, 0, 0, 255), "arial.fnt"),
+    soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", Color(20, 0, 0, 255), "arial.fnt")
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);

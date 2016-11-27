@@ -56,7 +56,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/opengl/TextureOGL.cpp \
     ../../ouzel/graphics/opengl/VertexBufferOGL.cpp \
     ../../ouzel/graphics/BlendState.cpp \
-    ../../ouzel/graphics/Color.cpp \
     ../../ouzel/graphics/Image.cpp \
     ../../ouzel/graphics/IndexBuffer.cpp \
     ../../ouzel/graphics/MeshBuffer.cpp \
@@ -87,6 +86,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/localization/Language.cpp \
     ../../ouzel/localization/Localization.cpp \
     ../../ouzel/math/AABB2.cpp \
+    ../../ouzel/math/Color.cpp \
     ../../ouzel/math/MathUtils.cpp \
     ../../ouzel/math/Matrix3.cpp \
     ../../ouzel/math/Matrix4.cpp \

@@ -8,6 +8,7 @@ namespace ouzel
     class Matrix;
     class Vector2;
     class Vector4;
+    class Color;
 
     /**
      * Defines a 3-element floating point vector.
@@ -88,7 +89,7 @@ namespace ouzel
          *
          * @return A vector corresponding to the interpreted RGB color.
          */
-        static Vector3 fromColor(unsigned int color);
+        static Vector3 fromColor(const Color& color);
 
         /**
          * Indicates whether this vector contains all zeros.

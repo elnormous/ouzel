@@ -86,7 +86,7 @@ namespace ouzel
                 calculateTransform();
             }
 
-            graphics::Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
+            Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
 
             for (Component* component : components)
             {
@@ -104,7 +104,7 @@ namespace ouzel
                 calculateTransform();
             }
 
-            graphics::Color drawColor(color.r, color.g, color.b, 255);
+            Color drawColor(color.r, color.g, color.b, 255);
 
             for (Component* component : components)
             {
@@ -159,7 +159,7 @@ namespace ouzel
             localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setColor(const graphics::Color& newColor)
+        void Node::setColor(const Color& newColor)
         {
             color = newColor;
         }

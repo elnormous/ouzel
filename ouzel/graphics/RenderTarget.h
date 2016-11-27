@@ -7,7 +7,7 @@
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
-#include "graphics/Color.h"
+#include "math/Color.h"
 #include "math/Size2.h"
 
 namespace ouzel

@@ -36,7 +36,7 @@ namespace ouzel
         }
 
         void ParticleSystem::draw(const Matrix4& transformMatrix,
-                                  const graphics::Color& drawColor,
+                                  const Color& drawColor,
                                   scene::Camera* camera)
         {
             Component::draw(transformMatrix, drawColor, camera);
@@ -84,7 +84,7 @@ namespace ouzel
         }
 
         void ParticleSystem::drawWireframe(const Matrix4& transformMatrix,
-                                           const graphics::Color& drawColor,
+                                           const Color& drawColor,
                                            scene::Camera* camera)
         {
             Component::drawWireframe(transformMatrix, drawColor, camera);
@@ -324,10 +324,10 @@ namespace ouzel
                 indices.push_back(i * 4 + 3);
                 indices.push_back(i * 4 + 2);
 
-                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), graphics::Color::WHITE, Vector2(0.0f, 1.0f)));
-                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), graphics::Color::WHITE, Vector2(1.0f, 1.0f)));
-                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  graphics::Color::WHITE, Vector2(0.0f, 0.0f)));
-                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  graphics::Color::WHITE, Vector2(1.0f, 0.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), Color::WHITE, Vector2(0.0f, 1.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), Color::WHITE, Vector2(1.0f, 1.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  Color::WHITE, Vector2(0.0f, 0.0f)));
+                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  Color::WHITE, Vector2(1.0f, 0.0f)));
             }
 
             indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
@@ -378,10 +378,10 @@ namespace ouzel
                     Vector2 c(v2.x * cr - v2.y * sr, v2.x * sr + v2.y * cr);
                     Vector2 d(v1.x * cr - v2.y * sr, v1.x * sr + v2.y * cr);
 
-                    graphics::Color color(static_cast<uint8_t>(particles[i].colorRed * 255),
-                                       static_cast<uint8_t>(particles[i].colorGreen * 255),
-                                       static_cast<uint8_t>(particles[i].colorBlue * 255),
-                                       static_cast<uint8_t>(particles[i].colorAlpha * 255));
+                    Color color(static_cast<uint8_t>(particles[i].colorRed * 255),
+                                static_cast<uint8_t>(particles[i].colorGreen * 255),
+                                static_cast<uint8_t>(particles[i].colorBlue * 255),
+                                static_cast<uint8_t>(particles[i].colorAlpha * 255));
 
                     vertices[i * 4 + 0].position = a + position;
                     vertices[i * 4 + 0].color = color;

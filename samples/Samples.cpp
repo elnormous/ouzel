@@ -25,7 +25,7 @@ void Samples::begin(const std::string& sample)
     sharedApplication->getFileSystem()->addResourcePath("../../Resources");
 #endif
 
-    sharedEngine->getRenderer()->setClearColor(graphics::Color(64, 0, 0));
+    sharedEngine->getRenderer()->setClearColor(Color(64, 0, 0));
     sharedEngine->getWindow()->setTitle("Samples");
 
     if (!sample.empty())

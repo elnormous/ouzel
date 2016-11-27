@@ -5,7 +5,7 @@
 
 #include "math/Vector2.h"
 #include "math/Vector3.h"
-#include "graphics/Color.h"
+#include "math/Color.h"
 
 namespace ouzel
 {

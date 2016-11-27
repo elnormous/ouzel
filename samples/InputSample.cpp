@@ -9,7 +9,7 @@ using namespace ouzel;
 
 InputSample::InputSample(Samples& aSamples):
     samples(aSamples),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", Color::BLACK, "arial.fnt")
 {
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -37,7 +37,7 @@ InputSample::InputSample(Samples& aSamples):
 
     guiLayer.addChild(&menu);
 
-    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", graphics::Color::BLACK, "arial.fnt"));
+    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", Color::BLACK, "arial.fnt"));
     button->setPosition(Vector2(-200.0f, 200.0f));
     menu.addWidget(button.get());
 

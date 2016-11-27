@@ -7,6 +7,7 @@
 #include "Vector4.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "Color.h"
 #include "MathUtils.h"
 
 namespace ouzel
@@ -59,19 +60,12 @@ namespace ouzel
         return *this;
     }
 
-    Vector4 Vector4::fromColor(unsigned int color)
+    Vector4 Vector4::fromColor(const Color& color)
     {
-        float components[4];
-        int componentIndex = 0;
-        for (int i = 3; i >= 0; --i)
-        {
-            int component = (color >> i*8) & 0x000000ff;
-
-            components[componentIndex++] = static_cast<float>(component) / 255.0f;
-        }
-
-        Vector4 value(components[0], components[1], components[2], components[3]);
-        return value;
+        return Vector4(static_cast<float>(color.r) / 255.0f,
+                       static_cast<float>(color.g) / 255.0f,
+                       static_cast<float>(color.b) / 255.0f,
+                       static_cast<float>(color.a) / 255.0f);
     }
 
     float Vector4::angle(const Vector4& v1, const Vector4& v2)

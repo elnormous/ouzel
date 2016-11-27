@@ -36,7 +36,7 @@ namespace ouzel
         }
 
         void ShapeDrawable::draw(const Matrix4& transformMatrix,
-                                 const graphics::Color& drawColor,
+                                 const Color& drawColor,
                                  scene::Camera* camera)
         {
             Component::draw(transformMatrix, drawColor, camera);
@@ -74,7 +74,7 @@ namespace ouzel
         }
 
         void ShapeDrawable::drawWireframe(const Matrix4& transformMatrix,
-                                          const graphics::Color& drawColor,
+                                          const Color& drawColor,
                                           scene::Camera* camera)
         {
             Component::drawWireframe(transformMatrix, drawColor, camera);
@@ -123,7 +123,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::point(const Vector2& position, const graphics::Color& color)
+        void ShapeDrawable::point(const Vector2& position, const Color& color)
         {
             DrawCommand command;
 
@@ -143,7 +143,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const graphics::Color& color)
+        void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const Color& color)
         {
             DrawCommand command;
 
@@ -167,7 +167,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::circle(const Vector2& position, float radius, const graphics::Color& color, bool fill, uint32_t segments)
+        void ShapeDrawable::circle(const Vector2& position, float radius, const Color& color, bool fill, uint32_t segments)
         {
             if (segments < 3)
             {
@@ -230,7 +230,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::rectangle(const Rectangle& rectangle, const graphics::Color& color, bool fill)
+        void ShapeDrawable::rectangle(const Rectangle& rectangle, const Color& color, bool fill)
         {
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -273,7 +273,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::triangle(const Vector2 (&positions)[3], const graphics::Color& color, bool fill)
+        void ShapeDrawable::triangle(const Vector2 (&positions)[3], const Color& color, bool fill)
         {
             DrawCommand command;
             command.indexCount = 3;
@@ -304,7 +304,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::polygon(const std::vector<Vector2>& edges, const graphics::Color& color, bool fill)
+        void ShapeDrawable::polygon(const std::vector<Vector2>& edges, const Color& color, bool fill)
         {
             if (edges.size() < 3) return;
 

@@ -9,7 +9,7 @@ using namespace ouzel;
 
 AnimationsSample::AnimationsSample(Samples& aSamples):
     samples(aSamples),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", Color::BLACK, "arial.fnt")
 {
     eventHandler.uiHandler = bind(&AnimationsSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&AnimationsSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
@@ -20,13 +20,13 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     layer.addCamera(&camera);
     addLayer(&layer);
 
-    shapeDrawable.rectangle(ouzel::Rectangle(100.0f, 100.0f), graphics::Color(0, 128, 128, 255), true);
-    shapeDrawable.rectangle(ouzel::Rectangle(100.0f, 100.0f), graphics::Color::WHITE, false);
-    shapeDrawable.line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), graphics::Color::CYAN);
-    shapeDrawable.point(Vector2(75.0f, 75.0f), graphics::Color::RED);
+    shapeDrawable.rectangle(ouzel::Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
+    shapeDrawable.rectangle(ouzel::Rectangle(100.0f, 100.0f), Color::WHITE, false);
+    shapeDrawable.line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color::CYAN);
+    shapeDrawable.point(Vector2(75.0f, 75.0f), Color::RED);
 
-    shapeDrawable.circle(Vector2(75.0f, 75.0f), 20.0f, graphics::Color::BLUE);
-    shapeDrawable.circle(Vector2(25.0f, 75.0f), 20.0f, graphics::Color::BLUE, true);
+    shapeDrawable.circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE);
+    shapeDrawable.circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
 
     drawNode.addComponent(&shapeDrawable);
     drawNode.setPosition(Vector2(-300, 0.0f));

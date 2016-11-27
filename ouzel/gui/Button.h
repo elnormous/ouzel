@@ -8,7 +8,7 @@
 #include "gui/Widget.h"
 #include "events/Event.h"
 #include "events/EventHandler.h"
-#include "graphics/Color.h"
+#include "math/Color.h"
 
 namespace ouzel
 {
@@ -18,7 +18,7 @@ namespace ouzel
         {
         public:
             Button(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
-                   const std::string& label = "", const graphics::Color& labelColor = graphics::Color::WHITE, const std::string& font = "");
+                   const std::string& label = "", const Color& labelColor = Color::WHITE, const std::string& font = "");
 
             virtual void setEnabled(bool newEnabled) override;
             virtual void setSelected(bool newSelected) override;

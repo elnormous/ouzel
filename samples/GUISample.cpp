@@ -9,7 +9,7 @@ using namespace ouzel;
 
 GUISample::GUISample(Samples& aSamples):
     samples(aSamples),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", Color::BLACK, "arial.fnt")
 {
     eventHandler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1, placeholders::_2);
@@ -22,7 +22,7 @@ GUISample::GUISample(Samples& aSamples):
 
     guiLayer.addChild(&menu);
 
-    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Button", graphics::Color::RED, "arial.fnt"));
+    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Button", Color::RED, "arial.fnt"));
     button->setPosition(Vector2(-200.0f, 100.0f));
     menu.addWidget(button.get());
 
@@ -30,12 +30,12 @@ GUISample::GUISample(Samples& aSamples):
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
     guiLayer.addChild(checkBox.get());
 
-    fullscreenButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", graphics::Color::BLACK, "arial.fnt"));
+    fullscreenButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", Color::BLACK, "arial.fnt"));
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
     menu.addWidget(fullscreenButton.get());
 
     label1.reset(new gui::Label("arial.fnt", "checkbox"));
-    label1->setColor(graphics::Color::CYAN);
+    label1->setColor(Color::CYAN);
     label1->setPosition(Vector2(-60.0f, 100.0f));
     guiLayer.addChild(label1.get());
 
@@ -47,7 +47,7 @@ GUISample::GUISample(Samples& aSamples):
     guiLayer.addChild(label2.get());
 
     label3.reset(new gui::Label("ArialBlack.fnt", "UTF-8 ĀāČč\nNew line", Vector2(0.0f, 0.5f)));
-    label3->setColor(graphics::Color::BLUE);
+    label3->setColor(Color::BLUE);
     label3->setPosition(Vector2(-100.0f, -100.0f));
     label3->setScale(Vector2(0.5f, 0.5f));
     guiLayer.addChild(label3.get());

@@ -7,7 +7,7 @@
 #include <string>
 #include "gui/Widget.h"
 #include "utils/Types.h"
-#include "graphics/Color.h"
+#include "math/Color.h"
 #include "scene/TextDrawable.h"
 
 namespace ouzel

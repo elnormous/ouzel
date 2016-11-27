@@ -10,7 +10,7 @@ using namespace ouzel;
 RTSample::RTSample(Samples& aSamples):
     samples(aSamples),
     characterSprite("run.json"),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", graphics::Color::BLACK, "arial.fnt")
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", Color::BLACK, "arial.fnt")
 {
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
@@ -20,7 +20,7 @@ RTSample::RTSample(Samples& aSamples):
 
     ouzel::graphics::RenderTargetPtr renderTarget = sharedEngine->getRenderer()->createRenderTarget();
     renderTarget->init(Size2(256.0f, 256.0f), false);
-    renderTarget->setClearColor(graphics::Color(0, 64, 0));
+    renderTarget->setClearColor(Color(0, 64, 0));
 
     rtCamera.setRenderTarget(renderTarget);
     rtLayer.addCamera(&rtCamera);

@@ -10,7 +10,7 @@
 #include "utils/Types.h"
 #include "scene/ParticleDefinition.h"
 #include "math/Vector2.h"
-#include "graphics/Color.h"
+#include "math/Color.h"
 #include "graphics/Vertex.h"
 #include "core/UpdateCallback.h"
 
@@ -25,11 +25,11 @@ namespace ouzel
             ParticleSystem(const std::string& filename);
 
             virtual void draw(const Matrix4& transformMatrix,
-                              const graphics::Color& drawColor,
+                              const Color& drawColor,
                               scene::Camera* camera) override;
 
             virtual void drawWireframe(const Matrix4& transformMatrix,
-                                       const graphics::Color& drawColor,
+                                       const Color& drawColor,
                                        scene::Camera* camera) override;
 
             virtual void update(float delta);

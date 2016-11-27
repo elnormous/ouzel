@@ -209,7 +209,7 @@ namespace ouzel
         return total;
     }
 
-    void BMFont::getVertices(const std::string& text, const graphics::Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices)
+    void BMFont::getVertices(const std::string& text, const Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices)
     {
         Vector2 position;
 

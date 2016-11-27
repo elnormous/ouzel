@@ -18,7 +18,7 @@ namespace ouzel
     namespace gui
     {
         Button::Button(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
-                       const std::string& label, const graphics::Color& labelColor, const std::string& font):
+                       const std::string& label, const Color& labelColor, const std::string& font):
             eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
