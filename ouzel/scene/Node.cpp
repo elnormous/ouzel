@@ -309,7 +309,7 @@ namespace ouzel
         {
             localTransform = Matrix4::IDENTITY;
             localTransform.translate(position);
-            if (rotation != 0.0f) localTransform.rotateZ(-rotation);
+            if (rotation != 0.0f) localTransform.rotateZ(rotation);
 
             Vector3 realScale = Vector3(scale.x * (flipX ? -1.0f : 1.0f),
                                         scale.y * (flipY ? -1.0f : 1.0f),

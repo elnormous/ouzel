@@ -112,7 +112,7 @@ namespace ouzel
             if (scale.x != 0.0f) inverseScale.x = 1.0f / scale.x;
             if (scale.y != 0.0f) inverseScale.y = 1.0f / scale.y;
             localTransform.scale(inverseScale);
-            localTransform.rotateZ(rotation);
+            localTransform.rotateZ(-rotation);
             localTransform.translate(-position);
 
             localTransformDirty = false;

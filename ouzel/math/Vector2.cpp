@@ -143,7 +143,7 @@ namespace ouzel
         float cosAngle = cosf(angle);
 
         float tempX = x * cosAngle + y * sinAngle;
-        y = y * cosAngle - x * sinAngle;
+        y = y * cosAngle + x * sinAngle;
         x = tempX;
     }
 
@@ -155,7 +155,7 @@ namespace ouzel
         if (point.isZero())
         {
             float tempX = x * cosAngle + y * sinAngle;
-            y = y * cosAngle - x * sinAngle;
+            y = y * cosAngle + x * sinAngle;
             x = tempX;
         }
         else
@@ -164,7 +164,7 @@ namespace ouzel
             float tempY = y - point.y;
 
             x = tempX * cosAngle + tempY * sinAngle + point.x;
-            y = tempY * cosAngle - tempX * sinAngle + point.y;
+            y = tempY * cosAngle + tempX * sinAngle + point.y;
         }
     }
 
