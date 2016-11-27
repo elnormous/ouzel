@@ -21,8 +21,6 @@
 #include "core/windows/WindowWin.h"
 #include "stb_image_write.h"
 
-using namespace ouzel;
-
 namespace ouzel
 {
     namespace graphics

@@ -3,8 +3,6 @@
 
 #include "ApplicationRasp.h"
 
-using namespace ouzel;
-
 int main(int argc, char* argv[])
 {
     ouzel::ApplicationRasp application(argc, argv);
