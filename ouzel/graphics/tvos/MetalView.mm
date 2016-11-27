@@ -7,8 +7,6 @@
 #include "graphics/metal/RendererMetal.h"
 #include "utils/Utils.h"
 
-using namespace ouzel;
-
 @interface ViewDelegate: NSObject<MTKViewDelegate>
 
 @end
@@ -17,13 +15,13 @@ using namespace ouzel;
 
 -(void)mtkView:(nonnull __unused MTKView *)view drawableSizeWillChange:(CGSize)size
 {
-    sharedEngine->getRenderer()->setSize(ouzel::Size2(static_cast<float>(size.width),
-                                                      static_cast<float>(size.height)));
+    ouzel::sharedEngine->getRenderer()->setSize(ouzel::Size2(static_cast<float>(size.width),
+                                                             static_cast<float>(size.height)));
 }
 
 -(void)drawInMTKView:(nonnull __unused MTKView*)view
 {
-    if (sharedEngine->isRunning() && !sharedEngine->draw())
+    if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
     {
         // tvOS app should not be exited
     }

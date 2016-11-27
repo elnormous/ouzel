@@ -6,8 +6,6 @@
 #include "core/Window.h"
 #include "utils/Utils.h"
 
-using namespace ouzel;
-
 @implementation OpenGLView
 
 -(id)initWithFrame:(CGRect)frameRect
@@ -49,7 +47,7 @@ using namespace ouzel;
 
 -(void)draw:(__unused id)sender
 {
-    if (sharedEngine->isRunning() && !sharedEngine->draw())
+    if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
     {
         // tvOS app should not be exited
     }
