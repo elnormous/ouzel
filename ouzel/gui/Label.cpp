@@ -15,7 +15,7 @@ namespace ouzel
     namespace gui
     {
         Label::Label(const std::string& fontFile, const std::string& pText, const Vector2& textAnchor):
-            text(pText), textDrawable(fontFile, text, textAnchor)
+            text(pText), textDrawable(fontFile, true, text, textAnchor)
         {
             addComponent(&textDrawable);
             textDrawable.setText(text);

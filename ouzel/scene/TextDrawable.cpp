@@ -15,7 +15,10 @@ namespace ouzel
 {
     namespace scene
     {
-        TextDrawable::TextDrawable(const std::string& fontFile, const std::string& aText, const Vector2& aTextAnchor)
+        TextDrawable::TextDrawable(const std::string& fontFile,
+                                   bool mipmaps,
+                                   const std::string& aText,
+                                   const Vector2& aTextAnchor)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
@@ -34,7 +37,7 @@ namespace ouzel
 
             textAnchor = aTextAnchor;
 
-            font = sharedEngine->getCache()->getBMFont(fontFile);
+            font = sharedEngine->getCache()->getBMFont(fontFile, mipmaps);
             texture = font.getTexture();
 
             setText(aText);

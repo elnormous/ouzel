@@ -20,9 +20,9 @@ namespace ouzel
     {
     }
 
-    BMFont::BMFont(const std::string& filename)
+    BMFont::BMFont(const std::string& filename, bool mipmaps)
     {
-        if (!parseFont(filename))
+        if (!parseFont(filename, mipmaps))
         {
             Log(Log::Level::ERR) << "Failed to parse font " << filename;
         }
@@ -30,7 +30,7 @@ namespace ouzel
         kernCount = static_cast<uint16_t>(kern.size());
     }
 
-    bool BMFont::parseFont(const std::string& filename)
+    bool BMFont::parseFont(const std::string& filename, bool mipmaps)
     {
         std::vector<uint8_t> data;
         if (!sharedApplication->getFileSystem()->loadFile(filename, data))
@@ -84,7 +84,7 @@ namespace ouzel
                             value = value.substr(1, value.length() - 2);
                         }
 
-                        texture = sharedEngine->getCache()->getTexture(value, false, true);
+                        texture = sharedEngine->getCache()->getTexture(value, false, mipmaps);
                     }
                 }
             }
@@ -209,7 +209,9 @@ namespace ouzel
         return total;
     }
 
-    void BMFont::getVertices(const std::string& text, const Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices)
+    void BMFont::getVertices(const std::string& text, const Color& color,
+                             const Vector2& anchor, std::vector<uint16_t>& indices,
+                             std::vector<graphics::VertexPCT>& vertices)
     {
         Vector2 position;
 

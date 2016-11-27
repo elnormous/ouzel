@@ -30,16 +30,19 @@ namespace ouzel
     {
     public:
         BMFont();
-        BMFont(const std::string& filename);
+        BMFont(const std::string& filename, bool mipmaps);
 
         float getHeight() { return lineHeight; }
 
-        void getVertices(const std::string& text, const Color& color, const Vector2& anchor, std::vector<uint16_t>& indices, std::vector<graphics::VertexPCT>& vertices);
+        void getVertices(const std::string& text, const Color& color,
+                         const Vector2& anchor,
+                         std::vector<uint16_t>& indices,
+                         std::vector<graphics::VertexPCT>& vertices);
 
         const graphics::TexturePtr& getTexture() const { return texture; }
 
     protected:
-        bool parseFont(const std::string& filename);
+        bool parseFont(const std::string& filename, bool mipmaps);
         int16_t getKerningPair(uint32_t, uint32_t);
         float getStringWidth(const std::string& text);
 
