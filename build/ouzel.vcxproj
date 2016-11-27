@@ -51,7 +51,6 @@
     <ClCompile Include="..\ouzel\events\EventHandler.cpp" />
     <ClCompile Include="..\ouzel\files\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
-    <ClCompile Include="..\ouzel\graphics\Color.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\BlendStateD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\IndexBufferD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\MeshBufferD3D11.cpp" />
@@ -98,6 +97,7 @@
     <ClCompile Include="..\ouzel\localization\Language.cpp" />
     <ClCompile Include="..\ouzel\localization\Localization.cpp" />
     <ClCompile Include="..\ouzel\math\AABB2.cpp" />
+    <ClCompile Include="..\ouzel\math\Color.cpp" />
     <ClCompile Include="..\ouzel\math\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix3.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix4.cpp" />
@@ -158,7 +158,6 @@
     <ClInclude Include="..\ouzel\events\EventHandler.h" />
     <ClInclude Include="..\ouzel\files\FileSystem.h" />
     <ClInclude Include="..\ouzel\graphics\BlendState.h" />
-    <ClInclude Include="..\ouzel\graphics\Color.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorVSD3D11.h" />
@@ -211,6 +210,7 @@
     <ClInclude Include="..\ouzel\localization\Language.h" />
     <ClInclude Include="..\ouzel\localization\Localization.h" />
     <ClInclude Include="..\ouzel\math\AABB2.h" />
+    <ClInclude Include="..\ouzel\math\Color.h" />
     <ClInclude Include="..\ouzel\math\MathUtils.h" />
     <ClInclude Include="..\ouzel\math\Matrix3.h" />
     <ClInclude Include="..\ouzel\math\Matrix4.h" />

@@ -49,9 +49,6 @@
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\Color.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Image.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -310,6 +307,9 @@
     <ClCompile Include="..\ouzel\utils\Log.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\math\Color.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -371,9 +371,6 @@
       <Filter>files</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\BlendState.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Color.h">
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Image.h">
@@ -651,6 +648,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\Log.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\math\Color.h">
+      <Filter>math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
