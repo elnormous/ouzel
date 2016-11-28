@@ -20,9 +20,9 @@ namespace ouzel
     {
     }
 
-    BMFont::BMFont(const std::string& filename, bool mipmaps)
+    BMFont::BMFont(const std::string& filename)
     {
-        if (!parseFont(filename, mipmaps))
+        if (!parseFont(filename))
         {
             Log(Log::Level::ERR) << "Failed to parse font " << filename;
         }
@@ -30,7 +30,7 @@ namespace ouzel
         kernCount = static_cast<uint16_t>(kern.size());
     }
 
-    bool BMFont::parseFont(const std::string& filename, bool mipmaps)
+    bool BMFont::parseFont(const std::string& filename)
     {
         std::vector<uint8_t> data;
         if (!sharedApplication->getFileSystem()->loadFile(filename, data))
@@ -84,7 +84,7 @@ namespace ouzel
                             value = value.substr(1, value.length() - 2);
                         }
 
-                        texture = sharedEngine->getCache()->getTexture(value, false, mipmaps);
+                        texture = value;
                     }
                 }
             }
@@ -211,7 +211,8 @@ namespace ouzel
 
     void BMFont::getVertices(const std::string& text, const Color& color,
                              const Vector2& anchor, std::vector<uint16_t>& indices,
-                             std::vector<graphics::VertexPCT>& vertices)
+                             std::vector<graphics::VertexPCT>& vertices,
+                             bool flippTextureCoords)
     {
         Vector2 position;
 
@@ -250,7 +251,7 @@ namespace ouzel
                 Vector2 rightBottom((f.x + f.width) / static_cast<float>(width),
                                     (f.y + f.height) / static_cast<float>(height));
 
-                if (texture->isFlipped())
+                if (flippTextureCoords)
                 {
                     leftTop.y = 1.0f - leftTop.y;
                     rightBottom.y = 1.0f - rightBottom.y;

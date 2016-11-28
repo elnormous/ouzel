@@ -16,9 +16,12 @@ namespace ouzel
     namespace scene
     {
         TextDrawable::TextDrawable(const std::string& fontFile,
-                                   bool mipmaps,
+                                   bool aMipmaps,
                                    const std::string& aText,
-                                   const Vector2& aTextAnchor)
+                                   const Vector2& aTextAnchor):
+            text(aText),
+            textAnchor(aTextAnchor),
+            mipmaps(aMipmaps)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
@@ -35,18 +38,16 @@ namespace ouzel
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
             meshBuffer->init(indexBuffer, vertexBuffer);
 
-            textAnchor = aTextAnchor;
+            font = sharedEngine->getCache()->getBMFont(fontFile);
+            texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
 
-            font = sharedEngine->getCache()->getBMFont(fontFile, mipmaps);
-            texture = font.getTexture();
-
-            setText(aText);
+            updateText();
         }
 
         void TextDrawable::setFont(const std::string& fontFile)
         {
             font = sharedEngine->getCache()->getBMFont(fontFile);
-            texture = font.getTexture();
+            texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
 
             setText(text);
         }
@@ -127,24 +128,21 @@ namespace ouzel
         {
             text = newText;
 
-            font.getVertices(text, color, textAnchor, indices, vertices);
-            needsMeshUpdate = true;
-
-            updateBounds();
+            updateText();
         }
 
         void TextDrawable::setColor(const Color& newColor)
         {
             color = newColor;
 
+            updateText();
+        }
+
+        void TextDrawable::updateText()
+        {
             font.getVertices(text, color, textAnchor, indices, vertices);
             needsMeshUpdate = true;
 
-            updateBounds();
-        }
-
-        void TextDrawable::updateBounds()
-        {
             boundingBox.reset();
 
             for (const graphics::VertexPCT& vertex : vertices)

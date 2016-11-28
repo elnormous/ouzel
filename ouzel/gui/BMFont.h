@@ -3,13 +3,10 @@
 
 #pragma once
 
-#include <memory>
 #include <vector>
 #include <map>
 #include <unordered_map>
 #include "math/Color.h"
-#include "graphics/Texture.h"
-#include "graphics/MeshBuffer.h"
 #include "graphics/Vertex.h"
 
 namespace ouzel
@@ -30,19 +27,20 @@ namespace ouzel
     {
     public:
         BMFont();
-        BMFont(const std::string& filename, bool mipmaps);
+        BMFont(const std::string& filename);
 
         float getHeight() { return lineHeight; }
 
         void getVertices(const std::string& text, const Color& color,
                          const Vector2& anchor,
                          std::vector<uint16_t>& indices,
-                         std::vector<graphics::VertexPCT>& vertices);
+                         std::vector<graphics::VertexPCT>& vertices,
+                         bool flippTextureCoords = false);
 
-        const graphics::TexturePtr& getTexture() const { return texture; }
+        const std::string& getTexture() const { return texture; }
 
     protected:
-        bool parseFont(const std::string& filename, bool mipmaps);
+        bool parseFont(const std::string& filename);
         int16_t getKerningPair(uint32_t, uint32_t);
         float getStringWidth(const std::string& text);
 
@@ -55,6 +53,6 @@ namespace ouzel
         uint16_t kernCount = 0;
         std::unordered_map<uint32_t, CharDescriptor> chars;
         std::map<std::pair<uint32_t, uint32_t>, int16_t> kern;
-        graphics::TexturePtr texture;
+        std::string texture;
     };
 }

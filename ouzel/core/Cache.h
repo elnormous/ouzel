@@ -38,8 +38,8 @@ namespace ouzel
         void preloadParticleDefinition(const std::string& filename);
         const scene::ParticleDefinition& getParticleDefinition(const std::string& filename) const;
 
-        void preloadBMFont(const std::string& filename, bool mipmaps = true);
-        const BMFont& getBMFont(const std::string& filename, bool mipmaps = true) const;
+        void preloadBMFont(const std::string& filename);
+        const BMFont& getBMFont(const std::string& filename) const;
 
     protected:
         mutable std::unordered_map<std::string, graphics::TexturePtr> textures;

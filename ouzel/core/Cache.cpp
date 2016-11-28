@@ -196,23 +196,23 @@ namespace ouzel
         return particleDefinitions[filename];
     }
 
-    void Cache::preloadBMFont(const std::string& filename, bool mipmaps)
+    void Cache::preloadBMFont(const std::string& filename)
     {
         std::unordered_map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
 
         if (i == bmFonts.end())
         {
-            bmFonts[filename] = BMFont(filename, mipmaps);
+            bmFonts[filename] = BMFont(filename);
         }
     }
 
-    const BMFont& Cache::getBMFont(const std::string& filename, bool mipmaps) const
+    const BMFont& Cache::getBMFont(const std::string& filename) const
     {
         std::unordered_map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
 
         if (i == bmFonts.end())
         {
-            bmFonts[filename] = BMFont(filename, mipmaps);
+            bmFonts[filename] = BMFont(filename);
         }
 
         return bmFonts[filename];

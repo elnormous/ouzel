@@ -17,7 +17,7 @@ namespace ouzel
         {
         public:
             TextDrawable(const std::string& fontFile,
-                         bool mipmaps = true,
+                         bool aMipmaps = true,
                          const std::string& aText = std::string(),
                          const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
 
@@ -47,7 +47,7 @@ namespace ouzel
             virtual void setBlendState(const graphics::BlendStatePtr& newBlendState)  { blendState = newBlendState; }
 
         protected:
-            void updateBounds();
+            void updateText();
 
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;
@@ -60,14 +60,15 @@ namespace ouzel
             graphics::TexturePtr whitePixelTexture;
 
             BMFont font;
-            Vector2 textAnchor;
             std::string text;
+            Vector2 textAnchor;
 
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPCT> vertices;
 
             Color color = Color::WHITE;
 
+            bool mipmaps = true;
             bool needsMeshUpdate = false;
         };
     } // namespace scene
