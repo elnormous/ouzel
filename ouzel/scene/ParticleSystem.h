@@ -34,6 +34,7 @@ namespace ouzel
 
             virtual void update(float delta);
 
+            virtual bool initFromParticleDefinition(const ParticleDefinition& newParticleDefinition);
             virtual bool initFromFile(const std::string& filename);
 
             void resume();
@@ -43,8 +44,8 @@ namespace ouzel
             bool isRunning() const { return running; }
             bool isActive() const { return active; }
 
-            void setPositionType(ParticleDefinition::PositionType newPositionType) { positionType = newPositionType; }
-            ParticleDefinition::PositionType getPositionType() const { return positionType; }
+            void setPositionType(ParticleDefinition::PositionType newPositionType) { particleDefinition.positionType = newPositionType; }
+            ParticleDefinition::PositionType getPositionType() const { return particleDefinition.positionType; }
 
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
@@ -55,7 +56,6 @@ namespace ouzel
             void emitParticles(uint32_t count);
 
             ParticleDefinition particleDefinition;
-            ParticleDefinition::PositionType positionType;
 
             graphics::ShaderPtr shader;
             graphics::BlendStatePtr blendState;

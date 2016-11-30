@@ -51,12 +51,12 @@ namespace ouzel
 
                 Matrix4 transform;
 
-                if (positionType == ParticleDefinition::PositionType::FREE ||
-                    positionType == ParticleDefinition::PositionType::PARENT)
+                if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE ||
+                    particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                 {
                     transform = camera->getViewProjection();
                 }
-                else if (positionType == ParticleDefinition::PositionType::GROUPED)
+                else if (particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
                 {
                     transform = camera->getViewProjection() * transformMatrix;
                 }
@@ -93,12 +93,12 @@ namespace ouzel
             {
                 Matrix4 transform;
 
-                if (positionType == ParticleDefinition::PositionType::FREE ||
-                    positionType == ParticleDefinition::PositionType::PARENT)
+                if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE ||
+                    particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                 {
                     transform = camera->getViewProjection();
                 }
-                else if (positionType == ParticleDefinition::PositionType::GROUPED)
+                else if (particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
                 {
                     transform = camera->getViewProjection() * transformMatrix;
                 }
@@ -237,8 +237,8 @@ namespace ouzel
                 // Update bounding box
                 boundingBox.reset();
 
-                if (positionType == ParticleDefinition::PositionType::FREE ||
-                    positionType == ParticleDefinition::PositionType::PARENT)
+                if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE ||
+                    particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                 {
                     if (node)
                     {
@@ -264,11 +264,27 @@ namespace ouzel
             }
         }
 
+        bool ParticleSystem::initFromParticleDefinition(const ParticleDefinition& newParticleDefinition)
+        {
+            particleDefinition = newParticleDefinition;
+
+            texture = sharedEngine->getCache()->getTexture(particleDefinition.textureFilename);
+
+            if (!texture)
+            {
+                return false;
+            }
+
+            createParticleMesh();
+            resume();
+            
+            return true;
+        }
+
         bool ParticleSystem::initFromFile(const std::string& filename)
         {
             particleDefinition = sharedEngine->getCache()->getParticleDefinition(filename);
 
-            positionType = particleDefinition.positionType;
             texture = sharedEngine->getCache()->getTexture(particleDefinition.textureFilename);
 
             if (!texture)
@@ -356,11 +372,11 @@ namespace ouzel
 
                     Vector2 position;
 
-                    if (positionType == ParticleDefinition::PositionType::FREE)
+                    if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE)
                     {
                         position = particles[i].position;
                     }
-                    else if (positionType == ParticleDefinition::PositionType::PARENT)
+                    else if (particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                     {
                         position = node->getPosition() + particles[i].position;
                     }
@@ -418,11 +434,11 @@ namespace ouzel
                 {
                     Vector2 position;
 
-                    if (positionType == ParticleDefinition::PositionType::FREE)
+                    if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE)
                     {
                         position = node->convertLocalToWorld(Vector2::ZERO);
                     }
-                    else if (positionType == ParticleDefinition::PositionType::PARENT)
+                    else if (particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                     {
                         position = node->convertLocalToWorld(Vector2::ZERO) - node->getPosition();
                     }
