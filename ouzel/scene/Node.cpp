@@ -330,12 +330,7 @@ namespace ouzel
 
         void Node::calculateInverseTransform() const
         {
-            if (transformDirty)
-            {
-                calculateTransform();
-            }
-
-            inverseTransform = transform;
+            inverseTransform = getTransform();
             inverseTransform.invert();
             inverseTransformDirty = false;
         }

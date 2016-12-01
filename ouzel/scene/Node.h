@@ -92,11 +92,6 @@ namespace ouzel
 
             const Matrix4& getInverseTransform() const
             {
-                if (transformDirty)
-                {
-                    calculateTransform();
-                }
-
                 if (inverseTransformDirty)
                 {
                     calculateInverseTransform();
