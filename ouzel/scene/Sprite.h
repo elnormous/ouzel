@@ -22,8 +22,8 @@ namespace ouzel
             Sprite(const std::vector<SpriteFrame>& spriteFrames);
             Sprite(const std::string& filename, bool mipmaps = true);
 
-            virtual bool initFromSpriteFrames(const std::vector<SpriteFrame>& spriteFrames);
-            virtual bool initFromFile(const std::string& filename, bool mipmaps = true);
+            bool initFromSpriteFrames(const std::vector<SpriteFrame>& spriteFrames);
+            bool initFromFile(const std::string& filename, bool mipmaps = true);
 
             virtual void update(float delta);
 

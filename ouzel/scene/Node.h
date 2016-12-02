@@ -61,8 +61,8 @@ namespace ouzel
             virtual void setPickable(bool newPickable) { pickable = newPickable; }
             virtual bool isPickable() const { return pickable; }
 
-            bool isCullDisabled() const { return cullDisabled; }
-            void setCullDisabled(bool newCullDisabled) { cullDisabled = newCullDisabled; }
+            virtual bool isCullDisabled() const { return cullDisabled; }
+            virtual void setCullDisabled(bool newCullDisabled) { cullDisabled = newCullDisabled; }
 
             virtual void setHidden(bool newHidden);
             virtual bool isHidden() const { return hidden; }
@@ -102,11 +102,11 @@ namespace ouzel
 
             virtual void updateTransform(const Matrix4& newParentTransform);
 
-            Vector3 getWorldPosition() const;
-            int32_t getWorldOrder() const { return worldOrder; }
+            virtual Vector3 getWorldPosition() const;
+            virtual int32_t getWorldOrder() const { return worldOrder; }
 
-            Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
-            Vector2 convertLocalToWorld(const Vector2& localPosition) const;
+            virtual Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
+            virtual Vector2 convertLocalToWorld(const Vector2& localPosition) const;
 
             void animate(Animator* animator);
             Animator* getAnimator() const { return currentAnimator; }
