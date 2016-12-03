@@ -533,10 +533,10 @@ namespace ouzel
                 bool clearBuffer = false;
 
                 viewport = {
-                    drawCommand.viewport.x,
-                    drawCommand.viewport.y,
-                    drawCommand.viewport.width,
-                    drawCommand.viewport.height,
+                    drawCommand.viewport.position.x,
+                    drawCommand.viewport.position.y,
+                    drawCommand.viewport.size.width,
+                    drawCommand.viewport.size.height,
                     0.0f, 1.0f
                 };
 
