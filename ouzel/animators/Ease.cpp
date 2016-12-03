@@ -39,7 +39,7 @@ namespace ouzel
             if (t < 0.5f)
                 return 2.0f * t * t;
             else
-                return (-1.0f + (4.0f - 2.0f * t) * t);
+                return -1.0f + (4.0f - 2.0f * t) * t;
         }
 
         static float cubicIn(float t)

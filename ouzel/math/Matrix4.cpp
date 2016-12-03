@@ -535,7 +535,7 @@ namespace ouzel
         float b5 = m[10] * m[15] - m[11] * m[14];
 
         // Calculate the determinant.
-        return (a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0);
+        return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
     }
 
     void Matrix4::getUpVector(Vector3& dst) const

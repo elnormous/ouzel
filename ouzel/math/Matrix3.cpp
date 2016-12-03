@@ -128,8 +128,9 @@ namespace ouzel
         float a3 = m[2] * m[4] * m[6];
         float a4 = m[1] * m[3] * m[8];
         float a5 = m[0] * m[5] * m[7];
+
         // Calculate the determinant.
-        return (a0 + a1 + a2 - a3 - a4 - a5);
+        return a0 + a1 + a2 - a3 - a4 - a5;
     }
 
     bool Matrix3::invert()
