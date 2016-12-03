@@ -593,10 +593,10 @@ namespace ouzel
                 if (drawCommand.scissorTestEnabled)
                 {
                     D3D11_RECT rects[1];
-                    rects[0].left = static_cast<LONG>(drawCommand.scissorTest.x);
-                    rects[0].right = static_cast<LONG>(drawCommand.scissorTest.x + drawCommand.scissorTest.width);
-                    rects[0].bottom = static_cast<LONG>(drawCommand.scissorTest.y);
-                    rects[0].top = static_cast<LONG>(drawCommand.scissorTest.y + drawCommand.scissorTest.height);
+                    rects[0].left = static_cast<LONG>(drawCommand.scissorTest.position.x);
+                    rects[0].right = static_cast<LONG>(drawCommand.scissorTest.position.x + drawCommand.scissorTest.size.width);
+                    rects[0].bottom = static_cast<LONG>(drawCommand.scissorTest.position.y);
+                    rects[0].top = static_cast<LONG>(drawCommand.scissorTest.position.y + drawCommand.scissorTest.size.height);
 
                     context->RSSetScissorRects(1, rects);
                 }
