@@ -34,7 +34,7 @@ namespace ouzel
         }
 
         Rectangle(const Vector2& aPosition, const Size2& aSize):
-            position(aPosition), size(size)
+            position(aPosition), size(aSize)
         {
         }
 
