@@ -11,112 +11,109 @@ namespace ouzel
     class Rectangle
     {
     public:
-        float x;
-        float y;
-        float width;
-        float height;
+        Vector2 position;
+        Size2 size;
 
-        Rectangle():
-            x(0.0f), y(0.0f), width(0.0f), height(0.0f)
+        Rectangle()
         {
         }
 
         Rectangle(float aWidth, float aHeight):
-            x(0.0f), y(0.0f), width(aWidth), height(aHeight)
+            size(aWidth, aHeight)
         {
         }
 
         Rectangle(float aX, float aY, float aWidth, float aHeight):
-            x(aX), y(aY), width(aWidth), height(aHeight)
+            position(aX, aY), size(aWidth, aHeight)
         {
         }
 
-        Rectangle(const Vector2& position, float aWidth, float aHeight):
-            x(position.x), y(position.y), width(aWidth), height(aHeight)
+        Rectangle(const Vector2& aPosition, float aWidth, float aHeight):
+            position(aPosition), size(aWidth, aHeight)
         {
         }
 
-        Rectangle(const Vector2& position, const Size2& size):
-            x(position.x), y(position.y), width(size.width), height(size.height)
+        Rectangle(const Vector2& aPosition, const Size2& aSize):
+            position(aPosition), size(size)
         {
         }
 
         Rectangle(const Rectangle& copy):
-            x(copy.x), y(copy.y), width(copy.width), height(copy.height)
+            position(copy.position), size(copy.size)
         {
         }
 
         inline bool isEmpty() const
         {
-            return width == 0 && height == 0;
+            return size.width == 0 && size.height == 0;
         }
 
         void set(float newX, float newY, float newWidth, float newHeight)
         {
-            x = newX;
-            y = newY;
-            width = newWidth;
-            height = newHeight;
+            position.x = newX;
+            position.y = newY;
+            size.width = newWidth;
+            size.height = newHeight;
         }
 
-        void set(const Vector2& position, float newWidth, float newHeight)
+        void set(const Vector2& newPosition, float newWidth, float newHeight)
         {
-            x = position.x;
-            y = position.y;
-            width = newWidth;
-            height = newHeight;
+            position = newPosition;
+            size.width = newWidth;
+            size.height = newHeight;
         }
 
         void setPosition(float newX, float newY)
         {
-            x = newX;
-            y = newY;
+            position.x = newX;
+            position.y = newY;
         }
 
-        void setPosition(const Vector2& position)
+        void setPosition(const Vector2& newPosition)
         {
-            x = position.x;
-            y = position.y;
+            position = newPosition;
         }
 
         float left() const
         {
-            return x;
+            return position.x;
         }
 
         float bottom() const
         {
-            return y;
+            return position.y;
         }
 
         float right() const
         {
-            return x + width;
+            return position.x + size.width;
         }
 
         float top() const
         {
-            return y + height;
+            return position.y + size.height;
         }
 
         Vector2 bottomLeft() const
         {
-            return Vector2(x, y);
+            return position;
         }
 
         Vector2 topRight() const
         {
-            return Vector2(x + width, y + height);
+            return Vector2(position.x + size.width, position.y + size.height);
         }
 
         bool containsPoint(float aX, float aY) const
         {
-            return aX >= x && aX <= (x + width) && aY >= y && aY <= (y + height);
+            return aX >= position.x && aX <= (position.x + size.width) &&
+                aY >= position.y && aY <= (position.y + size.height);
         }
 
         bool containsPoint(const Vector2& point) const
         {
-            return point.x >= x && point.x <= (x + width) && point.y >= y && point.y <= (y + height);
+            return point.x >= position.x && point.x <= (position.x + size.width) &&
+                point.y >= position.y && point.y <= (position.y + size.height);
         }
 
         bool contains(float aX, float aY, float aWidth, float aHeight) const
@@ -126,22 +123,22 @@ namespace ouzel
 
         bool contains(const Rectangle& r) const
         {
-            return contains(r.x, r.y, r.width, r.height);
+            return contains(r.position.x, r.position.y, r.size.width, r.size.height);
         }
 
         bool intersects(float aX, float aY, float aWidth, float aHeight) const
         {
             float t;
-            if ((t = aX - x) > width || -t > aWidth)
+            if ((t = aX - position.x) > size.width || -t > aWidth)
                 return false;
-            if ((t = aY - y) > height || -t > aHeight)
+            if ((t = aY - position.y) > size.height || -t > aHeight)
                 return false;
             return true;
         }
 
         bool intersects(const Rectangle& r) const
         {
-            return intersects(r.x, r.y, r.width, r.height);
+            return intersects(r.position.x, r.position.y, r.size.width, r.size.height);
         }
 
         static bool intersect(const Rectangle& r1, const Rectangle& r2, Rectangle* dst);
@@ -150,56 +147,60 @@ namespace ouzel
 
         void inflate(float horizontalAmount, float verticalAmount)
         {
-            x -= horizontalAmount;
-            y -= verticalAmount;
-            width += horizontalAmount * 2;
-            height += verticalAmount * 2;
+            position.x -= horizontalAmount;
+            position.y -= verticalAmount;
+            size.width += horizontalAmount * 2;
+            size.height += verticalAmount * 2;
         }
 
         Rectangle& operator=(const Rectangle& r)
         {
-            x = r.x;
-            y = r.y;
-            width = r.width;
-            height = r.height;
+            position.x = r.position.x;
+            position.y = r.position.y;
+            size.width = r.size.width;
+            size.height = r.size.height;
             return *this;
         }
 
         bool operator==(const Rectangle& r) const
         {
-            return x == r.x && width == r.width && y == r.y && height == r.height;
+            return position.x == r.position.x && size.width == r.size.width &&
+                position.y == r.position.y && size.height == r.size.height;
         }
 
         bool operator!=(const Rectangle& r) const
         {
-            return x != r.x || width != r.width || y != r.y || height != r.height;
+            return position.x != r.position.x || size.width != r.size.width ||
+                position.y != r.position.y || size.height != r.size.height;
         }
 
         inline Rectangle operator*(float scalar) const
         {
-            return Rectangle(x * scalar, y * scalar, width * scalar, height * scalar);
+            return Rectangle(position.x * scalar, position.y * scalar,
+                             size.width * scalar, size.height * scalar);
         }
 
         inline Rectangle& operator*=(float scalar)
         {
-            x *= scalar;
-            y *= scalar;
-            width *= scalar;
-            height *= scalar;
+            position.x *= scalar;
+            position.y *= scalar;
+            size.width *= scalar;
+            size.height *= scalar;
             return *this;
         }
 
         inline Rectangle operator/(float scalar) const
         {
-            return Rectangle(x / scalar, y / scalar, width / scalar, height / scalar);
+            return Rectangle(position.x / scalar, position.y / scalar,
+                             size.width / scalar, size.height / scalar);
         }
 
         inline Rectangle& operator/=(float scalar)
         {
-            x /= scalar;
-            y /= scalar;
-            width /= scalar;
-            height /= scalar;
+            position.x /= scalar;
+            position.y /= scalar;
+            size.width /= scalar;
+            size.height /= scalar;
             return *this;
         }
     };

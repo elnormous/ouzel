@@ -32,17 +32,17 @@ namespace ouzel
                 renderTarget->getTexture()->getSize() :
                 sharedEngine->getRenderer()->getSize();
 
-            renderViewport.x = renderTargetSize.width * viewport.x;
-            renderViewport.y = renderTargetSize.height * viewport.y;
-            renderViewport.width = renderTargetSize.width * viewport.width;
-            renderViewport.height = renderTargetSize.height * viewport.height;
+            renderViewport.position.x = renderTargetSize.width * viewport.position.x;
+            renderViewport.position.y = renderTargetSize.height * viewport.position.y;
+            renderViewport.size.width = renderTargetSize.width * viewport.size.width;
+            renderViewport.size.height = renderTargetSize.height * viewport.size.height;
 
-            assert(renderViewport.width > 0.0f && renderViewport.height > 0.0f);
+            assert(renderViewport.size.width > 0.0f && renderViewport.size.height > 0.0f);
 
             if (targetContentSize.width > 0.0f && targetContentSize.height > 0.0f)
             {
-                contentScale.x = renderViewport.width / targetContentSize.width;
-                contentScale.y = renderViewport.height / targetContentSize.height;
+                contentScale.x = renderViewport.size.width / targetContentSize.width;
+                contentScale.y = renderViewport.size.height / targetContentSize.height;
 
                 switch (scaleMode)
                 {
@@ -68,13 +68,13 @@ namespace ouzel
                     }
                 }
 
-                contentSize = Size2(renderViewport.width / contentScale.x, renderViewport.height / contentScale.y);
+                contentSize = Size2(renderViewport.size.width / contentScale.x, renderViewport.size.height / contentScale.y);
                 contentPosition = Vector2((contentSize.width - targetContentSize.width) / 2.0f,
                                           (contentSize.height - targetContentSize.height) / 2.0f);
             }
             else
             {
-                contentSize = Size2(renderViewport.width, renderViewport.height);
+                contentSize = Size2(renderViewport.size.width, renderViewport.size.height);
                 contentScale = Vector2(1.0f, 1.0f);
             }
 
@@ -124,8 +124,8 @@ namespace ouzel
             inverseViewMatrix.invert();
 
             // convert window normalized to viewport clip position
-            Vector3 result = Vector3(((position.x - viewport.x) / viewport.width - 0.5f) * 2.0f,
-                                     ((position.y - viewport.y) / viewport.height - 0.5f) * 2.0f,
+            Vector3 result = Vector3(((position.x - viewport.position.x) / viewport.size.width - 0.5f) * 2.0f,
+                                     ((position.y - viewport.position.y) / viewport.size.height - 0.5f) * 2.0f,
                                      0.0f);
 
             inverseViewMatrix.transformPoint(result);
@@ -139,8 +139,8 @@ namespace ouzel
             getViewProjection().transformPoint(result);
 
             // convert viewport clip position to window normalized
-            return Vector2((result.x / 2.0f + 0.5f) * viewport.width + viewport.x,
-                           (result.y / 2.0f + 0.5f) * viewport.height + viewport.y);
+            return Vector2((result.x / 2.0f + 0.5f) * viewport.size.width + viewport.position.x,
+                           (result.y / 2.0f + 0.5f) * viewport.size.height + viewport.position.y);
         }
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox) const

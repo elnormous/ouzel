@@ -267,8 +267,8 @@ namespace ouzel
 
             drawCommands.push_back(command);
 
-            boundingBox.insertPoint(Vector2(rectangle.x, rectangle.y));
-            boundingBox.insertPoint(Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height));
+            boundingBox.insertPoint(rectangle.bottomLeft());
+            boundingBox.insertPoint(rectangle.topRight());
 
             dirty = true;
         }

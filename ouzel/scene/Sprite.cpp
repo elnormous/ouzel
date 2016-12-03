@@ -274,8 +274,7 @@ namespace ouzel
             {
                 const SpriteFrame& frame = frames[currentFrame];
 
-                size.width = frame.getRectangle().width;
-                size.height = frame.getRectangle().height;
+                size = frame.getRectangle().size;
 
                 boundingBox = frame.getBoundingBox();
                 boundingBox += offset;

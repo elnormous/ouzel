@@ -12,11 +12,11 @@ namespace ouzel
     {
         assert(dst);
 
-        float xmin = std::max(r1.x, r2.x);
+        float xmin = std::max(r1.position.x, r2.position.x);
         float xmax = std::min(r1.right(), r2.right());
         if (xmax > xmin)
         {
-            float ymin = std::max(r1.y, r2.y);
+            float ymin = std::max(r1.position.y, r2.position.y);
             float ymax = std::min(r1.bottom(), r2.bottom());
             if (ymax > ymin)
             {
@@ -33,9 +33,9 @@ namespace ouzel
     {
         assert(dst);
 
-        dst->x = std::min(r1.x, r2.x);
-        dst->y = std::min(r1.y, r2.y);
-        dst->width = std::max(r1.x + r1.width, r2.x + r2.width) - dst->x;
-        dst->height = std::max(r1.y + r1.height, r2.y + r2.height) - dst->y;
+        dst->position.x = std::min(r1.position.x, r2.position.x);
+        dst->position.y = std::min(r1.position.y, r2.position.y);
+        dst->size.width = std::max(r1.position.x + r1.size.width, r2.position.x + r2.size.width) - dst->position.x;
+        dst->size.height = std::max(r1.position.y + r1.size.height, r2.position.y + r2.size.height) - dst->position.y;
     }
 }

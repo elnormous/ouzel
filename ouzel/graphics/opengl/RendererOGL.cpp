@@ -639,10 +639,10 @@ namespace ouzel
                     return false;
                 }
 
-                setViewport(static_cast<GLint>(drawCommand.viewport.x),
-                            static_cast<GLint>(drawCommand.viewport.y),
-                            static_cast<GLsizei>(drawCommand.viewport.width),
-                            static_cast<GLsizei>(drawCommand.viewport.height));
+                setViewport(static_cast<GLint>(drawCommand.viewport.position.x),
+                            static_cast<GLint>(drawCommand.viewport.position.y),
+                            static_cast<GLsizei>(drawCommand.viewport.size.width),
+                            static_cast<GLsizei>(drawCommand.viewport.size.height));
 
                 if (clearBuffer)
                 {
@@ -666,10 +666,10 @@ namespace ouzel
 
                 // scissor test
                 setScissorTest(drawCommand.scissorTestEnabled,
-                               static_cast<GLint>(drawCommand.scissorTest.x),
-                               static_cast<GLint>(drawCommand.scissorTest.y),
-                               static_cast<GLsizei>(drawCommand.scissorTest.width),
-                               static_cast<GLsizei>(drawCommand.scissorTest.height));
+                               static_cast<GLint>(drawCommand.scissorTest.position.x),
+                               static_cast<GLint>(drawCommand.scissorTest.position.y),
+                               static_cast<GLsizei>(drawCommand.scissorTest.size.width),
+                               static_cast<GLsizei>(drawCommand.scissorTest.size.height));
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);
