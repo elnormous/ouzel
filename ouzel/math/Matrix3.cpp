@@ -217,24 +217,6 @@ namespace ouzel
         std::copy(product, product + sizeof(product) / sizeof(float), dst.m);
     }
 
-    void Matrix3::negate()
-    {
-        negate(*this);
-    }
-
-    void Matrix3::negate(Matrix3& dst) const
-    {
-        dst.m[0]  = -m[0];
-        dst.m[1]  = -m[1];
-        dst.m[2]  = -m[2];
-        dst.m[3]  = -m[3];
-        dst.m[4]  = -m[4];
-        dst.m[5]  = -m[5];
-        dst.m[6]  = -m[6];
-        dst.m[7]  = -m[7];
-        dst.m[8]  = -m[8];
-    }
-
     void Matrix3::rotate(float angle)
     {
         rotate(angle, *this);

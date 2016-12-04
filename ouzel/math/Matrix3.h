@@ -54,8 +54,19 @@ namespace ouzel
         void multiply(const Matrix3& matrix);
         static void multiply(const Matrix3& m1, const Matrix3& m2, Matrix3& dst);
 
-        void negate();
-        void negate(Matrix3& dst) const;
+        void negate()
+        {
+            m[0]  = -m[0];
+            m[1]  = -m[1];
+            m[2]  = -m[2];
+            m[3]  = -m[3];
+            m[4]  = -m[4];
+            m[5]  = -m[5];
+            m[6]  = -m[6];
+            m[7]  = -m[7];
+            m[8]  = -m[8];
+        }
+
         void rotate(float angle);
         void rotate(float angle, Matrix3& dst) const;
         void scale(float value);

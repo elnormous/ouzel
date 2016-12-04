@@ -204,9 +204,7 @@ namespace ouzel
 
         inline Vector4 operator-() const
         {
-            Vector4 result(*this);
-            result.negate();
-            return result;
+            return Vector4(-x, -y, -z, -w);
         }
 
         inline Vector4 operator*(float scalar) const
