@@ -55,22 +55,29 @@ namespace ouzel
         void Layer::addChild(Node* node)
         {
             NodeContainer::addChild(node);
-            node->updateTransform(Matrix4::IDENTITY);
+
+            if (node)
+            {
+                node->updateTransform(Matrix4::IDENTITY);
+            }
         }
 
         void Layer::addCamera(Camera* camera)
         {
-            Layer* oldLayer = camera->layer;
-
-            if (oldLayer)
+            if (camera)
             {
-                oldLayer->removeCamera(camera);
-            }
+                Layer* oldLayer = camera->layer;
 
-            cameras.push_back(camera);
-            camera->layer = this;
-            if (!camera->parent) camera->updateTransform(Matrix4::IDENTITY);
-            camera->recalculateProjection();
+                if (oldLayer)
+                {
+                    oldLayer->removeCamera(camera);
+                }
+
+                cameras.push_back(camera);
+                camera->layer = this;
+                if (!camera->parent) camera->updateTransform(Matrix4::IDENTITY);
+                camera->recalculateProjection();
+            }
         }
 
         void Layer::removeCamera(Camera* camera)

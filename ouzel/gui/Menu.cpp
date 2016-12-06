@@ -31,11 +31,14 @@ namespace ouzel
         {
             addChild(widget);
 
-            widgets.push_back(widget);
-
-            if (!selectedWidget)
+            if (widget)
             {
-                selectWidget(widget);
+                widgets.push_back(widget);
+
+                if (!selectedWidget)
+                {
+                    selectWidget(widget);
+                }
             }
         }
 

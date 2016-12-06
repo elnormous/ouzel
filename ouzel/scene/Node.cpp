@@ -119,7 +119,10 @@ namespace ouzel
         {
             NodeContainer::addChild(node);
 
-            node->updateTransform(getTransform());
+            if (node)
+            {
+                node->updateTransform(getTransform());
+            }
         }
 
         void Node::removeFromParent()

@@ -24,15 +24,18 @@ namespace ouzel
 
         void NodeContainer::addChild(Node* node)
         {
-            NodeContainer* oldParent = node->parent;
-            if (oldParent)
+            if (node)
             {
-                oldParent->removeChild(node);
-            }
+                NodeContainer* oldParent = node->parent;
+                if (oldParent)
+                {
+                    oldParent->removeChild(node);
+                }
 
-            node->parent = this;
-            if (entered) node->enter();
-            children.push_back(node);
+                node->parent = this;
+                if (entered) node->enter();
+                children.push_back(node);
+            }
         }
 
         bool NodeContainer::removeChild(Node* node)

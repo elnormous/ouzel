@@ -48,7 +48,7 @@ namespace ouzel
 
         void Scene::addLayer(Layer* layer)
         {
-            if (!hasLayer(layer))
+            if (layer && !hasLayer(layer))
             {
                 layers.push_back(layer);
 
