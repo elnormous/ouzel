@@ -108,9 +108,10 @@ namespace ouzel
         void Camera::calculateLocalTransform() const
         {
             localTransform = Matrix4::IDENTITY;
-            Vector3 inverseScale(0.0f, 0.0f, 1.0f);
+            Vector3 inverseScale;
             if (scale.x != 0.0f) inverseScale.x = 1.0f / scale.x;
             if (scale.y != 0.0f) inverseScale.y = 1.0f / scale.y;
+            if (scale.z != 0.0f) inverseScale.z = 1.0f / scale.z;
             localTransform.scale(inverseScale);
             localTransform.rotateZ(-rotation);
             localTransform.translate(-position);

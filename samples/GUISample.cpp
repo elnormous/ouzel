@@ -49,7 +49,7 @@ GUISample::GUISample(Samples& aSamples):
     label3.reset(new gui::Label("ArialBlack.fnt", "UTF-8 ĀāČč\nNew line", Vector2(0.0f, 0.5f)));
     label3->setColor(Color::BLUE);
     label3->setPosition(Vector2(-100.0f, -100.0f));
-    label3->setScale(Vector2(0.5f, 0.5f));
+    label3->setScale(Vector3(0.5f, 0.5f, 1.0f));
     guiLayer.addChild(label3.get());
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));

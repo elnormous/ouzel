@@ -4,7 +4,7 @@
 #pragma once
 
 #include "animators/Animator.h"
-#include "math/Vector2.h"
+#include "math/Vector3.h"
 
 namespace ouzel
 {
@@ -13,17 +13,17 @@ namespace ouzel
         class Move: public Animator
         {
         public:
-            Move(float aLength, const Vector2& aPosition, bool aRelative = false);
+            Move(float aLength, const Vector3& aPosition, bool aRelative = false);
 
             virtual void start(Node* newTargetNode) override;
 
         protected:
             virtual void updateProgress() override;
 
-            Vector2 position;
-            Vector2 startPosition;
-            Vector2 targetPosition;
-            Vector2 diff;
+            Vector3 position;
+            Vector3 startPosition;
+            Vector3 targetPosition;
+            Vector3 diff;
             bool relative;
         };
     } // namespace scene

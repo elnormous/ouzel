@@ -155,7 +155,7 @@ namespace ouzel
             localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setScale(const Vector2& newScale)
+        void Node::setScale(const Vector3& newScale)
         {
             scale = newScale;
 
@@ -316,7 +316,7 @@ namespace ouzel
 
             Vector3 realScale = Vector3(scale.x * (flipX ? -1.0f : 1.0f),
                                         scale.y * (flipY ? -1.0f : 1.0f),
-                                        1.0f);
+                                        scale.z);
 
             localTransform.scale(realScale);
 

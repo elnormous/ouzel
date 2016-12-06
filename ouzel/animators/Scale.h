@@ -4,7 +4,7 @@
 #pragma once
 
 #include "animators/Animator.h"
-#include "math/Vector2.h"
+#include "math/Vector3.h"
 
 namespace ouzel
 {
@@ -13,17 +13,17 @@ namespace ouzel
         class Scale: public Animator
         {
         public:
-            Scale(float aLength, const Vector2& aScale, bool aRelative = false);
+            Scale(float aLength, const Vector3& aScale, bool aRelative = false);
 
             virtual void start(Node* newTargetNode) override;
 
         protected:
             virtual void updateProgress() override;
 
-            Vector2 scale;
-            Vector2 startScale;
-            Vector2 targetScale;
-            Vector2 diff;
+            Vector3 scale;
+            Vector3 startScale;
+            Vector3 targetScale;
+            Vector3 diff;
             bool relative;
         };
     } // namespace scene

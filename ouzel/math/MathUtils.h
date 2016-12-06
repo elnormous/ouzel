@@ -29,10 +29,10 @@ namespace ouzel
         return (1.0f - t) * v0 + t * v1;
     }
 
-    inline float smoothstep(float a, float b, float t )
+    inline float smoothStep(float a, float b, float t)
     {
-        float remapSmoothstep = t * t * ( 3 - 2 * t );
-        return lerp( a, b, remapSmoothstep);
+        float remapSmoothStep = t * t * (3 - 2 * t);
+        return lerp(a, b, remapSmoothStep);
     }
 
     inline bool isPOT(uint32_t x)

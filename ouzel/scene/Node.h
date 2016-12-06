@@ -6,6 +6,7 @@
 #include <vector>
 #include "scene/NodeContainer.h"
 #include "math/Vector2.h"
+#include "math/Vector3.h"
 #include "math/Matrix4.h"
 #include "math/AABB2.h"
 #include "math/Color.h"
@@ -43,8 +44,8 @@ namespace ouzel
             virtual void setRotation(float newRotation);
             virtual float getRotation() const { return rotation; }
 
-            virtual void setScale(const Vector2& newScale);
-            virtual const Vector2& getScale() const { return scale; }
+            virtual void setScale(const Vector3& newScale);
+            virtual const Vector3& getScale() const { return scale; }
 
             virtual void setColor(const Color& newColor);
             virtual const Color& getColor() const { return color; }
@@ -157,7 +158,7 @@ namespace ouzel
 
             Vector3 position;
             float rotation = 0.0f;
-            Vector2 scale = Vector2(1.0f, 1.0f);
+            Vector3 scale = Vector3(1.0f, 1.0f, 1.0f);
             Color color = Color::WHITE;
             float opacity = 1.0f;
             int32_t worldOrder = 0;
