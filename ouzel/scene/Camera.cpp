@@ -119,7 +119,7 @@ namespace ouzel
             localTransformDirty = false;
         }
 
-        Vector2 Camera::convertNormalizedToWorld(const Vector2& position) const
+        Vector3 Camera::convertNormalizedToWorld(const Vector2& position) const
         {
             Matrix4 inverseViewMatrix = getViewProjection();
             inverseViewMatrix.invert();
@@ -131,12 +131,12 @@ namespace ouzel
 
             inverseViewMatrix.transformPoint(result);
 
-            return Vector2(result.x, result.y);
+            return result;
         }
 
-        Vector2 Camera::convertWorldToNormalized(const Vector2& position) const
+        Vector2 Camera::convertWorldToNormalized(const Vector3& position) const
         {
-            Vector3 result = Vector3(position.x, position.y, 0.0f);
+            Vector3 result = position;
             getViewProjection().transformPoint(result);
 
             // convert viewport clip position to window normalized

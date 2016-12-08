@@ -106,8 +106,8 @@ namespace ouzel
             virtual Vector3 getWorldPosition() const;
             virtual int32_t getWorldOrder() const { return worldOrder; }
 
-            virtual Vector2 convertWorldToLocal(const Vector2& worldPosition) const;
-            virtual Vector2 convertLocalToWorld(const Vector2& localPosition) const;
+            virtual Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
+            virtual Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
             void animate(Animator* animator);
             Animator* getAnimator() const { return currentAnimator; }

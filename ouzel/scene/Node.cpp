@@ -246,24 +246,24 @@ namespace ouzel
             return position;
         }
 
-        Vector2 Node::convertWorldToLocal(const Vector2& worldPosition) const
+        Vector3 Node::convertWorldToLocal(const Vector3& worldPosition) const
         {
             Vector3 localPosition = worldPosition;
 
             const Matrix4& currentInverseTransform = getInverseTransform();
             currentInverseTransform.transformPoint(localPosition);
 
-            return Vector2(localPosition.x, localPosition.y);
+            return localPosition;
         }
 
-        Vector2 Node::convertLocalToWorld(const Vector2& localPosition) const
+        Vector3 Node::convertLocalToWorld(const Vector3& localPosition) const
         {
             Vector3 worldPosition = localPosition;
 
             const Matrix4& currentTransform = getTransform();
             currentTransform.transformPoint(worldPosition);
 
-            return Vector2(worldPosition.x, worldPosition.y);
+            return worldPosition;
         }
 
         void Node::animate(Animator* animator)

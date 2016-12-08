@@ -40,8 +40,8 @@ namespace ouzel
 
             const Matrix4& getViewProjection() const;
 
-            Vector2 convertNormalizedToWorld(const Vector2& position) const;
-            Vector2 convertWorldToNormalized(const Vector2& position) const;
+            Vector3 convertNormalizedToWorld(const Vector2& position) const;
+            Vector2 convertWorldToNormalized(const Vector3& position) const;
 
             bool checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox) const;
 
