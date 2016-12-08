@@ -113,40 +113,6 @@ namespace ouzel
         dst.m[14] = -2.0f * zFarPlane * zNearPlane / (zFarPlane - zNearPlane);
     }
 
-    void Matrix4::createPerspectiveFromSize(float width, float height, float fieldOfView, float zNearPlane, float zFarPlane, Matrix4& dst)
-    {
-        float halfWidth = width / 2.0f;
-        float halfHeight = height / 2.0f;
-
-        createPerspectiveOffCenter(-halfWidth, halfWidth, -halfHeight, halfHeight, fieldOfView, zNearPlane, zFarPlane, dst);
-    }
-
-    void Matrix4::createPerspectiveOffCenter(float left, float right, float bottom, float top,
-                                             float fieldOfView, float zNearPlane, float zFarPlane, Matrix4& dst)
-    {
-        assert(zFarPlane != zNearPlane);
-
-        float theta = degToRad(fieldOfView) * 0.5f;
-        if (fabsf(fmodf(theta, PIOVER2)) < EPSILON)
-        {
-            return;
-        }
-        float divisor = tanf(theta);
-        assert(divisor);
-        float factor = 1.0f / divisor;
-
-        assert(top != bottom);
-        float aspectRatio = (right - left) / (top - bottom);
-
-        dst.setZero();
-
-        dst.m[0] = (1.0f / aspectRatio) * factor;
-        dst.m[5] = factor;
-        dst.m[10] = (-(zFarPlane + zNearPlane)) / (zFarPlane - zNearPlane);
-        dst.m[11] = -1.0f;
-        dst.m[14] = -2.0f * zFarPlane * zNearPlane / (zFarPlane - zNearPlane);
-    }
-
     void Matrix4::createOrthographicFromSize(float width, float height, float zNearPlane, float zFarPlane, Matrix4& dst)
     {
         float halfWidth = width / 2.0f;

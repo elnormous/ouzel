@@ -47,9 +47,6 @@ namespace ouzel
                                  float upX, float upY, float upZ, Matrix4& dst);
         static void createPerspective(float fieldOfView, float aspectRatio, float zNearPlane, float zFarPlane, Matrix4& dst);
 
-        static void createPerspectiveFromSize(float width, float height, float fieldOfView, float zNearPlane, float zFarPlane, Matrix4& dst);
-        static void createPerspectiveOffCenter(float left, float right, float bottom, float top,
-                                               float fieldOfView, float zNearPlane, float zFarPlane, Matrix4& dst);
         static void createOrthographicFromSize(float width, float height, float zNearPlane, float zFarPlane, Matrix4& dst);
         static void createOrthographicOffCenter(float left, float right, float bottom, float top,
                                                 float zNearPlane, float zFarPlane, Matrix4& dst);
