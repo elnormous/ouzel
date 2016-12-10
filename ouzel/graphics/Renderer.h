@@ -140,6 +140,8 @@ namespace ouzel
 
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
 
+            const Matrix4& getProjectionTransform() const { return projectionTransform; }
+            
         protected:
             Renderer(Driver aDriver);
             virtual bool init(Window* newWindow,
@@ -199,6 +201,8 @@ namespace ouzel
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
+
+            Matrix4 projectionTransform;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -20,7 +20,9 @@ namespace ouzel
     namespace graphics
     {
         Renderer::Renderer(Driver aDriver):
-            driver(aDriver), clearColor(Color::BLACK), clear(true), activeDrawQueueFinished(false), refillDrawQueue(true)
+            driver(aDriver), clearColor(Color::BLACK), clear(true),
+            activeDrawQueueFinished(false), refillDrawQueue(true),
+            projectionTransform(Matrix4::IDENTITY)
         {
         }
 
