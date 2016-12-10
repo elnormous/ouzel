@@ -16,8 +16,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Camera::Camera(Type aType, float aFov):
-            type(aType), fov(aFov)
+        Camera::Camera(Type aType, float aFov, float aNear, float aFar):
+            type(aType), fov(aFov), near(aNear), far(aFar)
         {
         }
 
@@ -85,7 +85,7 @@ namespace ouzel
                     Matrix4::createOrthographicFromSize(contentSize.width, contentSize.height, -1.0f, 1.0f, projection);
                     break;
                 case Type::PERSPECTIVE:
-                    Matrix4::createPerspective(contentSize.width / contentSize.height, fov, 1.0f, 100.0f, projection);
+                    Matrix4::createPerspective(contentSize.width / contentSize.height, fov, near, far, projection);
                     break;
             }
 

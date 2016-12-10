@@ -32,7 +32,7 @@ namespace ouzel
                 SHOW_ALL
             };
 
-            Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = TAU / 6.0f);
+            Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = TAU / 6.0f, float aNear = 1.0f, float aFar = 100.0f);
             virtual ~Camera();
 
             const Matrix4& getProjection() const { return projection; }
@@ -71,6 +71,8 @@ namespace ouzel
 
             Type type;
             float fov;
+            float near;
+            float far;
 
             Matrix4 projection;
             Matrix4 inverseProjection;
