@@ -40,15 +40,20 @@ namespace ouzel
         std::copy(copy.m, copy.m + sizeof(copy.m) / sizeof(float), m);
     }
 
-    void Matrix4::createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst)
+    void Matrix4::createLookAt(const Vector3& eyePosition,
+                               const Vector3& targetPosition,
+                               const Vector3& up,
+                               Matrix4& dst)
     {
-        createLookAt(eyePosition.x, eyePosition.y, eyePosition.z, targetPosition.x, targetPosition.y, targetPosition.z,
+        createLookAt(eyePosition.x, eyePosition.y, eyePosition.z,
+                     targetPosition.x, targetPosition.y, targetPosition.z,
                      up.x, up.y, up.z, dst);
     }
 
     void Matrix4::createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
-                              float targetPositionX, float targetPositionY, float targetPositionZ,
-                              float upX, float upY, float upZ, Matrix4& dst)
+                               float targetPositionX, float targetPositionY, float targetPositionZ,
+                               float upX, float upY, float upZ,
+                               Matrix4& dst)
     {
         Vector3 eye(eyePositionX, eyePositionY, eyePositionZ);
         Vector3 target(targetPositionX, targetPositionY, targetPositionZ);
@@ -89,14 +94,15 @@ namespace ouzel
     }
 
     void Matrix4::createPerspective(float fieldOfView, float aspectRatio,
-                                    float zNearPlane, float zFarPlane, Matrix4& dst)
+                                    float zNearPlane, float zFarPlane,
+                                    Matrix4& dst)
     {
         assert(zFarPlane != zNearPlane);
 
         float theta = degToRad(fieldOfView) * 0.5f;
         if (fabsf(fmodf(theta, PIOVER2)) < EPSILON)
         {
-            //GP_ERROR("Invalid field of view value (%d) causes attempted calculation tanf(%d), which is undefined.", fieldOfView, theta);
+            //Invalid field of view value
             return;
         }
         float divisor = tanf(theta);
@@ -113,11 +119,15 @@ namespace ouzel
         dst.m[14] = -2.0f * zFarPlane * zNearPlane / (zFarPlane - zNearPlane);
     }
 
-    void Matrix4::createOrthographicFromSize(float width, float height, float zNearPlane, float zFarPlane, Matrix4& dst)
+    void Matrix4::createOrthographicFromSize(float width, float height,
+                                             float zNearPlane, float zFarPlane,
+                                             Matrix4& dst)
     {
         float halfWidth = width / 2.0f;
         float halfHeight = height / 2.0f;
-        createOrthographicOffCenter(-halfWidth, halfWidth, -halfHeight, halfHeight, zNearPlane, zFarPlane, dst);
+        createOrthographicOffCenter(-halfWidth, halfWidth,
+                                    -halfHeight, halfHeight,
+                                    zNearPlane, zFarPlane, dst);
     }
 
     void Matrix4::createOrthographicOffCenter(float left, float right, float bottom, float top,
@@ -138,21 +148,27 @@ namespace ouzel
         dst.m[15] = 1.0f;
     }
 
-    void Matrix4::createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                 const Vector3& cameraUpVector, Matrix4& dst)
+    void Matrix4::createBillboard(const Vector3& objectPosition,
+                                  const Vector3& cameraPosition,
+                                  const Vector3& cameraUpVector,
+                                  Matrix4& dst)
     {
         createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, Vector3(), dst);
     }
 
-    void Matrix4::createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                  const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
+    void Matrix4::createBillboard(const Vector3& objectPosition,
+                                  const Vector3& cameraPosition,
+                                  const Vector3& cameraUpVector,
+                                  const Vector3& cameraForwardVector,
                                   Matrix4& dst)
     {
         createBillboardHelper(objectPosition, cameraPosition, cameraUpVector, cameraForwardVector, dst);
     }
 
-    void Matrix4::createBillboardHelper(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                        const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
+    void Matrix4::createBillboardHelper(const Vector3& objectPosition,
+                                        const Vector3& cameraPosition,
+                                        const Vector3& cameraUpVector,
+                                        const Vector3& cameraForwardVector,
                                         Matrix4& dst)
     {
         Vector3 delta(objectPosition, cameraPosition);
