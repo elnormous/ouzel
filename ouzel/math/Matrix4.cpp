@@ -99,7 +99,7 @@ namespace ouzel
     {
         assert(zFarPlane != zNearPlane);
 
-        float theta = degToRad(fieldOfView) * 0.5f;
+        float theta = fieldOfView * 0.5f;
         if (fabsf(fmodf(theta, PIOVER2)) < EPSILON)
         {
             //Invalid field of view value

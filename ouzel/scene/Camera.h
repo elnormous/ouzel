@@ -32,7 +32,7 @@ namespace ouzel
                 SHOW_ALL
             };
 
-            Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = 60.0f);
+            Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = TAU / 6.0f);
             virtual ~Camera();
 
             const Matrix4& getProjection() const { return projection; }
