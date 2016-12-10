@@ -153,12 +153,6 @@ namespace ouzel
                 Vector2 rightBottom((frameRectangle.position.x + frameRectangle.size.width) / textureSize.width,
                                     (frameRectangle.position.y + frameRectangle.size.height) / textureSize.height);
 
-                if (texture->isFlipped())
-                {
-                    leftTop.y = 1.0f - leftTop.y;
-                    rightBottom.y = 1.0f - rightBottom.y;
-                }
-
                 textCoords[0] = Vector2(leftTop.x, rightBottom.y);
                 textCoords[1] = Vector2(rightBottom.x, rightBottom.y);
                 textCoords[2] = Vector2(leftTop.x, leftTop.y);
@@ -171,12 +165,6 @@ namespace ouzel
 
                 Vector2 rightBottom = Vector2((frameRectangle.position.x + frameRectangle.size.height) / textureSize.width,
                                               (frameRectangle.position.y + frameRectangle.size.width) / textureSize.height);
-
-                if (texture->isFlipped())
-                {
-                    leftTop.y = 1.0f - leftTop.y;
-                    rightBottom.y = 1.0f - rightBottom.y;
-                }
 
                 textCoords[0] = Vector2(leftTop.x, leftTop.y);
                 textCoords[1] = Vector2(leftTop.x, rightBottom.y);

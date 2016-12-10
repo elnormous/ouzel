@@ -153,7 +153,6 @@ namespace ouzel
                 }
             }
 #endif
-            renderTargetsFlipped = true;
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);

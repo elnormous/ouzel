@@ -36,8 +36,6 @@ namespace ouzel
             const Size2& getSize() const { return size; }
 
             bool isDynamic() const { return dynamic; }
-            bool isFlipped() const { return flipped; }
-            void setFlipped(bool newFlipped) { flipped = newFlipped; }
 
         protected:
             Texture();
@@ -72,7 +70,6 @@ namespace ouzel
             bool dynamic = false;
             bool mipmaps = false;
             bool renderTarget = false;
-            bool flipped = false;
             bool dirty = false;
             bool mipMapsGenerated = false;
 

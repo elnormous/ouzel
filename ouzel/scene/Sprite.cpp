@@ -133,7 +133,7 @@ namespace ouzel
 
             if (currentFrame < frames.size())
             {
-                Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix * offsetMatrix;
+                Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix * offsetMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -164,7 +164,7 @@ namespace ouzel
 
             if (currentFrame < frames.size())
             {
-                Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix * offsetMatrix;
+                Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix * offsetMatrix;
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);

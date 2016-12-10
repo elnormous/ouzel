@@ -39,6 +39,7 @@ namespace ouzel
             void recalculateProjection();
 
             const Matrix4& getViewProjection() const;
+            const Matrix4& getRenderViewProjection() const;
 
             Vector3 convertNormalizedToWorld(const Vector2& position) const;
             Vector2 convertWorldToNormalized(const Vector3& position) const;
@@ -85,6 +86,9 @@ namespace ouzel
 
             mutable bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection;
+
+            mutable bool renderViewProjectionDirty = false;
+            mutable Matrix4 renderViewProjection;
 
             Layer* layer = nullptr;
 

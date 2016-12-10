@@ -10,7 +10,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderTarget::RenderTarget()
+        RenderTarget::RenderTarget():
+            projectionTransform(Matrix4::IDENTITY)
         {
         }
 
@@ -34,8 +35,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            texture->setFlipped(sharedEngine->getRenderer()->isRenderTargetsFlipped());
 
             dirty = true;
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());

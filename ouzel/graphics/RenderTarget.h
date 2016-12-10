@@ -9,6 +9,7 @@
 #include "graphics/Resource.h"
 #include "math/Color.h"
 #include "math/Size2.h"
+#include "math/Matrix4.h"
 
 namespace ouzel
 {
@@ -36,6 +37,7 @@ namespace ouzel
             uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
 
             TexturePtr getTexture() const { return texture; }
+            const Matrix4& getProjectionTransform() const { return projectionTransform; }
 
         protected:
             RenderTarget();
@@ -52,6 +54,8 @@ namespace ouzel
 
             Data uploadData;
             TexturePtr texture;
+
+            Matrix4 projectionTransform;
 
         private:
             Size2 size;

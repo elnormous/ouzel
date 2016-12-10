@@ -54,11 +54,11 @@ namespace ouzel
                 if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE ||
                     particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                 {
-                    transform = camera->getViewProjection();
+                    transform = camera->getRenderViewProjection();
                 }
                 else if (particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    transform = camera->getViewProjection() * transformMatrix;
+                    transform = camera->getRenderViewProjection() * transformMatrix;
                 }
 
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
@@ -96,11 +96,11 @@ namespace ouzel
                 if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE ||
                     particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                 {
-                    transform = camera->getViewProjection();
+                    transform = camera->getRenderViewProjection();
                 }
                 else if (particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    transform = camera->getViewProjection() * transformMatrix;
+                    transform = camera->getRenderViewProjection() * transformMatrix;
                 }
 
                 float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };

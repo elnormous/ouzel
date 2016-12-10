@@ -48,7 +48,7 @@ namespace ouzel
                 dirty = false;
             }
 
-            Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
+            Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             for (const DrawCommand& drawCommand : drawCommands)
@@ -86,7 +86,7 @@ namespace ouzel
                 dirty = false;
             }
 
-            Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
+            Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             for (const DrawCommand& drawCommand : drawCommands)

@@ -92,7 +92,7 @@ namespace ouzel
             inverseProjection = projection;
             inverseProjection.invert();
 
-            viewProjectionDirty = true;
+            viewProjectionDirty = renderViewProjectionDirty = true;
         }
 
         const Matrix4& Camera::getViewProjection() const
@@ -104,6 +104,23 @@ namespace ouzel
             }
 
             return viewProjection;
+        }
+
+        const Matrix4& Camera::getRenderViewProjection() const
+        {
+            if (renderViewProjectionDirty || transformDirty)
+            {
+                renderViewProjection = projection * getTransform();
+
+                if (renderTarget)
+                {
+                    renderViewProjection *= renderTarget->getProjectionTransform();
+                }
+
+                renderViewProjectionDirty = false;
+            }
+
+            return renderViewProjection;
         }
 
         void Camera::calculateLocalTransform() const

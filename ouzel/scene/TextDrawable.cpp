@@ -73,7 +73,7 @@ namespace ouzel
                 needsMeshUpdate = false;
             }
 
-            Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
+            Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -101,7 +101,7 @@ namespace ouzel
         {
             Component::drawWireframe(transformMatrix, drawColor, camera);
 
-            Matrix4 modelViewProj = camera->getViewProjection() * transformMatrix;
+            Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
             float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
