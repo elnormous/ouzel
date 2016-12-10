@@ -114,9 +114,9 @@ namespace ouzel
         assert(aspectRatio);
         dst.m[0] = aspectRatio * factor;
         dst.m[5] = factor;
-        dst.m[10] = -(zFarPlane + zNearPlane) / (zFarPlane - zNearPlane);
+        dst.m[10] = zFarPlane / (zFarPlane - zNearPlane);
         dst.m[11] = 1.0f;
-        dst.m[14] = 2.0f * zFarPlane * zNearPlane / (zFarPlane - zNearPlane);
+        dst.m[14] = -zNearPlane * zFarPlane / (zFarPlane - zNearPlane);
     }
 
     void Matrix4::createOrthographicFromSize(float width, float height,
