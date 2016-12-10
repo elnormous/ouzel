@@ -119,12 +119,40 @@ namespace ouzel
         void subtract(const Matrix4& matrix);
         static void subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst);
 
-        void transformPoint(Vector3& point) const;
-        void transformPoint(const Vector3& point, Vector3& dst) const;
-        void transformVector(Vector3& vector) const;
-        void transformVector(const Vector3& vector, Vector3& dst) const;
-        void transformVector(float x, float y, float z, float w, Vector3& dst) const;
-        void transformVector(Vector4& vector) const;
+        void transformPoint(Vector3& point) const
+        {
+            transformVector(point.x, point.y, point.z, 1.0f, point);
+        }
+
+        void transformPoint(const Vector3& point, Vector3& dst) const
+        {
+            transformVector(point.x, point.y, point.z, 1.0f, dst);
+        }
+
+        void transformVector(Vector3& vector) const
+        {
+            Vector4 t;
+            transformVector(Vector4(vector.x, vector.y, vector.z, 0.0f), t);
+            vector = Vector3(t.x, t.y, t.z);
+        }
+
+        void transformVector(const Vector3& vector, Vector3& dst) const
+        {
+            transformVector(vector.x, vector.y, vector.z, 0.0f, dst);
+        }
+
+        void transformVector(float x, float y, float z, float w, Vector3& dst) const
+        {
+            Vector4 t;
+            transformVector(Vector4(x, y, z, w), t);
+            dst = Vector3(t.x, t.y, t.z);
+        }
+
+        void transformVector(Vector4& vector) const
+        {
+            transformVector(vector, vector);
+        }
+        
         void transformVector(const Vector4& vector, Vector4& dst) const;
 
         void translate(float x, float y, float z);

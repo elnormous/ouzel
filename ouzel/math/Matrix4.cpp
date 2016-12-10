@@ -1171,40 +1171,6 @@ namespace ouzel
 #endif
     }
 
-    void Matrix4::transformPoint(Vector3& point) const
-    {
-        transformVector(point.x, point.y, point.z, 1.0f, point);
-    }
-
-    void Matrix4::transformPoint(const Vector3& point, Vector3& dst) const
-    {
-        transformVector(point.x, point.y, point.z, 1.0f, dst);
-    }
-
-    void Matrix4::transformVector(Vector3& vector) const
-    {
-        Vector4 t;
-        transformVector(Vector4(vector.x, vector.y, vector.z, 0.0f), t);
-        vector = Vector3(t.x, t.y, t.z);
-    }
-
-    void Matrix4::transformVector(const Vector3& vector, Vector3& dst) const
-    {
-        transformVector(vector.x, vector.y, vector.z, 0.0f, dst);
-    }
-
-    void Matrix4::transformVector(float x, float y, float z, float w, Vector3& dst) const
-    {
-        Vector4 t;
-        transformVector(Vector4(x, y, z, w), t);
-        dst = Vector3(t.x, t.y, t.z);
-    }
-
-    void Matrix4::transformVector(Vector4& vector) const
-    {
-        transformVector(vector, vector);
-    }
-
     void Matrix4::transformVector(const Vector4& vector, Vector4& dst) const
     {
 #if OUZEL_SUPPORTS_NEON

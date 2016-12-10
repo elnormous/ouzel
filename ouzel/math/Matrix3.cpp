@@ -310,42 +310,6 @@ namespace ouzel
         dst.m[8]  = m1.m[8]  - m2.m[8];
     }
 
-    void Matrix3::transformPoint(Vector2& point) const
-    {
-        transformVector(point.x, point.y, 1.0f, point);
-    }
-
-    void Matrix3::transformPoint(const Vector2& point, Vector2& dst) const
-    {
-        transformVector(point.x, point.y, 1.0f, dst);
-    }
-
-    void Matrix3::transformVector(Vector2& vector) const
-    {
-        transformVector(vector.x, vector.y, 0.0f, vector);
-    }
-
-    void Matrix3::transformVector(const Vector2& vector, Vector2& dst) const
-    {
-        transformVector(vector.x, vector.y, 0.0f, dst);
-    }
-
-    void Matrix3::transformVector(float x, float y, float z, Vector2& dst) const
-    {
-        dst.x = x * m[0] + y * m[3] + z * m[6];
-        dst.y = x * m[1] + y * m[4] + z * m[7];
-    }
-
-    void Matrix3::transformVector(Vector3& vector) const
-    {
-        transformVector(vector, vector);
-    }
-
-    void Matrix3::transformVector(Vector3* vector) const
-    {
-        transformVector(*vector, *vector);
-    }
-
     void Matrix3::transformVector(const Vector3& vector, Vector3& dst) const
     {
         // Handle case where v == dst.
