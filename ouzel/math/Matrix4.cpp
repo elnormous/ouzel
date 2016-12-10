@@ -61,7 +61,7 @@ namespace ouzel
         up.normalize();
 
         Vector3 zaxis;
-        Vector3::subtract(eye, target, zaxis);
+        Vector3::subtract(target, eye, zaxis);
         zaxis.normalize();
 
         Vector3 xaxis;
@@ -87,9 +87,9 @@ namespace ouzel
         dst.m[10] = zaxis.z;
         dst.m[11] = 0.0f;
 
-        dst.m[12] = -Vector3::dot(xaxis, eye);
-        dst.m[13] = -Vector3::dot(yaxis, eye);
-        dst.m[14] = -Vector3::dot(zaxis, eye);
+        dst.m[12] = Vector3::dot(xaxis, -eye);
+        dst.m[13] = Vector3::dot(yaxis, -eye);
+        dst.m[14] = Vector3::dot(zaxis, -eye);
         dst.m[15] = 1.0f;
     }
 
@@ -115,8 +115,8 @@ namespace ouzel
         dst.m[0] = (1.0f / aspectRatio) * factor;
         dst.m[5] = factor;
         dst.m[10] = -(zFarPlane + zNearPlane) / (zFarPlane - zNearPlane);
-        dst.m[11] = -1.0f;
-        dst.m[14] = -2.0f * zFarPlane * zNearPlane / (zFarPlane - zNearPlane);
+        dst.m[11] = 1.0f;
+        dst.m[14] = 2.0f * zFarPlane * zNearPlane / (zFarPlane - zNearPlane);
     }
 
     void Matrix4::createOrthographicFromSize(float width, float height,
