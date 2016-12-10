@@ -100,7 +100,7 @@ namespace ouzel
         assert(zFarPlane != zNearPlane);
 
         float theta = fieldOfView * 0.5f;
-        if (fabsf(fmodf(theta, PIOVER2)) < EPSILON)
+        if (fabsf(fmodf(theta, PI_2)) < EPSILON)
         {
             //Invalid field of view value
             return;
@@ -112,7 +112,7 @@ namespace ouzel
         dst.setZero();
 
         assert(aspectRatio);
-        dst.m[0] = (1.0f / aspectRatio) * factor;
+        dst.m[0] = aspectRatio * factor;
         dst.m[5] = factor;
         dst.m[10] = -(zFarPlane + zNearPlane) / (zFarPlane - zNearPlane);
         dst.m[11] = 1.0f;

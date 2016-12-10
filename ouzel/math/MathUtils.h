@@ -11,6 +11,7 @@ namespace ouzel
 {
     const float TAU = 6.28318530717958647692f;
     const float TAU_2 = 3.14159265358979323846f; // tau/2, the same as pi
+    const float TAU_4 = 1.57079632679489661923f; // tau/4, the same as pi/2
     const float PI = 3.14159265358979323846f;
     const float PI_2 = 1.57079632679489661923f; // pi/2
     const float PI_4 = 0.78539816339744830962f; // pi/4
@@ -19,8 +20,6 @@ namespace ouzel
     const float E = 2.71828182845904523536f;
     const float LOG10E = 0.4342944819032518f;
     const float LOG2E = 1.442695040888963387f;
-    const float PIOVER2 = 1.57079632679489661923f;
-    const float PIOVER4 = 0.785398163397448309616f;
     const float PIX2 = 6.28318530717958647693f;
     const float EPSILON = 0.000001f;
 
