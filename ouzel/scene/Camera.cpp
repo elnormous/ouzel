@@ -92,15 +92,14 @@ namespace ouzel
             inverseProjection = projection;
             inverseProjection.invert();
 
-            viewProjectionDirty = renderViewProjectionDirty = true;
+            viewProjectionDirty = true;
         }
 
         const Matrix4& Camera::getViewProjection() const
         {
             if (viewProjectionDirty || transformDirty)
             {
-                viewProjection = projection * getTransform();
-                viewProjectionDirty = false;
+                calculateViewProjection();
             }
 
             return viewProjection;
@@ -108,20 +107,9 @@ namespace ouzel
 
         const Matrix4& Camera::getRenderViewProjection() const
         {
-            if (renderViewProjectionDirty || transformDirty)
+            if (viewProjectionDirty || transformDirty)
             {
-                renderViewProjection = projection * getTransform();
-
-                if (renderTarget)
-                {
-                    renderViewProjection *= renderTarget->getProjectionTransform();
-                }
-                else
-                {
-                    renderViewProjection *= sharedEngine->getRenderer()->getProjectionTransform();
-                }
-
-                renderViewProjectionDirty = false;
+                calculateViewProjection();
             }
 
             return renderViewProjection;
@@ -139,6 +127,24 @@ namespace ouzel
             localTransform.translate(-position);
 
             localTransformDirty = false;
+        }
+
+        void Camera::calculateViewProjection() const
+        {
+            viewProjection = projection * getTransform();
+
+            renderViewProjection = viewProjection;
+
+            if (renderTarget)
+            {
+                renderViewProjection *= renderTarget->getProjectionTransform();
+            }
+            else
+            {
+                renderViewProjection *= sharedEngine->getRenderer()->getProjectionTransform();
+            }
+
+            viewProjectionDirty = false;
         }
 
         Vector3 Camera::convertNormalizedToWorld(const Vector2& position) const

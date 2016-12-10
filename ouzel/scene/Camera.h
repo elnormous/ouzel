@@ -68,6 +68,7 @@ namespace ouzel
 
         protected:
             virtual void calculateLocalTransform() const override;
+            void calculateViewProjection() const;
 
             Type type;
             float fov;
@@ -88,8 +89,6 @@ namespace ouzel
 
             mutable bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection;
-
-            mutable bool renderViewProjectionDirty = false;
             mutable Matrix4 renderViewProjection;
 
             Layer* layer = nullptr;
