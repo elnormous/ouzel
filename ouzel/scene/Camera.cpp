@@ -74,8 +74,9 @@ namespace ouzel
             }
             else
             {
-                contentSize = Size2(renderViewport.size.width, renderViewport.size.height);
                 contentScale = Vector2(1.0f, 1.0f);
+                contentSize = Size2(renderViewport.size.width, renderViewport.size.height);
+                contentPosition = Vector2(0.0f, 0.0f);
             }
 
             switch (type)
