@@ -104,7 +104,7 @@ namespace ouzel
 
         const Matrix4& Camera::getViewProjection() const
         {
-            if (viewProjectionDirty)
+            if (viewProjectionDirty || transformDirty)
             {
                 calculateViewProjection();
             }
@@ -114,7 +114,7 @@ namespace ouzel
 
         const Matrix4& Camera::getRenderViewProjection() const
         {
-            if (viewProjectionDirty)
+            if (viewProjectionDirty || transformDirty)
             {
                 calculateViewProjection();
             }
