@@ -60,6 +60,7 @@
 #include "math/MathUtils.h"
 #include "math/Matrix3.h"
 #include "math/Matrix4.h"
+#include "math/Quaternion.h"
 #include "math/Rectangle.h"
 #include "math/Size2.h"
 #include "math/Size3.h"

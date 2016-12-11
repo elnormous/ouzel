@@ -92,6 +92,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/math/MathUtils.cpp \
 	$(ROOT_DIR)/../ouzel/math/Matrix3.cpp \
 	$(ROOT_DIR)/../ouzel/math/Matrix4.cpp \
+	$(ROOT_DIR)/../ouzel/math/Quaternion.cpp \
 	$(ROOT_DIR)/../ouzel/math/Rectangle.cpp \
 	$(ROOT_DIR)/../ouzel/math/Size2.cpp \
 	$(ROOT_DIR)/../ouzel/math/Size3.cpp \
