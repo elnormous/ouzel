@@ -26,44 +26,9 @@ namespace ouzel
             if (layer) layer->removeCamera(this);
         }
 
-        void Camera::setPosition(const Vector2& newPosition)
+        void Camera::calculateTransform() const
         {
-            Node::setPosition(newPosition);
-
-            viewProjectionDirty = true;
-        }
-
-        void Camera::setPosition(const Vector3& newPosition)
-        {
-            Node::setPosition(newPosition);
-
-            viewProjectionDirty = true;
-        }
-
-        void Camera::setRotation(float newRotation)
-        {
-            Node::setRotation(newRotation);
-
-            viewProjectionDirty = true;
-        }
-
-        void Camera::setScale(const Vector3& newScale)
-        {
-            Node::setScale(newScale);
-
-            viewProjectionDirty = true;
-        }
-
-        void Camera::setFlipX(bool newFlipX)
-        {
-            Node::setFlipX(newFlipX);
-
-            viewProjectionDirty = true;
-        }
-
-        void Camera::setFlipY(bool newFlipY)
-        {
-            Node::setFlipY(newFlipY);
+            Node::calculateTransform();
 
             viewProjectionDirty = true;
         }
