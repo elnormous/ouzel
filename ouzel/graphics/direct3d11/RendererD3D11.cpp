@@ -15,8 +15,6 @@
 #include "TextureVSD3D11.h"
 #include "ColorPSD3D11.h"
 #include "ColorVSD3D11.h"
-#include "scene/Camera.h"
-#include "events/EventDispatcher.h"
 #include "BlendStateD3D11.h"
 #include "core/windows/WindowWin.h"
 #include "stb_image_write.h"
