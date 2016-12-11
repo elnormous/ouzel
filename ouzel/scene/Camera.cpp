@@ -26,6 +26,48 @@ namespace ouzel
             if (layer) layer->removeCamera(this);
         }
 
+        void Camera::setPosition(const Vector2& newPosition)
+        {
+            Node::setPosition(newPosition);
+
+            viewProjectionDirty = true;
+        }
+
+        void Camera::setPosition(const Vector3& newPosition)
+        {
+            Node::setPosition(newPosition);
+
+            viewProjectionDirty = true;
+        }
+
+        void Camera::setRotation(float newRotation)
+        {
+            Node::setRotation(newRotation);
+
+            viewProjectionDirty = true;
+        }
+
+        void Camera::setScale(const Vector3& newScale)
+        {
+            Node::setScale(newScale);
+
+            viewProjectionDirty = true;
+        }
+
+        void Camera::setFlipX(bool newFlipX)
+        {
+            Node::setFlipX(newFlipX);
+
+            viewProjectionDirty = true;
+        }
+
+        void Camera::setFlipY(bool newFlipY)
+        {
+            Node::setFlipY(newFlipY);
+
+            viewProjectionDirty = true;
+        }
+
         void Camera::recalculateProjection()
         {
             Size2 renderTargetSize = renderTarget ?
@@ -97,7 +139,7 @@ namespace ouzel
 
         const Matrix4& Camera::getViewProjection() const
         {
-            if (viewProjectionDirty || transformDirty)
+            if (viewProjectionDirty)
             {
                 calculateViewProjection();
             }
@@ -107,7 +149,7 @@ namespace ouzel
 
         const Matrix4& Camera::getRenderViewProjection() const
         {
-            if (viewProjectionDirty || transformDirty)
+            if (viewProjectionDirty)
             {
                 calculateViewProjection();
             }
@@ -115,23 +157,9 @@ namespace ouzel
             return renderViewProjection;
         }
 
-        void Camera::calculateLocalTransform() const
-        {
-            localTransform = Matrix4::IDENTITY;
-            Vector3 inverseScale;
-            if (scale.x != 0.0f) inverseScale.x = 1.0f / scale.x;
-            if (scale.y != 0.0f) inverseScale.y = 1.0f / scale.y;
-            if (scale.z != 0.0f) inverseScale.z = 1.0f / scale.z;
-            localTransform.scale(inverseScale);
-            localTransform.rotateZ(-rotation);
-            localTransform.translate(-position);
-
-            localTransformDirty = false;
-        }
-
         void Camera::calculateViewProjection() const
         {
-            viewProjection = projection * getTransform();
+            viewProjection = projection * getInverseTransform();
 
             renderViewProjection = viewProjection;
 

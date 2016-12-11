@@ -103,11 +103,11 @@ namespace ouzel
 
             virtual void updateTransform(const Matrix4& newParentTransform);
 
-            virtual Vector3 getWorldPosition() const;
+            Vector3 getWorldPosition() const;
             virtual int32_t getWorldOrder() const { return worldOrder; }
 
-            virtual Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
-            virtual Vector3 convertLocalToWorld(const Vector3& localPosition) const;
+            Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
+            Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
             void animate(Animator* animator);
             Animator* getAnimator() const { return currentAnimator; }

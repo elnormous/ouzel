@@ -35,6 +35,13 @@ namespace ouzel
             Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = TAU / 6.0f, float aNearPlane = 1.0f, float aFarPlane = 100.0f);
             virtual ~Camera();
 
+            virtual void setPosition(const Vector2& newPosition) override;
+            virtual void setPosition(const Vector3& newPosition) override;
+            virtual void setRotation(float newRotation) override;
+            virtual void setScale(const Vector3& newScale) override;
+            virtual void setFlipX(bool newFlipX) override;
+            virtual void setFlipY(bool newFlipY) override;
+
             const Matrix4& getProjection() const { return projection; }
             void recalculateProjection();
 
@@ -67,7 +74,6 @@ namespace ouzel
             void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
         protected:
-            virtual void calculateLocalTransform() const override;
             void calculateViewProjection() const;
 
             Type type;
