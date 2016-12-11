@@ -156,35 +156,23 @@ namespace ouzel
 
     Vector4& Vector4::normalize()
     {
-        normalize(*this);
-        return *this;
-    }
-
-    void Vector4::normalize(Vector4& dst) const
-    {
-        if (&dst != this)
-        {
-            dst.x = x;
-            dst.y = y;
-            dst.z = z;
-            dst.w = w;
-        }
-
         float n = x * x + y * y + z * z + w * w;
         // Already normalized.
         if (n == 1.0f)
-            return;
+            return *this;
 
         n = sqrtf(n);
         // Too close to zero.
         if (n < TOLERANCE)
-            return;
+            return *this;
 
         n = 1.0f / n;
-        dst.x *= n;
-        dst.y *= n;
-        dst.z *= n;
-        dst.w *= n;
+        x *= n;
+        y *= n;
+        z *= n;
+        w *= n;
+
+        return *this;
     }
 
     void Vector4::smooth(const Vector4& target, float elapsedTime, float responseTime)

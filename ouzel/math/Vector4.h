@@ -128,7 +128,6 @@ namespace ouzel
         }
 
         Vector4& normalize();
-        void normalize(Vector4& dst) const;
 
         void scale(float scalar)
         {

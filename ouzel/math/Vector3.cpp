@@ -149,33 +149,22 @@ namespace ouzel
 
     Vector3& Vector3::normalize()
     {
-        normalize(*this);
-        return *this;
-    }
-
-    void Vector3::normalize(Vector3& dst) const
-    {
-        if (&dst != this)
-        {
-            dst.x = x;
-            dst.y = y;
-            dst.z = z;
-        }
-
         float n = x * x + y * y + z * z;
         // Already normalized.
         if (n == 1.0f)
-            return;
+            return *this;
 
         n = sqrtf(n);
         // Too close to zero.
         if (n < TOLERANCE)
-            return;
+            return *this;
 
         n = 1.0f / n;
-        dst.x *= n;
-        dst.y *= n;
-        dst.z *= n;
+        x *= n;
+        y *= n;
+        z *= n;
+
+        return *this;
     }
 
     void Vector3::smooth(const Vector3& target, float elapsedTime, float responseTime)

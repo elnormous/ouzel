@@ -110,31 +110,21 @@ namespace ouzel
 
     Vector2& Vector2::normalize()
     {
-        normalize(*this);
-        return *this;
-    }
-
-    void Vector2::normalize(Vector2& dst) const
-    {
-        if (&dst != this)
-        {
-            dst.x = x;
-            dst.y = y;
-        }
-
         float n = x * x + y * y;
         // Already normalized.
         if (n == 1.0f)
-            return;
+            return *this;
 
         n = sqrtf(n);
         // Too close to zero.
         if (n < TOLERANCE)
-            return;
+            return *this;
 
         n = 1.0f / n;
-        dst.x *= n;
-        dst.y *= n;
+        x *= n;
+        y *= n;
+
+        return *this;
     }
 
     void Vector2::rotate(float angle)
