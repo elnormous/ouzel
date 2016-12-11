@@ -236,12 +236,12 @@ namespace ouzel
 
         inline bool operator==(const Vector3& v) const
         {
-            return x==v.x && y==v.y && z==v.z;
+            return x == v.x && y == v.y && z == v.z;
         }
 
         inline bool operator!=(const Vector3& v) const
         {
-            return x!=v.x || y!=v.y || z!=v.z;
+            return x != v.x || y != v.y || z != v.z;
         }
     };
 
