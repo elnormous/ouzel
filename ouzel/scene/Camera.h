@@ -35,6 +35,18 @@ namespace ouzel
             Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = TAU / 6.0f, float aNearPlane = 1.0f, float aFarPlane = 100.0f);
             virtual ~Camera();
 
+            void setType(Type newType) { type = newType; }
+            Type getType() const { return type; }
+
+            void setFOV(float newFOV) { fov = newFOV; }
+            float getFOV() const { return fov; }
+
+            void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
+            float getNearPlane() const { return nearPlane; }
+
+            void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
+            float getFarPlane() const { return farPlane; }
+
             const Matrix4& getProjection() const { return projection; }
             void recalculateProjection();
 
