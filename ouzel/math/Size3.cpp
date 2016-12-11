@@ -13,10 +13,10 @@ namespace ouzel
     {
     }
 
-    Size3& Size3::operator=(const Size2& other)
+    Size3& Size3::operator=(const Size2& size)
     {
-        width = other.width;
-        height = other.height;
+        width = size.width;
+        height = size.height;
         depth = 0.0f;
         return *this;
     }

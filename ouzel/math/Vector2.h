@@ -214,12 +214,12 @@ namespace ouzel
 
         inline bool operator==(const Vector2& v) const
         {
-            return x==v.x && y==v.y;
+            return x == v.x && y == v.y;
         }
 
         inline bool operator!=(const Vector2& v) const
         {
-            return x!=v.x || y!=v.y;
+            return x != v.x || y != v.y;
         }
 
         inline float getAngle() const

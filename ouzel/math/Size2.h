@@ -39,16 +39,16 @@ namespace ouzel
         }
 
         Size2(const Size3& s);
-        Size2& operator=(const Size3& other);
+        Size2& operator=(const Size3& size);
 
-        Size2 operator+(const Size2& right) const
+        Size2 operator+(const Size2& size) const
         {
-            return Size2(width + right.width, height + right.height);
+            return Size2(width + size.width, height + size.height);
         }
 
-        Size2 operator-(const Size2& right) const
+        Size2 operator-(const Size2& size) const
         {
-            return Size2(width - right.width, height - right.height);
+            return Size2(width - size.width, height - size.height);
         }
 
         Size2 operator*(float a) const
@@ -61,14 +61,14 @@ namespace ouzel
             return Size2(width / a, height / a);
         }
 
-        inline bool operator==(const Size2& right) const
+        inline bool operator==(const Size2& size) const
         {
-            return width == right.width && height == right.height;
+            return width == size.width && height == size.height;
         }
 
-        inline bool operator!=(const Size2& right) const
+        inline bool operator!=(const Size2& size) const
         {
-            return width != right.width || height != right.height;
+            return width != size.width || height != size.height;
         }
 
         bool isZero() const
