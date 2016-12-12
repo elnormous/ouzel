@@ -110,6 +110,16 @@ namespace ouzel
             return *this;
         }
 
+        Log& operator<<(bool val)
+        {
+            if (level <= threshold)
+            {
+                s += val ? "1" : "0";
+            }
+
+            return *this;
+        }
+
         Log& operator<<(const Vector2& val)
         {
             if (level <= threshold)
