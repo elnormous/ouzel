@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace scene
     {
-        Rotate::Rotate(float aLength, float aRotation, bool aRelative):
+        Rotate::Rotate(float aLength, const Vector3& aRotation, bool aRelative):
             Animator(aLength), rotation(aRotation), relative(aRelative)
         {
         }
@@ -19,7 +19,8 @@ namespace ouzel
 
             if (targetNode)
             {
-                startRotation = targetNode->getRotation();
+                startRotation = targetNode->getRotation().getEulerAngles();
+
                 targetRotation = relative ? startRotation + rotation : rotation;
 
                 diff = targetRotation - startRotation;
@@ -32,7 +33,7 @@ namespace ouzel
 
             if (targetNode)
             {
-                targetNode->setRotation(startRotation + (diff * progress));
+                targetNode->setRotation(startRotation + diff * progress);
             }
         }
     } // namespace scene

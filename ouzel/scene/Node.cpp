@@ -148,9 +148,24 @@ namespace ouzel
             localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
 
-        void Node::setRotation(float newRotation)
+        void Node::setRotation(const Quaternion& newRotation)
         {
             rotation = newRotation;
+
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
+        }
+
+        void Node::setRotation(const Vector3& newRotation)
+        {
+            rotation = Quaternion::IDENTITY;
+            rotation.setEulerAngles(newRotation);
+
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
+        }
+
+        void Node::setRotation(float newRotation)
+        {
+            rotation.rotate(newRotation, Vector3(0.0f, 0.0f, 1.0f));
 
             localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
@@ -312,7 +327,7 @@ namespace ouzel
         {
             localTransform = Matrix4::IDENTITY;
             localTransform.translate(position);
-            if (rotation != 0.0f) localTransform.rotateZ(rotation);
+            localTransform *= rotation.getMatrix();
 
             Vector3 realScale = Vector3(scale.x * (flipX ? -1.0f : 1.0f),
                                         scale.y * (flipY ? -1.0f : 1.0f),

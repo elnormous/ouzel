@@ -5,11 +5,12 @@
 
 #include <vector>
 #include "scene/NodeContainer.h"
-#include "math/Vector2.h"
-#include "math/Vector3.h"
-#include "math/Matrix4.h"
 #include "math/AABB2.h"
 #include "math/Color.h"
+#include "math/Matrix4.h"
+#include "math/Quaternion.h"
+#include "math/Vector2.h"
+#include "math/Vector3.h"
 #include "core/UpdateCallback.h"
 
 namespace ouzel
@@ -41,8 +42,10 @@ namespace ouzel
             void setOrder(int32_t newOrder) { order = newOrder; }
             int32_t getOrder() const { return order; }
 
+            virtual void setRotation(const Quaternion& newRotation);
+            virtual void setRotation(const Vector3& newRotation);
             virtual void setRotation(float newRotation);
-            virtual float getRotation() const { return rotation; }
+            virtual const Quaternion& getRotation() const { return rotation; }
 
             virtual void setScale(const Vector3& newScale);
             virtual const Vector3& getScale() const { return scale; }
@@ -157,7 +160,7 @@ namespace ouzel
             bool hidden = false;
 
             Vector3 position;
-            float rotation = 0.0f;
+            Quaternion rotation = Quaternion::IDENTITY;
             Vector3 scale = Vector3(1.0f, 1.0f, 1.0f);
             Color color = Color::WHITE;
             float opacity = 1.0f;

@@ -49,7 +49,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
         witchFade.get()
     };
 
-    witchRotate.reset(new scene::Rotate(1.0f, TAU, false));
+    witchRotate.reset(new scene::Rotate(1.0f, Vector3(0.0f, 0.0f, TAU), false));
 
     witchRepeat.reset(new scene::Repeat(witchRotate.get(), 3));
     witchParallel.reset(new scene::Parallel(parallel));
