@@ -81,4 +81,19 @@ namespace ouzel
         result.z = atan2f(2.0f * (x * y + w * z), w * w + x * x - y * y - z * z);
         return result;
     }
+
+    float Quaternion::getEulerAngleX() const
+    {
+        return atan2f(2.0f * (y * z + w * x), w * w - x * x - y * y + z * z);
+    }
+
+    float Quaternion::getEulerAngleY() const
+    {
+        return asinf(-2.0f * (x * z - w * y));
+    }
+
+    float Quaternion::getEulerAngleZ() const
+    {
+        return atan2f(2.0f * (x * y + w * z), w * w + x * x - y * y - z * z);
+    }
 }

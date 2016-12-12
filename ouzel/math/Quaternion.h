@@ -147,6 +147,9 @@ namespace ouzel
 
         void setEulerAngles(const Vector3& angles);
         Vector3 getEulerAngles() const;
+        float getEulerAngleX() const;
+        float getEulerAngleY() const;
+        float getEulerAngleZ() const;
 
         Matrix4 getMatrix() const
         {
