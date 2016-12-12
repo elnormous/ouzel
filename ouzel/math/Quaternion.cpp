@@ -49,15 +49,15 @@ namespace ouzel
     {
         float angle;
 
-        angle = angles.x * 0.5;
+        angle = angles.x * 0.5f;
         const float sr = sinf(angle);
         const float cr = cosf(angle);
 
-        angle = angles.y * 0.5;
+        angle = angles.y * 0.5f;
         const float sp = sinf(angle);
         const float cp = cosf(angle);
 
-        angle = angles.z * 0.5;
+        angle = angles.z * 0.5f;
         const float sy = sinf(angle);
         const float cy = cosf(angle);
 
