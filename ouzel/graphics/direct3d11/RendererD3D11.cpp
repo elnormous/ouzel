@@ -458,8 +458,6 @@ namespace ouzel
                         return false;
                     }
 
-                    Log(Log::Level::INFO) << "resized back buffer: " << width << ", " << height;
-
                     Renderer::setSize(Size2(static_cast<float>(width),
                                             static_cast<float>(height)));
                 }
