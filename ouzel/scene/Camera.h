@@ -52,6 +52,7 @@ namespace ouzel
 
             const Matrix4& getViewProjection() const;
             const Matrix4& getRenderViewProjection() const;
+            const Matrix4& getInverseViewProjection() const;
 
             Vector3 convertNormalizedToWorld(const Vector2& position) const;
             Vector2 convertWorldToNormalized(const Vector3& position) const;
@@ -88,7 +89,6 @@ namespace ouzel
             float farPlane;
 
             Matrix4 projection;
-            Matrix4 inverseProjection;
 
             Rectangle viewport = Rectangle(0.0f, 0.0f, 1.0f, 1.0f);
             Rectangle renderViewport;
@@ -102,6 +102,9 @@ namespace ouzel
             mutable bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection;
             mutable Matrix4 renderViewProjection;
+
+            mutable bool inverseViewProjectionDirty = false;
+            mutable Matrix4 inverseViewProjection;
 
             Layer* layer = nullptr;
 

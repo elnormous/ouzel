@@ -30,7 +30,7 @@ namespace ouzel
         {
             Node::calculateTransform();
 
-            viewProjectionDirty = true;
+            viewProjectionDirty = inverseViewProjectionDirty = true;
         }
 
         void Camera::recalculateProjection()
@@ -96,9 +96,6 @@ namespace ouzel
                     break;
             }
 
-            inverseProjection = projection;
-            inverseProjection.invert();
-
             viewProjectionDirty = true;
         }
 
@@ -122,6 +119,19 @@ namespace ouzel
             return renderViewProjection;
         }
 
+        const Matrix4& Camera::getInverseViewProjection() const
+        {
+            if (inverseViewProjectionDirty || transformDirty)
+            {
+                inverseViewProjection = getViewProjection();
+                inverseViewProjection.invert();
+
+                inverseViewProjectionDirty = false;
+            }
+
+            return inverseViewProjection;
+        }
+
         void Camera::calculateViewProjection() const
         {
             viewProjection = projection * getInverseTransform();
@@ -142,15 +152,12 @@ namespace ouzel
 
         Vector3 Camera::convertNormalizedToWorld(const Vector2& position) const
         {
-            Matrix4 inverseViewMatrix = getViewProjection();
-            inverseViewMatrix.invert();
-
             // convert window normalized to viewport clip position
             Vector3 result = Vector3(((position.x - viewport.position.x) / viewport.size.width - 0.5f) * 2.0f,
                                      ((position.y - viewport.position.y) / viewport.size.height - 0.5f) * 2.0f,
                                      0.0f);
 
-            inverseViewMatrix.transformPoint(result);
+            getInverseViewProjection().transformPoint(result);
 
             return result;
         }
