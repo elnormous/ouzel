@@ -47,6 +47,7 @@ namespace ouzel
             virtual void setRotation(float newRotation);
             virtual const Quaternion& getRotation() const { return rotation; }
 
+            virtual void setScale(const Vector2& newScale);
             virtual void setScale(const Vector3& newScale);
             virtual const Vector3& getScale() const { return scale; }
 

@@ -135,46 +135,84 @@ namespace ouzel
 
         void Node::setPosition(const Vector2& newPosition)
         {
-            position.x = newPosition.x;
-            position.y = newPosition.y;
+            Vector3 newLocalPosition = newPosition;
+            newLocalPosition.z = position.z;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            if (position != newLocalPosition)
+            {
+                position = newLocalPosition;
+
+                localTransformDirty = transformDirty = inverseTransformDirty = true;
+            }
         }
 
         void Node::setPosition(const Vector3& newPosition)
         {
-            position = newPosition;
+            if (position != newPosition)
+            {
+                position = newPosition;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+                localTransformDirty = transformDirty = inverseTransformDirty = true;
+            }
         }
 
         void Node::setRotation(const Quaternion& newRotation)
         {
-            rotation = newRotation;
+            if (rotation != newRotation)
+            {
+                rotation = newRotation;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+                localTransformDirty = transformDirty = inverseTransformDirty = true;
+            }
         }
 
         void Node::setRotation(const Vector3& newRotation)
         {
-            rotation = Quaternion::IDENTITY;
-            rotation.setEulerAngles(newRotation);
+            Quaternion newLocalRoation = Quaternion::IDENTITY;
+            newLocalRoation.setEulerAngles(newRotation);
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            if (rotation != newLocalRoation)
+            {
+                rotation = newLocalRoation;
+
+                localTransformDirty = transformDirty = inverseTransformDirty = true;
+            }
         }
 
         void Node::setRotation(float newRotation)
         {
-            rotation.rotate(newRotation, Vector3(0.0f, 0.0f, 1.0f));
+            Quaternion newLocalRoation = Quaternion::IDENTITY;
+            newLocalRoation.rotate(newRotation, Vector3(0.0f, 0.0f, 1.0f));
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            if (rotation != newLocalRoation)
+            {
+                rotation = newLocalRoation;
+
+                localTransformDirty = transformDirty = inverseTransformDirty = true;
+            }
+        }
+
+        void Node::setScale(const Vector2& newScale)
+        {
+            Vector3 newLocalScale = newScale;
+            newLocalScale.z = scale.z;
+
+            if (scale != newLocalScale)
+            {
+                scale = newLocalScale;
+
+                localTransformDirty = transformDirty = inverseTransformDirty = true;
+            }
         }
 
         void Node::setScale(const Vector3& newScale)
         {
-            scale = newScale;
+            if (scale != newScale)
+            {
+                scale = newScale;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+                localTransformDirty = transformDirty = inverseTransformDirty = true;
+            }
         }
 
         void Node::setColor(const Color& newColor)
@@ -189,16 +227,22 @@ namespace ouzel
 
         void Node::setFlipX(bool newFlipX)
         {
-            flipX = newFlipX;
+            if (flipX != newFlipX)
+            {
+                flipX = newFlipX;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+                localTransformDirty = transformDirty = inverseTransformDirty = true;
+            }
         }
 
         void Node::setFlipY(bool newFlipY)
         {
-            flipY = newFlipY;
+            if (flipY != newFlipY)
+            {
+                flipY = newFlipY;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+                localTransformDirty = transformDirty = inverseTransformDirty = true;
+            }
         }
 
         void Node::setHidden(bool newHidden)
