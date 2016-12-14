@@ -135,12 +135,11 @@ namespace ouzel
 
         void Node::setPosition(const Vector2& newPosition)
         {
-            Vector3 newLocalPosition = newPosition;
-            newLocalPosition.z = position.z;
-
-            if (position != newLocalPosition)
+            if (position.x != newPosition.x ||
+                position.y != newPosition.y)
             {
-                position = newLocalPosition;
+                position.x = newPosition.x;
+                position.y = newPosition.y;
 
                 localTransformDirty = transformDirty = inverseTransformDirty = true;
             }
@@ -168,12 +167,12 @@ namespace ouzel
 
         void Node::setRotation(const Vector3& newRotation)
         {
-            Quaternion newLocalRoation = Quaternion::IDENTITY;
-            newLocalRoation.setEulerAngles(newRotation);
+            Quaternion roationQuaternion;
+            roationQuaternion.setEulerAngles(newRotation);
 
-            if (rotation != newLocalRoation)
+            if (rotation != roationQuaternion)
             {
-                rotation = newLocalRoation;
+                rotation = roationQuaternion;
 
                 localTransformDirty = transformDirty = inverseTransformDirty = true;
             }
@@ -181,12 +180,12 @@ namespace ouzel
 
         void Node::setRotation(float newRotation)
         {
-            Quaternion newLocalRoation = Quaternion::IDENTITY;
-            newLocalRoation.rotate(newRotation, Vector3(0.0f, 0.0f, 1.0f));
+            Quaternion roationQuaternion;
+            roationQuaternion.rotate(newRotation, Vector3(0.0f, 0.0f, 1.0f));
 
-            if (rotation != newLocalRoation)
+            if (rotation != roationQuaternion)
             {
-                rotation = newLocalRoation;
+                rotation = roationQuaternion;
 
                 localTransformDirty = transformDirty = inverseTransformDirty = true;
             }
@@ -194,12 +193,11 @@ namespace ouzel
 
         void Node::setScale(const Vector2& newScale)
         {
-            Vector3 newLocalScale = newScale;
-            newLocalScale.z = scale.z;
-
-            if (scale != newLocalScale)
+            if (scale.x != newScale.x ||
+                scale.y != newScale.y)
             {
-                scale = newLocalScale;
+                scale.x = newScale.x;
+                scale.y = newScale.y;
 
                 localTransformDirty = transformDirty = inverseTransformDirty = true;
             }
