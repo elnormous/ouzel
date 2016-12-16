@@ -1245,10 +1245,10 @@ namespace ouzel
         {
     #endif
         // Handle case where v == dst.
-        dst.v[0] = vector.v[0] * m[0] + vector.v[1] * m[4] + vector.v[2] * m[8] + vector.w * m[12];
-        dst.v[1] = vector.v[0] * m[1] + vector.v[1] * m[5] + vector.v[2] * m[9] + vector.w * m[13];
-        dst.v[2] = vector.v[0] * m[2] + vector.v[1] * m[6] + vector.v[2] * m[10] + vector.w * m[14];
-        dst.w = vector.v[0] * m[3] + vector.v[1] * m[7] + vector.v[2] * m[11] + vector.w * m[15];
+        dst.v[0] = vector.v[0] * m[0] + vector.v[1] * m[4] + vector.v[2] * m[8] + vector.v[3] * m[12];
+        dst.v[1] = vector.v[0] * m[1] + vector.v[1] * m[5] + vector.v[2] * m[9] + vector.v[3] * m[13];
+        dst.v[2] = vector.v[0] * m[2] + vector.v[1] * m[6] + vector.v[2] * m[10] + vector.v[3] * m[14];
+        dst.v[3] = vector.v[0] * m[3] + vector.v[1] * m[7] + vector.v[2] * m[11] + vector.v[3] * m[15];
     #if OUZEL_SUPPORTS_NEON_CHECK
         }
     #endif
