@@ -442,10 +442,10 @@ namespace ouzel
 
                     newSizeDirty = sizeDirty;
 
-                    frameBufferClearColor[0] = clearColor.getR();
-                    frameBufferClearColor[1] = clearColor.getG();
-                    frameBufferClearColor[2] = clearColor.getB();
-                    frameBufferClearColor[3] = clearColor.getA();
+                    frameBufferClearColor[0] = clearColor.normR();
+                    frameBufferClearColor[1] = clearColor.normG();
+                    frameBufferClearColor[2] = clearColor.normB();
+                    frameBufferClearColor[3] = clearColor.normA();
 
                     sizeDirty = false;
                     dirty = false;
@@ -529,8 +529,8 @@ namespace ouzel
                 bool clearBuffer = false;
 
                 viewport = {
-                    drawCommand.viewport.position.x,
-                    drawCommand.viewport.position.y,
+                    drawCommand.viewport.position.v[0],
+                    drawCommand.viewport.position.v[1],
                     drawCommand.viewport.size.width,
                     drawCommand.viewport.size.height,
                     0.0f, 1.0f
@@ -589,10 +589,10 @@ namespace ouzel
                 if (drawCommand.scissorTestEnabled)
                 {
                     D3D11_RECT rects[1];
-                    rects[0].left = static_cast<LONG>(drawCommand.scissorTest.position.x);
-                    rects[0].right = static_cast<LONG>(drawCommand.scissorTest.position.x + drawCommand.scissorTest.size.width);
-                    rects[0].bottom = static_cast<LONG>(drawCommand.scissorTest.position.y);
-                    rects[0].top = static_cast<LONG>(drawCommand.scissorTest.position.y + drawCommand.scissorTest.size.height);
+                    rects[0].left = static_cast<LONG>(drawCommand.scissorTest.position.v[0]);
+                    rects[0].right = static_cast<LONG>(drawCommand.scissorTest.position.v[0] + drawCommand.scissorTest.size.width);
+                    rects[0].bottom = static_cast<LONG>(drawCommand.scissorTest.position.v[1]);
+                    rects[0].top = static_cast<LONG>(drawCommand.scissorTest.position.v[1] + drawCommand.scissorTest.size.height);
 
                     context->RSSetScissorRects(1, rects);
                 }
