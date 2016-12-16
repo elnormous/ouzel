@@ -54,12 +54,13 @@ namespace ouzel
         }
 
         Vector4(const Vector2& v);
-
         Vector4& operator=(const Vector2& v);
 
         Vector4(const Vector3& v);
-
         Vector4& operator=(const Vector3& v);
+
+        Vector4(const Color& color);
+        Vector4& operator=(const Color& color);
 
         float& x() { return v[0]; }
         float& y() { return v[1]; }
@@ -71,8 +72,6 @@ namespace ouzel
         float w() const { return v[3]; }
         float& operator[](size_t index) { return v[index]; }
         float operator[](size_t index) const { return v[index]; }
-
-        static Vector4 fromColor(const Color& color);
 
         bool isZero() const
         {

@@ -54,12 +54,22 @@ namespace ouzel
         return *this;
     }
 
-    Vector4 Vector4::fromColor(const Color& color)
+    Vector4::Vector4(const Color& color):
+        v{ color.normR(),
+            color.normG(),
+            color.normB(),
+            color.normA() }
     {
-        return Vector4(color.normR(),
-                       color.normG(),
-                       color.normB(),
-                       color.normA());
+    }
+
+    Vector4& Vector4::operator=(const Color& color)
+    {
+        v[0] = color.normR();
+        v[1] = color.normG();
+        v[2] = color.normB();
+        v[3] = color.normA();
+
+        return *this;
     }
 
     float Vector4::angle(const Vector4& v1, const Vector4& v2)
