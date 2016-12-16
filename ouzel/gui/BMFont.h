@@ -34,8 +34,7 @@ namespace ouzel
         void getVertices(const std::string& text, const Color& color,
                          const Vector2& anchor,
                          std::vector<uint16_t>& indices,
-                         std::vector<graphics::VertexPCT>& vertices,
-                         bool flippTextureCoords = false);
+                         std::vector<graphics::VertexPCT>& vertices);
 
         const std::string& getTexture() const { return texture; }
 

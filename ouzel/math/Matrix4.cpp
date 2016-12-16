@@ -1237,10 +1237,8 @@ namespace ouzel
         __m128 col3 = _mm_shuffle_ps(vectorV, vectorV, _MM_SHUFFLE(2, 2, 2, 2));
         __m128 col4 = _mm_shuffle_ps(vectorV, vectorV, _MM_SHUFFLE(3, 3, 3, 3));
 
-        __m128 dstV = _mm_add_ps(
-                                 _mm_add_ps(_mm_mul_ps(col[0], col1), _mm_mul_ps(col[1], col2)),
-                                 _mm_add_ps(_mm_mul_ps(col[2], col3), _mm_mul_ps(col[3], col4))
-                                 );
+        __m128 dstV = _mm_add_ps(_mm_add_ps(_mm_mul_ps(col[0], col1), _mm_mul_ps(col[1], col2)),
+                                 _mm_add_ps(_mm_mul_ps(col[2], col3), _mm_mul_ps(col[3], col4)));
 
         _mm_storeu_ps(&dst.x, dstV);
 #endif

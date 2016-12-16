@@ -180,8 +180,7 @@ namespace ouzel
                                 radial.normalize();
                             }
                             tangential = radial;
-                            radial.x *= particles[i].radialAcceleration;
-                            radial.y *= particles[i].radialAcceleration;
+                            radial *= particles[i].radialAcceleration;
 
                             // tangential acceleration
                             std::swap(tangential.x, tangential.y);
