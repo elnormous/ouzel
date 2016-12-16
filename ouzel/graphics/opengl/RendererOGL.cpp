@@ -320,10 +320,10 @@ namespace ouzel
 
                     clearMask = GL_COLOR_BUFFER_BIT;
 
-                    frameBufferClearColor[0] = clearColor.getR();
-                    frameBufferClearColor[1] = clearColor.getG();
-                    frameBufferClearColor[2] = clearColor.getB();
-                    frameBufferClearColor[3] = clearColor.getA();
+                    frameBufferClearColor[0] = clearColor.normR();
+                    frameBufferClearColor[1] = clearColor.normG();
+                    frameBufferClearColor[2] = clearColor.normB();
+                    frameBufferClearColor[3] = clearColor.normA();
 
                     dirty = false;
                 }
@@ -642,8 +642,8 @@ namespace ouzel
                     return false;
                 }
 
-                setViewport(static_cast<GLint>(drawCommand.viewport.position.x()),
-                            static_cast<GLint>(drawCommand.viewport.position.y()),
+                setViewport(static_cast<GLint>(drawCommand.viewport.position.v[0]),
+                            static_cast<GLint>(drawCommand.viewport.position.v[1]),
                             static_cast<GLsizei>(drawCommand.viewport.size.width),
                             static_cast<GLsizei>(drawCommand.viewport.size.height));
 
@@ -669,8 +669,8 @@ namespace ouzel
 
                 // scissor test
                 setScissorTest(drawCommand.scissorTestEnabled,
-                               static_cast<GLint>(drawCommand.scissorTest.position.x()),
-                               static_cast<GLint>(drawCommand.scissorTest.position.y()),
+                               static_cast<GLint>(drawCommand.scissorTest.position.v[0]),
+                               static_cast<GLint>(drawCommand.scissorTest.position.v[1]),
                                static_cast<GLsizei>(drawCommand.scissorTest.size.width),
                                static_cast<GLsizei>(drawCommand.scissorTest.size.height));
 

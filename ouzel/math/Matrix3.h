@@ -28,8 +28,10 @@ namespace ouzel
 
         Matrix3(const float* array);
 
-
         Matrix3(const Matrix3& copy);
+
+        float& operator[](size_t index) { return m[index]; }
+        float operator[](size_t index) const { return m[index]; }
 
         static void createScale(const Vector2& scale, Matrix3& dst);
         static void createScale(float xScale, float yScale, Matrix3& dst);
@@ -89,29 +91,29 @@ namespace ouzel
 
         void transformPoint(Vector2& point) const
         {
-            transformVector(point.x(), point.y(), 1.0f, point);
+            transformVector(point.v[0], point.v[1], 1.0f, point);
         }
 
         void transformPoint(const Vector2& point, Vector2& dst) const
         {
-            transformVector(point.x(), point.y(), 1.0f, dst);
+            transformVector(point.v[0], point.v[1], 1.0f, dst);
         }
 
         void transformVector(Vector2& vector) const
         {
-            transformVector(vector.x(), vector.y(), 0.0f, vector);
+            transformVector(vector.v[0], vector.v[1], 0.0f, vector);
         }
 
         void transformVector(const Vector2& vector, Vector2& dst) const
         {
-            transformVector(vector.x(), vector.y(), 0.0f, dst);
+            transformVector(vector.v[0], vector.v[1], 0.0f, dst);
         }
 
         void transformVector(float x, float y, float z, Vector2& dst) const
         {
             Vector3 t;
             transformVector(Vector3(x, y, z), t);
-            dst = Vector2(t.x, t.y);
+            dst = Vector2(t.v[0], t.v[1]);
         }
 
         void transformVector(Vector3& vector) const

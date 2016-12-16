@@ -22,26 +22,26 @@ namespace ouzel
     }
 
     Vector2::Vector2(const Vector3& vec):
-        v{ vec.x, vec.y }
+        v{ vec.v[0], vec.v[1] }
     {
     }
 
     Vector2& Vector2::operator=(const Vector3& vec)
     {
-        v[0] = vec.x;
-        v[1] = vec.y;
+        v[0] = vec.v[0];
+        v[1] = vec.v[1];
         return *this;
     }
 
     Vector2::Vector2(const Vector4& vec):
-        v{ vec.x, vec.y }
+        v{ vec.v[0], vec.v[1] }
     {
     }
 
     Vector2& Vector2::operator=(const Vector4& vec)
     {
-        v[0] = vec.x;
-        v[1] = vec.y;
+        v[0] = vec.v[0];
+        v[1] = vec.v[1];
         return *this;
     }
 

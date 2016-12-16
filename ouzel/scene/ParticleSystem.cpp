@@ -61,7 +61,7 @@ namespace ouzel
                     transform = camera->getRenderViewProjection() * transformMatrix;
                 }
 
-                float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
+                float colorVector[] = { drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA() };
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
                 pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
@@ -103,7 +103,7 @@ namespace ouzel
                     transform = camera->getRenderViewProjection() * transformMatrix;
                 }
 
-                float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
+                float colorVector[] = { drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA() };
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
                 pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
@@ -174,7 +174,7 @@ namespace ouzel
                             Vector2 tmp, radial, tangential;
 
                             // radial acceleration
-                            if (particles[i].position.x() == 0.0f || particles[i].position.y() == 0.0f)
+                            if (particles[i].position.v[0] == 0.0f || particles[i].position.v[1] == 0.0f)
                             {
                                 radial = particles[i].position;
                                 radial.normalize();
@@ -183,34 +183,34 @@ namespace ouzel
                             radial *= particles[i].radialAcceleration;
 
                             // tangential acceleration
-                            std::swap(tangential.x(), tangential.y());
-                            tangential.x() *= - particles[i].tangentialAcceleration;
-                            tangential.y() *= particles[i].tangentialAcceleration;
+                            std::swap(tangential.v[0], tangential.v[1]);
+                            tangential.v[0] *= - particles[i].tangentialAcceleration;
+                            tangential.v[1] *= particles[i].tangentialAcceleration;
 
                             // (gravity + radial + tangential) * delta
-                            tmp.x() = radial.x() + tangential.x() + particleDefinition.gravity.x();
-                            tmp.y() = radial.y() + tangential.y() + particleDefinition.gravity.y();
-                            tmp.x() *= delta;
-                            tmp.y() *= delta;
+                            tmp.v[0] = radial.v[0] + tangential.v[0] + particleDefinition.gravity.v[0];
+                            tmp.v[1] = radial.v[1] + tangential.v[1] + particleDefinition.gravity.v[1];
+                            tmp.v[0] *= delta;
+                            tmp.v[1] *= delta;
 
-                            particles[i].direction.x() += tmp.x();
-                            particles[i].direction.y() += tmp.y();
+                            particles[i].direction.v[0] += tmp.v[0];
+                            particles[i].direction.v[1] += tmp.v[1];
 
                             // this is cocos2d-x v3.0
                             // if (configName.length()>0 && yCoordFlipped != -1)
 
                             // this is cocos2d-x v3.0
-                            tmp.x() = particles[i].direction.x() * delta * particleDefinition.yCoordFlipped;
-                            tmp.y() = particles[i].direction.y() * delta * particleDefinition.yCoordFlipped;
-                            particles[i].position.x() += tmp.x();
-                            particles[i].position.y() += tmp.y();
+                            tmp.v[0] = particles[i].direction.v[0] * delta * particleDefinition.yCoordFlipped;
+                            tmp.v[1] = particles[i].direction.v[1] * delta * particleDefinition.yCoordFlipped;
+                            particles[i].position.v[0] += tmp.v[0];
+                            particles[i].position.v[1] += tmp.v[1];
                         }
                         else
                         {
                             particles[i].angle += particles[i].degreesPerSecond * delta;
                             particles[i].radius += particles[i].deltaRadius * delta;
-                            particles[i].position.x() = -cosf(particles[i].angle) * particles[i].radius;
-                            particles[i].position.y() = -sinf(particles[i].angle) * particles[i].radius * particleDefinition.yCoordFlipped;
+                            particles[i].position.v[0] = -cosf(particles[i].angle) * particles[i].radius;
+                            particles[i].position.v[1] = -sinf(particles[i].angle) * particles[i].radius * particleDefinition.yCoordFlipped;
                         }
 
                         //color r,g,b,a
@@ -247,7 +247,7 @@ namespace ouzel
                         {
                             Vector3 position = particles[i].position;
                             inverseTransform.transformPoint(position);
-                            boundingBox.insertPoint(Vector2(position.x, position.y));
+                            boundingBox.insertPoint(Vector2(position.v[0], position.v[1]));
                         }
                     }
                 }
@@ -388,10 +388,10 @@ namespace ouzel
                     float cr = cosf(r);
                     float sr = sinf(r);
 
-                    Vector2 a(v1.x() * cr - v1.y() * sr, v1.x() * sr + v1.y() * cr);
-                    Vector2 b(v2.x() * cr - v1.y() * sr, v2.x() * sr + v1.y() * cr);
-                    Vector2 c(v2.x() * cr - v2.y() * sr, v2.x() * sr + v2.y() * cr);
-                    Vector2 d(v1.x() * cr - v2.y() * sr, v1.x() * sr + v2.y() * cr);
+                    Vector2 a(v1.v[0] * cr - v1.v[1] * sr, v1.v[0] * sr + v1.v[1] * cr);
+                    Vector2 b(v2.v[0] * cr - v1.v[1] * sr, v2.v[0] * sr + v1.v[1] * cr);
+                    Vector2 c(v2.v[0] * cr - v2.v[1] * sr, v2.v[0] * sr + v2.v[1] * cr);
+                    Vector2 d(v1.v[0] * cr - v2.v[1] * sr, v1.v[0] * sr + v2.v[1] * cr);
 
                     Color color(static_cast<uint8_t>(particles[i].colorRed * 255),
                                 static_cast<uint8_t>(particles[i].colorGreen * 255),
@@ -448,8 +448,8 @@ namespace ouzel
                         {
                             particles[i].life = fmaxf(particleDefinition.particleLifespan + particleDefinition.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
 
-                            particles[i].position = particleDefinition.sourcePosition + position + Vector2(particleDefinition.sourcePositionVariance.x() * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine),
-                                                                                                             particleDefinition.sourcePositionVariance.y() * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
+                            particles[i].position = particleDefinition.sourcePosition + position + Vector2(particleDefinition.sourcePositionVariance.v[0] * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine),
+                                                                                                             particleDefinition.sourcePositionVariance.v[1] * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
 
                             particles[i].size = fmaxf(particleDefinition.startParticleSize + particleDefinition.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
 

@@ -10,6 +10,7 @@
 #include "math/Vector4.h"
 #include "math/Size2.h"
 #include "math/Size3.h"
+#include "math/Quaternion.h"
 
 namespace ouzel
 {
@@ -114,7 +115,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.x()) + "," + toString(val.y());
+                s += toString(val.v[0]) + "," + toString(val.v[1]);
             }
 
             return *this;
@@ -124,8 +125,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.x) + "," + toString(val.y) + "," +
-                    toString(val.z);
+                s += toString(val.v[0]) + "," + toString(val.v[1]) + "," +
+                    toString(val.v[2]);
             }
 
             return *this;
@@ -135,8 +136,19 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.x) + "," + toString(val.y) + "," +
-                    toString(val.z) + "," + toString(val.w);
+                s += toString(val.v[0]) + "," + toString(val.v[1]) + "," +
+                    toString(val.v[2]) + "," + toString(val.v[3]);
+            }
+
+            return *this;
+        }
+
+        Log& operator<<(const Quaternion& val)
+        {
+            if (level <= threshold)
+            {
+                s += toString(val.v[0]) + "," + toString(val.v[1]) + "," +
+                toString(val.v[2]) + "," + toString(val.v[3]);
             }
 
             return *this;

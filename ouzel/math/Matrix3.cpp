@@ -38,8 +38,8 @@ namespace ouzel
     {
         std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
-        dst.m[0] = scale.x();
-        dst.m[4] = scale.y();
+        dst.m[0] = scale.v[0];
+        dst.m[4] = scale.v[1];
     }
 
     void Matrix3::createScale(float xScale, float yScale, Matrix3& dst)
@@ -72,8 +72,8 @@ namespace ouzel
     {
         std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
-        dst.m[6] = translation.x();
-        dst.m[7] = translation.y();
+        dst.m[6] = translation.v[0];
+        dst.m[7] = translation.v[1];
     }
 
     void Matrix3::createTranslation(float xTranslation, float yTranslation, Matrix3& dst)
@@ -253,12 +253,12 @@ namespace ouzel
 
     void Matrix3::scale(const Vector2& s)
     {
-        scale(s.x(), s.y(), *this);
+        scale(s.v[0], s.v[1], *this);
     }
 
     void Matrix3::scale(const Vector2& s, Matrix3& dst) const
     {
-        scale(s.x(), s.y(), dst);
+        scale(s.v[0], s.v[1], dst);
     }
 
     void Matrix3::set(float m11, float m12, float m13,
@@ -313,9 +313,9 @@ namespace ouzel
     void Matrix3::transformVector(const Vector3& vector, Vector3& dst) const
     {
         // Handle case where v == dst.
-        dst.x = vector.x * m[0] + vector.y * m[3] + vector.z * m[6];
-        dst.y = vector.x * m[1] + vector.y * m[4] + vector.z * m[7];
-        dst.z = vector.x * m[2] + vector.y * m[5] + vector.z * m[8];
+        dst.v[0] = vector.v[0] * m[0] + vector.v[1] * m[3] + vector.v[2] * m[6];
+        dst.v[1] = vector.v[0] * m[1] + vector.v[1] * m[4] + vector.v[2] * m[7];
+        dst.v[2] = vector.v[0] * m[2] + vector.v[1] * m[5] + vector.v[2] * m[8];
     }
 
     void Matrix3::translate(float x, float y)
@@ -332,12 +332,12 @@ namespace ouzel
 
     void Matrix3::translate(const Vector2& t)
     {
-        translate(t.x(), t.y(), *this);
+        translate(t.v[0], t.v[1], *this);
     }
 
     void Matrix3::translate(const Vector2& t, Matrix3& dst) const
     {
-        translate(t.x(), t.y(), dst);
+        translate(t.v[0], t.v[1], dst);
     }
 
     void Matrix3::transpose()

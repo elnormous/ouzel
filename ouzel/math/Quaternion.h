@@ -14,84 +14,97 @@ namespace ouzel
         static const Quaternion IDENTITY;
         static const Quaternion ZERO;
 
-        float x;
-        float y;
-        float z;
-        float w;
+        float v[4];
 
         Quaternion():
-            x(0.0f), y(0.0f), z(0.0f), w(0.0f)
+            v{ 0.0f, 0.0f, 0.0f, 0.0f }
         {
         }
 
         Quaternion(float aX, float aY, float aZ, float aW):
-            x(aX), y(aY), z(aZ), w(aW)
+            v{ aX, aY, aZ, aW }
         {
         }
 
+        Quaternion(const Quaternion& copy):
+            v{ copy.v[0], copy.v[1], copy.v[2], copy.v[3] }
+        {
+        }
+
+        float& x() { return v[0]; }
+        float& y() { return v[1]; }
+        float& z() { return v[2]; }
+        float& w() { return v[3]; }
+        float x() const { return v[0]; }
+        float y() const { return v[1]; }
+        float z() const { return v[2]; }
+        float w() const { return v[3]; }
+        float& operator[](size_t index) { return v[index]; }
+        float operator[](size_t index) const { return v[index]; }
+
         Quaternion operator*(const Quaternion& q) const
         {
-            return Quaternion(w * q.x + q.w * x + y * q.z - z * q.y,
-                              w * q.y + q.w * y + z * q.x - x * q.z,
-                              w * q.z + q.w * z + x * q.y - y * q.x,
-                              w * q.w - (x * q.x + y * q.y + z * q.z));
+            return Quaternion(v[3] * q.v[0] + q.v[3] * v[0] + v[1] * q.v[2] - v[2] * q.v[1],
+                              v[3] * q.v[1] + q.v[3] * v[1] + v[2] * q.v[0] - v[0] * q.v[2],
+                              v[3] * q.v[2] + q.v[3] * v[2] + v[0] * q.v[1] - v[1] * q.v[0],
+                              v[3] * q.v[3] - (v[0] * q.v[0] + v[1] * q.v[1] + v[2] * q.v[2]));
         }
 
         const Quaternion& operator*=(const Quaternion& q)
         {
-            float tempX = w * q.x + q.w * x + y * q.z - z * q.y;
-            float tempY = w * q.y + q.w * y + z * q.x - x * q.z;
-            float tempZ = w * q.z + q.w * z + x * q.y - y * q.x;
-            float tempW = w * q.w - (x * q.x + y * q.y + z * q.z);
+            float tempX = v[3] * q.v[0] + q.v[3] * v[0] + v[1] * q.v[2] - v[2] * q.v[1];
+            float tempY = v[3] * q.v[1] + q.v[3] * v[1] + v[2] * q.v[0] - v[0] * q.v[2];
+            float tempZ = v[3] * q.v[2] + q.v[3] * v[2] + v[0] * q.v[1] - v[1] * q.v[0];
+            float tempW = v[3] * q.v[3] - (v[0] * q.v[0] + v[1] * q.v[1] + v[2] * q.v[2]);
 
-            x = tempX;
-            y = tempY;
-            z = tempZ;
-            w = tempW;
+            v[0] = tempX;
+            v[1] = tempY;
+            v[2] = tempZ;
+            v[3] = tempW;
 
             return *this;
         }
 
         Quaternion operator*(float scalar) const
         {
-            return Quaternion(x * scalar,
-                              y * scalar,
-                              z * scalar,
-                              w * scalar);
+            return Quaternion(v[0] * scalar,
+                              v[1] * scalar,
+                              v[2] * scalar,
+                              v[3] * scalar);
         }
 
         const Quaternion& operator*=(float scalar)
         {
-            x *= scalar;
-            y *= scalar;
-            z *= scalar;
-            w *= scalar;
+            v[0] *= scalar;
+            v[1] *= scalar;
+            v[2] *= scalar;
+            v[3] *= scalar;
 
             return *this;
         }
 
         inline Quaternion operator-() const
         {
-            return Quaternion(-x, -y, -z, -w);
+            return Quaternion(-v[0], -v[1], -v[2], -v[3]);
         }
 
         inline Quaternion operator+(const Quaternion& q) const
         {
             Quaternion result(*this);
-            result.x += q.x;
-            result.y += q.y;
-            result.z += q.z;
-            result.w += q.w;
+            result.v[0] += q.v[0];
+            result.v[1] += q.v[1];
+            result.v[2] += q.v[2];
+            result.v[3] += q.v[3];
 
             return result;
         }
 
         inline Quaternion& operator+=(const Quaternion& q)
         {
-            x += q.x;
-            y += q.y;
-            z += q.z;
-            w += q.w;
+            v[0] += q.v[0];
+            v[1] += q.v[1];
+            v[2] += q.v[2];
+            v[3] += q.v[3];
 
             return *this;
         }
@@ -99,47 +112,47 @@ namespace ouzel
         inline Quaternion operator-(const Quaternion& q) const
         {
             Quaternion result(*this);
-            result.x -= q.x;
-            result.y -= q.y;
-            result.z -= q.z;
-            result.w -= q.w;
+            result.v[0] -= q.v[0];
+            result.v[1] -= q.v[1];
+            result.v[2] -= q.v[2];
+            result.v[3] -= q.v[3];
 
             return result;
         }
 
         inline Quaternion& operator-=(const Quaternion& q)
         {
-            x -= q.x;
-            y -= q.y;
-            z -= q.z;
-            w -= q.w;
+            v[0] -= q.v[0];
+            v[1] -= q.v[1];
+            v[2] -= q.v[2];
+            v[3] -= q.v[3];
 
             return *this;
         }
 
         inline bool operator==(const Quaternion& q) const
         {
-            return x == q.x && y == q.y && z == q.z && w == q.w;
+            return v[0] == q.v[0] && v[1] == q.v[1] && v[2] == q.v[2] && v[3] == q.v[3];
         }
 
         inline bool operator!=(const Quaternion& q) const
         {
-            return x != q.x || y != q.y || z != q.z || w != q.w;
+            return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
         }
 
         inline void negate()
         {
-            x = -x;
-            y = -y;
-            z = -z;
-            w = -w;
+            v[0] = -v[0];
+            v[1] = -v[1];
+            v[2] = -v[2];
+            v[3] = -v[3];
         }
 
         inline void conjugate()
         {
-            x = -x;
-            y = -y;
-            z = -z;
+            v[0] = -v[0];
+            v[1] = -v[1];
+            v[2] = -v[2];
         }
 
         Quaternion& normalize();
@@ -155,18 +168,18 @@ namespace ouzel
         {
             Matrix4 result;
 
-            float wx = w * x;
-            float wy = w * y;
-            float wz = w * z;
+            float wx = v[3] * v[0];
+            float wy = v[3] * v[1];
+            float wz = v[3] * v[2];
 
-            float xx = x * x;
-            float xy = x * y;
-            float xz = x * z;
+            float xx = v[0] * v[0];
+            float xy = v[0] * v[1];
+            float xz = v[0] * v[2];
 
-            float yy = y * y;
-            float yz = y * z;
+            float yy = v[1] * v[1];
+            float yz = v[1] * v[2];
 
-            float zz = z * z;
+            float zz = v[2] * v[2];
 
             result.m[0] = 1.0f - 2.0f * (yy + zz);
             result.m[1] = 2.0f * (xy + wz);

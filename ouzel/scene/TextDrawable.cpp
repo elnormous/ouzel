@@ -74,7 +74,7 @@ namespace ouzel
             }
 
             Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
-            float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
+            float colorVector[] = { drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA() };
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
             pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
@@ -102,7 +102,7 @@ namespace ouzel
             Component::drawWireframe(transformMatrix, drawColor, camera);
 
             Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
-            float colorVector[] = { drawColor.getR(), drawColor.getG(), drawColor.getB(), drawColor.getA() };
+            float colorVector[] = { drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA() };
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
             pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
@@ -147,7 +147,7 @@ namespace ouzel
 
             for (const graphics::VertexPCT& vertex : vertices)
             {
-                boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
+                boundingBox.insertPoint(Vector2(vertex.position.v[0], vertex.position.v[1]));
             }
 
         }

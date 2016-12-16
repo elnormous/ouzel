@@ -41,6 +41,9 @@ namespace ouzel
         Matrix4(const float* array);
         Matrix4(const Matrix4& copy);
 
+        float& operator[](size_t index) { return m[index]; }
+        float operator[](size_t index) const { return m[index]; }
+
         static void createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst);
         static void createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
                                  float targetCenterX, float targetCenterY, float targetCenterZ,
@@ -121,31 +124,31 @@ namespace ouzel
 
         void transformPoint(Vector3& point) const
         {
-            transformVector(point.x, point.y, point.z, 1.0f, point);
+            transformVector(point.v[0], point.v[1], point.z(), 1.0f, point);
         }
 
         void transformPoint(const Vector3& point, Vector3& dst) const
         {
-            transformVector(point.x, point.y, point.z, 1.0f, dst);
+            transformVector(point.v[0], point.v[1], point.z(), 1.0f, dst);
         }
 
         void transformVector(Vector3& vector) const
         {
             Vector4 t;
-            transformVector(Vector4(vector.x, vector.y, vector.z, 0.0f), t);
-            vector = Vector3(t.x, t.y, t.z);
+            transformVector(Vector4(vector.v[0], vector.v[1], vector.z(), 0.0f), t);
+            vector = Vector3(t.v[0], t.v[1], t.z());
         }
 
         void transformVector(const Vector3& vector, Vector3& dst) const
         {
-            transformVector(vector.x, vector.y, vector.z, 0.0f, dst);
+            transformVector(vector.v[0], vector.v[1], vector.z(), 0.0f, dst);
         }
 
         void transformVector(float x, float y, float z, float w, Vector3& dst) const
         {
             Vector4 t;
             transformVector(Vector4(x, y, z, w), t);
-            dst = Vector3(t.x, t.y, t.z);
+            dst = Vector3(t.v[0], t.v[1], t.z());
         }
 
         void transformVector(Vector4& vector) const

@@ -10,23 +10,23 @@ namespace ouzel
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive z-axis.
         // Left-top.
-        dst[0].set(min.x(), max.y());
+        dst[0].set(min.v[0], max.v[1]);
         // Left-bottom.
-        dst[1].set(min.x(), min.y());
+        dst[1].set(min.v[0], min.v[1]);
         // Right-bottom.
-        dst[2].set(max.x(), min.y());
+        dst[2].set(max.v[0], min.v[1]);
         // Right-top.
-        dst[3].set(max.x(), max.y());
+        dst[3].set(max.v[0], max.v[1]);
     }
 
     void AABB2::merge(const AABB2& box)
     {
         // Calculate the new minimum point.
-        min.x() = std::min(min.x(), box.min.x());
-        min.y() = std::min(min.y(), box.min.y());
+        min.v[0] = std::min(min.v[0], box.min.v[0]);
+        min.v[1] = std::min(min.v[1], box.min.v[1]);
 
         // Calculate the new maximum point.
-        max.x() = std::max(max.x(), box.max.x());
-        max.y() = std::max(max.y(), box.max.y());
+        max.v[0] = std::max(max.v[0], box.max.v[0]);
+        max.v[1] = std::max(max.v[1], box.max.v[1]);
     }
 }

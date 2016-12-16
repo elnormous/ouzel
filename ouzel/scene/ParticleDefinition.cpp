@@ -61,10 +61,10 @@ namespace ouzel
 
             if (document.HasMember("yCoordFlipped")) result.yCoordFlipped = (document["yCoordFlipped"].GetUint() == 1);
 
-            if (document.HasMember("sourcePositionx")) result.sourcePosition.x() = document["sourcePositionx"].GetFloat();
-            if (document.HasMember("sourcePositiony")) result.sourcePosition.y() = document["sourcePositiony"].GetFloat();
-            if (document.HasMember("sourcePositionVariancex")) result.sourcePositionVariance.x() = document["sourcePositionVariancex"].GetFloat();
-            if (document.HasMember("sourcePositionVariancey")) result.sourcePositionVariance.y() = document["sourcePositionVariancey"].GetFloat();
+            if (document.HasMember("sourcePositionx")) result.sourcePosition.v[0] = document["sourcePositionx"].GetFloat();
+            if (document.HasMember("sourcePositiony")) result.sourcePosition.v[1] = document["sourcePositiony"].GetFloat();
+            if (document.HasMember("sourcePositionVariancex")) result.sourcePositionVariance.v[0] = document["sourcePositionVariancex"].GetFloat();
+            if (document.HasMember("sourcePositionVariancey")) result.sourcePositionVariance.v[1] = document["sourcePositionVariancey"].GetFloat();
 
             if (document.HasMember("startParticleSize")) result.startParticleSize = document["startParticleSize"].GetFloat();
             if (document.HasMember("startParticleSizeVariance")) result.startParticleSizeVariance = document["startParticleSizeVariance"].GetFloat();
@@ -90,8 +90,8 @@ namespace ouzel
 
             if (document.HasMember("rotationIsDir")) result.rotationIsDir = document["rotationIsDir"].GetBool();
 
-            if (document.HasMember("gravityx")) result.gravity.x() = document["gravityx"].GetFloat();
-            if (document.HasMember("gravityy")) result.gravity.y() = document["gravityy"].GetFloat();
+            if (document.HasMember("gravityx")) result.gravity.v[0] = document["gravityx"].GetFloat();
+            if (document.HasMember("gravityy")) result.gravity.v[1] = document["gravityy"].GetFloat();
 
             if (document.HasMember("startColorRed")) result.startColorRed = document["startColorRed"].GetFloat();
             if (document.HasMember("startColorGreen")) result.startColorGreen = document["startColorGreen"].GetFloat();

@@ -86,7 +86,7 @@ namespace ouzel
                 calculateTransform();
             }
 
-            Color drawColor(color.r, color.g, color.b, static_cast<uint8_t>(color.a * opacity));
+            Color drawColor(color.v[0], color.v[1], color.v[2], static_cast<uint8_t>(color.v[3] * opacity));
 
             for (Component* component : components)
             {
@@ -104,7 +104,7 @@ namespace ouzel
                 calculateTransform();
             }
 
-            Color drawColor(color.r, color.g, color.b, 255);
+            Color drawColor(color.v[0], color.v[1], color.v[2], 255);
 
             for (Component* component : components)
             {
@@ -135,11 +135,11 @@ namespace ouzel
 
         void Node::setPosition(const Vector2& newPosition)
         {
-            if (position.x != newPosition.x() ||
-                position.y != newPosition.y())
+            if (position.v[0] != newPosition.v[0] ||
+                position.v[1] != newPosition.v[1])
             {
-                position.x = newPosition.x();
-                position.y = newPosition.y();
+                position.v[0] = newPosition.v[0];
+                position.v[1] = newPosition.v[1];
 
                 localTransformDirty = transformDirty = inverseTransformDirty = true;
             }
@@ -193,11 +193,11 @@ namespace ouzel
 
         void Node::setScale(const Vector2& newScale)
         {
-            if (scale.x != newScale.x() ||
-                scale.y != newScale.y())
+            if (scale.v[0] != newScale.v[0] ||
+                scale.v[1] != newScale.v[1])
             {
-                scale.x = newScale.x();
-                scale.y = newScale.y();
+                scale.v[0] = newScale.v[0];
+                scale.v[1] = newScale.v[1];
 
                 localTransformDirty = transformDirty = inverseTransformDirty = true;
             }
@@ -275,7 +275,7 @@ namespace ouzel
 
                 inverse.transformPoint(transformedEdge);
 
-                transformedEdges.push_back(Vector2(transformedEdge.x, transformedEdge.y));
+                transformedEdges.push_back(Vector2(transformedEdge.v[0], transformedEdge.v[1]));
             }
 
             for (Component* component : components)
@@ -371,9 +371,9 @@ namespace ouzel
             localTransform.translate(position);
             localTransform *= rotation.getMatrix();
 
-            Vector3 realScale = Vector3(scale.x * (flipX ? -1.0f : 1.0f),
-                                        scale.y * (flipY ? -1.0f : 1.0f),
-                                        scale.z);
+            Vector3 realScale = Vector3(scale.v[0] * (flipX ? -1.0f : 1.0f),
+                                        scale.v[1] * (flipY ? -1.0f : 1.0f),
+                                        scale.v[2]);
 
             localTransform.scale(realScale);
 

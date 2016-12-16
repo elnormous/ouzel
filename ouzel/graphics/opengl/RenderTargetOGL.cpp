@@ -123,10 +123,10 @@ namespace ouzel
                     }
                 }
 
-                frameBufferClearColor[0] = uploadData.clearColor.getR();
-                frameBufferClearColor[1] = uploadData.clearColor.getG();
-                frameBufferClearColor[2] = uploadData.clearColor.getB();
-                frameBufferClearColor[3] = uploadData.clearColor.getA();
+                frameBufferClearColor[0] = uploadData.clearColor.normR();
+                frameBufferClearColor[1] = uploadData.clearColor.normG();
+                frameBufferClearColor[2] = uploadData.clearColor.normB();
+                frameBufferClearColor[3] = uploadData.clearColor.normA();
 
                 uploadData.dirty = false;
             }

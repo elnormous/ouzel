@@ -74,10 +74,10 @@ namespace ouzel
                 }
 
                 renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(uploadData.clearColor.getR(),
-                                                                                        uploadData.clearColor.getG(),
-                                                                                        uploadData.clearColor.getB(),
-                                                                                        uploadData.clearColor.getA());
+                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(uploadData.clearColor.normR(),
+                                                                                        uploadData.clearColor.normG(),
+                                                                                        uploadData.clearColor.normB(),
+                                                                                        uploadData.clearColor.normA());
 
                 RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 

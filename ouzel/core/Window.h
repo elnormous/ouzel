@@ -33,26 +33,26 @@ namespace ouzel
 
         Vector2 convertWindowToNormalizedLocation(const Vector2& position) const
         {
-            return Vector2(position.x() / size.width,
-                           1.0f - (position.y() / size.height));
+            return Vector2(position.v[0] / size.width,
+                           1.0f - (position.v[1] / size.height));
         }
 
         Vector2 convertWindowToNormalizedLocationRelative(const Vector2& position) const
         {
-            return Vector2(position.x() / size.width,
-                           -(position.y() / size.height));
+            return Vector2(position.v[0] / size.width,
+                           -(position.v[1] / size.height));
         }
 
         Vector2 convertNormalizedToWindowLocation(const Vector2& position) const
         {
-            return Vector2(position.x() * size.width,
-                           (1.0f - position.y()) * size.height);
+            return Vector2(position.v[0] * size.width,
+                           (1.0f - position.v[1]) * size.height);
         }
 
         Vector2 convertNormalizedToWindowLocationRelative(const Vector2& position) const
         {
-            return Vector2(position.x() * size.width,
-                           -(position.y()) * size.height);
+            return Vector2(position.v[0] * size.width,
+                           -(position.v[1]) * size.height);
         }
 
     protected:

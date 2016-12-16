@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <cstddef>
+
 #include "core/CompileConfig.h"
 #if OUZEL_SUPPORTS_SSE
 #include <xmmintrin.h>
@@ -24,28 +26,30 @@ namespace ouzel
         static const Vector4 UNIT_Z;
         static const Vector4 UNIT_W;
 
-        float x;
-        float y;
-        float z;
-        float w;
+#if OUZEL_SUPPORTS_SSE
+        union
+        {
+            __m128 s;
+            float v[4];
+        };
+#else
+        float v[4];
+#endif
 
         Vector4():
-            x(0.0f), y(0.0f), z(0.0f), w(0.0f)
+            v{ 0.0f, 0.0f, 0.0f, 0.0f }
         {
         }
 
         Vector4(float aX, float aY, float aZ, float aW):
-            x(aX), y(aY), z(aZ), w(aW)
+            v{ aX, aY, aZ, aW }
         {
         }
 
         Vector4(const Vector4& p1, const Vector4& p2);
 
         Vector4(const Vector4& copy):
-            x(copy.x),
-            y(copy.y),
-            z(copy.z),
-            w(copy.w)
+            v{ copy.v[0], copy.v[1], copy.v[2], copy.v[3] }
         {
         }
 
@@ -57,116 +61,127 @@ namespace ouzel
 
         Vector4& operator=(const Vector3& v);
 
+        float& x() { return v[0]; }
+        float& y() { return v[1]; }
+        float& z() { return v[2]; }
+        float& w() { return v[3]; }
+        float x() const { return v[0]; }
+        float y() const { return v[1]; }
+        float z() const { return v[2]; }
+        float w() const { return v[3]; }
+        float& operator[](size_t index) { return v[index]; }
+        float operator[](size_t index) const { return v[index]; }
+
         static Vector4 fromColor(const Color& color);
 
         bool isZero() const
         {
-            return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
+            return v[0] == 0.0f && v[1] == 0.0f && v[2] == 0.0f && v[3] == 0.0f;
         }
 
         bool isOne() const
         {
-            return x == 1.0f && y == 1.0f && z == 1.0f && w == 1.0f;
+            return v[0] == 1.0f && v[1] == 1.0f && v[2] == 1.0f && v[3] == 1.0f;
         }
 
         static float angle(const Vector4& v1, const Vector4& v2);
 
-        void add(const Vector4& v)
+        void add(const Vector4& vec)
         {
-            x += v.x;
-            y += v.y;
-            z += v.z;
-            w += v.w;
+            v[0] += vec.v[0];
+            v[1] += vec.v[1];
+            v[2] += vec.v[2];
+            v[3] += vec.v[3];
         }
 
         static void add(const Vector4& v1, const Vector4& v2, Vector4& dst)
         {
-            dst.x = v1.x + v2.x;
-            dst.y = v1.y + v2.y;
-            dst.z = v1.z + v2.z;
-            dst.w = v1.w + v2.w;
+            dst.v[0] = v1.v[0] + v2.v[0];
+            dst.v[1] = v1.v[1] + v2.v[1];
+            dst.v[2] = v1.v[2] + v2.v[2];
+            dst.v[3] = v1.v[3] + v2.v[3];
         }
 
         void clamp(const Vector4& min, const Vector4& max);
-        static void clamp(const Vector4& v, const Vector4& min, const Vector4& max, Vector4& dst);
+        static void clamp(const Vector4& vec, const Vector4& min, const Vector4& max, Vector4& dst);
 
-        float distance(const Vector4& v) const;
+        float distance(const Vector4& vec) const;
 
-        float distanceSquared(const Vector4& v) const
+        float distanceSquared(const Vector4& vec) const
         {
-            float dx = v.x - x;
-            float dy = v.y - y;
-            float dz = v.z - z;
-            float dw = v.w - w;
+            float dx = vec.v[0] - v[0];
+            float dy = vec.v[1] - v[1];
+            float dz = vec.v[2] - v[2];
+            float dw = vec.v[3] - v[3];
 
             return dx * dx + dy * dy + dz * dz + dw * dw;
         }
 
-        float dot(const Vector4& v) const
+        float dot(const Vector4& vec) const
         {
-            return x * v.x + y * v.y + z * v.z + w * v.w;
+            return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3] * vec.v[3];
         }
 
         static float dot(const Vector4& v1, const Vector4& v2)
         {
-            return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
+            return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1] + v1.v[2] * v2.v[2] + v1.v[3] * v2.v[3];
         }
 
         float length() const;
 
         float lengthSquared() const
         {
-            return x * x + y * y + z * z + w * w;
+            return v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
         }
 
         void negate()
         {
-            x = -x;
-            y = -y;
-            z = -z;
-            w = -w;
+            v[0] = -v[0];
+            v[1] = -v[1];
+            v[2] = -v[2];
+            v[3] = -v[3];
         }
 
         Vector4& normalize();
 
         void scale(float scalar)
         {
-            x *= scalar;
-            y *= scalar;
-            z *= scalar;
-            w *= scalar;
+            v[0] *= scalar;
+            v[1] *= scalar;
+            v[2] *= scalar;
+            v[3] *= scalar;
         }
 
         void set(float newX, float newY, float newZ, float newW)
         {
-            x = newX;
-            y = newY;
-            z = newZ;
-            w = newW;
+            v[0] = newX;
+            v[1] = newY;
+            v[2] = newZ;
+            v[3] = newW;
         }
 
         void set(const Vector4& p1, const Vector4& p2)
         {
-            x = p2.x - p1.x;
-            y = p2.y - p1.y;
-            z = p2.z - p1.z;
-            w = p2.w - p1.w;
+            v[0] = p2.v[0] - p1.v[0];
+            v[1] = p2.v[1] - p1.v[1];
+            v[2] = p2.v[2] - p1.v[2];
+            v[3] = p2.v[3] - p1.v[3];
         }
 
-        void subtract(const Vector4& v)
+        void subtract(const Vector4& vec)
         {
-            x -= v.x;
-            y -= v.y;
-            z -= v.z;
-            w -= v.w;
+            v[0] -= vec.v[0];
+            v[1] -= vec.v[1];
+            v[2] -= vec.v[2];
+            v[3] -= vec.v[3];
         }
 
         static void subtract(const Vector4& v1, const Vector4& v2, Vector4& dst)
         {
-            dst.x = v1.x - v2.x;
-            dst.y = v1.y - v2.y;
-            dst.z = v1.z - v2.z;
-            dst.w = v1.w - v2.w;
+            dst.v[0] = v1.v[0] - v2.v[0];
+            dst.v[1] = v1.v[1] - v2.v[1];
+            dst.v[2] = v1.v[2] - v2.v[2];
+            dst.v[3] = v1.v[3] - v2.v[3];
         }
 
         void smooth(const Vector4& target, float elapsedTime, float responseTime);
@@ -175,35 +190,35 @@ namespace ouzel
 
         float getMax() const;
 
-        inline Vector4 operator+(const Vector4& v) const
+        inline Vector4 operator+(const Vector4& vec) const
         {
             Vector4 result(*this);
-            result.add(v);
+            result.add(vec);
             return result;
         }
 
-        inline Vector4& operator+=(const Vector4& v)
+        inline Vector4& operator+=(const Vector4& vec)
         {
-            add(v);
+            add(vec);
             return *this;
         }
 
-        inline Vector4 operator-(const Vector4& v) const
+        inline Vector4 operator-(const Vector4& vec) const
         {
             Vector4 result(*this);
-            result.subtract(v);
+            result.subtract(vec);
             return result;
         }
 
-        inline Vector4& operator-=(const Vector4& v)
+        inline Vector4& operator-=(const Vector4& vec)
         {
-            subtract(v);
+            subtract(vec);
             return *this;
         }
 
         inline Vector4 operator-() const
         {
-            return Vector4(-x, -y, -z, -w);
+            return Vector4(-v[0], -v[1], -v[2], -v[3]);
         }
 
         inline Vector4 operator*(float scalar) const
@@ -221,49 +236,49 @@ namespace ouzel
 
         inline Vector4 operator/(float scalar) const
         {
-            return Vector4(x / scalar, y / scalar, z / scalar, w / scalar);
+            return Vector4(v[0] / scalar, v[1] / scalar, v[2] / scalar, v[3] / scalar);
         }
 
         inline Vector4& operator/=(float scalar)
         {
-            x /= scalar;
-            y /= scalar;
-            z /= scalar;
-            w /= scalar;
+            v[0] /= scalar;
+            v[1] /= scalar;
+            v[2] /= scalar;
+            v[3] /= scalar;
             return *this;
         }
 
-        inline bool operator<(const Vector4& v) const
+        inline bool operator<(const Vector4& vec) const
         {
-            if (x == v.x)
+            if (v[0] == vec.v[0])
             {
-                if (y == v.y)
+                if (v[1] == vec.v[1])
                 {
-                    if (z == v.z)
+                    if (v[2] == vec.v[2])
                     {
-                        return w < v.w;
+                        return v[3] < vec.v[3];
                     }
-                    return z < v.z;
+                    return v[2] < vec.v[2];
                 }
-                return y < v.y;
+                return v[1] < vec.v[1];
             }
-            return x < v.x;
+            return v[0] < vec.v[0];
         }
 
-        inline bool operator==(const Vector4& v) const
+        inline bool operator==(const Vector4& vec) const
         {
-            return x == v.x && y == v.y && z == v.z && w == v.w;
+            return v[0] == vec.v[0] && v[1] == vec.v[1] && v[2] == vec.v[2] && v[3] == vec.v[3];
         }
 
-        inline bool operator!=(const Vector4& v) const
+        inline bool operator!=(const Vector4& vec) const
         {
-            return x != v.x || y != v.y || z != v.z || w != v.w;
+            return v[0] != vec.v[0] || v[1] != vec.v[1] || v[2] != vec.v[2] || v[3] != vec.v[3];
         }
     };
 
-    inline Vector4 operator*(float x, const Vector4& v)
+    inline Vector4 operator*(float x, const Vector4& vec)
     {
-        Vector4 result(v);
+        Vector4 result(vec);
         result.scale(x);
         return result;
     }

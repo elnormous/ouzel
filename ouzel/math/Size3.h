@@ -27,17 +27,17 @@ namespace ouzel
         }
 
         Size3(const Vector3& point):
-            width(point.x),
-            height(point.y),
-            depth(point.z)
+            width(point.v[0]),
+            height(point.v[1]),
+            depth(point.v[2])
         {
         }
 
         Size3& operator=(const Vector3& point)
         {
-            width = point.x;
-            height = point.y;
-            depth = point.z;
+            width = point.v[0];
+            height = point.v[1];
+            depth = point.v[2];
             return *this;
         }
 
@@ -87,11 +87,11 @@ namespace ouzel
 
     inline Size3 operator*(const Size3& size, const Vector3& v)
     {
-        return Size3(size.width * v.x, size.height * v.y, size.depth * v.z);
+        return Size3(size.width * v.v[0], size.height * v.v[1], size.depth * v.v[2]);
     }
 
     inline Size3 operator/(const Size3& size, const Vector3& v)
     {
-        return Size3(size.width / v.x, size.height / v.y, size.depth / v.z);
+        return Size3(size.width / v.v[0], size.height / v.v[1], size.depth / v.v[2]);
     }
 }

@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstddef>
 #include <cmath>
 
 namespace ouzel
