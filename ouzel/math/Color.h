@@ -3,7 +3,8 @@
 
 #pragma once
 
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 
 namespace ouzel
 {
@@ -56,6 +57,17 @@ namespace ouzel
 
         Color(const Vector4& vec);
         Color& operator=(const Vector4& vec);
+
+        uint8_t& r() { return v[0]; }
+        uint8_t& g() { return v[1]; }
+        uint8_t& b() { return v[2]; }
+        uint8_t& a() { return v[3]; }
+        uint8_t r() const { return v[0]; }
+        uint8_t g() const { return v[1]; }
+        uint8_t b() const { return v[2]; }
+        uint8_t a() const { return v[3]; }
+        uint8_t& operator[](size_t index) { return v[index]; }
+        uint8_t operator[](size_t index) const { return v[index]; }
 
         float normR() const { return v[0] / 255.0f; }
         float normG() const { return v[1] / 255.0f; }
