@@ -25,8 +25,8 @@ namespace ouzel
     }
 
     Vector4::Vector4(const Vector2& v):
-        x(v.x),
-        y(v.y),
+        x(v.x()),
+        y(v.y()),
         z(0.0f),
         w(0.0f)
     {
@@ -34,8 +34,8 @@ namespace ouzel
 
     Vector4& Vector4::operator=(const Vector2& v)
     {
-        x = v.x;
-        y = v.y;
+        x = v.x();
+        y = v.y();
         z = 0.0f;
         w = 0.0f;
 

@@ -466,8 +466,8 @@ namespace ouzel
                 bool clearBuffer = false;
 
                 viewport = {
-                    static_cast<double>(drawCommand.viewport.position.x),
-                    static_cast<double>(drawCommand.viewport.position.y),
+                    static_cast<double>(drawCommand.viewport.position.x()),
+                    static_cast<double>(drawCommand.viewport.position.y()),
                     static_cast<double>(drawCommand.viewport.size.width),
                     static_cast<double>(drawCommand.viewport.size.height),
                     0.0, 1.0
@@ -533,8 +533,8 @@ namespace ouzel
                 // scissor test
                 if (drawCommand.scissorTestEnabled)
                 {
-                    scissorRect.x = static_cast<NSUInteger>(drawCommand.scissorTest.position.x);
-                    scissorRect.y = static_cast<NSUInteger>(drawCommand.scissorTest.position.y);
+                    scissorRect.x = static_cast<NSUInteger>(drawCommand.scissorTest.position.x());
+                    scissorRect.y = static_cast<NSUInteger>(drawCommand.scissorTest.position.y());
                     scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorTest.size.width);
                     scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorTest.size.height);
                 }

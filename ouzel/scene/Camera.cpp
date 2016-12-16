@@ -39,8 +39,8 @@ namespace ouzel
                 renderTarget->getTexture()->getSize() :
                 sharedEngine->getRenderer()->getSize();
 
-            renderViewport.position.x = renderTargetSize.width * viewport.position.x;
-            renderViewport.position.y = renderTargetSize.height * viewport.position.y;
+            renderViewport.position.x() = renderTargetSize.width * viewport.position.x();
+            renderViewport.position.y() = renderTargetSize.height * viewport.position.y();
             renderViewport.size.width = renderTargetSize.width * viewport.size.width;
             renderViewport.size.height = renderTargetSize.height * viewport.size.height;
 
@@ -48,8 +48,8 @@ namespace ouzel
 
             if (targetContentSize.width > 0.0f && targetContentSize.height > 0.0f)
             {
-                contentScale.x = renderViewport.size.width / targetContentSize.width;
-                contentScale.y = renderViewport.size.height / targetContentSize.height;
+                contentScale.x() = renderViewport.size.width / targetContentSize.width;
+                contentScale.y() = renderViewport.size.height / targetContentSize.height;
 
                 switch (scaleMode)
                 {
@@ -59,23 +59,23 @@ namespace ouzel
                     }
                     case ScaleMode::EXACT_FIT:
                     {
-                        contentScale.x = 1.0f;
-                        contentScale.y = 1.0f;
+                        contentScale.x() = 1.0f;
+                        contentScale.y() = 1.0f;
                         break;
                     }
                     case ScaleMode::NO_BORDER:
                     {
-                        contentScale.x = contentScale.y = std::max(contentScale.x, contentScale.y);
+                        contentScale.x() = contentScale.y() = std::max(contentScale.x(), contentScale.y());
                         break;
                     }
                     case ScaleMode::SHOW_ALL:
                     {
-                        contentScale.x = contentScale.y = std::min(contentScale.x, contentScale.y);
+                        contentScale.x() = contentScale.y() = std::min(contentScale.x(), contentScale.y());
                         break;
                     }
                 }
 
-                contentSize = Size2(renderViewport.size.width / contentScale.x, renderViewport.size.height / contentScale.y);
+                contentSize = Size2(renderViewport.size.width / contentScale.x(), renderViewport.size.height / contentScale.y());
                 contentPosition = Vector2((contentSize.width - targetContentSize.width) / 2.0f,
                                           (contentSize.height - targetContentSize.height) / 2.0f);
             }
@@ -153,8 +153,8 @@ namespace ouzel
         Vector3 Camera::convertNormalizedToWorld(const Vector2& position) const
         {
             // convert window normalized to viewport clip position
-            Vector3 result = Vector3(((position.x - viewport.position.x) / viewport.size.width - 0.5f) * 2.0f,
-                                     ((position.y - viewport.position.y) / viewport.size.height - 0.5f) * 2.0f,
+            Vector3 result = Vector3(((position.x() - viewport.position.x()) / viewport.size.width - 0.5f) * 2.0f,
+                                     ((position.y() - viewport.position.y()) / viewport.size.height - 0.5f) * 2.0f,
                                      0.0f);
 
             getInverseViewProjection().transformPoint(result);
@@ -168,8 +168,8 @@ namespace ouzel
             getViewProjection().transformPoint(result);
 
             // convert viewport clip position to window normalized
-            return Vector2((result.x / 2.0f + 0.5f) * viewport.size.width + viewport.position.x,
-                           (result.y / 2.0f + 0.5f) * viewport.size.height + viewport.position.y);
+            return Vector2((result.x / 2.0f + 0.5f) * viewport.size.width + viewport.position.x(),
+                           (result.y / 2.0f + 0.5f) * viewport.size.height + viewport.position.y());
         }
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox) const
@@ -178,7 +178,7 @@ namespace ouzel
             Vector2 diff = boundingBox.max - boundingBox.min;
 
             // offset the center point, so that it is relative to 0,0
-            Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
+            Vector3 v3p(boundingBox.min.x() + diff.x() / 2.0f, boundingBox.min.y() + diff.y() / 2.0f, 0.0f);
 
             // apply local transform to the center point
             boxTransform.transformPoint(v3p);
@@ -194,7 +194,7 @@ namespace ouzel
                         (clipPos.y / clipPos.w + 1.0f) * 0.5f);
 
             // calculate half size
-            Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
+            Size2 halfSize(diff.x() / 2.0f, diff.y() / 2.0f);
 
             // convert content size to world coordinates
             Size2 halfWorldSize;

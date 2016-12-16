@@ -135,11 +135,11 @@ namespace ouzel
 
         void Node::setPosition(const Vector2& newPosition)
         {
-            if (position.x != newPosition.x ||
-                position.y != newPosition.y)
+            if (position.x != newPosition.x() ||
+                position.y != newPosition.y())
             {
-                position.x = newPosition.x;
-                position.y = newPosition.y;
+                position.x = newPosition.x();
+                position.y = newPosition.y();
 
                 localTransformDirty = transformDirty = inverseTransformDirty = true;
             }
@@ -193,11 +193,11 @@ namespace ouzel
 
         void Node::setScale(const Vector2& newScale)
         {
-            if (scale.x != newScale.x ||
-                scale.y != newScale.y)
+            if (scale.x != newScale.x() ||
+                scale.y != newScale.y())
             {
-                scale.x = newScale.x;
-                scale.y = newScale.y;
+                scale.x = newScale.x();
+                scale.y = newScale.y();
 
                 localTransformDirty = transformDirty = inverseTransformDirty = true;
             }

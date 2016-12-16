@@ -114,7 +114,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.x) + "," + toString(val.y);
+                s += toString(val.x()) + "," + toString(val.y());
             }
 
             return *this;

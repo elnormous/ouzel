@@ -89,22 +89,22 @@ namespace ouzel
 
         void transformPoint(Vector2& point) const
         {
-            transformVector(point.x, point.y, 1.0f, point);
+            transformVector(point.x(), point.y(), 1.0f, point);
         }
 
         void transformPoint(const Vector2& point, Vector2& dst) const
         {
-            transformVector(point.x, point.y, 1.0f, dst);
+            transformVector(point.x(), point.y(), 1.0f, dst);
         }
 
         void transformVector(Vector2& vector) const
         {
-            transformVector(vector.x, vector.y, 0.0f, vector);
+            transformVector(vector.x(), vector.y(), 0.0f, vector);
         }
 
         void transformVector(const Vector2& vector, Vector2& dst) const
         {
-            transformVector(vector.x, vector.y, 0.0f, dst);
+            transformVector(vector.x(), vector.y(), 0.0f, dst);
         }
 
         void transformVector(float x, float y, float z, Vector2& dst) const

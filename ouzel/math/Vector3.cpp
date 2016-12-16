@@ -24,19 +24,19 @@ namespace ouzel
     }
 
     Vector3::Vector3(const Vector2& v):
-        x(v.x), y(v.y), z(0.0f)
+        x(v.x()), y(v.y()), z(0.0f)
     {
     }
 
     Vector3::Vector3(const Vector2& v, float aZ):
-    x(v.x), y(v.y), z(aZ)
+    x(v.x()), y(v.y()), z(aZ)
     {
     }
 
     Vector3& Vector3::operator=(const Vector2& v)
     {
-        x = v.x;
-        y = v.y;
+        x = v.x();
+        y = v.y();
         z = 0.0f;
 
         return *this;

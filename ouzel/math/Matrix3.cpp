@@ -38,8 +38,8 @@ namespace ouzel
     {
         std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
-        dst.m[0] = scale.x;
-        dst.m[4] = scale.y;
+        dst.m[0] = scale.x();
+        dst.m[4] = scale.y();
     }
 
     void Matrix3::createScale(float xScale, float yScale, Matrix3& dst)
@@ -72,8 +72,8 @@ namespace ouzel
     {
         std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
-        dst.m[6] = translation.x;
-        dst.m[7] = translation.y;
+        dst.m[6] = translation.x();
+        dst.m[7] = translation.y();
     }
 
     void Matrix3::createTranslation(float xTranslation, float yTranslation, Matrix3& dst)
@@ -253,12 +253,12 @@ namespace ouzel
 
     void Matrix3::scale(const Vector2& s)
     {
-        scale(s.x, s.y, *this);
+        scale(s.x(), s.y(), *this);
     }
 
     void Matrix3::scale(const Vector2& s, Matrix3& dst) const
     {
-        scale(s.x, s.y, dst);
+        scale(s.x(), s.y(), dst);
     }
 
     void Matrix3::set(float m11, float m12, float m13,
@@ -332,12 +332,12 @@ namespace ouzel
 
     void Matrix3::translate(const Vector2& t)
     {
-        translate(t.x, t.y, *this);
+        translate(t.x(), t.y(), *this);
     }
 
     void Matrix3::translate(const Vector2& t, Matrix3& dst) const
     {
-        translate(t.x, t.y, dst);
+        translate(t.x(), t.y(), dst);
     }
 
     void Matrix3::transpose()

@@ -253,56 +253,56 @@ namespace ouzel
 
                 if (flippTextureCoords)
                 {
-                    leftTop.y = 1.0f - leftTop.y;
-                    rightBottom.y = 1.0f - rightBottom.y;
+                    leftTop.y() = 1.0f - leftTop.y();
+                    rightBottom.y() = 1.0f - rightBottom.y();
                 }
 
-                textCoords[0] = Vector2(leftTop.x, leftTop.y);
-                textCoords[1] = Vector2(rightBottom.x, leftTop.y);
-                textCoords[2] = Vector2(leftTop.x, rightBottom.y);
-                textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
+                textCoords[0] = Vector2(leftTop.x(), leftTop.y());
+                textCoords[1] = Vector2(rightBottom.x(), leftTop.y());
+                textCoords[2] = Vector2(leftTop.x(), rightBottom.y());
+                textCoords[3] = Vector2(rightBottom.x(), rightBottom.y());
 
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset, -position.y - f.yOffset, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x() + f.xOffset, -position.y() - f.yOffset, 0.0f),
                                              color, textCoords[0]));
 
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x() + f.xOffset + f.width, -position.y() - f.yOffset, 0.0f),
                                              color, textCoords[1]));
 
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset, -position.y - f.yOffset - f.height, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x() + f.xOffset, -position.y() - f.yOffset - f.height, 0.0f),
                                              color, textCoords[2]));
 
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset - f.height, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x() + f.xOffset + f.width, -position.y() - f.yOffset - f.height, 0.0f),
                                              color, textCoords[3]));
 
                 if ((i + 1) != utf32Text.end())
                 {
-                    position.x += getKerningPair(*i, *(i + 1));
+                    position.x() += getKerningPair(*i, *(i + 1));
                 }
 
-                position.x +=  f.xAdvance;
+                position.x() +=  f.xAdvance;
             }
 
             if (*i == static_cast<uint32_t>('\n') || // line feed
                 (i + 1) == utf32Text.end()) // end of string
             {
-                float lineWidth = position.x;
-                position.x = 0.0f;
-                position.y += lineHeight;
+                float lineWidth = position.x();
+                position.x() = 0.0f;
+                position.y() += lineHeight;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
                 {
-                    vertices[c].position.x -= lineWidth * anchor.x;
+                    vertices[c].position.x -= lineWidth * anchor.x();
                 }
 
                 firstChar = vertices.size();
             }
         }
 
-        float textHeight = position.y;
+        float textHeight = position.y();
 
         for (size_t c = 0; c < vertices.size(); ++c)
         {
-            vertices[c].position.y += textHeight * anchor.y;
+            vertices[c].position.y += textHeight * anchor.y();
         }
     }
 }

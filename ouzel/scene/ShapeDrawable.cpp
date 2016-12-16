@@ -187,8 +187,8 @@ namespace ouzel
 
             for (uint32_t i = 0; i <= segments; ++i)
             {
-                vertices.push_back(graphics::VertexPC(Vector3((position.x + radius * cosf(i * TAU / static_cast<float>(segments))),
-                                                              (position.y + radius * sinf(i * TAU / static_cast<float>(segments))),
+                vertices.push_back(graphics::VertexPC(Vector3((position.x() + radius * cosf(i * TAU / static_cast<float>(segments))),
+                                                              (position.y() + radius * sinf(i * TAU / static_cast<float>(segments))),
                                                               0.0f), color));
             }
 
@@ -224,8 +224,8 @@ namespace ouzel
 
             drawCommands.push_back(command);
 
-            boundingBox.insertPoint(Vector2(position.x - radius, position.y - radius));
-            boundingBox.insertPoint(Vector2(position.x + radius, position.y + radius));
+            boundingBox.insertPoint(Vector2(position.x() - radius, position.y() - radius));
+            boundingBox.insertPoint(Vector2(position.x() + radius, position.y() + radius));
 
             dirty = true;
         }

@@ -174,44 +174,43 @@ namespace ouzel
                             Vector2 tmp, radial, tangential;
 
                             // radial acceleration
-                            if (particles[i].position.x == 0.0f || particles[i].position.y == 0.0f)
+                            if (particles[i].position.x() == 0.0f || particles[i].position.y() == 0.0f)
                             {
                                 radial = particles[i].position;
                                 radial.normalize();
                             }
                             tangential = radial;
-                            radial.x *= particles[i].radialAcceleration;
-                            radial.y *= particles[i].radialAcceleration;
+                            radial *= particles[i].radialAcceleration;
 
                             // tangential acceleration
-                            std::swap(tangential.x, tangential.y);
-                            tangential.x *= - particles[i].tangentialAcceleration;
-                            tangential.y *= particles[i].tangentialAcceleration;
+                            std::swap(tangential.x(), tangential.y());
+                            tangential.x() *= - particles[i].tangentialAcceleration;
+                            tangential.y() *= particles[i].tangentialAcceleration;
 
                             // (gravity + radial + tangential) * delta
-                            tmp.x = radial.x + tangential.x + particleDefinition.gravity.x;
-                            tmp.y = radial.y + tangential.y + particleDefinition.gravity.y;
-                            tmp.x *= delta;
-                            tmp.y *= delta;
+                            tmp.x() = radial.x() + tangential.x() + particleDefinition.gravity.x();
+                            tmp.y() = radial.y() + tangential.y() + particleDefinition.gravity.y();
+                            tmp.x() *= delta;
+                            tmp.y() *= delta;
 
-                            particles[i].direction.x += tmp.x;
-                            particles[i].direction.y += tmp.y;
+                            particles[i].direction.x() += tmp.x();
+                            particles[i].direction.y() += tmp.y();
 
                             // this is cocos2d-x v3.0
                             // if (configName.length()>0 && yCoordFlipped != -1)
 
                             // this is cocos2d-x v3.0
-                            tmp.x = particles[i].direction.x * delta * particleDefinition.yCoordFlipped;
-                            tmp.y = particles[i].direction.y * delta * particleDefinition.yCoordFlipped;
-                            particles[i].position.x += tmp.x;
-                            particles[i].position.y += tmp.y;
+                            tmp.x() = particles[i].direction.x() * delta * particleDefinition.yCoordFlipped;
+                            tmp.y() = particles[i].direction.y() * delta * particleDefinition.yCoordFlipped;
+                            particles[i].position.x() += tmp.x();
+                            particles[i].position.y() += tmp.y();
                         }
                         else
                         {
                             particles[i].angle += particles[i].degreesPerSecond * delta;
                             particles[i].radius += particles[i].deltaRadius * delta;
-                            particles[i].position.x = -cosf(particles[i].angle) * particles[i].radius;
-                            particles[i].position.y = -sinf(particles[i].angle) * particles[i].radius * particleDefinition.yCoordFlipped;
+                            particles[i].position.x() = -cosf(particles[i].angle) * particles[i].radius;
+                            particles[i].position.y() = -sinf(particles[i].angle) * particles[i].radius * particleDefinition.yCoordFlipped;
                         }
 
                         //color r,g,b,a
@@ -389,10 +388,10 @@ namespace ouzel
                     float cr = cosf(r);
                     float sr = sinf(r);
 
-                    Vector2 a(v1.x * cr - v1.y * sr, v1.x * sr + v1.y * cr);
-                    Vector2 b(v2.x * cr - v1.y * sr, v2.x * sr + v1.y * cr);
-                    Vector2 c(v2.x * cr - v2.y * sr, v2.x * sr + v2.y * cr);
-                    Vector2 d(v1.x * cr - v2.y * sr, v1.x * sr + v2.y * cr);
+                    Vector2 a(v1.x() * cr - v1.y() * sr, v1.x() * sr + v1.y() * cr);
+                    Vector2 b(v2.x() * cr - v1.y() * sr, v2.x() * sr + v1.y() * cr);
+                    Vector2 c(v2.x() * cr - v2.y() * sr, v2.x() * sr + v2.y() * cr);
+                    Vector2 d(v1.x() * cr - v2.y() * sr, v1.x() * sr + v2.y() * cr);
 
                     Color color(static_cast<uint8_t>(particles[i].colorRed * 255),
                                 static_cast<uint8_t>(particles[i].colorGreen * 255),
@@ -449,8 +448,8 @@ namespace ouzel
                         {
                             particles[i].life = fmaxf(particleDefinition.particleLifespan + particleDefinition.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
 
-                            particles[i].position = particleDefinition.sourcePosition + position + Vector2(particleDefinition.sourcePositionVariance.x * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine),
-                                                                                                             particleDefinition.sourcePositionVariance.y * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
+                            particles[i].position = particleDefinition.sourcePosition + position + Vector2(particleDefinition.sourcePositionVariance.x() * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine),
+                                                                                                             particleDefinition.sourcePositionVariance.y() * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
 
                             particles[i].size = fmaxf(particleDefinition.startParticleSize + particleDefinition.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
 

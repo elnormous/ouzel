@@ -58,8 +58,8 @@ namespace ouzel
             {
                 ouzel::Vector2 edge = aVertList[cur] - aVertList[prev];
 
-                v.x = edge.y;
-                v.y = -edge.x;
+                v.x() = edge.y();
+                v.y() = -edge.x();
 
                 float aMin, aMax, bMin, bMax;
                 gatherPolygonProjectionExtents(aVertList, v, aMin, aMax);
@@ -78,9 +78,9 @@ namespace ouzel
         {
             std::vector<Vector2> boundingBoxEdges = {
                 Vector2(boundingBox.min),
-                Vector2(boundingBox.max.x, boundingBox.min.y),
+                Vector2(boundingBox.max.x(), boundingBox.min.y()),
                 Vector2(boundingBox.max),
-                Vector2(boundingBox.min.x, boundingBox.max.y)
+                Vector2(boundingBox.min.x(), boundingBox.max.y())
             };
 
             if (findSeparatingAxis(boundingBoxEdges, edges))
