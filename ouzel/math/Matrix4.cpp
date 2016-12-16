@@ -1207,7 +1207,7 @@ namespace ouzel
 
             "vst1.32    {d26, d27}, [%0] \n\t" // DST->V
             :
-            : "r"(dst.v), "r"(&vector.v[0]), "r"(m)
+            : "r"(dst.v), "r"(vector.v), "r"(m)
             : "q0", "q9", "q10","q11", "q12", "q13", "memory"
          );
     #if OUZEL_SUPPORTS_NEON_CHECK
@@ -1226,7 +1226,7 @@ namespace ouzel
 
             "st1 {v13.4s}, [%0]                        \n\t" // DST->V
             :
-            : "r"(dst.v), "r"(&vector.v[0]), "r"(m)
+            : "r"(dst.v), "r"(vector.v), "r"(m)
             : "v0", "v9", "v10","v11", "v12", "v13", "memory"
         );
 #elif OUZEL_SUPPORTS_SSE
