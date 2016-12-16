@@ -211,8 +211,7 @@ namespace ouzel
 
     void BMFont::getVertices(const std::string& text, const Color& color,
                              const Vector2& anchor, std::vector<uint16_t>& indices,
-                             std::vector<graphics::VertexPCT>& vertices,
-                             bool flippTextureCoords)
+                             std::vector<graphics::VertexPCT>& vertices)
     {
         Vector2 position;
 
@@ -250,12 +249,6 @@ namespace ouzel
 
                 Vector2 rightBottom((f.x + f.width) / static_cast<float>(width),
                                     (f.y + f.height) / static_cast<float>(height));
-
-                if (flippTextureCoords)
-                {
-                    leftTop.y() = 1.0f - leftTop.y();
-                    rightBottom.y() = 1.0f - rightBottom.y();
-                }
 
                 textCoords[0] = Vector2(leftTop.x(), leftTop.y());
                 textCoords[1] = Vector2(rightBottom.x(), leftTop.y());
