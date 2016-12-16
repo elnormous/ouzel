@@ -16,19 +16,28 @@ namespace ouzel
 
         float v[4];
 
-        Quaternion():
-            v{ 0.0f, 0.0f, 0.0f, 0.0f }
+        Quaternion()
         {
+            v[0] = 0.0f;
+            v[1] = 0.0f;
+            v[2] = 0.0f;
+            v[3] = 0.0f;
         }
 
-        Quaternion(float aX, float aY, float aZ, float aW):
-            v{ aX, aY, aZ, aW }
+        Quaternion(float aX, float aY, float aZ, float aW)
         {
+            v[0] = aX;
+            v[1] = aY;
+            v[2] = aZ;
+            v[3] = aW;
         }
 
-        Quaternion(const Quaternion& copy):
-            v{ copy.v[0], copy.v[1], copy.v[2], copy.v[3] }
+        Quaternion(const Quaternion& copy)
         {
+            v[0] = copy.v[0];
+            v[1] = copy.v[1];
+            v[2] = copy.v[2];
+            v[3] = copy.v[3];
         }
 
         float& x() { return v[0]; }

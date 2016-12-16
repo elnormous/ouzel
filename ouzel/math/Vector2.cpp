@@ -21,9 +21,10 @@ namespace ouzel
         set(p1, p2);
     }
 
-    Vector2::Vector2(const Vector3& vec):
-        v{ vec.v[0], vec.v[1] }
+    Vector2::Vector2(const Vector3& vec)
     {
+        v[0] = vec.v[0];
+        v[1] = vec.v[1];
     }
 
     Vector2& Vector2::operator=(const Vector3& vec)
@@ -33,9 +34,10 @@ namespace ouzel
         return *this;
     }
 
-    Vector2::Vector2(const Vector4& vec):
-        v{ vec.v[0], vec.v[1] }
+    Vector2::Vector2(const Vector4& vec)
     {
+        v[0] = vec.v[0];
+        v[1] = vec.v[1];
     }
 
     Vector2& Vector2::operator=(const Vector4& vec)

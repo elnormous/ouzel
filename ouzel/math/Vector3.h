@@ -23,21 +23,27 @@ namespace ouzel
 
         float v[3];
 
-        Vector3():
-            v{ 0.0f, 0.0f, 0.0f }
+        Vector3()
         {
+            v[0] = 0.0f;
+            v[1] = 0.0f;
+            v[2] = 0.0f;
         }
 
-        Vector3(float aX, float aY, float aZ):
-            v{ aX, aY, aZ }
+        Vector3(float aX, float aY, float aZ)
         {
+            v[0] = aX;
+            v[1] = aY;
+            v[2] = aZ;
         }
 
         Vector3(const Vector3& p1, const Vector3& p2);
 
-        Vector3(const Vector3& copy):
-            v{ copy.v[0], copy.v[1], copy.v[2] }
+        Vector3(const Vector3& copy)
         {
+            v[0] = copy.v[0];
+            v[1] = copy.v[1];
+            v[2] = copy.v[2];
         }
 
         Vector3(const Vector2& vec);
@@ -58,7 +64,8 @@ namespace ouzel
         float& operator[](size_t index) { return v[index]; }
         float operator[](size_t index) const { return v[index]; }
 
-        static Vector3 fromColor(const Color& color);
+        Vector3(const Color& color);
+        Vector3& operator=(const Color& color);
 
         inline bool isZero() const
         {

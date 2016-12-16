@@ -7,6 +7,9 @@
 
 namespace ouzel
 {
+    class Vector3;
+    class Vector4;
+
     class Color
     {
     public:
@@ -24,9 +27,35 @@ namespace ouzel
 
         uint8_t v[4];
 
-        Color();
-        Color(uint32_t color);
-        Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF);
+        Color()
+        {
+            v[0] = 0;
+            v[1] = 0;
+            v[2] = 0;
+            v[3] = 0;
+        }
+        
+        Color(uint32_t color)
+        {
+            v[0] = static_cast<uint8_t>((color & 0xFF000000) >> 24);
+            v[1] = static_cast<uint8_t>((color & 0x00FF0000) >> 16);
+            v[2] = static_cast<uint8_t>((color & 0x0000FF00) >> 8);
+            v[3] = static_cast<uint8_t>(color & 0x000000FF);
+        }
+
+        Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF)
+        {
+            v[0] = red;
+            v[1] = green;
+            v[2] = blue;
+            v[3] = alpha;
+        }
+
+        Color(const Vector3& vec);
+        Color& operator=(const Vector3& vec);
+
+        Color(const Vector4& vec);
+        Color& operator=(const Vector4& vec);
 
         float normR() const { return v[0] / 255.0f; }
         float normG() const { return v[1] / 255.0f; }

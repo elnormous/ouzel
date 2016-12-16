@@ -24,9 +24,12 @@ namespace ouzel
         set(p1, p2);
     }
 
-    Vector4::Vector4(const Vector2& vec):
-        v{ vec.v[0], vec.v[1], 0.0f, 0.0f }
+    Vector4::Vector4(const Vector2& vec)
     {
+        v[0] = vec.v[0];
+        v[1] = vec.v[1];
+        v[2] = 0.0f;
+        v[3] = 0.0f;
     }
 
     Vector4& Vector4::operator=(const Vector2& vec)
@@ -39,9 +42,12 @@ namespace ouzel
         return *this;
     }
 
-    Vector4::Vector4(const Vector3& vec):
-        v{ vec.v[0], vec.v[1], vec.v[2], 0.0f }
+    Vector4::Vector4(const Vector3& vec)
     {
+        v[0] = vec.v[0];
+        v[1] = vec.v[1];
+        v[2] = vec.v[2];
+        v[3] = 0.0f;
     }
 
     Vector4& Vector4::operator=(const Vector3& vec)
@@ -54,12 +60,12 @@ namespace ouzel
         return *this;
     }
 
-    Vector4::Vector4(const Color& color):
-        v{ color.normR(),
-            color.normG(),
-            color.normB(),
-            color.normA() }
+    Vector4::Vector4(const Color& color)
     {
+        v[0] = color.normR();
+        v[1] = color.normG();
+        v[2] = color.normB();
+        v[3] = color.normA();
     }
 
     Vector4& Vector4::operator=(const Color& color)

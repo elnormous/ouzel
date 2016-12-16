@@ -23,14 +23,18 @@ namespace ouzel
         set(p1, p2);
     }
 
-    Vector3::Vector3(const Vector2& vec):
-        v{ vec.v[0], vec.v[1], 0.0f }
+    Vector3::Vector3(const Vector2& vec)
     {
+        v[0] = vec.v[0];
+        v[1] = vec.v[1];
+        v[2] = 0.0f;
     }
 
-    Vector3::Vector3(const Vector2& vec, float aZ):
-        v { vec.v[0], vec.v[1], aZ }
+    Vector3::Vector3(const Vector2& vec, float aZ)
     {
+        v[0] = vec.v[0];
+        v[1] = vec.v[1];
+        v[2] = aZ;
     }
 
     Vector3& Vector3::operator=(const Vector2& vec)
@@ -56,11 +60,20 @@ namespace ouzel
         return *this;
     }
 
-    Vector3 Vector3::fromColor(const Color& color)
+    Vector3::Vector3(const Color& color)
     {
-        return Vector3(color.normR(),
-                       color.normG(),
-                       color.normB());
+        v[0] = color.normR();
+        v[1] = color.normG();
+        v[2] = color.normB();
+    }
+
+    Vector3& Vector3::operator=(const Color& color)
+    {
+        v[0] = color.normR();
+        v[1] = color.normG();
+        v[2] = color.normB();
+
+        return *this;
     }
 
     float Vector3::angle(const Vector3& v1, const Vector3& v2)

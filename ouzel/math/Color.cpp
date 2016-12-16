@@ -2,24 +2,44 @@
 // This file is part of the Ouzel engine.
 
 #include "Color.h"
+#include "Vector3.h"
+#include "Vector4.h"
 
 namespace ouzel
 {
-    Color::Color():
-        v{ 0, 0, 0, 0 }
+    Color::Color(const Vector3& vec)
     {
+        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0f);
+        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0f);
+        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0f);
+        v[3] = 0;
     }
 
-    Color::Color(uint32_t color):
-        v{ static_cast<uint8_t>((color & 0xFF000000) >> 24),
-            static_cast<uint8_t>((color & 0x00FF0000) >> 16),
-            static_cast<uint8_t>((color & 0x0000FF00) >> 8),
-            static_cast<uint8_t>(color & 0x000000FF) }
+    Color& Color::operator=(const Vector3& vec)
     {
+        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0f);
+        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0f);
+        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0f);
+        v[3] = 0;
+
+        return *this;
     }
 
-    Color::Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha):
-        v{ red, green, blue, alpha }
+    Color::Color(const Vector4& vec)
     {
+        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0f);
+        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0f);
+        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0f);
+        v[3] = static_cast<uint8_t>(vec.v[3] * 255.0f);
+    }
+
+    Color& Color::operator=(const Vector4& vec)
+    {
+        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0f);
+        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0f);
+        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0f);
+        v[3] = static_cast<uint8_t>(vec.v[3] * 255.0f);
+
+        return *this;
     }
 } // namespace ouzel
