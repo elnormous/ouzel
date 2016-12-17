@@ -55,9 +55,23 @@ namespace ouzel
             return Size2(v[0] + size.v[0], v[1] + size.v[1]);
         }
 
+        inline Size2& operator+=(const Size2& size)
+        {
+            v[0] += size.v[0];
+            v[1] += size.v[1];
+            return *this;
+        }
+
         Size2 operator-(const Size2& size) const
         {
             return Size2(v[0] - size.v[0], v[1] - size.v[1]);
+        }
+
+        inline Size2& operator-=(const Size2& size)
+        {
+            v[0] -= size.v[0];
+            v[1] -= size.v[1];
+            return *this;
         }
 
         Size2 operator*(float a) const
@@ -65,9 +79,23 @@ namespace ouzel
             return Size2(v[0] * a, v[1] * a);
         }
 
+        inline Size2& operator*=(float scalar)
+        {
+            v[0] *= scalar;
+            v[1] *= scalar;
+            return *this;
+        }
+
         Size2 operator/(float a) const
         {
             return Size2(v[0] / a, v[1] / a);
+        }
+
+        inline Size2& operator/=(float scalar)
+        {
+            v[0] /= scalar;
+            v[1] /= scalar;
+            return *this;
         }
 
         inline bool operator==(const Size2& size) const
@@ -93,6 +121,18 @@ namespace ouzel
         float area() const
         {
             return v[0] * v[1];
+        }
+
+        void scale(float scalar)
+        {
+            v[0] *= scalar;
+            v[1] *= scalar;
+        }
+
+        void scale(const Vector2& scale)
+        {
+            v[0] *= scale.v[0];
+            v[1] *= scale.v[1];
         }
     };
 

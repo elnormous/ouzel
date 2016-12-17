@@ -60,9 +60,25 @@ namespace ouzel
             return Size3(v[0] + size.v[0], v[1] + size.v[1], v[2] + size.v[2]);
         }
 
+        inline Size3& operator+=(const Size3& size)
+        {
+            v[0] += size.v[0];
+            v[1] += size.v[1];
+            v[2] += size.v[2];
+            return *this;
+        }
+
         Size3 operator-(const Size3& size) const
         {
             return Size3(v[0] - size.v[0], v[1] - size.v[1], v[2] - size.v[2]);
+        }
+
+        inline Size3& operator-=(const Size3& size)
+        {
+            v[0] -= size.v[0];
+            v[1] -= size.v[1];
+            v[2] -= size.v[2];
+            return *this;
         }
 
         Size3 operator*(float a) const
@@ -70,9 +86,25 @@ namespace ouzel
             return Size3(v[0] * a, v[1] * a, v[2] * a);
         }
 
+        inline Size3& operator*=(float scalar)
+        {
+            v[0] *= scalar;
+            v[1] *= scalar;
+            v[2] *= scalar;
+            return *this;
+        }
+
         Size3 operator/(float a) const
         {
             return Size3(v[0] / a, v[1] / a, v[2] / a);
+        }
+
+        inline Size3& operator/=(float scalar)
+        {
+            v[0] /= scalar;
+            v[1] /= scalar;
+            v[2] /= scalar;
+            return *this;
         }
 
         inline bool operator==(const Size3& size) const
@@ -98,6 +130,20 @@ namespace ouzel
         float volume() const
         {
             return v[0] * v[1] * v[2];
+        }
+        
+        void scale(float scalar)
+        {
+            v[0] *= scalar;
+            v[1] *= scalar;
+            v[2] *= scalar;
+        }
+
+        void scale(const Vector3& scale)
+        {
+            v[0] *= scale.v[0];
+            v[1] *= scale.v[1];
+            v[2] *= scale.v[2];
         }
     };
 

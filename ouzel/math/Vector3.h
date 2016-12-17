@@ -143,6 +143,13 @@ namespace ouzel
             v[2] *= scalar;
         }
 
+        void scale(const Vector3& scale)
+        {
+            v[0] *= scale.v[0];
+            v[1] *= scale.v[1];
+            v[2] *= scale.v[2];
+        }
+
         void set(float newX, float newY, float newZ)
         {
             v[0] = newX;
