@@ -89,6 +89,11 @@ namespace ouzel
         {
             return v[0] == 1.0f && v[1] == 1.0f;
         }
+
+        float area() const
+        {
+            return v[0] * v[1];
+        }
     };
 
     inline Size2 operator*(const Size2& size, const Vector2& v)

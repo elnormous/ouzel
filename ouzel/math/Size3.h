@@ -94,6 +94,11 @@ namespace ouzel
         {
             return v[0] == 1.0f && v[1] == 1.0f && v[2] == 1.0f;
         }
+
+        float volume() const
+        {
+            return v[0] * v[1] * v[2];
+        }
     };
 
     inline Size3 operator*(const Size3& size, const Vector3& v)
