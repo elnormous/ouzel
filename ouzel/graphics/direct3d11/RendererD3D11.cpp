@@ -198,8 +198,8 @@ namespace ouzel
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
             memset(&swapChainDesc, 0, sizeof(swapChainDesc));
 
-            width = static_cast<UINT>(size.width);
-            height = static_cast<UINT>(size.height);
+            width = static_cast<UINT>(size.v[0]);
+            height = static_cast<UINT>(size.v[1]);
 
             UINT qualityLevels;
 
@@ -531,8 +531,8 @@ namespace ouzel
                 viewport = {
                     drawCommand.viewport.position.v[0],
                     drawCommand.viewport.position.v[1],
-                    drawCommand.viewport.size.width,
-                    drawCommand.viewport.size.height,
+                    drawCommand.viewport.size.v[0],
+                    drawCommand.viewport.size.v[1],
                     0.0f, 1.0f
                 };
 

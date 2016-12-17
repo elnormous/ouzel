@@ -43,7 +43,7 @@ namespace ouzel
                     return false;
                 }
 
-                viewport = { 0, 0, uploadData.size.width, uploadData.size.height, 0.0f, 1.0f };
+                viewport = { 0, 0, uploadData.size.v[0], uploadData.size.v[1], 0.0f, 1.0f };
 
                 std::shared_ptr<TextureD3D11> textureD3D11 = std::static_pointer_cast<TextureD3D11>(texture);
 

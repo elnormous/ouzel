@@ -55,17 +55,17 @@ namespace ouzel
             {
                 RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
-                if (uploadData.size.width > 0 &&
-                    uploadData.size.height > 0)
+                if (uploadData.size.v[0] > 0 &&
+                    uploadData.size.v[1] > 0)
                 {
                     if (!texture ||
-                        static_cast<UINT>(uploadData.size.width) != width ||
-                        static_cast<UINT>(uploadData.size.height) != height)
+                        static_cast<UINT>(uploadData.size.v[0]) != width ||
+                        static_cast<UINT>(uploadData.size.v[1]) != height)
                     {
                         if (texture) texture->Release();
 
-                        width = static_cast<UINT>(uploadData.size.width);
-                        height = static_cast<UINT>(uploadData.size.height);
+                        width = static_cast<UINT>(uploadData.size.v[0]);
+                        height = static_cast<UINT>(uploadData.size.v[1]);
 
                         D3D11_TEXTURE2D_DESC textureDesc;
                         memset(&textureDesc, 0, sizeof(textureDesc));
