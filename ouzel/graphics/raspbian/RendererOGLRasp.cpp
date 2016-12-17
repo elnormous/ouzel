@@ -131,8 +131,8 @@ namespace ouzel
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 
-            uint32_t width = static_cast<uint32_t>(newWindow->getSize().width);
-            uint32_t height = static_cast<uint32_t>(newWindow->getSize().height);
+            uint32_t width = static_cast<uint32_t>(newWindow->getSize().v[0]);
+            uint32_t height = static_cast<uint32_t>(newWindow->getSize().v[1]);
 
             VC_RECT_T dstRect;
             dstRect.x = 0;
