@@ -546,7 +546,7 @@ namespace ouzel
                     }
 
                     std::shared_ptr<TextureD3D11> renderTargetTextureD3D11 = std::static_pointer_cast<TextureD3D11>(renderTargetD3D11->getTexture());
-                    viewport.TopLeftY = renderTargetTextureD3D11->getSize().height - (viewport.TopLeftY + viewport.Height);
+                    viewport.TopLeftY = renderTargetTextureD3D11->getSize().v[1] - (viewport.TopLeftY + viewport.Height);
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
@@ -590,9 +590,9 @@ namespace ouzel
                 {
                     D3D11_RECT rects[1];
                     rects[0].left = static_cast<LONG>(drawCommand.scissorTest.position.v[0]);
-                    rects[0].right = static_cast<LONG>(drawCommand.scissorTest.position.v[0] + drawCommand.scissorTest.size.width);
+                    rects[0].right = static_cast<LONG>(drawCommand.scissorTest.position.v[0] + drawCommand.scissorTest.size.v[0]);
                     rects[0].bottom = static_cast<LONG>(drawCommand.scissorTest.position.v[1]);
-                    rects[0].top = static_cast<LONG>(drawCommand.scissorTest.position.v[1] + drawCommand.scissorTest.size.height);
+                    rects[0].top = static_cast<LONG>(drawCommand.scissorTest.position.v[1] + drawCommand.scissorTest.size.v[1]);
 
                     context->RSSetScissorRects(1, rects);
                 }
