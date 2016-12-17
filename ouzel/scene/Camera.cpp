@@ -121,7 +121,7 @@ namespace ouzel
 
         const Matrix4& Camera::getInverseViewProjection() const
         {
-            if (inverseViewProjectionDirty || transformDirty)
+            if (inverseViewProjectionDirty || viewProjectionDirty || transformDirty)
             {
                 inverseViewProjection = getViewProjection();
                 inverseViewProjection.invert();
