@@ -158,7 +158,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.width) + "," + toString(val.height);
+                s += toString(val.v[0]) + "," + toString(val.v[1]);
             }
 
             return *this;
@@ -168,8 +168,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.width) + "," + toString(val.height) + "," +
-                    toString(val.depth);
+                s += toString(val.v[0]) + "," + toString(val.v[1]) + "," +
+                    toString(val.v[2]);
             }
 
             return *this;

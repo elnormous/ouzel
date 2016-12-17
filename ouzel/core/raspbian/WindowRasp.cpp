@@ -30,8 +30,8 @@ namespace ouzel
             return false;
         }
 
-        size.width = static_cast<float>(screenWidth);
-        size.height = static_cast<float>(screenHeight);
+        size.v[0] = static_cast<float>(screenWidth);
+        size.v[1] = static_cast<float>(screenHeight);
 
         return Window::init();
     }

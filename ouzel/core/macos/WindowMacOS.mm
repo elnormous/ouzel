@@ -85,12 +85,12 @@ namespace ouzel
     {
         NSScreen* screen = [NSScreen mainScreen];
 
-        if (size.width <= 0.0f) size.width = static_cast<float>(screen.frame.size.width) * 0.6f;
-        if (size.height <= 0.0f) size.height = static_cast<float>(screen.frame.size.height) * 0.6f;
+        if (size.v[0] <= 0.0f) size.v[0] = static_cast<float>(screen.frame.size.width) * 0.6f;
+        if (size.v[1] <= 0.0f) size.v[1] = static_cast<float>(screen.frame.size.height) * 0.6f;
 
-        NSRect frame = NSMakeRect(static_cast<float>(screen.frame.size.width) / 2.0f - size.width / 2.0f,
-                                  static_cast<float>(screen.frame.size.height) / 2.0f - size.height / 2.0f,
-                                  size.width, size.height);
+        NSRect frame = NSMakeRect(static_cast<float>(screen.frame.size.width) / 2.0f - size.v[0] / 2.0f,
+                                  static_cast<float>(screen.frame.size.height) / 2.0f - size.v[1] / 2.0f,
+                                  size.v[0], size.v[1]);
 
         NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
 
@@ -186,7 +186,7 @@ namespace ouzel
             NSRect frame = [window frame];
 
             NSRect newFrame = [NSWindow frameRectForContentRect:
-                               NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.width, newSize.height)
+                               NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.v[0], newSize.v[1])
                                                       styleMask:[window styleMask]];
 
             if (frame.size.width != newFrame.size.width ||

@@ -27,25 +27,25 @@ namespace ouzel
 
     bool WindowEm::init()
     {
-        if (size.width <= 0.0f || size.height <= 0.0f)
+        if (size.v[0] <= 0.0f || size.v[1] <= 0.0f)
         {
             int width, height, fullscreen;
             emscripten_get_canvas_size(&width, &height, &fullscreen);
 
-            if (size.width <= 0.0f) size.width = static_cast<float>(width);
-            if (size.height <= 0.0f) size.height = static_cast<float>(height);
+            if (size.v[0] <= 0.0f) size.v[0] = static_cast<float>(width);
+            if (size.v[1] <= 0.0f) size.v[1] = static_cast<float>(height);
         }
 
-        emscripten_set_canvas_size(static_cast<int>(size.width),
-                                   static_cast<int>(size.height));
+        emscripten_set_canvas_size(static_cast<int>(size.v[0]),
+                                   static_cast<int>(size.v[1]));
 
         return Window::init();
     }
 
     void WindowEm::setSize(const Size2& newSize)
     {
-        emscripten_set_canvas_size(static_cast<int>(newSize.width),
-                                   static_cast<int>(newSize.height));
+        emscripten_set_canvas_size(static_cast<int>(newSize.v[0]),
+                                   static_cast<int>(newSize.v[1]));
 
         Window::setSize(newSize);
     }

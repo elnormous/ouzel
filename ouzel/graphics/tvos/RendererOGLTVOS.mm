@@ -152,8 +152,8 @@ namespace ouzel
             glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
             glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &frameBufferHeight);
 
-            renderBufferSize.width = static_cast<float>(frameBufferWidth);
-            renderBufferSize.height = static_cast<float>(frameBufferHeight);
+            renderBufferSize.v[0] = static_cast<float>(frameBufferWidth);
+            renderBufferSize.v[1] = static_cast<float>(frameBufferHeight);
 
             graphics::RendererOGL::bindFrameBuffer(frameBufferId);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,

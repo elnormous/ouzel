@@ -158,8 +158,8 @@ namespace ouzel
             }
 #endif
 
-            frameBufferWidth = static_cast<GLsizei>(size.width);
-            frameBufferHeight = static_cast<GLsizei>(size.height);
+            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
+            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
 
             if (sampleCount > 1)
             {
@@ -328,11 +328,11 @@ namespace ouzel
                     dirty = false;
                 }
 
-                if (frameBufferWidth != static_cast<GLsizei>(newSize.width) ||
-                    frameBufferHeight != static_cast<GLsizei>(newSize.height))
+                if (frameBufferWidth != static_cast<GLsizei>(newSize.v[0]) ||
+                    frameBufferHeight != static_cast<GLsizei>(newSize.v[1]))
                 {
-                    frameBufferWidth = static_cast<GLsizei>(newSize.width);
-                    frameBufferHeight = static_cast<GLsizei>(newSize.height);
+                    frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
+                    frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
 
                     if (sampleCount > 1)
                     {
@@ -644,8 +644,8 @@ namespace ouzel
 
                 setViewport(static_cast<GLint>(drawCommand.viewport.position.v[0]),
                             static_cast<GLint>(drawCommand.viewport.position.v[1]),
-                            static_cast<GLsizei>(drawCommand.viewport.size.width),
-                            static_cast<GLsizei>(drawCommand.viewport.size.height));
+                            static_cast<GLsizei>(drawCommand.viewport.size.v[0]),
+                            static_cast<GLsizei>(drawCommand.viewport.size.v[1]));
 
                 if (clearBuffer)
                 {
@@ -671,8 +671,8 @@ namespace ouzel
                 setScissorTest(drawCommand.scissorTestEnabled,
                                static_cast<GLint>(drawCommand.scissorTest.position.v[0]),
                                static_cast<GLint>(drawCommand.scissorTest.position.v[1]),
-                               static_cast<GLsizei>(drawCommand.scissorTest.size.width),
-                               static_cast<GLsizei>(drawCommand.scissorTest.size.height));
+                               static_cast<GLsizei>(drawCommand.scissorTest.size.v[0]),
+                               static_cast<GLsizei>(drawCommand.scissorTest.size.v[1]));
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);

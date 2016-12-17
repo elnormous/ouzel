@@ -281,7 +281,7 @@ namespace ouzel
             }
             else
             {
-                size.width = size.height = 0.0f;
+                size.v[0] = size.v[1] = 0.0f;
                 boundingBox.reset();
             }
         }

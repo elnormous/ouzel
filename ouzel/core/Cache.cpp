@@ -122,7 +122,7 @@ namespace ouzel
                 return;
             }
 
-            Rectangle rectangle(0, 0, texture->getSize().width, texture->getSize().height);
+            Rectangle rectangle(0, 0, texture->getSize().v[0], texture->getSize().v[1]);
 
             scene::SpriteFrame frame(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
             frames.push_back(frame);
@@ -151,7 +151,7 @@ namespace ouzel
 
                 if (texture)
                 {
-                    Rectangle rectangle(0.0f, 0.0f, texture->getSize().width, texture->getSize().height);
+                    Rectangle rectangle(0.0f, 0.0f, texture->getSize().v[0], texture->getSize().v[1]);
 
                     scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
                     frames.push_back(frame);

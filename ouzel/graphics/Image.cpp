@@ -49,8 +49,8 @@ namespace ouzel
 
             stbi_image_free(tempData);
 
-            size.width = static_cast<float>(width);
-            size.height = static_cast<float>(height);
+            size.v[0] = static_cast<float>(width);
+            size.v[1] = static_cast<float>(height);
 
             return true;
         }

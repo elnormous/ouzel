@@ -165,11 +165,11 @@ namespace ouzel
             swa.border_pixel = 0;
             swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
-            if (size.width <= 0.0f) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
-            if (size.height <= 0.0f) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
+            if (size.v[0] <= 0.0f) size.v[0] = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
+            if (size.v[1] <= 0.0f) size.v[1] = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
 
             window = XCreateWindow(display, RootWindow(display, visualInfo->screen), 0, 0,
-                                   static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
+                                   static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
                                    0, visualInfo->depth, InputOutput, visualInfo->visual,
                                    CWBorderPixel | CWColormap | CWEventMask, &swa);
             XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, sharedApplication->getArgv(), sharedApplication->getArgc(), nullptr);
@@ -208,8 +208,8 @@ namespace ouzel
         {
             sharedApplication->execute([this, newSize] {
                 XWindowChanges changes;
-                changes.width = static_cast<int>(newSize.width);
-                changes.height = static_cast<int>(newSize.height);
+                changes.width = static_cast<int>(newSize.v[0]);
+                changes.height = static_cast<int>(newSize.v[1]);
                 XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
             });
         }

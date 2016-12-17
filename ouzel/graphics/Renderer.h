@@ -111,14 +111,14 @@ namespace ouzel
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
             {
-                return Vector2(position.v[0] / size.width,
-                               1.0f - (position.v[1] / size.height));
+                return Vector2(position.v[0] / size.v[0],
+                               1.0f - (position.v[1] / size.v[1]));
             }
 
             Vector2 convertNormalizedToScreenLocation(const Vector2& position)
             {
-                return Vector2(position.v[0] * size.width,
-                               (1.0f - position.v[1]) * size.height);
+                return Vector2(position.v[0] * size.v[0],
+                               (1.0f - position.v[1]) * size.v[1]);
             }
 
             virtual bool saveScreenshot(const std::string& filename);

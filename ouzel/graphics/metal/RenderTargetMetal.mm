@@ -86,8 +86,8 @@ namespace ouzel
                     if (!msaaTexture)
                     {
                         MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
-                                                                                                        width:static_cast<NSUInteger>(uploadData.size.width)
-                                                                                                       height:static_cast<NSUInteger>(uploadData.size.height)
+                                                                                                        width:static_cast<NSUInteger>(uploadData.size.v[0])
+                                                                                                       height:static_cast<NSUInteger>(uploadData.size.v[1])
                                                                                                     mipmapped:NO];
                         desc.textureType = MTLTextureType2DMultisample;
                         desc.storageMode = MTLStorageModePrivate;

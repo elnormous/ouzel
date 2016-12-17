@@ -474,8 +474,8 @@ namespace ouzel
                 viewport = {
                     static_cast<double>(drawCommand.viewport.position.v[0]),
                     static_cast<double>(drawCommand.viewport.position.v[1]),
-                    static_cast<double>(drawCommand.viewport.size.width),
-                    static_cast<double>(drawCommand.viewport.size.height),
+                    static_cast<double>(drawCommand.viewport.size.v[0]),
+                    static_cast<double>(drawCommand.viewport.size.v[1]),
                     0.0, 1.0
                 };
 
@@ -492,7 +492,7 @@ namespace ouzel
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
 
                     std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal->getTexture());
-                    viewport.originY = renderTargetTextureMetal->getSize().height - (viewport.originY + viewport.height);
+                    viewport.originY = renderTargetTextureMetal->getSize().v[1] - (viewport.originY + viewport.height);
 
                     scissorRect.x = scissorRect.y = 0;
                     scissorRect.width = renderTargetTextureMetal->getTexture().width;
@@ -541,8 +541,8 @@ namespace ouzel
                 {
                     scissorRect.x = static_cast<NSUInteger>(drawCommand.scissorTest.position.v[0]);
                     scissorRect.y = static_cast<NSUInteger>(drawCommand.scissorTest.position.v[1]);
-                    scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorTest.size.width);
-                    scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorTest.size.height);
+                    scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorTest.size.v[0]);
+                    scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorTest.size.v[1]);
                 }
 
                 [currentRenderCommandEncoder setScissorRect: scissorRect];

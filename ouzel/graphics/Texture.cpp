@@ -86,7 +86,7 @@ namespace ouzel
                 return false;
             }
 
-            if (newSize.width <= 0.0f || newSize.height <= 0.0f)
+            if (newSize.v[0] <= 0.0f || newSize.v[1] <= 0.0f)
             {
                 return false;
             }
@@ -186,8 +186,8 @@ namespace ouzel
             levels.clear();
             size = newSize;
 
-            uint32_t newWidth = static_cast<uint32_t>(newSize.width);
-            uint32_t newHeight = static_cast<uint32_t>(newSize.height);
+            uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
+            uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
 
             uint32_t pitch = newWidth * 4;
             levels.push_back({ newSize, pitch, newData });

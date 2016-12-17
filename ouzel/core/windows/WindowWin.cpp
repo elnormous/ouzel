@@ -336,13 +336,13 @@ namespace ouzel
 
         windowStyle = windowWindowedStyle;
 
-        RECT windowRect = { 0, 0, static_cast<LONG>(size.width), static_cast<LONG>(size.height) };
+        RECT windowRect = { 0, 0, static_cast<LONG>(size.v[0]), static_cast<LONG>(size.v[1]) };
         AdjustWindowRect(&windowRect, windowStyle, FALSE);
 
         int width = CW_USEDEFAULT;
         int height = CW_USEDEFAULT;
-        if (size.width > 0.0f) width = windowRect.right - windowRect.left;
-        if (size.height > 0.0f) height = windowRect.bottom - windowRect.top;
+        if (size.v[0] > 0.0f) width = windowRect.right - windowRect.left;
+        if (size.v[1] > 0.0f) height = windowRect.bottom - windowRect.top;
 
         wchar_t titleBuffer[256];
         MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256);
@@ -362,8 +362,8 @@ namespace ouzel
         }
 
         GetClientRect(window, &windowRect);
-        size.width = static_cast<float>(windowRect.right - windowRect.left);
-        size.height = static_cast<float>(windowRect.bottom - windowRect.top);
+        size.v[0] = static_cast<float>(windowRect.right - windowRect.left);
+        size.v[1] = static_cast<float>(windowRect.bottom - windowRect.top);
 
         if (!RegisterTouchWindow(window, 0))
         {
@@ -386,8 +386,8 @@ namespace ouzel
     void WindowWin::setSize(const Size2& newSize)
     {
         sharedApplication->execute([this, newSize] {
-            UINT width = static_cast<UINT>(newSize.width);
-            UINT height = static_cast<UINT>(newSize.height);
+            UINT width = static_cast<UINT>(newSize.v[0]);
+            UINT height = static_cast<UINT>(newSize.v[1]);
 
             UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
