@@ -131,7 +131,7 @@ namespace ouzel
         {
             return v[0] * v[1] * v[2];
         }
-        
+
         void scale(float scalar)
         {
             v[0] *= scalar;
