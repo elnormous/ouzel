@@ -269,7 +269,7 @@ namespace ouzel
             return cursorVisible;
         }
 
-        void InputApple::setCursorPosition(const Vector2& position)
+        void InputWin::setCursorPosition(const Vector2& position)
         {
             Input::setCursorPosition(position);
 
