@@ -4,6 +4,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include "InputWin.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/windows/WindowWin.h"
 #include "events/EventDispatcher.h"
