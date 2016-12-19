@@ -274,7 +274,7 @@ namespace ouzel
             Input::setCursorPosition(position);
 
             sharedApplication->execute([position] {
-                POINT pt;
+                POINT p;
                 p.x = static_cast<LONG>(position.x);
                 p.y = static_cast<LONG>(position.y);
                 ClientToScreen(static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow(), &p);
