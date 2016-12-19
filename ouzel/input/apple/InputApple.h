@@ -29,6 +29,8 @@ namespace ouzel
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
+            virtual void setCursorPosition(const Vector2& position) override;
+
             virtual void startGamepadDiscovery() override;
             virtual void stopGamepadDiscovery() override;
 

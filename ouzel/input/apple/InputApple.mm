@@ -5,6 +5,7 @@
 #include "core/CompileConfig.h"
 #if OUZEL_PLATFORM_MACOS
 #import <AppKit/AppKit.h>
+#import <CoreGraphics/CoreGraphics.h>
 #elif OUZEL_PLATFORM_IOS
 #include "WindowIOS.h"
 #elif OUZEL_PLATFORM_TVOS
@@ -380,6 +381,15 @@ namespace ouzel
 #else
             return false;
 #endif
+        }
+
+        void InputApple::setCursorPosition(const Vector2& position)
+        {
+            Input::setCursorPosition(position);
+
+            sharedApplication->execute([position] {
+                    CGWarpMouseCursorPosition(CGPointMake(position.v[0], position.v[1]));
+            });
         }
 
         void InputApple::startGamepadDiscovery()
