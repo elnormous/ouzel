@@ -5,6 +5,7 @@
 #include <windows.h>
 #include "InputWin.h"
 #include "core/Engine.h"
+#include "core/windows/WindowWin.h"
 #include "events/EventDispatcher.h"
 #include "GamepadWin.h"
 #include "utils/Log.h"
@@ -250,19 +251,35 @@ namespace ouzel
         {
             cursorVisible = visible;
 
-            if (cursorVisible)
-            {
-                SetCursor(LoadCursor(nullptr, IDC_ARROW));
-            }
-            else
-            {
-                SetCursor(nullptr);
-            }
+            sharedApplication->execute([visible] {
+                if (visible)
+                {
+                    SetCursor(LoadCursor(nullptr, IDC_ARROW));
+                }
+                else
+                {
+                    SetCursor(nullptr);
+                }
+            });
         }
 
         bool InputWin::isCursorVisible() const
         {
             return cursorVisible;
+        }
+
+        void InputApple::setCursorPosition(const Vector2& position)
+        {
+            Input::setCursorPosition(position);
+
+            sharedApplication->execute([position] {
+                POINT pt;
+                p.x = static_cast<LONG>(position.x);
+                p.y = static_cast<LONG>(position.y);
+                ClientToScreen(static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow(), &p);
+                SetCursorPos(static_cast<int>(p.x),
+                             static_cast<int>(p.y));
+            });
         }
     } // namespace input
 } // namespace ouzel
