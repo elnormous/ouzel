@@ -220,10 +220,12 @@ namespace ouzel
             virtual void setCursorVisible(bool visible);
             virtual bool isCursorVisible() const;
 
+            const Vector2& getCursorPosition() const { return cursorPosition; }
+            virtual void setCursorPosition(const Vector2& position);
+
             virtual void startGamepadDiscovery();
             virtual void stopGamepadDiscovery();
 
-            const Vector2& getCursorPosition() const { return cursorPosition; }
             bool isKeyboardKeyDown(KeyboardKey key) const { return keyboardKeyStates[static_cast<uint32_t>(key)]; }
             bool isMouseButtonDown(MouseButton button) const { return mouseButtonStates[static_cast<uint32_t>(button)]; }
 

@@ -30,6 +30,11 @@ namespace ouzel
             return false;
         }
 
+        void Input::setCursorPosition(const Vector2& position)
+        {
+            cursorPosition = position;
+        }
+
         void Input::startGamepadDiscovery()
         {
         }
@@ -173,7 +178,7 @@ namespace ouzel
             event.type = Event::Type::TOUCH_MOVE;
 
             event.touchEvent.touchId = touchId;
-            event.touchEvent.previousPosition = touchPositions[touchId];
+            event.touchEvent.difference = position - touchPositions[touchId];
             event.touchEvent.position = position;
 
             touchPositions[touchId] = position;

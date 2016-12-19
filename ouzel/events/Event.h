@@ -43,7 +43,7 @@ namespace ouzel
     struct TouchEvent
     {
         uint64_t touchId = 0;
-        Vector2 previousPosition;
+        Vector2 difference;
         Vector2 position;
     };
 
