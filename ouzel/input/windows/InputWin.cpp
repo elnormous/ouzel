@@ -275,8 +275,8 @@ namespace ouzel
 
             sharedApplication->execute([position] {
                 POINT p;
-                p.x = static_cast<LONG>(position.x);
-                p.y = static_cast<LONG>(position.y);
+                p.x = static_cast<LONG>(position.v[0]);
+                p.y = static_cast<LONG>(position.v[1]);
                 ClientToScreen(static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow(), &p);
                 SetCursorPos(static_cast<int>(p.x),
                              static_cast<int>(p.y));
