@@ -387,9 +387,11 @@ namespace ouzel
         {
             Input::setCursorPosition(position);
 
+#if OUZEL_PLATFORM_MACOS
             sharedApplication->execute([position] {
                     CGWarpMouseCursorPosition(CGPointMake(position.v[0], position.v[1]));
             });
+#endif
         }
 
         void InputApple::startGamepadDiscovery()
