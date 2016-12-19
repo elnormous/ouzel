@@ -15,6 +15,7 @@
 #include "core/Application.h"
 #include "InputApple.h"
 #include "core/Engine.h"
+#include "core/Window.h"
 #include "GamepadApple.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
@@ -388,8 +389,10 @@ namespace ouzel
             Input::setCursorPosition(position);
 
 #if OUZEL_PLATFORM_MACOS
-            sharedApplication->execute([position] {
-                    CGWarpMouseCursorPosition(CGPointMake(position.v[0], position.v[1]));
+            ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
+
+            sharedApplication->execute([windowLocation] {
+                    CGWarpMouseCursorPosition(CGPointMake(windowLocation.v[0], windowLocation.v[1]));
             });
 #endif
         }
