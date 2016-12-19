@@ -105,7 +105,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::MOUSE_MOVE;
 
-            event.mouseEvent.previousPosition = cursorPosition;
+            event.mouseEvent.difference = position - cursorPosition;
             event.mouseEvent.position = position;
             event.mouseEvent.modifiers = modifiers;
 

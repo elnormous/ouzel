@@ -35,7 +35,7 @@ namespace ouzel
     {
         uint32_t modifiers = 0;
         input::MouseButton button = input::MouseButton::NONE;
-        Vector2 previousPosition;
+        Vector2 difference;
         Vector2 position;
         Vector2 scroll;
     };

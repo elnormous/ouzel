@@ -199,7 +199,7 @@ namespace ouzel
                 }
                 case Event::Type::MOUSE_MOVE:
                 {
-                    scene::Node* previousNode = pickNode(event.previousPosition);
+                    scene::Node* previousNode = pickNode(event.position - event.difference);
                     pointerLeaveNode(0, previousNode, event.position);
 
                     scene::Node* node = pickNode(event.position);
