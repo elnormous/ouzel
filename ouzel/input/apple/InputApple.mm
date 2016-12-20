@@ -15,7 +15,7 @@
 #include "core/Application.h"
 #include "InputApple.h"
 #include "core/Engine.h"
-#include "core/Window.h"
+#include "core/macos/WindowMacOS.h"
 #include "GamepadApple.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
@@ -392,7 +392,13 @@ namespace ouzel
             ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
 
             sharedApplication->execute([windowLocation] {
-                    CGWarpMouseCursorPosition(CGPointMake(windowLocation.v[0], windowLocation.v[1]));
+                CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
+
+                NSWindow* window = static_cast<WindowMacOS*>(sharedEngine->getWindow())->getNativeWindow();
+                CGPoint windowOrigin = [window frame].origin;
+
+                CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
+                                                      screenOrigin.y + windowOrigin.y + windowLocation.v[1]));
             });
 #endif
         }
