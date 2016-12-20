@@ -3,6 +3,7 @@
 
 #include "InputLinux.h"
 #include "events/Event.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/linux/WindowLinux.h"
 
