@@ -250,7 +250,7 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                sharedApplication->execute([visible, emptyCursor] {
+                sharedApplication->execute([visible, this] {
                     WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                     Display* display = windowLinux->getDisplay();
                     ::Window window = windowLinux->getNativeWindow();
