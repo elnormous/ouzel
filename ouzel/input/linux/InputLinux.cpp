@@ -3,6 +3,7 @@
 
 #include "InputLinux.h"
 #include "events/Event.h"
+#include "core/Engine.h"
 #include "core/linux/WindowLinux.h"
 
 namespace ouzel
@@ -217,11 +218,10 @@ namespace ouzel
             return modifiers;
         }
 
-        InputLinux::InputLinux(Window* pWindow)
+        InputLinux::InputLinux()
         {
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(pWindow);
-            display = windowLinux->getDisplay();
-            window = windowLinux->getNativeWindow();
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+            Display* display = windowLinux->getDisplay();
 
             char data[1] = { 0 };
             XColor color;
@@ -247,22 +247,46 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                if (visible)
-                {
-                    XUndefineCursor(display, window);
-                }
-                else
-                {
-                    XDefineCursor(display, window, emptyCursor);
-                }
+                sharedApplication->execute([visible] {
+                    WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                    Display* display = windowLinux->getDisplay();
+                    ::Window window = windowLinux->getNativeWindow();
 
-                XFlush(display);
+                    if (visible)
+                    {
+                        XUndefineCursor(display, window);
+                    }
+                    else
+                    {
+                        XDefineCursor(display, window, emptyCursor);
+                    }
+
+                    XFlush(display);
+                });
             }
         }
 
         bool InputLinux::isCursorVisible() const
         {
             return cursorVisible;
+        }
+
+        void InputLinux::setCursorPosition(const Vector2& position)
+        {
+            Input::setCursorPosition(position);
+
+            sharedApplication->execute([position] {
+                WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                Display* display = windowLinux->getDisplay();
+                ::Window window = windowLinux->getNativeWindow();
+
+                ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
+
+                XWarpPointer(display, None, window, 0, 0, 0, 0,
+                             static_cast<int>(windowLocation.x),
+                             static_cast<int>(windowLocation.y));
+                XSync(display, False);
+            });
         }
     } // namespace input
 } // namespace ouzel

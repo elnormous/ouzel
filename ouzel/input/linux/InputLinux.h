@@ -23,15 +23,15 @@ namespace ouzel
             static KeyboardKey convertKeyCode(KeySym keyCode);
             static uint32_t getModifiers(unsigned int state);
 
+            virtual ~InputLinux();
+
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
-            virtual ~InputLinux();
-        protected:
-            InputLinux(Window* pWindow);
+            virtual void setCursorPosition(const Vector2& position) override;
 
-            Display* display = nullptr;
-            ::Window window = 0;
+        protected:
+            InputLinux();
 
             bool cursorVisible = true;
             Cursor emptyCursor = None;

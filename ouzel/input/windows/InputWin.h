@@ -17,6 +17,9 @@ namespace ouzel
         {
             friend Engine;
         public:
+            static KeyboardKey convertKeyCode(WPARAM wParam);
+            static uint32_t getKeyboardModifiers(WPARAM wParam);
+            static uint32_t getMouseModifiers(WPARAM wParam);
 
             virtual ~InputWin();
 
@@ -26,10 +29,6 @@ namespace ouzel
             virtual bool isCursorVisible() const override;
 
             virtual void setCursorPosition(const Vector2& position) override;
-
-            static KeyboardKey convertKeyCode(WPARAM wParam);
-            static uint32_t getKeyboardModifiers(WPARAM wParam);
-            static uint32_t getMouseModifiers(WPARAM wParam);
 
         protected:
             InputWin();
