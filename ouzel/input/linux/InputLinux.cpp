@@ -239,6 +239,8 @@ namespace ouzel
 
         InputLinux::~InputLinux()
         {
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+            Display* display = windowLinux->getDisplay();
             if (emptyCursor != None) XFreeCursor(display, emptyCursor);
         }
 
@@ -248,7 +250,7 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                sharedApplication->execute([visible] {
+                sharedApplication->execute([visible, emptyCursor] {
                     WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                     Display* display = windowLinux->getDisplay();
                     ::Window window = windowLinux->getNativeWindow();
@@ -284,8 +286,8 @@ namespace ouzel
                 ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
 
                 XWarpPointer(display, None, window, 0, 0, 0, 0,
-                             static_cast<int>(windowLocation.x),
-                             static_cast<int>(windowLocation.y));
+                             static_cast<int>(windowLocation.v[0]),
+                             static_cast<int>(windowLocation.v[1]));
                 XSync(display, False);
             });
         }
