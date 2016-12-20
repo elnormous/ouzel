@@ -283,11 +283,14 @@ namespace ouzel
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
+                XWindowAttributes attributes;
+                XGetWindowAttributes(display, window, &attributes);
+
                 ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
 
                 XWarpPointer(display, None, window, 0, 0, 0, 0,
-                             static_cast<int>(windowLocation.v[0]),
-                             static_cast<int>(windowLocation.v[1]));
+                             attributes.x + static_cast<int>(windowLocation.v[0]),
+                             attributes.y + static_cast<int>(windowLocation.v[1]));
                 XSync(display, False);
             });
         }
