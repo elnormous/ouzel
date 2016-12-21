@@ -313,6 +313,9 @@
     <ClCompile Include="..\ouzel\math\Quaternion.cpp">
       <Filter>math</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\math\AABB3.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -656,6 +659,9 @@
       <Filter>math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\math\Quaternion.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\math\AABB3.h">
       <Filter>math</Filter>
     </ClInclude>
   </ItemGroup>

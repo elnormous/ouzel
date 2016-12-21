@@ -97,6 +97,7 @@
     <ClCompile Include="..\ouzel\localization\Language.cpp" />
     <ClCompile Include="..\ouzel\localization\Localization.cpp" />
     <ClCompile Include="..\ouzel\math\AABB2.cpp" />
+    <ClCompile Include="..\ouzel\math\AABB3.cpp" />
     <ClCompile Include="..\ouzel\math\Color.cpp" />
     <ClCompile Include="..\ouzel\math\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix3.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="..\ouzel\localization\Language.h" />
     <ClInclude Include="..\ouzel\localization\Localization.h" />
     <ClInclude Include="..\ouzel\math\AABB2.h" />
+    <ClInclude Include="..\ouzel\math\AABB3.h" />
     <ClInclude Include="..\ouzel\math\Color.h" />
     <ClInclude Include="..\ouzel\math\MathUtils.h" />
     <ClInclude Include="..\ouzel\math\Matrix3.h" />
