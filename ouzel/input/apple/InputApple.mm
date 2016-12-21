@@ -8,9 +8,9 @@
 #import <CoreGraphics/CoreGraphics.h>
 #include "core/macos/WindowMacOS.h"
 #elif OUZEL_PLATFORM_IOS
-#include "WindowIOS.h"
+#include "core/ios/WindowIOS.h"
 #elif OUZEL_PLATFORM_TVOS
-#include "WindowTVOS.h"
+#include "core/tvos/WindowTVOS.h"
 #endif
 #import <GameController/GameController.h>
 #include "core/Application.h"
