@@ -68,18 +68,34 @@ bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& 
     return true;
 }
 
-bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const
+bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event)
 {
     if (type == Event::Type::KEY_DOWN)
     {
+        Quaternion rotation;
+
         switch (event.key)
         {
+            case input::KeyboardKey::UP:
+                rotation.setEulerAngles(Vector3(-TAU / 100.0f, 0.0f, 0.0f));
+                break;
+            case input::KeyboardKey::DOWN:
+                rotation.setEulerAngles(Vector3(TAU / 100.0f, 0.0f, 0.0f));
+                break;
+            case input::KeyboardKey::LEFT:
+                rotation.setEulerAngles(Vector3(0.0f, -TAU / 100.0f, 0.0f));
+                break;
+            case input::KeyboardKey::RIGHT:
+                rotation.setEulerAngles(Vector3(0.0f, TAU / 100.0f, 0.0f));
+                break;
             case input::KeyboardKey::ESCAPE:
                 samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
                 break;
             default:
                 break;
         }
+
+        camera.setRotation(camera.getRotation() * rotation);
     }
 
     return true;
@@ -103,6 +119,17 @@ bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseE
 
 bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event)
 {
+    if (type == Event::Type::TOUCH_MOVE)
+    {
+        Quaternion rotation;
+
+        rotation.setEulerAngles(Vector3(event.difference.y() / 2.0f,
+                                        -event.difference.x() / 2.0f,
+                                        0.0f));
+
+        camera.setRotation(camera.getRotation() * rotation);
+    }
+
     return true;
 }
 
