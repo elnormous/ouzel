@@ -23,12 +23,14 @@ private:
     ouzel::scene::Camera camera;
 
     ouzel::scene::Sprite characterSprite;
+    ouzel::scene::Node character;
+
+    ouzel::scene::Sprite floorSprite;
+    ouzel::scene::Node floor;
 
     std::unique_ptr<ouzel::scene::Animator> rotate;
 
     ouzel::EventHandler eventHandler;
-
-    ouzel::scene::Node character;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;

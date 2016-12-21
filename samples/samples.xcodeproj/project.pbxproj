@@ -103,6 +103,9 @@
 		304736CD1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */; };
 		304736CE1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */; };
 		304736CF1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */; };
+		304736D41E0AE4CE009BC562 /* floor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 304736D31E0AE4CE009BC562 /* floor.jpg */; };
+		304736D51E0AE4CE009BC562 /* floor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 304736D31E0AE4CE009BC562 /* floor.jpg */; };
+		304736D61E0AE4CE009BC562 /* floor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 304736D31E0AE4CE009BC562 /* floor.jpg */; };
 		304A8EAA1C27429A008B1151 /* Samples.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Samples.cpp */; };
 		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		305B99B31C433061008589E1 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B11C433061008589E1 /* button_down.png */; };
@@ -231,6 +234,7 @@
 		3045F0DA1D0F575F00125436 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerspectiveSample.cpp; sourceTree = "<group>"; };
 		304736CC1E0AD89E009BC562 /* PerspectiveSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerspectiveSample.h; sourceTree = "<group>"; };
+		304736D31E0AE4CE009BC562 /* floor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = floor.jpg; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* samples_macos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_macos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -423,6 +427,7 @@
 				303B75F61C33756100FEDE92 /* fire.png */,
 				303B76011C349CA800FEDE92 /* flame.json */,
 				303B76021C349CA800FEDE92 /* flame.png */,
+				304736D31E0AE4CE009BC562 /* floor.jpg */,
 				30419E5E1D1D541900A63759 /* jump.wav */,
 				30324D9C1CAFB20900601A64 /* lv.mo */,
 				30C56C731CAB48A4007AEF8F /* radio_button.png */,
@@ -633,6 +638,7 @@
 				30C56C881CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E661D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF31D78F4DB0067DE35 /* triangle.png in Resources */,
+				304736D41E0AE4CE009BC562 /* floor.jpg in Resources */,
 				3038224B1D86D7EA00677CAB /* ArialBlack.fnt in Resources */,
 				30C56C7B1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
@@ -666,6 +672,7 @@
 				30C56C891CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E671D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF41D78F4DB0067DE35 /* triangle.png in Resources */,
+				304736D61E0AE4CE009BC562 /* floor.jpg in Resources */,
 				3038224D1D86D7EA00677CAB /* ArialBlack.fnt in Resources */,
 				30C56C7C1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
@@ -699,6 +706,7 @@
 				30C56C871CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E651D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF21D78F4DB0067DE35 /* triangle.png in Resources */,
+				304736D51E0AE4CE009BC562 /* floor.jpg in Resources */,
 				3038224C1D86D7EA00677CAB /* ArialBlack.fnt in Resources */,
 				30C56C7A1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B75F81C33756100FEDE92 /* fire.png in Resources */,

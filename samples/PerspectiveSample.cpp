@@ -25,13 +25,21 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     layer.addCamera(&camera);
     addLayer(&layer);
 
+    // floor
+    floorSprite.initFromFile("floor.jpg");
+
+    floor.addComponent(&floorSprite);
+    layer.addChild(&floor);
+    floor.setPosition(Vector2(0.0f, -100.0f));
+    floor.setRotation(Vector3(TAU_4, 0.0f, 0.0f));
+
     // character
     characterSprite.initFromFile("run.json");
     characterSprite.play(true);
 
     character.addComponent(&characterSprite);
     layer.addChild(&character);
-    character.setPosition(Vector2(0.0f, 0.0f));
+    character.setPosition(Vector2(10.0f, 0.0f));
 
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
     character.animate(rotate.get());

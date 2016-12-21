@@ -20,6 +20,7 @@ private:
     ouzel::scene::Camera camera;
 
     ouzel::scene::Sprite characterSprite;
+    ouzel::scene::Node character;
     ouzel::scene::Sprite fireSprite;
     ouzel::scene::Node fireNode;
     ouzel::scene::Sprite triangleSprite;
@@ -29,7 +30,6 @@ private:
 
     ouzel::EventHandler eventHandler;
 
-    ouzel::scene::Node character;
     std::unique_ptr<ouzel::gui::Button> hideButton;
     std::unique_ptr<ouzel::gui::Button> wireframeButton;
 
