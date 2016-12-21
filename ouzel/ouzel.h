@@ -56,6 +56,7 @@
 #include "input/Input.h"
 #include "localization/Localization.h"
 #include "math/AABB2.h"
+#include "math/AABB3.h"
 #include "math/Color.h"
 #include "math/MathUtils.h"
 #include "math/Matrix3.h"

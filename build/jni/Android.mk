@@ -86,6 +86,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/localization/Language.cpp \
     ../../ouzel/localization/Localization.cpp \
     ../../ouzel/math/AABB2.cpp \
+    ../../ouzel/math/AABB3.cpp \
     ../../ouzel/math/Color.cpp \
     ../../ouzel/math/MathUtils.cpp \
     ../../ouzel/math/Matrix3.cpp \

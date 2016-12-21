@@ -9,14 +9,14 @@ namespace ouzel
     void AABB2::getCorners(Vector2* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive z-axis.
-        // Left-top.
-        dst[0].set(min.v[0], max.v[1]);
         // Left-bottom.
-        dst[1].set(min.v[0], min.v[1]);
+        dst[0].set(min.v[0], min.v[1]);
         // Right-bottom.
-        dst[2].set(max.v[0], min.v[1]);
+        dst[1].set(max.v[0], min.v[1]);
         // Right-top.
-        dst[3].set(max.v[0], max.v[1]);
+        dst[2].set(max.v[0], max.v[1]);
+        // Left-top.
+        dst[3].set(min.v[0], max.v[1]);
     }
 
     void AABB2::merge(const AABB2& box)

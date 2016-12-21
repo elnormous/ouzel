@@ -469,6 +469,12 @@
 		30419DF41D162BEF00A63759 /* SoundData.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419DF01D162BEF00A63759 /* SoundData.h */; };
 		30419DF51D162BEF00A63759 /* SoundData.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419DF01D162BEF00A63759 /* SoundData.h */; };
 		30419DF61D162BEF00A63759 /* SoundData.h in Headers */ = {isa = PBXBuildFile; fileRef = 30419DF01D162BEF00A63759 /* SoundData.h */; };
+		304736D91E0B4776009BC562 /* AABB3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736D71E0B4776009BC562 /* AABB3.cpp */; };
+		304736DA1E0B4776009BC562 /* AABB3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736D71E0B4776009BC562 /* AABB3.cpp */; };
+		304736DB1E0B4776009BC562 /* AABB3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736D71E0B4776009BC562 /* AABB3.cpp */; };
+		304736DC1E0B4776009BC562 /* AABB3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304736D81E0B4776009BC562 /* AABB3.h */; };
+		304736DD1E0B4776009BC562 /* AABB3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304736D81E0B4776009BC562 /* AABB3.h */; };
+		304736DE1E0B4776009BC562 /* AABB3.h in Headers */ = {isa = PBXBuildFile; fileRef = 304736D81E0B4776009BC562 /* AABB3.h */; };
 		3047F73E1C4C344A00774E3D /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F73C1C4C344A00774E3D /* Animator.cpp */; };
 		3047F73F1C4C344A00774E3D /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F73C1C4C344A00774E3D /* Animator.cpp */; };
 		3047F7401C4C344A00774E3D /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3047F73C1C4C344A00774E3D /* Animator.cpp */; };
@@ -946,6 +952,8 @@
 		30419DE81D162BDC00A63759 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		30419DEF1D162BEF00A63759 /* SoundData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundData.cpp; sourceTree = "<group>"; };
 		30419DF01D162BEF00A63759 /* SoundData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundData.h; sourceTree = "<group>"; };
+		304736D71E0B4776009BC562 /* AABB3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB3.cpp; sourceTree = "<group>"; };
+		304736D81E0B4776009BC562 /* AABB3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AABB3.h; sourceTree = "<group>"; };
 		3047F73C1C4C344A00774E3D /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
 		3047F73D1C4C344A00774E3D /* Animator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animator.h; sourceTree = "<group>"; };
 		3047F7441C4C350D00774E3D /* Move.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Move.cpp; sourceTree = "<group>"; };
@@ -1252,6 +1260,8 @@
 			children = (
 				30575A8D1C38BD370009C8A7 /* AABB2.cpp */,
 				30575A8E1C38BD370009C8A7 /* AABB2.h */,
+				304736D71E0B4776009BC562 /* AABB3.cpp */,
+				304736D81E0B4776009BC562 /* AABB3.h */,
 				309B48351DEA5EE600A718C5 /* Color.cpp */,
 				309B48361DEA5EE600A718C5 /* Color.h */,
 				304A8E301C237C70008B1151 /* MathUtils.cpp */,
@@ -1722,6 +1732,7 @@
 				30381FE81D80A40700677CAB /* ColorPSMacOS.h in Headers */,
 				3047F7421C4C344A00774E3D /* Animator.h in Headers */,
 				30381F1C1D8094FD00677CAB /* VertexBuffer.h in Headers */,
+				304736DC1E0B4776009BC562 /* AABB3.h in Headers */,
 				3082C3B71D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
 				303821421D81876E00677CAB /* MeshBufferEmpty.h in Headers */,
 				30575AC01C39D9850009C8A7 /* NodeContainer.h in Headers */,
@@ -1874,6 +1885,7 @@
 				30381FEA1D80A40700677CAB /* ColorPSMacOS.h in Headers */,
 				30575AC11C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				30381F1E1D8094FD00677CAB /* VertexBuffer.h in Headers */,
+				304736DE1E0B4776009BC562 /* AABB3.h in Headers */,
 				3082C3B91D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
 				303821441D81876E00677CAB /* MeshBufferEmpty.h in Headers */,
 				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
@@ -2048,6 +2060,7 @@
 				3082C3B51D9565DE0090FC9D /* TexturePSGLES3.h in Headers */,
 				303820101D80A40700677CAB /* TextureMetal.h in Headers */,
 				30381F1D1D8094FD00677CAB /* VertexBuffer.h in Headers */,
+				304736DD1E0B4776009BC562 /* AABB3.h in Headers */,
 				304A8E931C26ED32008B1151 /* MeshBuffer.h in Headers */,
 				30C56C981CAC3ECE007AEF8F /* SlideBar.h in Headers */,
 				30381FFE1D80A40700677CAB /* RendererMetal.h in Headers */,
@@ -2302,6 +2315,7 @@
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
 				3047F7781C4D39C500774E3D /* Repeat.cpp in Sources */,
 				303820061D80A40700677CAB /* RenderTargetMetal.mm in Sources */,
+				304736D91E0B4776009BC562 /* AABB3.cpp in Sources */,
 				303820311D80A55700677CAB /* VertexBufferMetal.mm in Sources */,
 				30381FBB1D80A3F900677CAB /* SoundAL.cpp in Sources */,
 				30381F791D80A3EC00677CAB /* RendererOGL.cpp in Sources */,
@@ -2425,6 +2439,7 @@
 				303B76541C355A3B00FEDE92 /* Node.cpp in Sources */,
 				3047F7791C4D39C500774E3D /* Repeat.cpp in Sources */,
 				303820081D80A40700677CAB /* RenderTargetMetal.mm in Sources */,
+				304736DB1E0B4776009BC562 /* AABB3.cpp in Sources */,
 				303820331D80A55700677CAB /* VertexBufferMetal.mm in Sources */,
 				30381FBD1D80A3F900677CAB /* SoundAL.cpp in Sources */,
 				30381F7B1D80A3EC00677CAB /* RendererOGL.cpp in Sources */,
@@ -2548,6 +2563,7 @@
 				305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */,
 				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,
 				30381FBC1D80A3F900677CAB /* SoundAL.cpp in Sources */,
+				304736DA1E0B4776009BC562 /* AABB3.cpp in Sources */,
 				303820071D80A40700677CAB /* RenderTargetMetal.mm in Sources */,
 				303820321D80A55700677CAB /* VertexBufferMetal.mm in Sources */,
 				30381F7A1D80A3EC00677CAB /* RendererOGL.cpp in Sources */,
