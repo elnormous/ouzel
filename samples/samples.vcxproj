@@ -152,6 +152,7 @@
     <ClCompile Include="InputSample.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="PerspectiveSample.cpp" />
     <ClCompile Include="RTSample.cpp" />
     <ClCompile Include="Samples.cpp" />
     <ClCompile Include="SoundSample.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="GUISample.h" />
     <ClInclude Include="InputSample.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="PerspectiveSample.h" />
     <ClInclude Include="RTSample.h" />
     <ClInclude Include="Samples.h" />
     <ClInclude Include="SoundSample.h" />
