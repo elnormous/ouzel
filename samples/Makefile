@@ -40,6 +40,7 @@ SOURCES=AnimationsSample.cpp \
 	GUISample.cpp \
 	InputSample.cpp \
 	MainMenu.cpp \
+	PerspectiveSample.cpp \
 	SoundSample.cpp \
 	SpritesSample.cpp \
 	RTSample.cpp

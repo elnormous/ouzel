@@ -95,7 +95,7 @@ bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE && event.node == &backButton)
     {
-        samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
+        samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
     }
 
     return true;
@@ -108,7 +108,7 @@ bool AnimationsSample::handleKeyboard(Event::Type type, const KeyboardEvent& eve
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
+                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
                 break;
             default:
                 break;

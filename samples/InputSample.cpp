@@ -86,7 +86,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 break;
             case input::KeyboardKey::ESCAPE:
                 sharedEngine->getInput()->setCursorVisible(true);
-                samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
+                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
                 break;
             default:
                 break;
@@ -173,7 +173,7 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
         if (event.node == &backButton)
         {
             sharedEngine->getInput()->setCursorVisible(true);
-            samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
+            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
         }
         else if (event.node == button.get())
         {

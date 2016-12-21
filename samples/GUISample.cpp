@@ -62,7 +62,7 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == &backButton)
         {
-            samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
+            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
         }
         else if (event.node == button.get())
         {
@@ -85,7 +85,7 @@ bool GUISample::handleKeyboard(Event::Type type, const KeyboardEvent& event) con
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::unique_ptr<MainMenu>(new MainMenu(samples)));
+                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
                 break;
             default:
                 break;

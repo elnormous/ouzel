@@ -100,6 +100,9 @@
 		3045F0DB1D0F575F00125436 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 3045F0DA1D0F575F00125436 /* ball.png */; };
 		3045F0DC1D0F575F00125436 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 3045F0DA1D0F575F00125436 /* ball.png */; };
 		3045F0DD1D0F575F00125436 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 3045F0DA1D0F575F00125436 /* ball.png */; };
+		304736CD1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */; };
+		304736CE1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */; };
+		304736CF1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */; };
 		304A8EAA1C27429A008B1151 /* Samples.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Samples.cpp */; };
 		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		305B99B31C433061008589E1 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B11C433061008589E1 /* button_down.png */; };
@@ -226,6 +229,8 @@
 		3045F0CD1D0F24F600125436 /* InputSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputSample.cpp; sourceTree = "<group>"; };
 		3045F0CE1D0F24F600125436 /* InputSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputSample.h; sourceTree = "<group>"; };
 		3045F0DA1D0F575F00125436 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
+		304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerspectiveSample.cpp; sourceTree = "<group>"; };
+		304736CC1E0AD89E009BC562 /* PerspectiveSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerspectiveSample.h; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* samples_macos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_macos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -464,6 +469,8 @@
 				303B75181C29EB8400FEDE92 /* main.cpp */,
 				3045F0A61D0C2E4500125436 /* MainMenu.cpp */,
 				3045F0A71D0C2E4500125436 /* MainMenu.h */,
+				304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */,
+				304736CC1E0AD89E009BC562 /* PerspectiveSample.h */,
 				3045F0AE1D0D95BC00125436 /* RTSample.cpp */,
 				3045F0AF1D0D95BC00125436 /* RTSample.h */,
 				304A8EA81C27429A008B1151 /* Samples.cpp */,
@@ -713,6 +720,7 @@
 				3045F0C31D0E103100125436 /* SpritesSample.cpp in Sources */,
 				3045F0B11D0D95BC00125436 /* RTSample.cpp in Sources */,
 				3045F0A91D0C2E4500125436 /* MainMenu.cpp in Sources */,
+				304736CD1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */,
 				3045F0D01D0F24F600125436 /* InputSample.cpp in Sources */,
 				3013FAAF1DDD20AC0069E2BD /* GameSample.cpp in Sources */,
 				303B760F1C34CFE300FEDE92 /* main.cpp in Sources */,
@@ -730,6 +738,7 @@
 				3045F0C41D0E103100125436 /* SpritesSample.cpp in Sources */,
 				3045F0B21D0D95BC00125436 /* RTSample.cpp in Sources */,
 				3045F0AA1D0C2E4500125436 /* MainMenu.cpp in Sources */,
+				304736CF1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */,
 				3045F0D11D0F24F600125436 /* InputSample.cpp in Sources */,
 				3013FAB11DDD20AC0069E2BD /* GameSample.cpp in Sources */,
 				303B768E1C355AA400FEDE92 /* main.cpp in Sources */,
@@ -747,6 +756,7 @@
 				3045F0C21D0E103100125436 /* SpritesSample.cpp in Sources */,
 				3045F0B01D0D95BC00125436 /* RTSample.cpp in Sources */,
 				3045F0A81D0C2E4500125436 /* MainMenu.cpp in Sources */,
+				304736CE1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */,
 				3045F0CF1D0F24F600125436 /* InputSample.cpp in Sources */,
 				3013FAB01DDD20AC0069E2BD /* GameSample.cpp in Sources */,
 				303B751A1C29ED4200FEDE92 /* main.cpp in Sources */,

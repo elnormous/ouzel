@@ -9,6 +9,7 @@
 #include "AnimationsSample.h"
 #include "InputSample.h"
 #include "SoundSample.h"
+#include "PerspectiveSample.h"
 
 using namespace std;
 using namespace ouzel;
@@ -54,6 +55,10 @@ void Samples::begin(const std::string& sample)
         {
             currentScene.reset(new SoundSample(*this));
         }
+        else if (sample == "perspective")
+        {
+            currentScene.reset(new PerspectiveSample(*this));
+        }
     }
 
     if (!currentScene)
@@ -66,7 +71,7 @@ void Samples::begin(const std::string& sample)
 
 void Samples::setScene(std::unique_ptr<ouzel::scene::Scene>&& scene)
 {
-    currentScene = std::forward<std::unique_ptr<ouzel::scene::Scene>>(scene);
+    currentScene = std::forward<std::unique_ptr<scene::Scene>>(scene);
 
     if (currentScene)
     {

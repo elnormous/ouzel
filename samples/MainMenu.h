@@ -28,4 +28,5 @@ private:
     ouzel::gui::Button animationsButton;
     ouzel::gui::Button inputButton;
     ouzel::gui::Button soundButton;
+    ouzel::gui::Button perspectiveButton;
 };

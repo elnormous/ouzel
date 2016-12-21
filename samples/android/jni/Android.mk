@@ -17,6 +17,7 @@ LOCAL_SRC_FILES := jni.cpp \
     ../../InputSample.cpp \
     ../../main.cpp \
     ../../MainMenu.cpp \
+    ../../PerspectiveSample.cpp \
     ../../SoundSample.cpp \
     ../../SpritesSample.cpp \
     ../../RTSample.cpp

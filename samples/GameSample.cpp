@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "GameSample.h"
+#include "MainMenu.h"
 
 using namespace std;
 using namespace ouzel;
@@ -25,7 +26,14 @@ bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
     if (type == Event::Type::KEY_DOWN)
     {
-
+        switch (event.key)
+        {
+            case input::KeyboardKey::ESCAPE:
+                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                break;
+            default:
+                break;
+        }
     }
     return true;
 }
