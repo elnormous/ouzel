@@ -6,6 +6,7 @@
 #if OUZEL_PLATFORM_MACOS
 #import <AppKit/AppKit.h>
 #import <CoreGraphics/CoreGraphics.h>
+#include "core/macos/WindowMacOS.h"
 #elif OUZEL_PLATFORM_IOS
 #include "WindowIOS.h"
 #elif OUZEL_PLATFORM_TVOS
@@ -15,7 +16,6 @@
 #include "core/Application.h"
 #include "InputApple.h"
 #include "core/Engine.h"
-#include "core/macos/WindowMacOS.h"
 #include "GamepadApple.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
