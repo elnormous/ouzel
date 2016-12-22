@@ -56,12 +56,12 @@ public class InputManager
                         for (int i = 0; i < size; i++)
                         {
                             long[] lastContact = imv.devices.valueAt(i);
-                            if (null != lastContact)
+                            if (lastContact != null)
                             {
                                 if (time - lastContact[0] > CHECK_ELAPSED_TIME)
                                 {
                                     int id = imv.devices.keyAt(i);
-                                    if (null == InputDevice.getDevice(id))
+                                    if (InputDevice.getDevice(id) == null)
                                     {
                                         imv.notifyListeners(ON_DEVICE_REMOVED, id);
                                         imv.devices.remove(id);
