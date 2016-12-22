@@ -34,7 +34,7 @@ public class MainActivity extends Activity
 
             if (isProbablyEmulator())
             {
-                // Avoids crashes on startup with some emulator images.
+                // Avoids crashes on startup with some emulator images
                 surfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
             }
 
@@ -44,8 +44,7 @@ public class MainActivity extends Activity
         }
         else
         {
-            // Should never be seen in production, since the manifest filters
-            // unsupported devices.
+            // Should never be seen in production, since the manifest filters unsupported devices
             Toast.makeText(this, "This device does not support OpenGL ES 2.0.", Toast.LENGTH_LONG).show();
             return;
         }
@@ -53,12 +52,12 @@ public class MainActivity extends Activity
 
     private boolean isProbablyEmulator()
     {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
-                && (Build.FINGERPRINT.startsWith("generic")
-                        || Build.FINGERPRINT.startsWith("unknown")
-                        || Build.MODEL.contains("google_sdk")
-                        || Build.MODEL.contains("Emulator")
-                        || Build.MODEL.contains("Android SDK built for x86"));
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD &&
+            (Build.FINGERPRINT.startsWith("generic") ||
+             Build.FINGERPRINT.startsWith("unknown") ||
+             Build.MODEL.contains("google_sdk") ||
+             Build.MODEL.contains("Emulator") ||
+             Build.MODEL.contains("Android SDK built for x86"));
     }
 
     @Override
