@@ -31,6 +31,14 @@ namespace ouzel
             Node();
             virtual ~Node();
 
+            virtual void visit(std::vector<Node*>& drawQueue,
+                               const Matrix4& newParentTransform,
+                               bool parentTransformDirty,
+                               Camera* camera,
+                               int32_t parentOrder);
+            virtual void draw(Camera* camera);
+            virtual void drawWireframe(Camera* camera);
+
             virtual void addChild(Node* node) override;
             virtual NodeContainer* getParent() const { return parent; }
             virtual void removeFromParent();
@@ -127,14 +135,6 @@ namespace ouzel
 
         protected:
             void removeAnimator(Animator* animator);
-
-            virtual void visit(std::vector<Node*>& drawQueue,
-                               const Matrix4& newParentTransform,
-                               bool parentTransformDirty,
-                               Camera* camera,
-                               int32_t parentOrder);
-            virtual void draw(Camera* camera);
-            virtual void drawWireframe(Camera* camera);
 
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
