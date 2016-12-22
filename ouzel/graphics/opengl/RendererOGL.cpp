@@ -137,11 +137,11 @@ namespace ouzel
                 mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
 #endif
 #endif
-
-                npotTexturesSupported = true;
             }
             else
             {
+                npotTexturesSupported = false;
+                
                 const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
 
                 if (checkOpenGLError() || !extensionPtr)
