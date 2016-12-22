@@ -181,14 +181,14 @@ namespace ouzel
             {
                 case 2:
 #if OUZEL_SUPPORTS_OPENGL
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TextureGL2_ps), std::end(TextureGL2_ps)),
-                                                   std::vector<uint8_t>(std::begin(TextureGL2_vs), std::end(TextureGL2_vs)),
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
+                                                   std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", 4 * sizeof(float)}},
                                                    {{"modelViewProj", sizeof(Matrix4)}});
 #elif OUZEL_SUPPORTS_OPENGLES
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TextureGLES2_ps), std::end(TextureGLES2_ps)),
-                                                   std::vector<uint8_t>(std::begin(TextureGLES2_vs), std::end(TextureGLES2_vs)),
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
+                                                   std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", 4 * sizeof(float)}},
                                                    {{"modelViewProj", sizeof(Matrix4)}});
@@ -196,14 +196,14 @@ namespace ouzel
                     break;
                 case 3:
 #if OUZEL_SUPPORTS_OPENGL3
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TextureGL3_ps), std::end(TextureGL3_ps)),
-                                                   std::vector<uint8_t>(std::begin(TextureGL3_vs), std::end(TextureGL3_vs)),
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
+                                                   std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", 4 * sizeof(float)}},
                                                    {{"modelViewProj", sizeof(Matrix4)}});
 #elif OUZEL_SUPPORTS_OPENGLES3
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TextureGLES3_ps), std::end(TextureGLES3_ps)),
-                                                   std::vector<uint8_t>(std::begin(TextureGLES3_vs), std::end(TextureGLES3_vs)),
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
+                                                   std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", 4 * sizeof(float)}},
                                                    {{"modelViewProj", sizeof(Matrix4)}});
@@ -222,14 +222,14 @@ namespace ouzel
             {
                 case 2:
 #if OUZEL_SUPPORTS_OPENGL
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorGL2_ps), std::end(ColorGL2_ps)),
-                                                 std::vector<uint8_t>(std::begin(ColorGL2_vs), std::end(ColorGL2_vs)),
+                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
+                                                 std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
                                                  VertexPC::ATTRIBUTES,
                                                  {{"color", 4 * sizeof(float)}},
                                                  {{"modelViewProj", sizeof(Matrix4)}});
 #elif OUZEL_SUPPORTS_OPENGLES
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorGLES2_ps), std::end(ColorGLES2_ps)),
-                                                 std::vector<uint8_t>(std::begin(ColorGLES2_vs), std::end(ColorGLES2_vs)),
+                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
+                                                 std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
                                                  VertexPC::ATTRIBUTES,
                                                  {{"color", 4 * sizeof(float)}},
                                                  {{"modelViewProj", sizeof(Matrix4)}});
@@ -237,14 +237,14 @@ namespace ouzel
                     break;
                 case 3:
 #if OUZEL_SUPPORTS_OPENGL3
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorGL3_ps), std::end(ColorGL3_ps)),
-                                                 std::vector<uint8_t>(std::begin(ColorGL3_vs), std::end(ColorGL3_vs)),
+                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
+                                                 std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
                                                  VertexPC::ATTRIBUTES,
                                                  {{"color", 4 * sizeof(float)}},
                                                  {{"modelViewProj", sizeof(Matrix4)}});
 #elif OUZEL_SUPPORTS_OPENGLES3
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorGLES3_ps), std::end(ColorGLES3_ps)),
-                                                 std::vector<uint8_t>(std::begin(ColorGLES3_vs), std::end(ColorGLES3_vs)),
+                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
+                                                 std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
                                                  VertexPC::ATTRIBUTES,
                                                  {{"color", 4 * sizeof(float)}},
                                                  {{"modelViewProj", sizeof(Matrix4)}});
