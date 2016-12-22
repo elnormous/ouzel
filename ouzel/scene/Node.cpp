@@ -367,7 +367,7 @@ namespace ouzel
 
         void Node::calculateLocalTransform() const
         {
-            localTransform = Matrix4::IDENTITY;
+            localTransform.setIdentity();
             localTransform.translate(position);
             localTransform *= rotation.getMatrix();
 
