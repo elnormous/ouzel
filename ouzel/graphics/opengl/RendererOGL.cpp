@@ -45,18 +45,18 @@
 #endif
 
 #if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
-PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES = nullptr;
-PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES = nullptr;
-PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES = nullptr;
+PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
+PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
+PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES;
 
-#ifdef GL_OES_mapbuffer
+    #ifdef GL_OES_mapbuffer
     PFNGLMAPBUFFEROESPROC mapBufferOES;
     PFNGLUNMAPBUFFEROESPROC unmapBufferOES;
-#endif
+    #endif
 
-#ifdef GL_EXT_map_buffer_range
+    #ifdef GL_EXT_map_buffer_range
     PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeEXT;
-#endif
+    #endif
 
 #endif
 
