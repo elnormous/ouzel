@@ -69,21 +69,6 @@ namespace ouzel
         {
             msaaRenderBufferId = 0;
 
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
-            genVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-            bindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-            deleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
-
-#ifdef GL_OES_mapbuffer
-            mapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
-            unmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
-#endif
-
-#ifdef GL_EXT_map_buffer_range
-            mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
-#endif
-
-#endif
             projectionTransform = Matrix4(1.0f, 0.0f, 0.0f, 0.0f,
                                           0.0f, 1.0f, 0.0f, 0.0f,
                                           0.0f, 0.0f, 2.0f, 0.0f,
@@ -134,25 +119,70 @@ namespace ouzel
             }
 
 #if OUZEL_SUPPORTS_OPENGLES
-            npotTexturesSupported = (apiMajorVersion >= 3);
-
-            const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
-
-            if (checkOpenGLError() || !extensionPtr)
+            if (apiMajorVersion >= 3)
             {
-                Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#ifdef GL_OES_vertex_array_object
+                genVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
+                bindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
+                deleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
+#endif
+
+#ifdef GL_OES_mapbuffer
+                mapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
+                unmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+#endif
+
+#ifdef GL_EXT_map_buffer_range
+                mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
+#endif
+#endif
+
+                npotTexturesSupported = true;
             }
             else
             {
-                std::string extensions(reinterpret_cast<const char*>(extensionPtr));
+                const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
 
-                std::istringstream extensionStringStream(extensions);
-
-                for (std::string extension; extensionStringStream >> extension;)
+                if (checkOpenGLError() || !extensionPtr)
                 {
-                    if (extension == "GL_OES_texture_npot")
+                    Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
+                }
+                else
+                {
+                    std::string extensions(reinterpret_cast<const char*>(extensionPtr));
+
+                    std::istringstream extensionStringStream(extensions);
+
+                    for (std::string extension; extensionStringStream >> extension;)
                     {
-                        npotTexturesSupported = true;
+                        if (extension == "GL_OES_texture_npot")
+                        {
+                            npotTexturesSupported = true;
+                        }
+#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#ifdef GL_OES_vertex_array_object
+                        else if (extension == "GL_OES_vertex_array_object")
+                        {
+                            genVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
+                            bindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
+                            deleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
+                        }
+#endif
+#ifdef GL_OES_mapbuffer
+                        else if (extension == "GL_OES_mapbuffer")
+                        {
+                            mapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
+                            unmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+                        }
+#endif
+#ifdef GL_EXT_map_buffer_range
+                        else if (extension == "GL_EXT_map_buffer_range")
+                        {
+                            mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
+                        }
+#endif
+#endif
                     }
                 }
             }
