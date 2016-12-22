@@ -77,6 +77,11 @@ namespace ouzel
 #ifdef GL_OES_mapbuffer
             mapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
             unmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+
+            // on Android this should be dynamically determined
+            // We set them to nil for compatiblity as an ugly hack
+            mapBufferOES        = NULL;
+            unmapBufferOES      = NULL;
 #endif
 
 #ifdef GL_EXT_map_buffer_range
