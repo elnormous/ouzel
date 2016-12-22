@@ -148,7 +148,7 @@ namespace ouzel
 
                 std::istringstream extensionStringStream(extensions);
 
-                for (std::string extension; extensionStringStream >> extensions;)
+                for (std::string extension; extensionStringStream >> extension;)
                 {
                     if (extension == "GL_OES_texture_npot")
                     {
