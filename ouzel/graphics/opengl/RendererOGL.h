@@ -36,7 +36,7 @@
     #include <EGL/egl.h>
 #endif
 
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#if OUZEL_OPENGL_INTERFACE_EGL
 #ifdef GL_OES_vertex_array_object
     extern PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
     extern PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
@@ -203,9 +203,9 @@ namespace ouzel
             {
                 if (stateCache.vertexArrayId != vertexArrayId)
                 {
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#if OUZEL_OPENGL_INTERFACE_EAGL
                     glBindVertexArrayOES(vertexArrayId);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#elif OUZEL_OPENGL_INTERFACE_EGL
                     if (bindVertexArrayOES) bindVertexArrayOES(vertexArrayId);
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
                     glBindVertexArray(vertexArrayId);

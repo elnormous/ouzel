@@ -44,7 +44,7 @@
 #endif
 #endif
 
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#if OUZEL_OPENGL_INTERFACE_EGL
 PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
 PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
 PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES;
@@ -121,7 +121,7 @@ namespace ouzel
 #if OUZEL_SUPPORTS_OPENGLES
             if (apiMajorVersion >= 3)
             {
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#if OUZEL_OPENGL_INTERFACE_EGL
 #ifdef GL_OES_vertex_array_object
                 genVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
                 bindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
@@ -160,7 +160,7 @@ namespace ouzel
                         {
                             npotTexturesSupported = true;
                         }
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#if OUZEL_OPENGL_INTERFACE_EGL
 #ifdef GL_OES_vertex_array_object
                         else if (extension == "GL_OES_vertex_array_object")
                         {
@@ -1051,9 +1051,9 @@ namespace ouzel
                         if (stateCache.vertexArrayId == deleteResource.first) stateCache.vertexArrayId = 0;
 #endif
 
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#if OUZEL_OPENGL_INTERFACE_EAGL
                         glDeleteVertexArraysOES(1, &deleteResource.first);
-#elif OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#elif OUZEL_OPENGL_INTERFACE_EGL
                         if (deleteVertexArraysOES) deleteVertexArraysOES(1, &deleteResource.first);
 #else
                         glDeleteVertexArrays(1, &deleteResource.first);

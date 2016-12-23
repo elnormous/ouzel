@@ -167,7 +167,7 @@ namespace ouzel
 
                         void* bufferPtr;
 
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#if OUZEL_OPENGL_INTERFACE_EGL
     #if defined(GL_EXT_map_buffer_range)
                         bufferPtr = mapBufferRangeEXT ? mapBufferRangeEXT(GL_ARRAY_BUFFER, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT) : nullptr;
     #elif defined(GL_OES_mapbuffer)
@@ -183,7 +183,7 @@ namespace ouzel
                         {
                             std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(bufferPtr));
 
-#if OUZEL_PLATFORM_ANDROID || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#if OUZEL_OPENGL_INTERFACE_EGL
 #if defined(GL_OES_mapbuffer)
                             if (unmapBufferOES) unmapBufferOES(GL_ARRAY_BUFFER);
 #endif
