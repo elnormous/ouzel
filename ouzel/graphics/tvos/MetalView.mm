@@ -34,6 +34,19 @@
     id<MTKViewDelegate> viewDelegate;
 }
 
+-(void)insertText:(__unused NSString*)text
+{
+}
+
+-(void)deleteBackward
+{
+}
+
+-(BOOL)hasText
+{
+    return NO;
+}
+
 -(id)initWithFrame:(CGRect)frameRect
 {
     if (self = [super initWithFrame:frameRect])

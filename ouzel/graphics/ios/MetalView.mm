@@ -61,7 +61,8 @@
         CGPoint location = [touch locationInView:self];
 
         ouzel::sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                                    ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(location.x, location.y)));
+                                                    ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                       static_cast<float>(location.y))));
     }
 }
 
@@ -72,7 +73,8 @@
         CGPoint location = [touch locationInView:self];
 
         ouzel::sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                                   ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(location.x, location.y)));
+                                                   ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                      static_cast<float>(location.y))));
     }
 }
 
@@ -83,7 +85,8 @@
         CGPoint location = [touch locationInView:self];
 
         ouzel::sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                                  ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(location.x, location.y)));
+                                                  ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                     static_cast<float>(location.y))));
     }
 }
 
@@ -94,7 +97,8 @@
         CGPoint location = [touch locationInView:self];
 
         ouzel::sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(location.x, location.y)));
+                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                        static_cast<float>(location.y))));
     }
 }
 

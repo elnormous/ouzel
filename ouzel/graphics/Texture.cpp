@@ -208,7 +208,9 @@ namespace ouzel
                 }
 
                 std::vector<uint8_t> mipMapData(bufferSize);
-                std::copy(newData.begin(), newData.begin() + newWidth * newHeight * 4, mipMapData.begin());
+                std::copy(newData.begin(),
+                          newData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * newHeight * 4),
+                          mipMapData.begin());
 
                 while (newWidth >= 2 && newHeight >= 2)
                 {
@@ -227,7 +229,9 @@ namespace ouzel
                 {
                     for (; newWidth >= 2;)
                     {
-                        std::copy(mipMapData.begin(), mipMapData.begin() + newWidth * 4, mipMapData.begin() + newWidth * 4);
+                        std::copy(mipMapData.begin(),
+                                  mipMapData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * 4),
+                                  mipMapData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * 4));
 
                         imageRgba8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
 
