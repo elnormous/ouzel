@@ -21,7 +21,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     camera.setType(scene::Camera::Type::PERSPECTIVE);
     camera.setFarPlane(1000.0f);
-    camera.setPosition(Vector3(0.0f, 0.0f, -500.0f));
+    camera.setPosition(Vector3(0.0f, 0.0f, -400.0f));
     layer.addCamera(&camera);
     addLayer(&layer);
 
@@ -30,8 +30,8 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     floor.addComponent(&floorSprite);
     layer.addChild(&floor);
-    floor.setPosition(Vector2(0.0f, -100.0f));
-    floor.setRotation(Vector3(TAU_4, 0.0f, 0.0f));
+    floor.setPosition(Vector2(0.0f, -50.0f));
+    floor.setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
 
     // character
     characterSprite.initFromFile("run.json");
