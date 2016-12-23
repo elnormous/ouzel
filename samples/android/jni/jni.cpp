@@ -5,10 +5,7 @@
 #include "core/android/ApplicationAndroid.h"
 #include "core/android/WindowAndroid.h"
 #include "core/Engine.h"
-#include "core/Window.h"
-#include "files/FileSystem.h"
 #include "input/Input.h"
-#include "utils/Utils.h"
 
 ouzel::ApplicationAndroid application;
 
