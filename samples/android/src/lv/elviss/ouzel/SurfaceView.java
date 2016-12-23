@@ -5,14 +5,15 @@ package lv.elviss.ouzel;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-public class OuzelSurfaceView extends GLSurfaceView implements InputDeviceListener
+public class SurfaceView extends GLSurfaceView implements InputDeviceListener
 {
     private final InputManager inputManager;
 
-    public OuzelSurfaceView(Context context)
+    public SurfaceView(Context context)
     {
         super(context);
 
@@ -20,6 +21,22 @@ public class OuzelSurfaceView extends GLSurfaceView implements InputDeviceListen
         inputManager.registerInputDeviceListener(this, null);
 
         this.setFocusableInTouchMode(true);
+
+        this.setEGLConfigChooser(new ConfigChooser(8, 8, 8, 8, 0, 0));
+        //this.setPreserveEGLContextOnPause(true);
+        this.setEGLContextFactory(new ContextFactory());
+        this.setEGLContextClientVersion(2);
+        this.setRenderer(new RendererWrapper());
+    }
+
+    private boolean isProbablyEmulator()
+    {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD &&
+            (Build.FINGERPRINT.startsWith("generic") ||
+             Build.FINGERPRINT.startsWith("unknown") ||
+             Build.MODEL.contains("google_sdk") ||
+             Build.MODEL.contains("Emulator") ||
+             Build.MODEL.contains("Android SDK built for x86"));
     }
     
     @Override
