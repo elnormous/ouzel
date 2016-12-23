@@ -174,6 +174,11 @@ namespace ouzel
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox) const
         {
+            if (type == Type::PERSPECTIVE)
+            {
+                return true;
+            }
+
             // calculate center point of the bounding box
             Vector2 diff = boundingBox.max - boundingBox.min;
 
