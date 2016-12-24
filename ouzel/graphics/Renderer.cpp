@@ -22,7 +22,8 @@ namespace ouzel
         Renderer::Renderer(Driver aDriver):
             driver(aDriver), clearColor(Color::BLACK), clear(true),
             activeDrawQueueFinished(false), refillDrawQueue(true),
-            projectionTransform(Matrix4::IDENTITY)
+            projectionTransform(Matrix4::IDENTITY),
+            renderTargetProjectionTransform(Matrix4::IDENTITY)
         {
         }
 

@@ -138,14 +138,7 @@ namespace ouzel
 
             renderViewProjection = viewProjection;
 
-            if (renderTarget)
-            {
-                renderViewProjection = renderTarget->getProjectionTransform() * renderViewProjection;
-            }
-            else
-            {
-                renderViewProjection = sharedEngine->getRenderer()->getProjectionTransform() * renderViewProjection;
-            }
+            renderViewProjection = sharedEngine->getRenderer()->getProjectionTransform(renderTarget != nullptr) * renderViewProjection;
 
             viewProjectionDirty = false;
         }

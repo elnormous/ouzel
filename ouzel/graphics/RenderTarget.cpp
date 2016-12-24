@@ -10,8 +10,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderTarget::RenderTarget():
-            projectionTransform(Matrix4::IDENTITY)
+        RenderTarget::RenderTarget()
         {
         }
 

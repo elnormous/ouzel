@@ -37,7 +37,6 @@ namespace ouzel
             uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
 
             TexturePtr getTexture() const { return texture; }
-            const Matrix4& getProjectionTransform() const { return projectionTransform; }
 
         protected:
             RenderTarget();
@@ -54,8 +53,6 @@ namespace ouzel
 
             Data uploadData;
             TexturePtr texture;
-
-            Matrix4 projectionTransform;
 
         private:
             Size2 size;
