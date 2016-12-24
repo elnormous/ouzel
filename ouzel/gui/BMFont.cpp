@@ -295,7 +295,7 @@ namespace ouzel
 
         for (size_t c = 0; c < vertices.size(); ++c)
         {
-            vertices[c].position.v[1] += textHeight * anchor.v[1];
+            vertices[c].position.v[1] += textHeight * (1.0f - anchor.v[1]);
         }
     }
 }
