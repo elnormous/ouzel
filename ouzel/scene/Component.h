@@ -31,7 +31,7 @@ namespace ouzel
                                        scene::Camera* camera);
 
             virtual const AABB2& getBoundingBox() const { return boundingBox; }
-            bool isAddedToNode() { return node != nullptr; }
+            bool isAddedToNode() const { return node != nullptr; }
 
             virtual bool pointOn(const Vector2& position) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
