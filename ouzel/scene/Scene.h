@@ -16,6 +16,7 @@ namespace ouzel
     namespace scene
     {
         class SceneManager;
+        class Layer;
 
         class Scene: public Noncopyable
         {

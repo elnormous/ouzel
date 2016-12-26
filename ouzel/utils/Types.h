@@ -68,31 +68,8 @@ namespace ouzel
     namespace scene
     {
         class SceneManager;
-        class Scene;
-        class Layer;
-        class Component;
         class Sprite;
-        class SpriteFrame;
         class Node;
-        class Camera;
-        class ParticleSystem;
-        class ShapeDrawable;
         class TextDrawable;
-        class Animator;
     } // namespace scene
-
-    namespace gui
-    {
-        class Widget;
-        class Menu;
-        class Label;
-        class Button;
-        class CheckBox;
-        class RadioButton;
-        class ComboBox;
-        class Popup;
-        class EditBox;
-        class ScrollArea;
-        class ScrollBar;
-    } // namespace gui
 } // namespace ouzel
