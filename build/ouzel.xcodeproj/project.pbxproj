@@ -571,6 +571,12 @@
 		304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E991C26F5CF008B1151 /* Size2.h */; };
 		304A8EA21C270833008B1151 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex.cpp */; };
 		304A8EA31C270833008B1151 /* Vertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.h */; };
+		304AA8BE1E1190E4006FA70E /* OBF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304AA8BC1E1190E4006FA70E /* OBF.cpp */; };
+		304AA8BF1E1190E4006FA70E /* OBF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304AA8BC1E1190E4006FA70E /* OBF.cpp */; };
+		304AA8C01E1190E4006FA70E /* OBF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304AA8BC1E1190E4006FA70E /* OBF.cpp */; };
+		304AA8C11E1190E4006FA70E /* OBF.h in Headers */ = {isa = PBXBuildFile; fileRef = 304AA8BD1E1190E4006FA70E /* OBF.h */; };
+		304AA8C21E1190E4006FA70E /* OBF.h in Headers */ = {isa = PBXBuildFile; fileRef = 304AA8BD1E1190E4006FA70E /* OBF.h */; };
+		304AA8C31E1190E4006FA70E /* OBF.h in Headers */ = {isa = PBXBuildFile; fileRef = 304AA8BD1E1190E4006FA70E /* OBF.h */; };
 		304B27551C9384A600BA162D /* Size3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27531C9384A600BA162D /* Size3.cpp */; };
 		304B27561C9384A600BA162D /* Size3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27531C9384A600BA162D /* Size3.cpp */; };
 		304B27571C9384A600BA162D /* Size3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304B27531C9384A600BA162D /* Size3.cpp */; };
@@ -1018,6 +1024,8 @@
 		304A8E991C26F5CF008B1151 /* Size2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Size2.h; sourceTree = "<group>"; };
 		304A8EA01C270833008B1151 /* Vertex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vertex.cpp; sourceTree = "<group>"; };
 		304A8EA11C270833008B1151 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
+		304AA8BC1E1190E4006FA70E /* OBF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OBF.cpp; sourceTree = "<group>"; };
+		304AA8BD1E1190E4006FA70E /* OBF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBF.h; sourceTree = "<group>"; };
 		304B27531C9384A600BA162D /* Size3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Size3.cpp; sourceTree = "<group>"; };
 		304B27541C9384A600BA162D /* Size3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Size3.h; sourceTree = "<group>"; };
 		304B27771C95C54D00BA162D /* EditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditBox.cpp; sourceTree = "<group>"; };
@@ -1631,6 +1639,8 @@
 				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
 				3030D5011DAEF1FA007CC8EB /* Log.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
+				304AA8BC1E1190E4006FA70E /* OBF.cpp */,
+				304AA8BD1E1190E4006FA70E /* OBF.h */,
 				305B99C71C451962008589E1 /* Types.h */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.h */,
@@ -1695,6 +1705,7 @@
 				30419DF51D162BEF00A63759 /* SoundData.h in Headers */,
 				3082C3AB1D9565DE0090FC9D /* TexturePSGL2.h in Headers */,
 				30FE38511DFDE49E00305B3B /* Quaternion.h in Headers */,
+				304AA8C11E1190E4006FA70E /* OBF.h in Headers */,
 				303B75471C2A3C9200FEDE92 /* RenderTarget.h in Headers */,
 				3082C3A21D9565DE0090FC9D /* ColorVSGL3.h in Headers */,
 				30381F521D80A3EC00677CAB /* BlendStateOGL.h in Headers */,
@@ -1848,6 +1859,7 @@
 				30381F541D80A3EC00677CAB /* BlendStateOGL.h in Headers */,
 				3082C3AD1D9565DE0090FC9D /* TexturePSGL2.h in Headers */,
 				30FE38531DFDE49E00305B3B /* Quaternion.h in Headers */,
+				304AA8C31E1190E4006FA70E /* OBF.h in Headers */,
 				303B765E1C355A3B00FEDE92 /* Vector3.h in Headers */,
 				3082C3A41D9565DE0090FC9D /* ColorVSGL3.h in Headers */,
 				30381FF91D80A40700677CAB /* MeshBufferMetal.h in Headers */,
@@ -2098,6 +2110,7 @@
 				30381F531D80A3EC00677CAB /* BlendStateOGL.h in Headers */,
 				30EF36661CA845DC00F04F29 /* ComboBox.h in Headers */,
 				304A8E521C237C70008B1151 /* Camera.h in Headers */,
+				304AA8C21E1190E4006FA70E /* OBF.h in Headers */,
 				301EB3A51CCD691800466E92 /* Component.h in Headers */,
 				303820221D80A40700677CAB /* TextureVSMacOS.h in Headers */,
 				3082C39A1D9565DE0090FC9D /* ColorPSGLES2.h in Headers */,
@@ -2238,6 +2251,7 @@
 				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
 				304B277A1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				3047F7701C4D2C3900774E3D /* Parallel.cpp in Sources */,
+				304AA8BE1E1190E4006FA70E /* OBF.cpp in Sources */,
 				3038206D1D816C7700677CAB /* WindowIOS.mm in Sources */,
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				303820641D816C7700677CAB /* ApplicationIOS.mm in Sources */,
@@ -2362,6 +2376,7 @@
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
 				304B277B1C95C54D00BA162D /* EditBox.cpp in Sources */,
+				304AA8C01E1190E4006FA70E /* OBF.cpp in Sources */,
 				3047F7711C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
 				30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
@@ -2486,6 +2501,7 @@
 				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Button.cpp in Sources */,
+				304AA8BF1E1190E4006FA70E /* OBF.cpp in Sources */,
 				305B99891C41EFFA008589E1 /* Menu.cpp in Sources */,
 				3047F7671C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				3038213A1D81876E00677CAB /* IndexBufferEmpty.cpp in Sources */,
