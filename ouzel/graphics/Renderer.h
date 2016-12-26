@@ -26,6 +26,7 @@
 namespace ouzel
 {
     class Engine;
+    class Window;
 
     namespace graphics
     {

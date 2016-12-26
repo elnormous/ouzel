@@ -20,6 +20,10 @@ void ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
+    class Window;
+    class EventDispatcher;
+    class Cache;
+    
     class Engine: public Noncopyable
     {
     public:

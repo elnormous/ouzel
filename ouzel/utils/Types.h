@@ -7,15 +7,9 @@
 
 namespace ouzel
 {
-    class Window;
-    class EventDispatcher;
-    class Cache;
     class Localization;
-
     class Language;
     typedef std::shared_ptr<Language> LanguagePtr;
-
-    class FileSystem;
 
     namespace audio
     {

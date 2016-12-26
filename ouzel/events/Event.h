@@ -55,6 +55,8 @@ namespace ouzel
         float value = 0.0f;
     };
 
+    class Window;
+
     struct WindowEvent
     {
         Window* window = nullptr;
