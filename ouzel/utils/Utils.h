@@ -43,38 +43,114 @@ namespace ouzel
 
     extern std::mt19937 randomEngine;
 
+    inline int64_t readInt64Big(const uint8_t* buffer)
+    {
+        return static_cast<int64_t>(buffer[7]) |
+            static_cast<int64_t>(buffer[6]) << 8 |
+            static_cast<int64_t>(buffer[5]) << 16 |
+            static_cast<int64_t>(buffer[4]) << 24 |
+            static_cast<int64_t>(buffer[3]) << 32 |
+            static_cast<int64_t>(buffer[2]) << 40 |
+            static_cast<int64_t>(buffer[1]) << 48 |
+            static_cast<int64_t>(buffer[0]) << 54;
+    };
+
+    inline uint64_t readUInt64Big(const uint8_t* buffer)
+    {
+        return static_cast<uint32_t>(buffer[7]) |
+            static_cast<uint32_t>(buffer[6]) << 8 |
+            static_cast<uint32_t>(buffer[5]) << 16 |
+            static_cast<uint32_t>(buffer[4]) << 24 |
+            static_cast<uint64_t>(buffer[3]) << 32 |
+            static_cast<uint64_t>(buffer[2]) << 40 |
+            static_cast<uint64_t>(buffer[1]) << 48 |
+            static_cast<uint64_t>(buffer[0]) << 54;
+    };
+
+    inline int64_t readInt64Little(const uint8_t* buffer)
+    {
+        return static_cast<int64_t>(buffer[0]) |
+            static_cast<int64_t>(buffer[1]) << 8 |
+            static_cast<int64_t>(buffer[2]) << 16 |
+            static_cast<int64_t>(buffer[3]) << 24 |
+            static_cast<int64_t>(buffer[4]) << 32 |
+            static_cast<int64_t>(buffer[5]) << 40 |
+            static_cast<int64_t>(buffer[6]) << 48 |
+            static_cast<int64_t>(buffer[7]) << 54;
+    };
+
+    inline uint64_t readUInt64Little(const uint8_t* buffer)
+    {
+        return static_cast<uint64_t>(buffer[0]) |
+            static_cast<uint64_t>(buffer[1]) << 8 |
+            static_cast<uint64_t>(buffer[2]) << 16 |
+            static_cast<uint64_t>(buffer[3]) << 24 |
+            static_cast<uint64_t>(buffer[4]) << 32 |
+            static_cast<uint64_t>(buffer[5]) << 40 |
+            static_cast<uint64_t>(buffer[6]) << 48 |
+            static_cast<uint64_t>(buffer[7]) << 54;
+    };
+
+    inline int32_t readInt32Big(const uint8_t* buffer)
+    {
+        return static_cast<int32_t>(buffer[3]) |
+            static_cast<int32_t>(buffer[2]) << 8 |
+            static_cast<int32_t>(buffer[1]) << 16 |
+            static_cast<int32_t>(buffer[0]) << 24;
+    };
+
     inline uint32_t readUInt32Big(const uint8_t* buffer)
     {
-        uint32_t result = static_cast<uint32_t>(buffer[3]) |
-                          static_cast<uint32_t>(buffer[2])<<8 |
-                          static_cast<uint32_t>(buffer[1])<<16 |
-                          static_cast<uint32_t>(buffer[0])<<24;
+        return static_cast<uint32_t>(buffer[3]) |
+            static_cast<uint32_t>(buffer[2]) << 8 |
+            static_cast<uint32_t>(buffer[1]) << 16 |
+            static_cast<uint32_t>(buffer[0]) << 24;
+    };
 
-        return result;
+    inline int32_t readInt32Little(const uint8_t* buffer)
+    {
+        return static_cast<int32_t>(buffer[0]) |
+            static_cast<int32_t>(buffer[1]) << 8 |
+            static_cast<int32_t>(buffer[2]) << 16 |
+            static_cast<int32_t>(buffer[3]) << 24;
     };
 
     inline uint32_t readUInt32Little(const uint8_t* buffer)
     {
-        uint32_t result = static_cast<uint32_t>(buffer[0]) |
-                          static_cast<uint32_t>(buffer[1])<<8 |
-                          static_cast<uint32_t>(buffer[2])<<16 |
-                          static_cast<uint32_t>(buffer[3])<<24;
+        return static_cast<uint32_t>(buffer[0]) |
+            static_cast<uint32_t>(buffer[1]) << 8 |
+            static_cast<uint32_t>(buffer[2]) << 16 |
+            static_cast<uint32_t>(buffer[3]) << 24;
+    };
 
-        return result;
+    inline int16_t readInt16Big(const uint8_t* buffer)
+    {
+        int32_t result = static_cast<int32_t>(buffer[1]) |
+            static_cast<int32_t>(buffer[0]) << 8;
+
+        return static_cast<int16_t>(result);
     };
 
     inline uint16_t readUInt16Big(const uint8_t* buffer)
     {
-        uint32_t result = static_cast<uint32_t>(buffer[0]) |
-                          static_cast<uint32_t>(buffer[1])<<8;
+        uint32_t result = static_cast<uint32_t>(buffer[1]) |
+            static_cast<uint32_t>(buffer[0]) << 8;
 
         return static_cast<uint16_t>(result);
+    };
+
+    inline int16_t readInt16Little(const uint8_t* buffer)
+    {
+        int32_t result = static_cast<int32_t>(buffer[0]) |
+            static_cast<int32_t>(buffer[1]) << 8;
+
+        return static_cast<int16_t>(result);
     };
 
     inline uint16_t readUInt16Little(const uint8_t* buffer)
     {
         uint32_t result = static_cast<uint32_t>(buffer[0]) |
-                          static_cast<uint32_t>(buffer[1])<<8;
+            static_cast<uint32_t>(buffer[1]) << 8;
 
         return static_cast<uint16_t>(result);
     };
