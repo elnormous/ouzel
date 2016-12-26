@@ -45,7 +45,7 @@ namespace ouzel
 
     // decoding
     
-    inline int64_t readInt64Big(const uint8_t* buffer)
+    inline int64_t decodeInt64Big(const uint8_t* buffer)
     {
         return static_cast<int64_t>(buffer[7]) |
             static_cast<int64_t>(buffer[6]) << 8 |
@@ -57,7 +57,7 @@ namespace ouzel
             static_cast<int64_t>(buffer[0]) << 54;
     };
 
-    inline uint64_t readUInt64Big(const uint8_t* buffer)
+    inline uint64_t decodeUInt64Big(const uint8_t* buffer)
     {
         return static_cast<uint32_t>(buffer[7]) |
             static_cast<uint32_t>(buffer[6]) << 8 |
@@ -69,7 +69,7 @@ namespace ouzel
             static_cast<uint64_t>(buffer[0]) << 54;
     };
 
-    inline int64_t readInt64Little(const uint8_t* buffer)
+    inline int64_t decodeInt64Little(const uint8_t* buffer)
     {
         return static_cast<int64_t>(buffer[0]) |
             static_cast<int64_t>(buffer[1]) << 8 |
@@ -81,7 +81,7 @@ namespace ouzel
             static_cast<int64_t>(buffer[7]) << 54;
     };
 
-    inline uint64_t readUInt64Little(const uint8_t* buffer)
+    inline uint64_t decodeUInt64Little(const uint8_t* buffer)
     {
         return static_cast<uint64_t>(buffer[0]) |
             static_cast<uint64_t>(buffer[1]) << 8 |
@@ -93,7 +93,7 @@ namespace ouzel
             static_cast<uint64_t>(buffer[7]) << 54;
     };
 
-    inline int32_t readInt32Big(const uint8_t* buffer)
+    inline int32_t decodeInt32Big(const uint8_t* buffer)
     {
         return static_cast<int32_t>(buffer[3]) |
             static_cast<int32_t>(buffer[2]) << 8 |
@@ -101,7 +101,7 @@ namespace ouzel
             static_cast<int32_t>(buffer[0]) << 24;
     };
 
-    inline uint32_t readUInt32Big(const uint8_t* buffer)
+    inline uint32_t decodeUInt32Big(const uint8_t* buffer)
     {
         return static_cast<uint32_t>(buffer[3]) |
             static_cast<uint32_t>(buffer[2]) << 8 |
@@ -109,7 +109,7 @@ namespace ouzel
             static_cast<uint32_t>(buffer[0]) << 24;
     };
 
-    inline int32_t readInt32Little(const uint8_t* buffer)
+    inline int32_t decodeInt32Little(const uint8_t* buffer)
     {
         return static_cast<int32_t>(buffer[0]) |
             static_cast<int32_t>(buffer[1]) << 8 |
@@ -117,7 +117,7 @@ namespace ouzel
             static_cast<int32_t>(buffer[3]) << 24;
     };
 
-    inline uint32_t readUInt32Little(const uint8_t* buffer)
+    inline uint32_t decodeUInt32Little(const uint8_t* buffer)
     {
         return static_cast<uint32_t>(buffer[0]) |
             static_cast<uint32_t>(buffer[1]) << 8 |
@@ -125,7 +125,7 @@ namespace ouzel
             static_cast<uint32_t>(buffer[3]) << 24;
     };
 
-    inline int16_t readInt16Big(const uint8_t* buffer)
+    inline int16_t decodeInt16Big(const uint8_t* buffer)
     {
         int32_t result = static_cast<int32_t>(buffer[1]) |
             static_cast<int32_t>(buffer[0]) << 8;
@@ -133,7 +133,7 @@ namespace ouzel
         return static_cast<int16_t>(result);
     };
 
-    inline uint16_t readUInt16Big(const uint8_t* buffer)
+    inline uint16_t decodeUInt16Big(const uint8_t* buffer)
     {
         uint32_t result = static_cast<uint32_t>(buffer[1]) |
             static_cast<uint32_t>(buffer[0]) << 8;
@@ -141,7 +141,7 @@ namespace ouzel
         return static_cast<uint16_t>(result);
     };
 
-    inline int16_t readInt16Little(const uint8_t* buffer)
+    inline int16_t decodeInt16Little(const uint8_t* buffer)
     {
         int32_t result = static_cast<int32_t>(buffer[0]) |
             static_cast<int32_t>(buffer[1]) << 8;
@@ -149,7 +149,7 @@ namespace ouzel
         return static_cast<int16_t>(result);
     };
 
-    inline uint16_t readUInt16Little(const uint8_t* buffer)
+    inline uint16_t decodeUInt16Little(const uint8_t* buffer)
     {
         uint32_t result = static_cast<uint32_t>(buffer[0]) |
             static_cast<uint32_t>(buffer[1]) << 8;
@@ -159,7 +159,7 @@ namespace ouzel
 
     // encoding
 
-    inline void writeInt64Big(uint8_t* buffer, int64_t value)
+    inline void encodeInt64Big(uint8_t* buffer, int64_t value)
     {
         buffer[0] = static_cast<uint8_t>(value >> 54);
         buffer[1] = static_cast<uint8_t>(value >> 48);
@@ -171,7 +171,7 @@ namespace ouzel
         buffer[7] = static_cast<uint8_t>(value);
     };
 
-    inline void writeUInt64Big(uint8_t* buffer, uint64_t value)
+    inline void encodeUInt64Big(uint8_t* buffer, uint64_t value)
     {
         buffer[0] = static_cast<uint8_t>(value >> 54);
         buffer[1] = static_cast<uint8_t>(value >> 48);
@@ -183,7 +183,7 @@ namespace ouzel
         buffer[7] = static_cast<uint8_t>(value);
     };
 
-    inline void writeInt64Little(uint8_t* buffer, int64_t value)
+    inline void encodeInt64Little(uint8_t* buffer, int64_t value)
     {
         buffer[7] = static_cast<uint8_t>(value >> 54);
         buffer[6] = static_cast<uint8_t>(value >> 48);
@@ -195,7 +195,7 @@ namespace ouzel
         buffer[0] = static_cast<uint8_t>(value);
     };
 
-    inline void writeUInt64Little(uint8_t* buffer, uint64_t value)
+    inline void encodeUInt64Little(uint8_t* buffer, uint64_t value)
     {
         buffer[7] = static_cast<uint8_t>(value >> 54);
         buffer[6] = static_cast<uint8_t>(value >> 48);
@@ -207,7 +207,7 @@ namespace ouzel
         buffer[0] = static_cast<uint8_t>(value);
     };
 
-    inline void writeInt32Big(uint8_t* buffer, int32_t value)
+    inline void encodeInt32Big(uint8_t* buffer, int32_t value)
     {
         buffer[0] = static_cast<uint8_t>(value >> 24);
         buffer[1] = static_cast<uint8_t>(value >> 16);
@@ -215,7 +215,7 @@ namespace ouzel
         buffer[3] = static_cast<uint8_t>(value);
     };
 
-    inline void writeUInt32Big(uint8_t* buffer, uint32_t value)
+    inline void encodeUInt32Big(uint8_t* buffer, uint32_t value)
     {
         buffer[0] = static_cast<uint8_t>(value >> 24);
         buffer[1] = static_cast<uint8_t>(value >> 16);
@@ -223,7 +223,7 @@ namespace ouzel
         buffer[3] = static_cast<uint8_t>(value);
     };
 
-    inline void writeInt32Little(uint8_t* buffer, int32_t value)
+    inline void encodeInt32Little(uint8_t* buffer, int32_t value)
     {
         buffer[3] = static_cast<uint8_t>(value >> 24);
         buffer[2] = static_cast<uint8_t>(value >> 16);
@@ -231,7 +231,7 @@ namespace ouzel
         buffer[0] = static_cast<uint8_t>(value);
     };
 
-    inline void writeUInt32Little(uint8_t* buffer, uint32_t value)
+    inline void encodeUInt32Little(uint8_t* buffer, uint32_t value)
     {
         buffer[3] = static_cast<uint8_t>(value >> 24);
         buffer[2] = static_cast<uint8_t>(value >> 16);
@@ -239,25 +239,25 @@ namespace ouzel
         buffer[0] = static_cast<uint8_t>(value);
     };
 
-    inline void writeInt16Big(uint8_t* buffer, int16_t value)
+    inline void encodeInt16Big(uint8_t* buffer, int16_t value)
     {
         buffer[0] = static_cast<uint8_t>(value >> 8);
         buffer[1] = static_cast<uint8_t>(value);
     };
 
-    inline void writeUInt16Big(uint8_t* buffer, uint16_t value)
+    inline void encodeUInt16Big(uint8_t* buffer, uint16_t value)
     {
         buffer[0] = static_cast<uint8_t>(value >> 8);
         buffer[1] = static_cast<uint8_t>(value);
     };
 
-    inline void writeInt16Little(uint8_t* buffer, int16_t value)
+    inline void encodeInt16Little(uint8_t* buffer, int16_t value)
     {
         buffer[1] = static_cast<uint8_t>(value >> 8);
         buffer[0] = static_cast<uint8_t>(value);
     };
 
-    inline void writeUInt16Little(uint8_t* buffer, uint16_t value)
+    inline void encodeUInt16Little(uint8_t* buffer, uint16_t value)
     {
         buffer[1] = static_cast<uint8_t>(value >> 8);
         buffer[0] = static_cast<uint8_t>(value);

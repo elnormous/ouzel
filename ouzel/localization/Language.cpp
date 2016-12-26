@@ -53,15 +53,15 @@ namespace ouzel
         uint32_t magic = *reinterpret_cast<uint32_t*>(data.data() + offset);
         offset += sizeof(magic);
 
-        uint32_t (*readUInt32)(const uint8_t*) = nullptr;
+        uint32_t (*decodeUInt32)(const uint8_t*) = nullptr;
 
         if (magic == MAGIC_BIG)
         {
-            readUInt32 = readUInt32Big;
+            decodeUInt32 = decodeUInt32Big;
         }
         else if (magic == MAGIC_LITTLE)
         {
-            readUInt32 = readUInt32Little;
+            decodeUInt32 = decodeUInt32Little;
         }
         else
         {
@@ -69,7 +69,7 @@ namespace ouzel
             return false;
         }
 
-        uint32_t revision = readUInt32(data.data() + offset);
+        uint32_t revision = decodeUInt32(data.data() + offset);
         offset += sizeof(revision);
 
         if (revision != 0)
@@ -78,15 +78,15 @@ namespace ouzel
             return false;
         }
 
-        uint32_t stringCount = readUInt32(data.data() + offset);
+        uint32_t stringCount = decodeUInt32(data.data() + offset);
         offset += sizeof(stringCount);
 
         std::vector<TranslationInfo> translations(stringCount);
 
-        uint32_t stringsOffset = readUInt32(data.data() + offset);
+        uint32_t stringsOffset = decodeUInt32(data.data() + offset);
         offset += sizeof(stringsOffset);
 
-        uint32_t translationsOffset = readUInt32(data.data() + offset);
+        uint32_t translationsOffset = decodeUInt32(data.data() + offset);
         offset += sizeof(translationsOffset);
 
         offset = stringsOffset;
@@ -98,10 +98,10 @@ namespace ouzel
 
         for (uint32_t i = 0; i < stringCount; ++i)
         {
-            translations[i].stringLength = readUInt32(data.data() + offset);
+            translations[i].stringLength = decodeUInt32(data.data() + offset);
             offset += sizeof(translations[i].stringLength);
 
-            translations[i].stringOffset = readUInt32(data.data() + offset);
+            translations[i].stringOffset = decodeUInt32(data.data() + offset);
             offset += sizeof(translations[i].stringOffset);
         }
 
@@ -114,10 +114,10 @@ namespace ouzel
 
         for (uint32_t i = 0; i < stringCount; ++i)
         {
-            translations[i].translationLength = readUInt32(data.data() + offset);
+            translations[i].translationLength = decodeUInt32(data.data() + offset);
             offset += sizeof(translations[i].translationLength);
 
-            translations[i].translationOffset = readUInt32(data.data() + offset);
+            translations[i].translationOffset = decodeUInt32(data.data() + offset);
             offset += sizeof(translations[i].translationOffset);
         }
 

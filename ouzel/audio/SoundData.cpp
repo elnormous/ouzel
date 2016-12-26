@@ -62,7 +62,7 @@ namespace ouzel
 
             offset += 4;
 
-            uint32_t length = readUInt32Little(newData.data() + offset);
+            uint32_t length = decodeUInt32Little(newData.data() + offset);
 
             offset += 4;
 
@@ -101,7 +101,7 @@ namespace ouzel
 
                 offset += 4;
 
-                uint32_t chunkSize = readUInt32Little(newData.data() + offset);
+                uint32_t chunkSize = decodeUInt32Little(newData.data() + offset);
                 offset += 4;
 
                 if (newData.size() < offset + chunkSize)
@@ -120,7 +120,7 @@ namespace ouzel
 
                     uint32_t i = offset;
 
-                    formatTag = readUInt16Little(newData.data() + i);
+                    formatTag = decodeUInt16Little(newData.data() + i);
                     i += 2;
 
                     if (formatTag != 1)
@@ -129,19 +129,19 @@ namespace ouzel
                         return false;
                     }
 
-                    channels = readUInt16Little(newData.data() + i);
+                    channels = decodeUInt16Little(newData.data() + i);
                     i += 2;
 
-                    samplesPerSecond = readUInt32Little(newData.data() + i);
+                    samplesPerSecond = decodeUInt32Little(newData.data() + i);
                     i += 4;
 
-                    averageBytesPerSecond = readUInt32Little(newData.data() + i);
+                    averageBytesPerSecond = decodeUInt32Little(newData.data() + i);
                     i += 4;
 
-                    blockAlign = readUInt16Little(newData.data() + i);
+                    blockAlign = decodeUInt16Little(newData.data() + i);
                     i += 2;
 
-                    bitsPerSample = readUInt16Little(newData.data() + i);
+                    bitsPerSample = decodeUInt16Little(newData.data() + i);
                     i += 2;
 
                     formatChunkFound = true;
