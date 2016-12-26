@@ -114,6 +114,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SpriteFrame.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextDrawable.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
+	$(ROOT_DIR)/../ouzel/utils/OBF.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp
 ifeq ($(platform),raspbian)
 SOURCES+=$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \

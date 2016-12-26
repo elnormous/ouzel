@@ -316,6 +316,9 @@
     <ClCompile Include="..\ouzel\math\AABB3.cpp">
       <Filter>math</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\utils\OBF.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -663,6 +666,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\math\AABB3.h">
       <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\utils\OBF.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
