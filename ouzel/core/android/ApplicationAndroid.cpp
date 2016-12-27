@@ -7,7 +7,8 @@
 
 namespace ouzel
 {
-    ApplicationAndroid::ApplicationAndroid()
+    ApplicationAndroid::ApplicationAndroid(jobject aMainActivity, AAssetManager* aAssetManager):
+        mainActivity(aMainActivity), assetManager(aAssetManager)
     {
     }
 

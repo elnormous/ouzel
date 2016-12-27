@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <jni.h>
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
 #include "core/Application.h"
 
 namespace ouzel
@@ -10,8 +13,14 @@ namespace ouzel
     class ApplicationAndroid: public Application
     {
     public:
-        ApplicationAndroid();
+        ApplicationAndroid(jobject aMainActivity, AAssetManager* aAssetManager);
 
         virtual int run() override;
+
+        AAssetManager* getAssetManager() const { return assetManager; }
+
+    private:
+        jobject mainActivity;
+        AAssetManager* assetManager;
     };
 }

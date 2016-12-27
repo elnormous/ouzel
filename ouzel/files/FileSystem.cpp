@@ -24,6 +24,8 @@
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <CoreFoundation/CoreFoundation.h>
+#elif OUZEL_PLATFORM_ANDROID
+#include "core/android/ApplicationAndroid.h"
 #endif
 
 namespace ouzel
@@ -34,10 +36,6 @@ namespace ouzel
     const std::string FileSystem::DIRECTORY_SEPARATOR = "\\";
 #else
     const std::string FileSystem::DIRECTORY_SEPARATOR = "/";
-#endif
-
-#if OUZEL_PLATFORM_ANDROID
-    AAssetManager* assetManager = nullptr;
 #endif
 
     FileSystem::FileSystem()
@@ -213,7 +211,9 @@ namespace ouzel
 #if OUZEL_PLATFORM_ANDROID
         if (!isAbsolutePath(filename))
         {
-            AAsset* asset = AAssetManager_open(assetManager, filename.c_str(), AASSET_MODE_STREAMING);
+            ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
+
+            AAsset* asset = AAssetManager_open(applicationAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
             if (!asset)
             {

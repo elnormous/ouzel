@@ -12,7 +12,7 @@ public class OuzelLibJNIWrapper
         System.loadLibrary("samples");
     }
 
-    public static native void onCreated(AssetManager assetManager);
+    public static native void onCreated(MainActivity mainActivity, AssetManager assetManager);
 
     public static native void onSurfaceCreated();
     public static native void onSurfaceChanged(int width, int height);

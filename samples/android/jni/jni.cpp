@@ -2,23 +2,24 @@
 // This file is part of the Ouzel engine.
 
 #include <jni.h>
+#include <memory>
 #include "core/android/ApplicationAndroid.h"
 #include "core/android/WindowAndroid.h"
 #include "core/Engine.h"
 #include "input/Input.h"
 
-ouzel::ApplicationAndroid application;
+std::unique_ptr<ouzel::Application> application;
 
 extern "C"
 {
-    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onCreated(JNIEnv* env, jclass, jobject assetManager)
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onCreated(JNIEnv* env, jclass, jobject mainActivity, jobject assetManager)
     {
-        ouzel::assetManager = AAssetManager_fromJava(env, assetManager);
+        application.reset(new ouzel::ApplicationAndroid(mainActivity, AAssetManager_fromJava(env, assetManager)));
+        application->run();
     }
 
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass)
     {
-        application.run();
     }
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jint width, jint height)
     {
