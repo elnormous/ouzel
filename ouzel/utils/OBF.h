@@ -40,7 +40,21 @@ namespace ouzel
             Value(int64_t value): type(Type::INT64), intValue(value) {}
             Value(float value): type(Type::FLOAT), doubleValue(value) {}
             Value(double value): type(Type::DOUBLE), doubleValue(value) {}
-            Value(const std::string& value);
+            Value(const std::string& value):
+                stringValue(value)
+            {
+                if (value.length() <= UINT16_MAX)
+                {
+                    type = Type::STRING;
+                }
+                else
+                {
+                    type = Type::LONG_STRING;
+                }
+            }
+            Value(const std::vector<uint8_t>& value): type(Type::BYTE_ARRAY), byteArrayValue(value) {}
+            Value(const std::map<uint32_t, Value>& value): type(Type::OBJECT), mapValue(value) {}
+            Value(const std::vector<Value>& value): type(Type::ARRAY), vectorValue(value) {}
 
             Value& operator=(Type newType)
             {
@@ -79,6 +93,30 @@ namespace ouzel
                 return *this;
             }
 
+            Value& operator=(const std::vector<uint8_t>& value)
+            {
+                type = Type::BYTE_ARRAY;
+                byteArrayValue = value;
+
+                return *this;
+            }
+
+            Value& operator=(const std::map<uint32_t, Value>& value)
+            {
+                type = Type::OBJECT;
+                mapValue = value;
+
+                return *this;
+            }
+
+            Value& operator=(const std::vector<Value>& value)
+            {
+                type = Type::ARRAY;
+                vectorValue = value;
+
+                return *this;
+            }
+
             Type getType() const { return type; }
 
             uint32_t decode(const std::vector<uint8_t>& buffer, uint32_t offset = 0);
@@ -91,11 +129,25 @@ namespace ouzel
                 return static_cast<int8_t>(intValue);
             }
 
+            uint8_t asUInt8() const
+            {
+                assert(type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64);
+
+                return static_cast<uint8_t>(intValue);
+            }
+
             int16_t asInt16() const
             {
                 assert(type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64);
 
                 return static_cast<int16_t>(intValue);
+            }
+
+            uint16_t asUInt16() const
+            {
+                assert(type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64);
+
+                return static_cast<uint16_t>(intValue);
             }
 
             int32_t asInt32() const
@@ -105,11 +157,25 @@ namespace ouzel
                 return static_cast<int32_t>(intValue);
             }
 
+            uint32_t asUInt32() const
+            {
+                assert(type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64);
+
+                return static_cast<uint32_t>(intValue);
+            }
+
             int64_t asInt64() const
             {
                 assert(type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64);
 
                 return intValue;
+            }
+
+            uint64_t asUInt64() const
+            {
+                assert(type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64);
+
+                return static_cast<uint64_t>(intValue);
             }
 
             float asFloat() const
