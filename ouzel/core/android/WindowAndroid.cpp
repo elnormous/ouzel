@@ -3,7 +3,6 @@
 
 #include "WindowAndroid.h"
 #include "core/Engine.h"
-#include "graphics/opengl/RendererOGL.h"
 
 namespace ouzel
 {
