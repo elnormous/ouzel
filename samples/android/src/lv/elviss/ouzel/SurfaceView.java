@@ -29,16 +29,6 @@ public class SurfaceView extends GLSurfaceView implements InputDeviceListener
         this.setRenderer(new RendererWrapper());
     }
 
-    private boolean isProbablyEmulator()
-    {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD &&
-            (Build.FINGERPRINT.startsWith("generic") ||
-             Build.FINGERPRINT.startsWith("unknown") ||
-             Build.MODEL.contains("google_sdk") ||
-             Build.MODEL.contains("Emulator") ||
-             Build.MODEL.contains("Android SDK built for x86"));
-    }
-    
     @Override
     public boolean onTouchEvent(final MotionEvent event)
     {
