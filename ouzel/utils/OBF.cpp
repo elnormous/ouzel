@@ -313,7 +313,7 @@ namespace ouzel
 
         static uint32_t writeFloat(std::vector<uint8_t>& buffer, float value)
         {
-            buffer.insert(buffer.begin(),
+            buffer.insert(buffer.end(),
                           reinterpret_cast<const uint8_t*>(&value),
                           reinterpret_cast<const uint8_t*>(&value) + sizeof(value));
 
@@ -322,7 +322,7 @@ namespace ouzel
 
         static uint32_t writeDouble(std::vector<uint8_t>& buffer, double value)
         {
-            buffer.insert(buffer.begin(),
+            buffer.insert(buffer.end(),
                           reinterpret_cast<const uint8_t*>(&value),
                           reinterpret_cast<const uint8_t*>(&value) + sizeof(value));
 
