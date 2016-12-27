@@ -59,10 +59,10 @@ namespace ouzel
 
     inline uint64_t decodeUInt64Big(const uint8_t* buffer)
     {
-        return static_cast<uint32_t>(buffer[7]) |
-            static_cast<uint32_t>(buffer[6]) << 8 |
-            static_cast<uint32_t>(buffer[5]) << 16 |
-            static_cast<uint32_t>(buffer[4]) << 24 |
+        return static_cast<uint64_t>(buffer[7]) |
+            static_cast<uint64_t>(buffer[6]) << 8 |
+            static_cast<uint64_t>(buffer[5]) << 16 |
+            static_cast<uint64_t>(buffer[4]) << 24 |
             static_cast<uint64_t>(buffer[3]) << 32 |
             static_cast<uint64_t>(buffer[2]) << 40 |
             static_cast<uint64_t>(buffer[1]) << 48 |
