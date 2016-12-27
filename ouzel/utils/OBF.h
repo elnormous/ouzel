@@ -29,7 +29,8 @@ namespace ouzel
                 LONG_STRING,
                 BYTE_ARRAY,
                 OBJECT,
-                ARRAY
+                ARRAY,
+                DICTIONARY
             };
 
             Value() {}
@@ -199,11 +200,11 @@ namespace ouzel
                 return stringValue;
             }
 
-            const std::vector<Value>& asVector() const
+            const std::vector<uint8_t>& asByteArray() const
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::BYTE_ARRAY);
 
-                return arrayValue;
+                return byteArrayValue;
             }
 
             const std::map<uint32_t, Value>& asMap() const
@@ -213,11 +214,18 @@ namespace ouzel
                 return objectValue;
             }
 
-            const std::vector<uint8_t>& asByteArray() const
+            const std::vector<Value>& asVector() const
             {
-                assert(type == Type::BYTE_ARRAY);
+                assert(type == Type::ARRAY);
 
-                return byteArrayValue;
+                return arrayValue;
+            }
+
+            const std::map<std::string, Value>& asDictionary() const
+            {
+                assert(type == Type::DICTIONARY);
+
+                return dictionaryValue;
             }
 
             uint32_t getSize() const
@@ -267,6 +275,27 @@ namespace ouzel
                 }
             }
 
+            Value operator[](const std::string& key) const
+            {
+                assert(type == Type::DICTIONARY);
+
+                auto i = dictionaryValue.find(key);
+
+                if (i != dictionaryValue.end())
+                {
+                    return i->second;
+                }
+
+                return Value();
+            }
+
+            Value& operator[](const std::string& key)
+            {
+                assert(type == Type::DICTIONARY);
+
+                return dictionaryValue[key];
+            }
+
             bool hasElement(uint32_t key) const
             {
                 assert(type == Type::OBJECT || type == Type::ARRAY);
@@ -285,6 +314,13 @@ namespace ouzel
                 }
             }
 
+            bool hasElement(const std::string& key) const
+            {
+                assert(type == Type::DICTIONARY);
+
+                return dictionaryValue.find(key) != dictionaryValue.end();
+            }
+
             void append(const Value& node)
             {
                 arrayValue.push_back(node);
@@ -298,6 +334,7 @@ namespace ouzel
             std::vector<uint8_t> byteArrayValue;
             std::map<uint32_t, Value> objectValue;
             std::vector<Value> arrayValue;
+            std::map<std::string, Value> dictionaryValue;
         };
     } // namespace obf
 } // namespace ouzel

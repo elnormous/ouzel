@@ -222,6 +222,54 @@ namespace ouzel
             return offset - originalOffset;
         }
 
+        static uint32_t readDictionary(const std::vector<uint8_t>& buffer, uint32_t offset, std::map<std::string, Value>& result)
+        {
+            uint32_t originalOffset = offset;
+
+            if (buffer.size() - offset < sizeof(uint32_t))
+            {
+                return 0;
+            }
+
+            uint32_t count = decodeUInt32Big(buffer.data() + offset);
+
+            offset += sizeof(count);
+
+            for (uint32_t i = 0; i < count; ++i)
+            {
+                if (buffer.size() - offset < sizeof(uint16_t))
+                {
+                    return 0;
+                }
+
+                uint16_t length = decodeUInt16Big(buffer.data() + offset);
+
+                offset += sizeof(length);
+
+                if (buffer.size() - offset < length)
+                {
+                    return 0;
+                }
+
+                std::string key(reinterpret_cast<const char*>(buffer.data() + offset), length);
+                offset += length;
+
+                Value node;
+
+                uint32_t ret = node.decode(buffer, offset);
+
+                if (ret == 0)
+                {
+                    return 0;
+                }
+                offset += ret;
+                
+                result[key] = node;
+            }
+            
+            return offset - originalOffset;
+        }
+
         // writing
         static uint32_t writeInt8(std::vector<uint8_t>& buffer, int8_t value)
         {
@@ -377,6 +425,37 @@ namespace ouzel
             return size;
         }
 
+        static uint32_t writeDictionary(std::vector<uint8_t>& buffer, const std::map<std::string, Value>& value)
+        {
+            uint8_t lengthData[sizeof(uint32_t)];
+
+            encodeUInt32Big(lengthData, static_cast<uint32_t>(value.size()));
+
+            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+
+            uint32_t size = sizeof(lengthData);
+
+            for (const auto& i : value)
+            {
+                uint8_t lengthData[sizeof(uint16_t)];
+
+                encodeUInt16Big(lengthData, static_cast<uint16_t>(i.first.length()));
+
+                buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+
+                size += sizeof(lengthData);
+
+                buffer.insert(buffer.end(),
+                              reinterpret_cast<const uint8_t*>(i.first.data()),
+                              reinterpret_cast<const uint8_t*>(i.first.data()) + i.first.length());
+                size += static_cast<uint32_t>(i.first.length());
+
+                size += i.second.encode(buffer);
+            }
+            
+            return size;
+        }
+
         uint32_t Value::decode(const std::vector<uint8_t>& buffer, uint32_t offset)
         {
             uint32_t originalOffset = offset;
@@ -497,6 +576,14 @@ namespace ouzel
                     }
                     break;
                 }
+                case Type::DICTIONARY:
+                {
+                    if ((ret = readDictionary(buffer, offset, dictionaryValue)) == 0)
+                    {
+                        return 0;
+                    }
+                    break;
+                }
                 default: return 0;
             }
             
@@ -517,7 +604,6 @@ namespace ouzel
             switch (type)
             {
                 case Type::NONE: break;
-
                 case Type::INT8: ret = writeInt8(buffer, static_cast<int8_t>(intValue)); break;
                 case Type::INT16: ret = writeInt16(buffer, static_cast<int16_t>(intValue)); break;
                 case Type::INT32: ret = writeInt32(buffer, static_cast<int32_t>(intValue)); break;
@@ -529,7 +615,7 @@ namespace ouzel
                 case Type::BYTE_ARRAY: ret = writeByteArray(buffer, byteArrayValue); break;
                 case Type::OBJECT: ret = writeObject(buffer, objectValue); break;
                 case Type::ARRAY: ret = writeArray(buffer, arrayValue); break;
-
+                case Type::DICTIONARY: ret = writeDictionary(buffer, dictionaryValue); break;
                 default: return 0;
             }
             
