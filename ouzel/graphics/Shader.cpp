@@ -52,14 +52,14 @@ namespace ouzel
 
             std::vector<uint8_t> pixelShaderData;
 
-            if (!sharedApplication->getFileSystem()->loadFile(newPixelShader, pixelShaderData))
+            if (!sharedApplication->getFileSystem()->readFile(newPixelShader, pixelShaderData))
             {
                 return false;
             }
 
             std::vector<uint8_t> vertexShaderData;
 
-            if (!sharedApplication->getFileSystem()->loadFile(newVertexShader, vertexShaderData))
+            if (!sharedApplication->getFileSystem()->readFile(newVertexShader, vertexShaderData))
             {
                 return false;
             }

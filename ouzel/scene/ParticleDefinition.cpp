@@ -18,7 +18,7 @@ namespace ouzel
             ParticleDefinition result;
 
             std::vector<uint8_t> data;
-            if (!sharedApplication->getFileSystem()->loadFile(filename, data))
+            if (!sharedApplication->getFileSystem()->readFile(filename, data))
             {
                 return result;
             }

@@ -23,7 +23,7 @@ namespace ouzel
             filename = newFilename;
 
             std::vector<uint8_t> newData;
-            if (!sharedApplication->getFileSystem()->loadFile(newFilename, newData))
+            if (!sharedApplication->getFileSystem()->readFile(newFilename, newData))
             {
                 return false;
             }

@@ -208,7 +208,7 @@ namespace ouzel
         return "";
     }
 
-    bool FileSystem::loadFile(const std::string& filename, std::vector<uint8_t>& data) const
+    bool FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data) const
     {
 #if OUZEL_PLATFORM_ANDROID
         if (!isAbsolutePath(filename))
