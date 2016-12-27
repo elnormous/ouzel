@@ -23,7 +23,6 @@ public class SurfaceView extends GLSurfaceView
 
         setEGLConfigChooser(new ConfigChooser(r, g, b, a, depth, stencil));
         setEGLContextFactory(new ContextFactory());
-        setEGLContextClientVersion(2);
         setRenderer(new RendererWrapper());
     }
 
