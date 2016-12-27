@@ -35,6 +35,38 @@ namespace ouzel
 
             Value() {}
             Value(Type aType): type(aType) {}
+            Value(uint8_t value):
+                type(Type::INT8), intValue(value)
+            {
+            }
+            Value(uint16_t value):
+                intValue(value)
+            {
+                if (intValue > UINT8_MAX)
+                {
+                    type = Type::INT16;
+                }
+                else
+                {
+                    type = Type::INT8;
+                }
+            }
+            Value(uint32_t value):
+                intValue(value)
+            {
+                if (intValue > UINT16_MAX)
+                {
+                    type = Type::INT32;
+                }
+                else if (intValue > UINT8_MAX)
+                {
+                    type = Type::INT16;
+                }
+                else
+                {
+                    type = Type::INT8;
+                }
+            }
             Value(uint64_t value):
                 intValue(value)
             {
@@ -60,13 +92,13 @@ namespace ouzel
             Value(const std::string& value):
                 stringValue(value)
             {
-                if (value.length() <= UINT16_MAX)
+                if (value.length() > UINT16_MAX)
                 {
-                    type = Type::STRING;
+                    type = Type::LONG_STRING;
                 }
                 else
                 {
-                    type = Type::LONG_STRING;
+                    type = Type::STRING;
                 }
             }
             Value(const std::vector<uint8_t>& value): type(Type::BYTE_ARRAY), byteArrayValue(value) {}
@@ -76,6 +108,50 @@ namespace ouzel
             Value& operator=(Type newType)
             {
                 type = newType;
+
+                return *this;
+            }
+
+            Value& operator=(uint8_t value)
+            {
+                type = Type::INT8;
+                intValue = value;
+
+                return *this;
+            }
+
+            Value& operator=(uint16_t value)
+            {
+                intValue = value;
+
+                if (intValue > UINT8_MAX)
+                {
+                    type = Type::INT16;
+                }
+                else
+                {
+                    type = Type::INT8;
+                }
+
+                return *this;
+            }
+
+            Value& operator=(uint32_t value)
+            {
+                intValue = value;
+
+                if (intValue > UINT16_MAX)
+                {
+                    type = Type::INT32;
+                }
+                else if (intValue > UINT8_MAX)
+                {
+                    type = Type::INT16;
+                }
+                else
+                {
+                    type = Type::INT8;
+                }
 
                 return *this;
             }
