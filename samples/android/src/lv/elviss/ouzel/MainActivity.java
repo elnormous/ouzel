@@ -15,9 +15,9 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 
-        OuzelLibJNIWrapper.setAssetManager(getAssets());
+        OuzelLibJNIWrapper.onCreated(getAssets());
 
-        surfaceView = new SurfaceView(this);
+        surfaceView = new SurfaceView(this, 8, 8, 8, 8, 0, 0);
         setContentView(surfaceView);
     }
 

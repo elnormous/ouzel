@@ -13,7 +13,7 @@ public class SurfaceView extends GLSurfaceView implements InputDeviceListener
 {
     private final InputManager inputManager;
 
-    public SurfaceView(Context context)
+    public SurfaceView(Context context, int r, int g, int b, int a, int depth, int stencil)
     {
         super(context);
 
@@ -22,7 +22,7 @@ public class SurfaceView extends GLSurfaceView implements InputDeviceListener
 
         this.setFocusableInTouchMode(true);
 
-        this.setEGLConfigChooser(new ConfigChooser(8, 8, 8, 8, 0, 0));
+        this.setEGLConfigChooser(new ConfigChooser(r, g, b, a, depth, stencil));
         //this.setPreserveEGLContextOnPause(true);
         this.setEGLContextFactory(new ContextFactory());
         this.setEGLContextClientVersion(2);
