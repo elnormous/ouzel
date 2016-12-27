@@ -228,6 +228,34 @@ namespace ouzel
                 return dictionaryValue;
             }
 
+            std::vector<Value>::iterator begin()
+            {
+                assert(type == Type::ARRAY);
+
+                return arrayValue.begin();
+            }
+
+            std::vector<Value>::const_iterator begin() const
+            {
+                assert(type == Type::ARRAY);
+
+                return arrayValue.begin();
+            }
+
+            std::vector<Value>::iterator end()
+            {
+                assert(type == Type::ARRAY);
+
+                return arrayValue.end();
+            }
+
+            std::vector<Value>::const_iterator end() const
+            {
+                assert(type == Type::ARRAY);
+                
+                return arrayValue.end();
+            }
+
             uint32_t getSize() const
             {
                 assert(type == Type::ARRAY);
