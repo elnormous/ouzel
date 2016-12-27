@@ -31,6 +31,7 @@ namespace ouzel
         static std::string getTempDirectory();
 
         bool readFile(const std::string& filename, std::vector<uint8_t>& data) const;
+        bool writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;
 
         std::string getPath(const std::string& filename) const;
         void addResourcePath(const std::string& path);

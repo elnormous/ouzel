@@ -247,9 +247,25 @@ namespace ouzel
         if (!file)
         {
             Log(Log::Level::ERR) << "Failed to open file " << path;
+            return false;
         }
 
         data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+
+        return true;
+    }
+
+    bool FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
+    {
+        std::ofstream file(filename, std::ios::binary);
+
+        if (!file)
+        {
+            Log(Log::Level::ERR) << "Failed to open file " << filename;
+            return false;
+        }
+
+        file.write(reinterpret_cast<const char*>(data.data()), data.size());
 
         return true;
     }
