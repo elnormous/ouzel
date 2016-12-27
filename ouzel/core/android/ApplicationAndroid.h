@@ -13,13 +13,16 @@ namespace ouzel
     class ApplicationAndroid: public Application
     {
     public:
-        ApplicationAndroid(jobject aMainActivity, AAssetManager* aAssetManager);
+        ApplicationAndroid(JNIEnv* aJNIEnv, jobject aMainActivity, jobject aAssetManager);
 
         virtual int run() override;
 
+        JNIEnv* getJNIEnv() const { return jniEnv; }
+        jobject getMainActivity() const { return mainActivity; }
         AAssetManager* getAssetManager() const { return assetManager; }
 
     private:
+        JNIEnv* jniEnv;
         jobject mainActivity;
         AAssetManager* assetManager;
     };

@@ -7,9 +7,10 @@
 
 namespace ouzel
 {
-    ApplicationAndroid::ApplicationAndroid(jobject aMainActivity, AAssetManager* aAssetManager):
-        mainActivity(aMainActivity), assetManager(aAssetManager)
+    ApplicationAndroid::ApplicationAndroid(JNIEnv* aJNIEnv, jobject aMainActivity, jobject aAssetManager):
+        jniEnv(aJNIEnv), mainActivity(aMainActivity)
     {
+        assetManager = AAssetManager_fromJava(jniEnv, aAssetManager);
     }
 
     int ApplicationAndroid::run()

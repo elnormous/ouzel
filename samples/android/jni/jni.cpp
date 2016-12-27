@@ -14,7 +14,7 @@ extern "C"
 {
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onCreated(JNIEnv* env, jclass, jobject mainActivity, jobject assetManager)
     {
-        application.reset(new ouzel::ApplicationAndroid(mainActivity, AAssetManager_fromJava(env, assetManager)));
+        application.reset(new ouzel::ApplicationAndroid(env, mainActivity, assetManager));
         application->run();
     }
 

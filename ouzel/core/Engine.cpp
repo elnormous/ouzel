@@ -24,6 +24,7 @@
 #include "graphics/tvos/RendererOGLTVOS.h"
 #elif OUZEL_PLATFORM_ANDROID
 #include "android/WindowAndroid.h"
+#include "graphics/android/RendererOGLAndroid.h"
 #include "input/android/InputAndroid.h"
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowLinux.h"
@@ -220,6 +221,8 @@ namespace ouzel
                 renderer.reset(new graphics::RendererOGLIOS());
     #elif OUZEL_PLATFORM_TVOS
                 renderer.reset(new graphics::RendererOGLTVOS());
+    #elif OUZEL_PLATFORM_ANDROID
+                renderer.reset(new graphics::RendererOGLAndroid());
     #elif OUZEL_PLATFORM_LINUX
                 renderer.reset(new graphics::RendererOGLLinux());
     #elif OUZEL_PLATFORM_RASPBIAN

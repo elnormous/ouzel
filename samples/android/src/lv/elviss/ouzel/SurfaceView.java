@@ -20,13 +20,13 @@ public class SurfaceView extends GLSurfaceView implements InputDeviceListener
         inputManager = new InputManager();
         inputManager.registerInputDeviceListener(this, null);
 
-        this.setFocusableInTouchMode(true);
+        setFocusableInTouchMode(true);
 
-        this.setEGLConfigChooser(new ConfigChooser(r, g, b, a, depth, stencil));
-        //this.setPreserveEGLContextOnPause(true);
-        this.setEGLContextFactory(new ContextFactory());
-        this.setEGLContextClientVersion(2);
-        this.setRenderer(new RendererWrapper());
+        setEGLConfigChooser(new ConfigChooser(r, g, b, a, depth, stencil));
+        //setPreserveEGLContextOnPause(true);
+        setEGLContextFactory(new ContextFactory());
+        setEGLContextClientVersion(2);
+        setRenderer(new RendererWrapper());
     }
 
     @Override
