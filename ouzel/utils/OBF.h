@@ -35,10 +35,26 @@ namespace ouzel
 
             Value() {}
             Value(Type aType): type(aType) {}
-            Value(int8_t value): type(Type::INT8), intValue(value) {}
-            Value(int16_t value): type(Type::INT16), intValue(value) {}
-            Value(int32_t value): type(Type::INT32), intValue(value) {}
-            Value(int64_t value): type(Type::INT64), intValue(value) {}
+            Value(uint64_t value):
+                intValue(value)
+            {
+                if (intValue > UINT32_MAX)
+                {
+                    type = Type::INT64;
+                }
+                else if (intValue > UINT16_MAX)
+                {
+                    type = Type::INT32;
+                }
+                else if (intValue > UINT8_MAX)
+                {
+                    type = Type::INT16;
+                }
+                else
+                {
+                    type = Type::INT8;
+                }
+            }
             Value(float value): type(Type::FLOAT), doubleValue(value) {}
             Value(double value): type(Type::DOUBLE), doubleValue(value) {}
             Value(const std::string& value):
@@ -169,14 +185,14 @@ namespace ouzel
             {
                 assert(type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64);
 
-                return intValue;
+                return static_cast<int64_t>(intValue);
             }
 
             uint64_t asUInt64() const
             {
                 assert(type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64);
 
-                return static_cast<uint64_t>(intValue);
+                return intValue;
             }
 
             float asFloat() const
@@ -252,7 +268,7 @@ namespace ouzel
             std::vector<Value>::const_iterator end() const
             {
                 assert(type == Type::ARRAY);
-                
+
                 return arrayValue.end();
             }
 
@@ -356,7 +372,7 @@ namespace ouzel
 
         private:
             Type type = Type::NONE;
-            int64_t intValue;
+            uint64_t intValue;
             double doubleValue;
             std::string stringValue;
             std::vector<uint8_t> byteArrayValue;

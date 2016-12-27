@@ -9,50 +9,50 @@ namespace ouzel
     namespace obf
     {
         // reading
-        static uint32_t readInt8(const std::vector<uint8_t>& buffer, uint32_t offset, int8_t& result)
+        static uint32_t readInt8(const std::vector<uint8_t>& buffer, uint32_t offset, uint8_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
             {
                 return 0;
             }
 
-            result = *reinterpret_cast<const int8_t*>(buffer.data() + offset);
+            result = *reinterpret_cast<const uint8_t*>(buffer.data() + offset);
 
             return sizeof(result);
         }
 
-        static uint32_t readInt16(const std::vector<uint8_t>& buffer, uint32_t offset, int16_t& result)
+        static uint32_t readInt16(const std::vector<uint8_t>& buffer, uint32_t offset, uint16_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
             {
                 return 0;
             }
 
-            result = decodeInt16Big(buffer.data() + offset);
+            result = decodeUInt16Big(buffer.data() + offset);
 
             return sizeof(result);
         }
 
-        static uint32_t readInt32(const std::vector<uint8_t>& buffer, uint32_t offset, int32_t& result)
+        static uint32_t readInt32(const std::vector<uint8_t>& buffer, uint32_t offset, uint32_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
             {
                 return 0;
             }
 
-            result = decodeInt32Big(buffer.data() + offset);
+            result = decodeUInt32Big(buffer.data() + offset);
 
             return sizeof(result);
         }
 
-        static uint32_t readInt64(const std::vector<uint8_t>& buffer, uint32_t offset, int64_t& result)
+        static uint32_t readInt64(const std::vector<uint8_t>& buffer, uint32_t offset, uint64_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
             {
                 return 0;
             }
 
-            result = decodeInt64Big(buffer.data() + offset);
+            result = decodeUInt64Big(buffer.data() + offset);
 
             return sizeof(result);
         }
@@ -271,40 +271,40 @@ namespace ouzel
         }
 
         // writing
-        static uint32_t writeInt8(std::vector<uint8_t>& buffer, int8_t value)
+        static uint32_t writeInt8(std::vector<uint8_t>& buffer, uint8_t value)
         {
-            buffer.push_back(static_cast<uint8_t>(value));
+            buffer.push_back(value);
 
             return sizeof(value);
         }
 
-        static uint32_t writeInt16(std::vector<uint8_t>& buffer, int16_t value)
+        static uint32_t writeInt16(std::vector<uint8_t>& buffer, uint16_t value)
         {
             uint8_t data[sizeof(value)];
 
-            encodeInt16Big(data, value);
+            encodeUInt16Big(data, value);
 
             buffer.insert(buffer.end(), std::begin(data), std::end(data));
 
             return sizeof(value);
         }
 
-        static uint32_t writeInt32(std::vector<uint8_t>& buffer, int32_t value)
+        static uint32_t writeInt32(std::vector<uint8_t>& buffer, uint32_t value)
         {
             uint8_t data[sizeof(value)];
 
-            encodeInt32Big(data, value);
+            encodeUInt32Big(data, value);
 
             buffer.insert(buffer.end(), std::begin(data), std::end(data));
 
             return sizeof(value);
         }
 
-        static uint32_t writeInt64(std::vector<uint8_t>& buffer, int64_t value)
+        static uint32_t writeInt64(std::vector<uint8_t>& buffer, uint64_t value)
         {
             uint8_t data[sizeof(value)];
 
-            encodeInt64Big(data, value);
+            encodeUInt64Big(data, value);
 
             buffer.insert(buffer.end(), std::begin(data), std::end(data));
 
@@ -478,7 +478,7 @@ namespace ouzel
                 }
                 case Type::INT8:
                 {
-                    int8_t int8Value;
+                    uint8_t int8Value;
                     if ((ret = readInt8(buffer, offset, int8Value)) == 0)
                     {
                         return 0;
@@ -489,7 +489,7 @@ namespace ouzel
                 }
                 case Type::INT16:
                 {
-                    int16_t int16Value;
+                    uint16_t int16Value;
                     if ((ret = readInt16(buffer, offset, int16Value)) == 0)
                     {
                         return 0;
@@ -500,7 +500,7 @@ namespace ouzel
                 }
                 case Type::INT32:
                 {
-                    int32_t int32Value;
+                    uint32_t int32Value;
                     if ((ret = readInt32(buffer, offset, int32Value)) == 0)
                     {
                         return 0;
@@ -604,9 +604,9 @@ namespace ouzel
             switch (type)
             {
                 case Type::NONE: break;
-                case Type::INT8: ret = writeInt8(buffer, static_cast<int8_t>(intValue)); break;
-                case Type::INT16: ret = writeInt16(buffer, static_cast<int16_t>(intValue)); break;
-                case Type::INT32: ret = writeInt32(buffer, static_cast<int32_t>(intValue)); break;
+                case Type::INT8: ret = writeInt8(buffer, static_cast<uint8_t>(intValue)); break;
+                case Type::INT16: ret = writeInt16(buffer, static_cast<uint16_t>(intValue)); break;
+                case Type::INT32: ret = writeInt32(buffer, static_cast<uint32_t>(intValue)); break;
                 case Type::INT64: ret = writeInt64(buffer, intValue); break;
                 case Type::FLOAT: ret = writeFloat(buffer, static_cast<float>(doubleValue)); break;
                 case Type::DOUBLE: ret = writeDouble(buffer, doubleValue); break;
