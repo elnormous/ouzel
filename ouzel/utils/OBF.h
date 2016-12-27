@@ -80,6 +80,30 @@ namespace ouzel
                 return *this;
             }
 
+            Value& operator=(uint64_t value)
+            {
+                intValue = value;
+
+                if (intValue > UINT32_MAX)
+                {
+                    type = Type::INT64;
+                }
+                else if (intValue > UINT16_MAX)
+                {
+                    type = Type::INT32;
+                }
+                else if (intValue > UINT8_MAX)
+                {
+                    type = Type::INT16;
+                }
+                else
+                {
+                    type = Type::INT8;
+                }
+
+                return *this;
+            }
+
             Value& operator=(float value)
             {
                 type = Type::FLOAT;
