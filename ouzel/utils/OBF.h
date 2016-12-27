@@ -53,8 +53,8 @@ namespace ouzel
                 }
             }
             Value(const std::vector<uint8_t>& value): type(Type::BYTE_ARRAY), byteArrayValue(value) {}
-            Value(const std::map<uint32_t, Value>& value): type(Type::OBJECT), mapValue(value) {}
-            Value(const std::vector<Value>& value): type(Type::ARRAY), vectorValue(value) {}
+            Value(const std::map<uint32_t, Value>& value): type(Type::OBJECT), objectValue(value) {}
+            Value(const std::vector<Value>& value): type(Type::ARRAY), arrayValue(value) {}
 
             Value& operator=(Type newType)
             {
@@ -104,7 +104,7 @@ namespace ouzel
             Value& operator=(const std::map<uint32_t, Value>& value)
             {
                 type = Type::OBJECT;
-                mapValue = value;
+                objectValue = value;
 
                 return *this;
             }
@@ -112,7 +112,7 @@ namespace ouzel
             Value& operator=(const std::vector<Value>& value)
             {
                 type = Type::ARRAY;
-                vectorValue = value;
+                arrayValue = value;
 
                 return *this;
             }
@@ -203,14 +203,14 @@ namespace ouzel
             {
                 assert(type == Type::ARRAY);
 
-                return vectorValue;
+                return arrayValue;
             }
 
             const std::map<uint32_t, Value>& asMap() const
             {
                 assert(type == Type::OBJECT);
 
-                return mapValue;
+                return objectValue;
             }
 
             const std::vector<uint8_t>& asByteArray() const
@@ -224,7 +224,7 @@ namespace ouzel
             {
                 assert(type == Type::ARRAY);
 
-                return static_cast<uint32_t>(vectorValue.size());
+                return static_cast<uint32_t>(arrayValue.size());
             }
 
             Value operator[](uint32_t key) const
@@ -233,18 +233,18 @@ namespace ouzel
 
                 if (type == Type::OBJECT)
                 {
-                    auto i = mapValue.find(key);
+                    auto i = objectValue.find(key);
 
-                    if (i != mapValue.end())
+                    if (i != objectValue.end())
                     {
                         return i->second;
                     }
                 }
                 else if (type == Type::ARRAY)
                 {
-                    if (key < vectorValue.size())
+                    if (key < arrayValue.size())
                     {
-                        return vectorValue[key];
+                        return arrayValue[key];
                     }
                 }
 
@@ -257,13 +257,13 @@ namespace ouzel
 
                 if (type == Type::OBJECT)
                 {
-                    return mapValue[key];
+                    return objectValue[key];
                 }
                 else
                 {
                     type = Type::ARRAY;
 
-                    return vectorValue[key];
+                    return arrayValue[key];
                 }
             }
 
@@ -273,11 +273,11 @@ namespace ouzel
 
                 if (type == Type::OBJECT)
                 {
-                    return mapValue.find(key) != mapValue.end();
+                    return objectValue.find(key) != objectValue.end();
                 }
                 else if (type == Type::ARRAY)
                 {
-                    return key < vectorValue.size();
+                    return key < arrayValue.size();
                 }
                 else
                 {
@@ -287,7 +287,7 @@ namespace ouzel
 
             void append(const Value& node)
             {
-                vectorValue.push_back(node);
+                arrayValue.push_back(node);
             }
 
         private:
@@ -295,9 +295,9 @@ namespace ouzel
             int64_t intValue;
             double doubleValue;
             std::string stringValue;
-            std::vector<Value> vectorValue;
-            std::map<uint32_t, Value> mapValue;
             std::vector<uint8_t> byteArrayValue;
+            std::map<uint32_t, Value> objectValue;
+            std::vector<Value> arrayValue;
         };
     } // namespace obf
 } // namespace ouzel

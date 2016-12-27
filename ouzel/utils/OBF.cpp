@@ -483,7 +483,7 @@ namespace ouzel
                 }
                 case Type::OBJECT:
                 {
-                    if ((ret = readObject(buffer, offset, mapValue)) == 0)
+                    if ((ret = readObject(buffer, offset, objectValue)) == 0)
                     {
                         return 0;
                     }
@@ -491,7 +491,7 @@ namespace ouzel
                 }
                 case Type::ARRAY:
                 {
-                    if ((ret = readArray(buffer, offset, vectorValue)) == 0)
+                    if ((ret = readArray(buffer, offset, arrayValue)) == 0)
                     {
                         return 0;
                     }
@@ -527,8 +527,8 @@ namespace ouzel
                 case Type::STRING: ret = writeString(buffer, stringValue); break;
                 case Type::LONG_STRING: ret = writeLongString(buffer, stringValue); break;
                 case Type::BYTE_ARRAY: ret = writeByteArray(buffer, byteArrayValue); break;
-                case Type::OBJECT: ret = writeObject(buffer, mapValue); break;
-                case Type::ARRAY: ret = writeArray(buffer, vectorValue); break;
+                case Type::OBJECT: ret = writeObject(buffer, objectValue); break;
+                case Type::ARRAY: ret = writeArray(buffer, arrayValue); break;
 
                 default: return 0;
             }
