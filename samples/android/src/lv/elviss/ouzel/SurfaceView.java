@@ -9,7 +9,7 @@ import android.os.Build;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-public class SurfaceView extends GLSurfaceView implements InputDeviceListener
+public class SurfaceView extends GLSurfaceView
 {
     private final InputManager inputManager;
 
@@ -18,12 +18,10 @@ public class SurfaceView extends GLSurfaceView implements InputDeviceListener
         super(context);
 
         inputManager = new InputManager();
-        inputManager.registerInputDeviceListener(this, null);
 
         setFocusableInTouchMode(true);
 
         setEGLConfigChooser(new ConfigChooser(r, g, b, a, depth, stencil));
-        //setPreserveEGLContextOnPause(true);
         setEGLContextFactory(new ContextFactory());
         setEGLContextClientVersion(2);
         setRenderer(new RendererWrapper());
@@ -114,23 +112,5 @@ public class SurfaceView extends GLSurfaceView implements InputDeviceListener
         inputManager.onInputEvent(event);
         // TODO: implement
         return super.onKeyUp(keyCode, event);
-    }
-
-    @Override
-    public void onInputDeviceAdded(int deviceId)
-    {
-        // TODO: implement
-    }
-
-    @Override
-    public void onInputDeviceChanged(int deviceId)
-    {
-        // TODO: implement
-    }
-
-    @Override
-    public void onInputDeviceRemoved(int deviceId)
-    {
-        // TODO: implement
     }
 }
