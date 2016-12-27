@@ -5,6 +5,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <limits>
 #include <map>
 #include <string>
 #include <vector>
@@ -42,7 +43,7 @@ namespace ouzel
             Value(uint16_t value):
                 intValue(value)
             {
-                if (intValue > UINT8_MAX)
+                if (intValue > std::numeric_limits<uint8_t>::max())
                 {
                     type = Type::INT16;
                 }
@@ -54,11 +55,11 @@ namespace ouzel
             Value(uint32_t value):
                 intValue(value)
             {
-                if (intValue > UINT16_MAX)
+                if (intValue > std::numeric_limits<uint16_t>::max())
                 {
                     type = Type::INT32;
                 }
-                else if (intValue > UINT8_MAX)
+                else if (intValue > std::numeric_limits<uint8_t>::max())
                 {
                     type = Type::INT16;
                 }
@@ -70,15 +71,15 @@ namespace ouzel
             Value(uint64_t value):
                 intValue(value)
             {
-                if (intValue > UINT32_MAX)
+                if (intValue > std::numeric_limits<uint32_t>::max())
                 {
                     type = Type::INT64;
                 }
-                else if (intValue > UINT16_MAX)
+                else if (intValue > std::numeric_limits<uint16_t>::max())
                 {
                     type = Type::INT32;
                 }
-                else if (intValue > UINT8_MAX)
+                else if (intValue > std::numeric_limits<uint8_t>::max())
                 {
                     type = Type::INT16;
                 }
@@ -92,7 +93,7 @@ namespace ouzel
             Value(const std::string& value):
                 stringValue(value)
             {
-                if (value.length() > UINT16_MAX)
+                if (value.length() > std::numeric_limits<uint16_t>::max())
                 {
                     type = Type::LONG_STRING;
                 }
@@ -124,7 +125,7 @@ namespace ouzel
             {
                 intValue = value;
 
-                if (intValue > UINT8_MAX)
+                if (intValue > std::numeric_limits<uint8_t>::max())
                 {
                     type = Type::INT16;
                 }
@@ -140,11 +141,11 @@ namespace ouzel
             {
                 intValue = value;
 
-                if (intValue > UINT16_MAX)
+                if (intValue > std::numeric_limits<uint16_t>::max())
                 {
                     type = Type::INT32;
                 }
-                else if (intValue > UINT8_MAX)
+                else if (intValue > std::numeric_limits<uint8_t>::max())
                 {
                     type = Type::INT16;
                 }
@@ -160,15 +161,15 @@ namespace ouzel
             {
                 intValue = value;
 
-                if (intValue > UINT32_MAX)
+                if (intValue > std::numeric_limits<uint32_t>::max())
                 {
                     type = Type::INT64;
                 }
-                else if (intValue > UINT16_MAX)
+                else if (intValue > std::numeric_limits<uint16_t>::max())
                 {
                     type = Type::INT32;
                 }
-                else if (intValue > UINT8_MAX)
+                else if (intValue > std::numeric_limits<uint8_t>::max())
                 {
                     type = Type::INT16;
                 }
@@ -199,7 +200,7 @@ namespace ouzel
             Value& operator=(const std::string& value)
             {
                 stringValue = value;
-                if (value.length() <= UINT16_MAX)
+                if (value.length() <= std::numeric_limits<uint16_t>::max())
                 {
                     type = Type::STRING;
                 }
