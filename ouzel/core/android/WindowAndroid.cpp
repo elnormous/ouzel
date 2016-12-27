@@ -12,14 +12,6 @@ namespace ouzel
     {
     }
 
-    bool WindowAndroid::init()
-    {
-        graphics::RendererOGL* rendererOGL = static_cast<graphics::RendererOGL*>(sharedEngine->getRenderer());
-        rendererOGL->setAPIVersion(2, 0);
-
-        return Window::init();
-    }
-
     void WindowAndroid::handleResize(const Size2& newSize)
     {
         Window::setSize(newSize);
