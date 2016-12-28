@@ -182,7 +182,7 @@ namespace ouzel
                 return false;
             }
 
-            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
+            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
 
         bool RendererOGLRasp::present()
