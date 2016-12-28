@@ -260,7 +260,8 @@ namespace ouzel
                             settings.sampleCount,
                             settings.textureFilter,
                             settings.backBufferFormat,
-                            settings.verticalSync))
+                            settings.verticalSync,
+                            settings.depthBits))
         {
             return false;
         }

@@ -29,7 +29,8 @@ namespace ouzel
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
-                                 bool newVerticalSync)
+                                 bool newVerticalSync,
+                                 uint32_t newDepthBits)
         {
             free();
 
@@ -54,7 +55,7 @@ namespace ouzel
                 return false;
             }
 
-            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
+            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
 
         bool RendererOGLEm::present()

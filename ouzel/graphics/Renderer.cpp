@@ -41,7 +41,8 @@ namespace ouzel
                             uint32_t newSampleCount,
                             TextureFilter newTextureFilter,
                             PixelFormat newBackBufferFormat,
-                            bool newVerticalSync)
+                            bool newVerticalSync,
+                            uint32_t newDepthBits)
         {
             window = newWindow;
             size = window->getSize() * window->getContentScale();
@@ -49,6 +50,7 @@ namespace ouzel
             textureFilter = newTextureFilter;
             backBufferFormat = newBackBufferFormat;
             verticalSync = newVerticalSync;
+            depthBits = newDepthBits;
 
             ready = true;
 

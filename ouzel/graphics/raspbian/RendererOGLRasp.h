@@ -27,7 +27,8 @@ namespace ouzel
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
-                              bool newVerticalSync) override;
+                              bool newVerticalSync,
+                              uint32_t newDepthBits) override;
 
             EGLDisplay display = 0;
             EGLSurface surface = 0;

@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include <string>
 #include <queue>
@@ -152,7 +153,8 @@ namespace ouzel
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
-                              bool newVerticalSync);
+                              bool newVerticalSync,
+                              uint32_t newDepthBits);
 
             Driver driver;
             Window* window;
@@ -160,6 +162,7 @@ namespace ouzel
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFilter textureFilter = TextureFilter::NONE;
             PixelFormat backBufferFormat;
+            uint32_t depthBits = 0;
 
             uint32_t currentFrame = 0;
             uint32_t frameBufferClearedFrame = 0;

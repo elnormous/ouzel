@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include "core/CompileConfig.h"
 #include "graphics/Renderer.h"
 #include "audio/Audio.h"
@@ -14,6 +15,7 @@ namespace ouzel
         graphics::Renderer::Driver renderDriver = graphics::Renderer::Driver::DEFAULT;
         audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
 
+        std::string title = "ouzel";
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::TextureFilter textureFilter = graphics::TextureFilter::NONE;
@@ -21,6 +23,6 @@ namespace ouzel
         bool fullscreen = false;
         bool verticalSync = true;
         graphics::PixelFormat backBufferFormat = graphics::PixelFormat::DEFAULT;
-        std::string title = "ouzel";
+        uint32_t depthBits = 0;
     };
 }

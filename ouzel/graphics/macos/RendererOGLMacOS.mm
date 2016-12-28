@@ -42,7 +42,8 @@ namespace ouzel
                                     uint32_t newSampleCount,
                                     TextureFilter newTextureFilter,
                                     PixelFormat newBackBufferFormat,
-                                    bool newVerticalSync)
+                                    bool newVerticalSync,
+                                    uint32_t newDepthBits)
         {
             free();
 
@@ -53,7 +54,7 @@ namespace ouzel
                 NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
                 NSOpenGLPFAColorSize, 24,
                 NSOpenGLPFAAlphaSize, 8,
-                //NSOpenGLPFADepthSize, 32, // set depth buffer size
+                NSOpenGLPFADepthSize, newDepthBits,
                 0
             };
 
@@ -75,6 +76,7 @@ namespace ouzel
                     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
                     NSOpenGLPFAColorSize, 24,
                     NSOpenGLPFAAlphaSize, 8,
+                    NSOpenGLPFADepthSize, newDepthBits,
                     //NSOpenGLPFAMultisample,
                     0
                 };
@@ -100,7 +102,7 @@ namespace ouzel
 
             [openGLContext makeCurrentContext];
 
-            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
+            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
 
         bool RendererOGLMacOS::present()

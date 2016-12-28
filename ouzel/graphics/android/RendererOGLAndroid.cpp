@@ -20,7 +20,8 @@ namespace ouzel
                                       uint32_t newSampleCount,
                                       TextureFilter newTextureFilter,
                                       PixelFormat newBackBufferFormat,
-                                      bool newVerticalSync)
+                                      bool newVerticalSync,
+                                      uint32_t newDepthBits)
         {
             free();
 
@@ -29,12 +30,12 @@ namespace ouzel
             jobject mainActivity = applicationAndroid->getMainActivity();
             jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
             jmethodID createSurfaceMethod = jniEnv->GetMethodID(mainActivityClass, "createSurface", "(IIIIII)V");
-            jniEnv->CallVoidMethod(mainActivity, createSurfaceMethod, 8, 8, 8, 8, 0, 0);
+            jniEnv->CallVoidMethod(mainActivity, createSurfaceMethod, 8, 8, 8, 8, newDepthBits, 0);
 
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 
-            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
+            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
     } // namespace graphics
 } // namespace ouzel
