@@ -50,6 +50,8 @@ namespace ouzel
             // Create pixel format
             NSOpenGLPixelFormatAttribute openGL3Attributes[] =
             {
+                NSOpenGLPFAAccelerated,
+                NSOpenGLPFANoRecovery,
                 NSOpenGLPFADoubleBuffer,
                 NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
                 NSOpenGLPFAColorSize, 24,
@@ -72,6 +74,8 @@ namespace ouzel
 
                 NSOpenGLPixelFormatAttribute openGL2Attributes[] =
                 {
+                    NSOpenGLPFAAccelerated,
+                    NSOpenGLPFANoRecovery,
                     NSOpenGLPFADoubleBuffer,
                     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
                     NSOpenGLPFAColorSize, 24,
@@ -99,7 +103,6 @@ namespace ouzel
 
             // Create OpenGL context
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
-
             [openGLContext makeCurrentContext];
 
             return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
