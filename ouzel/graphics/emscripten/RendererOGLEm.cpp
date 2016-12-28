@@ -40,6 +40,10 @@ namespace ouzel
             EmscriptenWebGLContextAttributes attrs;
             emscripten_webgl_init_context_attributes(&attrs);
 
+            attrs.alpha = true;
+            attrs.depth = newDepthBits > 0;
+            attrs.stencil = false;
+
             webGLContext = emscripten_webgl_create_context(0, &attrs);
 
             if (!webGLContext)

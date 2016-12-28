@@ -73,10 +73,10 @@ namespace ouzel
                 GLX_RENDER_TYPE, GLX_RGBA_BIT,
                 GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
                 GLX_DOUBLEBUFFER, GL_TRUE,
-                GLX_RED_SIZE, 4,
-                GLX_GREEN_SIZE, 4,
-                GLX_BLUE_SIZE, 4,
-                GLX_ALPHA_SIZE, 4,
+                GLX_RED_SIZE, 8,
+                GLX_GREEN_SIZE, 8,
+                GLX_BLUE_SIZE, 8,
+                GLX_ALPHA_SIZE, 8,
                 GLX_DEPTH_SIZE, static_cast<int>(depthBits),
                 None
             };
@@ -134,10 +134,10 @@ namespace ouzel
                 // find an OpenGL-capable RGB visual with depth buffer
                 static int doubleBuffer[] = {
                     GLX_RGBA,
-                    GLX_RED_SIZE, 4,
-                    GLX_GREEN_SIZE, 4,
-                    GLX_BLUE_SIZE, 4,
-                    GLX_ALPHA_SIZE, 4,
+                    GLX_RED_SIZE, 8,
+                    GLX_GREEN_SIZE, 8,
+                    GLX_BLUE_SIZE, 8,
+                    GLX_ALPHA_SIZE, 8,
                     GLX_DEPTH_SIZE, static_cast<int>(depthBits),
                     GLX_DOUBLEBUFFER,
                     None
