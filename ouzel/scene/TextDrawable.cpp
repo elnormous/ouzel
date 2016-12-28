@@ -121,6 +121,8 @@ namespace ouzel
                                                         0,
                                                         camera->getRenderTarget(),
                                                         camera->getRenderViewport(),
+                                                        false,
+                                                        false,
                                                         true);
         }
 

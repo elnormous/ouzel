@@ -130,6 +130,8 @@ namespace ouzel
                                       uint32_t startIndex,
                                       const RenderTargetPtr& renderTarget,
                                       const Rectangle& viewport,
+                                      bool depthWrite,
+                                      bool depthTest,
                                       bool wireframe,
                                       bool scissorTestEnabled,
                                       const Rectangle& scissorTest)
@@ -160,6 +162,8 @@ namespace ouzel
                 startIndex,
                 renderTarget,
                 viewport,
+                depthWrite,
+                depthTest,
                 wireframe,
                 scissorTestEnabled,
                 scissorTest

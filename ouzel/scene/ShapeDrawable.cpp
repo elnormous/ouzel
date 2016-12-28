@@ -108,6 +108,8 @@ namespace ouzel
                                                             drawCommand.startIndex,
                                                             camera->getRenderTarget(),
                                                             camera->getRenderViewport(),
+                                                            false,
+                                                            false,
                                                             true);
             }
         }
