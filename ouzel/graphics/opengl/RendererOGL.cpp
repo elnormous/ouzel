@@ -654,7 +654,7 @@ namespace ouzel
                 GLuint newFrameBufferId = 0;
                 GLbitfield newClearMask = 0;
                 const float* newClearColor;
-                bool clearBuffers = false;
+                bool clearBuffer = false;
 
                 if (drawCommand.renderTarget)
                 {
@@ -672,7 +672,7 @@ namespace ouzel
                     if (renderTargetOGL->getFrameBufferClearedFrame() != currentFrame)
                     {
                         renderTargetOGL->setFrameBufferClearedFrame(currentFrame);
-                        clearBuffers = renderTargetOGL->getClear();
+                        clearBuffer = renderTargetOGL->getClear();
                     }
                 }
                 else
@@ -694,7 +694,7 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        clearBuffers = clearBackBuffer || clearDepthBuffer;
+                        clearBuffer = clearBackBuffer || clearDepthBuffer;
                     }
                 }
 
@@ -708,7 +708,7 @@ namespace ouzel
                             static_cast<GLsizei>(drawCommand.viewport.size.v[0]),
                             static_cast<GLsizei>(drawCommand.viewport.size.v[1]));
 
-                if (clearBuffers)
+                if (clearBuffer)
                 {
                     glClearColor(newClearColor[0],
                                  newClearColor[1],
