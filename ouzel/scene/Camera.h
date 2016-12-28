@@ -76,6 +76,11 @@ namespace ouzel
             void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
             const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
 
+            bool getDepthWrite() const { return depthWrite; }
+            void setDepthWrite(bool newDepthWrite) { depthWrite = newDepthWrite; }
+            bool getDepthTest() const { return depthTest; }
+            void setDepthTest(bool newDepthTest) { depthTest = newDepthTest; }
+
             bool getWireframe() const { return wireframe; }
             void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
@@ -110,6 +115,8 @@ namespace ouzel
 
             graphics::RenderTargetPtr renderTarget;
 
+            bool depthWrite = false;
+            bool depthTest = false;
             bool wireframe = false;
         };
     } // namespace scene

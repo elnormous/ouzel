@@ -79,7 +79,9 @@ namespace ouzel
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
                                                             camera->getRenderTarget(),
-                                                            camera->getRenderViewport());
+                                                            camera->getRenderViewport(),
+                                                            camera->getDepthWrite(),
+                                                            camera->getDepthTest());
             }
         }
 
@@ -122,8 +124,8 @@ namespace ouzel
                                                             0,
                                                             camera->getRenderTarget(),
                                                             camera->getRenderViewport(),
-                                                            false,
-                                                            false,
+                                                            camera->getDepthWrite(),
+                                                            camera->getDepthTest(),
                                                             true);
             }
         }

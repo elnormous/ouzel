@@ -69,7 +69,9 @@ namespace ouzel
                                                             drawCommand.mode,
                                                             drawCommand.startIndex,
                                                             camera->getRenderTarget(),
-                                                            camera->getRenderViewport());
+                                                            camera->getRenderViewport(),
+                                                            camera->getDepthWrite(),
+                                                            camera->getDepthTest());
             }
         }
 
@@ -108,8 +110,8 @@ namespace ouzel
                                                             drawCommand.startIndex,
                                                             camera->getRenderTarget(),
                                                             camera->getRenderViewport(),
-                                                            false,
-                                                            false,
+                                                            camera->getDepthWrite(),
+                                                            camera->getDepthTest(),
                                                             true);
             }
         }
