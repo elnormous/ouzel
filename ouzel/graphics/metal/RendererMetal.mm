@@ -442,7 +442,8 @@ namespace ouzel
             else for (const DrawCommand& drawCommand : drawQueue)
             {
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
-                bool clearBuffer = false;
+                bool newClearColorBuffer = false;
+                bool newClearDepthBuffer = false;
 
                 viewport = {
                     static_cast<double>(drawCommand.viewport.position.v[0]),
@@ -474,7 +475,8 @@ namespace ouzel
                     if (renderTargetMetal->getFrameBufferClearedFrame() != currentFrame)
                     {
                         renderTargetMetal->setFrameBufferClearedFrame(currentFrame);
-                        clearBuffer = renderTargetMetal->getClear();
+                        newClearColorBuffer = renderTargetMetal->getClearColorBuffer();
+                        newClearDepthBuffer = renderTargetMetal->getClearDepthBuffer();
                     }
                 }
                 else
@@ -490,7 +492,8 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        clearBuffer = clearColorBuffer;
+                        newClearColorBuffer = clearColorBuffer;
+                        newClearDepthBuffer = clearDepthBuffer;
                     }
                 }
 
@@ -502,7 +505,7 @@ namespace ouzel
                         return false;
                     }
 
-                    currentRenderPassDescriptor.colorAttachments[0].loadAction = clearBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
+                    currentRenderPassDescriptor.colorAttachments[0].loadAction = newClearColorBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
                 }
 
                 [currentRenderCommandEncoder setViewport: viewport];

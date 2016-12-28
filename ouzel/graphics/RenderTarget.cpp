@@ -41,9 +41,16 @@ namespace ouzel
             return true;
         }
 
-        void RenderTarget::setClear(bool newClear)
+        void RenderTarget::setClearColorBuffer(bool clear)
         {
-            clear = newClear;
+            clearColorBuffer = clear;
+            dirty = true;
+            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+        }
+
+        void RenderTarget::setClearDepthBuffer(bool clear)
+        {
+            clearColorBuffer = clear;
             dirty = true;
             sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
         }
@@ -60,7 +67,8 @@ namespace ouzel
             uploadData.size = size;
             uploadData.clearColor = clearColor;
             uploadData.depthBuffer = depthBuffer;
-            uploadData.clear = clear;
+            uploadData.clearColorBuffer = clearColorBuffer;
+            uploadData.clearDepthBuffer = clearDepthBuffer;
             uploadData.dirty = dirty;
 
             dirty = false;

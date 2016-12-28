@@ -64,12 +64,10 @@ namespace ouzel
                         return false;
                     }
 
-                    clearMask = GL_COLOR_BUFFER_BIT;
+                    clearMask = 0;
 
-                    if (uploadData.depthBuffer)
-                    {
-                        clearMask |= GL_DEPTH_BUFFER_BIT;
-                    }
+                    if (uploadData.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+                    if (uploadData.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
                 }
 
                 std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(texture);

@@ -27,8 +27,11 @@ namespace ouzel
 
             virtual bool init(const Size2& newSize, bool useDepthBuffer);
 
-            virtual void setClear(bool newClear);
-            virtual bool getClear() const { return clear; }
+            virtual void setClearColorBuffer(bool clear);
+            virtual bool getClearColorBuffer() const { return clearColorBuffer; }
+
+            virtual void setClearDepthBuffer(bool clear);
+            virtual bool getClearDepthBuffer() const { return clearDepthBuffer; }
 
             virtual void setClearColor(Color color);
             virtual Color getClearColor() const { return clearColor; }
@@ -47,7 +50,8 @@ namespace ouzel
                 Size2 size;
                 Color clearColor;
                 bool depthBuffer = false;
-                bool clear = true;
+                bool clearColorBuffer = true;
+                bool clearDepthBuffer = false;
                 bool dirty = false;
             };
 
@@ -59,7 +63,8 @@ namespace ouzel
             Color clearColor;
             uint32_t frameBufferClearedFrame = 0;
 
-            bool clear = true;
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
             bool depthBuffer = false;
             bool dirty = false;
         };
