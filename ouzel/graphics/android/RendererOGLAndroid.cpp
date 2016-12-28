@@ -17,6 +17,7 @@ namespace ouzel
         }
 
         bool RendererOGLAndroid::init(Window* newWindow,
+                                      const Size2& newSize,
                                       uint32_t newSampleCount,
                                       TextureFilter newTextureFilter,
                                       PixelFormat newBackBufferFormat,
@@ -35,7 +36,7 @@ namespace ouzel
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 
-            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
+            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
     } // namespace graphics
 } // namespace ouzel

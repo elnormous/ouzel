@@ -180,16 +180,6 @@ namespace ouzel
 
             bool verticalSync = true;
 
-            struct Data
-            {
-                Size2 size;
-                Color clearColor;
-                bool clearColorBuffer;
-                bool clearDepthBuffer;
-            };
-
-            Data uploadData;
-
             struct DrawCommand
             {
                 std::vector<TexturePtr> textures;
@@ -219,6 +209,16 @@ namespace ouzel
 
             Matrix4 projectionTransform;
             Matrix4 renderTargetProjectionTransform;
+
+            struct Data
+            {
+                Size2 size;
+                Color clearColor;
+                bool clearColorBuffer;
+                bool clearDepthBuffer;
+            };
+
+            Data uploadData;
 
         private:
             Size2 size;
