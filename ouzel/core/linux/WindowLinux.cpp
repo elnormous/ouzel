@@ -77,7 +77,7 @@ namespace ouzel
                 GLX_GREEN_SIZE, 4,
                 GLX_BLUE_SIZE, 4,
                 GLX_ALPHA_SIZE, 4,
-                GLX_DEPTH_SIZE, depthBits,
+                GLX_DEPTH_SIZE, static_cast<int>(depthBits),
                 None
             };
 
@@ -138,7 +138,7 @@ namespace ouzel
                     GLX_GREEN_SIZE, 4,
                     GLX_BLUE_SIZE, 4,
                     GLX_ALPHA_SIZE, 4,
-                    GLX_DEPTH_SIZE, depthBits,
+                    GLX_DEPTH_SIZE, static_cast<int>(depthBits),
                     GLX_DOUBLEBUFFER,
                     None
                 };
