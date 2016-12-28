@@ -71,19 +71,19 @@ namespace ouzel
 
             Driver getDriver() const { return driver; }
 
-            virtual void setClearBackBuffer(bool clear) { clearBackBuffer = clear; }
-            virtual bool getClearBackBuffer() const { return clearBackBuffer; }
+            void setClearColorBuffer(bool clear);
+            bool getClearColorBuffer() const { return clearColorBuffer; }
 
-            virtual void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
-            virtual bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            void setClearDepthBuffer(bool clear);
+            bool getClearDepthBuffer() const { return clearDepthBuffer; }
 
-            virtual void setClearColor(Color color) { clearColor = color; }
-            virtual Color getClearColor() const { return clearColor; }
+            void setClearColor(Color color);
+            Color getClearColor() const { return clearColor; }
 
             virtual bool present();
 
-            const Size2& getSize() const { return size; }
             virtual void setSize(const Size2& newSize);
+            const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
             TextureFilter getTextureFilter() const { return textureFilter; }
 
@@ -141,8 +141,6 @@ namespace ouzel
                 apiMinorVersion = minorVersion;
             }
 
-            bool isReady() const { return ready; }
-
             void scheduleUpdate(const ResourcePtr& resource);
 
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
@@ -155,31 +153,42 @@ namespace ouzel
         protected:
             Renderer(Driver aDriver);
             virtual bool init(Window* newWindow,
+                              const Size2& newSize,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               uint32_t newDepthBits);
 
+            virtual bool update();
+
+            bool generateScreenshots();
+            virtual bool generateScreenshot(const std::string& filename);
+
             Driver driver;
             Window* window;
-            Size2 size;
+
+            uint16_t apiMajorVersion = 0;
+            uint16_t apiMinorVersion = 0;
+
+            uint32_t currentFrame = 0;
+            uint32_t frameBufferClearedFrame = 0;
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFilter textureFilter = TextureFilter::NONE;
             PixelFormat backBufferFormat;
             uint32_t depthBits = 0;
 
-            uint32_t currentFrame = 0;
-            uint32_t frameBufferClearedFrame = 0;
+            bool verticalSync = true;
 
-            Color clearColor;
-            uint32_t drawCallCount = 0;
+            struct Data
+            {
+                Size2 size;
+                Color clearColor;
+                bool clearColorBuffer;
+                bool clearDepthBuffer;
+            };
 
-            uint16_t apiMajorVersion = 0;
-            uint16_t apiMinorVersion = 0;
-
-            std::atomic<bool> clearBackBuffer;
-            std::atomic<bool> clearDepthBuffer;
+            Data uploadData;
 
             struct DrawCommand
             {
@@ -201,24 +210,33 @@ namespace ouzel
                 Rectangle scissorTest;
             };
 
+            bool npotTexturesSupported = true;
+
             std::atomic<bool> activeDrawQueueFinished;
             std::atomic<bool> refillDrawQueue;
 
-            bool verticalSync = true;
-            bool ready = false;
-            bool npotTexturesSupported = true;
+            std::vector<DrawCommand> drawQueue;
+
+            Matrix4 projectionTransform;
+            Matrix4 renderTargetProjectionTransform;
+
+        private:
+            Size2 size;
+
+            Color clearColor;
+            uint32_t drawCallCount = 0;
+
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
 
             std::vector<DrawCommand> activeDrawQueue;
-            std::vector<DrawCommand> drawQueue;
 
             std::set<ResourcePtr> updateSet;
             std::mutex updateMutex;
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
-
-            Matrix4 projectionTransform;
-            Matrix4 renderTargetProjectionTransform;
+            std::atomic<bool> dirty;
         };
     } // namespace graphics
 } // namespace ouzel

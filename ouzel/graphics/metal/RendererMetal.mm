@@ -65,7 +65,7 @@ namespace ouzel
         }
 
         RendererMetal::RendererMetal():
-            Renderer(Driver::METAL), dirty(false)
+            Renderer(Driver::METAL)
         {
             apiMajorVersion = 1;
             apiMinorVersion = 0;
@@ -169,15 +169,14 @@ namespace ouzel
         }
 
         bool RendererMetal::init(Window* newWindow,
+                                 const Size2& newSize,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
                                  uint32_t newDepthBits)
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Renderer::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
+            if (!Renderer::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
             {
                 return false;
             }
@@ -220,10 +219,7 @@ namespace ouzel
             }
 
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                    clearColor.normG(),
-                                                                                    clearColor.normB(),
-                                                                                    clearColor.normA());
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0f, 0.0f, 0.0f, 0.0f);
             renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
 
             commandQueue = [device newCommandQueue];
@@ -333,44 +329,20 @@ namespace ouzel
             whitePixelTexture->initFromBuffer( { 255, 255, 255, 255 }, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
-            ready = true;
-
             return true;
         }
 
         bool RendererMetal::update()
         {
-            if (dirty)
-            {
-                std::lock_guard<std::mutex> lock(dataMutex);
+            clearColorBuffer = uploadData.clearColorBuffer;
+            clearDepthBuffer = uploadData.clearDepthBuffer;
 
-                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                        clearColor.normG(),
-                                                                                        clearColor.normB(),
-                                                                                        clearColor.normA());
-
-                dirty = false;
-            }
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(uploadData.clearColor.normR(),
+                                                                                    uploadData.clearColor.normG(),
+                                                                                    uploadData.clearColor.normB(),
+                                                                                    uploadData.clearColor.normA());
 
             return true;
-        }
-
-        void RendererMetal::setClearColor(Color newColor)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            Renderer::setClearColor(newColor);
-
-            dirty = true;
-        }
-
-        void RendererMetal::setSize(const Size2& newSize)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            Renderer::setSize(newSize);
-
-            dirty = true;
         }
 
         bool RendererMetal::present()
@@ -448,7 +420,7 @@ namespace ouzel
             {
                 frameBufferClearedFrame = currentFrame;
 
-                if (clearBackBuffer)
+                if (clearColorBuffer)
                 {
                     if (!createRenderCommandEncoder(renderPassDescriptor))
                     {
@@ -518,7 +490,7 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        clearBuffer = clearBackBuffer;
+                        clearBuffer = clearColorBuffer;
                     }
                 }
 
@@ -744,11 +716,6 @@ namespace ouzel
                 currentCommandBuffer = Nil;
             }
 
-            if (!saveScreenshots())
-            {
-                return false;
-            }
-
             return true;
         }
 
@@ -843,51 +810,37 @@ namespace ouzel
             return pipelineState;
         }
 
-        bool RendererMetal::saveScreenshots()
+        bool RendererMetal::generateScreenshot(const std::string& filename)
         {
-            for (;;)
+            MTLTexturePtr texture = view.currentDrawable.texture;
+
+            if (!texture)
             {
-                std::string filename;
+                return false;
+            }
 
+            NSUInteger width = static_cast<NSUInteger>(texture.width);
+            NSUInteger height = static_cast<NSUInteger>(texture.height);
+
+            std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
+            [texture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
+
+            uint8_t temp;
+            for (uint32_t y = 0; y < height; ++y)
+            {
+                for (uint32_t x = 0; x < width; ++x)
                 {
-                    std::lock_guard<std::mutex> lock(screenshotMutex);
-
-                    if (screenshotQueue.empty()) break;
-
-                    filename = screenshotQueue.front();
-                    screenshotQueue.pop();
+                    temp = data.get()[((y * width + x) * 4)];
+                    data.get()[((y * width + x) * 4)] = data.get()[((y * width + x) * 4) + 2];
+                    data.get()[((y * width + x) * 4) + 2] = temp;
+                    data.get()[((y * width + x) * 4) + 3] = 255;
                 }
+            }
 
-                MTLTexturePtr texture = view.currentDrawable.texture;
-
-                if (!texture)
-                {
-                    return false;
-                }
-
-                NSUInteger width = static_cast<NSUInteger>(texture.width);
-                NSUInteger height = static_cast<NSUInteger>(texture.height);
-
-                std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
-                [texture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
-
-                uint8_t temp;
-                for (uint32_t y = 0; y < height; ++y)
-                {
-                    for (uint32_t x = 0; x < width; ++x)
-                    {
-                        temp = data.get()[((y * width + x) * 4)];
-                        data.get()[((y * width + x) * 4)] = data.get()[((y * width + x) * 4) + 2];
-                        data.get()[((y * width + x) * 4) + 2] = temp;
-                        data.get()[((y * width + x) * 4) + 3] = 255;
-                    }
-                }
-
-                if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
-                {
-                    Log(Log::Level::ERR) << "Failed to save image to file";
-                    return false;
-                }
+            if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
+            {
+                Log(Log::Level::ERR) << "Failed to save image to file";
+                return false;
             }
 
             return true;

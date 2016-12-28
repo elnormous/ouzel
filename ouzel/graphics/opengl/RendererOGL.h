@@ -70,12 +70,6 @@ namespace ouzel
         public:
             virtual ~RendererOGL();
 
-            virtual void setClearBackBuffer(bool clear) override;
-            virtual void setClearDepthBuffer(bool clear) override;
-
-            virtual void setClearColor(Color color) override;
-            virtual void setSize(const Size2& newSize) override;
-
             virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
@@ -450,20 +444,27 @@ namespace ouzel
             RendererOGL();
 
             virtual bool init(Window* newWindow,
+                              const Size2& newSize,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               uint32_t newDepthBits) override;
-            virtual bool update();
+            virtual bool update() override;
 
-            virtual bool saveScreenshots();
+            virtual bool generateScreenshot(const std::string& filename);
 
+            virtual bool createRenderBuffer();
             bool createMSAAFrameBuffer();
 
             static void deleteResources();
 
             GLuint frameBufferId = 0;
+
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+            GLuint colorRenderBuffer = 0;
+#endif
+
             GLsizei frameBufferWidth = 0;
             GLsizei frameBufferHeight = 0;
             GLuint msaaTextureId = 0;
@@ -514,9 +515,6 @@ namespace ouzel
 
             static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
             static std::mutex deleteMutex;
-
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

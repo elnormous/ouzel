@@ -21,10 +21,10 @@ namespace ouzel
     {
         Renderer::Renderer(Driver aDriver):
             driver(aDriver), clearColor(Color::BLACK),
-            clearBackBuffer(true), clearDepthBuffer(false),
             activeDrawQueueFinished(false), refillDrawQueue(true),
             projectionTransform(Matrix4::IDENTITY),
-            renderTargetProjectionTransform(Matrix4::IDENTITY)
+            renderTargetProjectionTransform(Matrix4::IDENTITY),
+            dirty(false)
         {
         }
 
@@ -35,10 +35,10 @@ namespace ouzel
         void Renderer::free()
         {
             activeDrawQueue.clear();
-            ready = false;
         }
 
         bool Renderer::init(Window* newWindow,
+                            const Size2& newSize,
                             uint32_t newSampleCount,
                             TextureFilter newTextureFilter,
                             PixelFormat newBackBufferFormat,
@@ -46,20 +46,36 @@ namespace ouzel
                             uint32_t newDepthBits)
         {
             window = newWindow;
-            size = window->getSize() * window->getContentScale();
+            size = newSize;
             sampleCount = newSampleCount;
             textureFilter = newTextureFilter;
             backBufferFormat = newBackBufferFormat;
             verticalSync = newVerticalSync;
             depthBits = newDepthBits;
 
-            ready = true;
+            return true;
+        }
 
+        bool Renderer::update()
+        {
             return true;
         }
 
         bool Renderer::present()
         {
+            if (dirty)
+            {
+                uploadData.size = size;
+                uploadData.clearColor = clearColor;
+                uploadData.clearColorBuffer = clearColorBuffer;
+                uploadData.clearDepthBuffer = clearDepthBuffer;
+
+                if (!update())
+                {
+                    return false;
+                }
+            }
+
             ++currentFrame;
 
             if (activeDrawQueueFinished)
@@ -95,7 +111,30 @@ namespace ouzel
                 refillDrawQueue = true;
             }
 
+            if (!generateScreenshots())
+            {
+                return false;
+            }
+
             return true;
+        }
+
+        void Renderer::setClearColorBuffer(bool clear)
+        {
+            clearColorBuffer = clear;
+            dirty = true;
+        }
+
+        void Renderer::setClearDepthBuffer(bool clear)
+        {
+            clearDepthBuffer = clear;
+            dirty = true;
+        }
+
+        void Renderer::setClearColor(Color color)
+        {
+            clearColor = color;
+            dirty = true;
         }
 
         void Renderer::setSize(const Size2& newSize)
@@ -111,6 +150,8 @@ namespace ouzel
                 event.windowEvent.size = size;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
+
+                dirty = true;
             }
         }
 
@@ -192,6 +233,35 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(updateMutex);
 
             updateSet.insert(resource);
+        }
+
+        bool Renderer::generateScreenshots()
+        {
+            for (;;)
+            {
+                std::string filename;
+
+                {
+                    std::lock_guard<std::mutex> lock(screenshotMutex);
+
+                    if (screenshotQueue.empty()) break;
+
+                    filename = screenshotQueue.front();
+                    screenshotQueue.pop();
+                }
+
+                if (!generateScreenshot(filename))
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        bool Renderer::generateScreenshot(const std::string& filename)
+        {
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

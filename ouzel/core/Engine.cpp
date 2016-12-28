@@ -257,6 +257,7 @@ namespace ouzel
         }
 
         if (!renderer->init(window.get(),
+                            window->getSize() * window->getContentScale(),
                             settings.sampleCount,
                             settings.textureFilter,
                             settings.backBufferFormat,

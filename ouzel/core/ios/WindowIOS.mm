@@ -160,5 +160,6 @@ namespace ouzel
     void WindowIOS::handleResize(const Size2& newSize)
     {
         Window::setSize(newSize);
+        sharedEngine->getRenderer()->setSize(newSize);
     }
 }

@@ -57,10 +57,12 @@ namespace ouzel
         }
 
         bool RendererOGLTVOS::init(Window* newWindow,
+                                   const Size2& newSize,
                                    uint32_t newSampleCount,
                                    TextureFilter newTextureFilter,
                                    PixelFormat newBackBufferFormat,
-                                   bool newVerticalSync)
+                                   bool newVerticalSync,
+                                   uint32_t newDepthBits)
         {
             free();
 
@@ -105,38 +107,31 @@ namespace ouzel
                 return false;
             }
 
-            glGenFramebuffers(1, &frameBufferId);
-
-            Size2 renderBufferSize;
-            if (!createRenderBuffer(renderBufferSize))
+            if (!createRenderBuffer())
             {
                 return false;
             }
 
-            newWindow->setSize(renderBufferSize);
+            Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
+                                         static_cast<float>(frameBufferHeight));
 
-            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync);
+            newWindow->setSize(backBufferSize);
+
+            return RendererOGL::init(newWindow, backBufferSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
 
-        void RendererOGLTVOS::setSize(const Size2& newSize)
+        bool RendererOGLTVOS::createRenderBuffer()
         {
-            RendererOGL::setSize(newSize);
-
-            Size2 renderBufferSize;
-
-            if (!createRenderBuffer(renderBufferSize))
+            if (!RendererOGL::createRenderBuffer())
             {
-                return;
+                return false;
             }
 
-            if (renderBufferSize != size)
+            if (!frameBufferId)
             {
-                window->setSize(renderBufferSize);
+                glGenFramebuffers(1, &frameBufferId);
             }
-        }
-
-        bool RendererOGLTVOS::createRenderBuffer(Size2& renderBufferSize)
-        {
+            
             if (colorRenderBuffer)
             {
                 glDeleteRenderbuffers(1, &colorRenderBuffer);
@@ -147,13 +142,8 @@ namespace ouzel
             glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
             [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
 
-            GLint frameBufferWidth;
-            GLint frameBufferHeight;
             glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
             glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &frameBufferHeight);
-
-            renderBufferSize.v[0] = static_cast<float>(frameBufferWidth);
-            renderBufferSize.v[1] = static_cast<float>(frameBufferHeight);
 
             graphics::RendererOGL::bindFrameBuffer(frameBufferId);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,

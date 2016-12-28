@@ -39,6 +39,7 @@ namespace ouzel
         }
 
         bool RendererOGLMacOS::init(Window* window,
+                                    const Size2& newSize,
                                     uint32_t newSampleCount,
                                     TextureFilter newTextureFilter,
                                     PixelFormat newBackBufferFormat,
@@ -105,7 +106,7 @@ namespace ouzel
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
             [openGLContext makeCurrentContext];
 
-            return RendererOGL::init(window, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
+            return RendererOGL::init(window, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
 
         bool RendererOGLMacOS::present()
@@ -124,10 +125,7 @@ namespace ouzel
 
         bool RendererOGLMacOS::update()
         {
-            if (dirty)
-            {
-                [openGLContext update];
-            }
+            [openGLContext update];
 
             return RendererOGL::update();
         }

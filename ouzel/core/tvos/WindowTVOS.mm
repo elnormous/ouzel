@@ -99,5 +99,6 @@ namespace ouzel
     void WindowTVOS::handleResize(const Size2& newSize)
     {
         Window::setSize(newSize);
+        sharedEngine->getRenderer()->setSize(newSize);
     }
 }

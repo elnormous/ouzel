@@ -51,9 +51,6 @@ namespace ouzel
             virtual ~RendererMetal();
             virtual void free() override;
 
-            virtual void setClearColor(Color newColor) override;
-            virtual void setSize(const Size2& newSize) override;
-
             virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
@@ -73,13 +70,14 @@ namespace ouzel
             RendererMetal();
 
             virtual bool init(Window* newWindow,
+                              const Size2& newSize,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               uint32_t newDepthBits) override;
-            bool update();
-            bool saveScreenshots();
+            virtual bool update() override;
+            bool generateScreenshot(const std::string& filename);
 
             MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                           const std::shared_ptr<ShaderMetal>& shader);
@@ -101,12 +99,12 @@ namespace ouzel
             MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
             MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
 
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
+
             dispatch_semaphore_t inflightSemaphore;
 
             std::map<std::pair<std::shared_ptr<BlendStateMetal>, std::shared_ptr<ShaderMetal>>, MTLRenderPipelineStatePtr> pipelineStates;
-
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
         };
     } // namespace graphics
 } // namespace ouzel

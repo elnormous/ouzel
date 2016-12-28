@@ -28,18 +28,18 @@ namespace ouzel
             virtual ~RendererOGLTVOS();
             virtual void free() override;
 
-            virtual void setSize(const Size2& newSize) override;
-
             virtual bool present() override;
 
         private:
             virtual bool init(Window* newWindow,
+                              const Size2& newSize,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
-                              bool newVerticalSync) override;
+                              bool newVerticalSync,
+                              uint32_t newDepthBits) override;
 
-            bool createRenderBuffer(Size2& renderBufferSize);
+            virtual bool createRenderBuffer() override;
 
             EAGLContextPtr context = Nil;
             GLuint colorRenderBuffer = 0;

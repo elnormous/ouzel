@@ -57,6 +57,7 @@ namespace ouzel
         }
 
         bool RendererOGLIOS::init(Window* newWindow,
+                                  const Size2& newSize,
                                   uint32_t newSampleCount,
                                   TextureFilter newTextureFilter,
                                   PixelFormat newBackBufferFormat,
@@ -105,67 +106,17 @@ namespace ouzel
                 return false;
             }
 
-            glGenFramebuffers(1, &frameBufferId);
-
-            Size2 renderBufferSize;
-            if (!createRenderBuffer(renderBufferSize))
+            if (!createRenderBuffer())
             {
                 return false;
             }
 
-            newWindow->setSize(renderBufferSize);
+            Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
+                                         static_cast<float>(frameBufferHeight));
 
-            return RendererOGL::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
-        }
+            newWindow->setSize(backBufferSize);
 
-        void RendererOGLIOS::setSize(const Size2& newSize)
-        {
-            RendererOGL::setSize(newSize);
-
-            Size2 renderBufferSize;
-
-            if (!createRenderBuffer(renderBufferSize))
-            {
-                return;
-            }
-
-            if (renderBufferSize != size)
-            {
-                window->setSize(renderBufferSize);
-            }
-        }
-
-        bool RendererOGLIOS::createRenderBuffer(Size2& renderBufferSize)
-        {
-            if (colorRenderBuffer)
-            {
-                glDeleteRenderbuffers(1, &colorRenderBuffer);
-                colorRenderBuffer = 0;
-            }
-
-            glGenRenderbuffers(1, &colorRenderBuffer);
-            glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
-            [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
-
-            GLint frameBufferWidth;
-            GLint frameBufferHeight;
-            glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
-            glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &frameBufferHeight);
-
-            renderBufferSize.v[0] = static_cast<float>(frameBufferWidth);
-            renderBufferSize.v[1] = static_cast<float>(frameBufferHeight);
-
-            graphics::RendererOGL::bindFrameBuffer(frameBufferId);
-            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                      GL_RENDERBUFFER, colorRenderBuffer);
-
-            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            {
-                Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
-                return false;
-            }
-
-            return true;
+            return RendererOGL::init(newWindow, backBufferSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
 
         bool RendererOGLIOS::present()
@@ -182,6 +133,44 @@ namespace ouzel
 
             [context presentRenderbuffer:GL_RENDERBUFFER];
 
+            return true;
+        }
+
+        bool RendererOGLIOS::createRenderBuffer()
+        {
+            if (!RendererOGL::createRenderBuffer())
+            {
+                return false;
+            }
+
+            if (!frameBufferId)
+            {
+                glGenFramebuffers(1, &frameBufferId);
+            }
+
+            if (colorRenderBuffer)
+            {
+                glDeleteRenderbuffers(1, &colorRenderBuffer);
+                colorRenderBuffer = 0;
+            }
+
+            glGenRenderbuffers(1, &colorRenderBuffer);
+            glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
+            [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
+
+            glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
+            glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &frameBufferHeight);
+
+            graphics::RendererOGL::bindFrameBuffer(frameBufferId);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                                      GL_RENDERBUFFER, colorRenderBuffer);
+
+            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            {
+                Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                return false;
+            }
+            
             return true;
         }
     } // namespace graphics

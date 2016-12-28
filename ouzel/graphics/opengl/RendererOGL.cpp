@@ -65,7 +65,7 @@ namespace ouzel
     namespace graphics
     {
         RendererOGL::RendererOGL():
-            Renderer(Driver::OPENGL), dirty(false)
+            Renderer(Driver::OPENGL)
         {
             msaaRenderBufferId = 0;
 
@@ -99,15 +99,14 @@ namespace ouzel
         }
 
         bool RendererOGL::init(Window* newWindow,
+                               const Size2& newSize,
                                uint32_t newSampleCount,
                                TextureFilter newTextureFilter,
                                PixelFormat newBackBufferFormat,
                                bool newVerticalSync,
                                uint32_t newDepthBits)
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Renderer::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
+            if (!Renderer::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
             {
                 return false;
             }
@@ -194,8 +193,8 @@ namespace ouzel
             }
 #endif
 
-            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
-            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
+            frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
+            frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
 
             if (sampleCount > 1)
             {
@@ -340,90 +339,50 @@ namespace ouzel
             glDepthFunc(GL_LEQUAL);
             glClearDepthf(1.0f);
 
-            dirty = true;
-            ready = true;
-
             return true;
         }
 
         bool RendererOGL::update()
         {
-            if (dirty)
+            clearMask = 0;
+            if (uploadData.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+            if (uploadData.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
+
+            frameBufferClearColor[0] = uploadData.clearColor.normR();
+            frameBufferClearColor[1] = uploadData.clearColor.normG();
+            frameBufferClearColor[2] = uploadData.clearColor.normB();
+            frameBufferClearColor[3] = uploadData.clearColor.normA();
+
+            if (frameBufferWidth != static_cast<GLsizei>(uploadData.size.v[0]) ||
+                frameBufferHeight != static_cast<GLsizei>(uploadData.size.v[1]))
             {
-                Size2 newSize;
+                frameBufferWidth = static_cast<GLsizei>(uploadData.size.v[0]);
+                frameBufferHeight = static_cast<GLsizei>(uploadData.size.v[1]);
 
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+                if (!createRenderBuffer())
                 {
-                    std::lock_guard<std::mutex> lock(dataMutex);
-
-                    newSize = size;
-
-                    clearMask = 0;
-                    if (clearBackBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-                    if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
-
-                    frameBufferClearColor[0] = clearColor.normR();
-                    frameBufferClearColor[1] = clearColor.normG();
-                    frameBufferClearColor[2] = clearColor.normB();
-                    frameBufferClearColor[3] = clearColor.normA();
-
-                    dirty = false;
+                    return false;
                 }
 
-                if (frameBufferWidth != static_cast<GLsizei>(newSize.v[0]) ||
-                    frameBufferHeight != static_cast<GLsizei>(newSize.v[1]))
-                {
-                    frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
-                    frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
+                Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
+                                             static_cast<float>(frameBufferHeight));
 
-                    if (sampleCount > 1)
-                    {
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                        if (!createMSAAFrameBuffer())
-                        {
-                            return false;
-                        }
+                window->setSize(backBufferSize);
 #endif
+
+                if (sampleCount > 1)
+                {
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+                    if (!createMSAAFrameBuffer())
+                    {
+                        return false;
                     }
+#endif
                 }
             }
 
             return true;
-        }
-
-        void RendererOGL::setClearBackBuffer(bool clear)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            Renderer::setClearBackBuffer(clear);
-
-            dirty = true;
-        }
-
-        void RendererOGL::setClearDepthBuffer(bool clear)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            Renderer::setClearDepthBuffer(clear);
-
-            dirty = true;
-        }
-
-        void RendererOGL::setClearColor(Color color)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            Renderer::setClearColor(color);
-
-            dirty = true;
-        }
-
-        void RendererOGL::setSize(const Size2& newSize)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            Renderer::setSize(newSize);
-
-            dirty = true;
         }
 
         bool RendererOGL::present()
@@ -435,16 +394,11 @@ namespace ouzel
 
             deleteResources();
 
-            if (!update())
-            {
-                return false;
-            }
-
             if (drawQueue.empty())
             {
                 frameBufferClearedFrame = currentFrame;
 
-                if (clearBackBuffer)
+                if (clearMask)
                 {
                     GLuint clearFrameBufferId = 0;
 
@@ -654,7 +608,6 @@ namespace ouzel
                 GLuint newFrameBufferId = 0;
                 GLbitfield newClearMask = 0;
                 const float* newClearColor;
-                bool clearBuffer = false;
 
                 if (drawCommand.renderTarget)
                 {
@@ -666,13 +619,12 @@ namespace ouzel
                     }
 
                     newFrameBufferId = renderTargetOGL->getFrameBufferId();
-                    newClearMask = renderTargetOGL->getClearMask();
-                    newClearColor = renderTargetOGL->getFrameBufferClearColor();
 
                     if (renderTargetOGL->getFrameBufferClearedFrame() != currentFrame)
                     {
                         renderTargetOGL->setFrameBufferClearedFrame(currentFrame);
-                        clearBuffer = renderTargetOGL->getClear();
+                        newClearMask = renderTargetOGL->getClearMask();
+                        newClearColor = renderTargetOGL->getFrameBufferClearColor();
                     }
                 }
                 else
@@ -688,13 +640,11 @@ namespace ouzel
                         newFrameBufferId = frameBufferId;
                     }
 
-                    newClearMask = clearMask;
-                    newClearColor = frameBufferClearColor;
-
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        clearBuffer = clearBackBuffer || clearDepthBuffer;
+                        newClearMask = clearMask;
+                        newClearColor = frameBufferClearColor;
                     }
                 }
 
@@ -708,7 +658,7 @@ namespace ouzel
                             static_cast<GLsizei>(drawCommand.viewport.size.v[0]),
                             static_cast<GLsizei>(drawCommand.viewport.size.v[1]));
 
-                if (clearBuffer)
+                if (newClearMask)
                 {
                     glClearColor(newClearColor[0],
                                  newClearColor[1],
@@ -859,11 +809,6 @@ namespace ouzel
 #endif
             }
 
-            if (!saveScreenshots())
-            {
-                return false;
-            }
-
             return true;
         }
 
@@ -914,58 +859,49 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool RendererOGL::saveScreenshots()
+        bool RendererOGL::generateScreenshot(const std::string& filename)
         {
-            for (;;)
+            bindFrameBuffer(frameBufferId);
+
+            const GLsizei width = frameBufferWidth;
+            const GLsizei height = frameBufferHeight;
+            const GLsizei depth = 4;
+
+            std::vector<uint8_t> data(static_cast<size_t>(width * height * depth));
+
+            glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+
+            if (checkOpenGLError())
             {
-                std::string filename;
+                Log(Log::Level::ERR) << "Failed to read pixels from frame buffer";
+                return false;
+            }
 
+            uint8_t temp;
+            for (GLsizei row = 0; row < height / 2; ++row)
+            {
+                for (GLsizei col = 0; col < width; ++col)
                 {
-                    std::lock_guard<std::mutex> lock(screenshotMutex);
-
-                    if (screenshotQueue.empty()) break;
-
-                    filename = screenshotQueue.front();
-                    screenshotQueue.pop();
-                }
-
-                bindFrameBuffer(frameBufferId);
-
-                const GLsizei width = frameBufferWidth;
-                const GLsizei height = frameBufferHeight;
-                const GLsizei depth = 4;
-
-                std::vector<uint8_t> data(static_cast<size_t>(width * height * depth));
-
-                glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to read pixels from frame buffer";
-                    return false;
-                }
-
-                uint8_t temp;
-                for (GLsizei row = 0; row < height / 2; ++row)
-                {
-                    for (GLsizei col = 0; col < width; ++col)
+                    for (GLsizei z = 0; z < depth; ++z)
                     {
-                        for (GLsizei z = 0; z < depth; ++z)
-                        {
-                            temp = data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)];
-                            data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)] = data[static_cast<size_t>((row * width + col) * depth + z)];
-                            data[static_cast<size_t>((row * width + col) * depth + z)] = temp;
-                        }
+                        temp = data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)];
+                        data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)] = data[static_cast<size_t>((row * width + col) * depth + z)];
+                        data[static_cast<size_t>((row * width + col) * depth + z)] = temp;
                     }
-                }
-
-                if (!stbi_write_png(filename.c_str(), width, height, depth, data.data(), width * depth))
-                {
-                    Log(Log::Level::ERR) << "Failed to save image to file";
-                    return false;
                 }
             }
 
+            if (!stbi_write_png(filename.c_str(), width, height, depth, data.data(), width * depth))
+            {
+                Log(Log::Level::ERR) << "Failed to save image to file";
+                return false;
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::createRenderBuffer()
+        {            
             return true;
         }
 
