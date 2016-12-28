@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #define GL_GLEXT_PROTOTYPES 1
 #include <GL/glx.h>
 #include <X11/X.h>
@@ -29,7 +30,7 @@ namespace ouzel
         Atom getDeleteMessage() const { return deleteMessage; }
 
     protected:
-        WindowLinux(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
+        WindowLinux(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle, uint32_t aDepthBits);
         virtual bool init() override;
         virtual bool toggleFullscreen();
         void handleResize(int width, int height);
@@ -40,5 +41,6 @@ namespace ouzel
         Atom deleteMessage;
         Atom state;
         Atom stateFullscreen;
+        uint32_t depthBits = 0;
     };
 }

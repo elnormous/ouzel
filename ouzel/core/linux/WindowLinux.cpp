@@ -16,8 +16,8 @@ static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
-    WindowLinux::WindowLinux(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle):
-        Window(aSize, aResizable, aFullscreen, aTitle)
+    WindowLinux::WindowLinux(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle, uint32_t aDepthBits):
+        Window(aSize, aResizable, aFullscreen, aTitle), depthBits(aDepthBits)
     {
     }
 
@@ -73,9 +73,11 @@ namespace ouzel
                 GLX_RENDER_TYPE, GLX_RGBA_BIT,
                 GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
                 GLX_DOUBLEBUFFER, GL_TRUE,
-                GLX_RED_SIZE, 1,
-                GLX_GREEN_SIZE, 1,
-                GLX_BLUE_SIZE, 1,
+                GLX_RED_SIZE, 4,
+                GLX_GREEN_SIZE, 4,
+                GLX_BLUE_SIZE, 4,
+                GLX_ALPHA_SIZE, 4,
+                GLX_DEPTH_SIZE, depthBits,
                 None
             };
 
@@ -97,7 +99,7 @@ namespace ouzel
                     None
                 };
 
-                PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB"));
+                PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
 
                 if (glXCreateContextAttribsARB)
                 {
@@ -130,7 +132,16 @@ namespace ouzel
             if (!context)
             {
                 // find an OpenGL-capable RGB visual with depth buffer
-                static int doubleBuffer[] = {GLX_RGBA, GLX_DEPTH_SIZE, 16, GLX_DOUBLEBUFFER, None};
+                static int doubleBuffer[] = {
+                    GLX_RGBA,
+                    GLX_RED_SIZE, 4,
+                    GLX_GREEN_SIZE, 4,
+                    GLX_BLUE_SIZE, 4,
+                    GLX_ALPHA_SIZE, 4,
+                    GLX_DEPTH_SIZE, depthBits,
+                    GLX_DOUBLEBUFFER,
+                    None
+                };
 
                 visualInfo.reset(glXChooseVisual(display, screenIndex, doubleBuffer));
                 if (!visualInfo)
