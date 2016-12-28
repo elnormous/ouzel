@@ -70,6 +70,7 @@ namespace ouzel
         }
 
         bool RendererOGLRasp::init(Window* newWindow,
+                                   const Size2& newSize,
                                    uint32_t newSampleCount,
                                    TextureFilter newTextureFilter,
                                    PixelFormat newBackBufferFormat,
@@ -133,8 +134,8 @@ namespace ouzel
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 
-            uint32_t width = static_cast<uint32_t>(newWindow->getSize().v[0]);
-            uint32_t height = static_cast<uint32_t>(newWindow->getSize().v[1]);
+            uint32_t width = static_cast<uint32_t>(newSize.v[0]);
+            uint32_t height = static_cast<uint32_t>(newSize.v[1]);
 
             VC_RECT_T dstRect;
             dstRect.x = 0;

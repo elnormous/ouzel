@@ -452,7 +452,7 @@ namespace ouzel
                               uint32_t newDepthBits) override;
             virtual bool update() override;
 
-            virtual bool generateScreenshot(const std::string& filename);
+            virtual bool generateScreenshot(const std::string& filename) override;
 
             virtual bool createRenderBuffer();
             bool createMSAAFrameBuffer();

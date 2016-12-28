@@ -77,7 +77,7 @@ namespace ouzel
                               bool newVerticalSync,
                               uint32_t newDepthBits) override;
             virtual bool update() override;
-            bool generateScreenshot(const std::string& filename);
+            virtual bool generateScreenshot(const std::string& filename) override;
 
             MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
                                                           const std::shared_ptr<ShaderMetal>& shader);
