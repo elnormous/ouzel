@@ -466,7 +466,9 @@ namespace ouzel
             }
             else for (const DrawCommand& drawCommand : drawQueue)
             {
-#ifndef OUZEL_SUPPORTS_OPENGL
+#ifdef OUZEL_SUPPORTS_OPENGL
+                setPolygonFillMode(drawCommand.wireframe ? GL_LINE : GL_FILL);
+#else
                 if (drawCommand.wireframe)
                 {
                     continue;
@@ -701,9 +703,6 @@ namespace ouzel
                     }
                 }
 
-#ifdef OUZEL_SUPPORTS_OPENGL
-                setPolygonFillMode(drawCommand.wireframe ? GL_LINE : GL_FILL);
-#endif
 
                 // scissor test
                 setScissorTest(drawCommand.scissorTestEnabled,
