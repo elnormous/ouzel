@@ -70,6 +70,9 @@ namespace ouzel
         public:
             virtual ~RendererOGL();
 
+            virtual void setClearBackBuffer(bool clear) override;
+            virtual void setClearDepthBuffer(bool clear) override;
+
             virtual void setClearColor(Color color) override;
             virtual void setSize(const Size2& newSize) override;
 
@@ -269,6 +272,24 @@ namespace ouzel
                         Log(Log::Level::ERR) << "Failed to set scissor test";
                         return false;
                     }
+                }
+
+                return true;
+            }
+
+            static inline bool depthMask(GLboolean flag)
+            {
+                if (stateCache.depthMask != flag)
+                {
+                    glDepthMask(flag);
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to change depth test state";
+                        return false;
+                    }
+
+                    stateCache.depthMask = flag;
                 }
 
                 return true;
@@ -480,6 +501,7 @@ namespace ouzel
                 GLsizei scissorWidth = 0;
                 GLsizei scissorHeight = 0;
 
+                GLboolean depthMask = GL_TRUE;
                 bool depthTestEnabled = false;
 
                 GLint viewportX = 0;

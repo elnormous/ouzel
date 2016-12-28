@@ -337,6 +337,9 @@ namespace ouzel
             whitePixelTexture->initFromBuffer( { 255, 255, 255, 255 }, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
+            glDepthFunc(GL_LEQUAL);
+            glClearDepthf(1.0f);
+
             dirty = true;
             ready = true;
 
@@ -385,6 +388,24 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void RendererOGL::setClearBackBuffer(bool clear)
+        {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
+            Renderer::setClearBackBuffer(clear);
+
+            dirty = true;
+        }
+
+        void RendererOGL::setClearDepthBuffer(bool clear)
+        {
+            std::lock_guard<std::mutex> lock(dataMutex);
+
+            Renderer::setClearDepthBuffer(clear);
+
+            dirty = true;
         }
 
         void RendererOGL::setClearColor(Color color)
@@ -633,7 +654,7 @@ namespace ouzel
                 GLuint newFrameBufferId = 0;
                 GLbitfield newClearMask = 0;
                 const float* newClearColor;
-                bool clearBuffer = false;
+                bool clearBuffers = false;
 
                 if (drawCommand.renderTarget)
                 {
@@ -651,7 +672,7 @@ namespace ouzel
                     if (renderTargetOGL->getFrameBufferClearedFrame() != currentFrame)
                     {
                         renderTargetOGL->setFrameBufferClearedFrame(currentFrame);
-                        clearBuffer = renderTargetOGL->getClear();
+                        clearBuffers = renderTargetOGL->getClear();
                     }
                 }
                 else
@@ -673,7 +694,7 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        clearBuffer = clearBackBuffer;
+                        clearBuffers = clearBackBuffer || clearDepthBuffer;
                     }
                 }
 
@@ -687,7 +708,7 @@ namespace ouzel
                             static_cast<GLsizei>(drawCommand.viewport.size.v[0]),
                             static_cast<GLsizei>(drawCommand.viewport.size.v[1]));
 
-                if (clearBuffer)
+                if (clearBuffers)
                 {
                     glClearColor(newClearColor[0],
                                  newClearColor[1],
@@ -703,6 +724,8 @@ namespace ouzel
                     }
                 }
 
+                depthMask(drawCommand.depthWrite ? GL_TRUE : GL_FALSE);
+                enableDepthTest(drawCommand.depthTest);
 
                 // scissor test
                 setScissorTest(drawCommand.scissorTestEnabled,

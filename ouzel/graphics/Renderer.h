@@ -71,11 +71,11 @@ namespace ouzel
 
             Driver getDriver() const { return driver; }
 
-            void setClearBackBuffer(bool clear) { clearBackBuffer = clear; }
-            bool getClearBackBuffer() const { return clearBackBuffer; }
+            virtual void setClearBackBuffer(bool clear) { clearBackBuffer = clear; }
+            virtual bool getClearBackBuffer() const { return clearBackBuffer; }
 
-            void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
-            bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            virtual void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
+            virtual bool getClearDepthBuffer() const { return clearDepthBuffer; }
 
             virtual void setClearColor(Color color) { clearColor = color; }
             virtual Color getClearColor() const { return clearColor; }
