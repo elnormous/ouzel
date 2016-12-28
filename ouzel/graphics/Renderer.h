@@ -71,8 +71,11 @@ namespace ouzel
 
             Driver getDriver() const { return driver; }
 
-            void setClear(bool newClear) { clear = newClear; }
-            bool getClear() const { return clear; }
+            void setClearBackBuffer(bool clear) { clearBackBuffer = clear; }
+            bool getClearBackBuffer() const { return clearBackBuffer; }
+
+            void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
+            bool getClearDepthBuffer() const { return clearDepthBuffer; }
 
             virtual void setClearColor(Color color) { clearColor = color; }
             virtual Color getClearColor() const { return clearColor; }
@@ -173,7 +176,8 @@ namespace ouzel
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
 
-            std::atomic<bool> clear;
+            std::atomic<bool> clearBackBuffer;
+            std::atomic<bool> clearDepthBuffer;
 
             struct DrawCommand
             {

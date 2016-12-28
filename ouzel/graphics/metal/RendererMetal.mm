@@ -448,7 +448,7 @@ namespace ouzel
             {
                 frameBufferClearedFrame = currentFrame;
 
-                if (clear)
+                if (clearBackBuffer)
                 {
                     if (!createRenderCommandEncoder(renderPassDescriptor))
                     {
@@ -518,7 +518,7 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        clearBuffer = clear;
+                        clearBuffer = clearBackBuffer;
                     }
                 }
 

@@ -506,7 +506,7 @@ namespace ouzel
             {
                 frameBufferClearedFrame = currentFrame;
 
-                if (clear)
+                if (clearBackBuffer)
                 {
                     context->OMSetRenderTargets(1, &renderTargetView, nullptr);
 
@@ -568,7 +568,7 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        clearBuffer = clear;
+                        clearBuffer = clearBackBuffer;
                     }
                 }
 

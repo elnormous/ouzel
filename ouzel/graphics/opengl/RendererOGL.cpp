@@ -354,7 +354,9 @@ namespace ouzel
 
                     newSize = size;
 
-                    clearMask = GL_COLOR_BUFFER_BIT;
+                    clearMask = 0;
+                    if (clearBackBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+                    if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
 
                     frameBufferClearColor[0] = clearColor.normR();
                     frameBufferClearColor[1] = clearColor.normG();
@@ -421,7 +423,7 @@ namespace ouzel
             {
                 frameBufferClearedFrame = currentFrame;
 
-                if (clear)
+                if (clearBackBuffer)
                 {
                     GLuint clearFrameBufferId = 0;
 
@@ -669,7 +671,7 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        clearBuffer = clear;
+                        clearBuffer = clearBackBuffer;
                     }
                 }
 
