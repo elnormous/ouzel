@@ -259,7 +259,7 @@ namespace ouzel
             return true;
         }
 
-        bool Renderer::generateScreenshot(const std::string& filename)
+        bool Renderer::generateScreenshot(const std::string&)
         {
             return true;
         }

@@ -20,8 +20,6 @@ namespace ouzel
             virtual ~RendererD3D11();
             virtual void free() override;
 
-            virtual void setSize(const Size2& newSize) override;
-
             virtual bool present() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
@@ -41,6 +39,7 @@ namespace ouzel
             RendererD3D11();
 
             virtual bool init(Window* newWindow,
+                              const Size2& newSize,
                               uint32_t newSampleCount,
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
@@ -49,9 +48,7 @@ namespace ouzel
             bool update();
             bool resizeBackBuffer(UINT newWidth, UINT newHeight);
 
-            bool saveScreenshots();
-
-            virtual void setClearColor(Color color) override;
+            virtual bool saveScreenshot(const std::string& filename) override;
 
             IDXGIOutput* getOutput() const;
 
@@ -73,10 +70,8 @@ namespace ouzel
 
             UINT swapInterval = 0;
             FLOAT frameBufferClearColor[4];
-
-            bool sizeDirty = false;
-            std::atomic<bool> dirty;
-            std::mutex dataMutex;
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
         };
     } // namespace graphics
 } // namespace ouzel

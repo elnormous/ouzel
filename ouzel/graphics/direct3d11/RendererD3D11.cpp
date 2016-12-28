@@ -24,7 +24,7 @@ namespace ouzel
     namespace graphics
     {
         RendererD3D11::RendererD3D11():
-            Renderer(Driver::DIRECT3D11), dirty(false)
+            Renderer(Driver::DIRECT3D11)
         {
             RELATIVE;
             apiMajorVersion = 11;
@@ -126,15 +126,14 @@ namespace ouzel
         }
 
         bool RendererD3D11::init(Window* newWindow,
+                                 const Size2& newSize,
                                  uint32_t newSampleCount,
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
                                  uint32_t newDepthBits)
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            if (!Renderer::init(newWindow, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
+            if (!Renderer::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
             {
                 return false;
             }
@@ -199,8 +198,8 @@ namespace ouzel
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
             memset(&swapChainDesc, 0, sizeof(swapChainDesc));
 
-            width = static_cast<UINT>(size.v[0]);
-            height = static_cast<UINT>(size.v[1]);
+            width = static_cast<UINT>(newSize.v[0]);
+            height = static_cast<UINT>(newSize.v[1]);
 
             UINT qualityLevels;
 
@@ -426,62 +425,32 @@ namespace ouzel
             whitePixelTexture->initFromBuffer( { 255, 255, 255, 255 }, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
-            dirty = true;
-            ready = true;
-
             return true;
         }
 
         bool RendererD3D11::update()
         {
-            if (dirty)
+            frameBufferClearColor[0] = uploadData.clearColor.normR();
+            frameBufferClearColor[1] = uploadData.clearColor.normG();
+            frameBufferClearColor[2] = uploadData.clearColor.normB();
+            frameBufferClearColor[3] = uploadData.clearColor.normA();
+
+            clearColorBuffer = uploadData.clearColorBuffer;
+            clearDepthBuffer = uploadData.clearDepthBuffer;
+
+            if (static_cast<UINT>(uploadData.size.v[0]) != width ||
+                static_cast<UINT>(uploadData.size.v[1]) != height)
             {
-                bool newSizeDirty;
-
+                if (!resizeBackBuffer(0, 0))
                 {
-                    std::lock_guard<std::mutex> lock(dataMutex);
-
-                    newSizeDirty = sizeDirty;
-
-                    frameBufferClearColor[0] = clearColor.normR();
-                    frameBufferClearColor[1] = clearColor.normG();
-                    frameBufferClearColor[2] = clearColor.normB();
-                    frameBufferClearColor[3] = clearColor.normA();
-
-                    sizeDirty = false;
-                    dirty = false;
+                    return false;
                 }
 
-                if (newSizeDirty)
-                {
-                    if (!resizeBackBuffer(0, 0))
-                    {
-                        return false;
-                    }
-
-                    Renderer::setSize(Size2(static_cast<float>(width),
-                                            static_cast<float>(height)));
-                }
+                Renderer::setSize(Size2(static_cast<float>(width),
+                                        static_cast<float>(height)));
             }
 
             return true;
-        }
-
-        void RendererD3D11::setClearColor(Color color)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            Renderer::setClearColor(color);
-
-            dirty = true;
-        }
-
-        void RendererD3D11::setSize(const Size2&)
-        {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
-            sizeDirty = true;
-            dirty = true;
         }
 
         bool RendererD3D11::present()
@@ -506,7 +475,7 @@ namespace ouzel
             {
                 frameBufferClearedFrame = currentFrame;
 
-                if (clearBackBuffer)
+                if (clearColorBuffer)
                 {
                     context->OMSetRenderTargets(1, &renderTargetView, nullptr);
 
@@ -527,7 +496,8 @@ namespace ouzel
                 // render target
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
                 const float* newClearColor;
-                bool clearBuffer = false;
+                bool newClearColorBuffer = false;
+                bool newClearDepthBuffer = false;
 
                 viewport = {
                     drawCommand.viewport.position.v[0],
@@ -555,7 +525,8 @@ namespace ouzel
                     if (renderTargetD3D11->getFrameBufferClearedFrame() != currentFrame)
                     {
                         renderTargetD3D11->setFrameBufferClearedFrame(currentFrame);
-                        clearBuffer = renderTargetD3D11->getClear();
+                        newClearColorBuffer = renderTargetD3D11->getClearColorBuffer();
+                        newClearDepthBuffer = renderTargetD3D11->getClearDepthBuffer();
                     }
                 }
                 else
@@ -568,14 +539,15 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        clearBuffer = clearBackBuffer;
+                        newClearColorBuffer = clearColorBuffer;
+                        newClearDepthBuffer = clearDepthBuffer;
                     }
                 }
 
                 context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
                 context->RSSetViewports(1, &viewport);
 
-                if (clearBuffer)
+                if (newClearColorBuffer)
                 {
                     context->ClearRenderTargetView(newRenderTargetView, newClearColor);
                 }
@@ -771,11 +743,6 @@ namespace ouzel
 
             swapChain->Present(swapInterval, 0);
 
-            if (!saveScreenshots())
-            {
-                return false;
-            }
-
             return true;
         }
 
@@ -893,104 +860,90 @@ namespace ouzel
             return meshBuffer;
         }
 
-        bool RendererD3D11::saveScreenshots()
+        bool RendererD3D11::saveScreenshot(const std::string& filename)
         {
-            for (;;)
+            ID3D11Texture2D* backBufferTexture;
+            HRESULT hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture));
+
+            if (FAILED(hr))
             {
-                std::string filename;
+                Log(Log::Level::ERR) << "Failed to get Direct3D 11 back buffer texture";
+                return false;
+            }
 
-                {
-                    std::lock_guard<std::mutex> lock(screenshotMutex);
+            D3D11_TEXTURE2D_DESC backBufferDesc;
+            backBufferTexture->GetDesc(&backBufferDesc);
 
-                    if (screenshotQueue.empty()) break;
+            D3D11_TEXTURE2D_DESC desc = backBufferDesc;
+            desc.SampleDesc.Count = 1;
+            desc.SampleDesc.Quality = 0;
+            desc.Usage = D3D11_USAGE_STAGING;
+            desc.BindFlags = 0;
+            desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+            desc.MiscFlags = 0;
 
-                    filename = screenshotQueue.front();
-                    screenshotQueue.pop();
-                }
+            ID3D11Texture2D* texture;
 
-                ID3D11Texture2D* backBufferTexture;
-                HRESULT hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture));
+            hr = device->CreateTexture2D(&desc, nullptr, &texture);
 
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture";
+                return false;
+            }
+
+            if (backBufferDesc.SampleDesc.Count > 1)
+            {
+                D3D11_TEXTURE2D_DESC tempDesc = backBufferDesc;
+                tempDesc.SampleDesc.Count = 1;
+                tempDesc.SampleDesc.Quality = 0;
+
+                ID3D11Texture2D* temp;
+                hr = device->CreateTexture2D(&tempDesc, nullptr, &temp);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to get Direct3D 11 back buffer texture";
-                    return false;
-                }
-
-                D3D11_TEXTURE2D_DESC backBufferDesc;
-                backBufferTexture->GetDesc(&backBufferDesc);
-
-                D3D11_TEXTURE2D_DESC desc = backBufferDesc;
-                desc.SampleDesc.Count = 1;
-                desc.SampleDesc.Quality = 0;
-                desc.Usage = D3D11_USAGE_STAGING;
-                desc.BindFlags = 0;
-                desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-                desc.MiscFlags = 0;
-
-                ID3D11Texture2D* texture;
-
-                hr = device->CreateTexture2D(&desc, nullptr, &texture);
-
-                if (FAILED(hr))
-                {
+                    texture->Release();
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture";
                     return false;
                 }
 
-                if (backBufferDesc.SampleDesc.Count > 1)
+                for (UINT item = 0; item < backBufferDesc.ArraySize; ++item)
                 {
-                    D3D11_TEXTURE2D_DESC tempDesc = backBufferDesc;
-                    tempDesc.SampleDesc.Count = 1;
-                    tempDesc.SampleDesc.Quality = 0;
-
-                    ID3D11Texture2D* temp;
-                    hr = device->CreateTexture2D(&tempDesc, nullptr, &temp);
-                    if (FAILED(hr))
+                    for (UINT level = 0; level < desc.MipLevels; ++level)
                     {
-                        texture->Release();
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture";
-                        return false;
+                        UINT index = D3D11CalcSubresource(level, item, backBufferDesc.MipLevels);
+                        context->ResolveSubresource(temp, index, backBuffer, index, DXGI_FORMAT_R8G8B8A8_UNORM);
                     }
-
-                    for (UINT item = 0; item < backBufferDesc.ArraySize; ++item)
-                    {
-                        for (UINT level = 0; level < desc.MipLevels; ++level)
-                        {
-                            UINT index = D3D11CalcSubresource(level, item, backBufferDesc.MipLevels);
-                            context->ResolveSubresource(temp, index, backBuffer, index, DXGI_FORMAT_R8G8B8A8_UNORM);
-                        }
-                    }
-
-                    context->CopyResource(texture, temp);
-                    temp->Release();
-                }
-                else
-                {
-                    context->CopyResource(texture, backBuffer);
                 }
 
-                D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-                hr = context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
+                context->CopyResource(texture, temp);
+                temp->Release();
+            }
+            else
+            {
+                context->CopyResource(texture, backBuffer);
+            }
 
-                if (FAILED(hr))
-                {
-                    texture->Release();
-                    Log(Log::Level::ERR) << "Failed to map Direct3D 11 resource";
-                    return false;
-                }
+            D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+            hr = context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
 
-                if (!stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
-                {
-                    context->Unmap(texture, 0);
-                    texture->Release();
-                    Log(Log::Level::ERR) << "Failed to save screenshot to file";
-                    return false;
-                }
+            if (FAILED(hr))
+            {
+                texture->Release();
+                Log(Log::Level::ERR) << "Failed to map Direct3D 11 resource";
+                return false;
+            }
 
+            if (!stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
+            {
                 context->Unmap(texture, 0);
                 texture->Release();
+                Log(Log::Level::ERR) << "Failed to save screenshot to file";
+                return false;
             }
+
+            context->Unmap(texture, 0);
+            texture->Release();
 
             return true;
         }
