@@ -227,7 +227,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
                     ouzel::sharedEngine->resume();
                     // fall through
                 case SIZE_MAXIMIZED:
-                    windowWin->handleResize(LOWORD(lParam), HIWORD(lParam));
+                    windowWin->handleResize(ouzel::Size2(static_cast<float>(LOWORD(lParam)),
+                                                         static_cast<float>(HIWORD(lParam))));
                     break;
             }
             return 0;
@@ -458,10 +459,10 @@ namespace ouzel
         }
     }
 
-    void WindowWin::handleResize(INT width, INT height)
+    void WindowWin::handleResize(const Size2& newSize)
     {
-        Window::setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
-        sharedEngine->getRenderer()->setSize(size);
+        Window::setSize(newSize);
+        sharedEngine->getRenderer()->setSize(newSize);
     }
 
     void WindowWin::addAccelerator(HACCEL accelerator)

@@ -22,7 +22,7 @@ namespace ouzel
         virtual void setTitle(const std::string& newTitle) override;
         virtual void setFullscreen(bool newFullscreen) override;
 
-        void handleResize(INT width, INT height);
+        void handleResize(const Size2& newSize);
 
         HWND getNativeWindow() const { return window; }
         const std::set<HACCEL>& getAccelerators() const { return accelerators; }
