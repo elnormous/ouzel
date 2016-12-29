@@ -48,7 +48,7 @@ namespace ouzel
             {
                 if (logError)
                 {
-                    const char* errorStr = "Unknown error";
+                    const char* errorStr;
 
                     switch (error)
                     {
@@ -57,6 +57,7 @@ namespace ouzel
                         case AL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
                         case AL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
                         case AL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
+                        default: errorStr = "Unknown error"; break;
                     }
 
                     Log(Log::Level::ERR) << "OpenAL error: " << errorStr << " (" << error << ")";

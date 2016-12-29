@@ -80,19 +80,19 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
-            if (msaaTextureId)
+            if (colorRenderBufferId)
             {
-                glDeleteTextures(1, &msaaTextureId);
+                glDeleteRenderbuffers(1, &colorRenderBufferId);
             }
 
-            if (msaaRenderBufferId)
+            if (depthRenderBufferId)
             {
-                glDeleteRenderbuffers(1, &msaaRenderBufferId);
+                glDeleteRenderbuffers(1, &depthRenderBufferId);
             }
 
-            if (msaaFrameBufferId)
+            if (frameBufferId)
             {
-                glDeleteFramebuffers(1, &msaaFrameBufferId);
+                glDeleteFramebuffers(1, &frameBufferId);
             }
         }
 
@@ -194,19 +194,10 @@ namespace ouzel
             frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
             frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
 
-            if (sampleCount > 1)
+            if (!createFrameBuffer())
             {
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                if (!createMSAAFrameBuffer())
-                {
-                    return false;
-                }
-#else
-                Log(Log::Level::WARN) << "Multisample anti-aliasing is disabled for OpenGL";
-#endif
+                return false;
             }
-
-            //glEnable(GL_DEPTH_TEST);
 
             ShaderPtr textureShader = createShader();
 
@@ -337,6 +328,13 @@ namespace ouzel
             glDepthFunc(GL_LEQUAL);
             glClearDepthf(1.0f);
 
+#if OUZEL_SUPPORTS_OPENGL
+            if (sampleCount > 1)
+            {
+                glEnable(GL_MULTISAMPLE);
+            }
+#endif
+
             return true;
         }
 
@@ -357,27 +355,17 @@ namespace ouzel
                 frameBufferWidth = static_cast<GLsizei>(uploadData.size.v[0]);
                 frameBufferHeight = static_cast<GLsizei>(uploadData.size.v[1]);
 
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                 if (!createFrameBuffer())
                 {
                     return false;
                 }
 
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
                 Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
                                              static_cast<float>(frameBufferHeight));
 
                 window->setSize(backBufferSize);
 #endif
-
-                if (sampleCount > 1)
-                {
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                    if (!createMSAAFrameBuffer())
-                    {
-                        return false;
-                    }
-#endif
-                }
             }
 
             return true;
@@ -400,18 +388,7 @@ namespace ouzel
                 {
                     GLuint clearFrameBufferId = 0;
 
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                    if (sampleCount > 1)
-                    {
-                        clearFrameBufferId = msaaFrameBufferId;
-                    }
-                    else
-#endif
-                    {
-                        clearFrameBufferId = frameBufferId;
-                    }
-
-                    if (!bindFrameBuffer(clearFrameBufferId))
+                    if (!bindFrameBuffer(frameBufferId))
                     {
                         return false;
                     }
@@ -627,16 +604,7 @@ namespace ouzel
                 }
                 else
                 {
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                    if (sampleCount > 1)
-                    {
-                        newFrameBufferId = msaaFrameBufferId;
-                    }
-                    else
-#endif
-                    {
-                        newFrameBufferId = frameBufferId;
-                    }
+                    newFrameBufferId = frameBufferId;
 
                     if (frameBufferClearedFrame != currentFrame)
                     {
@@ -658,6 +626,12 @@ namespace ouzel
 
                 if (newClearMask)
                 {
+                    if (newClearMask & GL_DEPTH_BUFFER_BIT)
+                    {
+                        // allow clearing the depth buffer
+                        depthMask(true);
+                    }
+
                     glClearColor(newClearColor[0],
                                  newClearColor[1],
                                  newClearColor[2],
@@ -672,8 +646,11 @@ namespace ouzel
                     }
                 }
 
-                depthMask(drawCommand.depthWrite ? GL_TRUE : GL_FALSE);
                 enableDepthTest(drawCommand.depthTest);
+
+                GLint writeMask;
+                glGetIntegerv(GL_DEPTH_WRITEMASK, &writeMask);
+                depthMask(drawCommand.depthWrite);
 
                 // scissor test
                 setScissorTest(drawCommand.scissorTestEnabled,
@@ -730,82 +707,31 @@ namespace ouzel
                 }
             }
 
-            if (sampleCount > 1)
+#if OUZEL_SUPPORTS_OPENGL
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // draw to default frame buffer
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBufferId); // read from FBO
+            glDrawBuffer(GL_BACK); // set the back buffer as the draw buffer
+
+            if (checkOpenGLError())
             {
-#if OUZEL_PLATFORM_MACOS
-                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBufferId); // draw to frame buffer
-                glBindFramebuffer(GL_READ_FRAMEBUFFER, msaaFrameBufferId); // read from multisampled FBO
-                glDrawBuffer(GL_BACK); // set the back buffer as the draw buffer
-
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to bind MSAA frame buffer";
-                    return false;
-                }
-
-                glBlitFramebuffer(0, 0, frameBufferWidth, frameBufferHeight,
-                                  0, 0, frameBufferWidth, frameBufferHeight,
-                                  GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to blit MSAA texture";
-                    return false;
-                }
-#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, frameBufferId); // draw to frame buffer
-                glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, msaaFrameBufferId); // read from multisampled FBO
-
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to bind MSAA frame buffer";
-                    return false;
-                }
-
-                if (apiMajorVersion >= 3)
-                {
-                    glBlitFramebuffer(0, 0, frameBufferWidth, frameBufferHeight,
-                                      0, 0, frameBufferWidth, frameBufferHeight,
-                                      GL_COLOR_BUFFER_BIT, GL_NEAREST);
-                }
-                else
-                {
-                    glResolveMultisampleFramebufferAPPLE();
-                }
-
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to blit MSAA texture";
-                    return false;
-                }
-#endif
-
-                // reset framebuffer
-#if OUZEL_PLATFORM_MACOS
-                glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBufferId);
-                stateCache.frameBufferId = frameBufferId;
-#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-
-                const GLenum discard[] = {GL_COLOR_ATTACHMENT0 /*, GL_DEPTH_ATTACHMENT */};
-                glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, discard);
-
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to discard render buffers";
-                    return false;
-                }
-
-                stateCache.frameBufferId = 0;
-
-                glBindRenderbuffer(GL_RENDERBUFFER, frameBufferId);
-
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set render buffer";
-                    return false;
-                }
-#endif
+                Log(Log::Level::ERR) << "Failed to bind frame buffer";
+                return false;
             }
+
+            glBlitFramebuffer(0, 0, frameBufferWidth, frameBufferHeight,
+                              0, 0, frameBufferWidth, frameBufferHeight,
+                              GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+            if (checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to blit framebuffer";
+                return false;
+            }
+
+            // reset framebuffer
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+            stateCache.frameBufferId = 0;
+#endif
 
             return true;
         }
@@ -859,7 +785,7 @@ namespace ouzel
 
         bool RendererOGL::generateScreenshot(const std::string& filename)
         {
-            bindFrameBuffer(frameBufferId);
+            bindFrameBuffer(0);
 
             const GLsizei width = frameBufferWidth;
             const GLsizei height = frameBufferHeight;
@@ -900,79 +826,91 @@ namespace ouzel
 
         bool RendererOGL::createFrameBuffer()
         {
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#if OUZEL_SUPPORTS_OPENGL
             if (!frameBufferId)
             {
                 glGenFramebuffers(1, &frameBufferId);
             }
-#endif
-            return true;
-        }
 
-        bool RendererOGL::createMSAAFrameBuffer()
-        {
-#if OUZEL_PLATFORM_MACOS
-            glEnable(GL_MULTISAMPLE);
-
-            if (!msaaTextureId)
+            if (sampleCount > 1)
             {
-                glGenTextures(1, &msaaTextureId);
+                if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
+                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
+                glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
+
+                if (depthBits > 0)
+                {
+                    GLenum depthFormat;
+                    switch (depthBits)
+                    {
+                        case 16: depthFormat = GL_DEPTH_COMPONENT16; break;
+                        case 24: depthFormat = GL_DEPTH_COMPONENT24; break;
+                        case 32: depthFormat = GL_DEPTH_COMPONENT32; break;
+                        default: Log(Log::Level::ERR) << "Unsupported depth buffer format"; return false;
+                    }
+
+                    if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
+                    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
+                    glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
+                }
+
+                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBufferId);
+                glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
+                                          GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER,
+                                          colorRenderBufferId);
+
+                if (depthBits > 0)
+                {
+                    glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
+                                              GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                }
+
+                if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                {
+                    Log(Log::Level::ERR) << "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                    return false;
+                }
             }
-
-            glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId);
-            glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, static_cast<GLsizei>(sampleCount), GL_RGBA,
-                                    frameBufferWidth, frameBufferHeight, false);
-
-            if (checkOpenGLError())
+            else
             {
-                Log(Log::Level::ERR) << "Failed to initialize MSAA color buffer";
-                return false;
-            }
+                if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
+                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
+                glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, frameBufferWidth, frameBufferHeight);
 
-            if (!msaaFrameBufferId)
-            {
-                glGenFramebuffers(1, &msaaFrameBufferId);
-            }
+                if (depthBits > 0)
+                {
+                    GLenum depthFormat;
+                    switch (depthBits)
+                    {
+                        case 16: depthFormat = GL_DEPTH_COMPONENT16; break;
+                        case 24: depthFormat = GL_DEPTH_COMPONENT24; break;
+                        case 32: depthFormat = GL_DEPTH_COMPONENT32; break;
+                    }
 
-            graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, msaaTextureId, 0);
+                    if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
+                    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
+                    glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
+                }
+
+                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBufferId);
+                glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
+                                          GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER,
+                                          colorRenderBufferId);
+
+                if (depthBits > 0)
+                {
+                    glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
+                                              GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                }
+            }
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             {
                 Log(Log::Level::ERR) << "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 return false;
             }
-#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            if (!msaaRenderBufferId)
-            {
-                glGenRenderbuffers(1, &msaaRenderBufferId);
-            }
-
-            glBindRenderbuffer(GL_RENDERBUFFER, msaaRenderBufferId);
-
-            glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
-
-            if (checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to initialize MSAA color buffer";
-                return false;
-            }
-
-            if (!msaaFrameBufferId)
-            {
-                glGenFramebuffers(1, &msaaFrameBufferId);
-            }
-
-            graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
-
-            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaRenderBufferId);
-
-            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            {
-                Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
-                return false;
-            }
 #endif
+
             return true;
         }
 

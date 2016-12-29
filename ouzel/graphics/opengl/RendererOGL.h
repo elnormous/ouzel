@@ -90,7 +90,7 @@ namespace ouzel
                 {
                     if (logError)
                     {
-                        const char* errorStr = "Unknown error";
+                        const char* errorStr;
 
                         switch (error)
                         {
@@ -99,6 +99,7 @@ namespace ouzel
                             case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
                             case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
                             case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
+                            default: errorStr = "Unknown error"; break;
                         }
 
                         Log(Log::Level::ERR) << "OpenGL error: " << errorStr << " (" << error << ")";
@@ -271,15 +272,15 @@ namespace ouzel
                 return true;
             }
 
-            static inline bool depthMask(GLboolean flag)
+            static inline bool depthMask(bool flag)
             {
                 if (stateCache.depthMask != flag)
                 {
-                    glDepthMask(flag);
+                    glDepthMask(flag ? GL_TRUE : GL_FALSE);
 
                     if (checkOpenGLError())
                     {
-                        Log(Log::Level::ERR) << "Failed to change depth test state";
+                        Log(Log::Level::ERR) << "Failed to change depth mask state";
                         return false;
                     }
 
@@ -455,17 +456,14 @@ namespace ouzel
             virtual bool generateScreenshot(const std::string& filename) override;
 
             virtual bool createFrameBuffer();
-            bool createMSAAFrameBuffer();
 
             static void deleteResources();
 
-            GLuint frameBufferId = 0;
-
             GLsizei frameBufferWidth = 0;
             GLsizei frameBufferHeight = 0;
-            GLuint msaaTextureId = 0;
-            GLuint msaaFrameBufferId = 0;
-            GLuint msaaRenderBufferId = 0;
+            GLuint frameBufferId = 0;
+            GLuint colorRenderBufferId = 0;
+            GLuint depthRenderBufferId = 0;
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
@@ -498,7 +496,7 @@ namespace ouzel
                 GLsizei scissorWidth = 0;
                 GLsizei scissorHeight = 0;
 
-                GLboolean depthMask = GL_TRUE;
+                bool depthMask = true;
                 bool depthTestEnabled = false;
 
                 GLint viewportX = 0;

@@ -19,6 +19,11 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
+    sharedEngine->getRenderer()->setClearDepthBuffer(true);
+
+    camera.setDepthTest(true);
+    camera.setDepthWrite(true);
+
     camera.setType(scene::Camera::Type::PERSPECTIVE);
     camera.setFarPlane(1000.0f);
     camera.setPosition(Vector3(0.0f, 0.0f, -400.0f));
@@ -91,6 +96,9 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
             case input::KeyboardKey::ESCAPE:
                 samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
                 return true;
+            case input::KeyboardKey::KEY_S:
+                sharedEngine->getRenderer()->saveScreenshot("/Users/elviss/Desktop/test.png");
+                break;
             default:
                 break;
         }
