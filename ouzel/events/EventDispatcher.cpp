@@ -19,7 +19,14 @@ namespace ouzel
         // erase all null event handlers from the list
         for (auto i = eventHandlers.begin(); i != eventHandlers.end();)
         {
-            i = (*i) ? ++i : eventHandlers.erase(i);
+            if (*i)
+            {
+                ++i;
+            }
+            else
+            {
+                i = eventHandlers.erase(i);
+            }
         }
 
         if (!eventHandlerAddSet.empty())

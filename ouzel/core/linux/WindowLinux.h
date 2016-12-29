@@ -33,7 +33,7 @@ namespace ouzel
         WindowLinux(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
         virtual bool init() override;
         virtual bool toggleFullscreen();
-        void handleResize(int width, int height);
+        void handleResize(const Size2& newSize);
 
         Display* display = nullptr;
         GLXContext context = 0;
