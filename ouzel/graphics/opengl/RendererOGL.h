@@ -454,7 +454,7 @@ namespace ouzel
 
             virtual bool generateScreenshot(const std::string& filename) override;
 
-            virtual bool createRenderBuffer();
+            virtual bool createFrameBuffer();
             bool createMSAAFrameBuffer();
 
             static void deleteResources();

@@ -39,7 +39,7 @@ namespace ouzel
                               bool newVerticalSync,
                               uint32_t newDepthBits) override;
 
-            virtual bool createRenderBuffer() override;
+            virtual bool createFrameBuffer() override;
 
             EAGLContextPtr context = Nil;
 

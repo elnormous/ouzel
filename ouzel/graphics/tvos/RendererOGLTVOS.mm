@@ -107,7 +107,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!createRenderBuffer())
+            if (!createFrameBuffer())
             {
                 return false;
             }
@@ -120,16 +120,11 @@ namespace ouzel
             return RendererOGL::init(newWindow, backBufferSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
 
-        bool RendererOGLTVOS::createRenderBuffer()
+        bool RendererOGLTVOS::createFrameBuffer()
         {
-            if (!RendererOGL::createRenderBuffer())
+            if (!RendererOGL::createFrameBuffer())
             {
                 return false;
-            }
-
-            if (!frameBufferId)
-            {
-                glGenFramebuffers(1, &frameBufferId);
             }
             
             if (colorRenderBuffer)

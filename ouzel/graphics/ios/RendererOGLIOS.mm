@@ -106,7 +106,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!createRenderBuffer())
+            if (!createFrameBuffer())
             {
                 return false;
             }
@@ -136,16 +136,11 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLIOS::createRenderBuffer()
+        bool RendererOGLIOS::createFrameBuffer()
         {
-            if (!RendererOGL::createRenderBuffer())
+            if (!RendererOGL::createFrameBuffer())
             {
                 return false;
-            }
-
-            if (!frameBufferId)
-            {
-                glGenFramebuffers(1, &frameBufferId);
             }
 
             if (colorRenderBuffer)

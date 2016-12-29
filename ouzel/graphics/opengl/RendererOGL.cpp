@@ -360,7 +360,7 @@ namespace ouzel
                 frameBufferHeight = static_cast<GLsizei>(uploadData.size.v[1]);
 
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                if (!createRenderBuffer())
+                if (!createFrameBuffer())
                 {
                     return false;
                 }
@@ -900,8 +900,14 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGL::createRenderBuffer()
-        {            
+        bool RendererOGL::createFrameBuffer()
+        {
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+            if (!frameBufferId)
+            {
+                glGenFramebuffers(1, &frameBufferId);
+            }
+#endif
             return true;
         }
 
