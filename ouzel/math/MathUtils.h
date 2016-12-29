@@ -84,7 +84,4 @@ namespace ouzel
         }
         return hash;
     }
-
-    bool linesIntersect(const Vector2& p0, const Vector2& p1,
-                        const Vector2& p2, const Vector2& p3);
 }
