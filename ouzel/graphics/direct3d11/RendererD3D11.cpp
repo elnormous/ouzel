@@ -367,8 +367,8 @@ namespace ouzel
             textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
                                            std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
                                            VertexPCT::ATTRIBUTES,
-                                           {{ "color", 4 * sizeof(float) }},
-                                           {{ "modelViewProj", sizeof(Matrix4) }});
+                                           {{"color", 4 * sizeof(float)}},
+                                           {{"modelViewProj", sizeof(Matrix4)}});
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
@@ -376,8 +376,8 @@ namespace ouzel
             colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
                                          std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
                                          VertexPC::ATTRIBUTES,
-                                         {{ "color", 4 * sizeof(float) }},
-                                         {{ "modelViewProj", sizeof(Matrix4) }});
+                                         {{"color", 4 * sizeof(float)}},
+                                         {{"modelViewProj", sizeof(Matrix4)}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
@@ -422,7 +422,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             TexturePtr whitePixelTexture = createTexture();
-            whitePixelTexture->initFromBuffer( { 255, 255, 255, 255 }, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             return true;
@@ -613,7 +613,7 @@ namespace ouzel
                                           shaderData.data(),
                                           static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
-                ID3D11Buffer* pixelShaderConstantBuffers[1] = { shaderD3D11->getPixelShaderConstantBuffer() };
+                ID3D11Buffer* pixelShaderConstantBuffers[1] = {shaderD3D11->getPixelShaderConstantBuffer()};
                 context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
 
                 // vertex shader constants
@@ -645,7 +645,7 @@ namespace ouzel
                                           shaderData.data(),
                                           static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
-                ID3D11Buffer* vertexShaderConstantBuffers[1] = { shaderD3D11->getVertexShaderConstantBuffer() };
+                ID3D11Buffer* vertexShaderConstantBuffers[1] = {shaderD3D11->getVertexShaderConstantBuffer()};
                 context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
 
                 // blend state
@@ -718,9 +718,9 @@ namespace ouzel
                     continue;
                 }
 
-                ID3D11Buffer* buffers[] = { vertexBufferD3D11->getBuffer() };
-                UINT strides[] = { vertexBufferD3D11->getVertexSize() };
-                UINT offsets[] = { 0 };
+                ID3D11Buffer* buffers[] = {vertexBufferD3D11->getBuffer()};
+                UINT strides[] = {vertexBufferD3D11->getVertexSize()};
+                UINT offsets[] = {0};
                 context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
                 context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), indexBufferD3D11->getFormat(), 0);
 

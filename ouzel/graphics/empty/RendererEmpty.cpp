@@ -36,8 +36,8 @@ namespace ouzel
 
             ShaderPtr textureShader = createShader();
 
-            textureShader->initFromBuffers({ },
-                                           { },
+            textureShader->initFromBuffers({},
+                                           {},
                                            VertexPCT::ATTRIBUTES,
                                            {{"color", 4 * sizeof(float)}},
                                            {{"modelViewProj", sizeof(Matrix4)}});
@@ -46,8 +46,8 @@ namespace ouzel
 
             ShaderPtr colorShader = createShader();
 
-            colorShader->initFromBuffers({ },
-                                         { },
+            colorShader->initFromBuffers({},
+                                         {},
                                          VertexPC::ATTRIBUTES,
                                          {{"color", 4 * sizeof(float)}},
                                          {{"modelViewProj", sizeof(Matrix4)}});
@@ -95,7 +95,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             TexturePtr whitePixelTexture = createTexture();
-            whitePixelTexture->initFromBuffer( { 255, 255, 255, 255 }, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             return true;

@@ -134,15 +134,15 @@ namespace ouzel
             if (currentFrame < frames.size())
             {
                 Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix * offsetMatrix;
-                float colorVector[] = { drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA() };
+                float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
+                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
                 std::vector<std::vector<float>> vertexShaderConstants(1);
-                vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+                vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand({ frames[currentFrame].getTexture() },
+                sharedEngine->getRenderer()->addDrawCommand({frames[currentFrame].getTexture()},
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
@@ -167,15 +167,15 @@ namespace ouzel
             if (currentFrame < frames.size())
             {
                 Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix * offsetMatrix;
-                float colorVector[] = { drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA() };
+                float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = { std::begin(colorVector), std::end(colorVector) };
+                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
                 std::vector<std::vector<float>> vertexShaderConstants(1);
-                vertexShaderConstants[0] = { std::begin(modelViewProj.m), std::end(modelViewProj.m) };
+                vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand({ whitePixelTexture },
+                sharedEngine->getRenderer()->addDrawCommand({whitePixelTexture},
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,

@@ -333,7 +333,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             TexturePtr whitePixelTexture = createTexture();
-            whitePixelTexture->initFromBuffer( { 255, 255, 255, 255 }, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             glDepthFunc(GL_LEQUAL);
@@ -788,7 +788,7 @@ namespace ouzel
                 stateCache.frameBufferId = frameBufferId;
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 
-                const GLenum discard[] = { GL_COLOR_ATTACHMENT0 /*, GL_DEPTH_ATTACHMENT */ };
+                const GLenum discard[] = {GL_COLOR_ATTACHMENT0 /*, GL_DEPTH_ATTACHMENT */};
                 glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, discard);
 
                 if (checkOpenGLError())

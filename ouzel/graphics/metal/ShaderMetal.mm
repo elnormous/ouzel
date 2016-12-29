@@ -191,7 +191,7 @@ namespace ouzel
 
                 for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
                 {
-                    pixelShaderConstantLocations.push_back({ pixelShaderConstantSize, info.size });
+                    pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
                     pixelShaderConstantSize += info.size;
                 }
 
@@ -238,7 +238,7 @@ namespace ouzel
 
                 for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
                 {
-                    vertexShaderConstantLocations.push_back({ vertexShaderConstantSize, info.size });
+                    vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
                     vertexShaderConstantSize += info.size;
                 }
 

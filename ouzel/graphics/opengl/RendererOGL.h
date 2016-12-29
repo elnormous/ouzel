@@ -472,7 +472,7 @@ namespace ouzel
 
             struct StateCache
             {
-                GLuint textureId[Texture::LAYERS] = { 0 };
+                GLuint textureId[Texture::LAYERS] = {0};
                 GLuint programId = 0;
                 GLuint frameBufferId = 0;
 
