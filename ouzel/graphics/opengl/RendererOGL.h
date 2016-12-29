@@ -461,10 +461,6 @@ namespace ouzel
 
             GLuint frameBufferId = 0;
 
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            GLuint colorRenderBuffer = 0;
-#endif
-
             GLsizei frameBufferWidth = 0;
             GLsizei frameBufferHeight = 0;
             GLuint msaaTextureId = 0;

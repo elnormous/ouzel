@@ -42,9 +42,9 @@ namespace ouzel
             virtual bool createFrameBuffer() override;
 
             EAGLContextPtr context = Nil;
-            GLuint colorRenderBuffer = 0;
-
             CAEAGLLayerPtr eaglLayer = Nil;
+
+            GLuint colorRenderBuffer = 0;
         };
     } // namespace graphics
 } // namespace ouzel
