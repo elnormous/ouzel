@@ -32,7 +32,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     layer.addChild(&floor);
     floor.setPosition(Vector2(0.0f, -50.0f));
     floor.setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
-
+    
     // character
     characterSprite.initFromFile("run.json");
     characterSprite.play(true);
@@ -43,7 +43,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
     character.animate(rotate.get());
-
+    
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
@@ -90,7 +90,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 break;
             case input::KeyboardKey::ESCAPE:
                 samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
-                break;
+                return true;
             default:
                 break;
         }
@@ -102,16 +102,19 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
 }
 
 bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event)
-{
+{    
     if (event.modifiers & LEFT_MOUSE_DOWN)
     {
-        Quaternion rotation;
+        if (type == Event::Type::MOUSE_MOVE)
+        {
+            Quaternion rotation;
 
-        rotation.setEulerAngles(Vector3(event.difference.y() / 2.0f,
-                                        -event.difference.x() / 2.0f,
-                                        0.0f));
+            rotation.setEulerAngles(Vector3(event.difference.y() / 2.0f,
+                                            -event.difference.x() / 2.0f,
+                                            0.0f));
 
-        camera.setRotation(camera.getRotation() * rotation);
+            camera.setRotation(camera.getRotation() * rotation);
+        }
     }
 
     return true;
