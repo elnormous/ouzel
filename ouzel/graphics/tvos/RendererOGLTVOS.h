@@ -44,7 +44,8 @@ namespace ouzel
             EAGLContextPtr context = Nil;
             CAEAGLLayerPtr eaglLayer = Nil;
 
-            GLuint colorRenderBuffer = 0;
+            GLuint resolveFrameBufferId = 0;
+            GLuint resolveColorRenderBufferId = 0;
         };
     } // namespace graphics
 } // namespace ouzel

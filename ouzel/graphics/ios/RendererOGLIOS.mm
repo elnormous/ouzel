@@ -12,15 +12,6 @@ namespace ouzel
     {
         RendererOGLIOS::~RendererOGLIOS()
         {
-            if (context)
-            {
-                if ([EAGLContext currentContext] == context)
-                {
-                    [EAGLContext setCurrentContext:nil];
-                }
-                [context release];
-            }
-
             if (resolveFrameBufferId)
             {
                 glDeleteFramebuffers(1, &resolveFrameBufferId);
@@ -30,10 +21,7 @@ namespace ouzel
             {
                 glDeleteRenderbuffers(1, &resolveColorRenderBufferId);
             }
-        }
-
-        void RendererOGLIOS::free()
-        {
+            
             if (context)
             {
                 if ([EAGLContext currentContext] == context)
@@ -42,17 +30,29 @@ namespace ouzel
                 }
                 [context release];
             }
+        }
 
+        void RendererOGLIOS::free()
+        {
             if (resolveFrameBufferId)
             {
                 glDeleteFramebuffers(1, &resolveFrameBufferId);
-                frameBufferId = 0;
+                resolveFrameBufferId = 0;
             }
 
             if (resolveColorRenderBufferId)
             {
                 glDeleteRenderbuffers(1, &resolveColorRenderBufferId);
                 resolveColorRenderBufferId = 0;
+            }
+
+            if (context)
+            {
+                if ([EAGLContext currentContext] == context)
+                {
+                    [EAGLContext setCurrentContext:nil];
+                }
+                [context release];
             }
         }
 
@@ -169,15 +169,16 @@ namespace ouzel
                     return false;
                 }
 
-                stateCache.frameBufferId = frameBufferId;
+                stateCache.frameBufferId = resolveFrameBufferId;
+            }
 
-                glBindRenderbuffer(GL_RENDERBUFFER, frameBufferId);
-
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set render buffer";
-                    return false;
-                }
+            if (sampleCount > 1)
+            {
+                glBindRenderbuffer(GL_RENDERBUFFER, resolveColorRenderBufferId);
+            }
+            else
+            {
+                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
             }
 
             [context presentRenderbuffer:GL_RENDERBUFFER];
