@@ -75,6 +75,8 @@ namespace ouzel
                 {
                     return false;
                 }
+
+                dirty = false;
             }
 
             ++currentFrame;
