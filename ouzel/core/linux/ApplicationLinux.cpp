@@ -149,7 +149,8 @@ namespace ouzel
                         }
                         case ConfigureNotify:
                         {
-                            windowLinux->handleResize(event.xconfigure.width, event.xconfigure.height);
+                            windowLinux->handleResize(Size2(static_cast<float>(event.xconfigure.width),
+                                                            static_cast<float>(event.xconfigure.height)));
                             break;
                         }
                         case Expose:
