@@ -16,8 +16,8 @@ static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
-    WindowLinux::WindowLinux(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle, uint32_t aDepthBits):
-        Window(aSize, aResizable, aFullscreen, aTitle), depthBits(aDepthBits)
+    WindowLinux::WindowLinux(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle):
+        Window(aSize, aResizable, aFullscreen, aTitle)
     {
     }
 
@@ -77,7 +77,6 @@ namespace ouzel
                 GLX_GREEN_SIZE, 8,
                 GLX_BLUE_SIZE, 8,
                 GLX_ALPHA_SIZE, 8,
-                GLX_DEPTH_SIZE, static_cast<int>(depthBits),
                 None
             };
 
@@ -131,14 +130,13 @@ namespace ouzel
 
             if (!context)
             {
-                // find an OpenGL-capable RGB visual with depth buffer
+                // find an OpenGL-capable RGB visual
                 static int doubleBuffer[] = {
                     GLX_RGBA,
                     GLX_RED_SIZE, 8,
                     GLX_GREEN_SIZE, 8,
                     GLX_BLUE_SIZE, 8,
                     GLX_ALPHA_SIZE, 8,
-                    GLX_DEPTH_SIZE, static_cast<int>(depthBits),
                     GLX_DOUBLEBUFFER,
                     None
                 };

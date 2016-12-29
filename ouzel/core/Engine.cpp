@@ -189,7 +189,7 @@ namespace ouzel
 #elif OUZEL_PLATFORM_ANDROID
         window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif OUZEL_PLATFORM_LINUX
-        window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.depthBits));
+        window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif OUZEL_PLATFORM_WINDOWS
         window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #elif OUZEL_PLATFORM_RASPBIAN
