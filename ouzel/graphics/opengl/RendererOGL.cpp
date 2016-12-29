@@ -854,15 +854,12 @@ namespace ouzel
                     glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
                 }
 
-                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBufferId);
-                glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
-                                          GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER,
-                                          colorRenderBufferId);
+                bindFrameBuffer(frameBufferId);
+                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
 
                 if (depthBits > 0)
                 {
-                    glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
-                                              GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }
 
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -892,15 +889,13 @@ namespace ouzel
                     glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
                 }
 
-                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBufferId);
-                glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
-                                          GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER,
-                                          colorRenderBufferId);
+
+                bindFrameBuffer(frameBufferId);
+                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
 
                 if (depthBits > 0)
                 {
-                    glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
-                                              GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }
             }
 
