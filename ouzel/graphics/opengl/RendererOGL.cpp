@@ -386,8 +386,6 @@ namespace ouzel
 
                 if (clearMask)
                 {
-                    GLuint clearFrameBufferId = 0;
-
                     if (!bindFrameBuffer(frameBufferId))
                     {
                         return false;
