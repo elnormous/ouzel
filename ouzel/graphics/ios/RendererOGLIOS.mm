@@ -53,6 +53,7 @@ namespace ouzel
                     [EAGLContext setCurrentContext:nil];
                 }
                 [context release];
+                context = Nil;
             }
         }
 
