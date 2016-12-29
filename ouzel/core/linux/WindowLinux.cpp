@@ -224,8 +224,7 @@ namespace ouzel
         }
 
         Window::setSize(newSize);
-        graphics::RendererOGL* rendererOGL = static_cast<graphics::RendererOGL*>(sharedEngine->getRenderer());
-        rendererOGL->setSize(size);
+        sharedEngine->getRenderer()->setSize(size);
     }
 
     void WindowLinux::setFullscreen(bool newFullscreen)
