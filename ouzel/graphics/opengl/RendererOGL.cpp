@@ -146,11 +146,17 @@ namespace ouzel
 #ifdef GL_EXT_map_buffer_range
                 mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
 #endif
+
+#ifdef GL_IMG_multisampled_render_to_texture
+                renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
+                framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
 #endif
+#endif // OUZEL_OPENGL_INTERFACE_EGL
             }
             else
             {
                 npotTexturesSupported = false;
+                multisamplingSupported = false;
                 
                 const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
 
@@ -170,7 +176,12 @@ namespace ouzel
                         {
                             npotTexturesSupported = true;
                         }
-#if OUZEL_OPENGL_INTERFACE_EGL
+#if OUZEL_OPENGL_INTERFACE_EAGL
+                        if (extension == "GL_APPLE_framebuffer_multisample")
+                        {
+                            multisamplingSupported = true;
+                        }
+#elif OUZEL_OPENGL_INTERFACE_EGL
 #ifdef GL_OES_vertex_array_object
                         else if (extension == "GL_OES_vertex_array_object")
                         {
@@ -192,7 +203,20 @@ namespace ouzel
                             mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
                         }
 #endif
+#ifdef GL_IMG_multisampled_render_to_texture
+                        else if (extension == "GL_IMG_multisampled_render_to_texture")
+                        {
+                            multisamplingSupported = true;
+                            renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
+                            framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
+                        }
 #endif
+#endif // OUZEL_OPENGL_INTERFACE_EGL
+                    }
+
+                    if (!multisamplingSupported)
+                    {
+                        sampleCount = 1;
                     }
                 }
             }
@@ -831,7 +855,7 @@ namespace ouzel
 
         bool RendererOGL::createFrameBuffer()
         {
-#if !OUZEL_OPENGL_INTERFACE_EAGL
+#if OUZEL_SUPPORTS_OPENGL
             if (!frameBufferId)
             {
                 glGenFramebuffers(1, &frameBufferId);
@@ -845,7 +869,7 @@ namespace ouzel
 #if OUZEL_SUPPORTS_OPENGL
                 glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
 #else
-                glRenderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
+                renderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
 #endif
 
                 if (depthBits > 0)
@@ -864,7 +888,7 @@ namespace ouzel
 #if OUZEL_SUPPORTS_OPENGL
                     glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
 #else
-                    glRenderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
+                    renderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
 #endif
                 }
 

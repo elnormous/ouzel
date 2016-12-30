@@ -144,6 +144,7 @@ namespace ouzel
             void scheduleUpdate(const ResourcePtr& resource);
 
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
+            bool isMultisamplingSupported() const { return multisamplingSupported; }
 
             const Matrix4& getProjectionTransform(bool renderTarget) const
             {
@@ -201,6 +202,7 @@ namespace ouzel
             };
 
             bool npotTexturesSupported = true;
+            bool multisamplingSupported = true;
 
             std::atomic<bool> activeDrawQueueFinished;
             std::atomic<bool> refillDrawQueue;
