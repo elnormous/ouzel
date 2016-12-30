@@ -232,12 +232,12 @@ namespace ouzel
 
                 if (depthBits > 0)
                 {
-                    GLenum depthFormat;
-                    switch (depthBits)
+                    GLuint depthFormat = getDepthFormat(depthBits);
+
+                    if (!depthFormat)
                     {
-                        case 24: depthFormat = GL_DEPTH_COMPONENT24_OES; break;
-                        case 32: depthFormat = GL_DEPTH_COMPONENT32_OES; break;
-                        default: Log(Log::Level::ERR) << "Unsupported depth buffer format"; return false;
+                        Log(Log::Level::ERR) << "Unsupported depth buffer format";
+                        return false;
                     }
 
                     if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
@@ -272,12 +272,12 @@ namespace ouzel
 
                 if (depthBits > 0)
                 {
-                    GLenum depthFormat;
-                    switch (depthBits)
+                    GLuint depthFormat = getDepthFormat(depthBits);
+
+                    if (!depthFormat)
                     {
-                        case 24: depthFormat = GL_DEPTH_COMPONENT24_OES; break;
-                        case 32: depthFormat = GL_DEPTH_COMPONENT32_OES; break;
-                        default: Log(Log::Level::ERR) << "Unsupported depth buffer format"; return false;
+                        Log(Log::Level::ERR) << "Unsupported depth buffer format";
+                        return false;
                     }
 
                     if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);

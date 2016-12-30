@@ -111,6 +111,23 @@ namespace ouzel
                 return false;
             }
 
+            static inline GLenum getDepthFormat(uint32_t depthBits)
+            {
+                switch (depthBits)
+                {
+#ifdef OUZEL_SUPPORTS_OPENGL
+                    case 16: return GL_DEPTH_COMPONENT16;
+                    case 24: return GL_DEPTH_COMPONENT24;
+                    case 32: return GL_DEPTH_COMPONENT32;
+#elif OUZEL_SUPPORTS_OPENGLES
+                    case 24: return GL_DEPTH_COMPONENT24_OES;
+                    case 32: return GL_DEPTH_COMPONENT32_OES;
+
+#endif
+                    default: return 0;
+                }
+            }
+
             static inline bool bindTexture(GLuint textureId, uint32_t layer)
             {
                 if (stateCache.textureId[layer] != textureId)
