@@ -45,18 +45,25 @@
 #endif
 
 #if OUZEL_OPENGL_INTERFACE_EGL
-PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
-PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
-PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES;
+#ifdef GL_OES_vertex_array_object
+    PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
+    PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
+    PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES;
+#endif
 
-    #ifdef GL_OES_mapbuffer
+#ifdef GL_OES_mapbuffer
     PFNGLMAPBUFFEROESPROC mapBufferOES;
     PFNGLUNMAPBUFFEROESPROC unmapBufferOES;
-    #endif
+#endif
 
-    #ifdef GL_EXT_map_buffer_range
+#ifdef GL_EXT_map_buffer_range
     PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeEXT;
-    #endif
+#endif
+
+#ifdef GL_IMG_multisampled_render_to_texture
+    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
+    PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
+#endif
 
 #endif
 
@@ -824,7 +831,7 @@ namespace ouzel
 
         bool RendererOGL::createFrameBuffer()
         {
-#if OUZEL_SUPPORTS_OPENGL
+#if !OUZEL_OPENGL_INTERFACE_EAGL
             if (!frameBufferId)
             {
                 glGenFramebuffers(1, &frameBufferId);
@@ -834,7 +841,12 @@ namespace ouzel
             {
                 if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
                 glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
+
+#if OUZEL_SUPPORTS_OPENGL
                 glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
+#else
+                glRenderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
+#endif
 
                 if (depthBits > 0)
                 {
@@ -848,7 +860,12 @@ namespace ouzel
 
                     if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
                     glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
+
+#if OUZEL_SUPPORTS_OPENGL
                     glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
+#else
+                    glRenderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
+#endif
                 }
 
                 bindFrameBuffer(frameBufferId);

@@ -52,6 +52,11 @@
     extern PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeEXT;
 #endif
 
+#ifdef GL_IMG_multisampled_render_to_texture
+    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
+    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
+#endif
+
 #endif
 
 #include "graphics/Renderer.h"
