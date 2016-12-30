@@ -103,15 +103,20 @@ namespace ouzel
                             }
                         }
 
-                        void* bufferPtr;
+                        void* bufferPtr = nullptr;
 
 #if OUZEL_OPENGL_INTERFACE_EGL
     #if defined(GL_EXT_map_buffer_range)
-                        bufferPtr = mapBufferRangeEXT ? mapBufferRangeEXT(GL_ELEMENT_ARRAY_BUFFER, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT) : nullptr;
-    #elif defined(GL_OES_mapbuffer)
-                        bufferPtr = mapBufferOES ? mapBufferOES(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_OES) : nullptr;
-    #else
-                        bufferPtr = nullptr;
+                        if (mapBufferRangeEXT)
+                        {
+                            bufferPtr = mapBufferRangeEXT(GL_ELEMENT_ARRAY_BUFFER, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
+                        }
+    #endif
+    #if defined(GL_OES_mapbuffer)
+                        if (!bufferPtr && mapBufferOES)
+                        {
+                            bufferPtr = mapBufferOES(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_OES);
+                        }
     #endif
 #else
                         bufferPtr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
@@ -122,9 +127,9 @@ namespace ouzel
                             std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(bufferPtr));
 
 #if OUZEL_OPENGL_INTERFACE_EGL
-#if defined(GL_OES_mapbuffer)
+    #if defined(GL_OES_mapbuffer)
                             if (unmapBufferOES) unmapBufferOES(GL_ELEMENT_ARRAY_BUFFER);
-#endif
+    #endif
 #else
                             glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 #endif
