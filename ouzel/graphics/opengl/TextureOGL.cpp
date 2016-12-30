@@ -61,46 +61,24 @@ namespace ouzel
 
                     RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
-                    if (uploadData.mipmaps) // has mip-maps
+                    switch (rendererOGL->getTextureFilter())
                     {
-                        switch (rendererOGL->getTextureFilter())
-                        {
-                            case TextureFilter::NONE:
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                                break;
-                            case TextureFilter::LINEAR:
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                                break;
-                            case TextureFilter::BILINEAR:
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                                break;
-                            case TextureFilter::TRILINEAR:
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        switch (rendererOGL->getTextureFilter())
-                        {
-                            case TextureFilter::NONE:
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                                break;
-                            case TextureFilter::LINEAR:
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                                break;
-                            case TextureFilter::BILINEAR:
-                            case TextureFilter::TRILINEAR:
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                                break;
-                        }
+                        case TextureFilter::NONE:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                            break;
+                        case TextureFilter::LINEAR:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_NEAREST_MIPMAP_LINEAR : GL_NEAREST);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                            break;
+                        case TextureFilter::BILINEAR:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                            break;
+                        case TextureFilter::TRILINEAR:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                            break;
                     }
 
                     if (RendererOGL::checkOpenGLError())
