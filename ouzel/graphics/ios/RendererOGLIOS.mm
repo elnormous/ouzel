@@ -189,11 +189,6 @@ namespace ouzel
 
         bool RendererOGLIOS::createFrameBuffer()
         {
-            if (!RendererOGL::createFrameBuffer())
-            {
-                return false;
-            }
-
             if (sampleCount > 1)
             {
                 // resolve buffer
@@ -216,42 +211,6 @@ namespace ouzel
                 graphics::RendererOGL::bindFrameBuffer(resolveFrameBufferId);
                 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                           GL_RENDERBUFFER, resolveColorRenderBufferId);
-
-                if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
-                    return false;
-                }
-
-                // MSAA buffer
-                if (!frameBufferId) glGenFramebuffers(1, &frameBufferId);
-                
-                if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
-                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
-                glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
-
-                if (depthBits > 0)
-                {
-                    GLuint depthFormat = getDepthFormat(depthBits);
-
-                    if (!depthFormat)
-                    {
-                        Log(Log::Level::ERR) << "Unsupported depth buffer format";
-                        return false;
-                    }
-
-                    if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
-                    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
-                    glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), depthFormat, frameBufferWidth, frameBufferHeight);
-                }
-
-                graphics::RendererOGL::bindFrameBuffer(frameBufferId);
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
-
-                if (depthBits > 0)
-                {
-                    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
-                }
 
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
@@ -300,7 +259,7 @@ namespace ouzel
                 }
             }
             
-            return true;
+            return RendererOGL::createFrameBuffer();
         }
     } // namespace graphics
 } // namespace ouzel

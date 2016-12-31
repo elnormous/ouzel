@@ -855,7 +855,7 @@ namespace ouzel
 
         bool RendererOGL::createFrameBuffer()
         {
-#if OUZEL_SUPPORTS_OPENGL
+#if !OUZEL_OPENGL_INTERFACE_EGL // don't create MSAA frambeuffer for EGL target
             if (!frameBufferId)
             {
                 glGenFramebuffers(1, &frameBufferId);
@@ -866,11 +866,13 @@ namespace ouzel
                 if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
                 glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
 
-#if OUZEL_SUPPORTS_OPENGL
+    #if OUZEL_SUPPORTS_OPENGL
                 glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
-#else
+    #elif OUZEL_OPENGL_INTERFACE_EAGL
+                glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
+    #elif OUZEL_OPENGL_INTERFACE_EGL
                 renderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
-#endif
+    #endif
 
                 if (depthBits > 0)
                 {
@@ -885,11 +887,13 @@ namespace ouzel
                     if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
                     glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
 
-#if OUZEL_SUPPORTS_OPENGL
+    #if OUZEL_SUPPORTS_OPENGL
                     glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
-#else
+    #elif OUZEL_OPENGL_INTERFACE_EAGL
+                    glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
+    #elif OUZEL_OPENGL_INTERFACE_EGL
                     renderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
-#endif
+    #endif
                 }
 
                 bindFrameBuffer(frameBufferId);
@@ -902,12 +906,15 @@ namespace ouzel
 
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
                     return false;
                 }
             }
+#endif // !OUZEL_OPENGL_INTERFACE_EGL
+#if OUZEL_SUPPORTS_OPENGL // create frambeuffer only for OpenGL targets
             else
             {
+
                 if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
                 glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
                 glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, frameBufferWidth, frameBufferHeight);
@@ -935,14 +942,14 @@ namespace ouzel
                 {
                     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }
-            }
 
-            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            {
-                Log(Log::Level::ERR) << "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER);
-                return false;
+                if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                {
+                    Log(Log::Level::ERR) << "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                    return false;
+                }
             }
-#endif
+#endif // OUZEL_SUPPORTS_OPENGL
 
             return true;
         }
