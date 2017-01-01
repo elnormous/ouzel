@@ -69,6 +69,8 @@ namespace ouzel
         {
             apiMajorVersion = 1;
             apiMinorVersion = 0;
+
+            std::fill(std::begin(depthStencilStates), std::end(depthStencilStates), Nil);
         }
 
         RendererMetal::~RendererMetal()
@@ -96,6 +98,11 @@ namespace ouzel
             if (commandQueue)
             {
                 [commandQueue release];
+            }
+
+            for (uint32_t state = 0; state < 4; ++state)
+            {
+                [depthStencilStates[state] release];
             }
 
             if (samplerState)
@@ -147,6 +154,12 @@ namespace ouzel
             {
                 [commandQueue release];
                 commandQueue = Nil;
+            }
+
+            for (uint32_t state = 0; state < 4; ++state)
+            {
+                [depthStencilStates[state] release];
+                depthStencilStates[state] = Nil;
             }
 
             if (samplerState)
@@ -221,6 +234,9 @@ namespace ouzel
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0f, 0.0f, 0.0f, 0.0f);
             renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+            renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
+            renderPassDescriptor.depthAttachment.clearDepth = 1.0f;
+            renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
 
             commandQueue = [device newCommandQueue];
 
@@ -261,6 +277,14 @@ namespace ouzel
             {
                 Log(Log::Level::ERR) << "Failed to create Metal sampler state";
                 return false;
+            }
+
+            for (uint32_t state = 0; state < 4; ++state)
+            {
+                MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
+                depthStencilDescriptor.depthCompareFunction = (state & 0x01) ? MTLCompareFunctionLessEqual : MTLCompareFunctionAlways; // read
+                depthStencilDescriptor.depthWriteEnabled = (state & 0x02) ? YES : NO; // write
+                depthStencilStates[state] = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
             }
 
             ShaderPtr textureShader = createShader();
@@ -506,6 +530,7 @@ namespace ouzel
                     }
 
                     currentRenderPassDescriptor.colorAttachments[0].loadAction = newClearColorBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
+                    currentRenderPassDescriptor.depthAttachment.loadAction = newClearDepthBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
                 }
 
                 [currentRenderCommandEncoder setViewport: viewport];
@@ -522,6 +547,11 @@ namespace ouzel
                 }
 
                 [currentRenderCommandEncoder setScissorRect: scissorRect];
+
+                uint32_t depthStencilStateIndex = 0;
+                if (drawCommand.depthTest) depthStencilStateIndex |= 0x01;
+                if (drawCommand.depthWrite) depthStencilStateIndex |= 0x02;
+                [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
 
                 // shader
                 std::shared_ptr<ShaderMetal> shaderMetal = std::static_pointer_cast<ShaderMetal>(drawCommand.shader);
