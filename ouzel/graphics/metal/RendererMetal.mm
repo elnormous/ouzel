@@ -75,6 +75,11 @@ namespace ouzel
 
         RendererMetal::~RendererMetal()
         {
+            if (depthTexture)
+            {
+                [depthTexture release];
+            }
+
             if (msaaTexture)
             {
                 [msaaTexture release];
@@ -124,6 +129,12 @@ namespace ouzel
         void RendererMetal::free()
         {
             Renderer::free();
+
+            if (depthTexture)
+            {
+                [depthTexture release];
+                depthTexture = Nil;
+            }
 
             if (msaaTexture)
             {
@@ -221,7 +232,25 @@ namespace ouzel
             view.device = device;
             view.sampleCount = sampleCount;
             view.framebufferOnly = NO; // for screenshot capturing
-            //_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
+
+            if (sampleCount > 0)
+            {
+                switch (depthBits)
+                {
+                    case 16:
+#if OUZEL_PLATFORM_MACOS
+                        view.depthStencilPixelFormat = MTLPixelFormatDepth16Unorm;
+                        break;
+#endif
+                    case 24:
+                    case 32:
+                        view.depthStencilPixelFormat = MTLPixelFormatDepth32Float; // always use 32-bit depth buffer for Metal
+                        break;
+                    default:
+                        Log(Log::Level::ERR) << "Unsupported depth buffer format";
+                        return false;
+                }
+            }
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
@@ -411,6 +440,31 @@ namespace ouzel
             else
             {
                 renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable.texture;
+            }
+
+            if (depthBits > 0)
+            {
+                if (!msaaTexture ||
+                    frameBufferWidth != depthTexture.width ||
+                    frameBufferHeight != depthTexture.height)
+                {
+                    MTLTextureDescriptor* desc = [MTLTextureDescriptor
+                                                  texture2DDescriptorWithPixelFormat:view.depthStencilPixelFormat
+                                                  width:frameBufferWidth height:frameBufferHeight mipmapped:NO];
+
+                    desc.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
+                    desc.storageMode = MTLStorageModePrivate;
+                    desc.sampleCount = sampleCount;
+                    desc.usage = MTLTextureUsageRenderTarget;
+
+                    depthTexture = [device newTextureWithDescriptor:desc];
+
+                    renderPassDescriptor.depthAttachment.texture = depthTexture;
+                }
+            }
+            else
+            {
+                renderPassDescriptor.depthAttachment.texture = Nil;
             }
 
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
@@ -808,7 +862,7 @@ namespace ouzel
             pipelineStateDescriptor.fragmentFunction = shader->getPixelShader();
             pipelineStateDescriptor.vertexDescriptor = shader->getVertexDescriptor();
             pipelineStateDescriptor.depthAttachmentPixelFormat = view.depthStencilPixelFormat;
-            pipelineStateDescriptor.stencilAttachmentPixelFormat = view.depthStencilPixelFormat;
+            pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
 
             pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
 

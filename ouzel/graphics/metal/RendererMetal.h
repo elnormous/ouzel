@@ -95,6 +95,7 @@ namespace ouzel
             MTLDepthStencilStatePtr depthStencilStates[4];
 
             MTLTexturePtr msaaTexture = Nil;
+            MTLTexturePtr depthTexture = Nil;
 
             MTLCommandQueuePtr commandQueue = Nil;
             MTLCommandBufferPtr currentCommandBuffer = Nil;
