@@ -481,6 +481,8 @@ namespace ouzel
 
             static void deleteResources();
 
+            GLuint systemFrameBufferId = 0;
+
             GLsizei frameBufferWidth = 0;
             GLsizei frameBufferHeight = 0;
             GLuint frameBufferId = 0;

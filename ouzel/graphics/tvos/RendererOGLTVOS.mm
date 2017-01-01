@@ -218,6 +218,8 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
                     return false;
                 }
+
+                systemFrameBufferId = resolveFrameBufferId;
             }
             else
             {
@@ -258,6 +260,8 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
                     return false;
                 }
+
+                systemFrameBufferId = frameBufferId;
             }
             
             return RendererOGL::createFrameBuffer();

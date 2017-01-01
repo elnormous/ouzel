@@ -737,7 +737,7 @@ namespace ouzel
             }
 
 #if OUZEL_SUPPORTS_OPENGL
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // draw to default frame buffer
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, systemFrameBufferId); // draw to default frame buffer
             glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBufferId); // read from FBO
             glDrawBuffer(GL_BACK); // set the back buffer as the draw buffer
 
@@ -758,8 +758,8 @@ namespace ouzel
             }
 
             // reset framebuffer
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-            stateCache.frameBufferId = 0;
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, systemFrameBufferId);
+            stateCache.frameBufferId = systemFrameBufferId;
 #endif
 
             return true;
@@ -814,7 +814,7 @@ namespace ouzel
 
         bool RendererOGL::generateScreenshot(const std::string& filename)
         {
-            bindFrameBuffer(0);
+            bindFrameBuffer(systemFrameBufferId);
 
             const GLsizei width = frameBufferWidth;
             const GLsizei height = frameBufferHeight;
@@ -933,7 +933,6 @@ namespace ouzel
                     glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
                     glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
                 }
-
 
                 bindFrameBuffer(frameBufferId);
                 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
