@@ -205,8 +205,6 @@ namespace ouzel
                 return false;
             }
 
-            free();
-
             inflightSemaphore = dispatch_semaphore_create(3); // allow encoding up to 3 command buffers simultaneously
 
             device = MTLCreateSystemDefaultDevice();
@@ -238,13 +236,10 @@ namespace ouzel
                 switch (depthBits)
                 {
                     case 16:
-#if OUZEL_PLATFORM_MACOS
-                        view.depthStencilPixelFormat = MTLPixelFormatDepth16Unorm;
-                        break;
-#endif
                     case 24:
                     case 32:
-                        view.depthStencilPixelFormat = MTLPixelFormatDepth32Float; // always use 32-bit depth buffer for Metal
+                        depthBits = 32; // always use 32-bit depth buffer for Metal
+                        view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
                         break;
                     default:
                         Log(Log::Level::ERR) << "Unsupported depth buffer format";

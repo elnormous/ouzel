@@ -138,8 +138,6 @@ namespace ouzel
                 return false;
             }
 
-            free();
-
             UINT deviceCreationFlags = 0;
 #ifdef DEBUG
             deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;

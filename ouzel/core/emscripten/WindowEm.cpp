@@ -56,6 +56,6 @@ namespace ouzel
         emscripten_get_canvas_size(&width, &height, &fullscreen);
         Window::setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
 
-        sharedEngine->getRenderer()->setSize(size);
+        sharedEngine->getRenderer()->setSize(size * getContentScale());
     }
 }

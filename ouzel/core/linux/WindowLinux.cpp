@@ -291,6 +291,6 @@ namespace ouzel
     void WindowLinux::handleResize(const Size2& newSize)
     {
         Window::setSize(newSize);
-        sharedEngine->getRenderer()->setSize(size);
+        sharedEngine->getRenderer()->setSize(size * getContentScale());
     }
 }

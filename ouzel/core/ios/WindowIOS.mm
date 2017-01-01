@@ -160,6 +160,11 @@ namespace ouzel
     void WindowIOS::handleResize(const Size2& newSize)
     {
         Window::setSize(newSize);
-        sharedEngine->getRenderer()->setSize(newSize);
+        sharedEngine->getRenderer()->setSize(newSize * getContentScale());
+    }
+
+    float WindowIOS::getContentScale() const
+    {
+        return static_cast<float>([UIScreen mainScreen].scale);
     }
 }

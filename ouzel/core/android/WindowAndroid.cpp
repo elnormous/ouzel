@@ -14,6 +14,6 @@ namespace ouzel
     void WindowAndroid::handleResize(const Size2& newSize)
     {
         Window::setSize(newSize);
-        sharedEngine->getRenderer()->setSize(newSize);
+        sharedEngine->getRenderer()->setSize(size * getContentScale());
     }
 }
