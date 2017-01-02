@@ -499,25 +499,23 @@ namespace ouzel
             {
                 frameBufferClearedFrame = currentFrame;
 
-                if (clearColorBuffer)
+                if (!createRenderCommandEncoder(renderPassDescriptor))
                 {
-                    if (!createRenderCommandEncoder(renderPassDescriptor))
-                    {
-                        return false;
-                    }
-
-                    currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-
-                    viewport = {
-                        0.0, 0.0,
-                        static_cast<double>(frameBufferWidth),
-                        static_cast<double>(frameBufferHeight),
-                        0.0, 1.0
-                    };
-
-                    [currentRenderCommandEncoder setViewport: viewport];
-                    [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[3]];
+                    return false;
                 }
+
+                viewport = {
+                    0.0, 0.0,
+                    static_cast<double>(frameBufferWidth),
+                    static_cast<double>(frameBufferHeight),
+                    0.0, 1.0
+                };
+
+                [currentRenderCommandEncoder setViewport: viewport];
+                [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[3]];
+
+                currentRenderPassDescriptor.colorAttachments[0].loadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
+                currentRenderPassDescriptor.depthAttachment.loadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
             }
             else for (const DrawCommand& drawCommand : drawQueue)
             {
