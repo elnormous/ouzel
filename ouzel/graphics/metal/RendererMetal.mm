@@ -231,7 +231,7 @@ namespace ouzel
             view.sampleCount = sampleCount;
             view.framebufferOnly = NO; // for screenshot capturing
 
-            if (sampleCount > 0)
+            if (depthBits > 0)
             {
                 switch (depthBits)
                 {
