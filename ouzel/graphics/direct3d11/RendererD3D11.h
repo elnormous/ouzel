@@ -61,13 +61,13 @@ namespace ouzel
             ID3D11SamplerState* samplerState = nullptr;
             ID3D11RasterizerState* rasterizerStates[4];
             ID3D11Texture2D* depthStencilTexture = nullptr;
+            ID3D11DepthStencilView* depthStencilView = nullptr;
             ID3D11DepthStencilState* depthStencilStates[4];
+            ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
+            ID3D11SamplerState* samplerStates[Texture::LAYERS];
 
             UINT width = 0;
             UINT height = 0;
-
-            ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
-            ID3D11SamplerState* samplerStates[Texture::LAYERS];
 
             UINT swapInterval = 0;
             FLOAT frameBufferClearColor[4];

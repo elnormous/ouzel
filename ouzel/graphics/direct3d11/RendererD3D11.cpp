@@ -46,6 +46,11 @@ namespace ouzel
                 }
             }
 
+            if (depthStencilView)
+            {
+                depthStencilView->Release();
+            }
+
             if (depthStencilTexture)
             {
                 depthStencilTexture->Release();
@@ -96,6 +101,12 @@ namespace ouzel
                     depthStencilStates[state]->Release();
                     depthStencilStates[state] = nullptr;
                 }
+            }
+
+            if (depthStencilView)
+            {
+                depthStencilView->Release();
+                depthStencilView = nullptr;
             }
 
             if (depthStencilTexture)
@@ -400,6 +411,13 @@ namespace ouzel
                     return false;
                 }
 
+                hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view";
+                    return false;
+                }
+
                 for (uint32_t state = 0; state < 4; ++state)
                 {
                     D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
@@ -531,27 +549,33 @@ namespace ouzel
             {
                 frameBufferClearedFrame = currentFrame;
 
+                context->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+                context->OMSetDepthStencilState(depthStencilStates[3], 0);
+
+                viewport = {
+                    0.0f, 0.0f,
+                    static_cast<FLOAT>(width),
+                    static_cast<FLOAT>(height),
+                    0.0f, 1.0f
+                };
+
+                context->RSSetViewports(1, &viewport);
+
                 if (clearColorBuffer)
                 {
-                    context->OMSetRenderTargets(1, &renderTargetView, nullptr);
-                    context->OMSetDepthStencilState(depthStencilStates[3], 0);
-
-                    viewport = {
-                        0.0f, 0.0f,
-                        static_cast<FLOAT>(width),
-                        static_cast<FLOAT>(height),
-                        0.0f, 1.0f
-                    };
-
-                    context->RSSetViewports(1, &viewport);
-
                     context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
+                }
+
+                if (clearDepthBuffer)
+                {
+                    context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
                 }
             }
             else for (const DrawCommand& drawCommand : drawQueue)
             {
                 // render target
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
+                ID3D11DepthStencilView* newDepthStencilView = nullptr;
                 const float* newClearColor;
                 bool newClearColorBuffer = false;
                 bool newClearDepthBuffer = false;
@@ -589,6 +613,7 @@ namespace ouzel
                 else
                 {
                     newRenderTargetView = renderTargetView;
+                    newDepthStencilView = depthStencilView;
                     newClearColor = frameBufferClearColor;
 
                     viewport.TopLeftY = height - (viewport.TopLeftY + viewport.Height);
@@ -601,12 +626,17 @@ namespace ouzel
                     }
                 }
 
-                context->OMSetRenderTargets(1, &newRenderTargetView, nullptr);
+                context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
                 context->RSSetViewports(1, &viewport);
 
                 if (newClearColorBuffer)
                 {
                     context->ClearRenderTargetView(newRenderTargetView, newClearColor);
+                }
+
+                if (newClearDepthBuffer)
+                {
+                    context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
                 }
 
                 uint32_t rasterizerStateIndex = 0;
@@ -1056,6 +1086,13 @@ namespace ouzel
                 if (depthStencilTexture)
                 {
                     depthStencilTexture->Release();
+                    depthStencilTexture = nullptr;
+                }
+
+                if (depthStencilView)
+                {
+                    depthStencilView->Release();
+                    depthStencilView = nullptr;
                 }
 
                 D3D11_TEXTURE2D_DESC depthStencilDesc;
@@ -1074,6 +1111,13 @@ namespace ouzel
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
+                    return false;
+                }
+
+                hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view";
                     return false;
                 }
             }
