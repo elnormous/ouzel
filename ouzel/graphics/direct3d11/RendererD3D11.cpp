@@ -404,7 +404,7 @@ namespace ouzel
                 {
                     D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
                     depthStencilStateDesc.DepthEnable = (state & 0x01) ? TRUE : FALSE;
-                    depthStencilStateDesc.DepthWriteMask = (state & 0x02) ? TRUE : FALSE;
+                    depthStencilStateDesc.DepthWriteMask = (state & 0x02) ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
                     depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
                     depthStencilStateDesc.StencilEnable = FALSE;
                     depthStencilStateDesc.StencilReadMask = 0;
