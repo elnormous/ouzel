@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "RendererD3D11.h"
 #include "core/Cache.h"
 #include "core/Engine.h"
@@ -26,12 +27,12 @@ namespace ouzel
         RendererD3D11::RendererD3D11():
             Renderer(Driver::DIRECT3D11)
         {
-            RELATIVE;
             apiMajorVersion = 11;
             apiMinorVersion = 0;
-            memset(&rasterizerStates, 0, sizeof(rasterizerStates));
-            memset(&resourceViews, 0, sizeof(resourceViews));
-            memset(&samplerStates, 0, sizeof(samplerStates));
+
+            std::fill(std::begin(rasterizerStates), std::end(rasterizerStates), nullptr);
+            std::fill(std::begin(resourceViews), std::end(resourceViews), nullptr);
+            std::fill(std::begin(samplerStates), std::end(samplerStates), nullptr);
         }
 
         RendererD3D11::~RendererD3D11()
@@ -193,9 +194,6 @@ namespace ouzel
 
             WindowWin* windowWin = static_cast<WindowWin*>(window);
 
-            DXGI_SWAP_CHAIN_DESC swapChainDesc;
-            memset(&swapChainDesc, 0, sizeof(swapChainDesc));
-
             width = static_cast<UINT>(newSize.v[0]);
             height = static_cast<UINT>(newSize.v[1]);
 
@@ -212,6 +210,7 @@ namespace ouzel
                 sampleCount = 1;
             }
 
+            DXGI_SWAP_CHAIN_DESC swapChainDesc;
             swapChainDesc.BufferDesc.Width = width;
             swapChainDesc.BufferDesc.Height = height;
             swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
