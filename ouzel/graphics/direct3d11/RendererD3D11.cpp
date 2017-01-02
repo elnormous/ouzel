@@ -314,17 +314,17 @@ namespace ouzel
             }
 
             // Rasterizer state
-            D3D11_RASTERIZER_DESC rasterStateDesc =
-            {
-                D3D11_FILL_SOLID,
-                D3D11_CULL_NONE,
-                FALSE, // front = ccw?
-                0, 0, 0, // depth bias, clamp, slope scale
-                TRUE, // depth clip
-                FALSE, // scissor test
-                (sampleCount > 1) ? TRUE : FALSE, // MSAA
-                TRUE, // AA lines
-            };
+            D3D11_RASTERIZER_DESC rasterStateDesc;
+            rasterStateDesc.FillMode = D3D11_FILL_SOLID;
+            rasterStateDesc.CullMode = D3D11_CULL_NONE;
+            rasterStateDesc.FrontCounterClockwise = FALSE;
+            rasterStateDesc.DepthBias = 0;
+            rasterStateDesc.DepthBiasClamp = 0;
+            rasterStateDesc.SlopeScaledDepthBias = 0;
+            rasterStateDesc.DepthClipEnable = TRUE;
+            rasterStateDesc.ScissorEnable = FALSE;
+            rasterStateDesc.MultisampleEnable = (sampleCount > 1) ? TRUE : FALSE;
+            rasterStateDesc.AntialiasedLineEnable = TRUE;
 
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[0]);
             if (FAILED(hr))
@@ -387,7 +387,7 @@ namespace ouzel
                         return false;
                 }
 
-                depthStencilDesc.SampleDesc.Count = 1;
+                depthStencilDesc.SampleDesc.Count = sampleCount;
                 depthStencilDesc.SampleDesc.Quality = 0;
                 depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
                 depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
@@ -936,7 +936,7 @@ namespace ouzel
             backBufferTexture->GetDesc(&backBufferDesc);
 
             D3D11_TEXTURE2D_DESC desc = backBufferDesc;
-            desc.SampleDesc.Count = 1;
+            desc.SampleDesc.Count = sampleCount;
             desc.SampleDesc.Quality = 0;
             desc.Usage = D3D11_USAGE_STAGING;
             desc.BindFlags = 0;
@@ -1064,7 +1064,7 @@ namespace ouzel
                 depthStencilDesc.MipLevels = 1;
                 depthStencilDesc.ArraySize = 1;
                 depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
-                depthStencilDesc.SampleDesc.Count = 1;
+                depthStencilDesc.SampleDesc.Count = sampleCount;
                 depthStencilDesc.SampleDesc.Quality = 0;
                 depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
                 depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
