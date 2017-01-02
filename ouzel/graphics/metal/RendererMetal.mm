@@ -245,6 +245,14 @@ namespace ouzel
                         Log(Log::Level::ERR) << "Unsupported depth buffer format";
                         return false;
                 }
+
+                for (uint32_t state = 0; state < 4; ++state)
+                {
+                    MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
+                    depthStencilDescriptor.depthCompareFunction = (state & 0x01) ? MTLCompareFunctionLessEqual : MTLCompareFunctionAlways; // read
+                    depthStencilDescriptor.depthWriteEnabled = (state & 0x02) ? YES : NO; // write
+                    depthStencilStates[state] = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+                }
             }
 
             renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
@@ -301,14 +309,6 @@ namespace ouzel
             {
                 Log(Log::Level::ERR) << "Failed to create Metal sampler state";
                 return false;
-            }
-
-            for (uint32_t state = 0; state < 4; ++state)
-            {
-                MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
-                depthStencilDescriptor.depthCompareFunction = (state & 0x01) ? MTLCompareFunctionLessEqual : MTLCompareFunctionAlways; // read
-                depthStencilDescriptor.depthWriteEnabled = (state & 0x02) ? YES : NO; // write
-                depthStencilStates[state] = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
             }
 
             ShaderPtr textureShader = createShader();
