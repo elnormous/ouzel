@@ -11,7 +11,7 @@ namespace ouzel
     {
     public:
         ApplicationWin(const std::vector<std::string>& pArgs);
-		virtual ~ApplicationWin();
+        virtual ~ApplicationWin();
 
         virtual int run() override;
     };

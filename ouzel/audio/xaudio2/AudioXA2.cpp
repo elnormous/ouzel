@@ -18,7 +18,7 @@ namespace ouzel
     {
         AudioXA2::AudioXA2():
             Audio(Driver::XAUDIO2)
-		{
+        {
         }
 
         AudioXA2::~AudioXA2()
@@ -85,8 +85,8 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to initialize XAudio2";
                     return false;
                 }
-			}
-			else
+            }
+            else
             {
                 Log(Log::Level::INFO) << "Failed to load " << XAUDIO2_DLL_28;
 

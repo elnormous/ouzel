@@ -17,19 +17,19 @@ namespace ouzel
     {
     }
 
-	ApplicationWin::~ApplicationWin()
-	{
-		//CoUninitialize();
-	}
+    ApplicationWin::~ApplicationWin()
+    {
+        //CoUninitialize();
+    }
 
     int ApplicationWin::run()
     {
-		HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-		if (FAILED(hr))
-		{
-			Log(Log::Level::ERR) << "Failed to initialize COM";
-			return EXIT_FAILURE;
-		}
+        HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+        if (FAILED(hr))
+        {
+            Log(Log::Level::ERR) << "Failed to initialize COM";
+            return EXIT_FAILURE;
+        }
 
         ouzelMain(args);
 
