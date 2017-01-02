@@ -60,7 +60,8 @@ namespace ouzel
             ID3D11RenderTargetView* renderTargetView = nullptr;
             ID3D11SamplerState* samplerState = nullptr;
             ID3D11RasterizerState* rasterizerStates[4];
-            ID3D11DepthStencilState* depthStencilState = nullptr;
+            ID3D11Texture2D* depthStencilTexture = nullptr;
+            ID3D11DepthStencilState* depthStencilStates[4];
 
             UINT width = 0;
             UINT height = 0;

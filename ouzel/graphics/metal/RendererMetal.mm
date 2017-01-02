@@ -75,6 +75,14 @@ namespace ouzel
 
         RendererMetal::~RendererMetal()
         {
+            for (uint32_t state = 0; state < 4; ++state)
+            {
+                if (depthStencilStates[state])
+                {
+                    [depthStencilStates[state] release];
+                }
+            }
+
             if (depthTexture)
             {
                 [depthTexture release];
@@ -105,11 +113,6 @@ namespace ouzel
                 [commandQueue release];
             }
 
-            for (uint32_t state = 0; state < 4; ++state)
-            {
-                [depthStencilStates[state] release];
-            }
-
             if (samplerState)
             {
                 [samplerState release];
@@ -129,6 +132,15 @@ namespace ouzel
         void RendererMetal::free()
         {
             Renderer::free();
+
+            for (uint32_t state = 0; state < 4; ++state)
+            {
+                if (depthStencilStates[state])
+                {
+                    [depthStencilStates[state] release];
+                    depthStencilStates[state] = Nil;
+                }
+            }
 
             if (depthTexture)
             {
@@ -165,12 +177,6 @@ namespace ouzel
             {
                 [commandQueue release];
                 commandQueue = Nil;
-            }
-
-            for (uint32_t state = 0; state < 4; ++state)
-            {
-                [depthStencilStates[state] release];
-                depthStencilStates[state] = Nil;
             }
 
             if (samplerState)
@@ -510,6 +516,7 @@ namespace ouzel
                     };
 
                     [currentRenderCommandEncoder setViewport: viewport];
+                    [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[3]];
                 }
             }
             else for (const DrawCommand& drawCommand : drawQueue)

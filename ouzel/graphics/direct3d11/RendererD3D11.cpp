@@ -31,15 +31,24 @@ namespace ouzel
             apiMinorVersion = 0;
 
             std::fill(std::begin(rasterizerStates), std::end(rasterizerStates), nullptr);
+            std::fill(std::begin(depthStencilStates), std::end(depthStencilStates), nullptr);
             std::fill(std::begin(resourceViews), std::end(resourceViews), nullptr);
             std::fill(std::begin(samplerStates), std::end(samplerStates), nullptr);
         }
 
         RendererD3D11::~RendererD3D11()
         {
-            if (depthStencilState)
+            for (uint32_t state = 0; state < 4; ++state)
             {
-                depthStencilState->Release();
+                if (depthStencilStates[state])
+                {
+                    depthStencilStates[state]->Release();
+                }
+            }
+
+            if (depthStencilTexture)
+            {
+                depthStencilTexture->Release();
             }
 
             for (uint32_t i = 0; i < 4; ++i)
@@ -80,10 +89,19 @@ namespace ouzel
         {
             Renderer::free();
 
-            if (depthStencilState)
+            for (uint32_t state = 0; state < 4; ++state)
             {
-                depthStencilState->Release();
-                depthStencilState = nullptr;
+                if (depthStencilStates[state])
+                {
+                    depthStencilStates[state]->Release();
+                    depthStencilStates[state] = nullptr;
+                }
+            }
+
+            if (depthStencilTexture)
+            {
+                depthStencilTexture->Release();
+                depthStencilTexture = nullptr;
             }
 
             for (uint32_t i = 0; i < 4; ++i)
@@ -348,16 +366,57 @@ namespace ouzel
                 return false;
             }
 
-            // Depth/stencil state
-            D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc =
+            if (depthBits > 0)
             {
-                FALSE, // disable depth test
-            };
-            hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil state";
-                return false;
+                D3D11_TEXTURE2D_DESC depthStencilDesc;
+                depthStencilDesc.Width = width;
+                depthStencilDesc.Height = height;
+                depthStencilDesc.MipLevels = 1;
+                depthStencilDesc.ArraySize = 1;
+
+                switch (depthBits)
+                {
+                    case 16:
+                    case 24:
+                    case 32:
+                        depthBits = 32; // always use 32-bit depth buffer for Direct3D
+                        depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
+                        break;
+                    default:
+                        Log(Log::Level::ERR) << "Unsupported depth buffer format";
+                        return false;
+                }
+
+                depthStencilDesc.SampleDesc.Count = 1;
+                depthStencilDesc.SampleDesc.Quality = 0;
+                depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+                depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                depthStencilDesc.CPUAccessFlags = 0;
+                depthStencilDesc.MiscFlags = 0;
+                hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
+                    return false;
+                }
+
+                for (uint32_t state = 0; state < 4; ++state)
+                {
+                    D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
+                    depthStencilStateDesc.DepthEnable = (state & 0x01) ? TRUE : FALSE;
+                    depthStencilStateDesc.DepthWriteMask = (state & 0x02) ? TRUE : FALSE;
+                    depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+                    depthStencilStateDesc.StencilEnable = FALSE;
+                    depthStencilStateDesc.StencilReadMask = 0;
+                    depthStencilStateDesc.StencilWriteMask = 0;
+
+                    hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilStates[state]);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil state";
+                        return false;
+                    }
+                }
             }
 
             ShaderPtr textureShader = createShader();
@@ -475,6 +534,7 @@ namespace ouzel
                 if (clearColorBuffer)
                 {
                     context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+                    context->OMSetDepthStencilState(depthStencilStates[3], 0);
 
                     viewport = {
                         0.0f, 0.0f,
@@ -703,9 +763,13 @@ namespace ouzel
                     continue;
                 }
 
-                // draw
-                context->OMSetDepthStencilState(depthStencilState, 0);
+                // depth-stencil state
+                uint32_t depthStencilStateIndex = 0;
+                if (drawCommand.depthTest) depthStencilStateIndex |= 0x01;
+                if (drawCommand.depthWrite) depthStencilStateIndex |= 0x02;
+                context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
 
+                // draw
                 std::shared_ptr<IndexBufferD3D11> indexBufferD3D11 = std::static_pointer_cast<IndexBufferD3D11>(meshBufferD3D11->getIndexBuffer());
                 std::shared_ptr<VertexBufferD3D11> vertexBufferD3D11 = std::static_pointer_cast<VertexBufferD3D11>(meshBufferD3D11->getVertexBuffer());
 
@@ -988,6 +1052,30 @@ namespace ouzel
 
                 width = desc.Width;
                 height = desc.Height;
+
+                if (depthStencilTexture)
+                {
+                    depthStencilTexture->Release();
+                }
+
+                D3D11_TEXTURE2D_DESC depthStencilDesc;
+                depthStencilDesc.Width = width;
+                depthStencilDesc.Height = height;
+                depthStencilDesc.MipLevels = 1;
+                depthStencilDesc.ArraySize = 1;
+                depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
+                depthStencilDesc.SampleDesc.Count = 1;
+                depthStencilDesc.SampleDesc.Quality = 0;
+                depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+                depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                depthStencilDesc.CPUAccessFlags = 0;
+                depthStencilDesc.MiscFlags = 0;
+                hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
+                    return false;
+                }
             }
 
             return true;
