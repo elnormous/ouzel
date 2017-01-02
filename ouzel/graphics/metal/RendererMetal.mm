@@ -439,7 +439,7 @@ namespace ouzel
 
             if (depthBits > 0)
             {
-                if (!msaaTexture ||
+                if (!depthTexture ||
                     frameBufferWidth != depthTexture.width ||
                     frameBufferHeight != depthTexture.height)
                 {
