@@ -62,7 +62,9 @@
 
 #ifdef GL_IMG_multisampled_render_to_texture
     PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
+    #if !OUZEL_PLATFORM_EMSCRIPTEN // workaround for a typo in Emscriptens gl2ext.h
     PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
+    #endif
 #endif
 
 #endif
@@ -149,7 +151,9 @@ namespace ouzel
 
 #ifdef GL_IMG_multisampled_render_to_texture
                 renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
+    #if !OUZEL_PLATFORM_EMSCRIPTEN // workaround for a typo in Emscriptens gl2ext.h
                 framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
+    #endif
 #endif
 #endif // OUZEL_OPENGL_INTERFACE_EGL
             }
@@ -208,7 +212,9 @@ namespace ouzel
                         {
                             multisamplingSupported = true;
                             renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
+    #if !OUZEL_PLATFORM_EMSCRIPTEN // workaround for a typo in Emscriptens gl2ext.h
                             framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
+    #endif
                         }
 #endif
 #endif // OUZEL_OPENGL_INTERFACE_EGL

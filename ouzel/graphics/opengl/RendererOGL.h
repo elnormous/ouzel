@@ -54,7 +54,9 @@
 
 #ifdef GL_IMG_multisampled_render_to_texture
     extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
+    #if !OUZEL_PLATFORM_EMSCRIPTEN // workaround for a typo in Emscriptens gl2ext.h
     extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
+    #endif
 #endif
 
 #endif
