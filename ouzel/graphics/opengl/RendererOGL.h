@@ -36,6 +36,10 @@
     #include <EGL/egl.h>
 #endif
 
+#if OUZEL_PLATFORM_EMSCRIPTEN // workaround for a typo in Emscriptens gl2ext.h
+    typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLsizei samples);
+#endif
+
 #if OUZEL_OPENGL_INTERFACE_EGL
 #ifdef GL_OES_vertex_array_object
     extern PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
@@ -54,9 +58,7 @@
 
 #ifdef GL_IMG_multisampled_render_to_texture
     extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
-    #if !OUZEL_PLATFORM_EMSCRIPTEN // workaround for a typo in Emscriptens gl2ext.h
     extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
-    #endif
 #endif
 
 #endif
