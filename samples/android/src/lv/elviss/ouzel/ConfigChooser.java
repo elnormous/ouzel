@@ -11,7 +11,7 @@ import android.opengl.GLSurfaceView;
 
 public class ConfigChooser implements GLSurfaceView.EGLConfigChooser
 {
-    public ConfigChooser(int r, int g, int b, int a, int depth, int stencil)
+    public ConfigChooser(int r, int g, int b, int a, int depth, int stencil, int sampleBuffers, int samples)
     {
         redSize = r;
         greenSize = g;
@@ -19,6 +19,8 @@ public class ConfigChooser implements GLSurfaceView.EGLConfigChooser
         alphaSize = a;
         depthSize = depth;
         stencilSize = stencil;
+        sampleBufferCount = sampleBuffers;
+        sampleCount = samples;
     }
 
     // Minimum config, actual config is chosen by chooseConfig
@@ -51,11 +53,13 @@ public class ConfigChooser implements GLSurfaceView.EGLConfigChooser
         // Return the first matching one
         for(EGLConfig config : configs)
         {
-            int d = findConfigAttrib(egl, display, config, EGL10.EGL_DEPTH_SIZE, 0);
-            int s = findConfigAttrib(egl, display, config, EGL10.EGL_STENCIL_SIZE, 0);
+            int depth = findConfigAttrib(egl, display, config, EGL10.EGL_DEPTH_SIZE, 0);
+            int stencil = findConfigAttrib(egl, display, config, EGL10.EGL_STENCIL_SIZE, 0);
+            int sampleBuffers = findConfigAttrib(egl, display, config, EGL10.EGL_SAMPLE_BUFFERS, 0);
+            int samples = findConfigAttrib(egl, display, config, EGL10.EGL_SAMPLES, 0);
 
-            // We need at least mDepthSize and mStencilSize bits
-            if (d < depthSize || s < stencilSize)
+            // We need at least depthSize and stencilSize bits and sampleBufferCount buffers and sampleCount samples
+            if (depth < depthSize || stencil < stencilSize || sampleBuffers < sampleBufferCount || samples < sampleCount)
                 continue;
 
             // We want an exact match for red/green/blue/alpha
@@ -85,5 +89,7 @@ public class ConfigChooser implements GLSurfaceView.EGLConfigChooser
     protected int alphaSize;
     protected int depthSize;
     protected int stencilSize;
+    protected int sampleBufferCount;
+    protected int sampleCount;
     private int[] value = new int[1];
 }

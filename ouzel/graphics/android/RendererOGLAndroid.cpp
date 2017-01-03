@@ -24,14 +24,12 @@ namespace ouzel
                                       bool newVerticalSync,
                                       uint32_t newDepthBits)
         {
-            free();
-
             ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
             JNIEnv* jniEnv = applicationAndroid->getJNIEnv();
             jobject mainActivity = applicationAndroid->getMainActivity();
             jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
-            jmethodID createSurfaceMethod = jniEnv->GetMethodID(mainActivityClass, "createSurface", "(IIIIII)V");
-            jniEnv->CallVoidMethod(mainActivity, createSurfaceMethod, 8, 8, 8, 8, newDepthBits, 0);
+            jmethodID createSurfaceMethod = jniEnv->GetMethodID(mainActivityClass, "createSurface", "(IIIIIIII)V");
+            jniEnv->CallVoidMethod(mainActivity, createSurfaceMethod, 8, 8, 8, 8, newDepthBits, 0, (newSampleCount > 1) ? 1 : 0, newSampleCount);
 
             apiMajorVersion = 2;
             apiMinorVersion = 0;

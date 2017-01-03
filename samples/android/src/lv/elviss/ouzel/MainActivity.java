@@ -18,9 +18,9 @@ public class MainActivity extends Activity
         OuzelLibJNIWrapper.onCreated(this, getAssets());
     }
 
-    public void createSurface(int r, int g, int b, int a, int depth, int stencil)
+    public void createSurface(int r, int g, int b, int a, int depth, int stencil, int sampleBuffers, int samples)
     {
-        surfaceView = new SurfaceView(this, r, g, b, a, depth, stencil);
+        surfaceView = new SurfaceView(this, r, g, b, a, depth, stencil, sampleBuffers, samples);
         setContentView(surfaceView);
     }
 

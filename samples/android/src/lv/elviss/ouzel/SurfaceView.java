@@ -13,7 +13,7 @@ public class SurfaceView extends GLSurfaceView
 {
     private final InputManager inputManager;
 
-    public SurfaceView(Context context, int r, int g, int b, int a, int depth, int stencil)
+    public SurfaceView(Context context, int r, int g, int b, int a, int depth, int stencil, int sampleBuffers, int samples)
     {
         super(context);
 
@@ -21,7 +21,7 @@ public class SurfaceView extends GLSurfaceView
 
         setFocusableInTouchMode(true);
 
-        setEGLConfigChooser(new ConfigChooser(r, g, b, a, depth, stencil));
+        setEGLConfigChooser(new ConfigChooser(r, g, b, a, depth, stencil, sampleBuffers, samples));
         setEGLContextFactory(new ContextFactory());
         setRenderer(new RendererWrapper());
     }

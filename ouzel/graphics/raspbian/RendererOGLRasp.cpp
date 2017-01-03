@@ -77,8 +77,6 @@ namespace ouzel
                                    bool newVerticalSync,
                                    uint32_t newDepthBits)
         {
-            free();
-
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
             if (!display)

@@ -33,11 +33,6 @@ namespace ouzel
                                  bool newVerticalSync,
                                  uint32_t newDepthBits)
         {
-            if (!RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
-            {
-                return false;
-            }
-
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 
@@ -45,9 +40,9 @@ namespace ouzel
             emscripten_webgl_init_context_attributes(&attrs);
 
             attrs.alpha = true;
-            attrs.depth = depthBits > 0;
+            attrs.depth = newDepthBits > 0;
             attrs.stencil = false;
-            attrs.antialias = sampleCount > 0;
+            attrs.antialias = newSampleCount > 0;
 
             webGLContext = emscripten_webgl_create_context(0, &attrs);
 
@@ -63,6 +58,8 @@ namespace ouzel
             {
                 return false;
             }
+
+            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
         }
 
         bool RendererOGLEm::present()
