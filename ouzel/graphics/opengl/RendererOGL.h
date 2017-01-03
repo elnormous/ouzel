@@ -36,7 +36,7 @@
     #include <EGL/egl.h>
 #endif
 
-#if OUZEL_PLATFORM_EMSCRIPTEN // workaround for a typo in Emscriptens gl2ext.h
+#if OUZEL_PLATFORM_EMSCRIPTEN // workaround for a typo in Emscripten's gl2ext.h
     typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLsizei samples);
 #endif
 
