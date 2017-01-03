@@ -101,6 +101,8 @@ namespace ouzel
                 EGL_ALPHA_SIZE, 8,
                 EGL_DEPTH_SIZE, static_cast<int>(newDepthBits),
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+                EGL_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
+                EGL_SAMPLES, static_cast<int>(newSampleCount),
                 EGL_NONE
             };
             EGLConfig config;
