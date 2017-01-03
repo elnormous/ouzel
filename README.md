@@ -1,6 +1,6 @@
 <img src="https://github.com/elnormous/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.27
+# Ouzel v0.28
 
 [![Build Status](https://api.travis-ci.org/elnormous/ouzel.svg?branch=master)](https://travis-ci.org/elnormous/ouzel) [![Build Status](https://ci.appveyor.com/api/projects/status/dp8av7iegdjs6xuj?svg=true)](https://ci.appveyor.com/project/elnormous/ouzel)
 
@@ -25,7 +25,7 @@ Supported rendering backends:
 
 Supported audio backends:
 
-* XAudio2
+* XAudio 2
 * OpenAL
 * OpenSL ES
 
@@ -35,7 +35,7 @@ Windows Phone platform support is under development.
 
 * Cross-platform (Windows, macOS, iOS, tvOS, Android, Linux and Emscripten targets supported)
 * Multi-threaded (separate threads for rendering and game update)
-* Scene management
+* 2D and 3D scene management
 * GUI helper classes and management
 * Multiple side-by-side viewport support
 * Bitmap font support
