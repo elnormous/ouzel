@@ -35,17 +35,28 @@ namespace ouzel
             data.alphaBlendDest = newAlphaBlendDest;
             data.alphaOperation = newAlphaOperation;
 
-            data.dirty = true;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
 
         void BlendState::update()
         {
-            uploadData = data;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            
+            currentData = data;
 
-            data.dirty = false;
+            dirty = true;
+        }
+
+        bool BlendState::upload()
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            dirty = false;
+            uploadData = std::move(currentData);
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -10,12 +10,5 @@ namespace ouzel
         TextureEmpty::TextureEmpty()
         {
         }
-
-        bool TextureEmpty::upload()
-        {
-            uploadData.dirty = false;
-
-            return true;
-        }
     } // namespace graphics
 } // namespace ouzel

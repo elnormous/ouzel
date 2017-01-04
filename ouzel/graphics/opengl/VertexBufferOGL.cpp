@@ -76,160 +76,150 @@ namespace ouzel
 
         bool VertexBufferOGL::upload()
         {
-            if (uploadData.dirty)
+            if (!VertexBuffer::upload())
             {
-                if (!bufferId)
+                return false;
+            }
+
+            if (!bufferId)
+            {
+                glGenBuffers(1, &bufferId);
+            }
+
+            vertexAttribs.clear();
+
+            GLuint offset = 0;
+
+            if (uploadData.vertexAttributes & VERTEX_POSITION)
+            {
+                vertexAttribs.push_back({
+                    3, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 3 * sizeof(float);
+            }
+            if (uploadData.vertexAttributes & VERTEX_COLOR)
+            {
+                vertexAttribs.push_back({
+                    4, GL_UNSIGNED_BYTE, GL_TRUE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 4 * sizeof(uint8_t);
+            }
+            if (uploadData.vertexAttributes & VERTEX_NORMAL)
+            {
+                vertexAttribs.push_back({
+                    3, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 3 * sizeof(float);
+            }
+            if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
+            {
+                vertexAttribs.push_back({
+                    2, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 2 * sizeof(float);
+            }
+            if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
+            {
+                vertexAttribs.push_back({
+                    2, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 2 * sizeof(float);
+            }
+
+            if (offset != uploadData.vertexSize)
+            {
+                Log(Log::Level::ERR) << "Invalid vertex size";
+                return false;
+            }
+
+            if (!uploadData.data.empty())
+            {
+                RendererOGL::bindVertexArray(0);
+                RendererOGL::bindArrayBuffer(bufferId);
+
+                if (static_cast<GLsizeiptr>(uploadData.data.size()) > bufferSize)
                 {
-                    glGenBuffers(1, &bufferId);
+                    bufferSize = static_cast<GLsizeiptr>(uploadData.data.size());
+
+                    glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr,
+                                 uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create vertex buffer";
+                        return false;
+                    }
                 }
 
-                if (uploadData.dirty & VERTEX_ATTRIBUTES_DIRTY)
+                void* bufferPtr = nullptr;
+
+#if OUZEL_OPENGL_INTERFACE_EGL
+#if defined(GL_EXT_map_buffer_range)
+                if (mapBufferRangeEXT)
                 {
-                    vertexAttribs.clear();
+                    bufferPtr = mapBufferRangeEXT(GL_ARRAY_BUFFER, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
+                }
+#endif
+#if defined(GL_OES_mapbuffer)
+                if (!bufferPtr && mapBufferOES)
+                {
+                    bufferPtr = mapBufferOES(GL_ARRAY_BUFFER, GL_WRITE_ONLY_OES);
+                }
+#else
+                bufferPtr = nullptr;
+#endif
+#else
+                bufferPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
+#endif
 
-                    GLuint offset = 0;
+                if (bufferPtr)
+                {
+                    std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(bufferPtr));
 
-                    if (uploadData.vertexAttributes & VERTEX_POSITION)
+#if OUZEL_OPENGL_INTERFACE_EGL
+#if defined(GL_OES_mapbuffer)
+                    if (unmapBufferOES) unmapBufferOES(GL_ARRAY_BUFFER);
+#endif
+#else
+                    glUnmapBuffer(GL_ARRAY_BUFFER);
+#endif
+                    
+                    if (RendererOGL::checkOpenGLError())
                     {
-                        vertexAttribs.push_back({
-                            3, GL_FLOAT, GL_FALSE,
-                            static_cast<GLsizei>(uploadData.vertexSize),
-                            reinterpret_cast<const GLvoid*>(offset)
-                        });
-                        offset += 3 * sizeof(float);
+                        Log(Log::Level::ERR) << "Failed to upload vertex buffer";
+                        return false;
                     }
-                    if (uploadData.vertexAttributes & VERTEX_COLOR)
+                }
+                else
+                {
+                    // glMapBufferRange failed
+                    if (RendererOGL::checkOpenGLError())
                     {
-                        vertexAttribs.push_back({
-                            4, GL_UNSIGNED_BYTE, GL_TRUE,
-                            static_cast<GLsizei>(uploadData.vertexSize),
-                            reinterpret_cast<const GLvoid*>(offset)
-                        });
-                        offset += 4 * sizeof(uint8_t);
-                    }
-                    if (uploadData.vertexAttributes & VERTEX_NORMAL)
-                    {
-                        vertexAttribs.push_back({
-                            3, GL_FLOAT, GL_FALSE,
-                            static_cast<GLsizei>(uploadData.vertexSize),
-                            reinterpret_cast<const GLvoid*>(offset)
-                        });
-                        offset += 3 * sizeof(float);
-                    }
-                    if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
-                    {
-                        vertexAttribs.push_back({
-                            2, GL_FLOAT, GL_FALSE,
-                            static_cast<GLsizei>(uploadData.vertexSize),
-                            reinterpret_cast<const GLvoid*>(offset)
-                        });
-                        offset += 2 * sizeof(float);
-                    }
-                    if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
-                    {
-                        vertexAttribs.push_back({
-                            2, GL_FLOAT, GL_FALSE,
-                            static_cast<GLsizei>(uploadData.vertexSize),
-                            reinterpret_cast<const GLvoid*>(offset)
-                        });
-                        offset += 2 * sizeof(float);
-                    }
-
-                    if (offset != uploadData.vertexSize)
-                    {
-                        Log(Log::Level::ERR) << "Invalid vertex size";
+                        Log(Log::Level::ERR) << "Failed to map vertex buffer";
                         return false;
                     }
 
-                    uploadData.dirty &= ~VERTEX_ATTRIBUTES_DIRTY;
-                }
+                    glBufferData(GL_ARRAY_BUFFER, bufferSize, uploadData.data.data(),
+                                 uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-                if (uploadData.dirty & VERTEX_BUFFER_DIRTY)
-                {
-                    if (!uploadData.data.empty())
+                    if (RendererOGL::checkOpenGLError())
                     {
-                        RendererOGL::bindVertexArray(0);
-                        RendererOGL::bindArrayBuffer(bufferId);
-
-                        if (static_cast<GLsizeiptr>(uploadData.data.size()) > bufferSize)
-                        {
-                            bufferSize = static_cast<GLsizeiptr>(uploadData.data.size());
-
-                            glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr,
-                                         uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-                            if (RendererOGL::checkOpenGLError())
-                            {
-                                Log(Log::Level::ERR) << "Failed to create vertex buffer";
-                                return false;
-                            }
-                        }
-
-                        void* bufferPtr = nullptr;
-
-#if OUZEL_OPENGL_INTERFACE_EGL
-    #if defined(GL_EXT_map_buffer_range)
-                        if (mapBufferRangeEXT)
-                        {
-                            bufferPtr = mapBufferRangeEXT(GL_ARRAY_BUFFER, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
-                        }
-    #endif
-    #if defined(GL_OES_mapbuffer)
-                        if (!bufferPtr && mapBufferOES)
-                        {
-                            bufferPtr = mapBufferOES(GL_ARRAY_BUFFER, GL_WRITE_ONLY_OES);
-                        }
-    #else
-                        bufferPtr = nullptr;
-    #endif
-#else
-                        bufferPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
-#endif
-
-                        if (bufferPtr)
-                        {
-                            std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(bufferPtr));
-
-#if OUZEL_OPENGL_INTERFACE_EGL
-    #if defined(GL_OES_mapbuffer)
-                            if (unmapBufferOES) unmapBufferOES(GL_ARRAY_BUFFER);
-    #endif
-#else
-                            glUnmapBuffer(GL_ARRAY_BUFFER);
-#endif
-                            
-                            if (RendererOGL::checkOpenGLError())
-                            {
-                                Log(Log::Level::ERR) << "Failed to upload vertex buffer";
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            // glMapBufferRange failed
-                            if (RendererOGL::checkOpenGLError())
-                            {
-                                Log(Log::Level::ERR) << "Failed to map vertex buffer";
-                                return false;
-                            }
-
-                            glBufferData(GL_ARRAY_BUFFER, bufferSize, uploadData.data.data(),
-                                         uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-                            if (RendererOGL::checkOpenGLError())
-                            {
-                                Log(Log::Level::ERR) << "Failed to upload vertex buffer";
-                                return false;
-                            }
-                        }
-
-
+                        Log(Log::Level::ERR) << "Failed to upload vertex buffer";
+                        return false;
                     }
-
-                    uploadData.dirty &= ~VERTEX_BUFFER_DIRTY;
                 }
 
-                uploadData.dirty = 0;
+
             }
 
             return true;

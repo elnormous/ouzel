@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 #include "math/Vector3.h"
@@ -55,6 +56,7 @@ namespace ouzel
         protected:
             Shader();
             virtual void update() override;
+            virtual bool upload() override;
 
             struct Data
             {
@@ -69,17 +71,18 @@ namespace ouzel
                 uint32_t pixelShaderAlignment = 0;
                 std::vector<ConstantInfo> vertexShaderConstantInfo;
                 uint32_t vertexShaderAlignment = 0;
-
-                bool dirty = false;
             };
 
             Data uploadData;
+            std::mutex uploadMutex;
 
         private:
             Data data;
 
             std::string pixelShaderFilename;
             std::string vertexShaderFilename;
+
+            Data currentData;
         };
     } // namespace graphics
 } // namespace ouzel

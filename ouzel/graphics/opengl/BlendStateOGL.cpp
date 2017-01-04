@@ -54,20 +54,20 @@ namespace ouzel
 
         bool BlendStateOGL::upload()
         {
-            if (uploadData.dirty)
+            if (!BlendState::upload())
             {
-                modeRGB = getBlendOperation(uploadData.colorOperation);
-                modeAlpha = getBlendOperation(uploadData.alphaOperation);
-
-                sourceFactorRGB = getBlendFactor(uploadData.colorBlendSource);
-                destFactorRGB = getBlendFactor(uploadData.colorBlendDest);
-                sourceFactorAlpha = getBlendFactor(uploadData.alphaBlendDest);
-                destFactorAlpha = getBlendFactor(uploadData.alphaBlendDest);
-
-                glBlendEnabled = uploadData.enableBlending;
-
-                uploadData.dirty = false;
+                return false;
             }
+
+            modeRGB = getBlendOperation(uploadData.colorOperation);
+            modeAlpha = getBlendOperation(uploadData.alphaOperation);
+
+            sourceFactorRGB = getBlendFactor(uploadData.colorBlendSource);
+            destFactorRGB = getBlendFactor(uploadData.colorBlendDest);
+            sourceFactorAlpha = getBlendFactor(uploadData.alphaBlendDest);
+            destFactorAlpha = getBlendFactor(uploadData.alphaBlendDest);
+
+            glBlendEnabled = uploadData.enableBlending;
 
             return true;
         }

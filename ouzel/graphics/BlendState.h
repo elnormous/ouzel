@@ -1,6 +1,7 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 
@@ -62,6 +63,7 @@ namespace ouzel
         protected:
             BlendState();
             virtual void update() override;
+            virtual bool upload() override;
 
             struct Data
             {
@@ -72,13 +74,15 @@ namespace ouzel
                 BlendFactor alphaBlendDest = BlendFactor::ZERO;
                 BlendOperation alphaOperation = BlendOperation::ADD;
                 bool enableBlending = false;
-                bool dirty = false;
             };
 
             Data uploadData;
+            std::mutex uploadMutex;
 
         private:
             Data data;
+
+            Data currentData;
         };
     } // namespace graphics
 } // namespace ouzel

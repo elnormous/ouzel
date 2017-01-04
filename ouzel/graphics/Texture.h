@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 #include "math/Size2.h"
@@ -40,6 +41,7 @@ namespace ouzel
         protected:
             Texture();
             virtual void update() override;
+            virtual bool upload() override;
 
             bool calculateData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
@@ -56,11 +58,11 @@ namespace ouzel
                 bool dynamic = false;
                 bool mipmaps = false;
                 bool renderTarget = false;
-                bool dirty = false;
                 std::vector<Level> levels;
             };
 
             Data uploadData;
+            std::mutex uploadMutex;
 
         private:
             std::string filename;
@@ -70,9 +72,9 @@ namespace ouzel
             bool dynamic = false;
             bool mipmaps = false;
             bool renderTarget = false;
-            bool dirty = false;
             bool mipMapsGenerated = false;
 
+            Data currentData;
         };
     } // namespace graphics
 } // namespace ouzel

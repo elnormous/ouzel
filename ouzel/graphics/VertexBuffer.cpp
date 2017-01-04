@@ -20,7 +20,7 @@ namespace ouzel
         void VertexBuffer::free()
         {
             data.clear();
-            uploadData.data.clear();
+            currentData.data.clear();
         }
 
         bool VertexBuffer::init(bool newDynamic)
@@ -49,8 +49,7 @@ namespace ouzel
                             static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
             }
 
-            dirty = VERTEX_BUFFER_DIRTY | VERTEX_ATTRIBUTES_DIRTY;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -67,8 +66,7 @@ namespace ouzel
             data.assign(static_cast<const uint8_t*>(newVertices),
                         static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
 
-            dirty |= VERTEX_BUFFER_DIRTY;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -78,8 +76,7 @@ namespace ouzel
             vertexAttributes = newVertexAttributes;
             updateVertexSize();
 
-            dirty |= VERTEX_ATTRIBUTES_DIRTY;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -116,14 +113,24 @@ namespace ouzel
 
         void VertexBuffer::update()
         {
-            uploadData.vertexSize = vertexSize;
-            uploadData.vertexAttributes = vertexAttributes;
-            uploadData.dynamic = dynamic;
-            uploadData.dirty = dirty;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            
+            currentData.vertexSize = vertexSize;
+            currentData.vertexAttributes = vertexAttributes;
+            currentData.dynamic = dynamic;
+            currentData.data = std::move(data);
 
-            uploadData.data = std::move(data);
+            dirty = true;
+        }
 
-            dirty = 0;
+        bool VertexBuffer::upload()
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            dirty = false;
+            uploadData = std::move(currentData);
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -72,31 +72,31 @@ namespace ouzel
 
         bool BlendStateD3D11::upload()
         {
-            if (uploadData.dirty)
+            if (!BlendState::upload())
             {
-                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
+                return false;
+            }
 
-                // Blending state
-                D3D11_BLEND_DESC blendStateDesc = { FALSE, FALSE }; // alpha to coverage, independent blend
-                D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc =
-                {
-                    uploadData.enableBlending ? TRUE : FALSE,
-                    getBlendFactor(uploadData.colorBlendSource), getBlendFactor(uploadData.colorBlendDest), getBlendOperation(uploadData.colorOperation),
-                    getBlendFactor(uploadData.alphaBlendSource), getBlendFactor(uploadData.alphaBlendDest), getBlendOperation(uploadData.alphaOperation),
-                    D3D11_COLOR_WRITE_ENABLE_ALL, // color write mask
-                };
-                blendStateDesc.RenderTarget[0] = targetBlendDesc;
+            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
-                if (blendState) blendState->Release();
+            // Blending state
+            D3D11_BLEND_DESC blendStateDesc = { FALSE, FALSE }; // alpha to coverage, independent blend
+            D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc =
+            {
+                uploadData.enableBlending ? TRUE : FALSE,
+                getBlendFactor(uploadData.colorBlendSource), getBlendFactor(uploadData.colorBlendDest), getBlendOperation(uploadData.colorOperation),
+                getBlendFactor(uploadData.alphaBlendSource), getBlendFactor(uploadData.alphaBlendDest), getBlendOperation(uploadData.alphaOperation),
+                D3D11_COLOR_WRITE_ENABLE_ALL, // color write mask
+            };
+            blendStateDesc.RenderTarget[0] = targetBlendDesc;
 
-                HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
-                if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 blend state";
-                    return false;
-                }
+            if (blendState) blendState->Release();
 
-                uploadData.dirty = false;
+            HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to create Direct3D 11 blend state";
+                return false;
             }
 
             return true;

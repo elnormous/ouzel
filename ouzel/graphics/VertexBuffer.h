@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 
@@ -36,12 +37,7 @@ namespace ouzel
             VertexBuffer();
             void updateVertexSize();
             virtual void update() override;
-
-            enum Dirty
-            {
-                VERTEX_BUFFER_DIRTY = 0x01,
-                VERTEX_ATTRIBUTES_DIRTY = 0x02,
-            };
+            virtual bool upload() override;
 
             struct Data
             {
@@ -49,10 +45,10 @@ namespace ouzel
                 uint32_t vertexAttributes = 0;
                 std::vector<uint8_t> data;
                 bool dynamic = true;
-                uint8_t dirty = false;
             };
 
             Data uploadData;
+            std::mutex uploadMutex;
 
         private:
             uint32_t vertexCount = 0;
@@ -64,7 +60,7 @@ namespace ouzel
 
             bool dynamic = true;
 
-            uint8_t dirty = 0;
+            Data currentData;
         };
     } // namespace graphics
 } // namespace ouzel

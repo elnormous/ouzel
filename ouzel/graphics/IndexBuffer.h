@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 
@@ -33,22 +34,17 @@ namespace ouzel
         protected:
             IndexBuffer();
             virtual void update() override;
-
-            enum Dirty
-            {
-                INDEX_BUFFER_DIRTY = 0x01,
-                INDEX_SIZE_DIRTY = 0x02
-            };
+            virtual bool upload() override;
 
             struct Data
             {
                 uint32_t indexSize = 0;
                 std::vector<uint8_t> data;
                 bool dynamic = true;
-                uint8_t dirty = 0;
             };
 
             Data uploadData;
+            std::mutex uploadMutex;
 
         private:
             uint32_t indexCount = 0;
@@ -58,7 +54,7 @@ namespace ouzel
 
             bool dynamic = true;
 
-            uint8_t dirty = 0;
+            Data currentData;
         };
     } // namespace graphics
 } // namespace ouzel

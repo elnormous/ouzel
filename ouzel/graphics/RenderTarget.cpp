@@ -35,8 +35,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty = true;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -44,34 +43,45 @@ namespace ouzel
         void RenderTarget::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
-            dirty = true;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
+            update();
         }
 
         void RenderTarget::setClearDepthBuffer(bool clear)
         {
             clearColorBuffer = clear;
-            dirty = true;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
+            update();
         }
 
         void RenderTarget::setClearColor(Color color)
         {
             clearColor = color;
-            dirty = true;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+
+            update();
         }
 
         void RenderTarget::update()
         {
-            uploadData.size = size;
-            uploadData.clearColor = clearColor;
-            uploadData.depthBuffer = depthBuffer;
-            uploadData.clearColorBuffer = clearColorBuffer;
-            uploadData.clearDepthBuffer = clearDepthBuffer;
-            uploadData.dirty = dirty;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            currentData.size = size;
+            currentData.clearColor = clearColor;
+            currentData.depthBuffer = depthBuffer;
+            currentData.clearColorBuffer = clearColorBuffer;
+            currentData.clearDepthBuffer = clearDepthBuffer;
+
+            dirty = true;
+        }
+
+        bool RenderTarget::upload()
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
             dirty = false;
+            uploadData = std::move(currentData);
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

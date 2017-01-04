@@ -39,87 +39,87 @@ namespace ouzel
 
         bool TextureOGL::upload()
         {
-            if (uploadData.dirty)
+            if (!Texture::upload())
             {
-                if (!textureId)
-                {
-                    glGenTextures(1, &textureId);
+                return false;
+            }
 
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to create texture";
-                        return false;
-                    }
+            if (!textureId)
+            {
+                glGenTextures(1, &textureId);
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create texture";
+                    return false;
+                }
+            }
+
+            if (!uploadData.levels.empty())
+            {
+                RendererOGL::bindTexture(textureId, 0);
+
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+                switch (rendererOGL->getTextureFilter())
+                {
+                    case TextureFilter::NONE:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                        break;
+                    case TextureFilter::LINEAR:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_NEAREST_MIPMAP_LINEAR : GL_NEAREST);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                        break;
+                    case TextureFilter::BILINEAR:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                        break;
+                    case TextureFilter::TRILINEAR:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                        break;
                 }
 
-                if (!uploadData.levels.empty())
+                if (RendererOGL::checkOpenGLError())
                 {
-                    RendererOGL::bindTexture(textureId, 0);
+                    Log(Log::Level::ERR) << "Failed to set texture parameters";
+                    return false;
+                }
 
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                if (static_cast<GLsizei>(uploadData.size.v[0]) != width ||
+                    static_cast<GLsizei>(uploadData.size.v[1]) != height)
+                {
+                    width = static_cast<GLsizei>(uploadData.size.v[0]);
+                    height = static_cast<GLsizei>(uploadData.size.v[1]);
 
-                    RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
-                    switch (rendererOGL->getTextureFilter())
+                    for (size_t level = 0; level < uploadData.levels.size(); ++level)
                     {
-                        case TextureFilter::NONE:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                            break;
-                        case TextureFilter::LINEAR:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_NEAREST_MIPMAP_LINEAR : GL_NEAREST);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                            break;
-                        case TextureFilter::BILINEAR:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                            break;
-                        case TextureFilter::TRILINEAR:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                            break;
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
+                                     static_cast<GLsizei>(uploadData.levels[level].size.v[0]),
+                                     static_cast<GLsizei>(uploadData.levels[level].size.v[1]), 0,
+                                     GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
                     }
-
-                    if (RendererOGL::checkOpenGLError())
+                }
+                else
+                {
+                    for (size_t level = 0; level < uploadData.levels.size(); ++level)
                     {
-                        Log(Log::Level::ERR) << "Failed to set texture parameters";
-                        return false;
-                    }
+                        glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                        static_cast<GLsizei>(uploadData.levels[level].size.v[0]),
+                                        static_cast<GLsizei>(uploadData.levels[level].size.v[1]),
+                                        GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
 
-                    if (static_cast<GLsizei>(uploadData.size.v[0]) != width ||
-                        static_cast<GLsizei>(uploadData.size.v[1]) != height)
-                    {
-                        width = static_cast<GLsizei>(uploadData.size.v[0]);
-                        height = static_cast<GLsizei>(uploadData.size.v[1]);
-
-                        for (size_t level = 0; level < uploadData.levels.size(); ++level)
+                        if (RendererOGL::checkOpenGLError())
                         {
-                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
-                                         static_cast<GLsizei>(uploadData.levels[level].size.v[0]),
-                                         static_cast<GLsizei>(uploadData.levels[level].size.v[1]), 0,
-                                         GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
-                        }
-                    }
-                    else
-                    {
-                        for (size_t level = 0; level < uploadData.levels.size(); ++level)
-                        {
-                            glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                            static_cast<GLsizei>(uploadData.levels[level].size.v[0]),
-                                            static_cast<GLsizei>(uploadData.levels[level].size.v[1]),
-                                            GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
-
-                            if (RendererOGL::checkOpenGLError())
-                            {
-                                Log(Log::Level::ERR) << "Failed to upload texture data";
-                                return false;
-                            }
+                            Log(Log::Level::ERR) << "Failed to upload texture data";
+                            return false;
                         }
                     }
                 }
-
-                uploadData.dirty = false;
             }
 
             return true;

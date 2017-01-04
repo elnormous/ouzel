@@ -67,54 +67,54 @@ namespace ouzel
 
         bool MeshBufferOGL::upload()
         {
-            if (uploadData.dirty)
+            if (!MeshBuffer::upload())
             {
-                if (uploadData.indexBuffer && !uploadData.indexBuffer->upload())
-                {
-                    return false;
-                }
+                return false;
+            }
 
-                if (uploadData.vertexBuffer && !uploadData.vertexBuffer->upload())
-                {
-                    return false;
-                }
-
-                if (!vertexArrayId)
-                {
+            if (!vertexArrayId)
+            {
 #if OUZEL_OPENGL_INTERFACE_EAGL
-                    glGenVertexArraysOES(1, &vertexArrayId);
+                glGenVertexArraysOES(1, &vertexArrayId);
 #elif OUZEL_OPENGL_INTERFACE_EGL
-                    if (genVertexArraysOES) genVertexArraysOES(1, &vertexArrayId);
+                if (genVertexArraysOES) genVertexArraysOES(1, &vertexArrayId);
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
-                    glGenVertexArrays(1, &vertexArrayId);
+                glGenVertexArrays(1, &vertexArrayId);
 #endif
-                }
+            }
 
-                if (RendererOGL::checkOpenGLError())
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::WARN) << "Failed to create vertex array";
+            }
+
+            std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(uploadData.indexBuffer);
+
+            if (indexBufferOGL && indexBufferOGL->dirty && !indexBufferOGL->upload())
+            {
+                return false;
+            }
+
+            std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(uploadData.vertexBuffer);
+
+            if (vertexBufferOGL && indexBufferOGL->dirty && !vertexBufferOGL->upload())
+            {
+                return false;
+            }
+
+            if (vertexArrayId)
+            {
+                RendererOGL::bindVertexArray(vertexArrayId);
+
+                if (indexBufferOGL && !indexBufferOGL->bindBuffer())
                 {
-                    Log(Log::Level::WARN) << "Failed to create vertex array";
+                    return false;
                 }
 
-                if (vertexArrayId)
+                if (vertexBufferOGL && !vertexBufferOGL->bindBuffer())
                 {
-                    RendererOGL::bindVertexArray(vertexArrayId);
-
-                    std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(uploadData.indexBuffer);
-
-                    if (indexBufferOGL && !indexBufferOGL->bindBuffer())
-                    {
-                        return false;
-                    }
-
-                    std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(uploadData.vertexBuffer);
-
-                    if (vertexBufferOGL && !vertexBufferOGL->bindBuffer())
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-
-                uploadData.dirty = false;
             }
 
             return true;

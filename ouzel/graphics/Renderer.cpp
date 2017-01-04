@@ -93,18 +93,12 @@ namespace ouzel
                     std::lock_guard<std::mutex> lock(updateMutex);
                     resources = std::move(updateSet);
                     updateSet.clear();
-
-                    for (const ResourcePtr& resource : resources)
-                    {
-                        // prepare data for upload
-                        resource->update();
-                    }
                 }
 
                 for (const ResourcePtr& resource : resources)
                 {
                     // upload data to GPU
-                    if (!resource->upload())
+                    if (resource->dirty && !resource->upload())
                     {
                         return false;
                     }
@@ -213,6 +207,21 @@ namespace ouzel
                 scissorTest
             });
 
+            for (const TexturePtr& texture : textures)
+            {
+                if (texture) updateSet.insert(texture);
+            }
+
+            if (shader) updateSet.insert(shader);
+            if (blendState) updateSet.insert(blendState);
+            if (meshBuffer)
+            {
+                updateSet.insert(meshBuffer);
+                if (meshBuffer->indexBuffer) updateSet.insert(meshBuffer->indexBuffer);
+                if (meshBuffer->vertexBuffer) updateSet.insert(meshBuffer->vertexBuffer);
+            }
+            if (renderTarget) updateSet.insert(renderTarget);
+
             return true;
         }
 
@@ -229,13 +238,6 @@ namespace ouzel
             screenshotQueue.push(filename);
 
             return true;
-        }
-
-        void Renderer::scheduleUpdate(const ResourcePtr& resource)
-        {
-            std::lock_guard<std::mutex> lock(updateMutex);
-
-            updateSet.insert(resource);
         }
 
         bool Renderer::generateScreenshots()

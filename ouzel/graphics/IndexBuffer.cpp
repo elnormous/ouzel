@@ -20,7 +20,7 @@ namespace ouzel
         void IndexBuffer::free()
         {
             data.clear();
-            uploadData.data.clear();
+            currentData.data.clear();
         }
 
         bool IndexBuffer::init(bool newDynamic)
@@ -47,8 +47,7 @@ namespace ouzel
                             static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
             }
 
-            dirty = INDEX_BUFFER_DIRTY | INDEX_SIZE_DIRTY;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -65,8 +64,7 @@ namespace ouzel
             data.assign(static_cast<const uint8_t*>(newIndices),
                         static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
 
-            dirty |= INDEX_BUFFER_DIRTY;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -75,20 +73,30 @@ namespace ouzel
         {
             indexSize = newIndexSize;
 
-            dirty |= INDEX_SIZE_DIRTY;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
 
         void IndexBuffer::update()
         {
-            uploadData.indexSize = indexSize;
-            uploadData.dynamic = dynamic;
-            uploadData.dirty = dirty;
-            uploadData.data = std::move(data);
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            
+            currentData.indexSize = indexSize;
+            currentData.dynamic = dynamic;
+            currentData.data = std::move(data);
 
-            dirty = 0;
+            dirty = true;
+        }
+
+        bool IndexBuffer::upload()
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            dirty = false;
+            uploadData = std::move(currentData);
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

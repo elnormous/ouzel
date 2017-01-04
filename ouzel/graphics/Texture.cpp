@@ -24,7 +24,7 @@ namespace ouzel
         void Texture::free()
         {
             levels.clear();
-            uploadData.levels.clear();
+            currentData.levels.clear();
         }
 
         bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
@@ -37,9 +37,7 @@ namespace ouzel
             renderTarget = newRenderTarget;
             mipMapsGenerated = false;
 
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -72,9 +70,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -96,9 +92,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty = true;
-
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -269,15 +263,26 @@ namespace ouzel
 
         void Texture::update()
         {
-            uploadData.size = size;
-            uploadData.dynamic = dynamic;
-            uploadData.mipmaps = mipMapsGenerated;
-            uploadData.dirty = dirty;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            
+            currentData.size = size;
+            currentData.dynamic = dynamic;
+            currentData.mipmaps = mipMapsGenerated;
 
-            uploadData.renderTarget = renderTarget;
-            uploadData.levels = std::move(levels);
+            currentData.renderTarget = renderTarget;
+            currentData.levels = std::move(levels);
+
+            dirty = true;
+        }
+
+        bool Texture::upload()
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
             dirty = false;
+            uploadData = std::move(currentData);
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

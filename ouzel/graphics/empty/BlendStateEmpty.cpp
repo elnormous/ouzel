@@ -10,12 +10,5 @@ namespace ouzel
         BlendStateEmpty::BlendStateEmpty()
         {
         }
-
-        bool BlendStateEmpty::upload()
-        {
-            uploadData.dirty = false;
-
-            return true;
-        }
     } // namespace graphics
 } // namespace ouzel

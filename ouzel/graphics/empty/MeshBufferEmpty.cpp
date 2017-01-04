@@ -10,12 +10,5 @@ namespace ouzel
         MeshBufferEmpty::MeshBufferEmpty()
         {
         }
-
-        bool MeshBufferEmpty::upload()
-        {
-            uploadData.dirty = false;
-
-            return true;
-        }
     } // namespace graphics
 } // namespace ouzel

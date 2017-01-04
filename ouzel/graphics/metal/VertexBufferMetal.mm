@@ -38,37 +38,32 @@ namespace ouzel
 
         bool VertexBufferMetal::upload()
         {
-            if (uploadData.dirty)
+            if (!VertexBuffer::upload())
             {
-                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+                return false;
+            }
 
-                if (uploadData.dirty & VERTEX_BUFFER_DIRTY)
+            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+            if (!uploadData.data.empty())
+            {
+                if (!buffer || uploadData.data.size() > bufferSize)
                 {
-                    if (!uploadData.data.empty())
+                    if (buffer) [buffer release];
+
+                    bufferSize = static_cast<uint32_t>(uploadData.data.size());
+
+                    buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
+                                                                     options:MTLResourceCPUCacheModeWriteCombined];
+
+                    if (!buffer)
                     {
-                        if (!buffer || uploadData.data.size() > bufferSize)
-                        {
-                            if (buffer) [buffer release];
-
-                            bufferSize = static_cast<uint32_t>(uploadData.data.size());
-
-                            buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
-                                                                             options:MTLResourceCPUCacheModeWriteCombined];
-
-                            if (!buffer)
-                            {
-                                Log(Log::Level::ERR) << "Failed to create Metal vertex buffer";
-                                return false;
-                            }
-                        }
-
-                        std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>([buffer contents]));
+                        Log(Log::Level::ERR) << "Failed to create Metal vertex buffer";
+                        return false;
                     }
-
-                    uploadData.dirty &= ~VERTEX_BUFFER_DIRTY;
                 }
 
-                uploadData.dirty = 0;
+                std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>([buffer contents]));
             }
 
             return true;

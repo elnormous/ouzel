@@ -4,6 +4,8 @@
 #include "MeshBufferMetal.h"
 #include "core/Engine.h"
 #include "RendererMetal.h"
+#include "IndexBufferMetal.h"
+#include "VertexBufferMetal.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -20,7 +22,11 @@ namespace ouzel
 
         bool MeshBufferMetal::upload()
         {
-            uploadData.dirty = false;
+            if (!MeshBuffer::upload())
+            {
+                return false;
+            }
+
             return true;
         }
     } // namespace graphics

@@ -38,58 +38,49 @@ namespace ouzel
 
         bool IndexBufferMetal::upload()
         {
-            if (uploadData.dirty)
+            if (!IndexBuffer::upload())
             {
-                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+                return false;
+            }
 
-                if (uploadData.dirty & INDEX_SIZE_DIRTY)
+            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+            switch (uploadData.indexSize)
+            {
+                case 2:
+                    type = MTLIndexTypeUInt16;
+                    bytesPerIndex = 2;
+                    break;
+                case 4:
+                    type = MTLIndexTypeUInt32;
+                    bytesPerIndex = 4;
+                    break;
+                default:
+                    bytesPerIndex = 0;
+                    Log(Log::Level::ERR) << "Invalid index size";
+                    return false;
+            }
+
+
+            if (!uploadData.data.empty())
+            {
+                if (!buffer || uploadData.data.size() > bufferSize)
                 {
-                    switch (uploadData.indexSize)
-                    {
-                        case 2:
-                            type = MTLIndexTypeUInt16;
-                            bytesPerIndex = 2;
-                            break;
-                        case 4:
-                            type = MTLIndexTypeUInt32;
-                            bytesPerIndex = 4;
-                            break;
-                        default:
-                            bytesPerIndex = 0;
-                            Log(Log::Level::ERR) << "Invalid index size";
-                            return false;
-                    }
+                    if (buffer) [buffer release];
 
-                    uploadData.dirty &= ~INDEX_SIZE_DIRTY;
+                    bufferSize = static_cast<uint32_t>(uploadData.data.size());
+
+                    buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
+                                                                     options:MTLResourceCPUCacheModeWriteCombined];
+
+                    if (!buffer)
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Metal index buffer";
+                        return false;
+                    }
                 }
 
-                if (uploadData.dirty & INDEX_BUFFER_DIRTY)
-                {
-                    if (!uploadData.data.empty())
-                    {
-                        if (!buffer || uploadData.data.size() > bufferSize)
-                        {
-                            if (buffer) [buffer release];
-
-                            bufferSize = static_cast<uint32_t>(uploadData.data.size());
-
-                            buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
-                                                                             options:MTLResourceCPUCacheModeWriteCombined];
-
-                            if (!buffer)
-                            {
-                                Log(Log::Level::ERR) << "Failed to create Metal index buffer";
-                                return false;
-                            }
-                        }
-
-                        std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>([buffer contents]));
-                    }
-
-                    uploadData.dirty &= ~INDEX_BUFFER_DIRTY;
-                }
-
-                uploadData.dirty = 0;
+                std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>([buffer contents]));
             }
 
             return true;

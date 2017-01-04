@@ -4,17 +4,27 @@
 #pragma once
 
 #include <memory>
+#include <atomic>
 
 namespace ouzel
 {
     namespace graphics
     {
-        class Resource: public std::enable_shared_from_this<Resource>
+        class Renderer;
+
+        class Resource
         {
+            friend Renderer;
         public:
+            Resource(): dirty(false) {}
+
             virtual void free() = 0;
+
+        protected:
             virtual void update() = 0;
             virtual bool upload() = 0;
+            
+            std::atomic<bool> dirty;
         };
     } // graphics
 } // ouzel

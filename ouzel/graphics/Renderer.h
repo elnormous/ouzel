@@ -141,8 +141,6 @@ namespace ouzel
                 apiMinorVersion = minorVersion;
             }
 
-            void scheduleUpdate(const ResourcePtr& resource);
-
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
             bool isMultisamplingSupported() const { return multisamplingSupported; }
 

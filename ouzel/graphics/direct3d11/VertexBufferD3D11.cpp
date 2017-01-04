@@ -38,59 +38,54 @@ namespace ouzel
 
         bool VertexBufferD3D11::upload()
         {
-            if (uploadData.dirty)
+            if (!VertexBuffer::upload())
             {
-                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
+                return false;
+            }
 
-                if (uploadData.dirty & VERTEX_BUFFER_DIRTY)
+            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
+
+            if (!uploadData.data.empty())
+            {
+                if (!buffer || uploadData.data.size() > bufferSize)
                 {
-                    if (!uploadData.data.empty())
+                    if (buffer) buffer->Release();
+
+                    bufferSize = static_cast<UINT>(uploadData.data.size());
+
+                    D3D11_BUFFER_DESC vertexBufferDesc;
+                    memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
+
+                    vertexBufferDesc.ByteWidth = bufferSize;
+                    vertexBufferDesc.Usage = uploadData.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                    vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+                    vertexBufferDesc.CPUAccessFlags = uploadData.dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+
+                    D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
+                    memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));
+                    vertexBufferResourceData.pSysMem = uploadData.data.data();
+
+                    HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &buffer);
+                    if (FAILED(hr))
                     {
-                        if (!buffer || uploadData.data.size() > bufferSize)
-                        {
-                            if (buffer) buffer->Release();
-
-                            bufferSize = static_cast<UINT>(uploadData.data.size());
-
-                            D3D11_BUFFER_DESC vertexBufferDesc;
-                            memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
-
-                            vertexBufferDesc.ByteWidth = bufferSize;
-                            vertexBufferDesc.Usage = uploadData.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
-                            vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-                            vertexBufferDesc.CPUAccessFlags = uploadData.dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
-
-                            D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
-                            memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));
-                            vertexBufferResourceData.pSysMem = uploadData.data.data();
-
-                            HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &buffer);
-                            if (FAILED(hr))
-                            {
-                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 vertex buffer";
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            D3D11_MAPPED_SUBRESOURCE mappedSubResource;
-                            HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
-                            if (FAILED(hr))
-                            {
-                                Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer";
-                                return false;
-                            }
-
-                            std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(mappedSubResource.pData));
-
-                            rendererD3D11->getContext()->Unmap(buffer, 0);
-                        }
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 vertex buffer";
+                        return false;
+                    }
+                }
+                else
+                {
+                    D3D11_MAPPED_SUBRESOURCE mappedSubResource;
+                    HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer";
+                        return false;
                     }
 
-                    uploadData.dirty &= ~VERTEX_BUFFER_DIRTY;
-                }
+                    std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(mappedSubResource.pData));
 
-                uploadData.dirty = 0;
+                    rendererD3D11->getContext()->Unmap(buffer, 0);
+                }
             }
 
             return true;

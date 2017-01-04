@@ -47,73 +47,73 @@ namespace ouzel
 
         bool RenderTargetMetal::upload()
         {
-            if (uploadData.dirty)
+            if (!RenderTarget::upload())
             {
-                if (!texture->upload())
-                {
-                    return false;
-                }
+                return false;
+            }
 
-                std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(texture);
+            std::shared_ptr<TextureMetal> textureMetal = std::static_pointer_cast<TextureMetal>(texture);
 
-                if (!textureMetal->getTexture())
-                {
-                    Log(Log::Level::ERR) << "Metal texture not initialized";
-                    return false;
-                }
+            if (!textureMetal->upload())
+            {
+                return false;
+            }
+
+            if (!textureMetal->getTexture())
+            {
+                Log(Log::Level::ERR) << "Metal texture not initialized";
+                return false;
+            }
+
+            if (!renderPassDescriptor)
+            {
+                renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
                 if (!renderPassDescriptor)
                 {
-                    renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+                    Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
+                    return false;
+                }
+            }
 
-                    if (!renderPassDescriptor)
+            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(uploadData.clearColor.normR(),
+                                                                                    uploadData.clearColor.normG(),
+                                                                                    uploadData.clearColor.normB(),
+                                                                                    uploadData.clearColor.normA());
+
+            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+            if (rendererMetal->getSampleCount() > 1)
+            {
+                if (!msaaTexture)
+                {
+                    MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
+                                                                                                    width:static_cast<NSUInteger>(uploadData.size.v[0])
+                                                                                                   height:static_cast<NSUInteger>(uploadData.size.v[1])
+                                                                                                mipmapped:NO];
+                    desc.textureType = MTLTextureType2DMultisample;
+                    desc.storageMode = MTLStorageModePrivate;
+                    desc.sampleCount = rendererMetal->getSampleCount();
+                    desc.usage = MTLTextureUsageRenderTarget;
+
+                    msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];
+
+                    if (!msaaTexture)
                     {
-                        Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
+                        Log(Log::Level::ERR) << "Failed to create MSAA texture";
                         return false;
                     }
                 }
 
-                renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(uploadData.clearColor.normR(),
-                                                                                        uploadData.clearColor.normG(),
-                                                                                        uploadData.clearColor.normB(),
-                                                                                        uploadData.clearColor.normA());
-
-                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
-                if (rendererMetal->getSampleCount() > 1)
-                {
-                    if (!msaaTexture)
-                    {
-                        MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
-                                                                                                        width:static_cast<NSUInteger>(uploadData.size.v[0])
-                                                                                                       height:static_cast<NSUInteger>(uploadData.size.v[1])
-                                                                                                    mipmapped:NO];
-                        desc.textureType = MTLTextureType2DMultisample;
-                        desc.storageMode = MTLStorageModePrivate;
-                        desc.sampleCount = rendererMetal->getSampleCount();
-                        desc.usage = MTLTextureUsageRenderTarget;
-
-                        msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];
-
-                        if (!msaaTexture)
-                        {
-                            Log(Log::Level::ERR) << "Failed to create MSAA texture";
-                            return false;
-                        }
-                    }
-
-                    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
-                    renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
-                    renderPassDescriptor.colorAttachments[0].resolveTexture = textureMetal->getTexture();
-                }
-                else
-                {
-                    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-                    renderPassDescriptor.colorAttachments[0].texture = textureMetal->getTexture();
-                }
-
-                uploadData.dirty = false;
+                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
+                renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
+                renderPassDescriptor.colorAttachments[0].resolveTexture = textureMetal->getTexture();
+            }
+            else
+            {
+                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+                renderPassDescriptor.colorAttachments[0].texture = textureMetal->getTexture();
             }
 
             return true;

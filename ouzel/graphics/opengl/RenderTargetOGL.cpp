@@ -47,83 +47,83 @@ namespace ouzel
 
         bool RenderTargetOGL::upload()
         {
-            if (uploadData.dirty)
+            if (!RenderTarget::upload())
             {
-                if (!texture->upload())
+                return false;
+            }
+
+            if (!frameBufferId)
+            {
+                glGenFramebuffers(1, &frameBufferId);
+
+                if (RendererOGL::checkOpenGLError())
                 {
+                    Log(Log::Level::ERR) << "Failed to create frame buffer";
                     return false;
                 }
 
-                if (!frameBufferId)
+                clearMask = 0;
+
+                if (uploadData.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+                if (uploadData.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
+            }
+
+            std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(texture);
+
+            if (!textureOGL->upload())
+            {
+                return false;
+            }
+
+            if (!textureOGL->getTextureId())
+            {
+                Log(Log::Level::ERR) << "OpenGL texture not initialized";
+                return false;
+            }
+
+            RendererOGL::bindFrameBuffer(frameBufferId);
+
+            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            {
+                RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
+
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                             static_cast<GLsizei>(uploadData.size.v[0]),
+                             static_cast<GLsizei>(uploadData.size.v[1]),
+                             0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+                if (uploadData.depthBuffer)
                 {
-                    glGenFramebuffers(1, &frameBufferId);
-
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to create frame buffer";
-                        return false;
-                    }
-
-                    clearMask = 0;
-
-                    if (uploadData.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-                    if (uploadData.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
+                    glGenRenderbuffers(1, &depthBufferId);
+                    glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
+                    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                          static_cast<GLsizei>(uploadData.size.v[0]),
+                                          static_cast<GLsizei>(uploadData.size.v[1]));
+                    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
                 }
 
-                std::shared_ptr<TextureOGL> textureOGL = std::static_pointer_cast<TextureOGL>(texture);
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureOGL->getTextureId(), 0);
 
-                if (!textureOGL->getTextureId())
-                {
-                    Log(Log::Level::ERR) << "OpenGL texture not initialized";
-                    return false;
-                }
-
-                RendererOGL::bindFrameBuffer(frameBufferId);
+#if OUZEL_SUPPORTS_OPENGL // TODO: fix this
+                //GLenum drawBuffers[1] = {GL_COLOR_ATTACHMENT0};
+                //glDrawBuffers(1, drawBuffers);
+                glDrawBuffer(GL_COLOR_ATTACHMENT0);
+#endif
 
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    RendererOGL::bindTexture(textureOGL->getTextureId(), 0);
-
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                                 static_cast<GLsizei>(uploadData.size.v[0]),
-                                 static_cast<GLsizei>(uploadData.size.v[1]),
-                                 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-                    if (uploadData.depthBuffer)
-                    {
-                        glGenRenderbuffers(1, &depthBufferId);
-                        glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
-                        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                              static_cast<GLsizei>(uploadData.size.v[0]),
-                                              static_cast<GLsizei>(uploadData.size.v[1]));
-                        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
-                    }
-
-                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureOGL->getTextureId(), 0);
-
-#if OUZEL_SUPPORTS_OPENGL // TODO: fix this
-                    //GLenum drawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-                    //glDrawBuffers(1, drawBuffers);
-                    glDrawBuffer(GL_COLOR_ATTACHMENT0);
-#endif
-
-                    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create frame buffer";
-                        return false;
-                    }
+                    Log(Log::Level::ERR) << "Failed to create frame buffer";
+                    return false;
                 }
-
-                frameBufferClearColor[0] = uploadData.clearColor.normR();
-                frameBufferClearColor[1] = uploadData.clearColor.normG();
-                frameBufferClearColor[2] = uploadData.clearColor.normB();
-                frameBufferClearColor[3] = uploadData.clearColor.normA();
-
-                uploadData.dirty = false;
             }
+
+            frameBufferClearColor[0] = uploadData.clearColor.normR();
+            frameBufferClearColor[1] = uploadData.clearColor.normG();
+            frameBufferClearColor[2] = uploadData.clearColor.normB();
+            frameBufferClearColor[3] = uploadData.clearColor.normA();
 
             return true;
         }

@@ -4,6 +4,7 @@
 #pragma once
 
 #include <memory>
+#include <mutex>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
@@ -44,6 +45,7 @@ namespace ouzel
         protected:
             RenderTarget();
             virtual void update() override;
+            virtual bool upload() override;
 
             struct Data
             {
@@ -52,10 +54,11 @@ namespace ouzel
                 bool depthBuffer = false;
                 bool clearColorBuffer = true;
                 bool clearDepthBuffer = false;
-                bool dirty = false;
             };
 
             Data uploadData;
+            std::mutex uploadMutex;
+
             TexturePtr texture;
 
         private:
@@ -66,7 +69,8 @@ namespace ouzel
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             bool depthBuffer = false;
-            bool dirty = false;
+
+            Data currentData;
         };
     } // namespace graphics
 } // namespace ouzel

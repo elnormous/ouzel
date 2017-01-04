@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 #include "utils/Types.h"
@@ -32,21 +33,22 @@ namespace ouzel
         protected:
             MeshBuffer();
             virtual void update() override;
+            virtual bool upload() override;
 
             struct Data
             {
                 IndexBufferPtr indexBuffer;
                 VertexBufferPtr vertexBuffer;
-                bool dirty = false;
             };
 
             Data uploadData;
+            std::mutex uploadMutex;
 
         private:
             IndexBufferPtr indexBuffer;
             VertexBufferPtr vertexBuffer;
 
-            bool dirty = false;
+            Data currentData;
         };
     } // namespace graphics
 } // namespace ouzel

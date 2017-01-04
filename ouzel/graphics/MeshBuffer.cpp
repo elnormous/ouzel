@@ -29,8 +29,7 @@ namespace ouzel
             indexBuffer = newIndexBuffer;
             vertexBuffer = newVertexBuffer;
 
-            dirty = true;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
 
             return true;
         }
@@ -39,25 +38,34 @@ namespace ouzel
         {
             indexBuffer = newIndexBuffer;
 
-            dirty = true;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
         }
 
         void MeshBuffer::setVertexBuffer(const VertexBufferPtr& newVertexBuffer)
         {
             vertexBuffer = newVertexBuffer;
 
-            dirty = true;
-            sharedEngine->getRenderer()->scheduleUpdate(shared_from_this());
+            update();
         }
 
         void MeshBuffer::update()
         {
-            uploadData.indexBuffer = indexBuffer;
-            uploadData.vertexBuffer = vertexBuffer;
-            uploadData.dirty = dirty;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            
+            currentData.indexBuffer = indexBuffer;
+            currentData.vertexBuffer = vertexBuffer;
+
+            dirty = true;
+        }
+
+        bool MeshBuffer::upload()
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
             dirty = false;
+            uploadData = std::move(currentData);
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

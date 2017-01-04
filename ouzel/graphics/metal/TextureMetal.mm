@@ -39,51 +39,51 @@ namespace ouzel
 
         bool TextureMetal::upload()
         {
-            if (uploadData.dirty)
+            if (!Texture::upload())
             {
-                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+                return false;
+            }
 
-                if (uploadData.size.v[0] > 0 &&
-                    uploadData.size.v[1] > 0)
+            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+            if (uploadData.size.v[0] > 0 &&
+                uploadData.size.v[1] > 0)
+            {
+                if (!texture ||
+                    static_cast<NSUInteger>(uploadData.size.v[0]) != width ||
+                    static_cast<NSUInteger>(uploadData.size.v[1]) != height)
                 {
-                    if (!texture ||
-                        static_cast<NSUInteger>(uploadData.size.v[0]) != width ||
-                        static_cast<NSUInteger>(uploadData.size.v[1]) != height)
+                    if (texture) [texture release];
+
+                    width = static_cast<NSUInteger>(uploadData.size.v[0]);
+                    height = static_cast<NSUInteger>(uploadData.size.v[1]);
+
+                    if (width > 0 && height > 0)
                     {
-                        if (texture) [texture release];
+                        MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:uploadData.renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
+                                                                                                                     width:width
+                                                                                                                    height:height
+                                                                                                                 mipmapped:uploadData.mipmaps ? YES : NO];
+                        textureDescriptor.textureType = MTLTextureType2D;
+                        textureDescriptor.usage = MTLTextureUsageShaderRead | (uploadData.renderTarget ? MTLTextureUsageRenderTarget : 0);
 
-                        width = static_cast<NSUInteger>(uploadData.size.v[0]);
-                        height = static_cast<NSUInteger>(uploadData.size.v[1]);
+                        texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
-                        if (width > 0 && height > 0)
+                        if (!texture)
                         {
-                            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:uploadData.renderTarget ? rendererMetal->getMetalView().colorPixelFormat : MTLPixelFormatRGBA8Unorm
-                                                                                                                         width:width
-                                                                                                                        height:height
-                                                                                                                     mipmapped:uploadData.mipmaps ? YES : NO];
-                            textureDescriptor.textureType = MTLTextureType2D;
-                            textureDescriptor.usage = MTLTextureUsageShaderRead | (uploadData.renderTarget ? MTLTextureUsageRenderTarget : 0);
-
-                            texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
-
-                            if (!texture)
-                            {
-                                return false;
-                            }
+                            return false;
                         }
-                    }
-
-                    for (size_t level = 0; level < uploadData.levels.size(); ++level)
-                    {
-                        [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(uploadData.levels[level].size.v[0]),
-                                                               static_cast<NSUInteger>(uploadData.levels[level].size.v[1]))
-                                   mipmapLevel:level withBytes:uploadData.levels[level].data.data()
-                                   bytesPerRow:static_cast<NSUInteger>(uploadData.levels[level].pitch)];
                     }
                 }
 
-                uploadData.dirty = false;
+                for (size_t level = 0; level < uploadData.levels.size(); ++level)
+                {
+                    [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                           static_cast<NSUInteger>(uploadData.levels[level].size.v[0]),
+                                                           static_cast<NSUInteger>(uploadData.levels[level].size.v[1]))
+                               mipmapLevel:level withBytes:uploadData.levels[level].data.data()
+                               bytesPerRow:static_cast<NSUInteger>(uploadData.levels[level].pitch)];
+                }
             }
 
             return true;

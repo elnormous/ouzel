@@ -20,7 +20,10 @@ namespace ouzel
 
         bool MeshBufferD3D11::upload()
         {
-            uploadData.dirty = false;
+            if (!MeshBuffer::upload())
+            {
+                return false;
+            }
 
             return true;
         }
