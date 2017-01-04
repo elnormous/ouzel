@@ -98,7 +98,7 @@ namespace ouzel
                 for (const ResourcePtr& resource : resources)
                 {
                     // upload data to GPU
-                    if (resource->dirty && !resource->upload())
+                    if (!resource->upload())
                     {
                         return false;
                     }
@@ -209,18 +209,18 @@ namespace ouzel
 
             for (const TexturePtr& texture : textures)
             {
-                if (texture) updateSet.insert(texture);
+                if (texture && texture->dirty) updateSet.insert(texture);
             }
 
-            if (shader) updateSet.insert(shader);
-            if (blendState) updateSet.insert(blendState);
+            if (shader && shader->dirty) updateSet.insert(shader);
+            if (blendState && blendState->dirty) updateSet.insert(blendState);
             if (meshBuffer)
             {
-                updateSet.insert(meshBuffer);
-                if (meshBuffer->indexBuffer) updateSet.insert(meshBuffer->indexBuffer);
-                if (meshBuffer->vertexBuffer) updateSet.insert(meshBuffer->vertexBuffer);
+                if (meshBuffer && meshBuffer->dirty) updateSet.insert(meshBuffer);
+                if (meshBuffer->indexBuffer && meshBuffer->indexBuffer->dirty) updateSet.insert(meshBuffer->indexBuffer);
+                if (meshBuffer->vertexBuffer && meshBuffer->vertexBuffer->dirty) updateSet.insert(meshBuffer->vertexBuffer);
             }
-            if (renderTarget) updateSet.insert(renderTarget);
+            if (renderTarget && renderTarget->dirty) updateSet.insert(renderTarget);
 
             return true;
         }
