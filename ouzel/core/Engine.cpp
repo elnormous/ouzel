@@ -4,14 +4,10 @@
 #include <algorithm>
 #include "Engine.h"
 #include "CompileConfig.h"
-#include "Cache.h"
 #include "Window.h"
-#include "localization/Localization.h"
 #include "utils/Log.h"
 #include "graphics/Renderer.h"
 #include "audio/Audio.h"
-#include "scene/SceneManager.h"
-#include "events/EventDispatcher.h"
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/WindowMacOS.h"
@@ -86,7 +82,7 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        currentFPS(0.0f), accumulatedFPS(0.0f), running(false), active(true)
+        currentFPS(0.0f), accumulatedFPS(0.0f), running(false), active(false)
     {
         sharedEngine = this;
     }
@@ -95,12 +91,6 @@ namespace ouzel
     {
         running = false;
         active = false;
-
-#if OUZEL_MULTITHREADED
-        if (updateThread.joinable()) updateThread.join();
-#endif
-
-        sceneManager.reset();
     }
 
     std::set<graphics::Renderer::Driver> Engine::getAvailableRenderDrivers()
@@ -199,12 +189,6 @@ namespace ouzel
 #else
         window.reset(new Window(settings.size, settings.resizable, settings.fullscreen, settings.title));
 #endif
-
-        eventDispatcher.reset(new EventDispatcher());
-        cache.reset(new Cache());
-        sceneManager.reset(new scene::SceneManager());
-
-        localization.reset(new Localization());
 
         switch (settings.renderDriver)
         {
@@ -343,6 +327,8 @@ namespace ouzel
         input.reset(new input::Input());
 #endif
 
+        active = true;
+
         return true;
     }
 
@@ -399,11 +385,11 @@ namespace ouzel
                     previousUpdateTime = currentTime;
                     float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0f;
 
-                    eventDispatcher->dispatchEvents();
+                    eventDispatcher.dispatchEvents();
 
                     if (sharedEngine->getRenderer()->getRefillDrawQueue())
                     {
-                        sceneManager->draw();
+                        sceneManager.draw();
                         renderer->flushDrawCommands();
                     }
 

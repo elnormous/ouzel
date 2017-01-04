@@ -15,6 +15,10 @@
 #include "utils/Noncopyable.h"
 #include "core/UpdateCallback.h"
 #include "core/Settings.h"
+#include "events/EventDispatcher.h"
+#include "scene/SceneManager.h"
+#include "core/Cache.h"
+#include "localization/Localization.h"
 
 void ouzelMain(const std::vector<std::string>& args);
 
@@ -36,14 +40,14 @@ namespace ouzel
         bool init(Settings& newSettings);
         const Settings& getSettings() const { return settings; }
 
-        EventDispatcher* getEventDispatcher() const { return eventDispatcher.get(); }
-        Cache* getCache() const { return cache.get(); }
+        EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
+        Cache* getCache() { return &cache; }
         Window* getWindow() const { return window.get(); }
         graphics::Renderer* getRenderer() const { return renderer.get(); }
         audio::Audio* getAudio() const { return audio.get(); }
-        scene::SceneManager* getSceneManager() const { return sceneManager.get(); }
+        scene::SceneManager* getSceneManager() { return &sceneManager; }
         input::Input* getInput() const { return input.get(); }
-        Localization* getLocalization() const { return localization.get(); }
+        Localization* getLocalization() { return &localization; }
 
         void exit();
 
@@ -66,14 +70,14 @@ namespace ouzel
 
         Settings settings;
 
-        std::unique_ptr<EventDispatcher> eventDispatcher;
+        EventDispatcher eventDispatcher;
+        Localization localization;
+        Cache cache;
         std::unique_ptr<Window> window;
-        std::unique_ptr<Localization> localization;
         std::unique_ptr<graphics::Renderer> renderer;
         std::unique_ptr<audio::Audio> audio;
         std::unique_ptr<input::Input> input;
-        std::unique_ptr<Cache> cache;
-        std::unique_ptr<scene::SceneManager> sceneManager;
+        scene::SceneManager sceneManager;
 
         std::atomic<float> currentFPS;
         std::chrono::steady_clock::time_point previousFrameTime;
