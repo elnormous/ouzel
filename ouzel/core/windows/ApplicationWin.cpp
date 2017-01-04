@@ -65,7 +65,7 @@ namespace ouzel
                     {
                         if (GetMessage(&msg, nullptr, 0, 0) <= 0)
                         {
-                            sharedEngine->exit();
+                            exit();
                             break;
                         }
                     }
@@ -88,7 +88,7 @@ namespace ouzel
 
                     if (msg.message == WM_QUIT)
                     {
-                        sharedEngine->exit();
+                        exit();
                         break;
                     }
                 }
