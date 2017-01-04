@@ -97,7 +97,7 @@ namespace ouzel
 
             std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(uploadData.vertexBuffer);
 
-            if (vertexBufferOGL && indexBufferOGL->dirty && !vertexBufferOGL->upload())
+            if (vertexBufferOGL && vertexBufferOGL->dirty && !vertexBufferOGL->upload())
             {
                 return false;
             }
