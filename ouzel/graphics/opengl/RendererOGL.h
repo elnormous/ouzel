@@ -57,8 +57,13 @@
 #endif
 
 #ifdef GL_IMG_multisampled_render_to_texture
+    #if OUZEL_PLATFORM_RASPBIAN
+    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMGPROC renderbufferStorageMultisampleIMG;
+    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMGPROC framebufferTexture2DMultisampleIMG;
+    #else
     extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
     extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
+    #endif
 #endif
 
 #endif
