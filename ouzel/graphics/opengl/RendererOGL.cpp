@@ -61,13 +61,8 @@
 #endif
 
 #ifdef GL_IMG_multisampled_render_to_texture
-    #if OUZEL_PLATFORM_RASPBIAN
-    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMGPROC renderbufferStorageMultisampleIMG;
-    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMGPROC framebufferTexture2DMultisampleIMG;
-    #else
     PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
     PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
-    #endif
 #endif
 
 #endif
@@ -153,13 +148,8 @@ namespace ouzel
 #endif
 
 #ifdef GL_IMG_multisampled_render_to_texture
-    #if OUZEL_PLATFORM_RASPBIAN
-                renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMGPROC)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
-                framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMGPROC)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
-    #else
                 renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
                 framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
-    #endif
 #endif
 #endif // OUZEL_OPENGL_INTERFACE_EGL
             }
@@ -217,13 +207,8 @@ namespace ouzel
                         else if (extension == "GL_IMG_multisampled_render_to_texture")
                         {
                             multisamplingSupported = true;
-    #if OUZEL_PLATFORM_RASPBIAN
-                            renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMGPROC)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
-                            framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMGPROC)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
-    #else
                             renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
                             framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
-    #endif
                         }
 #endif
 #endif // OUZEL_OPENGL_INTERFACE_EGL

@@ -36,7 +36,7 @@
     #include <EGL/egl.h>
 #endif
 
-#if OUZEL_PLATFORM_EMSCRIPTEN // workaround for a typo in Emscripten's gl2ext.h
+#if OUZEL_PLATFORM_EMSCRIPTEN || OUZEL_PLATFORM_RASPBIAN // workaround for a typo in Emscripten's and Raspbian's gl2ext.h
     typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLsizei samples);
 #endif
 
@@ -57,13 +57,8 @@
 #endif
 
 #ifdef GL_IMG_multisampled_render_to_texture
-    #if OUZEL_PLATFORM_RASPBIAN
-    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMGPROC renderbufferStorageMultisampleIMG;
-    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMGPROC framebufferTexture2DMultisampleIMG;
-    #else
     extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
     extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
-    #endif
 #endif
 
 #endif
