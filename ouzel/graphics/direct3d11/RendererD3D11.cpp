@@ -1095,30 +1095,33 @@ namespace ouzel
                     depthStencilView = nullptr;
                 }
 
-                D3D11_TEXTURE2D_DESC depthStencilDesc;
-                depthStencilDesc.Width = width;
-                depthStencilDesc.Height = height;
-                depthStencilDesc.MipLevels = 1;
-                depthStencilDesc.ArraySize = 1;
-                depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
-                depthStencilDesc.SampleDesc.Count = sampleCount;
-                depthStencilDesc.SampleDesc.Quality = 0;
-                depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-                depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-                depthStencilDesc.CPUAccessFlags = 0;
-                depthStencilDesc.MiscFlags = 0;
-                hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
-                if (FAILED(hr))
+                if (depthBits > 0)
                 {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
-                    return false;
-                }
+                    D3D11_TEXTURE2D_DESC depthStencilDesc;
+                    depthStencilDesc.Width = width;
+                    depthStencilDesc.Height = height;
+                    depthStencilDesc.MipLevels = 1;
+                    depthStencilDesc.ArraySize = 1;
+                    depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
+                    depthStencilDesc.SampleDesc.Count = sampleCount;
+                    depthStencilDesc.SampleDesc.Quality = 0;
+                    depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+                    depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                    depthStencilDesc.CPUAccessFlags = 0;
+                    depthStencilDesc.MiscFlags = 0;
+                    hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
+                        return false;
+                    }
 
-                hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
-                if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view";
-                    return false;
+                    hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view";
+                        return false;
+                    }
                 }
             }
 
