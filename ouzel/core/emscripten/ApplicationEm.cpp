@@ -46,7 +46,7 @@ namespace ouzel
 
         if (!sharedEngine->draw())
         {
-            sharedEngine->exit();
+            sharedEngine->end();
             return false;
         }
 

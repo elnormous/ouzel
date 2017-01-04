@@ -97,7 +97,6 @@ namespace ouzel
             }
             else
             {
-                sharedEngine->exit();
                 break;
             }
         }

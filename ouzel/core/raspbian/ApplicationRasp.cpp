@@ -32,7 +32,6 @@ namespace ouzel
 
             if (!sharedEngine->draw())
             {
-                sharedEngine->exit();
                 break;
             }
 

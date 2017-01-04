@@ -26,4 +26,17 @@ namespace ouzel
 
         return EXIT_SUCCESS;
     }
+
+    bool ApplicationAndroid::step()
+    {
+        executeAll();
+
+        if (!sharedEngine->draw())
+        {
+            sharedEngine->end();
+            return false;
+        }
+
+        return active;
+    }
 }

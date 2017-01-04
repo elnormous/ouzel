@@ -17,6 +17,8 @@ namespace ouzel
 
         virtual int run() override;
 
+        bool step();
+
         JNIEnv* getJNIEnv() const { return jniEnv; }
         jobject getMainActivity() const { return mainActivity; }
         AAssetManager* getAssetManager() const { return assetManager; }

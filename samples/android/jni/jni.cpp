@@ -32,9 +32,9 @@ extern "C"
 
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onDrawFrame(JNIEnv*, jclass)
     {
-        if (ouzel::sharedEngine)
+        if (!static_cast<ouzel::ApplicationAndroid*>(ouzel::sharedApplication)->step())
         {
-            ouzel::sharedEngine->draw();
+            exit(0);
         }
     }
 
