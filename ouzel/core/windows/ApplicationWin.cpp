@@ -44,59 +44,62 @@ namespace ouzel
 
         MSG msg;
 
-        while (sharedEngine->isActive())
+        for (;;)
         {
             executeAll();
 
-            if (!sharedEngine->draw())
+            if (sharedEngine->draw())
             {
-                sharedEngine->exit();
-            }
+                std::set<HACCEL> accelerators = window->getAccelerators();
 
-            std::set<HACCEL> accelerators = window->getAccelerators();
-
-            while (sharedEngine->isActive())
-            {
-                if (sharedEngine->isRunning())
+                while (sharedEngine->isActive())
                 {
-                    if (!PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+                    if (sharedEngine->isRunning())
                     {
-                        break;
+                        if (!PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+                        {
+                            break;
+                        }
                     }
-                }
-                else
-                {
-                    if (GetMessage(&msg, nullptr, 0, 0) <= 0)
+                    else
+                    {
+                        if (GetMessage(&msg, nullptr, 0, 0) <= 0)
+                        {
+                            sharedEngine->exit();
+                            break;
+                        }
+                    }
+
+                    bool translate = true;
+
+                    for (HACCEL accelerator : accelerators)
+                    {
+                        if (TranslateAccelerator(window->getNativeWindow(), accelerator, &msg))
+                        {
+                            translate = false;
+                        }
+                    }
+
+                    if (translate)
+                    {
+                        TranslateMessage(&msg);
+                        DispatchMessage(&msg);
+                    }
+
+                    if (msg.message == WM_QUIT)
                     {
                         sharedEngine->exit();
                         break;
                     }
                 }
 
-                bool translate = true;
-
-                for (HACCEL accelerator : accelerators)
-                {
-                    if (TranslateAccelerator(window->getNativeWindow(), accelerator, &msg))
-                    {
-                        translate = false;
-                    }
-                }
-
-                if (translate)
-                {
-                    TranslateMessage(&msg);
-                    DispatchMessage(&msg);
-                }
-
-                if (msg.message == WM_QUIT)
-                {
-                    sharedEngine->exit();
-                    break;
-                }
+                input->update();
             }
-
-            input->update();
+            else
+            {
+                sharedEngine->exit();
+                break;
+            }
         }
 
         sharedEngine->end();

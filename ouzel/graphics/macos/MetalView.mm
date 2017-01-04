@@ -23,8 +23,7 @@
 
 -(void)drawInMTKView:(nonnull __unused MTKView*)view
 {
-    if (!ouzel::sharedEngine->isActive() ||
-        (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw()))
+    if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
     {
         ouzel::sharedApplication->execute([] {
             ouzel::sharedEngine->getWindow()->close();

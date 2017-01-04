@@ -76,7 +76,8 @@ void ouzelMain(const std::vector<std::string>& args)
         }
     }
 
-    engine.init(settings);
-
-    samples.begin(sample);
+    if (engine.init(settings))
+    {
+        samples.begin(sample);
+    }
 }

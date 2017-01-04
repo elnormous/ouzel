@@ -18,8 +18,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     @autoreleasepool
     {
-        if (!ouzel::sharedEngine->isActive() ||
-            (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw()))
+        if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
         {
             ouzel::sharedApplication->execute([] {
                 ouzel::sharedEngine->getWindow()->close();
