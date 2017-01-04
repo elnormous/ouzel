@@ -37,7 +37,6 @@ namespace ouzel
 
                 if (!sharedEngine->draw())
                 {
-                    sharedEngine->exit();
                     break;
                 }
             }
@@ -70,7 +69,7 @@ namespace ouzel
                             {
                                 if (static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteMessage())
                                 {
-                                    sharedEngine->exit();
+                                    exit();
                                 }
                                 break;
                             }
