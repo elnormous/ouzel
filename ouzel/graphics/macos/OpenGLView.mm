@@ -136,7 +136,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     {
         [openGLContext setView:self];
     }
-    
+
     [openGLContext makeCurrentContext];
 }
 
