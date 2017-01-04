@@ -9,11 +9,7 @@
 
 static void loop(void)
 {
-    if (ouzel::sharedEngine->isActive())
-    {
-        static_cast<ouzel::ApplicationEm*>(ouzel::sharedApplication)->step();
-    }
-    else
+    if (!static_cast<ouzel::ApplicationEm*>(ouzel::sharedApplication)->step())
     {
         emscripten_cancel_main_loop();
     }
@@ -44,13 +40,16 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void ApplicationEm::step()
+    bool ApplicationEm::step()
     {
         executeAll();
 
         if (!sharedEngine->draw())
         {
             sharedEngine->exit();
+            return false;
         }
+
+        return true;
     }
 }

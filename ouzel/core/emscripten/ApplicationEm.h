@@ -14,6 +14,6 @@ namespace ouzel
 
         virtual int run() override;
 
-        void step();
+        bool step();
     };
 }

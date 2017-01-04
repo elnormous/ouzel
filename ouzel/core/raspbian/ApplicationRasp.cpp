@@ -26,13 +26,14 @@ namespace ouzel
         input::InputRasp* input = static_cast<input::InputRasp*>(sharedEngine->getInput());
         sharedEngine->begin();
 
-        while (sharedEngine->isActive())
+        for (;;)
         {
             executeAll();
 
             if (!sharedEngine->draw())
             {
                 sharedEngine->exit();
+                break;
             }
 
             input->update();
