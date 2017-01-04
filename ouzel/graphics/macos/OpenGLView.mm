@@ -132,7 +132,11 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 
     NSOpenGLContext* openGLContext = rendererOGL->getOpenGLContext();
 
-    [openGLContext setView:self];
+    if (openGLContext.view != self)
+    {
+        [openGLContext setView:self];
+    }
+    
     [openGLContext makeCurrentContext];
 }
 
