@@ -49,8 +49,6 @@ namespace ouzel
         input::Input* getInput() const { return input.get(); }
         Localization* getLocalization() { return &localization; }
 
-        void exit();
-
         void begin();
         void end();
         void pause();

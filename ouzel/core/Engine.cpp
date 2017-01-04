@@ -91,6 +91,10 @@ namespace ouzel
     {
         running = false;
         active = false;
+
+#if OUZEL_MULTITHREADED
+        if (updateThread.joinable()) updateThread.join();
+#endif
     }
 
     std::set<graphics::Renderer::Driver> Engine::getAvailableRenderDrivers()
@@ -332,12 +336,6 @@ namespace ouzel
         return true;
     }
 
-    void Engine::exit()
-    {
-        running = false;
-        active = false;
-    }
-
     void Engine::begin()
     {
         previousUpdateTime = previousFrameTime = std::chrono::steady_clock::now();
@@ -352,10 +350,6 @@ namespace ouzel
     {
         running = false;
         active = false;
-
-#if OUZEL_MULTITHREADED
-        if (updateThread.joinable()) updateThread.join();
-#endif
     }
 
     void Engine::pause()

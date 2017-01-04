@@ -14,6 +14,7 @@ namespace ouzel
         ApplicationMacOS(int aArgc, char* aArgv[]);
 
         virtual int run() override;
+        virtual void exit() override;
 
         virtual void execute(const std::function<void(void)>& func) override;
 

@@ -50,6 +50,6 @@ namespace ouzel
             return false;
         }
 
-        return true;
+        return active;
     }
 }

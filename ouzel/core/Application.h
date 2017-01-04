@@ -24,6 +24,8 @@ namespace ouzel
         virtual ~Application();
 
         virtual int run();
+        virtual void exit();
+        bool isActive() const { return active; }
 
         int getArgc() const { return argc; }
         char** getArgv() const { return argv; }
@@ -36,6 +38,7 @@ namespace ouzel
     protected:
         void executeAll();
 
+        bool active = true;
         int argc = 0;
         char** argv = nullptr;
         std::vector<std::string> args;

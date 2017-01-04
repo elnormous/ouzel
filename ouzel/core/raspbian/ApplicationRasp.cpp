@@ -26,7 +26,7 @@ namespace ouzel
         input::InputRasp* input = static_cast<input::InputRasp*>(sharedEngine->getInput());
         sharedEngine->begin();
 
-        for (;;)
+        while (active)
         {
             executeAll();
 

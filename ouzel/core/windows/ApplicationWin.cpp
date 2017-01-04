@@ -44,7 +44,7 @@ namespace ouzel
 
         MSG msg;
 
-        for (;;)
+        while (active)
         {
             executeAll();
 

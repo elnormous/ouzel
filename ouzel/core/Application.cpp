@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cstdint>
 #include "Application.h"
+#include "Engine.h"
 #include "files/FileSystem.h"
 
 namespace ouzel
@@ -42,6 +43,16 @@ namespace ouzel
     int Application::run()
     {
         return EXIT_SUCCESS;
+    }
+
+    void Application::exit()
+    {
+        active = false;
+
+        if (sharedEngine)
+        {
+            sharedEngine->end();
+        }
     }
 
     void Application::execute(const std::function<void(void)>& func)

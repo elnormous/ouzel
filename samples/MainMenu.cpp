@@ -62,7 +62,7 @@ bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     {
         if (type == Event::Type::KEY_DOWN)
         {
-            sharedEngine->exit();
+            sharedApplication->exit();
         }
 
         return false;

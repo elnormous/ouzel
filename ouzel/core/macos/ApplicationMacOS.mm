@@ -28,6 +28,14 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
+    void ApplicationMacOS::exit()
+    {
+        Application::exit();
+
+        NSApplication* application = [NSApplication sharedApplication];
+        [application terminate:Nil];
+    }
+
     void ApplicationMacOS::execute(const std::function<void(void)>& func)
     {
         std::function<void(void)> localFunction = func;

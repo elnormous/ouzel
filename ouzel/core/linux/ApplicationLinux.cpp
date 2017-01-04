@@ -48,7 +48,7 @@ namespace ouzel
 
             WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
 
-            for (;;)
+            while (active)
             {
                 executeAll();
 
