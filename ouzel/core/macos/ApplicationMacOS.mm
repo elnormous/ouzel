@@ -32,8 +32,10 @@ namespace ouzel
     {
         Application::exit();
 
-        NSApplication* application = [NSApplication sharedApplication];
-        [application terminate:Nil];
+        dispatch_async(mainQueue, ^{
+            NSApplication* application = [NSApplication sharedApplication];
+            [application terminate:Nil];
+        });
     }
 
     void ApplicationMacOS::execute(const std::function<void(void)>& func)
