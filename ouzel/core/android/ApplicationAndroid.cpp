@@ -22,8 +22,6 @@ namespace ouzel
             return EXIT_FAILURE;
         }
 
-        sharedEngine->begin();
-
         return EXIT_SUCCESS;
     }
 
@@ -33,7 +31,6 @@ namespace ouzel
 
         if (!sharedEngine->draw())
         {
-            sharedEngine->end();
             return false;
         }
 

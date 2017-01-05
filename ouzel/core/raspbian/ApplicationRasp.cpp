@@ -24,7 +24,6 @@ namespace ouzel
         }
 
         input::InputRasp* input = static_cast<input::InputRasp*>(sharedEngine->getInput());
-        sharedEngine->begin();
 
         while (active)
         {
@@ -38,7 +37,10 @@ namespace ouzel
             input->update();
         }
 
-        sharedEngine->end();
+        if (ouzel::sharedEngine)
+        {
+            ouzel::sharedEngine->exitUpdateThread();
+        }
 
         return EXIT_SUCCESS;
     }

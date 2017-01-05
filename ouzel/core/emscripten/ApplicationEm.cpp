@@ -31,11 +31,14 @@ namespace ouzel
             return EXIT_FAILURE;
         }
 
-        sharedEngine->begin();
-
         emscripten_set_main_loop(loop, 0, 1);
 
-        sharedEngine->end();
+        exit();
+
+        if (ouzel::sharedEngine)
+        {
+            ouzel::sharedEngine->exitUpdateThread();
+        }
 
         return EXIT_SUCCESS;
     }
@@ -46,7 +49,6 @@ namespace ouzel
 
         if (!sharedEngine->draw())
         {
-            sharedEngine->end();
             return false;
         }
 

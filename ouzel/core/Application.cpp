@@ -51,7 +51,7 @@ namespace ouzel
 
         if (sharedEngine)
         {
-            sharedEngine->end();
+            sharedEngine->exit();
         }
     }
 

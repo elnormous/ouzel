@@ -15,11 +15,6 @@
 -(void)applicationWillFinishLaunching:(__unused NSNotification*)notification
 {
     ouzelMain(ouzel::sharedApplication->getArgs());
-
-    if (ouzel::sharedEngine)
-    {
-        ouzel::sharedEngine->begin();
-    }
 }
 
 -(void)applicationDidFinishLaunching:(__unused NSNotification*)notification
@@ -28,9 +23,11 @@
 
 -(void)applicationWillTerminate:(__unused NSNotification*)notification
 {
+    ouzel::sharedApplication->exit();
+
     if (ouzel::sharedEngine)
     {
-        ouzel::sharedEngine->end();
+        ouzel::sharedEngine->exitUpdateThread();
     }
 }
 

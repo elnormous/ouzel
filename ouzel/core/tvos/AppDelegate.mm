@@ -14,10 +14,6 @@
 {
     ouzelMain(ouzel::sharedApplication->getArgs());
 
-    if (ouzel::sharedEngine)
-    {
-        ouzel::sharedEngine->begin();
-    }
     return YES;
 }
 
@@ -46,9 +42,11 @@
 
 -(void)applicationWillTerminate:(__unused UIApplication*)application
 {
+    ouzel::sharedApplication->exit();
+
     if (ouzel::sharedEngine)
     {
-        ouzel::sharedEngine->end();
+        ouzel::sharedEngine->exitUpdateThread();
     }
 }
 

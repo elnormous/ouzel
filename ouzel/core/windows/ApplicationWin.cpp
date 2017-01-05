@@ -40,7 +40,6 @@ namespace ouzel
 
         input::InputWin* input = static_cast<input::InputWin*>(sharedEngine->getInput());
         WindowWin* window = static_cast<WindowWin*>(sharedEngine->getWindow());
-        sharedEngine->begin();
 
         MSG msg;
 
@@ -101,7 +100,10 @@ namespace ouzel
             }
         }
 
-        sharedEngine->end();
+        if (ouzel::sharedEngine)
+        {
+            ouzel::sharedEngine->exitUpdateThread();
+        }
 
         return EXIT_SUCCESS;
     }

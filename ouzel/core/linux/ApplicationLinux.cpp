@@ -27,8 +27,6 @@ namespace ouzel
             return EXIT_FAILURE;
         }
 
-        sharedEngine->begin();
-
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
             for (;;)
@@ -165,7 +163,10 @@ namespace ouzel
             }
         }
 
-        sharedEngine->end();
+        if (ouzel::sharedEngine)
+        {
+            ouzel::sharedEngine->exitUpdateThread();
+        }
 
         return EXIT_SUCCESS;
     }

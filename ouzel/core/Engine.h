@@ -49,8 +49,7 @@ namespace ouzel
         input::Input* getInput() const { return input.get(); }
         Localization* getLocalization() { return &localization; }
 
-        void begin();
-        void end();
+        void exit();
         void pause();
         void resume();
         bool draw();
@@ -62,6 +61,8 @@ namespace ouzel
 
         void scheduleUpdate(const UpdateCallback* callback);
         void unscheduleUpdate(const UpdateCallback* callback);
+
+        void exitUpdateThread();
 
     protected:
         void run();

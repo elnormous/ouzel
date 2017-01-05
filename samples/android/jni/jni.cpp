@@ -34,6 +34,13 @@ extern "C"
     {
         if (!static_cast<ouzel::ApplicationAndroid*>(ouzel::sharedApplication)->step())
         {
+            ouzel::sharedApplication->exit();
+
+            if (ouzel::sharedEngine)
+            {
+                ouzel::sharedEngine->exitUpdateThread();
+            }
+
             exit(0);
         }
     }
