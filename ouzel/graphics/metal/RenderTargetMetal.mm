@@ -84,7 +84,7 @@ namespace ouzel
 
             RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
-            if (rendererMetal->getSampleCount() > 1)
+            if (uploadData.sampleCount > 1)
             {
                 if (!msaaTexture)
                 {
@@ -94,7 +94,7 @@ namespace ouzel
                                                                                                 mipmapped:NO];
                     desc.textureType = MTLTextureType2DMultisample;
                     desc.storageMode = MTLStorageModePrivate;
-                    desc.sampleCount = rendererMetal->getSampleCount();
+                    desc.sampleCount = uploadData.sampleCount;
                     desc.usage = MTLTextureUsageRenderTarget;
 
                     msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];

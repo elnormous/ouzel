@@ -26,7 +26,10 @@ namespace ouzel
             virtual ~RenderTarget();
             virtual void free() override;
 
-            virtual bool init(const Size2& newSize, bool useDepthBuffer);
+            virtual bool init(const Size2& newSize, uint32_t newSampleCount = 1, uint32_t newDepthBits = 0);
+
+            uint32_t getSampleCount() const { return sampleCount; }
+            uint32_t getDepthBits() const { return depthBits; }
 
             virtual void setClearColorBuffer(bool clear);
             virtual bool getClearColorBuffer() const { return clearColorBuffer; }
@@ -51,7 +54,8 @@ namespace ouzel
             {
                 Size2 size;
                 Color clearColor;
-                bool depthBuffer = false;
+                uint32_t sampleCount = 1;
+                uint32_t depthBits = 0;
                 bool clearColorBuffer = true;
                 bool clearDepthBuffer = false;
             };
@@ -66,9 +70,10 @@ namespace ouzel
             Color clearColor;
             uint32_t frameBufferClearedFrame = 0;
 
+            uint32_t sampleCount = 1;
+            uint32_t depthBits = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
-            bool depthBuffer = false;
 
             Data currentData;
         };

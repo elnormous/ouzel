@@ -23,10 +23,11 @@ namespace ouzel
             texture.reset();
         }
 
-        bool RenderTarget::init(const Size2& newSize, bool useDepthBuffer)
+        bool RenderTarget::init(const Size2& newSize, uint32_t newSampleCount, uint32_t newDepthBits)
         {
             size = newSize;
-            depthBuffer = useDepthBuffer;
+            sampleCount = newSampleCount;
+            depthBits = newDepthBits;
 
             texture = sharedEngine->getRenderer()->createTexture();
 
@@ -67,7 +68,8 @@ namespace ouzel
 
             currentData.size = size;
             currentData.clearColor = clearColor;
-            currentData.depthBuffer = depthBuffer;
+            currentData.sampleCount = sampleCount;
+            currentData.depthBits = depthBits;
             currentData.clearColorBuffer = clearColorBuffer;
             currentData.clearDepthBuffer = clearDepthBuffer;
 

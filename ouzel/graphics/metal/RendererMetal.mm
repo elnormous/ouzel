@@ -523,7 +523,9 @@ namespace ouzel
             }
             else for (const DrawCommand& drawCommand : drawQueue)
             {
-                MTLRenderPassDescriptorPtr newRenderPassDescriptor = Nil;
+                MTLRenderPassDescriptorPtr newRenderPassDescriptor;
+                uint32_t newSampleCount;
+                uint32_t newDepthBits;
                 bool newClearColorBuffer = false;
                 bool newClearDepthBuffer = false;
 
@@ -546,6 +548,8 @@ namespace ouzel
                     }
 
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+                    newSampleCount = drawCommand.renderTarget->getSampleCount();
+                    newDepthBits = drawCommand.renderTarget->getDepthBits();
 
                     std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal->getTexture());
                     viewport.originY = renderTargetTextureMetal->getSize().v[1] - (viewport.originY + viewport.height);
@@ -564,6 +568,8 @@ namespace ouzel
                 else
                 {
                     newRenderPassDescriptor = renderPassDescriptor;
+                    newSampleCount = sampleCount;
+                    newDepthBits = depthBits;
 
                     viewport.originY = static_cast<float>(frameBufferHeight) - (viewport.originY + viewport.height);
 
@@ -703,7 +709,14 @@ namespace ouzel
                     continue;
                 }
 
-                auto pipelineStateIterator = pipelineStates.find(std::make_pair(blendStateMetal, shaderMetal));
+                PipelineStateDesc pipelineStateDesc = {
+                    blendStateMetal,
+                    shaderMetal,
+                    newSampleCount,
+                    newDepthBits
+                };
+
+                auto pipelineStateIterator = pipelineStates.find(pipelineStateDesc);
 
                 if (pipelineStateIterator != pipelineStates.end())
                 {
@@ -711,7 +724,7 @@ namespace ouzel
                 }
                 else
                 {
-                    id<MTLRenderPipelineState> pipelineState = createPipelineState(blendStateMetal, shaderMetal);
+                    id<MTLRenderPipelineState> pipelineState = createPipelineState(pipelineStateDesc);
 
                     if (!pipelineState)
                     {
@@ -861,23 +874,36 @@ namespace ouzel
             return meshBuffer;
         }
 
-        MTLRenderPipelineStatePtr RendererMetal::createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
-                                                                     const std::shared_ptr<ShaderMetal>& shader)
+        MTLRenderPipelineStatePtr RendererMetal::createPipelineState(const PipelineStateDesc& desc)
         {
             MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-            pipelineStateDescriptor.sampleCount = view.sampleCount;
-            pipelineStateDescriptor.vertexFunction = shader->getVertexShader();
-            pipelineStateDescriptor.fragmentFunction = shader->getPixelShader();
-            pipelineStateDescriptor.vertexDescriptor = shader->getVertexDescriptor();
-            pipelineStateDescriptor.depthAttachmentPixelFormat = view.depthStencilPixelFormat;
-            pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
+            pipelineStateDescriptor.sampleCount = desc.sampleCount;
+            pipelineStateDescriptor.vertexFunction = desc.shader->getVertexShader();
+            pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
+            pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
 
+            switch (desc.depthBits)
+            {
+                case 0:
+                    pipelineStateDescriptor.depthAttachmentPixelFormat = MTLPixelFormatInvalid;
+                    break;
+                case 16:
+                case 24:
+                case 32:
+                    pipelineStateDescriptor.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float;
+                    break;
+                default:
+                    Log() << "Invalid depth format";
+                    return Nil;
+            }
+
+            pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
             pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
 
             // blending
-            std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(blendState);
+            std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(desc.blendState);
 
-            pipelineStateDescriptor.colorAttachments[0].blendingEnabled = blendState->isMetalBlendingEnabled() ? YES : NO;
+            pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isMetalBlendingEnabled() ? YES : NO;
 
             pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = blendStateMetal->getSourceRGBBlendFactor();
             pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = blendStateMetal->getDestinationRGBBlendFactor();
@@ -900,7 +926,7 @@ namespace ouzel
                 return Nil;
             }
 
-            pipelineStates[std::make_pair(blendState, shader)] = pipelineState;
+            pipelineStates[desc] = pipelineState;
 
             return pipelineState;
         }

@@ -81,8 +81,20 @@ namespace ouzel
             virtual bool update() override;
             virtual bool generateScreenshot(const std::string& filename) override;
 
-            MTLRenderPipelineStatePtr createPipelineState(const std::shared_ptr<BlendStateMetal>& blendState,
-                                                          const std::shared_ptr<ShaderMetal>& shader);
+            struct PipelineStateDesc
+            {
+                std::shared_ptr<BlendStateMetal> blendState;
+                std::shared_ptr<ShaderMetal> shader;
+                uint32_t sampleCount;
+                uint32_t depthBits;
+
+                bool operator<(const PipelineStateDesc& other) const
+                {
+                    return std::tie(blendState, shader, sampleCount, depthBits) < std::tie(other.blendState, other.shader, other.sampleCount, other.depthBits);
+                }
+            };
+
+            MTLRenderPipelineStatePtr createPipelineState(const PipelineStateDesc& desc);
 
             bool createRenderCommandEncoder(MTLRenderPassDescriptorPtr newRenderPassDescriptor);
 
@@ -108,7 +120,7 @@ namespace ouzel
 
             dispatch_semaphore_t inflightSemaphore;
 
-            std::map<std::pair<std::shared_ptr<BlendStateMetal>, std::shared_ptr<ShaderMetal>>, MTLRenderPipelineStatePtr> pipelineStates;
+            std::map<PipelineStateDesc, MTLRenderPipelineStatePtr> pipelineStates;
         };
     } // namespace graphics
 } // namespace ouzel

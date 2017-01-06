@@ -19,7 +19,7 @@ RTSample::RTSample(Samples& aSamples):
     addLayer(&rtLayer);
 
     ouzel::graphics::RenderTargetPtr renderTarget = sharedEngine->getRenderer()->createRenderTarget();
-    renderTarget->init(Size2(256.0f, 256.0f), false);
+    renderTarget->init(Size2(256.0f, 256.0f), 1, 0);
     renderTarget->setClearColor(Color(0, 64, 0));
 
     rtCamera.setRenderTarget(renderTarget);
