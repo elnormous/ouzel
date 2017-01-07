@@ -108,15 +108,18 @@ namespace ouzel
                 {
                     for (size_t level = 0; level < uploadData.levels.size(); ++level)
                     {
-                        glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                        static_cast<GLsizei>(uploadData.levels[level].size.v[0]),
-                                        static_cast<GLsizei>(uploadData.levels[level].size.v[1]),
-                                        GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
-
-                        if (RendererOGL::checkOpenGLError())
+                        if (!uploadData.levels[level].data.empty())
                         {
-                            Log(Log::Level::ERR) << "Failed to upload texture data";
-                            return false;
+                            glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                            static_cast<GLsizei>(uploadData.levels[level].size.v[0]),
+                                            static_cast<GLsizei>(uploadData.levels[level].size.v[1]),
+                                            GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
+
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to upload texture data";
+                                return false;
+                            }
                         }
                     }
                 }

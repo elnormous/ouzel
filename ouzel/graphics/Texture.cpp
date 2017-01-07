@@ -31,11 +31,14 @@ namespace ouzel
         {
             free();
 
-            size = newSize;
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
-            mipMapsGenerated = false;
+
+            if (!calculateSizes(newSize))
+            {
+                return false;
+            }
 
             update();
 
@@ -75,6 +78,28 @@ namespace ouzel
             return true;
         }
 
+        bool Texture::setSize(const Size2& newSize)
+        {
+            if (!dynamic)
+            {
+                return false;
+            }
+
+            if (newSize.v[0] <= 0.0f || newSize.v[1] <= 0.0f)
+            {
+                return false;
+            }
+
+            if (!calculateSizes(newSize))
+            {
+                return false;
+            }
+
+            update();
+
+            return true;
+        }
+
         bool Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (!dynamic)
@@ -94,6 +119,70 @@ namespace ouzel
 
             update();
 
+            return true;
+        }
+
+        bool Texture::calculateSizes(const Size2& newSize)
+        {
+            levels.clear();
+            size = newSize;
+
+            uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
+            uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
+
+            uint32_t pitch = newWidth * 4;
+            levels.push_back({newSize, pitch, std::vector<uint8_t>()});
+
+            mipMapsGenerated = mipmaps && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
+
+            if (mipMapsGenerated)
+            {
+                uint32_t bufferSize = newWidth * newHeight * 4;
+
+                if (newWidth == 1)
+                {
+                    bufferSize *= 2;
+                }
+                if (newHeight == 1)
+                {
+                    bufferSize *= 2;
+                }
+
+                while (newWidth >= 2 && newHeight >= 2)
+                {
+                    newWidth >>= 1;
+                    newHeight >>= 1;
+
+                    Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
+                    pitch = newWidth * 4;
+
+                    levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                }
+
+                if (newWidth > newHeight)
+                {
+                    for (; newWidth >= 2;)
+                    {
+                        newWidth >>= 1;
+
+                        Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
+                        pitch = newWidth * 4;
+
+                        levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                    }
+                }
+                else
+                {
+                    for (; newHeight >= 2;)
+                    {
+                        newHeight >>= 1;
+                        
+                        Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
+                        levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                    }
+                }
+            }
+            
             return true;
         }
 

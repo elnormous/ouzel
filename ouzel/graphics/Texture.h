@@ -32,6 +32,7 @@ namespace ouzel
 
             const std::string& getFilename() const { return filename; }
 
+            virtual bool setSize(const Size2& newSize);
             virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
             const Size2& getSize() const { return size; }
@@ -43,6 +44,7 @@ namespace ouzel
             virtual void update() override;
             virtual bool upload() override;
 
+            bool calculateSizes(const Size2& newSize);
             bool calculateData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
             struct Level

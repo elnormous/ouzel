@@ -78,11 +78,14 @@ namespace ouzel
 
                 for (size_t level = 0; level < uploadData.levels.size(); ++level)
                 {
-                    [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                           static_cast<NSUInteger>(uploadData.levels[level].size.v[0]),
-                                                           static_cast<NSUInteger>(uploadData.levels[level].size.v[1]))
-                               mipmapLevel:level withBytes:uploadData.levels[level].data.data()
-                               bytesPerRow:static_cast<NSUInteger>(uploadData.levels[level].pitch)];
+                    if (!uploadData.levels[level].data.empty())
+                    {
+                        [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                               static_cast<NSUInteger>(uploadData.levels[level].size.v[0]),
+                                                               static_cast<NSUInteger>(uploadData.levels[level].size.v[1]))
+                                   mipmapLevel:level withBytes:uploadData.levels[level].data.data()
+                                   bytesPerRow:static_cast<NSUInteger>(uploadData.levels[level].pitch)];
+                    }
                 }
             }
 
