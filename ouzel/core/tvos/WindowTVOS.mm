@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowTVOS.h"
-#import "graphics/ios/OpenGLView.h"
-#import "graphics/ios/MetalView.h"
+#import "graphics/opengl/ios/OpenGLView.h"
+#import "graphics/metal/ios/MetalView.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
 

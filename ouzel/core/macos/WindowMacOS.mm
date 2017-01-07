@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowMacOS.h"
-#include "graphics/macos/OpenGLView.h"
-#include "graphics/macos/MetalView.h"
+#include "graphics/opengl/macos/OpenGLView.h"
+#include "graphics/metal/macos/MetalView.h"
 #include "core/Application.h"
 #include "core/Engine.h"
 #include "utils/Log.h"

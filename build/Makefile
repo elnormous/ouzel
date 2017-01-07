@@ -120,7 +120,7 @@ ifeq ($(platform),raspbian)
 SOURCES+=$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/WindowRasp.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/raspbian/RendererOGLRasp.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RendererOGLRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/GamepadRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/InputRasp.cpp
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
@@ -128,20 +128,16 @@ else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/core/linux/ApplicationLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RendererOGLLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
-	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/linux/RendererOGLLinux.cpp
+	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp
 else ifeq ($(platform),macos)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/apple/AudioALApple.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/AppDelegate.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/apple/GamepadApple.mm \
-	$(ROOT_DIR)/../ouzel/input/apple/InputApple.mm \
-	$(ROOT_DIR)/../ouzel/graphics/macos/MetalView.mm \
-	$(ROOT_DIR)/../ouzel/graphics/macos/OpenGLView.mm \
-	$(ROOT_DIR)/../ouzel/graphics/macos/RendererOGLMacOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/IndexBufferMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferMetal.mm \
@@ -149,12 +145,16 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/apple/AudioALApple.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderTargetMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/VertexBufferMetal.mm
+	$(ROOT_DIR)/../ouzel/graphics/metal/VertexBufferMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
+	$(ROOT_DIR)/../ouzel/input/apple/GamepadApple.mm \
+	$(ROOT_DIR)/../ouzel/input/apple/InputApple.mm
 else ifeq ($(platform),emscripten)
 SOURCES+=$(ROOT_DIR)/../ouzel/core/emscripten/ApplicationEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/WindowEm.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/emscripten/RendererOGLEm.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RendererOGLEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputEm.cpp
 endif
 BASE_NAMES=$(basename $(SOURCES))
@@ -194,13 +194,14 @@ clean:
 	$(ROOT_DIR)/../ouzel/events/*.o \
 	$(ROOT_DIR)/../ouzel/files/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/*.o \
-	$(ROOT_DIR)/../ouzel/graphics/emscripten/*.o \
-	$(ROOT_DIR)/../ouzel/graphics/linux/*.o \
-	$(ROOT_DIR)/../ouzel/graphics/macos/*.o \
-	$(ROOT_DIR)/../ouzel/graphics/metal/*.o \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/*.o \
-	$(ROOT_DIR)/../ouzel/graphics/raspbian/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/empty/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/metal/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/metal/macos/*.o \
 	$(ROOT_DIR)/../ouzel/gui/*.o \
 	$(ROOT_DIR)/../ouzel/input/*.o \
 	$(ROOT_DIR)/../ouzel/input/apple/*.o \

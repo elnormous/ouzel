@@ -39,7 +39,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/events/EventDispatcher.cpp \
     ../../ouzel/events/EventHandler.cpp \
     ../../ouzel/files/FileSystem.cpp \
-    ../../ouzel/graphics/android/RendererOGLAndroid.cpp \
     ../../ouzel/graphics/empty/BlendStateEmpty.cpp \
     ../../ouzel/graphics/empty/IndexBufferEmpty.cpp \
     ../../ouzel/graphics/empty/MeshBufferEmpty.cpp \
@@ -48,6 +47,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/empty/ShaderEmpty.cpp \
     ../../ouzel/graphics/empty/TextureEmpty.cpp \
     ../../ouzel/graphics/empty/VertexBufferEmpty.cpp \
+    ../../ouzel/graphics/opengl/android/RendererOGLAndroid.cpp \
     ../../ouzel/graphics/opengl/BlendStateOGL.cpp \
     ../../ouzel/graphics/opengl/MeshBufferOGL.cpp \
     ../../ouzel/graphics/opengl/IndexBufferOGL.cpp \

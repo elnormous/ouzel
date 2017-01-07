@@ -11,30 +11,30 @@
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/WindowMacOS.h"
-#include "graphics/macos/RendererOGLMacOS.h"
+#include "graphics/opengl/macos/RendererOGLMacOS.h"
 #elif OUZEL_PLATFORM_IOS
 #include "ios/WindowIOS.h"
-#include "graphics/ios/RendererOGLIOS.h"
+#include "graphics/opengl/ios/RendererOGLIOS.h"
 #elif OUZEL_PLATFORM_TVOS
 #include "tvos/WindowTVOS.h"
-#include "graphics/tvos/RendererOGLTVOS.h"
+#include "graphics/opengl/tvos/RendererOGLTVOS.h"
 #elif OUZEL_PLATFORM_ANDROID
 #include "android/WindowAndroid.h"
-#include "graphics/android/RendererOGLAndroid.h"
+#include "graphics/opengl/android/RendererOGLAndroid.h"
 #include "input/android/InputAndroid.h"
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowLinux.h"
-#include "graphics/linux/RendererOGLLinux.h"
+#include "graphics/opengl/linux/RendererOGLLinux.h"
 #include "input/linux/InputLinux.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "windows/WindowWin.h"
 #elif OUZEL_PLATFORM_RASPBIAN
 #include "raspbian/WindowRasp.h"
-#include "graphics/raspbian/RendererOGLRasp.h"
+#include "graphics/opengl/raspbian/RendererOGLRasp.h"
 #include "input/raspbian/InputRasp.h"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
 #include "emscripten/WindowEm.h"
-#include "graphics/emscripten/RendererOGLEm.h"
+#include "graphics/opengl/emscripten/RendererOGLEm.h"
 #include "input/emscripten/InputEm.h"
 #endif
 
