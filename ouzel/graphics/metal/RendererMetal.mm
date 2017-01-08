@@ -237,6 +237,8 @@ namespace ouzel
             view.sampleCount = sampleCount;
             view.framebufferOnly = NO; // for screenshot capturing
 
+            colorFormat = view.colorPixelFormat;
+
             if (depthBits > 0)
             {
                 switch (depthBits)
@@ -246,6 +248,7 @@ namespace ouzel
                     case 32:
                         depthBits = 32; // always use 32-bit depth buffer for Metal
                         view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
+                        depthFormat = view.depthStencilPixelFormat;
                         break;
                     default:
                         Log(Log::Level::ERR) << "Unsupported depth buffer format";
@@ -525,7 +528,8 @@ namespace ouzel
             {
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                 uint32_t newSampleCount;
-                uint32_t newDepthBits;
+                NSUInteger newColorFormat;
+                NSUInteger newDepthFormat;
                 bool newClearColorBuffer = false;
                 bool newClearDepthBuffer = false;
 
@@ -548,8 +552,9 @@ namespace ouzel
                     }
 
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                    newSampleCount = drawCommand.renderTarget->getSampleCount();
-                    newDepthBits = drawCommand.renderTarget->getDepthBits();
+                    newSampleCount = renderTargetMetal->getSampleCount();
+                    newColorFormat = renderTargetMetal->getColorFormat();
+                    newDepthFormat = renderTargetMetal->getDepthFormat();
 
                     std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal->getTexture());
                     viewport.originY = renderTargetTextureMetal->getSize().v[1] - (viewport.originY + viewport.height);
@@ -569,7 +574,8 @@ namespace ouzel
                 {
                     newRenderPassDescriptor = renderPassDescriptor;
                     newSampleCount = sampleCount;
-                    newDepthBits = depthBits;
+                    newColorFormat = colorFormat;
+                    newDepthFormat = depthFormat;
 
                     viewport.originY = static_cast<float>(frameBufferHeight) - (viewport.originY + viewport.height);
 
@@ -713,7 +719,8 @@ namespace ouzel
                     blendStateMetal,
                     shaderMetal,
                     newSampleCount,
-                    newDepthBits
+                    newColorFormat,
+                    newDepthFormat,
                 };
 
                 auto pipelineStateIterator = pipelineStates.find(pipelineStateDesc);
@@ -882,23 +889,9 @@ namespace ouzel
             pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
             pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
 
-            switch (desc.depthBits)
-            {
-                case 0:
-                    pipelineStateDescriptor.depthAttachmentPixelFormat = MTLPixelFormatInvalid;
-                    break;
-                case 16:
-                case 24:
-                case 32:
-                    pipelineStateDescriptor.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float;
-                    break;
-                default:
-                    Log() << "Invalid depth format";
-                    return Nil;
-            }
-
+            pipelineStateDescriptor.colorAttachments[0].pixelFormat = static_cast<MTLPixelFormat>(desc.colorFormat);
+            pipelineStateDescriptor.depthAttachmentPixelFormat = static_cast<MTLPixelFormat>(desc.depthFormat);
             pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
-            pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
 
             // blending
             std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(desc.blendState);

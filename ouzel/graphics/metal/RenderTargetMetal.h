@@ -12,6 +12,7 @@
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id<MTLTexture> MTLTexturePtr;
 #else
+#include <objc/objc.h>
 typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLTexturePtr;
 #endif
@@ -28,12 +29,17 @@ namespace ouzel
             virtual void free() override;
 
             MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
+            NSUInteger getColorFormat() const { return colorFormat; }
+            NSUInteger getDepthFormat() const { return depthFormat; }
 
         protected:
             virtual bool upload() override;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
             MTLTexturePtr msaaTexture = Nil;
+
+            NSUInteger colorFormat = 0;
+            NSUInteger depthFormat = 0;
         };
     } // namespace graphics
 } // namespace ouzel

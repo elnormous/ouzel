@@ -29,6 +29,7 @@ namespace ouzel
             virtual void free() override;
 
             MTLTexturePtr getTexture() const { return texture; }
+            NSUInteger getColorFormat() const { return colorFormat; }
 
         protected:
             virtual bool upload() override;
@@ -37,6 +38,8 @@ namespace ouzel
 
             NSUInteger width = 0;
             NSUInteger height = 0;
+
+            NSUInteger colorFormat = 0;
         };
     } // namespace graphics
 } // namespace ouzel

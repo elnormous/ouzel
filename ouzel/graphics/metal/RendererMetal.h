@@ -21,6 +21,7 @@ typedef id<MTLTexture> MTLTexturePtr;
 typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #include <objc/objc.h>
+#include <objc/NSObjCRuntime.h>
 typedef id MTKViewPtr;
 typedef id MTLDevicePtr;
 typedef id MTLRenderPassDescriptorPtr;
@@ -86,11 +87,12 @@ namespace ouzel
                 std::shared_ptr<BlendStateMetal> blendState;
                 std::shared_ptr<ShaderMetal> shader;
                 uint32_t sampleCount;
-                uint32_t depthBits;
+                NSUInteger colorFormat;
+                NSUInteger depthFormat;
 
                 bool operator<(const PipelineStateDesc& other) const
                 {
-                    return std::tie(blendState, shader, sampleCount, depthBits) < std::tie(other.blendState, other.shader, other.sampleCount, other.depthBits);
+                    return std::tie(blendState, shader, sampleCount, colorFormat, depthFormat) < std::tie(other.blendState, other.shader, other.sampleCount, colorFormat, other.depthFormat);
                 }
             };
 
@@ -114,6 +116,9 @@ namespace ouzel
 
             MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
             MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
+
+            NSUInteger colorFormat = 0;
+            NSUInteger depthFormat = 0;
 
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;

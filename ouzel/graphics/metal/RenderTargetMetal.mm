@@ -65,6 +65,8 @@ namespace ouzel
                 return false;
             }
 
+            colorFormat = textureMetal->getColorFormat();
+
             if (!renderPassDescriptor)
             {
                 renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
@@ -88,7 +90,7 @@ namespace ouzel
             {
                 if (!msaaTexture)
                 {
-                    MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
+                    MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
                                                                                                     width:static_cast<NSUInteger>(uploadData.size.v[0])
                                                                                                    height:static_cast<NSUInteger>(uploadData.size.v[1])
                                                                                                 mipmapped:NO];
