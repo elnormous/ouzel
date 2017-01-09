@@ -9,7 +9,6 @@
 #include "MeshBufferD3D11.h"
 #include "IndexBufferD3D11.h"
 #include "VertexBufferD3D11.h"
-#include "RenderTargetD3D11.h"
 #include "utils/Log.h"
 #include "TexturePSD3D11.h"
 #include "TextureVSD3D11.h"
@@ -597,14 +596,14 @@ namespace ouzel
 
                 if (drawCommand.renderTarget)
                 {
-                    std::shared_ptr<RenderTargetD3D11> renderTargetD3D11 = std::static_pointer_cast<RenderTargetD3D11>(drawCommand.renderTarget);
+                    std::shared_ptr<TextureD3D11> renderTargetD3D11 = std::static_pointer_cast<TextureD3D11>(drawCommand.renderTarget);
 
                     if (!renderTargetD3D11->getRenderTargetView())
                     {
                         continue;
                     }
 
-                    std::shared_ptr<TextureD3D11> renderTargetTextureD3D11 = std::static_pointer_cast<TextureD3D11>(renderTargetD3D11->getTexture());
+                    std::shared_ptr<TextureD3D11> renderTargetTextureD3D11 = std::static_pointer_cast<TextureD3D11>(renderTargetD3D11);
                     viewport.TopLeftY = renderTargetTextureD3D11->getSize().v[1] - (viewport.TopLeftY + viewport.Height);
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
@@ -926,12 +925,6 @@ namespace ouzel
         {
             std::shared_ptr<TextureD3D11> texture = std::make_shared<TextureD3D11>();
             return texture;
-        }
-
-        RenderTargetPtr RendererD3D11::createRenderTarget()
-        {
-            std::shared_ptr<RenderTargetD3D11> renderTarget = std::make_shared<RenderTargetD3D11>();
-            return renderTarget;
         }
 
         ShaderPtr RendererD3D11::createShader()

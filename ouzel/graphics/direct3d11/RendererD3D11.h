@@ -26,7 +26,6 @@ namespace ouzel
 
             virtual BlendStatePtr createBlendState() override;
             virtual TexturePtr createTexture() override;
-            virtual RenderTargetPtr createRenderTarget() override;
             virtual ShaderPtr createShader() override;
             virtual MeshBufferPtr createMeshBuffer() override;
             virtual IndexBufferPtr createIndexBuffer() override;

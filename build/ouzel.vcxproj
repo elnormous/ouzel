@@ -55,7 +55,6 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\IndexBufferD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\MeshBufferD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\RendererD3D11.cpp" />
-    <ClCompile Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\TextureD3D11.cpp" />
     <ClCompile Include="..\ouzel\graphics\direct3d11\VertexBufferD3D11.cpp" />
@@ -63,7 +62,6 @@
     <ClCompile Include="..\ouzel\graphics\empty\IndexBufferEmpty.cpp" />
     <ClCompile Include="..\ouzel\graphics\empty\MeshBufferEmpty.cpp" />
     <ClCompile Include="..\ouzel\graphics\empty\RendererEmpty.cpp" />
-    <ClCompile Include="..\ouzel\graphics\empty\RenderTargetEmpty.cpp" />
     <ClCompile Include="..\ouzel\graphics\empty\ShaderEmpty.cpp" />
     <ClCompile Include="..\ouzel\graphics\empty\TextureEmpty.cpp" />
     <ClCompile Include="..\ouzel\graphics\empty\VertexBufferEmpty.cpp" />
@@ -71,7 +69,6 @@
     <ClCompile Include="..\ouzel\graphics\IndexBuffer.cpp" />
     <ClCompile Include="..\ouzel\graphics\MeshBuffer.cpp" />
     <ClCompile Include="..\ouzel\graphics\Renderer.cpp" />
-    <ClCompile Include="..\ouzel\graphics\RenderTarget.cpp" />
     <ClCompile Include="..\ouzel\graphics\Shader.cpp" />
     <ClCompile Include="..\ouzel\graphics\Texture.cpp" />
     <ClCompile Include="..\ouzel\graphics\Vertex.cpp" />
@@ -167,7 +164,6 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\IndexBufferD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\MeshBufferD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\RendererD3D11.h" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\TexturePSD3D11.h" />
@@ -177,7 +173,6 @@
     <ClInclude Include="..\ouzel\graphics\empty\IndexBufferEmpty.h" />
     <ClInclude Include="..\ouzel\graphics\empty\MeshBufferEmpty.h" />
     <ClInclude Include="..\ouzel\graphics\empty\RendererEmpty.h" />
-    <ClInclude Include="..\ouzel\graphics\empty\RenderTargetEmpty.h" />
     <ClInclude Include="..\ouzel\graphics\empty\ShaderEmpty.h" />
     <ClInclude Include="..\ouzel\graphics\empty\TextureEmpty.h" />
     <ClInclude Include="..\ouzel\graphics\empty\VertexBufferEmpty.h" />
@@ -186,7 +181,6 @@
     <ClInclude Include="..\ouzel\graphics\MeshBuffer.h" />
     <ClInclude Include="..\ouzel\graphics\PixelFormat.h" />
     <ClInclude Include="..\ouzel\graphics\Renderer.h" />
-    <ClInclude Include="..\ouzel\graphics\RenderTarget.h" />
     <ClInclude Include="..\ouzel\graphics\Shader.h" />
     <ClInclude Include="..\ouzel\graphics\Texture.h" />
     <ClInclude Include="..\ouzel\graphics\TextureFilter.h" />

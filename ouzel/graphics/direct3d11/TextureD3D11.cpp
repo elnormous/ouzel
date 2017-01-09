@@ -16,6 +16,11 @@ namespace ouzel
 
         TextureD3D11::~TextureD3D11()
         {
+            if (renderTargetView)
+            {
+                renderTargetView->Release();
+            }
+
             if (resourceView)
             {
                 resourceView->Release();
@@ -33,6 +38,12 @@ namespace ouzel
         void TextureD3D11::free()
         {
             Texture::free();
+
+            if (renderTargetView)
+            {
+                renderTargetView->Release();
+                renderTargetView = nullptr;
+            }
 
             if (resourceView)
             {
@@ -74,8 +85,8 @@ namespace ouzel
                     textureDesc.MipLevels = uploadData.mipmaps ? 0 : 1;
                     textureDesc.ArraySize = 1;
                     textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-                    textureDesc.Usage = uploadData.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
-                    textureDesc.CPUAccessFlags = uploadData.dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+                    textureDesc.Usage = (uploadData.dynamic && !uploadData.renderTarget) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                    textureDesc.CPUAccessFlags = (uploadData.dynamic && !uploadData.renderTarget) ? D3D11_CPU_ACCESS_WRITE : 0;
                     textureDesc.SampleDesc.Count = 1;
                     textureDesc.SampleDesc.Quality = 0;
                     textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (uploadData.renderTarget ? D3D11_BIND_RENDER_TARGET : 0);
@@ -99,6 +110,34 @@ namespace ouzel
                     {
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view";
                         return false;
+                    }
+
+                    if (uploadData.renderTarget)
+                    {
+                        viewport = {0, 0, uploadData.size.v[0], uploadData.size.v[1], 0.0f, 1.0f};
+
+                        if (!renderTargetView)
+                        {
+                            D3D11_TEXTURE2D_DESC textureDesc;
+                            texture->GetDesc(&textureDesc);
+
+                            D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+                            renderTargetViewDesc.Format = textureDesc.Format;
+                            renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+                            renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+                            HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
+                            if (FAILED(hr))
+                            {
+                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view";
+                                return false;
+                            }
+                        }
+
+                        frameBufferClearColor[0] = uploadData.clearColor.normR();
+                        frameBufferClearColor[1] = uploadData.clearColor.normG();
+                        frameBufferClearColor[2] = uploadData.clearColor.normB();
+                        frameBufferClearColor[3] = uploadData.clearColor.normA();
                     }
                 }
 

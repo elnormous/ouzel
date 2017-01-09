@@ -58,9 +58,6 @@
     <ClCompile Include="..\ouzel\graphics\Renderer.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\RenderTarget.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Shader.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -235,9 +232,6 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\RendererD3D11.cpp">
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderD3D11.cpp">
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
@@ -266,9 +260,6 @@
       <Filter>graphics\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\empty\RendererEmpty.cpp">
-      <Filter>graphics\empty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\RenderTargetEmpty.cpp">
       <Filter>graphics\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\empty\ShaderEmpty.cpp">
@@ -389,9 +380,6 @@
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Renderer.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\RenderTarget.h">
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Shader.h">
@@ -580,9 +568,6 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\RendererD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\RenderTargetD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
@@ -617,9 +602,6 @@
       <Filter>graphics\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\empty\RendererEmpty.h">
-      <Filter>graphics\empty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\RenderTargetEmpty.h">
       <Filter>graphics\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\empty\ShaderEmpty.h">
