@@ -6,9 +6,11 @@
 #if defined(__OBJC__)
 #import <Metal/Metal.h>
 typedef id<MTLTexture> MTLTexturePtr;
+typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 #else
 #include <objc/objc.h>
 typedef id MTLTexturePtr;
+typedef id MTLRenderPassDescriptorPtr;
 #endif
 
 #include "core/CompileConfig.h"
@@ -18,11 +20,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderTargetMetal;
-
         class TextureMetal: public Texture
         {
-            friend RenderTargetMetal;
         public:
             TextureMetal();
             virtual ~TextureMetal();
@@ -30,6 +29,9 @@ namespace ouzel
 
             MTLTexturePtr getTexture() const { return texture; }
             NSUInteger getColorFormat() const { return colorFormat; }
+            NSUInteger getDepthFormat() const { return depthFormat; }
+
+            MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
         protected:
             virtual bool upload() override;
@@ -39,7 +41,11 @@ namespace ouzel
             NSUInteger width = 0;
             NSUInteger height = 0;
 
+            MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
+            MTLTexturePtr msaaTexture = Nil;
+
             NSUInteger colorFormat = 0;
+            NSUInteger depthFormat = 0;
         };
     } // namespace graphics
 } // namespace ouzel

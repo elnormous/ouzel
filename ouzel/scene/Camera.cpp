@@ -8,7 +8,6 @@
 #include "graphics/Renderer.h"
 #include "Layer.h"
 #include "graphics/Texture.h"
-#include "graphics/RenderTarget.h"
 #include "math/Matrix4.h"
 #include "utils/Utils.h"
 
@@ -36,7 +35,7 @@ namespace ouzel
         void Camera::recalculateProjection()
         {
             Size2 renderTargetSize = renderTarget ?
-                renderTarget->getTexture()->getSize() :
+                renderTarget->getSize() :
                 sharedEngine->getRenderer()->getSize();
 
             renderViewport.position.v[0] = renderTargetSize.v[0] * viewport.position.v[0];
@@ -233,7 +232,7 @@ namespace ouzel
             recalculateProjection();
         }
 
-        void Camera::setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget)
+        void Camera::setRenderTarget(const graphics::TexturePtr& newRenderTarget)
         {
             renderTarget = newRenderTarget;
 

@@ -27,13 +27,15 @@ namespace ouzel
             currentData.levels.clear();
         }
 
-        bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget)
+        bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget, uint32_t newSampleCount, uint32_t newDepthBits)
         {
             free();
 
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
+            sampleCount = newSampleCount;
+            depthBits = newDepthBits;
 
             if (!calculateSizes(newSize))
             {
@@ -67,6 +69,8 @@ namespace ouzel
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = false;
+            sampleCount = 1;
+            depthBits = 0;
 
             if (!calculateData(newData, newSize))
             {
@@ -350,6 +354,27 @@ namespace ouzel
             return true;
         }
 
+        void Texture::setClearColorBuffer(bool clear)
+        {
+            clearColorBuffer = clear;
+
+            update();
+        }
+
+        void Texture::setClearDepthBuffer(bool clear)
+        {
+            clearColorBuffer = clear;
+
+            update();
+        }
+
+        void Texture::setClearColor(Color color)
+        {
+            clearColor = color;
+            
+            update();
+        }
+
         void Texture::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
@@ -360,6 +385,12 @@ namespace ouzel
 
             currentData.renderTarget = renderTarget;
             currentData.levels = std::move(levels);
+
+            currentData.clearColorBuffer = clearColorBuffer;
+            currentData.clearDepthBuffer = clearDepthBuffer;
+            currentData.sampleCount = sampleCount;
+            currentData.depthBits = depthBits;
+            currentData.clearColor = clearColor;
 
             dirty = true;
         }

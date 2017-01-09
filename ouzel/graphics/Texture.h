@@ -9,6 +9,7 @@
 #include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
+#include "math/Color.h"
 #include "math/Size2.h"
 
 namespace ouzel
@@ -26,7 +27,7 @@ namespace ouzel
             virtual ~Texture();
             virtual void free() override;
 
-            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false);
+            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false, uint32_t newSampleCount = 1, uint32_t newDepthBits = 0);
             virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
 
@@ -38,6 +39,21 @@ namespace ouzel
             const Size2& getSize() const { return size; }
 
             bool isDynamic() const { return dynamic; }
+
+            uint32_t getSampleCount() const { return sampleCount; }
+            uint32_t getDepthBits() const { return depthBits; }
+
+            virtual void setClearColorBuffer(bool clear);
+            virtual bool getClearColorBuffer() const { return clearColorBuffer; }
+
+            virtual void setClearDepthBuffer(bool clear);
+            virtual bool getClearDepthBuffer() const { return clearDepthBuffer; }
+
+            virtual void setClearColor(Color color);
+            virtual Color getClearColor() const { return clearColor; }
+
+            void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
+            uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
 
         protected:
             Texture();
@@ -60,11 +76,18 @@ namespace ouzel
                 bool dynamic = false;
                 bool mipmaps = false;
                 bool renderTarget = false;
+                bool clearColorBuffer = true;
+                bool clearDepthBuffer = false;
                 std::vector<Level> levels;
+                uint32_t sampleCount = 1;
+                uint32_t depthBits = 0;
+                Color clearColor;
             };
 
             Data uploadData;
             std::mutex uploadMutex;
+
+            uint32_t frameBufferClearedFrame = 0;
 
         private:
             std::string filename;
@@ -75,6 +98,11 @@ namespace ouzel
             bool mipmaps = false;
             bool renderTarget = false;
             bool mipMapsGenerated = false;
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
+            uint32_t sampleCount = 1;
+            uint32_t depthBits = 0;
+            Color clearColor;
 
             Data currentData;
         };

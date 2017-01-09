@@ -73,8 +73,8 @@ namespace ouzel
             const Vector2& getContentScale() const { return contentScale; }
             const Vector2& getContentPosition() const { return contentPosition; }
 
-            void setRenderTarget(const graphics::RenderTargetPtr& newRenderTarget);
-            const graphics::RenderTargetPtr& getRenderTarget() const { return renderTarget; }
+            void setRenderTarget(const graphics::TexturePtr& newRenderTarget);
+            const graphics::TexturePtr& getRenderTarget() const { return renderTarget; }
 
             bool getDepthWrite() const { return depthWrite; }
             void setDepthWrite(bool newDepthWrite) { depthWrite = newDepthWrite; }
@@ -113,7 +113,7 @@ namespace ouzel
 
             Layer* layer = nullptr;
 
-            graphics::RenderTargetPtr renderTarget;
+            graphics::TexturePtr renderTarget;
 
             bool depthWrite = false;
             bool depthTest = false;

@@ -91,7 +91,6 @@ namespace ouzel
 
             virtual BlendStatePtr createBlendState() = 0;
             virtual TexturePtr createTexture() = 0;
-            virtual RenderTargetPtr createRenderTarget() = 0;
             virtual ShaderPtr createShader() = 0;
             virtual MeshBufferPtr createMeshBuffer() = 0;
             virtual IndexBufferPtr createIndexBuffer() = 0;
@@ -107,7 +106,7 @@ namespace ouzel
                                 uint32_t indexCount = 0,
                                 DrawMode drawMode = DrawMode::TRIANGLE_LIST,
                                 uint32_t startIndex = 0,
-                                const RenderTargetPtr& renderTarget = nullptr,
+                                const TexturePtr& renderTarget = nullptr,
                                 const Rectangle& viewport = Rectangle(0.0f, 0.0f, 1.0f, 1.0f),
                                 bool depthWrite = false,
                                 bool depthTest = false,
@@ -190,7 +189,7 @@ namespace ouzel
                 uint32_t indexCount;
                 DrawMode drawMode;
                 uint32_t startIndex;
-                RenderTargetPtr renderTarget;
+                TexturePtr renderTarget;
                 Rectangle viewport;
                 bool depthWrite;
                 bool depthTest;

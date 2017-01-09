@@ -34,17 +34,19 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RenderTargetOGL;
-
         class TextureOGL: public Texture
         {
-            friend RenderTargetOGL;
         public:
             TextureOGL();
             virtual ~TextureOGL();
             virtual void free() override;
 
             GLuint getTextureId() const { return textureId; }
+
+            GLuint getFrameBufferId() const { return frameBufferId; }
+
+            GLbitfield getClearMask() const { return clearMask; }
+            const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
         protected:
             virtual bool upload() override;
@@ -53,6 +55,12 @@ namespace ouzel
 
             GLsizei width = 0;
             GLsizei height = 0;
+
+            GLuint frameBufferId = 0;
+            GLuint depthBufferId = 0;
+
+            GLbitfield clearMask = 0;
+            GLfloat frameBufferClearColor[4];
         };
     } // namespace graphics
 } // namespace ouzel

@@ -43,7 +43,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/empty/IndexBufferEmpty.cpp \
     ../../ouzel/graphics/empty/MeshBufferEmpty.cpp \
     ../../ouzel/graphics/empty/RendererEmpty.cpp \
-    ../../ouzel/graphics/empty/RenderTargetEmpty.cpp \
     ../../ouzel/graphics/empty/ShaderEmpty.cpp \
     ../../ouzel/graphics/empty/TextureEmpty.cpp \
     ../../ouzel/graphics/empty/VertexBufferEmpty.cpp \
@@ -52,7 +51,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/opengl/MeshBufferOGL.cpp \
     ../../ouzel/graphics/opengl/IndexBufferOGL.cpp \
     ../../ouzel/graphics/opengl/RendererOGL.cpp \
-    ../../ouzel/graphics/opengl/RenderTargetOGL.cpp \
     ../../ouzel/graphics/opengl/ShaderOGL.cpp \
     ../../ouzel/graphics/opengl/TextureOGL.cpp \
     ../../ouzel/graphics/opengl/VertexBufferOGL.cpp \
@@ -61,7 +59,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/IndexBuffer.cpp \
     ../../ouzel/graphics/MeshBuffer.cpp \
     ../../ouzel/graphics/Renderer.cpp \
-    ../../ouzel/graphics/RenderTarget.cpp \
     ../../ouzel/graphics/Shader.cpp \
     ../../ouzel/graphics/Texture.cpp \
     ../../ouzel/graphics/Vertex.cpp \

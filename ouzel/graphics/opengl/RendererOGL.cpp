@@ -6,7 +6,6 @@
 
 #include "RendererOGL.h"
 #include "TextureOGL.h"
-#include "RenderTargetOGL.h"
 #include "ShaderOGL.h"
 #include "MeshBufferOGL.h"
 #include "IndexBufferOGL.h"
@@ -615,7 +614,7 @@ namespace ouzel
 
                 if (drawCommand.renderTarget)
                 {
-                    std::shared_ptr<RenderTargetOGL> renderTargetOGL = std::static_pointer_cast<RenderTargetOGL>(drawCommand.renderTarget);
+                    std::shared_ptr<TextureOGL> renderTargetOGL = std::static_pointer_cast<TextureOGL>(drawCommand.renderTarget);
 
                     if (!renderTargetOGL->getFrameBufferId())
                     {
@@ -780,12 +779,6 @@ namespace ouzel
         {
             std::shared_ptr<TextureOGL> texture = std::make_shared<TextureOGL>();
             return texture;
-        }
-
-        RenderTargetPtr RendererOGL::createRenderTarget()
-        {
-            std::shared_ptr<RenderTargetOGL> renderTarget = std::make_shared<RenderTargetOGL>();
-            return renderTarget;
         }
 
         ShaderPtr RendererOGL::createShader()

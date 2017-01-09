@@ -4,7 +4,6 @@
 #include "core/CompileConfig.h"
 #include "RendererMetal.h"
 #include "TextureMetal.h"
-#include "RenderTargetMetal.h"
 #include "ShaderMetal.h"
 #include "MeshBufferMetal.h"
 #include "IndexBufferMetal.h"
@@ -544,7 +543,7 @@ namespace ouzel
                 // render target
                 if (drawCommand.renderTarget)
                 {
-                    std::shared_ptr<RenderTargetMetal> renderTargetMetal = std::static_pointer_cast<RenderTargetMetal>(drawCommand.renderTarget);
+                    std::shared_ptr<TextureMetal> renderTargetMetal = std::static_pointer_cast<TextureMetal>(drawCommand.renderTarget);
 
                     if (!renderTargetMetal->getRenderPassDescriptor())
                     {
@@ -556,7 +555,7 @@ namespace ouzel
                     newColorFormat = renderTargetMetal->getColorFormat();
                     newDepthFormat = renderTargetMetal->getDepthFormat();
 
-                    std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal->getTexture());
+                    std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal);
                     viewport.originY = renderTargetTextureMetal->getSize().v[1] - (viewport.originY + viewport.height);
 
                     scissorRect.x = scissorRect.y = 0;
@@ -849,12 +848,6 @@ namespace ouzel
         {
             std::shared_ptr<TextureMetal> texture(new TextureMetal());
             return texture;
-        }
-
-        RenderTargetPtr RendererMetal::createRenderTarget()
-        {
-            std::shared_ptr<RenderTargetMetal> renderTarget = std::make_shared<RenderTargetMetal>();
-            return renderTarget;
         }
 
         ShaderPtr RendererMetal::createShader()

@@ -33,7 +33,6 @@
 #include "graphics/MeshBuffer.h"
 #include "graphics/PixelFormat.h"
 #include "graphics/Renderer.h"
-#include "graphics/RenderTarget.h"
 #include "graphics/Shader.h"
 #include "graphics/Texture.h"
 #include "graphics/TextureFilter.h"

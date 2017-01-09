@@ -5,7 +5,6 @@
 #include "core/Engine.h"
 #include "Texture.h"
 #include "Shader.h"
-#include "RenderTarget.h"
 #include "BlendState.h"
 #include "MeshBuffer.h"
 #include "IndexBuffer.h"
@@ -166,7 +165,7 @@ namespace ouzel
                                       uint32_t indexCount,
                                       DrawMode drawMode,
                                       uint32_t startIndex,
-                                      const RenderTargetPtr& renderTarget,
+                                      const TexturePtr& renderTarget,
                                       const Rectangle& viewport,
                                       bool depthWrite,
                                       bool depthTest,

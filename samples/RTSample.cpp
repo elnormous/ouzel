@@ -18,8 +18,8 @@ RTSample::RTSample(Samples& aSamples):
 
     addLayer(&rtLayer);
 
-    ouzel::graphics::RenderTargetPtr renderTarget = sharedEngine->getRenderer()->createRenderTarget();
-    renderTarget->init(Size2(256.0f, 256.0f), 1, 0);
+    ouzel::graphics::TexturePtr renderTarget = sharedEngine->getRenderer()->createTexture();
+    renderTarget->init(Size2(256.0f, 256.0f), true, false, true, 1, 0);
     renderTarget->setClearColor(Color(0, 64, 0));
 
     rtCamera.setRenderTarget(renderTarget);
@@ -42,7 +42,7 @@ RTSample::RTSample(Samples& aSamples):
     rtCharacter.addComponent(&characterSprite);
     rtLayer.addChild(&rtCharacter);
 
-    scene::SpriteFrame rtFrame(renderTarget->getTexture(), Rectangle(0.0f, 0.0f, 256.0f, 256.0f), false, renderTarget->getTexture()->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+    scene::SpriteFrame rtFrame(renderTarget, Rectangle(0.0f, 0.0f, 256.0f, 256.0f), false, renderTarget->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
     std::vector<scene::SpriteFrame> spriteFrames = { rtFrame };
     rtSprite.initFromSpriteFrames(spriteFrames);

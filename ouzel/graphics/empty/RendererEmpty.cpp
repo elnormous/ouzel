@@ -6,7 +6,6 @@
 #include "core/Cache.h"
 #include "BlendStateEmpty.h"
 #include "TextureEmpty.h"
-#include "RenderTargetEmpty.h"
 #include "ShaderEmpty.h"
 #include "MeshBufferEmpty.h"
 #include "IndexBufferEmpty.h"
@@ -111,12 +110,6 @@ namespace ouzel
         {
             TexturePtr texture(new TextureEmpty());
             return texture;
-        }
-
-        RenderTargetPtr RendererEmpty::createRenderTarget()
-        {
-            RenderTargetPtr renderTarget = std::make_shared<RenderTargetEmpty>();
-            return renderTarget;
         }
 
         ShaderPtr RendererEmpty::createShader()

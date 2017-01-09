@@ -6,6 +6,7 @@
 #include "RendererMetal.h"
 #include "graphics/Image.h"
 #include "math/MathUtils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -17,6 +18,16 @@ namespace ouzel
 
         TextureMetal::~TextureMetal()
         {
+            if (msaaTexture)
+            {
+                [msaaTexture release];
+            }
+
+            if (renderPassDescriptor)
+            {
+                [renderPassDescriptor release];
+            }
+
             if (texture)
             {
                 [texture release];
@@ -26,6 +37,18 @@ namespace ouzel
         void TextureMetal::free()
         {
             Texture::free();
+
+            if (msaaTexture)
+            {
+                [msaaTexture release];
+                msaaTexture = Nil;
+            }
+
+            if (renderPassDescriptor)
+            {
+                [renderPassDescriptor release];
+                renderPassDescriptor = Nil;
+            }
 
             if (texture)
             {
@@ -72,7 +95,60 @@ namespace ouzel
 
                         if (!texture)
                         {
+                            Log(Log::Level::ERR) << "Failed to create Metal texture";
                             return false;
+                        }
+                    }
+
+                    if (uploadData.renderTarget)
+                    {
+                        if (!renderPassDescriptor)
+                        {
+                            renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+
+                            if (!renderPassDescriptor)
+                            {
+                                Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
+                                return false;
+                            }
+                        }
+
+                        renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(uploadData.clearColor.normR(),
+                                                                                                uploadData.clearColor.normG(),
+                                                                                                uploadData.clearColor.normB(),
+                                                                                                uploadData.clearColor.normA());
+
+                        if (uploadData.sampleCount > 1)
+                        {
+                            if (!msaaTexture)
+                            {
+                                MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
+                                                                                                                width:static_cast<NSUInteger>(uploadData.size.v[0])
+                                                                                                               height:static_cast<NSUInteger>(uploadData.size.v[1])
+                                                                                                            mipmapped:NO];
+                                desc.textureType = MTLTextureType2DMultisample;
+                                desc.storageMode = MTLStorageModePrivate;
+                                desc.sampleCount = uploadData.sampleCount;
+                                desc.usage = MTLTextureUsageRenderTarget;
+
+                                msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];
+
+                                if (!msaaTexture)
+                                {
+                                    Log(Log::Level::ERR) << "Failed to create MSAA texture";
+                                    return false;
+                                }
+                            }
+
+                            renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
+                            renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
+                            renderPassDescriptor.colorAttachments[0].resolveTexture = texture;
+                        }
+                        else
+                        {
+                            renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+                            renderPassDescriptor.colorAttachments[0].texture = texture;
                         }
                     }
                 }

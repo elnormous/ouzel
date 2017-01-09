@@ -38,9 +38,6 @@ namespace ouzel
         class MeshBuffer;
         typedef std::shared_ptr<MeshBuffer> MeshBufferPtr;
 
-        class RenderTarget;
-        typedef std::shared_ptr<RenderTarget> RenderTargetPtr;
-
         class Shader;
         typedef std::shared_ptr<Shader> ShaderPtr;
 
