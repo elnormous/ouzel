@@ -1,7 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <memory>
 #include "BlendStateD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
@@ -51,9 +50,8 @@ namespace ouzel
                 case BlendState::BlendFactor::SRC_ALPHA_SAT: return D3D11_BLEND_SRC_ALPHA_SAT;
                 case BlendState::BlendFactor::BLEND_FACTOR: return D3D11_BLEND_BLEND_FACTOR;
                 case BlendState::BlendFactor::INV_BLEND_FACTOR: return D3D11_BLEND_INV_BLEND_FACTOR;
+                default: return D3D11_BLEND_ZERO;
             }
-
-            return D3D11_BLEND_ZERO;
         }
 
         static D3D11_BLEND_OP getBlendOperation(BlendState::BlendOperation blendOperation)
@@ -65,9 +63,8 @@ namespace ouzel
                 case BlendState::BlendOperation::REV_SUBTRACT: return D3D11_BLEND_OP_REV_SUBTRACT;
                 case BlendState::BlendOperation::MIN: return D3D11_BLEND_OP_MIN;
                 case BlendState::BlendOperation::MAX: return D3D11_BLEND_OP_MAX;
+                default: return D3D11_BLEND_OP_ADD;
             }
-
-            return D3D11_BLEND_OP_ADD;
         }
 
         bool BlendStateD3D11::upload()
@@ -80,14 +77,20 @@ namespace ouzel
             RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
             // Blending state
-            D3D11_BLEND_DESC blendStateDesc = { FALSE, FALSE }; // alpha to coverage, independent blend
-            D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc =
-            {
-                uploadData.enableBlending ? TRUE : FALSE,
-                getBlendFactor(uploadData.colorBlendSource), getBlendFactor(uploadData.colorBlendDest), getBlendOperation(uploadData.colorOperation),
-                getBlendFactor(uploadData.alphaBlendSource), getBlendFactor(uploadData.alphaBlendDest), getBlendOperation(uploadData.alphaOperation),
-                D3D11_COLOR_WRITE_ENABLE_ALL, // color write mask
-            };
+            D3D11_BLEND_DESC blendStateDesc;
+            blendStateDesc.AlphaToCoverageEnable = FALSE;
+            blendStateDesc.IndependentBlendEnable = FALSE;
+
+            D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc;
+            targetBlendDesc.BlendEnable = uploadData.enableBlending ? TRUE : FALSE;
+            targetBlendDesc.SrcBlend = getBlendFactor(uploadData.colorBlendSource);
+            targetBlendDesc.DestBlend = getBlendFactor(uploadData.colorBlendDest);
+            targetBlendDesc.BlendOp = getBlendOperation(uploadData.colorOperation);
+            targetBlendDesc.SrcBlendAlpha = getBlendFactor(uploadData.alphaBlendSource);
+            targetBlendDesc.DestBlendAlpha = getBlendFactor(uploadData.alphaBlendDest);
+            targetBlendDesc.BlendOpAlpha = getBlendOperation(uploadData.alphaOperation);
+            targetBlendDesc.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
             blendStateDesc.RenderTarget[0] = targetBlendDesc;
 
             if (blendState) blendState->Release();

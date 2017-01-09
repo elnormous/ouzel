@@ -1,7 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "RendererD3D11.h"
 #include "core/Cache.h"
 #include "core/Engine.h"

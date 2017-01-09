@@ -1,7 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "IndexBufferD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
@@ -68,16 +67,17 @@ namespace ouzel
                     bufferSize = static_cast<UINT>(uploadData.data.size());
 
                     D3D11_BUFFER_DESC indexBufferDesc;
-                    memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
-
                     indexBufferDesc.ByteWidth = bufferSize;
                     indexBufferDesc.Usage = uploadData.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
                     indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
                     indexBufferDesc.CPUAccessFlags = uploadData.dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+                    indexBufferDesc.MiscFlags = 0;
+                    indexBufferDesc.StructureByteStride = 0;
 
                     D3D11_SUBRESOURCE_DATA indexBufferResourceData;
-                    memset(&indexBufferResourceData, 0, sizeof(indexBufferResourceData));
                     indexBufferResourceData.pSysMem = uploadData.data.data();
+                    indexBufferResourceData.SysMemPitch = 0;
+                    indexBufferResourceData.SysMemSlicePitch = 0;
 
                     HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &buffer);
                     if (FAILED(hr))

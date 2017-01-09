@@ -4,8 +4,6 @@
 #include "TextureD3D11.h"
 #include "core/Engine.h"
 #include "RendererD3D11.h"
-#include "graphics/Image.h"
-#include "math/MathUtils.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -71,7 +69,6 @@ namespace ouzel
                     height = static_cast<UINT>(uploadData.size.v[1]);
 
                     D3D11_TEXTURE2D_DESC textureDesc;
-                    memset(&textureDesc, 0, sizeof(textureDesc));
                     textureDesc.Width = width;
                     textureDesc.Height = height;
                     textureDesc.MipLevels = uploadData.mipmaps ? 0 : 1;
@@ -92,7 +89,6 @@ namespace ouzel
                     }
 
                     D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-                    memset(&srvDesc, 0, sizeof(srvDesc));
                     srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
                     srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
                     srvDesc.Texture2D.MostDetailedMip = 0;

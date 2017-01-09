@@ -1,7 +1,6 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "VertexBufferD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
@@ -54,16 +53,17 @@ namespace ouzel
                     bufferSize = static_cast<UINT>(uploadData.data.size());
 
                     D3D11_BUFFER_DESC vertexBufferDesc;
-                    memset(&vertexBufferDesc, 0, sizeof(vertexBufferDesc));
-
                     vertexBufferDesc.ByteWidth = bufferSize;
                     vertexBufferDesc.Usage = uploadData.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
                     vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
                     vertexBufferDesc.CPUAccessFlags = uploadData.dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+                    vertexBufferDesc.MiscFlags = 0;
+                    vertexBufferDesc.StructureByteStride = 0;
 
                     D3D11_SUBRESOURCE_DATA vertexBufferResourceData;
-                    memset(&vertexBufferResourceData, 0, sizeof(vertexBufferResourceData));
                     vertexBufferResourceData.pSysMem = uploadData.data.data();
+                    vertexBufferResourceData.SysMemPitch = 0;
+                    vertexBufferResourceData.SysMemSlicePitch = 0;
 
                     HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferResourceData, &buffer);
                     if (FAILED(hr))

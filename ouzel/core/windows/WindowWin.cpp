@@ -298,11 +298,14 @@ namespace ouzel
         HINSTANCE hInstance = GetModuleHandleW(nullptr);
 
         WNDCLASSEXW wc;
-        memset(&wc, 0, sizeof(wc));
         wc.cbSize = sizeof(wc);
         wc.style = CS_HREDRAW | CS_VREDRAW;
         wc.lpfnWndProc = windowProc;
+        wc.cbClsExtra = 0;
+        wc.cbWndExtra = 0;
         wc.hInstance = hInstance;
+        // Application icon should be the first resource
+        wc.hIcon = LoadIconW(hInstance, MAKEINTRESOURCE(101));
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
@@ -312,9 +315,9 @@ namespace ouzel
         {
             wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
         }
+        wc.lpszMenuName = 0;
         wc.lpszClassName = WINDOW_CLASS_NAME;
-        // Application icon should be the first resource
-        wc.hIcon = LoadIconW(hInstance, MAKEINTRESOURCE(101));
+        wc.hIconSm = 0;
 
         windowClass = RegisterClassExW(&wc);
         if (!windowClass)
