@@ -1,11 +1,9 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "ShaderD3D11.h"
 #include "core/Engine.h"
 #include "RendererD3D11.h"
-#include "files/FileSystem.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -169,7 +167,6 @@ namespace ouzel
                     uploadData.vertexShaderData.data(),
                     uploadData.vertexShaderData.size(),
                     &inputLayout);
-
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 input layout for vertex shader";
@@ -191,12 +188,12 @@ namespace ouzel
             if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
 
             D3D11_BUFFER_DESC pixelShaderConstantBufferDesc;
-            memset(&pixelShaderConstantBufferDesc, 0, sizeof(pixelShaderConstantBufferDesc));
-
             pixelShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(pixelShaderConstantSize);
             pixelShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
             pixelShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
             pixelShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+            pixelShaderConstantBufferDesc.MiscFlags = 0;
+            pixelShaderConstantBufferDesc.StructureByteStride = 0;
 
             HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
             if (FAILED(hr))
@@ -216,12 +213,12 @@ namespace ouzel
             if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
 
             D3D11_BUFFER_DESC vertexShaderConstantBufferDesc;
-            memset(&vertexShaderConstantBufferDesc, 0, sizeof(vertexShaderConstantBufferDesc));
-
             vertexShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(vertexShaderConstantSize);
             vertexShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
             vertexShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
             vertexShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+            vertexShaderConstantBufferDesc.MiscFlags = 0;
+            vertexShaderConstantBufferDesc.StructureByteStride = 0;
 
             hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
             if (FAILED(hr))
