@@ -43,6 +43,7 @@ namespace ouzel
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
             MTLTexturePtr msaaTexture = Nil;
+            MTLTexturePtr depthTexture = Nil;
 
             NSUInteger colorFormat = 0;
             NSUInteger depthFormat = 0;

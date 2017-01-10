@@ -121,24 +121,23 @@ namespace ouzel
 
                         if (uploadData.sampleCount > 1)
                         {
+                            if (msaaTexture) [msaaTexture release];
+
+                            MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
+                                                                                                            width:static_cast<NSUInteger>(uploadData.size.v[0])
+                                                                                                           height:static_cast<NSUInteger>(uploadData.size.v[1])
+                                                                                                        mipmapped:NO];
+                            desc.textureType = MTLTextureType2DMultisample;
+                            desc.storageMode = MTLStorageModePrivate;
+                            desc.sampleCount = uploadData.sampleCount;
+                            desc.usage = MTLTextureUsageRenderTarget;
+
+                            msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];
+
                             if (!msaaTexture)
                             {
-                                MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
-                                                                                                                width:static_cast<NSUInteger>(uploadData.size.v[0])
-                                                                                                               height:static_cast<NSUInteger>(uploadData.size.v[1])
-                                                                                                            mipmapped:NO];
-                                desc.textureType = MTLTextureType2DMultisample;
-                                desc.storageMode = MTLStorageModePrivate;
-                                desc.sampleCount = uploadData.sampleCount;
-                                desc.usage = MTLTextureUsageRenderTarget;
-
-                                msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];
-
-                                if (!msaaTexture)
-                                {
-                                    Log(Log::Level::ERR) << "Failed to create MSAA texture";
-                                    return false;
-                                }
+                                Log(Log::Level::ERR) << "Failed to create MSAA texture";
+                                return false;
                             }
 
                             renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
@@ -149,6 +148,46 @@ namespace ouzel
                         {
                             renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
                             renderPassDescriptor.colorAttachments[0].texture = texture;
+                        }
+
+                        if (uploadData.depthBits > 0)
+                        {
+                            if (depthTexture) [depthTexture release];
+
+                            switch (uploadData.depthBits)
+                            {
+                                case 16:
+                                case 24:
+                                case 32:
+                                    depthFormat = MTLPixelFormatDepth32Float;
+                                    break;
+                                default:
+                                    Log(Log::Level::ERR) << "Unsupported depth buffer format";
+                                    return false;
+                            }
+
+                            MTLTextureDescriptor* desc = [MTLTextureDescriptor
+                                                          texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)
+                                                          width:width height:height mipmapped:NO];
+
+                            desc.textureType = (uploadData.sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
+                            desc.storageMode = MTLStorageModePrivate;
+                            desc.sampleCount = uploadData.sampleCount;
+                            desc.usage = MTLTextureUsageRenderTarget;
+
+                            depthTexture = [rendererMetal->getDevice() newTextureWithDescriptor:desc];
+
+                            if (!depthTexture)
+                            {
+                                Log(Log::Level::ERR) << "Failed to create depth texture";
+                                return false;
+                            }
+                            
+                            renderPassDescriptor.depthAttachment.texture = depthTexture;
+                        }
+                        else
+                        {
+                            renderPassDescriptor.depthAttachment.texture = Nil;
                         }
                     }
                 }

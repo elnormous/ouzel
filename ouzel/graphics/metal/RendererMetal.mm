@@ -417,11 +417,7 @@ namespace ouzel
                     frameBufferWidth != msaaTexture.width ||
                     frameBufferHeight != msaaTexture.height)
                 {
-                    if (msaaTexture)
-                    {
-                        [msaaTexture release];
-                        msaaTexture = Nil;
-                    }
+                    if (msaaTexture) [msaaTexture release];
 
                     MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat: MTLPixelFormatBGRA8Unorm
                                                                                                     width: frameBufferWidth
@@ -433,6 +429,12 @@ namespace ouzel
                     desc.usage = MTLTextureUsageRenderTarget;
 
                     msaaTexture = [device newTextureWithDescriptor: desc];
+
+                    if (!msaaTexture)
+                    {
+                        Log(Log::Level::ERR) << "Failed to create MSAA texture";
+                        return false;
+                    }
 
                     renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
                     renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
@@ -451,8 +453,10 @@ namespace ouzel
                     frameBufferWidth != depthTexture.width ||
                     frameBufferHeight != depthTexture.height)
                 {
+                    if (depthTexture) [depthTexture release];
+
                     MTLTextureDescriptor* desc = [MTLTextureDescriptor
-                                                  texture2DDescriptorWithPixelFormat:view.depthStencilPixelFormat
+                                                  texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)
                                                   width:frameBufferWidth height:frameBufferHeight mipmapped:NO];
 
                     desc.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
@@ -461,6 +465,12 @@ namespace ouzel
                     desc.usage = MTLTextureUsageRenderTarget;
 
                     depthTexture = [device newTextureWithDescriptor:desc];
+
+                    if (!depthTexture)
+                    {
+                        Log(Log::Level::ERR) << "Failed to create depth texture";
+                        return false;
+                    }
 
                     renderPassDescriptor.depthAttachment.texture = depthTexture;
                 }
