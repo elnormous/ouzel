@@ -118,9 +118,6 @@ namespace ouzel
 
                         if (!renderTargetView)
                         {
-                            D3D11_TEXTURE2D_DESC textureDesc;
-                            texture->GetDesc(&textureDesc);
-
                             D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
                             renderTargetViewDesc.Format = textureDesc.Format;
                             renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
