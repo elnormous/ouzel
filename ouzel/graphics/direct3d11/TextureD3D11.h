@@ -22,7 +22,6 @@ namespace ouzel
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
 
             ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
-            const D3D11_VIEWPORT& getViewport() const { return viewport; }
 
             const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
@@ -36,7 +35,6 @@ namespace ouzel
             UINT height = 0;
 
             ID3D11RenderTargetView* renderTargetView = nullptr;
-            D3D11_VIEWPORT viewport;
 
             FLOAT frameBufferClearColor[4];
         };

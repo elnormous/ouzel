@@ -114,8 +114,6 @@ namespace ouzel
 
                     if (uploadData.renderTarget)
                     {
-                        viewport = {0, 0, uploadData.size.v[0], uploadData.size.v[1], 0.0f, 1.0f};
-
                         if (!renderTargetView)
                         {
                             D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
