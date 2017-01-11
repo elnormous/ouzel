@@ -607,6 +607,7 @@ namespace ouzel
                     viewport.TopLeftY = renderTargetTextureD3D11->getSize().v[1] - (viewport.TopLeftY + viewport.Height);
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
+                    newDepthStencilView = renderTargetD3D11->getDepthStencilView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
 
                     if (renderTargetD3D11->getFrameBufferClearedFrame() != currentFrame)

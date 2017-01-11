@@ -22,6 +22,8 @@ namespace ouzel
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
 
             ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
+            ID3D11Texture2D* getDepthStencilTexture() const { return depthStencilTexture; }
+            ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
 
             const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
@@ -35,6 +37,8 @@ namespace ouzel
             UINT height = 0;
 
             ID3D11RenderTargetView* renderTargetView = nullptr;
+            ID3D11Texture2D* depthStencilTexture = nullptr;
+            ID3D11DepthStencilView* depthStencilView = nullptr;
 
             FLOAT frameBufferClearColor[4];
         };

@@ -134,6 +134,47 @@ namespace ouzel
                         frameBufferClearColor[2] = uploadData.clearColor.normB();
                         frameBufferClearColor[3] = uploadData.clearColor.normA();
                     }
+
+                    if (uploadData.depthBits > 0)
+                    {
+                        D3D11_TEXTURE2D_DESC depthStencilDesc;
+                        depthStencilDesc.Width = width;
+                        depthStencilDesc.Height = height;
+                        depthStencilDesc.MipLevels = 1;
+                        depthStencilDesc.ArraySize = 1;
+
+                        switch (uploadData.depthBits)
+                        {
+                        case 16:
+                        case 24:
+                        case 32:
+                            depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
+                            break;
+                        default:
+                            Log(Log::Level::ERR) << "Unsupported depth buffer format";
+                            return false;
+                        }
+
+                        depthStencilDesc.SampleDesc.Count = uploadData.sampleCount;
+                        depthStencilDesc.SampleDesc.Quality = 0;
+                        depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+                        depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                        depthStencilDesc.CPUAccessFlags = 0;
+                        depthStencilDesc.MiscFlags = 0;
+                        hr = rendererD3D11->getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
+                        if (FAILED(hr))
+                        {
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
+                            return false;
+                        }
+
+                        hr = rendererD3D11->getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
+                        if (FAILED(hr))
+                        {
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view";
+                            return false;
+                        }
+                    }
                 }
 
                 for (size_t level = 0; level < uploadData.levels.size(); ++level)
