@@ -25,9 +25,21 @@ namespace ouzel
             pickable = true;
         }
 
-        Button::Button(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
-                       const std::string& label, const Color& labelColor, const std::string& font):
-            eventHandler(EventHandler::PRIORITY_MAX + 1)
+        Button::Button(const std::string& normalImage,
+                       const std::string& selectedImage,
+                       const std::string& pressedImage,
+                       const std::string& disabledImage,
+                       const std::string& label,
+                       const std::string& font,
+                       const Color& aLabelColor,
+                       const Color& aLabelOverColor,
+                       const Color& aLabelPressedColor,
+                       const Color& aLabelDisabledColor):
+            eventHandler(EventHandler::PRIORITY_MAX + 1),
+            labelColor(aLabelColor),
+            labelOverColor(aLabelOverColor),
+            labelPressedColor(aLabelPressedColor),
+            labelDisabledColor(aLabelDisabledColor)
         {
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
@@ -164,8 +176,24 @@ namespace ouzel
                 {
                     normalSprite->setHidden(false);
                 }
+
+                if (labelDrawable)
+                {
+                    if (pressed && pointerOver)
+                    {
+                        labelDrawable->setColor(labelPressedColor);
+                    }
+                    else if (selected)
+                    {
+                        labelDrawable->setColor(labelOverColor);
+                    }
+                    else
+                    {
+                        labelDrawable->setColor(labelColor);
+                    }
+                }
             }
-            else
+            else // disabled
             {
                 if (disabledSprite)
                 {
@@ -174,6 +202,11 @@ namespace ouzel
                 else if (normalSprite)
                 {
                     normalSprite->setHidden(false);
+                }
+
+                if (labelDrawable)
+                {
+                    labelDrawable->setColor(labelDisabledColor);
                 }
             }
         }

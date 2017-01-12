@@ -23,7 +23,8 @@ namespace ouzel
             CYAN = 0x00ffffff,
             BLUE = 0x0000ffff,
             YELLOW = 0xffff00ff,
-            WHITE = 0xffffffff
+            WHITE = 0xffffffff,
+            GRAY = 0x808080ff
         };
 
         uint8_t v[4];

@@ -10,7 +10,7 @@ using namespace ouzel;
 RTSample::RTSample(Samples& aSamples):
     samples(aSamples),
     characterSprite("run.json"),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", Color::BLACK, "arial.fnt")
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);

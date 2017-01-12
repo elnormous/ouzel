@@ -15,13 +15,13 @@ using namespace ouzel;
 
 MainMenu::MainMenu(Samples& aSamples):
     samples(aSamples),
-    spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", Color(20, 0, 0, 255), "arial.fnt"),
-    guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", Color(20, 0, 0, 255), "arial.fnt"),
-    renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", Color(20, 0, 0, 255), "arial.fnt"),
-    animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", Color(20, 0, 0, 255), "arial.fnt"),
-    inputButton("button.png", "button_selected.png", "button_down.png", "", "Input", Color(20, 0, 0, 255), "arial.fnt"),
-    soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", Color(20, 0, 0, 255), "arial.fnt"),
-    perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", Color(20, 0, 0, 255), "arial.fnt")
+spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    inputButton("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);

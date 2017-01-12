@@ -18,8 +18,16 @@ namespace ouzel
         {
         public:
             Button();
-            Button(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage,
-                   const std::string& label = "", const Color& labelColor = Color::WHITE, const std::string& font = "");
+            Button(const std::string& normalImage,
+                   const std::string& selectedImage,
+                   const std::string& pressedImage,
+                   const std::string& disabledImage,
+                   const std::string& label = "",
+                   const std::string& font = "",
+                   const Color& aLabelColor = Color::WHITE,
+                   const Color& aLabelOverColor = Color::WHITE,
+                   const Color& aLabelPressedColor = Color::WHITE,
+                   const Color& aLabelDisabledColor = Color::WHITE);
 
             virtual void setEnabled(bool newEnabled) override;
             virtual void setSelected(bool newSelected) override;
@@ -39,6 +47,11 @@ namespace ouzel
 
             bool pointerOver = false;
             bool pressed = false;
+
+            Color labelColor = Color::WHITE;
+            Color labelOverColor = Color::WHITE;
+            Color labelPressedColor = Color::WHITE;
+            Color labelDisabledColor = Color::WHITE;
         };
     } // namespace gui
 } // namespace ouzel

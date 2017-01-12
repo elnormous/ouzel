@@ -9,7 +9,7 @@ using namespace ouzel;
 
 SpritesSample::SpritesSample(Samples& aSamples):
     samples(aSamples),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", Color::BLACK, "arial.fnt")
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
@@ -53,11 +53,11 @@ SpritesSample::SpritesSample(Samples& aSamples):
 
     guiLayer.addChild(&menu);
 
-    hideButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", Color::BLACK, "arial.fnt"));
+    hideButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     hideButton->setPosition(Vector2(-200.0f, 200.0f));
     menu.addWidget(hideButton.get());
 
-    wireframeButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Wireframe", Color::BLACK, "arial.fnt"));
+    wireframeButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     wireframeButton->setPosition(Vector2(-200.0f, 160.0f));
     menu.addWidget(wireframeButton.get());
 

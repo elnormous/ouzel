@@ -9,9 +9,9 @@ using namespace ouzel;
 
 SoundSample::SoundSample(Samples& aSamples):
     samples(aSamples),
-    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", Color::BLACK, "arial.fnt"),
-    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", Color::BLACK, "arial.fnt"),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", Color::BLACK, "arial.fnt")
+    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
+    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);

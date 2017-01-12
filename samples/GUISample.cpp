@@ -9,7 +9,7 @@ using namespace ouzel;
 
 GUISample::GUISample(Samples& aSamples):
     samples(aSamples),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", Color::BLACK, "arial.fnt")
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1, placeholders::_2);
@@ -22,7 +22,7 @@ GUISample::GUISample(Samples& aSamples):
 
     guiLayer.addChild(&menu);
 
-    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Button", Color::RED, "arial.fnt"));
+    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", Color::RED, Color::RED, Color::BLACK));
     button->setPosition(Vector2(-200.0f, 100.0f));
     menu.addWidget(button.get());
 
@@ -30,7 +30,7 @@ GUISample::GUISample(Samples& aSamples):
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
     guiLayer.addChild(checkBox.get());
 
-    fullscreenButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", Color::BLACK, "arial.fnt"));
+    fullscreenButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
     menu.addWidget(fullscreenButton.get());
 
