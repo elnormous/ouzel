@@ -30,6 +30,7 @@ namespace ouzel
                                        const Color& drawColor,
                                        scene::Camera* camera);
 
+            virtual void setBoundingBox(const AABB2& newBoundingBox) { boundingBox = newBoundingBox; }
             virtual const AABB2& getBoundingBox() const { return boundingBox; }
             bool isAddedToNode() const { return node != nullptr; }
 
