@@ -21,6 +21,11 @@ namespace ouzel
             virtual void setChecked(bool newChecked);
             virtual bool isChecked() const { return checked; }
 
+            scene::Sprite* getNormalSprite() const { return normalSprite.get(); }
+            scene::Sprite* getSelectedSprite() const { return selectedSprite.get(); }
+            scene::Sprite* getPressedSprite() const { return pressedSprite.get(); }
+            scene::Sprite* getDisabledSprite() const { return disabledSprite.get(); }
+            
         protected:
             bool handleUI(Event::Type type,const UIEvent& event);
 
