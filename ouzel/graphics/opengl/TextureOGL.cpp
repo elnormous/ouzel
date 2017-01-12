@@ -91,7 +91,7 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case TextureFilter::LINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_NEAREST_MIPMAP_LINEAR : GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case TextureFilter::BILINEAR:
