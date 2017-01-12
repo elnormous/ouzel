@@ -27,6 +27,28 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->removeEventHandler(&eventHandler);
         }
 
+        void Menu::setEnabled(bool newEnabled)
+        {
+            Menu::setEnabled(newEnabled);
+
+            if (enabled)
+            {
+                if (!selectedWidget && !widgets.empty())
+                {
+                    selectWidget(widgets.front());
+                }
+            }
+            else
+            {
+                selectedWidget = nullptr;
+
+                for (Widget* childWidget : widgets)
+                {
+                    childWidget->setSelected(false);
+                }
+            }
+        }
+
         void Menu::addWidget(Widget* widget)
         {
             addChild(widget);
@@ -66,6 +88,8 @@ namespace ouzel
 
         void Menu::selectWidget(Widget* widget)
         {
+            if (!enabled) return;
+
             selectedWidget = widget;
 
             for (Widget* childWidget : widgets)
@@ -76,6 +100,7 @@ namespace ouzel
 
         void Menu::selectNextWidget()
         {
+            if (!enabled) return;
             if (widgets.empty()) return;
 
             std::vector<Widget*>::iterator widgetIterator = widgets.end();
@@ -93,6 +118,7 @@ namespace ouzel
 
         void Menu::selectPreviousWidget()
         {
+            if (!enabled) return;
             if (widgets.empty()) return;
 
             std::vector<Widget*>::iterator widgetIterator = widgets.end();

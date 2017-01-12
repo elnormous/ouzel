@@ -15,6 +15,8 @@ namespace ouzel
         public:
             Menu();
 
+            virtual void setEnabled(bool newEnabled) override;
+
             virtual void addWidget(Widget* widget);
             virtual bool removeChild(Node* node) override;
 
