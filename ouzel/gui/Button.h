@@ -25,7 +25,7 @@ namespace ouzel
                    const std::string& label = "",
                    const std::string& font = "",
                    const Color& aLabelColor = Color::WHITE,
-                   const Color& aLabelOverColor = Color::WHITE,
+                   const Color& aLabelSelectedColor = Color::WHITE,
                    const Color& aLabelPressedColor = Color::WHITE,
                    const Color& aLabelDisabledColor = Color::WHITE);
 
@@ -49,7 +49,7 @@ namespace ouzel
             bool pressed = false;
 
             Color labelColor = Color::WHITE;
-            Color labelOverColor = Color::WHITE;
+            Color labelSelectedColor = Color::WHITE;
             Color labelPressedColor = Color::WHITE;
             Color labelDisabledColor = Color::WHITE;
         };

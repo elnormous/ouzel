@@ -32,12 +32,12 @@ namespace ouzel
                        const std::string& label,
                        const std::string& font,
                        const Color& aLabelColor,
-                       const Color& aLabelOverColor,
+                       const Color& aLabelSelectedColor,
                        const Color& aLabelPressedColor,
                        const Color& aLabelDisabledColor):
             eventHandler(EventHandler::PRIORITY_MAX + 1),
             labelColor(aLabelColor),
-            labelOverColor(aLabelOverColor),
+            labelSelectedColor(aLabelSelectedColor),
             labelPressedColor(aLabelPressedColor),
             labelDisabledColor(aLabelDisabledColor)
         {
@@ -185,7 +185,7 @@ namespace ouzel
                     }
                     else if (selected)
                     {
-                        labelDrawable->setColor(labelOverColor);
+                        labelDrawable->setColor(labelSelectedColor);
                     }
                     else
                     {
