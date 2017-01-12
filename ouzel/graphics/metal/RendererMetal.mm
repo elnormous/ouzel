@@ -277,23 +277,26 @@ namespace ouzel
             }
 
             MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
-            samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
             switch (textureFilter)
             {
                 case TextureFilter::NONE:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
+                    samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                     break;
                 case TextureFilter::LINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
+                    samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                     break;
                 case TextureFilter::BILINEAR:
-                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
-                    samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
+                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
+                    samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
+                    samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                     break;
                 case TextureFilter::TRILINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
+                    samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
                     break;
             }
